@@ -69,6 +69,7 @@ type Loader struct {
 	objs     []objIdx         // sorted by start index (i.e. objIdx.i)
 	max      int              // current max index
 	extStart int              // from this index on, the symbols are externally defined
+	extSyms  []nameVer        // externally defined symbols
 
 	symsByName map[nameVer]int // map symbol name to index
 
@@ -85,7 +86,6 @@ func NewLoader() *Loader {
 		objs:       []objIdx{{nil, 0}},
 		symsByName: make(map[nameVer]int),
 		objByPkg:   make(map[string]*oReader),
-		Syms:       []*sym.Symbol{nil},
 	}
 }
 
@@ -139,6 +139,7 @@ func (l *Loader) AddExtSym(name string, ver int) int {
 	if l.extStart == 0 {
 		l.extStart = i
 	}
+	l.extSyms = append(l.extSyms, nv)
 	return i
 }
 
@@ -331,9 +332,6 @@ func LoadNew(l *Loader, arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *s
 
 	ndef := r.NSym()
 	nnonpkgdef := r.NNonpkgdef()
-
-	// XXX add all symbols for now
-	l.Syms = append(l.Syms, make([]*sym.Symbol, ndef+nnonpkgdef)...)
 	for i, n := 0, ndef+nnonpkgdef; i < n; i++ {
 		osym := goobj2.Sym{}
 		osym.Read(r, r.SymOff(i))
@@ -343,11 +341,7 @@ func LoadNew(l *Loader, arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *s
 		}
 		v := abiToVer(osym.ABI, localSymVersion)
 		dupok := osym.Flag&goobj2.SymFlagDupok != 0
-		if l.AddSym(name, v, istart+i, dupok) {
-			s := syms.Newsym(name, v)
-			preprocess(arch, s) // TODO: put this at a better place
-			l.Syms[istart+i] = s
-		}
+		l.AddSym(name, v, istart+i, dupok)
 	}
 
 	// The caller expects us consuming all the data
@@ -363,22 +357,13 @@ func LoadRefs(l *Loader, arch *sys.Arch, syms *sym.Symbols) {
 }
 
 func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch, syms *sym.Symbols) {
-	lib := r.unit.Lib
-	pkgprefix := objabi.PathToPrefix(lib.Pkg) + "."
 	ndef := r.NSym() + r.NNonpkgdef()
 	for i, n := 0, r.NNonpkgref(); i < n; i++ {
 		osym := goobj2.Sym{}
 		osym.Read(r.Reader, r.SymOff(ndef+i))
-		name := strings.Replace(osym.Name, "\"\".", pkgprefix, -1)
+		name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
 		v := abiToVer(osym.ABI, r.version)
-		if ii := l.AddExtSym(name, v); ii != 0 {
-			s := syms.Newsym(name, v)
-			preprocess(arch, s) // TODO: put this at a better place
-			if ii != len(l.Syms) {
-				panic("AddExtSym returned bad index")
-			}
-			l.Syms = append(l.Syms, s)
-		}
+		l.AddExtSym(name, v)
 	}
 }
 
@@ -415,22 +400,81 @@ func preprocess(arch *sys.Arch, s *sym.Symbol) {
 		default:
 			log.Panicf("unrecognized $-symbol: %s", s.Name)
 		}
-		s.Attr.Set(sym.AttrReachable, false)
 	}
 }
 
-// Load relocations for building the dependency graph in deadcode pass.
-// For now, we load symbol types, relocations, gotype, and the contents
-// of type symbols, which are needed in deadcode.
-func LoadReloc(l *Loader) {
+// Load full contents.
+func LoadFull(l *Loader, arch *sys.Arch, syms *sym.Symbols) {
+	// create all Symbols first.
+	l.Syms = make([]*sym.Symbol, l.NSym())
 	for _, o := range l.objs[1:] {
-		loadObjReloc(l, o.r)
+		loadObjSyms(l, syms, o.r)
+	}
+
+	// external symbols
+	for i := l.extStart; i <= l.max; i++ {
+		nv := l.extSyms[i-l.extStart]
+		if l.Reachable.Has(i) || strings.HasPrefix(nv.name, "go.info.") || strings.HasPrefix(nv.name, "gofile..") { // XXX some go.info and file symbols are used but not marked
+			s := syms.Newsym(nv.name, nv.v)
+			preprocess(arch, s)
+			s.Attr.Set(sym.AttrReachable, true)
+			l.Syms[i] = s
+		}
+	}
+
+	// load contents of defined symbols
+	for _, o := range l.objs[1:] {
+		loadObjFull(l, o.r)
 	}
 }
 
-func loadObjReloc(l *Loader, r *oReader) {
+func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) {
 	lib := r.unit.Lib
-	pkgprefix := objabi.PathToPrefix(lib.Pkg) + "."
+	istart := l.StartIndex(r)
+
+	for i, n := 0, r.NSym()+r.NNonpkgdef(); i < n; i++ {
+		osym := goobj2.Sym{}
+		osym.Read(r.Reader, r.SymOff(i))
+		name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
+		if name == "" {
+			continue
+		}
+		ver := abiToVer(osym.ABI, r.version)
+		if l.symsByName[nameVer{name, ver}] != istart+i {
+			continue
+		}
+
+		t := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
+		if t == sym.SXREF {
+			log.Fatalf("bad sxref")
+		}
+		if t == 0 {
+			log.Fatalf("missing type for %s in %s", name, lib)
+		}
+		if !l.Reachable.Has(istart+i) && (t < sym.SDWARFSECT || t > sym.SDWARFLINES) && !(t == sym.SRODATA && strings.HasPrefix(name, "type.")) {
+			// No need to load unreachable symbols.
+			// XXX DWARF symbols may be used but are not marked reachable.
+			// XXX type symbol's content may be needed in DWARF code, but they are not marked.
+			continue
+		}
+
+		s := syms.Newsym(name, ver)
+		if s.Type != 0 && s.Type != sym.SXREF {
+			fmt.Println("symbol already processed:", lib, i, s)
+			panic("symbol already processed")
+		}
+		if t == sym.SBSS && (s.Type == sym.SRODATA || s.Type == sym.SNOPTRBSS) {
+			t = s.Type
+		}
+		s.Type = t
+		s.Unit = r.unit
+		s.Attr.Set(sym.AttrReachable, l.Reachable.Has(istart+i))
+		l.Syms[istart+i] = s
+	}
+}
+
+func loadObjFull(l *Loader, r *oReader) {
+	lib := r.unit.Lib
 	istart := l.StartIndex(r)
 
 	resolveSymRef := func(s goobj2.SymRef) *sym.Symbol {
@@ -438,6 +482,7 @@ func loadObjReloc(l *Loader, r *oReader) {
 		return l.Syms[i]
 	}
 
+	pcdataBase := r.PcdataBase()
 	for i, n := 0, r.NSym()+r.NNonpkgdef(); i < n; i++ {
 		s := l.Syms[istart+i]
 		if s == nil || s.Name == "" {
@@ -446,35 +491,20 @@ func loadObjReloc(l *Loader, r *oReader) {
 
 		osym := goobj2.Sym{}
 		osym.Read(r.Reader, r.SymOff(i))
-		name := strings.Replace(osym.Name, "\"\".", pkgprefix, -1)
+		name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
 		if s.Name != name { // Sanity check. We can remove it in the final version.
 			fmt.Println("name mismatch:", lib, i, s.Name, name)
 			panic("name mismatch")
 		}
 
-		if s.Type != 0 && s.Type != sym.SXREF {
-			fmt.Println("symbol already processed:", lib, i, s)
-			panic("symbol already processed")
-		}
+		dupok := osym.Flag&goobj2.SymFlagDupok != 0
+		local := osym.Flag&goobj2.SymFlagLocal != 0
+		makeTypelink := osym.Flag&goobj2.SymFlagTypelink != 0
+		size := osym.Siz
 
-		t := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
-		if t == sym.SXREF {
-			log.Fatalf("bad sxref")
-		}
-		if t == 0 {
-			log.Fatalf("missing type for %s in %s", s.Name, lib)
-		}
-		if !s.Attr.Reachable() && (t < sym.SDWARFSECT || t > sym.SDWARFLINES) && !(t == sym.SRODATA && strings.HasPrefix(name, "type.")) {
-			// No need to load unreachable symbols.
-			// XXX DWARF symbols may be used but are not marked reachable.
-			// XXX type symbol's content may be needed in DWARF code, but they are not marked.
-			continue
-		}
-		if t == sym.SBSS && (s.Type == sym.SRODATA || s.Type == sym.SNOPTRBSS) {
-			t = s.Type
-		}
-		s.Type = t
-		s.Unit = r.unit
+		// Symbol data
+		s.P = r.Data(i)
+		s.Attr.Set(sym.AttrReadOnly, r.ReadOnly())
 
 		// Reloc
 		nreloc := r.NReloc(i)
@@ -500,6 +530,9 @@ func loadObjReloc(l *Loader, r *oReader) {
 			if rs != 0 && l.SymType(rs) == sym.SABIALIAS {
 				rs = l.RelocSym(rs, 0)
 			}
+			if rt == objabi.R_CALL && l.Syms[rs] == nil {
+				fmt.Println(s, j, rel.Sym, rs, l.SymName(rs), l.Reachable.Has(rs))
+			}
 			s.R[j] = sym.Reloc{
 				Off:  rel.Off,
 				Siz:  sz,
@@ -509,7 +542,8 @@ func loadObjReloc(l *Loader, r *oReader) {
 			}
 		}
 
-		// Aux symbol
+		// Aux symbol info
+		isym := -1
 		naux := r.NAux(i)
 		for j := 0; j < naux; j++ {
 			a := goobj2.Aux{}
@@ -527,85 +561,6 @@ func loadObjReloc(l *Loader, r *oReader) {
 					s.FuncInfo = pc
 				}
 				pc.Funcdata = append(pc.Funcdata, resolveSymRef(a.Sym))
-			}
-		}
-
-		if s.Type == sym.STEXT {
-			dupok := osym.Flag&goobj2.SymFlagDupok != 0
-			if !dupok {
-				if s.Attr.OnList() {
-					log.Fatalf("symbol %s listed multiple times", s.Name)
-				}
-				s.Attr |= sym.AttrOnList
-				lib.Textp = append(lib.Textp, s)
-			} else {
-				// there may ba a dup in another package
-				// put into a temp list and add to text later
-				lib.DupTextSyms = append(lib.DupTextSyms, s)
-			}
-		}
-	}
-}
-
-// Load full contents.
-// TODO: For now, some contents are already load in LoadReloc. Maybe
-// we should combine LoadReloc back into this, once we rewrite deadcode
-// pass to use index directly.
-func LoadFull(l *Loader) {
-	for _, o := range l.objs[1:] {
-		loadObjFull(l, o.r)
-	}
-}
-
-func loadObjFull(l *Loader, r *oReader) {
-	lib := r.unit.Lib
-	pkgprefix := objabi.PathToPrefix(lib.Pkg) + "."
-	istart := l.StartIndex(r)
-
-	resolveSymRef := func(s goobj2.SymRef) *sym.Symbol {
-		i := l.Resolve(r, s)
-		return l.Syms[i]
-	}
-
-	pcdataBase := r.PcdataBase()
-	for i, n := 0, r.NSym()+r.NNonpkgdef(); i < n; i++ {
-		s := l.Syms[istart+i]
-		if s == nil || s.Name == "" {
-			continue
-		}
-		if !s.Attr.Reachable() && (s.Type < sym.SDWARFSECT || s.Type > sym.SDWARFLINES) && !(s.Type == sym.SRODATA && strings.HasPrefix(s.Name, "type.")) {
-			// No need to load unreachable symbols.
-			// XXX DWARF symbols may be used but are not marked reachable.
-			// XXX type symbol's content may be needed in DWARF code, but they are not marked.
-			continue
-		}
-
-		osym := goobj2.Sym{}
-		osym.Read(r.Reader, r.SymOff(i))
-		name := strings.Replace(osym.Name, "\"\".", pkgprefix, -1)
-		if s.Name != name { // Sanity check. We can remove it in the final version.
-			fmt.Println("name mismatch:", lib, i, s.Name, name)
-			panic("name mismatch")
-		}
-
-		dupok := osym.Flag&goobj2.SymFlagDupok != 0
-		local := osym.Flag&goobj2.SymFlagLocal != 0
-		makeTypelink := osym.Flag&goobj2.SymFlagTypelink != 0
-		size := osym.Siz
-
-		// Symbol data
-		s.P = r.Data(i)
-		s.Attr.Set(sym.AttrReadOnly, r.ReadOnly())
-
-		// Aux symbol info
-		isym := -1
-		naux := r.NAux(i)
-		for j := 0; j < naux; j++ {
-			a := goobj2.Aux{}
-			a.Read(r.Reader, r.AuxOff(i, j))
-			switch a.Type {
-			case goobj2.AuxGotype, goobj2.AuxFuncdata:
-				// already loaded
 			case goobj2.AuxFuncInfo:
 				if a.Sym.PkgIdx != goobj2.PkgIdxSelf {
 					panic("funcinfo symbol not defined in current package")
@@ -616,7 +571,7 @@ func loadObjFull(l *Loader, r *oReader) {
 			}
 		}
 
-		s.File = pkgprefix[:len(pkgprefix)-1]
+		s.File = r.pkgprefix[:len(r.pkgprefix)-1]
 		if dupok {
 			s.Attr |= sym.AttrDuplicateOK
 		}
@@ -678,6 +633,18 @@ func loadObjFull(l *Loader, r *oReader) {
 		}
 		for k := range pc.File {
 			pc.File[k] = resolveSymRef(info.File[k])
+		}
+
+		if !dupok {
+			if s.Attr.OnList() {
+				log.Fatalf("symbol %s listed multiple times", s.Name)
+			}
+			s.Attr |= sym.AttrOnList
+			lib.Textp = append(lib.Textp, s)
+		} else {
+			// there may ba a dup in another package
+			// put into a temp list and add to text later
+			lib.DupTextSyms = append(lib.DupTextSyms, s)
 		}
 	}
 }
