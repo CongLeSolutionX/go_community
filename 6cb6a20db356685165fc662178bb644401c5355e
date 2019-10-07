@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abfa7475_21d6ec37",
+        "filename": "src/runtime/crash_unix_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T16:28:59Z",
+      "side": 1,
+      "message": "while this test may be more appropriate in this file, it makes it difficult to see exactly what changed. it also changes the test from \"run on all platforms except A, B, C, etc.\" to \"run on X, Y, Z, etc. only\", which makes it hard to say for me whether it\u0027s running on all the same platforms as before.\n\nI\u0027d suggest leaving this in runtime_test.go for now, but I don\u0027t feel strongly about this.",
+      "range": {
+        "startLine": 37,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "6cb6a20db356685165fc662178bb644401c5355e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6bec1ae_50db98f1",
+        "filename": "src/runtime/os3_solaris.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T16:28:59Z",
+      "side": 1,
+      "message": "it would be nice to deduplicate this bit, especially since this is reimplementing something that sysvicall3 is already doing.",
+      "range": {
+        "startLine": 540,
+        "startChar": 0,
+        "endLine": 552,
+        "endChar": 2
+      },
+      "revId": "6cb6a20db356685165fc662178bb644401c5355e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
