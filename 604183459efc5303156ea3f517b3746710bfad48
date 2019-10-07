@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e9db11_c76d872f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 2291,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:31:09Z",
+      "side": 1,
+      "message": "could this have any negative effects on scheduling since we will no longer \"steal\" from our own P? I\u0027m worried that we unnecessarily end up return the P and block when we previously wouldn\u0027t have.\n\nThis is somewhat related to Chris Hines\u0027 concerns where this loop could take a long time, except there are other ways a G could be added to the local runqueue (I think...).",
+      "range": {
+        "startLine": 2289,
+        "startChar": 3,
+        "endLine": 2291,
+        "endChar": 4
+      },
+      "revId": "604183459efc5303156ea3f517b3746710bfad48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed45388_68c1c651",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 2629,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:31:09Z",
+      "side": 1,
+      "message": "while this may be true, is there a way to maintain the spirit of the original check? if there\u0027s some condition under which having local work and spinning is still bad, could we still retain the check for that, or would it be too expensive to do so?",
+      "range": {
+        "startLine": 2628,
+        "startChar": 2,
+        "endLine": 2629,
+        "endChar": 56
+      },
+      "revId": "604183459efc5303156ea3f517b3746710bfad48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f9f6cc_6e39e87c",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:31:09Z",
+      "side": 1,
+      "message": "should there be a go:systemstack annotation? same for runtimer.",
+      "range": {
+        "startLine": 332,
+        "startChar": 34,
+        "endLine": 332,
+        "endChar": 69
+      },
+      "revId": "604183459efc5303156ea3f517b3746710bfad48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
