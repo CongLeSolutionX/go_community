@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c6df234_720333bc",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-07T20:31:50Z",
+      "side": 1,
+      "message": "You could use \u0026^s390x.Unordered instead.",
+      "range": {
+        "startLine": 558,
+        "startChar": 57,
+        "endLine": 558,
+        "endChar": 75
+      },
+      "revId": "522067901cbd40d8d178476500fc1aca055fd8da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
