@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43fc7884_e25ec138",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:04:59Z",
+      "side": 1,
+      "message": "is there a difference between using return here and break above? is this just for if/when more is added to this function in the future?",
+      "range": {
+        "startLine": 91,
+        "startChar": 3,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76adc5bb_6e121cbf",
+        "filename": "src/runtime/netpoll_solaris.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:04:59Z",
+      "side": 1,
+      "message": "My understanding of this line of code is that we\u0027re transitioning the part back out of alert mode, but only if blocking, because we want the port alert to still be a seen by the blocking netpoll if a non-blocking netpoll sees this.\n\nIf this is indeed the case, could you add a comment explaining the statefulness of port alerts (if it\u0027s not already explained elsewhere) and the need for this line?",
+      "range": {
+        "startLine": 249,
+        "startChar": 7,
+        "endLine": 249,
+        "endChar": 38
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8597d93_4b2e38ba",
+        "filename": "src/runtime/netpoll_stub.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:04:59Z",
+      "side": 1,
+      "message": "why bother doing this sleep if there\u0027s no network poller? couldn\u0027t netpollBreak just be a no-op?",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 2
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fad054b4_2980d673",
+        "filename": "src/runtime/netpoll_windows.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:04:59Z",
+      "side": 1,
+      "message": "I\u0027m guessing this is necessary because GetQueuedCompletionStatus \"eats\" the notification?",
+      "range": {
+        "startLine": 131,
+        "startChar": 5,
+        "endLine": 132,
+        "endChar": 23
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8a7b965_67d22cfe",
+        "filename": "src/runtime/proc_test.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:04:59Z",
+      "side": 1,
+      "message": "not saying we should fix this in this change, but FWIU it wouldn\u0027t be terribly difficult to encapsulate netpoll\u0027s state to be more safely testable. it would be a pretty non-trivial refactoring, but nothing is preventing this, right? maybe we could have a TODO tied to an \"unplanned\" issue for that for that?",
+      "range": {
+        "startLine": 986,
+        "startChar": 3,
+        "endLine": 987,
+        "endChar": 46
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
