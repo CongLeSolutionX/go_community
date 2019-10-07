@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "398f079a_c0918b95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-07T17:45:15Z",
+      "side": 1,
+      "message": "Can you give an example of a command (and/or a platform) that currently fails?",
+      "revId": "b98d99001c0ad45a45612a2e8b2697dc56a67faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16a8d78b_e6dd6b1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-07T17:45:15Z",
+      "side": 1,
+      "message": "“CL 43072”\n\n(Gerrit auto-links CL references in change descriptions.)",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 93
+      },
+      "revId": "b98d99001c0ad45a45612a2e8b2697dc56a67faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b00c169f_a69aebd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-07T17:45:15Z",
+      "side": 1,
+      "message": "add:\n\nFixes #34710",
+      "revId": "b98d99001c0ad45a45612a2e8b2697dc56a67faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
