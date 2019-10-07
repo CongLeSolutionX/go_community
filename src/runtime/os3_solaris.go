@@ -113,6 +113,11 @@ var (
 
 var sigset_all = sigset{[4]uint32{^uint32(0), ^uint32(0), ^uint32(0), ^uint32(0)}}
 
+const (
+	_CLOCK_REALTIME  = 3
+	_CLOCK_MONOTONIC = 4
+)
+
 func getncpu() int32 {
 	n := int32(sysconf(__SC_NPROCESSORS_ONLN))
 	if n < 1 {
@@ -393,11 +398,11 @@ func munmap(addr unsafe.Pointer, n uintptr) {
 	sysvicall2(&libc_munmap, uintptr(addr), uintptr(n))
 }
 
-func nanotime2()
-
 //go:nosplit
 func nanotime1() int64 {
-	return int64(sysvicall0((*libcFunc)(unsafe.Pointer(funcPC(nanotime2)))))
+	var ts mts
+	sysvicall2(&libc_clock_gettime, _CLOCK_MONOTONIC, uintptr(unsafe.Pointer(&ts)))
+	return ts.tv_sec*1000000000 + ts.tv_nsec
 }
 
 //go:nosplit
@@ -496,6 +501,12 @@ func usleep1(usec uint32)
 //go:nosplit
 func usleep(µs uint32) {
 	usleep1(µs)
+}
+
+func walltime1() (sec int64, nsec int32) {
+	var ts mts
+	sysvicall2(&libc_clock_gettime, _CLOCK_REALTIME, uintptr(unsafe.Pointer(&ts)))
+	return ts.tv_sec, int32(ts.tv_nsec)
 }
 
 //go:nosplit
