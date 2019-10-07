@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfe97c20_4cbbf4fb",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4110,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:39:39Z",
+      "side": 1,
+      "message": "my gut reaction was that this could lead to a deadlock because these locks aren\u0027t ordered, but I think there\u0027s actually an implicit ordering here since a destroyed P will always have a higher ID than the P you\u0027re putting this into. a comment about that would be nice but...\n\nthis is happening during STW anyway, so I\u0027m not sure that even matters at all. maybe it\u0027s even fine to just not use the locks at all?",
+      "range": {
+        "startLine": 4109,
+        "startChar": 0,
+        "endLine": 4110,
+        "endChar": 22
+      },
+      "revId": "525bf3b3da1316708b82cd11479ffd50ed43501b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "190587a8_c491a973",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4111,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-07T21:39:39Z",
+      "side": 1,
+      "message": "if we scale down GOMAXPROCS very suddenly with many pending timers, this might try to put an large amount of timers onto just one P. I haven\u0027t looked at further changes but does this try to put the timers on some global list if it\u0027s too much or try to shard it in some way?",
+      "range": {
+        "startLine": 4111,
+        "startChar": 2,
+        "endLine": 4111,
+        "endChar": 31
+      },
+      "revId": "525bf3b3da1316708b82cd11479ffd50ed43501b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
