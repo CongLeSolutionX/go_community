@@ -127,6 +127,12 @@ func (d *deadcodePass2) flood() {
 				i += 2
 				continue
 			}
+			if t == objabi.R_USETYPE {
+				// type symbol used for DWARF. we need to load the symbol but it may not
+				// be otherwise reachable in the program.
+				// do nothing for now as we still load all type symbols.
+				continue
+			}
 			d.mark(d.loader.RelocSym(symIdx, i))
 		}
 		naux := d.loader.NAux(symIdx)
