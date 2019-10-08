@@ -287,6 +287,17 @@ func (l *Loader) SymType(i Sym) sym.SymKind {
 	return sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
 }
 
+// Returns the attributes of the i-th symbol. i is global index.
+func (l *Loader) SymAttr(i Sym) uint8 {
+	if l.extStart != 0 && i >= l.extStart {
+		return 0
+	}
+	r, li := l.ToLocal(i)
+	osym := goobj2.Sym{}
+	osym.Read(r.Reader, r.SymOff(li))
+	return osym.Flag
+}
+
 // Returns the symbol content of the i-th symbol. i is global index.
 func (l *Loader) Data(i Sym) []byte {
 	if l.extStart != 0 && i >= l.extStart {
@@ -659,13 +670,13 @@ func loadObjFull(l *Loader, r *oReader) {
 		if info.NoSplit != 0 {
 			s.Attr |= sym.AttrNoSplit
 		}
-		if info.Flags&goobj2.FuncFlagReflectMethod != 0 {
+		if osym.Flag&goobj2.SymFlagReflectMethod != 0 {
 			s.Attr |= sym.AttrReflectMethod
 		}
-		if info.Flags&goobj2.FuncFlagShared != 0 {
+		if osym.Flag&goobj2.SymFlagShared != 0 {
 			s.Attr |= sym.AttrShared
 		}
-		if info.Flags&goobj2.FuncFlagTopFrame != 0 {
+		if osym.Flag&goobj2.SymFlagTopFrame != 0 {
 			s.Attr |= sym.AttrTopFrame
 		}
 
