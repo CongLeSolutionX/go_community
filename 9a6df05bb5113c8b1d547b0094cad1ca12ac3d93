@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ffe78e5f_a24c4964",
+        "filename": "src/runtime/netpoll_stub.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-08T15:45:11Z",
+      "side": 1,
+      "message": "that makes sense, thanks.",
+      "parentUuid": "76b268ca_707c0fa0",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 2
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad054b4_2980d673",
         "filename": "src/runtime/netpoll_windows.go",
         "patchSetId": 23
@@ -186,6 +210,30 @@
       "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b25d40b_ca63e695",
+        "filename": "src/runtime/proc_test.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-08T15:45:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure I agree that it will necessarily be more complicated (or make future changes more complicated), but this isn\u0027t very important to me. the test works. marking as resolved.",
+      "parentUuid": "ac7d82a0_3dc88814",
+      "range": {
+        "startLine": 986,
+        "startChar": 3,
+        "endLine": 987,
+        "endChar": 46
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
