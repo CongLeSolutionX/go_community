@@ -7,6 +7,7 @@ package load
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"go/build"
@@ -304,9 +305,9 @@ func (p *Package) copyBuild(pp *build.Package) {
 type PackageError struct {
 	ImportStack   []string // shortest path from package named on command line to this one
 	Pos           string   // position of error
-	Err           string   // the error itself
-	IsImportCycle bool     `json:"-"` // the error is an import cycle
-	Hard          bool     `json:"-"` // whether the error is soft or hard; soft errors are ignored in some places
+	Err           error    // the error itself
+	IsImportCycle bool     // the error is an import cycle
+	Hard          bool     // whether the error is soft or hard; soft errors are ignored in some places
 }
 
 func (p *PackageError) Error() string {
@@ -317,12 +318,62 @@ func (p *PackageError) Error() string {
 	if p.Pos != "" {
 		// Omit import stack. The full path to the file where the error
 		// is the most important thing.
-		return p.Pos + ": " + p.Err
+		return p.Pos + ": " + p.Err.Error()
 	}
-	if len(p.ImportStack) == 0 {
-		return p.Err
+
+	// If the error is an ImportPathError, and the last path on the stack appears
+	// in the error message, omit that path from the stack to avoid repetition.
+	stack := p.ImportStack
+	var ierr ImportPathError
+	if len(stack) > 0 && errors.As(p.Err, &ierr) && ierr.ImportPath() == stack[len(stack)-1] {
+		stack = stack[:len(stack)-1]
 	}
-	return "package " + strings.Join(p.ImportStack, "\n\timports ") + ": " + p.Err
+	if len(stack) == 0 {
+		return p.Err.Error()
+	}
+	return "package " + strings.Join(stack, "\n\timports ") + ": " + p.Err.Error()
+}
+
+// PackageError implements MarshalJSON so that Err is marshaled as a string
+// and non-essential fields are omitted.
+func (p *PackageError) MarshalJSON() ([]byte, error) {
+	perr := struct {
+		ImportStack []string
+		Pos         string
+		Err         string
+	}{p.ImportStack, p.Pos, p.Err.Error()}
+	return json.Marshal(perr)
+}
+
+// ImportPathError is a type of error that prevents a package from being loaded
+// with a given import path. When such a package is loaded, a *Package is
+// returned with Err wrapping an ImportPathError: the error is attached to
+// the imported package, not the importing package.
+//
+// The string returned by ImportPath must appear in the string returned by
+// Error. Errors that wrap ImportPathError (such as PackageError) may omit
+// the import path.
+type ImportPathError interface {
+	error
+	ImportPath() string
+}
+
+type importError struct {
+	importPath, message string
+}
+
+var _ ImportPathError = (*importError)(nil)
+
+func ImportErrorf(path, format string, args ...interface{}) ImportPathError {
+	return &importError{importPath: path, message: fmt.Sprintf(format, args...)}
+}
+
+func (e *importError) Error() string {
+	return e.message
+}
+
+func (e *importError) ImportPath() string {
+	return e.importPath
 }
 
 // An ImportStack is a stack of import paths, possibly with the suffix " (test)" appended.
@@ -489,7 +540,7 @@ func loadImport(pre *preload, path, srcDir string, parent *Package, stk *ImportS
 				ImportPath: path,
 				Error: &PackageError{
 					ImportStack: stk.Copy(),
-					Err:         err.Error(),
+					Err:         err,
 				},
 			},
 		}
@@ -516,7 +567,7 @@ func loadImport(pre *preload, path, srcDir string, parent *Package, stk *ImportS
 		if !cfg.ModulesEnabled && path != cleanImport(path) {
 			p.Error = &PackageError{
 				ImportStack: stk.Copy(),
-				Err:         fmt.Sprintf("non-canonical import path: %q should be %q", path, pathpkg.Clean(path)),
+				Err:         fmt.Errorf("non-canonical import path: %q should be %q", path, pathpkg.Clean(path)),
 			}
 			p.Incomplete = true
 		}
@@ -536,20 +587,20 @@ func loadImport(pre *preload, path, srcDir string, parent *Package, stk *ImportS
 		perr := *p
 		perr.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("import %q is a program, not an importable package", path),
+			Err:         ImportErrorf(path, "import %q is a program, not an importable package", path),
 		}
 		return setErrorPos(&perr, importPos)
 	}
 
 	if p.Internal.Local && parent != nil && !parent.Internal.Local {
 		perr := *p
-		errMsg := fmt.Sprintf("local import %q in non-local package", path)
+		err := ImportErrorf(path, "local import %q in non-local package", path)
 		if path == "." {
-			errMsg = "cannot import current directory"
+			err = ImportErrorf(path, "cannot import current directory")
 		}
 		perr.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         errMsg,
+			Err:         err,
 		}
 		return setErrorPos(&perr, importPos)
 	}
@@ -1125,7 +1176,7 @@ func reusePackage(p *Package, stk *ImportStack) *Package {
 		if p.Error == nil {
 			p.Error = &PackageError{
 				ImportStack:   stk.Copy(),
-				Err:           "import cycle not allowed",
+				Err:           errors.New("import cycle not allowed"),
 				IsImportCycle: true,
 			}
 		}
@@ -1228,7 +1279,7 @@ func disallowInternal(srcDir string, importer *Package, importerPath string, p *
 	perr := *p
 	perr.Error = &PackageError{
 		ImportStack: stk.Copy(),
-		Err:         "use of internal package " + p.ImportPath + " not allowed",
+		Err:         ImportErrorf(p.ImportPath, "use of internal package "+p.ImportPath+" not allowed"),
 	}
 	perr.Incomplete = true
 	return &perr
@@ -1275,7 +1326,7 @@ func disallowVendor(srcDir string, importer *Package, importerPath, path string,
 		perr := *p
 		perr.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         "must be imported as " + path[i+len("vendor/"):],
+			Err:         ImportErrorf(path, "%s must be imported as %s", path, path[i+len("vendor/"):]),
 		}
 		perr.Incomplete = true
 		return &perr
@@ -1329,7 +1380,7 @@ func disallowVendorVisibility(srcDir string, p *Package, stk *ImportStack) *Pack
 	perr := *p
 	perr.Error = &PackageError{
 		ImportStack: stk.Copy(),
-		Err:         "use of vendored package not allowed",
+		Err:         ImportErrorf(p.ImportPath, "%s: use of vendored package not allowed", p.ImportPath),
 	}
 	perr.Incomplete = true
 	return &perr
@@ -1455,7 +1506,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		err = base.ExpandScanner(err)
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         err.Error(),
+			Err:         err,
 		}
 		return
 	}
@@ -1472,7 +1523,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		// Report an error when the old code.google.com/p/go.tools paths are used.
 		if InstallTargetDir(p) == StalePath {
 			newPath := strings.Replace(p.ImportPath, "code.google.com/p/go.", "golang.org/x/", 1)
-			e := fmt.Sprintf("the %v command has moved; use %v instead.", p.ImportPath, newPath)
+			e := ImportErrorf(p.ImportPath, "the %v command has moved; use %v instead.", p.ImportPath, newPath)
 			p.Error = &PackageError{Err: e}
 			return
 		}
@@ -1585,7 +1636,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 	if f1 != "" {
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("case-insensitive file name collision: %q and %q", f1, f2),
+			Err:         fmt.Errorf("case-insensitive file name collision: %q and %q", f1, f2),
 		}
 		return
 	}
@@ -1601,7 +1652,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		if !SafeArg(file) || strings.HasPrefix(file, "_cgo_") {
 			p.Error = &PackageError{
 				ImportStack: stk.Copy(),
-				Err:         fmt.Sprintf("invalid input file name %q", file),
+				Err:         fmt.Errorf("invalid input file name %q", file),
 			}
 			return
 		}
@@ -1609,14 +1660,14 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 	if name := pathpkg.Base(p.ImportPath); !SafeArg(name) {
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("invalid input directory name %q", name),
+			Err:         fmt.Errorf("invalid input directory name %q", name),
 		}
 		return
 	}
 	if !SafeArg(p.ImportPath) {
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("invalid import path %q", p.ImportPath),
+			Err:         ImportErrorf(p.ImportPath, "invalid import path %q", p.ImportPath),
 		}
 		return
 	}
@@ -1662,31 +1713,31 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		// code; see issue #16050).
 	}
 
-	setError := func(msg string) {
+	setError := func(err error) {
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         msg,
+			Err:         err,
 		}
 	}
 
 	// The gc toolchain only permits C source files with cgo or SWIG.
 	if len(p.CFiles) > 0 && !p.UsesCgo() && !p.UsesSwig() && cfg.BuildContext.Compiler == "gc" {
-		setError(fmt.Sprintf("C source files not allowed when not using cgo or SWIG: %s", strings.Join(p.CFiles, " ")))
+		setError(fmt.Errorf("C source files not allowed when not using cgo or SWIG: %s", strings.Join(p.CFiles, " ")))
 		return
 	}
 
 	// C++, Objective-C, and Fortran source files are permitted only with cgo or SWIG,
 	// regardless of toolchain.
 	if len(p.CXXFiles) > 0 && !p.UsesCgo() && !p.UsesSwig() {
-		setError(fmt.Sprintf("C++ source files not allowed when not using cgo or SWIG: %s", strings.Join(p.CXXFiles, " ")))
+		setError(fmt.Errorf("C++ source files not allowed when not using cgo or SWIG: %s", strings.Join(p.CXXFiles, " ")))
 		return
 	}
 	if len(p.MFiles) > 0 && !p.UsesCgo() && !p.UsesSwig() {
-		setError(fmt.Sprintf("Objective-C source files not allowed when not using cgo or SWIG: %s", strings.Join(p.MFiles, " ")))
+		setError(fmt.Errorf("Objective-C source files not allowed when not using cgo or SWIG: %s", strings.Join(p.MFiles, " ")))
 		return
 	}
 	if len(p.FFiles) > 0 && !p.UsesCgo() && !p.UsesSwig() {
-		setError(fmt.Sprintf("Fortran source files not allowed when not using cgo or SWIG: %s", strings.Join(p.FFiles, " ")))
+		setError(fmt.Errorf("Fortran source files not allowed when not using cgo or SWIG: %s", strings.Join(p.FFiles, " ")))
 		return
 	}
 
@@ -1695,7 +1746,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 	if other := foldPath[fold]; other == "" {
 		foldPath[fold] = p.ImportPath
 	} else if other != p.ImportPath {
-		setError(fmt.Sprintf("case-insensitive import collision: %q and %q", p.ImportPath, other))
+		setError(ImportErrorf(p.ImportPath, "case-insensitive import collision: %q and %q", p.ImportPath, other))
 		return
 	}
 
@@ -2102,7 +2153,7 @@ func GoFilesPackage(gofiles []string) *Package {
 			pkg.Internal.CmdlineFiles = true
 			pkg.Name = f
 			pkg.Error = &PackageError{
-				Err: fmt.Sprintf("named files must be .go files: %s", pkg.Name),
+				Err: fmt.Errorf("named files must be .go files: %s", pkg.Name),
 			}
 			return pkg
 		}
