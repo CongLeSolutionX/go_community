@@ -44,6 +44,10 @@ func waitSig(t *testing.T, c <-chan os.Signal, sig os.Signal) {
 	for i := 0; i < 10; i++ {
 		select {
 		case s := <-c:
+			if s == syscall.SIGURG {
+				// Used by the runtime for preemption. Ignore.
+				continue
+			}
 			if s != sig {
 				t.Fatalf("signal was %v, want %v", s, sig)
 			}
