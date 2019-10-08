@@ -2431,3 +2431,94 @@ func TestUnmarshalMapWithTextUnmarshalerStringKey(t *testing.T) {
 		t.Errorf(`Key "foo" is not existed in map: %v`, p)
 	}
 }
+
+func TestUnmarshalMaxDepth(t *testing.T) {
+	testcases := []struct {
+		name        string
+		data        []byte
+		expectError string
+	}{
+		{
+			name:        "array under maxNestingDepth",
+			data:        []byte(`{"a":` + strings.Repeat(`[`, 10000-1) + strings.Repeat(`]`, 10000-1) + `}`),
+			expectError: "",
+		},
+		{
+			name:        "array over maxNestingDepth",
+			data:        []byte(`{"a":` + strings.Repeat(`[`, 10000) + strings.Repeat(`]`, 10000) + `}`),
+			expectError: "max depth",
+		},
+		{
+			name:        "array over stack depth",
+			data:        []byte(`{"a":` + strings.Repeat(`[`, 3000000) + strings.Repeat(`]`, 3000000) + `}`),
+			expectError: "max depth",
+		},
+		{
+			name:        "object under maxNestingDepth",
+			data:        []byte(`{"a":` + strings.Repeat(`{"a":`, 10000-1) + `0` + strings.Repeat(`}`, 10000-1) + `}`),
+			expectError: "",
+		},
+		{
+			name:        "object over maxNestingDepth",
+			data:        []byte(`{"a":` + strings.Repeat(`{"a":`, 10000) + `0` + strings.Repeat(`}`, 10000) + `}`),
+			expectError: "max depth",
+		},
+		{
+			name:        "object over stack depth",
+			data:        []byte(`{"a":` + strings.Repeat(`{"a":`, 3000000) + `0` + strings.Repeat(`}`, 3000000) + `}`),
+			expectError: "max depth",
+		},
+	}
+
+	targets := []struct {
+		name string
+		new  func() interface{}
+	}{
+		{
+			name: "unstructured",
+			new: func() interface{} {
+				var v interface{}
+				return &v
+			},
+		},
+		{
+			name: "typed named field",
+			new: func() interface{} {
+				v := struct {
+					A interface{} `json:"a"`
+				}{}
+				return &v
+			},
+		},
+		{
+			name: "typed missing field",
+			new: func() interface{} {
+				v := struct {
+					B interface{} `json:"b"`
+				}{}
+				return &v
+			},
+		},
+	}
+
+	for _, tc := range testcases {
+		t.Run(tc.name, func(t *testing.T) {
+			for _, target := range targets {
+				t.Run(target.name, func(t *testing.T) {
+					err := Unmarshal(tc.data, target.new())
+					if len(tc.expectError) == 0 {
+						if err != nil {
+							t.Errorf("unexpected error: %v", err)
+						}
+					} else {
+						if err == nil {
+							t.Errorf("expected error containing '%s', got none", tc.expectError)
+						} else if !strings.Contains(err.Error(), tc.expectError) {
+							t.Errorf("expected error containing '%s', got: %v", tc.expectError, err)
+						}
+					}
+				})
+			}
+		})
+	}
+}
