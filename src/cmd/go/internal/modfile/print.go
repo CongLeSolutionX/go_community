@@ -119,7 +119,11 @@ func (p *printer) expr(x Expr) {
 			p.printf("\t")
 		}
 		for _, com := range before {
-			p.printf("%s", strings.TrimSpace(com.Token))
+			trimmed := strings.TrimSpace(com.Token)
+			if len(trimmed) == 0 {
+				continue
+			}
+			p.printf("%s", trimmed)
 			p.newline()
 		}
 	}
