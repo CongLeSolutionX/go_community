@@ -217,9 +217,15 @@ func markroot(gcw *gcWork, i uint32) {
 			// we scan the stacks we can and ask running
 			// goroutines to scan themselves; and the
 			// second blocks.
+		retry:
 			stopped := suspendG(gp)
 			if stopped.dead {
 				return
+			}
+			if gp.asyncSafePoint {
+				// We don't support this yet.
+				resumeG(stopped)
+				goto retry
 			}
 			if gp.gcscandone {
 				throw("g already scanned")
