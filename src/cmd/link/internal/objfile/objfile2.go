@@ -72,6 +72,7 @@ type Loader struct {
 	extSyms  []nameVer        // externally defined symbols
 
 	symsByName map[nameVer]int // map symbol name to index
+	overwrite  map[int]int     // overwrite[i]=j if symbol j overwrites symbol i
 
 	objByPkg map[string]*oReader // map package path to its Go object reader
 
@@ -86,6 +87,7 @@ func NewLoader() *Loader {
 		objs:       []objIdx{{nil, 0}},
 		symsByName: make(map[nameVer]int),
 		objByPkg:   make(map[string]*oReader),
+		overwrite:  make(map[int]int),
 	}
 }
 
@@ -111,16 +113,27 @@ func (l *Loader) AddObj(pkg string, r *oReader) int {
 }
 
 // Add a symbol with a given index, return if it is added.
-func (l *Loader) AddSym(name string, ver int, i int, dupok bool) bool {
+func (l *Loader) AddSym(name string, ver int, i int, r *oReader, dupok bool) bool {
 	if l.extStart != 0 {
 		panic("AddSym called after AddExtSym is called")
 	}
 	nv := nameVer{name, ver}
-	if _, ok := l.symsByName[nv]; ok {
-		if dupok || true { // TODO: "true" isn't quite right. need to implement "overwrite" logic.
+	if oldi, ok := l.symsByName[nv]; ok {
+		if dupok {
 			return false
 		}
-		panic("duplicated definition of symbol " + name)
+		overwrite := r.DataSize(i-l.StartIndex(r)) != 0
+		if overwrite {
+			oldr, li := l.ToLocal(oldi)
+			if oldr.DataSize(li) != 0 {
+				log.Fatalf("duplicated definition of symbol " + name)
+			}
+			l.overwrite[oldi] = i
+		} else {
+			// old symbol overwrites new symbol.
+			l.overwrite[i] = oldi
+			return false
+		}
 	}
 	l.symsByName[nv] = i
 	return true
@@ -145,11 +158,18 @@ func (l *Loader) AddExtSym(name string, ver int) int {
 
 // Convert a local index to a global index.
 func (l *Loader) ToGlobal(r *oReader, i int) int {
-	return l.StartIndex(r) + i
+	g := l.StartIndex(r) + i
+	if ov, ok := l.overwrite[g]; ok {
+		return ov
+	}
+	return g
 }
 
 // Convert a global index to a local index.
 func (l *Loader) ToLocal(i int) (*oReader, int) {
+	if ov, ok := l.overwrite[i]; ok {
+		i = ov
+	}
 	if l.extStart != 0 && i >= l.extStart {
 		return nil, i - l.extStart
 	}
@@ -341,7 +361,7 @@ func LoadNew(l *Loader, arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *s
 		}
 		v := abiToVer(osym.ABI, localSymVersion)
 		dupok := osym.Flag&goobj2.SymFlagDupok != 0
-		l.AddSym(name, v, istart+i, dupok)
+		l.AddSym(name, v, istart+i, or, dupok)
 	}
 
 	// The caller expects us consuming all the data
