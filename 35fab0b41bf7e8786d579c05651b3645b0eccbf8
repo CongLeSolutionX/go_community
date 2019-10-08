@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97301d51_1a64fbec",
+        "filename": "src/runtime/sys_solaris_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2019-10-08T07:59:21Z",
+      "side": 1,
+      "message": "Please call this function directly from Go. There\u0027s no need for an assembly function anymore. This was implemented in assembly because at the time we only had 120 byte of NOSPLIT stack.",
+      "revId": "35fab0b41bf7e8786d579c05651b3645b0eccbf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc3dfd78_b0946fd3",
+        "filename": "src/runtime/sys_solaris_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2019-10-08T07:59:21Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "35fab0b41bf7e8786d579c05651b3645b0eccbf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
