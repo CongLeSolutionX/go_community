@@ -658,6 +658,7 @@ func loadObjFull(l *Loader, r *oReader) {
 		pc.Pcdata = make([]sym.Pcdata, len(info.Pcdata)-1) // -1 as we appended one above
 		pc.Funcdataoff = make([]int64, len(info.Funcdataoff))
 		pc.File = make([]*sym.Symbol, len(info.File))
+		pc.InlTree = make([]sym.InlinedCall, len(info.InlTree))
 		pc.Pcsp.P = r.BytesAt(pcdataBase+info.Pcsp, int(info.Pcfile-info.Pcsp))
 		pc.Pcfile.P = r.BytesAt(pcdataBase+info.Pcfile, int(info.Pcline-info.Pcfile))
 		pc.Pcline.P = r.BytesAt(pcdataBase+info.Pcline, int(info.Pcinline-info.Pcline))
@@ -670,6 +671,16 @@ func loadObjFull(l *Loader, r *oReader) {
 		}
 		for k := range pc.File {
 			pc.File[k] = resolveSymRef(info.File[k])
+		}
+		for k := range pc.InlTree {
+			inl := &info.InlTree[k]
+			pc.InlTree[k] = sym.InlinedCall{
+				Parent:   inl.Parent,
+				File:     resolveSymRef(inl.File),
+				Line:     inl.Line,
+				Func:     l.SymName(l.Resolve(r, inl.Func)),
+				ParentPC: inl.ParentPC,
+			}
 		}
 
 		if !dupok {
