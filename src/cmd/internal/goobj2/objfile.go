@@ -273,8 +273,13 @@ const (
 	AuxGotype = iota
 	AuxFuncInfo
 	AuxFuncdata
+	AuxDwarfInfo
+	AuxDwarfLoc
+	AuxDwarfRanges
+	AuxDwarfAbsFn
+	AuxDwarfLines
 
-	// TODO: more. DWARF? Pcdata?
+	// TODO: more. Pcdata?
 )
 
 func (a *Aux) Write(w *Writer) {

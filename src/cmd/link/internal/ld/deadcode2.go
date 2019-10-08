@@ -96,7 +96,7 @@ func (d *deadcodePass2) init() {
 func (d *deadcodePass2) flood() {
 	for !d.wq.empty() {
 		symIdx := d.wq.pop()
-		//fmt.Println(d.ctxt.loader.Syms[symIdx])
+		//fmt.Println(d.loader.SymName(symIdx))
 
 		name := d.loader.SymName(symIdx)
 		if strings.HasPrefix(name, "type.") && name[5] != '.' {
@@ -126,13 +126,19 @@ func (d *deadcodePass2) flood() {
 				i += 2
 				continue
 			}
+			if t == objabi.R_USETYPE {
+				// type symbol used for DWARF. we need to load the symbol but it may not
+				// be otherwise reachable in the program.
+				// do nothing for now as we still load all type symbols.
+				continue
+			}
 			d.mark(d.loader.RelocSym(symIdx, i))
-			//fmt.Println("\t", d.loader.Syms[d.loader.RelocSym(symIdx, i)])
+			//fmt.Println("\tr\t", d.loader.SymName(d.loader.RelocSym(symIdx, i)))
 		}
 		naux := d.loader.NAux(symIdx)
 		for i := 0; i < naux; i++ {
 			d.mark(d.loader.AuxSym(symIdx, i))
-			//fmt.Println("\t", d.loader.Syms[d.loader.AuxSym(symIdx, i)])
+			//fmt.Println("\ta\t", d.loader.SymName(d.loader.AuxSym(symIdx, i)))
 		}
 
 		if len(methods) != 0 {
