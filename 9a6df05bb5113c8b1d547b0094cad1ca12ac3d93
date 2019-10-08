@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "76b268ca_707c0fa0",
+        "filename": "src/runtime/netpoll_stub.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-08T05:08:28Z",
+      "side": 1,
+      "message": "In effect this is where we implement the delay until a timer is ready.  If we don\u0027t sleep here, and there is an active timer, the scheduler will turn into a busy loop.",
+      "parentUuid": "c8597d93_4b2e38ba",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 2
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad054b4_2980d673",
         "filename": "src/runtime/netpoll_windows.go",
         "patchSetId": 23
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "d7146cc1_8ee2ee4f",
+        "filename": "src/runtime/netpoll_windows.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-08T05:08:28Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "fad054b4_2980d673",
+      "range": {
+        "startLine": 131,
+        "startChar": 5,
+        "endLine": 132,
+        "endChar": 23
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8a7b965_67d22cfe",
         "filename": "src/runtime/proc_test.go",
         "patchSetId": 23
@@ -105,6 +153,30 @@
       "writtenOn": "2019-10-07T21:04:59Z",
       "side": 1,
       "message": "not saying we should fix this in this change, but FWIU it wouldn\u0027t be terribly difficult to encapsulate netpoll\u0027s state to be more safely testable. it would be a pretty non-trivial refactoring, but nothing is preventing this, right? maybe we could have a TODO tied to an \"unplanned\" issue for that for that?",
+      "range": {
+        "startLine": 986,
+        "startChar": 3,
+        "endLine": 987,
+        "endChar": 46
+      },
+      "revId": "9a6df05bb5113c8b1d547b0094cad1ca12ac3d93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac7d82a0_3dc88814",
+        "filename": "src/runtime/proc_test.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-08T05:08:28Z",
+      "side": 1,
+      "message": "Personally I\u0027m not a fan of making the code more complicated just for testing purposes.",
+      "parentUuid": "c8a7b965_67d22cfe",
       "range": {
         "startLine": 986,
         "startChar": 3,
