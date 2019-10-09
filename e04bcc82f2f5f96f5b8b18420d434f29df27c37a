@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5f49790_c4505140",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-09T15:56:32Z",
+      "side": 1,
+      "message": "This shadows the pkg and importErr variables declared at line 234. Did you mean to update them instead?\n\n(If the `importErr` variable is _intentionally_ distinct, perhaps choose a distinct name for it to make that intent clearer.)",
+      "range": {
+        "startLine": 269,
+        "startChar": 17,
+        "endLine": 269,
+        "endChar": 19
+      },
+      "revId": "e04bcc82f2f5f96f5b8b18420d434f29df27c37a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
