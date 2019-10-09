@@ -22,6 +22,30 @@
       "revId": "4d21237ae1ab9bb6948653a0950cd51691ea6236",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07625eb1_6508acca",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-09T21:57:35Z",
+      "side": 1,
+      "message": "True, although I\u0027m not sure how that would happen for this function, which is time.stopTimer.  Simplified the comment.",
+      "parentUuid": "9255f232_f4872154",
+      "range": {
+        "startLine": 230,
+        "startChar": 52,
+        "endLine": 230,
+        "endChar": 63
+      },
+      "revId": "4d21237ae1ab9bb6948653a0950cd51691ea6236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
