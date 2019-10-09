@@ -150,7 +150,10 @@ func checkFunc(f *Func) {
 				if !isExactFloat32(v.AuxFloat()) {
 					f.Fatalf("value %v has an AuxInt value that is not an exact float32", v)
 				}
-			case auxString, auxSym, auxTyp, auxArchSpecific:
+			case auxString, auxSym, auxTyp:
+				canHaveAux = true
+			case auxArchSpecific:
+				canHaveAuxInt = true
 				canHaveAux = true
 			case auxSymOff, auxSymValAndOff, auxTypSize:
 				canHaveAuxInt = true

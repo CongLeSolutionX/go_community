@@ -265,6 +265,8 @@ var optab = []Optab{
 
 	// load on condition
 	{i: 25, as: ALOCGR, a1: C_SCON, a2: C_REG, a6: C_REG},
+	{i: 65, as: ALOCGHI, a1: C_SCON, a3: C_SCON, a6: C_REG},
+	{i: 65, as: ALOCGHI, a1: C_SCON, a3: C_ADDCON, a6: C_REG},
 
 	// find leftmost one
 	{i: 8, as: AFLOGR, a1: C_REG, a6: C_REG},
@@ -2650,7 +2652,7 @@ func (c *ctxtz) addcallreloc(sym *obj.LSym, add int64) *obj.Reloc {
 
 func (c *ctxtz) branchMask(p *obj.Prog) CCMask {
 	switch p.As {
-	case ABRC, ALOCR, ALOCGR,
+	case ABRC, ALOCR, ALOCGR, ALOCGHI,
 		ACRJ, ACGRJ, ACIJ, ACGIJ,
 		ACLRJ, ACLGRJ, ACLIJ, ACLGIJ:
 		return CCMask(p.From.Offset)
@@ -3471,6 +3473,13 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 	case 62: // equivalent of Mul64 in math/bits
 		zRRE(op_MLGR, uint32(p.To.Reg), uint32(p.From.Reg), asm)
 
+	case 65:
+		// 1: How do we get the branchMask?
+		// 2: How do we retrieve the register value?
+		// Actually, this should not be that hard, Let's copy LOCGR's logic -->
+		m3 := uint32(c.branchMask(p))
+		offset := p.RestArgs[0].Offset
+		zRIE(_e, op_LOCGHI, uint32(p.To.Reg), m3, uint32(offset), 0, 0, 0, 0, asm)
 	case 66:
 		zRR(op_BCR, uint32(Never), 0, asm)
 

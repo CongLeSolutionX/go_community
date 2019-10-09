@@ -24,6 +24,8 @@ TEXT main·foo(SB),DUPOK|NOSPLIT,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT, $16-
 
 	LOCR	$3, R2, R1            // b9f23012
 	LOCGR	$7, R5, R6            // b9e27065
+	LOCGHI  $3, $16, R5           // ec5300100046
+	LOCGHI	$3, $-1, R3           // ec33ffff0046
 
 	MOVD	(R15), R1             // e310f0000004
 	MOVW	(R15), R2             // e320f0000014

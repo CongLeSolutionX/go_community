@@ -14,6 +14,7 @@ func cmovint(c int) int {
 	// amd64:"CMOVQLT"
 	// arm64:"CSEL\tLT"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return x
 }
 
@@ -24,6 +25,7 @@ func cmovchan(x, y chan int) chan int {
 	// amd64:"CMOVQNE"
 	// arm64:"CSEL\tNE"
 	// wasm:"Select"
+	// s390x:-"LOCGR"
 	return x
 }
 
@@ -34,6 +36,7 @@ func cmovuintptr(x, y uintptr) uintptr {
 	// amd64:"CMOVQCS"
 	// arm64:"CSEL\tLO"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return x
 }
 
@@ -44,6 +47,7 @@ func cmov32bit(x, y uint32) uint32 {
 	// amd64:"CMOVLCS"
 	// arm64:"CSEL\tLO"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return x
 }
 
@@ -54,6 +58,7 @@ func cmov16bit(x, y uint16) uint16 {
 	// amd64:"CMOVWCS"
 	// arm64:"CSEL\tLO"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return x
 }
 
@@ -67,6 +72,7 @@ func cmovfloateq(x, y float64) int {
 	// amd64:"CMOVQNE","CMOVQPC"
 	// arm64:"CSEL\tEQ"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return a
 }
 
@@ -78,6 +84,7 @@ func cmovfloatne(x, y float64) int {
 	// amd64:"CMOVQNE","CMOVQPS"
 	// arm64:"CSEL\tNE"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return a
 }
 
@@ -104,6 +111,7 @@ func cmovfloatint2(x, y float64) float64 {
 		// amd64:"CMOVQHI"
 		// arm64:"CSEL\tMI"
 		// wasm:"Select"
+		// s390x:"LOCGR"
 		r = r - ldexp(y, (rexp-yexp))
 	}
 	return r
@@ -118,6 +126,7 @@ func cmovloaded(x [4]int, y int) int {
 	// amd64:"CMOVQNE"
 	// arm64:"CSEL\tNE"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return y
 }
 
@@ -129,6 +138,7 @@ func cmovuintptr2(x, y uintptr) uintptr {
 	// amd64:"CMOVQEQ"
 	// arm64:"CSEL\tEQ"
 	// wasm:"Select"
+	// s390x:"LOCGR"
 	return a
 }
 
@@ -141,6 +151,7 @@ func cmovfloatmove(x, y int) float64 {
 	// amd64:-"CMOV"
 	// arm64:-"CSEL"
 	// wasm:-"Select"
+	// s390x:-"LOCGR"
 	return a
 }
 
