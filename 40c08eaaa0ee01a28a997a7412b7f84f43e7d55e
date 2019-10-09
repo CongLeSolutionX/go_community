@@ -22,6 +22,30 @@
       "revId": "40c08eaaa0ee01a28a997a7412b7f84f43e7d55e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d92b0280_c7da4593",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-09T18:11:33Z",
+      "side": 1,
+      "message": "We could, but as this is a work around till delve can support end statements spread in compilation units, I prefer the simplicity of just \"set it and walk away.\"",
+      "parentUuid": "a1c0b5b8_828fee75",
+      "range": {
+        "startLine": 105,
+        "startChar": 1,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "40c08eaaa0ee01a28a997a7412b7f84f43e7d55e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
