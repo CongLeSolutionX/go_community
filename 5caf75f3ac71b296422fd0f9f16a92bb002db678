@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "061e5ef8_90d396f3",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-09T04:47:31Z",
+      "side": 1,
+      "message": "The comment is actually more obvious in the final version, as the code between this struct and the definitions of the status values is going to go away.\n\nI avoided introducing a timerStatus type because, as noted in the comment on the struct type, this struct is replicated elsewhere.  I thought it would be safer to keep all the fields as general types, rather than rely on not only this struct being kept in sync but also another type (timerStatus) being kept in sync.\n\nBut if you still think that a timerStatus type is a good idea, I can do it.",
+      "parentUuid": "88415aa6_cbfa319b",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "5caf75f3ac71b296422fd0f9f16a92bb002db678",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31cb7995_610c2576",
         "filename": "src/runtime/time.go",
         "patchSetId": 21
@@ -45,6 +69,30 @@
       "revId": "5caf75f3ac71b296422fd0f9f16a92bb002db678",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e42bdb_9bd812fb",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-09T04:47:31Z",
+      "side": 1,
+      "message": "Yes, this comment is out of date.  Removed it.",
+      "parentUuid": "31cb7995_610c2576",
+      "range": {
+        "startLine": 121,
+        "startChar": 3,
+        "endLine": 121,
+        "endChar": 61
+      },
+      "revId": "5caf75f3ac71b296422fd0f9f16a92bb002db678",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
