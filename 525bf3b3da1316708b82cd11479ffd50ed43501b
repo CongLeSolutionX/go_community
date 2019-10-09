@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2d63059_2c2eaf47",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4110,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-09T04:47:09Z",
+      "side": 1,
+      "message": "I took out the lock calls.",
+      "parentUuid": "cfe97c20_4cbbf4fb",
+      "range": {
+        "startLine": 4109,
+        "startChar": 0,
+        "endLine": 4110,
+        "endChar": 22
+      },
+      "revId": "525bf3b3da1316708b82cd11479ffd50ed43501b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190587a8_c491a973",
         "filename": "src/runtime/proc.go",
         "patchSetId": 23
@@ -45,6 +69,30 @@
       "revId": "525bf3b3da1316708b82cd11479ffd50ed43501b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2f19b13_2378ced8",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4111,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-09T04:47:09Z",
+      "side": 1,
+      "message": "The system is designed to work well even if all the timers wind up on one P.  the moveTimers function is the only loop that iterates through all the timers.  The timers in general are maintained as a heap, so loop iterations grow at most as fast as the log of the number of timers.  If this turns out to be a problem we can add a global list as you suggest, but I don\u0027t expect that will be necessary.",
+      "parentUuid": "190587a8_c491a973",
+      "range": {
+        "startLine": 4111,
+        "startChar": 2,
+        "endLine": 4111,
+        "endChar": 31
+      },
+      "revId": "525bf3b3da1316708b82cd11479ffd50ed43501b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
