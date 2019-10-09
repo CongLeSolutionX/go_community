@@ -253,6 +253,86 @@
 (RotateLeft32 x y) -> (RLL  x y)
 (RotateLeft64 x y) -> (RLLG x y)
 
+(CondSelect x y cond) -> (LOCGR {s390x.LessOrGreater} y x (CMPWUconst (MOVBZreg cond) [0]))
+
+(LOCGR {cc} x (MOVDconst [c]) cmp) && is16Bit(c) -> (LOCGHI [c] {cc} x cmp)
+
+// Reorder the instruction sequence to reduce data dependency and to allow it to be pipelined
+(LOCGR <t> {cc} x ((ADD|ADDW)const [c] x) cmp) -> ((ADD|ADDW) x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+(LOCGR <t> {cc} x ((SRD|SRW)const [c] x) cmp) -> ((SRD|SRW) x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+(LOCGR <t> {cc} x (ANDconst [c] x) cmp) -> (AND x (LOCGR <t> {cc} (MOVDconst [-1]) (MOVDconst [c]) cmp))
+(LOCGR <t> {cc} x (ANDWconst [c] x) cmp) -> (ANDW x (LOCGR <t> {cc} (MOVDconst [0xffffffff]) (MOVDconst [c]) cmp))
+(LOCGR <t> {cc} x ((OR|ORW)const [c] x) cmp) -> ((OR|ORW) x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+(LOCGR <t> {cc} x ((XOR|XORW)const [c] x) cmp) -> ((XOR|XORW) x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+(LOCGR <t> {cc} x ((SLD|SLW)const [c] x) cmp) -> ((SLD|SLW) x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+
+// Prefer constant as second argument to conditional load.
+// This avoids the constant getting clobbered and makes other rules simpler.
+(LOCGR {c} (MOVDconst [y]) x cmp) && x.Op != OpS390XMOVDconst -> (LOCGR {c.(s390x.CCMask).Inverse()} x (MOVDconst [y]) cmp)
+// Remove unnecessary conditional loads after comparison with constant.
+(LOCGR {s390x.Equal}         x (MOVDconst [y]) ((CMP|CMPU)const x [y])) -> x               // if x == y { x = y }
+(LOCGR {s390x.LessOrGreater} x (MOVDconst [y]) ((CMP|CMPU)const x [y])) -> (MOVDconst [y]) // if x != y { x = y }
+// Remove unnecessary conditional loads after comparison.
+(LOCGR {s390x.Equal}         x y ((CMP|CMPU) x y)) -> x // if x == y { x = y }
+(LOCGR {s390x.Equal}         x y ((CMP|CMPU) y x)) -> x // if x == y { x = y }
+(LOCGR {s390x.LessOrGreater} x y ((CMP|CMPU) x y)) -> y // if x != y { x = y }
+(LOCGR {s390x.LessOrGreater} x y ((CMP|CMPU) y x)) -> y // if x != y { x = y }
+
+// Mask out unordered bit from condition following an integer comparison.
+// This reduces the need to mask out the unordered bit in other rules.
+(LOCGR {c} x y cmp:((CMP|CMPU|CMPW|CMPWU) _ _))    && c.(s390x.CCMask)&s390x.Unordered != 0 -> (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+(LOCGR {c} x y cmp:((CMP|CMPU|CMPW|CMPWU)const _)) && c.(s390x.CCMask)&s390x.Unordered != 0 -> (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+// Mask out less-than bit from condition code following unsigned comparison with 0.
+// The result of the comparison cannot be less-than and this rule makes other rules simpler.
+(LOCGR {c} x y cmp:((CMPU|CMPWU)const _ [0])) && c.(s390x.CCMask)&s390x.Less != 0 -> (LOCGR {c.(s390x.CCMask)&^s390x.Less} x y cmp)
+
+// Merge unsigned flags -> bool conversions into conditional loads.
+// Note that unsigned comparisons with 0 are always either greater than or equal.
+(LOCGR {s390x.Greater} x y (CMPWUconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPWUconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Greater} x y (CMPWUconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPWUconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Greater} x y (CMPUconst  (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPUconst  (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Greater} x y (CMPUconst  (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPUconst  (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d} x y cmp)
+// Merge signed flags -> bool conversions into conditional loads.
+// The result of an integer comparison cannot be unordered so we mask out that bit.
+(LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPWconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPWconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.LessOrGreater} x y (CMPconst  (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPconst  (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.LessOrGreater} x y (CMPconst  (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPconst  (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d} x y cmp)
+
+// Remove unnecessary conditional loads after comparison with constant.
+(LOCGHI {s390x.Equal} [y] x ((CMP|CMPU)const x [y])) -> x               // if x == y { x = y }
+(LOCGHI {s390x.LessOrGreater} [y] x ((CMP|CMPU)const x [y])) -> (MOVDconst [y]) // if x != y { x = y }
+
+// Merge unsigned flags -> bool conversions into conditional loads.
+// Note that unsigned comparisons with 0 are always either greater than or equal.
+(LOCGR {s390x.Greater} x y (CMPWUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPWUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Greater} x y (CMPWUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPWUconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0])) && uint32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Greater} x y (CMPUconst  (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPUconst  (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Greater} x y (CMPUconst  (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}   x y (CMPUconst  (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0])) && uint64(z) != 0 -> (LOCGR {d} x y cmp)
+
+// Merge signed flags -> bool conversions into conditional loads.
+// The result of an integer comparison cannot be unordered so we mask out that bit.
+(LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPWconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPWconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0])) && int32(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.LessOrGreater} x y (CMPconst  (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPconst  (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.LessOrGreater} x y (CMPconst  (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+(LOCGR {s390x.Equal}         x y (CMPconst  (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0])) && int64(z) != 0 -> (LOCGR {d} x y cmp)
+
 // Lowering comparisons
 (Less64      x y) -> (LOCGR {s390x.Less} (MOVDconst [0]) (MOVDconst [1]) (CMP x y))
 (Less32      x y) -> (LOCGR {s390x.Less} (MOVDconst [0]) (MOVDconst [1]) (CMPW x y))
@@ -703,6 +783,7 @@
 
 // reverse ordering of compare instruction
 (LOCGR {c} x y (InvertFlags cmp)) -> (LOCGR {c.(s390x.CCMask).ReverseComparison()} x y cmp)
+(LOCGHI {c} [t] x (InvertFlags cmp)) -> (LOCGHI {c.(s390x.CCMask).ReverseComparison()} [t] x cmp)
 
 // replace load from same location as preceding store with copy
 (MOVDload  [off] {sym} ptr1 (MOVDstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> x
@@ -1076,6 +1157,16 @@
 (LOCGR {c} x _ (FlagLT)) && c.(s390x.CCMask) & s390x.Less      == 0 -> x
 (LOCGR {c} x _ (FlagGT)) && c.(s390x.CCMask) & s390x.Greater   == 0 -> x
 (LOCGR {c} x _ (FlagOV)) && c.(s390x.CCMask) & s390x.Unordered == 0 -> x
+
+
+(LOCGHI {c} [t] x (FlagEQ)) && c.(s390x.CCMask) & s390x.Equal     != 0 -> (MOVDconst [t]) 
+(LOCGHI {c} [t] x (FlagLT)) && c.(s390x.CCMask) & s390x.Less      != 0 -> (MOVDconst [t])
+(LOCGHI {c} [t] x (FlagGT)) && c.(s390x.CCMask) & s390x.Greater   != 0 -> (MOVDconst [t]) 
+(LOCGHI {c} [t] x (FlagOV)) && c.(s390x.CCMask) & s390x.Unordered != 0 -> (MOVDconst [t])
+(LOCGHI {c} [t] x (FlagEQ)) && c.(s390x.CCMask) & s390x.Equal     == 0 -> x
+(LOCGHI {c} [t] x (FlagLT)) && c.(s390x.CCMask) & s390x.Less      == 0 -> x
+(LOCGHI {c} [t] x (FlagGT)) && c.(s390x.CCMask) & s390x.Greater   == 0 -> x
+(LOCGHI {c} [t] x (FlagOV)) && c.(s390x.CCMask) & s390x.Unordered == 0 -> x
 
 // Remove redundant *const ops
 (ADDconst [0] x) -> x

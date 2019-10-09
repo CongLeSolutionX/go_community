@@ -358,6 +358,8 @@ func init() {
 		// The aux for these values is an s390x.CCMask value representing the condition code mask.
 		{name: "LOCGR", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "LOCGR", aux: "ArchSpecific"}, // load arg1 into arg0 if the condition code in arg2 matches a masked bit in aux.
 
+		{name: "LOCGHI", argLength: 2, reg: gp11flags, resultInArg0: true, asm: "LOCGHI", aux: "ArchSpecific"}, // 16 bit load on condition. An 16 bit integer will be loaded into arg0 if condition code in arg2 matches a masked bit in aux
+
 		{name: "MOVBreg", argLength: 1, reg: gp11sp, asm: "MOVB", typ: "Int64"},    // sign extend arg0 from int8 to int64
 		{name: "MOVBZreg", argLength: 1, reg: gp11sp, asm: "MOVBZ", typ: "UInt64"}, // zero extend arg0 from int8 to int64
 		{name: "MOVHreg", argLength: 1, reg: gp11sp, asm: "MOVH", typ: "Int64"},    // sign extend arg0 from int16 to int64

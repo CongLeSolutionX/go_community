@@ -270,6 +270,7 @@ const (
 	AMOVDNE
 	ALOCR
 	ALOCGR
+	ALOCGHI
 
 	// find leftmost one
 	AFLOGR

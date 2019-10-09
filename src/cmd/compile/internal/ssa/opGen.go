@@ -1988,6 +1988,7 @@ const (
 	OpS390XNOTW
 	OpS390XFSQRT
 	OpS390XLOCGR
+	OpS390XLOCGHI
 	OpS390XMOVBreg
 	OpS390XMOVBZreg
 	OpS390XMOVHreg
@@ -26564,6 +26565,21 @@ var opcodeTable = [...]opInfo{
 			inputs: []inputInfo{
 				{0, 23551}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 R14
 				{1, 23551}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 R14
+			},
+			outputs: []outputInfo{
+				{0, 23551}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 R14
+			},
+		},
+	},
+	{
+		name:         "LOCGHI",
+		auxType:      auxArchSpecific,
+		argLen:       2,
+		resultInArg0: true,
+		asm:          s390x.ALOCGHI,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 23551}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 R14
 			},
 			outputs: []outputInfo{
 				{0, 23551}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 R14

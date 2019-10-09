@@ -581,6 +581,17 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.Reg = v.Args[1].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
+	case ssa.OpS390XLOCGHI:
+		r := v.Reg()
+		if r != v.Args[0].Reg() {
+			v.Fatalf("input[0] and output not in the same register %s", v.LongString())
+		}
+		p := s.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = int64(v.Aux.(s390x.CCMask))
+		p.RestArgs = []obj.Addr{{Type: obj.TYPE_CONST, Offset: v.AuxInt}}
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Args[0].Reg()
 	case ssa.OpS390XFSQRT:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG

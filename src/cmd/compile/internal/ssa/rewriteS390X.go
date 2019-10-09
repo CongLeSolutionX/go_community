@@ -86,6 +86,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpCom64_0(v)
 	case OpCom8:
 		return rewriteValueS390X_OpCom8_0(v)
+	case OpCondSelect:
+		return rewriteValueS390X_OpCondSelect_0(v)
 	case OpConst16:
 		return rewriteValueS390X_OpConst16_0(v)
 	case OpConst32:
@@ -558,8 +560,10 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XLEDBR_0(v)
 	case OpS390XLGDR:
 		return rewriteValueS390X_OpS390XLGDR_0(v)
+	case OpS390XLOCGHI:
+		return rewriteValueS390X_OpS390XLOCGHI_0(v) || rewriteValueS390X_OpS390XLOCGHI_10(v)
 	case OpS390XLOCGR:
-		return rewriteValueS390X_OpS390XLOCGR_0(v)
+		return rewriteValueS390X_OpS390XLOCGR_0(v) || rewriteValueS390X_OpS390XLOCGR_10(v) || rewriteValueS390X_OpS390XLOCGR_20(v) || rewriteValueS390X_OpS390XLOCGR_30(v) || rewriteValueS390X_OpS390XLOCGR_40(v) || rewriteValueS390X_OpS390XLOCGR_50(v) || rewriteValueS390X_OpS390XLOCGR_60(v) || rewriteValueS390X_OpS390XLOCGR_70(v)
 	case OpS390XLoweredRound32F:
 		return rewriteValueS390X_OpS390XLoweredRound32F_0(v)
 	case OpS390XLoweredRound64F:
@@ -1324,6 +1328,28 @@ func rewriteValueS390X_OpCom8_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpS390XNOTW)
 		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValueS390X_OpCondSelect_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (CondSelect x y cond)
+	// result: (LOCGR {s390x.LessOrGreater} y x (CMPWUconst (MOVBZreg cond) [0]))
+	for {
+		cond := v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpS390XLOCGR)
+		v.Aux = s390x.LessOrGreater
+		v.AddArg(y)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XCMPWUconst, types.TypeFlags)
+		v0.AuxInt = 0
+		v1 := b.NewValue0(v.Pos, OpS390XMOVBZreg, typ.UInt64)
+		v1.AddArg(cond)
+		v0.AddArg(v1)
+		v.AddArg(v0)
 		return true
 	}
 }
@@ -10489,7 +10515,2243 @@ func rewriteValueS390X_OpS390XLGDR_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XLOCGHI_0(v *Value) bool {
+	// match: (LOCGHI {s390x.Equal} [y] x (CMPconst x [y]))
+	// result: x
+	for {
+		y := v.AuxInt
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XCMPconst || v_1.AuxInt != y || x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGHI {s390x.Equal} [y] x (CMPUconst x [y]))
+	// result: x
+	for {
+		y := v.AuxInt
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XCMPUconst || v_1.AuxInt != y || x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGHI {s390x.LessOrGreater} [y] x (CMPconst x [y]))
+	// result: (MOVDconst [y])
+	for {
+		y := v.AuxInt
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XCMPconst || v_1.AuxInt != y || x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = y
+		return true
+	}
+	// match: (LOCGHI {s390x.LessOrGreater} [y] x (CMPUconst x [y]))
+	// result: (MOVDconst [y])
+	for {
+		y := v.AuxInt
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XCMPUconst || v_1.AuxInt != y || x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = y
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (InvertFlags cmp))
+	// result: (LOCGHI {c.(s390x.CCMask).ReverseComparison()} [t] x cmp)
+	for {
+		t := v.AuxInt
+		c := v.Aux
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XInvertFlags {
+			break
+		}
+		cmp := v_1.Args[0]
+		v.reset(OpS390XLOCGHI)
+		v.AuxInt = t
+		v.Aux = c.(s390x.CCMask).ReverseComparison()
+		v.AddArg(x)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (FlagEQ))
+	// cond: c.(s390x.CCMask) & s390x.Equal != 0
+	// result: (MOVDconst [t])
+	for {
+		t := v.AuxInt
+		c := v.Aux
+		_ = v.Args[1]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagEQ || !(c.(s390x.CCMask)&s390x.Equal != 0) {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = t
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (FlagLT))
+	// cond: c.(s390x.CCMask) & s390x.Less != 0
+	// result: (MOVDconst [t])
+	for {
+		t := v.AuxInt
+		c := v.Aux
+		_ = v.Args[1]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagLT || !(c.(s390x.CCMask)&s390x.Less != 0) {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = t
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (FlagGT))
+	// cond: c.(s390x.CCMask) & s390x.Greater != 0
+	// result: (MOVDconst [t])
+	for {
+		t := v.AuxInt
+		c := v.Aux
+		_ = v.Args[1]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagGT || !(c.(s390x.CCMask)&s390x.Greater != 0) {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = t
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (FlagOV))
+	// cond: c.(s390x.CCMask) & s390x.Unordered != 0
+	// result: (MOVDconst [t])
+	for {
+		t := v.AuxInt
+		c := v.Aux
+		_ = v.Args[1]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagOV || !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = t
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (FlagEQ))
+	// cond: c.(s390x.CCMask) & s390x.Equal == 0
+	// result: x
+	for {
+		c := v.Aux
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagEQ || !(c.(s390x.CCMask)&s390x.Equal == 0) {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGHI_10(v *Value) bool {
+	// match: (LOCGHI {c} [t] x (FlagLT))
+	// cond: c.(s390x.CCMask) & s390x.Less == 0
+	// result: x
+	for {
+		c := v.Aux
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagLT || !(c.(s390x.CCMask)&s390x.Less == 0) {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (FlagGT))
+	// cond: c.(s390x.CCMask) & s390x.Greater == 0
+	// result: x
+	for {
+		c := v.Aux
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagGT || !(c.(s390x.CCMask)&s390x.Greater == 0) {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGHI {c} [t] x (FlagOV))
+	// cond: c.(s390x.CCMask) & s390x.Unordered == 0
+	// result: x
+	for {
+		c := v.Aux
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFlagOV || !(c.(s390x.CCMask)&s390x.Unordered == 0) {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XLOCGR_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (LOCGR {cc} x (MOVDconst [c]) cmp)
+	// cond: is16Bit(c)
+	// result: (LOCGHI [c] {cc} x cmp)
+	for {
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(is16Bit(c)) {
+			break
+		}
+		v.reset(OpS390XLOCGHI)
+		v.AuxInt = c
+		v.Aux = cc
+		v.AddArg(x)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (ADDconst [c] x) cmp)
+	// result: (ADD x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XADDconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XADD)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (ADDWconst [c] x) cmp)
+	// result: (ADDW x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XADDWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XADDW)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (SRDconst [c] x) cmp)
+	// result: (SRD x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XSRDconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XSRD)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (SRWconst [c] x) cmp)
+	// result: (SRW x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XSRWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XSRW)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (ANDconst [c] x) cmp)
+	// result: (AND x (LOCGR <t> {cc} (MOVDconst [-1]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XANDconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XAND)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = -1
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (ANDWconst [c] x) cmp)
+	// result: (ANDW x (LOCGR <t> {cc} (MOVDconst [0xffffffff]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XANDWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XANDW)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0xffffffff
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (ORconst [c] x) cmp)
+	// result: (OR x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XORconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XOR)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (ORWconst [c] x) cmp)
+	// result: (ORW x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XORWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XORW)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (XORconst [c] x) cmp)
+	// result: (XOR x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XXORconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XXOR)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGR_10(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (LOCGR <t> {cc} x (XORWconst [c] x) cmp)
+	// result: (XORW x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XXORWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XXORW)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (SLDconst [c] x) cmp)
+	// result: (SLD x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XSLDconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XSLD)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR <t> {cc} x (SLWconst [c] x) cmp)
+	// result: (SLW x (LOCGR <t> {cc} (MOVDconst [0]) (MOVDconst [c]) cmp))
+	for {
+		t := v.Type
+		cc := v.Aux
+		cmp := v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XSLWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if x != v_1.Args[0] {
+			break
+		}
+		v.reset(OpS390XSLW)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLOCGR, t)
+		v0.Aux = cc
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = c
+		v0.AddArg(v2)
+		v0.AddArg(cmp)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LOCGR {c} (MOVDconst [y]) x cmp)
+	// cond: x.Op != OpS390XMOVDconst
+	// result: (LOCGR {c.(s390x.CCMask).Inverse()} x (MOVDconst [y]) cmp)
+	for {
+		c := v.Aux
+		cmp := v.Args[2]
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XMOVDconst {
+			break
+		}
+		y := v_0.AuxInt
+		x := v.Args[1]
+		if !(x.Op != OpS390XMOVDconst) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v0.AuxInt = y
+		v.AddArg(v0)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x (MOVDconst [y]) (CMPconst x [y]))
+	// result: x
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		y := v_1.AuxInt
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != y || x != v_2.Args[0] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x (MOVDconst [y]) (CMPUconst x [y]))
+	// result: x
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		y := v_1.AuxInt
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != y || x != v_2.Args[0] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x (MOVDconst [y]) (CMPconst x [y]))
+	// result: (MOVDconst [y])
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		y := v_1.AuxInt
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != y || x != v_2.Args[0] {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = y
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x (MOVDconst [y]) (CMPUconst x [y]))
+	// result: (MOVDconst [y])
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		y := v_1.AuxInt
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != y || x != v_2.Args[0] {
+			break
+		}
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = y
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMP x y))
+	// result: x
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMP {
+			break
+		}
+		_ = v_2.Args[1]
+		if x != v_2.Args[0] || y != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPU x y))
+	// result: x
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPU {
+			break
+		}
+		_ = v_2.Args[1]
+		if x != v_2.Args[0] || y != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGR_20(v *Value) bool {
+	// match: (LOCGR {s390x.Equal} x y (CMP y x))
+	// result: x
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMP {
+			break
+		}
+		_ = v_2.Args[1]
+		if y != v_2.Args[0] || x != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPU y x))
+	// result: x
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPU {
+			break
+		}
+		_ = v_2.Args[1]
+		if y != v_2.Args[0] || x != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMP x y))
+	// result: y
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMP {
+			break
+		}
+		_ = v_2.Args[1]
+		if x != v_2.Args[0] || y != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = y.Type
+		v.AddArg(y)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPU x y))
+	// result: y
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPU {
+			break
+		}
+		_ = v_2.Args[1]
+		if x != v_2.Args[0] || y != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = y.Type
+		v.AddArg(y)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMP y x))
+	// result: y
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMP {
+			break
+		}
+		_ = v_2.Args[1]
+		if y != v_2.Args[0] || x != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = y.Type
+		v.AddArg(y)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPU y x))
+	// result: y
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPU {
+			break
+		}
+		_ = v_2.Args[1]
+		if y != v_2.Args[0] || x != v_2.Args[1] {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = y.Type
+		v.AddArg(y)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMP _ _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMP {
+			break
+		}
+		_ = cmp.Args[1]
+		if !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPU _ _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPU {
+			break
+		}
+		_ = cmp.Args[1]
+		if !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPW _ _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPW {
+			break
+		}
+		_ = cmp.Args[1]
+		if !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPWU _ _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPWU {
+			break
+		}
+		_ = cmp.Args[1]
+		if !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGR_30(v *Value) bool {
+	// match: (LOCGR {c} x y cmp:(CMPconst _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPconst || !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPUconst _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPUconst || !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPWconst _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPWconst || !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPWUconst _))
+	// cond: c.(s390x.CCMask)&s390x.Unordered != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Unordered} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPWUconst || !(c.(s390x.CCMask)&s390x.Unordered != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Unordered
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPUconst _ [0]))
+	// cond: c.(s390x.CCMask)&s390x.Less != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Less} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPUconst || cmp.AuxInt != 0 || !(c.(s390x.CCMask)&s390x.Less != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Less
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {c} x y cmp:(CMPWUconst _ [0]))
+	// cond: c.(s390x.CCMask)&s390x.Less != 0
+	// result: (LOCGR {c.(s390x.CCMask)&^s390x.Less} x y cmp)
+	for {
+		c := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		cmp := v.Args[2]
+		if cmp.Op != OpS390XCMPWUconst || cmp.AuxInt != 0 || !(c.(s390x.CCMask)&s390x.Less != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = c.(s390x.CCMask) &^ s390x.Less
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Greater} x y (CMPWUconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWUconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Greater} x y (CMPWUconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWUconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGR_40(v *Value) bool {
+	// match: (LOCGR {s390x.Greater} x y (CMPUconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPUconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Greater} x y (CMPUconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPUconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPconst (LOCGR {d} (MOVDconst [0]) (MOVDconst [z]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_1.AuxInt
+		if !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGR_50(v *Value) bool {
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPconst (LOCGR {d} (MOVDconst [z]) (MOVDconst [0]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGR {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[2]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		v_2_0_1 := v_2_0.Args[1]
+		if v_2_0_1.Op != OpS390XMOVDconst || v_2_0_1.AuxInt != 0 || !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Greater} x y (CMPWUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Greater} x y (CMPWUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWUconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0]))
+	// cond: uint32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI || v_2_0.AuxInt != 0 {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		if !(uint32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Greater} x y (CMPUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPUconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Greater} x y (CMPUconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Greater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI || v_2_0.AuxInt != 0 {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		if !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPUconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0]))
+	// cond: uint64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPUconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI || v_2_0.AuxInt != 0 {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		if !(uint64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGR_60(v *Value) bool {
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPWconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI || v_2_0.AuxInt != 0 {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		if !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPWconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0]))
+	// cond: int32(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPWconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI || v_2_0.AuxInt != 0 {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		if !(int32(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPconst (LOCGHI {d} [z] (MOVDconst [0]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI {
+			break
+		}
+		z := v_2_0.AuxInt
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst || v_2_0_0.AuxInt != 0 || !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.LessOrGreater} x y (CMPconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d.(s390x.CCMask).Inverse()} x y cmp)
+	for {
+		if v.Aux != s390x.LessOrGreater {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI || v_2_0.AuxInt != 0 {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		if !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d.(s390x.CCMask).Inverse()
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
+	// match: (LOCGR {s390x.Equal} x y (CMPconst (LOCGHI {d} [0] (MOVDconst [z]) cmp) [0]))
+	// cond: int64(z) != 0
+	// result: (LOCGR {d} x y cmp)
+	for {
+		if v.Aux != s390x.Equal {
+			break
+		}
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XCMPconst || v_2.AuxInt != 0 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XLOCGHI || v_2_0.AuxInt != 0 {
+			break
+		}
+		d := v_2_0.Aux
+		cmp := v_2_0.Args[1]
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		z := v_2_0_0.AuxInt
+		if !(int64(z) != 0) {
+			break
+		}
+		v.reset(OpS390XLOCGR)
+		v.Aux = d
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(cmp)
+		return true
+	}
 	// match: (LOCGR {c} x y (InvertFlags cmp))
 	// result: (LOCGR {c.(s390x.CCMask).ReverseComparison()} x y cmp)
 	for {
@@ -10525,6 +12787,9 @@ func rewriteValueS390X_OpS390XLOCGR_0(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	return false
+}
+func rewriteValueS390X_OpS390XLOCGR_70(v *Value) bool {
 	// match: (LOCGR {c} _ x (FlagLT))
 	// cond: c.(s390x.CCMask) & s390x.Less != 0
 	// result: x
