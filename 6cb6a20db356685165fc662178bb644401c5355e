@@ -69,6 +69,30 @@
       "revId": "6cb6a20db356685165fc662178bb644401c5355e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ed6f495_28f5c956",
+        "filename": "src/runtime/os3_solaris.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-09T03:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6bec1ae_50db98f1",
+      "range": {
+        "startLine": 540,
+        "startChar": 0,
+        "endLine": 552,
+        "endChar": 2
+      },
+      "revId": "6cb6a20db356685165fc662178bb644401c5355e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
