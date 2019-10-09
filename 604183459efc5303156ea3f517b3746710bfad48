@@ -188,6 +188,30 @@
       "revId": "604183459efc5303156ea3f517b3746710bfad48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68837d77_92a2a0f1",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-09T22:07:16Z",
+      "side": 1,
+      "message": "OK, removed the comment.",
+      "parentUuid": "7b2f5046_fc729f35",
+      "range": {
+        "startLine": 332,
+        "startChar": 34,
+        "endLine": 332,
+        "endChar": 69
+      },
+      "revId": "604183459efc5303156ea3f517b3746710bfad48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
