@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f595f6a_fad71bbb",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-09T21:06:41Z",
+      "side": 1,
+      "message": "I noticed this was used several in further CLs; maybe worth putting into a named constant? (even maxInt64 would be fine, but maybe something like timerNoExpire or something?)",
+      "range": {
+        "startLine": 254,
+        "startChar": 11,
+        "endLine": 254,
+        "endChar": 20
+      },
+      "revId": "92a6859b2dbdc14488b069aade99337d15202447",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46a156e2_3cabdeb2",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-09T21:06:41Z",
+      "side": 1,
+      "message": "nit: \"cleantimers: not yet implemented\", just for consistency\u0027s sake.",
+      "range": {
+        "startLine": 516,
+        "startChar": 19,
+        "endLine": 516,
+        "endChar": 20
+      },
+      "revId": "92a6859b2dbdc14488b069aade99337d15202447",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
