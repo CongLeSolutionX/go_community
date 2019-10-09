@@ -22,7 +22,7 @@ import "cmd/internal/src"
 func branchelim(f *Func) {
 	// FIXME: add support for lowering CondSelects on more architectures
 	switch f.Config.arch {
-	case "arm64", "amd64", "wasm":
+	case "arm64", "amd64", "wasm", "s390x":
 		// implemented
 	default:
 		return
@@ -220,7 +220,7 @@ func elimIf(f *Func, loadAddr *sparseSet, dom *Block) bool {
 	// that has the same line number as the Pos for b itself, and
 	// puts a statement mark on it, and returns whether it succeeded
 	// in this operation.
-	setBlockPos := func (b *Block) bool {
+	setBlockPos := func(b *Block) bool {
 		pos := b.Pos
 		for _, v := range b.Values {
 			if pos.SameFileAndLine(v.Pos) && !isPoorStatementOp(v.Op) {
@@ -388,7 +388,7 @@ func shouldElimIfElse(no, yes, post *Block, arch string) bool {
 	switch arch {
 	default:
 		return true
-	case "amd64":
+	case "amd64", "s390x":
 		const maxcost = 2
 		phi := 0
 		other := 0
