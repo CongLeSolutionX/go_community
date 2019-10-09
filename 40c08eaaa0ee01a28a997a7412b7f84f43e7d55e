@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1c0b5b8_828fee75",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-10-09T18:08:04Z",
+      "side": 1,
+      "message": "Did we perhaps want to check to see if the file was currently set to 1?\nI don\u0027t know if that is common case or not, but it seems like it could be.",
+      "range": {
+        "startLine": 105,
+        "startChar": 1,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "40c08eaaa0ee01a28a997a7412b7f84f43e7d55e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
