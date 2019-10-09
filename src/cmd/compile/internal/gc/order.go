@@ -391,9 +391,10 @@ func (o *Order) call(n *Node) {
 	n.Right = o.expr(n.Right, nil) // ODDDARG temp
 	o.exprList(n.List)
 
-	if n.Op != OCALLFUNC {
+	if n.Op != OCALLFUNC && n.Op != OCALLMETH && n.Op != OCALLINTER {
 		return
 	}
+	direct := n.Op == OCALLMETH || n.Op == OCALLFUNC && n.Left.Op == ONAME && n.Left.Class() == PFUNC
 	keepAlive := func(i int) {
 		// If the argument is really a pointer being converted to uintptr,
 		// arrange for the pointer to be kept alive until the call returns,
@@ -405,6 +406,9 @@ func (o *Order) call(n *Node) {
 		}
 		x := *xp
 		if x.Type.IsUnsafePtr() {
+			if !direct {
+				Warnl(n.Pos, "indirect call with unsafe conversion: %v", x)
+			}
 			x = o.copyExpr(x, x.Type, false)
 			x.Name.SetKeepalive(true)
 			*xp = x
@@ -414,13 +418,13 @@ func (o *Order) call(n *Node) {
 	for i, t := range n.Left.Type.Params().FieldSlice() {
 		// Check for "unsafe-uintptr" tag provided by escape analysis.
 		if t.IsDDD() && !n.IsDDD() {
-			if t.Note == uintptrEscapesTag {
+			if !direct && t.Type.Etype == TUINTPTR || t.Note == uintptrEscapesTag {
 				for ; i < n.List.Len(); i++ {
 					keepAlive(i)
 				}
 			}
 		} else {
-			if t.Note == unsafeUintptrTag || t.Note == uintptrEscapesTag {
+			if !direct && t.Type.Etype == TUINTPTR || t.Note == unsafeUintptrTag || t.Note == uintptrEscapesTag {
 				keepAlive(i)
 			}
 		}
