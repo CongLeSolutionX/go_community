@@ -22,7 +22,7 @@ import "cmd/internal/src"
 func branchelim(f *Func) {
 	// FIXME: add support for lowering CondSelects on more architectures
 	switch f.Config.arch {
-	case "arm64", "amd64", "wasm":
+	case "arm64", "amd64", "wasm", "s390x":
 		// implemented
 	default:
 		return
@@ -388,7 +388,7 @@ func shouldElimIfElse(no, yes, post *Block, arch string) bool {
 	switch arch {
 	default:
 		return true
-	case "amd64":
+	case "amd64", "s390x":
 		const maxcost = 2
 		phi := 0
 		other := 0
