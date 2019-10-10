@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe74d2d6_b766135f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-10-10T07:11:10Z",
+      "side": 1,
+      "message": "\"these\" here is a bit ambiguous. Perhaps say \"problematic\", or list all five characters.",
+      "revId": "efc69edda0fba91a868540c48f8ab8b67b0719cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
