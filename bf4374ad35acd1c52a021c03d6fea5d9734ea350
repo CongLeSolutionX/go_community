@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a4a02cc_100ed553",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-10T14:30:45Z",
+      "side": 1,
+      "message": "Regarding abstract function syms:\n\n- if we\u0027re compiling package P containing inlinable function F, the compiler will generate DWARF abstract function sym for F at the point where it compiles F.\n\n- if we\u0027re compiling package P with function F, and F calls inlinable function G imported from package Q, the compiler has to generate an DWARF abstract function sym for G, but it won\u0027t be associated with any specific function in P (as far as I know), so it wouldn\u0027t be picked up via this mechanism.\n\nSo I guess the question is what happens with this second category of abstract function sym? Does it just get treated the way regular non-AUX symbols are treated?",
+      "revId": "bf4374ad35acd1c52a021c03d6fea5d9734ea350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87b949a2_22f43951",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-10T14:30:45Z",
+      "side": 1,
+      "message": "Thanks for making a note of that, will come in handy later on.",
+      "revId": "bf4374ad35acd1c52a021c03d6fea5d9734ea350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
