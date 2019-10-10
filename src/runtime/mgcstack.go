@@ -175,6 +175,10 @@ type stackScanState struct {
 	// stack limits
 	stack stack
 
+	// conservative indicates that the next frame must be scanned conservatively.
+	// This applies only to the innermost frame at an async safe-point.
+	conservative bool
+
 	// buf contains the set of possible pointers to stack objects.
 	// Organized as a LIFO linked list of buffers.
 	// All buffers except possibly the head buffer are full.

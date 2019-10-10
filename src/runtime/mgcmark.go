@@ -217,15 +217,9 @@ func markroot(gcw *gcWork, i uint32) {
 			// we scan the stacks we can and ask running
 			// goroutines to scan themselves; and the
 			// second blocks.
-		retry:
 			stopped := suspendG(gp)
 			if stopped.dead {
 				return
-			}
-			if gp.asyncSafePoint {
-				// We don't support this yet.
-				resumeG(stopped)
-				goto retry
 			}
 			if gp.gcscandone {
 				throw("g already scanned")
@@ -835,6 +829,42 @@ func scanframeworker(frame *stkframe, state *stackScanState, gcw *gcWork) {
 		print("scanframe ", funcname(frame.fn), "\n")
 	}
 
+	isAsyncPreempt := frame.fn.funcID == funcID_asyncPreempt
+	if state.conservative || isAsyncPreempt {
+		// Conservatively scan the frame. Unlike the precise
+		// case, this includes the outgoing argument space
+		// since we may have stopped while this function was
+		// setting up a call.
+		if frame.varp != 0 {
+			size := frame.varp - frame.sp
+			if size > 0 {
+				scanConservative(frame.sp, size, state, gcw)
+			}
+		}
+
+		// Scan arguments to this frame.
+		if frame.arglen != 0 {
+			// We could get the entry argument map to
+			// narrow this down further, but would still
+			// need to scan conservatively.
+			scanConservative(frame.argp, frame.arglen, state, gcw)
+		}
+
+		if isAsyncPreempt {
+			// This function's frame contained the
+			// registers for the asynchronously stopped
+			// parent frame. Scan the parent
+			// conservatively.
+			state.conservative = true
+		} else {
+			// We only wanted to scan those two frames
+			// conservatively. Clear the flag for future
+			// frames.
+			state.conservative = false
+		}
+		return
+	}
+
 	locals, args, objs := getStackMap(frame, &state.cache, false)
 
 	// Scan local variables if stack frame has been allocated.
@@ -1215,6 +1245,39 @@ func scanobject(b uintptr, gcw *gcWork) {
 	}
 	gcw.bytesMarked += uint64(n)
 	gcw.scanWork += int64(i)
+}
+
+// scanConservative scans block [b, b+n) conservatively, treating any
+// pointer-like value in the block as a pointer. If state != nil, it's
+// assumed that [b, b+n) is a block in the stack and may contain
+// pointers to stack objects.
+func scanConservative(b, n uintptr, state *stackScanState, gcw *gcWork) {
+	for i := uintptr(0); i < n; i += sys.PtrSize {
+		val := *(*uintptr)(unsafe.Pointer(b + i))
+
+		// Check if val points into the stack.
+		if state != nil && state.stack.lo <= val && val < state.stack.hi {
+			// val may point to a stack object.
+			state.putPtr(val)
+			continue
+		}
+
+		// Check if val points to a heap span.
+		span := spanOfHeap(val)
+		if span == nil {
+			continue
+		}
+
+		// Check if val points to an allocated object.
+		idx := span.objIndex(val)
+		if idx >= span.freeindex && !span.allocBitsForIndex(idx).isMarked() {
+			continue
+		}
+
+		// val points to an allocated object. Mark it.
+		obj := span.base() + idx*span.elemsize
+		greyobject(obj, b, i, span, gcw, idx)
+	}
 }
 
 // Shade the object if it isn't already.
