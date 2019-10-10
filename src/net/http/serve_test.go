@@ -29,7 +29,9 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"reflect"
+	"regexp"
 	"runtime"
 	"runtime/debug"
 	"sort"
@@ -6261,6 +6263,109 @@ func testContentEncodingNoSniffing(t *testing.T, h2 bool) {
 
 			if g, w := res.Header.Get("Content-Type"), tt.wantContentType; g != w {
 				t.Errorf("Content-Type mismatch\n\tgot:  %q\n\twant: %q", g, w)
+			}
+		})
+	}
+}
+
+func TestTimeoutHandlerSuperfluousLogs_h1(t *testing.T) {
+	testTimeoutHandlerSuperfluousLogs(t, h1Mode)
+}
+func TestTimeoutHandlerSuperfluousLogs_h2(t *testing.T) {
+	testTimeoutHandlerSuperfluousLogs(t, h2Mode)
+}
+
+// Issue 30803: ensure that TimeoutHandler logs spurious
+// WriteHeader calls, for consistency with other Handlers.
+func testTimeoutHandlerSuperfluousLogs(t *testing.T, h2 bool) {
+	setParallel(t)
+	defer afterTest(t)
+
+	pc, curFile, _, _ := runtime.Caller(0)
+	curFileBaseName := filepath.Base(curFile)
+	testFuncName := runtime.FuncForPC(pc).Name()
+
+	timeoutMsg := "timed out here!"
+	maxTimeout := 200 * time.Millisecond
+
+	httpVersion := "HTTP/1.1"
+	if h2 {
+		httpVersion = "HTTP/2.0"
+	}
+
+	tests := []struct {
+		name      string
+		sleepTime time.Duration
+		wantResp  string
+	}{
+		{
+			name:      "return before timeout",
+			sleepTime: 0,
+			wantResp:  httpVersion + " 404 Not Found\r\nContent-Length: 0\r\n\r\n",
+		},
+		{
+			name:      "return after timeout",
+			sleepTime: maxTimeout * 2,
+			wantResp: fmt.Sprintf("%s 503 Service Unavailable\r\nContent-Length: %d\r\n\r\n%s",
+				httpVersion, len(timeoutMsg), timeoutMsg),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var lastSpuriousLine int32
+
+			sh := HandlerFunc(func(w ResponseWriter, r *Request) {
+				w.WriteHeader(404)
+				w.WriteHeader(404)
+				w.WriteHeader(404)
+				w.WriteHeader(404)
+				_, _, line, _ := runtime.Caller(0)
+				atomic.StoreInt32(&lastSpuriousLine, int32(line))
+
+				<-time.After(tt.sleepTime)
+			})
+
+			logBuf := new(bytes.Buffer)
+			srvLog := log.New(logBuf, "", 0)
+			th := TimeoutHandler(sh, maxTimeout, timeoutMsg)
+			cst := newClientServerTest(t, h2, th, optWithServerLog(srvLog))
+			defer cst.close()
+
+			res, err := cst.c.Get(cst.ts.URL)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
+
+			// Deliberately removing the "Date" header since it is highly ephemeral
+			// and will cause failure if we try to match it exactly.
+			res.Header.Del("Date")
+			res.Header.Del("Content-Type")
+
+			// Match the response.
+			blob, _ := httputil.DumpResponse(res, true)
+			if g, w := string(blob), tt.wantResp; g != w {
+				t.Errorf("Response mismatch\nGot\n%q\n\nWant\n%q", g, w)
+			}
+
+			// Given 4 w.WriteHeader calls, only the first one is valid
+			// and the rest should be reported as the 3 spurious logs.
+			logEntries := strings.Split(strings.TrimSpace(logBuf.String()), "\n")
+			if g, w := len(logEntries), 3; g != w {
+				blob, _ := json.MarshalIndent(logEntries, "", "  ")
+				t.Fatalf("Server logs count mismatch\ngot %d, want %d\n\nGot\n%s\n", g, w, blob)
+			}
+
+			// Now ensure that the regexes match exactly.
+			//      "http: superfluous response.WriteHeader call from <fn>.func\d.\d (<curFile>:lastSpuriousLine-[1, 3]"
+			for i, logEntry := range logEntries {
+				wantLine := atomic.LoadInt32(&lastSpuriousLine) - 3 + int32(i)
+				pat := fmt.Sprintf("^http: superfluous response.WriteHeader call from %s.func\\d+.\\d+ \\(%s:%d\\)$",
+					testFuncName, curFileBaseName, wantLine)
+				re := regexp.MustCompile(pat)
+				if !re.MatchString(logEntry) {
+					t.Errorf("Log entry mismatch\n\t%s\ndoes not match\n\t%s", logEntry, pat)
+				}
 			}
 		})
 	}
