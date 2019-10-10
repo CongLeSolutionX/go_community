@@ -6266,6 +6266,65 @@ func testContentEncodingNoSniffing(t *testing.T, h2 bool) {
 	}
 }
 
+// Issue 32314: don't cancel a request's context
+// if the request's connection was hijacked.
+func TestRequestContextCancelOnHijack(t *testing.T) {
+	cst := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		hj, ok := w.(Hijacker)
+		defer func() {
+			ctx := r.Context()
+			select {
+			case <-ctx.Done():
+				t.Fatalf("client.Context Done with error: %v", ctx.Err())
+			default:
+			}
+		}()
+
+		if !ok {
+			Error(w, "expected a Hijacker implementation", StatusNotImplemented)
+			return
+		}
+
+		conn, bufrw, err := hj.Hijack()
+		if err != nil {
+			Error(w, err.Error(), StatusInternalServerError)
+			return
+		}
+		// Close the connection and then we'll try to use it below.
+		conn.Close()
+
+		io.Copy(ioutil.Discard, bufrw)
+		bufrw.Write([]byte("HTTP/1.1 200 OK\r\nConnection: keep-alive\r\nContent-Encoding: chunked\r\nContent-Length: 2\r\n\r\nok"))
+		bufrw.Flush()
+	}))
+	defer cst.Close()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	req, _ := NewRequestWithContext(ctx, "POST", cst.URL, strings.NewReader("aaaaaaa*****aaaaaaaaaaaa"))
+
+	errChan := make(chan error, 1)
+	go func() {
+		res, err := cst.Client().Do(req)
+		if res != nil {
+			ioutil.ReadAll(res.Body)
+			res.Body.Close()
+		}
+		errChan <- err
+	}()
+
+	select {
+	case err := <-errChan:
+		if err == nil {
+			t.Fatal("Expected back an error")
+		}
+	case <-time.After(5 * time.Second):
+		cancel()
+		t.Fatalf("The response didn't return in time")
+	}
+}
+
 // fetchWireResponse is a helper for dialing to host,
 // sending http1ReqBody as the payload and retrieving
 // the response as it was sent on the wire.
