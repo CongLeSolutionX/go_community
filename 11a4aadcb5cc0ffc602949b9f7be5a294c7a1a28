@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b4543e61_349e006a",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-10T04:29:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d084f84_3145dd3e",
+      "range": {
+        "startLine": 139,
+        "startChar": 55,
+        "endLine": 139,
+        "endChar": 57
+      },
+      "revId": "11a4aadcb5cc0ffc602949b9f7be5a294c7a1a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f967375a_085ddb43",
         "filename": "src/runtime/time.go",
         "patchSetId": 21
@@ -45,6 +69,30 @@
       "revId": "11a4aadcb5cc0ffc602949b9f7be5a294c7a1a28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0a71557_f34b4309",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-10T04:29:25Z",
+      "side": 1,
+      "message": "Thanks, you\u0027re quite right.  I was confused.  I think I\u0027ve cleaned it all up now.",
+      "parentUuid": "f967375a_085ddb43",
+      "range": {
+        "startLine": 478,
+        "startChar": 14,
+        "endLine": 478,
+        "endChar": 31
+      },
+      "revId": "11a4aadcb5cc0ffc602949b9f7be5a294c7a1a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a334e8a_77ea47d7",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-10T04:29:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7456a4f0_8c672589",
+      "range": {
+        "startLine": 509,
+        "startChar": 2,
+        "endLine": 517,
+        "endChar": 21
+      },
+      "revId": "11a4aadcb5cc0ffc602949b9f7be5a294c7a1a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0acd23a_c421d971",
         "filename": "src/runtime/time.go",
         "patchSetId": 21
@@ -91,6 +163,30 @@
       "revId": "11a4aadcb5cc0ffc602949b9f7be5a294c7a1a28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "125d5acf_57b56a3e",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-10T04:29:25Z",
+      "side": 1,
+      "message": "This has been rewritten.",
+      "parentUuid": "a0acd23a_c421d971",
+      "range": {
+        "startLine": 528,
+        "startChar": 5,
+        "endLine": 528,
+        "endChar": 6
+      },
+      "revId": "11a4aadcb5cc0ffc602949b9f7be5a294c7a1a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
