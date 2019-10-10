@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be9e07d7_c6a6b904",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6283,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-10T19:33:51Z",
+      "side": 1,
+      "message": "put the \", ok\" and \"if !ok\" lines touching, without this defer breaking up the Hijacker test.",
+      "range": {
+        "startLine": 6273,
+        "startChar": 2,
+        "endLine": 6283,
+        "endChar": 10
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8d1cfaf_7d094582",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6303,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-10T19:33:51Z",
+      "side": 1,
+      "message": "why is this needed? this context is unrelated to the server-side context this test is testing. If anything, set this to 5 seconds and remove the goroutine+channel+select below.",
+      "range": {
+        "startLine": 6302,
+        "startChar": 1,
+        "endLine": 6303,
+        "endChar": 15
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51cb94a9_15c39876",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6305,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-10T19:33:51Z",
+      "side": 1,
+      "message": "\"some body\"",
+      "range": {
+        "startLine": 6305,
+        "startChar": 74,
+        "endLine": 6305,
+        "endChar": 98
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ad187ed_1eda0f12",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6307,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-10T19:33:51Z",
+      "side": 1,
+      "message": "\"errc\"",
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb44e9f5_4653e15f",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6313,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-10T19:33:51Z",
+      "side": 1,
+      "message": "I don\u0027t we care about cleanup in the unexpected case.\n\nI\u0027d just do:\n\n    _, err :\u003d ...\n    errChan \u003c- err",
+      "range": {
+        "startLine": 6310,
+        "startChar": 2,
+        "endLine": 6313,
+        "endChar": 3
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
