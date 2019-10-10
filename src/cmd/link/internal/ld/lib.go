@@ -405,8 +405,6 @@ func (ctxt *Link) loadlib() {
 	}
 
 	if *flagNewobj {
-		// Add references of externally defined symbols.
-		objfile.LoadRefs(ctxt.loader, ctxt.Arch, ctxt.Syms)
 		iscgo = ctxt.loader.Lookup("x_cgo_init", 0) != 0
 		ctxt.canUsePlugins = ctxt.loader.Lookup("plugin.Open", sym.SymVerABIInternal) != 0
 	} else {
@@ -416,20 +414,6 @@ func (ctxt *Link) loadlib() {
 
 	// We now have enough information to determine the link mode.
 	determineLinkMode(ctxt)
-
-	// Now that we know the link mode, set the dynexp list.
-	if !*flagNewobj { // set this later in newobj mode
-		setupdynexp(ctxt)
-	}
-
-	for _, lib := range ctxt.Library {
-		if lib.Shlib != "" {
-			if ctxt.Debugvlog > 1 {
-				ctxt.Logf("%5.2f autolib: %s (from %s)\n", Cputime(), lib.Shlib, lib.Objref)
-			}
-			ldshlibsyms(ctxt, lib.Shlib)
-		}
-	}
 
 	if ctxt.LinkMode == LinkExternal && !iscgo && ctxt.LibraryByPkg["runtime/cgo"] == nil && !(objabi.GOOS == "darwin" && (ctxt.Arch.Family == sys.AMD64 || ctxt.Arch.Family == sys.I386)) {
 		// This indicates a user requested -linkmode=external.
@@ -445,6 +429,25 @@ func (ctxt *Link) loadlib() {
 				}
 				loadobjfile(ctxt, lib)
 			}
+		}
+	}
+
+	if *flagNewobj {
+		// Add references of externally defined symbols.
+		objfile.LoadRefs(ctxt.loader, ctxt.Arch, ctxt.Syms)
+	}
+
+	// Now that we know the link mode, set the dynexp list.
+	if !*flagNewobj { // set this later in newobj mode
+		setupdynexp(ctxt)
+	}
+
+	for _, lib := range ctxt.Library {
+		if lib.Shlib != "" {
+			if ctxt.Debugvlog > 1 {
+				ctxt.Logf("%5.2f autolib: %s (from %s)\n", Cputime(), lib.Shlib, lib.Objref)
+			}
+			ldshlibsyms(ctxt, lib.Shlib)
 		}
 	}
 
