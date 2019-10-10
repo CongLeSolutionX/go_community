@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4afff29c_e3d8f168",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-10-10T12:07:18Z",
+      "side": 1,
+      "message": "encoding/json: support TextUnmarshaler for map keys with string underlying types\n\na bit long, but if you make it any shorter the title isn\u0027t clear.",
+      "revId": "437f4e299c7a5aa44175f55c17f36352d13f9acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f214cd4b_1bbec240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-10-10T12:07:18Z",
+      "side": 1,
+      "message": "unmarshaling",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "437f4e299c7a5aa44175f55c17f36352d13f9acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10dba782_31fa93ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-10-10T12:07:18Z",
+      "side": 1,
+      "message": "will not\n\n(the \"cannot\" isn\u0027t very helpful, because it\u0027s by design)",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "437f4e299c7a5aa44175f55c17f36352d13f9acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "058e4660_bef14a9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-10-10T12:07:18Z",
+      "side": 1,
+      "message": "this sentence is confusing to me; try rewriting it.",
+      "revId": "437f4e299c7a5aa44175f55c17f36352d13f9acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a11149fe_717a83c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-10-10T12:07:18Z",
+      "side": 1,
+      "message": "To fix the bug, check for encoding.TextUnmarshaler first.",
+      "revId": "437f4e299c7a5aa44175f55c17f36352d13f9acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
