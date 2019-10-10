@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "848080f5_5160395c",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6277,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-10T20:40:49Z",
+      "side": 1,
+      "message": "Gotcha, thanks! Done.",
+      "parentUuid": "885119f1_0a8b8d1b",
+      "range": {
+        "startLine": 6275,
+        "startChar": 3,
+        "endLine": 6277,
+        "endChar": 21
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be9e07d7_c6a6b904",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "386b67952ef01fb388189a0527a06faf56595b27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d714d608_a076b25b",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6283,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-10T20:40:49Z",
+      "side": 1,
+      "message": "In deed, thanks! Done.",
+      "parentUuid": "be9e07d7_c6a6b904",
+      "range": {
+        "startLine": 6273,
+        "startChar": 2,
+        "endLine": 6283,
+        "endChar": 10
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "620fcdfe_01a9b202",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6293,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-10T20:40:49Z",
+      "side": 1,
+      "message": "\u003eWhere is it used below? Via bufr?\n\nYes.\n\n\u003eWhat line below actually caused the previous context cancellation? the io.Copy? Add a comment saying:\n\nYes. Sure, thank you. Done!",
+      "parentUuid": "a6585821_87d2a268",
+      "range": {
+        "startLine": 6293,
+        "startChar": 35,
+        "endLine": 6293,
+        "endChar": 61
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8d1cfaf_7d094582",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2019-10-10T19:33:51Z",
       "side": 1,
       "message": "why is this needed? this context is unrelated to the server-side context this test is testing. If anything, set this to 5 seconds and remove the goroutine+channel+select below.",
+      "range": {
+        "startLine": 6302,
+        "startChar": 1,
+        "endLine": 6303,
+        "endChar": 15
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b9d2c8_49a81580",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6303,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-10T20:40:49Z",
+      "side": 1,
+      "message": "So that\u0027s the thing, if we get a timeout from the:\n   ctx, cancel :\u003d context.WithTimeout(...)\nthat\u0027ll mask any problems that could be present like maybe\nthe server sending back a nil error, or if it waits for a long time\nwithout connecting. If we remove the conn.Close() in the server, you\u0027ll\nsee the test take forever, and if combined with the context based timeout\nwe\u0027ll never catch that problem.\n\nThat goroutine+channel+select is deliberate to exorcise that error.",
+      "parentUuid": "f8d1cfaf_7d094582",
       "range": {
         "startLine": 6302,
         "startChar": 1,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "ebe9928e_fd800007",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6305,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-10T20:40:49Z",
+      "side": 1,
+      "message": "Ack, done.",
+      "parentUuid": "51cb94a9_15c39876",
+      "range": {
+        "startLine": 6305,
+        "startChar": 74,
+        "endLine": 6305,
+        "endChar": 98
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ad187ed_1eda0f12",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 2
@@ -131,6 +251,24 @@
       "revId": "386b67952ef01fb388189a0527a06faf56595b27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55df8f91_1dc93484",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6307,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-10T20:40:49Z",
+      "side": 1,
+      "message": "Roger that, thanks!",
+      "parentUuid": "3ad187ed_1eda0f12",
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -154,6 +292,30 @@
       "revId": "386b67952ef01fb388189a0527a06faf56595b27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c408ea04_3bdd0492",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6313,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-10T20:40:49Z",
+      "side": 1,
+      "message": "Cool, thanks!",
+      "parentUuid": "bb44e9f5_4653e15f",
+      "range": {
+        "startLine": 6310,
+        "startChar": 2,
+        "endLine": 6313,
+        "endChar": 3
+      },
+      "revId": "386b67952ef01fb388189a0527a06faf56595b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
