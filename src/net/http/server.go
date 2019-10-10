@@ -742,6 +742,13 @@ func (cr *connReader) hitReadLimit() bool        { return cr.remain <= 0 }
 //
 // It may be called from multiple goroutines.
 func (cr *connReader) handleReadError(_ error) {
+	if cr.conn.hijacked() {
+		// If the connection was hijacked, the user is now in full
+		// control, so we shouldn't be canceling the associated
+		// request's context on a read error. See Issue 32314.
+		return
+	}
+
 	cr.conn.cancelCtx()
 	cr.closeNotify()
 }

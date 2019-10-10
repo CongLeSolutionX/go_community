@@ -6266,6 +6266,64 @@ func testContentEncodingNoSniffing(t *testing.T, h2 bool) {
 	}
 }
 
+// Issue 32314: don't cancel a request's context
+// if the request's connection was hijacked.
+func TestRequestContextCancelOnHijack(t *testing.T) {
+	cst := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		hj, ok := w.(Hijacker)
+		if !ok {
+			Error(w, "expected a Hijacker implementation", StatusNotImplemented)
+			return
+		}
+		defer func() {
+			ctx := r.Context()
+			if err := ctx.Err(); err != nil {
+				t.Fatalf("client.Context Done with error: %v", ctx.Err())
+			}
+		}()
+
+		conn, bufrw, err := hj.Hijack()
+		if err != nil {
+			Error(w, err.Error(), StatusInternalServerError)
+			return
+		}
+
+		// Close the connection and below we'll read
+		// from it to trigger an error.
+		conn.Close()
+
+		// This Read error used to close r.Context() after a Hijack.
+		io.Copy(ioutil.Discard, bufrw)
+	}))
+	defer cst.Close()
+
+	// Deliberately making a manually cancellable context and a goroutine plus a
+	// select to check for results, instead of using a timed context. This is so that
+	// we can correctly report distinguish if/when the server doesn't reply in a timely
+	// fashion or due to a regression, versus if the request just times out thereby
+	// returning an error.
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	req, _ := NewRequestWithContext(ctx, "POST", cst.URL, strings.NewReader("some body"))
+
+	errc := make(chan error, 1)
+	go func() {
+		_, err := cst.Client().Do(req)
+		errc <- err
+	}()
+
+	select {
+	case err := <-errc:
+		if err == nil {
+			t.Fatal("Expected back an error")
+		}
+	case <-time.After(5 * time.Second):
+		cancel()
+		t.Fatalf("The response was not received in a timely fashion.")
+	}
+}
+
 // fetchWireResponse is a helper for dialing to host,
 // sending http1ReqBody as the payload and retrieving
 // the response as it was sent on the wire.
