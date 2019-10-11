@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee9cf47b_b0c10db7",
+        "filename": "src/runtime/os3_solaris.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-11T17:52:54Z",
+      "side": 1,
+      "message": "Please write this as 1e9.",
+      "range": {
+        "startLine": 405,
+        "startChar": 18,
+        "endLine": 405,
+        "endChar": 28
+      },
+      "revId": "4d9f8b625dcc1997065b4a88a2150a85a97e7afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
