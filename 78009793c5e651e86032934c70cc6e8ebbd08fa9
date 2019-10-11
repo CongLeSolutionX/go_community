@@ -34,6 +34,24 @@
       "revId": "78009793c5e651e86032934c70cc6e8ebbd08fa9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2b1d2f5_8ee98edf",
+        "filename": "src/cmd/compile/internal/ssa/opGen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-10-11T16:28:23Z",
+      "side": 1,
+      "message": "Ah, I forgot this is generated code. SGTM",
+      "parentUuid": "b73684d4_a9ec6537",
+      "revId": "78009793c5e651e86032934c70cc6e8ebbd08fa9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
