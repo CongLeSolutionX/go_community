@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0295b316_8148cc4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2019-10-11T06:57:31Z",
+      "side": 1,
+      "message": "Please pass this through fmt(1).",
+      "revId": "22c03729175a87358cd672a613803b3cabf76670",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b39bc8a0_b2c81fed",
+        "filename": "src/runtime/os3_solaris.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2019-10-11T06:57:31Z",
+      "side": 1,
+      "message": "Please move this block just above nanotime1.",
+      "revId": "22c03729175a87358cd672a613803b3cabf76670",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
