@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "249bf377_7bb0dd6f",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-11T14:23:13Z",
+      "side": 1,
+      "message": "This assumes the Loader definition is in its own loader package, which hasn\u0027t happened yet. Probably ok if this is the plan. (Then, will the Sym and Relocs types will move as well?)",
+      "range": {
+        "startLine": 299,
+        "startChar": 40,
+        "endLine": 299,
+        "endChar": 53
+      },
+      "revId": "f176069d25ec1914f5361323b133a0d2b833992e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fdd0c7c_8e3a3d57",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-11T14:23:13Z",
+      "side": 1,
+      "message": "Probably move this type definition and its methods to the top next to Sym definition?",
+      "revId": "f176069d25ec1914f5361323b133a0d2b833992e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6b6a418_e94d48b2",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-11T14:23:13Z",
+      "side": 1,
+      "message": "Nit: I think there are also 0-sized dummy relocations.",
+      "range": {
+        "startLine": 313,
+        "startChar": 53,
+        "endLine": 313,
+        "endChar": 64
+      },
+      "revId": "f176069d25ec1914f5361323b133a0d2b833992e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
