@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9840a165_9a31c705",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-11T20:12:45Z",
+      "side": 1,
+      "message": "Removed abstract function symbols from aux symbols.",
+      "parentUuid": "113df639_7cf4be80",
+      "revId": "bf4374ad35acd1c52a021c03d6fea5d9734ea350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87b949a2_22f43951",
         "filename": "src/cmd/link/internal/ld/deadcode2.go",
         "patchSetId": 3
