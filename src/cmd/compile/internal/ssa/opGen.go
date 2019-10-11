@@ -256,7 +256,12 @@ var blockAuxIntType = [...]string{
 	BlockS390XCLGIJ: "UInt8",
 }
 
-func (k BlockKind) AuxIntType() string { return blockAuxIntType[k] }
+func (k BlockKind) AuxIntType() string {
+	if int(k) < len(blockAuxIntType) {
+		return blockAuxIntType[k]
+	}
+	return ""
+}
 
 const (
 	OpInvalid Op = iota
