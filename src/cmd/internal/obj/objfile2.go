@@ -12,6 +12,7 @@ import (
 	"cmd/internal/goobj2"
 	"cmd/internal/objabi"
 	"fmt"
+	"path/filepath"
 	"strings"
 )
 
@@ -194,11 +195,11 @@ func (w *writer) StringTable() {
 		}
 		pc := &s.Func.Pcln
 		for _, f := range pc.File {
-			w.AddString(f)
+			w.AddString(filepath.ToSlash(f))
 		}
 		for _, call := range pc.InlTree.nodes {
 			f, _ := linkgetlineFromPos(w.ctxt, call.Pos)
-			w.AddString(f)
+			w.AddString(filepath.ToSlash(f))
 		}
 	})
 	for _, f := range w.ctxt.PosTable.DebugLinesFileTable() {
@@ -236,8 +237,12 @@ func (w *writer) Sym(s *LSym) {
 	if s.TopFrame() {
 		flag |= goobj2.SymFlagTopFrame
 	}
+	name := s.Name
+	if strings.HasPrefix(name, "gofile..") {
+		name = filepath.ToSlash(name)
+	}
 	o := goobj2.Sym{
-		Name: s.Name,
+		Name: name,
 		ABI:  abi,
 		Type: uint8(s.Type),
 		Flag: flag,
