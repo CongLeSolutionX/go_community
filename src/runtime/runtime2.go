@@ -623,6 +623,10 @@ type p struct {
 
 	runSafePointFn uint32 // if 1, run sched.safePointFn at next safe point
 
+	// preempt is set to indicate that this P should be enter the
+	// scheduler ASAP (regardless of what G is running on it).
+	preempt bool
+
 	pad cpu.CacheLinePad
 }
 

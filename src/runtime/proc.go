@@ -2543,6 +2543,9 @@ func goschedImpl(gp *g) {
 	globrunqput(gp)
 	unlock(&sched.lock)
 
+	// Clear P preemption requests
+	getg().m.p.ptr().preempt = false
+
 	schedule()
 }
 
@@ -4440,6 +4443,13 @@ func preemptone(_p_ *p) bool {
 	// Setting gp->stackguard0 to StackPreempt folds
 	// preemption into the normal stack overflow check.
 	gp.stackguard0 = stackPreempt
+
+	// Request an async preemption of this P.
+	if debug.asyncpreemptoff == 0 {
+		_p_.preempt = true
+		preemptM(mp)
+	}
+
 	return true
 }
 
