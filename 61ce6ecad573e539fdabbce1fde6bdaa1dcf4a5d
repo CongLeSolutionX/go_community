@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03989b3d_f7730e41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-14T15:50:27Z",
+      "side": 1,
+      "message": "Instead",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "61ce6ecad573e539fdabbce1fde6bdaa1dcf4a5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c19fd442_b53cd18c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-14T15:50:27Z",
+      "side": 1,
+      "message": "have",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 17,
+        "endChar": 12
+      },
+      "revId": "61ce6ecad573e539fdabbce1fde6bdaa1dcf4a5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
