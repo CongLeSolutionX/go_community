@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8ffe29b_0db3934e",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-14T20:38:10Z",
+      "side": 1,
+      "message": "can you add a brief comment about why the siftup is required here? at first glance, it seems like since last \u003e i only a siftdown would be necessary, but actually i could be in the same level as last in the heap.\n\njust for my understanding: is it also true then that it will never be the case that both siftupTimer and siftdownTimer need to be mutated? only one node is ever out of place, and it either needs to be sifted up, or down, correct?",
+      "range": {
+        "startLine": 438,
+        "startChar": 2,
+        "endLine": 440,
+        "endChar": 3
+      },
+      "revId": "e70c27643ef7676b7d1c14ca4f2adfea112116f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee524e3_a35e7889",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-14T20:38:10Z",
+      "side": 1,
+      "message": "any reason why dodeltimer0 reports a failure whereas dodeltimer just fails? just glancing at further changes I can\u0027t really tell. in some places it seems like the timer API would look more uniform (i.e. align better with doaddtimer) if dodeltimer returned a bool.",
+      "range": {
+        "startLine": 451,
+        "startChar": 24,
+        "endLine": 451,
+        "endChar": 28
+      },
+      "revId": "e70c27643ef7676b7d1c14ca4f2adfea112116f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
