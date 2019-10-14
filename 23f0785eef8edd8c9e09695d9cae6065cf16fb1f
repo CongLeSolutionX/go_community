@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86d5ec3b_5bb13968",
+        "filename": "src/encoding/asn1/asn1_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-14T09:42:12Z",
+      "side": 1,
+      "message": "Let\u0027s unexport the struct names and name the fields to A,B and C.",
+      "revId": "23f0785eef8edd8c9e09695d9cae6065cf16fb1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2895358a_76480318",
+        "filename": "src/encoding/asn1/asn1_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-14T09:42:12Z",
+      "side": 1,
+      "message": "s/s/v",
+      "range": {
+        "startLine": 1147,
+        "startChar": 31,
+        "endLine": 1147,
+        "endChar": 32
+      },
+      "revId": "23f0785eef8edd8c9e09695d9cae6065cf16fb1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
