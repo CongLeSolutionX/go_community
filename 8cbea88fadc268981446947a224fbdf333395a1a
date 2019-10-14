@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b773332a_3981c199",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:06:43Z",
+      "side": 1,
+      "message": "I\u0027m a little confused about how \"tier\" and level (L0/L1/... in the other two files) map to each other. Is L0 the lowest tier or the highest tier?",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "8cbea88fadc268981446947a224fbdf333395a1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d763f4b_1777313a",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:06:43Z",
+      "side": 1,
+      "message": "Probably add a comment explaining why wasm is chosen to be 32-bit here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 30,
+        "endLine": 5,
+        "endChar": 34
+      },
+      "revId": "8cbea88fadc268981446947a224fbdf333395a1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4f2601c_42e4243d",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:06:43Z",
+      "side": 1,
+      "message": "This seems actually not 32/64-bit dependent. Maybe move to generic code?",
+      "revId": "8cbea88fadc268981446947a224fbdf333395a1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
