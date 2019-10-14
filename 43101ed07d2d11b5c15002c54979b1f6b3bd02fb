@@ -33,6 +33,24 @@
       "revId": "43101ed07d2d11b5c15002c54979b1f6b3bd02fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c063232_89e33cd4",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3960,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-14T21:52:41Z",
+      "side": 1,
+      "message": "In nodl we initialize Xoffset to BADWIDTH, and then we only overwrite it for Ops that have a meaningful Xoffset value. OCONVNOP is not one of those Ops, so it\u0027ll still be BADWIDTH here.\n\nThere\u0027s nothing special about BADWIDTH in particular. It\u0027s just a very negative value (-1e9), so even when you add common fixed offsets (e.g., from ODOT or ODOTPTR), you\u0027ll still get a negative value, which should cause an ICE.\n\n\nMostly I was just trying to avoid adding a new Node flag for just working around this one off issue.\n\nThinking about it some more now though, maybe using n.Opt() would be a bit cleaner? E.g.:\n\n    if n.Opt() \u003d\u003d \u0026walkingPtrArithmetic {\n        return\n    }\n    n.SetOpt(\u0026walkingPtrArithmetic)\n    defer n.SetOpt(nil)",
+      "parentUuid": "2754e264_d587bfbb",
+      "revId": "43101ed07d2d11b5c15002c54979b1f6b3bd02fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
