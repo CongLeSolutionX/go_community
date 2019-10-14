@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39923388_9076fcc1",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3914,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-14T21:34:06Z",
+      "side": 1,
+      "message": "if n.Type.Elem().Alignment() \u003d\u003d 1 {\n    return n\n}\n... and outdent rest.",
+      "revId": "43101ed07d2d11b5c15002c54979b1f6b3bd02fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2754e264_d587bfbb",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3960,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-14T21:34:06Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me how these -- and ++ correspond to BADWIDTH above.\nis n.Xoffset set to BADWIDTH to start? Why?\nIs anything going to break with n.Xoffset \u003d\u003d BADWIDTH-1?",
+      "revId": "43101ed07d2d11b5c15002c54979b1f6b3bd02fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
