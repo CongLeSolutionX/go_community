@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df1a06ba_44c59a11",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "Do we want runtime to import a non-internal package? Maybe this is ok. As there isn\u0027t any precedents I thought I\u0027d better ask.\n\nSeems the bits package is used only for Ctz and Clz. The runtime/internal/sys package already provides Ctz. Maybe add Clz there and use that?",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ba0483d_0342156a",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "The compiler should have done this.",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9960c437_7a84a162",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "Document what hint does. Maybe also mention (at somewhere) what order the bits are allocated.",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff86b111_2cc7aba4",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "%64 seems not necessary. z can only be between 0 and 63. (z\u003d\u003d64 iff ^x\u003d\u003d0 which is excluded from the conditional above)",
+      "range": {
+        "startLine": 86,
+        "startChar": 20,
+        "endLine": 86,
+        "endChar": 24
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3061ae63_4a3738fe",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "Comment that it returns -1 when it cannot satisfy the allocation.",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b671537_09ac6aa5",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "Why only update hint the first time?",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d8f5dd1_e6da3115",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "s doesn\u0027t appear anywhere in the code.",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 17
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c70d9e8_b9ef341d",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "Next?",
+      "range": {
+        "startLine": 137,
+        "startChar": 5,
+        "endLine": 137,
+        "endChar": 10
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d77ee479_6d0f5e23",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-14T20:11:43Z",
+      "side": 1,
+      "message": "Probably better be Errorf. Also below in TestClearConsecBits64 and TestFindConsecN64.",
+      "range": {
+        "startLine": 287,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 11
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
