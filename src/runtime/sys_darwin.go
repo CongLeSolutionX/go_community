@@ -162,6 +162,14 @@ func pthread_self() (t pthread) {
 }
 func pthread_self_trampoline()
 
+//go:nosplit
+//go:cgo_unsafe_args
+func pthread_kill(t pthread, sig uint32) {
+	libcCall(unsafe.Pointer(funcPC(pthread_kill_trampoline)), unsafe.Pointer(&t))
+	return
+}
+func pthread_kill_trampoline()
+
 func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (unsafe.Pointer, int) {
 	args := struct {
 		addr            unsafe.Pointer
