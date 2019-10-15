@@ -21,8 +21,9 @@ func (r *objReader) readNew() {
 	}
 
 	// Imports
+	r.p.Imports = rr.Autolib()
+
 	pkglist := rr.Pkglist()
-	r.p.Imports = pkglist[1:] // index 0 is a dummy invalid package
 
 	abiToVer := func(abi uint16) int64 {
 		var vers int64
@@ -142,8 +143,8 @@ func (r *objReader) readNew() {
 			Args:     int64(info.Args),
 			Frame:    int64(info.Locals),
 			NoSplit:  info.NoSplit != 0,
-			Leaf:     info.Flags&goobj2.FuncFlagLeaf != 0,
-			TopFrame: info.Flags&goobj2.FuncFlagTopFrame != 0,
+			Leaf:     osym.Flag&goobj2.SymFlagLeaf != 0,
+			TopFrame: osym.Flag&goobj2.SymFlagTopFrame != 0,
 			PCSP:     Data{int64(pcdataBase + info.Pcsp), int64(info.Pcfile - info.Pcsp)},
 			PCFile:   Data{int64(pcdataBase + info.Pcfile), int64(info.Pcline - info.Pcfile)},
 			PCLine:   Data{int64(pcdataBase + info.Pcline), int64(info.Pcinline - info.Pcline)},

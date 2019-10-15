@@ -235,10 +235,10 @@ func (l *Loader) NSym() int {
 
 // Returns the raw (unpatched) name of the i-th symbol.
 func (l *Loader) RawSymName(i Sym) string {
-	r, li := l.ToLocal(i)
-	if r == nil {
+	if l.extStart != 0 && i >= l.extStart {
 		return ""
 	}
+	r, li := l.ToLocal(i)
 	osym := goobj2.Sym{}
 	osym.Read(r.Reader, r.SymOff(li))
 	return osym.Name
@@ -246,10 +246,10 @@ func (l *Loader) RawSymName(i Sym) string {
 
 // Returns the (patched) name of the i-th symbol.
 func (l *Loader) SymName(i Sym) string {
-	r, li := l.ToLocal(i)
-	if r == nil {
+	if l.extStart != 0 && i >= l.extStart {
 		return ""
 	}
+	r, li := l.ToLocal(i)
 	osym := goobj2.Sym{}
 	osym.Read(r.Reader, r.SymOff(li))
 	return strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
@@ -257,27 +257,55 @@ func (l *Loader) SymName(i Sym) string {
 
 // Returns the type of the i-th symbol.
 func (l *Loader) SymType(i Sym) sym.SymKind {
-	r, li := l.ToLocal(i)
-	if r == nil {
+	if l.extStart != 0 && i >= l.extStart {
 		return 0
 	}
+	r, li := l.ToLocal(i)
 	osym := goobj2.Sym{}
 	osym.Read(r.Reader, r.SymOff(li))
 	return sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
 }
 
-// Returns the number of aux symbols given a global index.
-func (l *Loader) NAux(i Sym) int {
-	r, li := l.ToLocal(i)
-	if r == nil {
+// Returns the attributes of the i-th symbol.
+func (l *Loader) SymAttr(i Sym) uint8 {
+	if l.extStart != 0 && i >= l.extStart {
 		return 0
 	}
+	r, li := l.ToLocal(i)
+	osym := goobj2.Sym{}
+	osym.Read(r.Reader, r.SymOff(li))
+	return osym.Flag
+}
+
+// Returns whether the i-th symbol has ReflectMethod attribute set.
+func (l *Loader) IsReflectMethod(i Sym) bool {
+	return l.SymAttr(i)&goobj2.SymFlagReflectMethod != 0
+}
+
+// Returns the symbol content of the i-th symbol. i is global index.
+func (l *Loader) Data(i Sym) []byte {
+	if l.extStart != 0 && i >= l.extStart {
+		return nil
+	}
+	r, li := l.ToLocal(i)
+	return r.Data(li)
+}
+
+// Returns the number of aux symbols given a global index.
+func (l *Loader) NAux(i Sym) int {
+	if l.extStart != 0 && i >= l.extStart {
+		return 0
+	}
+	r, li := l.ToLocal(i)
 	return r.NAux(li)
 }
 
 // Returns the referred symbol of the j-th aux symbol of the i-th
 // symbol.
 func (l *Loader) AuxSym(i Sym, j int) Sym {
+	if l.extStart != 0 && i >= l.extStart {
+		return 0
+	}
 	r, li := l.ToLocal(i)
 	a := goobj2.Aux{}
 	a.Read(r.Reader, r.AuxOff(li, j))
@@ -305,10 +333,10 @@ func (relocs *Relocs) At(j int) Reloc {
 
 // Relocs returns a Relocs object for the given global sym.
 func (l *Loader) Relocs(i Sym) Relocs {
-	r, li := l.ToLocal(i)
-	if r == nil {
+	if l.extStart != 0 && i >= l.extStart {
 		return Relocs{}
 	}
+	r, li := l.ToLocal(i)
 	return l.relocs(r, li)
 }
 
@@ -338,11 +366,7 @@ func LoadNew(l *Loader, arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *s
 	or := &oReader{r, unit, localSymVersion, pkgprefix}
 
 	// Autolib
-	npkg := r.NPkg()
-	lib.ImportStrings = append(lib.ImportStrings, make([]string, npkg-1)...)[:len(lib.ImportStrings)]
-	for i := 1; i < npkg; i++ {
-		lib.ImportStrings = append(lib.ImportStrings, r.Pkg(i))
-	}
+	lib.ImportStrings = append(lib.ImportStrings, r.Autolib()...)
 
 	// DWARF file table
 	nfile := r.NDwarfFile()
@@ -673,13 +697,13 @@ func loadObjFull(l *Loader, r *oReader) {
 		if info.NoSplit != 0 {
 			s.Attr |= sym.AttrNoSplit
 		}
-		if info.Flags&goobj2.FuncFlagReflectMethod != 0 {
+		if osym.Flag&goobj2.SymFlagReflectMethod != 0 {
 			s.Attr |= sym.AttrReflectMethod
 		}
-		if info.Flags&goobj2.FuncFlagShared != 0 {
+		if osym.Flag&goobj2.SymFlagShared != 0 {
 			s.Attr |= sym.AttrShared
 		}
-		if info.Flags&goobj2.FuncFlagTopFrame != 0 {
+		if osym.Flag&goobj2.SymFlagTopFrame != 0 {
 			s.Attr |= sym.AttrTopFrame
 		}
 
