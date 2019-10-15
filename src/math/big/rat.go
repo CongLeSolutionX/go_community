@@ -271,7 +271,7 @@ func quotToFloat64(a, b nat) (f float64, exact bool) {
 func (x *Rat) Float32() (f float32, exact bool) {
 	b := x.b.abs
 	if len(b) == 0 {
-		b = b.set(natOne) // materialize denominator
+		b = natOne
 	}
 	f, exact = quotToFloat32(x.a.abs, b)
 	if x.a.neg {
@@ -287,7 +287,7 @@ func (x *Rat) Float32() (f float32, exact bool) {
 func (x *Rat) Float64() (f float64, exact bool) {
 	b := x.b.abs
 	if len(b) == 0 {
-		b = b.set(natOne) // materialize denominator
+		b = natOne
 	}
 	f, exact = quotToFloat64(x.a.abs, b)
 	if x.a.neg {
