@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67b5e87d_aa8fec44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-15T22:56:24Z",
+      "side": 1,
+      "message": "Change mapencode.encode to use fmt.Error rather than MarshalerError.  MarshalerError refer to MarshalJSON, but mapencode.encode does not use that.",
+      "revId": "273f804705c1797c92607f3ffa64455763c4e5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3382c1_2e2f700e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-15T22:56:24Z",
+      "side": 1,
+      "message": "Add sourceFunc field to MarshalerError to record the name of the function that creates the error, so that the Error method can report it correctly.",
+      "revId": "273f804705c1797c92607f3ffa64455763c4e5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a29e629_bc7bf176",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-15T22:56:24Z",
+      "side": 1,
+      "message": "Is there a reason to export this new field?  If possible I think that we should not export it.",
+      "revId": "273f804705c1797c92607f3ffa64455763c4e5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6584eeca_081ad083",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-15T22:56:24Z",
+      "side": 1,
+      "message": "\"Unwrap returns the underlying error.\"",
+      "revId": "273f804705c1797c92607f3ffa64455763c4e5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7a1ea2e_3c2382d5",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-15T22:56:24Z",
+      "side": 1,
+      "message": "We don\u0027t need a line break here.",
+      "revId": "273f804705c1797c92607f3ffa64455763c4e5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
