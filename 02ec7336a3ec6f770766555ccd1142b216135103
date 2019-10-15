@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6edb687_2a20f6ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-15T23:18:43Z",
+      "side": 1,
+      "message": "Let\u0027s make this entire commit message:\n\nio: make CopyBuffer docs state when buf is not used\n\nDocument that if either src implements the WriteTo interface\nor if dst implements the ReaderFrom interface, then\nbuf will not be used.\n\nFixes #32276\n\n\nAnd to update the commit message, since you submitted a Github PR, you\u0027ll need to manually edit the PR\u0027s title and description respectively to match the subject and body here respectively.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 47
+      },
+      "revId": "02ec7336a3ec6f770766555ccd1142b216135103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efe963d3_408bdbe3",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-15T23:18:43Z",
+      "side": 1,
+      "message": "// If either src implements WriterTo or if dst implements ReaderFrom,\n// buf will not be used to perform the copy.",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 44
+      },
+      "revId": "02ec7336a3ec6f770766555ccd1142b216135103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
