@@ -40,6 +40,12 @@ func WriteObjFile2(ctxt *Link, b *bio.Writer, pkgpath string) {
 	// String table
 	w.StringTable()
 
+	// Autolib
+	h.Offsets[goobj2.BlkAutolib] = w.Offset()
+	for _, pkg := range ctxt.Imports {
+		w.StringRef(pkg)
+	}
+
 	// Package references
 	h.Offsets[goobj2.BlkPkgIdx] = w.Offset()
 	for _, pkg := range w.pkglist {
@@ -172,13 +178,6 @@ func (w *writer) init() {
 	for pkg, i := range w.ctxt.pkgIdx {
 		w.pkglist[i] = pkg
 	}
-
-	// Also make sure imported packages appear in the list (even if no symbol is referenced).
-	for _, pkg := range w.ctxt.Imports {
-		if _, ok := w.ctxt.pkgIdx[pkg]; !ok {
-			w.pkglist = append(w.pkglist, pkg)
-		}
-	}
 }
 
 func (w *writer) StringTable() {
@@ -227,6 +226,21 @@ func (w *writer) Sym(s *LSym) {
 	}
 	if s.MakeTypelink() {
 		flag |= goobj2.SymFlagTypelink
+	}
+	if s.Leaf() {
+		flag |= goobj2.SymFlagLeaf
+	}
+	if s.CFunc() {
+		flag |= goobj2.SymFlagCFunc
+	}
+	if s.ReflectMethod() {
+		flag |= goobj2.SymFlagReflectMethod
+	}
+	if w.ctxt.Flag_shared { // This is really silly
+		flag |= goobj2.SymFlagShared
+	}
+	if s.TopFrame() {
+		flag |= goobj2.SymFlagTopFrame
 	}
 	o := goobj2.Sym{
 		Name: s.Name,
@@ -299,25 +313,8 @@ func genFuncInfoSyms(ctxt *Link) {
 		if s.NoSplit() {
 			nosplit = 1
 		}
-		flags := uint8(0)
-		if s.Leaf() {
-			flags |= goobj2.FuncFlagLeaf
-		}
-		if s.CFunc() {
-			flags |= goobj2.FuncFlagCFunc
-		}
-		if s.ReflectMethod() {
-			flags |= goobj2.FuncFlagReflectMethod
-		}
-		if ctxt.Flag_shared { // This is really silly
-			flags |= goobj2.FuncFlagShared
-		}
-		if s.TopFrame() {
-			flags |= goobj2.FuncFlagTopFrame
-		}
 		o := goobj2.FuncInfo{
 			NoSplit: nosplit,
-			Flags:   flags,
 			Args:    uint32(s.Func.Args),
 			Locals:  uint32(s.Func.Locals),
 		}
