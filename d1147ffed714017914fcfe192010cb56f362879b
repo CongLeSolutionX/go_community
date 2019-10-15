@@ -22,6 +22,30 @@
       "revId": "d1147ffed714017914fcfe192010cb56f362879b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbe92114_254b2539",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-15T18:35:13Z",
+      "side": 1,
+      "message": "Yes, exactly.  It will be in the right place based on the when field, the wrong field based on the nextwhen field, and it will be fixed by adjusttimers or possibly runtimer.",
+      "parentUuid": "2e4140cd_97d177b9",
+      "range": {
+        "startLine": 827,
+        "startChar": 8,
+        "endLine": 827,
+        "endChar": 20
+      },
+      "revId": "d1147ffed714017914fcfe192010cb56f362879b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
