@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b6233e_33a40b9e",
+        "filename": "src/cmd/go/testdata/script/env_write.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-15T12:21:50Z",
+      "side": 1,
+      "message": "A more interesting case to check here might be a GOOS and GOARCH that are valid separately but not together, such as android/s390x.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 44
+      },
+      "revId": "e83c5b5988a224bad20ad80216ed9fa9fe72ff1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
