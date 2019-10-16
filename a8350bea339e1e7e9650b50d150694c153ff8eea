@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a80da88d_7fa825d9",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-16T17:17:02Z",
+      "side": 1,
+      "message": "I think it\u0027s okay to use math/bits.",
+      "parentUuid": "e2d7b883_2045de75",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ba0483d_0342156a",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 12
