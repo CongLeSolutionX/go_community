@@ -390,7 +390,11 @@ func convertVal(v Val, t *types.Type, explicit bool) Val {
 	case CTFLT, CTCPLX:
 		switch {
 		case t.IsInteger():
-			v = toint(v)
+			var ok bool
+			v, ok = toint(v)
+			if !ok {
+				return v
+			}
 			overflow(v, t)
 			return v
 		case t.IsFloat():
@@ -444,7 +448,9 @@ func toflt(v Val) Val {
 	return v
 }
 
-func toint(v Val) Val {
+func toint(v Val) (vv Val, ok bool) {
+	ok = true
+
 	switch u := v.U.(type) {
 	case *Mpint:
 		if u.Rune {
@@ -456,6 +462,7 @@ func toint(v Val) Val {
 	case *Mpflt:
 		i := new(Mpint)
 		if !i.SetFloat(u) {
+			ok = false
 			if i.checkOverflow(0) {
 				yyerror("integer too large")
 			} else {
@@ -480,15 +487,20 @@ func toint(v Val) Val {
 		v.U = i
 
 	case *Mpcplx:
-		i := new(Mpint)
-		if !i.SetFloat(&u.Real) || u.Imag.CmpFloat64(0) != 0 {
-			yyerror("constant %v truncated to integer", u.GoString())
+		// If any error occurs here, we suppress them as they'll
+		// be handled by the callers of this function, since we are
+		// returning Val{} and ok=false. See issue #33921.
+		if u.Imag.CmpFloat64(0) != 0 {
+			return Val{}, false
 		}
-
+		i := new(Mpint)
+		if !i.SetFloat(&u.Real) {
+			return Val{}, false
+		}
 		v.U = i
 	}
 
-	return v
+	return v, ok
 }
 
 func doesoverflow(v Val, t *types.Type) bool {
@@ -956,10 +968,17 @@ func unaryOp(op Op, x Val, t *types.Type) Val {
 }
 
 func shiftOp(x Val, op Op, y Val) Val {
+	var ok bool
 	if x.Ctype() != CTRUNE {
-		x = toint(x)
+		x, ok = toint(x)
+		if !ok {
+			return Val{}
+		}
 	}
-	y = toint(y)
+	y, ok = toint(y)
+	if !ok {
+		return Val{}
+	}
 
 	u := new(Mpint)
 	u.Set(x.U.(*Mpint))
@@ -1224,7 +1243,10 @@ func indexconst(n *Node) int64 {
 		return -1
 	}
 
-	v := toint(n.Val()) // toint returns argument unchanged if not representable as an *Mpint
+	v, ok := toint(n.Val()) // toint returns argument unchanged if not representable as an *Mpint
+	if !ok {
+		return -1
+	}
 	vi, ok := v.U.(*Mpint)
 	if !ok || vi.CmpInt64(0) < 0 {
 		return -1
