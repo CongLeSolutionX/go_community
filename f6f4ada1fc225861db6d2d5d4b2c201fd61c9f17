@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f4d95eed_9be68c9a",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-16T15:28:08Z",
+      "side": 1,
+      "message": "Thanks for the clarification. Sounds like we can leave things as is...",
+      "parentUuid": "7e84a317_504e950f",
+      "range": {
+        "startLine": 213,
+        "startChar": 1,
+        "endLine": 215,
+        "endChar": 51
+      },
+      "revId": "f6f4ada1fc225861db6d2d5d4b2c201fd61c9f17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7f5805e_36a3a59a",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
