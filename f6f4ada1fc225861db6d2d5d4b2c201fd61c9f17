@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "904a6636_d594cbf4",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-16T15:23:04Z",
+      "side": 1,
+      "message": "(here)",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "f6f4ada1fc225861db6d2d5d4b2c201fd61c9f17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec9cf376_9b46536e",
         "filename": "src/cmd/link/internal/ld/deadcode2.go",
         "patchSetId": 2
@@ -43,6 +66,47 @@
         "endLine": 215,
         "endChar": 51
       },
+      "revId": "f6f4ada1fc225861db6d2d5d4b2c201fd61c9f17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e84a317_504e950f",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-16T15:23:04Z",
+      "side": 1,
+      "message": "This is mentioned in the TODO at the top of this file. Basically, in shared build mode, we mark essentially everything.\n\nThe old code just marks all the symbols upfront. I\u0027ll probably add something similar to that, maybe today.",
+      "parentUuid": "da09058d_28f8d409",
+      "range": {
+        "startLine": 213,
+        "startChar": 1,
+        "endLine": 215,
+        "endChar": 51
+      },
+      "revId": "f6f4ada1fc225861db6d2d5d4b2c201fd61c9f17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7f5805e_36a3a59a",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-16T15:23:04Z",
+      "side": 1,
+      "message": "We could consider also use an attribute in the object file. It probably doesn\u0027t matter if we change the flag bits from uint8 to uint16.",
       "revId": "f6f4ada1fc225861db6d2d5d4b2c201fd61c9f17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
