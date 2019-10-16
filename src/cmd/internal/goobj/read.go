@@ -385,7 +385,8 @@ func Parse(f *os.File, pkgpath string) (*Package, error) {
 			return nil, err
 		}
 	case bytes.Equal(rd.tmp[:8], goobjHeader):
-		if err := rd.parseObject(goobjHeader); err != nil {
+		expectLen := uint64(rd.limit - rd.offset)
+		if err := rd.parseObject(goobjHeader, expectLen); err != nil {
 			return nil, err
 		}
 	}
@@ -451,7 +452,7 @@ func (r *objReader) parseArchive() error {
 				return err
 			}
 			if bytes.Equal(p, goobjHeader) {
-				if err := r.parseObject(nil); err != nil {
+				if err := r.parseObject(nil, uint64(size)); err != nil {
 					return fmt.Errorf("parsing archive member %q: %v", name, err)
 				}
 			} else {
@@ -473,12 +474,14 @@ func (r *objReader) parseArchive() error {
 
 // parseObject parses a single Go object file.
 // The prefix is the bytes already read from the file,
-// typically in order to detect that this is an object file.
+// typically in order to detect that this is an object file,
+// and expectLen is the expected length of the object.
 // The object file consists of a textual header ending in "\n!\n"
 // and then the part we want to parse begins.
 // The format of that part is defined in a comment at the top
 // of src/liblink/objfile.c.
-func (r *objReader) parseObject(prefix []byte) error {
+func (r *objReader) parseObject(prefix []byte, expectLen uint64) error {
+	origOffset := r.offset
 	r.p.MaxVersion++
 	h := make([]byte, 0, 256)
 	h = append(h, prefix...)
@@ -502,12 +505,16 @@ func (r *objReader) parseObject(prefix []byte) error {
 	}
 	// TODO: extract OS + build ID if/when we need it
 
-	r.readFull(r.tmp[:8])
-	if bytes.Equal(r.tmp[:8], []byte("\x00go114LD")) {
-		r.offset -= 8
-		r.readNew()
+	p, err := r.peek(8)
+	if err != nil {
+		return err
+	}
+	consumed := uint64(r.offset - origOffset)
+	if bytes.Equal(p, []byte("\x00go114LD")) {
+		r.readNew(expectLen - consumed)
 		return nil
 	}
+	r.readFull(r.tmp[:8])
 	if !bytes.Equal(r.tmp[:8], []byte("\x00go114ld")) {
 		return r.error(errCorruptObject)
 	}

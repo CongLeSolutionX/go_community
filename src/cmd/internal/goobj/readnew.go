@@ -13,9 +13,12 @@ import (
 
 // Read object file in new format. For now we still fill
 // the data to the current goobj API.
-func (r *objReader) readNew() {
+func (r *objReader) readNew(length uint64) {
 	start := uint32(r.offset)
-	rr := goobj2.NewReader(r.f, start)
+
+	objbytes := make([]byte, length)
+	r.readFull(objbytes)
+	rr := goobj2.NewReaderFromBytes(objbytes, false)
 	if rr == nil {
 		panic("cannot read object file")
 	}
