@@ -3667,7 +3667,8 @@ func checkmake(t *types.Type, arg string, n *Node) bool {
 	// to avoid redundant "constant NNN overflows int" errors.
 	switch consttype(n) {
 	case CTINT, CTRUNE, CTFLT, CTCPLX:
-		n.SetVal(toint(n.Val()))
+		v, _ := toint(n.Val())
+		n.SetVal(v)
 		if n.Val().U.(*Mpint).CmpInt64(0) < 0 {
 			yyerror("negative %s argument in make(%v)", arg, t)
 			return false

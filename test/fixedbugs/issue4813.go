@@ -30,7 +30,7 @@ var (
 	a2 = A[f]
 	a3 = A[f2] // ERROR "truncated|must be integer"
 	a4 = A[c]
-	a5 = A[c2] // ERROR "truncated|must be integer"
+	a5 = A[c2] // ERROR "cannot use c2 .type untyped complex. as type int"
 	a6 = A[vf] // ERROR "non-integer|must be integer"
 	a7 = A[vc] // ERROR "non-integer|must be integer"
 
@@ -38,7 +38,7 @@ var (
 	s2 = S[f]
 	s3 = S[f2] // ERROR "truncated|must be integer"
 	s4 = S[c]
-	s5 = S[c2] // ERROR "truncated|must be integer"
+	s5 = S[c2] // ERROR "cannot use c2 .type untyped complex. as type int"
 	s6 = S[vf] // ERROR "non-integer|must be integer"
 	s7 = S[vc] // ERROR "non-integer|must be integer"
 
@@ -46,7 +46,7 @@ var (
 	t2 = T[f]
 	t3 = T[f2] // ERROR "truncated|must be integer"
 	t4 = T[c]
-	t5 = T[c2] // ERROR "truncated|must be integer"
+	t5 = T[c2] // ERROR "cannot use c2 .type untyped complex. as type int"
 	t6 = T[vf] // ERROR "non-integer|must be integer"
 	t7 = T[vc] // ERROR "non-integer|must be integer"
 )
