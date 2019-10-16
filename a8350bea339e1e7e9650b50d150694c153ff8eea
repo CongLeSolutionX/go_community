@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e2d7b883_2045de75",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "it\u0027s also used for popcnt (specifically, OnesCount) in later CLs.\n\nI\u0027m hesitant to add new intrinsics just because it\u0027s somewhat error-prone, and we already have one solid implementation in the standard library. FWIW the Ctz implementation in runtime/internal/sys looks a lot like the math/bits implemenation, and copying code for it doesn\u0027t seem great either.\n\nI suppose it would be nice just to merge these two packages into internal/bits or internal/bytealg or something. On the other hand, math/bits doesn\u0027t exactly depend on anything (except unsafe) and probably won\u0027t for the forseeable future.\n\nI don\u0027t have a good idea of the risks of having the runtime import a non-internal package, so if the risk is high I\u0027ll take your word for it and get started on implementing an alternative.",
+      "parentUuid": "df1a06ba_44c59a11",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ba0483d_0342156a",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 12
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "821e8f8b_949ed6ca",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ba0483d_0342156a",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9960c437_7a84a162",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 12
@@ -56,6 +98,24 @@
       "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59833901_88f8843a",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "it\u0027s documented on alloc, and alloc1 shouldn\u0027t be called directly since it\u0027s a helper. I expanded on the documentation to make this more clear, and to avoid duplicating comments behind the meaning of hint between multiple functions.",
+      "parentUuid": "9960c437_7a84a162",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "7144dfcc_c5d63512",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "ah good catch, thanks!",
+      "parentUuid": "ff86b111_2cc7aba4",
+      "range": {
+        "startLine": 86,
+        "startChar": 20,
+        "endLine": 86,
+        "endChar": 24
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3061ae63_4a3738fe",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 12
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "e8e41231_dd1d3a6b",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3061ae63_4a3738fe",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b671537_09ac6aa5",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 12
@@ -113,6 +215,24 @@
       "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ea36c75_35b198fa",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "the hint in the page allocator (defined a couple CLs from now) is intended to always represent the first (address-ordered) free page in the heap, so if we\u0027re searching for 2 contiguous free pages but we see a bunch of free space which is only 1 page in size, that\u0027s the hint we want to return.\n\nI added documentation onto alloc explaining that the returned hint represents the first free page it discovers during its search.",
+      "parentUuid": "7b671537_09ac6aa5",
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "5a824515_770d48f5",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "oops, stale comment. fixed.",
+      "parentUuid": "6d8f5dd1_e6da3115",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 17
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c70d9e8_b9ef341d",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 12
@@ -159,6 +303,30 @@
       "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc3a10a_1ea6ef10",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-16T17:11:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c70d9e8_b9ef341d",
+      "range": {
+        "startLine": 137,
+        "startChar": 5,
+        "endLine": 137,
+        "endChar": 10
+      },
+      "revId": "a8350bea339e1e7e9650b50d150694c153ff8eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
