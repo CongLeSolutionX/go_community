@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec9cf376_9b46536e",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-16T14:12:22Z",
+      "side": 1,
+      "message": "Looking at this code, I am now wondering if maybe there is a buglet lurking.\n\nComment says \"keep all itablinks if build mode shared\", but as things\ncurrently stand if build mode is shared we don\u0027t mark anything\nreachable.\n\nMaybe this should instead be:\n\n  keepAll :\u003d ctxt.BuildMode \u003d\u003d BuildModeShared\n  for i :\u003d 1; i \u003c n; i++ {\n    s :\u003d loader.Sym(i)\n    if ldr.IsItabLink(s) {\n      relocs :\u003d ldr.Relocs(s)\n      if keepAll || (relocs.Count \u003e 0 \u0026\u0026 ldr.Reachable.Has(relocs.At(0).Sym)) {\n        ldr.Reachable.Set(s)\n      }\n    }\n  }\n\nLet me know what you think.",
+      "range": {
+        "startLine": 213,
+        "startChar": 1,
+        "endLine": 215,
+        "endChar": 51
+      },
+      "revId": "f6f4ada1fc225861db6d2d5d4b2c201fd61c9f17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
