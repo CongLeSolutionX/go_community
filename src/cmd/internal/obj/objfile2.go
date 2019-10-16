@@ -235,8 +235,8 @@ func (w *writer) Sym(s *LSym) {
 	if s.ReflectMethod() {
 		flag |= goobj2.SymFlagReflectMethod
 	}
-	if s.TopFrame() {
-		flag |= goobj2.SymFlagTopFrame
+	if strings.HasPrefix(s.Name, "type.") && s.Name[5] != '.' {
+		flag |= goobj2.SymFlagGoType
 	}
 	name := s.Name
 	if strings.HasPrefix(name, "gofile..") {
