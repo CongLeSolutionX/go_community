@@ -418,16 +418,12 @@ func (r *Reader) BytesAt(off uint32, len int) []byte {
 	if len == 0 {
 		return nil
 	}
-	if r.b != nil {
-		end := int(off) + len
-		return r.b[int(off):end:end]
-	}
-	b := make([]byte, len)
-	_, err := r.rd.ReadAt(b, int64(r.start+off))
-	if err != nil {
-		panic("corrupted input")
-	}
-	return b
+	// Remark: this version of BytesAt assumes that r.b is always
+	// non-nil, e.g. we've read or mmap'd the object into a byte slice.
+	// If this should ever change (possibly for systems that don't
+	// support mmap?) we'll need to revisit this code.
+	end := int(off) + len
+	return r.b[int(off):end:end]
 }
 
 func (r *Reader) uint64At(off uint32) uint64 {
@@ -460,17 +456,13 @@ func (r *Reader) uint8At(off uint32) uint8 {
 
 func (r *Reader) StringAt(off uint32) string {
 	l := r.uint32At(off)
-	if r.b != nil {
-		b := r.b[off+4 : off+4+l]
-		if r.readonly {
-			return toString(b) // backed by RO memory, ok to make unsafe string
-		}
-		return string(b)
-	}
-	b := make([]byte, l)
-	n, err := r.rd.ReadAt(b, int64(r.start+off+4))
-	if n != int(l) || err != nil {
-		panic("corrupted input")
+	// Remark: this version of StringAt assumes that r.b is always
+	// non-nil, e.g. we've read or mmap'd the object into a byte slice.
+	// If this should ever change (possibly for systems that don't
+	// support mmap?) we'll need to revisit this code.
+	b := r.b[off+4 : off+4+l]
+	if r.readonly {
+		return toString(b) // backed by RO memory, ok to make unsafe string
 	}
 	return string(b)
 }
