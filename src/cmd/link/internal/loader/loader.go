@@ -120,6 +120,16 @@ func NewLoader() *Loader {
 	}
 }
 
+// canOvwrite returns true if a symbol's type and data size can be overwritten while linking.
+func canOverwrite(t sym.SymKind) bool {
+	return t == sym.SDATA || t == sym.SNOPTRDATA || t == sym.SBSS || t == sym.SNOPTRBSS
+}
+
+// CanOverwrite returns true if a symbol can be overwritten while linking.
+func CanOverwrite(sym *sym.Symbol) bool {
+	return canOverwrite(sym.Type) && len(sym.P) == 0
+}
+
 // Return the start index in the global index space for a given object file.
 func (l *Loader) startIndex(r *oReader) Sym {
 	return l.start[r]
@@ -159,7 +169,7 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 			oldsym := goobj2.Sym{}
 			oldsym.Read(oldr.Reader, oldr.SymOff(li))
 			oldtyp := sym.AbiSymKindToSymKind[objabi.SymKind(oldsym.Type)]
-			if !oldsym.Dupok() && !((oldtyp == sym.SDATA || oldtyp == sym.SNOPTRDATA || oldtyp == sym.SBSS || oldtyp == sym.SNOPTRBSS) && oldr.DataSize(li) == 0) { // only allow overwriting 0-sized data symbol
+			if !oldsym.Dupok() && !canOverwrite(oldtyp) && r.DataSize(li) == 0 {
 				log.Fatalf("duplicated definition of symbol " + name)
 			}
 			l.overwrite[oldi] = i
@@ -176,12 +186,24 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 	return true
 }
 
-// Add an external symbol (without index). Return the index of newly added
-// symbol, or 0 if not added.
-func (l *Loader) AddExtSym(name string, ver int) Sym {
+const (
+	addWithOverwrite = true
+	addNoOverwrite   = false
+)
+
+// addExtSym adds an external symbol.
+// Returns the symbol index, and true if we tried to overwrite a previously ovewritten symbol.
+func (l *Loader) addExtSym(name string, ver int, allowOverwrite bool) (Sym, bool) {
 	nv := nameVer{name, ver}
-	if _, ok := l.symsByName[nv]; ok {
-		return 0
+	oldI, willOverwrite := l.symsByName[nv]
+	if willOverwrite {
+		// If we can't overwrite, just return 0, and the fact that we would have overwritten.
+		// Otherwise, if we've previously overwritten, return that index, and the fact that we would have overwritten.
+		if !allowOverwrite {
+			return 0, false
+		} else if newI, ok := l.overwrite[oldI]; ok {
+			return newI, true
+		}
 	}
 	i := l.max + 1
 	l.symsByName[nv] = i
@@ -191,11 +213,26 @@ func (l *Loader) AddExtSym(name string, ver int) Sym {
 	}
 	l.extSyms = append(l.extSyms, nv)
 	l.growSyms(int(i))
-	return i
+	if willOverwrite && allowOverwrite {
+		l.overwrite[oldI] = i
+	}
+	return i, false
+}
+
+// Add an external symbol, allowing overwrite. Returns the symbol, and true if it we tried to overwrite multiple times.
+func (l *Loader) AddExtSymWithOverwrite(name string, ver int) (Sym, bool) {
+	return l.addExtSym(name, ver, addWithOverwrite)
+}
+
+// Add an external symbol (without index). Return the index of newly added
+// symbol, or 0 if not added.
+func (l *Loader) AddExtSym(name string, ver int) Sym {
+	sym, _ := l.addExtSym(name, ver, addNoOverwrite)
+	return sym
 }
 
 // Returns whether i is an external symbol.
-func (l *Loader) isExternal(i Sym) bool {
+func (l *Loader) IsExternal(i Sym) bool {
 	return l.extStart != 0 && i >= l.extStart
 }
 
@@ -222,7 +259,7 @@ func (l *Loader) toLocal(i Sym) (*oReader, int) {
 	if ov, ok := l.overwrite[i]; ok {
 		i = ov
 	}
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		return nil, int(i - l.extStart)
 	}
 	// Search for the local object holding index i.
@@ -281,7 +318,7 @@ func (l *Loader) IsDup(i Sym) bool {
 	if _, ok := l.overwrite[i]; ok {
 		return true
 	}
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		return false
 	}
 	r, li := l.toLocal(i)
@@ -310,7 +347,7 @@ func (l *Loader) NDef() int {
 
 // Returns the raw (unpatched) name of the i-th symbol.
 func (l *Loader) RawSymName(i Sym) string {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Name
 		}
@@ -324,7 +361,7 @@ func (l *Loader) RawSymName(i Sym) string {
 
 // Returns the (patched) name of the i-th symbol.
 func (l *Loader) SymName(i Sym) string {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Name // external name should already be patched?
 		}
@@ -338,7 +375,7 @@ func (l *Loader) SymName(i Sym) string {
 
 // Returns the type of the i-th symbol.
 func (l *Loader) SymType(i Sym) sym.SymKind {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Type
 		}
@@ -352,7 +389,7 @@ func (l *Loader) SymType(i Sym) sym.SymKind {
 
 // Returns the attributes of the i-th symbol.
 func (l *Loader) SymAttr(i Sym) uint8 {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		// TODO: do something? External symbols have different representation of attributes. For now, ReflectMethod is the only thing matters and it cannot be set by external symbol.
 		return 0
 	}
@@ -382,7 +419,7 @@ func (l *Loader) IsItabLink(i Sym) bool {
 
 // Returns the symbol content of the i-th symbol. i is global index.
 func (l *Loader) Data(i Sym) []byte {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.P
 		}
@@ -394,7 +431,7 @@ func (l *Loader) Data(i Sym) []byte {
 
 // Returns the number of aux symbols given a global index.
 func (l *Loader) NAux(i Sym) int {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		return 0
 	}
 	r, li := l.toLocal(i)
@@ -404,13 +441,21 @@ func (l *Loader) NAux(i Sym) int {
 // Returns the referred symbol of the j-th aux symbol of the i-th
 // symbol.
 func (l *Loader) AuxSym(i Sym, j int) Sym {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		return 0
 	}
 	r, li := l.toLocal(i)
 	a := goobj2.Aux{}
 	a.Read(r.Reader, r.AuxOff(li, j))
 	return l.resolve(r, a.Sym)
+}
+
+// OuterSymbol gets the outer symbol for host object loaded symbols.
+func (l *Loader) OuterSymbol(i Sym) Sym {
+	if l.Syms[i] != nil && l.Syms[i].Outer != nil {
+		return l.Lookup(l.Syms[i].Outer.Name, int(l.Syms[i].Outer.Version))
+	}
+	return 0
 }
 
 // Initialize Reachable bitmap for running deadcode pass.
@@ -444,7 +489,7 @@ func (relocs *Relocs) At(j int) Reloc {
 
 // Relocs returns a Relocs object for the given global sym.
 func (l *Loader) Relocs(i Sym) Relocs {
-	if l.isExternal(i) {
+	if l.IsExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return Relocs{Count: len(s.R), l: l, ext: s}
 		}
@@ -596,11 +641,37 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 	}
 }
 
+// ExtractSymbols grabs the symbols out of the loader for work that hasn't been
+// ported to the new symbol type.
+func (l *Loader) ExtractSymbols(syms *sym.Symbols) {
+	// Nil out overwritten symbols.
+	// Overwritten Go symbols aren't a problem (as they're lazy loaded), but
+	// symbols loaded from host object loaders are fully loaded, and we might
+	// have multiple symbols with the same name. This loop nils them out.
+	for oldI, _ := range l.overwrite {
+		l.Syms[oldI] = nil
+	}
+
+	// For now, add all symbols to ctxt.Syms.
+	for _, s := range l.Syms {
+		if s != nil && s.Name != "" {
+			syms.Add(s)
+		}
+	}
+
+}
+
 func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) {
 	lib := r.unit.Lib
 	istart := l.startIndex(r)
 
 	for i, n := 0, r.NSym()+r.NNonpkgdef(); i < n; i++ {
+		// If it's been previously loaded in host object loading, we don't need to do it again.
+		if s := l.Syms[istart+Sym(i)]; s != nil {
+			// Mark symbol as reachable as it wasn't marked as such before.
+			s.Attr.Set(sym.AttrReachable, l.Reachable.Has(istart+Sym(i)))
+			continue
+		}
 		osym := goobj2.Sym{}
 		osym.Read(r.Reader, r.SymOff(i))
 		name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
@@ -639,6 +710,44 @@ func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) {
 		s.Attr.Set(sym.AttrReachable, l.Reachable.Has(istart+Sym(i)))
 		l.Syms[istart+Sym(i)] = s
 	}
+}
+
+// LoadSymbol loads a single symbol by name.
+// This function should only be used by the host object loaders.
+// NB: This function does NOT set the symbol as reachable.
+func (l *Loader) LoadSymbol(name string, version int, syms *sym.Symbols) *sym.Symbol {
+	global := l.Lookup(name, version)
+
+	// If we're already loaded, bail.
+	if global != 0 && l.Syms[global] != nil {
+		return l.Syms[global]
+	}
+
+	// Read the symbol.
+	r, i := l.toLocal(global)
+	lib := r.unit.Lib
+	istart := l.startIndex(r)
+
+	osym := goobj2.Sym{}
+	osym.Read(r.Reader, r.SymOff(int(i)))
+	if l.symsByName[nameVer{name, version}] != istart+Sym(i) {
+		return nil
+	}
+
+	s := syms.Newsym(name, version)
+	if s.Type != 0 && s.Type != sym.SXREF {
+		fmt.Println("symbol already processed:", lib, i, s)
+		panic("symbol already processed")
+	}
+	t := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
+	if t == sym.SBSS && (s.Type == sym.SRODATA || s.Type == sym.SNOPTRBSS) {
+		t = s.Type
+	}
+	s.Type = t
+	s.Unit = r.unit
+	l.Syms[istart+Sym(i)] = s
+
+	return s
 }
 
 func loadObjFull(l *Loader, r *oReader) {
