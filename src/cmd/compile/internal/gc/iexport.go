@@ -993,7 +993,7 @@ func (w *exportWriter) linkname(s *types.Sym) {
 func (w *exportWriter) symIdx(s *types.Sym) {
 	if Ctxt.Flag_newobj {
 		lsym := s.Linksym()
-		if lsym.PkgIdx > goobj2.PkgIdxSelf || lsym.PkgIdx == goobj2.PkgIdxInvalid || s.Linkname != "" {
+		if lsym.PkgIdx > goobj2.PkgIdxSelf || (lsym.PkgIdx == goobj2.PkgIdxInvalid && !lsym.Indexed()) || s.Linkname != "" {
 			w.int64(-1)
 		} else {
 			w.int64(int64(lsym.SymIdx))
