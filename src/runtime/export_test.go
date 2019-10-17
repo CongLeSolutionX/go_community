@@ -12,6 +12,8 @@ import (
 	"unsafe"
 )
 
+const OldPageAllocator = oldPageAllocator
+
 var Fadd64 = fadd64
 var Fsub64 = fsub64
 var Fmul64 = fmul64
@@ -341,12 +343,22 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 			slow.BySize[i].Frees = bySize[i].Frees
 		}
 
-		for i := mheap_.free.start(0, 0); i.valid(); i = i.next() {
-			slow.HeapReleased += uint64(i.span().released())
-		}
+		if oldPageAllocator {
+			for i := mheap_.free.start(0, 0); i.valid(); i = i.next() {
+				slow.HeapReleased += uint64(i.span().released())
+			}
 
-		// Unused space in the current arena also counts as released space.
-		slow.HeapReleased += uint64(mheap_.curArena.end - mheap_.curArena.base)
+			// Unused space in the current arena also counts as released space.
+			slow.HeapReleased += uint64(mheap_.curArena.end - mheap_.curArena.base)
+		} else {
+			for i := arenaIdx(mheap_.pages.start / mallocChunksPerArena); i <= arenaIdx((mheap_.pages.end-1)/mallocChunksPerArena); i++ {
+				a := mheap_.pages.arenas(i)
+				if a != nil {
+					pg := a.pageAlloc.scavenged.popcntRange(0, pagesPerArena)
+					slow.HeapReleased += uint64(pg) * pageSize
+				}
+			}
+		}
 
 		getg().m.mallocing--
 	})
@@ -959,4 +971,52 @@ const BaseArenaIdx = 0xc00*_64bit + 0x8*(1-_64bit)
 
 func PageBase(arenaIdx uintptr, pageIdx int) uintptr {
 	return arenaIdx*heapArenaBytes + uintptr(pageIdx*pageSize)
+}
+
+type BitsMismatch struct {
+	Base      uintptr
+	Got, Want uint64
+}
+
+func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
+	ok = true
+
+	// Run on the system stack to avoid stack growth allocation.
+	systemstack(func() {
+		getg().m.mallocing++
+
+		// Lock so that we can safely access the bitmap.
+		lock(&mheap_.lock)
+	arenaLoop:
+		for i := arenaIdx(mheap_.pages.start / mallocChunksPerArena); i <= arenaIdx((mheap_.pages.end-1)/mallocChunksPerArena); i++ {
+			a := mheap_.pages.arenas(i)
+			if a != nil {
+				for j := 0; j < len(a.pageAlloc.scavenged); j++ {
+					// Run over each 64-bit bitmap section and ensure
+					// scavenged is being cleared properly on allocation.
+					// If a used bit and scavenged bit are both set, that's
+					// an error, and could indicate a larger problem, or
+					// an accounting problem.
+					want := a.pageAlloc.scavenged[j] &^ a.pageAlloc.mallocBits[j]
+					got := a.pageAlloc.scavenged[j]
+					if want != got {
+						ok = false
+						if n >= len(mismatches) {
+							break arenaLoop
+						}
+						mismatches[n] = BitsMismatch{
+							Base: arenaBase(i) + uintptr(j)*64*pageSize,
+							Got:  got,
+							Want: want,
+						}
+						n++
+					}
+				}
+			}
+		}
+		unlock(&mheap_.lock)
+
+		getg().m.mallocing--
+	})
+	return
 }
