@@ -184,7 +184,7 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	}
 
 	if iscgo { // TODO: internal linking cgo doesn't work yet
-		return true, "TODO: newobj"
+		//return true, "TODO: newobj"
 	}
 
 	// Internally linking cgo is incomplete on some architectures.
