@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "0688fbbc_c890873a",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-17T21:26:38Z",
+      "side": 1,
+      "message": "It\u0027s just a regression test. The actual fix is included in “the runtime”.",
+      "parentUuid": "a56a2cf8_4bc0843f",
+      "range": {
+        "startLine": 51,
+        "startChar": 33,
+        "endLine": 51,
+        "endChar": 35
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "711fbf18_ef6a9063",
         "filename": "doc/devel/release.html",
         "patchSetId": 1
