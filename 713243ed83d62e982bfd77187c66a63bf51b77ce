@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fced479f_9a03ec14",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-17T20:19:38Z",
+      "side": 1,
+      "message": "I think I agree with Cherry. As written it hijacks the slice instead of just appending to it.",
+      "parentUuid": "64410770_659351a9",
+      "range": {
+        "startLine": 448,
+        "startChar": 22,
+        "endLine": 448,
+        "endChar": 29
+      },
+      "revId": "713243ed83d62e982bfd77187c66a63bf51b77ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff2e134d_2d8a258d",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "What about this comment?",
       "parentUuid": "ff2e134d_2d8a258d",
+      "revId": "713243ed83d62e982bfd77187c66a63bf51b77ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af7cc327_862d58a4",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-17T20:19:38Z",
+      "side": 1,
+      "message": "Sorry about that. Somehow I saw the +2 but missed this one. I will send another CL to fix this up.",
+      "parentUuid": "7e73db9a_8b8ae130",
       "revId": "713243ed83d62e982bfd77187c66a63bf51b77ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
