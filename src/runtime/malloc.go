@@ -317,7 +317,7 @@ const (
 	minLegalPointer uintptr = 4096
 
 	// Whether to use the old page allocator or not.
-	oldPageAllocator = true
+	oldPageAllocator = false
 )
 
 // physPageSize is the size in bytes of the OS's physical pages.
