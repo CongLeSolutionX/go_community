@@ -158,3 +158,8 @@ var RelROMap = map[SymKind]SymKind{
 	SRODATA:   SRODATARELRO,
 	SFUNCTAB:  SFUNCTABRELRO,
 }
+
+// isData returns true of the type is a data type.
+func (t SymKind) IsData() bool {
+	return t == SDATA || t == SNOPTRDATA || t == SBSS || t == SNOPTRBSS
+}
