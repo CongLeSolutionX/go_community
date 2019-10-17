@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9306c183_1d91de4a",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-10-17T21:12:18Z",
+      "side": 1,
+      "message": "All other releases use \"go command\" without \u003ccode\u003e, so it might be fine to leave it out for consistency.",
+      "parentUuid": "b998eab0_d7a0f274",
+      "range": {
+        "startLine": 50,
+        "startChar": 53,
+        "endLine": 50,
+        "endChar": 55
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8f99c45_7e368571",
         "filename": "doc/devel/release.html",
         "patchSetId": 1
