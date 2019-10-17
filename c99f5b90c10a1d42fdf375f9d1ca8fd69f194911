@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8b29a13_f8e72953",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-17T00:21:13Z",
+      "side": 1,
+      "message": "This approach makes me nervous.\n\nI\u0027d prefer that we either holistically address the entire class of issues, or we leave it as is for now. The duplicate error messages are suboptimal, but they\u0027re not a major problem, and at least we\u0027re consistent about them today.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "c99f5b90c10a1d42fdf375f9d1ca8fd69f194911",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
