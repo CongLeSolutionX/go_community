@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9bdb2d5_55a06f8d",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-17T21:43:59Z",
+      "side": 1,
+      "message": "You can combine these: AddExtSym returns 0 if the symbol already exists.",
+      "range": {
+        "startLine": 457,
+        "startChar": 0,
+        "endLine": 464,
+        "endChar": 3
+      },
+      "revId": "65f69105a9c578db957c03808e5f4341ff14601b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9827af35_82b824bb",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-17T21:43:59Z",
+      "side": 1,
+      "message": "l.Syms[s] \u003d newSym instead. Now AddExtSym grows the slice.",
+      "revId": "65f69105a9c578db957c03808e5f4341ff14601b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
