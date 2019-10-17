@@ -335,6 +335,11 @@ func Main(archInit func(*Arch)) {
 	if flag_race && flag_msan {
 		log.Fatal("cannot use both -race and -msan")
 	}
+	if flag_race || flag_msan {
+		// -race and -msan imply -d=checkptr for now.
+		// TODO(mdempsky): Re-evaluate before Go 1.14. See #34964.
+		Debug_checkptr = 1
+	}
 	if ispkgin(omit_pkgs) {
 		flag_race = false
 		flag_msan = false
