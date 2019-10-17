@@ -15,7 +15,11 @@ import (
 // the data to the current goobj API.
 func (r *objReader) readNew() {
 	start := uint32(r.offset)
-	rr := goobj2.NewReader(r.f, start)
+
+	length := r.limit - r.offset
+	objbytes := make([]byte, length)
+	r.readFull(objbytes)
+	rr := goobj2.NewReaderFromBytes(objbytes, false)
 	if rr == nil {
 		panic("cannot read object file")
 	}
@@ -87,7 +91,7 @@ func (r *objReader) readNew() {
 		sym := Sym{
 			SymID: symID,
 			Kind:  objabi.SymKind(osym.Type),
-			DupOK: osym.Flag&goobj2.SymFlagDupok != 0,
+			DupOK: osym.Dupok(),
 			Size:  int64(osym.Siz),
 			Data:  Data{int64(start + dataOff), siz},
 		}
@@ -125,6 +129,8 @@ func (r *objReader) readNew() {
 				isym = int(a.Sym.SymIdx)
 			case goobj2.AuxFuncdata:
 				funcdata = append(funcdata, a.Sym)
+			case goobj2.AuxDwarfInfo, goobj2.AuxDwarfLoc, goobj2.AuxDwarfRanges, goobj2.AuxDwarfLines:
+				// nothing to do
 			default:
 				panic("unknown aux type")
 			}
@@ -143,8 +149,8 @@ func (r *objReader) readNew() {
 			Args:     int64(info.Args),
 			Frame:    int64(info.Locals),
 			NoSplit:  info.NoSplit != 0,
-			Leaf:     osym.Flag&goobj2.SymFlagLeaf != 0,
-			TopFrame: osym.Flag&goobj2.SymFlagTopFrame != 0,
+			Leaf:     osym.Leaf(),
+			TopFrame: osym.TopFrame(),
 			PCSP:     Data{int64(pcdataBase + info.Pcsp), int64(info.Pcfile - info.Pcsp)},
 			PCFile:   Data{int64(pcdataBase + info.Pcfile), int64(info.Pcline - info.Pcfile)},
 			PCLine:   Data{int64(pcdataBase + info.Pcline), int64(info.Pcinline - info.Pcline)},
@@ -152,6 +158,7 @@ func (r *objReader) readNew() {
 			PCData:   make([]Data, len(info.Pcdata)-1), // -1 as we appended one above
 			FuncData: make([]FuncData, len(info.Funcdataoff)),
 			File:     make([]string, len(info.File)),
+			InlTree:  make([]InlinedCall, len(info.InlTree)),
 		}
 		sym.Func = f
 		for k := range f.PCData {
@@ -164,6 +171,16 @@ func (r *objReader) readNew() {
 		for k := range f.File {
 			symID := resolveSymRef(info.File[k])
 			f.File[k] = symID.Name
+		}
+		for k := range f.InlTree {
+			inl := &info.InlTree[k]
+			f.InlTree[k] = InlinedCall{
+				Parent:   int64(inl.Parent),
+				File:     resolveSymRef(inl.File).Name,
+				Line:     int64(inl.Line),
+				Func:     resolveSymRef(inl.Func),
+				ParentPC: int64(inl.ParentPC),
+			}
 		}
 	}
 }
