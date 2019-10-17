@@ -166,6 +166,54 @@
     },
     {
       "key": {
+        "uuid": "a56a2cf8_4bc0843f",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2019-10-17T21:23:16Z",
+      "side": 1,
+      "message": "What is the best way to capture golang.org/cl/200105?",
+      "parentUuid": "1cbbfe0c_fc82bb97",
+      "range": {
+        "startLine": 51,
+        "startChar": 33,
+        "endLine": 51,
+        "endChar": 35
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13560d55_9a5649c5",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2019-10-17T21:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9a3aadf_6670dd3a",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 12
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "711fbf18_ef6a9063",
         "filename": "doc/devel/release.html",
         "patchSetId": 1
@@ -233,6 +281,30 @@
       "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b15978b_5665096b",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2019-10-17T21:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd20ae3_b325fa30",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 12
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
