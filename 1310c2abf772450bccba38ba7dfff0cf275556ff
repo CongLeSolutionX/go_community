@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f99c45_7e368571",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 28732
+      },
+      "writtenOn": "2019-10-17T21:05:36Z",
+      "side": 1,
+      "message": "Are there other fixes to the compiler that weren\u0027t included in the security release? Just double checking. If not, then let\u0027s remove this since it\u0027s already described in 1.13.2",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 12
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
