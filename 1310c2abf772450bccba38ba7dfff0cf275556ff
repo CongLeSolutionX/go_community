@@ -120,6 +120,52 @@
     },
     {
       "key": {
+        "uuid": "b9a3aadf_6670dd3a",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-17T21:19:04Z",
+      "side": 1,
+      "message": "There was a cmd/cover fix in CL 192722, and that\u0027s technically part of the toolchain but not the compiler.",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 12
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cbbfe0c_fc82bb97",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-17T21:19:04Z",
+      "side": 1,
+      "message": "I\u0027m not sure if there were any packages in `os` per se. (The main fix I\u0027m aware of was CL 197938, which is in the `runtime` package.)",
+      "range": {
+        "startLine": 51,
+        "startChar": 33,
+        "endLine": 51,
+        "endChar": 35
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "711fbf18_ef6a9063",
         "filename": "doc/devel/release.html",
         "patchSetId": 1
@@ -164,6 +210,29 @@
       "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fd20ae3_b325fa30",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-17T21:19:04Z",
+      "side": 1,
+      "message": "The only non-doc change to `errors` I\u0027m aware of was a fix in `internal/reflectlite` in CL 197559, but that doesn\u0027t seem to have been merged on the 1.13 branch.\n\nI\u0027m not sure whether it had regressed anything other than the `errors` changes.",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 12
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
