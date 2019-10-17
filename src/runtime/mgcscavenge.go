@@ -65,20 +65,7 @@ const (
 	//
 	// scavengePercent represents the portion of mutator time we're willing
 	// to spend on scavenging in percent.
-	//
-	// scavengePageLatency is a worst-case estimate (order-of-magnitude) of
-	// the time it takes to scavenge one (regular-sized) page of memory.
-	// scavengeHugePageLatency is the same but for huge pages.
-	//
-	// scavengePagePeriod is derived from scavengePercent and scavengePageLatency,
-	// and represents the average time between scavenging one page that we're
-	// aiming for. scavengeHugePagePeriod is the same but for huge pages.
-	// These constants are core to the scavenge pacing algorithm.
-	scavengePercent         = 1    // 1%
-	scavengePageLatency     = 10e3 // 10µs
-	scavengeHugePageLatency = 10e3 // 10µs
-	scavengePagePeriod      = scavengePageLatency / (scavengePercent / 100.0)
-	scavengeHugePagePeriod  = scavengePageLatency / (scavengePercent / 100.0)
+	scavengePercent = 1 // 1%
 
 	// retainExtraPercent represents the amount of memory over the heap goal
 	// that the scavenger should keep as a buffer space for the allocator.
@@ -113,7 +100,7 @@ func gcPaceScavenger() {
 	// information about the heap yet) so this is fine, and avoids a fault
 	// or garbage data later.
 	if memstats.last_next_gc == 0 {
-		mheap_.scavengeBytesPerNS = 0
+		mheap_.scavengeGoal = ^uint64(0)
 		return
 	}
 	// Compute our scavenging goal.
@@ -144,59 +131,13 @@ func gcPaceScavenger() {
 	// If we're already below our goal, publish the goal in case it changed
 	// then disable the background scavenger.
 	if retainedNow <= retainedGoal {
-		mheap_.scavengeRetainedGoal = retainedGoal
-		mheap_.scavengeBytesPerNS = 0
+		mheap_.scavengeGoal = ^uint64(0)
 		return
 	}
 
-	// Now we start to compute the total amount of work necessary and the total
-	// amount of time we're willing to give the scavenger to complete this work.
-	// This will involve calculating how much of the work consists of huge pages
-	// and how much consists of regular pages since the former can let us scavenge
-	// more memory in the same time.
-	totalWork := retainedNow - retainedGoal
-
-	// On systems without huge page support, all work is regular work.
-	regularWork := totalWork
-	hugeTime := uint64(0)
-
-	// On systems where we have huge pages, we want to do as much of the
-	// scavenging work as possible on huge pages, because the costs are the
-	// same per page, but we can give back more more memory in a shorter
-	// period of time.
-	if physHugePageSize != 0 {
-		// Start by computing the amount of free memory we have in huge pages
-		// in total. Trivially, this is all the huge page work we need to do.
-		hugeWork := uint64(mheap_.free.unscavHugePages) << physHugePageShift
-
-		// ...but it could turn out that there's more huge work to do than
-		// total work, so cap it at total work. This might happen for very large
-		// heaps where the additional factor of retainExtraPercent can make it so
-		// that there are free chunks of memory larger than a huge page that we don't want
-		// to scavenge.
-		if hugeWork >= totalWork {
-			hugePages := totalWork >> physHugePageShift
-			hugeWork = hugePages << physHugePageShift
-		}
-		// Everything that's not huge work is regular work. At this point we
-		// know huge work so we can calculate how much time that will take
-		// based on scavengePageRate (which applies to pages of any size).
-		regularWork = totalWork - hugeWork
-		hugeTime = (hugeWork >> physHugePageShift) * scavengeHugePagePeriod
-	}
-	// Finally, we can compute how much time it'll take to do the regular work
-	// and the total time to do all the work.
-	regularTime := regularWork / uint64(physPageSize) * scavengePagePeriod
-	totalTime := hugeTime + regularTime
-
-	now := nanotime()
-
 	// Update all the pacing parameters in mheap with scavenge.lock held,
 	// so that scavenge.gen is kept in sync with the updated values.
-	mheap_.scavengeRetainedGoal = retainedGoal
-	mheap_.scavengeRetainedBasis = retainedNow
-	mheap_.scavengeTimeBasis = now
-	mheap_.scavengeBytesPerNS = float64(totalWork) / float64(totalTime)
+	mheap_.scavengeGoal = retainedGoal
 	mheap_.scavengeGen++ // increase scavenge generation
 }
 
@@ -303,29 +244,14 @@ func bgscavenge(c chan int) {
 	c <- 1
 	goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
 
-	// Parameters for sleeping.
-	//
-	// If we end up doing more work than we need, we should avoid spinning
-	// until we have more work to do: instead, we know exactly how much time
-	// until more work will need to be done, so we sleep.
-	//
-	// We should avoid sleeping for less than minSleepNS because Gosched()
-	// overheads among other things will work out better in that case.
-	//
-	// There's no reason to set a maximum on sleep time because we'll always
-	// get woken up earlier if there's any kind of update that could change
-	// the scavenger's pacing.
-	//
-	// retryDelayNS tracks how much to sleep next time we fail to do any
-	// useful work.
-	const minSleepNS = int64(100 * 1000) // 100 µs
-
-	retryDelayNS := minSleepNS
+	// Exponentially-weighted moving average of the actual scavenge CPU use. It
+	// represents a measure of scheduling overheads which might extend the sleep
+	// or the critical time beyond what's expected. Assume no overhead to begin with.
+	scavengeEWMA := float64(scavengePercent / 100.0)
 
 	for {
 		released := uintptr(0)
-		park := false
-		ttnext := int64(0)
+		crit := int64(0)
 
 		// Run on the system stack since we grab the heap lock,
 		// and a stack growth with the heap lock means a deadlock.
@@ -336,78 +262,47 @@ func bgscavenge(c chan int) {
 			scavenge.gen = mheap_.scavengeGen
 
 			// If background scavenging is disabled or if there's no work to do just park.
-			retained := heapRetained()
-			if mheap_.scavengeBytesPerNS == 0 || retained <= mheap_.scavengeRetainedGoal {
+			retained, goal := heapRetained(), mheap_.scavengeGoal
+			if retained <= goal {
 				unlock(&mheap_.lock)
-				park = true
 				return
 			}
 
-			// Calculate how big we want the retained heap to be
-			// at this point in time.
-			//
-			// The formula is for that of a line, y = b - mx
-			// We want y (want),
-			//   m = scavengeBytesPerNS (> 0)
-			//   x = time between scavengeTimeBasis and now
-			//   b = scavengeRetainedBasis
-			rate := mheap_.scavengeBytesPerNS
-			tdist := nanotime() - mheap_.scavengeTimeBasis
-			rdist := uint64(rate * float64(tdist))
-			want := mheap_.scavengeRetainedBasis - rdist
+			// Scavenge one page, and measure the amount of time spent scavenging.
+			start := nanotime()
+			released = mheap_.scavengeLocked(physPageSize)
+			crit = nanotime() - start
 
-			// If we're above the line, scavenge to get below the
-			// line.
-			if retained > want {
-				released = mheap_.scavengeLocked(uintptr(retained - want))
-			}
 			unlock(&mheap_.lock)
-
-			// If we over-scavenged a bit, calculate how much time it'll
-			// take at the current rate for us to make that up. We definitely
-			// won't have any work to do until at least that amount of time
-			// passes.
-			if released > uintptr(retained-want) {
-				extra := released - uintptr(retained-want)
-				ttnext = int64(float64(extra) / rate)
-			}
 		})
 
-		if park {
+		if debug.gctrace > 0 {
+			if released > 0 {
+				print("scvg: ", released>>10, " KB released\n")
+			}
+			print("scvg: inuse: ", memstats.heap_inuse>>20, ", idle: ", memstats.heap_idle>>20, ", sys: ", memstats.heap_sys>>20, ", released: ", memstats.heap_released>>20, ", consumed: ", (memstats.heap_sys-memstats.heap_released)>>20, " (MB)\n")
+		}
+
+		if released == 0 {
 			lock(&scavenge.lock)
 			scavenge.parked = true
 			goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
 			continue
 		}
 
-		if debug.gctrace > 0 {
-			if released > 0 {
-				print("scvg: ", released>>20, " MB released\n")
-			}
-			print("scvg: inuse: ", memstats.heap_inuse>>20, ", idle: ", memstats.heap_idle>>20, ", sys: ", memstats.heap_sys>>20, ", released: ", memstats.heap_released>>20, ", consumed: ", (memstats.heap_sys-memstats.heap_released)>>20, " (MB)\n")
-		}
+		// Compute the amount of time to sleep, assuming we want to use at most
+		// scavengePercent of CPU time. Take into account scheduling overheads
+		// that may extend the length of our sleep.
+		sleepTime := int64((float64(crit) * scavengeEWMA) / (scavengePercent / 100.0))
 
-		if released == 0 {
-			// If we were unable to release anything this may be because there's
-			// no free memory available to scavenge. Go to sleep and try again.
-			if scavengeSleep(retryDelayNS) {
-				// If we successfully slept through the delay, back off exponentially.
-				retryDelayNS *= 2
-			}
-			continue
-		}
-		retryDelayNS = minSleepNS
+		// Go to sleep, measuring how long we actually sleep for.
+		start := nanotime()
+		scavengeSleep(sleepTime)
+		slept := nanotime() - start
 
-		if ttnext > 0 && ttnext > minSleepNS {
-			// If there's an appreciable amount of time until the next scavenging
-			// goal, just sleep. We'll get woken up if anything changes and this
-			// way we avoid spinning.
-			scavengeSleep(ttnext)
-			continue
-		}
-
-		// Give something else a chance to run, no locks are held.
-		Gosched()
+		// Update scavengeEWMA by merging in the new crit/slept ratio.
+		scavengeEWMA /= 2
+		scavengeEWMA += float64(crit) / float64(slept) / 2
 	}
 }
 
