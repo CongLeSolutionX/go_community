@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b998eab0_d7a0f274",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-17T21:10:06Z",
+      "side": 1,
+      "message": "(nit)\n\n\u003ccode\u003ego\u003c/code\u003e",
+      "range": {
+        "startLine": 50,
+        "startChar": 53,
+        "endLine": 50,
+        "endChar": 55
+      },
+      "revId": "1310c2abf772450bccba38ba7dfff0cf275556ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8f99c45_7e368571",
         "filename": "doc/devel/release.html",
         "patchSetId": 1
