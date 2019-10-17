@@ -12,6 +12,7 @@ import (
 	"cmd/internal/goobj2"
 	"cmd/internal/objabi"
 	"fmt"
+	"path/filepath"
 	"strings"
 )
 
@@ -34,7 +35,11 @@ func WriteObjFile2(ctxt *Link, b *bio.Writer, pkgpath string) {
 
 	// Header
 	// We just reserve the space. We'll fill in the offsets later.
-	h := goobj2.Header{Magic: goobj2.Magic}
+	flags := uint32(0)
+	if ctxt.Flag_shared {
+		flags |= goobj2.ObjFlagShared
+	}
+	h := goobj2.Header{Magic: goobj2.Magic, Flags: flags}
 	h.Write(w.Writer)
 
 	// String table
@@ -94,13 +99,7 @@ func WriteObjFile2(ctxt *Link, b *bio.Writer, pkgpath string) {
 	for _, list := range lists {
 		for _, s := range list {
 			w.Uint32(naux)
-			if s.Gotype != nil {
-				naux++
-			}
-			if s.Func != nil {
-				// FuncInfo is an aux symbol, each Funcdata is an aux symbol
-				naux += 1 + uint32(len(s.Func.Pcln.Funcdata))
-			}
+			naux += uint32(nAuxSym(s))
 		}
 	}
 	w.Uint32(naux)
@@ -200,11 +199,11 @@ func (w *writer) StringTable() {
 		}
 		pc := &s.Func.Pcln
 		for _, f := range pc.File {
-			w.AddString(f)
+			w.AddString(filepath.ToSlash(f))
 		}
 		for _, call := range pc.InlTree.nodes {
 			f, _ := linkgetlineFromPos(w.ctxt, call.Pos)
-			w.AddString(f)
+			w.AddString(filepath.ToSlash(f))
 		}
 	})
 	for _, f := range w.ctxt.PosTable.DebugLinesFileTable() {
@@ -236,14 +235,18 @@ func (w *writer) Sym(s *LSym) {
 	if s.ReflectMethod() {
 		flag |= goobj2.SymFlagReflectMethod
 	}
-	if w.ctxt.Flag_shared { // This is really silly
-		flag |= goobj2.SymFlagShared
-	}
 	if s.TopFrame() {
 		flag |= goobj2.SymFlagTopFrame
 	}
+	if strings.HasPrefix(s.Name, "type.") && s.Name[5] != '.' && s.Type == objabi.SRODATA {
+		flag |= goobj2.SymFlagGoType
+	}
+	name := s.Name
+	if strings.HasPrefix(name, "gofile..") {
+		name = filepath.ToSlash(name)
+	}
 	o := goobj2.Sym{
-		Name: s.Name,
+		Name: name,
 		ABI:  abi,
 		Type: uint8(s.Type),
 		Flag: flag,
@@ -296,7 +299,61 @@ func (w *writer) Aux(s *LSym) {
 			}
 			o.Write(w.Writer)
 		}
+
+		if s.Func.dwarfInfoSym != nil {
+			o := goobj2.Aux{
+				Type: goobj2.AuxDwarfInfo,
+				Sym:  makeSymRef(s.Func.dwarfInfoSym),
+			}
+			o.Write(w.Writer)
+		}
+		if s.Func.dwarfLocSym != nil {
+			o := goobj2.Aux{
+				Type: goobj2.AuxDwarfLoc,
+				Sym:  makeSymRef(s.Func.dwarfLocSym),
+			}
+			o.Write(w.Writer)
+		}
+		if s.Func.dwarfRangesSym != nil {
+			o := goobj2.Aux{
+				Type: goobj2.AuxDwarfRanges,
+				Sym:  makeSymRef(s.Func.dwarfRangesSym),
+			}
+			o.Write(w.Writer)
+		}
+		if s.Func.dwarfDebugLinesSym != nil {
+			o := goobj2.Aux{
+				Type: goobj2.AuxDwarfLines,
+				Sym:  makeSymRef(s.Func.dwarfDebugLinesSym),
+			}
+			o.Write(w.Writer)
+		}
 	}
+}
+
+// return the number of aux symbols s have.
+func nAuxSym(s *LSym) int {
+	n := 0
+	if s.Gotype != nil {
+		n++
+	}
+	if s.Func != nil {
+		// FuncInfo is an aux symbol, each Funcdata is an aux symbol
+		n += 1 + len(s.Func.Pcln.Funcdata)
+		if s.Func.dwarfInfoSym != nil {
+			n++
+		}
+		if s.Func.dwarfLocSym != nil {
+			n++
+		}
+		if s.Func.dwarfRangesSym != nil {
+			n++
+		}
+		if s.Func.dwarfDebugLinesSym != nil {
+			n++
+		}
+	}
+	return n
 }
 
 // generate symbols for FuncInfo.
@@ -341,6 +398,18 @@ func genFuncInfoSyms(ctxt *Link) {
 		for i, f := range pc.File {
 			fsym := ctxt.Lookup(f)
 			o.File[i] = makeSymRef(fsym)
+		}
+		o.InlTree = make([]goobj2.InlTreeNode, len(pc.InlTree.nodes))
+		for i, inl := range pc.InlTree.nodes {
+			f, l := linkgetlineFromPos(ctxt, inl.Pos)
+			fsym := ctxt.Lookup(f)
+			o.InlTree[i] = goobj2.InlTreeNode{
+				Parent:   int32(inl.Parent),
+				File:     makeSymRef(fsym),
+				Line:     l,
+				Func:     makeSymRef(inl.Func),
+				ParentPC: inl.ParentPC,
+			}
 		}
 
 		o.Write(&b)

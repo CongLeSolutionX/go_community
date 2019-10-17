@@ -20,6 +20,7 @@ import (
 //
 //    Header struct {
 //       Magic   [...]byte   // "\x00go114LD"
+//       Flags   uint32
 //       // TODO: Fingerprint
 //       Offsets [...]uint32 // byte offset of each block below
 //    }
@@ -148,6 +149,7 @@ const (
 // TODO: probably no need to export this.
 type Header struct {
 	Magic   string
+	Flags   uint32
 	Offsets [NBlk]uint32
 }
 
@@ -155,6 +157,7 @@ const Magic = "\x00go114LD"
 
 func (h *Header) Write(w *Writer) {
 	w.RawString(h.Magic)
+	w.Uint32(h.Flags)
 	for _, x := range h.Offsets {
 		w.Uint32(x)
 	}
@@ -167,6 +170,8 @@ func (h *Header) Read(r *Reader) error {
 		return errors.New("wrong magic, not a Go object file")
 	}
 	off := uint32(len(h.Magic))
+	h.Flags = r.uint32At(off)
+	off += 4
 	for i := range h.Offsets {
 		h.Offsets[i] = r.uint32At(off)
 		off += 4
@@ -175,7 +180,7 @@ func (h *Header) Read(r *Reader) error {
 }
 
 func (h *Header) Size() int {
-	return len(h.Magic) + 4*len(h.Offsets)
+	return len(h.Magic) + 4 + 4*len(h.Offsets)
 }
 
 // Symbol definition.
@@ -190,13 +195,17 @@ type Sym struct {
 const SymABIstatic = ^uint16(0)
 
 const (
+	ObjFlagShared = 1 << iota
+)
+
+const (
 	SymFlagDupok = 1 << iota
 	SymFlagLocal
 	SymFlagTypelink
 	SymFlagLeaf
 	SymFlagCFunc
 	SymFlagReflectMethod
-	SymFlagShared // This is really silly
+	SymFlagGoType
 	SymFlagTopFrame
 )
 
@@ -219,6 +228,15 @@ func (s *Sym) Read(r *Reader, off uint32) {
 func (s *Sym) Size() int {
 	return 4 + 2 + 1 + 1 + 4
 }
+
+func (s *Sym) Dupok() bool         { return s.Flag&SymFlagDupok != 0 }
+func (s *Sym) Local() bool         { return s.Flag&SymFlagLocal != 0 }
+func (s *Sym) Typelink() bool      { return s.Flag&SymFlagTypelink != 0 }
+func (s *Sym) Leaf() bool          { return s.Flag&SymFlagLeaf != 0 }
+func (s *Sym) CFunc() bool         { return s.Flag&SymFlagCFunc != 0 }
+func (s *Sym) ReflectMethod() bool { return s.Flag&SymFlagReflectMethod != 0 }
+func (s *Sym) IsGoType() bool      { return s.Flag&SymFlagGoType != 0 }
+func (s *Sym) TopFrame() bool      { return s.Flag&SymFlagTopFrame != 0 }
 
 // Symbol reference.
 type SymRef struct {
@@ -280,8 +298,12 @@ const (
 	AuxGotype = iota
 	AuxFuncInfo
 	AuxFuncdata
+	AuxDwarfInfo
+	AuxDwarfLoc
+	AuxDwarfRanges
+	AuxDwarfLines
 
-	// TODO: more. DWARF? Pcdata?
+	// TODO: more. Pcdata?
 )
 
 func (a *Aux) Write(w *Writer) {
@@ -374,15 +396,6 @@ type Reader struct {
 	h     Header // keep block offsets
 }
 
-func NewReader(rd io.ReaderAt, off uint32) *Reader {
-	r := &Reader{rd: rd, start: off}
-	err := r.h.Read(r)
-	if err != nil {
-		return nil
-	}
-	return r
-}
-
 func NewReaderFromBytes(b []byte, readonly bool) *Reader {
 	r := &Reader{b: b, readonly: readonly, rd: bytes.NewReader(b), start: 0}
 	err := r.h.Read(r)
@@ -396,16 +409,8 @@ func (r *Reader) BytesAt(off uint32, len int) []byte {
 	if len == 0 {
 		return nil
 	}
-	if r.b != nil {
-		end := int(off) + len
-		return r.b[int(off):end:end]
-	}
-	b := make([]byte, len)
-	_, err := r.rd.ReadAt(b, int64(r.start+off))
-	if err != nil {
-		panic("corrupted input")
-	}
-	return b
+	end := int(off) + len
+	return r.b[int(off):end:end]
 }
 
 func (r *Reader) uint64At(off uint32) uint64 {
@@ -438,17 +443,9 @@ func (r *Reader) uint8At(off uint32) uint8 {
 
 func (r *Reader) StringAt(off uint32) string {
 	l := r.uint32At(off)
-	if r.b != nil {
-		b := r.b[off+4 : off+4+l]
-		if r.readonly {
-			return toString(b) // backed by RO memory, ok to make unsafe string
-		}
-		return string(b)
-	}
-	b := make([]byte, l)
-	n, err := r.rd.ReadAt(b, int64(r.start+off+4))
-	if n != int(l) || err != nil {
-		panic("corrupted input")
+	b := r.b[off+4 : off+4+l]
+	if r.readonly {
+		return toString(b) // backed by RO memory, ok to make unsafe string
 	}
 	return string(b)
 }
@@ -582,4 +579,9 @@ func (r *Reader) PcdataBase() uint32 {
 // ReadOnly returns whether r.BytesAt returns read-only bytes.
 func (r *Reader) ReadOnly() bool {
 	return r.readonly
+}
+
+// Flags returns the flag bits read from the object file header.
+func (r *Reader) Flags() uint32 {
+	return r.h.Flags
 }
