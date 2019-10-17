@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55257a27_84d4b527",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-17T22:54:09Z",
+      "side": 1,
+      "message": "s/leafs/leaves/",
+      "range": {
+        "startLine": 32,
+        "startChar": 49,
+        "endLine": 32,
+        "endChar": 54
+      },
+      "revId": "02b90f3474c4151274911a85f340019aecbce13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3580073f_f9bea4d2",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-17T22:54:09Z",
+      "side": 1,
+      "message": "Maybe assert somewhere that pagesPerArena % mallocChunkPages \u003d\u003d 0?",
+      "revId": "02b90f3474c4151274911a85f340019aecbce13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac3a24f6_d79b44cc",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-17T22:54:09Z",
+      "side": 1,
+      "message": "I would have thought that a wider, shallower tree would be better.",
+      "revId": "02b90f3474c4151274911a85f340019aecbce13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42f0ed3e_fc0d9cc2",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-17T22:54:09Z",
+      "side": 1,
+      "message": "I\u0027m confused by the direction of levels.\nI thought L0 was the biggest level, which should have the most bits.\nBut this math implies L0 is the smallest level, with the fewest bits.",
+      "revId": "02b90f3474c4151274911a85f340019aecbce13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
