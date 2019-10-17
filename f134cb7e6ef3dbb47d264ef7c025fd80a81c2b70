@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f73186b_ff83f38f",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-17T15:19:21Z",
+      "side": 1,
+      "message": "The new complexity of this if statement is pretty high. An elucidating comment would go a long way towards readability.",
+      "revId": "f134cb7e6ef3dbb47d264ef7c025fd80a81c2b70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
