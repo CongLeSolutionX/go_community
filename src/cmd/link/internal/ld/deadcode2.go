@@ -146,6 +146,14 @@ func (d *deadcodePass2) flood() {
 		for i := 0; i < naux; i++ {
 			d.mark(d.ldr.AuxSym(symIdx, i))
 		}
+		// Some host object symbols have an outer object, which acts like a "carrier"
+		// symbol, or it holds all the symbols for a particular section. We need to
+		// mark all "referenced" symbols from that carrier. This is not ideal, and
+		// these carrier/section symbols could be removed.
+		// TODO: newobj old deadcode looked at sub symbols too. Do we need to?
+		if s := d.ldr.OuterSym(symIdx); s != 0 {
+			d.mark(s)
+		}
 
 		if len(methods) != 0 {
 			// Decode runtime type information for type methods
