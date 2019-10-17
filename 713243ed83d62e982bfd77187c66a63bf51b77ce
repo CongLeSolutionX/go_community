@@ -63,6 +63,24 @@
       "revId": "713243ed83d62e982bfd77187c66a63bf51b77ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e73db9a_8b8ae130",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-17T20:14:32Z",
+      "side": 1,
+      "message": "What about this comment?",
+      "parentUuid": "ff2e134d_2d8a258d",
+      "revId": "713243ed83d62e982bfd77187c66a63bf51b77ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
