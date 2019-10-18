@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7feeceb_2cdd9136",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-18T16:33:47Z",
+      "side": 1,
+      "message": "I was thinking it might be better just to make all these args uints instead of ints. It means a few of the functions can\u0027t return -1 (and will instead return some other error value) but it\u0027s not a big deal.\n\nThe original decision was arbitrary anyway. WDYT?",
+      "parentUuid": "5321f39f_8ebebf85",
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb3f8dec_5d004156",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 14
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2974fd52_a649ae80",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-18T16:33:47Z",
+      "side": 1,
+      "message": "no good reason, just hadn\u0027t gotten around to it when cleaning up other code. added that now.",
+      "parentUuid": "fb3f8dec_5d004156",
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efcb94df_12118dd1",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 14
@@ -47,6 +83,24 @@
       "writtenOn": "2019-10-17T23:22:10Z",
       "side": 1,
       "message": "\"hint\" doesn\u0027t really seem to be just a hint. It\u0027s a promise (?) that there are no 0 bits below hint.\nIf it was just a hint there\u0027d be another loop at the end from 0 to hint/64.",
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffa4f01c_993a6ea9",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-18T16:33:47Z",
+      "side": 1,
+      "message": "You\u0027re right, it is a promise. The hint can always be too low, but never too high since correctness rides on that.\n\nI don\u0027t really have a better name for it, though. Open to suggestions, though.",
+      "parentUuid": "efcb94df_12118dd1",
       "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a7ef2d5b_2b9ba472",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-18T16:33:47Z",
+      "side": 1,
+      "message": "We do in other functions, so for the sake of uniformity I think I\u0027d prefer to keep the hint a byte index (unless you mean just for this function).\n\nAnd, we could technically make this one just give a more precise hint as a small optimization.",
+      "parentUuid": "f358d5e1_e85b0a37",
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "648dd85d_2a4c585d",
         "filename": "src/runtime/mallocbits_test.go",
         "patchSetId": 14
@@ -81,6 +153,24 @@
       "writtenOn": "2019-10-17T23:22:10Z",
       "side": 1,
       "message": "This is a bit of an abstraction leaker, because it reports words instead of bits.\nNot a big deal.",
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb3e6e3_75d9ce86",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-18T16:33:47Z",
+      "side": 1,
+      "message": "good point, though I\u0027m not sure how else to do this. should mallocBits just have accessor method?",
+      "parentUuid": "648dd85d_2a4c585d",
       "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "8f938508_20514e05",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-18T16:33:47Z",
+      "side": 1,
+      "message": "yeah stale comment, my bad. fixed.",
+      "parentUuid": "3b7c19de_4d7d377b",
+      "range": {
+        "startLine": 115,
+        "startChar": 19,
+        "endLine": 115,
+        "endChar": 49
+      },
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3687abd_4755f3b6",
         "filename": "src/runtime/mallocbits_test.go",
         "patchSetId": 14
@@ -124,6 +238,24 @@
       "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57a4c671_f24721b4",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-18T16:33:47Z",
+      "side": 1,
+      "message": "basically just wanted to check that there\u0027s no state change which causes it to suddenly succeed (and went a little overboard on the paranoia...). reduced it down to 2 -1s. this kind of check is more important for the actual page allocator precisely because of the \"hint\" (for example, subsequent -1s could cause a fault due to a bug or something).",
+      "parentUuid": "a3687abd_4755f3b6",
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
