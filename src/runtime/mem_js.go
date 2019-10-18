@@ -52,8 +52,11 @@ func sysReserve(v unsafe.Pointer, n uintptr) unsafe.Pointer {
 		return nil
 	}
 
-	if reserveEnd < lastmoduledatap.end {
-		reserveEnd = lastmoduledatap.end
+	// TODO(mknyszek): Currently the first few bytes (or more) of the first reservation
+	// made are not guaranteed to be zero. To work around this, round reserveEnd
+	// up to the next page.
+	if reserveEnd < alignUp(lastmoduledatap.end, sys.DefaultPhysPageSize) {
+		reserveEnd = alignUp(lastmoduledatap.end, sys.DefaultPhysPageSize)
 	}
 	v = unsafe.Pointer(reserveEnd)
 	reserveEnd += n
