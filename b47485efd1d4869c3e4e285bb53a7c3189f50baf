@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c5f3250_6b95b963",
+        "filename": "src/runtime/sys_linux_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-18T00:47:27Z",
+      "side": 1,
+      "message": "MOVD?",
+      "range": {
+        "startLine": 170,
+        "startChar": 1,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "b47485efd1d4869c3e4e285bb53a7c3189f50baf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
