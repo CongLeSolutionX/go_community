@@ -28,7 +28,11 @@
 //            if err != nil {
 //                log.Fatal("could not create CPU profile: ", err)
 //            }
-//            defer f.Close()
+//            defer func() {
+//                if err := f.Close(); err != nil {
+//                     log.Print("error closing CPU profile: ", err)
+//                }
+//            }()
 //            if err := pprof.StartCPUProfile(f); err != nil {
 //                log.Fatal("could not start CPU profile: ", err)
 //            }
