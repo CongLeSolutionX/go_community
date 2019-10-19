@@ -67,6 +67,8 @@ const (
 	// TODO(austin): Remove this and all uses once the compiler
 	// generates real ABI wrappers rather than symbol aliases.
 	SABIALIAS
+	// Coverage instrumentation counters for fuzzing.
+	SFUZZCOUNTERS
 	// Update cmd/link/internal/sym/AbiSymKindToSymKind for new SymKind values.
 
 )

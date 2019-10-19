@@ -94,6 +94,7 @@ const (
 	SXCOFFTOC
 	SBSS
 	SNOPTRBSS
+	SFUZZCOUNTERS
 	STLSBSS
 	SXREF
 	SMACHOSYMSTR
@@ -132,6 +133,7 @@ var AbiSymKindToSymKind = [...]SymKind{
 	SDWARFLOC,
 	SDWARFLINES,
 	SABIALIAS,
+	SFUZZCOUNTERS,
 }
 
 // ReadOnly are the symbol kinds that form read-only sections. In some
