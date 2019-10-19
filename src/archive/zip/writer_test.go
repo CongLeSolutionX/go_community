@@ -6,8 +6,10 @@ package zip
 
 import (
 	"bytes"
+	"compress/flate"
 	"encoding/binary"
 	"fmt"
+	"hash/crc32"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -24,6 +26,7 @@ type WriteTest struct {
 	Data   []byte
 	Method uint16
 	Mode   os.FileMode
+	Raw    bool
 }
 
 var writeTests = []WriteTest{
@@ -38,6 +41,20 @@ var writeTests = []WriteTest{
 		Data:   nil, // large data set in the test
 		Method: Deflate,
 		Mode:   0644,
+	},
+	{
+		Name:   "foo-raw",
+		Data:   []byte("Rabbits, guinea pigs, gophers, marsupial rats, and quolls."),
+		Method: Store,
+		Mode:   0666,
+		Raw:    true,
+	},
+	{
+		Name:   "bar-raw",
+		Data:   nil, // large data set in the test
+		Method: Deflate,
+		Mode:   0666,
+		Raw:    true,
 	},
 	{
 		Name:   "setuid",
@@ -361,11 +378,36 @@ func testCreate(t *testing.T, w *Writer, wt *WriteTest) {
 	if wt.Mode != 0 {
 		header.SetMode(wt.Mode)
 	}
-	f, err := w.CreateHeader(header)
+	data := wt.Data
+
+	var f io.Writer
+	var err error
+	if wt.Raw {
+		if header.Method == Deflate {
+			var buf bytes.Buffer
+			fw, err := flate.NewWriter(&buf, flate.DefaultCompression)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err = fw.Write(wt.Data); err != nil {
+				t.Fatal(err)
+			}
+			if err = fw.Close(); err != nil {
+				t.Fatal(err)
+			}
+			data = buf.Bytes()
+		}
+		header.CompressedSize64 = uint64(len(data))
+		header.UncompressedSize64 = uint64(len(wt.Data))
+		header.CRC32 = crc32.ChecksumIEEE(wt.Data)
+		f, err = w.CreateHeaderRaw(header)
+	} else {
+		f, err = w.CreateHeader(header)
+	}
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, err = f.Write(wt.Data)
+	_, err = f.Write(data)
 	if err != nil {
 		t.Fatal(err)
 	}

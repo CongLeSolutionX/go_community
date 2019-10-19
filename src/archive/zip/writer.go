@@ -251,8 +251,46 @@ func detectUTF8(s string) (valid, require bool) {
 //
 // This returns a Writer to which the file contents should be written.
 // The file's contents must be written to the io.Writer before the next
-// call to Create, CreateHeader, or Close.
+// call to Create, CreateHeader, CreateHeaderRaw, or Close.
 func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
+	ow, err := w.CreateHeaderRaw(fh)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, ok := ow.(dirWriter); ok {
+		return ow, nil
+	}
+
+	fw := ow.(*fileWriter)
+	fw.raw = false
+	fw.compCount = &countWriter{w: w.cw}
+	fw.crc32 = crc32.NewIEEE()
+	comp := w.compressor(fh.Method)
+	if comp == nil {
+		return nil, ErrAlgorithm
+	}
+	fw.comp, err = comp(fw.compCount)
+	if err != nil {
+		return nil, err
+	}
+	fw.rawCount = &countWriter{w: fw.comp}
+
+	return fw, nil
+}
+
+// CreateHeaderRaw adds a file to the zip archive using the provided FileHeader
+// for the file metadata. Writer takes ownership of fh and may mutate
+// its fields. The caller must not modify fh after calling CreateHeader.
+//
+// This returns a Writer to which the file contents should be written.
+// The file's contents must be written to the io.Writer before the next
+// call to Create, CreateHeader, CreateHeaderRaw, or Close.
+//
+// CreateHeaderRaw doesn't compress any data written to the returned writer. It
+// is the callers responsibility to set the correct Method, CompressedSize64,
+// UncompressedSize64 and CRC32 FileHeader fields for the data written.
+func (w *Writer) CreateHeaderRaw(fh *FileHeader) (io.Writer, error) {
 	if w.last != nil && !w.last.closed {
 		if err := w.last.close(); err != nil {
 			return nil, err
@@ -347,20 +385,9 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 		fh.Flags |= 0x8 // we will write a data descriptor
 
 		fw = &fileWriter{
-			zipw:      w.cw,
-			compCount: &countWriter{w: w.cw},
-			crc32:     crc32.NewIEEE(),
+			zipw: w.cw,
+			raw:  true,
 		}
-		comp := w.compressor(fh.Method)
-		if comp == nil {
-			return nil, ErrAlgorithm
-		}
-		var err error
-		fw.comp, err = comp(fw.compCount)
-		if err != nil {
-			return nil, err
-		}
-		fw.rawCount = &countWriter{w: fw.comp}
 		fw.header = h
 		ow = fw
 	}
@@ -440,11 +467,15 @@ type fileWriter struct {
 	compCount *countWriter
 	crc32     hash.Hash32
 	closed    bool
+	raw       bool
 }
 
 func (w *fileWriter) Write(p []byte) (int, error) {
 	if w.closed {
 		return 0, errors.New("zip: write to closed file")
+	}
+	if w.raw {
+		return w.zipw.Write(p)
 	}
 	w.crc32.Write(p)
 	return w.rawCount.Write(p)
@@ -455,15 +486,18 @@ func (w *fileWriter) close() error {
 		return errors.New("zip: file closed twice")
 	}
 	w.closed = true
-	if err := w.comp.Close(); err != nil {
-		return err
-	}
 
 	// update FileHeader
 	fh := w.header.FileHeader
-	fh.CRC32 = w.crc32.Sum32()
-	fh.CompressedSize64 = uint64(w.compCount.count)
-	fh.UncompressedSize64 = uint64(w.rawCount.count)
+	if !w.raw {
+		if err := w.comp.Close(); err != nil {
+			return err
+		}
+
+		fh.CRC32 = w.crc32.Sum32()
+		fh.CompressedSize64 = uint64(w.compCount.count)
+		fh.UncompressedSize64 = uint64(w.rawCount.count)
+	}
 
 	if fh.isZip64() {
 		fh.CompressedSize = uint32max
