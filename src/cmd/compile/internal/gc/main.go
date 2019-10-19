@@ -44,6 +44,7 @@ var (
 	Debug_closure      int
 	Debug_compilelater int
 	debug_dclstack     int
+	Debug_libfuzzer    int
 	Debug_panic        int
 	Debug_slice        int
 	Debug_vlog         bool
@@ -72,6 +73,7 @@ var debugtab = []struct {
 	{"compilelater", "compile functions as late as possible", &Debug_compilelater},
 	{"disablenil", "disable nil checks", &disable_checknil},
 	{"dclstack", "run internal dclstack check", &debug_dclstack},
+	{"libfuzzer", "coverage instrumentation for libfuzzer", &Debug_libfuzzer},
 	{"gcprog", "print dump of GC programs", &Debug_gcprog},
 	{"nil", "print information about nil checks", &Debug_checknil},
 	{"panic", "do not hide any compiler panic", &Debug_panic},
@@ -447,9 +449,12 @@ func Main(archInit func(*Arch)) {
 		}
 	}
 
-	// Runtime can't use -d=checkptr, at least not yet.
 	if compiling_runtime {
+		// Runtime can't use -d=checkptr, at least not yet.
 		Debug_checkptr = 0
+
+		// Fuzzing the runtime isn't interesting either.
+		Debug_libfuzzer = 0
 	}
 
 	// set via a -d flag
