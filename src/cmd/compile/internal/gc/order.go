@@ -324,6 +324,33 @@ func (o *Order) stmtList(l Nodes) {
 	}
 }
 
+// edge inserts coverage instrumentation for libfuzzer.
+func (o *Order) edge() {
+	if Debug_libfuzzer == 0 {
+		return
+	}
+
+	// counter += 1
+	n := nod(OASOP, newLibfuzzerExtraCounter(), nodintconst(1))
+	n.SetSubOp(OADD)
+	n = typecheck(n, ctxStmt)
+
+	o.out = append(o.out, n)
+}
+
+var libfuzzerExtraCounterGen int
+
+// newLibfuzzerExtraCounter returns a new uint8 variable that will be
+// allocated in section __libfuzzer_extra_counters.
+func newLibfuzzerExtraCounter() *Node {
+	// Don't use lookupN; it interns the resulting string, but these are all unique.
+	n := newname(lookup(fmt.Sprintf(".fztmp_%d", libfuzzerExtraCounterGen)))
+	libfuzzerExtraCounterGen++
+	addvar(n, types.Types[TUINT8], PEXTERN)
+	n.Name.SetLibfuzzerExtraCounter(true)
+	return n
+}
+
 // orderBlock orders the block of statements in n into a new slice,
 // and then replaces the old slice in n with the new slice.
 // free is a map that can be used to obtain temporary variables by type.
@@ -331,6 +358,7 @@ func orderBlock(n *Nodes, free map[string][]*Node) {
 	var order Order
 	order.free = free
 	mark := order.markTemp()
+	order.edge()
 	order.stmtList(*n)
 	order.cleanTemp(mark)
 	n.Set(order.out)
@@ -917,6 +945,11 @@ func (o *Order) stmt(n *Node) {
 	// For now just clean all the temporaries at the end.
 	// In practice that's fine.
 	case OSWITCH:
+		if Debug_libfuzzer != 0 && !hasDefaultCase(n) {
+			// Add empty "default:" case for instrumentation.
+			n.List.Append(nod(OCASE, nil, nil))
+		}
+
 		t := o.markTemp()
 		n.Left = o.expr(n.Left, nil)
 		for _, ncas := range n.List.Slice() {
@@ -932,6 +965,18 @@ func (o *Order) stmt(n *Node) {
 	}
 
 	lineno = lno
+}
+
+func hasDefaultCase(n *Node) bool {
+	for _, ncas := range n.List.Slice() {
+		if ncas.Op != OCASE {
+			Fatalf("expected case, found %v", ncas.Op)
+		}
+		if ncas.List.Len() == 0 {
+			return true
+		}
+	}
+	return false
 }
 
 // exprList orders the expression list l into o.
@@ -1083,6 +1128,7 @@ func (o *Order) expr(n, lhs *Node) *Node {
 		saveout := o.out
 		o.out = nil
 		t := o.markTemp()
+		o.edge()
 		rhs := o.expr(n.Right, nil)
 		o.out = append(o.out, typecheck(nod(OAS, r, rhs), ctxStmt))
 		o.cleanTemp(t)
