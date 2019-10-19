@@ -296,6 +296,9 @@ func ggloblnod(nam *Node) {
 		flags |= obj.NOPTR
 	}
 	Ctxt.Globl(s, nam.Type.Width, flags)
+	if nam.Sym.Pkg == fuzzpkg {
+		s.Type = objabi.SFUZZCOUNTERS
+	}
 }
 
 func ggloblsym(s *obj.LSym, width int32, flags int16) {
