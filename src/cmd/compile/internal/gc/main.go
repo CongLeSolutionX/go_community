@@ -44,6 +44,7 @@ var (
 	Debug_closure      int
 	Debug_compilelater int
 	debug_dclstack     int
+	Debug_fuzzing      int
 	Debug_panic        int
 	Debug_slice        int
 	Debug_vlog         bool
@@ -71,6 +72,7 @@ var debugtab = []struct {
 	{"compilelater", "compile functions as late as possible", &Debug_compilelater},
 	{"disablenil", "disable nil checks", &disable_checknil},
 	{"dclstack", "run internal dclstack check", &debug_dclstack},
+	{"fuzzing", "coverage instrumentation for fuzzing", &Debug_fuzzing},
 	{"gcprog", "print dump of GC programs", &Debug_gcprog},
 	{"nil", "print information about nil checks", &Debug_checknil},
 	{"panic", "do not hide any compiler panic", &Debug_panic},
@@ -185,6 +187,10 @@ func Main(archInit func(*Arch)) {
 	// pseudo-package used for map zero values
 	mappkg = types.NewPkg("go.map", "go.map")
 	mappkg.Prefix = "go.map"
+
+	// pseudo-package used for fuzz counters
+	fuzzpkg = types.NewPkg("go.fuzz", "go.fuzz")
+	fuzzpkg.Prefix = "go.fuzz"
 
 	// pseudo-package used for methods with anonymous receivers
 	gopkg = types.NewPkg("go", "")

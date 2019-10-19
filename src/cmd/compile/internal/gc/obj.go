@@ -203,7 +203,7 @@ func dumpGlobal(n *Node) {
 	if n.Class() == PFUNC {
 		return
 	}
-	if n.Sym.Pkg != localpkg {
+	if n.Sym.Pkg != localpkg && n.Sym.Pkg != fuzzpkg {
 		return
 	}
 	dowidth(n.Type)

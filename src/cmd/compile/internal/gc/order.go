@@ -7,6 +7,8 @@ package gc
 import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
 )
 
@@ -324,6 +326,38 @@ func (o *Order) stmtList(l Nodes) {
 	}
 }
 
+func (o *Order) edge() {
+	if Debug_fuzzing == 0 {
+		return
+	}
+
+	inc := nod(OASOP, newEdgeCounter(), nodintconst(1))
+	inc.SetSubOp(OADD)
+	inc = typecheck(inc, ctxStmt)
+	o.out = append(o.out, inc)
+}
+
+func newEdgeCounter() *Node {
+	// TODO(mdempsky): Deterministic build. Maybe based on lineno?
+	var name [16]byte
+	if _, err := rand.Read(name[:]); err != nil {
+		Fatalf("rand.Read failed: %v", err)
+	}
+
+	s := fuzzpkg.Lookup(hex.EncodeToString(name[:]))
+	if s.Def != nil {
+		// TODO(mdempsky): Just retry?
+		Fatalf("counter collision: %v", s)
+	}
+
+	n := newname(s)
+	declare(n, PEXTERN)
+	n.Type = types.Types[TUINT8]
+	n.SetTypecheck(1)
+
+	return n
+}
+
 // orderBlock orders the block of statements in n into a new slice,
 // and then replaces the old slice in n with the new slice.
 // free is a map that can be used to obtain temporary variables by type.
@@ -331,6 +365,7 @@ func orderBlock(n *Nodes, free map[string][]*Node) {
 	var order Order
 	order.free = free
 	mark := order.markTemp()
+	order.edge()
 	order.stmtList(*n)
 	order.cleanTemp(mark)
 	n.Set(order.out)
@@ -917,6 +952,11 @@ func (o *Order) stmt(n *Node) {
 	// For now just clean all the temporaries at the end.
 	// In practice that's fine.
 	case OSWITCH:
+		if Debug_fuzzing != 0 && !hasDefaultCase(n) {
+			// Add empty "default:" case for instrumentation.
+			n.List.Append(nod(OCASE, nil, nil))
+		}
+
 		t := o.markTemp()
 		n.Left = o.expr(n.Left, nil)
 		for _, ncas := range n.List.Slice() {
@@ -932,6 +972,18 @@ func (o *Order) stmt(n *Node) {
 	}
 
 	lineno = lno
+}
+
+func hasDefaultCase(n *Node) bool {
+	for _, ncas := range n.List.Slice() {
+		if ncas.Op != OCASE {
+			Fatalf("expected case, found %v", ncas.Op)
+		}
+		if ncas.List.Len() == 0 {
+			return true
+		}
+	}
+	return false
 }
 
 // exprList orders the expression list l into o.
@@ -1083,6 +1135,7 @@ func (o *Order) expr(n, lhs *Node) *Node {
 		saveout := o.out
 		o.out = nil
 		t := o.markTemp()
+		o.edge()
 		rhs := o.expr(n.Right, nil)
 		o.out = append(o.out, typecheck(nod(OAS, r, rhs), ctxStmt))
 		o.cleanTemp(t)

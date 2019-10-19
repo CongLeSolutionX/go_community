@@ -139,6 +139,8 @@ var mappkg *types.Pkg // fake package for map zero value
 
 var gopkg *types.Pkg // pseudo-package for method symbols on anonymous receiver types
 
+var fuzzpkg *types.Pkg
+
 var zerosize int64
 
 var myimportpath string
