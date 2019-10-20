@@ -46,6 +46,7 @@ package runtime
 import (
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
+	"unsafe"
 )
 
 type suspendGState struct {
@@ -352,7 +353,7 @@ func isAsyncSafePoint(gp *g, pc, sp uintptr) bool {
 		// functions (except at calls).
 		return false
 	}
-	if funcdata(f, _FUNCDATA_LocalsPointerMaps) == nil {
+	if fd := funcdata(f, _FUNCDATA_LocalsPointerMaps); fd == nil || fd == unsafe.Pointer(&no_pointers_stackmap) {
 		// This is assembly code. Don't assume it's
 		// well-formed.
 		//
@@ -374,3 +375,5 @@ func isAsyncSafePoint(gp *g, pc, sp uintptr) bool {
 
 	return true
 }
+
+var no_pointers_stackmap uint64 // defined in assembly, for NO_LOCAL_POINTERS macro
