@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1019271_35b083cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-20T03:57:15Z",
+      "side": 1,
+      "message": "Please make this entire message:\n\nnet/http: make Transport.roundTrip close body on invalid method\n\nUpdates #35015\n\nYou\u0027ll need to manually update your Github PR message in order\nfor it to reflect here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 63
+      },
+      "revId": "88a6ca4fcc3c3635631750a968dfeb4293babad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
