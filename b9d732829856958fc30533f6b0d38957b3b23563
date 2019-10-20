@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf838430_affbaa6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-20T20:02:29Z",
+      "side": 1,
+      "message": "Write this as\n\nFixes #32276",
+      "revId": "b9d732829856958fc30533f6b0d38957b3b23563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fe39323_86705cc0",
+        "filename": "src/io/io.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-20T20:02:29Z",
+      "side": 1,
+      "message": "You can remove the second \"if\".",
+      "range": {
+        "startLine": 372,
+        "startChar": 40,
+        "endLine": 372,
+        "endChar": 42
+      },
+      "revId": "b9d732829856958fc30533f6b0d38957b3b23563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
