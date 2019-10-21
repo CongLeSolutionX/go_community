@@ -266,6 +266,7 @@ func TestRecursivePanic4(t *testing.T) {
 }
 
 func TestGoexitCrash(t *testing.T) {
+	t.Skip("doesn't work in stress testing")
 	output := runTestProg(t, "testprog", "GoexitExit")
 	want := "no goroutines (main called runtime.Goexit) - deadlock!"
 	if !strings.Contains(output, want) {

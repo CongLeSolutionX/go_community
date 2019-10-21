@@ -12,6 +12,7 @@
 // +build amd64
 // +build linux
 // +build !race
+// +build ignore
 
 package runtime_test
 

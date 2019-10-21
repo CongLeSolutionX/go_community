@@ -192,7 +192,7 @@ func suspendG(gp *g) suspendGState {
 		case _Grunning:
 			// Optimization: if there is already a pending preemption request
 			// (from the previous loop iteration), don't bother with the atomics.
-			if gp.preemptStop && gp.preempt && gp.stackguard0 == stackPreempt && asyncM == gp.m && atomic.Load(&asyncM.preemptGen) == asyncGen {
+			if gp.preemptStop && gp.preempt && /*gp.stackguard0 == stackPreempt &&*/ asyncM == gp.m && atomic.Load(&asyncM.preemptGen) == asyncGen {
 				break
 			}
 
@@ -204,7 +204,7 @@ func suspendG(gp *g) suspendGState {
 			// Request synchronous preemption.
 			gp.preemptStop = true
 			gp.preempt = true
-			gp.stackguard0 = stackPreempt
+			//gp.stackguard0 = stackPreempt
 
 			// Prepare for asynchronous preemption.
 			asyncM2 := gp.m
