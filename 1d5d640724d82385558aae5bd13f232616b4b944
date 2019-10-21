@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "935fae87_9b67c7e3",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-21T23:56:52Z",
+      "side": 1,
+      "message": "Comment why it\u0027s necessary to exclude the no-pointers map.\n\nI\u0027m actually not sure why it is necessary. If we\u0027re in assembly, but it\u0027s marked as having no local pointers, aren\u0027t we actually okay to conservatively scan it? Or is the danger that it may be using registers that aren\u0027t part of the normal Go calling convention (so we won\u0027t save/restore them) or may be doing weird things with pointers in registers?",
+      "revId": "1d5d640724d82385558aae5bd13f232616b4b944",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
