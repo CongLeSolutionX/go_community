@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7938aa98_964bd5d0",
+        "filename": "src/runtime/sys_linux_mips64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-10-21T09:36:37Z",
+      "side": 1,
+      "message": "This can be removed now.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "b6c11d15c6c794af24b3a4565a12924b7ea9063b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
