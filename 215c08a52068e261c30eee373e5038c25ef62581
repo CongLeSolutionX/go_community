@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3809317d_b3c07a9d",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6277,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-21T17:51:07Z",
+      "side": 1,
+      "message": "Let\u0027s remove the HTTP 1-vs-2 testing and just test HTTP/1. There\u0027s nothing protocol-specific here.\n\nI\u0027m not even convinced you need a whole newClientServerTest, but if that makes testing easier, that\u0027s fine.",
+      "range": {
+        "startLine": 6270,
+        "startChar": 0,
+        "endLine": 6277,
+        "endChar": 0
+      },
+      "revId": "215c08a52068e261c30eee373e5038c25ef62581",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d21870d_6bd76c44",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6332,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-21T17:51:07Z",
+      "side": 1,
+      "message": "nice",
+      "range": {
+        "startLine": 6332,
+        "startChar": 41,
+        "endLine": 6332,
+        "endChar": 57
+      },
+      "revId": "215c08a52068e261c30eee373e5038c25ef62581",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
