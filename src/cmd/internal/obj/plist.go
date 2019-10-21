@@ -206,3 +206,29 @@ func (ctxt *Link) EmitEntryLiveness(s *LSym, p *Prog, newprog ProgAlloc) *Prog {
 
 	return pcdata
 }
+
+func (ctxt *Link) StartUnsafePoint(s *LSym, p *Prog, newprog ProgAlloc) *Prog {
+	pcdata := Appendp(p, newprog)
+	pcdata.As = APCDATA
+	pcdata.From.Type = TYPE_CONST
+	pcdata.From.Offset = objabi.PCDATA_StackMapIndex
+	pcdata.To.Type = TYPE_CONST
+	pcdata.To.Offset = -2 // pcdata -2 marks unsafe point
+
+	// TODO: register map?
+
+	return pcdata
+}
+
+func (ctxt *Link) EndUnsafePoint(s *LSym, p *Prog, newprog ProgAlloc, oldval int64) *Prog {
+	pcdata := Appendp(p, newprog)
+	pcdata.As = APCDATA
+	pcdata.From.Type = TYPE_CONST
+	pcdata.From.Offset = objabi.PCDATA_StackMapIndex
+	pcdata.To.Type = TYPE_CONST
+	pcdata.To.Offset = oldval
+
+	// TODO: register map?
+
+	return pcdata
+}
