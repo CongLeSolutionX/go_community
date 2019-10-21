@@ -307,6 +307,8 @@ panic: third panic
 }
 
 func TestGoexitCrash(t *testing.T) {
+	t.Skip("doesn't work in stress testing")
+
 	// External linking brings in cgo, causing deadlock detection not working.
 	testenv.MustInternalLink(t)
 

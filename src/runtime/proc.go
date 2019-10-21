@@ -5430,7 +5430,8 @@ type sysmontick struct {
 
 // forcePreemptNS is the time slice given to a G before it is
 // preempted.
-const forcePreemptNS = 10 * 1000 * 1000 // 10ms
+// const forcePreemptNS = 10 * 1000 * 1000 // 10ms
+const forcePreemptNS = 10 * 1000 // 10us
 
 func retake(now int64) uint32 {
 	n := 0
@@ -5545,7 +5546,7 @@ func preemptone(pp *p) bool {
 	// comparing the current stack pointer to gp->stackguard0.
 	// Setting gp->stackguard0 to StackPreempt folds
 	// preemption into the normal stack overflow check.
-	gp.stackguard0 = stackPreempt
+	//gp.stackguard0 = stackPreempt
 
 	// Request an async preemption of this P.
 	if preemptMSupported && debug.asyncpreemptoff == 0 {
