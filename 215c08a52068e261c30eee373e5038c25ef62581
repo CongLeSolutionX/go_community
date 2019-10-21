@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d1d9a392_6f75d7fd",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6277,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-21T18:01:36Z",
+      "side": 1,
+      "message": "Gotcha, I\u0027ve removed it, thanks! Yes, a clientServerTest helps here with testing.",
+      "parentUuid": "3809317d_b3c07a9d",
+      "range": {
+        "startLine": 6270,
+        "startChar": 0,
+        "endLine": 6277,
+        "endChar": 0
+      },
+      "revId": "215c08a52068e261c30eee373e5038c25ef62581",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d21870d_6bd76c44",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "215c08a52068e261c30eee373e5038c25ef62581",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a437e62e_5c5d687e",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6332,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-21T18:01:36Z",
+      "side": 1,
+      "message": "Ack, thanks!",
+      "parentUuid": "0d21870d_6bd76c44",
+      "range": {
+        "startLine": 6332,
+        "startChar": 41,
+        "endLine": 6332,
+        "endChar": 57
+      },
+      "revId": "215c08a52068e261c30eee373e5038c25ef62581",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
