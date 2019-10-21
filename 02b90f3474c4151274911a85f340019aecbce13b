@@ -151,6 +151,24 @@
       "revId": "02b90f3474c4151274911a85f340019aecbce13b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e48c3687_2f818d5c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-21T17:19:37Z",
+      "side": 1,
+      "message": "so I went back and disambiguated the docs (and the proposal) by using \"root level\" and \"leaves\" as opposed to \"top\" and \"bottom\".\n\nTo avoid doing an error-prone cleanup reversing the actual indices (L0, L1, etc.) I\u0027m going to leave it for now as L0 \u003d root and LN \u003d leaves.",
+      "parentUuid": "4892ad19_45fc7f2c",
+      "revId": "02b90f3474c4151274911a85f340019aecbce13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
