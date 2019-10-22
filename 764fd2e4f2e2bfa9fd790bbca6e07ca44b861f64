@@ -16,6 +16,24 @@
       "revId": "764fd2e4f2e2bfa9fd790bbca6e07ca44b861f64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9221fda8_4814ffda",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 7160
+      },
+      "writtenOn": "2019-10-22T05:25:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a292867_dc87bd13",
+      "revId": "764fd2e4f2e2bfa9fd790bbca6e07ca44b861f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
