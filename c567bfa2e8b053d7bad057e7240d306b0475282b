@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e401d954_08bb5a17",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3331,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-22T14:48:45Z",
+      "side": 1,
+      "message": "I\u0027d rather you do\n\nif s.config.UseFMA {\n    addF(...)\n}\n\nThat way we\u0027re not doing intrinsic processing for no reason.",
+      "revId": "c567bfa2e8b053d7bad057e7240d306b0475282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
