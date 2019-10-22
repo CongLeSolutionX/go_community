@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38ac3f71_d1cea16f",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-22T18:13:07Z",
+      "side": 1,
+      "message": "nit: Just one hash mark.\n\nSince these are complete sentences and capitalized, you should probably end them with periods too.",
+      "range": {
+        "startLine": 182,
+        "startChar": 15,
+        "endLine": 182,
+        "endChar": 16
+      },
+      "revId": "7b60958793a90b713a56c625aff6c47169878c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
