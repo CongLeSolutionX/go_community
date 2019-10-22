@@ -70,6 +70,24 @@
       "revId": "c567bfa2e8b053d7bad057e7240d306b0475282b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8efa09cc_da28e46c",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3331,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-22T16:47:38Z",
+      "side": 1,
+      "message": "Ah yes, addF is happening at init time. Never mind.",
+      "parentUuid": "ee097de3_6c780b9e",
+      "revId": "c567bfa2e8b053d7bad057e7240d306b0475282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
