@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "530acfb4_d090be06",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-22T14:51:54Z",
+      "side": 1,
+      "message": "Ok, thanks.",
+      "parentUuid": "96cdd875_d3eb0e20",
+      "range": {
+        "startLine": 457,
+        "startChar": 0,
+        "endLine": 464,
+        "endChar": 3
+      },
+      "revId": "65f69105a9c578db957c03808e5f4341ff14601b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9827af35_82b824bb",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 3

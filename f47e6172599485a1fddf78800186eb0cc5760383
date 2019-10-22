@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3424fcd2_7f4ace5a",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-22T14:51:54Z",
+      "side": 1,
+      "message": "Is this used only for looking up external symbols (i.e. the ones in the ELF objects)? If this is also used for Go symbols, for them sym.Symbol is lazily created and l.Syms[i] would be nil at this point.",
+      "revId": "f47e6172599485a1fddf78800186eb0cc5760383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
