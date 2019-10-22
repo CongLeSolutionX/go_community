@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4a51a2a_4ccb2ad9",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3365,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-22T14:56:41Z",
+      "side": 1,
+      "message": "You forgot to put this math.Fma for ARM under the conditional too.\n\nThe UseFMA bool isn\u0027t documented as \"on AMD64\" or \"on Plan 9\".",
+      "range": {
+        "startLine": 3364,
+        "startChar": 1,
+        "endLine": 3365,
+        "endChar": 20
+      },
+      "revId": "68369a1430e484286db56af82d0a438d978bce6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
