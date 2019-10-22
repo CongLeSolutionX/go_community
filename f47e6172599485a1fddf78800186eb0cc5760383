@@ -34,6 +34,24 @@
       "revId": "f47e6172599485a1fddf78800186eb0cc5760383",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dbb423f_cd8b7dd7",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-22T17:49:02Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "9c8d7283_9b675ccf",
+      "revId": "f47e6172599485a1fddf78800186eb0cc5760383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
