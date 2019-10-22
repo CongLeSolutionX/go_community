@@ -16,6 +16,24 @@
       "revId": "1d5d640724d82385558aae5bd13f232616b4b944",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5ec775_e5625400",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-22T00:16:14Z",
+      "side": 1,
+      "message": "Heh, stress testing just turned up one case of this: reflect.methodValueCall (would also apply to reflect.makeFuncStub), which are NO_LOCAL_POINTERS, but perhaps more importantly are handled very specially by gentraceback, which gets very confused if an asyncPreempt is injected in the middle of one of these functions.",
+      "parentUuid": "935fae87_9b67c7e3",
+      "revId": "1d5d640724d82385558aae5bd13f232616b4b944",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
