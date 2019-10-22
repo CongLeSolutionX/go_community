@@ -40,6 +40,7 @@ var (
 
 var (
 	Debug_append       int
+	Debug_checkptr     int
 	Debug_closure      int
 	Debug_compilelater int
 	debug_dclstack     int
@@ -65,6 +66,7 @@ var debugtab = []struct {
 	val  interface{} // must be *int or *string
 }{
 	{"append", "print information about append compilation", &Debug_append},
+	{"checkptr", "instrument unsafe pointer conversions", &Debug_checkptr},
 	{"closure", "print information about closure compilation", &Debug_closure},
 	{"compilelater", "compile functions as late as possible", &Debug_compilelater},
 	{"disablenil", "disable nil checks", &disable_checknil},
@@ -249,6 +251,7 @@ func Main(archInit func(*Arch)) {
 	if supportsDynlink(thearch.LinkArch.Arch) {
 		flag.BoolVar(&flag_shared, "shared", false, "generate code that can be linked into a shared library")
 		flag.BoolVar(&flag_dynlink, "dynlink", false, "support references to Go symbols defined in other shared libraries")
+		flag.BoolVar(&Ctxt.Flag_linkshared, "linkshared", false, "generate code that will be linked against Go shared libraries")
 	}
 	flag.StringVar(&cpuprofile, "cpuprofile", "", "write cpu profile to `file`")
 	flag.StringVar(&memprofile, "memprofile", "", "write memory profile to `file`")
@@ -433,6 +436,11 @@ func Main(archInit func(*Arch)) {
 			}
 			log.Fatalf("unknown debug key -d %s\n", name)
 		}
+	}
+
+	// Runtime can't use -d=checkptr, at least not yet.
+	if compiling_runtime {
+		Debug_checkptr = 0
 	}
 
 	// set via a -d flag

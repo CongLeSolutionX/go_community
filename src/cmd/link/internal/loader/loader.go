@@ -147,19 +147,28 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 	if l.extStart != 0 {
 		panic("AddSym called after AddExtSym is called")
 	}
+	if ver == r.version {
+		// Static symbol. Add its global index but don't
+		// add to name lookup table, as it cannot be
+		// referenced by name.
+		return true
+	}
 	nv := nameVer{name, ver}
 	if oldi, ok := l.symsByName[nv]; ok {
 		if dupok {
 			return false
 		}
+		oldr, li := l.toLocal(oldi)
+		oldsym := goobj2.Sym{}
+		oldsym.Read(oldr.Reader, oldr.SymOff(li))
+		if oldsym.Dupok() {
+			return false
+		}
 		overwrite := r.DataSize(int(i-l.startIndex(r))) != 0
 		if overwrite {
 			// new symbol overwrites old symbol.
-			oldr, li := l.toLocal(oldi)
-			oldsym := goobj2.Sym{}
-			oldsym.Read(oldr.Reader, oldr.SymOff(li))
 			oldtyp := sym.AbiSymKindToSymKind[objabi.SymKind(oldsym.Type)]
-			if !oldsym.Dupok() && !((oldtyp == sym.SDATA || oldtyp == sym.SNOPTRDATA || oldtyp == sym.SBSS || oldtyp == sym.SNOPTRBSS) && oldr.DataSize(li) == 0) { // only allow overwriting 0-sized data symbol
+			if !((oldtyp == sym.SDATA || oldtyp == sym.SNOPTRDATA || oldtyp == sym.SBSS || oldtyp == sym.SNOPTRBSS) && oldr.DataSize(li) == 0) { // only allow overwriting 0-sized data symbol
 				log.Fatalf("duplicated definition of symbol " + name)
 			}
 			l.overwrite[oldi] = i
@@ -291,7 +300,10 @@ func (l *Loader) IsDup(i Sym) bool {
 		return false
 	}
 	if osym.Name == "" {
-		return false
+		return false // Unnamed aux symbol cannot be dup.
+	}
+	if osym.ABI == goobj2.SymABIstatic {
+		return false // Static symbol cannot be dup.
 	}
 	name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
 	ver := abiToVer(osym.ABI, r.version)
@@ -440,6 +452,51 @@ func (relocs *Relocs) At(j int) Reloc {
 		Add:  rel.Add,
 		Sym:  target,
 	}
+}
+
+// ReadAll method reads all relocations for a symbol into the
+// specified slice. If the slice capacity is not large enough, a new
+// larger slice will be allocated. Final slice is returned.
+func (relocs *Relocs) ReadAll(dst []Reloc) []Reloc {
+	if relocs.Count == 0 {
+		return dst
+	}
+
+	if cap(dst) < relocs.Count {
+		dst = make([]Reloc, relocs.Count)
+	}
+	dst = dst[:0]
+
+	if relocs.ext != nil {
+		for i := 0; i < relocs.Count; i++ {
+			erel := &relocs.ext.R[i]
+			rel := Reloc{
+				Off:  erel.Off,
+				Size: erel.Siz,
+				Type: erel.Type,
+				Add:  erel.Add,
+				Sym:  relocs.l.Lookup(erel.Sym.Name, int(erel.Sym.Version)),
+			}
+			dst = append(dst, rel)
+		}
+		return dst
+	}
+
+	off := relocs.r.RelocOff(relocs.li, 0)
+	for i := 0; i < relocs.Count; i++ {
+		rel := goobj2.Reloc{}
+		rel.Read(relocs.r.Reader, off)
+		off += uint32(rel.Size())
+		target := relocs.l.resolve(relocs.r, rel.Sym)
+		dst = append(dst, Reloc{
+			Off:  rel.Off,
+			Size: rel.Siz,
+			Type: objabi.RelocType(rel.Type),
+			Add:  rel.Add,
+			Sym:  target,
+		})
+	}
+	return dst
 }
 
 // Relocs returns a Relocs object for the given global sym.
@@ -608,7 +665,7 @@ func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) {
 			continue
 		}
 		ver := abiToVer(osym.ABI, r.version)
-		if l.symsByName[nameVer{name, ver}] != istart+Sym(i) {
+		if osym.ABI != goobj2.SymABIstatic && l.symsByName[nameVer{name, ver}] != istart+Sym(i) {
 			continue
 		}
 
@@ -651,6 +708,7 @@ func loadObjFull(l *Loader, r *oReader) {
 	}
 
 	pcdataBase := r.PcdataBase()
+	rslice := []Reloc{}
 	for i, n := 0, r.NSym()+r.NNonpkgdef(); i < n; i++ {
 		osym := goobj2.Sym{}
 		osym.Read(r.Reader, r.SymOff(i))
@@ -660,17 +718,19 @@ func loadObjFull(l *Loader, r *oReader) {
 		}
 		ver := abiToVer(osym.ABI, r.version)
 		dupok := osym.Dupok()
-		if dupsym := l.symsByName[nameVer{name, ver}]; dupsym != istart+Sym(i) {
-			if dupok && l.Reachable.Has(dupsym) {
-				// A dupok symbol is resolved to another package. We still need
-				// to record its presence in the current package, as the trampoline
-				// pass expects packages are laid out in dependency order.
-				s := l.Syms[dupsym]
-				if s.Type == sym.STEXT {
-					lib.DupTextSyms = append(lib.DupTextSyms, s)
+		if dupok {
+			if dupsym := l.symsByName[nameVer{name, ver}]; dupsym != istart+Sym(i) {
+				if l.Reachable.Has(dupsym) {
+					// A dupok symbol is resolved to another package. We still need
+					// to record its presence in the current package, as the trampoline
+					// pass expects packages are laid out in dependency order.
+					s := l.Syms[dupsym]
+					if s.Type == sym.STEXT {
+						lib.DupTextSyms = append(lib.DupTextSyms, s)
+					}
 				}
+				continue
 			}
-			continue
 		}
 
 		s := l.Syms[istart+Sym(i)]
@@ -692,9 +752,10 @@ func loadObjFull(l *Loader, r *oReader) {
 
 		// Relocs
 		relocs := l.relocs(r, i)
+		rslice = relocs.ReadAll(rslice)
 		s.R = make([]sym.Reloc, relocs.Count)
 		for j := range s.R {
-			r := relocs.At(j)
+			r := rslice[j]
 			rs := r.Sym
 			sz := r.Size
 			rt := r.Type
