@@ -321,21 +321,49 @@ func Marshal(curve Curve, x, y *big.Int) []byte {
 // On error, x = nil.
 func Unmarshal(curve Curve, data []byte) (x, y *big.Int) {
 	byteLen := (curve.Params().BitSize + 7) >> 3
-	if len(data) != 1+2*byteLen {
-		return
+
+	switch data[0] {
+	case 2, 3: // compressed form
+		if len(data) != 1+byteLen {
+			return
+		}
+
+		x = new(big.Int).SetBytes(data[1:])
+
+		x3 := new(big.Int).Mul(x, x)
+		x3.Mul(x3, x)
+
+		threeX := new(big.Int).Lsh(x, 1)
+		threeX.Add(threeX, x)
+
+		x3.Sub(x3, threeX)
+		x3.Add(x3, curve.Params().B)
+		x3.Mod(x3, curve.Params().P)
+
+		y = new(big.Int).ModSqrt(x3, curve.Params().P)
+
+		// Jacobi(x, p) == -1
+		if y == nil {
+			return nil, nil
+		} else if y.Bit(0) != uint(data[0]&0x1) {
+			y.Neg(y)
+			y.Mod(y, curve.Params().P)
+		}
+	case 4: // uncompressed form
+		if len(data) != 1+2*byteLen {
+			return
+		}
+		p := curve.Params().P
+		x = new(big.Int).SetBytes(data[1 : 1+byteLen])
+		y = new(big.Int).SetBytes(data[1+byteLen:])
+		if x.Cmp(p) >= 0 || y.Cmp(p) >= 0 {
+			return nil, nil
+		}
+		if !curve.IsOnCurve(x, y) {
+			return nil, nil
+		}
 	}
-	if data[0] != 4 { // uncompressed form
-		return
-	}
-	p := curve.Params().P
-	x = new(big.Int).SetBytes(data[1 : 1+byteLen])
-	y = new(big.Int).SetBytes(data[1+byteLen:])
-	if x.Cmp(p) >= 0 || y.Cmp(p) >= 0 {
-		return nil, nil
-	}
-	if !curve.IsOnCurve(x, y) {
-		return nil, nil
-	}
+
 	return
 }
 
