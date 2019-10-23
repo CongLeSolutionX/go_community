@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d6f23b_8ed849ad",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-23T21:40:15Z",
+      "side": 1,
+      "message": "This is like a scratch space or temporary buffer that only live for a short amount of time, right? Maybe name it rtmp or something?",
+      "revId": "e3d280d0b8a41d6a6b0d597c27d25393e8d3544b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d62eaa4_b0c45878",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-23T21:40:15Z",
+      "side": 1,
+      "message": "Would it make sense to use a buffer to hold the relocations of mtypSym? Maybe reuse the buffer in the outer loop.",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 3
+      },
+      "revId": "e3d280d0b8a41d6a6b0d597c27d25393e8d3544b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "646ba7df_afafb62e",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-23T21:40:15Z",
+      "side": 1,
+      "message": "Any reason this is named differently from others? (i.e. not symRelocs)",
+      "range": {
+        "startLine": 318,
+        "startChar": 98,
+        "endLine": 318,
+        "endChar": 101
+      },
+      "revId": "e3d280d0b8a41d6a6b0d597c27d25393e8d3544b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faab6480_130d6071",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-23T21:40:15Z",
+      "side": 1,
+      "message": "Some typo? \"we may see the same symbols ...\"?",
+      "range": {
+        "startLine": 386,
+        "startChar": 48,
+        "endLine": 386,
+        "endChar": 62
+      },
+      "revId": "e3d280d0b8a41d6a6b0d597c27d25393e8d3544b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
