@@ -321,7 +321,9 @@ func markrootSpans(gcw *gcWork, shard int) {
 	// entered the scan phase, so addfinalizer will have ensured
 	// the above invariants for them.
 	for _, s := range spans {
-		if s.state != mSpanInUse {
+		// This is racing with spans being initialized, so
+		// check the state carefully.
+		if s.state.atomicLoad() != mSpanInUse {
 			continue
 		}
 		// Check that this span was swept (it may be cached or uncached).
@@ -1310,10 +1312,10 @@ func gcDumpObject(label string, obj, off uintptr) {
 		return
 	}
 	print(" s.base()=", hex(s.base()), " s.limit=", hex(s.limit), " s.spanclass=", s.spanclass, " s.elemsize=", s.elemsize, " s.state=")
-	if 0 <= s.state && int(s.state) < len(mSpanStateNames) {
-		print(mSpanStateNames[s.state], "\n")
+	if state := s.state.atomicLoad(); 0 <= state && int(state) < len(mSpanStateNames) {
+		print(mSpanStateNames[state], "\n")
 	} else {
-		print("unknown(", s.state, ")\n")
+		print("unknown(", state, ")\n")
 	}
 
 	skipped := false
