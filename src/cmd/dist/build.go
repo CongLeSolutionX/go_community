@@ -638,7 +638,7 @@ func runInstall(dir string, ch chan struct{}) {
 	path := pathf("%s/src/%s", goroot, dir)
 	name := filepath.Base(dir)
 
-	ispkg := !strings.HasPrefix(dir, "cmd/") || strings.Contains(dir, "/internal/")
+	ispkg := !strings.HasPrefix(dir, "cmd/") || strings.Contains(dir, "/internal/") || strings.Contains(dir, "/vendor/")
 
 	// Start final link command line.
 	// Note: code below knows that link.p[targ] is the target.
@@ -650,7 +650,7 @@ func runInstall(dir string, ch chan struct{}) {
 	if ispkg {
 		// Go library (package).
 		ispackcmd = true
-		link = []string{"pack", pathf("%s/pkg/%s_%s/%s.a", goroot, goos, goarch, dir)}
+		link = []string{"pack", packagefile(dir)}
 		targ = len(link) - 1
 		xmkdirall(filepath.Dir(link[targ]))
 	} else {
@@ -782,16 +782,25 @@ func runInstall(dir string, ch chan struct{}) {
 	built:
 	}
 
-	// Make sure dependencies are installed.
-	var deps []string
+	// Resolve imported packages to actual package paths.
+	// Make sure they're installed.
+	importMap := make(map[string]string)
 	for _, p := range gofiles {
-		deps = append(deps, readimports(p)...)
+		for _, imp := range readimports(p) {
+			importMap[imp] = resolveVendor(imp, path)
+		}
 	}
-	for _, dir1 := range deps {
-		startInstall(dir1)
+	sortedImports := make([]string, 0, len(importMap))
+	for imp := range importMap {
+		sortedImports = append(sortedImports, imp)
 	}
-	for _, dir1 := range deps {
-		install(dir1)
+	sort.Strings(sortedImports)
+
+	for _, dep := range importMap {
+		startInstall(dep)
+	}
+	for _, dep := range importMap {
+		install(dep)
 	}
 
 	if goos != gohostos || goarch != gohostarch {
@@ -834,6 +843,23 @@ func runInstall(dir string, ch chan struct{}) {
 		bgwait(&wg)
 	}
 
+	// Build an importcfg file for the compiler.
+	buf := &bytes.Buffer{}
+	for _, imp := range sortedImports {
+		if imp == "unsafe" {
+			continue
+		}
+		pkg := importMap[imp]
+		if imp != pkg {
+			fmt.Fprintf(buf, "importmap %s=%s\n", imp, pkg)
+		}
+		fmt.Fprintf(buf, "packagefile %s=%s\n", pkg, packagefile(pkg))
+	}
+	importcfg := pathf("%s/importcfg", workdir)
+	if err := ioutil.WriteFile(importcfg, buf.Bytes(), 0666); err != nil {
+		fatalf("cannot write importcfg file: %v", err)
+	}
+
 	var archive string
 	// The next loop will compile individual non-Go files.
 	// Hand the Go files to the compiler en masse.
@@ -852,7 +878,7 @@ func runInstall(dir string, ch chan struct{}) {
 	}
 
 	// Compile Go code.
-	compile := []string{pathf("%s/compile", tooldir), "-std", "-pack", "-o", b, "-p", pkg}
+	compile := []string{pathf("%s/compile", tooldir), "-std", "-pack", "-o", b, "-p", pkg, "-importcfg", importcfg}
 	if gogcflags != "" {
 		compile = append(compile, strings.Fields(gogcflags)...)
 	}
@@ -907,6 +933,12 @@ func runInstall(dir string, ch chan struct{}) {
 	xremove(link[targ])
 	bgrun(&wg, "", link...)
 	bgwait(&wg)
+}
+
+// packagefile returns the path to a compiled .a file for the given package
+// path. Paths may need to be resolved with resolveVendor first.
+func packagefile(pkg string) string {
+	return pathf("%s/pkg/%s_%s/%s.a", goroot, goos, goarch, pkg)
 }
 
 // matchfield reports whether the field (x,y,z) matches this build.
