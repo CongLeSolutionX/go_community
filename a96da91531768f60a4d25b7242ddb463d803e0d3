@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a2dd1b_9281e0d5",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-10-23T01:21:57Z",
+      "side": 1,
+      "message": "Might be good to make clear that each caller eventually gets exclusive \"ownership\" via _Gscan bit (I think).  Also, I think there are sequences with simultaneous callers where the goroutine can be preempted and owned by a first caller, but then allowed to resume before the second caller preempts again and gets ownership.  So, you might want to clarify that.",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34b95d80_b0518c53",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-10-23T01:21:57Z",
+      "side": 1,
+      "message": "Maybe a comment here that this default case is mainly covering the _Gscan case, and list the disallowed states (just _Gidle?)",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a66e464_02fc896c",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-10-23T01:21:57Z",
+      "side": 1,
+      "message": "can\u0027t you just fallthrough here (after setting s to _Gwaiting), since you own it and are in the _Gwaiting  state?",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a285826e_efc7a2c9",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-10-23T01:21:57Z",
+      "side": 1,
+      "message": "For consistency, maybe create a _Gscanpreempted?",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c31b9ec_9fb90ce6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-10-23T01:21:57Z",
+      "side": 1,
+      "message": "Is there any problem with doing an intensive spin on atomic.Cas here (i.e. hog memory bandwidth)?  Maybe a TODO here to do a little bit of extra spinning that is not on the atomic operation?",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "495a4ad5_325de5ed",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-10-23T01:21:57Z",
+      "side": 1,
+      "message": "Maybe clarify that if preempt is true and preemptStop is false, then we are doing a \u0027preemptOne\u0027 preemption, rather than a suspendG() ?",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
