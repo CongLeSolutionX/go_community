@@ -243,6 +243,10 @@ func (s *mspan) nextFreeIndex() uintptr {
 }
 
 // isFree reports whether the index'th object in s is unallocated.
+//
+// The caller must ensure s.state is mSpanInUse, and there must have
+// been no preemption points since ensuring this (which could allow a
+// GC transition, which would allow the state to change).
 func (s *mspan) isFree(index uintptr) bool {
 	if index < s.freeindex {
 		return false
@@ -397,9 +401,12 @@ func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex ui
 		return
 	}
 	// If p is a bad pointer, it may not be in s's bounds.
-	if p < s.base() || p >= s.limit || s.state != mSpanInUse {
+	//
+	// Check s.state to synchronize with span initialization
+	// before checking other fields. See also spanOfHeap.
+	if state := s.state.atomicLoad(); state != mSpanInUse || p < s.base() || p >= s.limit {
 		// Pointers into stacks are also ok, the runtime manages these explicitly.
-		if s.state == mSpanManual {
+		if state == mSpanManual {
 			return
 		}
 		// The following ensures that we are rigorous about what data

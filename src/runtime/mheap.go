@@ -305,6 +305,14 @@ type arenaHint struct {
 // * During GC (gcphase != _GCoff), a span *must not* transition from
 //   manual or in-use to free. Because concurrent GC may read a pointer
 //   and then look up its span, the span state must be monotonic.
+//
+// Setting mspan.state to mSpanInUse must be done atomically and only
+// after all other span fields are valid. Likewise, if inspecting a
+// span is contingent on it being mSpanInUse, the state should be
+// loaded atomically and checked before depending on other fields.
+// This allows the garbage collector to safely deal with potentially
+// invalid pointers, since resolving such pointers may race with a
+// span being allocated.
 type mSpanState uint8
 
 const (
@@ -321,6 +329,14 @@ var mSpanStateNames = []string{
 	"mSpanInUse",
 	"mSpanManual",
 	"mSpanFree",
+}
+
+func (p *mSpanState) set(s mSpanState) {
+	atomic.Store8((*uint8)(p), uint8(s))
+}
+
+func (p *mSpanState) atomicLoad() mSpanState {
+	return mSpanState(atomic.Load8((*uint8)(p)))
 }
 
 // mSpanList heads a linked list of spans.
@@ -483,7 +499,7 @@ func (h *mheap) coalesce(s *mspan) {
 		// The size is potentially changing so the treap needs to delete adjacent nodes and
 		// insert back as a combined node.
 		h.free.removeSpan(other)
-		other.state = mSpanDead
+		other.state.set(mSpanDead)
 		h.spanalloc.free(unsafe.Pointer(other))
 	}
 
@@ -733,7 +749,7 @@ func inHeapOrStack(b uintptr) bool {
 	if s == nil || b < s.base() {
 		return false
 	}
-	switch s.state {
+	switch s.state.atomicLoad() {
 	case mSpanInUse, mSpanManual:
 		return b < s.limit
 	default:
@@ -800,9 +816,12 @@ func spanOfUnchecked(p uintptr) *mspan {
 //go:nosplit
 func spanOfHeap(p uintptr) *mspan {
 	s := spanOf(p)
-	// If p is not allocated, it may point to a stale span, so we
-	// have to check the span's bounds and state.
-	if s == nil || p < s.base() || p >= s.limit || s.state != mSpanInUse {
+	// s is nil if it's never been allocated. Otherwise, we check
+	// its state first because we don't trust this pointer, so we
+	// have to synchronize with span initialization. Then, it's
+	// still possible we picked up a stale span pointer, so we
+	// have to check the span's bounds.
+	if s == nil || s.state.atomicLoad() != mSpanInUse || p < s.base() || p >= s.limit {
 		return nil
 	}
 	return s
@@ -1042,7 +1061,6 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 		// able to map interior pointer to containing span.
 		atomic.Store(&s.sweepgen, h.sweepgen)
 		h.sweepSpans[h.sweepgen/2%2].push(s) // Add to swept in-use list.
-		s.state = mSpanInUse
 		s.allocCount = 0
 		s.spanclass = spanclass
 		s.elemsize = elemSize
@@ -1065,6 +1083,18 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 		s.nelems = nelems
 		s.gcmarkBits = gcmarkBits
 		s.allocBits = allocBits
+
+		// Now that the span is filled in, set its state. This
+		// is a publication barrier for the other fields in
+		// the span. While valid pointers into this span
+		// should never be visible until the span is returned,
+		// if the garbage collector finds an invalid pointer,
+		// access to the span may race with initialization of
+		// the span. We resolve this race by atomically
+		// setting the state after the span is fully
+		// initialized, and atomically checking the state in
+		// any situation where a pointer is suspect.
+		s.state.set(mSpanInUse)
 
 		// Mark in-use span in arena page bitmap.
 		arena, pageIdx, pageMask := pageIndexOf(s.base())
@@ -1143,13 +1173,13 @@ func (h *mheap) allocManual(npage uintptr, stat *uint64) *mspan {
 	lock(&h.lock)
 	s := h.allocSpanLocked(npage, stat)
 	if s != nil {
-		s.state = mSpanManual
 		s.manualFreeList = 0
 		s.allocCount = 0
 		s.spanclass = 0
 		s.nelems = 0
 		s.elemsize = 0
 		s.limit = s.base() + s.npages<<_PageShift
+		s.state.set(mSpanManual) // Publish the span
 		// Manually managed memory doesn't count toward heap_sys.
 		memstats.heap_sys -= uint64(s.npages << _PageShift)
 	}
@@ -1332,7 +1362,7 @@ func (h *mheap) growAddSpan(v unsafe.Pointer, size uintptr) {
 	s := (*mspan)(h.spanalloc.alloc())
 	s.init(uintptr(v), size/pageSize)
 	h.setSpans(s.base(), s.npages, s)
-	s.state = mSpanFree
+	s.state.set(mSpanFree)
 	// [v, v+size) is always in the Prepared state. The new span
 	// must be marked scavenged so the allocator transitions it to
 	// Ready when allocating from it.
@@ -1420,7 +1450,7 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool) {
 	if acctidle {
 		memstats.heap_idle += uint64(s.npages << _PageShift)
 	}
-	s.state = mSpanFree
+	s.state.set(mSpanFree)
 
 	// Coalesce span with neighbors.
 	h.coalesce(s)
@@ -1481,7 +1511,7 @@ func (h *mheap) scavengeSplit(t treapIter, size uintptr) *mspan {
 		h.setSpan(n.base(), n)
 		h.setSpan(n.base()+nbytes-1, n)
 		n.needzero = s.needzero
-		n.state = s.state
+		n.state.set(s.state)
 	})
 	return n
 }
@@ -1580,7 +1610,6 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.allocCount = 0
 	span.spanclass = 0
 	span.elemsize = 0
-	span.state = mSpanDead
 	span.scavenged = false
 	span.speciallock.key = 0
 	span.specials = nil
@@ -1588,6 +1617,7 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.freeindex = 0
 	span.allocBits = nil
 	span.gcmarkBits = nil
+	span.state.set(mSpanDead)
 }
 
 func (span *mspan) inList() bool {
