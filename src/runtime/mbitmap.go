@@ -243,6 +243,10 @@ func (s *mspan) nextFreeIndex() uintptr {
 }
 
 // isFree reports whether the index'th object in s is unallocated.
+//
+// The caller must ensure s.state is mSpanInUse, and there must have
+// been no preemption points since ensuring this (which could allow a
+// GC transition, which would allow the state to change).
 func (s *mspan) isFree(index uintptr) bool {
 	if index < s.freeindex {
 		return false
@@ -362,8 +366,11 @@ func heapBitsForAddr(addr uintptr) (h heapBits) {
 func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex uintptr) {
 	s = spanOf(p)
 	// If p is a bad pointer, it may not be in s's bounds.
-	if s == nil || p < s.base() || p >= s.limit || s.state != mSpanInUse {
-		if s == nil || s.state == mSpanManual {
+	//
+	// Check s.state to synchronize with span initialization
+	// before checking other fields. See also spanOfHeap.
+	if s == nil || s.state.atomicLoad() != mSpanInUse || p < s.base() || p >= s.limit {
+		if s == nil || s.state.atomicLoad() == mSpanManual {
 			// If s is nil, the virtual address has never been part of the heap.
 			// This pointer may be to some mmap'd region, so we allow it.
 			// Pointers into stacks are also ok, the runtime manages these explicitly.
