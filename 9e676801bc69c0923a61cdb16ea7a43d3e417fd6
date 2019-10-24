@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1e62c19_0cd399fd",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-24T17:37:20Z",
+      "side": 1,
+      "message": "Just to be on the safe side, panic or `return \"\", \"\"` preemptively if dir is the empty string?",
+      "revId": "9e676801bc69c0923a61cdb16ea7a43d3e417fd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
