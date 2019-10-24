@@ -311,8 +311,9 @@ func markrootSpans(gcw *gcWork, shard int) {
 	// must have been allocated and given finalizers after we
 	// entered the scan phase, so addfinalizer will have ensured
 	// the above invariants for them.
-	for _, s := range spans {
-		if s.state != mSpanInUse {
+	for i := 0; i < len(spans); i++ {
+		s := (*mspan)(atomic.Loadp(unsafe.Pointer(&spans[i])))
+		if s == nil || s.state != mSpanInUse {
 			continue
 		}
 		// Check that this span was swept (it may be cached or uncached).
