@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e457185_af7adfb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-10-24T21:19:51Z",
+      "side": 1,
+      "message": "Optional suggestion:\n\n    s/new releases/go1.13.3b4 and go1.12.12b4/",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "d2bf3ed53eb0457e2d8400c762079f28514196b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
