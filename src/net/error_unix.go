@@ -10,7 +10,7 @@ import "syscall"
 
 func isConnError(err error) bool {
 	if se, ok := err.(syscall.Errno); ok {
-		return se == syscall.ECONNRESET || se == syscall.ECONNABORTED
+		return se == syscall.ECONNRESET || se == syscall.ECONNABORTED || se == syscall.ENFILE
 	}
 	return false
 }

@@ -509,8 +509,8 @@ type temporary interface {
 }
 
 func (e *OpError) Temporary() bool {
-	// Treat ECONNRESET and ECONNABORTED as temporary errors when
-	// they come from calling accept. See issue 6163.
+	// Treat ECONNRESET, ECONNABORTED and ENFILE as temporary errors when
+	// they come from calling accept. See issue 6163 and 35131.
 	if e.Op == "accept" && isConnError(e.Err) {
 		return true
 	}
