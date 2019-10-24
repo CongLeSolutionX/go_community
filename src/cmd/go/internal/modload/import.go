@@ -237,6 +237,15 @@ func Import(path string) (m module.Version, dir string, err error) {
 				return m, "", &ImportMissingError{Path: path, Module: m}
 			}
 		}
+		if len(mods) > 0 && module.CheckPath(path) != nil {
+			// The package path is not valid to fetch remotely,
+			// so it can only exist if in a replaced module,
+			// and we know from the above loop that it is not.
+			return module.Version{}, "", &PackageNotInModuleError{
+				Mod:         mods[0],
+				Replacement: Replacement(m),
+			}
+		}
 	}
 
 	candidates, err := QueryPackage(path, "latest", Allowed)
