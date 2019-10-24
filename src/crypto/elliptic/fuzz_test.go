@@ -2,53 +2,90 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build amd64 arm64
-
 package elliptic
 
 import (
+	"context"
 	"crypto/rand"
+	"flag"
+	"runtime"
+	"sync"
 	"testing"
 	"time"
 )
 
-func TestFuzz(t *testing.T) {
+var stressFlag = flag.Bool("stress", false, "run slow stress tests")
 
-	p256 := P256()
-	p256Generic := p256.Params()
+func TestP256Fuzz(t *testing.T) {
+	if runtime.GOARCH == "wasm" {
+		t.Skip("too slow on wasm")
+	}
 
-	var scalar1 [32]byte
-	var scalar2 [32]byte
-	var timeout *time.Timer
+	// Feed random inputs into the generic and assembly implementations
+	// of P256 and compare the results. On platforms without an assembly
+	// implementation of P256 the generic implementation will just be
+	// run twice.
+	fuzz := func(ctx context.Context, wg *sync.WaitGroup) {
+		defer wg.Done()
 
+		asm := P256()              // assembly implementation (if available)
+		generic := P256().Params() // generic implementation
+		for i := 1; ; i++ {
+			var scalar1 [32]byte
+			if _, err := rand.Read(scalar1[:]); err != nil {
+				t.Errorf("error while reading from random source: %v", err)
+				return
+			}
+			x, y := asm.ScalarBaseMult(scalar1[:])
+			x2, y2 := generic.ScalarBaseMult(scalar1[:])
+
+			var scalar2 [32]byte
+			if _, err := rand.Read(scalar2[:]); err != nil {
+				t.Errorf("error while reading from random source: %v", err)
+				return
+			}
+			xx, yy := asm.ScalarMult(x, y, scalar2[:])
+			xx2, yy2 := generic.ScalarMult(x2, y2, scalar2[:])
+
+			if x.Cmp(x2) != 0 || y.Cmp(y2) != 0 {
+				t.Errorf("ScalarBaseMult does not match reference result with scalar: %x", scalar1)
+				t.Log("please report this error to security@golang.org")
+				return
+			}
+
+			if xx.Cmp(xx2) != 0 || yy.Cmp(yy2) != 0 {
+				t.Errorf("ScalarMult does not match reference result with scalars: %x and %x", scalar1, scalar2)
+				t.Log("please report this error to security@golang.org")
+				return
+			}
+
+			// Check at the end so we run at least one iteration
+			// before exiting the goroutine.
+			select {
+			case <-ctx.Done():
+				t.Logf("iterations: %v", i)
+				return
+			default:
+			}
+		}
+	}
+
+	// Run the test for a fixed period of time.
+	timeout := 2 * time.Second
 	if testing.Short() {
-		timeout = time.NewTimer(10 * time.Millisecond)
-	} else {
-		timeout = time.NewTimer(2 * time.Second)
+		timeout = 10 * time.Millisecond
+	} else if *stressFlag {
+		timeout = 1 * time.Minute
 	}
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel() // clean up the context
 
-	for {
-		select {
-		case <-timeout.C:
-			return
-		default:
-		}
-
-		rand.Read(scalar1[:])
-		rand.Read(scalar2[:])
-
-		x, y := p256.ScalarBaseMult(scalar1[:])
-		x2, y2 := p256Generic.ScalarBaseMult(scalar1[:])
-
-		xx, yy := p256.ScalarMult(x, y, scalar2[:])
-		xx2, yy2 := p256Generic.ScalarMult(x2, y2, scalar2[:])
-
-		if x.Cmp(x2) != 0 || y.Cmp(y2) != 0 {
-			t.Fatalf("ScalarBaseMult does not match reference result with scalar: %x, please report this error to security@golang.org", scalar1)
-		}
-
-		if xx.Cmp(xx2) != 0 || yy.Cmp(yy2) != 0 {
-			t.Fatalf("ScalarMult does not match reference result with scalars: %x and %x, please report this error to security@golang.org", scalar1, scalar2)
-		}
+	// Start 1 goroutine per hardware thread to maximize the total iterations.
+	wg := new(sync.WaitGroup)
+	instances := runtime.GOMAXPROCS(-1)
+	for i := 0; i < instances; i++ {
+		wg.Add(1)
+		go fuzz(ctx, wg)
 	}
+	wg.Wait()
 }
