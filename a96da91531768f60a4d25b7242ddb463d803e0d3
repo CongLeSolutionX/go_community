@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "48de79bc_ab1cc731",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-24T02:08:33Z",
+      "side": 1,
+      "message": "What happens if owned is true? I.e. if a goroutine is first CAS\u0027d from _Gpreempt to _Gwaiting, but then CAS\u0027d to _Gscanwaiting by another caller? I guess the first caller will wait in this loop until the scan bit is cleared and it can CAS it to a scan state again? And the first caller is still responsible to ready it.",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a285826e_efc7a2c9",
         "filename": "src/runtime/proc.go",
         "patchSetId": 5
