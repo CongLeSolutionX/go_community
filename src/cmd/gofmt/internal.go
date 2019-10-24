@@ -16,6 +16,7 @@ import (
 	"go/printer"
 	"go/token"
 	"strings"
+	"os"
 )
 
 // parse parses src, which was read from the named file,
@@ -167,6 +168,12 @@ func format(
 		i--
 	}
 	return append(res, src[i:]...), nil
+}
+
+func isGoFile(f os.FileInfo) bool {
+	// ignore non-Go files
+	name := f.Name()
+	return !f.IsDir() && !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".go")
 }
 
 // isSpace reports whether the byte is a space character.
