@@ -51,6 +51,7 @@ replace (
 package main
 import (
 	_ "example.com/a/b"
+	_ "example.com/a/b/c"
 	_ "example.com/x/v3"
 	_ "example.com/y/z/w"
 	_ "example.com/v"
@@ -63,6 +64,8 @@ module a.localhost
 package a
 -- a/b/b.go--
 package b
+-- a/b/c/c.go --
+package c
 
 -- b/go.mod --
 module a.localhost/b

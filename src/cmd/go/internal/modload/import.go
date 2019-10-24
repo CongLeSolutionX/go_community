@@ -225,6 +225,7 @@ func Import(path string) (m module.Version, dir string, err error) {
 		sort.Slice(mods, func(i, j int) bool {
 			return len(mods[i].Path) > len(mods[j].Path)
 		})
+		var merr error
 		for _, m := range mods {
 			root, isLocal, err := fetch(m)
 			if err != nil {
@@ -232,9 +233,18 @@ func Import(path string) (m module.Version, dir string, err error) {
 				return module.Version{}, "", err
 			}
 			_, ok := dirInModule(path, m.Path, root, isLocal)
-			if ok {
+			switch {
+			case ok:
 				return m, "", &ImportMissingError{Path: path, Module: m}
+			case !ok && isLocal:
+				merr = &PackageNotInModuleError{
+					Mod:         m,
+					Replacement: Replacement(m),
+				}
 			}
+		}
+		if merr != nil {
+			return module.Version{}, "", merr
 		}
 	}
 
