@@ -232,8 +232,14 @@ func Import(path string) (m module.Version, dir string, err error) {
 				return module.Version{}, "", err
 			}
 			_, ok := dirInModule(path, m.Path, root, isLocal)
-			if ok {
+			switch {
+			case ok:
 				return m, "", &ImportMissingError{Path: path, Module: m}
+			case !ok && isLocal:
+				return module.Version{}, "", &PackageNotInModuleError{
+					Mod:         m,
+					Replacement: Replacement(m),
+				}
 			}
 		}
 	}
