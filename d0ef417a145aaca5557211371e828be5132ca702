@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06306ec2_37d0b2c7",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-25T18:18:34Z",
+      "side": 1,
+      "message": "serialized?",
+      "range": {
+        "startLine": 55,
+        "startChar": 25,
+        "endLine": 55,
+        "endChar": 34
+      },
+      "revId": "d0ef417a145aaca5557211371e828be5132ca702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

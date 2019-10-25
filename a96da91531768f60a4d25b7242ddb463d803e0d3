@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "0cb9d168_01b05eb5",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-25T18:18:34Z",
+      "side": 1,
+      "message": "Maybe. But if it really doesn\u0027t matter who ready\u0027s gp, as long as there is one (and we just use the one who CAS\u0027d it out of _Gpreempt for assigning ownership), maybe this is ok.\n\nMaybe \"owned\" could be reworded? When \"owned\" is true, it doesn\u0027t actually own the g, at least not immediately. It sounds more like \"responsibleToReadyG\", but that is clearly too long...",
+      "parentUuid": "bc728233_fd029732",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a285826e_efc7a2c9",
         "filename": "src/runtime/proc.go",
         "patchSetId": 5
