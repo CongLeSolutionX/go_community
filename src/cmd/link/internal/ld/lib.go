@@ -658,6 +658,101 @@ func (ctxt *Link) linksetup() {
 	moduledata.Attr |= sym.AttrReachable
 	ctxt.Moduledata = moduledata
 
+<<<<<<< HEAD   (2e2ef6 [dev.link] cmd/link/internal/loader: add PkgNone resolver ca)
+=======
+	// Now that we know the link mode, trim the dynexp list.
+	x := sym.AttrCgoExportDynamic
+
+	if ctxt.LinkMode == LinkExternal {
+		x = sym.AttrCgoExportStatic
+	}
+	w := 0
+	for i := range dynexp {
+		if dynexp[i].Attr&x != 0 {
+			dynexp[w] = dynexp[i]
+			w++
+		}
+	}
+	dynexp = dynexp[:w]
+
+	// In internal link mode, read the host object files.
+	if ctxt.LinkMode == LinkInternal {
+		hostobjs(ctxt)
+
+		// If we have any undefined symbols in external
+		// objects, try to read them from the libgcc file.
+		any := false
+		for _, s := range ctxt.Syms.Allsym {
+			for i := range s.R {
+				r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
+				if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name != ".got" {
+					any = true
+					break
+				}
+			}
+		}
+		if any {
+			if *flagLibGCC == "" {
+				*flagLibGCC = ctxt.findLibPathCmd("--print-libgcc-file-name", "libgcc")
+			}
+			if runtime.GOOS == "openbsd" && *flagLibGCC == "libgcc.a" {
+				// On OpenBSD `clang --print-libgcc-file-name` returns "libgcc.a".
+				// In this case we fail to load libgcc.a and can encounter link
+				// errors - see if we can find libcompiler_rt.a instead.
+				*flagLibGCC = ctxt.findLibPathCmd("--print-file-name=libcompiler_rt.a", "libcompiler_rt")
+			}
+			if *flagLibGCC != "none" {
+				hostArchive(ctxt, *flagLibGCC)
+			}
+			if ctxt.HeadType == objabi.Hwindows {
+				if p := ctxt.findLibPath("libmingwex.a"); p != "none" {
+					hostArchive(ctxt, p)
+				}
+				if p := ctxt.findLibPath("libmingw32.a"); p != "none" {
+					hostArchive(ctxt, p)
+				}
+				// Link libmsvcrt.a to resolve '__acrt_iob_func' symbol
+				// (see https://golang.org/issue/23649 for details).
+				if p := ctxt.findLibPath("libmsvcrt.a"); p != "none" {
+					hostArchive(ctxt, p)
+				}
+				// TODO: maybe do something similar to peimporteddlls to collect all lib names
+				// and try link them all to final exe just like libmingwex.a and libmingw32.a:
+				/*
+					for:
+					#cgo windows LDFLAGS: -lmsvcrt -lm
+					import:
+					libmsvcrt.a libm.a
+				*/
+			}
+		}
+	} else {
+		hostlinksetup(ctxt)
+	}
+
+	// We've loaded all the code now.
+	ctxt.Loaded = true
+
+	// Record whether we can use plugins.
+	ctxt.canUsePlugins = (ctxt.Syms.ROLookup("plugin.Open", sym.SymVerABIInternal) != nil)
+
+	// If there are no dynamic libraries needed, gcc disables dynamic linking.
+	// Because of this, glibc's dynamic ELF loader occasionally (like in version 2.13)
+	// assumes that a dynamic binary always refers to at least one dynamic library.
+	// Rather than be a source of test cases for glibc, disable dynamic linking
+	// the same way that gcc would.
+	//
+	// Exception: on OS X, programs such as Shark only work with dynamic
+	// binaries, so leave it enabled on OS X (Mach-O) binaries.
+	// Also leave it enabled on Solaris which doesn't support
+	// statically linked binaries.
+	if ctxt.BuildMode == BuildModeExe {
+		if havedynamic == 0 && ctxt.HeadType != objabi.Hdarwin && ctxt.HeadType != objabi.Hsolaris {
+			*FlagD = true
+		}
+	}
+
+>>>>>>> BRANCH (fc8eb2 runtime: ensure _Grunning Gs have a valid g.m and g.m.p)
 	// If package versioning is required, generate a hash of the
 	// packages used in the link.
 	if ctxt.BuildMode == BuildModeShared || ctxt.BuildMode == BuildModePlugin || ctxt.CanUsePlugins() {

@@ -409,12 +409,20 @@ type FuncInfo struct {
 	dwarfAbsFnSym      *LSym
 	dwarfDebugLinesSym *LSym
 
+<<<<<<< HEAD   (2e2ef6 [dev.link] cmd/link/internal/loader: add PkgNone resolver ca)
 	GCArgs       *LSym
 	GCLocals     *LSym
 	GCRegs       *LSym
 	StackObjects *LSym
 
 	FuncInfoSym *LSym
+=======
+	GCArgs             *LSym
+	GCLocals           *LSym
+	GCRegs             *LSym
+	StackObjects       *LSym
+	OpenCodedDeferInfo *LSym
+>>>>>>> BRANCH (fc8eb2 runtime: ensure _Grunning Gs have a valid g.m and g.m.p)
 }
 
 type InlMark struct {
