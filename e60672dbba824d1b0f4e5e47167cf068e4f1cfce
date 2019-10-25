@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a32a0a67_bd1a0d62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-25T20:13:08Z",
+      "side": 1,
+      "message": "Minor, but we conventionally prefer \"Fixes\" over any of the other GitHub dozen words that are recognized.",
+      "revId": "e60672dbba824d1b0f4e5e47167cf068e4f1cfce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
