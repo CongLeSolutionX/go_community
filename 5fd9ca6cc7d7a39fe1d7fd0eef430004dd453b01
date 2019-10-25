@@ -16,6 +16,24 @@
       "revId": "5fd9ca6cc7d7a39fe1d7fd0eef430004dd453b01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193065d2_fa7f552e",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-25T20:06:15Z",
+      "side": 1,
+      "message": "On Unix systems, the directory is (paradoxically) what matters, not the files.\n\nI don\u0027t know whether os.Remove can remove read-only files on Windows.",
+      "parentUuid": "da26ccb3_444ae9e4",
+      "revId": "5fd9ca6cc7d7a39fe1d7fd0eef430004dd453b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
