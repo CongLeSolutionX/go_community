@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e378523a_0422c267",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:14:32Z",
+      "side": 1,
+      "message": "I rewrote this comment. My intent is to be able to provide shared read access, even though the current implementation is exclusive access, and the new comment tries to convey this.",
+      "parentUuid": "27a2dd1b_9281e0d5",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34b95d80_b0518c53",
         "filename": "src/runtime/preempt.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d39cf7a_eb71e9e5",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:14:32Z",
+      "side": 1,
+      "message": "Part of the point of the default is to catch states we add in the future but forget to add here, so I\u0027d rather not list the disallowed states.",
+      "parentUuid": "34b95d80_b0518c53",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "68df7421_f758a6a6",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:14:32Z",
+      "side": 1,
+      "message": "Yeah. I went back and forth on that because falling through makes it seem like you\u0027re definitely going to take ownership of it, but you may actually fail to set the scan bit. OTOH, falling through avoids needlessly passing through the delay at the end of the loop, so that\u0027s probably better. Done.",
+      "parentUuid": "8a66e464_02fc896c",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48de79bc_ab1cc731",
         "filename": "src/runtime/preempt.go",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2019-10-24T02:08:33Z",
       "side": 1,
       "message": "What happens if owned is true? I.e. if a goroutine is first CAS\u0027d from _Gpreempt to _Gwaiting, but then CAS\u0027d to _Gscanwaiting by another caller? I guess the first caller will wait in this loop until the scan bit is cleared and it can CAS it to a scan state again? And the first caller is still responsible to ready it.",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc728233_fd029732",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:14:32Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s a little weird, but that\u0027s exactly what happens.\n\nAlternatively, I could cas directly from _Gpreempted to _Gscanwaiting. That would be a second transition that both changes the status and the scan bit simultaneously, but maybe is clearer overall?",
+      "parentUuid": "48de79bc_ab1cc731",
       "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6f3b4ea6_6500ee7b",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a285826e_efc7a2c9",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c31b9ec_9fb90ce6",
         "filename": "src/runtime/proc.go",
         "patchSetId": 5
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "1e9051f2_3215c53e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:14:32Z",
+      "side": 1,
+      "message": "It\u0027s not great, but none of these CAS loops are. In this case, since the g is known to be _Grunning, the only hazard is racing with _Gscanrunning, and that state exists only very briefly in suspendG.",
+      "parentUuid": "7c31b9ec_9fb90ce6",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "495a4ad5_325de5ed",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 5
@@ -118,6 +226,24 @@
       "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce159d1c_303000dd",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "495a4ad5_325de5ed",
+      "revId": "a96da91531768f60a4d25b7242ddb463d803e0d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
