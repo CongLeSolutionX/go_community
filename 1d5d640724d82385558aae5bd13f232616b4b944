@@ -34,6 +34,24 @@
       "revId": "1d5d640724d82385558aae5bd13f232616b4b944",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0464ec8e_826ef574",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-25T15:07:21Z",
+      "side": 1,
+      "message": "I was mostly thinking about assembly functions using more registers which we don\u0027t save/restore. Also as you said there are assembly functions that does weird things with the stack frame (for good or bad). I think we also don\u0027t want to preempt them.",
+      "parentUuid": "0b5ec775_e5625400",
+      "revId": "1d5d640724d82385558aae5bd13f232616b4b944",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
