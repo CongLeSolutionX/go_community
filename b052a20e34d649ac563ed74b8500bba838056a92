@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c86962f_e54281fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:26:40Z",
+      "side": 1,
+      "message": "but it will see at most one nil mspan and only at the end of the buffer.",
+      "range": {
+        "startLine": 26,
+        "startChar": 39,
+        "endLine": 26,
+        "endChar": 70
+      },
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f15bdba_174da95e",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:26:40Z",
+      "side": 1,
+      "message": "Consider expanding this comment a little to explain we may even be racing with spans being added to sweepSpans, and that\u0027s okay for the same reason. That can also explain why we may see nils.",
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d0915f3_6d4838b5",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:26:40Z",
+      "side": 1,
+      "message": "// sweepBuf.block requires that we read points from the block atomically.",
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04622aea_f05d9c72",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:26:40Z",
+      "side": 1,
+      "message": "... since there may be concurrent readers via the block API.",
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff61e60_44be816b",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T14:26:40Z",
+      "side": 1,
+      "message": "ignored?",
+      "range": {
+        "startLine": 151,
+        "startChar": 25,
+        "endLine": 151,
+        "endChar": 32
+      },
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
