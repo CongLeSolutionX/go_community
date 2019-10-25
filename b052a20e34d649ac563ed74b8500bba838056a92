@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f3ca4dc8_1ac7e483",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-25T14:45:59Z",
+      "side": 1,
+      "message": "because of the code which removes that nil pointer (which I delete), I don\u0027t think that\u0027s true.",
+      "parentUuid": "4c86962f_e54281fb",
+      "range": {
+        "startLine": 26,
+        "startChar": 39,
+        "endLine": 26,
+        "endChar": 70
+      },
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f15bdba_174da95e",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a481ba5e_8a1d49bb",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-25T14:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f15bdba_174da95e",
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d196a637_b9fe6330",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-25T14:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d0915f3_6d4838b5",
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04622aea_f05d9c72",
         "filename": "src/runtime/mgcsweepbuf.go",
         "patchSetId": 2
@@ -73,6 +133,24 @@
       "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a105eb68_5debe066",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-25T14:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04622aea_f05d9c72",
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +174,30 @@
       "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49807902_d08ffe05",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-25T14:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bff61e60_44be816b",
+      "range": {
+        "startLine": 151,
+        "startChar": 25,
+        "endLine": 151,
+        "endChar": 32
+      },
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
