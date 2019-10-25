@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c013585_308d8008",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-25T19:01:49Z",
+      "side": 1,
+      "message": "We also set procid in minit on Linux. But there we also set them in clone, in assembly. Remove the latter?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c7a49c609a035229e7ba2c330ed9895b31e77491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6b0195_e37fdf25",
+        "filename": "src/runtime/sys_freebsd_amd64.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-25T19:01:49Z",
+      "side": 1,
+      "message": "The MOVL and MOVQ are swapped compared with the old code. The man page says \"thr_kill(long id, int sig)\", so I guess the old one is more right?",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 32
+      },
+      "revId": "c7a49c609a035229e7ba2c330ed9895b31e77491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
