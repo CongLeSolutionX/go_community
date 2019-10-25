@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b15a537b_b62a2f5b",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-25T20:09:11Z",
+      "side": 1,
+      "message": "pthread_self_trampoline was declared but not defined before. It was ok because pthread_self is actually never called?",
+      "revId": "56ab855efe649560b6a86200e7377323b1b58bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
