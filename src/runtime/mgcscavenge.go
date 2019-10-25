@@ -136,9 +136,10 @@ func gcPaceScavenger() {
 	// physical page.
 	retainedNow := heapRetained()
 
-	// If we're already below our goal, publish the goal in case it changed
-	// then disable the background scavenger.
-	if retainedNow <= retainedGoal {
+	// If we're already below our goal or there's less the one physical page
+	// worth of work to do, publish the goal in case it changed then disable
+	// the background scavenger.
+	if retainedNow <= retainedGoal || retainedNow-retainedGoal < uint64(physHugePageSize) {
 		mheap_.scavengeRetainedGoal = retainedGoal
 		mheap_.scavengeBytesPerNS = 0
 		return
