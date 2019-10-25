@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1d5d46a_af76d147",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T22:40:29Z",
+      "side": 1,
+      "message": "That\u0027s true... I suppose it\u0027s still a little useful to set it really early for debuggers. The problem on these BSDs was that it wasn\u0027t getting set at all for the bootstrap M.",
+      "parentUuid": "4c013585_308d8008",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c7a49c609a035229e7ba2c330ed9895b31e77491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c6b0195_e37fdf25",
         "filename": "src/runtime/sys_freebsd_amd64.s",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "c7a49c609a035229e7ba2c330ed9895b31e77491",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2f6d489_8ab32032",
+        "filename": "src/runtime/sys_freebsd_amd64.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T22:40:29Z",
+      "side": 1,
+      "message": "Argh, why does searching for \"freebsd thr_kill\" turn up SunOS manpages?\n\nYes, looking at thrparam, it looks like FreeBSD uses int32 or int64 for this.\n\nI added a \"thread\" type to defs_freebsd_* with the right size and will fix this here.\n\nThe MOVQ for the signal just matches the Go prototype. Since it\u0027s going to a register, it doesn\u0027t really matter what the size is on the C side.",
+      "parentUuid": "7c6b0195_e37fdf25",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 32
+      },
+      "revId": "c7a49c609a035229e7ba2c330ed9895b31e77491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
