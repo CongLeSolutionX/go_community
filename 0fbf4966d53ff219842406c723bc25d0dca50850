@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d02f1c6_49744f5a",
+        "filename": "src/runtime/stubs_freebsd_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-25T19:22:20Z",
+      "side": 1,
+      "message": "It doesn\u0027t need to be declared in Go. You can just write a static function in assembly, like emptyfunc\u003c\u003e(SB).",
+      "revId": "0fbf4966d53ff219842406c723bc25d0dca50850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
