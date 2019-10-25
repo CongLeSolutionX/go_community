@@ -345,8 +345,8 @@ func (p *printer) createAttrPrefix(url string) string {
 	if prefix == "" || !isName([]byte(prefix)) || strings.Contains(prefix, ":") {
 		prefix = "_"
 	}
-	if strings.HasPrefix(prefix, "xml") {
-		// xmlanything is reserved.
+	if len(prefix) >= 3 && strings.EqualFold(prefix[:3], "xml") {
+		// xmlanything is reserved, case insensitive.
 		prefix = "_" + prefix
 	}
 	if p.attrNS[prefix] != "" {
