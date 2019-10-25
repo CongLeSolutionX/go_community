@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f280852_104062b1",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5280
+      },
+      "writtenOn": "2019-10-25T20:40:39Z",
+      "side": 1,
+      "message": "0222 is write-only. Did you mean 0444? Making it 0555 would ensure the os.Remove failure is due to the read-only property instead of the file not being found. On plan9:\n\n\tcpu% chmod 444 foo\n\tcpu% rm foo/a\n\trm: foo/a: \u0027foo/a\u0027 does not exist\n\tcpu% chmod 555 foo\n\tcpu% rm foo/a\n\trm: foo/a: permission denied",
+      "range": {
+        "startLine": 440,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 1
+      },
+      "revId": "17a9711f9709103df3e65ff83e79291e42ec227c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
