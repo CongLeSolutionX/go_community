@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcbba4a2_9a8e00a3",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-25T20:55:51Z",
+      "side": 1,
+      "message": "It\u0027s conceivable that we could vendor in a binary, but we certainly wouldn\u0027t need to build it for bootstrapping.\n\n(A comment might be helpful here.)",
+      "range": {
+        "startLine": 641,
+        "startChar": 84,
+        "endLine": 641,
+        "endChar": 117
+      },
+      "revId": "ae806dbbfbdcf7c7ee5658f6fc6dc87be21a9ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf72bc08_37333675",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-25T20:55:51Z",
+      "side": 1,
+      "message": "Any particular reason to use path instead of dir here?",
+      "range": {
+        "startLine": 790,
+        "startChar": 39,
+        "endLine": 790,
+        "endChar": 43
+      },
+      "revId": "ae806dbbfbdcf7c7ee5658f6fc6dc87be21a9ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
