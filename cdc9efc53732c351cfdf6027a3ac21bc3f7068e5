@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d9be1b_71c666f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-25T00:22:48Z",
+      "side": 1,
+      "message": "cmd/fix, cmd/go, cmd/gofmt: refactor common code into new internal diff package\n\nSee https://golang.org/wiki/CommitMessage",
+      "revId": "cdc9efc53732c351cfdf6027a3ac21bc3f7068e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d045707c_03214249",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-25T00:22:48Z",
+      "side": 1,
+      "message": "s/2017/2019/\n\n2019 is the year of the Gopher.",
+      "revId": "cdc9efc53732c351cfdf6027a3ac21bc3f7068e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2109752_508dcac6",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-25T00:22:48Z",
+      "side": 1,
+      "message": "This new package needs a doc comment.",
+      "revId": "cdc9efc53732c351cfdf6027a3ac21bc3f7068e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "770647cd_7dd32232",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-25T00:22:48Z",
+      "side": 1,
+      "message": "This exported function needs a doc comment.",
+      "revId": "cdc9efc53732c351cfdf6027a3ac21bc3f7068e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6c1b4e9_8cd4cbb1",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-25T00:22:48Z",
+      "side": 1,
+      "message": "Don\u0027t use named result parameters here.  They are only appropriate in short functions.  Just return the appropriate values.",
+      "revId": "cdc9efc53732c351cfdf6027a3ac21bc3f7068e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
