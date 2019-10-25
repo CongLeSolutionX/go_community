@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95700e04_cccff335",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "sets\n\nShorter: set1 sets bit i of pageBits (we could also just call this \"set\")",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "753f9b70_8828a8e4",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "This sounds like a TODO. Just \"Fast path for ...\"?",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d964a16_32ac4270",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "\"// Set bits [i, j].\" (to make it clearer what j represents)",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "893d34b2_ae2a17c8",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "This may be a lot easier to think about if setConsecBits64 took an [i, j] range instead of an [i, i+n) range.\n\nThough either way, I suspect the compiler won\u0027t recognize the bit optimizations that can be done here. Might be both easier and faster to do this directly:\n\nb[i/64] |\u003d ^uint64(0) \u003c\u003c (i%64)\nfor ...\nb[j/64] |\u003d (uint64(1) \u003c\u003c ((i+n)%64)) - 1",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72269164_343efbc5",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "for i :\u003d range b",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "503d8836_dda07169",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35b4f249_c58a080c",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7780293f_78562b83",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "just after",
+      "range": {
+        "startLine": 100,
+        "startChar": 29,
+        "endLine": 100,
+        "endChar": 34
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42c14845_2bbd16a7",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "Move this info the first paragraph",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e66b1b30_0d53acdd",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "I\u0027m a little confused by this. Didn\u0027t alloc1 definitely allocate addr? What are we assuming that isn\u0027t definitely true.",
+      "range": {
+        "startLine": 109,
+        "startChar": 42,
+        "endLine": 110,
+        "endChar": 15
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84cde533_5dbe8805",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "Remove \"chunk\" here, since that has another meaning (and isn\u0027t necessary)",
+      "range": {
+        "startLine": 144,
+        "startChar": 38,
+        "endLine": 144,
+        "endChar": 43
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d739fb6_5d5b23ef",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "I again wonder if setConsecBits64 is doing you a disservice in the cases that set just leading or trailing bits.\n\nWhat do you think of setLeadingBits64 and setTrailingBits64 to avoid hand-writing funny bit patterns, while capturing the intent more clearly?",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d9c7496_5ca6414d",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 189,
+        "startChar": 39,
+        "endLine": 189,
+        "endChar": 44
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90d7b459_4223dc77",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "setBitRange64? (similar for next two functions). This avoids having to truncate a long word in the name, but I think is just as informative. It also matches the use of \"range\" in many of the above names.",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b663ea6f_cafe3449",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

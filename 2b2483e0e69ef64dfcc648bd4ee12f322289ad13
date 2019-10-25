@@ -231,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "0ea51700_01d23acb",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-25T20:17:00Z",
+      "side": 1,
+      "message": "I think the abstraction leak actually happened in diffMallocBits, since that returns word indexes. Given that this is a test for MallocBits, I think it\u0027s fine that it reaches into the structure without an accessor, but it\u0027s a little weird that it prints out words at a time.",
+      "parentUuid": "afb3e6e3_75d9ce86",
+      "revId": "2b2483e0e69ef64dfcc648bd4ee12f322289ad13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b7c19de_4d7d377b",
         "filename": "src/runtime/mallocbits_test.go",
         "patchSetId": 14
