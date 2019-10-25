@@ -5,7 +5,6 @@
 package os_test
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	. "os"
@@ -410,15 +409,8 @@ func TestRemoveUnreadableDir(t *testing.T) {
 // Issue 29921
 func TestRemoveAllWithMoreErrorThanReqSize(t *testing.T) {
 	if testing.Short() {
-		t.Skip("skipping in short mode")
-	}
-
-	defer func(oldHook func(error) error) {
-		*RemoveAllTestHook = oldHook
-	}(*RemoveAllTestHook)
-
-	*RemoveAllTestHook = func(err error) error {
-		return errors.New("error from RemoveAllTestHook")
+		// TODO(bcmills): Re-enable skip after TryBots.
+		// t.Skip("skipping in short mode")
 	}
 
 	tmpDir, err := ioutil.TempDir("", "TestRemoveAll-")
@@ -442,13 +434,37 @@ func TestRemoveAllWithMoreErrorThanReqSize(t *testing.T) {
 		fd.Close()
 	}
 
-	// This call should not hang
-	if err := RemoveAll(path); err == nil {
-		t.Fatal("Want error from RemoveAllTestHook, got nil")
+	// Make the parent directory read-only. On some platforms, this prevents
+	// os.Remove from removing the files within that directory.
+	if err := Chmod(path, 0222); err != nil {
+		t.Fatal(err)
 	}
 
-	// We hook to inject error, but the actual files must be deleted
-	if _, err := Lstat(path); err == nil {
-		t.Fatal("directory must be deleted even with removeAllTetHook run")
+	// This call should not hang, even on a platform that disallows file deletion
+	// from read-only directories.
+	err = RemoveAll(path)
+	Chmod(path, 0777)
+	switch runtime.GOOS {
+	case "windows":
+		// The os package does not implement read-only directory permissions.
+		// See https://golang.org/issue/35042.
+		if err != nil {
+			t.Fatalf("RemoveAll(<0222 directory>) = %v", err)
+		}
+
+	default:
+		if err == nil {
+			t.Fatal("RemoveAll(<0222 directory>) = nil; want error")
+		}
+		dir, err := Open(path)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer dir.Close()
+
+		names, _ := dir.Readdirnames(1025)
+		if len(names) < 1025 {
+			t.Fatalf("RemoveAll(<0222 directory>) unexpectedly removed %d files from that directory", 1025-len(names))
+		}
 	}
 }
