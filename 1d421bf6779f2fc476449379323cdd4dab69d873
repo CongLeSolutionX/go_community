@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "388a1111_82f5f485",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-25T15:23:37Z",
+      "side": 1,
+      "message": "This must have been fun to track down :-(.\n\nLooking at the old deadcode, I see:\n\n\t\td.mark(s.Gotype, s)\n\t\td.mark(s.Sub, s)\n\t\td.mark(s.Outer, s)\n\nDo we need to do anything with s.Gotype or s.Sub here in new deadcode?",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5cc2b1_1099ee2b",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2390,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-25T15:23:37Z",
+      "side": 1,
+      "message": "Why? Just curious.",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "141b8cf0_4e3623e0",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-25T15:23:37Z",
+      "side": 1,
+      "message": "Why? What\u0027s the bad thing that happens if there are multiple overwrites to a symbol?\n\nObviously Go is not Fortran, but when linking a Fortran program you can have an arbitrary number of overwrites for something like a common block symbol.",
+      "range": {
+        "startLine": 458,
+        "startChar": 67,
+        "endLine": 459,
+        "endChar": 48
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b612ef2_bc26acaf",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-25T15:23:37Z",
+      "side": 1,
+      "message": "debug code",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "117a38fc_33356621",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-25T15:23:37Z",
+      "side": 1,
+      "message": "typo canOverwrite",
+      "range": {
+        "startLine": 123,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 13
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fdc55d0_77ac3bc4",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-25T15:23:37Z",
+      "side": 1,
+      "message": "typo overwritten",
+      "range": {
+        "startLine": 195,
+        "startChar": 76,
+        "endLine": 195,
+        "endChar": 86
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
