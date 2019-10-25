@@ -345,8 +345,18 @@ func (p *printer) createAttrPrefix(url string) string {
 	if prefix == "" || !isName([]byte(prefix)) || strings.Contains(prefix, ":") {
 		prefix = "_"
 	}
-	if strings.HasPrefix(prefix, "xml") {
-		// xmlanything is reserved.
+	// https://www.w3.org/TR/REC-xml/
+	//
+	// 2.3 Common Syntactic Constructs
+	//
+	// Names beginning with the string "xml",
+	// or with any string which would match (('X'|'x') ('M'|'m') ('L'|'l')),
+	// are reserved for standardization in this or future versions of this specification.
+	if len(prefix) >= 3 &&
+		(prefix[0] == 'x' || prefix[0] == 'X') &&
+		(prefix[1] == 'm' || prefix[1] == 'M') &&
+		(prefix[2] == 'l' || prefix[2] == 'L') {
+		// xmlanything is reserved, case insensitive.
 		prefix = "_" + prefix
 	}
 	if p.attrNS[prefix] != "" {
