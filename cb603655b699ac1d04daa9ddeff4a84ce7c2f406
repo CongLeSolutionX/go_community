@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "426caaf0_2c6eca7b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-26T19:31:00Z",
+      "side": 1,
+      "message": "You can\u0027t remove the field from memstats since it has to match the exported one, but document it as unused and computed on the fly by updatememstats.",
+      "revId": "cb603655b699ac1d04daa9ddeff4a84ce7c2f406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
