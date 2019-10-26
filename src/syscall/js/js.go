@@ -12,6 +12,7 @@
 package js
 
 import (
+	"runtime"
 	"unsafe"
 )
 
@@ -20,7 +21,7 @@ import (
 // The JavaScript value "undefined" is represented by the value 0.
 // A JavaScript number (64-bit float, except 0 and NaN) is represented by its IEEE 754 binary representation.
 // All other values are represented as an IEEE 754 binary representation of NaN with bits 0-31 used as
-// an ID and bits 32-33 used to differentiate between string, symbol, function and object.
+// an ID and bits 32-34 used to differentiate between string, symbol, function and object.
 type ref uint64
 
 // nanHead are the upper 32 bits of a ref which are set if the value is not encoded as an IEEE 754 number (see above).
@@ -33,8 +34,11 @@ type Wrapper interface {
 }
 
 // Value represents a JavaScript value. The zero value is the JavaScript value "undefined".
+// Go's == operator can only be used when comparing with js.Undefined() or js.Null().
+// Otherwise the Equals method must be used to check for equality.
 type Value struct {
-	ref ref
+	ref   ref
+	gcPtr *ref
 }
 
 // JSValue implements Wrapper interface.
@@ -42,12 +46,24 @@ func (v Value) JSValue() Value {
 	return v
 }
 
-func makeValue(v ref) Value {
-	return Value{ref: v}
+func makeValue(r ref) Value {
+	var gcPtr *ref
+	typeFlag := r >> 32 & 7
+	if r>>32&nanHead == nanHead && typeFlag != 0 {
+		gcPtr = new(ref)
+		*gcPtr = r
+		runtime.SetFinalizer(gcPtr, func(p *ref) {
+			finalize(*p)
+		})
+	}
+
+	return Value{ref: r, gcPtr: gcPtr}
 }
 
-func predefValue(id uint32) Value {
-	return Value{ref: nanHead<<32 | ref(id)}
+func finalize(r ref)
+
+func predefValue(id uint32, typeFlag byte) Value {
+	return Value{ref: (nanHead|ref(typeFlag))<<32 | ref(id)}
 }
 
 func floatValue(f float64) Value {
@@ -73,13 +89,13 @@ func (e Error) Error() string {
 
 var (
 	valueUndefined = Value{ref: 0}
-	valueNaN       = predefValue(0)
-	valueZero      = predefValue(1)
-	valueNull      = predefValue(2)
-	valueTrue      = predefValue(3)
-	valueFalse     = predefValue(4)
-	valueGlobal    = predefValue(5)
-	jsGo           = predefValue(6) // instance of the Go class in JavaScript
+	valueNaN       = predefValue(0, 0)
+	valueZero      = predefValue(1, 0)
+	valueNull      = predefValue(2, 0)
+	valueTrue      = predefValue(3, 0)
+	valueFalse     = predefValue(4, 0)
+	valueGlobal    = predefValue(5, 1)
+	jsGo           = predefValue(6, 1) // instance of the Go class in JavaScript
 
 	objectConstructor = valueGlobal.Get("Object")
 	arrayConstructor  = valueGlobal.Get("Array")
@@ -218,6 +234,10 @@ func (t Type) isObject() bool {
 	return t == TypeObject || t == TypeFunction
 }
 
+func (v Value) Equals(other Value) bool {
+	return v.ref == other.ref
+}
+
 // Type returns the JavaScript type of the value v. It is similar to JavaScript's typeof operator,
 // except that it returns TypeNull instead of TypeObject for null.
 func (v Value) Type() Type {
@@ -232,16 +252,18 @@ func (v Value) Type() Type {
 	if v.isNumber() {
 		return TypeNumber
 	}
-	typeFlag := v.ref >> 32 & 3
+	typeFlag := v.ref >> 32 & 7
 	switch typeFlag {
 	case 1:
-		return TypeString
+		return TypeObject
 	case 2:
-		return TypeSymbol
+		return TypeString
 	case 3:
+		return TypeSymbol
+	case 4:
 		return TypeFunction
 	default:
-		return TypeObject
+		panic("bad type flag")
 	}
 }
 
