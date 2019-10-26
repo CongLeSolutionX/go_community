@@ -522,6 +522,7 @@ func TestValues(t *testing.T) {
 	deleteValues(t, k)
 }
 
+<<<<<<< HEAD   (e0f244 [release-branch.go1.13] cmd/go: include the go language vers)
 func walkKey(t *testing.T, k registry.Key, kname string) {
 	names, err := k.ReadValueNames(-1)
 	if err != nil {
@@ -602,6 +603,8 @@ func TestWalkFullRegistry(t *testing.T) {
 	walkKey(t, registry.CURRENT_CONFIG, "CURRENT_CONFIG")
 }
 
+=======
+>>>>>>> CHANGE (0d3092 internal/syscall/windows/registry: remove TestWalkFullRegist)
 func TestExpandString(t *testing.T) {
 	got, err := registry.ExpandString("%PATH%")
 	if err != nil {
