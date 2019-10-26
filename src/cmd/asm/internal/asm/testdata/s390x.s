@@ -101,6 +101,7 @@ TEXT main·foo(SB),DUPOK|NOSPLIT,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT, $16-
 	SUBW	$8192, R1             // c21500002000
 	SUBW	$8192, R1, R2         // 1821c22500002000
 	MULLW	R6, R7                // b91c0076
+	SRD	$4, R4, R7            // eb740004000c
 	MULLW	R6, R7, R8            // b9040087b91c0086
 	MULLW	$8192, R6             // a76c2000
 	MULLW	$8192, R6, R7         // 1876a77c2000
@@ -226,6 +227,7 @@ TEXT main·foo(SB),DUPOK|NOSPLIT,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT, $16-
 	LAXG	R10, R11, (R12)       // ebbac00000e7
 	LAO	R1, R2, (R3)          // eb21300000f6
 	LAOG	R4, R5, (R6)          // eb54600000e6
+	LMG	n-8(SP), R3, R4       // eb34f0100004
 
 	XC	$8, (R15), n-8(SP)       // d707f010f000
 	NC	$8, (R15), n-8(SP)       // d407f010f000
@@ -376,6 +378,8 @@ TEXT main·foo(SB),DUPOK|NOSPLIT,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT, $16-
 	UNDEF                          // 00000000
 	NOPH                           // 0700
 
+	VAQ	V3, V4, V4              // e743400040f3
+	VCEQB	V1, V3, V3              // e731300000f8
 	VL	(R15), V1               // e710f0000006
 	VST	V1, (R15)               // e710f000000e
 	VL	(R15), V31              // e7f0f0000806
@@ -402,6 +406,7 @@ TEXT main·foo(SB),DUPOK|NOSPLIT,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT, $16-
 	VO	V2, V1, V0              // e7021000006a
 	VERLLVF	V2, V30, V27            // e7be20002c73
 	VSCBIB	V0, V23, V24            // e78700000cf5
+	VN	V2, V1, V0              // e70210000068
 	VNOT	V16, V1                 // e7101000046b
 	VCLZF	V16, V17                // e71000002c53
 	VLVGP	R3, R4, V8              // e78340000062
