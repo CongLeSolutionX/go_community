@@ -16,6 +16,24 @@
       "revId": "0ff22dd672dc650dcc29fe98e302e4da0669e854",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76cd4e09_0a86e7e6",
+        "filename": "src/runtime/sys_freebsd_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-26T02:30:37Z",
+      "side": 1,
+      "message": "In principle, yes, but then vet complains that the result is never written to. I\u0027m not sure why it doesn\u0027t complain on the other platforms where we do that.",
+      "parentUuid": "e4e79e5d_7f1dd2d1",
+      "revId": "0ff22dd672dc650dcc29fe98e302e4da0669e854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
