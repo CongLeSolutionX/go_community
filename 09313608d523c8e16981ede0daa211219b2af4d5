@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1872c17_2fec9eac",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-26T00:03:15Z",
+      "side": 1,
+      "message": "Add a comment explaining why we check for no_pointers_stackmap",
+      "revId": "09313608d523c8e16981ede0daa211219b2af4d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
