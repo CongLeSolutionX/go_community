@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d902a2a_07597c62",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-26T18:55:29Z",
+      "side": 0,
+      "message": "I haven\u0027t reviewed the *new* code yet, but I was a little surprised we don\u0027t need an equivalent of this logic to delineate freed ranges in the spans array. I think I was surprised because of how often we\u0027ve run in to \"X would be so much easier if we just cleared out the whole range and not just the two ends of a free range\". But, I guess, currently the only thing we need this for is coalescing free spans (which we no longer do), and anything that probes into the spans array already needs to be robust against stale spans?",
+      "revId": "9f723d180c6d4c5cfb8c4d059e7881bf55d3e612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
