@@ -53,7 +53,7 @@ func TestBool(t *testing.T) {
 	if got := dummys.Get("otherBool").Bool(); got != want {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
-	if dummys.Get("someBool") != dummys.Get("someBool") {
+	if !dummys.Get("someBool").Equals(dummys.Get("someBool")) {
 		t.Errorf("same value not equal")
 	}
 }
@@ -68,7 +68,7 @@ func TestString(t *testing.T) {
 	if got := dummys.Get("otherString").String(); got != want {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
-	if dummys.Get("someString") != dummys.Get("someString") {
+	if !dummys.Get("someString").Equals(dummys.Get("someString")) {
 		t.Errorf("same value not equal")
 	}
 
@@ -105,7 +105,7 @@ func TestInt(t *testing.T) {
 	if got := dummys.Get("otherInt").Int(); got != want {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
-	if dummys.Get("someInt") != dummys.Get("someInt") {
+	if !dummys.Get("someInt").Equals(dummys.Get("someInt")) {
 		t.Errorf("same value not equal")
 	}
 	if got := dummys.Get("zero").Int(); got != 0 {
@@ -141,13 +141,13 @@ func TestFloat(t *testing.T) {
 	if got := dummys.Get("otherFloat").Float(); got != want {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
-	if dummys.Get("someFloat") != dummys.Get("someFloat") {
+	if !dummys.Get("someFloat").Equals(dummys.Get("someFloat")) {
 		t.Errorf("same value not equal")
 	}
 }
 
 func TestObject(t *testing.T) {
-	if dummys.Get("someArray") != dummys.Get("someArray") {
+	if !dummys.Get("someArray").Equals(dummys.Get("someArray")) {
 		t.Errorf("same value not equal")
 	}
 
