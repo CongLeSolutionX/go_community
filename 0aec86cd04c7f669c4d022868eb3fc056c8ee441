@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34c3b378_1811a009",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T19:51:35Z",
+      "side": 1,
+      "message": "s/in/on/ I guess.  Or just omit \"in temp files\", that doesn\u0027t seem interesting.",
+      "range": {
+        "startLine": 6,
+        "startChar": 21,
+        "endLine": 6,
+        "endChar": 23
+      },
+      "revId": "0aec86cd04c7f669c4d022868eb3fc056c8ee441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ed8b80_0e00ea53",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T19:51:35Z",
+      "side": 1,
+      "message": "Delete blank line.",
+      "revId": "0aec86cd04c7f669c4d022868eb3fc056c8ee441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
