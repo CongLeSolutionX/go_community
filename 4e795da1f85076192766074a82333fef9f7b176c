@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e568ee9_038b0009",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T00:26:39Z",
+      "side": 1,
+      "message": "You can delete this sentence now, it doesn\u0027t add anything.",
+      "revId": "4e795da1f85076192766074a82333fef9f7b176c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a588b15_d87913ec",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T00:26:39Z",
+      "side": 1,
+      "message": "s/byte[]/[]byte/",
+      "range": {
+        "startLine": 5,
+        "startChar": 59,
+        "endLine": 5,
+        "endChar": 65
+      },
+      "revId": "4e795da1f85076192766074a82333fef9f7b176c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fe000af_f22295da",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T00:26:39Z",
+      "side": 1,
+      "message": "It\u0027s not the \"linux\" tool, it\u0027s available on all Unix systems.\n\nAlso, period at end of sentence.",
+      "range": {
+        "startLine": 6,
+        "startChar": 9,
+        "endLine": 6,
+        "endChar": 14
+      },
+      "revId": "4e795da1f85076192766074a82333fef9f7b176c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d65c79_ce8967b9",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T00:26:39Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "range": {
+        "startLine": 16,
+        "startChar": 42,
+        "endLine": 16,
+        "endChar": 46
+      },
+      "revId": "4e795da1f85076192766074a82333fef9f7b176c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3cda14_ab2add13",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T00:26:39Z",
+      "side": 1,
+      "message": "Don\u0027t declare data here at all.  Instead, use :\u003d in the exec.Command below.",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 24
+      },
+      "revId": "4e795da1f85076192766074a82333fef9f7b176c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fc901e5_40046d0f",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-26T00:26:39Z",
+      "side": 1,
+      "message": "return nil, err\n\nSimilarly below.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "4e795da1f85076192766074a82333fef9f7b176c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
