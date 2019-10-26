@@ -4,6 +4,10 @@
 
 #include "textflag.h"
 
+TEXT ·finalize(SB), NOSPLIT, $0
+  CallImport
+  RET
+
 TEXT ·stringVal(SB), NOSPLIT, $0
   CallImport
   RET
