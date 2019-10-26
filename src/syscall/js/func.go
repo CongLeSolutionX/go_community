@@ -64,7 +64,7 @@ func init() {
 
 func handleEvent() {
 	cb := jsGo.Get("_pendingEvent")
-	if cb == Null() {
+	if cb.Equal(Null()) {
 		return
 	}
 	jsGo.Set("_pendingEvent", Null())
