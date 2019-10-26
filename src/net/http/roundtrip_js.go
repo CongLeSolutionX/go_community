@@ -41,7 +41,7 @@ const jsFetchCreds = "js.fetch:credentials"
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#Parameters
 const jsFetchRedirect = "js.fetch:redirect"
 
-var useFakeNetwork = js.Global().Get("fetch") == js.Undefined()
+var useFakeNetwork = js.Global().Get("fetch").Equal(js.Undefined())
 
 // RoundTrip implements the RoundTripper interface using the WHATWG Fetch API.
 func (t *Transport) RoundTrip(req *Request) (*Response, error) {
@@ -50,7 +50,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 	}
 
 	ac := js.Global().Get("AbortController")
-	if ac != js.Undefined() {
+	if !ac.Equal(js.Undefined()) {
 		// Some browsers that support WASM don't necessarily support
 		// the AbortController. See
 		// https://developer.mozilla.org/en-US/docs/Web/API/AbortController#Browser_compatibility.
@@ -74,7 +74,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		opt.Set("redirect", h)
 		req.Header.Del(jsFetchRedirect)
 	}
-	if ac != js.Undefined() {
+	if !ac.Equal(js.Undefined()) {
 		opt.Set("signal", ac.Get("signal"))
 	}
 	headers := js.Global().Get("Headers").New()
@@ -132,7 +132,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		var body io.ReadCloser
 		// The body is undefined when the browser does not support streaming response bodies (Firefox),
 		// and null in certain error cases, i.e. when the request is blocked because of CORS settings.
-		if b != js.Undefined() && b != js.Null() {
+		if !b.Equal(js.Undefined()) && !b.Equal(js.Null()) {
 			body = &streamReader{stream: b.Call("getReader")}
 		} else {
 			// Fall back to using ArrayBuffer
@@ -168,7 +168,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 	respPromise.Call("then", success, failure)
 	select {
 	case <-req.Context().Done():
-		if ac != js.Undefined() {
+		if !ac.Equal(js.Undefined()) {
 			// Abort the Fetch request
 			ac.Call("abort")
 		}
