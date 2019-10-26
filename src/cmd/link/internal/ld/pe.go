@@ -94,6 +94,7 @@ const (
 	IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR           = 14
 	IMAGE_SUBSYSTEM_WINDOWS_GUI                    = 2
 	IMAGE_SUBSYSTEM_WINDOWS_CUI                    = 3
+	IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA       = 0x0020
 	IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE          = 0x0040
 	IMAGE_DLLCHARACTERISTICS_NX_COMPAT             = 0x0100
 	IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 0x8000
@@ -800,6 +801,16 @@ func (f *peFile) writeFileHeader(arch *sys.Arch, out *OutBuf, linkmode LinkMode)
 	binary.Write(out, binary.LittleEndian, &fh)
 }
 
+func (ctxt *Link) shouldUseWindowsASLR() bool {
+	if ctxt.Arch.Family == sys.ARM {
+		return true
+	}
+	if ctxt.BuildMode == BuildModeExe {
+		return false
+	}
+	return true
+}
+
 // writeOptionalHeader writes COFF optional header for peFile f.
 func (f *peFile) writeOptionalHeader(ctxt *Link) {
 	var oh pe.OptionalHeader32
@@ -859,12 +870,6 @@ func (f *peFile) writeOptionalHeader(ctxt *Link) {
 		oh.Subsystem = IMAGE_SUBSYSTEM_WINDOWS_CUI
 	}
 
-	switch ctxt.Arch.Family {
-	case sys.ARM:
-		oh64.DllCharacteristics = IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
-		oh.DllCharacteristics = IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
-	}
-
 	// Mark as having awareness of terminal services, to avoid ancient compatibility hacks.
 	oh64.DllCharacteristics |= IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
 	oh.DllCharacteristics |= IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
@@ -872,6 +877,12 @@ func (f *peFile) writeOptionalHeader(ctxt *Link) {
 	// Enable DEP
 	oh64.DllCharacteristics |= IMAGE_DLLCHARACTERISTICS_NX_COMPAT
 	oh.DllCharacteristics |= IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+
+	// Enable ASLR (and high-entropy ASLR for 64-bit)
+	if ctxt.shouldUseWindowsASLR() {
+		oh64.DllCharacteristics |= IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE | IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+		oh.DllCharacteristics |= IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+	}
 
 	// Disable stack growth as we don't want Windows to
 	// fiddle with the thread stack limits, which we set

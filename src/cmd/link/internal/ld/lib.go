@@ -1191,6 +1191,20 @@ func (ctxt *Link) hostlink() {
 		// Enable DEP
 		argv = append(argv, "-Wl,--nxcompat")
 
+		if ctxt.shouldUseWindowsASLR() {
+			// Enable ASLR
+			argv = append(argv, "-Wl,--dynamicbase")
+
+			// Enable high-entropy ASLR on 64-bit
+			if ctxt.Arch.PtrSize >= 8 {
+				argv = append(argv, "-Wl,--high-entropy-va")
+			}
+
+			// Work around binutils limitation that strips relocation table for dynamicbase
+			// See https://sourceware.org/bugzilla/show_bug.cgi?id=19011
+			argv = append(argv, "-Wl,--export-all-symbols")
+		}
+
 		argv = append(argv, fmt.Sprintf("-Wl,--major-os-version=%d", PeMinimumTargetMajorVersion))
 		argv = append(argv, fmt.Sprintf("-Wl,--minor-os-version=%d", PeMinimumTargetMinorVersion))
 		argv = append(argv, fmt.Sprintf("-Wl,--major-subsystem-version=%d", PeMinimumTargetMajorVersion))
