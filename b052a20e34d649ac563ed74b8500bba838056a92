@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6731bc4a_0c472b1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-26T00:08:03Z",
+      "side": 1,
+      "message": "Ah. I read this as \"it\" meaning the internals of the \"block operation\", which do see nils, but at most one at the end.",
+      "parentUuid": "f3ca4dc8_1ac7e483",
+      "range": {
+        "startLine": 26,
+        "startChar": 39,
+        "endLine": 26,
+        "endChar": 70
+      },
+      "revId": "b052a20e34d649ac563ed74b8500bba838056a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f15bdba_174da95e",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 2
