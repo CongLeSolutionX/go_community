@@ -16,6 +16,24 @@
       "revId": "56ab855efe649560b6a86200e7377323b1b58bcd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d62003d0_212f7799",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-26T00:02:54Z",
+      "side": 1,
+      "message": "I was surprised by that, too. You are correct that it was never called before, so the linker didn\u0027t complain.",
+      "parentUuid": "b15a537b_b62a2f5b",
+      "revId": "56ab855efe649560b6a86200e7377323b1b58bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
