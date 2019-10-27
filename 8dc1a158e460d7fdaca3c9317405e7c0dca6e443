@@ -16,6 +16,24 @@
       "revId": "8dc1a158e460d7fdaca3c9317405e7c0dca6e443",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dac7bf77_7cceb1e3",
+        "filename": "src/runtime/preemptm_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-27T03:41:33Z",
+      "side": 1,
+      "message": "Hmm. My initial hunch was that tgkill was blacklisted on Android, but it looks like Bionic\u0027s raise is implemented using tgkill (from https://android.googlesource.com/platform/bionic/).\n\nIt doesn\u0027t seem like bionic does anything weird with SIGUSR1 either, based on grepping through that repo. In fact, it has a bunch of tests that use SIGUSR1.",
+      "parentUuid": "8968a118_1d276f45",
+      "revId": "8dc1a158e460d7fdaca3c9317405e7c0dca6e443",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
