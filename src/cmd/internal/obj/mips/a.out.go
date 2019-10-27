@@ -112,9 +112,6 @@ const (
 	REG_F30
 	REG_F31
 
-	REG_HI
-	REG_LO
-
 	// co-processor 0 control registers
 	REG_M0
 	REG_M1
@@ -183,7 +180,10 @@ const (
 	REG_FCR30
 	REG_FCR31
 
-	REG_LAST = REG_FCR31 // the last defined register
+	REG_HI
+	REG_LO
+
+	REG_LAST = REG_LO // the last defined register
 
 	REG_SPECIAL = REG_M0
 
