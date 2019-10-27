@@ -70,6 +70,24 @@
       "revId": "8dc1a158e460d7fdaca3c9317405e7c0dca6e443",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db97ee65_e11bded3",
+        "filename": "src/runtime/preemptm_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-27T22:56:06Z",
+      "side": 1,
+      "message": "Ugh. SIGUSR1 (and SIGPIPE) are in the process\u0027s signal mask. Just those two.\n\nIf I change the test to use SIGUSR2, it works fine.\n\nProbably this test should properly unblock the signal it uses, but the fact that SIGUSR1 is specifically blocked makes me think that maybe it should be using SIGUSR2.",
+      "parentUuid": "0c71e671_fa54e273",
+      "revId": "8dc1a158e460d7fdaca3c9317405e7c0dca6e443",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
