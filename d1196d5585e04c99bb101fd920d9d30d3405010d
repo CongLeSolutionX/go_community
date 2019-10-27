@@ -45,6 +45,30 @@
       "revId": "d1196d5585e04c99bb101fd920d9d30d3405010d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2114be1c_1f33a23b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-10-27T12:20:09Z",
+      "side": 1,
+      "message": "But that\u0027s not what this commit does. There are more modes than just exe and pie, like shared, c-shared, and so forth. This commit turns it on for all non-exe. I think that makes sense too, especially considering that we want highentropyva whenever possible.",
+      "parentUuid": "f6d834b5_21de831d",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "d1196d5585e04c99bb101fd920d9d30d3405010d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
