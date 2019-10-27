@@ -80,8 +80,8 @@ var arches = map[string]func(){
 	"amd64":   genAMD64,
 	"arm":     genARM,
 	"arm64":   genARM64,
-	"mips64x": notImplemented,
-	"mipsx":   notImplemented,
+	"mips64x": genMIPS64,
+	"mipsx":   genMIPS,
 	"ppc64x":  notImplemented,
 	"s390x":   notImplemented,
 	"wasm":    genWasm,
@@ -354,6 +354,98 @@ func genARM64() {
 	p("MOVD (RSP), R27")          // load PC to REGTMP
 	p("ADD $%d, RSP", l.stack+16) // pop frame (including the space pushed by sigctxt.pushCall)
 	p("JMP (R27)")
+}
+
+func genMIPS64() {
+	// Add integer registers R1-R25, R28
+	// R0 (zero), R23 (REGTMP), R29 (SP), R30 (g), R31 (LR) are special,
+	// and not saved here. R26 and R27 are reserved by kernel and not used.
+	var l = layout{sp: "R29", stack: 8} // add LR slot
+	for i := 1; i <= 25; i++ {
+		if i == 23 {
+			continue // R23 is REGTMP
+		}
+		reg := fmt.Sprintf("R%d", i)
+		l.add("MOVV", reg, 8)
+	}
+	l.add("MOVV", "RSB", 8) // aka R28, I think we won't modify it, just in case.
+	l.addSpecial(
+		"MOVV HI, R1\nMOVV R1, %d(R29)",
+		"MOVV %d(R29), R1\nMOVV R1, HI",
+		8)
+	l.addSpecial(
+		"MOVV LO, R1\nMOVV R1, %d(R29)",
+		"MOVV %d(R29), R1\nMOVV R1, LO",
+		8)
+	// Add floating point control/status register FCR31.
+	l.addSpecial(
+		"MOVV FCR31, R1\nMOVV R1, %d(R29)",
+		"MOVV %d(R29), R1\nMOVV R1, FCR31",
+		8)
+	// Add floating point registers F0-F31.
+	for i := 0; i <= 31; i++ {
+		reg := fmt.Sprintf("F%d", i)
+		l.add("MOVD", reg, 8)
+	}
+
+	// allocate frame, save LR
+	p("MOVV R31, -%d(R29)", l.stack)
+	p("SUBV $%d, R29", l.stack)
+
+	l.save()
+	p("CALL ·asyncPreempt2(SB)")
+	l.restore()
+
+	p("MOVV %d(R29), R31", l.stack) // sigctxt.pushCall pushes LR on stack, restore it
+	p("MOVV (R29), R23")            // load PC to REGTMP
+	p("ADDV $%d, R29", l.stack+8)   // pop frame (including the space pushed by sigctxt.pushCall)
+	p("JMP (R23)")
+}
+
+func genMIPS() {
+	// Add integer registers R1-R25, R28
+	// R0 (zero), R23 (REGTMP), R29 (SP), R30 (g), R31 (LR) are special,
+	// and not saved here. R26 and R27 are reserved by kernel and not used.
+	var l = layout{sp: "R29", stack: 8} // add LR slot
+	for i := 1; i <= 25; i++ {
+		if i == 23 {
+			continue // R23 is REGTMP
+		}
+		reg := fmt.Sprintf("R%d", i)
+		l.add("MOVW", reg, 4)
+	}
+	l.add("MOVW", "R28", 4)
+	l.addSpecial(
+		"MOVW HI, R1\nMOVW R1, %d(R29)",
+		"MOVW %d(R29), R1\nMOVW R1, HI",
+		4)
+	l.addSpecial(
+		"MOVW LO, R1\nMOVW R1, %d(R29)",
+		"MOVW %d(R29), R1\nMOVW R1, LO",
+		4)
+	// Add floating point control/status register FCR31.
+	l.addSpecial(
+		"MOVW FCR31, R1\nMOVW R1, %d(R29)",
+		"MOVW %d(R29), R1\nMOVW R1, FCR31",
+		4)
+	// Add floating point registers F0-F31.
+	for i := 0; i <= 31; i++ {
+		reg := fmt.Sprintf("F%d", i)
+		l.add("MOVF", reg, 4)
+	}
+
+	// allocate frame, save LR
+	p("MOVW R31, -%d(R29)", l.stack)
+	p("SUB $%d, R29", l.stack)
+
+	l.save()
+	p("CALL ·asyncPreempt2(SB)")
+	l.restore()
+
+	p("MOVW %d(R29), R31", l.stack) // sigctxt.pushCall pushes LR on stack, restore it
+	p("MOVW (R29), R23")            // load PC to REGTMP
+	p("ADD $%d, R29", l.stack+4)    // pop frame (including the space pushed by sigctxt.pushCall)
+	p("JMP (R23)")
 }
 
 func genWasm() {
