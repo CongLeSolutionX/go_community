@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab5eefcb_ad3983d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-10-27T11:25:24Z",
+      "side": 1,
+      "message": "Given the agreed upon semantics, I think this should be phrased differently:\n\n   activate ASLR on Windows executables built with -buildmode\u003dpie",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "d1196d5585e04c99bb101fd920d9d30d3405010d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6d834b5_21de831d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-10-27T11:25:24Z",
+      "side": 1,
+      "message": "Same:\n\n   This commit activates ASLR when using -buildmode\u003dpie",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "d1196d5585e04c99bb101fd920d9d30d3405010d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
