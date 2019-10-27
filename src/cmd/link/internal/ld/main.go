@@ -152,7 +152,11 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	startProfile()
 	if ctxt.BuildMode == BuildModeUnset {
-		ctxt.BuildMode = BuildModeExe
+		if ctxt.HeadType == objabi.Hwindows {
+			ctxt.BuildMode = BuildModePIE
+		} else {
+			ctxt.BuildMode = BuildModeExe
+		}
 	}
 
 	if ctxt.BuildMode != BuildModeShared && flag.NArg() != 1 {
