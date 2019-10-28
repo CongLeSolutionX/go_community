@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "030d4c76_b3983efe",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T21:12:09Z",
+      "side": 1,
+      "message": "Looks good.",
+      "parentUuid": "618bc692_14e24710",
+      "range": {
+        "startLine": 127,
+        "startChar": 27,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "250cacbe_b1ab01fd",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 36
@@ -160,6 +184,24 @@
       "side": 1,
       "message": "it would just be a very large mapping (not that that necessarily matters on 64-bit architectures). we\u0027re already allocating a lot of address space and we don\u0027t do this to avoid allocating more, though having the bitmap just be one big array would be kind of nice since then we don\u0027t have this extra layer of indirection.\n\nwhat do you think?",
       "parentUuid": "250cacbe_b1ab01fd",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa147a78_310586b0",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T21:12:09Z",
+      "side": 1,
+      "message": "We\u0027re keeping only a bit per page, so I think this would be fine as just a reservation. It\u0027s only 64K for a 32-bit arch and 4GB for 48-bit addresses.",
+      "parentUuid": "5809efab_55edd3b9",
       "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -370,6 +412,24 @@
       "side": 1,
       "message": "ah, shoot, good catch. you\u0027re right, this should be rounding down the base and rounding up the limit, not round the size.\n\nthis hasn\u0027t been a problem yet because the caller of grow always rounds to a chunk size, so this rounding effectively does nothing and is really just defensive. maybe it would be better to just verify that base and size are multiples of the chunk size?",
       "parentUuid": "b2c05bf0_5b0d9c83",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a7f602a_18c2ee92",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T21:12:09Z",
+      "side": 1,
+      "message": "If you\u0027re expecting the caller to align, then just an assert here (and a comment on sysGrow) would be fine.",
+      "parentUuid": "fc213ffc_a11369a7",
       "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
