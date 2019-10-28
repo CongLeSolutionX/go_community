@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fbf9fe9c_966a87f7",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T18:37:26Z",
+      "side": 1,
+      "message": "this one was kind of a pickle.\n\nideally yes, it would just live in test files (and it used to), but 2 CLs from now we want to be able to initialize a pageAlloc struct without reaching down into details in test files.\n\nI don\u0027t know what the right thing to do about that is.",
+      "parentUuid": "02f5a7ef_bb18c600",
+      "revId": "c0fd2418d1b0d3345214c8ec20414dde707ee12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37765f3d_00498751",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 28
