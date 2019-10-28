@@ -119,6 +119,23 @@
       "revId": "5b4ea6588357c6f05912e92b4e67802facdf0e38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da0f6ce1_052be2b3",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-28T14:55:56Z",
+      "side": 1,
+      "message": "Maybe have a test for the GC behavior? Is it possible?",
+      "revId": "5b4ea6588357c6f05912e92b4e67802facdf0e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
