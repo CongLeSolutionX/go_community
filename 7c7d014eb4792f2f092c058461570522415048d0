@@ -34,6 +34,24 @@
       "revId": "7c7d014eb4792f2f092c058461570522415048d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b14d52a3_a23e163a",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T18:53:21Z",
+      "side": 1,
+      "message": "I see, you\u0027ve carefully engineered it so that with 5 radix-8 levels on 64 bit, 9+4*3 just fits. You should assert something to this effect somewhere.\n\nSo the L0 level has one entry per 16GB heap, regardless of how big the heap is? (Seems fine, just checking).",
+      "parentUuid": "9300dff0_10ac1bf4",
+      "revId": "7c7d014eb4792f2f092c058461570522415048d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
