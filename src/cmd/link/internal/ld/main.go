@@ -272,13 +272,12 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	ctxt.undef()
 	ctxt.hostlink()
-	ctxt.archive()
 	if ctxt.Debugvlog != 0 {
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
 	}
-
 	ctxt.Bso.Flush()
+	ctxt.archive()
 
 	errorexit()
 }

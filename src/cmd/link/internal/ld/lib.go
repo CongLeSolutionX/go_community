@@ -59,6 +59,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"syscall"
 )
 
 // Data layout and relocation.
@@ -294,13 +295,17 @@ func libinit(ctxt *Link) {
 	}
 }
 
-func errorexit() {
+func exitIfErrors() {
 	if nerrors != 0 {
 		Exit(2)
 	}
 	if checkStrictDups > 1 && strictDupMsgCount > 0 {
 		Exit(2)
 	}
+}
+
+func errorexit() {
+	exitIfErrors()
 	Exit(0)
 }
 
@@ -1114,6 +1119,8 @@ func (ctxt *Link) archive() {
 		return
 	}
 
+	exitIfErrors()
+
 	if *flagExtar == "" {
 		*flagExtar = "ar"
 	}
@@ -1140,6 +1147,27 @@ func (ctxt *Link) archive() {
 		ctxt.Logf("archive: %s\n", strings.Join(argv, " "))
 	}
 
+	// If there is nothing remaining to do in the link after the
+	// archive step (no cleanups, etc) then exec the arcihve command
+	// directly. This will reduce peak RSS for the link (and speed up
+	// linking of large applications), since when the archive command
+	// runs we won't be holding onto all of the linker's live memory.
+	if len(atExitFuncs) == 0 {
+		var err error
+		argv0 := argv[0]
+		if filepath.Base(argv0) == argv0 {
+			argv0, err = exec.LookPath(argv0)
+			if err != nil {
+				Exitf("cannot find %s: %v", argv[0], err)
+			}
+		}
+		err = syscall.Exec(argv0, argv, os.Environ())
+		if err != nil {
+			Exitf("running %s failed: %v", argv[0], err)
+		}
+	}
+
+	// Otherwise invoke 'ar' in the usual way (fork + exec).
 	if out, err := exec.Command(argv[0], argv[1:]...).CombinedOutput(); err != nil {
 		Exitf("running %s failed: %v\n%s", argv[0], err, out)
 	}
