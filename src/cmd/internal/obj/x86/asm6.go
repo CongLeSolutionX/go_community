@@ -31,12 +31,14 @@
 package x86
 
 import (
+	"bytes"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 )
 
@@ -76,6 +78,20 @@ const (
 	// branchLoopHead marks loop entry.
 	// Used to insert padding for misaligned loops.
 	branchLoopHead
+)
+
+// Bit flags that are used for the arch specific Mark field
+const (
+	// padWithPrefix1, padWithPrefix2 and padWithPrefix3 reserve
+	// bits in the Mark bitfield that are used to record the number of
+	// prefixes to insert before an instruction to ensure that a
+	// subsequent jump does not cross or end on a 32 byte boundary.
+	// These bits are only used if GO_X86_PADJUMP is == 1.
+	padWithPrefix1 = (1 << iota)
+	padWithPrefix2
+	padWithPrefix3
+
+	padWithPrefixMask = padWithPrefix1 | padWithPrefix2 | padWithPrefix3
 )
 
 // opBytes holds optab encoding bytes.
@@ -1838,6 +1854,12 @@ func fillnop(p []byte, n int) {
 	}
 }
 
+func noppad(ctxt *obj.Link, s *obj.LSym, c int32, pad int32) int32 {
+	s.Grow(int64(c) + int64(pad))
+	fillnop(s.P[c:], int(pad))
+	return c + pad
+}
+
 func spadjop(ctxt *obj.Link, l, q obj.As) obj.As {
 	if ctxt.Arch.Family != sys.AMD64 || ctxt.Arch.PtrSize == 4 {
 		return l
@@ -1845,7 +1867,403 @@ func spadjop(ctxt *obj.Link, l, q obj.As) obj.As {
 	return q
 }
 
+// If the environment variable GO_X86_PADJUMP=1 the assembler will ensure that
+// no standalone or macro-fused jump will straddle or end on a 32 byte boundary.
+// There are two strategies for preventing this.
+//
+// 1. Inserting NOPs before the jumps
+// 2. Adding prefixes to instructions which occur before the jump.  This is the
+//    preferred strategy but may not always be possible.
+//
+// Jumps are padded in two phases.  First we assemble the function inserting NOPs
+// where needed and resolving jump addresses.  We then re-assemble, attempting
+// to replace the NOPs with prefixes.
+
+func alignJump(p *obj.Prog) bool {
+	return p.Pcond != nil || p.As == obj.AJMP || p.As == obj.ACALL ||
+		p.As == obj.ARET || p.As == obj.ADUFFCOPY || p.As == obj.ADUFFZERO
+}
+
+func checkForJump(p *obj.Prog) *obj.Prog {
+	// Skip any PCDATA, FUNCDATA or NOP instructions
+	var q *obj.Prog
+	for q = p.Link; q != nil && (q.As == obj.APCDATA || q.As == obj.AFUNCDATA || q.As == obj.ANOP); q = q.Link {
+	}
+
+	if q == nil || q.Pcond == nil || p.As == obj.AJMP || p.As == obj.ACALL {
+		return nil
+	}
+
+	return q
+}
+
+// fusedJump determines whether p can be fused with a subsequent conditional jump instruction.
+// If it can, the jump is returned.  If it can't, we return nil.  Macro fusion
+// rules are derived from the Intel Optimization Manual (April 2019) section 3.4.2.2.
+func fusedJump(p *obj.Prog) *obj.Prog {
+	cmp := p.As == ACMPB || p.As == ACMPL || p.As == ACMPQ || p.As == ACMPW
+
+	cmpAddSub := p.As == AADDB || p.As == AADDL || p.As == AADDW || p.As == AADDQ ||
+		p.As == ASUBB || p.As == ASUBL || p.As == ASUBW || p.As == ASUBQ || cmp
+
+	testAnd := p.As == ATESTB || p.As == ATESTL || p.As == ATESTQ || p.As == ATESTW ||
+		p.As == AANDB || p.As == AANDL || p.As == AANDQ || p.As == AANDW
+
+	incDec := p.As == AINCB || p.As == AINCL || p.As == AINCQ || p.As == AINCW ||
+		p.As == ADECB || p.As == ADECL || p.As == ADECQ || p.As == ADECW
+
+	if !cmpAddSub && !testAnd && !incDec {
+		return nil
+	}
+
+	if !incDec {
+		var argOne obj.AddrType
+		var argTwo obj.AddrType
+		if cmp {
+			argOne = p.From.Type
+			argTwo = p.To.Type
+		} else {
+			argOne = p.To.Type
+			argTwo = p.From.Type
+		}
+		if argOne == obj.TYPE_REG {
+			if argTwo != obj.TYPE_REG && argTwo != obj.TYPE_CONST && argTwo != obj.TYPE_MEM {
+				return nil
+			}
+		} else if argOne == obj.TYPE_MEM {
+			if argTwo != obj.TYPE_REG {
+				return nil
+			}
+		} else {
+			return nil
+		}
+	}
+
+	jmp := checkForJump(p)
+	if jmp == nil {
+		return nil
+	}
+
+	if testAnd {
+		return jmp
+	}
+
+	if jmp.As == AJOC || jmp.As == AJOS || jmp.As == AJMI ||
+		jmp.As == AJPL || jmp.As == AJPS || jmp.As == AJPC {
+		return nil
+	}
+
+	if cmpAddSub {
+		return jmp
+	}
+
+	if jmp.As == AJCS || jmp.As == AJCC || jmp.As == AJHI || jmp.As == AJLS {
+		return nil
+	}
+
+	return jmp
+}
+
+func countLegacyPrefixes(ab *AsmBuf) int {
+	var count int
+
+	// Check for legacy prefixes from Group 2, 3 and 4 and for mandatory prefixes
+
+	legacyP := []byte{0x2e, 0x36, 0x3e, 0x26, 0x64, 0x65, 0x66, 0x67, 0xf2, 0xf3}
+
+	for ; count < ab.Len(); count++ {
+		pfx := ab.buf[count]
+		if bytes.IndexByte(legacyP, pfx) == -1 {
+			break
+		}
+	}
+
+	return count
+}
+
+func countOpcodePrefixes(ab *AsmBuf, count int) int {
+	pfx := ab.buf[count]
+
+	if pfx == 0x0F {
+		count++
+		if count < ab.Len() {
+			pfx = ab.buf[count]
+			if pfx == 0x3A || pfx == 0x38 {
+				count++
+			}
+		}
+	}
+
+	return count
+}
+
+func countAssembledPrefixes(ab *AsmBuf) int {
+	count := countLegacyPrefixes(ab)
+	if count >= ab.Len() {
+		return -1
+	}
+
+	pfx := ab.buf[count]
+	if pfx >= 0x40 && pfx <= 0x4F {
+		if ab.rexflag == 0 {
+			return -1
+		}
+		count++
+		if count >= ab.Len() {
+			return -1
+		}
+		count = countOpcodePrefixes(ab, count)
+	} else if pfx == 0xc5 {
+		if !ab.vexflag {
+			return -1
+		}
+		count += 2 // 2 byte VEX
+	} else if pfx == 0xc4 {
+		if !ab.vexflag {
+			return -1
+		}
+		count += 3 // 3 byte VEX
+	} else if pfx == 0x62 {
+		if !ab.evexflag {
+			return -1
+		}
+
+		count += 4 // 4 byte EVEX
+	} else {
+		count = countOpcodePrefixes(ab, count)
+	}
+
+	return count
+}
+
+// roomInPrefix returns the number of free prefix slots in an assembled
+// instruction.  Each time we assemble a new instruction we check to see whether
+// that instruction has some room available for inserting prefixes
+// that can be later used to ensure jumps do not cross or end on 32 byte
+// boundaries. Instructions can have a maximum of 5 prefixes and be a total
+// of 15 bytes in length.
+func roomInPrefix(ab *AsmBuf, p *obj.Prog, group1P int) int32 {
+	if ab.Len() == 0 {
+		return -1
+	}
+
+	if p.As == obj.AFUNCDATA || p.As == obj.APCDATA || p.As == ABYTE {
+		return -1
+	}
+
+	count := countAssembledPrefixes(ab)
+	if count >= ab.Len() {
+		return -1
+	}
+
+	// Compute number of bytes available in instruction.  Max bytes per instruction is
+	// 15.  Max number of prefixes is 5.
+
+	count += group1P
+
+	avail := 15 - ab.Len()
+	if avail > 5 {
+		avail = 5
+	}
+
+	return int32(avail - count)
+}
+
+type freePrefix struct {
+	p     *obj.Prog
+	space int32
+}
+
+type padJumpsState int
+
+// Padding jump instructions with prefixes requires additional
+// passes to assemble the function.  A state machine,
+// padJumpsCtx.state, is used keep track of the process.  It
+// may be set to one of the following values.
+
+const (
+	// padJumpsNoPadding indicates that no jumps have been
+	// encountered that require padding.
+	padJumpsNoPadding padJumpsState = iota
+	// padJumpsNOPsToReplace indicates that at least one jump
+	// has been found that needs to be padded and there is
+	// enough prefix space available in earlier instructions
+	// into which padding can be inserted, in a subsequent pass.
+	padJumpsNOPsToReplace
+	// padJumpsReplacingNOPs indicates that the function has
+	// been fully assembled but that it contains some jumps that
+	// have been padded with NOPs.  Furthermore, there is space
+	// available to replace at least some of these NOPs with
+	// prefixes.  At least one more pass is required to replace
+	// the NOPs with prefixes.
+	padJumpsReplacingNOPs
+)
+
+type padJumpsCtx struct {
+	padJumps       int32
+	state          padJumpsState
+	previousPrefix int
+	freePrefixes   []freePrefix
+	prefixSpace    int32
+}
+
+func makePjc(ctxt *obj.Link) *padJumpsCtx {
+	// Disable jump padding on 32 bit builds by settting
+	// padJumps to 0.
+	if ctxt.Arch.Family == sys.I386 {
+		return &padJumpsCtx{}
+	}
+
+	padJumpEnv := os.Getenv("GO_X86_PADJUMP")
+	if padJumpEnv != "1" {
+		return &padJumpsCtx{}
+	}
+	return &padJumpsCtx{
+		padJumps: 32,
+	}
+}
+
+func (pjc *padJumpsCtx) reset() {
+	if pjc.state == padJumpsNOPsToReplace {
+		pjc.state = padJumpsNoPadding
+	}
+	pjc.previousPrefix = 0
+	pjc.freePrefixes = nil
+	pjc.prefixSpace = 0
+}
+
+// checkForPrefixSpace is called when an instruction is assembled.  It checks to see
+// whether there's any prefix space available in that instruction and if there is
+// the instruction gets added to the freePrefixes list.  The instructions in this
+// list are candidates for inserting prefixes to pad jumps that occur later in the
+// code stream.  The freePrefixes list is flushed when we encounter a jump.
+func (pjc *padJumpsCtx) checkForPrefixSpace(ctxt *obj.Link, p *obj.Prog, ab *AsmBuf, c int32) {
+	if pjc.padJumps == 0 {
+		return
+	}
+	// Check to see whether this instruction is a candidate for adding
+	// extra padding.
+	if p.As == AREP || p.As == AREPN || p.As == ALOCK {
+		pjc.previousPrefix = 1
+	} else {
+		if fusedJump(p) != nil || alignJump(p) || p.As == obj.AFUNCDATA || p.As == ABYTE {
+			pjc.freePrefixes = nil
+			pjc.prefixSpace = 0
+		} else {
+			room := roomInPrefix(ab, p, pjc.previousPrefix)
+			if room > 0 {
+				pjc.freePrefixes = append(pjc.freePrefixes, freePrefix{p, room})
+				pjc.prefixSpace += room
+			}
+		}
+
+		pjc.previousPrefix = 0
+	}
+}
+
+// claimPrefixSpace searches the freePrefixes list for one or more instructions that have
+// prefix space available.  When this function is called it's guaranteed that there are
+// enough prefixes available in the instructions in the freePrefixes list.  When an
+// instruction is found the number of bytes that need to be inserted into that instruction's
+// prefix is stored in the first three bits of the instruction's architecture specific Mark field.
+func (pjc *padJumpsCtx) claimPrefixSpace(toPad int32) {
+	for i := len(pjc.freePrefixes) - 1; i >= 0; i-- {
+		curPrefixes := pjc.freePrefixes[i].p.Mark & padWithPrefixMask
+		pjc.freePrefixes[i].p.Mark &^= padWithPrefixMask
+		if pjc.freePrefixes[i].space >= toPad {
+			pjc.freePrefixes[i].p.Mark |= (uint16(toPad) + curPrefixes) & padWithPrefixMask
+			break
+		}
+		pjc.freePrefixes[i].p.Mark |= (uint16(pjc.freePrefixes[i].space) + curPrefixes) & padWithPrefixMask
+		toPad -= pjc.freePrefixes[i].space
+	}
+}
+
+// padJump detects whether the instruction being assembled is a standalone or a macro-fused
+// jump that needs to be padded.  If it is, NOPs are inserted to ensure that the jump does
+// not cross or end on a 32 byte boundary.  We also check the prefix list to see whether enough prefix
+// space is available in preceding instructions to pad the jump.  If there is, we mark the
+// relevant instructions and set the state variable to padJumpsNOPsToReplace.  This may result
+// in further passes of the assembler once the final size of the function is known.  The prefixes
+// will be inserted in these later passes and the NOPs should vanish.
+func (pjc *padJumpsCtx) padJump(ctxt *obj.Link, s *obj.LSym, p *obj.Prog, c int32, reAssemble bool) (bool, int32) {
+	if pjc.padJumps == 0 {
+		return reAssemble, c
+	}
+
+	var toPad int32
+	fj := fusedJump(p)
+	mask := pjc.padJumps - 1
+	if fj != nil {
+		if (c&mask)+int32(p.Isize+fj.Isize) >= pjc.padJumps {
+			toPad = pjc.padJumps - (c & mask)
+		}
+	} else if alignJump(p) {
+		if (c&mask)+int32(p.Isize) >= pjc.padJumps {
+			toPad = pjc.padJumps - (c & mask)
+		}
+	}
+	if toPad <= 0 {
+		return reAssemble, c
+	}
+
+	if toPad <= pjc.prefixSpace {
+		pjc.claimPrefixSpace(toPad)
+		if pjc.state == padJumpsReplacingNOPs {
+			reAssemble = true
+		} else {
+			pjc.state = padJumpsNOPsToReplace
+		}
+	}
+	c = noppad(ctxt, s, c, toPad)
+	pjc.prefixSpace = 0
+	pjc.freePrefixes = nil
+
+	return reAssemble, c
+}
+
+// insertPrefixes inserts prefixes in marked instructions, removing the need to
+// insert NOPs before jumps.
+func insertPrefixes(p *obj.Prog, ab *AsmBuf) int32 {
+	b := byte(0x2e)
+
+	avail := int(p.Mark & padWithPrefixMask)
+	if avail == 0 {
+		return 0
+	}
+
+	// Check for existing segment prefix.  If one exists we must
+	// use it to pad, otherwise we just use 0x2e.
+
+	prefixEnd := countLegacyPrefixes(ab)
+	if prefixEnd > 0 {
+		segmentP := []byte{0x2e, 0x36, 0x3e, 0x26, 0x64, 0x65}
+		for i := 0; i < prefixEnd; i++ {
+			pfx := ab.buf[i]
+			if bytes.IndexByte(segmentP, pfx) != -1 {
+				b = pfx
+				break
+			}
+		}
+	}
+
+	for i := 0; i < avail; i++ {
+		ab.Insert(0, b)
+	}
+
+	return int32(avail)
+}
+
+// reAssemble is called if an instruction's size changes during assembly.  If
+// it does and the instruction is a standalone or a macro-fused jump we need to
+// reassemble.
+func (pjc *padJumpsCtx) reAssemble(p *obj.Prog) bool {
+	return pjc.padJumps > 0 && ((fusedJump(p) != nil) || alignJump(p))
+}
+
 func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
+	pjc := makePjc(ctxt)
+
 	if s.P != nil {
 		return
 	}
@@ -1893,6 +2311,7 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 	var c int32
 	errors := ctxt.Errors
 	for {
+		pjc.reset()
 		// This loop continues while there are reasons to re-assemble
 		// whole block, like the presence of long forward jumps.
 		reAssemble := false
@@ -1903,6 +2322,8 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		s.P = s.P[:0]
 		c = 0
 		for p := s.Func.Text; p != nil; p = p.Link {
+
+			reAssemble, c = pjc.padJump(ctxt, s, p, c, reAssemble)
 
 			if (p.Back&branchLoopHead != 0) && c&(loopAlign-1) != 0 {
 				// pad with NOPs
@@ -1936,13 +2357,22 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 
-			p.Rel = nil
+			if pjc.state != padJumpsReplacingNOPs {
+				p.Mark &^= padWithPrefixMask
+			}
 
+			p.Rel = nil
 			p.Pc = int64(c)
 			ab.asmins(ctxt, s, p)
+			pjc.checkForPrefixSpace(ctxt, p, &ab, c)
 			m := ab.Len()
 			if int(p.Isize) != m {
 				p.Isize = uint8(m)
+				if pjc.reAssemble(p) {
+					// We need to re-assemble here to check for jumps and fused jumps
+					// that span cache lines.
+					reAssemble = true
+				}
 			}
 
 			s.Grow(p.Pc + int64(m))
@@ -1956,7 +2386,12 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			log.Fatalf("loop")
 		}
 		if !reAssemble {
-			break
+			// Reassemble if we've inserted NOPs that could be replaced by prefixes
+			if pjc.state == padJumpsNOPsToReplace {
+				pjc.state = padJumpsReplacingNOPs
+			} else {
+				break
+			}
 		}
 		if ctxt.Errors > errors {
 			return
@@ -5156,12 +5591,15 @@ func (ab *AsmBuf) asmins(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 		ab.Insert(np, byte(0x40|ab.rexflag))
 	}
 
+	padding := insertPrefixes(p, ab)
+
 	n := ab.Len()
 	for i := len(cursym.R) - 1; i >= 0; i-- {
 		r := &cursym.R[i]
 		if int64(r.Off) < p.Pc {
 			break
 		}
+		r.Off += padding
 		if ab.rexflag != 0 && !ab.vexflag && !ab.evexflag {
 			r.Off++
 		}

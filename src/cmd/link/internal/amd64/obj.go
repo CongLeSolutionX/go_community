@@ -34,13 +34,20 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/ld"
+	"os"
 )
 
 func Init() (*sys.Arch, ld.Arch) {
 	arch := sys.ArchAMD64
 
+	fa := funcAlign
+	padJumpEnv := os.Getenv("GO_X86_PADJUMP")
+	if padJumpEnv == "1" {
+		fa = 32
+	}
+
 	theArch := ld.Arch{
-		Funcalign:  funcAlign,
+		Funcalign:  fa,
 		Maxalign:   maxAlign,
 		Minalign:   minAlign,
 		Dwarfregsp: dwarfRegSP,
