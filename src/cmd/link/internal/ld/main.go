@@ -67,6 +67,7 @@ var (
 	flagFieldTrack = flag.String("k", "", "set field tracking `symbol`")
 	flagLibGCC     = flag.String("libgcc", "", "compiler support lib for internal linking; use \"none\" to disable")
 	flagTmpdir     = flag.String("tmpdir", "", "use `directory` for temporary files")
+	ownTmpDir      = false
 
 	flagExtld      = flag.String("extld", "", "use `linker` when linking in external mode")
 	flagExtldflags = flag.String("extldflags", "", "pass `flags` to external linker")
@@ -272,13 +273,12 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	ctxt.undef()
 	ctxt.hostlink()
-	ctxt.archive()
 	if ctxt.Debugvlog != 0 {
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
 	}
-
 	ctxt.Bso.Flush()
+	ctxt.archive()
 
 	errorexit()
 }
