@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "150e4203_e3c8e29b",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "Done, stale variable from an earlier iteration.",
+      "parentUuid": "9afe7473_aa13d589",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fcae19f_604de37c",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 36
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "7c80b0d1_1593bf3d",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "yes!",
+      "parentUuid": "a881ca00_4e620226",
+      "range": {
+        "startLine": 127,
+        "startChar": 46,
+        "endLine": 127,
+        "endChar": 55
+      },
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618bc692_14e24710",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "yeah this isn\u0027t great. I tried to elaborate a little bit. let me know what you think.",
+      "parentUuid": "2fcae19f_604de37c",
+      "range": {
+        "startLine": 127,
+        "startChar": 27,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "250cacbe_b1ab01fd",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 36
@@ -76,6 +142,24 @@
       "writtenOn": "2019-10-28T19:18:26Z",
       "side": 1,
       "message": "It seems a bit weird to me that the summaries are all contiguous mappings, but the mallocBits regions are allocated on demand. Any reason why we\u0027re not using the same mechanism for mallocBits as for the summaries?",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5809efab_55edd3b9",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "it would just be a very large mapping (not that that necessarily matters on 64-bit architectures). we\u0027re already allocating a lot of address space and we don\u0027t do this to avoid allocating more, though having the bitmap just be one big array would be kind of nice since then we don\u0027t have this extra layer of indirection.\n\nwhat do you think?",
+      "parentUuid": "250cacbe_b1ab01fd",
       "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "9082b4cc_1c05745f",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "it\u0027s in init. added a comment.",
+      "parentUuid": "02846752_82f07137",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54e5e578_96801f9c",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 36
@@ -113,6 +215,24 @@
       "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3edf6909_49fe9872",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54e5e578_96801f9c",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "a080a6d3_3731ee8f",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95e9a78e_3df36a11",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c28c8b2_25b157b3",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 36
@@ -147,6 +285,24 @@
       "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "916a93b4_ad27305e",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "yeah the child number is what I was going for, but you\u0027re right we never actually use that anywhere. I updated the docs.",
+      "parentUuid": "3c28c8b2_25b157b3",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "2f0023bb_01fec22d",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "heaps that are \u003e16 GiB in size just use more entries at the root level. this is why the root level has a very large outdegree compared to the other levels (on 64-bit-ish platforms). we still work with heaps larger than 16 GiB via these levels.\n\nwe shouldn\u0027t ever overflow (excepting bugs of course) because of how the update/summary merging code works. because it\u0027ll only ever merge together 8 summaries from the following level, the total value in any field should never exceed 2^21.",
+      "parentUuid": "5f3d4cd4_aa5a3faa",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2c05bf0_5b0d9c83",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 36
@@ -181,6 +355,24 @@
       "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc213ffc_a11369a7",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T20:34:28Z",
+      "side": 1,
+      "message": "ah, shoot, good catch. you\u0027re right, this should be rounding down the base and rounding up the limit, not round the size.\n\nthis hasn\u0027t been a problem yet because the caller of grow always rounds to a chunk size, so this rounding effectively does nothing and is really just defensive. maybe it would be better to just verify that base and size are multiples of the chunk size?",
+      "parentUuid": "b2c05bf0_5b0d9c83",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
