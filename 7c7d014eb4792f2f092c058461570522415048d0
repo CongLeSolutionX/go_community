@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4716c77_315044fb",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T18:06:12Z",
+      "side": 1,
+      "message": "So these are summaries of the leaves of the tree?\nHigher up in the tree, these counts could be larger than 2^21, right?\n21 bits here can only cover 16GB of heap.\n\nIt isn\u0027t clear to me where the 21 comes from - how is it determined that 21 is all we need? Is that related to arena size? Maybe you should assert some math here?\n\nlogMallocChunkPages is only 9, so I would expect summaries of individual chunks to need only 9 bits per start/max/end.",
+      "revId": "7c7d014eb4792f2f092c058461570522415048d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
