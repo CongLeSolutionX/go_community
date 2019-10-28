@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ffbd9aa0_b05bc449",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "I\u0027ll drop a TODO newobj to make a decision on this.",
+      "parentUuid": "df634893_1286b663",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c5cc2b1_1099ee2b",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 7
@@ -69,6 +87,24 @@
       "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d90869d3_2faf4682",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2390,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "I also don\u0027t understand why it wasn\u0027t this way always.....",
+      "parentUuid": "deebf30a_a6dfa206",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -143,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "1ebc2fad_ead1a3a2",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da73fda5_e3b08e7f",
+      "range": {
+        "startLine": 458,
+        "startChar": 67,
+        "endLine": 459,
+        "endChar": 48
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b789e88_88bf4555",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 7
@@ -160,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "1d3b6488_d698916b",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b789e88_88bf4555",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b612ef2_bc26acaf",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 7
@@ -174,6 +252,24 @@
       "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0231653e_e1bf109d",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b612ef2_bc26acaf",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -197,6 +293,30 @@
       "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f72297a_f89f8e27",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db61fb21_4cb64743",
+      "range": {
+        "startLine": 517,
+        "startChar": 47,
+        "endLine": 517,
+        "endChar": 64
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -246,6 +366,54 @@
     },
     {
       "key": {
+        "uuid": "0dedc07a_b71bc551",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f3cc90f_92930aa5",
+      "range": {
+        "startLine": 123,
+        "startChar": 46,
+        "endLine": 123,
+        "endChar": 59
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "873c03fa_504c9225",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "117a38fc_33356621",
+      "range": {
+        "startLine": 123,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 13
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fdc55d0_77ac3bc4",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 7
@@ -269,6 +437,30 @@
     },
     {
       "key": {
+        "uuid": "3b1d126a_4faaae35",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fdc55d0_77ac3bc4",
+      "range": {
+        "startLine": 195,
+        "startChar": 76,
+        "endLine": 195,
+        "endChar": 86
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a05936b_dd893b67",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 7
@@ -283,6 +475,24 @@
       "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db01e1e2_201b28d1",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "I am trying to keep the usage of AddExtSym and keeping the code common between the two required functions: AddExtSym and AddExtSymWithOverwrite. If I copy/paste the code, the logic between the two functions become clearer, so I\u0027ll just do that, and it should clear everything up.",
+      "parentUuid": "3a05936b_dd893b67",
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -309,6 +519,30 @@
     },
     {
       "key": {
+        "uuid": "d03b8688_6a7174a0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdf90488_3c2b17cc",
+      "range": {
+        "startLine": 198,
+        "startChar": 7,
+        "endLine": 198,
+        "endChar": 20
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c052bfc8_c76eab83",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 7
@@ -329,6 +563,30 @@
       "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f90b0eba_e0153e0c",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c052bfc8_c76eab83",
+      "range": {
+        "startLine": 454,
+        "startChar": 17,
+        "endLine": 454,
+        "endChar": 28
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -355,6 +613,30 @@
     },
     {
       "key": {
+        "uuid": "12502ad8_1085e658",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "Outer is slightly awkward to make a variable, but I\u0027ve collapsed it into locals anyway.",
+      "parentUuid": "4ecf8ede_6d24f2c3",
+      "range": {
+        "startLine": 455,
+        "startChar": 24,
+        "endLine": 455,
+        "endChar": 39
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8980817_da06225e",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 7
@@ -375,6 +657,30 @@
       "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fecfa24a_af7c7ea3",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-28T16:26:35Z",
+      "side": 1,
+      "message": "True-dat. It\u0027s just how my little mind thinks.",
+      "parentUuid": "d8980817_da06225e",
+      "range": {
+        "startLine": 651,
+        "startChar": 9,
+        "endLine": 651,
+        "endChar": 12
+      },
+      "revId": "1d421bf6779f2fc476449379323cdd4dab69d873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
