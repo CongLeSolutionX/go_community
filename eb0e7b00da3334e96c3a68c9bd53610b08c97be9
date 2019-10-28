@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2ccf3c1b_d606efa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-28T19:59:08Z",
+      "side": 1,
+      "message": "OK, I can write a test for this ... seems like a good idea.",
+      "parentUuid": "ab85d503_881bee40",
+      "revId": "eb0e7b00da3334e96c3a68c9bd53610b08c97be9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b2863fd_d1366d12",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-28T17:09:42Z",
       "side": 1,
       "message": "Is this change related to the CL description?",
+      "revId": "eb0e7b00da3334e96c3a68c9bd53610b08c97be9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2131250_badf08ec",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-28T19:59:08Z",
+      "side": 1,
+      "message": "Yes. The idea is that is \"-v\" is set for archive links, we still get the last couple of lines of output.  Does this seem reasonable?",
+      "parentUuid": "3b2863fd_d1366d12",
       "revId": "eb0e7b00da3334e96c3a68c9bd53610b08c97be9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
