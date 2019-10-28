@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2178df6b_63358de6",
+        "filename": "src/cmd/link/internal/sym/symkind.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-28T16:51:55Z",
+      "side": 1,
+      "message": "if",
+      "range": {
+        "startLine": 162,
+        "startChar": 23,
+        "endLine": 162,
+        "endChar": 25
+      },
+      "revId": "a74153dd11a08dcc7c0e7ced96480b0a6e51f9d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
