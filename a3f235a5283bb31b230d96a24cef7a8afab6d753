@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcacdbc5_bb3d8a54",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-28T11:25:37Z",
+      "side": 1,
+      "message": "Move this down above the rotate instructions (RNSBG etc.) and add:\n\nSLW\nSRD\nSRW\nSRAD\nSRAW\nRLL\nRLLG",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 42
+      },
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f9ce7b0_67e72627",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-28T11:25:37Z",
+      "side": 1,
+      "message": "Let\u0027s do the load and store multiple instructions in their own section and do:\n\nLMY\nLMG\nSTMY\nSTMG",
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b4f0982_cc802f35",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-28T11:25:37Z",
+      "side": 1,
+      "message": "Let\u0027s add the other VECTOR ADD mnemonics too:\n\nVAB\nVAH\nVAF\nVAG\nVAQ\n\nAnd might as well do VECTOR SUBTRACT too:\n\nVSB\nVSH\nVSF\nVSG\nVSQ",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fb7144d_af97ecb7",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-28T11:25:37Z",
+      "side": 1,
+      "message": "Let\u0027s move VO down to here and do all these instructions too:\n\nVN   (VECTOR AND)\nVNC  (VECTOR AND WITH COMPLEMENT)\nVNOT (VECTOR NOT)\nVNX  (VECTOR NOT EXCLUSIVE OR)\nVO   (VECTOR OR)\nVOC  (VECTOR OR WITH COMPLEMENT)\nVX   (VECTOR EXCLUSIVE OR)",
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
