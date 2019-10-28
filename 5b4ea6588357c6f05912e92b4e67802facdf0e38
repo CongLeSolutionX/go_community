@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4550902_f78bbcff",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-28T14:51:10Z",
+      "side": 1,
+      "message": "when comparing a Value",
+      "range": {
+        "startLine": 37,
+        "startChar": 37,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "5b4ea6588357c6f05912e92b4e67802facdf0e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "298a1aad_484e6694",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-28T14:51:10Z",
+      "side": 1,
+      "message": "I worry that this silently breaks code, without compilation errors.\n\nMaybe it\u0027d be safest to add to this struct:\n\n   _ [0]func()  // uncomparable; to make \u003d\u003d not compile\n\nAnd just force everybody to use .Equals.",
+      "revId": "5b4ea6588357c6f05912e92b4e67802facdf0e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e82fff_c547975b",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-28T14:51:10Z",
+      "side": 1,
+      "message": "these could use some field docs now",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "5b4ea6588357c6f05912e92b4e67802facdf0e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
