@@ -255,7 +255,7 @@ type heapArena struct {
 	// needs to be zeroed because the page allocator follows an
 	// address-ordered first-fit policy.
 	//
-	// Reads and writes are protected by mheap_.lock.
+	// Read atomically and written with an atomic CAS.
 	zeroedBase uintptr
 }
 
@@ -1035,26 +1035,26 @@ func (h *mheap) setSpans(base, npage uintptr, s *mspan) {
 // Because this updates heap metadata, it must be called each time a new region of
 // the address space has been allocated.
 //
-// h must be locked.
+// There are no locking constraints on this method.
 func (h *mheap) allocNeedsZero(base, npage uintptr) (needZero bool) {
 	for npage > 0 {
 		ai := arenaIndex(base)
 		ha := h.arenas[ai.l1()][ai.l2()]
 
+		zeroedBase := atomic.Loaduintptr(&ha.zeroedBase)
 		arenaBase := base % heapArenaBytes
-		if arenaBase > ha.zeroedBase {
-			// zeroedBase relies on an address-ordered first-fit allocation policy
-			// for pages. We ended up past the zeroedBase, which means we could be
-			// allocating in the middle of an arena, and so the assumption
-			// zeroedBase relies on has been violated.
-			print("runtime: base = ", hex(base), ", npages = ", npage, "\n")
-			print("runtime: ai = ", ai, ", ha.zeroedBase = ", ha.zeroedBase, "\n")
-			throw("pages considered for zeroing in the middle of an arena")
-		} else if arenaBase < ha.zeroedBase {
+		if arenaBase < zeroedBase {
 			// We extended into the non-zeroed part of the
 			// arena, so this region needs to be zeroed before use.
+			//
+			// zeroedBase is monotonically increasing, so if we see this now then
+			// we can be sure we need to zero this memory region.
 			needZero = true
 		}
+		// We may observe arenaBase > zeroedBase f we're racing with one or more
+		// allocations which are acquiring memory directly before us in the address
+		// space. But, because we know no one else is acquiring *this* memory, it's
+		// still safe to not zero.
 
 		// Compute how far into the arena we extend into, capped
 		// at heapArenaBytes.
@@ -1062,10 +1062,23 @@ func (h *mheap) allocNeedsZero(base, npage uintptr) (needZero bool) {
 		if arenaLimit > heapArenaBytes {
 			arenaLimit = heapArenaBytes
 		}
-		if arenaLimit > ha.zeroedBase {
+		if arenaLimit > zeroedBase {
 			// This allocation extends past the zeroed section in
 			// this arena, so we should bump up the zeroedBase.
-			ha.zeroedBase = arenaLimit
+			for !atomic.Casuintptr(&ha.zeroedBase, zeroedBase, arenaLimit) {
+				zeroedBase = atomic.Loaduintptr(&ha.zeroedBase)
+				if zeroedBase > arenaLimit {
+					// Some allocator ahead of us already moved zeroedBase
+					// past where we wanted to go. That's fine, we're done.
+					break
+				} else if zeroedBase <= arenaLimit && zeroedBase > arenaBase {
+					// The zeroedBase moved into the space we were trying to
+					// claim. That's very bad, and indicates someone allocated
+					// the same region we did.
+					throw("potentially overlapping in-use allocations detected")
+				}
+				// Some allocator behind us moved zeroedBase forward, so try again.
+			}
 		}
 
 		// Move base forward and subtract from npage to move into
