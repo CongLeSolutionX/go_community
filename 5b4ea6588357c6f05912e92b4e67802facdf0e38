@@ -122,6 +122,23 @@
     },
     {
       "key": {
+        "uuid": "12fef35e_7da16b3a",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2019-10-28T18:24:56Z",
+      "side": 1,
+      "message": "Could you please call this \"Equal\" instead?\nThat is the name of such function that would work with https://godoc.org/github.com/google/go-cmp/cmp",
+      "revId": "5b4ea6588357c6f05912e92b4e67802facdf0e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da0f6ce1_052be2b3",
         "filename": "src/syscall/js/js_test.go",
         "patchSetId": 7
