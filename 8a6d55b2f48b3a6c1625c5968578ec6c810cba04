@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "dd20cef0_42d8f1b1",
+        "filename": "src/runtime/preempt_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-10-28T21:36:26Z",
+      "side": 1,
+      "message": "There is support for MOVDU in the assembler. All asm code that updates R1 at the beginning of a function uses it. It is generated in obj9.go to update R1 at the beginning of each function.\n\nTEXT _rt0_ppc64le_linux_lib(SB),NOSPLIT,$-8\n        // Start with standard C stack frame layout and linkage.\n        MOVD    LR, R0\n        MOVD    R0, 16(R1) // Save LR in caller\u0027s frame.\n        MOVW    CR, R0     // Save CR in caller\u0027s frame\n        MOVD    R0, 8(R1)\n        MOVDU   R1, -320(R1) // Allocate frame.\n\n\nFrom obj9:\n               q \u003d obj.Appendp(q, c.newprog)\n               q.As \u003d AMOVDU\n               q.Pos \u003d p.Pos\n               q.From.Type \u003d obj.TYPE_REG\n               q.From.Reg \u003d REGTMP\n               q.To.Type \u003d obj.TYPE_MEM\n               q.To.Offset \u003d int64(-autosize)\n               q.To.Reg \u003d REGSP\n               q.Spadj \u003d autosize",
+      "parentUuid": "e92720b1_db690025",
+      "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d7e74d4_01183e13",
         "filename": "src/runtime/preempt_ppc64x.s",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "This is because sigctxt.pushCall pushes extra four words and this function needs to unwind them. See signal_ppc64x.go.",
       "parentUuid": "4d7e74d4_01183e13",
+      "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c843e3d1_dba029ca",
+        "filename": "src/runtime/preempt_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-10-28T21:36:26Z",
+      "side": 1,
+      "message": "Can you add a comment that the call updated the size of the stack since that is unusual.",
+      "parentUuid": "39c007f6_17a344a2",
       "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
