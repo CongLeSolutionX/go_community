@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab85d503_881bee40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-28T17:09:42Z",
+      "side": 1,
+      "message": "Seems like a nice optimization that will be easy to lose over time if anybody adds an atexit cleanup.\n\nI\u0027d be more comfortable with a test that verifies it always does the syscall.Exec except in a whitelist of defined cases (when tempDir flag is set, etc).\n\nBut that\u0027s a personal opinion. Will let others review.",
+      "revId": "eb0e7b00da3334e96c3a68c9bd53610b08c97be9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b2863fd_d1366d12",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-28T17:09:42Z",
+      "side": 1,
+      "message": "Is this change related to the CL description?",
+      "revId": "eb0e7b00da3334e96c3a68c9bd53610b08c97be9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
