@@ -16,6 +16,24 @@
       "revId": "d358ea5b2a16863c6873cbba9dc70cf7eac8fef4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8abd8705_9e0d2007",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T17:31:03Z",
+      "side": 1,
+      "message": "That\u0027s correct. This is a consequence of mallocSum being packed into a 64-bit value in a future CL.\n\nSpoke with Austin about this and he suggested just landing what\u0027s here and we can think about making mallocSum something like\n\ntype mallocSum struct {\n  start, max, end uint32\n}\n\nwhich would let us have all the levels have the same outdegree (and also add more levels than exist now).\n\nit\u0027s not a big change, mostly changes to constants.",
+      "parentUuid": "764f75a9_84e143f8",
+      "revId": "d358ea5b2a16863c6873cbba9dc70cf7eac8fef4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
