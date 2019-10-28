@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d616719c_dc92e4a4",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:28:12Z",
+      "side": 1,
+      "message": "It is fine if there is a future use that requires it to be there.\nI just haven\u0027t gotten that far in this CL stack yet...",
+      "parentUuid": "fbf9fe9c_966a87f7",
+      "revId": "c0fd2418d1b0d3345214c8ec20414dde707ee12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37765f3d_00498751",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 28
