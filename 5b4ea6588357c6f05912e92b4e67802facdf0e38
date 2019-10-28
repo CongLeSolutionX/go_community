@@ -139,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "f3ccfccd_167b7af4",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-10-28T19:00:28Z",
+      "side": 1,
+      "message": "Sure, seems like there already is precedence: https://golang.org/pkg/time/#Time.Equal",
+      "parentUuid": "12fef35e_7da16b3a",
+      "revId": "5b4ea6588357c6f05912e92b4e67802facdf0e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da0f6ce1_052be2b3",
         "filename": "src/syscall/js/js_test.go",
         "patchSetId": 7
