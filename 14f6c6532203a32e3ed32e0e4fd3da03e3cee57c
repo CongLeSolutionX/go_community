@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abc5323e_41ee95c9",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95700e04_cccff335",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "753f9b70_8828a8e4",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -39,6 +63,24 @@
       "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4abc0d1_92f6c4aa",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "753f9b70_8828a8e4",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "eb7234b1_95b85f62",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d964a16_32ac4270",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "893d34b2_ae2a17c8",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -73,6 +133,24 @@
       "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb63e6a8_35c3d4d6",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "I just broke down the abstraction because alloc is now find, and thus the only user of these functions are setRange clearRange which are tested.",
+      "parentUuid": "893d34b2_ae2a17c8",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "1fa2a95b_b25d2381",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72269164_343efbc5",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503d8836_dda07169",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "dca18679_89b54f1e",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503d8836_dda07169",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35b4f249_c58a080c",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -124,6 +238,24 @@
       "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51034fde_fc6b858d",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35b4f249_c58a080c",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "2bf4849c_92be8848",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7780293f_78562b83",
+      "range": {
+        "startLine": 100,
+        "startChar": 29,
+        "endLine": 100,
+        "endChar": 34
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42c14845_2bbd16a7",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -164,6 +320,24 @@
       "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5edcac_72c3ebae",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c14845_2bbd16a7",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -190,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "9b3cff29_a261c62d",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "now that this is find instead of alloc, this comment is true.",
+      "parentUuid": "e66b1b30_0d53acdd",
+      "range": {
+        "startLine": 109,
+        "startChar": 42,
+        "endLine": 110,
+        "endChar": 15
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cde533_5dbe8805",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -213,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "3aeac859_d5a93c58",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cde533_5dbe8805",
+      "range": {
+        "startLine": 144,
+        "startChar": 38,
+        "endLine": 144,
+        "endChar": 43
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d739fb6_5d5b23ef",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -227,6 +449,24 @@
       "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789c5950_3bab851e",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "these lines of code are now gone, so just got rid of these functions altogether.",
+      "parentUuid": "2d739fb6_5d5b23ef",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -253,6 +493,30 @@
     },
     {
       "key": {
+        "uuid": "36c02408_71ac4f2d",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d9c7496_5ca6414d",
+      "range": {
+        "startLine": 189,
+        "startChar": 39,
+        "endLine": 189,
+        "endChar": 44
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90d7b459_4223dc77",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 22
@@ -267,6 +531,24 @@
       "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c2a58a_e8a7371c",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "see above, these are gone now.",
+      "parentUuid": "90d7b459_4223dc77",
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -290,6 +572,30 @@
       "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bc791c5_11f5c3b7",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T16:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b663ea6f_cafe3449",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "14f6c6532203a32e3ed32e0e4fd3da03e3cee57c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
