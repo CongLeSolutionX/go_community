@@ -18790,7 +18790,6 @@ var opcodeTable = [...]opInfo{
 		clobberFlags:   true,
 		faultOnNilArg0: true,
 		faultOnNilArg1: true,
-		unsafePoint:    true,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 131072},    // R17
@@ -24540,6 +24539,7 @@ var opcodeTable = [...]opInfo{
 		argLen:         2,
 		clobberFlags:   true,
 		faultOnNilArg0: true,
+		unsafePoint:    true,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 8}, // R3
@@ -24554,6 +24554,7 @@ var opcodeTable = [...]opInfo{
 		clobberFlags:   true,
 		faultOnNilArg0: true,
 		faultOnNilArg1: true,
+		unsafePoint:    true,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 8},  // R3
