@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e92720b1_db690025",
+        "filename": "src/runtime/preempt_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-28T21:17:14Z",
+      "side": 1,
+      "message": "The cmd/internal/obj/ppc64 package doesn\u0027t understand MOVDU to set SP delta (it does understand the SUB instruction). Maybe I should teach that package about MOVDU.",
+      "parentUuid": "0e5a64d2_158b7815",
+      "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d7e74d4_01183e13",
         "filename": "src/runtime/preempt_ppc64x.s",
         "patchSetId": 4
@@ -30,6 +48,41 @@
       "writtenOn": "2019-10-28T21:01:55Z",
       "side": 1,
       "message": "Why is $552 added to R1 when $520 was subtracted at the top?",
+      "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39c007f6_17a344a2",
+        "filename": "src/runtime/preempt_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-28T21:17:14Z",
+      "side": 1,
+      "message": "This is because sigctxt.pushCall pushes extra four words and this function needs to unwind them. See signal_ppc64x.go.",
+      "parentUuid": "4d7e74d4_01183e13",
+      "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68106941_4f196a41",
+        "filename": "src/runtime/signal_ppc64x.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-28T21:17:14Z",
+      "side": 1,
+      "message": "(here)",
       "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
