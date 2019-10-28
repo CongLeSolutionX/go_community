@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f1ca013_2df517db",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-28T03:23:28Z",
+      "side": 0,
+      "message": "This seems like a really weird mistake to make. Any clue why it was emitting this extra instruction?",
+      "revId": "0203891692cb8b8c860ef931480b8ece1e5854d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

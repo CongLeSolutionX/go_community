@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14f3b6bd_4252f3b4",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-28T03:23:28Z",
+      "side": 1,
+      "message": "Can we check that these conditions are true, e.g., panic in an init function if not? (Should all get constant-folded away if everything\u0027s right.)",
+      "revId": "0f64c13e28b682f1f2dcd355ade4879bf850f17d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
