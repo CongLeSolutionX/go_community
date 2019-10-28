@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9afe7473_aa13d589",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like n is used.",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fcae19f_604de37c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure what \"upper bound\" is supposed to mean here. len\u003d\u003dcap satisfies this statement, but probably isn\u0027t what you wanted to describe.\nMaybe \"the region between len and cap is not guaranteed to be mapped\"?",
+      "range": {
+        "startLine": 127,
+        "startChar": 27,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a881ca00_4e620226",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "By \"available\" here, you mean mapped, right?",
+      "range": {
+        "startLine": 127,
+        "startChar": 46,
+        "endLine": 127,
+        "endChar": 55
+      },
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "250cacbe_b1ab01fd",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "It seems a bit weird to me that the summaries are all contiguous mappings, but the mallocBits regions are allocated on demand. Any reason why we\u0027re not using the same mechanism for mallocBits as for the summaries?",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02846752_82f07137",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "Where is the backing store of this slice allocated?",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54e5e578_96801f9c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "Same rounding problem here.",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95e9a78e_3df36a11",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "Same alignment issue here.",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c28c8b2_25b157b3",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "I\u0027m a little bit confused by this. I thought it would just be p \u003e\u003e levelShift[l].\nThat is, if levelShift[l] \u003d\u003d 40, and heapAddrBits \u003d\u003d 48, then we have 1\u003c\u003c8 entries at this level, and the entry that describes p is p\u003e\u003elevelShift[l].\n\nThis would tell you which child number of the L-1 level entry for p that the level L entry represents. I\u0027m not really sure why that is useful.",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f3d4cd4_aa5a3faa",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "It looks like we\u0027re just using mallocSum entries at every level. I\u0027m worried we will overflow 21 bits with large (\u003e16GB) heaps.",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c05bf0_5b0d9c83",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-28T19:18:26Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem quite right. If base is near the end of a chunk, and the size is big enough to straddle into the next chunk, then we need to handle 2 chunks. But this rounding will only handle one.\n\ni.e. if mallocChunkBytes \u003d\u003d 8, then base \u003d\u003d 7 and size \u003d\u003d 2 impacts 2 chunks, but this rounding will only end up processing the first chunk.\n\nI think you need to add the amount you rounded down to size, before you round size up. Or just comute limit first, round that up, and forget about size.",
+      "revId": "5fbf321a1c85821c422ce389431f5edf5980cf0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
