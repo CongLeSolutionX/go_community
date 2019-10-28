@@ -33,6 +33,24 @@
       "revId": "7956804056e8ba4561aa69e62ad8a1cb79a69166",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50aeb138_265522fb",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-28T21:33:38Z",
+      "side": 1,
+      "message": "Sorry to keep tweaking this, but I don\u0027t think Brad meant for you to remove the word \"tool\".  I think he just meant to suggest adding \"the\".",
+      "parentUuid": "0a255eac_a941b6a7",
+      "revId": "7956804056e8ba4561aa69e62ad8a1cb79a69166",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
