@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54f44888_46646cc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-28T19:57:02Z",
+      "side": 1,
+      "message": "crypto/elliptic: cleanup ppc64le implementation slightly\n\n(Or similar. \u0027Updates from review\u0027 doesn\u0027t really describe what this CL changes.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "a10843496616d1bbfe198cfecdb7bf9503e8c450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a3e0a42_5f141fd4",
+        "filename": "src/crypto/elliptic/p256_ppc64le.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-28T19:57:02Z",
+      "side": 1,
+      "message": "I\u0027d reword this a bit to make it match the Go-style a bit more closely:\n\np256ReverseBytes copies the first 32 bytes from in into res in reverse order.",
+      "range": {
+        "startLine": 145,
+        "startChar": 3,
+        "endLine": 145,
+        "endChar": 39
+      },
+      "revId": "a10843496616d1bbfe198cfecdb7bf9503e8c450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
