@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d177f328_93967f1a",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T15:56:35Z",
+      "side": 1,
+      "message": "this is now gone, mallocBits represents 1 chunk.",
+      "parentUuid": "2b69225b_cd26bfbd",
+      "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a5e0ca5_0cab1c97",
         "filename": "src/runtime/mallocbits_test.go",
         "patchSetId": 24
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-25T21:19:33Z",
       "side": 1,
       "message": "Consider doing randomized testing, too.",
+      "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c383ed6_6fc183b9",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T15:56:35Z",
+      "side": 1,
+      "message": "I started doing this, but writing a reference implementation for computing \"max\" turned out to be more complicated than the existing implementation, since it computes all three simultaneously.\n\nIf you think this is still worth it let me know (or maybe there\u0027s something I missed) and I can come back to it.",
+      "parentUuid": "7a5e0ca5_0cab1c97",
       "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a274ddc3_0691d869",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T15:56:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e318ae32_c7a5620f",
+      "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d310d5a_cbdc97aa",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 24
@@ -67,6 +121,24 @@
       "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd27424_56c33511",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T15:56:35Z",
+      "side": 1,
+      "message": "in the next CL. I\u0027ll move it there.",
+      "parentUuid": "6d310d5a_cbdc97aa",
+      "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3cb5621b_d4754516",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T15:56:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23588df_c3b4b99a",
+      "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23f2855a_80d6dbe8",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 24
@@ -101,6 +191,24 @@
       "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b0a6ecc_97bf1b5a",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-28T15:56:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23f2855a_80d6dbe8",
+      "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
