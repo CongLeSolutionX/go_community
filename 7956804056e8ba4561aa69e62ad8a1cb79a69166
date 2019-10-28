@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bde8a15f_7f3b5d06",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-28T16:52:18Z",
+      "side": 1,
+      "message": "implements a Diff\n...\ntwo inputs\n\nNo need to repeat its signature in English. The []byte is already visible to readers looking at its API.",
+      "revId": "7956804056e8ba4561aa69e62ad8a1cb79a69166",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a255eac_a941b6a7",
+        "filename": "src/cmd/internal/diff/diff.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-28T16:52:18Z",
+      "side": 1,
+      "message": "using the \u0027diff\u0027",
+      "revId": "7956804056e8ba4561aa69e62ad8a1cb79a69166",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
