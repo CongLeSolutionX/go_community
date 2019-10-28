@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e5a64d2_158b7815",
+        "filename": "src/runtime/preempt_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-10-28T21:01:55Z",
+      "side": 1,
+      "message": "Usually this is done with MOVDU so the stack is updated and the value is set atomically.\nMOVDU R31,-520(R1) instead of 2 instructions.",
+      "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d7e74d4_01183e13",
+        "filename": "src/runtime/preempt_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-10-28T21:01:55Z",
+      "side": 1,
+      "message": "Why is $552 added to R1 when $520 was subtracted at the top?",
+      "revId": "8a6d55b2f48b3a6c1625c5968578ec6c810cba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
