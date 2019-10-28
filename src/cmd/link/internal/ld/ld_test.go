@@ -5,10 +5,13 @@
 package ld
 
 import (
+	"fmt"
 	"internal/testenv"
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -67,5 +70,63 @@ func TestUndefinedRelocErrors(t *testing.T) {
 	}
 	for unexpected, n := range unexpectedErrors {
 		t.Errorf("unexpected error: %s (x%d)", unexpected, n)
+	}
+}
+
+const carchiveSrcText = `
+package main
+
+// int fortytwo;
+import "C"
+
+var v int
+
+//export GoFunc
+func GoFunc() {
+	v = int(C.fortytwo)
+}
+
+func main() {
+}
+`
+
+func TestArchiveBuildInvokeWithExec(t *testing.T) {
+	t.Parallel()
+	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveCGO(t)
+	switch runtime.GOOS {
+	case "openbsd", "windows":
+		t.Skip("c-archive unsupported")
+	}
+	dir, err := ioutil.TempDir("", "go-build")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(dir)
+
+	srcfile := filepath.Join(dir, "test.go")
+	arfile := filepath.Join(dir, "test.a")
+	if err := ioutil.WriteFile(srcfile, []byte(carchiveSrcText), 0666); err != nil {
+		t.Fatal(err)
+	}
+
+	ldf := fmt.Sprintf("-ldflags=-v -tmpdir=%s", dir)
+	argv := []string{"build", "-buildmode=c-archive", "-o", arfile, ldf, srcfile}
+	out, err := exec.Command(testenv.GoToolPath(t), argv...).CombinedOutput()
+	if err != nil {
+		t.Fatalf("build failure: %s\n%s\n", err, string(out))
+	}
+
+	found := false
+	const want = "invoking archiver with syscall.Exec"
+	for _, l := range strings.Split(string(out), "\n") {
+		if strings.HasPrefix(l, want) {
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		t.Errorf("expected '%s' in -v output, got:\n%s\n", want, string(out))
 	}
 }
