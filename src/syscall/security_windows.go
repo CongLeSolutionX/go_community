@@ -157,8 +157,8 @@ func LookupSID(system, account string) (sid *SID, domain string, accType uint32,
 // String converts sid to a string format
 // suitable for display, storage, or transmission.
 func (sid *SID) String() (string, error) {
-	// From https://docs.microsoft.com/en-us/windows/win32/secbiomet/general-constants
-	const SecurityMaxSidSize = 68
+	// See https://groups.google.com/forum/m/#!msg/microsoft.public.dotnet.security/NpIi7c2Toi8/31SVhcepY58J
+	const SecurityMaxSidSize = 184
 	var s *uint16
 	e := ConvertSidToStringSid(sid, &s)
 	if e != nil {
