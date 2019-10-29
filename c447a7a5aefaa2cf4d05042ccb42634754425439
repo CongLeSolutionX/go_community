@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a81f3a_3ffe5a29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-29T18:47:50Z",
+      "side": 1,
+      "message": "lowering -\u003e lower\n\nand remove final colon",
+      "revId": "c447a7a5aefaa2cf4d05042ccb42634754425439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
