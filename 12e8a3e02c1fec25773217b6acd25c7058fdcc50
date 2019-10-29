@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "20f2c16f_33a574d3",
+        "filename": "src/runtime/mallocbits_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T03:16:15Z",
+      "side": 1,
+      "message": "func (b *mallocBits) get(i int) uint {\n\treturn uint((b[i/64] \u003e\u003e (uint(i) % 64)) \u0026 1)\n}\n\nfunc summarizeSlow(b mallocBits) (start, max, end int) {\n\tconst N \u003d len(b) * 64\n\tfor start \u003c N \u0026\u0026 b.get(start) \u003d\u003d 0 {\n\t\tstart++\n\t}\n\tfor end \u003c N \u0026\u0026 b.get(N - end - 1) \u003d\u003d 0 {\n\t\tend++\n\t}\n\trun :\u003d 0\n\tfor i :\u003d 0; i \u003c N; i++ {\n\t\tif b.get(i) \u003d\u003d 0 {\n\t\t\trun++\n\t\t} else {\n\t\t\trun \u003d 0\n\t\t}\n\t\tif run \u003e max {\n\t\t\tmax \u003d run\n\t\t}\n\t}\n\treturn\n}",
+      "parentUuid": "9c383ed6_6fc183b9",
+      "revId": "12e8a3e02c1fec25773217b6acd25c7058fdcc50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e318ae32_c7a5620f",
         "filename": "src/runtime/mallocbits_test.go",
         "patchSetId": 24
