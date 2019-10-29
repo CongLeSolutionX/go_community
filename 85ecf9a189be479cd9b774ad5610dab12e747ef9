@@ -448,6 +448,24 @@
     },
     {
       "key": {
+        "uuid": "b91f7d8c_6cbbf470",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T02:43:34Z",
+      "side": 1,
+      "message": "Oh, I see. It looked like a trivial re-arrangement of the definition of summaryL0Bits just below, so I assumed it was stale code.\n\nEither way. If you want to keep it, add a sentence saying what it is so it doesn\u0027t just look like stale code.",
+      "parentUuid": "2965def4_68ac58e2",
+      "revId": "85ecf9a189be479cd9b774ad5610dab12e747ef9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46ed816c_69ac4596",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 19
@@ -477,6 +495,24 @@
       "side": 1,
       "message": "there isn\u0027t a good reason. I mentioned to Keith in a separate comment that we could experiment with different fanouts. a fanout of 8 just happens to work out for most levels having the same fanout. a fanout of 16 would work reasonably well too I bet.\n\nwhat would you suggest?",
       "parentUuid": "46ed816c_69ac4596",
+      "revId": "85ecf9a189be479cd9b774ad5610dab12e747ef9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f492909_1f85dfcb",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T02:43:34Z",
+      "side": 1,
+      "message": "Your performance experiments showed no difference, so I think it\u0027s fine to leave it. We should add a comment with some of the justification, though, which mentions that a fanout of 8 fits the block we need to scan at each level into a 64-byte cache line, and also fits 4 tree levels perfectly into the 21-bit mallocBits summary field at the root level.",
+      "parentUuid": "8517f2ef_a64206a6",
       "revId": "85ecf9a189be479cd9b774ad5610dab12e747ef9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
