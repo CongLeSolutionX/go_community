@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a221948_4343a472",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T19:57:58Z",
+      "side": 1,
+      "message": "Unnecessary conversion.",
+      "range": {
+        "startLine": 127,
+        "startChar": 9,
+        "endLine": 127,
+        "endChar": 13
+      },
+      "revId": "a12b2ec2a442b35ad0dcd1b92d0670daaf6ae00c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb291a79_61c28850",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T19:57:58Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "range": {
+        "startLine": 156,
+        "startChar": 18,
+        "endLine": 156,
+        "endChar": 22
+      },
+      "revId": "a12b2ec2a442b35ad0dcd1b92d0670daaf6ae00c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "793c9445_89366605",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T19:57:58Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 192,
+        "startChar": 18,
+        "endLine": 192,
+        "endChar": 22
+      },
+      "revId": "a12b2ec2a442b35ad0dcd1b92d0670daaf6ae00c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
