@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95b00766_42c9717f",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T02:03:05Z",
+      "side": 1,
+      "message": "You\u0027ll need to update this comment in CL 201763. (It may be that this condition is much more harmless in the self-paced scavenger, but there\u0027s still no point in waking it.)",
+      "revId": "a684767a4eef1b7f26dee78da44d5eefe0402da7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
