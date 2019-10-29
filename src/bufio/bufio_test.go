@@ -1555,6 +1555,29 @@ func TestWriterReadFromMustSetUnderlyingError(t *testing.T) {
 	}
 }
 
+type writeErrorOnlyWriter struct{}
+
+func (w writeErrorOnlyWriter) Write(p []byte) (n int, err error) {
+	return 0, errors.New("writeErrorOnlyWriter error")
+}
+
+// Test for golang.org/issue/35194
+func TestWriterReadFromAfterWriteError(t *testing.T) {
+	var wr = NewWriter(writeErrorOnlyWriter{})
+	if _, err := wr.WriteString("test1"); err != nil {
+		t.Fatalf("unexpected write string error: %v", err)
+	}
+	if err := wr.Flush(); err == nil {
+		t.Fatal("expected flush error, got nil")
+	}
+	if _, err := wr.ReadFrom(strings.NewReader("test2")); err == nil {
+		t.Fatal("expected read from error, got nil")
+	}
+	if buffered := wr.Buffered(); buffered != 5 {
+		t.Fatalf("unexpected buffered, want: 5, got: %d", buffered)
+	}
+}
+
 func BenchmarkReaderCopyOptimal(b *testing.B) {
 	// Optimal case is where the underlying reader implements io.WriterTo
 	srcBuf := bytes.NewBuffer(make([]byte, 8192))
