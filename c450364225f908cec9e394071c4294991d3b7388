@@ -22,6 +22,30 @@
       "revId": "c450364225f908cec9e394071c4294991d3b7388",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2672675_8521208d",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1577,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-10-29T14:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62e10cb3_4f970c43",
+      "range": {
+        "startLine": 1577,
+        "startChar": 32,
+        "endLine": 1577,
+        "endChar": 49
+      },
+      "revId": "c450364225f908cec9e394071c4294991d3b7388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
