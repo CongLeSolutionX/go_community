@@ -3671,7 +3671,12 @@ func TestAcceptMaxFds(t *testing.T) {
 		&net.OpError{
 			Op:  "accept",
 			Err: syscall.EMFILE,
-		}}}
+		},
+		&net.OpError{
+			Op:  "accept",
+			Err: syscall.ENFILE,
+		},
+	}}
 	server := &Server{
 		Handler:  HandlerFunc(HandlerFunc(func(ResponseWriter, *Request) {})),
 		ErrorLog: log.New(ioutil.Discard, "", 0), // noisy otherwise
