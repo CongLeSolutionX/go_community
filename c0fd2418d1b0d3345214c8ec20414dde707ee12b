@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "e07dbffa_d518e39e",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T03:01:09Z",
+      "side": 1,
+      "message": "I think Keith\u0027s comment about casting i to a uint applies to all of these, too.\n\nOn a lot of hardware (including x86), shifts are implicitly modulo the word size. The compiler recognizes x \u003c\u003c (uint(i) % 64) and emits a single shift instruction. But since this is a signed modulus, the result could be negative, so this optimization doesn\u0027t apply and now the compiler has to *fight* the implicit modulus, and panic if it\u0027s negative, and make sure it\u0027s 0 if it\u0027s too big. In general, this takes 16 instructions, including a test and branch.",
+      "revId": "c0fd2418d1b0d3345214c8ec20414dde707ee12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dba0a28d_e975f102",
         "filename": "src/runtime/mallocbits.go",
         "patchSetId": 28
@@ -152,6 +169,23 @@
       "writtenOn": "2019-10-28T17:45:22Z",
       "side": 1,
       "message": "You could just return start, nSearchIdx here.",
+      "revId": "c0fd2418d1b0d3345214c8ec20414dde707ee12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "356c8014_e87361c2",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-29T03:01:09Z",
+      "side": 1,
+      "message": "findBitRange64? Avoids the abbreviation and is more consistent with terminology above.",
       "revId": "c0fd2418d1b0d3345214c8ec20414dde707ee12b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
