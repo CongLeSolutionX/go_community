@@ -22,6 +22,30 @@
       "revId": "16dcd3e1f0fc4253e265ba18e69053114c9c295c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd5cde57_bcb12d10",
+        "filename": "src/runtime/mallocbits.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-29T21:20:58Z",
+      "side": 1,
+      "message": "oops, my mistake. fixed.",
+      "parentUuid": "e532a1fd_fbcd0b9a",
+      "range": {
+        "startLine": 15,
+        "startChar": 25,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "16dcd3e1f0fc4253e265ba18e69053114c9c295c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
