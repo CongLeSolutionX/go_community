@@ -1,0 +1,620 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "017b52fe_bf370c10",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "for _, s :\u003d range p.summary ?\n\nWould this be more robust if you found the highest address in a summary array and unmapped from \u0026p.summary[0][0] to that highest address?",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8749a9d_50678955",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "alignUp the length?",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e94a2777_db521d62",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Assert that base is physPageSize-aligned?",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26dbe27f_2009d36e",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "add(base, nbase)",
+      "range": {
+        "startLine": 251,
+        "startChar": 10,
+        "endLine": 251,
+        "endChar": 47
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c8fe08_b54bacbf",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "// Update summaries at level l from summaries at level l+1.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd0d2aa3_d7389b59",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "I think this comment isn\u0027t true because you don\u0027t call blockAlignSummaryRange... But I also don\u0027t think it\u0027s necessary to round lo and hi now since you\u0027re iterating over the level you\u0027re updating, not the level you\u0027re reading.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0e7dbc_8cf25c66",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "I was surprised that this doesn\u0027t update the summaries, since expected bit updates to always be co-located with summary updates. I only see one call to this, which the immediately updates the summaries. Could the update be moved into here?",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "890a7660_63a1ef73",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Since this is a pretty important function, could the doc comment say a little more about what it does? You already have some of this in the next paragraph, but it doesn\u0027t say that it finds the first-fit range, or what it does with searchAddr.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6821ad0e_722a3950",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "\"Better than\" is a bit vague.",
+      "range": {
+        "startLine": 427,
+        "startChar": 56,
+        "endLine": 427,
+        "endChar": 67
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf90492_86edea20",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Two uses of the word \"region\". Maybe \"subtree\" for the first one?",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "776a303f_4aeb6fab",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Stale comment, I think. Find doesn\u0027t call allocRange.",
+      "range": {
+        "startLine": 444,
+        "startChar": 24,
+        "endLine": 444,
+        "endChar": 45
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96ded0f2_f6569983",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Sigh, wasm.\n\nPerhaps more precisely, every system where arenaBaseOffset !\u003d 0 also never maps the 0 page.",
+      "range": {
+        "startLine": 453,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 37
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa5c34a9_701b2348",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "It looks like this is really just \"foundSearchAddr\". I think you\u0027ve either found it or you haven\u0027t, while \"Best\" sounds like you considered various searchAddrs and have picked the best one.",
+      "range": {
+        "startLine": 466,
+        "startChar": 1,
+        "endLine": 466,
+        "endChar": 20
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63d3353_b196841c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "lastSumIdx?",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9431a7c_eaed26fb",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Add something like\n\n// For the root level, entriesPerBlock is the whole level.\n\nThere were a bunch of things below that confused me until I figured that out.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7534bb59_d8a6d658",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Haha. I\u0027m so not used to seeing the shift-update operator that my brain first read this as the monad bind operator (though that\u0027s \u003e\u003e\u003d).",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1ee23c5_48a9db05",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "... or we\u0027re on the root level",
+      "range": {
+        "startLine": 489,
+        "startChar": 5,
+        "endLine": 489,
+        "endChar": 37
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8f52a0f_31f4c7f4",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "In other places where you iterate and combine summaries, \"start\" is the prefix run length. Consider naming this something else (though I\u0027m not sure what exactly).",
+      "range": {
+        "startLine": 506,
+        "startChar": 6,
+        "endLine": 506,
+        "endChar": 11
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca9842f2_f18bbb71",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Why do we need to exclude size \u003d\u003d 0? If size is 0, but we find a sum that starts with at least npages, isn\u0027t that sufficient and better to break out of this loop than to descend into the next level?",
+      "range": {
+        "startLine": 516,
+        "startChar": 6,
+        "endLine": 516,
+        "endChar": 19
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a57ed6f_b6a7e2b7",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "... to find that run",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a58cf5a3_b3f7bdf7",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Oh boy, this is subtle. I was thinking you might refine this to a smaller searchAddr as you moved down the tree, but I guess you\u0027re saying that\u0027s not possible because you only reach this point if neither of the above conditions is true, so you\u0027ll already be down the tree when you encounter this...\n\nI\u0027m not sure I can convince myself that this is actually right. Is there any way to update searchAddr further up inside the loop, just if sum !\u003d 0? You may have to refine it as you go down the levels, but that\u0027s fine. Maybe something like\n\nfoundAny :\u003d false\nfor j :\u003d j0; j \u003c len(entries); j++ {\n  sum :\u003d entries[j]\n  if sum !\u003d 0 \u0026\u0026 !foundAny {\n    foundAny \u003d true\n    searchAddr \u003d uintptr((i+j)\u003c\u003clevelShift[l]) - arenaBaseOffset\n  }\n  ...\n}\n\nThis may also eliminate a least the other searchAddr update in the nextLevel loop, though you probably still need something to refine it to the individual page level at the very end of the function.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c43aef3e_a3d5f55c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Slight crazy idea: the logic for combining sequences of summaries should be isomorphic between this loop and mergeSummaries. What if you pulled the inner block of mergeSummaries out into a function that took a cumulative summary and a summary to fold into it, and returned the combined summary? mergeSummaries would just start with the first summary, and then fold in the rest in the slice. Here, you would do something similar, but keep an eye on the running sum\u0027s max.\n\nMaybe what this is missing is tracking the \"start\" index, so maybe this doesn\u0027t work after all.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99bdd602_280aaf67",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Maybe mention something about how the last summary we inspected must have had a large enough \"max\", and we just need to look inside its chunk to find where that run begins.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94a25546_d4c5ae75",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "This is equivalent to the searchAddr update in pageAlloc.grow. Maybe put that into a helper function, given the subtlety around the arenaBaseOffset?",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43839e8d_770843c5",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "at least one",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76480b02_e66bed4d",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "This function is much easier to follow now. Thanks.",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81277d95_09d0b21a",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 35,
+        "startChar": 71,
+        "endLine": 35,
+        "endChar": 79
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "182fc5f7_2af7a1c4",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Perhaps \"one can compute the index of the summary\"?",
+      "range": {
+        "startLine": 35,
+        "startChar": 20,
+        "endLine": 35,
+        "endChar": 48
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca020100_f9402204",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "\"It also updates the\"",
+      "range": {
+        "startLine": 79,
+        "startChar": 18,
+        "endLine": 79,
+        "endChar": 53
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e81abad8_3ad059b2",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "summary",
+      "range": {
+        "startLine": 80,
+        "startChar": 19,
+        "endLine": 80,
+        "endChar": 25
+      },
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75b39b71_c70204f9",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Maybe more explicit: \"The caller must updates s.start and s.end after calling sysGrow.\"",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "553efe41_7a123df3",
+        "filename": "src/runtime/mpagealloc_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Now that I\u0027ve just sat through a bunch of sessions on formal verification at SOSP, I\u0027m wondering what it would take to prove pageAlloc correct. :)",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "e6494f91_f7648dbc",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Okay",
+      "parentUuid": "d52d9e79_2e25a204",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e90ff090_e4d1c27c",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -516,6 +534,24 @@
     },
     {
       "key": {
+        "uuid": "38184691_d06c4b33",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "How much are we leaking if we leak the fixalloc?\n\nI guess mapping the bitmap is a factor of 8 more address space, right? (Replacing an 8 byte pointer with its 64 byte target.) Is the idea that we\u0027re already letting loose on the address space, so why not just map 4 gigs for the bitmap?\n\nIf this big mapping has unforeseen consequences, do we have a fallback plan that\u0027s low enough risk to implement during the freeze?",
+      "parentUuid": "e33209c3_31d74c31",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6796d60_b6772d1a",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -785,6 +821,30 @@
       "side": 1,
       "message": "ah, ok. this function not only gets the summary range but also rounds it such that it includes the \"block\" (the 8 entries that make up a summary at the next level) that is needed to compute a summary in the next level.\n\nthis is generally more useful than just getting the summary ranges because the update routine assumes it can access a full block. so, this function is used both by the update code and by the mapping code to make sure we always have a full block. that\u0027s why it rounds.\n\ndocumented this.",
       "parentUuid": "6eaed278_d63b6f9a",
+      "range": {
+        "startLine": 114,
+        "startChar": 64,
+        "endLine": 114,
+        "endChar": 75
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "043d9a08_32ab67a6",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Got it. The new code makes a lot more sense.",
+      "parentUuid": "2ef7b921_e48d0132",
       "range": {
         "startLine": 114,
         "startChar": 64,
@@ -1215,6 +1275,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "166bb5bd_50adee47",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4d19faea_79ff984c",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -1844,6 +1922,24 @@
     },
     {
       "key": {
+        "uuid": "7670ac0f_7fb291bf",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Oops, you\u0027re right.",
+      "parentUuid": "56a45abe_1bb6bd23",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aaaec93_659208a4",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 38
@@ -1876,6 +1972,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f59c6e21_e83ddba7",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:40:16Z",
+      "side": 1,
+      "message": "Okay, that\u0027s reasonable. I suggested a tweak to the doc comment to make this more explicit.",
+      "parentUuid": "e684aa44_697804dd",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
