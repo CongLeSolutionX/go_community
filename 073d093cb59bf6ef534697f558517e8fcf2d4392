@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02a1732a_bc133c99",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-30T10:03:40Z",
+      "side": 1,
+      "message": "Is this to check if the array is empty ? It might be better to check for undefined instead of a truthy check. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop#Syntax)",
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64496739_bc0c11da",
+        "filename": "src/syscall/js/func.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-30T10:03:40Z",
+      "side": 1,
+      "message": "According to my tests, we can finalize cb directly here in a defer clause. Similar to what we are doing in jsString().",
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87f1ed5a_ecd73891",
+        "filename": "src/syscall/js/func.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-30T10:03:40Z",
+      "side": 1,
+      "message": "Same for argsObj too.",
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc2435b2_c78f80fc",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-30T10:03:40Z",
+      "side": 1,
+      "message": "Let\u0027s do typeFlagNone \u003d iota and let it take care of the test.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef2b9d7c_6f579130",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-30T10:03:40Z",
+      "side": 1,
+      "message": "typeFlag !\u003d typeFlagNone ?",
+      "range": {
+        "startLine": 60,
+        "startChar": 32,
+        "endLine": 60,
+        "endChar": 45
+      },
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a688e02e_680823a2",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-10-30T10:03:40Z",
+      "side": 1,
+      "message": "I think calling this once outside the loop should be sufficient ?",
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
