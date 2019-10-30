@@ -52,6 +52,24 @@
       "revId": "c6efb80209f2f5055213a82797c04820946bc6e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f11e40f_10985094",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-10-30T06:32:54Z",
+      "side": 1,
+      "message": "\u003e Sure. How do I test it?\n\nJust write some code which does use SID.String method, then build that call with -gcflags\u003dall\u003d-d\u003dcheckptr, then run the binary.",
+      "parentUuid": "424a4837_6c99946d",
+      "revId": "c6efb80209f2f5055213a82797c04820946bc6e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
