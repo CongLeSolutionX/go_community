@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2f6104b_2bbef4c0",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T16:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7947963_3b6413b7",
+      "range": {
+        "startLine": 339,
+        "startChar": 60,
+        "endLine": 340,
+        "endChar": 11
+      },
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8db42459_54861d07",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 39
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "429b7c74_b58646f2",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T16:42:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure if you saw some my comments from last night, but addrsToSummaryRange gives back block-aligned indices, so level is always guaranteed to be a multiple of e. perhaps that function should have a different name, but it definitely is iterating over more than just entries for [base, limit]. I\u0027ve print-debugged this code enough to know for sure at this point. :)\n\nbut ok. I\u0027ve made addrsToSummaryRange do what you expect and wrote a separate blockAlignSummaryRange which is used only by the mapping code.",
+      "parentUuid": "8db42459_54861d07",
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bb105cc_5a77b73c",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 39
@@ -56,6 +98,24 @@
       "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f8cf5d5_8726e3ad",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T16:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bb105cc_5a77b73c",
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "606056d7_484c32f6",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T16:42:07Z",
+      "side": 1,
+      "message": "rewrote all the comments related to merging, see the next comment.",
+      "parentUuid": "35203d4c_47bd2f70",
+      "range": {
+        "startLine": 354,
+        "startChar": 11,
+        "endLine": 354,
+        "endChar": 52
+      },
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8361baf4_32ef0fdb",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 39
@@ -96,6 +180,24 @@
       "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d489ad45_34928841",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T16:42:07Z",
+      "side": 1,
+      "message": "I rewrote all the comments about the merging code to better explain what it\u0027s doing:\n\nit\u0027s effectively keeping a running summary which represents the partial merge of level[i:j] (in the new code, sums[:i]). I think that frame of reference makes this code much, much more understandble, and it\u0027s the way I thought of it originally.",
+      "parentUuid": "8361baf4_32ef0fdb",
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
