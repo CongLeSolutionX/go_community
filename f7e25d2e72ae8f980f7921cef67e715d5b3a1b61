@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68324020_7a726a94",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-30T09:27:19Z",
+      "side": 1,
+      "message": "Is R14 (LR) special? We often treat it as a GPR and we save and restore it like the others.",
+      "range": {
+        "startLine": 503,
+        "startChar": 27,
+        "endLine": 503,
+        "endChar": 35
+      },
+      "revId": "f7e25d2e72ae8f980f7921cef67e715d5b3a1b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a6341bd_f2fb9b78",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-30T09:27:19Z",
+      "side": 1,
+      "message": "If possible we should use the STMG and LMG instructions to save these registers:\n\nSTMG R0, R12, x(R15)\n...\nLMG x(R15), R0, R12\n\nThis will also save and restore R10 but I think that is fine to reduce the number of instructions.",
+      "range": {
+        "startLine": 504,
+        "startChar": 0,
+        "endLine": 511,
+        "endChar": 2
+      },
+      "revId": "f7e25d2e72ae8f980f7921cef67e715d5b3a1b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "436b40bd_9ec0eefa",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-30T09:27:19Z",
+      "side": 1,
+      "message": "Doesn\u0027t really matter but we could save and restore flags using MOVW and MOVWZ since it is only a 4-byte value.",
+      "range": {
+        "startLine": 522,
+        "startChar": 1,
+        "endLine": 522,
+        "endChar": 36
+      },
+      "revId": "f7e25d2e72ae8f980f7921cef67e715d5b3a1b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
