@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a2d502e_33e353f0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-30T12:56:23Z",
+      "side": 1,
+      "message": "Stale comment?",
+      "revId": "8da71d0cfaebf564b9963faf32662a1d07aa5dfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca0448b_4580b691",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-30T12:56:23Z",
+      "side": 1,
+      "message": "This code looks to be identical to the code at lines 785-796. Maybe package it up into a helper function?",
+      "range": {
+        "startLine": 822,
+        "startChar": 1,
+        "endLine": 833,
+        "endChar": 26
+      },
+      "revId": "8da71d0cfaebf564b9963faf32662a1d07aa5dfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
