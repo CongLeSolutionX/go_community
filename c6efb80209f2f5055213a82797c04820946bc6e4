@@ -34,6 +34,24 @@
       "revId": "c6efb80209f2f5055213a82797c04820946bc6e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "424a4837_6c99946d",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-10-30T06:12:54Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t have a Windows environment to test this, but the main motivation is that we should not violate the unsafe pointer rule.\n\nYou changed 256 with 184. I don\u0027t know anything about new all\u003d-d\u003dcheckptr checker, but I don\u0027t see your how your change can make this code more correct.\n\nI just submitted CL 203442 which replaced [:x] slice operation with [:x:x]. Perhaps you want to do the same. But I don\u0027t really know.\n\nAnd unlike CL 203442, the memory you are referring lives outside of Go memory. ConvertSidToStringSid returns memory explicitly allocated by Windows. I am not sure, if it makes any difference here.\n\n\u003e Can you help testing this function with all\u003d-d\u003dcheckptr? \n\nSure. How do I test it?",
+      "parentUuid": "f17ff662_7c37e9e2",
+      "revId": "c6efb80209f2f5055213a82797c04820946bc6e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
