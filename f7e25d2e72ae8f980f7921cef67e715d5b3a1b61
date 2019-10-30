@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "232fef4a_cb47a2bc",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-30T09:34:46Z",
+      "side": 1,
+      "message": "I guess we currently never preempt assembly and/or cgo functions and so don\u0027t need to worry about vector registers here?",
+      "range": {
+        "startLine": 512,
+        "startChar": 0,
+        "endLine": 517,
+        "endChar": 0
+      },
+      "revId": "f7e25d2e72ae8f980f7921cef67e715d5b3a1b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "436b40bd_9ec0eefa",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 2
