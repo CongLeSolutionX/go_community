@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2747adad_5c0b23f4",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-30T07:36:31Z",
+      "side": 1,
+      "message": "FYI, -d\u003dcheckptr can detect some errors, and it shouldn\u0027t have false positives, but it definitely has false negatives. (That is, it should never emit a bad warning, but there\u0027s definitely bad code that it can\u0027t detect.) So don\u0027t interpret lack of errors as indicating the code is correct.\n\nFor example, this code below is only safe if s *always* points to an array of exactly 256 uint16s:\n\n    (*[256]uint16)(unsafe.Pointer(s))[:]\n\nIs that the case? I inferred ConvertSidToStringSid returns a variable-length null-terminated string?\n\n--\n\nThat said, (1) I don\u0027t know the right fix here; (2) in practice, I don\u0027t think it\u0027s likely to cause problems; and (3) I don\u0027t want to be a stickler about this.\n\nI just figure as long as we\u0027re all looking at this, it\u0027s best we try to figure out the right solution. But if that\u0027s not obvious, I\u0027m fine with this CL as is.",
+      "revId": "aff28af6626bd822e08e875a5c9aee339f1232ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
