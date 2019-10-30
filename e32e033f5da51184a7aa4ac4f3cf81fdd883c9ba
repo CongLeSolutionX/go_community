@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c59dd4f_0c0f5782",
+        "filename": "test/init2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-30T07:41:16Z",
+      "side": 1,
+      "message": "nit: rename to initempty.go.\n\n(And update comment in runtime/proc.go accordingly.)",
+      "revId": "e32e033f5da51184a7aa4ac4f3cf81fdd883c9ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
