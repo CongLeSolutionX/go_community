@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7947963_3b6413b7",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T04:00:28Z",
+      "side": 1,
+      "message": "I don\u0027t think you\u0027re modifying anything in level.",
+      "range": {
+        "startLine": 339,
+        "startChar": 60,
+        "endLine": 340,
+        "endChar": 11
+      },
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db42459_54861d07",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T04:00:28Z",
+      "side": 1,
+      "message": "The i +\u003d e is kind of hurting my brain.\n\nI think what may be making this hard for me to think about if that the code is iterating over level l and pushing updates to l-1. That means it has to very carefully subdivide the entries in level l to match up with the structure of l-1.\n\nWhat if, instead of iterating over the level being consumed, it iterated over the level being updated and pulled from the level being consumed? So, let\u0027s say l is now the level you\u0027re updating from level l+1. The outer loop now goes down to 0 instead of down to 1. The inner loop iterates just one entry at a time through level l (instead of e entries), computes the range of entries in l+1 that contribute to each level l entry (for entry i in level l, this is just [i\u003c\u003csummaryLevelBits, (i+1)\u003c\u003csummaryLevelBits) ), and combines that range of l+1 entries into the l entry.\n\nfor l :\u003d len(s.summaries) - 2; l \u003e\u003d 0 \u0026\u0026 changed; l-- {\n  // Update level l from level l+1.\n  changed \u003d false\n  lo, hi :\u003d addrsToSummaryRange(l, base, limit)\n  for i :\u003d lo; i \u003c hi; i++ {\n    children :\u003d s.summaries[l+1][i\u003c\u003csummaryLevelBits : (i+1) \u003c\u003c summaryLevelBits]\n    new :\u003d combineSummaries(children)\n    old :\u003d s.summaries[l][i]\n    if old !\u003d new {\n      s.summaries[l][i] \u003d new\n      changed \u003d true\n    }\n  }\n}\n\nI realize that\u0027s a lot shorter in part because I introduced combineSummaries, but it also doesn\u0027t need a lot of the subtler computations, like b, e, p, and u (down below).\n\nFor example, one thing that smells wrong in this code (though you have enough code coverage that this is probably somehow right) is that it looks like you\u0027re only consuming the entries for [base, limit] in l to compute the l-1 summary, but the l-1 summary is always a function of all 8 entries it covers in level l.",
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bb105cc_5a77b73c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T04:00:28Z",
+      "side": 1,
+      "message": "Consider a helper function that takes a []mallocSum and computes the combined mallocSum.",
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35203d4c_47bd2f70",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T04:00:28Z",
+      "side": 1,
+      "message": "I thought I had figured out that a \"block\" of entries was the 8 summaries that contributed to an l-1 summary, but now I\u0027m not sure what would be leading up to this block of entries or why it would matter. I understand what the code is doing, I\u0027m just not sure how it connects to the comment.",
+      "range": {
+        "startLine": 354,
+        "startChar": 11,
+        "endLine": 354,
+        "endChar": 52
+      },
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8361baf4_32ef0fdb",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T04:00:28Z",
+      "side": 1,
+      "message": "It took me a while to see how max could ever cover more than two consecutive summaries before I realized that end is accumulated below. Maybe this just needs a comment above saying that \"end\" tracks the trailing run length *in the prefix* of summaries we\u0027ve considered so far.",
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "711f294e_433f5f54",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T04:00:28Z",
+      "side": 1,
+      "message": "Now I\u0027ve gotten to here.",
+      "revId": "01fa7ab4057b6e3b1523e3077ac8daf310d3688b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
