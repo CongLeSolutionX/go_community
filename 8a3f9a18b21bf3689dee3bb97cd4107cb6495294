@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a511a19_c78c9ee7",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 43
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:44:14Z",
+      "side": 1,
+      "message": "p.chunks[0] so the type works out automatically.",
+      "range": {
+        "startLine": 840,
+        "startChar": 77,
+        "endLine": 840,
+        "endChar": 89
+      },
+      "revId": "8a3f9a18b21bf3689dee3bb97cd4107cb6495294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "812fa34c_bbc16197",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 43
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-30T22:44:14Z",
+      "side": 1,
+      "message": "Update comment",
+      "revId": "8a3f9a18b21bf3689dee3bb97cd4107cb6495294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
