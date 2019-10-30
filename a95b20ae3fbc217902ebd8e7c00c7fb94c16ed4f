@@ -1,0 +1,221 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be6cee1_091599dc",
+        "filename": "src/cmd/link/internal/ld/config.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "Can we check ctxt.IsELF instead?",
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d087b5a_43d2ac97",
+        "filename": "src/cmd/link/internal/ld/config.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "Check iscgo. We don\u0027t want to force external linking for pure Go code.",
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8da030f8_40959b00",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "What about SubSym? The comment doesn\u0027t mention that, but the code does.",
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa8c22e7_1f3e9144",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "Do we need to do anything with this code? In newobj mode ctxt.Syms.AllSym is pretty much empty at this point.",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 0
+      },
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b6888a_738ef894",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "Does this comment still apply? The code below doesn\u0027t mention overwrite now.\n\nDo we not need any overwrite/dupok logic now? Maybe this is mentioned in the previous review comments, which I haven\u0027t read. Sorry to ask again, if so.",
+      "range": {
+        "startLine": 457,
+        "startChar": 57,
+        "endLine": 459,
+        "endChar": 49
+      },
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf052e7_05b6d85a",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "lookupSym :\u003d newSym",
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51eed529_f0d47b6c",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "newSym :\u003d syms.NewSym, also below.",
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1662cd10_9085ee62",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "Seems not used now?",
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8c5fea1_454c8aab",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "We already returned at line 175 if oldsym.Dupok() is true.",
+      "range": {
+        "startLine": 181,
+        "startChar": 7,
+        "endLine": 181,
+        "endChar": 21
+      },
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1927083_18b886df",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "It actually adds to the i-th element.",
+      "range": {
+        "startLine": 748,
+        "startChar": 38,
+        "endLine": 748,
+        "endChar": 45
+      },
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cff2f98e_5c9c8731",
+        "filename": "src/cmd/link/internal/sym/symkind.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-30T18:14:14Z",
+      "side": 1,
+      "message": "IsData",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 9
+      },
+      "revId": "a95b20ae3fbc217902ebd8e7c00c7fb94c16ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
