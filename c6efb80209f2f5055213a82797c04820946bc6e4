@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5efe8764_30c09a60",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-10-30T05:46:26Z",
+      "side": 1,
+      "message": "You still did not explain what was wrong with original version of this code. Until you do, I insist we restore original version\n\ns/SecurityMaxSidSize/256/\n\nI think 256 is nice and round number, and it does not need introduction of const and a comment pointing to some Internet groups thread. I don\u0027t see why 184 is better than 256 here.",
+      "revId": "c6efb80209f2f5055213a82797c04820946bc6e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
