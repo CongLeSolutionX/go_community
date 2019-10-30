@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf01992a_9be84eb8",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "306f8562_47c1426d",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801d7127_467d7f1c",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -33,6 +51,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc809b98_9c6e48e6",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "no longer used.",
+      "parentUuid": "801d7127_467d7f1c",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bc2d5205_a2ad3913",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "no longer used, just going to allocate a mutex on the heap for testing.",
+      "parentUuid": "96b3c53f_f30167a5",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbb10814_ccb1ec7e",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "20ff2c57_219696d6",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "meh. I responded to your comment below but GetTestPageAlloc isn\u0027t really necessary anymore. it\u0027s very self-contained now.",
+      "parentUuid": "fbb10814_ccb1ec7e",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85cbca76_1fe8d27d",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -81,6 +153,24 @@
       "writtenOn": "2019-10-29T22:46:16Z",
       "side": 1,
       "message": "I\u0027m not entirely clear on what the map keys are. Are these chunk indexes and ranges within each chunk? Would it make more sense to just take a slice of ranges in terms of page indexes or addresses?",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52d9e79_2e25a204",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "you are correct, these are chunk indexes and range within each chunk. to make this more obvious, rather than an int, I\u0027ll do a chunkIdx.\n\nit\u0027s a little bit harder to write tests that way, IMO. the tests are more clear with a coarser grain.",
+      "parentUuid": "85cbca76_1fe8d27d",
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "4a32cd75_81e0d492",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "it\u0027s really the mheap connection that\u0027s a problem here, and this was poorly explained.\n\nanyway, this is gone now.",
+      "parentUuid": "e90ff090_e4d1c27c",
+      "range": {
+        "startLine": 825,
+        "startChar": 22,
+        "endLine": 827,
+        "endChar": 16
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc6e7803_6e0ee86f",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -124,6 +238,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd675744_8de74f10",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "got rid of it. you\u0027re right, it\u0027s no longer necessary (it was because of mheap, we needed some static global mheap structs to refer to, basically).",
+      "parentUuid": "dc6e7803_6e0ee86f",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "fb2be5d5_b742812f",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "no longer necessary.",
+      "parentUuid": "5dd82f46_acf078a0",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f97883d8_3c83e0a0",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -158,6 +308,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06c64317_ff38087f",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "no longer necessary.",
+      "parentUuid": "f97883d8_3c83e0a0",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "4acf81d5_c2670b84",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f55f53c_5b9ab076",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ddb7487_a35b3351",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -195,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "14bde3c1_35482d61",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "it should ignore. there are a bunch of places where I want to say BitRange{0, 0} to juxtapose with other BitRanges, purely for readability.",
+      "parentUuid": "5ddb7487_a35b3351",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64fd0033_a69a648d",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -209,6 +413,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "898155ac_bd64ea99",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "no longer necessary.",
+      "parentUuid": "64fd0033_a69a648d",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -235,6 +457,30 @@
     },
     {
       "key": {
+        "uuid": "c3be65d8_cbd6b0a3",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "no longer necessary.",
+      "parentUuid": "86a5562b_f6776a45",
+      "range": {
+        "startLine": 884,
+        "startChar": 40,
+        "endLine": 884,
+        "endChar": 45
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82d9a655_5724f6a2",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -246,6 +492,24 @@
       "writtenOn": "2019-10-29T22:46:16Z",
       "side": 1,
       "message": "Is the \"entry.pageAlloc.init\" above going to clobber the fixalloc or is this okay?",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e33209c3_31d74c31",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "ah, actually yes it probably clobbers it.\n\nare we fine with leaking the fixalloc? it would be a lot nicer if we did. the newest patchset just leaks it.\n\nwe could alternatively not use the fixalloc and just map the bitmap directly like Keith suggested (which I\u0027m leaning toward).",
+      "parentUuid": "82d9a655_5724f6a2",
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -269,6 +533,24 @@
     },
     {
       "key": {
+        "uuid": "d7c653e8_44ea09db",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6796d60_b6772d1a",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d9de6f9_abcda5e0",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
@@ -286,6 +568,24 @@
     },
     {
       "key": {
+        "uuid": "e5b25a12_e70be814",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d9de6f9_abcda5e0",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983be35_eee44018",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -300,6 +600,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81e9db39_75b22936",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983be35_eee44018",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -326,6 +644,30 @@
     },
     {
       "key": {
+        "uuid": "89f19889_e5526e59",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41531341_a8c6e406",
+      "range": {
+        "startLine": 84,
+        "startChar": 32,
+        "endLine": 84,
+        "endChar": 39
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "955e35cd_b84d281e",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -349,6 +691,30 @@
     },
     {
       "key": {
+        "uuid": "d6ce49df_228210e1",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "955e35cd_b84d281e",
+      "range": {
+        "startLine": 100,
+        "startChar": 49,
+        "endLine": 100,
+        "endChar": 54
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d5ede9f_2b7eee7d",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -363,6 +729,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e4062db_c3656f39",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "end of the address space is a valid reason, but not one the rest of the code considers at all. I\u0027ll make them both exclusive. it\u0027s just a -1 in the math.\n\nit\u0027s definitely confusing, this code has gone through too many iterations.",
+      "parentUuid": "8d5ede9f_2b7eee7d",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -389,6 +773,30 @@
     },
     {
       "key": {
+        "uuid": "2ef7b921_e48d0132",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "ah, ok. this function not only gets the summary range but also rounds it such that it includes the \"block\" (the 8 entries that make up a summary at the next level) that is needed to compute a summary in the next level.\n\nthis is generally more useful than just getting the summary ranges because the update routine assumes it can access a full block. so, this function is used both by the update code and by the mapping code to make sure we always have a full block. that\u0027s why it rounds.\n\ndocumented this.",
+      "parentUuid": "6eaed278_d63b6f9a",
+      "range": {
+        "startLine": 114,
+        "startChar": 64,
+        "endLine": 114,
+        "endChar": 75
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998fad7b_7e15d829",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -403,6 +811,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa42559_6871f5fe",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "998fad7b_7e15d829",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -429,6 +855,30 @@
     },
     {
       "key": {
+        "uuid": "cd278fa0_9ec5b226",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95e9f6e1_6c657590",
+      "range": {
+        "startLine": 142,
+        "startChar": 31,
+        "endLine": 142,
+        "endChar": 32
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "245c3bd3_504a7bce",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -443,6 +893,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3662ba3a_47672d0f",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "245c3bd3_504a7bce",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -469,6 +937,30 @@
     },
     {
       "key": {
+        "uuid": "566f579c_c0f4b732",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03dd9056_3b0e32c6",
+      "range": {
+        "startLine": 169,
+        "startChar": 46,
+        "endLine": 170,
+        "endChar": 16
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5165ebb_ff93bc2e",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -492,6 +984,30 @@
     },
     {
       "key": {
+        "uuid": "48a56e7b_3d3a635f",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5165ebb_ff93bc2e",
+      "range": {
+        "startLine": 182,
+        "startChar": 63,
+        "endLine": 182,
+        "endChar": 79
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f10bbf95_66d4ebb1",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -506,6 +1022,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4219e7d9_dd158bf9",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f10bbf95_66d4ebb1",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -526,6 +1060,24 @@
     },
     {
       "key": {
+        "uuid": "08736d2d_bc5feb32",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36782568_b65d74f7",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cab8909f_1df7165f",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -540,6 +1092,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "348db93a_5c9c4d3f",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cab8909f_1df7165f",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -560,6 +1130,24 @@
     },
     {
       "key": {
+        "uuid": "b2b31b84_829e2397",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b88b790b_50f9c337",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0482311_6d590d62",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -577,6 +1165,24 @@
     },
     {
       "key": {
+        "uuid": "c281e509_cb4b2eaf",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0482311_6d590d62",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f84df9c_e3a36fe9",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -588,6 +1194,24 @@
       "writtenOn": "2019-10-29T22:46:16Z",
       "side": 1,
       "message": "See my comment at https://go-review.googlesource.com/c/go/+/190622/38/src/runtime/mpagealloc_64bit.go#115",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d19faea_79ff984c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "See my response to your comment. :)",
+      "parentUuid": "7f84df9c_e3a36fe9",
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -617,6 +1241,30 @@
     },
     {
       "key": {
+        "uuid": "02f3cf5a_8fe558b0",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "updated this comment, and the comment on searchAddr.",
+      "parentUuid": "6b760d51_316e9adb",
+      "range": {
+        "startLine": 257,
+        "startChar": 60,
+        "endLine": 258,
+        "endChar": 32
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7863a79_774b0811",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 38
@@ -637,6 +1285,30 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f60a025_a82a7467",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "yes oops.",
+      "parentUuid": "f7863a79_774b0811",
+      "range": {
+        "startLine": 269,
+        "startChar": 17,
+        "endLine": 270,
+        "endChar": 21
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -674,6 +1346,24 @@
     },
     {
       "key": {
+        "uuid": "6270e832_77b3735b",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done, I think?",
+      "parentUuid": "7a6e3c90_6c01d79d",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ea5bba3_754820f4",
         "filename": "src/runtime/mpagealloc_32bit.go",
         "patchSetId": 38
@@ -697,6 +1387,30 @@
     },
     {
       "key": {
+        "uuid": "a847e943_945f8e87",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ea5bba3_754820f4",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 3
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "535eac72_a715c953",
         "filename": "src/runtime/mpagealloc_32bit.go",
         "patchSetId": 38
@@ -711,6 +1425,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b6faf8d_b7941fa6",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "535eac72_a715c953",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -737,6 +1469,30 @@
     },
     {
       "key": {
+        "uuid": "f665e5df_cb059681",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41a30e36_6c9b5de5",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "050f8483_c71f1f79",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 38
@@ -757,6 +1513,30 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "142466d0_289e5722",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "050f8483_c71f1f79",
+      "range": {
+        "startLine": 52,
+        "startChar": 7,
+        "endLine": 52,
+        "endChar": 14
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -783,6 +1563,30 @@
     },
     {
       "key": {
+        "uuid": "00bec4a6_0eb0048d",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d704d0d_0018709a",
+      "range": {
+        "startLine": 61,
+        "startChar": 28,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4faa5a58_ded737b5",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 38
@@ -800,6 +1604,24 @@
     },
     {
       "key": {
+        "uuid": "ca660308_588e80a1",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4faa5a58_ded737b5",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a4bfa70_02ecc2f9",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 38
@@ -814,6 +1636,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e286928_068176b9",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a4bfa70_02ecc2f9",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -840,6 +1680,30 @@
     },
     {
       "key": {
+        "uuid": "08d9242b_3b9675c5",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60b0636_25124dc0",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 51
+      },
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25be34b9_72afa2ad",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 38
@@ -854,6 +1718,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22f45283_1073c49b",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25be34b9_72afa2ad",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -874,6 +1756,24 @@
     },
     {
       "key": {
+        "uuid": "aa0b9d13_8d37b600",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "Done, as in I made it more obviously separate from that work.",
+      "parentUuid": "3b044374_4c366b60",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14cdaf92_f2f59a79",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 38
@@ -888,6 +1788,24 @@
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e898eaad_78f0c3e2",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "no longer relevant, refactored this into a helper.",
+      "parentUuid": "14cdaf92_f2f59a79",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -908,6 +1826,24 @@
     },
     {
       "key": {
+        "uuid": "56a45abe_1bb6bd23",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s true. The first \"else if\" should handle this case. In the image you show, needBase \u003c mappedBase \u0026\u0026 needLimit \u003c mappedLimit, which satisfies the above condition.\n\nwe only fall into this case if needBase \u003e\u003d mappedBase \u0026\u0026 needLimit \u003c\u003d mappedLimit, which means we\u0027ve already mapped everything we need.",
+      "parentUuid": "9ec07de8_fc29c4a5",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2aaaec93_659208a4",
         "filename": "src/runtime/mpagealloc_64bit.go",
         "patchSetId": 38
@@ -919,6 +1855,24 @@
       "writtenOn": "2019-10-29T22:46:16Z",
       "side": 1,
       "message": "I was surprised to not see this update s.start and s.end, given that it consumes them and then changes the underlying state that they summarize.",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e684aa44_697804dd",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T03:14:28Z",
+      "side": 1,
+      "message": "it could do that. the only reason it doesn\u0027t is because that\u0027s less code that\u0027s shared (e.g. while I\u0027m at it I could throw in the chunk slice mapping update in here too).\n\nI\u0027m not really sure where to place the boundary and open to suggestions.",
+      "parentUuid": "2aaaec93_659208a4",
       "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
