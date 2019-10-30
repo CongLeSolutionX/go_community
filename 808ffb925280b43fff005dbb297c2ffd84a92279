@@ -552,6 +552,24 @@
     },
     {
       "key": {
+        "uuid": "f67aef8d_bd17cba8",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-30T22:59:24Z",
+      "side": 1,
+      "message": "I switched to just mapping the bitmap.\n\nFallback plan is the fixalloc. I don\u0027t think it leaks very much in the tests in practice, but I can measure it. Also, we can play tricks in the test by caching fixallocs.",
+      "parentUuid": "38184691_d06c4b33",
+      "revId": "808ffb925280b43fff005dbb297c2ffd84a92279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6796d60_b6772d1a",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 38
