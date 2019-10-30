@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0fa2a40_12df70f5",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 33876
+      },
+      "writtenOn": "2019-10-30T21:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcacdbc5_bb3d8a54",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 42
+      },
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f9ce7b0_67e72627",
         "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa3c78cd_c65340e9",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 33876
+      },
+      "writtenOn": "2019-10-30T21:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f9ce7b0_67e72627",
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "da3ab9ff_099288b2",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 33876
+      },
+      "writtenOn": "2019-10-30T21:31:12Z",
+      "side": 1,
+      "message": "Through testing and searching, it looks like VSB, and VSH, are not yet to be added to amsz.go",
+      "parentUuid": "2b4f0982_cc802f35",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 44
+      },
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fb7144d_af97ecb7",
         "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2019-10-28T11:25:37Z",
       "side": 1,
       "message": "Let\u0027s move VO down to here and do all these instructions too:\n\nVN   (VECTOR AND)\nVNC  (VECTOR AND WITH COMPLEMENT)\nVNOT (VECTOR NOT)\nVNX  (VECTOR NOT EXCLUSIVE OR)\nVO   (VECTOR OR)\nVOC  (VECTOR OR WITH COMPLEMENT)\nVX   (VECTOR EXCLUSIVE OR)",
+      "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b6e7f57_3f323415",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 33876
+      },
+      "writtenOn": "2019-10-30T21:31:12Z",
+      "side": 1,
+      "message": "Did other instructions. VOC, and VNX, not found in amsz.go or obj/s390x/vector.go. I think they were not added?",
+      "parentUuid": "2fb7144d_af97ecb7",
       "revId": "a3f235a5283bb31b230d96a24cef7a8afab6d753",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
