@@ -490,6 +490,45 @@ func spanz(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	}
 	c.cursym.Grow(c.cursym.Size)
 	copy(c.cursym.P, buffer)
+
+	// Mark nonpreemptible instruction sequences.
+	// We use REGTMP as a scratch register during call injection,
+	// so instruction sequences that use REGTMP are unsafe to
+	// preempt asynchronously.
+	// TODO: put this to common code
+	prev := c.cursym.Func.Text
+	oldval := int64(-1) // entry pcdata
+	for p := prev.Link; p != nil; p, prev = p.Link, p {
+		if p.As == obj.APCDATA && p.From.Offset == objabi.PCDATA_StackMapIndex {
+			oldval = p.To.Offset
+			continue
+		}
+		if oldval == -2 {
+			continue // already unsafe
+		}
+		if c.isUnsafePoint(p) {
+			q := c.ctxt.StartUnsafePoint(c.cursym, prev, c.newprog)
+			q.Pc = p.Pc
+			q.Link = p
+			// Advance to the end of unsafe point.
+			for p.Link != nil && c.isUnsafePoint(p.Link) {
+				p = p.Link
+			}
+			if p.Link == nil {
+				break // Reached the end, don't bother marking the end
+			}
+			p = c.ctxt.EndUnsafePoint(c.cursym, p, c.newprog, oldval)
+			p.Pc = p.Link.Pc
+		}
+	}
+}
+
+// Return whether p is an unsafe point.
+func (c *ctxtz) isUnsafePoint(p *obj.Prog) bool {
+	if p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP {
+		return true
+	}
+	return p.Mark&USETMP != 0
 }
 
 func isint32(v int64) bool {
@@ -2684,6 +2723,8 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		return
 	}
 
+	// If REGTMP is used in generated code, we need to set USETMP on p.Mark.
+
 	switch o.i {
 	default:
 		c.ctxt.Diag("unknown index %d", o.i)
@@ -2775,6 +2816,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			}
 
 		case ADIVW, ADIVWU, ADIVD, ADIVDU:
+			p.Mark |= USETMP
 			if p.As == ADIVWU || p.As == ADIVDU {
 				zRI(op_LGHI, REGTMP, 0, asm)
 			}
@@ -2783,6 +2825,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			zRRE(op_LGR, uint32(p.To.Reg), REGTMP2, asm)
 
 		case AMODW, AMODWU, AMODD, AMODDU:
+			p.Mark |= USETMP
 			if p.As == AMODWU || p.As == AMODDU {
 				zRI(op_LGHI, REGTMP, 0, asm)
 			}
@@ -2832,6 +2875,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		if r == 0 {
 			r = p.To.Reg
 		}
+		p.Mark |= USETMP
 		zRRE(op_LGR, REGTMP2, uint32(r), asm)
 		zRRE(op_MLGR, REGTMP, uint32(p.From.Reg), asm)
 		switch p.As {
@@ -2948,6 +2992,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			if r == int(p.To.Reg) {
 				zRRE(op_SLBGR, uint32(p.To.Reg), uint32(p.From.Reg), asm)
 			} else if p.From.Reg == p.To.Reg {
+				p.Mark |= USETMP
 				zRRE(op_LGR, REGTMP, uint32(p.From.Reg), asm)
 				zRRE(op_LGR, uint32(p.To.Reg), uint32(r), asm)
 				zRRE(op_SLBGR, uint32(p.To.Reg), REGTMP, asm)
@@ -2992,6 +3037,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 		x2 := p.From.Index
 		if -DISP20/2 > d2 || d2 >= DISP20/2 {
+			p.Mark |= USETMP
 			zRIL(_a, op_LGFI, REGTMP, uint32(d2), asm)
 			if x2 != 0 {
 				zRX(op_LA, REGTMP, REGTMP, uint32(x2), 0, asm)
@@ -3126,6 +3172,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 		switch p.As {
 		case ASUB:
+			p.Mark |= USETMP
 			zRIL(_a, op_LGFI, uint32(REGTMP), uint32(v), asm)
 			zRRF(op_SLGRK, uint32(REGTMP), 0, uint32(p.To.Reg), uint32(r), asm)
 		case ASUBC:
@@ -3191,6 +3238,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			c.ctxt.Diag("%v is not supported", p)
 		case AAND:
 			if v >= 0 { // needs zero extend
+				p.Mark |= USETMP
 				zRIL(_a, op_LGFI, REGTMP, uint32(v), asm)
 				zRRE(op_NGR, uint32(p.To.Reg), REGTMP, asm)
 			} else if int64(int16(v)) == v {
@@ -3200,6 +3248,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			}
 		case AOR:
 			if int64(uint32(v)) != v { // needs sign extend
+				p.Mark |= USETMP
 				zRIL(_a, op_LGFI, REGTMP, uint32(v), asm)
 				zRRE(op_OGR, uint32(p.To.Reg), REGTMP, asm)
 			} else if int64(uint16(v)) == v {
@@ -3209,6 +3258,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			}
 		case AXOR:
 			if int64(uint32(v)) != v { // needs sign extend
+				p.Mark |= USETMP
 				zRIL(_a, op_LGFI, REGTMP, uint32(v), asm)
 				zRRE(op_XGR, uint32(p.To.Reg), REGTMP, asm)
 			} else {
@@ -3262,6 +3312,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		} else if v >= -DISP20/2 && v < DISP20/2 {
 			zRXY(op_LAY, uint32(p.To.Reg), uint32(r), uint32(i), uint32(v), asm)
 		} else {
+			p.Mark |= USETMP
 			zRIL(_a, op_LGFI, REGTMP, uint32(v), asm)
 			zRX(op_LA, uint32(p.To.Reg), uint32(r), REGTMP, uint32(i), asm)
 		}
@@ -3357,6 +3408,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 		x2 := p.To.Index
 		if d2 < -DISP20/2 || d2 >= DISP20/2 {
+			p.Mark |= USETMP
 			zRIL(_a, op_LGFI, REGTMP, uint32(d2), asm)
 			if x2 != 0 {
 				zRX(op_LA, REGTMP, REGTMP, uint32(x2), 0, asm)
@@ -3379,6 +3431,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 		x2 := p.From.Index
 		if d2 < -DISP20/2 || d2 >= DISP20/2 {
+			p.Mark |= USETMP
 			zRIL(_a, op_LGFI, REGTMP, uint32(d2), asm)
 			if x2 != 0 {
 				zRX(op_LA, REGTMP, REGTMP, uint32(x2), 0, asm)
@@ -3537,6 +3590,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			opcode = op_MVI
 		}
 		if d < 0 || d >= DISP12 {
+			p.Mark |= USETMP
 			if r == REGTMP {
 				c.ctxt.Diag("displacement must be in range [0, 4096) to use %v", r)
 			}
@@ -3574,6 +3628,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		case AMOVH, AMOVHZ: // The zero extension doesn't affect store instructions
 			zRIL(_b, op_STHRL, uint32(p.From.Reg), 0, asm)
 		case AMOVB, AMOVBZ: // The zero extension doesn't affect store instructions
+			p.Mark |= USETMP
 			zRIL(_b, op_LARL, REGTMP, 0, asm)
 			adj := uint32(0) // adjustment needed for odd addresses
 			if i2&1 != 0 {
@@ -3582,9 +3637,11 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			}
 			zRX(op_STC, uint32(p.From.Reg), 0, REGTMP, adj, asm)
 		case AFMOVD:
+			p.Mark |= USETMP
 			zRIL(_b, op_LARL, REGTMP, 0, asm)
 			zRX(op_STD, uint32(p.From.Reg), 0, REGTMP, 0, asm)
 		case AFMOVS:
+			p.Mark |= USETMP
 			zRIL(_b, op_LARL, REGTMP, 0, asm)
 			zRX(op_STE, uint32(p.From.Reg), 0, REGTMP, 0, asm)
 		}
@@ -3595,6 +3652,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		switch p.As {
 		case AMOVD:
 			if i2&1 != 0 {
+				p.Mark |= USETMP
 				zRIL(_b, op_LARL, REGTMP, 0, asm)
 				zRXY(op_LG, uint32(p.To.Reg), REGTMP, 0, 1, asm)
 				i2 -= 1
@@ -3610,6 +3668,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		case AMOVHZ:
 			zRIL(_b, op_LLGHRL, uint32(p.To.Reg), 0, asm)
 		case AMOVB, AMOVBZ:
+			p.Mark |= USETMP
 			zRIL(_b, op_LARL, REGTMP, 0, asm)
 			adj := uint32(0) // adjustment needed for odd addresses
 			if i2&1 != 0 {
@@ -3623,9 +3682,11 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 				zRXY(op_LLGC, uint32(p.To.Reg), 0, REGTMP, adj, asm)
 			}
 		case AFMOVD:
+			p.Mark |= USETMP
 			zRIL(_a, op_LARL, REGTMP, 0, asm)
 			zRX(op_LD, uint32(p.To.Reg), 0, REGTMP, 0, asm)
 		case AFMOVS:
+			p.Mark |= USETMP
 			zRIL(_a, op_LARL, REGTMP, 0, asm)
 			zRX(op_LE, uint32(p.To.Reg), 0, REGTMP, 0, asm)
 		}
@@ -3742,6 +3803,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		d1 := c.regoff(&p.To)
 		d2 := c.regoff(p.GetFrom3())
 		if d1 < 0 || d1 >= DISP12 {
+			p.Mark |= USETMP
 			if b2 == REGTMP {
 				c.ctxt.Diag("REGTMP conflict")
 			}
@@ -3960,6 +4022,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		rel.Add = 2 + int64(rel.Siz)
 
 	case 94: // TLS local exec model
+		p.Mark |= USETMP
 		zRIL(_b, op_LARL, REGTMP, (sizeRIL+sizeRXY+sizeRI)>>1, asm)
 		zRXY(op_LG, uint32(p.To.Reg), REGTMP, 0, 0, asm)
 		zRI(op_BRC, 0xF, (sizeRI+8)>>1, asm)
@@ -3983,6 +4046,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		// --------------------------------------------------------------
 
 		// R_390_TLS_IEENT
+		p.Mark |= USETMP
 		zRIL(_b, op_LARL, REGTMP, 0, asm)
 		ieent := obj.Addrel(c.cursym)
 		ieent.Off = int32(c.pc + 2)
@@ -4008,6 +4072,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 		for length > 0 {
 			if offset < 0 || offset >= DISP12 {
+				p.Mark |= USETMP
 				if offset >= -DISP20/2 && offset < DISP20/2 {
 					zRXY(op_LAY, REGTMP, uint32(reg), 0, uint32(offset), asm)
 				} else {
@@ -4050,6 +4115,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			reg = REGSP
 		}
 		if offset < -DISP20/2 || offset >= DISP20/2 {
+			p.Mark |= USETMP
 			if reg != REGTMP {
 				zRRE(op_LGR, REGTMP, uint32(reg), asm)
 			}
@@ -4077,6 +4143,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 			reg = REGSP
 		}
 		if offset < -DISP20/2 || offset >= DISP20/2 {
+			p.Mark |= USETMP
 			if reg != REGTMP {
 				zRRE(op_LGR, REGTMP, uint32(reg), asm)
 			}
