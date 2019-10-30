@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "067cd747_c6d48531",
+        "filename": "src/cmd/internal/obj/s390x/asmz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-30T10:01:48Z",
+      "side": 1,
+      "message": "Technically we should probably mark the whole function unsafe if we do this since the value of R10 might be clobbered in between the instructions that use it.\n\nAssembly outside of Go itself shouldn\u0027t be using R10 so it probably doesn\u0027t matter that much though, we can just vet all the uses in Go.\n\nThere are also a few instructions that might touch R10 without explicitly stating so. Notably STMG and LMG. Especially in assembly shims (when calling into C code for example).",
+      "parentUuid": "5ea93615_ca34b1f3",
+      "range": {
+        "startLine": 528,
+        "startChar": 0,
+        "endLine": 530,
+        "endChar": 2
+      },
+      "revId": "c02ef81acd9930f7f7e68e44be23d0e5a3815c49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc5a8650_a2a8e11c",
         "filename": "src/cmd/internal/obj/s390x/asmz.go",
         "patchSetId": 1
