@@ -70,6 +70,24 @@
       "revId": "c6efb80209f2f5055213a82797c04820946bc6e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9647ac7e_b87b0f11",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-30T06:40:27Z",
+      "side": 1,
+      "message": "\u003e Sure. How do I test it?\n\nJust specify -gcflags\u003dall\u003d-d\u003dcheckptr when building or testing. (Make sure to include \"all\u003d\".) For example:\n\n    $ go test -gcflags\u003dall\u003d-d\u003dcheckptr std cmd\n\nYou can also try running:\n\n    $ go test -gcflags\u003dall\u003d-d\u003dcheckptr\u003d2 std cmd\n\nWhen checkptr\u003d2 is specified, escape analysis is tweaked so some objects are heap allocated when normally we would stack allocate them. This allows better runtime checking of unsafe.Pointer code (because we generally have finer-grained information about heap objects than stack objects), but it does lead to false positives with performance tests that measure the number of heap allocations.",
+      "parentUuid": "424a4837_6c99946d",
+      "revId": "c6efb80209f2f5055213a82797c04820946bc6e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
