@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ea93615_ca34b1f3",
+        "filename": "src/cmd/internal/obj/s390x/asmz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-30T09:40:30Z",
+      "side": 1,
+      "message": "We should also loop over RestArgs here.",
+      "range": {
+        "startLine": 528,
+        "startChar": 0,
+        "endLine": 530,
+        "endChar": 2
+      },
+      "revId": "c02ef81acd9930f7f7e68e44be23d0e5a3815c49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc5a8650_a2a8e11c",
+        "filename": "src/cmd/internal/obj/s390x/asmz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2819,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-10-30T09:40:30Z",
+      "side": 1,
+      "message": "What do you think about having a function to do this?\n\nSomething like:\n\nfunc regtmp(p *obj.Prog) uint32 {\n    p.Mark |\u003d USETMP\n    return REGTMP\n}\n\nThen we can remove all uses of REGTMP in instructions and use this function instead.",
+      "range": {
+        "startLine": 2819,
+        "startChar": 3,
+        "endLine": 2819,
+        "endChar": 19
+      },
+      "revId": "c02ef81acd9930f7f7e68e44be23d0e5a3815c49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
