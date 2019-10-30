@@ -16,6 +16,24 @@
       "revId": "c247dc1693231fc1aa11d0d7991410c6c2392088",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b72fdfb_2aa8d6aa",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-10-30T00:52:14Z",
+      "side": 1,
+      "message": "Changed. Is this a limitation of the compiler or does the spec somehow say that it needs to take 24 bytes if it is last?",
+      "parentUuid": "6bc2330f_04777a06",
+      "revId": "c247dc1693231fc1aa11d0d7991410c6c2392088",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
