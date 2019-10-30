@@ -464,9 +464,7 @@ func rewriteValuedec64_OpInt64Hi(v *Value) bool {
 		}
 		_ = v_0.Args[1]
 		hi := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = hi.Type
-		v.AddArg(hi)
+		v.copyOf(hi)
 		return true
 	}
 	return false
@@ -480,9 +478,7 @@ func rewriteValuedec64_OpInt64Lo(v *Value) bool {
 			break
 		}
 		lo := v_0.Args[1]
-		v.reset(OpCopy)
-		v.Type = lo.Type
-		v.AddArg(lo)
+		v.copyOf(lo)
 		return true
 	}
 	return false
@@ -2381,9 +2377,7 @@ func rewriteValuedec64_OpTrunc64to32(v *Value) bool {
 			break
 		}
 		lo := v_0.Args[1]
-		v.reset(OpCopy)
-		v.Type = lo.Type
-		v.AddArg(lo)
+		v.copyOf(lo)
 		return true
 	}
 	return false

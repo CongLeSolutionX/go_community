@@ -3578,9 +3578,7 @@ func rewriteValuePPC64_OpMove(v *Value) bool {
 			break
 		}
 		mem := v_2
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Move [1] dst src mem)
@@ -4212,9 +4210,7 @@ func rewriteValuePPC64_OpPPC64ADDconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ADDconst [c] (MOVDaddr [d] {sym} x))
@@ -4308,9 +4304,7 @@ func rewriteValuePPC64_OpPPC64AND(v *Value) bool {
 			if y.Op != OpPPC64MOVWZreg || !(c&0xFFFFFFFF == 0xFFFFFFFF) {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = y.Type
-			v.AddArg(y)
+			v.copyOf(y)
 			return true
 		}
 		break
@@ -4378,9 +4372,7 @@ func rewriteValuePPC64_OpPPC64ANDconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDconst [0] _)
@@ -4402,9 +4394,7 @@ func rewriteValuePPC64_OpPPC64ANDconst(v *Value) bool {
 		if y.Op != OpPPC64MOVBZreg || !(c&0xFF == 0xFF) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ANDconst [0xFF] y:(MOVBreg _))
@@ -4417,9 +4407,7 @@ func rewriteValuePPC64_OpPPC64ANDconst(v *Value) bool {
 		if y.Op != OpPPC64MOVBreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ANDconst [c] y:(MOVHZreg _))
@@ -4431,9 +4419,7 @@ func rewriteValuePPC64_OpPPC64ANDconst(v *Value) bool {
 		if y.Op != OpPPC64MOVHZreg || !(c&0xFFFF == 0xFFFF) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ANDconst [0xFFFF] y:(MOVHreg _))
@@ -4446,9 +4432,7 @@ func rewriteValuePPC64_OpPPC64ANDconst(v *Value) bool {
 		if y.Op != OpPPC64MOVHreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ANDconst [c] (MOVBreg x))
@@ -5719,9 +5703,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [2] _ y (FlagLT))
@@ -5734,9 +5716,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagLT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [2] _ y (FlagGT))
@@ -5749,9 +5729,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [6] _ y (FlagEQ))
@@ -5764,9 +5742,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [6] x _ (FlagLT))
@@ -5779,9 +5755,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagLT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [6] x _ (FlagGT))
@@ -5794,9 +5768,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [0] _ y (FlagEQ))
@@ -5809,9 +5781,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [0] _ y (FlagGT))
@@ -5824,9 +5794,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [0] x _ (FlagLT))
@@ -5839,9 +5807,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagLT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [5] _ x (FlagEQ))
@@ -5854,9 +5820,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [5] _ x (FlagLT))
@@ -5869,9 +5833,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagLT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [5] y _ (FlagGT))
@@ -5884,9 +5846,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [1] _ y (FlagEQ))
@@ -5899,9 +5859,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [1] _ y (FlagLT))
@@ -5914,9 +5872,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagLT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [1] x _ (FlagGT))
@@ -5929,9 +5885,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [4] x _ (FlagEQ))
@@ -5944,9 +5898,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [4] x _ (FlagGT))
@@ -5959,9 +5911,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ISEL [4] _ y (FlagLT))
@@ -5974,9 +5924,7 @@ func rewriteValuePPC64_OpPPC64ISEL(v *Value) bool {
 		if v_2.Op != OpPPC64FlagLT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (ISEL [n] x y (InvertFlags bool))
@@ -6439,8 +6387,7 @@ func rewriteValuePPC64_OpPPC64MFVSRD(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpPPC64MOVDload, typ.Int64)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -6584,9 +6531,7 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 		if !(uint64(c) <= 0xFF) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVBZreg (SRWconst [c] (MOVBZreg x)))
@@ -6666,9 +6611,7 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 		if y.Op != OpPPC64MOVBZreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVBZreg (MOVBreg x))
@@ -6690,9 +6633,7 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBZreg x:(MOVBZloadidx _ _ _))
@@ -6703,9 +6644,7 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBZreg x:(Arg <t>))
@@ -6720,9 +6659,7 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 		if !(is8BitInt(t) && !isSigned(t)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBZreg (MOVDconst [c]))
@@ -6754,9 +6691,7 @@ func rewriteValuePPC64_OpPPC64MOVBreg(v *Value) bool {
 		if !(uint64(c) <= 0x7F) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVBreg (SRAWconst [c] (MOVBreg x)))
@@ -6870,9 +6805,7 @@ func rewriteValuePPC64_OpPPC64MOVBreg(v *Value) bool {
 		if y.Op != OpPPC64MOVBreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVBreg (MOVBZreg x))
@@ -6898,9 +6831,7 @@ func rewriteValuePPC64_OpPPC64MOVBreg(v *Value) bool {
 		if !(is8BitInt(t) && isSigned(t)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBreg (MOVDconst [c]))
@@ -8623,9 +8554,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		if !(uint64(c) <= 0xFFFF) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVHZreg (SRWconst [c] (MOVBZreg x)))
@@ -8724,9 +8653,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		if y.Op != OpPPC64MOVHZreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVHZreg y:(MOVBZreg _))
@@ -8736,9 +8663,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		if y.Op != OpPPC64MOVBZreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVHZreg y:(MOVHBRload _ _))
@@ -8749,9 +8674,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 			break
 		}
 		_ = y.Args[1]
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVHZreg y:(MOVHreg x))
@@ -8774,9 +8697,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg x:(MOVBZloadidx _ _ _))
@@ -8787,9 +8708,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg x:(MOVHZload _ _))
@@ -8800,9 +8719,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg x:(MOVHZloadidx _ _ _))
@@ -8813,9 +8730,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg x:(Arg <t>))
@@ -8830,9 +8745,7 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		if !((is8BitInt(t) || is16BitInt(t)) && !isSigned(t)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg (MOVDconst [c]))
@@ -8983,9 +8896,7 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 		if !(uint64(c) <= 0x7FFF) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVHreg (SRAWconst [c] (MOVBreg x)))
@@ -9118,9 +9029,7 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 		if y.Op != OpPPC64MOVHreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVHreg y:(MOVBreg _))
@@ -9130,9 +9039,7 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 		if y.Op != OpPPC64MOVBreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVHreg y:(MOVHZreg x))
@@ -9155,9 +9062,7 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg x:(MOVHloadidx _ _ _))
@@ -9168,9 +9073,7 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg x:(Arg <t>))
@@ -9185,9 +9088,7 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 		if !((is8BitInt(t) || is16BitInt(t)) && isSigned(t)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg (MOVDconst [c]))
@@ -9799,9 +9700,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if !(uint64(c) <= 0xFFFFFFFF) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWZreg y:(AND (MOVDconst [c]) _))
@@ -9823,9 +9722,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			if !(uint64(c) <= 0xFFFFFFFF) {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = y.Type
-			v.AddArg(y)
+			v.copyOf(y)
 			return true
 		}
 		break
@@ -9928,9 +9825,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if y.Op != OpPPC64MOVWZreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWZreg y:(MOVHZreg _))
@@ -9940,9 +9835,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if y.Op != OpPPC64MOVHZreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWZreg y:(MOVBZreg _))
@@ -9952,9 +9845,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if y.Op != OpPPC64MOVBZreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWZreg y:(MOVHBRload _ _))
@@ -9965,9 +9856,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = y.Args[1]
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWZreg y:(MOVWBRload _ _))
@@ -9978,9 +9867,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = y.Args[1]
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWZreg y:(MOVWreg x))
@@ -10003,9 +9890,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVBZloadidx _ _ _))
@@ -10016,9 +9901,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVHZload _ _))
@@ -10029,9 +9912,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVHZloadidx _ _ _))
@@ -10042,9 +9923,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVWZload _ _))
@@ -10055,9 +9934,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVWZloadidx _ _ _))
@@ -10068,9 +9945,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(Arg <t>))
@@ -10085,9 +9960,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if !((is8BitInt(t) || is16BitInt(t) || is32BitInt(t)) && !isSigned(t)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg (MOVDconst [c]))
@@ -10238,9 +10111,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 		if !(uint64(c) <= 0xFFFF) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWreg y:(AND (MOVDconst [c]) _))
@@ -10262,9 +10133,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 			if !(uint64(c) <= 0x7FFFFFFF) {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = y.Type
-			v.AddArg(y)
+			v.copyOf(y)
 			return true
 		}
 		break
@@ -10384,9 +10253,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 		if y.Op != OpPPC64MOVWreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWreg y:(MOVHreg _))
@@ -10396,9 +10263,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 		if y.Op != OpPPC64MOVHreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWreg y:(MOVBreg _))
@@ -10408,9 +10273,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 		if y.Op != OpPPC64MOVBreg {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (MOVWreg y:(MOVWZreg x))
@@ -10433,9 +10296,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVHloadidx _ _ _))
@@ -10446,9 +10307,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVWload _ _))
@@ -10459,9 +10318,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVWloadidx _ _ _))
@@ -10472,9 +10329,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 			break
 		}
 		_ = x.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(Arg <t>))
@@ -10489,9 +10344,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 		if !((is8BitInt(t) || is16BitInt(t) || is32BitInt(t)) && isSigned(t)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg (MOVDconst [c]))
@@ -10816,8 +10669,7 @@ func rewriteValuePPC64_OpPPC64MTVSRD(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpPPC64FMOVDload, typ.Float64)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -11114,8 +10966,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpPPC64MOVHZload, t)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -11156,8 +11007,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpPPC64MOVHZload, t)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -11198,8 +11048,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpPPC64MOVHBRload, t)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x1.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -11242,8 +11091,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpPPC64MOVHBRload, t)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x1.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -11292,8 +11140,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpPPC64SLDconst, t)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = n1
 			v1 := b.NewValue0(x1.Pos, OpPPC64MOVHBRload, t)
 			v2 := b.NewValue0(x1.Pos, OpPPC64MOVDaddr, typ.Uintptr)
@@ -11345,8 +11192,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpPPC64SLDconst, t)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = n1
 			v1 := b.NewValue0(x1.Pos, OpPPC64MOVHBRload, t)
 			v2 := b.NewValue0(x1.Pos, OpPPC64MOVDaddr, typ.Uintptr)
@@ -11416,8 +11262,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x0.Pos, OpPPC64MOVWZload, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v0.AuxInt = i0
 				v0.Aux = s
 				v0.AddArg(p)
@@ -11483,8 +11328,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x0.Pos, OpPPC64MOVWZload, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v0.AuxInt = i0
 				v0.Aux = s
 				v0.AddArg(p)
@@ -11551,8 +11395,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x0.Pos, OpPPC64MOVWBRload, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 				v1.AuxInt = i0
 				v1.Aux = s
@@ -11621,8 +11464,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x0.Pos, OpPPC64MOVWBRload, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 				v1.AuxInt = i0
 				v1.Aux = s
@@ -11691,8 +11533,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x2.Pos, OpPPC64MOVWBRload, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x2.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 				v1.AuxInt = i0
 				v1.Aux = s
@@ -11761,8 +11602,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x2.Pos, OpPPC64MOVWBRload, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x2.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 				v1.AuxInt = i0
 				v1.Aux = s
@@ -11835,8 +11675,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x0.Pos, OpPPC64SLDconst, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v0.AuxInt = 32
 				v1 := b.NewValue0(x0.Pos, OpPPC64MOVWBRload, t)
 				v2 := b.NewValue0(x0.Pos, OpPPC64MOVDaddr, typ.Uintptr)
@@ -11912,8 +11751,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, x2)
 				v0 := b.NewValue0(x0.Pos, OpPPC64SLDconst, t)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v0.AuxInt = 32
 				v1 := b.NewValue0(x0.Pos, OpPPC64MOVWBRload, t)
 				v2 := b.NewValue0(x0.Pos, OpPPC64MOVDaddr, typ.Uintptr)
@@ -12032,8 +11870,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x4, x5, x6, x7)
 						v0 := b.NewValue0(x0.Pos, OpPPC64MOVDload, t)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v0.AuxInt = i0
 						v0.Aux = s
 						v0.AddArg(p)
@@ -12150,8 +11987,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, x2, x3, x4)
 						v0 := b.NewValue0(x4.Pos, OpPPC64MOVDBRload, t)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(x4.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 						v1.AuxInt = i0
 						v1.Aux = s
@@ -12270,8 +12106,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 						}
 						b = mergePoint(b, x3, x4, x5, x6, x7)
 						v0 := b.NewValue0(x3.Pos, OpPPC64MOVDBRload, t)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(x3.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 						v1.AuxInt = i0
 						v1.Aux = s
@@ -12390,8 +12225,7 @@ func rewriteValuePPC64_OpPPC64OR(v *Value) bool {
 						}
 						b = mergePoint(b, x3, x4, x5, x6, x7)
 						v0 := b.NewValue0(x3.Pos, OpPPC64MOVDBRload, t)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(x3.Pos, OpPPC64MOVDaddr, typ.Uintptr)
 						v1.AuxInt = i0
 						v1.Aux = s
@@ -12417,9 +12251,7 @@ func rewriteValuePPC64_OpPPC64ORN(v *Value) bool {
 		if v_1.Op != OpPPC64MOVDconst || v_1.AuxInt != -1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -12457,9 +12289,7 @@ func rewriteValuePPC64_OpPPC64ORconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -12720,9 +12550,7 @@ func rewriteValuePPC64_OpPPC64XORconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -15720,9 +15548,7 @@ func rewriteValuePPC64_OpZero(v *Value) bool {
 			break
 		}
 		mem := v_1
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Zero [1] destptr mem)

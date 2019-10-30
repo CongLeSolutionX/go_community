@@ -3293,9 +3293,7 @@ func rewriteValueS390X_OpMove(v *Value) bool {
 			break
 		}
 		mem := v_2
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Move [1] dst src mem)
@@ -5902,9 +5900,7 @@ func rewriteValueS390X_OpS390XADDWconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ADDWconst [c] (MOVDconst [d]))
@@ -6061,9 +6057,7 @@ func rewriteValueS390X_OpS390XADDconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ADDconst [c] (MOVDconst [d]))
@@ -6311,9 +6305,7 @@ func rewriteValueS390X_OpS390XAND(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (AND <t> x g:(MOVDload [off] {sym} ptr mem))
@@ -6373,9 +6365,7 @@ func rewriteValueS390X_OpS390XANDW(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDW <t> x g:(MOVWload [off] {sym} ptr mem))
@@ -6497,9 +6487,7 @@ func rewriteValueS390X_OpS390XANDWconst(v *Value) bool {
 		if !(int32(c) == -1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDWconst [c] (MOVDconst [d]))
@@ -6604,9 +6592,7 @@ func rewriteValueS390X_OpS390XANDconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDconst [c] (MOVDconst [d]))
@@ -7778,9 +7764,7 @@ func rewriteValueS390X_OpS390XFMOVDload(v *Value) bool {
 		if !(isSamePtr(ptr1, ptr2)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (FMOVDload [off1] {sym} (ADDconst [off2] ptr) mem)
@@ -8129,9 +8113,7 @@ func rewriteValueS390X_OpS390XFMOVSload(v *Value) bool {
 		if !(isSamePtr(ptr1, ptr2)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (FMOVSload [off1] {sym} (ADDconst [off2] ptr) mem)
@@ -8643,8 +8625,7 @@ func rewriteValueS390X_OpS390XLDGR(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpS390XLNDFR, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v1 := b.NewValue0(x.Pos, OpS390XLDGR, t)
 		v2 := b.NewValue0(x.Pos, OpS390XMOVDload, t1)
 		v2.AuxInt = off
@@ -8662,9 +8643,7 @@ func rewriteValueS390X_OpS390XLDGR(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -8712,9 +8691,7 @@ func rewriteValueS390X_OpS390XLGDR(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -8749,9 +8726,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagEQ || !(c.(s390x.CCMask)&s390x.Equal != 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (LOCGR {c} _ x (FlagLT))
@@ -8763,9 +8738,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagLT || !(c.(s390x.CCMask)&s390x.Less != 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (LOCGR {c} _ x (FlagGT))
@@ -8777,9 +8750,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagGT || !(c.(s390x.CCMask)&s390x.Greater != 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (LOCGR {c} _ x (FlagOV))
@@ -8791,9 +8762,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagOV || !(c.(s390x.CCMask)&s390x.Unordered != 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (LOCGR {c} x _ (FlagEQ))
@@ -8805,9 +8774,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagEQ || !(c.(s390x.CCMask)&s390x.Equal == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (LOCGR {c} x _ (FlagLT))
@@ -8819,9 +8786,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagLT || !(c.(s390x.CCMask)&s390x.Less == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (LOCGR {c} x _ (FlagGT))
@@ -8833,9 +8798,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagGT || !(c.(s390x.CCMask)&s390x.Greater == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (LOCGR {c} x _ (FlagOV))
@@ -8847,9 +8810,7 @@ func rewriteValueS390X_OpS390XLOCGR(v *Value) bool {
 		if v_2.Op != OpS390XFlagOV || !(c.(s390x.CCMask)&s390x.Unordered == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -8863,9 +8824,7 @@ func rewriteValueS390X_OpS390XLoweredRound32F(v *Value) bool {
 		if x.Op != OpS390XFMOVSconst {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -8879,9 +8838,7 @@ func rewriteValueS390X_OpS390XLoweredRound64F(v *Value) bool {
 		if x.Op != OpS390XFMOVDconst {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -9182,9 +9139,7 @@ func rewriteValueS390X_OpS390XMOVBZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBZreg x:(MOVBZloadidx _ _ _))
@@ -9199,9 +9154,7 @@ func rewriteValueS390X_OpS390XMOVBZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBZreg <t> x:(MOVBload [o] {s} p mem))
@@ -9222,8 +9175,7 @@ func rewriteValueS390X_OpS390XMOVBZreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpS390XMOVBZload, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -9249,8 +9201,7 @@ func rewriteValueS390X_OpS390XMOVBZreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpS390XMOVBZloadidx, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -9270,9 +9221,7 @@ func rewriteValueS390X_OpS390XMOVBZreg(v *Value) bool {
 		if !(!t.IsSigned() && t.Size() == 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBZreg (MOVDconst [c]))
@@ -9308,9 +9257,7 @@ func rewriteValueS390X_OpS390XMOVBZreg(v *Value) bool {
 		if !(int64(uint8(c)) == c && int64(uint8(d)) == d && (!x.Type.IsSigned() || x.Type.Size() > 1)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBZreg (ANDWconst [m] x))
@@ -9626,9 +9573,7 @@ func rewriteValueS390X_OpS390XMOVBreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBreg x:(MOVBloadidx _ _ _))
@@ -9643,9 +9588,7 @@ func rewriteValueS390X_OpS390XMOVBreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBreg <t> x:(MOVBZload [o] {s} p mem))
@@ -9666,8 +9609,7 @@ func rewriteValueS390X_OpS390XMOVBreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpS390XMOVBload, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -9693,8 +9635,7 @@ func rewriteValueS390X_OpS390XMOVBreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpS390XMOVBloadidx, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -9714,9 +9655,7 @@ func rewriteValueS390X_OpS390XMOVBreg(v *Value) bool {
 		if !(t.IsSigned() && t.Size() == 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBreg (MOVDconst [c]))
@@ -10731,9 +10670,7 @@ func rewriteValueS390X_OpS390XMOVDload(v *Value) bool {
 		if !(isSamePtr(ptr1, ptr2)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVDload [off] {sym} ptr1 (FMOVDstore [off] {sym} ptr2 x _))
@@ -11828,9 +11765,7 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg x:(MOVBZloadidx _ _ _))
@@ -11845,9 +11780,7 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg x:(MOVHZload _ _))
@@ -11862,9 +11795,7 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg x:(MOVHZloadidx _ _ _))
@@ -11879,9 +11810,7 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg <t> x:(MOVHload [o] {s} p mem))
@@ -11902,8 +11831,7 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpS390XMOVHZload, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -11929,8 +11857,7 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpS390XMOVHZloadidx, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -11950,9 +11877,7 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value) bool {
 		if !(!t.IsSigned() && t.Size() <= 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHZreg (MOVDconst [c]))
@@ -12264,9 +12189,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg x:(MOVBloadidx _ _ _))
@@ -12281,9 +12204,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg x:(MOVHload _ _))
@@ -12298,9 +12219,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg x:(MOVHloadidx _ _ _))
@@ -12315,9 +12234,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg x:(MOVBZload _ _))
@@ -12332,9 +12249,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg x:(MOVBZloadidx _ _ _))
@@ -12349,9 +12264,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg <t> x:(MOVHZload [o] {s} p mem))
@@ -12372,8 +12285,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpS390XMOVHload, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -12399,8 +12311,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpS390XMOVHloadidx, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -12420,9 +12331,7 @@ func rewriteValueS390X_OpS390XMOVHreg(v *Value) bool {
 		if !(t.IsSigned() && t.Size() <= 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVHreg (MOVDconst [c]))
@@ -13470,9 +13379,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVBZloadidx _ _ _))
@@ -13487,9 +13394,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVHZload _ _))
@@ -13504,9 +13409,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVHZloadidx _ _ _))
@@ -13521,9 +13424,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVWZload _ _))
@@ -13538,9 +13439,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 4) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg x:(MOVWZloadidx _ _ _))
@@ -13555,9 +13454,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 4) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg <t> x:(MOVWload [o] {s} p mem))
@@ -13578,8 +13475,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpS390XMOVWZload, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -13605,8 +13501,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpS390XMOVWZloadidx, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -13626,9 +13521,7 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value) bool {
 		if !(!t.IsSigned() && t.Size() <= 4) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWZreg (MOVDconst [c]))
@@ -13908,9 +13801,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVBloadidx _ _ _))
@@ -13925,9 +13816,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVHload _ _))
@@ -13942,9 +13831,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVHloadidx _ _ _))
@@ -13959,9 +13846,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVWload _ _))
@@ -13976,9 +13861,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVWloadidx _ _ _))
@@ -13993,9 +13876,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(x.Type.IsSigned() || x.Type.Size() == 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVBZload _ _))
@@ -14010,9 +13891,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVBZloadidx _ _ _))
@@ -14027,9 +13906,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVHZload _ _))
@@ -14044,9 +13921,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg x:(MOVHZloadidx _ _ _))
@@ -14061,9 +13936,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(!x.Type.IsSigned() || x.Type.Size() > 2) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg <t> x:(MOVWZload [o] {s} p mem))
@@ -14084,8 +13957,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpS390XMOVWload, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -14111,8 +13983,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpS390XMOVWloadidx, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = o
 		v0.Aux = s
 		v0.AddArg(p)
@@ -14132,9 +14003,7 @@ func rewriteValueS390X_OpS390XMOVWreg(v *Value) bool {
 		if !(t.IsSigned() && t.Size() <= 4) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWreg (MOVDconst [c]))
@@ -14787,9 +14656,7 @@ func rewriteValueS390X_OpS390XMULLDconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MULLDconst [c] x)
@@ -15045,9 +14912,7 @@ func rewriteValueS390X_OpS390XMULLWconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MULLWconst [c] x)
@@ -15476,9 +15341,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (OR <t> x g:(MOVDload [off] {sym} ptr mem))
@@ -15541,8 +15404,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpS390XMOVHZload, typ.UInt16)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -15582,8 +15444,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpS390XMOVWZload, typ.UInt32)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -15623,8 +15484,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpS390XMOVDload, typ.UInt64)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -15682,8 +15542,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x1.Pos, OpS390XOR, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x1.Pos, OpS390XSLDconst, v.Type)
 				v1.AuxInt = j1
 				v2 := b.NewValue0(x1.Pos, OpS390XMOVHZload, typ.UInt16)
@@ -15748,8 +15607,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x1.Pos, OpS390XOR, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x1.Pos, OpS390XSLDconst, v.Type)
 				v1.AuxInt = j1
 				v2 := b.NewValue0(x1.Pos, OpS390XMOVWZload, typ.UInt32)
@@ -15803,8 +15661,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVHZloadidx, typ.UInt16)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -15854,8 +15711,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVWZloadidx, typ.UInt32)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -15905,8 +15761,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVDloadidx, typ.UInt64)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -15974,8 +15829,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpS390XOR, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpS390XSLDconst, v.Type)
 						v1.AuxInt = j1
 						v2 := b.NewValue0(v.Pos, OpS390XMOVHZloadidx, typ.UInt16)
@@ -16050,8 +15904,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpS390XOR, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpS390XSLDconst, v.Type)
 						v1.AuxInt = j1
 						v2 := b.NewValue0(v.Pos, OpS390XMOVWZloadidx, typ.UInt32)
@@ -16101,8 +15954,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpS390XMOVHZreg, typ.UInt64)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x1.Pos, OpS390XMOVHBRload, typ.UInt16)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -16152,8 +16004,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpS390XMOVWZreg, typ.UInt64)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x1.Pos, OpS390XMOVWBRload, typ.UInt32)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -16203,8 +16054,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpS390XMOVDBRload, typ.UInt64)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -16262,8 +16112,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x0.Pos, OpS390XOR, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpS390XSLDconst, v.Type)
 				v1.AuxInt = j0
 				v2 := b.NewValue0(x0.Pos, OpS390XMOVHZreg, typ.UInt64)
@@ -16338,8 +16187,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x0.Pos, OpS390XOR, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpS390XSLDconst, v.Type)
 				v1.AuxInt = j0
 				v2 := b.NewValue0(x0.Pos, OpS390XMOVWZreg, typ.UInt64)
@@ -16395,8 +16243,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVHZreg, typ.UInt64)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v1 := b.NewValue0(v.Pos, OpS390XMOVHBRloadidx, typ.Int16)
 					v1.AuxInt = i0
 					v1.Aux = s
@@ -16456,8 +16303,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVWZreg, typ.UInt64)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v1 := b.NewValue0(v.Pos, OpS390XMOVWBRloadidx, typ.Int32)
 					v1.AuxInt = i0
 					v1.Aux = s
@@ -16517,8 +16363,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVDBRloadidx, typ.Int64)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -16586,8 +16431,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpS390XOR, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpS390XSLDconst, v.Type)
 						v1.AuxInt = j0
 						v2 := b.NewValue0(v.Pos, OpS390XMOVHZreg, typ.UInt64)
@@ -16672,8 +16516,7 @@ func rewriteValueS390X_OpS390XOR(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpS390XOR, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpS390XSLDconst, v.Type)
 						v1.AuxInt = j0
 						v2 := b.NewValue0(v.Pos, OpS390XMOVWZreg, typ.UInt64)
@@ -16748,9 +16591,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ORW <t> x g:(MOVWload [off] {sym} ptr mem))
@@ -16842,8 +16683,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpS390XMOVHZload, typ.UInt16)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -16883,8 +16723,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpS390XMOVWZload, typ.UInt32)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -16942,8 +16781,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x1.Pos, OpS390XORW, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x1.Pos, OpS390XSLWconst, v.Type)
 				v1.AuxInt = j1
 				v2 := b.NewValue0(x1.Pos, OpS390XMOVHZload, typ.UInt16)
@@ -16997,8 +16835,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVHZloadidx, typ.UInt16)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -17048,8 +16885,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVWZloadidx, typ.UInt32)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -17117,8 +16953,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpS390XORW, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpS390XSLWconst, v.Type)
 						v1.AuxInt = j1
 						v2 := b.NewValue0(v.Pos, OpS390XMOVHZloadidx, typ.UInt16)
@@ -17168,8 +17003,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpS390XMOVHZreg, typ.UInt64)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x1.Pos, OpS390XMOVHBRload, typ.UInt16)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -17219,8 +17053,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpS390XMOVWBRload, typ.UInt32)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -17278,8 +17111,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x0.Pos, OpS390XORW, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpS390XSLWconst, v.Type)
 				v1.AuxInt = j0
 				v2 := b.NewValue0(x0.Pos, OpS390XMOVHZreg, typ.UInt64)
@@ -17335,8 +17167,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVHZreg, typ.UInt64)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v1 := b.NewValue0(v.Pos, OpS390XMOVHBRloadidx, typ.Int16)
 					v1.AuxInt = i0
 					v1.Aux = s
@@ -17396,8 +17227,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpS390XMOVWBRloadidx, typ.Int32)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -17465,8 +17295,7 @@ func rewriteValueS390X_OpS390XORW(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpS390XORW, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpS390XSLWconst, v.Type)
 						v1.AuxInt = j0
 						v2 := b.NewValue0(v.Pos, OpS390XMOVHZreg, typ.UInt64)
@@ -17500,9 +17329,7 @@ func rewriteValueS390X_OpS390XORWconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ORWconst [c] _)
@@ -17595,9 +17422,7 @@ func rewriteValueS390X_OpS390XORconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ORconst [-1] _)
@@ -19014,9 +18839,7 @@ func rewriteValueS390X_OpS390XSUBWconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SUBWconst [c] x)
@@ -19094,9 +18917,7 @@ func rewriteValueS390X_OpS390XSUBconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SUBconst [c] x)
@@ -19513,9 +19334,7 @@ func rewriteValueS390X_OpS390XXORWconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (XORWconst [c] (MOVDconst [d]))
@@ -19596,9 +19415,7 @@ func rewriteValueS390X_OpS390XXORconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (XORconst [c] (MOVDconst [d]))
@@ -20149,9 +19966,7 @@ func rewriteValueS390X_OpZero(v *Value) bool {
 			break
 		}
 		mem := v_1
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Zero [1] destptr mem)

@@ -508,9 +508,7 @@ func rewriteValuegeneric_OpAdd16(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -774,9 +772,7 @@ func rewriteValuegeneric_OpAdd32(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -1063,9 +1059,7 @@ func rewriteValuegeneric_OpAdd64(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -1352,9 +1346,7 @@ func rewriteValuegeneric_OpAdd8(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -1669,9 +1661,7 @@ func rewriteValuegeneric_OpAnd16(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (And16 (Const16 [-1]) x)
@@ -1682,9 +1672,7 @@ func rewriteValuegeneric_OpAnd16(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -1875,9 +1863,7 @@ func rewriteValuegeneric_OpAnd32(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (And32 (Const32 [-1]) x)
@@ -1888,9 +1874,7 @@ func rewriteValuegeneric_OpAnd32(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -2081,9 +2065,7 @@ func rewriteValuegeneric_OpAnd64(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (And64 (Const64 [-1]) x)
@@ -2094,9 +2076,7 @@ func rewriteValuegeneric_OpAnd64(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -2287,9 +2267,7 @@ func rewriteValuegeneric_OpAnd8(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (And8 (Const8 [-1]) x)
@@ -2300,9 +2278,7 @@ func rewriteValuegeneric_OpAnd8(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -2419,9 +2395,7 @@ func rewriteValuegeneric_OpArraySelect(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ArraySelect [0] (IData x))
@@ -2446,9 +2420,7 @@ func rewriteValuegeneric_OpCom16(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Com16 (Const16 [c]))
@@ -2493,9 +2465,7 @@ func rewriteValuegeneric_OpCom32(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Com32 (Const32 [c]))
@@ -2540,9 +2510,7 @@ func rewriteValuegeneric_OpCom64(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Com64 (Const64 [c]))
@@ -2587,9 +2555,7 @@ func rewriteValuegeneric_OpCom8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Com8 (Const8 [c]))
@@ -2824,9 +2790,7 @@ func rewriteValuegeneric_OpConvert(v *Value) bool {
 		if mem != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = ptr.Type
-		v.AddArg(ptr)
+		v.copyOf(ptr)
 		return true
 	}
 	return false
@@ -7066,9 +7030,7 @@ func rewriteValuegeneric_OpEqB(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -9161,9 +9123,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		if !(isSamePtr(p1, p2) && t1.Compare(x.Type) == types.CMPeq && t1.Size() == sizeof(t2)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Load <t1> p1 (Store {t2} p2 _ (Store {t3} p3 x _)))
@@ -9189,9 +9149,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		if !(isSamePtr(p1, p3) && t1.Compare(x.Type) == types.CMPeq && t1.Size() == sizeof(t2) && disjoint(p3, sizeof(t3), p2, sizeof(t2))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Load <t1> p1 (Store {t2} p2 _ (Store {t3} p3 _ (Store {t4} p4 x _))))
@@ -9224,9 +9182,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		if !(isSamePtr(p1, p4) && t1.Compare(x.Type) == types.CMPeq && t1.Size() == sizeof(t2) && disjoint(p4, sizeof(t4), p2, sizeof(t2)) && disjoint(p4, sizeof(t4), p3, sizeof(t3))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Load <t1> p1 (Store {t2} p2 _ (Store {t3} p3 _ (Store {t4} p4 _ (Store {t5} p5 x _)))))
@@ -9266,9 +9222,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		if !(isSamePtr(p1, p5) && t1.Compare(x.Type) == types.CMPeq && t1.Size() == sizeof(t2) && disjoint(p5, sizeof(t5), p2, sizeof(t2)) && disjoint(p5, sizeof(t5), p3, sizeof(t3)) && disjoint(p5, sizeof(t5), p4, sizeof(t4))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Load <t1> p1 (Store {t2} p2 (Const64 [x]) _))
@@ -9396,8 +9350,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		}
 		b = mem.Block
 		v0 := b.NewValue0(v.Pos, OpLoad, t1)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, op.Type)
 		v1.AuxInt = o1
 		v1.AddArg(p3)
@@ -9441,8 +9394,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		}
 		b = mem.Block
 		v0 := b.NewValue0(v.Pos, OpLoad, t1)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, op.Type)
 		v1.AuxInt = o1
 		v1.AddArg(p4)
@@ -9493,8 +9445,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		}
 		b = mem.Block
 		v0 := b.NewValue0(v.Pos, OpLoad, t1)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, op.Type)
 		v1.AuxInt = o1
 		v1.AddArg(p5)
@@ -9552,8 +9503,7 @@ func rewriteValuegeneric_OpLoad(v *Value) bool {
 		}
 		b = mem.Block
 		v0 := b.NewValue0(v.Pos, OpLoad, t1)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, op.Type)
 		v1.AuxInt = o1
 		v1.AddArg(p6)
@@ -9976,9 +9926,7 @@ func rewriteValuegeneric_OpLsh16x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Lsh16x64 (Const16 [0]) _)
@@ -10198,9 +10146,7 @@ func rewriteValuegeneric_OpLsh32x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Lsh32x64 (Const32 [0]) _)
@@ -10420,9 +10366,7 @@ func rewriteValuegeneric_OpLsh64x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Lsh64x64 (Const64 [0]) _)
@@ -10642,9 +10586,7 @@ func rewriteValuegeneric_OpLsh8x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Lsh8x64 (Const8 [0]) _)
@@ -11158,9 +11100,7 @@ func rewriteValuegeneric_OpMod64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != -1<<63 || !(isNonNegative(n)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = n.Type
-		v.AddArg(n)
+		v.copyOf(n)
 		return true
 	}
 	// match: (Mod64 <t> n (Const64 [c]))
@@ -12896,9 +12836,7 @@ func rewriteValuegeneric_OpMove(v *Value) bool {
 		if !(isSamePtr(dst, src)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	return false
@@ -12934,9 +12872,7 @@ func rewriteValuegeneric_OpMul16(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -13081,9 +13017,7 @@ func rewriteValuegeneric_OpMul32(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -13262,9 +13196,7 @@ func rewriteValuegeneric_OpMul32F(v *Value) bool {
 			if v_1.Op != OpConst32F || v_1.AuxInt != auxFrom64F(1) {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -13331,9 +13263,7 @@ func rewriteValuegeneric_OpMul64(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -13512,9 +13442,7 @@ func rewriteValuegeneric_OpMul64F(v *Value) bool {
 			if v_1.Op != OpConst64F || v_1.AuxInt != auxFrom64F(1) {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -13581,9 +13509,7 @@ func rewriteValuegeneric_OpMul8(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -13731,9 +13657,7 @@ func rewriteValuegeneric_OpNeg16(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Neg16 <t> (Com16 x))
@@ -13787,9 +13711,7 @@ func rewriteValuegeneric_OpNeg32(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Neg32 <t> (Com32 x))
@@ -13862,9 +13784,7 @@ func rewriteValuegeneric_OpNeg64(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Neg64 <t> (Com64 x))
@@ -13937,9 +13857,7 @@ func rewriteValuegeneric_OpNeg8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Neg8 <t> (Com8 x))
@@ -14806,9 +14724,7 @@ func rewriteValuegeneric_OpNeqB(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -15290,9 +15206,7 @@ func rewriteValuegeneric_OpNilCheck(v *Value) bool {
 		if mem != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (NilCheck (Load (OffPtr [c] (SP)) (StaticCall {sym} _)) _)
@@ -15815,9 +15729,7 @@ func rewriteValuegeneric_OpOffPtr(v *Value) bool {
 		if !(v.Type.Compare(p.Type) == types.CMPeq) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = p.Type
-		v.AddArg(p)
+		v.copyOf(p)
 		return true
 	}
 	return false
@@ -15851,9 +15763,7 @@ func rewriteValuegeneric_OpOr16(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Or16 (Const16 [0]) x)
@@ -15864,9 +15774,7 @@ func rewriteValuegeneric_OpOr16(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -16038,9 +15946,7 @@ func rewriteValuegeneric_OpOr32(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Or32 (Const32 [0]) x)
@@ -16051,9 +15957,7 @@ func rewriteValuegeneric_OpOr32(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -16225,9 +16129,7 @@ func rewriteValuegeneric_OpOr64(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Or64 (Const64 [0]) x)
@@ -16238,9 +16140,7 @@ func rewriteValuegeneric_OpOr64(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -16412,9 +16312,7 @@ func rewriteValuegeneric_OpOr8(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Or8 (Const8 [0]) x)
@@ -16425,9 +16323,7 @@ func rewriteValuegeneric_OpOr8(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -16704,9 +16600,7 @@ func rewriteValuegeneric_OpRotateLeft16(v *Value) bool {
 		if !(c%16 == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -16726,9 +16620,7 @@ func rewriteValuegeneric_OpRotateLeft32(v *Value) bool {
 		if !(c%32 == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -16748,9 +16640,7 @@ func rewriteValuegeneric_OpRotateLeft64(v *Value) bool {
 		if !(c%64 == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -16770,9 +16660,7 @@ func rewriteValuegeneric_OpRotateLeft8(v *Value) bool {
 		if !(c%8 == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -16786,9 +16674,7 @@ func rewriteValuegeneric_OpRound32F(v *Value) bool {
 		if x.Op != OpConst32F {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -16802,9 +16688,7 @@ func rewriteValuegeneric_OpRound64F(v *Value) bool {
 		if x.Op != OpConst64F {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -16900,9 +16784,7 @@ func rewriteValuegeneric_OpRsh16Ux64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh16Ux64 (Const16 [0]) _)
@@ -17162,9 +17044,7 @@ func rewriteValuegeneric_OpRsh16x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh16x64 (Const16 [0]) _)
@@ -17349,9 +17229,7 @@ func rewriteValuegeneric_OpRsh32Ux64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh32Ux64 (Const32 [0]) _)
@@ -17629,9 +17507,7 @@ func rewriteValuegeneric_OpRsh32x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh32x64 (Const32 [0]) _)
@@ -17834,9 +17710,7 @@ func rewriteValuegeneric_OpRsh64Ux64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh64Ux64 (Const64 [0]) _)
@@ -18132,9 +18006,7 @@ func rewriteValuegeneric_OpRsh64x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh64x64 (Const64 [0]) _)
@@ -18355,9 +18227,7 @@ func rewriteValuegeneric_OpRsh8Ux64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh8Ux64 (Const8 [0]) _)
@@ -18598,9 +18468,7 @@ func rewriteValuegeneric_OpRsh8x64(v *Value) bool {
 		if v_1.Op != OpConst64 || v_1.AuxInt != 0 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Rsh8x64 (Const8 [0]) _)
@@ -18751,9 +18619,7 @@ func rewriteValuegeneric_OpSignExt16to32(v *Value) bool {
 		if !(s >= 16) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -18791,9 +18657,7 @@ func rewriteValuegeneric_OpSignExt16to64(v *Value) bool {
 		if !(s >= 48) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -18831,9 +18695,7 @@ func rewriteValuegeneric_OpSignExt32to64(v *Value) bool {
 		if !(s >= 32) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -18871,9 +18733,7 @@ func rewriteValuegeneric_OpSignExt8to16(v *Value) bool {
 		if !(s >= 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -18911,9 +18771,7 @@ func rewriteValuegeneric_OpSignExt8to32(v *Value) bool {
 		if !(s >= 24) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -18951,9 +18809,7 @@ func rewriteValuegeneric_OpSignExt8to64(v *Value) bool {
 		if !(s >= 56) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -19266,9 +19122,7 @@ func rewriteValuegeneric_OpStaticCall(v *Value) bool {
 		if !(needRaceCleanup(sym, v)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -19295,9 +19149,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if mem != v_2 || !(isSamePtr(p1, p2) && t2.Size() == sizeof(t1)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t1} p1 (Load <t2> p2 oldmem) mem:(Store {t3} p3 _ oldmem))
@@ -19322,9 +19174,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if oldmem != mem.Args[2] || !(isSamePtr(p1, p2) && t2.Size() == sizeof(t1) && disjoint(p1, sizeof(t1), p3, sizeof(t3))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t1} p1 (Load <t2> p2 oldmem) mem:(Store {t3} p3 _ (Store {t4} p4 _ oldmem)))
@@ -19356,9 +19206,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if oldmem != mem_2.Args[2] || !(isSamePtr(p1, p2) && t2.Size() == sizeof(t1) && disjoint(p1, sizeof(t1), p3, sizeof(t3)) && disjoint(p1, sizeof(t1), p4, sizeof(t4))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t1} p1 (Load <t2> p2 oldmem) mem:(Store {t3} p3 _ (Store {t4} p4 _ (Store {t5} p5 _ oldmem))))
@@ -19397,9 +19245,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if oldmem != mem_2_2.Args[2] || !(isSamePtr(p1, p2) && t2.Size() == sizeof(t1) && disjoint(p1, sizeof(t1), p3, sizeof(t3)) && disjoint(p1, sizeof(t1), p4, sizeof(t4)) && disjoint(p1, sizeof(t1), p5, sizeof(t5))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t} (OffPtr [o] p1) x mem:(Zero [n] p2 _))
@@ -19423,9 +19269,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if !(isConstZero(x) && o >= 0 && sizeof(t)+o <= n && isSamePtr(p1, p2)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t1} op:(OffPtr [o1] p1) x mem:(Store {t2} p2 _ (Zero [n] p3 _)))
@@ -19457,9 +19301,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if !(isConstZero(x) && o1 >= 0 && sizeof(t1)+o1 <= n && isSamePtr(p1, p3) && disjoint(op, sizeof(t1), p2, sizeof(t2))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t1} op:(OffPtr [o1] p1) x mem:(Store {t2} p2 _ (Store {t3} p3 _ (Zero [n] p4 _))))
@@ -19498,9 +19340,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if !(isConstZero(x) && o1 >= 0 && sizeof(t1)+o1 <= n && isSamePtr(p1, p4) && disjoint(op, sizeof(t1), p2, sizeof(t2)) && disjoint(op, sizeof(t1), p3, sizeof(t3))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t1} op:(OffPtr [o1] p1) x mem:(Store {t2} p2 _ (Store {t3} p3 _ (Store {t4} p4 _ (Zero [n] p5 _)))))
@@ -19546,9 +19386,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if !(isConstZero(x) && o1 >= 0 && sizeof(t1)+o1 <= n && isSamePtr(p1, p5) && disjoint(op, sizeof(t1), p2, sizeof(t2)) && disjoint(op, sizeof(t1), p3, sizeof(t3)) && disjoint(op, sizeof(t1), p4, sizeof(t4))) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store _ (StructMake0) mem)
@@ -19558,9 +19396,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 			break
 		}
 		mem := v_2
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store dst (StructMake1 <t> f0) mem)
@@ -19755,9 +19591,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 			break
 		}
 		mem := v_2
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store dst (ArrayMake1 e) mem)
@@ -19797,9 +19631,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if mem != v_2 || !(isConstZero(x) && mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store (OffPtr (Load (OffPtr [c] (SP)) mem)) x mem)
@@ -19827,9 +19659,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if mem != v_2 || !(isConstZero(x) && mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Store {t1} op1:(OffPtr [o1] p1) d1 m2:(Store {t2} op2:(OffPtr [0] p2) d2 m3:(Move [n] p3 _ mem)))
@@ -20275,9 +20105,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [0] (StructMake2 x _))
@@ -20288,9 +20116,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 		}
 		_ = v_0.Args[1]
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [1] (StructMake2 _ x))
@@ -20300,9 +20126,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 			break
 		}
 		x := v_0.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [0] (StructMake3 x _ _))
@@ -20313,9 +20137,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 		}
 		_ = v_0.Args[2]
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [1] (StructMake3 _ x _))
@@ -20326,9 +20148,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 		}
 		_ = v_0.Args[2]
 		x := v_0.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [2] (StructMake3 _ _ x))
@@ -20338,9 +20158,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 			break
 		}
 		x := v_0.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [0] (StructMake4 x _ _ _))
@@ -20351,9 +20169,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 		}
 		_ = v_0.Args[3]
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [1] (StructMake4 _ x _ _))
@@ -20364,9 +20180,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 		}
 		_ = v_0.Args[3]
 		x := v_0.Args[1]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [2] (StructMake4 _ _ x _))
@@ -20377,9 +20191,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 		}
 		_ = v_0.Args[3]
 		x := v_0.Args[2]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [3] (StructMake4 _ _ _ x))
@@ -20389,9 +20201,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 			break
 		}
 		x := v_0.Args[3]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (StructSelect [i] x:(Load <t> ptr mem))
@@ -20411,8 +20221,7 @@ func rewriteValuegeneric_OpStructSelect(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpLoad, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, v.Type.PtrTo())
 		v1.AuxInt = t.FieldOff(int(i))
 		v1.AddArg(ptr)
@@ -20533,9 +20342,7 @@ func rewriteValuegeneric_OpSub16(v *Value) bool {
 			if x != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = y.Type
-			v.AddArg(y)
+			v.copyOf(y)
 			return true
 		}
 		break
@@ -20555,9 +20362,7 @@ func rewriteValuegeneric_OpSub16(v *Value) bool {
 			if y != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -20764,9 +20569,7 @@ func rewriteValuegeneric_OpSub32(v *Value) bool {
 			if x != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = y.Type
-			v.AddArg(y)
+			v.copyOf(y)
 			return true
 		}
 		break
@@ -20786,9 +20589,7 @@ func rewriteValuegeneric_OpSub32(v *Value) bool {
 			if y != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -21015,9 +20816,7 @@ func rewriteValuegeneric_OpSub64(v *Value) bool {
 			if x != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = y.Type
-			v.AddArg(y)
+			v.copyOf(y)
 			return true
 		}
 		break
@@ -21037,9 +20836,7 @@ func rewriteValuegeneric_OpSub64(v *Value) bool {
 			if y != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -21266,9 +21063,7 @@ func rewriteValuegeneric_OpSub8(v *Value) bool {
 			if x != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = y.Type
-			v.AddArg(y)
+			v.copyOf(y)
 			return true
 		}
 		break
@@ -21288,9 +21083,7 @@ func rewriteValuegeneric_OpSub8(v *Value) bool {
 			if y != v_1 {
 				continue
 			}
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -21417,9 +21210,7 @@ func rewriteValuegeneric_OpTrunc16to8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc16to8 (SignExt8to16 x))
@@ -21429,9 +21220,7 @@ func rewriteValuegeneric_OpTrunc16to8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc16to8 (And16 (Const16 [y]) x))
@@ -21492,9 +21281,7 @@ func rewriteValuegeneric_OpTrunc32to16(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc32to16 (SignExt8to32 x))
@@ -21515,9 +21302,7 @@ func rewriteValuegeneric_OpTrunc32to16(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc32to16 (And32 (Const32 [y]) x))
@@ -21567,9 +21352,7 @@ func rewriteValuegeneric_OpTrunc32to8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc32to8 (SignExt8to32 x))
@@ -21579,9 +21362,7 @@ func rewriteValuegeneric_OpTrunc32to8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc32to8 (And32 (Const32 [y]) x))
@@ -21642,9 +21423,7 @@ func rewriteValuegeneric_OpTrunc64to16(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc64to16 (SignExt8to64 x))
@@ -21665,9 +21444,7 @@ func rewriteValuegeneric_OpTrunc64to16(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc64to16 (And64 (Const64 [y]) x))
@@ -21739,9 +21516,7 @@ func rewriteValuegeneric_OpTrunc64to32(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc64to32 (SignExt8to64 x))
@@ -21773,9 +21548,7 @@ func rewriteValuegeneric_OpTrunc64to32(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc64to32 (And64 (Const64 [y]) x))
@@ -21825,9 +21598,7 @@ func rewriteValuegeneric_OpTrunc64to8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc64to8 (SignExt8to64 x))
@@ -21837,9 +21608,7 @@ func rewriteValuegeneric_OpTrunc64to8(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Trunc64to8 (And64 (Const64 [y]) x))
@@ -21910,9 +21679,7 @@ func rewriteValuegeneric_OpXor16(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -21933,9 +21700,7 @@ func rewriteValuegeneric_OpXor16(v *Value) bool {
 					continue
 				}
 				y := v_1_1
-				v.reset(OpCopy)
-				v.Type = y.Type
-				v.AddArg(y)
+				v.copyOf(y)
 				return true
 			}
 		}
@@ -22048,9 +21813,7 @@ func rewriteValuegeneric_OpXor32(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -22071,9 +21834,7 @@ func rewriteValuegeneric_OpXor32(v *Value) bool {
 					continue
 				}
 				y := v_1_1
-				v.reset(OpCopy)
-				v.Type = y.Type
-				v.AddArg(y)
+				v.copyOf(y)
 				return true
 			}
 		}
@@ -22186,9 +21947,7 @@ func rewriteValuegeneric_OpXor64(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -22209,9 +21968,7 @@ func rewriteValuegeneric_OpXor64(v *Value) bool {
 					continue
 				}
 				y := v_1_1
-				v.reset(OpCopy)
-				v.Type = y.Type
-				v.AddArg(y)
+				v.copyOf(y)
 				return true
 			}
 		}
@@ -22324,9 +22081,7 @@ func rewriteValuegeneric_OpXor8(v *Value) bool {
 				continue
 			}
 			x := v_1
-			v.reset(OpCopy)
-			v.Type = x.Type
-			v.AddArg(x)
+			v.copyOf(x)
 			return true
 		}
 		break
@@ -22347,9 +22102,7 @@ func rewriteValuegeneric_OpXor8(v *Value) bool {
 					continue
 				}
 				y := v_1_1
-				v.reset(OpCopy)
-				v.Type = y.Type
-				v.AddArg(y)
+				v.copyOf(y)
 				return true
 			}
 		}
@@ -22443,9 +22196,7 @@ func rewriteValuegeneric_OpZero(v *Value) bool {
 		if v_0_0_0.Op != OpSP || mem != v_1 || !(mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Zero {t1} [n] p1 store:(Store {t2} (OffPtr [o2] p2) _ mem))
@@ -22566,9 +22317,7 @@ func rewriteValuegeneric_OpZeroExt16to32(v *Value) bool {
 		if !(s >= 16) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -22606,9 +22355,7 @@ func rewriteValuegeneric_OpZeroExt16to64(v *Value) bool {
 		if !(s >= 48) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -22646,9 +22393,7 @@ func rewriteValuegeneric_OpZeroExt32to64(v *Value) bool {
 		if !(s >= 32) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -22686,9 +22431,7 @@ func rewriteValuegeneric_OpZeroExt8to16(v *Value) bool {
 		if !(s >= 8) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -22726,9 +22469,7 @@ func rewriteValuegeneric_OpZeroExt8to32(v *Value) bool {
 		if !(s >= 24) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -22766,9 +22507,7 @@ func rewriteValuegeneric_OpZeroExt8to64(v *Value) bool {
 		if !(s >= 56) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false

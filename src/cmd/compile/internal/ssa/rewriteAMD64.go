@@ -1720,9 +1720,7 @@ func rewriteValueAMD64_OpAMD64ADDLconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ADDLconst [c] (MOVLconst [d]))
@@ -2366,9 +2364,7 @@ func rewriteValueAMD64_OpAMD64ADDQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ADDQconst [c] (MOVQconst [d]))
@@ -2892,9 +2888,7 @@ func rewriteValueAMD64_OpAMD64ANDL(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDL x l:(MOVLload [off] {sym} ptr mem))
@@ -3013,9 +3007,7 @@ func rewriteValueAMD64_OpAMD64ANDLconst(v *Value) bool {
 		if !(int32(c) == -1) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDLconst [c] (MOVLconst [d]))
@@ -3290,9 +3282,7 @@ func rewriteValueAMD64_OpAMD64ANDQ(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDQ x l:(MOVQload [off] {sym} ptr mem))
@@ -3418,9 +3408,7 @@ func rewriteValueAMD64_OpAMD64ANDQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ANDQconst [c] (MOVQconst [d]))
@@ -4861,9 +4849,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLCC _ x (FlagGT_UGT))
@@ -4873,9 +4859,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLCC y _ (FlagGT_ULT))
@@ -4885,9 +4869,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLCC y _ (FlagLT_ULT))
@@ -4897,9 +4879,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLCC _ x (FlagLT_UGT))
@@ -4909,9 +4889,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -4942,9 +4920,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLCS y _ (FlagGT_UGT))
@@ -4954,9 +4930,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLCS _ x (FlagGT_ULT))
@@ -4966,9 +4940,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLCS _ x (FlagLT_ULT))
@@ -4978,9 +4950,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLCS y _ (FlagLT_UGT))
@@ -4990,9 +4960,7 @@ func rewriteValueAMD64_OpAMD64CMOVLCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -5023,9 +4991,7 @@ func rewriteValueAMD64_OpAMD64CMOVLEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLEQ y _ (FlagGT_UGT))
@@ -5035,9 +5001,7 @@ func rewriteValueAMD64_OpAMD64CMOVLEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLEQ y _ (FlagGT_ULT))
@@ -5047,9 +5011,7 @@ func rewriteValueAMD64_OpAMD64CMOVLEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLEQ y _ (FlagLT_ULT))
@@ -5059,9 +5021,7 @@ func rewriteValueAMD64_OpAMD64CMOVLEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLEQ y _ (FlagLT_UGT))
@@ -5071,9 +5031,7 @@ func rewriteValueAMD64_OpAMD64CMOVLEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -5104,9 +5062,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLGE _ x (FlagGT_UGT))
@@ -5116,9 +5072,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLGE _ x (FlagGT_ULT))
@@ -5128,9 +5082,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLGE y _ (FlagLT_ULT))
@@ -5140,9 +5092,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLGE y _ (FlagLT_UGT))
@@ -5152,9 +5102,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -5185,9 +5133,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLGT _ x (FlagGT_UGT))
@@ -5197,9 +5143,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLGT _ x (FlagGT_ULT))
@@ -5209,9 +5153,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLGT y _ (FlagLT_ULT))
@@ -5221,9 +5163,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLGT y _ (FlagLT_UGT))
@@ -5233,9 +5173,7 @@ func rewriteValueAMD64_OpAMD64CMOVLGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -5266,9 +5204,7 @@ func rewriteValueAMD64_OpAMD64CMOVLHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLHI _ x (FlagGT_UGT))
@@ -5278,9 +5214,7 @@ func rewriteValueAMD64_OpAMD64CMOVLHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLHI y _ (FlagGT_ULT))
@@ -5290,9 +5224,7 @@ func rewriteValueAMD64_OpAMD64CMOVLHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLHI y _ (FlagLT_ULT))
@@ -5302,9 +5234,7 @@ func rewriteValueAMD64_OpAMD64CMOVLHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLHI _ x (FlagLT_UGT))
@@ -5314,9 +5244,7 @@ func rewriteValueAMD64_OpAMD64CMOVLHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -5347,9 +5275,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLLE y _ (FlagGT_UGT))
@@ -5359,9 +5285,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLLE y _ (FlagGT_ULT))
@@ -5371,9 +5295,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLLE _ x (FlagLT_ULT))
@@ -5383,9 +5305,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLLE _ x (FlagLT_UGT))
@@ -5395,9 +5315,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -5428,9 +5346,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLLS y _ (FlagGT_UGT))
@@ -5440,9 +5356,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLLS _ x (FlagGT_ULT))
@@ -5452,9 +5366,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLLS _ x (FlagLT_ULT))
@@ -5464,9 +5376,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLLS y _ (FlagLT_UGT))
@@ -5476,9 +5386,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -5509,9 +5417,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLLT y _ (FlagGT_UGT))
@@ -5521,9 +5427,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLLT y _ (FlagGT_ULT))
@@ -5533,9 +5437,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLLT _ x (FlagLT_ULT))
@@ -5545,9 +5447,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLLT _ x (FlagLT_UGT))
@@ -5557,9 +5457,7 @@ func rewriteValueAMD64_OpAMD64CMOVLLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -5590,9 +5488,7 @@ func rewriteValueAMD64_OpAMD64CMOVLNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVLNE _ x (FlagGT_UGT))
@@ -5602,9 +5498,7 @@ func rewriteValueAMD64_OpAMD64CMOVLNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLNE _ x (FlagGT_ULT))
@@ -5614,9 +5508,7 @@ func rewriteValueAMD64_OpAMD64CMOVLNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLNE _ x (FlagLT_ULT))
@@ -5626,9 +5518,7 @@ func rewriteValueAMD64_OpAMD64CMOVLNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVLNE _ x (FlagLT_UGT))
@@ -5638,9 +5528,7 @@ func rewriteValueAMD64_OpAMD64CMOVLNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -5671,9 +5559,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQCC _ x (FlagGT_UGT))
@@ -5683,9 +5569,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQCC y _ (FlagGT_ULT))
@@ -5695,9 +5579,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQCC y _ (FlagLT_ULT))
@@ -5707,9 +5589,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQCC _ x (FlagLT_UGT))
@@ -5719,9 +5599,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -5752,9 +5630,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQCS y _ (FlagGT_UGT))
@@ -5764,9 +5640,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQCS _ x (FlagGT_ULT))
@@ -5776,9 +5650,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQCS _ x (FlagLT_ULT))
@@ -5788,9 +5660,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQCS y _ (FlagLT_UGT))
@@ -5800,9 +5670,7 @@ func rewriteValueAMD64_OpAMD64CMOVQCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -5833,9 +5701,7 @@ func rewriteValueAMD64_OpAMD64CMOVQEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQEQ y _ (FlagGT_UGT))
@@ -5845,9 +5711,7 @@ func rewriteValueAMD64_OpAMD64CMOVQEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQEQ y _ (FlagGT_ULT))
@@ -5857,9 +5721,7 @@ func rewriteValueAMD64_OpAMD64CMOVQEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQEQ y _ (FlagLT_ULT))
@@ -5869,9 +5731,7 @@ func rewriteValueAMD64_OpAMD64CMOVQEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQEQ y _ (FlagLT_UGT))
@@ -5881,9 +5741,7 @@ func rewriteValueAMD64_OpAMD64CMOVQEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQEQ x _ (Select1 (BSFQ (ORQconst [c] _))))
@@ -5906,9 +5764,7 @@ func rewriteValueAMD64_OpAMD64CMOVQEQ(v *Value) bool {
 		if !(c != 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -5939,9 +5795,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQGE _ x (FlagGT_UGT))
@@ -5951,9 +5805,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQGE _ x (FlagGT_ULT))
@@ -5963,9 +5815,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQGE y _ (FlagLT_ULT))
@@ -5975,9 +5825,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQGE y _ (FlagLT_UGT))
@@ -5987,9 +5835,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -6020,9 +5866,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQGT _ x (FlagGT_UGT))
@@ -6032,9 +5876,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQGT _ x (FlagGT_ULT))
@@ -6044,9 +5886,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQGT y _ (FlagLT_ULT))
@@ -6056,9 +5896,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQGT y _ (FlagLT_UGT))
@@ -6068,9 +5906,7 @@ func rewriteValueAMD64_OpAMD64CMOVQGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -6101,9 +5937,7 @@ func rewriteValueAMD64_OpAMD64CMOVQHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQHI _ x (FlagGT_UGT))
@@ -6113,9 +5947,7 @@ func rewriteValueAMD64_OpAMD64CMOVQHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQHI y _ (FlagGT_ULT))
@@ -6125,9 +5957,7 @@ func rewriteValueAMD64_OpAMD64CMOVQHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQHI y _ (FlagLT_ULT))
@@ -6137,9 +5967,7 @@ func rewriteValueAMD64_OpAMD64CMOVQHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQHI _ x (FlagLT_UGT))
@@ -6149,9 +5977,7 @@ func rewriteValueAMD64_OpAMD64CMOVQHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -6182,9 +6008,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQLE y _ (FlagGT_UGT))
@@ -6194,9 +6018,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQLE y _ (FlagGT_ULT))
@@ -6206,9 +6028,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQLE _ x (FlagLT_ULT))
@@ -6218,9 +6038,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQLE _ x (FlagLT_UGT))
@@ -6230,9 +6048,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -6263,9 +6079,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQLS y _ (FlagGT_UGT))
@@ -6275,9 +6089,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQLS _ x (FlagGT_ULT))
@@ -6287,9 +6099,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQLS _ x (FlagLT_ULT))
@@ -6299,9 +6109,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQLS y _ (FlagLT_UGT))
@@ -6311,9 +6119,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -6344,9 +6150,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQLT y _ (FlagGT_UGT))
@@ -6356,9 +6160,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQLT y _ (FlagGT_ULT))
@@ -6368,9 +6170,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQLT _ x (FlagLT_ULT))
@@ -6380,9 +6180,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQLT _ x (FlagLT_UGT))
@@ -6392,9 +6190,7 @@ func rewriteValueAMD64_OpAMD64CMOVQLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -6425,9 +6221,7 @@ func rewriteValueAMD64_OpAMD64CMOVQNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVQNE _ x (FlagGT_UGT))
@@ -6437,9 +6231,7 @@ func rewriteValueAMD64_OpAMD64CMOVQNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQNE _ x (FlagGT_ULT))
@@ -6449,9 +6241,7 @@ func rewriteValueAMD64_OpAMD64CMOVQNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQNE _ x (FlagLT_ULT))
@@ -6461,9 +6251,7 @@ func rewriteValueAMD64_OpAMD64CMOVQNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVQNE _ x (FlagLT_UGT))
@@ -6473,9 +6261,7 @@ func rewriteValueAMD64_OpAMD64CMOVQNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -6506,9 +6292,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWCC _ x (FlagGT_UGT))
@@ -6518,9 +6302,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWCC y _ (FlagGT_ULT))
@@ -6530,9 +6312,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWCC y _ (FlagLT_ULT))
@@ -6542,9 +6322,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWCC _ x (FlagLT_UGT))
@@ -6554,9 +6332,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCC(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -6587,9 +6363,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWCS y _ (FlagGT_UGT))
@@ -6599,9 +6373,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWCS _ x (FlagGT_ULT))
@@ -6611,9 +6383,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWCS _ x (FlagLT_ULT))
@@ -6623,9 +6393,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWCS y _ (FlagLT_UGT))
@@ -6635,9 +6403,7 @@ func rewriteValueAMD64_OpAMD64CMOVWCS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -6668,9 +6434,7 @@ func rewriteValueAMD64_OpAMD64CMOVWEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWEQ y _ (FlagGT_UGT))
@@ -6680,9 +6444,7 @@ func rewriteValueAMD64_OpAMD64CMOVWEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWEQ y _ (FlagGT_ULT))
@@ -6692,9 +6454,7 @@ func rewriteValueAMD64_OpAMD64CMOVWEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWEQ y _ (FlagLT_ULT))
@@ -6704,9 +6464,7 @@ func rewriteValueAMD64_OpAMD64CMOVWEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWEQ y _ (FlagLT_UGT))
@@ -6716,9 +6474,7 @@ func rewriteValueAMD64_OpAMD64CMOVWEQ(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -6749,9 +6505,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWGE _ x (FlagGT_UGT))
@@ -6761,9 +6515,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWGE _ x (FlagGT_ULT))
@@ -6773,9 +6525,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWGE y _ (FlagLT_ULT))
@@ -6785,9 +6535,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWGE y _ (FlagLT_UGT))
@@ -6797,9 +6545,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -6830,9 +6576,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWGT _ x (FlagGT_UGT))
@@ -6842,9 +6586,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWGT _ x (FlagGT_ULT))
@@ -6854,9 +6596,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWGT y _ (FlagLT_ULT))
@@ -6866,9 +6606,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWGT y _ (FlagLT_UGT))
@@ -6878,9 +6616,7 @@ func rewriteValueAMD64_OpAMD64CMOVWGT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -6911,9 +6647,7 @@ func rewriteValueAMD64_OpAMD64CMOVWHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWHI _ x (FlagGT_UGT))
@@ -6923,9 +6657,7 @@ func rewriteValueAMD64_OpAMD64CMOVWHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWHI y _ (FlagGT_ULT))
@@ -6935,9 +6667,7 @@ func rewriteValueAMD64_OpAMD64CMOVWHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWHI y _ (FlagLT_ULT))
@@ -6947,9 +6677,7 @@ func rewriteValueAMD64_OpAMD64CMOVWHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWHI _ x (FlagLT_UGT))
@@ -6959,9 +6687,7 @@ func rewriteValueAMD64_OpAMD64CMOVWHI(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -6992,9 +6718,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWLE y _ (FlagGT_UGT))
@@ -7004,9 +6728,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWLE y _ (FlagGT_ULT))
@@ -7016,9 +6738,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWLE _ x (FlagLT_ULT))
@@ -7028,9 +6748,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWLE _ x (FlagLT_UGT))
@@ -7040,9 +6758,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -7073,9 +6789,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWLS y _ (FlagGT_UGT))
@@ -7085,9 +6799,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWLS _ x (FlagGT_ULT))
@@ -7097,9 +6809,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWLS _ x (FlagLT_ULT))
@@ -7109,9 +6819,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWLS y _ (FlagLT_UGT))
@@ -7121,9 +6829,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLS(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	return false
@@ -7154,9 +6860,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWLT y _ (FlagGT_UGT))
@@ -7166,9 +6870,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWLT y _ (FlagGT_ULT))
@@ -7178,9 +6880,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWLT _ x (FlagLT_ULT))
@@ -7190,9 +6890,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWLT _ x (FlagLT_UGT))
@@ -7202,9 +6900,7 @@ func rewriteValueAMD64_OpAMD64CMOVWLT(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -7235,9 +6931,7 @@ func rewriteValueAMD64_OpAMD64CMOVWNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagEQ {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = y.Type
-		v.AddArg(y)
+		v.copyOf(y)
 		return true
 	}
 	// match: (CMOVWNE _ x (FlagGT_UGT))
@@ -7247,9 +6941,7 @@ func rewriteValueAMD64_OpAMD64CMOVWNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWNE _ x (FlagGT_ULT))
@@ -7259,9 +6951,7 @@ func rewriteValueAMD64_OpAMD64CMOVWNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagGT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWNE _ x (FlagLT_ULT))
@@ -7271,9 +6961,7 @@ func rewriteValueAMD64_OpAMD64CMOVWNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_ULT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (CMOVWNE _ x (FlagLT_UGT))
@@ -7283,9 +6971,7 @@ func rewriteValueAMD64_OpAMD64CMOVWNE(v *Value) bool {
 		if v_2.Op != OpAMD64FlagLT_UGT {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -7539,8 +7225,7 @@ func rewriteValueAMD64_OpAMD64CMPBconst(v *Value) bool {
 		}
 		b = l.Block
 		v0 := b.NewValue0(l.Pos, OpAMD64CMPBconstload, types.TypeFlags)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = makeValAndOff(c, off)
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -7940,8 +7625,7 @@ func rewriteValueAMD64_OpAMD64CMPLconst(v *Value) bool {
 		}
 		b = l.Block
 		v0 := b.NewValue0(l.Pos, OpAMD64CMPLconstload, types.TypeFlags)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = makeValAndOff(c, off)
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -8431,8 +8115,7 @@ func rewriteValueAMD64_OpAMD64CMPQconst(v *Value) bool {
 		}
 		b = l.Block
 		v0 := b.NewValue0(l.Pos, OpAMD64CMPQconstload, types.TypeFlags)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = makeValAndOff(c, off)
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -8817,8 +8500,7 @@ func rewriteValueAMD64_OpAMD64CMPWconst(v *Value) bool {
 		}
 		b = l.Block
 		v0 := b.NewValue0(l.Pos, OpAMD64CMPWconstload, types.TypeFlags)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = makeValAndOff(c, off)
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10187,8 +9869,7 @@ func rewriteValueAMD64_OpAMD64MOVBQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10212,8 +9893,7 @@ func rewriteValueAMD64_OpAMD64MOVBQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10237,8 +9917,7 @@ func rewriteValueAMD64_OpAMD64MOVBQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10262,8 +9941,7 @@ func rewriteValueAMD64_OpAMD64MOVBQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10370,8 +10048,7 @@ func rewriteValueAMD64_OpAMD64MOVBQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10395,8 +10072,7 @@ func rewriteValueAMD64_OpAMD64MOVBQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10420,8 +10096,7 @@ func rewriteValueAMD64_OpAMD64MOVBQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10445,8 +10120,7 @@ func rewriteValueAMD64_OpAMD64MOVBQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVBload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -10461,9 +10135,7 @@ func rewriteValueAMD64_OpAMD64MOVBQZX(v *Value) bool {
 		if !(zeroUpper56Bits(x, 3)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBQZX x:(MOVBloadidx1 [off] {sym} ptr idx mem))
@@ -10484,8 +10156,7 @@ func rewriteValueAMD64_OpAMD64MOVBQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpAMD64MOVBloadidx1, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -12643,8 +12314,7 @@ func rewriteValueAMD64_OpAMD64MOVLQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVLQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -12668,8 +12338,7 @@ func rewriteValueAMD64_OpAMD64MOVLQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVLQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -12798,8 +12467,7 @@ func rewriteValueAMD64_OpAMD64MOVLQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVLload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -12823,8 +12491,7 @@ func rewriteValueAMD64_OpAMD64MOVLQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVLload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -12839,9 +12506,7 @@ func rewriteValueAMD64_OpAMD64MOVLQZX(v *Value) bool {
 		if !(zeroUpper32Bits(x, 3)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVLQZX x:(MOVLloadidx1 [off] {sym} ptr idx mem))
@@ -12862,8 +12527,7 @@ func rewriteValueAMD64_OpAMD64MOVLQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpAMD64MOVLloadidx1, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -12889,8 +12553,7 @@ func rewriteValueAMD64_OpAMD64MOVLQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpAMD64MOVLloadidx4, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -13015,8 +12678,7 @@ func rewriteValueAMD64_OpAMD64MOVLf2i(v *Value) bool {
 		}
 		b = b.Func.Entry
 		v0 := b.NewValue0(v.Pos, OpArg, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		return true
@@ -13042,8 +12704,7 @@ func rewriteValueAMD64_OpAMD64MOVLi2f(v *Value) bool {
 		}
 		b = b.Func.Entry
 		v0 := b.NewValue0(v.Pos, OpArg, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		return true
@@ -15712,8 +15373,7 @@ func rewriteValueAMD64_OpAMD64MOVQf2i(v *Value) bool {
 		}
 		b = b.Func.Entry
 		v0 := b.NewValue0(v.Pos, OpArg, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		return true
@@ -15739,8 +15399,7 @@ func rewriteValueAMD64_OpAMD64MOVQi2f(v *Value) bool {
 		}
 		b = b.Func.Entry
 		v0 := b.NewValue0(v.Pos, OpArg, t)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		return true
@@ -15770,9 +15429,7 @@ func rewriteValueAMD64_OpAMD64MOVQload(v *Value) bool {
 		if !(sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVQload [off1] {sym} (ADDQconst [off2] ptr) mem)
@@ -18868,8 +18525,7 @@ func rewriteValueAMD64_OpAMD64MOVWQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVWQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -18893,8 +18549,7 @@ func rewriteValueAMD64_OpAMD64MOVWQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVWQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -18918,8 +18573,7 @@ func rewriteValueAMD64_OpAMD64MOVWQSX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVWQSXload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -19037,8 +18691,7 @@ func rewriteValueAMD64_OpAMD64MOVWQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVWload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -19062,8 +18715,7 @@ func rewriteValueAMD64_OpAMD64MOVWQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVWload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -19087,8 +18739,7 @@ func rewriteValueAMD64_OpAMD64MOVWQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(x.Pos, OpAMD64MOVWload, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -19103,9 +18754,7 @@ func rewriteValueAMD64_OpAMD64MOVWQZX(v *Value) bool {
 		if !(zeroUpper48Bits(x, 3)) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVWQZX x:(MOVWloadidx1 [off] {sym} ptr idx mem))
@@ -19126,8 +18775,7 @@ func rewriteValueAMD64_OpAMD64MOVWQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx1, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -19153,8 +18801,7 @@ func rewriteValueAMD64_OpAMD64MOVWQZX(v *Value) bool {
 		}
 		b = x.Block
 		v0 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx2, v.Type)
-		v.reset(OpCopy)
-		v.AddArg(v0)
+		v.copyOf(v0)
 		v0.AuxInt = off
 		v0.Aux = sym
 		v0.AddArg(ptr)
@@ -21058,9 +20705,7 @@ func rewriteValueAMD64_OpAMD64MULLconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MULLconst [ 3] x)
@@ -21554,9 +21199,7 @@ func rewriteValueAMD64_OpAMD64MULQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MULQconst [ 3] x)
@@ -22182,9 +21825,7 @@ func rewriteValueAMD64_OpAMD64NEGL(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (NEGL s:(SUBL x y))
@@ -22227,9 +21868,7 @@ func rewriteValueAMD64_OpAMD64NEGQ(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (NEGQ s:(SUBQ x y))
@@ -23084,9 +22723,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ORL x0:(MOVBload [i0] {s} p mem) sh:(SHLLconst [8] x1:(MOVBload [i1] {s} p mem)))
@@ -23120,8 +22757,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpAMD64MOVWload, typ.UInt16)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -23161,8 +22797,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpAMD64MOVLload, typ.UInt32)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -23220,8 +22855,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x0.Pos, OpAMD64ORL, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpAMD64SHLLconst, v.Type)
 				v1.AuxInt = j0
 				v2 := b.NewValue0(x0.Pos, OpAMD64MOVWload, typ.UInt16)
@@ -23275,8 +22909,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx1, v.Type)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -23326,8 +22959,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64MOVLloadidx1, typ.UInt32)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -23395,8 +23027,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpAMD64ORL, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpAMD64SHLLconst, v.Type)
 						v1.AuxInt = j0
 						v2 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx1, typ.UInt16)
@@ -23446,8 +23077,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpAMD64ROLWconst, v.Type)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = 8
 			v1 := b.NewValue0(x0.Pos, OpAMD64MOVWload, typ.UInt16)
 			v1.AuxInt = i0
@@ -23498,8 +23128,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpAMD64BSWAPL, v.Type)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x0.Pos, OpAMD64MOVLload, typ.UInt32)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -23559,8 +23188,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x1.Pos, OpAMD64ORL, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x1.Pos, OpAMD64SHLLconst, v.Type)
 				v1.AuxInt = j1
 				v2 := b.NewValue0(x1.Pos, OpAMD64ROLWconst, typ.UInt16)
@@ -23617,8 +23245,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64ROLWconst, v.Type)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = 8
 					v1 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx1, typ.UInt16)
 					v1.AuxInt = i0
@@ -23679,8 +23306,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64BSWAPL, v.Type)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v1 := b.NewValue0(v.Pos, OpAMD64MOVLloadidx1, typ.UInt32)
 					v1.AuxInt = i0
 					v1.Aux = s
@@ -23750,8 +23376,7 @@ func rewriteValueAMD64_OpAMD64ORL(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpAMD64ORL, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpAMD64SHLLconst, v.Type)
 						v1.AuxInt = j1
 						v2 := b.NewValue0(v.Pos, OpAMD64ROLWconst, typ.UInt16)
@@ -23855,9 +23480,7 @@ func rewriteValueAMD64_OpAMD64ORLconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ORLconst [c] _)
@@ -24370,9 +23993,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 		if x != v_1 {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ORQ x0:(MOVBload [i0] {s} p mem) sh:(SHLQconst [8] x1:(MOVBload [i1] {s} p mem)))
@@ -24406,8 +24027,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpAMD64MOVWload, typ.UInt16)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -24447,8 +24067,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpAMD64MOVLload, typ.UInt32)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -24488,8 +24107,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x1.Pos, OpAMD64MOVQload, typ.UInt64)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = i0
 			v0.Aux = s
 			v0.AddArg(p)
@@ -24547,8 +24165,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x0.Pos, OpAMD64ORQ, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpAMD64SHLQconst, v.Type)
 				v1.AuxInt = j0
 				v2 := b.NewValue0(x0.Pos, OpAMD64MOVWload, typ.UInt16)
@@ -24613,8 +24230,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x0.Pos, OpAMD64ORQ, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x0.Pos, OpAMD64SHLQconst, v.Type)
 				v1.AuxInt = j0
 				v2 := b.NewValue0(x0.Pos, OpAMD64MOVLload, typ.UInt32)
@@ -24668,8 +24284,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx1, v.Type)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -24719,8 +24334,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64MOVLloadidx1, typ.UInt32)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -24770,8 +24384,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64MOVQloadidx1, typ.UInt64)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = i0
 					v0.Aux = s
 					v0.AddArg(p)
@@ -24839,8 +24452,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpAMD64ORQ, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpAMD64SHLQconst, v.Type)
 						v1.AuxInt = j0
 						v2 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx1, typ.UInt16)
@@ -24915,8 +24527,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpAMD64ORQ, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpAMD64SHLQconst, v.Type)
 						v1.AuxInt = j0
 						v2 := b.NewValue0(v.Pos, OpAMD64MOVLloadidx1, typ.UInt32)
@@ -24966,8 +24577,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpAMD64ROLWconst, v.Type)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = 8
 			v1 := b.NewValue0(x0.Pos, OpAMD64MOVWload, typ.UInt16)
 			v1.AuxInt = i0
@@ -25018,8 +24628,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpAMD64BSWAPL, v.Type)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x0.Pos, OpAMD64MOVLload, typ.UInt32)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -25069,8 +24678,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 			}
 			b = mergePoint(b, x0, x1)
 			v0 := b.NewValue0(x0.Pos, OpAMD64BSWAPQ, v.Type)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v1 := b.NewValue0(x0.Pos, OpAMD64MOVQload, typ.UInt64)
 			v1.AuxInt = i0
 			v1.Aux = s
@@ -25130,8 +24738,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x1.Pos, OpAMD64ORQ, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x1.Pos, OpAMD64SHLQconst, v.Type)
 				v1.AuxInt = j1
 				v2 := b.NewValue0(x1.Pos, OpAMD64ROLWconst, typ.UInt16)
@@ -25207,8 +24814,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 				}
 				b = mergePoint(b, x0, x1, y)
 				v0 := b.NewValue0(x1.Pos, OpAMD64ORQ, v.Type)
-				v.reset(OpCopy)
-				v.AddArg(v0)
+				v.copyOf(v0)
 				v1 := b.NewValue0(x1.Pos, OpAMD64SHLQconst, v.Type)
 				v1.AuxInt = j1
 				v2 := b.NewValue0(x1.Pos, OpAMD64BSWAPL, typ.UInt32)
@@ -25264,8 +24870,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64ROLWconst, v.Type)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v0.AuxInt = 8
 					v1 := b.NewValue0(v.Pos, OpAMD64MOVWloadidx1, typ.UInt16)
 					v1.AuxInt = i0
@@ -25326,8 +24931,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64BSWAPL, v.Type)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v1 := b.NewValue0(v.Pos, OpAMD64MOVLloadidx1, typ.UInt32)
 					v1.AuxInt = i0
 					v1.Aux = s
@@ -25387,8 +24991,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 					}
 					b = mergePoint(b, x0, x1)
 					v0 := b.NewValue0(v.Pos, OpAMD64BSWAPQ, v.Type)
-					v.reset(OpCopy)
-					v.AddArg(v0)
+					v.copyOf(v0)
 					v1 := b.NewValue0(v.Pos, OpAMD64MOVQloadidx1, typ.UInt64)
 					v1.AuxInt = i0
 					v1.Aux = s
@@ -25458,8 +25061,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpAMD64ORQ, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpAMD64SHLQconst, v.Type)
 						v1.AuxInt = j1
 						v2 := b.NewValue0(v.Pos, OpAMD64ROLWconst, typ.UInt16)
@@ -25545,8 +25147,7 @@ func rewriteValueAMD64_OpAMD64ORQ(v *Value) bool {
 						}
 						b = mergePoint(b, x0, x1, y)
 						v0 := b.NewValue0(v.Pos, OpAMD64ORQ, v.Type)
-						v.reset(OpCopy)
-						v.AddArg(v0)
+						v.copyOf(v0)
 						v1 := b.NewValue0(v.Pos, OpAMD64SHLQconst, v.Type)
 						v1.AuxInt = j1
 						v2 := b.NewValue0(v.Pos, OpAMD64BSWAPL, typ.UInt32)
@@ -25647,9 +25248,7 @@ func rewriteValueAMD64_OpAMD64ORQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (ORQconst [-1] _)
@@ -25940,9 +25539,7 @@ func rewriteValueAMD64_OpAMD64ROLBconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -26027,9 +25624,7 @@ func rewriteValueAMD64_OpAMD64ROLLconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -26114,9 +25709,7 @@ func rewriteValueAMD64_OpAMD64ROLQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -26201,9 +25794,7 @@ func rewriteValueAMD64_OpAMD64ROLWconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -26476,9 +26067,7 @@ func rewriteValueAMD64_OpAMD64SARBconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SARBconst [c] (MOVQconst [d]))
@@ -26708,9 +26297,7 @@ func rewriteValueAMD64_OpAMD64SARLconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SARLconst [c] (MOVQconst [d]))
@@ -26940,9 +26527,7 @@ func rewriteValueAMD64_OpAMD64SARQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SARQconst [c] (MOVQconst [d]))
@@ -26999,9 +26584,7 @@ func rewriteValueAMD64_OpAMD64SARWconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SARWconst [c] (MOVQconst [d]))
@@ -31411,9 +30994,7 @@ func rewriteValueAMD64_OpAMD64SHLLconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SHLLconst [d] (MOVLconst [c]))
@@ -31655,9 +31236,7 @@ func rewriteValueAMD64_OpAMD64SHLQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SHLQconst [d] (MOVQconst [c]))
@@ -31752,9 +31331,7 @@ func rewriteValueAMD64_OpAMD64SHRBconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -31984,9 +31561,7 @@ func rewriteValueAMD64_OpAMD64SHRLconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -32216,9 +31791,7 @@ func rewriteValueAMD64_OpAMD64SHRQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -32301,9 +31874,7 @@ func rewriteValueAMD64_OpAMD64SHRWconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -32388,9 +31959,7 @@ func rewriteValueAMD64_OpAMD64SUBLconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SUBLconst [c] x)
@@ -32646,9 +32215,7 @@ func rewriteValueAMD64_OpAMD64SUBQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (SUBQconst [c] x)
@@ -33086,8 +32653,7 @@ func rewriteValueAMD64_OpAMD64TESTB(v *Value) bool {
 			}
 			b = l.Block
 			v0 := b.NewValue0(l.Pos, OpAMD64CMPBconstload, types.TypeFlags)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = makeValAndOff(0, off)
 			v0.Aux = sym
 			v0.AddArg(ptr)
@@ -33157,8 +32723,7 @@ func rewriteValueAMD64_OpAMD64TESTL(v *Value) bool {
 			}
 			b = l.Block
 			v0 := b.NewValue0(l.Pos, OpAMD64CMPLconstload, types.TypeFlags)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = makeValAndOff(0, off)
 			v0.Aux = sym
 			v0.AddArg(ptr)
@@ -33232,8 +32797,7 @@ func rewriteValueAMD64_OpAMD64TESTQ(v *Value) bool {
 			}
 			b = l.Block
 			v0 := b.NewValue0(l.Pos, OpAMD64CMPQconstload, types.TypeFlags)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = makeValAndOff(0, off)
 			v0.Aux = sym
 			v0.AddArg(ptr)
@@ -33303,8 +32867,7 @@ func rewriteValueAMD64_OpAMD64TESTW(v *Value) bool {
 			}
 			b = l.Block
 			v0 := b.NewValue0(l.Pos, OpAMD64CMPWconstload, types.TypeFlags)
-			v.reset(OpCopy)
-			v.AddArg(v0)
+			v.copyOf(v0)
 			v0.AuxInt = makeValAndOff(0, off)
 			v0.Aux = sym
 			v0.AddArg(ptr)
@@ -33841,9 +33404,7 @@ func rewriteValueAMD64_OpAMD64XORLconst(v *Value) bool {
 		if !(int32(c) == 0) {
 			break
 		}
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (XORLconst [c] (MOVLconst [d]))
@@ -34222,9 +33783,7 @@ func rewriteValueAMD64_OpAMD64XORQconst(v *Value) bool {
 			break
 		}
 		x := v_0
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (XORQconst [c] (MOVQconst [d]))
@@ -37500,9 +37059,7 @@ func rewriteValueAMD64_OpMove(v *Value) bool {
 			break
 		}
 		mem := v_2
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Move [1] dst src mem)
@@ -40048,9 +39605,7 @@ func rewriteValueAMD64_OpSelect1(v *Value) bool {
 			break
 		}
 		x := v_0_0_0.Args[0]
-		v.reset(OpCopy)
-		v.Type = x.Type
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (Select1 (AddTupleFirst32 _ tuple))
@@ -40226,9 +39781,7 @@ func rewriteValueAMD64_OpZero(v *Value) bool {
 			break
 		}
 		mem := v_1
-		v.reset(OpCopy)
-		v.Type = mem.Type
-		v.AddArg(mem)
+		v.copyOf(mem)
 		return true
 	}
 	// match: (Zero [1] destptr mem)
