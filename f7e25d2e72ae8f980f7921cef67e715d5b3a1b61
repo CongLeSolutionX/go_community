@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5f409797_e43bd247",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-31T19:46:21Z",
+      "side": 1,
+      "message": "LR is special as we\u0027ll save it manually at 0(SP), so stack unwinding will work. In sigctxt.pushCall, we have prepared the LR as the return PC.",
+      "parentUuid": "68324020_7a726a94",
+      "range": {
+        "startLine": 503,
+        "startChar": 27,
+        "endLine": 503,
+        "endChar": 35
+      },
+      "revId": "f7e25d2e72ae8f980f7921cef67e715d5b3a1b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a6341bd_f2fb9b78",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2019-10-30T09:34:46Z",
       "side": 1,
       "message": "I guess we currently never preempt assembly and/or cgo functions and so don\u0027t need to worry about vector registers here?",
+      "range": {
+        "startLine": 512,
+        "startChar": 0,
+        "endLine": 517,
+        "endChar": 0
+      },
+      "revId": "f7e25d2e72ae8f980f7921cef67e715d5b3a1b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3a955a_3b76c427",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-31T19:46:21Z",
+      "side": 1,
+      "message": "Yes, we don\u0027t preempt them. If the compiler starts to use vector registers, we need to save/restore them as well (probably in a separate place, as the stack may be not enough).",
+      "parentUuid": "232fef4a_cb47a2bc",
       "range": {
         "startLine": 512,
         "startChar": 0,
