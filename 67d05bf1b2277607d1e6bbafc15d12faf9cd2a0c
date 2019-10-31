@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2b43190_57201f68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-10-31T20:50:47Z",
+      "side": 1,
+      "message": "Also add a \n\n  Fixes #35211\n\n(the cherry-pick issue)",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 14
+      },
+      "revId": "67d05bf1b2277607d1e6bbafc15d12faf9cd2a0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
