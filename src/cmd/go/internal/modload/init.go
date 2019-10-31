@@ -468,17 +468,32 @@ func setDefaultBuildMod() {
 					// The Go version is at least 1.14, and a vendor directory exists.
 					// Set -mod=vendor by default.
 					cfg.BuildMod = "vendor"
+					cfg.BuildModReason = "Go version in go.mod is at least 1.14 and vendor directory exists."
 					return
 				} else {
 					modGo = modFile.Go.Version
 				}
 			}
-			fmt.Fprintf(os.Stderr, "go: not defaulting to -mod=vendor because go.mod 'go' version is %s\n", modGo)
+			cfg.BuildModReason = fmt.Sprintf("Go version in go.mod is %s.", modGo)
+		}
+
+		if fi, err := os.Stat(filepath.Join(modRoot, "go.mod")); err == nil && !hasWritePerm(fi) {
+			cfg.BuildMod = "readonly"
+			cfg.BuildModReason = "go.mod file is read-only."
 		}
 	}
+}
 
-	// TODO(golang.org/issue/33326): set -mod=readonly implicitly if the go.mod
-	// file is itself read-only?
+// hasWritePerm reports whether the current user has permission to write to the
+// file with the given info.
+//
+// Although the root user on most Unix systems can write to files even without
+// permission, hasWritePerm reports false if no appropriate permission bit is
+// set even if the current user is root.
+func hasWritePerm(fi os.FileInfo) bool {
+	// If everyone can write to the file, then we can too.
+	// Otherwise, we need to check platform-specific permissions.
+	return fi.Mode()&0002 != 0 || hasWritePermSys(fi)
 }
 
 // checkVendorConsistency verifies that the vendor/modules.txt file matches (if
@@ -858,7 +873,11 @@ func WriteGoMod() {
 	if dirty && cfg.BuildMod == "readonly" {
 		// If we're about to fail due to -mod=readonly,
 		// prefer to report a dirty go.mod over a dirty go.sum
-		base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly")
+		if cfg.BuildModReason != "" {
+			base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly\n\t(%s)", cfg.BuildModReason)
+		} else {
+			base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly")
+		}
 	}
 	// Always update go.sum, even if we didn't change go.mod: we may have
 	// downloaded modules that we didn't have before.
