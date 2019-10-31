@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1d34b4d_08bb4b45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-31T15:26:25Z",
+      "side": 1,
+      "message": "s/returns/return/",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "42dc945424282888d2ba83230fb2a4ff2b7d4b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e42fd0a_916482a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-31T15:26:25Z",
+      "side": 1,
+      "message": "If a previous Write returned an error, any subsequent Write or ReadFrom must return that error before any operations.\nHowever, only Write behaved correctly and this change fixes that\nproblem by making sure that ReadFrom firstly checks for the underlying error.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "42dc945424282888d2ba83230fb2a4ff2b7d4b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95013f4_ee2573f0",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-31T15:26:25Z",
+      "side": 1,
+      "message": "// Ensure that previous Write errors are immediately returned\n// on any ReadFrom. See golang.org/issue/35194.",
+      "range": {
+        "startLine": 1564,
+        "startChar": 0,
+        "endLine": 1564,
+        "endChar": 34
+      },
+      "revId": "42dc945424282888d2ba83230fb2a4ff2b7d4b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5245aeb1_cbde0362",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-31T15:26:25Z",
+      "side": 1,
+      "message": "TestWriterReadFromMustReturnUnderlyingError",
+      "range": {
+        "startLine": 1565,
+        "startChar": 5,
+        "endLine": 1565,
+        "endChar": 38
+      },
+      "revId": "42dc945424282888d2ba83230fb2a4ff2b7d4b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
