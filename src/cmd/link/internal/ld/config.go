@@ -183,10 +183,6 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 		return true, "msan"
 	}
 
-	if iscgo && !canLinkHostObj(ctxt) {
-		return true, "TODO: newobj"
-	}
-
 	// Internally linking cgo is incomplete on some architectures.
 	// https://golang.org/issue/14449
 	// https://golang.org/issue/21961
