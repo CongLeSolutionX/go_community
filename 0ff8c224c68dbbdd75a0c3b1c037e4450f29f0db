@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "386d78b5_d07b54cc",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-10-31T15:05:34Z",
+      "side": 1,
+      "message": "This seems too early to report an error.\n\nConsider what happens if you have two replaced modules, `foo` and `foo/bar`, and you are looking for package `foo/bar/baz`. If the package is in module `foo`, this will fail with a `PackageNotInModuleError` for module `foo/bar`, when it should instead succeed by adding a requirement on `foo`.\n\n(This CL needs a regression test, and the regression test should include a case like the above.)",
+      "revId": "0ff8c224c68dbbdd75a0c3b1c037e4450f29f0db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
