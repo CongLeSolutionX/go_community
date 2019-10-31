@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a773f4b_fcd9cd33",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2963,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-10-31T22:19:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1f9b46b_406fa2fe",
+      "revId": "7982bf2b72de0756f07c42d8171111d1b57e538a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82865507_5c171d57",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-31T22:07:26Z",
       "side": 1,
       "message": "I\u0027d suggest instead of making bound\u003d\u003d-2 special, add \"context string\" as a parameter, and then have the callers pass \"array literal\" or \"slice literal\" as appropriate. You can then also use that string as an argument here for assignconv.",
+      "revId": "7982bf2b72de0756f07c42d8171111d1b57e538a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f728aeb1_d21cfda6",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3006,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-10-31T22:19:56Z",
+      "side": 1,
+      "message": "Thanks, I think about it at first, because I see the same pattern for \"assignconv\". But I\u0027m not confident to go with it. Fixed.",
+      "parentUuid": "82865507_5c171d57",
       "revId": "7982bf2b72de0756f07c42d8171111d1b57e538a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
