@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1f9b46b_406fa2fe",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2963,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-31T22:07:26Z",
+      "side": 1,
+      "message": "nit: I\u0027d suggest:\n\n    // typecheckarraylit type-checks a sequence of slice/array literal elements.\n\nFYI, \"typecheckarraylit\" is a third-person, singular subject, so the proper verb form is \"does\", not \"do\". However, \"typecheckarraylit does typecheck\" is still somewhat awkward sounding. Better to just write \"typecheckarraylit type-checks\".\n\n(We seem a bit inconsistent about saying \"typechecks\" vs \"type checks\" vs \"type-checks\"; the last one seems slightly more common though.)",
+      "revId": "7982bf2b72de0756f07c42d8171111d1b57e538a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82865507_5c171d57",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3006,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-10-31T22:07:26Z",
+      "side": 1,
+      "message": "I\u0027d suggest instead of making bound\u003d\u003d-2 special, add \"context string\" as a parameter, and then have the callers pass \"array literal\" or \"slice literal\" as appropriate. You can then also use that string as an argument here for assignconv.",
+      "revId": "7982bf2b72de0756f07c42d8171111d1b57e538a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
