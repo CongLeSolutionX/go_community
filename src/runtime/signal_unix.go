@@ -358,6 +358,11 @@ func preemptM(mp *m) {
 //
 //go:nosplit
 func sigFetchG(c *sigctxt) *g {
+	if iscgo {
+		// When using cgo, we save the g on TLS and load it from there
+		// in sigtramp. Just use that.
+		return getg()
+	}
 	switch GOARCH {
 	case "arm", "arm64":
 		if inVDSOPage(c.sigpc()) {
