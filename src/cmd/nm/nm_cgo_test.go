@@ -32,7 +32,7 @@ func canInternalLink() bool {
 }
 
 func TestInternalLinkerCgoExec(t *testing.T) {
-	if !canInternalLink() || true { // TODO: newobj
+	if !canInternalLink() {
 		t.Skip("skipping; internal linking is not supported")
 	}
 	testGoExec(t, true, false)
