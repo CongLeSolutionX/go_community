@@ -2809,7 +2809,7 @@ func typecheckcomplit(n *Node) (res *Node) {
 		n.Right = nil
 
 	case TSLICE:
-		length := typecheckarraylit(t.Elem(), -1, n.List.Slice())
+		length := typecheckarraylit(t.Elem(), -2, n.List.Slice())
 		n.Op = OSLICELIT
 		n.Right = nodintconst(length)
 
@@ -2960,6 +2960,14 @@ func typecheckcomplit(n *Node) (res *Node) {
 	return n
 }
 
+// typecheckarraylit do typecheck on slice/array literal.
+//
+// The "bound" param is used to distinguish context:
+//
+//  - For array literal, bound >= 0.
+//  - For [...]T  array, bound == -1.
+//  - For slice literal, bound == -2.
+//
 func typecheckarraylit(elemType *types.Type, bound int64, elts []*Node) int64 {
 	// If there are key/value pairs, create a map to keep seen
 	// keys so we can check for duplicate indices.
@@ -3000,7 +3008,11 @@ func typecheckarraylit(elemType *types.Type, bound int64, elts []*Node) int64 {
 		if key >= 0 {
 			if indices != nil {
 				if indices[key] {
-					yyerror("duplicate index in array literal: %d", key)
+					typ := "array"
+					if bound == -2 {
+						typ = "slice"
+					}
+					yyerror("duplicate index in %s literal: %d", typ, key)
 				} else {
 					indices[key] = true
 				}
