@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e311b1a3_ca68faae",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 46
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-31T23:38:28Z",
+      "side": 1,
+      "message": "\"Discontinuous\" or \"signed\" perhaps. \"Segmented\" could be confused with x86 segmentation.",
+      "range": {
+        "startLine": 258,
+        "startChar": 24,
+        "endLine": 258,
+        "endChar": 33
+      },
+      "revId": "7d5afea53417322683a6b43b9a16339ce5c8b754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d1ad296_ad9a49bc",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 46
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-31T23:38:28Z",
+      "side": 1,
+      "message": "\"linear, contiguous\" perhaps",
+      "range": {
+        "startLine": 264,
+        "startChar": 61,
+        "endLine": 264,
+        "endChar": 67
+      },
+      "revId": "7d5afea53417322683a6b43b9a16339ce5c8b754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "941afad9_f4f958c4",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 46
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-31T23:38:28Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 444,
+        "startChar": 33,
+        "endLine": 444,
+        "endChar": 37
+      },
+      "revId": "7d5afea53417322683a6b43b9a16339ce5c8b754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "890b3b13_41e03bf0",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 46
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-31T23:38:28Z",
+      "side": 1,
+      "message": "\"and assumes\". Otherwise, this could be interpreted as predicating whether or not it uses searchAddr.",
+      "range": {
+        "startLine": 444,
+        "startChar": 46,
+        "endLine": 444,
+        "endChar": 54
+      },
+      "revId": "7d5afea53417322683a6b43b9a16339ce5c8b754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd7effd_90b117b4",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 46
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-31T23:38:28Z",
+      "side": 1,
+      "message": "update",
+      "range": {
+        "startLine": 86,
+        "startChar": 19,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "7d5afea53417322683a6b43b9a16339ce5c8b754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

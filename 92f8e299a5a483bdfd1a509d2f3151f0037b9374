@@ -815,6 +815,24 @@
     },
     {
       "key": {
+        "uuid": "f96df794_e6b7ff52",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-31T23:38:28Z",
+      "side": 1,
+      "message": "You\u0027re right. I still feel like there must be a clearer way to do this...\n\nWhat if you tracked a window of refinement? Initially, the window is the whole address space. When you encounter a non-zero sum, if the address range covered by that summary is within the window, you narrow the window to that range. On the root level, you\u0027ll narrow it dramatically on the first non-zero sum. If you descend, then the next level can narrow it further. If you keep moving past that sum, you won\u0027t be in the window any more, so lower levers won\u0027t narrow it further. At the end, you just return the lower bound of that window. WDTY?",
+      "parentUuid": "3d4105c4_ff718aaf",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c43aef3e_a3d5f55c",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 42
@@ -844,6 +862,24 @@
       "side": 1,
       "message": "funny enough this is how the very very first iteration of summary computation worked in the out of tree prototype. the merge state was an explicit struct and new summaries would get folded in.\n\nI think you\u0027re right that because we\u0027re not tracking the \"start\" index (now \"base\") it won\u0027t quite work out.",
       "parentUuid": "c43aef3e_a3d5f55c",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dec5668e_816a1f3f",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-31T23:38:28Z",
+      "side": 1,
+      "message": "Hmm. I was imagining you would just take a (start, max, end) summary and update it, but if you *did* have a separate accumulator type, that could track \"base\" as well. I wonder if the compiler is clever enough to cull out the parts the various uses don\u0027t need. It might be: it decomposes stack values of 4 or fewer fields so it can do all the SSA stuff to each field individually.\n\nNot high priority, but might be worth toying with to see if it simplifies the code.",
+      "parentUuid": "67407224_8c315896",
       "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
