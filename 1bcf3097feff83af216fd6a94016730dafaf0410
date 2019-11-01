@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0acdb76b_605152bf",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T21:26:36Z",
+      "side": 1,
+      "message": "they don\u0027t because of the bit-wise AND operation. anyway, we clear them now, so fixed.",
+      "parentUuid": "1b8df636_f82766ef",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ae1b4a4_f3bb0373",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 58
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "cf49d5ea_4ff3ea20",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T21:26:36Z",
+      "side": 1,
+      "message": "yeah sorry this comment is pointless and was copied (?) from another function.\n\nthe mallocing++ and systemstack was also copied over, and is also pointless. we really just want to look at dead Ps, which we can do just with the world stopped. even if allocations happen its fine; they shouldn\u0027t come from any dead Ps.",
+      "parentUuid": "9ae1b4a4_f3bb0373",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34cd641a_5d4ede32",
         "filename": "src/runtime/export_test.go",
         "patchSetId": 58
@@ -50,6 +86,24 @@
       "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05f7db68_1f0a27ad",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T21:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34cd641a_5d4ede32",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "92114850_5b8be96c",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T21:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e86c74cb_bb77f2e2",
+      "range": {
+        "startLine": 1066,
+        "startChar": 7,
+        "endLine": 1066,
+        "endChar": 12
+      },
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "300043d3_42daa51b",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 58
@@ -90,6 +168,24 @@
       "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8201ec17_86a203eb",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T21:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "300043d3_42daa51b",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "2947e9f3_f8bc3080",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T21:26:36Z",
+      "side": 1,
+      "message": "it only happens on the failing path, but yes still bad. fixed in an earlier CL (it was the one you mentioned).",
+      "parentUuid": "920d319a_55cf75e8",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9122da4_5b0b57dc",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 58
@@ -124,6 +238,24 @@
       "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d818ea9_a3fd96b0",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T21:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9122da4_5b0b57dc",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
