@@ -46,6 +46,7 @@ import (
 //
 // Any unreached text symbols are removed from ctxt.Textp.
 func deadcode(ctxt *Link) {
+<<<<<<< HEAD   (219922 [dev.link] cmd/link: add support to new deadcode for field t)
 	if ctxt.Debugvlog != 0 {
 		ctxt.Logf("%5.2f deadcode\n", Cputime())
 	}
@@ -55,6 +56,8 @@ func deadcode(ctxt *Link) {
 		return
 	}
 
+=======
+>>>>>>> BRANCH (8405cd internal/syscall/unix: add support for linux/riscv64)
 	d := &deadcodepass{
 		ctxt:        ctxt,
 		ifaceMethod: make(map[methodsig]bool),
