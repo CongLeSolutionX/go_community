@@ -93,9 +93,10 @@ type pollCache struct {
 }
 
 var (
-	netpollInited  uint32
-	pollcache      pollCache
-	netpollWaiters uint32
+	netpollInited   uint32
+	netpollInitLock mutex
+	pollcache       pollCache
+	netpollWaiters  uint32
 )
 
 //go:linkname poll_runtime_pollServerInit internal/poll.runtime_pollServerInit
@@ -104,8 +105,13 @@ func poll_runtime_pollServerInit() {
 }
 
 func netpollGenericInit() {
-	if atomic.Cas(&netpollInited, 0, 1) {
-		netpollinit()
+	if atomic.Load(&netpollInited) == 0 {
+		lock(&netpollInitLock)
+		if netpollInited == 0 {
+			netpollinit()
+			atomic.Store(&netpollInited, 1)
+		}
+		unlock(&netpollInitLock)
 	}
 }
 
