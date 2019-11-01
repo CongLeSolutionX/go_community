@@ -213,6 +213,12 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string) {
 			if len(f) != 2 {
 				break
 			}
+			if *flagNewobj && ctxt.LinkMode == LinkInternal {
+				// In newobj mode, this runs after host object loading.
+				// At this point we don't need this (and we don't want
+				// to overwrite an already-loaded symbol).
+				continue
+			}
 			local := f[1]
 
 			s := ctxt.Syms.Lookup(local, 0)
