@@ -428,7 +428,7 @@
 					"syscall/js.copyBytesToGo": (sp) => {
 						const dst = loadSlice(sp + 8);
 						const src = loadValue(sp + 32);
-						if (!(src instanceof Uint8Array)) {
+						if (!(src instanceof Uint8Array) && !(src instanceof Uint8ClampedArray)) {
 							this.mem.setUint8(sp + 48, 0);
 							return;
 						}
@@ -442,7 +442,7 @@
 					"syscall/js.copyBytesToJS": (sp) => {
 						const dst = loadValue(sp + 8);
 						const src = loadSlice(sp + 16);
-						if (!(dst instanceof Uint8Array)) {
+						if (!(dst instanceof Uint8Array) && !(dst instanceof Uint8ClampedArray)) {
 							this.mem.setUint8(sp + 48, 0);
 							return;
 						}
