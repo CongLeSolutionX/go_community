@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a54005cc_adac525d",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-01T11:59:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02a1732a_bc133c99",
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64496739_bc0c11da",
         "filename": "src/syscall/js/func.go",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-30T10:03:40Z",
       "side": 1,
       "message": "According to my tests, we can finalize cb directly here in a defer clause. Similar to what we are doing in jsString().",
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3045c0ec_f592f503",
+        "filename": "src/syscall/js/func.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-01T11:59:44Z",
+      "side": 1,
+      "message": "This code is on a higher layer, since it uses Get which already includes the garbage collection handling. No need to explicitly finalize here. You also wouldn\u0027t do it in any other code that uses syscall/js.",
+      "parentUuid": "64496739_bc0c11da",
       "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -76,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "2e38efb9_f20a3812",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-01T11:59:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc2435b2_c78f80fc",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef2b9d7c_6f579130",
         "filename": "src/syscall/js/js.go",
         "patchSetId": 12
@@ -99,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "9fa79df9_e347132f",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-01T11:59:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef2b9d7c_6f579130",
+      "range": {
+        "startLine": 60,
+        "startChar": 32,
+        "endLine": 60,
+        "endChar": 45
+      },
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a688e02e_680823a2",
         "filename": "src/syscall/js/js_test.go",
         "patchSetId": 12
@@ -113,6 +197,24 @@
       "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7edfd338_7f14998c",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-01T11:59:44Z",
+      "side": 1,
+      "message": "No, it wouldn\u0027t. For one, runtime.GC() does not seem to be fully deterministic. Also you would still grow the `_value` list above the threshold, at least with the quite simple check that I am using here.",
+      "parentUuid": "a688e02e_680823a2",
+      "revId": "073d093cb59bf6ef534697f558517e8fcf2d4392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
