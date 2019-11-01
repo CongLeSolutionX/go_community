@@ -11,6 +11,7 @@ import (
 	"crypto/sha1"
 	"crypto/x509"
 	"errors"
+	"fmt"
 	"io"
 )
 
@@ -179,22 +180,36 @@ NextCandidate:
 
 	priv, ok := cert.PrivateKey.(crypto.Signer)
 	if !ok {
-		return nil, errors.New("tls: certificate private key does not implement crypto.Signer")
+		return nil, fmt.Errorf("tls: certificate private key of type %T does not implement crypto.Signer", cert.PrivateKey)
 	}
 
-	signatureAlgorithm, sigType, hashFunc, err := pickSignatureAlgorithm(priv.Public(), clientHello.supportedSignatureAlgorithms, supportedSignatureAlgorithmsTLS12, ka.version)
-	if err != nil {
-		return nil, err
+	var signatureAlgorithm SignatureScheme
+	var sigType uint8
+	var sigHash crypto.Hash
+	if ka.version >= VersionTLS12 {
+		signatureAlgorithm, err = selectSignatureScheme(ka.version, cert, clientHello.supportedSignatureAlgorithms)
+		if err != nil {
+			return nil, err
+		}
+		sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgorithm)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		sigType, sigHash, err = legacyTypeAndHashFromPublicKey(priv.Public())
+		if err != nil {
+			return nil, err
+		}
 	}
 	if (sigType == signaturePKCS1v15 || sigType == signatureRSAPSS) != ka.isRSA {
 		return nil, errors.New("tls: certificate cannot be used with the selected cipher suite")
 	}
 
-	signed := hashForServerKeyExchange(sigType, hashFunc, ka.version, clientHello.random, hello.random, serverECDHParams)
+	signed := hashForServerKeyExchange(sigType, sigHash, ka.version, clientHello.random, hello.random, serverECDHParams)
 
-	signOpts := crypto.SignerOpts(hashFunc)
+	signOpts := crypto.SignerOpts(sigHash)
 	if sigType == signatureRSAPSS {
-		signOpts = &rsa.PSSOptions{SaltLength: rsa.PSSSaltLengthEqualsHash, Hash: hashFunc}
+		signOpts = &rsa.PSSOptions{SaltLength: rsa.PSSSaltLengthEqualsHash, Hash: sigHash}
 	}
 	sig, err := priv.Sign(config.rand(), signed, signOpts)
 	if err != nil {
@@ -276,18 +291,27 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 	ka.ckx.ciphertext[0] = byte(len(ourPublicKey))
 	copy(ka.ckx.ciphertext[1:], ourPublicKey)
 
-	var signatureAlgorithm SignatureScheme
+	var sigType uint8
+	var sigHash crypto.Hash
 	if ka.version >= VersionTLS12 {
-		// handle SignatureAndHashAlgorithm
-		signatureAlgorithm = SignatureScheme(sig[0])<<8 | SignatureScheme(sig[1])
+		signatureAlgorithm := SignatureScheme(sig[0])<<8 | SignatureScheme(sig[1])
 		sig = sig[2:]
 		if len(sig) < 2 {
 			return errServerKeyExchange
 		}
-	}
-	_, sigType, hashFunc, err := pickSignatureAlgorithm(cert.PublicKey, []SignatureScheme{signatureAlgorithm}, clientHello.supportedSignatureAlgorithms, ka.version)
-	if err != nil {
-		return err
+
+		if !isSupportedSignatureAlgorithm(signatureAlgorithm, clientHello.supportedSignatureAlgorithms) {
+			return errors.New("tls: certificate used with invalid signature algorithm")
+		}
+		sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgorithm)
+		if err != nil {
+			return err
+		}
+	} else {
+		sigType, sigHash, err = legacyTypeAndHashFromPublicKey(cert.PublicKey)
+		if err != nil {
+			return err
+		}
 	}
 	if (sigType == signaturePKCS1v15 || sigType == signatureRSAPSS) != ka.isRSA {
 		return errServerKeyExchange
@@ -299,8 +323,8 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 	}
 	sig = sig[2:]
 
-	signed := hashForServerKeyExchange(sigType, hashFunc, ka.version, clientHello.random, serverHello.random, serverECDHParams)
-	if err := verifyHandshakeSignature(sigType, cert.PublicKey, hashFunc, signed, sig); err != nil {
+	signed := hashForServerKeyExchange(sigType, sigHash, ka.version, clientHello.random, serverHello.random, serverECDHParams)
+	if err := verifyHandshakeSignature(sigType, cert.PublicKey, sigHash, signed, sig); err != nil {
 		return errors.New("tls: invalid signature by the server certificate: " + err.Error())
 	}
 	return nil

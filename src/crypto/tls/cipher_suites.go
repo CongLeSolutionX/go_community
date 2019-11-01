@@ -103,6 +103,27 @@ var cipherSuites = []*cipherSuite{
 	{TLS_ECDHE_ECDSA_WITH_RC4_128_SHA, 16, 20, 0, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteDefaultOff, cipherRC4, macSHA1, nil},
 }
 
+// selectCipherSuite returns the first cipher suite from ids which is also in
+// supportedIDs and passes the ok filter.
+func selectCipherSuite(ids, supportedIDs []uint16, ok func(*cipherSuite) bool) *cipherSuite {
+	for _, id := range ids {
+		candidate := cipherSuiteByID(id)
+		if candidate == nil {
+			continue
+		}
+
+		for _, suppID := range supportedIDs {
+			if id == suppID {
+				if ok(candidate) {
+					return candidate
+				}
+				break
+			}
+		}
+	}
+	return nil
+}
+
 // A cipherSuiteTLS13 defines only the pair of the AEAD algorithm and hash
 // algorithm to be used with HKDF. See RFC 8446, Appendix B.4.
 type cipherSuiteTLS13 struct {
