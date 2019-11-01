@@ -16,6 +16,24 @@
       "revId": "1b0fa2dc70e4c452ac74693a6e5aafa254d892e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edaa0488_2568496e",
+        "filename": "src/cmd/go/internal/modload/stat_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-01T13:28:12Z",
+      "side": 1,
+      "message": "Done.\n\nThanks for the pointer!",
+      "parentUuid": "48e9211e_67d484e6",
+      "revId": "1b0fa2dc70e4c452ac74693a6e5aafa254d892e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
