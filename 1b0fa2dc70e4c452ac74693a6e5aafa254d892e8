@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48e9211e_67d484e6",
+        "filename": "src/cmd/go/internal/modload/stat_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5280
+      },
+      "writtenOn": "2019-11-01T00:27:08Z",
+      "side": 1,
+      "message": "I think in Plan 9, we should just try to open the file for writing and return true if that\u0027s successful. [access(2)](http://9p.io/magic/man2html/2/access) says this:\n\u003e Since file permissions are checked by the server and group information is not known to the client, access must open the file to check permissions.\n\nThe access(2) implementation: http://9p.io/sources/plan9/sys/src/libc/9sys/access.c",
+      "revId": "1b0fa2dc70e4c452ac74693a6e5aafa254d892e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
