@@ -833,6 +833,24 @@
     },
     {
       "key": {
+        "uuid": "7d21683c_356a4815",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T19:24:52Z",
+      "side": 1,
+      "message": "ah I see, that\u0027s clever, and better than anything I came up with since my last comment!\n\nit works quite well, I think. it\u0027s likely a tiny bit more expensive to compute, but way less difficult to get wrong and maintain.",
+      "parentUuid": "f96df794_e6b7ff52",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c43aef3e_a3d5f55c",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 42
@@ -880,6 +898,24 @@
       "side": 1,
       "message": "Hmm. I was imagining you would just take a (start, max, end) summary and update it, but if you *did* have a separate accumulator type, that could track \"base\" as well. I wonder if the compiler is clever enough to cull out the parts the various uses don\u0027t need. It might be: it decomposes stack values of 4 or fewer fields so it can do all the SSA stuff to each field individually.\n\nNot high priority, but might be worth toying with to see if it simplifies the code.",
       "parentUuid": "67407224_8c315896",
+      "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02df913_ca9ea788",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-01T19:24:52Z",
+      "side": 1,
+      "message": "the accumulator type had 4 fields: start, max, end, and size, which was the max number of pages that summary could represent. tracking base would add a fifth field, so I\u0027m afraid it might not work out compiler-wise, but this is the slow path anyway.\n\nI\u0027ll leave this be for now and come back to it if I have time.",
+      "parentUuid": "dec5668e_816a1f3f",
       "revId": "92f8e299a5a483bdfd1a509d2f3151f0037b9374",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
