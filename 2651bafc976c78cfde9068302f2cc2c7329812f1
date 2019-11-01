@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29182a44_4aff392e",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-11-01T10:04:57Z",
+      "side": 1,
+      "message": "Nit: can we align the comments for 8-space tabs? We should really just use spaces instead but we should do that in a different CL.",
+      "range": {
+        "startLine": 202,
+        "startChar": 43,
+        "endLine": 220,
+        "endChar": 42
+      },
+      "revId": "2651bafc976c78cfde9068302f2cc2c7329812f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7085446e_12d858c4",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-11-01T10:04:57Z",
+      "side": 1,
+      "message": "Lets be consistent about whether we use \u0027\u0026\u0027 or \u0027and\u0027 in comments. I don\u0027t mind which you go with.\n\nAlso generally I would use lower case for comments that aren\u0027t sentences:\n\n// load and store multiple\n\nBut I\u0027m not sure there are any hard and fast rules there so it is up to you.",
+      "range": {
+        "startLine": 248,
+        "startChar": 9,
+        "endLine": 248,
+        "endChar": 10
+      },
+      "revId": "2651bafc976c78cfde9068302f2cc2c7329812f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1d10739_57b31f77",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-11-01T10:04:57Z",
+      "side": 1,
+      "message": "Align for 8-space tabs.",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 42
+      },
+      "revId": "2651bafc976c78cfde9068302f2cc2c7329812f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d67bc8d_7441b17c",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-11-01T10:04:57Z",
+      "side": 1,
+      "message": "I think we should add VSB to the assembler. It\u0027s fine to do that in this CL.",
+      "range": {
+        "startLine": 418,
+        "startChar": 1,
+        "endLine": 418,
+        "endChar": 47
+      },
+      "revId": "2651bafc976c78cfde9068302f2cc2c7329812f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "033bc603_0b6d9c74",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-11-01T10:04:57Z",
+      "side": 1,
+      "message": "Looks like these were add in vector-enhancements-facility 1 (i.e. z14). So lets leave them out for now. We can add them when/if we need them.",
+      "range": {
+        "startLine": 454,
+        "startChar": 43,
+        "endLine": 456,
+        "endChar": 47
+      },
+      "revId": "2651bafc976c78cfde9068302f2cc2c7329812f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
