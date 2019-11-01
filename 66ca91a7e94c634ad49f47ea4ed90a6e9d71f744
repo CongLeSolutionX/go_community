@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9181aa44_c1c5811a",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-01T14:20:46Z",
+      "side": 1,
+      "message": "Just brainstorming, not for this CL: I wish there were an easy way to expose BuildMod and BuildModReason in `go env` output in bug reports. Heschi also mentioned it would be useful to have a simple way to tell when vendoring is enabled. Maybe a read-only variable like GODIAG or something? Let\u0027s look out for other use cases.",
+      "revId": "66ca91a7e94c634ad49f47ea4ed90a6e9d71f744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5097dba0_c26b7381",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-01T14:20:46Z",
+      "side": 1,
+      "message": "Use cfg.ModFile instead so -modfile works.",
+      "revId": "66ca91a7e94c634ad49f47ea4ed90a6e9d71f744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc50afb8_0762298b",
+        "filename": "src/cmd/go/internal/modload/stat_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-01T14:20:46Z",
+      "side": 1,
+      "message": "I think we should do something simpler here. Permission checking is complicated, and we\u0027re bound to miss something. There are too many weird things that can happen with ACLs, containers, special file systems, etc.\n\nMaybe we can just use syscall.Access on systems that support it and os.OpenFile with O_WRONLY on everything else?",
+      "revId": "66ca91a7e94c634ad49f47ea4ed90a6e9d71f744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
