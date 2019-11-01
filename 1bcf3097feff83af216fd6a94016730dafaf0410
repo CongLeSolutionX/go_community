@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b8df636_f82766ef",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-01T02:23:27Z",
+      "side": 1,
+      "message": "Now I really think allocating out of the cache needs to clear pageCache.scav. I\u0027m surprised the tests didn\u0027t complain about this.",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ae1b4a4_f3bb0373",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-01T02:23:27Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. This makes sure you can\u0027t be preempted (but you\u0027re on the system stack already) and that you can\u0027t call malloc (but that\u0027s obvious enough from the code below). And the world is already stopped...",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34cd641a_5d4ede32",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-01T02:23:27Z",
+      "side": 1,
+      "message": "Protect against nil p\u0027s, since you\u0027re going past len(allp).",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e86c74cb_bb77f2e2",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-01T02:23:27Z",
+      "side": 1,
+      "message": "Abstraction leak. Add a pageCache.empty method?",
+      "range": {
+        "startLine": 1066,
+        "startChar": 7,
+        "endLine": 1066,
+        "endChar": 12
+      },
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "300043d3_42daa51b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-01T02:23:27Z",
+      "side": 1,
+      "message": "Meh, gotos. What if this were something like\n\nbase, scav \u003d c.alloc(npages)\nif base !\u003d 0 {\n  s \u003d h.tryAllocMSpan()\n  if s !\u003d nil \u0026\u0026 gcBlackenEnabled \u003d\u003d 0 \u0026\u0026 ... {\n    goto HaveBase\n  }\n  // ... explain condition ...\n}\n\nlock(\u0026h.lock)\n\nif base \u003d\u003d 0 {\n  // Try to acquire a base address from the heap.\n  base, scav \u003d h.pages.alloc(npages)\n  if base \u003d\u003d 0 {\n    if !h.grow(npages) {\n      return nil\n    }\n    base, scav \u003d h.pages.alloc(npages)\n    if base \u003d\u003d 0 {\n      throw(...)\n    }\n  }\n}\n\n...\n\nThen you don\u0027t need HaveBaseLocked at all.",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "920d319a_55cf75e8",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-01T02:23:27Z",
+      "side": 1,
+      "message": "I just noticed this is returning with the heap lock held. That\u0027s probably bad. I think this crept in when you introduced allocSpan, but I\u0027m not sure.",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9122da4_5b0b57dc",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 58
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-01T02:23:27Z",
+      "side": 1,
+      "message": "HaveSpan, perhaps?",
+      "revId": "1bcf3097feff83af216fd6a94016730dafaf0410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
