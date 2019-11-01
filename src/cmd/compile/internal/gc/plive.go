@@ -126,6 +126,10 @@ type Liveness struct {
 	regMaps     []liveRegMask
 
 	cache progeffectscache
+
+	// Map from a variable defined by OpVarDef to the block where the OpVarDef
+	// occurs.
+	vardefToBlockMap map[*Node]ssa.ID
 }
 
 // LivenessMap maps from *ssa.Value to LivenessIndex.
@@ -481,6 +485,7 @@ func newliveness(fn *Node, f *ssa.Func, vars []*Node, idx map[*Node]int32, stkpt
 
 		regMapSet: make(map[liveRegMask]int),
 	}
+	lv.vardefToBlockMap = make(map[*Node]ssa.ID)
 
 	// Significant sources of allocation are kept in the ssa.Cache
 	// and reused. Surprisingly, the bit vectors themselves aren't
@@ -816,6 +821,10 @@ func (lv *Liveness) prologue() {
 		// Walk the block instructions backward and update the block
 		// effects with the each prog effects.
 		for j := len(b.Values) - 1; j >= 0; j-- {
+			if b.Values[j].Op == ssa.OpVarDef {
+				n := b.Values[j].Aux.(*Node)
+				lv.vardefToBlockMap[n] = b.ID
+			}
 			pos, e := lv.valueEffects(b.Values[j])
 			regUevar, regKill := lv.regEffects(b.Values[j])
 			if e&varkill != 0 {
@@ -840,6 +849,8 @@ func (lv *Liveness) solve() {
 	newlivein := varRegVec{vars: bvalloc(nvars)}
 	newliveout := varRegVec{vars: bvalloc(nvars)}
 
+	idom := lv.f.Idom()
+
 	// Walk blocks in postorder ordering. This improves convergence.
 	po := lv.f.Postorder()
 
@@ -863,16 +874,7 @@ func (lv *Liveness) solve() {
 					newliveout.vars.Set(pos)
 				}
 			case ssa.BlockExit:
-				if lv.fn.Func.HasDefer() && !lv.fn.Func.OpenCodedDeferDisallowed() {
-					// All stack slots storing args for open-coded
-					// defers are live at panic exit (since they
-					// will be used in running defers)
-					for i, n := range lv.vars {
-						if n.Name.OpenDeferSlot() {
-							newliveout.vars.Set(int32(i))
-						}
-					}
-				}
+				// panic exit - nothing to do
 			default:
 				// A variable is live on output from this block
 				// if it is live on input to some successor.
@@ -881,6 +883,29 @@ func (lv *Liveness) solve() {
 				newliveout.Copy(lv.blockEffects(b.Succs[0].Block()).livein)
 				for _, succ := range b.Succs[1:] {
 					newliveout.Or(newliveout, lv.blockEffects(succ.Block()).livein)
+				}
+			}
+
+			// A stack slot storing an arg for an open-coded defer is
+			// live in all blocks that are dominated by its
+			// definition, since a panic can happen at any time. We
+			// need to do this special case, to handle panic exits and
+			// cases where a function enters an infinite loop with no exit.
+			//
+			// TODO: If we build a list of blocks that cannot reach a
+			// return/exit (which includes BlockExit blocks), then we
+			// only need to do this for those blocks.
+			if lv.fn.Func.HasDefer() && !lv.fn.Func.OpenCodedDeferDisallowed() {
+				for i, n := range lv.vars {
+					if n.Name.OpenDeferSlot() {
+						defID := lv.vardefToBlockMap[n]
+						var domB *ssa.Block
+						for domB = b; domB != nil && domB.ID != defID; domB = idom[domB.ID] {
+						}
+						if domB != nil && domB.ID == defID {
+							newliveout.vars.Set(int32(i))
+						}
+					}
 				}
 			}
 
