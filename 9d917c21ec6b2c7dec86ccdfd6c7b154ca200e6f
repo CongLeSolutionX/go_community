@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d8c0d77_d0fca0c0",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T01:50:59Z",
+      "side": 1,
+      "message": "Delete",
+      "range": {
+        "startLine": 62,
+        "startChar": 15,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "9d917c21ec6b2c7dec86ccdfd6c7b154ca200e6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
