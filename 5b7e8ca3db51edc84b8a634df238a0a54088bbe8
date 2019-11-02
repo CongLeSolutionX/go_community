@@ -52,6 +52,24 @@
       "revId": "5b7e8ca3db51edc84b8a634df238a0a54088bbe8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e4120be_c55f3318",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-02T02:23:30Z",
+      "side": 1,
+      "message": "Sorry, not really. It\u0027s literally a TODO in the code for when you cancel your Gerrit vote.\n\nYou could get Illumos running on GCE where we have ~infinite capacity instead of 1 physical machine. :)",
+      "parentUuid": "8f619f3c_a397072d",
+      "revId": "5b7e8ca3db51edc84b8a634df238a0a54088bbe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
