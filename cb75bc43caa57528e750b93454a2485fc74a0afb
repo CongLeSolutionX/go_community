@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c279ea3_3aba613c",
+        "filename": "src/cmd/link/internal/ld/execarchive.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-02T01:02:44Z",
+      "side": 1,
+      "message": "Maybe print the actual command it exec\u0027s.",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "cb75bc43caa57528e750b93454a2485fc74a0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3b39510_957b0866",
+        "filename": "src/cmd/link/internal/ld/execarchive_noexec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-02T01:02:44Z",
+      "side": 1,
+      "message": "I think we also want to include windows, where there exists syscall.Exec but it just returns an error.",
+      "revId": "cb75bc43caa57528e750b93454a2485fc74a0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6cbe25c_53e74fce",
+        "filename": "src/cmd/link/internal/ld/ld_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-02T01:02:44Z",
+      "side": 1,
+      "message": "I think we also want to check if cgo is enabled.",
+      "revId": "cb75bc43caa57528e750b93454a2485fc74a0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81eb54ee_b6043b82",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-02T01:02:44Z",
+      "side": 1,
+      "message": "This block is all flags. Move this somewhere else.",
+      "revId": "cb75bc43caa57528e750b93454a2485fc74a0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
