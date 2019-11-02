@@ -41,8 +41,8 @@ type profileBuilder struct {
 	pb        protobuf
 	strings   []string
 	stringMap map[string]int
-	locs      map[uintptr]int
-	funcs     map[string]int // Package path-qualified function name to Function.ID
+	locs      map[uintptr]locInfo // cached location info for the given PC.
+	funcs     map[string]int      // Package path-qualified function name to Function.ID
 	mem       []memMap
 }
 
@@ -207,13 +207,36 @@ func (b *profileBuilder) pbMapping(tag int, id, base, limit, offset uint64, file
 	b.pb.endMessage(tag, start)
 }
 
+func allFrames(stk []uintptr) (ret []frameAndSymbolizeFlag) {
+	frames := runtime.CallersFrames(stk)
+	for {
+		frame, more := frames.Next()
+		if frame.Function == "runtime.goexit" {
+			// Short-circuit if we see runtime.goexit so the loop
+			// below doesn't allocate a useless empty location.
+			return ret
+		}
+		symbolizeResult := lookupTried
+		if frame.PC == 0 || frame.Function == "" || frame.File == "" || frame.Line == 0 {
+			symbolizeResult |= lookupFailed
+		}
+		// Previously we had code to make up a reasonable call PC from the address in stk
+		// when we fail to resolve the frame, but it seems we should never fail to resolve
+		// the frame with the current traceback and runtime.CallersFrames API.
+		ret = append(ret, frameAndSymbolizeFlag{Frame: frame, symbolizeResult: symbolizeResult})
+		if !more {
+			return ret
+		}
+	}
+}
+
 // locForPC returns the location ID for addr.
 // addr must a return PC or 1 + the PC of an inline marker. This returns the location of the corresponding call.
 // It may emit to b.pb, so there must be no message encoding in progress.
 func (b *profileBuilder) locForPC(addr uintptr) uint64 {
-	id := uint64(b.locs[addr])
-	if id != 0 {
-		return id
+	loc, ok := b.locs[addr]
+	if ok {
+		return loc.id
 	}
 
 	// Expand this one address using CallersFrames so we can cache
@@ -248,8 +271,8 @@ func (b *profileBuilder) locForPC(addr uintptr) uint64 {
 	}
 	newFuncs := make([]newFunc, 0, 8)
 
-	id = uint64(len(b.locs)) + 1
-	b.locs[addr] = int(id)
+	id := uint64(len(b.locs)) + 1
+	b.locs[addr] = locInfo{id: id, numFrames: 1}
 	start := b.pb.startMessage()
 	b.pb.uint64Opt(tagLocation_ID, id)
 	b.pb.uint64Opt(tagLocation_Address, uint64(frame.PC))
@@ -293,6 +316,12 @@ func (b *profileBuilder) locForPC(addr uintptr) uint64 {
 	return id
 }
 
+type locInfo struct {
+	// location id assigned by the profileBuilder
+	id        uint64
+	numFrames int // number of inlined PCs
+}
+
 // newProfileBuilder returns a new profileBuilder.
 // CPU profiling data obtained from the runtime can be added
 // by calling b.addCPUData, and then the eventual profile
@@ -305,7 +334,7 @@ func newProfileBuilder(w io.Writer) *profileBuilder {
 		start:     time.Now(),
 		strings:   []string{""},
 		stringMap: map[string]int{"": 0},
-		locs:      map[uintptr]int{},
+		locs:      map[uintptr]locInfo{},
 		funcs:     map[string]int{},
 	}
 	b.readMapping()
@@ -388,7 +417,10 @@ func (b *profileBuilder) build() {
 	}
 
 	values := []int64{0, 0}
+
+	var deck = &frameDeck{}
 	var locs []uint64
+
 	for e := b.m.all; e != nil; e = e.nextAll {
 		values[0] = e.count
 		values[1] = e.count * b.period
@@ -402,23 +434,46 @@ func (b *profileBuilder) build() {
 			}
 		}
 
+		deck.reset()
 		locs = locs[:0]
-		for i, addr := range e.stk {
-			// Addresses from stack traces point to the
-			// next instruction after each call, except
-			// for the leaf, which points to where the
-			// signal occurred. locForPC expects return
-			// PCs, so increment the leaf address to look
-			// like a return PC.
-			if i == 0 {
-				addr++
-			}
-			l := b.locForPC(addr)
-			if l == 0 { // runtime.goexit
+
+		// Addresses from stack traces point to the next instruction after each call,
+		// except for the leaf, which points to where the signal occurred.
+		// deck.add+emitLocation expects return PCs so increment the leaf address to
+		// look like a return PC.
+		e.stk[0] += 1
+		frames := allFrames(e.stk)
+		for len(frames) > 0 {
+			f := frames[0]
+			if l, ok := b.locs[f.PC]; ok {
+				// first record the location if there is any pending accumulated info.
+				if id := b.emitLocation(deck); id > 0 {
+					locs = append(locs, id)
+				}
+				// then record the cached location and skip the matching frames.
+				locs = append(locs, l.id)
+				frames = frames[l.numFrames:]
 				continue
 			}
-			locs = append(locs, l)
+			if f.Function == "runtime.goexit" { // Skip the bottom of the stack.
+				break
+			}
+			if added := deck.add(f); added {
+				frames = frames[1:]
+				continue
+			}
+			// add failed because this frame is not inlined with
+			// the existing PCs in the deck. Flush the deck and retry to
+			// handle from this frame.
+			if id := b.emitLocation(deck); id > 0 {
+				locs = append(locs, id)
+			}
 		}
+		if id := b.emitLocation(deck); id > 0 { // emit remaining location.
+			locs = append(locs, id)
+		}
+		e.stk[0] -= 1 // undo the adjustment on the leaf done before the loop.
+
 		b.pbSample(values, locs, labels)
 	}
 
@@ -433,6 +488,134 @@ func (b *profileBuilder) build() {
 	b.pb.strings(tagProfile_StringTable, b.strings)
 	b.zw.Write(b.pb.data)
 	b.zw.Close()
+}
+
+// frameDeck is a helper to detect a sequence of inlined functions from
+// a stack trace returned by the runtime.
+//
+// The stack traces returned by runtime's trackback functions are fully
+// expanded (at least for Go functions) and include the fake pcs representing
+// inlined functions. The profile proto expects the inlined functions to be
+// encoded in one Location message.
+// https://github.com/google/pprof/blob/5e965273ee43930341d897407202dd5e10e952cb/proto/profile.proto#L177-L184
+//
+// Runtime does not directly expose whether a frame is for an inlined function
+// and looking up debug info is not ideal, so we use a heuristic to filter
+// the fake pcs and restore the inlined and entry functions. Inlined functions
+// have the following properties:
+//   Frame's Func is nil (note: non-Go function), and
+//   Frame's Entry matches its entry function frame's Entry. (note: recursion, non-Go function),
+//   Frame's Name does not match its entry function frame's name.
+//
+// As reading and processing the frames one by one (from leaf to the root),
+// we use frameDeck to temporarily hold the observed frames until we see the entry
+// function frame.
+type frameDeck struct {
+	frames          []runtime.Frame
+	symbolizeResult symbolizeFlag
+}
+
+func (d *frameDeck) reset() {
+	d.frames = d.frames[:0]
+	d.symbolizeResult = 0
+}
+
+type frameAndSymbolizeFlag struct {
+	runtime.Frame
+	symbolizeResult symbolizeFlag
+}
+
+// add trys to add the pc and Frames expanded from it (most likely one,
+// since the stack trace is already fully expanded) and the symbolizeResult
+// to the deck. If it fails the caller needs to flush the deck and retry.
+func (d *frameDeck) add(newFrame frameAndSymbolizeFlag) (success bool) {
+	if existing := len(d.frames); existing > 0 {
+		// 'frames' are all expanded from one 'pc' and represent all inlined functions
+		// so we check only the first one.
+		last := d.frames[existing-1]
+		if last.Func != nil && newFrame.Func != nil { // Can't be an inlined frame.
+			return false
+		}
+
+		if last.Entry == 0 || newFrame.Entry == 0 { // Possibly not a Go function. Don't try to merge.
+			return false
+		}
+
+		if last.Entry != newFrame.Entry { // newFrame is for a different functions.
+			return false
+		}
+		if last.Function == newFrame.Function { // maybe recursion.
+			return false
+		}
+	}
+	d.frames = append(d.frames, newFrame.Frame)
+	d.symbolizeResult |= newFrame.symbolizeResult
+	return true
+}
+
+// emitLocation emits the new location and function information recorded in the deck
+// and returns the location ID encoded in the profile protobuf.
+// It emits to b.pb, so there must be no message encoding in progress.
+// It resets the deck.
+func (b *profileBuilder) emitLocation(deck *frameDeck) uint64 {
+	defer deck.reset()
+
+	if len(deck.frames) == 0 {
+		return 0
+	}
+
+	firstFrame := deck.frames[0]
+	addr := firstFrame.PC
+
+	// We can't write out functions while in the middle of the
+	// Location message, so record new functions we encounter and
+	// write them out after the Location.
+	type newFunc struct {
+		id         uint64
+		name, file string
+	}
+	newFuncs := make([]newFunc, 0, 8)
+
+	id := uint64(len(b.locs)) + 1
+	b.locs[addr] = locInfo{id: id, numFrames: len(deck.frames)}
+
+	start := b.pb.startMessage()
+	b.pb.uint64Opt(tagLocation_ID, id)
+	b.pb.uint64Opt(tagLocation_Address, uint64(addr))
+	for _, frame := range deck.frames {
+		// Write out each line in frame expansion.
+		funcID := uint64(b.funcs[frame.Function])
+		if funcID == 0 {
+			funcID = uint64(len(b.funcs)) + 1
+			b.funcs[frame.Function] = int(funcID)
+			newFuncs = append(newFuncs, newFunc{funcID, frame.Function, frame.File})
+		}
+		b.pbLine(tagLocation_Line, funcID, int64(frame.Line))
+	}
+	for i := range b.mem {
+		if b.mem[i].start <= addr && addr < b.mem[i].end || b.mem[i].fake {
+			b.pb.uint64Opt(tagLocation_MappingID, uint64(i+1))
+
+			m := b.mem[i]
+			m.funcs |= deck.symbolizeResult
+			b.mem[i] = m
+			break
+		}
+	}
+	b.pb.endMessage(tagProfile_Location, start)
+
+	// Write out functions we found during frame expansion.
+	for _, fn := range newFuncs {
+		start := b.pb.startMessage()
+		b.pb.uint64Opt(tagFunction_ID, fn.id)
+		b.pb.int64Opt(tagFunction_Name, b.stringIndex(fn.name))
+		b.pb.int64Opt(tagFunction_SystemName, b.stringIndex(fn.name))
+		b.pb.int64Opt(tagFunction_Filename, b.stringIndex(fn.file))
+		b.pb.endMessage(tagProfile_Function, start)
+	}
+
+	b.flush()
+	return id
 }
 
 // readMapping reads /proc/self/maps and writes mappings to b.pb.
