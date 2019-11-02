@@ -16,6 +16,24 @@
       "revId": "0ff8c224c68dbbdd75a0c3b1c037e4450f29f0db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5dff15d_0362dab6",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2019-11-02T09:22:39Z",
+      "side": 1,
+      "message": "Thanks for the review. Fixed.\n\nI added another scenario to the \"TestScript/mod_replace_import\" as follows:\n- Imported a package named \"example.com/a/b/c\".\n- Both \"example.com/a\" and \"example.com/a/b\" are replaced in the go.mod file, but package \"example.com/a/b/c\" exists only in \"example.com/a\".\n- Package \"example.com/a/b/c\" resolved through \"example.com/a\"",
+      "parentUuid": "386d78b5_d07b54cc",
+      "revId": "0ff8c224c68dbbdd75a0c3b1c037e4450f29f0db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
