@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7776fbc1_54549dc9",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "Since you\u0027re releasing hard OS resources, I\u0027d go with an explicit free function.",
+      "parentUuid": "558948df_5e49a43e",
+      "range": {
+        "startLine": 876,
+        "startChar": 1,
+        "endLine": 876,
+        "endChar": 13
+      },
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d6990e1_e436a176",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 48
@@ -41,6 +65,156 @@
         "startChar": 1,
         "endLine": 220,
         "endChar": 2
+      },
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a8ce5b_ab721bd4",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "Given that js/wasm claims a physPageSize of 64KiB, mem_js.go\u0027s sysReserve should actually obey that alignment. It looks like that ought to be pretty trivial to do.",
+      "parentUuid": "4d6990e1_e436a176",
+      "range": {
+        "startLine": 217,
+        "startChar": 1,
+        "endLine": 220,
+        "endChar": 2
+      },
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04ac212c_73ec728c",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "This should probably explain a little more why this is the right thing to do. Maybe something like:\n\nThis way, we\u0027ll record the first summary we find with any free pages on the root level and narrow that down if we descend into that summary. But as soon as we need to iterate beyond that summary in a level to find a large enough range, we\u0027ll stop narrowing.",
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80aae79a_c977ca48",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "What does it mean for the range to be non-zero?",
+      "range": {
+        "startLine": 510,
+        "startChar": 6,
+        "endLine": 510,
+        "endChar": 28
+      },
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35231342_3a2429a8",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "partially overlaps?",
+      "range": {
+        "startLine": 516,
+        "startChar": 17,
+        "endLine": 516,
+        "endChar": 25
+      },
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4385ba0d_46189fa7",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "The throw message doesn\u0027t need to include this, since it\u0027ll be apparent from the traceback.",
+      "range": {
+        "startLine": 519,
+        "startChar": 10,
+        "endLine": 519,
+        "endChar": 33
+      },
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58a360b8_a6a2d8f9",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "free window",
+      "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "300328ec_d7add2b5",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-02T08:21:02Z",
+      "side": 1,
+      "message": "Can\u0027t this just be pageSize?",
+      "range": {
+        "startLine": 658,
+        "startChar": 39,
+        "endLine": 658,
+        "endChar": 65
       },
       "revId": "87d89ab71ab2dac0dfc4eb02b72f998a89cdb513",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
