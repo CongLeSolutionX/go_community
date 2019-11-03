@@ -6522,6 +6522,14 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 			p.To.Type = obj.TYPE_REG
 		case sys.ARM, sys.ARM64, sys.MIPS, sys.MIPS64:
 			p.To.Type = obj.TYPE_MEM
+		case sys.RISCV64:
+			switch v.Op {
+			case ssa.OpRISCV64CALLstatic:
+				p.To.Name = obj.NAME_EXTERN
+				p.To.Sym = v.Aux.(*obj.LSym)
+			case ssa.OpRISCV64CALLclosure, ssa.OpRISCV64CALLinter:
+				p.To.Type = obj.TYPE_REG
+			}
 		default:
 			Fatalf("unknown indirect call family")
 		}
