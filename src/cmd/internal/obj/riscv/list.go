@@ -21,6 +21,8 @@ func regName(r int) string {
 		return "NONE"
 	case r == REG_G:
 		return "g"
+	case r == REG_LR:
+		return "LR"
 	case r == REG_SP:
 		return "SP"
 	case REG_X0 <= r && r <= REG_X31:
