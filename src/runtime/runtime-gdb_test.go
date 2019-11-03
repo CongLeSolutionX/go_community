@@ -35,6 +35,9 @@ func checkGdbEnvironment(t *testing.T) {
 		if runtime.GOARCH == "mips" {
 			t.Skip("skipping gdb tests on linux/mips; see https://golang.org/issue/25939")
 		}
+		if runtime.GOARCH == "riscv64" {
+			t.Skip("skipping gdb tests on linux/riscv64; see https://golang.org/issue/XYZ")
+		}
 	case "freebsd":
 		t.Skip("skipping gdb tests on FreeBSD; see https://golang.org/issue/29508")
 	case "aix":
