@@ -489,8 +489,8 @@ func rewriteMOV(ctxt *obj.Link, newprog obj.ProgAlloc, p *obj.Prog) {
 	}
 }
 
-// invertBranch inverts the condition of a conditional branch.
-func invertBranch(i obj.As) obj.As {
+// InvertBranch inverts the condition of a conditional branch.
+func InvertBranch(i obj.As) obj.As {
 	switch i {
 	case ABEQ:
 		return ABNE
@@ -505,7 +505,7 @@ func invertBranch(i obj.As) obj.As {
 	case ABGEU:
 		return ABLTU
 	default:
-		panic("invertBranch: not a branch")
+		panic("InvertBranch: not a branch")
 	}
 }
 
@@ -991,7 +991,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					jmp.To = obj.Addr{Type: obj.TYPE_BRANCH}
 					jmp.Pcond = p.Pcond
 
-					p.As = invertBranch(p.As)
+					p.As = InvertBranch(p.As)
 					p.Pcond = jmp.Link
 
 					// We may have made previous branches too long,
