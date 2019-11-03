@@ -282,3 +282,25 @@ start:
 	// real address and updates the immediates for both instructions.
 	CALL	asmtest(SB)				// 970f0000
 	JMP	asmtest(SB)				// 970f0000
+
+	SEQZ	X15, X15				// 93b71700
+	SNEZ	X15, X15				// b337f000
+
+	// F extension
+	FNEGS	F0, F1					// d3100020
+
+	// FNES gets encoded as FEQS+XORI, which results in both
+	// FEQS and FNES having the same encoding. Ideally we'd check
+	// both instructions in the sequence.
+	FNES	F0, F1, X7				// d3a300a0
+
+	// D extension
+	FNEGD	F0, F1					// d3100022
+	FNED	F0, F1, X5				// d3a200a2
+	FLTD	F0, F1, X5				// d39200a2
+	FLED	F0, F1, X5				// d38200a2
+
+	// FNED gets encoded as FEQD+XORI, which results in both
+	// FEQD and FNED having the same encoding. Ideally we'd check
+	// both instructions in the sequence.
+	FEQD	F0, F1, X5				// d3a200a2
