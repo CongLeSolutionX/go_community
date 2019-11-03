@@ -705,6 +705,9 @@ func (lv *Liveness) markUnsafePoints() {
 					v = v.Args[0]
 					continue
 				}
+			case ssa.OpRISCV64SUB:
+				v = v.Args[0]
+				continue
 			case ssa.Op386MOVLload, ssa.OpARM64MOVWUload, ssa.OpPPC64MOVWZload, ssa.OpWasmI64Load32U:
 				// Args[0] is the address of the write
 				// barrier control. Ignore Args[1],
