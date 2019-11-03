@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "013f33de_eff5b74f",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-03T22:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8565a738_a8ea1198",
+      "revId": "bc6b1c07db850b9036a567cba29ac1156e3d65a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b215886_e34f2f2c",
         "filename": "src/net/http/roundtrip_js.go",
         "patchSetId": 13
@@ -33,6 +51,24 @@
       "revId": "bc6b1c07db850b9036a567cba29ac1156e3d65a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "096c9c76_a093e933",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-03T22:43:35Z",
+      "side": 1,
+      "message": "Done. I opted for IsUndefined() instead of IsDefined() because this fits better with what one is used to with JavaScript.",
+      "parentUuid": "7b215886_e34f2f2c",
+      "revId": "bc6b1c07db850b9036a567cba29ac1156e3d65a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
