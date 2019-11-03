@@ -290,3 +290,17 @@ start:
 	// with a R_RISCV_PCREL_ITYPE relocation. The linker resolves the real
 	// address.
 	JMP	asmtest(SB)				// 970f0000
+
+	SEQZ	X15, X15				// 93b71700
+	SNEZ	X15, X15				// b337f000
+
+	// F extension
+	FNEGS	F0, F1					// d3100020
+	FNES	F0, F1, X7				// d3a300a0
+
+	// D extension
+	FNEGD	F0, F1					// d3100022
+	FEQD	F0, F1, X5				// d3a200a2
+	FNED	F0, F1, X5				// d3a200a2
+	FLTD	F0, F1, X5				// d39200a2
+	FLED	F0, F1, X5				// d38200a2
