@@ -267,3 +267,26 @@ start:
 	MOVD	4(X5), F0				// 07b04200
 	MOVD	F0, 4(X5)				// 27b20200
 	MOVD	F0, F1					// d3000022
+
+	// These jumps can get printed as jumps to 2 because they go to the
+	// second instruction in the function.  (The first instruction is an
+	// invisible stack pointer adjustment.)
+	JMP	start		// JMP	2		// 6ff05fcd
+	JMP	(X5)					// 67800200
+	JMP	4(X5)					// 67804200
+
+	// Encoded as
+	//	AUIPC $0, TMP
+	//	ADDI $0, TMP
+	//	JALR TMP
+	// with a R_RISCV_PCREL_ITYPE relocation. The linker resolves the real
+	// address.
+	CALL	asmtest(SB)				// 970f0000
+
+	// Encoded as
+	//	AUIPC $0, TMP
+	//	ADDI $0, TMP
+	//	JMP TMP
+	// with a R_RISCV_PCREL_ITYPE relocation. The linker resolves the real
+	// address.
+	JMP	asmtest(SB)				// 970f0000
