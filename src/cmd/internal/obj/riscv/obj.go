@@ -390,6 +390,33 @@ func rewriteMOV(ctxt *obj.Link, newprog obj.ProgAlloc, p *obj.Prog) {
 	}
 }
 
+// loadImmIntoRegTmp loads the immediate (low, high), generated
+// by Split32BitImmediate into REG_TMP.
+//
+// The following instruction sequence is generated:
+//
+//   LUI $high, TMP
+//   ADDI $low, TMP, TMP
+//
+// p is overwritten with LUI and the *obj.Prog returned is an empty
+// *obj.Prog following ADDI.
+func loadImmIntoRegTmp(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc, low, high int64) *obj.Prog {
+	p.As = ALUI
+	p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: high}
+	p.Reg = 0
+	p.To = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+	p.Spadj = 0 // needed if TO is SP
+	p = obj.Appendp(p, newprog)
+
+	p.As = AADDIW
+	p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: low}
+	p.Reg = REG_TMP
+	p.To = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+	p = obj.Appendp(p, newprog)
+
+	return p
+}
+
 // setPCs sets the Pc field in all instructions reachable from p.
 // It uses pc as the initial value.
 func setPCs(p *obj.Prog, pc int64) {
@@ -483,6 +510,88 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			// progedit, as SP offsets need to be applied before we split
 			// up some of the Addrs.
 			rewriteMOV(ctxt, newprog, p)
+		}
+	}
+
+	// Split immediates larger than 12-bits.
+	for p := cursym.Func.Text; p != nil; p = p.Link {
+		switch p.As {
+		// <opi> $imm, FROM3, TO
+		case AADDI, AANDI, AORI, AXORI:
+			// LUI $high, TMP
+			// ADDI $low, TMP, TMP
+			// <op> TMP, FROM3, TO
+			q := *p
+			low, high, err := Split32BitImmediate(p.From.Offset)
+			if err != nil {
+				ctxt.Diag("%v: constant %d too large", p, p.From.Offset, err)
+			}
+			if high == 0 {
+				break // no need to split
+			}
+			p = loadImmIntoRegTmp(ctxt, p, newprog, low, high)
+
+			switch q.As {
+			case AADDI:
+				p.As = AADD
+			case AANDI:
+				p.As = AAND
+			case AORI:
+				p.As = AOR
+			case AXORI:
+				p.As = AXOR
+			default:
+				ctxt.Diag("progedit: unsupported inst %v for splitting", q)
+			}
+			p.Spadj = q.Spadj
+			p.To = q.To
+			p.Reg = q.Reg
+			p.From = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+
+		// <load> $imm, FROM3, TO (load $imm+(FROM3), TO)
+		// <store> $imm, FROM3, TO (store $imm+(TO), FROM3)
+		case ALD, ALB, ALH, ALW, ALBU, ALHU, ALWU,
+			ASD, ASB, ASH, ASW:
+			// LUI $high, TMP
+			// ADDI $low, TMP, TMP
+			q := *p
+			low, high, err := Split32BitImmediate(p.From.Offset)
+			if err != nil {
+				ctxt.Diag("%v: constant %d too large", p, p.From.Offset)
+			}
+			if high == 0 {
+				break // no need to split
+			}
+			p = loadImmIntoRegTmp(ctxt, p, newprog, low, high)
+
+			switch q.As {
+			case ALD, ALB, ALH, ALW, ALBU, ALHU, ALWU:
+				// ADD TMP, FROM3, TMP
+				// <load> $0, TMP, TO
+				p.As = AADD
+				p.From = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+				p.Reg = q.Reg
+				p.To = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+				p = obj.Appendp(p, newprog)
+
+				p.As = q.As
+				p.To = q.To
+				p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: 0}
+				p.Reg = REG_TMP
+			case ASD, ASB, ASH, ASW:
+				// ADD TMP, TO, TMP
+				// <store> $0, FROM3, TMP
+				p.As = AADD
+				p.From = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+				p.Reg = q.To.Reg
+				p.To = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+				p = obj.Appendp(p, newprog)
+
+				p.As = q.As
+				p.Reg = q.Reg
+				p.To = obj.Addr{Type: obj.TYPE_REG, Reg: REG_TMP}
+				p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: 0}
+			}
 		}
 	}
 
