@@ -28,6 +28,10 @@ type Package struct {
 	Types  []*Type
 	Vars   []*Value
 	Funcs  []*Func
+
+	// Examples is a sorted list of examples associated with
+	// the package. Populated when NewWithExamples is used.
+	Examples []*Example
 }
 
 // Value is the documentation for a (possibly grouped) var or const declaration.
@@ -50,6 +54,10 @@ type Type struct {
 	Vars    []*Value // sorted list of variables of (mostly) this type
 	Funcs   []*Func  // sorted list of functions returning this type
 	Methods []*Func  // sorted list of methods (including embedded ones) of this type
+
+	// Examples is a sorted list of examples associated with
+	// this type. Populated when NewWithExamples is used.
+	Examples []*Example
 }
 
 // Func is the documentation for a func declaration.
@@ -63,6 +71,10 @@ type Func struct {
 	Recv  string // actual   receiver "T" or "*T"
 	Orig  string // original receiver "T" or "*T"
 	Level int    // embedding level; 0 means not embedded
+
+	// Examples is a sorted list of examples associated with this
+	// function or method. Populated when NewWithExamples is used.
+	Examples []*Example
 }
 
 // A Note represents a marked comment starting with "MARKER(uid): note body".
@@ -95,6 +107,7 @@ const (
 
 // New computes the package documentation for the given package AST.
 // New takes ownership of the AST pkg and may edit or overwrite it.
+// To have the Examples fields populated, use NewWithExamples.
 //
 func New(pkg *ast.Package, importPath string, mode Mode) *Package {
 	var r reader
@@ -114,4 +127,18 @@ func New(pkg *ast.Package, importPath string, mode Mode) *Package {
 		Vars:       sortedValues(r.values, token.VAR),
 		Funcs:      sortedFuncs(r.funcs, true),
 	}
+}
+
+// NewWithExamples computes the package documentation for the given package AST,
+// and associates examples based on their name with the corresponding type,
+// function, method, or the package itself. If the example has a suffix in
+// its name, the Suffix field is updated accordingly. Examples with malformed
+// names are skipped.
+//
+// NewWithExamples takes ownership of the AST pkg and may edit or overwrite it.
+//
+func NewWithExamples(pkg *ast.Package, importPath string, mode Mode, examples []*Example) *Package {
+	p := New(pkg, importPath, mode)
+	classifyExamples(p, examples)
+	return p
 }
