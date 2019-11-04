@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31aede24_4b9c3644",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-11-04T20:35:22Z",
+      "side": 1,
+      "message": "Thinking about it this could also be done with `TMLH R10, $(3\u003c\u003c12)`* since Go doesn\u0027t modify any parts of the program mask other than the condition code (bits 34 and 35 of R10). `TMLH` might be faster than SPM since it doesn\u0027t affect interrupts or rounding modes. Probably doesn\u0027t make much difference overall though so we can leave it for now.\n\n*From the Principles of Operation:\n\n2. When the mask for TMHH, TMHL, TMLH, or\nTMLL selects exactly two bits, the two selected\nbits effectively are loaded into the condition code.",
+      "range": {
+        "startLine": 498,
+        "startChar": 1,
+        "endLine": 498,
+        "endChar": 52
+      },
+      "revId": "3767598c1a33708ce8dff9547a638612bef13013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
