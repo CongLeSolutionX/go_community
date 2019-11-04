@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b3757e47_a5d2577c",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-04T22:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3615cca_85c6eafb",
+      "range": {
+        "startLine": 493,
+        "startChar": 3,
+        "endLine": 496,
+        "endChar": 23
+      },
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e7b48c6_6cf5b92d",
         "filename": "src/syscall/js/exports_test.go",
         "patchSetId": 15
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f166eecf_bee27bb2",
+        "filename": "src/syscall/js/exports_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-04T22:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e7b48c6_6cf5b92d",
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cc33530_93291572",
         "filename": "src/syscall/js/js.go",
         "patchSetId": 15
@@ -56,6 +98,24 @@
       "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb7feda5_03320c6b",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-04T22:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc33530_93291572",
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "1cfcb63e_ea105600",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-04T22:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c76f2777_f93ae948",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 24
+      },
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31408da1_9920a569",
         "filename": "src/syscall/js/js.go",
         "patchSetId": 15
@@ -96,6 +180,24 @@
       "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea36a2c0_371e3433",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-04T22:29:31Z",
+      "side": 1,
+      "message": "Renamed to finalizeRef. \"js\" is already in the package name.",
+      "parentUuid": "31408da1_9920a569",
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
