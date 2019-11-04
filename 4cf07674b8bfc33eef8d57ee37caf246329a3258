@@ -56,6 +56,46 @@
       "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c76f2777_f93ae948",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-04T19:33:47Z",
+      "side": 1,
+      "message": "Maybe I\u0027m too burned by C but personally I would rather see parentheses here: (r \u003e\u003e 32) \u0026 7.\n\nSame on the next line.",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 24
+      },
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31408da1_9920a569",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-04T19:33:47Z",
+      "side": 1,
+      "message": "Let\u0027s name this finalizeJSRef or something.",
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
