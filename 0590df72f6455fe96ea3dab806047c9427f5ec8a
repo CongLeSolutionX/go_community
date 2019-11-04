@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "531cc545_2a24df1a",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-11-04T23:18:06Z",
+      "side": 1,
+      "message": "Hm, fair point.\n\nI think the 8-bit counter instrumentation is probably safe for the runtime, since it\u0027s just a few extra memory ops. It would be slower, but maybe give some extra signal.\n\nThe followup CL that instruments comparisons would be a little trickier though.",
+      "parentUuid": "93c7f426_70ae03f4",
+      "revId": "0590df72f6455fe96ea3dab806047c9427f5ec8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16c73a5a_b1c8478c",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "0590df72f6455fe96ea3dab806047c9427f5ec8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe1095c2_7f76d6a9",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-11-04T23:18:06Z",
+      "side": 1,
+      "message": "I asked kcc@ about saturing vs wrap-around vs atomic at https://github.com/golang/go/issues/14565#issuecomment-541256382, and he reports it doesn\u0027t matter much in practice, and wrap around is easiest to implement.",
+      "parentUuid": "16c73a5a_b1c8478c",
+      "revId": "0590df72f6455fe96ea3dab806047c9427f5ec8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
