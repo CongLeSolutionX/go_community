@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "13cf8787_3b852998",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-04T17:13:15Z",
+      "side": 1,
+      "message": "stale comment, fixed.",
+      "parentUuid": "c159ceb2_7a5d7606",
+      "revId": "9ea63d6ac800a29a2bf794088ebeffdfc2c4d5bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fd37095_26863c04",
         "filename": "src/runtime/mpallocbits.go",
         "patchSetId": 32
@@ -33,6 +51,24 @@
       "revId": "9ea63d6ac800a29a2bf794088ebeffdfc2c4d5bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8620e778_16152bee",
+        "filename": "src/runtime/mpallocbits.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-04T17:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fd37095_26863c04",
+      "revId": "9ea63d6ac800a29a2bf794088ebeffdfc2c4d5bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
