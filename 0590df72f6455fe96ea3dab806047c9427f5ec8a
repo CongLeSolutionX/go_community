@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "98a81ecb_27b29b4c",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-11-04T23:30:39Z",
+      "side": 1,
+      "message": "Okay, SGTM.\n\nI\u0027ll think about it more for Go 1.15.",
+      "parentUuid": "449c2515_d8bf6371",
+      "revId": "0590df72f6455fe96ea3dab806047c9427f5ec8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16c73a5a_b1c8478c",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 6
