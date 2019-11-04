@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "449c2515_d8bf6371",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-04T23:22:17Z",
+      "side": 1,
+      "message": "Yes, inserting calls would be much trickier than global increments.\nIt\u0027s ok as is.",
+      "parentUuid": "531cc545_2a24df1a",
+      "revId": "0590df72f6455fe96ea3dab806047c9427f5ec8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16c73a5a_b1c8478c",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 6
