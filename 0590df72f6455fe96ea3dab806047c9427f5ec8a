@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93c7f426_70ae03f4",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-04T23:08:07Z",
+      "side": 1,
+      "message": "What do you mean - it is very interesting!  One day, perhaps...",
+      "revId": "0590df72f6455fe96ea3dab806047c9427f5ec8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16c73a5a_b1c8478c",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-04T23:08:07Z",
+      "side": 1,
+      "message": "So we don\u0027t need a saturating add? Anything interesting happen if we overflow back to 0?",
+      "revId": "0590df72f6455fe96ea3dab806047c9427f5ec8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
