@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a637b96c_64a89a21",
+        "filename": "src/reflect/asm_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-04T23:52:07Z",
+      "side": 1,
+      "message": "s/2017/2019/\n\n2019 is the Year of the Gopher.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f93184908e892075519fabcb1c7635a4549e995d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
