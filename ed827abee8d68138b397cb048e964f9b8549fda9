@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25642aa2_42607fbf",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-11-04T20:38:42Z",
+      "side": 1,
+      "message": "As of CL 171823 this should return negative errno instead of -1.",
+      "range": {
+        "startLine": 103,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 12
+      },
+      "revId": "ed827abee8d68138b397cb048e964f9b8549fda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ab05fd8_aa571b81",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-11-04T20:38:42Z",
+      "side": 1,
+      "message": "Same here, this should return negative errno.",
+      "range": {
+        "startLine": 116,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 12
+      },
+      "revId": "ed827abee8d68138b397cb048e964f9b8549fda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

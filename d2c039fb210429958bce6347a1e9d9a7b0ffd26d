@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be6eaed_e40ffacd",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-11-04T20:38:42Z",
+      "side": 0,
+      "message": "This needs implementations of pipe/pipe2/setNonblock (CL 171822) and getpid/tgkill (CL 201401) to account for recent runtime changes.",
+      "revId": "d2c039fb210429958bce6347a1e9d9a7b0ffd26d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
