@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69b9c691_5c48d509",
+        "filename": "src/internal/bytealg/equal_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-04T23:57:08Z",
+      "side": 1,
+      "message": "Seems that you could write simply\n    BEQ A1, A4, eq\nand then drop each line up to and including the \"test\" label.",
+      "revId": "57feb08eb1a2a078ca235da5cfc0071b559606cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
