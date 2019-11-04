@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7a73aa6_524e4c24",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-04T23:49:32Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this complicated copyright notice.  This is all new code.  Let\u0027s just use the standard three line Go copyright.  Thanks.",
+      "revId": "5ec8910d1c35add639546a77c5f11f2b8d6baf39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78ca8e28_fb16ac48",
+        "filename": "src/cmd/link/internal/riscv64/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-04T23:49:32Z",
+      "side": 1,
+      "message": "Let\u0027s use the Go copyright here too.",
+      "revId": "5ec8910d1c35add639546a77c5f11f2b8d6baf39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
