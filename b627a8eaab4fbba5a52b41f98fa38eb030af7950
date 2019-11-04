@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3721c791_776bcd8f",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-11-04T19:18:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "35dd7579_a5f306ad",
+      "range": {
+        "startLine": 895,
+        "startChar": 6,
+        "endLine": 897,
+        "endChar": 44
+      },
+      "revId": "b627a8eaab4fbba5a52b41f98fa38eb030af7950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a7d249b_c5da4347",
         "filename": "src/cmd/compile/internal/gc/plive.go",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "dbc0d2f5_b21fa7c6",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-11-04T19:18:26Z",
+      "side": 1,
+      "message": "Done, though I think we could get away without having the openDeferVars list that I created, since we now only iterate through the open defer slots in the case of BlockExit blocks and blocks which cannot reach a return because of an infinite loop (which is of course very rare).\nAnd this is all only for functions that have open-coded defers.",
+      "parentUuid": "0a7d249b_c5da4347",
+      "revId": "b627a8eaab4fbba5a52b41f98fa38eb030af7950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af8e4cfb_52d2f035",
         "filename": "src/cmd/compile/internal/gc/plive.go",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2019-11-01T22:45:19Z",
       "side": 1,
       "message": "We have a O(1) dominator query implementation, see cmd/compile/internal/ssa/sparsetree.go.\nIt\u0027s currently not exported, but you could export it so you can use it in package gc.",
+      "revId": "b627a8eaab4fbba5a52b41f98fa38eb030af7950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1159f17_bbb5b131",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-11-04T19:18:26Z",
+      "side": 1,
+      "message": "Done.  The difference between patchset 2 and patchset 3 is using sparsetree, and making the changes everywhere to rename sdom -\u003e Sdom and isAncestorEq -\u003e IsAncestorEq.  I\u0027m fine either way, using Idom or Sdom -- I doubt there will be much performance difference either way, since these checks should be quite rare.",
+      "parentUuid": "af8e4cfb_52d2f035",
       "revId": "b627a8eaab4fbba5a52b41f98fa38eb030af7950",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
