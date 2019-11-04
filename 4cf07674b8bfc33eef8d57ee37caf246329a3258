@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3615cca_85c6eafb",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-04T18:53:28Z",
+      "side": 1,
+      "message": "I wouldn\u0027t mind little comments (even if one-line same-line comments) on these various new fields, even if that\u0027s not JavaScript style. (I don\u0027t know)",
+      "range": {
+        "startLine": 493,
+        "startChar": 3,
+        "endLine": 496,
+        "endChar": 23
+      },
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e7b48c6_6cf5b92d",
+        "filename": "src/syscall/js/exports_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-04T18:53:28Z",
+      "side": 1,
+      "message": "2019.\n\nAlso, this file is named \"export_test.go\" conventionally, not exports plural. (49 cases in the tree with export and 0 with exports)",
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cc33530_93291572",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-04T18:53:28Z",
+      "side": 1,
+      "message": "// The equality of ....\n\nOr:\n\n// Values can be checked for equality with the Equal method.\n\nOr:\n\n// Use the Equal method to test whether two Values for equality.",
+      "revId": "4cf07674b8bfc33eef8d57ee37caf246329a3258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
