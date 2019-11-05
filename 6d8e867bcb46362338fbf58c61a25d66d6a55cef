@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d145e1d8_ae4a1f74",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-05T23:11:47Z",
+      "side": 1,
+      "message": "Who ever thought a non-atomic instruction was a good idea?\nSo I guess JAL (LR) is a very bad idea.",
+      "revId": "6d8e867bcb46362338fbf58c61a25d66d6a55cef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
