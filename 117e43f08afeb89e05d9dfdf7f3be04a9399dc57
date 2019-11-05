@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2256d3c_4d2f1bed",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-05T21:33:50Z",
+      "side": 1,
+      "message": "I\u0027m confused by how this is working.\n\nThis code already uses runtime.Callers, which puts one PC per virtual frame in the stack (e.stk). Here you\u0027re using CallersFrames on each entry, one at a time. That\u0027s not really how it is supposed to be used. You\u0027re supposed to pass the whole e.stk to CallersFrames.\n\nThey way it is used here, I don\u0027t think Next will ever return more than one frame (except cgo, maybe?). So allFrames returning a slice seems like overkill.\n\nWhat prevents us from using runtime.Callers(e.stk), calling Next many times, and processing the result of that? Another way of looking at it, is caching required?",
+      "revId": "117e43f08afeb89e05d9dfdf7f3be04a9399dc57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e10689cd_0b5fee18",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-05T21:33:50Z",
+      "side": 1,
+      "message": "Can\u0027t we just cache the result of allFrames(addr)? The key is just a uintptr, which is much simpler.\nIt would require repeating the work done in re-aggregating the inlined frames (in deck.add), but maybe that\u0027s not very expensive.",
+      "revId": "117e43f08afeb89e05d9dfdf7f3be04a9399dc57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
