@@ -90,8 +90,8 @@ func split(b uint64) (sign uint32, exp int32, mantissa uint64) {
 	return
 }
 
-// Fma returns x * y + z, computed with only one rounding.
-func Fma(x, y, z float64) float64 {
+// FMA returns x * y + z, computed with only one rounding.
+func FMA(x, y, z float64) float64 {
 	bx, by, bz := Float64bits(x), Float64bits(y), Float64bits(z)
 
 	// Inf or NaN or zero involved. At most one rounding will occur.
