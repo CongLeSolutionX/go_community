@@ -231,3 +231,13 @@ func (e *Error) Error() string {
 func errorf(k ErrorCode, node parse.Node, line int, f string, args ...interface{}) *Error {
 	return &Error{k, node, "", line, fmt.Sprintf(f, args...)}
 }
+
+// IncompleteTemplateError is returned after an attempt to escape an
+// empty or incomplete Template.
+type IncompleteTemplateError struct {
+	Name string
+}
+
+func (e *IncompleteTemplateError) Error() string {
+	return fmt.Sprintf("html/template: %q is an incomplete or empty template", e.Name)
+}

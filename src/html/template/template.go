@@ -97,7 +97,8 @@ func (t *Template) escape() error {
 	t.nameSpace.escaped = true
 	if t.escapeErr == nil {
 		if t.Tree == nil {
-			return fmt.Errorf("template: %q is an incomplete or empty template", t.Name())
+			err := IncompleteTemplateError{Name: t.Name()}
+			return &err
 		}
 		if err := escapeTemplate(t, t.text.Root, t.Name()); err != nil {
 			return err
