@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fd3ef52f_22e64f8a",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-05T09:35:19Z",
+      "side": 1,
+      "message": "Right. So, in line 115, I conditionally set hasInlinedCaller only if hasInlinedCallee was found. \n\ninlinedCallee calling another function foo, is an interesting idea. But \u0027foo\u0027 should be another inlined function to be in one Location entry. I am reluctant to update inlinedCallee more.",
+      "parentUuid": "55d4cbb3_d3e1ef03",
+      "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e953a43_85a81c43",
         "filename": "src/runtime/pprof/pprof_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-11-05T01:13:50Z",
       "side": 1,
       "message": "With mid-stack inlining I don\u0027t think that\u0027s a problem anymore (well, loops still disable inlining, but calls don\u0027t). You could just use cpuhog as the \"foo\" mentioned in the previous comment. Then you don\u0027t need this weird loop.",
+      "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38633274_b36b3a8d",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-05T09:35:19Z",
+      "side": 1,
+      "message": "Good idea - indeed the cpuHog0 is not inlined, but inlinedCallee is inlined. Done.",
+      "parentUuid": "3e953a43_85a81c43",
       "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0004e0_f8591ed2",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-05T09:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69214ca4_f58ebe9a",
+      "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +150,54 @@
       "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "437325f2_f0e4ffc5",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-05T09:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93d05b1a_d13bdd2a",
+      "range": {
+        "startLine": 557,
+        "startChar": 16,
+        "endLine": 557,
+        "endChar": 18
+      },
+      "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cb5dc2_41c706bc",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-05T09:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb5fe8df_2a2137f5",
+      "range": {
+        "startLine": 557,
+        "startChar": 35,
+        "endLine": 557,
+        "endChar": 42
+      },
+      "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
