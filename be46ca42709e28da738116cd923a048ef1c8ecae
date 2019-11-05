@@ -233,6 +233,24 @@
       "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97715057_22b44bc8",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-05T22:05:58Z",
+      "side": 1,
+      "message": "Yes, a given real PC always unwraps to the same set of inlined PCs.",
+      "parentUuid": "0eed8dbd_6ad32a37",
+      "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
