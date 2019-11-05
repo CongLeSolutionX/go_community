@@ -46,6 +46,30 @@
       "revId": "c2ac86b2afa53b4fb061f9ec1b24700f35f051e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2bc443f_c94c0169",
+        "filename": "src/go/doc/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2019-11-05T04:05:49Z",
+      "side": 1,
+      "message": "No worries.\n\nI recall Rob at one point talking about doing the same kind of rule change in a Go2 manner for the label exportation rule: https://github.com/golang/go/issues/5763#issuecomment-66081539 and below. Should I link that to the GH issue for this?",
+      "parentUuid": "4b6c147a_90831f10",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 87
+      },
+      "revId": "c2ac86b2afa53b4fb061f9ec1b24700f35f051e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
