@@ -22,6 +22,30 @@
       "revId": "c2ac86b2afa53b4fb061f9ec1b24700f35f051e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6c147a_90831f10",
+        "filename": "src/go/doc/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-11-05T03:27:44Z",
+      "side": 1,
+      "message": "I agree. I plan to open an issue about it and follow up. However, it will require thinking through the consequences and ensuring there aren\u0027t any unexpected edge cases. It\u0027ll need to apply to vet as well as go/doc.\n\nSo, it\u0027s out of scope for this CL; the goal here is to to implement the currently documented format as the first step.",
+      "parentUuid": "f08a7b87_18a918c2",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 87
+      },
+      "revId": "c2ac86b2afa53b4fb061f9ec1b24700f35f051e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
