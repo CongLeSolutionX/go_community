@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f08a7b87_18a918c2",
+        "filename": "src/go/doc/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2019-11-05T01:59:40Z",
+      "side": 1,
+      "message": "These are good reasons to relax the requirement for \"start with a lower-case letter\". The first because it knocks out non-lowercasing languages. A change to \"not start with an upper-case letter\" would allow both of these and still differentiate between methods (which will always be exported to be worth documenting) and the user-directed tags that the suffix is intended to be.",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 87
+      },
+      "revId": "c2ac86b2afa53b4fb061f9ec1b24700f35f051e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
