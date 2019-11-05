@@ -22,6 +22,30 @@
       "revId": "af0fb0b6b49687ec842758795458182b0dd1adf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f53d6165_e07791bf",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2019-11-05T01:24:35Z",
+      "side": 1,
+      "message": "As we discussed, I added a comment to indicate that the open-coded defer code at BlockRet and BlockRetJmp exits is assumed to reference all the defer args (that have pointers), and so keeps them live, and the code here may have to change if that assumption changes because of optimizations.",
+      "parentUuid": "b571a4c6_98c0d8f1",
+      "range": {
+        "startLine": 952,
+        "startChar": 5,
+        "endLine": 952,
+        "endChar": 28
+      },
+      "revId": "af0fb0b6b49687ec842758795458182b0dd1adf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
