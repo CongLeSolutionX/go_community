@@ -3054,10 +3054,15 @@ func TestYn(t *testing.T) {
 }
 
 func TestFMA(t *testing.T) {
+	fmaFn := FMA // hide call from compiler intrinsic
 	for _, c := range fmaC {
 		got := FMA(c.x, c.y, c.z)
 		if !alike(got, c.want) {
 			t.Errorf("FMA(%g,%g,%g) == %g; want %g", c.x, c.y, c.z, got, c.want)
+		}
+		got = fmaFn(c.x, c.y, c.z)
+		if !alike(got, c.want) {
+			t.Errorf("fmaFn(%g,%g,%g) == %g; want %g", c.x, c.y, c.z, got, c.want)
 		}
 	}
 }
