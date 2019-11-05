@@ -22,6 +22,30 @@
       "revId": "3767598c1a33708ce8dff9547a638612bef13013",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "763e601d_d97628bf",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-05T03:46:14Z",
+      "side": 1,
+      "message": "Thanks. I didn\u0027t realize that these instructions can be used for restoring the conditional code. Done.",
+      "parentUuid": "31aede24_4b9c3644",
+      "range": {
+        "startLine": 498,
+        "startChar": 1,
+        "endLine": 498,
+        "endChar": 52
+      },
+      "revId": "3767598c1a33708ce8dff9547a638612bef13013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
