@@ -215,6 +215,24 @@
       "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eed8dbd_6ad32a37",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-05T09:35:46Z",
+      "side": 1,
+      "message": "locs is the Location cache and each Location can correspond to a sequence of one or more pcs. The stk is the remaining pcs from the sampled stack traces. findCachedLoc tries to find the cached Location entry that can be a \"prefix\" of the stk.\n\nIs it safe to assume that if we see an inlined pc sequence (A, B, C) and cache this Location entry keyed with A, there will be always B and C when we see A in a stack trace? Then, I can go with much simpler cache management.",
+      "parentUuid": "1c5ad00f_dc037c63",
+      "revId": "be46ca42709e28da738116cd923a048ef1c8ecae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
