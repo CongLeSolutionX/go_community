@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d968441_c97b4617",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-05T18:01:57Z",
+      "side": 1,
+      "message": "isLocal still does not seem like the right condition here.\n\nThe conditions necessary for a definitive PackageNotInModuleError are:\n1) at least one module with a prefix of the requested path exists, and\n2) no such module contains the requested package, and\n3) no other module with that prefix exists.\n\nIn this draft, isLocal is functioning as a proxy for property (3), but that\u0027s not quite what isLocal actually means: it actually means “is the replacement local to the filesystem?”, not “is this module path only available if locally replaced?”\n\n\nSo I think this should instead be something like:\n\nfor _, m :\u003d range mods {\n\t[…] // Leave the loop unchanged from the baseline.\n}\nif len(mods) \u003e 0 \u0026\u0026 module.CheckPath(path) !\u003d nil {\n\t// The package path is not valid to fetch remotely,\n\t// so it can only exist if in a replaced module,\n\t// and we know from the above loop that it is not.\n\treturn \u0026PackageNotInModuleError{\n\t\tMod: mods[0],\n\t\tReplacement: Replacement(m),\n\t}\n}",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 239,
+        "endChar": 22
+      },
+      "revId": "4a1cb5f598d1ec6c406b415129f3a22963b4a288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53fa0331_85c09e34",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-05T18:01:57Z",
+      "side": 1,
+      "message": "This seems clearer with an if/else:\n\nif ok {\n\treturn […], \u0026ImportMissingError{[…]}\n} else if isLocal {\n\tmErr \u003d \u0026PackageNotInModuleError{[…]}\n}",
+      "revId": "4a1cb5f598d1ec6c406b415129f3a22963b4a288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
