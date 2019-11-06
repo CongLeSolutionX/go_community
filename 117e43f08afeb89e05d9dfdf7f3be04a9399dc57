@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5250b37_2c3014fb",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-06T06:53:48Z",
+      "side": 1,
+      "message": "PTAL.\n\nIt was an attempt to preserve previous code structure (this is how locForPc used the runtime api) and the effort to minimize memory allocation - but it looks like that doesn\u0027t make any sense any more. For performance concerns, if any, I am happy to visit it again in the next dev cycle.",
+      "parentUuid": "b2256d3c_4d2f1bed",
+      "revId": "117e43f08afeb89e05d9dfdf7f3be04a9399dc57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e10689cd_0b5fee18",
         "filename": "src/runtime/pprof/proto.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "117e43f08afeb89e05d9dfdf7f3be04a9399dc57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ccff5da_23b70e62",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-11-06T06:53:48Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "e10689cd_0b5fee18",
+      "revId": "117e43f08afeb89e05d9dfdf7f3be04a9399dc57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
