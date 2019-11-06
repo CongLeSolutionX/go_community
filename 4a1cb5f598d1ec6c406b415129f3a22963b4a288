@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "970751f0_356625b4",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2019-11-06T16:23:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d968441_c97b4617",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 239,
+        "endChar": 22
+      },
+      "revId": "4a1cb5f598d1ec6c406b415129f3a22963b4a288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fedf8a6_6a8ac45f",
         "filename": "src/cmd/go/testdata/script/mod_replace_import.txt",
         "patchSetId": 3
@@ -79,6 +103,30 @@
       "revId": "4a1cb5f598d1ec6c406b415129f3a22963b4a288",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10c57445_6ddfb60a",
+        "filename": "src/cmd/go/testdata/script/mod_replace_import.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2019-11-06T16:23:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fedf8a6_6a8ac45f",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "4a1cb5f598d1ec6c406b415129f3a22963b4a288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
