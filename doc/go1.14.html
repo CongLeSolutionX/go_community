@@ -56,6 +56,14 @@ TODO
   Go 1.14 is the last Go release to support 32-bit binaries on
   macOS (the <code>darwin/386</code> port). They are no longer
   supported by macOS, starting with macOS 10.15 (Catalina).
+  Go continues to support the 64-bit <code>darwin/amd64</code> port.
+</p>
+
+<p><!-- golang.org/issue/34751 -->
+  Go 1.14 will likely be the last Go release to support 32-bit
+  binaries on iOS, iPadOS, watchOS, and tvOS
+  (the <code>darwin/arm</code> port). Go continues to support the
+  64-bit <code>darwin/arm64</code> port.
 </p>
 
 <h3 id="nacl">Native Client (NaCl)</h3>
@@ -110,6 +118,31 @@ TODO
   from module proxies and other HTTP servers.
   An error message will only be shown if it is valid UTF-8 and consists of only
   graphic characters and spaces.
+</p>
+
+<p><!-- golang.org/issue/31481 -->
+  <code>-modcacherw</code> is a new flag that instructs the <code>go</code>
+  command to leave newly-created directories in the module cache at their
+  default permissions rather than making them read-only.
+  The use of this flag makes it more likely that tests or other tools will
+  accidentally add files not included in the module's verified checksum.
+  However, it allows the use of <code>rm</code> <code>-rf</code>
+  (instead of <code>go</code> <code>clean</code> <code>-modcache</code>)
+  to remove the module cache.
+</p>
+
+<p><!-- golang.org/issue/34506 -->
+  <code>-modfile=file</code> is a new flag that instructs the <code>go</code>
+  command to read (and possibly write) an alternate go.mod file instead of the
+  one in the module root directory. A file named "go.mod" must still be present
+  in order to determine the module root directory, but it is not
+  accessed. When <code>-modfile</code> is specified, an alternate go.sum file
+  is also used: its path is derived from the <code>-modfile</code> flag by
+  trimming the ".mod" extension and appending ".sum".
+</p>
+
+<p><!-- golang.org/issue/26092 -->
+  The <code>go</code> command now supports Subversion repositories in module mode.
 </p>
 
 <h2 id="runtime">Runtime</h2>
@@ -168,6 +201,19 @@ TODO
     </p>
 
 </dl><!-- mime -->
+
+<dl id="math"><dt><a href="/pkg/math/">math</a></dt>
+  <dd>
+    <p><!-- CL 127458 -->
+      The new <a href="/pkg/math/#Fma"><code>Fma</code></a> function
+      computes <code>x*y+z</code> in floating point with no
+      intermediate rounding of the <code>x*y</code>
+      computation. Several architectures implement this computation
+      using dedicated hardware instructions for additional
+      performance.
+    </p>
+
+</dl><!-- math -->
 
 <dl id="plugin"><dt><a href="/pkg/plugin/">plugin</a></dt>
   <dd>

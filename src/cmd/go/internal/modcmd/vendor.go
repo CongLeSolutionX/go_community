@@ -18,8 +18,10 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modload"
-	"cmd/go/internal/module"
-	"cmd/go/internal/semver"
+	"cmd/go/internal/work"
+
+	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 var cmdVendor = &base.Command{
@@ -38,6 +40,7 @@ modules and packages to standard error.
 
 func init() {
 	cmdVendor.Flag.BoolVar(&cfg.BuildV, "v", false, "")
+	work.AddModCommonFlags(cmdVendor)
 }
 
 func runVendor(cmd *base.Command, args []string) {

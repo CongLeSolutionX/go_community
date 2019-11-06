@@ -299,6 +299,16 @@ func sigFetchG(c *sigctxt) *g {
 	switch GOARCH {
 	case "arm", "arm64":
 		if inVDSOPage(c.sigpc()) {
+			// Before making a VDSO call we save the g to the bottom of the
+			// signal stack. Fetch from there.
+			// TODO: in efence mode, stack is sysAlloc'd, so this wouldn't
+			// work.
+			sp := getcallersp()
+			s := spanOf(sp)
+			if s != nil && s.state.get() == mSpanManual && s.base() < sp && sp < s.limit {
+				gp := *(**g)(unsafe.Pointer(s.base()))
+				return gp
+			}
 			return nil
 		}
 	}
@@ -333,43 +343,10 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	}
 
 	// If some non-Go code called sigaltstack, adjust.
-	setStack := false
 	var gsignalStack gsignalStack
-	sp := uintptr(unsafe.Pointer(&sig))
-	if sp < g.m.gsignal.stack.lo || sp >= g.m.gsignal.stack.hi {
-		if sp >= g.m.g0.stack.lo && sp < g.m.g0.stack.hi {
-			// The signal was delivered on the g0 stack.
-			// This can happen when linked with C code
-			// using the thread sanitizer, which collects
-			// signals then delivers them itself by calling
-			// the signal handler directly when C code,
-			// including C code called via cgo, calls a
-			// TSAN-intercepted function such as malloc.
-			st := stackt{ss_size: g.m.g0.stack.hi - g.m.g0.stack.lo}
-			setSignalstackSP(&st, g.m.g0.stack.lo)
-			setGsignalStack(&st, &gsignalStack)
-			g.m.gsignal.stktopsp = getcallersp()
-			setStack = true
-		} else {
-			var st stackt
-			sigaltstack(nil, &st)
-			if st.ss_flags&_SS_DISABLE != 0 {
-				setg(nil)
-				needm(0)
-				noSignalStack(sig)
-				dropm()
-			}
-			stsp := uintptr(unsafe.Pointer(st.ss_sp))
-			if sp < stsp || sp >= stsp+st.ss_size {
-				setg(nil)
-				needm(0)
-				sigNotOnStack(sig)
-				dropm()
-			}
-			setGsignalStack(&st, &gsignalStack)
-			g.m.gsignal.stktopsp = getcallersp()
-			setStack = true
-		}
+	setStack := adjustSignalStack(sig, g.m, &gsignalStack)
+	if setStack {
+		g.m.gsignal.stktopsp = getcallersp()
 	}
 
 	setg(g.m.gsignal)
@@ -386,14 +363,60 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	}
 }
 
+// adjustSignalStack adjusts the current stack guard based on the
+// stack pointer that is actually in use while handling a signal.
+// We do this in case some non-Go code called sigaltstack.
+// This reports whether the stack was adjusted, and if so stores the old
+// signal stack in *gsigstack.
+//go:nosplit
+func adjustSignalStack(sig uint32, mp *m, gsigStack *gsignalStack) bool {
+	sp := uintptr(unsafe.Pointer(&sig))
+	if sp >= mp.gsignal.stack.lo && sp < mp.gsignal.stack.hi {
+		return false
+	}
+
+	if sp >= mp.g0.stack.lo && sp < mp.g0.stack.hi {
+		// The signal was delivered on the g0 stack.
+		// This can happen when linked with C code
+		// using the thread sanitizer, which collects
+		// signals then delivers them itself by calling
+		// the signal handler directly when C code,
+		// including C code called via cgo, calls a
+		// TSAN-intercepted function such as malloc.
+		st := stackt{ss_size: mp.g0.stack.hi - mp.g0.stack.lo}
+		setSignalstackSP(&st, mp.g0.stack.lo)
+		setGsignalStack(&st, gsigStack)
+		return true
+	}
+
+	var st stackt
+	sigaltstack(nil, &st)
+	if st.ss_flags&_SS_DISABLE != 0 {
+		setg(nil)
+		needm(0)
+		noSignalStack(sig)
+		dropm()
+	}
+	stsp := uintptr(unsafe.Pointer(st.ss_sp))
+	if sp < stsp || sp >= stsp+st.ss_size {
+		setg(nil)
+		needm(0)
+		sigNotOnStack(sig)
+		dropm()
+	}
+	setGsignalStack(&st, gsigStack)
+	return true
+}
+
 // crashing is the number of m's we have waited for when implementing
 // GOTRACEBACK=crash when a signal is received.
 var crashing int32
 
-// testSigtrap is used by the runtime tests. If non-nil, it is called
-// on SIGTRAP. If it returns true, the normal behavior on SIGTRAP is
-// suppressed.
+// testSigtrap and testSigusr1 are used by the runtime tests. If
+// non-nil, it is called on SIGTRAP/SIGUSR1. If it returns true, the
+// normal behavior on this signal is suppressed.
 var testSigtrap func(info *siginfo, ctxt *sigctxt, gp *g) bool
+var testSigusr1 func(gp *g) bool
 
 // sighandler is invoked when a signal occurs. The global g will be
 // set to a gsignal goroutine and we will be running on the alternate
@@ -416,6 +439,10 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	}
 
 	if sig == _SIGTRAP && testSigtrap != nil && testSigtrap(info, (*sigctxt)(noescape(unsafe.Pointer(c))), gp) {
+		return
+	}
+
+	if sig == _SIGUSR1 && testSigusr1 != nil && testSigusr1(gp) {
 		return
 	}
 

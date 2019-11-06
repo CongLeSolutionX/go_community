@@ -29,6 +29,8 @@ import (
 //go:cgo_import_dynamic libc_pthread_attr_setdetachstate pthread_attr_setdetachstate "libc.so"
 //go:cgo_import_dynamic libc_pthread_attr_setstack pthread_attr_setstack "libc.so"
 //go:cgo_import_dynamic libc_pthread_create pthread_create "libc.so"
+//go:cgo_import_dynamic libc_pthread_self pthread_self "libc.so"
+//go:cgo_import_dynamic libc_pthread_kill pthread_kill "libc.so"
 //go:cgo_import_dynamic libc_raise raise "libc.so"
 //go:cgo_import_dynamic libc_read read "libc.so"
 //go:cgo_import_dynamic libc_select select "libc.so"
@@ -61,6 +63,8 @@ import (
 //go:linkname libc_pthread_attr_setdetachstate libc_pthread_attr_setdetachstate
 //go:linkname libc_pthread_attr_setstack libc_pthread_attr_setstack
 //go:linkname libc_pthread_create libc_pthread_create
+//go:linkname libc_pthread_self libc_pthread_self
+//go:linkname libc_pthread_kill libc_pthread_kill
 //go:linkname libc_raise libc_raise
 //go:linkname libc_read libc_read
 //go:linkname libc_select libc_select
@@ -94,6 +98,8 @@ var (
 	libc_pthread_attr_setdetachstate,
 	libc_pthread_attr_setstack,
 	libc_pthread_create,
+	libc_pthread_self,
+	libc_pthread_kill,
 	libc_raise,
 	libc_read,
 	libc_sched_yield,
@@ -112,14 +118,6 @@ var (
 )
 
 var sigset_all = sigset{[4]uint32{^uint32(0), ^uint32(0), ^uint32(0), ^uint32(0)}}
-
-func getncpu() int32 {
-	n := int32(sysconf(__SC_NPROCESSORS_ONLN))
-	if n < 1 {
-		return 1
-	}
-	return n
-}
 
 func getPageSize() uintptr {
 	n := int32(sysconf(__SC_PAGESIZE))
@@ -214,6 +212,8 @@ func minit() {
 	asmcgocall(unsafe.Pointer(funcPC(miniterrno)), unsafe.Pointer(&libc____errno))
 
 	minitSignals()
+
+	getg().m.procid = uint64(pthread_self())
 }
 
 // Called from dropm to undo the effect of an minit.
@@ -434,6 +434,14 @@ func pthread_create(thread *pthread, attr *pthreadattr, fn uintptr, arg unsafe.P
 	return int32(sysvicall4(&libc_pthread_create, uintptr(unsafe.Pointer(thread)), uintptr(unsafe.Pointer(attr)), uintptr(fn), uintptr(arg)))
 }
 
+func pthread_self() pthread {
+	return pthread(sysvicall0(&libc_pthread_self))
+}
+
+func signalM(mp *m, sig int) {
+	sysvicall2(&libc_pthread_kill, uintptr(pthread(mp.procid)), uintptr(sig))
+}
+
 //go:nosplit
 //go:nowritebarrierrec
 func raise(sig uint32) /* int32 */ {
@@ -447,7 +455,11 @@ func raiseproc(sig uint32) /* int32 */ {
 
 //go:nosplit
 func read(fd int32, buf unsafe.Pointer, nbyte int32) int32 {
-	return int32(sysvicall3(&libc_read, uintptr(fd), uintptr(buf), uintptr(nbyte)))
+	r1, err := sysvicall3Err(&libc_read, uintptr(fd), uintptr(buf), uintptr(nbyte))
+	if c := int32(r1); c >= 0 {
+		return c
+	}
+	return -int32(err)
 }
 
 //go:nosplit
@@ -511,7 +523,11 @@ func walltime1() (sec int64, nsec int32) {
 
 //go:nosplit
 func write1(fd uintptr, buf unsafe.Pointer, nbyte int32) int32 {
-	return int32(sysvicall3(&libc_write, uintptr(fd), uintptr(buf), uintptr(nbyte)))
+	r1, err := sysvicall3Err(&libc_write, fd, uintptr(buf), uintptr(nbyte))
+	if c := int32(r1); c >= 0 {
+		return c
+	}
+	return -int32(err)
 }
 
 func osyield1()

@@ -17,6 +17,11 @@ func canInternalLink() bool {
 		return false
 	case "dragonfly":
 		return false
+	case "freebsd":
+		switch runtime.GOARCH {
+		case "arm64":
+			return false
+		}
 	case "linux":
 		switch runtime.GOARCH {
 		case "arm64", "mips64", "mips64le", "mips", "mipsle", "ppc64", "ppc64le":
@@ -32,7 +37,7 @@ func canInternalLink() bool {
 }
 
 func TestInternalLinkerCgoExec(t *testing.T) {
-	if !canInternalLink() || true { // TODO: newobj
+	if !canInternalLink() {
 		t.Skip("skipping; internal linking is not supported")
 	}
 	testGoExec(t, true, false)

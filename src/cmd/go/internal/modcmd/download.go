@@ -5,15 +5,17 @@
 package modcmd
 
 import (
-	"cmd/go/internal/cfg"
 	"encoding/json"
 	"os"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modload"
-	"cmd/go/internal/module"
 	"cmd/go/internal/par"
+	"cmd/go/internal/work"
+
+	"golang.org/x/mod/module"
 )
 
 var cmdDownload = &base.Command{
@@ -53,6 +55,8 @@ var downloadJSON = cmdDownload.Flag.Bool("json", false, "")
 
 func init() {
 	cmdDownload.Run = runDownload // break init cycle
+
+	work.AddModCommonFlags(cmdDownload)
 }
 
 type moduleJSON struct {

@@ -66,8 +66,8 @@ func checkGdbVersion(t *testing.T) {
 }
 
 func checkGdbPython(t *testing.T) {
-	if runtime.GOOS == "solaris" && testenv.Builder() != "solaris-amd64-smartosbuildlet" {
-		t.Skip("skipping gdb python tests on solaris; see golang.org/issue/20821")
+	if runtime.GOOS == "solaris" || runtime.GOOS == "illumos" {
+		t.Skip("skipping gdb python tests on illumos and solaris; see golang.org/issue/20821")
 	}
 
 	cmd := exec.Command("gdb", "-nx", "-q", "--batch", "-iex", "python import sys; print('go gdb python support')")
@@ -489,8 +489,6 @@ func main() {
 `
 
 func TestGdbConst(t *testing.T) {
-	t.Skip("TODO: newobj") // XXX the constant DIEs are not referenced, so they are not pulled in. Maybe it'll be fine if we rewrite linker's dwarf pass to index?
-
 	checkGdbEnvironment(t)
 	t.Parallel()
 	checkGdbVersion(t)

@@ -60,6 +60,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpAtomicStore32_0(v)
 	case OpAtomicStore64:
 		return rewriteValueS390X_OpAtomicStore64_0(v)
+	case OpAtomicStore8:
+		return rewriteValueS390X_OpAtomicStore8_0(v)
 	case OpAtomicStorePtrNoWB:
 		return rewriteValueS390X_OpAtomicStorePtrNoWB_0(v)
 	case OpAtomicStoreRel32:
@@ -166,6 +168,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpEqPtr_0(v)
 	case OpFloor:
 		return rewriteValueS390X_OpFloor_0(v)
+	case OpFma:
+		return rewriteValueS390X_OpFma_0(v)
 	case OpGeq16:
 		return rewriteValueS390X_OpGeq16_0(v)
 	case OpGeq16U:
@@ -1151,6 +1155,23 @@ func rewriteValueS390X_OpAtomicStore64_0(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueS390X_OpAtomicStore8_0(v *Value) bool {
+	b := v.Block
+	// match: (AtomicStore8 ptr val mem)
+	// result: (SYNC (MOVBatomicstore ptr val mem))
+	for {
+		mem := v.Args[2]
+		ptr := v.Args[0]
+		val := v.Args[1]
+		v.reset(OpS390XSYNC)
+		v0 := b.NewValue0(v.Pos, OpS390XMOVBatomicstore, types.TypeMem)
+		v0.AddArg(ptr)
+		v0.AddArg(val)
+		v0.AddArg(mem)
+		v.AddArg(v0)
+		return true
+	}
+}
 func rewriteValueS390X_OpAtomicStorePtrNoWB_0(v *Value) bool {
 	b := v.Block
 	// match: (AtomicStorePtrNoWB ptr val mem)
@@ -1915,6 +1936,20 @@ func rewriteValueS390X_OpFloor_0(v *Value) bool {
 		v.reset(OpS390XFIDBR)
 		v.AuxInt = 7
 		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValueS390X_OpFma_0(v *Value) bool {
+	// match: (Fma x y z)
+	// result: (FMADD z x y)
+	for {
+		z := v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpS390XFMADD)
+		v.AddArg(z)
+		v.AddArg(x)
+		v.AddArg(y)
 		return true
 	}
 }

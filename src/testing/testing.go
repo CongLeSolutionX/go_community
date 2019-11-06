@@ -479,6 +479,9 @@ func (c *common) decorate(s string, skip int) string {
 	buf := new(strings.Builder)
 	// Every line is indented at least 4 spaces.
 	buf.WriteString("    ")
+	if c.chatty {
+		fmt.Fprintf(buf, "%s: ", c.name)
+	}
 	fmt.Fprintf(buf, "%s:%d: ", file, line)
 	lines := strings.Split(s, "\n")
 	if l := len(lines); l > 1 && lines[l-1] == "" {
@@ -662,9 +665,7 @@ func (c *common) log(s string) {
 func (c *common) logDepth(s string, depth int) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	if !c.done {
-		c.output = append(c.output, c.decorate(s, depth+1)...)
-	} else {
+	if c.done {
 		// This test has already finished. Try and log this message
 		// with our parent. If we don't have a parent, panic.
 		for parent := c.parent; parent != nil; parent = parent.parent {
@@ -676,6 +677,12 @@ func (c *common) logDepth(s string, depth int) {
 			}
 		}
 		panic("Log in goroutine after " + c.name + " has completed")
+	} else {
+		if c.chatty {
+			fmt.Print(c.decorate(s, depth+1))
+			return
+		}
+		c.output = append(c.output, c.decorate(s, depth+1)...)
 	}
 }
 
@@ -853,7 +860,6 @@ func tRunner(t *T, fn func(t *T)) {
 			t.Errorf("race detected during execution of test")
 		}
 
-		t.duration += time.Since(t.start)
 		// If the test panicked, print any test output before dying.
 		err := recover()
 		signal := true
@@ -870,9 +876,19 @@ func tRunner(t *T, fn func(t *T)) {
 		}
 		if err != nil {
 			t.Fail()
-			t.report()
+			// Flush the output log up to the root before dying.
+			t.mu.Lock()
+			root := &t.common
+			for ; root.parent != nil; root = root.parent {
+				root.duration += time.Since(root.start)
+				fmt.Fprintf(root.parent.w, "--- FAIL: %s (%s)\n", root.name, fmtDuration(root.duration))
+				root.parent.mu.Lock()
+				io.Copy(root.parent.w, bytes.NewReader(root.output))
+			}
 			panic(err)
 		}
+
+		t.duration += time.Since(t.start)
 
 		if len(t.sub) > 0 {
 			// Run parallel subtests.

@@ -743,6 +743,7 @@ const (
 	OpAMD64POPCNTL
 	OpAMD64SQRTSD
 	OpAMD64ROUNDSD
+	OpAMD64VFMADD231SD
 	OpAMD64SBBQcarrymask
 	OpAMD64SBBLcarrymask
 	OpAMD64SETEQ
@@ -876,6 +877,7 @@ const (
 	OpAMD64MOVBatomicload
 	OpAMD64MOVLatomicload
 	OpAMD64MOVQatomicload
+	OpAMD64XCHGB
 	OpAMD64XCHGL
 	OpAMD64XCHGQ
 	OpAMD64XADDLlock
@@ -924,6 +926,7 @@ const (
 	OpARMMULAD
 	OpARMMULSF
 	OpARMMULSD
+	OpARMFMULAD
 	OpARMAND
 	OpARMANDconst
 	OpARMOR
@@ -1432,6 +1435,7 @@ const (
 	OpARM64LDAR
 	OpARM64LDARB
 	OpARM64LDARW
+	OpARM64STLRB
 	OpARM64STLR
 	OpARM64STLRW
 	OpARM64LoweredAtomicExchange64
@@ -1533,8 +1537,10 @@ const (
 	OpMIPSCALLstatic
 	OpMIPSCALLclosure
 	OpMIPSCALLinter
-	OpMIPSLoweredAtomicLoad
-	OpMIPSLoweredAtomicStore
+	OpMIPSLoweredAtomicLoad8
+	OpMIPSLoweredAtomicLoad32
+	OpMIPSLoweredAtomicStore8
+	OpMIPSLoweredAtomicStore32
 	OpMIPSLoweredAtomicStorezero
 	OpMIPSLoweredAtomicExchange
 	OpMIPSLoweredAtomicAdd
@@ -1653,6 +1659,7 @@ const (
 	OpMIPS64LoweredAtomicLoad8
 	OpMIPS64LoweredAtomicLoad32
 	OpMIPS64LoweredAtomicLoad64
+	OpMIPS64LoweredAtomicStore8
 	OpMIPS64LoweredAtomicStore32
 	OpMIPS64LoweredAtomicStore64
 	OpMIPS64LoweredAtomicStorezero32
@@ -1846,6 +1853,7 @@ const (
 	OpPPC64CALLinter
 	OpPPC64LoweredZero
 	OpPPC64LoweredMove
+	OpPPC64LoweredAtomicStore8
 	OpPPC64LoweredAtomicStore32
 	OpPPC64LoweredAtomicStore64
 	OpPPC64LoweredAtomicLoad8
@@ -2066,6 +2074,7 @@ const (
 	OpS390XMOVBZatomicload
 	OpS390XMOVWZatomicload
 	OpS390XMOVDatomicload
+	OpS390XMOVBatomicstore
 	OpS390XMOVWatomicstore
 	OpS390XMOVDatomicstore
 	OpS390XLAA
@@ -2419,6 +2428,7 @@ const (
 	OpRoundToEven
 	OpAbs
 	OpCopysign
+	OpFma
 	OpPhi
 	OpCopy
 	OpConvert
@@ -2550,6 +2560,7 @@ const (
 	OpAtomicLoad64
 	OpAtomicLoadPtr
 	OpAtomicLoadAcq32
+	OpAtomicStore8
 	OpAtomicStore32
 	OpAtomicStore64
 	OpAtomicStorePtrNoWB
@@ -9625,6 +9636,22 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:         "VFMADD231SD",
+		argLen:       3,
+		resultInArg0: true,
+		asm:          x86.AVFMADD231SD,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
+				{1, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
+				{2, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
+			},
+			outputs: []outputInfo{
+				{0, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
+			},
+		},
+	},
+	{
 		name:   "SBBQcarrymask",
 		argLen: 1,
 		asm:    x86.ASBBQ,
@@ -11388,6 +11415,25 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:           "XCHGB",
+		auxType:        auxSymOff,
+		argLen:         3,
+		resultInArg0:   true,
+		faultOnNilArg1: true,
+		hasSideEffects: true,
+		symEffect:      SymRdWr,
+		asm:            x86.AXCHGB,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 65519},      // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+				{1, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
+			},
+			outputs: []outputInfo{
+				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
 		name:           "XCHGL",
 		auxType:        auxSymOff,
 		argLen:         3,
@@ -12090,6 +12136,22 @@ var opcodeTable = [...]opInfo{
 		argLen:       3,
 		resultInArg0: true,
 		asm:          arm.AMULSD,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 4294901760}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
+				{1, 4294901760}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
+				{2, 4294901760}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
+			},
+			outputs: []outputInfo{
+				{0, 4294901760}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
+			},
+		},
+	},
+	{
+		name:         "FMULAD",
+		argLen:       3,
+		resultInArg0: true,
+		asm:          arm.AFMULAD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4294901760}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
@@ -18842,6 +18904,19 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:           "STLRB",
+		argLen:         3,
+		faultOnNilArg0: true,
+		hasSideEffects: true,
+		asm:            arm64.ASTLRB,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 805044223},           // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R19 R20 R21 R22 R23 R24 R25 R26 g R30
+				{0, 9223372038733561855}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R19 R20 R21 R22 R23 R24 R25 R26 g R30 SP SB
+			},
+		},
+	},
+	{
 		name:           "STLR",
 		argLen:         3,
 		faultOnNilArg0: true,
@@ -20243,7 +20318,7 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:           "LoweredAtomicLoad",
+		name:           "LoweredAtomicLoad8",
 		argLen:         2,
 		faultOnNilArg0: true,
 		reg: regInfo{
@@ -20256,7 +20331,32 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:           "LoweredAtomicStore",
+		name:           "LoweredAtomicLoad32",
+		argLen:         2,
+		faultOnNilArg0: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 140738025226238}, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 R28 SP g R31 SB
+			},
+			outputs: []outputInfo{
+				{0, 335544318}, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 R28 R31
+			},
+		},
+	},
+	{
+		name:           "LoweredAtomicStore8",
+		argLen:         3,
+		faultOnNilArg0: true,
+		hasSideEffects: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 469762046},       // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 R28 g R31
+				{0, 140738025226238}, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 R28 SP g R31 SB
+			},
+		},
+	},
+	{
+		name:           "LoweredAtomicStore32",
 		argLen:         3,
 		faultOnNilArg0: true,
 		hasSideEffects: true,
@@ -21844,6 +21944,18 @@ var opcodeTable = [...]opInfo{
 			},
 			outputs: []outputInfo{
 				{0, 167772158}, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 R31
+			},
+		},
+	},
+	{
+		name:           "LoweredAtomicStore8",
+		argLen:         3,
+		faultOnNilArg0: true,
+		hasSideEffects: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 234881022},           // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 g R31
+				{0, 4611686018695823358}, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 SP g R31 SB
 			},
 		},
 	},
@@ -24452,6 +24564,19 @@ var opcodeTable = [...]opInfo{
 				{1, 16}, // R4
 			},
 			clobbers: 16408, // R3 R4 R14
+		},
+	},
+	{
+		name:           "LoweredAtomicStore8",
+		auxType:        auxInt64,
+		argLen:         3,
+		faultOnNilArg0: true,
+		hasSideEffects: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
+				{1, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
+			},
 		},
 	},
 	{
@@ -27598,6 +27723,22 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:           "MOVBatomicstore",
+		auxType:        auxSymOff,
+		argLen:         3,
+		clobberFlags:   true,
+		faultOnNilArg0: true,
+		hasSideEffects: true,
+		symEffect:      SymWrite,
+		asm:            s390x.AMOVB,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 4295023614}, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 R14 SP SB
+				{1, 56319},      // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 R14 SP
+			},
+		},
+	},
+	{
 		name:           "MOVWatomicstore",
 		auxType:        auxSymOff,
 		argLen:         3,
@@ -30594,6 +30735,11 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
+		name:    "Fma",
+		argLen:  3,
+		generic: true,
+	},
+	{
 		name:      "Phi",
 		argLen:    -1,
 		zeroWidth: true,
@@ -31306,6 +31452,12 @@ var opcodeTable = [...]opInfo{
 		name:    "AtomicLoadAcq32",
 		argLen:  2,
 		generic: true,
+	},
+	{
+		name:           "AtomicStore8",
+		argLen:         3,
+		hasSideEffects: true,
+		generic:        true,
 	},
 	{
 		name:           "AtomicStore32",

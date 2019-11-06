@@ -431,6 +431,8 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpAtomicStore32_0(v)
 	case OpAtomicStore64:
 		return rewriteValueARM64_OpAtomicStore64_0(v)
+	case OpAtomicStore8:
+		return rewriteValueARM64_OpAtomicStore8_0(v)
 	case OpAtomicStorePtrNoWB:
 		return rewriteValueARM64_OpAtomicStorePtrNoWB_0(v)
 	case OpAvg64u:
@@ -571,6 +573,8 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpEqPtr_0(v)
 	case OpFloor:
 		return rewriteValueARM64_OpFloor_0(v)
+	case OpFma:
+		return rewriteValueARM64_OpFma_0(v)
 	case OpGeq16:
 		return rewriteValueARM64_OpGeq16_0(v)
 	case OpGeq16U:
@@ -27667,6 +27671,20 @@ func rewriteValueARM64_OpAtomicStore64_0(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueARM64_OpAtomicStore8_0(v *Value) bool {
+	// match: (AtomicStore8 ptr val mem)
+	// result: (STLRB ptr val mem)
+	for {
+		mem := v.Args[2]
+		ptr := v.Args[0]
+		val := v.Args[1]
+		v.reset(OpARM64STLRB)
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+}
 func rewriteValueARM64_OpAtomicStorePtrNoWB_0(v *Value) bool {
 	// match: (AtomicStorePtrNoWB ptr val mem)
 	// result: (STLR ptr val mem)
@@ -28562,6 +28580,20 @@ func rewriteValueARM64_OpFloor_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpARM64FRINTMD)
 		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValueARM64_OpFma_0(v *Value) bool {
+	// match: (Fma x y z)
+	// result: (FMADDD z x y)
+	for {
+		z := v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpARM64FMADDD)
+		v.AddArg(z)
+		v.AddArg(x)
+		v.AddArg(y)
 		return true
 	}
 }

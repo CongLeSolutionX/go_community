@@ -22,13 +22,14 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modfile"
-	"cmd/go/internal/module"
 	"cmd/go/internal/mvs"
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
-	"cmd/go/internal/semver"
 	"cmd/go/internal/str"
+
+	"golang.org/x/mod/modfile"
+	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // buildList is the list of modules to use for building packages.
@@ -95,7 +96,7 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 				for _, pkg := range pkgs {
 					dir := pkg
 					if !filepath.IsAbs(dir) {
-						dir = filepath.Join(cwd, pkg)
+						dir = filepath.Join(base.Cwd, pkg)
 					} else {
 						dir = filepath.Clean(dir)
 					}
@@ -211,11 +212,17 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 
 	// One last pass to finalize wildcards.
 	updateMatches(matches, false)
+	checkMultiplePaths()
+	WriteGoMod()
 
-	// A given module path may be used as itself or as a replacement for another
-	// module, but not both at the same time. Otherwise, the aliasing behavior is
-	// too subtle (see https://golang.org/issue/26607), and we don't want to
-	// commit to a specific behavior at this point.
+	return matches
+}
+
+// checkMultiplePaths verifies that a given module path is used as itself
+// or as a replacement for another module, but not both at the same time.
+//
+// (See https://golang.org/issue/26607 and https://golang.org/issue/34650.)
+func checkMultiplePaths() {
 	firstPath := make(map[module.Version]string, len(buildList))
 	for _, mod := range buildList {
 		src := mod
@@ -229,9 +236,6 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 		}
 	}
 	base.ExitIfErrors()
-	WriteGoMod()
-
-	return matches
 }
 
 // pathInModuleCache returns the import path of the directory dir,
@@ -318,7 +322,7 @@ func DirImportPath(dir string) string {
 	}
 
 	if !filepath.IsAbs(dir) {
-		dir = filepath.Join(cwd, dir)
+		dir = filepath.Join(base.Cwd, dir)
 	} else {
 		dir = filepath.Clean(dir)
 	}
@@ -383,6 +387,7 @@ func loadAll(testAll bool) []string {
 	}
 	all := TargetPackages("...")
 	loaded.load(func() []string { return all })
+	checkMultiplePaths()
 	WriteGoMod()
 
 	var paths []string
@@ -621,6 +626,7 @@ func (ld *loader) load(roots func() []string) {
 				added[pkg.path] = true
 				numAdded++
 				if !haveMod[err.Module] {
+					fmt.Fprintf(os.Stderr, "go: found %s in %s %s\n", pkg.path, err.Module.Path, err.Module.Version)
 					haveMod[err.Module] = true
 					modAddedBy[err.Module] = pkg
 					buildList = append(buildList, err.Module)

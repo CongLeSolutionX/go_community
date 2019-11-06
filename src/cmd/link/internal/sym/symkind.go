@@ -104,6 +104,7 @@ const (
 	SCONST
 	SDYNIMPORT
 	SHOSTOBJ
+	SUNDEFEXT // Undefined symbol for resolution by external linker
 
 	// Sections for debugging information
 	SDWARFSECT
@@ -157,4 +158,9 @@ var RelROMap = map[SymKind]SymKind{
 	SGCBITS:   SGCBITSRELRO,
 	SRODATA:   SRODATARELRO,
 	SFUNCTAB:  SFUNCTABRELRO,
+}
+
+// IsData returns true if the type is a data type.
+func (t SymKind) IsData() bool {
+	return t == SDATA || t == SNOPTRDATA || t == SBSS || t == SNOPTRBSS
 }

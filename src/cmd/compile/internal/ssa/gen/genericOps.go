@@ -302,8 +302,21 @@ var genericOps = []opData{
 	{name: "Abs", argLength: 1},      // absolute value arg0
 	{name: "Copysign", argLength: 2}, // copy sign from arg0 to arg1
 
-	// Data movement, max argument length for Phi is indefinite so just pick
-	// a really large number
+	// 3-input opcode.
+	// Fused-multiply-add, float64 only.
+	// When a*b+c is exactly zero (before rounding), then the result is +0 or -0.
+	// The 0's sign is determined according to the standard rules for the
+	// addition (-0 if both a*b and c are -0, +0 otherwise).
+	//
+	// Otherwise, when a*b+c rounds to zero, then the resulting 0's sign is
+	// determined by the sign of the exact result a*b+c.
+	// See section 6.3 in ieee754.
+	//
+	// When the multiply is an infinity times a zero, the result is NaN.
+	// See section 7.2 in ieee754.
+	{name: "Fma", argLength: 3}, // compute (a*b)+c without intermediate rounding
+
+	// Data movement. Max argument length for Phi is indefinite.
 	{name: "Phi", argLength: -1, zeroWidth: true}, // select an argument based on which predecessor block we came from
 	{name: "Copy", argLength: 1},                  // output = arg0
 	// Convert converts between pointers and integers.
@@ -532,6 +545,7 @@ var genericOps = []opData{
 	{name: "AtomicLoad64", argLength: 2, typ: "(UInt64,Mem)"},                                  // Load from arg0.  arg1=memory.  Returns loaded value and new memory.
 	{name: "AtomicLoadPtr", argLength: 2, typ: "(BytePtr,Mem)"},                                // Load from arg0.  arg1=memory.  Returns loaded value and new memory.
 	{name: "AtomicLoadAcq32", argLength: 2, typ: "(UInt32,Mem)"},                               // Load from arg0.  arg1=memory.  Lock acquisition, returns loaded value and new memory.
+	{name: "AtomicStore8", argLength: 3, typ: "Mem", hasSideEffects: true},                     // Store arg1 to *arg0.  arg2=memory.  Returns memory.
 	{name: "AtomicStore32", argLength: 3, typ: "Mem", hasSideEffects: true},                    // Store arg1 to *arg0.  arg2=memory.  Returns memory.
 	{name: "AtomicStore64", argLength: 3, typ: "Mem", hasSideEffects: true},                    // Store arg1 to *arg0.  arg2=memory.  Returns memory.
 	{name: "AtomicStorePtrNoWB", argLength: 3, typ: "Mem", hasSideEffects: true},               // Store arg1 to *arg0.  arg2=memory.  Returns memory.
