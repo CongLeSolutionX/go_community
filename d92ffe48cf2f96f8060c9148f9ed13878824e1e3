@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ea15d6d_8399b49d",
+        "filename": "src/math/cmplx/asin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-06T22:00:19Z",
+      "side": 1,
+      "message": "I think this code would be a lot less verbose if you did:\n\nre, im :\u003d real(x), imag(x)\n\nand then use re and im in the code.\n\nAs far as I can tell from a simple experiment, the compiler generates the same code, so there\u0027s no penalty for using two extra variables.",
+      "revId": "d92ffe48cf2f96f8060c9148f9ed13878824e1e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
