@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b6398a9_ec6e4688",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-06T00:51:16Z",
+      "side": 1,
+      "message": "R2 is global pointer?",
+      "revId": "77b9796a24caee51e2656b7108fa03048460b112",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e5a91e3_a5187739",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-06T00:51:16Z",
+      "side": 1,
+      "message": "Since we\u0027re restoring them here, we might as well add them to the exceptions in line 426.",
+      "revId": "77b9796a24caee51e2656b7108fa03048460b112",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
