@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f16ba6aa_7f6ce43c",
+        "filename": "src/go/doc/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-06T23:49:29Z",
+      "side": 1,
+      "message": "This doc string doesn\u0027t seem to explain the examples argument. Where is it coming from? From reading the issue comment and CL desc I would have assumed this to be a list of additional packages or files (the test files in a test package). What am I missing?",
+      "range": {
+        "startLine": 136,
+        "startChar": 13,
+        "endLine": 136,
+        "endChar": 20
+      },
+      "revId": "c2ac86b2afa53b4fb061f9ec1b24700f35f051e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f08a7b87_18a918c2",
         "filename": "src/go/doc/example_test.go",
         "patchSetId": 2
