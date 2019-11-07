@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cec36a13_03ec862e",
+        "filename": "src/math/cmplx/cmath_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-07T16:45:16Z",
+      "side": 1,
+      "message": "s/satisifed/satisfied/\n\nAlso, this comment is a proper sentence. End with a period.",
+      "range": {
+        "startLine": 963,
+        "startChar": 55,
+        "endLine": 963,
+        "endChar": 64
+      },
+      "revId": "46d30be523011c80d3016cca976f2efd172a41ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca83c35c_e3bd8a0a",
+        "filename": "src/math/cmplx/cmath_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-07T16:45:16Z",
+      "side": 1,
+      "message": "ditto\n\nhere and multiple times below",
+      "range": {
+        "startLine": 992,
+        "startChar": 51,
+        "endLine": 992,
+        "endChar": 52
+      },
+      "revId": "46d30be523011c80d3016cca976f2efd172a41ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa72b2ee_679877f3",
+        "filename": "src/math/cmplx/tan.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-07T16:45:16Z",
+      "side": 1,
+      "message": "I would have done this outside the switch statement. Then you could use re, im also after the switch.\n\n(No need to do this in this CL now. Can be a follow-up CL if so desired.)",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 37
+      },
+      "revId": "46d30be523011c80d3016cca976f2efd172a41ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
