@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea51b26f_2c57d5a3",
+        "filename": "src/cmd/go/testdata/script/mod_replace_import.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-07T20:30:01Z",
+      "side": 1,
+      "message": "This regexp should be anchored on both sides (with `^` and `$`). That reveals a bug; namely, a missing `Pattern: path,` in the error literal.",
+      "range": {
+        "startLine": 31,
+        "startChar": 122,
+        "endLine": 31,
+        "endChar": 147
+      },
+      "revId": "b70e917aed6b7dd04ccc4129f8a9785bc92dd650",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a40aac0_82ec8569",
+        "filename": "src/cmd/go/testdata/script/mod_replace_import.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-07T20:30:01Z",
+      "side": 1,
+      "message": "The `example.com/a/b/c` changes no longer appear necessary.",
+      "revId": "b70e917aed6b7dd04ccc4129f8a9785bc92dd650",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
