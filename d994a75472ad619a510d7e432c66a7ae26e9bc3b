@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55a08354_2589c4a5",
+        "filename": "src/cmd/go/testdata/script/mod_replace_import.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-07T15:19:32Z",
+      "side": 1,
+      "message": "I don\u0027t think this test is hitting the new codepath. (I cloned this CL locally and reverted the change to import.go, and the test still passed.)",
+      "revId": "d994a75472ad619a510d7e432c66a7ae26e9bc3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
