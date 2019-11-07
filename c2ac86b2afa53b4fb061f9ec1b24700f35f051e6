@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6432469_460595a4",
+        "filename": "src/go/doc/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-11-07T00:45:16Z",
+      "side": 1,
+      "message": "It should be helpful to look at the example for this function, ExampleNewWithExamples. See line 496 in file example_test.go:\n\n\tp :\u003d doc.NewWithExamples(apkg, \"example.com/p\", 0, doc.Examples(testGoFiles...))\n\nHowever, I think the doc string should be improved to make this more clear. I\u0027ll work on that.\n\nIt is viable to change the signature to accept a list of test files or *ast.Package (or 2 *ast.Packages), but I thought accepting a slice of *Example was a better choice of API. It allows callers to first get a list of examples by using doc.Examples(testFiles), then pass that list to NewWithExamples:\n\n\tallExamples :\u003d doc.Examples(testGoFiles...)\n\tp :\u003d doc.NewWithExamples(apkg, \"example.com/p\", examples)\n        // use allExamples ...\n\nThat way, they\u0027ll have a flat list of all examples with their Suffix field populated. What do you think?",
+      "parentUuid": "f16ba6aa_7f6ce43c",
+      "range": {
+        "startLine": 136,
+        "startChar": 13,
+        "endLine": 136,
+        "endChar": 20
+      },
+      "revId": "c2ac86b2afa53b4fb061f9ec1b24700f35f051e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f08a7b87_18a918c2",
         "filename": "src/go/doc/example_test.go",
         "patchSetId": 2
