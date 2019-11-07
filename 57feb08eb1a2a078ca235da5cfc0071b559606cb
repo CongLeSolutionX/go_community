@@ -16,6 +16,24 @@
       "revId": "57feb08eb1a2a078ca235da5cfc0071b559606cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6df23b2_adfcac74",
+        "filename": "src/internal/bytealg/equal_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-07T16:25:05Z",
+      "side": 1,
+      "message": "Indeed, done.",
+      "parentUuid": "69b9c691_5c48d509",
+      "revId": "57feb08eb1a2a078ca235da5cfc0071b559606cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
