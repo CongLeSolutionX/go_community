@@ -140,6 +140,30 @@
       "revId": "46d30be523011c80d3016cca976f2efd172a41ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "197a07ed_e7eb410c",
+        "filename": "src/math/cmplx/tan.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-07T19:48:23Z",
+      "side": 1,
+      "message": "No need to do this now - we\u0027re in the freeze.",
+      "parentUuid": "af0637df_26e11843",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 37
+      },
+      "revId": "46d30be523011c80d3016cca976f2efd172a41ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
