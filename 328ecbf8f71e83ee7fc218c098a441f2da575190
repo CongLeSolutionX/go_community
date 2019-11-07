@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ced4b4c_1c2c9f81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-11-07T08:52:58Z",
+      "side": 1,
+      "message": "Please, replace lines 7-9 with this\n\n```\nsyscall: revert security_windows.go change of CL 201877\n\nThis CL was verified by running\n\ngo test -gcflags\u003dall\u003d-d\u003dcheckptr\u003d2 internal/syscall/windows\n\ninternal/syscall/windows.TestRunAtLowIntegrity uses code in question.\n```",
+      "revId": "328ecbf8f71e83ee7fc218c098a441f2da575190",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
