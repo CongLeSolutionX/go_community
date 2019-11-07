@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3223e005_4ecc99f8",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1368,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-11-07T21:26:06Z",
+      "side": 0,
+      "message": "The TODO is no longer operative because the path to the escape is \nalways explained at the point of assignment of \"loc.escapes \u003d true\" ?",
+      "range": {
+        "startLine": 1368,
+        "startChar": 5,
+        "endLine": 1368,
+        "endChar": 56
+      },
+      "revId": "68dce4296eba755b6add5e611b7849b99dcb5d75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
