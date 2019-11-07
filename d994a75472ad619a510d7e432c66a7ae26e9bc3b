@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "eceb9201_c5828aa5",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-07T18:01:46Z",
+      "side": 1,
+      "message": "s/m/mods[0]/",
+      "range": {
+        "startLine": 246,
+        "startChar": 29,
+        "endLine": 246,
+        "endChar": 30
+      },
+      "revId": "d994a75472ad619a510d7e432c66a7ae26e9bc3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d2eae4f_e9eb2bd3",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-07T18:01:46Z",
+      "side": 1,
+      "message": "Add: `Query: \"latest\"`\n\n(Every PackageNotInModuleError requires a query, which may be the same as the module version.)",
+      "revId": "d994a75472ad619a510d7e432c66a7ae26e9bc3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55a08354_2589c4a5",
         "filename": "src/cmd/go/testdata/script/mod_replace_import.txt",
         "patchSetId": 6
@@ -13,6 +53,24 @@
       "writtenOn": "2019-11-07T15:19:32Z",
       "side": 1,
       "message": "I don\u0027t think this test is hitting the new codepath. (I cloned this CL locally and reverted the change to import.go, and the test still passed.)",
+      "revId": "d994a75472ad619a510d7e432c66a7ae26e9bc3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f9909d8_664a4a39",
+        "filename": "src/cmd/go/testdata/script/mod_replace_import.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-07T18:01:46Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s definitely not. `example.com` is a valid, fetchable module path, and the test proxy includes a version for it.\n\nIn contrast, the new codepath only applies to unfetchable module paths.",
+      "parentUuid": "55a08354_2589c4a5",
       "revId": "d994a75472ad619a510d7e432c66a7ae26e9bc3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
