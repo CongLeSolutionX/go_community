@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ddeefc5_1340ffbc",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 3733,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-08T19:18:21Z",
+      "side": 1,
+      "message": "Seems like we need tests of unnamed directional channels.  Otherwise we aren\u0027t testing the rule in the spec.",
+      "revId": "b3a84e429e4661e474e8075278ace0bc555f2719",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
