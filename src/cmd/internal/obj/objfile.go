@@ -220,6 +220,11 @@ func (s *LSym) Len() int64 {
 	return s.Size
 }
 
+func (s *LSym) Eq(othersym interface{}) bool {
+	os := othersym.(*LSym)
+	return s == os
+}
+
 // fileSymbol returns a symbol corresponding to the source file of the
 // first instruction (prog) of the specified function. This will
 // presumably be the file in which the function is defined.

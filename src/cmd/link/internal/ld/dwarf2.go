@@ -120,6 +120,21 @@ func writeabbrev(ctxt *Link) *sym.Symbol {
 	return s
 }
 
+func newattr(die *dwarf.DWDie, attr uint16, cls int, value int64, data interface{}) *dwarf.DWAttr {
+	a := new(dwarf.DWAttr)
+	a.Link = die.Attr
+	die.Attr = a
+	a.Atr = attr
+	a.Cls = uint8(cls)
+	a.Value = value
+	a.Data = data
+	return a
+}
+
+func newmemberoffsetattr(die *dwarf.DWDie, offs int32) {
+	newattr(die, dwarf.DW_AT_data_member_location, dwarf.DW_CLS_CONSTANT, int64(offs), nil)
+}
+
 // Every DIE manufactured by the linker has at least an AT_name
 // attribute (but it will only be written out if it is listed in the abbrev).
 // The compiler does create nameless DWARF DIEs (ex: concrete subprogram

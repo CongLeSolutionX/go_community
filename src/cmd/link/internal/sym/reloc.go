@@ -45,6 +45,10 @@ func (r *Reloc) InitExt() {
 	}
 }
 
+func (r *Reloc) HasExt() bool {
+	return r.relocExt != nil
+}
+
 // RelocVariant is a linker-internal variation on a relocation.
 type RelocVariant uint8
 

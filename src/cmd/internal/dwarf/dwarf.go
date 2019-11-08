@@ -49,6 +49,7 @@ var logDwarf bool
 // Sym represents a symbol.
 type Sym interface {
 	Len() int64
+	Eq(othersym interface{}) bool
 }
 
 // A Var represents a local variable or a function parameter.
@@ -1656,4 +1657,9 @@ func IsDWARFEnabledOnAIXLd(extld string) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+func AbbrevTag(abbrev int) int {
+	abbrevs := Abbrevs()
+	return int(abbrevs[abbrev].tag)
 }
