@@ -30,6 +30,26 @@
 
 package sym
 
+import (
+	"runtime"
+	"sync"
+)
+
+type LookupCounts struct {
+	Lookup   uint
+	ROLookup uint
+}
+
+type Stringver struct {
+	Name string
+	Ver  int
+}
+
+type LookupStack struct {
+	Pcs   []uintptr
+	Count uint
+}
+
 type Symbols struct {
 	symbolBatch []Symbol
 
@@ -37,6 +57,16 @@ type Symbols struct {
 	hash []map[string]*Symbol
 
 	Allsym []*Symbol
+
+	Unique      map[Stringver]uint
+	LookupSites map[uintptr]LookupStack
+	LSCollide   uint
+	umu         sync.Mutex
+	ustats      bool
+
+	Globs  LookupCounts
+	ABIIs  LookupCounts
+	Locals LookupCounts
 }
 
 func NewSymbols() *Symbols {
@@ -45,9 +75,13 @@ func NewSymbols() *Symbols {
 	hash[0] = make(map[string]*Symbol, 100000)
 	// And another 1mb for internal ABI text symbols.
 	hash[SymVerABIInternal] = make(map[string]*Symbol, 50000)
+	unique := make(map[Stringver]uint)
+	lookupSites := make(map[uintptr]LookupStack)
 	return &Symbols{
-		hash:   hash,
-		Allsym: make([]*Symbol, 0, 100000),
+		hash:        hash,
+		Unique:      unique,
+		LookupSites: lookupSites,
+		Allsym:      make([]*Symbol, 0, 100000),
 	}
 }
 
@@ -67,9 +101,78 @@ func (syms *Symbols) Newsym(name string, v int) *Symbol {
 	return s
 }
 
+func (syms *Symbols) CollectLookupStats(val bool) {
+	syms.ustats = val
+}
+
+func sameSlice(sl1 []uintptr, sl2 []uintptr) bool {
+	if len(sl1) != len(sl2) {
+		return false
+	}
+	for i := 0; i < len(sl1); i++ {
+		if sl1[i] != sl2[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func (syms *Symbols) recordLookupTrace(pcs []uintptr) {
+	// Hash
+	var h uintptr
+	for _, pc := range pcs {
+		h += pc
+		h += h << 10
+		h ^= h >> 6
+	}
+	// Install in map
+	var v LookupStack
+	var ok bool
+	if v, ok = syms.LookupSites[h]; ok {
+		// Record collision for sanity check
+		if !sameSlice(v.Pcs, pcs) {
+			syms.LSCollide++
+		}
+		v.Count++
+	} else {
+		v.Pcs = pcs
+		v.Count = 1
+	}
+	syms.LookupSites[h] = v
+}
+
+func (syms *Symbols) stats(ro bool, v int, n string) {
+	if !syms.ustats {
+		return
+	}
+	var lp *LookupCounts
+	if v == 0 {
+		lp = &syms.Globs
+	} else if v == SymVerABIInternal {
+		lp = &syms.ABIIs
+	} else {
+		lp = &syms.Locals
+	}
+	if ro {
+		lp.ROLookup++
+	} else {
+		lp.Lookup++
+	}
+	sv := Stringver{Name: n, Ver: v}
+	syms.umu.Lock()
+	defer syms.umu.Unlock()
+	count := syms.Unique[sv]
+	count += 1
+	syms.Unique[sv] = count
+	var stk [32]uintptr
+	nstk := runtime.Callers(2, stk[:])
+	syms.recordLookupTrace(stk[:nstk])
+}
+
 // Look up the symbol with the given name and version, creating the
 // symbol if it is not found.
 func (syms *Symbols) Lookup(name string, v int) *Symbol {
+	syms.stats(false, v, name)
 	m := syms.hash[v]
 	s := m[name]
 	if s != nil {
@@ -83,6 +186,7 @@ func (syms *Symbols) Lookup(name string, v int) *Symbol {
 // Look up the symbol with the given name and version, returning nil
 // if it is not found.
 func (syms *Symbols) ROLookup(name string, v int) *Symbol {
+	syms.stats(true, v, name)
 	return syms.hash[v][name]
 }
 
