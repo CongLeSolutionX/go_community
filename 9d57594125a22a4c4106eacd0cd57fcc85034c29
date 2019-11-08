@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef4e2c38_da164888",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-08T18:00:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "418c98ff_5f2ced3b",
+      "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a5e0931_712dfbbb",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c9239680_1395fe37",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-08T18:00:00Z",
+      "side": 1,
+      "message": "Roger that, thanks!",
+      "parentUuid": "3a5e0931_712dfbbb",
+      "range": {
+        "startLine": 490,
+        "startChar": 19,
+        "endLine": 490,
+        "endChar": 20
+      },
+      "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e608e7dd_1a3834b2",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 6
@@ -62,6 +104,30 @@
       "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99eb6fe2_c76174d6",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-08T18:00:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e608e7dd_1a3834b2",
+      "range": {
+        "startLine": 493,
+        "startChar": 1,
+        "endLine": 495,
+        "endChar": 2
+      },
+      "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -100,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "6480b08f_8a8fd208",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-08T18:00:00Z",
+      "side": 1,
+      "message": "Ack, thanks Beni and Brad!",
+      "parentUuid": "00709d44_abd08112",
+      "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb04f2f_43d11ad6",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 6
@@ -120,6 +204,30 @@
       "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d1cc7b_079c9364",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-08T18:00:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ddb04f2f_43d11ad6",
+      "range": {
+        "startLine": 715,
+        "startChar": 15,
+        "endLine": 715,
+        "endChar": 57
+      },
+      "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
