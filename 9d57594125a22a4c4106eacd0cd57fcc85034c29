@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "5a785b7d_aa9cbd50",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-08T19:05:04Z",
+      "side": 1,
+      "message": "This is the problem that caused the trybot failure. Basically\nwe shouldn\u0027t be hitting the end of this function if there are transfer-encodings.\n\nI blindly made the edit. I am reverting it to what I had before with a comment.",
+      "parentUuid": "6480b08f_8a8fd208",
+      "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb04f2f_43d11ad6",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 6
