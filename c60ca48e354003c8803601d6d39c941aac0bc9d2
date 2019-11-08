@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24981e68_cd9e28f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-08T22:31:11Z",
+      "side": 1,
+      "message": "bestows? :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "c60ca48e354003c8803601d6d39c941aac0bc9d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "643aac34_63b34d1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-08T22:31:11Z",
+      "side": 1,
+      "message": "copied",
+      "range": {
+        "startLine": 9,
+        "startChar": 44,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "c60ca48e354003c8803601d6d39c941aac0bc9d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b66c7548_6571f4ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-08T22:31:11Z",
+      "side": 1,
+      "message": "nit: runtime",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "c60ca48e354003c8803601d6d39c941aac0bc9d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4984ff0d_40839ce2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-08T22:31:11Z",
+      "side": 1,
+      "message": "Updates #35112.",
+      "revId": "c60ca48e354003c8803601d6d39c941aac0bc9d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
