@@ -42,6 +42,7 @@ import (
 	"cmd/link/internal/loadmacho"
 	"cmd/link/internal/loadpe"
 	"cmd/link/internal/loadxcoff"
+	"cmd/link/internal/objstats"
 	"cmd/link/internal/sym"
 	"crypto/sha1"
 	"debug/elf"
@@ -388,7 +389,11 @@ func (ctxt *Link) loadlib() {
 	default:
 		log.Fatalf("invalid -strictdups flag value %d", *FlagStrictDups)
 	}
-	ctxt.loader = loader.NewLoader(flags)
+	var stats *objstats.SymStats
+	if ctxt.emitStats != "" {
+		stats = &ctxt.stats
+	}
+	ctxt.loader = loader.NewLoader(flags, stats)
 
 	ctxt.cgo_export_static = make(map[string]bool)
 	ctxt.cgo_export_dynamic = make(map[string]bool)
@@ -1656,11 +1661,23 @@ func hostlinkArchArgs(arch *sys.Arch) []string {
 	return nil
 }
 
+func addHostObjStats(stats *objstats.SymStats, syms []*sym.Symbol) {
+	if stats == nil {
+		return
+	}
+	stats.RecordHostObject(syms)
+}
+
 // ldobj loads an input object. If it is a host object (an object
 // compiled by a non-Go compiler) it returns the Hostobj pointer. If
 // it is a Go object, it returns nil.
 func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string, file string) *Hostobj {
 	pkg := objabi.PathToPrefix(lib.Pkg)
+
+	var stats *objstats.SymStats
+	if ctxt.emitStats != "" {
+		stats = &ctxt.stats
+	}
 
 	eof := f.Offset() + length
 	start := f.Offset()
@@ -1681,6 +1698,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 				Errorf(nil, "%v", err)
 				return
 			}
+			addHostObjStats(stats, textp)
 			ehdr.flags = flags
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
@@ -1688,18 +1706,21 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	}
 
 	if magic&^1 == 0xfeedface || magic&^0x01000000 == 0xcefaedfe {
+
 		ldmacho := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 			textp, err := loadmacho.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn)
 			if err != nil {
 				Errorf(nil, "%v", err)
 				return
 			}
+			addHostObjStats(stats, textp)
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
 		return ldhostobj(ldmacho, ctxt.HeadType, f, pkg, length, pn, file)
 	}
 
 	if c1 == 0x4c && c2 == 0x01 || c1 == 0x64 && c2 == 0x86 {
+
 		ldpe := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 			textp, rsrc, err := loadpe.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn)
 			if err != nil {
@@ -1709,6 +1730,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 			if rsrc != nil {
 				setpersrc(ctxt, rsrc)
 			}
+			addHostObjStats(stats, textp)
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
 		return ldhostobj(ldpe, ctxt.HeadType, f, pkg, length, pn, file)
@@ -1721,6 +1743,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 				Errorf(nil, "%v", err)
 				return
 			}
+			addHostObjStats(stats, textp)
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
 		return ldhostobj(ldxcoff, ctxt.HeadType, f, pkg, length, pn, file)
@@ -2616,6 +2639,8 @@ func (ctxt *Link) loadlibfull() {
 			ctxt.Reachparent[sym] = psym
 		}
 	}
+
+	emitStatsAt(ctxt, "afterLoadLibFull", false)
 
 	// Drop the reference.
 	ctxt.loader = nil
