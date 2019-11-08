@@ -34,6 +34,7 @@ import (
 	"bufio"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
+	"cmd/link/internal/objfile"
 	"cmd/link/internal/sym"
 	"flag"
 	"log"
@@ -96,6 +97,9 @@ var (
 	cpuprofile     = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	memprofile     = flag.String("memprofile", "", "write memory profile to `file`")
 	memprofilerate = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
+	Flagshowdead   = flag.String("showdead", "", "emit statistics on dead symbols to `file` (or stderr if file is `--`)")
+	Flagshowdeadx  = flag.Bool("showdead-details", false, "emit a more verbose summary of live/dead when -showdead is in effect")
+	Flagsdrelocs   = flag.String("showdead-pkg-relocs", "", "for showdead-details, dump relocations for specified package")
 )
 
 // Main is the main entry point for the linker code.
@@ -126,6 +130,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	flag.Var(&ctxt.LinkMode, "linkmode", "set link `mode`")
 	flag.Var(&ctxt.BuildMode, "buildmode", "set build `mode`")
 	flag.BoolVar(&ctxt.compressDWARF, "compressdwarf", true, "compress DWARF if possible")
+	flag.StringVar(&ctxt.emitStats, "stats", "", "emit input/output statistics on symbols and relocations to specified file")
 	objabi.Flagfn1("B", "add an ELF NT_GNU_BUILD_ID `note` when using ELF", addbuildinfo)
 	objabi.Flagfn1("L", "add specified `directory` to library path", func(a string) { Lflag(ctxt, a) })
 	objabi.AddVersionFlag() // -V
@@ -209,7 +214,23 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 	ctxt.loadlib()
 
+	if ctxt.emitStats != "" {
+		if ctxt.emitStats == "-" {
+			ctxt.statsout = bufio.NewWriter(os.Stdout)
+		} else {
+			fl := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+			f, err := os.OpenFile(ctxt.emitStats, fl, 0644)
+			if err != nil {
+				Exitf("cannot create %s: %v", ctxt.emitStats, err)
+			}
+			ctxt.statsoutf = f
+			ctxt.statsout = bufio.NewWriter(f)
+		}
+		ctxt.stats.Dump("objfile", ctxt.statsout)
+	}
+
 	deadcode(ctxt)
+	emitStatsAt(ctxt, "afterDead", false)
 	if *flagNewobj {
 		ctxt.loadlibfull() // XXX do it here for now
 	}
@@ -217,6 +238,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.dostrdata()
 
 	dwarfGenerateDebugInfo(ctxt)
+	emitStatsAt(ctxt, "afterDwarf", false)
 	if objabi.Fieldtrack_enabled != 0 {
 		fieldtrack(ctxt)
 	}
@@ -246,6 +268,9 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.symtab()
 	ctxt.buildinfo()
 	ctxt.dodata()
+
+	emitStatsAt(ctxt, "afterData", false)
+
 	order := ctxt.address()
 	dwarfcompress(ctxt)
 	filesize := ctxt.layout(order)
@@ -279,14 +304,40 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	ctxt.undef()
 	ctxt.hostlink()
+
 	if ctxt.Debugvlog != 0 {
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
 	}
+
+	if ctxt.emitStats != "" {
+		emitStatsAt(ctxt, "final", false)
+		ctxt.statsout.Flush()
+		if ctxt.statsoutf != nil {
+			ctxt.statsoutf.Close()
+		}
+	}
+
 	ctxt.Bso.Flush()
 	ctxt.archive()
 
 	errorexit()
+}
+
+func emitStatsAt(ctxt *Link, tag string, deepreloc bool) {
+	if ctxt.emitStats == "" {
+		return
+	}
+	var stats objfile.SymStats
+	if ctxt.loader != nil {
+		ctxt.loader.RecordStats()
+		stats.Loader = ctxt.stats.Loader
+	}
+	stats.Deepreloc = deepreloc
+	for _, s := range ctxt.Syms.Allsym {
+		stats.RecordSym(s, ctxt.Syms)
+	}
+	stats.Dump(tag, ctxt.statsout)
 }
 
 type Rpath struct {
