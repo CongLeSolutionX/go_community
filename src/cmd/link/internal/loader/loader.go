@@ -12,6 +12,7 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
+	"cmd/link/internal/objfile"
 	"cmd/link/internal/sym"
 	"fmt"
 	"log"
@@ -123,6 +124,8 @@ type Loader struct {
 	flags uint32
 
 	strictDupMsgs int // number of strict-dup warning/errors, when FlagStrictDups is enabled
+
+	stats *objfile.SymStats
 }
 
 const (
@@ -130,7 +133,7 @@ const (
 	FlagStrictDups = 1 << iota
 )
 
-func NewLoader(flags uint32) *Loader {
+func NewLoader(flags uint32, stats *objfile.SymStats) *Loader {
 	nbuiltin := goobj2.NBuiltin()
 	return &Loader{
 		start:         make(map[*oReader]Sym),
@@ -142,6 +145,7 @@ func NewLoader(flags uint32) *Loader {
 		extStaticSyms: make(map[nameVer]Sym),
 		builtinSyms:   make([]Sym, nbuiltin),
 		flags:         flags,
+		stats:         stats,
 	}
 }
 
@@ -158,6 +162,8 @@ func (l *Loader) addObj(pkg string, r *oReader) Sym {
 	pkg = objabi.PathToPrefix(pkg) // the object file contains escaped package path
 	if _, ok := l.objByPkg[pkg]; !ok {
 		l.objByPkg[pkg] = r
+	}
+	if l.stats != nil {
 	}
 	n := r.NSym() + r.NNonpkgdef()
 	i := l.max + 1
@@ -198,11 +204,19 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 			if !oldtyp.IsData() && r.DataSize(li) == 0 {
 				log.Fatalf("duplicated definition of symbol " + name)
 			}
+			if os.Getenv("THANM_DEBUG") != "" && oldi < l.extStart {
+				fmt.Fprintf(os.Stderr, "=-= non-external overwrite %s %d\n", name, oldi)
+				panic("bad")
+			}
 			l.overwrite[oldi] = i
 		} else {
 			// old symbol overwrites new symbol.
 			if typ != sym.SDATA && typ != sym.SNOPTRDATA && typ != sym.SBSS && typ != sym.SNOPTRBSS { // only allow overwriting data symbol
 				log.Fatalf("duplicated definition of symbol " + name)
+			}
+			if os.Getenv("THANM_DEBUG") != "" && i < l.extStart {
+				fmt.Fprintf(os.Stderr, "=-= non-external overwrite %s %d\n", name, i)
+				panic("bad")
 			}
 			l.overwrite[i] = oldi
 			return false
@@ -264,6 +278,9 @@ func (l *Loader) toGlobal(r *oReader, i int) Sym {
 
 // Convert a global index to a local index.
 func (l *Loader) toLocal(i Sym) (*oReader, int) {
+	if l.stats != nil {
+		l.stats.Loader.ToLocalCalls++
+	}
 	if ov, ok := l.overwrite[i]; ok {
 		i = ov
 	}
@@ -272,7 +289,13 @@ func (l *Loader) toLocal(i Sym) (*oReader, int) {
 	}
 	oc := l.ocache
 	if oc != 0 && i >= l.objs[oc].i && i <= l.objs[oc].e {
+		if l.stats != nil {
+			l.stats.Loader.OcacheHits++
+		}
 		return l.objs[oc].r, int(i - l.objs[oc].i)
+	}
+	if l.stats != nil {
+		l.stats.Loader.OcacheMisses++
 	}
 	// Search for the local object holding index i.
 	// Below k is the first one that has its start index > i,
@@ -316,7 +339,13 @@ func (l *Loader) resolve(r *oReader, s goobj2.SymRef) Sym {
 	case goobj2.PkgIdxNone:
 		// Check for cached version first
 		if cached := r.rcacheGet(s.SymIdx); cached != 0 {
+			if l.stats != nil {
+				l.stats.Loader.RcacheHits++
+			}
 			return cached
+		}
+		if l.stats != nil {
+			l.stats.Loader.RcacheMisses++
 		}
 		// Resolve by name
 		i := int(s.SymIdx) + r.NSym()
@@ -701,6 +730,7 @@ func (l *Loader) Preload(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *
 	istart := l.addObj(lib.Pkg, or)
 
 	ndef := r.NSym()
+	naux := 0
 	nnonpkgdef := r.NNonpkgdef()
 	for i, n := 0, ndef+nnonpkgdef; i < n; i++ {
 		osym := goobj2.Sym{}
@@ -712,6 +742,11 @@ func (l *Loader) Preload(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *
 		v := abiToVer(osym.ABI, localSymVersion)
 		dupok := osym.Dupok()
 		added := l.AddSym(name, v, istart+Sym(i), or, dupok, sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)])
+		if l.stats != nil && !added {
+			nr := r.NReloc(i)
+			ds := r.DataSize(i)
+			l.stats.Os.RecordDupSym(l.SymType(istart+Sym(i)), nr, ds)
+		}
 		if added && strings.HasPrefix(name, "go.itablink.") {
 			l.itablink[istart+Sym(i)] = struct{}{}
 		}
@@ -721,6 +756,16 @@ func (l *Loader) Preload(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *
 				l.builtinSyms[bi] = istart + Sym(i)
 			}
 		}
+		naux += r.NAux(i)
+
+	}
+
+	if l.stats != nil {
+		nmm := 0
+		if readonly {
+			nmm = 1
+		}
+		l.stats.RecordPreload(nmm, r.NSym(), r.NNonpkgdef(), r.NNonpkgref(), naux)
 	}
 
 	// The caller expects us consuming all the data
@@ -848,7 +893,6 @@ func (l *Loader) ExtractSymbols(syms *sym.Symbols) {
 			syms.Add(s)
 		}
 	}
-
 }
 
 // addNewSym adds a new sym.Symbol to the i-th index in the list of symbols.
@@ -1305,4 +1349,14 @@ func (l *Loader) Dump() {
 	for name, i := range l.symsByName[1] {
 		fmt.Println(i, name, 1)
 	}
+}
+
+func (l *Loader) RecordStats() {
+	if l.stats == nil {
+		return
+	}
+	l.stats.Loader.TotalSyms = uint64(l.max)
+	l.stats.Loader.ExternalSyms = uint64(l.max - l.extStart)
+	l.stats.Loader.Overwrites = uint64(len(l.overwrite))
+	l.stats.Loader.Builtins = uint64(len(l.builtinSyms))
 }
