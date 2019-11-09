@@ -7,8 +7,26 @@ package windows
 import (
 	"sync"
 	"syscall"
+	"unicode/utf16"
 	"unsafe"
 )
+
+// UTF16PtrToString is like syscall.UTF16ToString, but takes *uint16
+// as a parameter instead of []uint16.
+func UTF16PtrToString(p *uint16) string {
+	if p == nil {
+		return ""
+	}
+	// Find NUL terminator.
+	end := unsafe.Pointer(p)
+	for *(*uint16)(end) != 0 {
+		end = unsafe.Pointer(uintptr(end) + unsafe.Sizeof(*p))
+	}
+
+	n := (uintptr(end) - uintptr(unsafe.Pointer(p))) / unsafe.Sizeof(*p)
+	s := (*[(1 << 30) - 1]uint16)(unsafe.Pointer(p))[:n:n]
+	return string(utf16.Decode(s))
+}
 
 const (
 	ERROR_SHARING_VIOLATION      syscall.Errno = 32
