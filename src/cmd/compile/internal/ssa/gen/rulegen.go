@@ -170,7 +170,7 @@ func genRulesSuffix(arch arch, suff string) {
 	genFile := &File{arch: arch, suffix: suff}
 	const chunkSize = 10
 	// Main rewrite routine is a switch on v.Op.
-	fn := &Func{kind: "Value"}
+	fn := &Func{kind: "Value", arglen: -1}
 
 	sw := &Switch{expr: exprf("v.Op")}
 	for _, op := range ops {
@@ -202,6 +202,7 @@ func genRulesSuffix(arch arch, suff string) {
 			fn := &Func{
 				kind:   "Value",
 				suffix: fmt.Sprintf("_%s_%d", op, chunk),
+				arglen: opByName(arch, op).argLength,
 			}
 			fn.add(declf("b", "v.Block"))
 			fn.add(declf("config", "b.Func.Config"))
@@ -213,7 +214,7 @@ func genRulesSuffix(arch arch, suff string) {
 				}
 				rr = &RuleRewrite{loc: rule.loc}
 				rr.match, rr.cond, rr.result = rule.parse()
-				pos, _ := genMatch(rr, arch, rr.match)
+				pos, _ := genMatch(rr, arch, rr.match, fn.arglen >= 0)
 				if pos == "" {
 					pos = "v.Pos"
 				}
@@ -567,6 +568,11 @@ func fprint(w io.Writer, n Node) {
 			f := f.(*Func)
 			fmt.Fprintf(w, "func rewrite%s%s%s%s(", f.kind, n.arch.name, n.suffix, f.suffix)
 			fmt.Fprintf(w, "%c *%s) bool {\n", strings.ToLower(f.kind)[0], f.kind)
+			if f.kind == "Value" && f.arglen > 0 {
+				for i := f.arglen; i >= 0; i-- {
+					fmt.Fprintf(w, "v_%d := v.Args[%d]\n", i, i)
+				}
+			}
 			for _, n := range f.list {
 				fprint(w, n)
 			}
@@ -684,6 +690,7 @@ type (
 		bodyBase
 		kind   string // "Value" or "Block"
 		suffix string
+		arglen int32 // if kind == "Value", number of op args
 	}
 	Switch struct {
 		bodyBase // []*Case
@@ -763,7 +770,7 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 			cname := fmt.Sprintf("b.Controls[%v]", i)
 			vname := fmt.Sprintf("v_%v", i)
 			rr.add(declf(vname, cname))
-			p, op := genMatch0(rr, arch, arg, vname)
+			p, op := genMatch0(rr, arch, arg, vname, false)
 			if op != "" {
 				check := fmt.Sprintf("%s.Op == %s", cname, op)
 				if rr.check == "" {
@@ -876,11 +883,12 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 
 // genMatch returns the variable whose source position should be used for the
 // result (or "" if no opinion), and a boolean that reports whether the match can fail.
-func genMatch(rr *RuleRewrite, arch arch, match string) (pos, checkOp string) {
-	return genMatch0(rr, arch, match, "v")
+func genMatch(rr *RuleRewrite, arch arch, match string, pregenTop bool) (pos, checkOp string) {
+	return genMatch0(rr, arch, match, "v", pregenTop)
 }
 
-func genMatch0(rr *RuleRewrite, arch arch, match, v string) (pos, checkOp string) {
+func genMatch0(rr *RuleRewrite, arch arch, match, v string, pregenTop bool) (pos, checkOp string) {
+	pregenTop = pregenTop && v == "v"
 	if match[0] != '(' || match[len(match)-1] != ')' {
 		log.Fatalf("non-compound expr in genMatch0: %q", match)
 	}
@@ -912,7 +920,7 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string) (pos, checkOp string
 	}
 
 	// Access last argument first to minimize bounds checks.
-	if n := len(args); n > 1 {
+	if n := len(args); n > 1 && !pregenTop {
 		a := args[n-1]
 		if a != "_" && !rr.declared(a) && token.IsIdentifier(a) {
 			rr.add(declf(a, "%s.Args[%d]", v, n-1))
@@ -936,7 +944,11 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string) (pos, checkOp string
 				// on Values (so cse is important to do before lowering).
 				rr.add(breakf("%s != %s.Args[%d]", arg, v, i))
 			} else {
-				rr.add(declf(arg, "%s.Args[%d]", v, i))
+				if !pregenTop {
+					rr.add(declf(arg, "%s.Args[%d]", v, i))
+				} else {
+					rr.add(declf(arg, "v_%d", i))
+				}
 			}
 			continue
 		}
@@ -953,10 +965,16 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string) (pos, checkOp string
 			log.Fatalf("don't name args 'b', it is ambiguous with blocks")
 		}
 
-		rr.add(declf(argname, "%s.Args[%d]", v, i))
+		if pregenTop {
+			if argname != fmt.Sprintf("v_%d", i) {
+				rr.add(declf(argname, "v_%d", i))
+			}
+		} else {
+			rr.add(declf(argname, "%s.Args[%d]", v, i))
+		}
 		bexpr := exprf("%s.Op != addLater", argname)
 		rr.add(&CondBreak{expr: bexpr})
-		argPos, argCheckOp := genMatch0(rr, arch, arg, argname)
+		argPos, argCheckOp := genMatch0(rr, arch, arg, argname, pregenTop)
 		bexpr.(*ast.BinaryExpr).Y.(*ast.Ident).Name = argCheckOp
 
 		if argPos != "" {
@@ -1482,4 +1500,23 @@ func normalizeWhitespace(x string) string {
 	x = strings.Replace(x, " )", ")", -1)
 	x = strings.Replace(x, ")->", ") ->", -1)
 	return x
+}
+
+func opByName(arch arch, name string) opData {
+	name = name[2:]
+	for _, x := range genericOps {
+		if name == x.name {
+			return x
+		}
+	}
+	if arch.name != "generic" {
+		name = name[len(arch.name):]
+		for _, x := range arch.ops {
+			if name == x.name {
+				return x
+			}
+		}
+	}
+	fmt.Println(arch.name, name)
+	panic("oops")
 }
