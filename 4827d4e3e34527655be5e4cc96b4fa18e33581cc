@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63c611d1_75a627b8",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 3383,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-09T21:36:44Z",
+      "side": 1,
+      "message": "I think you meant \"Rcv\" or \"Recv\" instead of \"Rev\" (which sounds like revision).\n\nBut looks like this file already uses \"Recv\" so let\u0027s use that.\n\nChange the Rcv on line 3387 too.\n\nAnd then we can use \"Send\" instead of \"Snd\" to be consistent.",
+      "range": {
+        "startLine": 3383,
+        "startChar": 12,
+        "endLine": 3383,
+        "endChar": 15
+      },
+      "revId": "4827d4e3e34527655be5e4cc96b4fa18e33581cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
