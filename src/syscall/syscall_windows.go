@@ -57,6 +57,23 @@ func UTF16ToString(s []uint16) string {
 	return string(utf16.Decode(s))
 }
 
+// UTF16PtrToString is like UTF16ToString, but takes *uint16
+// as a parameter instead of []uint16.
+func UTF16PtrToString(p *uint16) string {
+	if p == nil {
+		return ""
+	}
+	// Find NUL terminator.
+	end := unsafe.Pointer(p)
+	for *(*uint16)(end) != 0 {
+		end = unsafe.Pointer(uintptr(end) + unsafe.Sizeof(*p))
+	}
+
+	n := (uintptr(end) - uintptr(unsafe.Pointer(p))) / unsafe.Sizeof(*p)
+	s := (*[(1 << 30) - 1]uint16)(unsafe.Pointer(p))[:n:n]
+	return string(utf16.Decode(s))
+}
+
 // StringToUTF16Ptr returns pointer to the UTF-16 encoding of
 // the UTF-8 string s, with a terminating NUL added. If s
 // contains a NUL byte this function panics instead of
@@ -769,7 +786,7 @@ func (rsa *RawSockaddrAny) Sockaddr() (Sockaddr, error) {
 		for n < len(pp.Path) && pp.Path[n] != 0 {
 			n++
 		}
-		bytes := (*[len(pp.Path)]byte)(unsafe.Pointer(&pp.Path[0]))[0:n]
+		bytes := (*[len(pp.Path)]byte)(unsafe.Pointer(&pp.Path[0]))[0:n:n]
 		sa.Name = string(bytes)
 		return sa, nil
 
