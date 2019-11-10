@@ -22,6 +22,30 @@
       "revId": "4827d4e3e34527655be5e4cc96b4fa18e33581cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a07c95e_4b16d415",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 3383,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2019-11-10T02:49:03Z",
+      "side": 1,
+      "message": "Done.\n\nBTW, it looks there are no cases for the special pointer conversion rule: if Tx and T have different underlying types, but both Tx and T are non-defined pointer types and their base types share the same underlying type (ignoring struct tags), then x can (and must) be explicitly converted to T. \n\nShould I add the cases too?",
+      "parentUuid": "63c611d1_75a627b8",
+      "range": {
+        "startLine": 3383,
+        "startChar": 12,
+        "endLine": 3383,
+        "endChar": 15
+      },
+      "revId": "4827d4e3e34527655be5e4cc96b4fa18e33581cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
