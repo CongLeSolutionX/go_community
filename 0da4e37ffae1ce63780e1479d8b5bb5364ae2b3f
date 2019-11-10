@@ -69,6 +69,52 @@
       "revId": "0da4e37ffae1ce63780e1479d8b5bb5364ae2b3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab72538f_f8fe1235",
+        "filename": "src/archive/zip/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-10T02:13:29Z",
+      "side": 1,
+      "message": "zr, err :\u003d zip.OpenReader\n\nand then use func(r io.Reader)\n\notherwise \u0027r\u0027 for the original zip reader and then also \u0027r\u0027\nfor the replaced read looks like a variable shadowing ambiguity,\nbut we should strive to make these examples as simple as possible.",
+      "range": {
+        "startLine": 99,
+        "startChar": 1,
+        "endLine": 108,
+        "endChar": 3
+      },
+      "revId": "0da4e37ffae1ce63780e1479d8b5bb5364ae2b3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bc2f7d9_ca6c462c",
+        "filename": "src/archive/zip/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-10T02:13:29Z",
+      "side": 1,
+      "message": "Please remove this line, the example is sufficient to show RegisterDecompressor.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 27
+      },
+      "revId": "0da4e37ffae1ce63780e1479d8b5bb5364ae2b3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
