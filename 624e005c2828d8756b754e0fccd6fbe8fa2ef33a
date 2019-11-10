@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b666906_4038a75d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-11-10T22:02:18Z",
+      "side": 1,
+      "message": "Let\u0027s improve the commit message and also limit it around\nline boundaries, perhaps:\n\ncmd/compile: rename sizeof_Array and array_* to slice_*\n\nRenames variables sizeof_Array and other array_* variables\nthat were actually intended for slices and not arrays.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "624e005c2828d8756b754e0fccd6fbe8fa2ef33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
