@@ -70,6 +70,30 @@
       "revId": "4827d4e3e34527655be5e4cc96b4fa18e33581cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "701e567a_9df947db",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 3383,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2019-11-10T03:45:27Z",
+      "side": 1,
+      "message": "OK, I tried to add some pointer to struct cases, defined and non-defined.\nAnd I found another bug. I will file another issue instead.",
+      "parentUuid": "d683d537_de5de5a7",
+      "range": {
+        "startLine": 3383,
+        "startChar": 12,
+        "endLine": 3383,
+        "endChar": 15
+      },
+      "revId": "4827d4e3e34527655be5e4cc96b4fa18e33581cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
