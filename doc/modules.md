@@ -76,6 +76,50 @@ will convert the branch name `master` into a pseudo-version like
 <a id="major-version-suffixes"></a>
 ### Major version suffixes
 
+Starting with version `v2.0.0`, module paths must have a *major version suffix*
+like `/v2` that matches the major version number. For example, if a module has
+the path `example.com/mod` at `v1.0.0`, it must have the path
+`example.com/mod/v2` at version `v2.0.0`.
+
+Major version suffixes are used to enforce the [*import compatibility
+rule*](https://research.swtch.com/vgo-import):
+
+> If an old package and a new package have the same import path,
+> the new package must be backwards compatible with the old package.
+
+By definition, a package in new major version of a module is not backwards
+compatible with the corresponding package in the previous major version.
+Consequently, starting with `v2.0.0`, packages need new import paths. This is
+accomplished by adding a major version suffix to the module path, which is a
+prefix of the the import path for each package within the module.
+
+Major version suffixes are not allowed at major versions `v0` or `v1`. There
+is no need to change the module path between `v0` and `v1` because `v0` versions
+are unstable and have no compatibility guarantee.
+
+As a special case, modules paths starting with `gopkg.in/` must always have a
+major version suffix, even at `v0` and `v1`. The suffix must start with a dot
+rather than a slash (for example, `gopkg.in/yaml.v2`). Modules starting with
+`gopkg.in/` must have exactly two path components. Packages within those modules
+may, of course, have more.
+
+Major version suffixes let multiple major versions of a module coexist in the
+same build. This may be necessary due to a [diamond dependency
+problem](https://research.swtch.com/vgo-import#dependency_story). Ordinarily, if
+a module is required at two different versions by transitive dependencies, the
+later version will be used. However, if the two versions are incompatible,
+neither version will satisfy all clients. Since incompatible versions must have
+different major version numbers, they must also have different module paths due
+to major version suffixes. This resolves the conflict: modules with distinct
+paths are treated as separate modules, even if they are different versions of
+the same set of packages.
+
+Many Go projects released versions at `v2.0.0` or later without using a major
+version suffix before migrating to modules (perhaps before modules were even
+introduced). These versions are annotated with a `+incompatible` build tag (for
+example, `v2.0.0+incompatible`). See [Compatibility with non-module
+repositories](#compatibility-with-non-module-repositories) for more information.
+
 <a id="resolving-a-package-to-a-module"></a>
 ### Resolving a package to a module
 
