@@ -16,6 +16,24 @@
       "revId": "34c762d9a618b713fceb2f61067b2f134018022e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4b56c15_5fa5c69a",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-11-11T07:31:00Z",
+      "side": 1,
+      "message": "I suspect it was an oversight introduced in https://github.com/golang/go/commit/04f3cf0faaebe59ae24e15531c27d5d885add20e\n(git blame got me there).",
+      "parentUuid": "aed7f4f7_4194c141",
+      "revId": "34c762d9a618b713fceb2f61067b2f134018022e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
