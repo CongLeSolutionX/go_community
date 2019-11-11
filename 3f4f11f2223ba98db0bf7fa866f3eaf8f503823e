@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "908eadec_3ffa52fe",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-11T19:49:40Z",
+      "side": 0,
+      "message": "It\u0027s redundant if f.Output() \u003d\u003d os.Stderr, but if f.Output() is something different, it might be intentional that this was here?",
+      "range": {
+        "startLine": 850,
+        "startChar": 15,
+        "endLine": 850,
+        "endChar": 25
+      },
+      "revId": "3f4f11f2223ba98db0bf7fa866f3eaf8f503823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
