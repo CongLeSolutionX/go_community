@@ -66,6 +66,45 @@ non-module repositories](#compatibility-with-non-module-repositories).
 <a id="major-version-suffixes"></a>
 ### Major version suffixes
 
+Go packages must follow the [*import compatibility
+rule*](https://research.swtch.com/vgo-import), which was an important principle
+of Go long before modules were developed.
+
+> If an old package and a new package have the same import path,
+> the new package must be backwards compatible with the old package.
+
+By definition, packages in a new major version of a module are not backwards
+compatible with the corresponding packages in the previous major
+version. Consequently, starting with version `v2.0.0`, a module path must end
+with a `/vN` suffix (where `N` is the major version number). For example, if a
+module has the path `example.com/mod` at `v1.0.0`, it must have the path
+`example.com/mod/v2` at `v2.0.0`. This is called the *major version
+suffix*. Major version suffixes are required starting at major version
+`v2`. They are not allowed at `v0` or `v1`.
+
+Major version suffixes let multiple major versions of a module coexist in the
+same build. This may be necessary due to a [diamond dependency
+problem](https://research.swtch.com/vgo-import#dependency_story). Ordinarily, if
+a module is required at two different versions by transitive dependencies, the
+later version will be used. However, if the two versions are incompatible,
+neither version will satisfy all clients. Since incompatible versions must have
+different major version numbers, they must also have different module paths due
+to major version suffixes. This resolves the conflict: modules with distinct
+paths are treated as separate modules, even if they are different versions of
+the same set of packages.
+
+As a special case, modules paths starting with `gopkg.in/` must always have a
+major version suffix, and the suffix must start with a dot rather than a slash
+(for example, `gopkg.in/yaml.v2`). Modules starting with `gopkg.in/` must have
+exactly two path components. Packages within those modules may, of course, have
+more.
+
+Many Go projects released versions at `v2.0.0` or later without using a major
+version suffix before migrating to modules (perhaps before modules were even
+introduced). These versions are annotated with a `+incompatible` build tag (for
+example, `v2.0.0+incompatible`). See [Compatibility with non-module
+repositories](#compatibility-with-non-module-repositories) for mor information.
+
 <a id="resolving-a-package-to-a-module"></a>
 ### Resolving a package to a module
 
