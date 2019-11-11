@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c1d3207_340065f6",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-11-11T07:40:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "115f7177_eab072af",
+      "revId": "34c762d9a618b713fceb2f61067b2f134018022e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aed7f4f7_4194c141",
         "filename": "src/flag/flag.go",
         "patchSetId": 1
@@ -51,6 +69,24 @@
       "revId": "34c762d9a618b713fceb2f61067b2f134018022e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bf25a11_b0bd14e8",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-11-11T07:40:46Z",
+      "side": 1,
+      "message": "Ok, sending another CL to remove it.",
+      "parentUuid": "e4b56c15_5fa5c69a",
+      "revId": "34c762d9a618b713fceb2f61067b2f134018022e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
