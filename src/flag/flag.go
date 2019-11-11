@@ -314,6 +314,9 @@ const (
 
 // A FlagSet represents a set of defined flags. The zero value of a FlagSet
 // has no name and has ContinueOnError error handling.
+//
+// A FlagSet cannot have duplicate flag names. Trying to define a flag already
+// set earlier will cause a panic.
 type FlagSet struct {
 	// Usage is the function called when an error occurs while parsing flags.
 	// The field is a function (not a method) that may be changed to point to
