@@ -16,6 +16,24 @@
       "revId": "e945baa8e127cde2b9b66134a348ddc9ed174642",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2975589d_b4557bc3",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 32452
+      },
+      "writtenOn": "2019-11-11T06:06:51Z",
+      "side": 1,
+      "message": "Thanks for the comment! It makes sense.\nI changed them too and pushed again. Please take a look again.",
+      "parentUuid": "638b2568_286741ea",
+      "revId": "e945baa8e127cde2b9b66134a348ddc9ed174642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
