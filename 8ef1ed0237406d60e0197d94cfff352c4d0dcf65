@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1794d8a9_d55a0a46",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-11-11T19:54:01Z",
+      "side": 1,
+      "message": "\"at least\" is two words.",
+      "revId": "8ef1ed0237406d60e0197d94cfff352c4d0dcf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4468d3_6f11d027",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-11-11T19:54:01Z",
+      "side": 1,
+      "message": "This is ugly, calling Write just for the side effect. I suggest creating pkgBuf.packageClause to be the if block in Write and calling it in Write and also here, with a comment saying why.",
+      "revId": "8ef1ed0237406d60e0197d94cfff352c4d0dcf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
