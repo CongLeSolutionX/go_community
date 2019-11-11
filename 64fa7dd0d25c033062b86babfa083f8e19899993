@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eb5e139_b36db1e9",
+        "filename": "src/go/doc/comment.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-11T21:44:52Z",
+      "side": 1,
+      "message": "Any reason for not making the same change here?",
+      "range": {
+        "startLine": 303,
+        "startChar": 14,
+        "endLine": 303,
+        "endChar": 25
+      },
+      "revId": "64fa7dd0d25c033062b86babfa083f8e19899993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
