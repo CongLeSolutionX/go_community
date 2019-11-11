@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3ee018_8556c291",
+        "filename": "src/text/template/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1675,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-11T23:52:54Z",
+      "side": 1,
+      "message": "s/Evan/Even/ ?",
+      "range": {
+        "startLine": 1675,
+        "startChar": 4,
+        "endLine": 1675,
+        "endChar": 8
+      },
+      "revId": "12381f64e4bf93a897d10752daa0af000bf89635",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
