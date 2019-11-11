@@ -53,7 +53,7 @@ type pkgBuffer struct {
 }
 
 func (pb *pkgBuffer) Write(p []byte) (int, error) {
-	if !pb.printed && len(p) > 0 {
+	if !pb.printed {
 		pb.printed = true
 		// Only show package clause for commands if requested explicitly.
 		if pb.pkg.pkg.Name != "main" || showCmd {
@@ -210,6 +210,8 @@ func (pkg *Package) Printf(format string, args ...interface{}) {
 }
 
 func (pkg *Package) flush() {
+	// Make atleast one Write to print the package clause.
+	pkg.buf.Write(nil)
 	_, err := pkg.writer.Write(pkg.buf.Bytes())
 	if err != nil {
 		log.Fatal(err)
