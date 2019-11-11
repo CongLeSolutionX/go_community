@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b792fe0a_f545723f",
+        "filename": "src/go/doc/comment.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-11T17:47:11Z",
+      "side": 1,
+      "message": "This is not precise. What if there are three? Instead:\n\n\n// A pair of (consecutive) backticks is converted ...\n\nor:\n\n// Two consecutive backticks are converted ...\n\nApply everywhere.",
+      "range": {
+        "startLine": 303,
+        "startChar": 14,
+        "endLine": 303,
+        "endChar": 15
+      },
+      "revId": "cab18ba6919d49a930e560e892eb0b3b82b12cfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
