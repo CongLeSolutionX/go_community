@@ -33,6 +33,24 @@
       "revId": "8ef1ed0237406d60e0197d94cfff352c4d0dcf65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2b2b890_b38878b7",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-11-11T20:19:02Z",
+      "side": 1,
+      "message": "Yeah, I had thought of that. But then tried to make it work with what we had. Will separate out the logic in a new function.",
+      "parentUuid": "7d4468d3_6f11d027",
+      "revId": "8ef1ed0237406d60e0197d94cfff352c4d0dcf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
