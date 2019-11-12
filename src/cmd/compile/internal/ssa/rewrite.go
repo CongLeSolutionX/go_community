@@ -1240,3 +1240,77 @@ func read64(sym interface{}, off int64, bigEndian bool) uint64 {
 		return binary.LittleEndian.Uint64(lsym.P[off:])
 	}
 }
+
+// loadStruct rewrites a load of a struct into StructMake of a load of each field.
+// This doesn't quite work as a vanilla rewrite rule because OpStructMake has
+// variable length args.
+func loadStruct(v *Value) {
+	if v.Op != OpLoad {
+		panic("not a load")
+	}
+	if !v.Type.IsStruct() {
+		panic("not a struct")
+	}
+	t := v.Type
+	n := t.NumFields()
+	fields := make([]*Value, n)
+
+	ptr := v.Args[0]
+	mem := v.Args[1]
+	for i := 0; i < n; i++ {
+		ft := t.FieldType(i)
+		off := t.FieldOff(i)
+		fields[i] = v.Block.NewValue2(v.Pos, OpLoad, ft, v.Block.NewValue1I(v.Pos, OpOffPtr, ft.PtrTo(), off, ptr), mem)
+	}
+	v.reset(OpStructMake)
+	v.AddArgs(fields...)
+}
+
+func storeStruct(v *Value) {
+	if v.Op != OpStore {
+		panic("not a store")
+	}
+	t := v.Aux.(*types.Type)
+	if !t.IsStruct() {
+		panic("not a struct")
+	}
+	n := t.NumFields()
+
+	ptr := v.Args[0]
+	val := v.Args[1]
+	mem := v.Args[2]
+	for i := 0; i < n; i++ {
+		ft := t.FieldType(i)
+		fptr := v.Block.NewValue1I(v.Pos, OpOffPtr, ft.PtrTo(), t.FieldOff(i), ptr)
+		fval := v.Block.NewValue1I(v.Pos, OpStructSelect, ft, int64(i), val)
+		if i == n-1 {
+			// The resulting memory is the last field store, so update v in place.
+			v.reset(OpStore)
+			v.Aux = ft
+			v.AddArg(fptr)
+			v.AddArg(fval)
+			v.AddArg(mem)
+		} else {
+			mem = v.Block.NewValue3A(v.Pos, OpStore, types.TypeMem, ft, fptr, fval, mem)
+		}
+	}
+}
+
+// Replaces (Arg {n} [off]) of type struct with
+// (StructMake (Arg {n} [off]) (Arg {n} [off+...]) ...)
+func argStruct(v *Value) {
+	t := v.Type
+	if !t.IsStruct() {
+		panic("not a struct")
+	}
+	n := t.NumFields()
+	fields := make([]*Value, n)
+	for i := 0; i < n; i++ {
+		ft := t.FieldType(i)
+		off := t.FieldOff(i)
+		fields[i] = v.Block.NewValue0IA(v.Pos, OpArg, ft, v.AuxInt+off, v.Aux)
+	}
+	v.reset(OpStructMake)
+	v.AddArgs(fields...)
+	fmt.Printf("%s\n", v.LongString())
+}

@@ -235,7 +235,7 @@ func decomposeUser(f *Func) {
 		switch {
 		case t.IsStruct():
 			newNames = decomposeUserStructInto(f, name, newNames)
-		case t.IsArray():
+		case t.IsArray() && t.NumElem() <= 1:
 			newNames = decomposeUserArrayInto(f, name, newNames)
 		default:
 			f.Names[i] = name
@@ -256,16 +256,17 @@ func decomposeUserArrayInto(f *Func, name LocalSlot, slots []LocalSlot) []LocalS
 		// Names for empty arrays aren't important.
 		return slots
 	}
-	if t.NumElem() != 1 {
-		// shouldn't get here due to CanSSA
-		f.Fatalf("array not of size 1")
+	if t.NumElem() > 1 {
+		// We don't decompose arrays of length >= 2.
+		// TODO: do so if all indexes are constant?
+		return slots
 	}
 	elemName := f.fe.SplitArray(name)
 	for _, v := range f.NamedValues[name] {
-		if v.Op != OpArrayMake1 {
+		if v.Op != OpArrayUpdate {
 			continue
 		}
-		f.NamedValues[elemName] = append(f.NamedValues[elemName], v.Args[0])
+		f.NamedValues[elemName] = append(f.NamedValues[elemName], v.Args[2])
 	}
 	// delete the name for the array as a whole
 	delete(f.NamedValues, name)
@@ -297,10 +298,9 @@ func decomposeUserStructInto(f *Func, name LocalSlot, slots []LocalSlot) []Local
 		}
 	}
 
-	makeOp := StructMakeOp(n)
 	// create named values for each struct field
 	for _, v := range f.NamedValues[name] {
-		if v.Op != makeOp {
+		if v.Op != OpStructMake {
 			continue
 		}
 		for i := 0; i < len(fnames); i++ {
@@ -337,7 +337,13 @@ func decomposeUserPhi(v *Value) {
 func decomposeStructPhi(v *Value) {
 	t := v.Type
 	n := t.NumFields()
-	var fields [MaxStruct]*Value
+	var fieldstore [4]*Value
+	var fields []*Value
+	if n <= len(fieldstore) {
+		fields = fieldstore[:n]
+	} else {
+		fields = make([]*Value, n)
+	}
 	for i := 0; i < n; i++ {
 		fields[i] = v.Block.NewValue0(v.Pos, OpPhi, t.FieldType(i))
 	}
@@ -346,7 +352,7 @@ func decomposeStructPhi(v *Value) {
 			fields[i].AddArg(a.Block.NewValue1I(v.Pos, OpStructSelect, t.FieldType(i), int64(i), a))
 		}
 	}
-	v.reset(StructMakeOp(n))
+	v.reset(OpStructMake)
 	v.AddArgs(fields[:n]...)
 
 	// Recursively decompose phis for each field.
@@ -360,11 +366,11 @@ func decomposeStructPhi(v *Value) {
 func decomposeArrayPhi(v *Value) {
 	t := v.Type
 	if t.NumElem() == 0 {
-		v.reset(OpArrayMake0)
+		v.reset(OpArrayMake)
 		return
 	}
-	if t.NumElem() != 1 {
-		v.Fatalf("SSAable array must have no more than 1 element")
+	if t.NumElem() > 1 {
+		return
 	}
 	elem := v.Block.NewValue0(v.Pos, OpPhi, t.Elem())
 	for _, a := range v.Args {
@@ -375,26 +381,4 @@ func decomposeArrayPhi(v *Value) {
 
 	// Recursively decompose elem phi.
 	decomposeUserPhi(elem)
-}
-
-// MaxStruct is the maximum number of fields a struct
-// can have and still be SSAable.
-const MaxStruct = 4
-
-// StructMakeOp returns the opcode to construct a struct with the
-// given number of fields.
-func StructMakeOp(nf int) Op {
-	switch nf {
-	case 0:
-		return OpStructMake0
-	case 1:
-		return OpStructMake1
-	case 2:
-		return OpStructMake2
-	case 3:
-		return OpStructMake3
-	case 4:
-		return OpStructMake4
-	}
-	panic("too many fields in an SSAable struct")
 }

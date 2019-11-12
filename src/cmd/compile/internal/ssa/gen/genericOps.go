@@ -471,17 +471,16 @@ var genericOps = []opData{
 	{name: "IData", argLength: 1},                // arg0=interface, returns data field
 
 	// Structs
-	{name: "StructMake0"},                              // Returns struct with 0 fields.
-	{name: "StructMake1", argLength: 1},                // arg0=field0.  Returns struct.
-	{name: "StructMake2", argLength: 2},                // arg0,arg1=field0,field1.  Returns struct.
-	{name: "StructMake3", argLength: 3},                // arg0..2=field0..2.  Returns struct.
-	{name: "StructMake4", argLength: 4},                // arg0..3=field0..3.  Returns struct.
+	{name: "StructMake", argLength: -1},                // Returns a struct value with each field assigned to an arg (TODO: includes _ fields or not?)
 	{name: "StructSelect", argLength: 1, aux: "Int64"}, // arg0=struct, auxint=field index.  Returns the auxint'th field.
+	{name: "StructUpdate", argLength: 2, aux: "Int64"}, // arg0=struct, arg1=new field value, auxint=field index. Returns arg0 with the auxint'th field updated to arg1.
 
 	// Arrays
-	{name: "ArrayMake0"},                              // Returns array with 0 elements
-	{name: "ArrayMake1", argLength: 1},                // Returns array with 1 element
-	{name: "ArraySelect", argLength: 1, aux: "Int64"}, // arg0=array, auxint=index. Returns a[i].
+	// Note: Array{Select,Update} assume a bounds check has already passed.
+	{name: "ArrayMake", argLength: 0},   // Returns an array value with zeroed elements.
+	{name: "ArrayMake1", argLength: 1},  // arg0=value, returns [1]T{value}.
+	{name: "ArraySelect", argLength: 2}, // arg0=array, arg1=index. Returns a[i].
+	{name: "ArrayUpdate", argLength: 3}, // arg0=array, arg1=index, arg2=value. Returns updated array.
 
 	// Spill&restore ops for the register allocator. These are
 	// semantically identical to OpCopy; they do not take/return

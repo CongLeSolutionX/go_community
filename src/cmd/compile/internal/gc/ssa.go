@@ -2356,25 +2356,20 @@ func (s *state) expr(n *Node) *ssa.Value {
 			p := s.addr(n, false)
 			return s.load(n.Left.Type.Elem(), p)
 		case n.Left.Type.IsArray():
-			if canSSAType(n.Left.Type) {
-				// SSA can handle arrays of length at most 1.
-				bound := n.Left.Type.NumElem()
-				a := s.expr(n.Left)
-				i := s.expr(n.Right)
-				if bound == 0 {
-					// Bounds check will never succeed.  Might as well
-					// use constants for the bounds check.
-					z := s.constInt(types.Types[TINT], 0)
-					s.boundsCheck(z, z, ssa.BoundsIndex, false)
-					// The return value won't be live, return junk.
-					return s.newValue0(ssa.OpUnknown, n.Type)
-				}
-				len := s.constInt(types.Types[TINT], bound)
-				i = s.boundsCheck(i, len, ssa.BoundsIndex, n.Bounded())
-				return s.newValue1I(ssa.OpArraySelect, n.Type, 0, a)
+			bound := n.Left.Type.NumElem()
+			a := s.expr(n.Left)
+			i := s.expr(n.Right)
+			if bound == 0 {
+				// Bounds check will never succeed.  Might as well
+				// use constants for the bounds check.
+				z := s.constInt(types.Types[TINT], 0)
+				s.boundsCheck(z, z, ssa.BoundsIndex, false)
+				// The return value won't be live, return junk.
+				return s.newValue0(ssa.OpUnknown, n.Type)
 			}
-			p := s.addr(n, false)
-			return s.load(n.Left.Type.Elem(), p)
+			len := s.constInt(types.Types[TINT], bound)
+			i = s.boundsCheck(i, len, ssa.BoundsIndex, n.Bounded())
+			return s.newValue2(ssa.OpArraySelect, n.Type, a, i)
 		default:
 			s.Fatalf("bad type for index %v", n.Left.Type)
 			return nil
@@ -2725,27 +2720,17 @@ func (s *state) assign(left *Node, right *ssa.Value, deref bool, skip skipMask) 
 			//   type T struct {a, b, c int}
 			//   var T x
 			//   x.b = 5
-			// For the x.b = 5 assignment we want to generate x = T{x.a, 5, x.c}
+			// For the x.b = 5 assignment we want to generate x = (StructUpdate [2] x 5)
 
 			// Grab information about the structure type.
 			t := left.Left.Type
-			nf := t.NumFields()
 			idx := fieldIdx(left)
 
 			// Grab old value of structure.
 			old := s.expr(left.Left)
 
 			// Make new structure.
-			new := s.newValue0(ssa.StructMakeOp(t.NumFields()), t)
-
-			// Add fields as args.
-			for i := 0; i < nf; i++ {
-				if i == idx {
-					new.AddArg(right)
-				} else {
-					new.AddArg(s.newValue1I(ssa.OpStructSelect, t.FieldType(i), int64(i), old))
-				}
-			}
+			new := s.newValue2I(ssa.OpStructUpdate, t, int64(idx), old, right)
 
 			// Recursively assign the new value we've made to the base of the dot op.
 			s.assign(left.Left, new, false, 0)
@@ -2760,7 +2745,8 @@ func (s *state) assign(left *Node, right *ssa.Value, deref bool, skip skipMask) 
 			t := left.Left.Type
 			n := t.NumElem()
 
-			i := s.expr(left.Right) // index
+			old := s.expr(left.Left) // TODO: Eval whole array expression? Not sure this is right.
+			i := s.expr(left.Right)  // index
 			if n == 0 {
 				// The bounds check must fail.  Might as well
 				// ignore the actual index and just use zeros.
@@ -2768,13 +2754,9 @@ func (s *state) assign(left *Node, right *ssa.Value, deref bool, skip skipMask) 
 				s.boundsCheck(z, z, ssa.BoundsIndex, false)
 				return
 			}
-			if n != 1 {
-				s.Fatalf("assigning to non-1-length array")
-			}
-			// Rewrite to a = [1]{v}
-			len := s.constInt(types.Types[TINT], 1)
+			len := s.constInt(types.Types[TINT], n)
 			i = s.boundsCheck(i, len, ssa.BoundsIndex, false)
-			v := s.newValue1(ssa.OpArrayMake1, t, right)
+			v := s.newValue3(ssa.OpArrayUpdate, t, old, i, right)
 			s.assign(left.Left, v, false, 0)
 			return
 		}
@@ -2862,18 +2844,13 @@ func (s *state) zeroVal(t *types.Type) *ssa.Value {
 		return s.constSlice(t)
 	case t.IsStruct():
 		n := t.NumFields()
-		v := s.entryNewValue0(ssa.StructMakeOp(t.NumFields()), t)
+		v := s.entryNewValue0(ssa.OpStructMake, t)
 		for i := 0; i < n; i++ {
 			v.AddArg(s.zeroVal(t.FieldType(i)))
 		}
 		return v
 	case t.IsArray():
-		switch t.NumElem() {
-		case 0:
-			return s.entryNewValue0(ssa.OpArrayMake0, t)
-		case 1:
-			return s.entryNewValue1(ssa.OpArrayMake1, t, s.zeroVal(t.Elem()))
-		}
+		return s.entryNewValue0(ssa.OpArrayMake, t)
 	}
 	s.Fatalf("zero for type %v not implemented", t)
 	return nil
@@ -4207,35 +4184,7 @@ func (s *state) canSSA(n *Node) bool {
 
 // canSSA reports whether variables of type t are SSA-able.
 func canSSAType(t *types.Type) bool {
-	dowidth(t)
-	if t.Width > int64(4*Widthptr) {
-		// 4*Widthptr is an arbitrary constant. We want it
-		// to be at least 3*Widthptr so slices can be registerized.
-		// Too big and we'll introduce too much register pressure.
-		return false
-	}
-	switch t.Etype {
-	case TARRAY:
-		// We can't do larger arrays because dynamic indexing is
-		// not supported on SSA variables.
-		// TODO: allow if all indexes are constant.
-		if t.NumElem() <= 1 {
-			return canSSAType(t.Elem())
-		}
-		return false
-	case TSTRUCT:
-		if t.NumFields() > ssa.MaxStruct {
-			return false
-		}
-		for _, t1 := range t.Fields().Slice() {
-			if !canSSAType(t1.Type) {
-				return false
-			}
-		}
-		return true
-	default:
-		return true
-	}
+	return true
 }
 
 // exprPtr evaluates n to a pointer and nil-checks it.
@@ -4474,10 +4423,21 @@ func (s *state) storeTypeScalars(t *types.Type, left, right *ssa.Value, skip ski
 			val := s.newValue1I(ssa.OpStructSelect, ft, int64(i), right)
 			s.storeTypeScalars(ft, addr, val, 0)
 		}
-	case t.IsArray() && t.NumElem() == 0:
-		// nothing
-	case t.IsArray() && t.NumElem() == 1:
-		s.storeTypeScalars(t.Elem(), left, s.newValue1I(ssa.OpArraySelect, t.Elem(), 0, right), 0)
+	case t.IsArray():
+		switch t.NumElem() {
+		case 0:
+			// nothing to do
+		case 1:
+			// For length 1 arrays, we can separate the scalar vs pointer
+			// stores exactly.
+			s.storeTypeScalars(t.Elem(), left, s.newValue2(ssa.OpArraySelect, t.Elem(), right, s.zeroVal(types.Types[TINT])), 0)
+		default:
+			// For length >1 arrays, we do the whole array together, in the
+			// pointer phase iff any part contains a pointer.
+			if !types.Haspointers(t) {
+				s.store(t, left, right)
+			}
+		}
 	default:
 		s.Fatalf("bad write barrier type %v", t)
 	}
@@ -4511,10 +4471,17 @@ func (s *state) storeTypePtrs(t *types.Type, left, right *ssa.Value) {
 			val := s.newValue1I(ssa.OpStructSelect, ft, int64(i), right)
 			s.storeTypePtrs(ft, addr, val)
 		}
-	case t.IsArray() && t.NumElem() == 0:
-		// nothing
-	case t.IsArray() && t.NumElem() == 1:
-		s.storeTypePtrs(t.Elem(), left, s.newValue1I(ssa.OpArraySelect, t.Elem(), 0, right))
+	case t.IsArray():
+		switch t.NumElem() {
+		case 0:
+			// nothing to do
+		case 1:
+			s.storeTypePtrs(t.Elem(), left, s.newValue2(ssa.OpArraySelect, t.Elem(), right, s.zeroVal(types.Types[TINT])))
+		default:
+			if types.Haspointers(t) {
+				s.store(t, left, right)
+			}
+		}
 	default:
 		s.Fatalf("bad write barrier type %v", t)
 	}

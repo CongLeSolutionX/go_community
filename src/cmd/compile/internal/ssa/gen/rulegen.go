@@ -969,7 +969,7 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string) (pos, checkOp string
 		}
 	}
 
-	if op.argLength == -1 {
+	if op.argLength == -1 && false {
 		rr.add(breakf("len(%s.Args) != %d", v, len(args)))
 	}
 	return pos, checkOp
@@ -982,6 +982,10 @@ func genResult(rr *RuleRewrite, arch arch, result, pos string) {
 		s := strings.SplitN(result[1:], " ", 2)
 		rr.add(stmtf("b = %s", s[0]))
 		result = s[1]
+	}
+	if result[0] == '{' {
+		rr.add(stmtf("%s", result[1:len(result)-1]))
+		return
 	}
 	genResult0(rr, arch, result, true, move, pos)
 }

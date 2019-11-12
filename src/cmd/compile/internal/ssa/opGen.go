@@ -2508,15 +2508,13 @@ const (
 	OpIMake
 	OpITab
 	OpIData
-	OpStructMake0
-	OpStructMake1
-	OpStructMake2
-	OpStructMake3
-	OpStructMake4
+	OpStructMake
 	OpStructSelect
-	OpArrayMake0
+	OpStructUpdate
+	OpArrayMake
 	OpArrayMake1
 	OpArraySelect
+	OpArrayUpdate
 	OpStoreReg
 	OpLoadReg
 	OpFwdRef
@@ -31104,28 +31102,8 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "StructMake0",
-		argLen:  0,
-		generic: true,
-	},
-	{
-		name:    "StructMake1",
-		argLen:  1,
-		generic: true,
-	},
-	{
-		name:    "StructMake2",
-		argLen:  2,
-		generic: true,
-	},
-	{
-		name:    "StructMake3",
-		argLen:  3,
-		generic: true,
-	},
-	{
-		name:    "StructMake4",
-		argLen:  4,
+		name:    "StructMake",
+		argLen:  -1,
 		generic: true,
 	},
 	{
@@ -31135,7 +31113,13 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "ArrayMake0",
+		name:    "StructUpdate",
+		auxType: auxInt64,
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "ArrayMake",
 		argLen:  0,
 		generic: true,
 	},
@@ -31146,8 +31130,12 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "ArraySelect",
-		auxType: auxInt64,
-		argLen:  1,
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "ArrayUpdate",
+		argLen:  3,
 		generic: true,
 	},
 	{

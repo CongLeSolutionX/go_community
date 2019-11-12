@@ -3,17 +3,18 @@
 
 package ssa
 
+import "cmd/compile/internal/types"
+
 func rewriteValuedecArgs(v *Value) bool {
 	switch v.Op {
 	case OpArg:
-		return rewriteValuedecArgs_OpArg_0(v) || rewriteValuedecArgs_OpArg_10(v)
+		return rewriteValuedecArgs_OpArg_0(v)
 	}
 	return false
 }
 func rewriteValuedecArgs_OpArg_0(v *Value) bool {
 	b := v.Block
 	config := b.Func.Config
-	fe := b.Func.fe
 	typ := &b.Func.Config.Types
 	// match: (Arg {n} [off])
 	// cond: v.Type.IsString()
@@ -120,139 +121,47 @@ func rewriteValuedecArgs_OpArg_0(v *Value) bool {
 		return true
 	}
 	// match: (Arg <t>)
-	// cond: t.IsStruct() && t.NumFields() == 0 && fe.CanSSA(t)
-	// result: (StructMake0)
+	// cond: t.IsStruct()
+	// result: { argStruct(v) }
 	for {
 		t := v.Type
-		if !(t.IsStruct() && t.NumFields() == 0 && fe.CanSSA(t)) {
+		if !(t.IsStruct()) {
 			break
 		}
-		v.reset(OpStructMake0)
+		argStruct(v)
 		return true
 	}
-	// match: (Arg <t> {n} [off])
-	// cond: t.IsStruct() && t.NumFields() == 1 && fe.CanSSA(t)
-	// result: (StructMake1 (Arg <t.FieldType(0)> {n} [off+t.FieldOff(0)]))
-	for {
-		t := v.Type
-		off := v.AuxInt
-		n := v.Aux
-		if !(t.IsStruct() && t.NumFields() == 1 && fe.CanSSA(t)) {
-			break
-		}
-		v.reset(OpStructMake1)
-		v0 := b.NewValue0(v.Pos, OpArg, t.FieldType(0))
-		v0.AuxInt = off + t.FieldOff(0)
-		v0.Aux = n
-		v.AddArg(v0)
-		return true
-	}
-	// match: (Arg <t> {n} [off])
-	// cond: t.IsStruct() && t.NumFields() == 2 && fe.CanSSA(t)
-	// result: (StructMake2 (Arg <t.FieldType(0)> {n} [off+t.FieldOff(0)]) (Arg <t.FieldType(1)> {n} [off+t.FieldOff(1)]))
-	for {
-		t := v.Type
-		off := v.AuxInt
-		n := v.Aux
-		if !(t.IsStruct() && t.NumFields() == 2 && fe.CanSSA(t)) {
-			break
-		}
-		v.reset(OpStructMake2)
-		v0 := b.NewValue0(v.Pos, OpArg, t.FieldType(0))
-		v0.AuxInt = off + t.FieldOff(0)
-		v0.Aux = n
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpArg, t.FieldType(1))
-		v1.AuxInt = off + t.FieldOff(1)
-		v1.Aux = n
-		v.AddArg(v1)
-		return true
-	}
-	// match: (Arg <t> {n} [off])
-	// cond: t.IsStruct() && t.NumFields() == 3 && fe.CanSSA(t)
-	// result: (StructMake3 (Arg <t.FieldType(0)> {n} [off+t.FieldOff(0)]) (Arg <t.FieldType(1)> {n} [off+t.FieldOff(1)]) (Arg <t.FieldType(2)> {n} [off+t.FieldOff(2)]))
-	for {
-		t := v.Type
-		off := v.AuxInt
-		n := v.Aux
-		if !(t.IsStruct() && t.NumFields() == 3 && fe.CanSSA(t)) {
-			break
-		}
-		v.reset(OpStructMake3)
-		v0 := b.NewValue0(v.Pos, OpArg, t.FieldType(0))
-		v0.AuxInt = off + t.FieldOff(0)
-		v0.Aux = n
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpArg, t.FieldType(1))
-		v1.AuxInt = off + t.FieldOff(1)
-		v1.Aux = n
-		v.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpArg, t.FieldType(2))
-		v2.AuxInt = off + t.FieldOff(2)
-		v2.Aux = n
-		v.AddArg(v2)
-		return true
-	}
-	// match: (Arg <t> {n} [off])
-	// cond: t.IsStruct() && t.NumFields() == 4 && fe.CanSSA(t)
-	// result: (StructMake4 (Arg <t.FieldType(0)> {n} [off+t.FieldOff(0)]) (Arg <t.FieldType(1)> {n} [off+t.FieldOff(1)]) (Arg <t.FieldType(2)> {n} [off+t.FieldOff(2)]) (Arg <t.FieldType(3)> {n} [off+t.FieldOff(3)]))
-	for {
-		t := v.Type
-		off := v.AuxInt
-		n := v.Aux
-		if !(t.IsStruct() && t.NumFields() == 4 && fe.CanSSA(t)) {
-			break
-		}
-		v.reset(OpStructMake4)
-		v0 := b.NewValue0(v.Pos, OpArg, t.FieldType(0))
-		v0.AuxInt = off + t.FieldOff(0)
-		v0.Aux = n
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpArg, t.FieldType(1))
-		v1.AuxInt = off + t.FieldOff(1)
-		v1.Aux = n
-		v.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpArg, t.FieldType(2))
-		v2.AuxInt = off + t.FieldOff(2)
-		v2.Aux = n
-		v.AddArg(v2)
-		v3 := b.NewValue0(v.Pos, OpArg, t.FieldType(3))
-		v3.AuxInt = off + t.FieldOff(3)
-		v3.Aux = n
-		v.AddArg(v3)
-		return true
-	}
-	return false
-}
-func rewriteValuedecArgs_OpArg_10(v *Value) bool {
-	b := v.Block
-	fe := b.Func.fe
 	// match: (Arg <t>)
 	// cond: t.IsArray() && t.NumElem() == 0
-	// result: (ArrayMake0)
+	// result: (ArrayMake)
 	for {
 		t := v.Type
 		if !(t.IsArray() && t.NumElem() == 0) {
 			break
 		}
-		v.reset(OpArrayMake0)
+		v.reset(OpArrayMake)
 		return true
 	}
 	// match: (Arg <t> {n} [off])
-	// cond: t.IsArray() && t.NumElem() == 1 && fe.CanSSA(t)
-	// result: (ArrayMake1 (Arg <t.Elem()> {n} [off]))
+	// cond: t.IsArray() && t.NumElem() == 1
+	// result: (ArrayUpdate (ArrayMake <t>) (Const64 <types.Types[types.TINT]> [0]) (Arg <t.Elem()> {n} [off]))
 	for {
 		t := v.Type
 		off := v.AuxInt
 		n := v.Aux
-		if !(t.IsArray() && t.NumElem() == 1 && fe.CanSSA(t)) {
+		if !(t.IsArray() && t.NumElem() == 1) {
 			break
 		}
-		v.reset(OpArrayMake1)
-		v0 := b.NewValue0(v.Pos, OpArg, t.Elem())
-		v0.AuxInt = off
-		v0.Aux = n
+		v.reset(OpArrayUpdate)
+		v0 := b.NewValue0(v.Pos, OpArrayMake, t)
 		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpConst64, types.Types[types.TINT])
+		v1.AuxInt = 0
+		v.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpArg, t.Elem())
+		v2.AuxInt = off
+		v2.Aux = n
+		v.AddArg(v2)
 		return true
 	}
 	return false
