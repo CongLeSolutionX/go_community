@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9596ecf_42fc933c",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-12T21:37:35Z",
+      "side": 1,
+      "message": "This should be Reg. Also below.",
+      "range": {
+        "startLine": 519,
+        "startChar": 17,
+        "endLine": 519,
+        "endChar": 22
+      },
+      "revId": "e530e826faa7172e13cbb20f39dd25c38e6abbc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0942affa_e2e9495a",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-12T21:37:35Z",
+      "side": 1,
+      "message": "This is to rewrite a load/store (say MOV off(R1), R2) to four instructions\nLUI $hi, TMP\nADD $lo, TMP\nADD R1, TMP\nMOV 0(TMP), R2 // load or store\n?\n\nCan we do it with three instructions, by folding the low bits of the offset into the load/store instruction, like\nLUI $hi, TMP\nADD R1, TMP\nMOV lo(TMP), R2 ?",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 556,
+        "endChar": 25
+      },
+      "revId": "e530e826faa7172e13cbb20f39dd25c38e6abbc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
