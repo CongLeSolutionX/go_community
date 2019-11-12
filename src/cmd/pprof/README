@@ -1,6 +1,6 @@
 This directory is the copy of Google's pprof shipped as part of the Go distribution.
-The bulk of the code is vendored from github.com/google/pprof and is in
-../vendor/github.com/google/pprof.
+The bulk of the code is imported from github.com/google/pprof by way of the
+module requirement in ../go.mod.
 
 Two important notes:
 
