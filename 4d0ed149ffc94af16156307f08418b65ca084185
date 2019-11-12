@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc532153_5b96b1b0",
+        "filename": "src/cmd/pprof/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-12T21:33:01Z",
+      "side": 0,
+      "message": "The previous version isn\u0027t exactly inaccurate either: we do vendor in the code, but we use the go.mod file (and `go mod vendor`) to do it.",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "4d0ed149ffc94af16156307f08418b65ca084185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
