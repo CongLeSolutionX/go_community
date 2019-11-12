@@ -46,6 +46,30 @@
       "revId": "4d0ed149ffc94af16156307f08418b65ca084185",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6a48187_ba5cf8ad",
+        "filename": "src/cmd/pprof/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-12T21:46:43Z",
+      "side": 0,
+      "message": "\u003e At build time I\u0027m guessing? Or when?\n\u003e I looked there and couldn\u0027t find it :-)\n\nIt\u0027s there:\nhttps://go.googlesource.com/go/+/refs/heads/master/src/cmd/vendor/github.com/google/pprof\n\n(We update the vendoring explicitly, in the same CL in which we update the go.mod file.)",
+      "parentUuid": "f75b60ce_caa3aadb",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "4d0ed149ffc94af16156307f08418b65ca084185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
