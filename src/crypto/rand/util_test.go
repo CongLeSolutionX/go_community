@@ -79,6 +79,34 @@ func TestIntReads(t *testing.T) {
 	}
 }
 
+// Test that Int does not bias values
+func testIntUnbiased(t *testing.T) {
+	for max := int64(1 << 24); max < int64(1 << 32); max = max << 1 {
+		found := false
+		for i := 0; i < 100; i++ {
+			if (found) {
+				break
+			}
+			t.Run(fmt.Sprintf("i=%d", i), func(t *testing.T) {
+				reader := &countingReader{r: rand.Reader}
+
+				_, err := rand.Int(reader, big.newInt(max))
+				if err != nil {
+					t.Fatalf("Can't generate random value: %d, %v", max, err)
+				}
+
+				if (_.bytes()[0] != 0) {
+					// We've found a result with a nonzero leading byte
+					found := true
+				}
+				if (i >= 99 && !found) {
+					t.Fatalf("Security: Int(reader, %d) returned biased output (100 samples with a leading 0 byte).", max)
+				}
+			})
+		}
+	}
+}
+
 // Test that Int does not mask out valid return values
 func TestIntMask(t *testing.T) {
 	for max := 1; max <= 256; max++ {
