@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa84f3a5_565c6e07",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "Code font for go.mod throughout?",
+      "range": {
+        "startLine": 19,
+        "startChar": 55,
+        "endLine": 19,
+        "endChar": 61
+      },
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "860e5ea1_ffde85de",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "Code font for `go` throughout?",
+      "range": {
+        "startLine": 21,
+        "startChar": 20,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f332ee22_2b0ae7f3",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "Joining? Concatenate wouldn\u0027t add a slash between the module path and package.",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 43
+      },
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b8b8763_9dfdf9ed",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "New paragraph?",
+      "range": {
+        "startLine": 37,
+        "startChar": 37,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a28c24f4_d5437c40",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "Also build info with +?",
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60fb85b7_26aa14f9",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "Backwards compatible?",
+      "range": {
+        "startLine": 51,
+        "startChar": 22,
+        "endLine": 51,
+        "endChar": 32
+      },
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd6fb9c_eaac7a19",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "Move this paragraph right below the intro to SemVer?",
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fcb0698_110c9afa",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:37:47Z",
+      "side": 1,
+      "message": "Should we say what happens in this case? What if I tag a release with build info -- will it never work?",
+      "revId": "754fd0cdfcaf6ab78cd4c6c4e43cb3c8b601c128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
