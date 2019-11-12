@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf792332_5216a5a2",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-12T21:12:21Z",
+      "side": 1,
+      "message": "So this is just a marker, not a real relocation? Do we not need a relocation for the call target address?",
+      "revId": "c9d9bf0289d5aff1de4fcc2d7fffed1872bb9522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
