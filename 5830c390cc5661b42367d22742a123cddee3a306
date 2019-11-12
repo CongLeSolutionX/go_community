@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5db85c7_4d296a6c",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvfarbranch.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-12T22:26:58Z",
+      "side": 1,
+      "message": "In cmd/internal/obj/arm64/asm_test.go there is TestLarge. Can we do it the same way?",
+      "revId": "5830c390cc5661b42367d22742a123cddee3a306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a964fc47_acf0f99d",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-12T22:26:58Z",
+      "side": 1,
+      "message": "RISC-V has a direct jump instruction. Can we use that? It can only encode target within 1 MB, which is rather small compared to other architectures. But it is probably still enough in many cases. In case it is not, we can teach the linker to generate trampolines.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "5830c390cc5661b42367d22742a123cddee3a306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
