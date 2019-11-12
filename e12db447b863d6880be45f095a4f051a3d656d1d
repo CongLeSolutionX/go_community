@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c06b426b_fc387091",
+        "filename": "src/math/big/nat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-11-12T05:18:20Z",
+      "side": 1,
+      "message": "I think theoretically it\u0027s possible that b \u003d\u003d 1 and then x \u003d\u003d a*b + 1 \u003d\u003d a+1, and x/b \u003d\u003d x/1 \u003d\u003d a+1 !\u003d a.\n\nIt\u0027s unlikely that this happens, but possible. Should probably address this. I filed issue #35523 so we don\u0027t forget and can fix this as part of 1.14.",
+      "revId": "e12db447b863d6880be45f095a4f051a3d656d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
