@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b99f452_94e3f4fd",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-12T04:10:59Z",
+      "side": 1,
+      "message": "I think we already have too many of these special wrapper error types, and given the new error stuff in Go 1.13, we should probably be doing things that way (https://golang.org/doc/go1.13#error_wrapping, https://blog.golang.org/go1.13-errors) nowadays.\n\nBut I think we could make all this code a bunch simpler by just defining a closeBunc func somewhere, like:\n\n     closeBody func() error\n\n(probably on Request?)\n\nAnd initializing it like:\n\n   var once sync.Once\n   var bodyCloseErr error\n   req.closeFunc \u003d func() error {\n        once.Do(func() {\n             bodyCloseErr \u003d req.Body.Close()\n        })\n        return bodyCloseErr\n   }\n\nAnd then net/http should never call Request.Body.Close() itself, but only calling closeBody(), which will handle duplicate suppression.\n\nSeems like that\u0027d simplify a bunch of these CLs?",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 681,
+        "endChar": 47
+      },
+      "revId": "b87b98ad721ee6dd4c4222a986441d82da50657c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d75267f4_b5afbc02",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4594,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-12T04:10:59Z",
+      "side": 1,
+      "message": "using int64s atomically carries the burden that you need to worry about alignment on 32-bit platforms. I don\u0027t think it\u0027s worth it here. I\u0027d just use int32 if you want to use sync/atomic.",
+      "revId": "b87b98ad721ee6dd4c4222a986441d82da50657c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
