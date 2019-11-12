@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a3ddad3_3ec84594",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:42:05Z",
+      "side": 1,
+      "message": "Do we have a better link for this? Maybe a glossary entry?",
+      "range": {
+        "startLine": 70,
+        "startChar": 7,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "ba148020eb4ece45ca79473902b0746688c7afe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36280360_365ea6b4",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:42:05Z",
+      "side": 1,
+      "message": "Do we need this clause?",
+      "range": {
+        "startLine": 70,
+        "startChar": 47,
+        "endLine": 71,
+        "endChar": 41
+      },
+      "revId": "ba148020eb4ece45ca79473902b0746688c7afe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9831c399_b45efdeb",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:42:05Z",
+      "side": 1,
+      "message": "We might want to lead with this. This is the most important part -- the rest is justification/reasoning.",
+      "range": {
+        "startLine": 78,
+        "startChar": 23,
+        "endLine": 81,
+        "endChar": 33
+      },
+      "revId": "ba148020eb4ece45ca79473902b0746688c7afe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4442128f_89fe0ec7",
+        "filename": "doc/modules.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-11-12T13:42:05Z",
+      "side": 1,
+      "message": "Might want to call out they cannot have a `go.mod` with the wrong path.",
+      "range": {
+        "startLine": 104,
+        "startChar": 13,
+        "endLine": 104,
+        "endChar": 27
+      },
+      "revId": "ba148020eb4ece45ca79473902b0746688c7afe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
