@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac935ee7_ef96a3c3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6522,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "This case should never trigger - the test at line 6509 always triggers in this case, right?\nYou could just add RISCV64 to the list at 6516.",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a720819_975f16a7",
+        "filename": "src/cmd/compile/internal/riscv64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "If v.AuxInt is represented the same way as it is for Const32F, then you can just use v.AuxInt directly (then you can fold this op into the previous case).",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0674b1ef_a9f1d42d",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "There are no Hmul(16,8) ops, so you can remove these.",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71bb27d7_b1bbb1ea",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "Hmmm, these are ok for now, lots of other archs do the same.\nBut I don\u0027t really understand why these exist if they are nops.",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e441df_64cb3db0",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "I believe such support is now in tip, CL 196557.\n(You can implement this in a separate CL.)",
+      "range": {
+        "startLine": 473,
+        "startChar": 28,
+        "endLine": 473,
+        "endChar": 74
+      },
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4658613_4e6bd329",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "The rewrite rules always pair these with FMVSX/FMVDX. What is the division of responsibility, exactly? What does MOVSconst not do that requires a FMVSX in addition?",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d7dbe38_14b0c84b",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "Add that shifts use only low 6 bits of shift amount.",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aaca90e_395b7640",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-12T20:57:05Z",
+      "side": 1,
+      "message": "What\u0027s the difference between FCVTSW and FCVTSL? The former is 32-bit source, the latter is 64?",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
