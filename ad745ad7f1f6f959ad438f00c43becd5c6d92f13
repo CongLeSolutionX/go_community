@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "485311b1_8538645d",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3382,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-12T16:55:34Z",
+      "side": 1,
+      "message": "Thanks, but \"int\" is still a defined type, so this isn\u0027t any different from using NoDup.  What we need are cases like \"chan []byte\".",
+      "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
