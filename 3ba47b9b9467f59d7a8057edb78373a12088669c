@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94b46728_9ff95162",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-12T22:26:30Z",
+      "side": 1,
+      "message": "These are two different instructions but the encoding is same, which is not right.\n\nI guess this is (one of) the problem that we do the instruction rewriting/expansion too early and in Progs, instead of using a separate data structure and doing it in assemble.",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 31
+      },
+      "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30fe84d_13503372",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-12T22:26:30Z",
+      "side": 1,
+      "message": "This kind of variable shadowing make it hard to read. Either just \"p \u003d\", or use a different variable.",
+      "range": {
+        "startLine": 659,
+        "startChar": 3,
+        "endLine": 659,
+        "endChar": 7
+      },
+      "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
