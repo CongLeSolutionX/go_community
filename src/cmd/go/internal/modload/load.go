@@ -94,11 +94,11 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 				pkgs := m.Pkgs
 				m.Pkgs = m.Pkgs[:0]
 				for _, pkg := range pkgs {
-					dir := pkg
-					if !filepath.IsAbs(dir) {
+					var dir string
+					if !filepath.IsAbs(pkg) {
 						dir = filepath.Join(base.Cwd, pkg)
 					} else {
-						dir = filepath.Clean(dir)
+						dir = filepath.Clean(pkg)
 					}
 
 					// golang.org/issue/32917: We should resolve a relative path to a
@@ -757,16 +757,6 @@ func (ld *loader) doPkg(item interface{}) {
 		pkg.mod = pkg.testOf.mod
 		imports = pkg.testOf.testImports
 	} else {
-		if strings.Contains(pkg.path, "@") {
-			// Leave for error during load.
-			return
-		}
-		if build.IsLocalImport(pkg.path) {
-			// Leave for error during load.
-			// (Module mode does not allow local imports.)
-			return
-		}
-
 		pkg.mod, pkg.dir, pkg.err = Import(pkg.path)
 		if pkg.dir == "" {
 			return
