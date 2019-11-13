@@ -16,6 +16,24 @@
       "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d7dbef_1c22a8c3",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3382,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2019-11-13T12:30:38Z",
+      "side": 1,
+      "message": "The channel related rule in the spec doesn\u0027t mention channel element types. It just says one of the two channel types must be a non-defined type.\n\nBut, anyway, if it needs, I will submit a new patch.",
+      "parentUuid": "485311b1_8538645d",
+      "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
