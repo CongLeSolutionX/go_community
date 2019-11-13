@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8c0dae3_4b2e6432",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:50:20Z",
+      "side": 1,
+      "message": "(nit) The requirement actually starts before v2.0.0, since it also applies to v2 pre-releases.\n\nPerhaps “Starting with major version 2”?",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05712eca_a7b34454",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:50:20Z",
+      "side": 1,
+      "message": "(nit) We don\u0027t actually enforce import compatibility: people can (and sometimes do) ignore semantic versioning and make breaking changes anyway.\n\nHow about “Major version suffixes implement […]” instead?",
+      "range": {
+        "startLine": 84,
+        "startChar": 23,
+        "endLine": 84,
+        "endChar": 42
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37cb245f_87cf0eca",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:50:20Z",
+      "side": 1,
+      "message": "(nit) Not strictly true. For example, the module maintainer may have bumped the overall module version due to a change in some other package (and a desire not to maintain a multi-module repository).",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 72
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12972d20_336fd58a",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:50:20Z",
+      "side": 1,
+      "message": "Ambiguous antecedent.\n\nHow about:\n\n“Since the module path is a prefix of the import path for each package within the module, adding the major version suffix to the module path provides a distinct import path for each incompatible version.”",
+      "range": {
+        "startLine": 93,
+        "startChar": 66,
+        "endLine": 93,
+        "endChar": 74
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a0c7907_6ea95fb0",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:50:20Z",
+      "side": 1,
+      "message": "Also because `v1` often actually is compatible with the last `v0` API. 😉",
+      "range": {
+        "startLine": 96,
+        "startChar": 71,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4da7be5_a13c9897",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:50:20Z",
+      "side": 1,
+      "message": "s/later/higher/\n\n(“later” is chronological; ”higher” is the term used for precedence on semver.org)",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d33e321_caabd339",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:50:20Z",
+      "side": 1,
+      "message": "“different versions of the same set of packages” is slightly misleading, since by definition the packages are distinct. (The packages at different major versions are _different packages_, so they necessarily can\u0027t be the same set.)\n\nPerhaps:\n“This resolves the conflict: modules with different suffixes are treated as separate modules, and their packages—even packages in the same subdirectory relative to their modules—are distinct.”",
+      "range": {
+        "startLine": 113,
+        "startChar": 27,
+        "endLine": 115,
+        "endChar": 25
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
