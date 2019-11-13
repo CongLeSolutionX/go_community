@@ -1,0 +1,30 @@
+# This test checks error messages for non-existant packages in module mode.
+# Veries golang.org/issue/35414
+env GO111MODULE=on
+cd $WORK
+
+go list -e -f {{.Error}} .
+stdout 'package \.: no Go files in \$WORK'
+
+go list -e -f {{.Error}} ./empty
+stdout 'package \./empty: no Go files in \$WORK/empty'
+
+go list -e -f {{.Error}} ./exclude
+stdout 'package \./exclude: build constraints exclude all Go files in \$WORK[/\\]exclude'
+
+go list -e -f {{.Error}} ./missing
+stdout 'package \./missing: cannot find package "." in:\s*\$WORK[/\\]missing'
+
+-- $WORK/go.mod --
+module example.com/m
+
+go 1.14
+
+-- $WORK/empty/empty.txt --
+-- $WORK/exclude/exclude.go --
+// +build exclude
+
+package exclude
+-- $WORK/excluded-stdout --
+package ./excluded: cannot find package "." in:
+	$WORK/excluded
