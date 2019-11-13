@@ -34,6 +34,24 @@
       "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0ffd6f_93cd5d17",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3382,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2019-11-13T12:57:14Z",
+      "side": 1,
+      "message": "Maybe the three lines are unnecessary,\n\n\t{V((*NoDupChan)(nil)), V((*NoDupChan)(nil))},\n\t{V((*NoDupChanRecv)(nil)), V((*NoDupChanRecv)(nil))},\n\t{V((*NoDupChanSend)(nil)), V((*NoDupChanSend)(nil))},\n\nI will remove them in a new patch if you agree on this.",
+      "parentUuid": "89d7dbef_1c22a8c3",
+      "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
