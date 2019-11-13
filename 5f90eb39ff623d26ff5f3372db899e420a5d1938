@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ab83db2_b23ba502",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 3763,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-13T23:54:02Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I feel like we are failing to communicate on this.  NoDup is still a defined type.  I would like to see cases of channel types whose elements types are not defined types.\n\nThat is, I want to see a set of cases like\n\ntype ChanBytes chan []byte\n\n    {V((chan []byte)(nil)), V((chan []byte)(nil))},\n    {V(ChanBytes(nil)), V((chan []byte)(nil))},",
+      "revId": "5f90eb39ff623d26ff5f3372db899e420a5d1938",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
