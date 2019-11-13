@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e66d5359_97575e57",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-13T21:43:46Z",
+      "side": 1,
+      "message": "Done, but I haven\u0027t changed mustFindModule. It would be a small behavioral change, and I\u0027m not sure if anything implicitly relies on that.\n\nI\u0027d like to remove mustFindModule after the freeze and get away from calling base.Fatalf in this package. It\u0027s made these functions hard to analyze.",
+      "parentUuid": "308ec840_262db79a",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 2
+      },
+      "revId": "6cef3a9299eaece2eedfca84d199cae8e93f3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63f7c8b8_0e2b12e7",
         "filename": "src/cmd/go/testdata/script/mod_build_empty_err.txt",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7e3bd505_4864222c",
+        "filename": "src/cmd/go/testdata/script/mod_build_empty_err.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-13T21:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63f7c8b8_0e2b12e7",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "6cef3a9299eaece2eedfca84d199cae8e93f3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6d78483_2272d165",
         "filename": "src/cmd/go/testdata/script/mod_build_empty_err.txt",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "6cef3a9299eaece2eedfca84d199cae8e93f3637",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63186ab3_86510643",
+        "filename": "src/cmd/go/testdata/script/mod_build_empty_err.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-13T21:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6d78483_2272d165",
+      "revId": "6cef3a9299eaece2eedfca84d199cae8e93f3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
