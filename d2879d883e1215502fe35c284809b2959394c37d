@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c28d80bf_cce2179b",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-13T07:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9f23c37_e9954c00",
+      "revId": "d2879d883e1215502fe35c284809b2959394c37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27254257_15039e0f",
         "filename": "src/cmd/link/internal/riscv64/asm.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "d2879d883e1215502fe35c284809b2959394c37d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "becc3041_c2e70d8a",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-13T07:43:44Z",
+      "side": 1,
+      "message": "Done. Also in archrelocvariant below.",
+      "parentUuid": "27254257_15039e0f",
+      "revId": "d2879d883e1215502fe35c284809b2959394c37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
