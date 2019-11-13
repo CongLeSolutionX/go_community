@@ -142,6 +142,24 @@
       "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc9c399c_c02794a0",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3382,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-13T17:56:24Z",
+      "side": 1,
+      "message": "Yes, just using NoDupChan for the cases that were using chan int is fine.",
+      "parentUuid": "27f27a8f_214fdaf7",
+      "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
