@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "308ec840_262db79a",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T19:38:43Z",
+      "side": 1,
+      "message": "If `pkg.mod` is nonzero, should we return that even if `pkg.err !\u003d nil`?\n(If not, a comment explaining why that doesn\u0027t work would be helpful.)\n\nI think that would also allow you to implement mustFindModule in terms of findModule, assuming that doesn\u0027t break anything else.",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 2
+      },
+      "revId": "6cef3a9299eaece2eedfca84d199cae8e93f3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f7c8b8_0e2b12e7",
+        "filename": "src/cmd/go/testdata/script/mod_build_empty_err.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T19:38:43Z",
+      "side": 1,
+      "message": "[/\\\\]",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "6cef3a9299eaece2eedfca84d199cae8e93f3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d78483_2272d165",
+        "filename": "src/cmd/go/testdata/script/mod_build_empty_err.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T19:38:43Z",
+      "side": 1,
+      "message": "Also try a directory containing only a `_test.go` file?",
+      "revId": "6cef3a9299eaece2eedfca84d199cae8e93f3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
