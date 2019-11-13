@@ -88,6 +88,24 @@
       "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bc2496c_adf468ac",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3382,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2019-11-13T15:59:28Z",
+      "side": 1,
+      "message": "or precisely\n\n   type ByteSliceChan chan []byte",
+      "parentUuid": "f0f0e015_89977ba3",
+      "revId": "ad745ad7f1f6f959ad438f00c43becd5c6d92f13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
