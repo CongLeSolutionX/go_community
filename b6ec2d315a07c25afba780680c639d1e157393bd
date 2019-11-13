@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9c66c8b_96001018",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "For each term defined in the text, add a link from the glossary entry to the section providing that definition",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abefe19e_9fa65285",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "(see my suggestion in the glossary CL)",
+      "range": {
+        "startLine": 20,
+        "startChar": 68,
+        "endLine": 21,
+        "endChar": 72
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "589c0cd1_8dd6e6b0",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "Eliminate needless passive verbs, and move the term being defined to the subject of the sentence:\n\n“The *import path* of a package is the module path followed by the subdirectory containing the package (relative to the module root).”",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 61
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "128edf2d_c001b95b",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "I would eliminate this sentence, or add more detail about releasing — we\u0027re not really discussion distribution in this section.\n\nPerhaps:\n\nA *version* identifies an immutable snapshot of a module,\nwhich may be either a release or a pre-release.\nEach version starts with the letter `v`, followed by a semantic version.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 53
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce0d098f_053268e6",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "s/version number/version/ throughout",
+      "range": {
+        "startLine": 35,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b74b8544_3126f2b9",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "(nit) s/dash/hyphen/\n\n(Technically the character is HYPHEN-MINUS in the “Dash” category, but grammatically it is functioning as a hyphen, since it is joining a compound “word”.)",
+      "range": {
+        "startLine": 42,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "870f70c4_9846ae19",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "s/tags/metadata/",
+      "range": {
+        "startLine": 46,
+        "startChar": 64,
+        "endLine": 46,
+        "endChar": 68
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af289f1_a15f67df",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "This isn\u0027t strictly true: we do allow metadata in `go.mod` file contents and arguments to `go get`, but we canonicalize versions before running version selection.",
+      "range": {
+        "startLine": 46,
+        "startChar": 50,
+        "endLine": 48,
+        "endChar": 70
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14ec2678_e1498c5d",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "s/or if/or/",
+      "range": {
+        "startLine": 63,
+        "startChar": 66,
+        "endLine": 63,
+        "endChar": 72
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80498669_a7510143",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "(delete word)",
+      "range": {
+        "startLine": 68,
+        "startChar": 7,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2159af65_25f15f7e",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "Also describe what happens outside the main module?",
+      "range": {
+        "startLine": 69,
+        "startChar": 47,
+        "endLine": 69,
+        "endChar": 79
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "034540ea_6de64b21",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "Also describe the conversion for build metadata?",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7c13e6a_653b57b3",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-13T16:32:47Z",
+      "side": 1,
+      "message": "“A pre-release version […]”\n\n(It\u0027s worth calling out that pseudo-versions are a special case of pre-release versions in general: specifically, they are untagged pre-releases.)",
+      "range": {
+        "startLine": 239,
+        "startChar": 22,
+        "endLine": 239,
+        "endChar": 29
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
