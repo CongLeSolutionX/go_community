@@ -3379,6 +3379,11 @@ type MyRunes []int32
 type MyFunc func()
 type MyByte byte
 
+type NoDup *NoDup
+type NoDupChan chan NoDup
+type NoDupChanRecv <-chan NoDup
+type NoDupChanSend chan<- NoDup
+
 var convertTests = []struct {
 	in  Value
 	out Value
@@ -3726,6 +3731,9 @@ var convertTests = []struct {
 	{V((**MyByte)(nil)), V((**MyByte)(nil))},
 	{V((chan byte)(nil)), V((chan byte)(nil))},
 	{V((chan MyByte)(nil)), V((chan MyByte)(nil))},
+	{V(NoDupChan(nil)), V(NoDupChan(nil))},
+	{V(NoDupChanRecv(nil)), V(NoDupChanRecv(nil))},
+	{V(NoDupChanSend(nil)), V(NoDupChanSend(nil))},
 	{V(([]byte)(nil)), V(([]byte)(nil))},
 	{V(([]MyByte)(nil)), V(([]MyByte)(nil))},
 	{V((map[int]byte)(nil)), V((map[int]byte)(nil))},
@@ -3740,10 +3748,6 @@ var convertTests = []struct {
 	{V((***byte)(nil)), V((***byte)(nil))},
 	{V((***int32)(nil)), V((***int32)(nil))},
 	{V((***int64)(nil)), V((***int64)(nil))},
-	{V((chan int)(nil)), V((<-chan int)(nil))},
-	{V((chan int)(nil)), V((chan<- int)(nil))},
-	{V((chan string)(nil)), V((<-chan string)(nil))},
-	{V((chan string)(nil)), V((chan<- string)(nil))},
 	{V((chan byte)(nil)), V((chan byte)(nil))},
 	{V((chan MyByte)(nil)), V((chan MyByte)(nil))},
 	{V((map[int]bool)(nil)), V((map[int]bool)(nil))},
@@ -3754,6 +3758,20 @@ var convertTests = []struct {
 	{V(new(interface{})), V(new(interface{}))},
 	{V(new(io.Reader)), V(new(io.Reader))},
 	{V(new(io.Writer)), V(new(io.Writer))},
+
+	// channel
+	{V(NoDupChan(nil)), V((chan<- NoDup)(nil))},
+	{V(NoDupChan(nil)), V((<-chan NoDup)(nil))},
+	{V((chan NoDup)(nil)), V(NoDupChanRecv(nil))},
+	{V((chan NoDup)(nil)), V(NoDupChanSend(nil))},
+	{V(NoDupChanRecv(nil)), V((<-chan NoDup)(nil))},
+	{V((<-chan NoDup)(nil)), V(NoDupChanRecv(nil))},
+	{V(NoDupChanSend(nil)), V((chan<- NoDup)(nil))},
+	{V((chan<- NoDup)(nil)), V(NoDupChanSend(nil))},
+	{V(NoDupChan(nil)), V((chan NoDup)(nil))},
+	{V((chan NoDup)(nil)), V(NoDupChan(nil))},
+	{V((chan NoDup)(nil)), V((<-chan NoDup)(nil))},
+	{V((chan NoDup)(nil)), V((chan<- NoDup)(nil))},
 
 	// interfaces
 	{V(int(1)), EmptyInterfaceV(int(1))},
