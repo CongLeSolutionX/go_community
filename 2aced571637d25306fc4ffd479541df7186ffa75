@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b26ce7e4_ab81f03d",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-13T17:09:26Z",
+      "side": 1,
+      "message": "As I mentioned earlier, let\u0027s not make it this way.",
+      "range": {
+        "startLine": 612,
+        "startChar": 29,
+        "endLine": 613,
+        "endChar": 38
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eee46d7_70e05c3c",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-13T17:09:26Z",
+      "side": 1,
+      "message": "Let\u0027s call it LR.",
+      "range": {
+        "startLine": 647,
+        "startChar": 9,
+        "endLine": 647,
+        "endChar": 11
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f9d761_a3e7d1e8",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-13T17:09:26Z",
+      "side": 1,
+      "message": "We should save the LR before creating the frame (unless it can be done with a single instruction). This is to ensure that if we receive a signal, it either sees no frame, or a frame with LR already saved. See the comments in other architectures, e.g. https://go.googlesource.com/go/+/refs/heads/master/src/cmd/internal/obj/mips/obj0.go#339",
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b813815_c92d32b3",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-13T17:09:26Z",
+      "side": 1,
+      "message": "Can we just use the MOV instruction?\n\nAgain, I don\u0027t think it is a good idea that we change the Prog fields this way.",
+      "range": {
+        "startLine": 676,
+        "startChar": 2,
+        "endLine": 678,
+        "endChar": 17
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "039cf48f_c00f6f5b",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-13T17:09:26Z",
+      "side": 1,
+      "message": "Don\u0027t mix ABI names and non-ABI names. Let\u0027s consistently use the non-ABI names, and REG_LR, REG_SP, REGG, etc. for the special ones.",
+      "range": {
+        "startLine": 696,
+        "startChar": 36,
+        "endLine": 696,
+        "endChar": 42
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ca9d7fb_44589fd4",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-13T17:09:26Z",
+      "side": 1,
+      "message": "What is this register for?",
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
