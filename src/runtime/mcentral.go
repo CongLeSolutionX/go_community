@@ -18,15 +18,15 @@ import "runtime/internal/atomic"
 //
 //go:notinheap
 type mcentral struct {
-	lock      mutex
-	spanclass spanClass
-	nonempty  mSpanList // list of spans with a free object, ie a nonempty free list
-	empty     mSpanList // list of spans with no free objects (or cached in an mcache)
-
 	// nmalloc is the cumulative count of objects allocated from
 	// this mcentral, assuming all spans in mcaches are
 	// fully-allocated. Written atomically, read under STW.
 	nmalloc uint64
+
+	lock      mutex
+	spanclass spanClass
+	nonempty  mSpanList // list of spans with a free object, ie a nonempty free list
+	empty     mSpanList // list of spans with no free objects (or cached in an mcache)
 }
 
 // Initialize a single central free list.

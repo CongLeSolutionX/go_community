@@ -26,6 +26,14 @@ const (
 )
 
 func lock(l *mutex) {
+	if staticlockranking_enabled {
+		lockRankAcquire(l, l.rank)
+	} else {
+		lock2(l)
+	}
+}
+
+func lock2(l *mutex) {
 	if l.key == mutex_locked {
 		// js/wasm is single-threaded so we should never
 		// observe this.
@@ -42,6 +50,9 @@ func lock(l *mutex) {
 func unlock(l *mutex) {
 	if l.key == mutex_unlocked {
 		throw("unlock of unlocked lock")
+	}
+	if staticlockranking_enabled {
+		lockRankRelease(l)
 	}
 	gp := getg()
 	gp.m.locks--

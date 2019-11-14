@@ -43,7 +43,16 @@ func key32(p *uintptr) *uint32 {
 	return (*uint32)(unsafe.Pointer(p))
 }
 
+// Use lockRankAcquire() for static lock ranking if lockInit() was not called.
 func lock(l *mutex) {
+	if staticlockranking_enabled {
+		lockRankAcquire(l, l.rank)
+	} else {
+		lock2(l)
+	}
+}
+
+func lock2(l *mutex) {
 	gp := getg()
 
 	if gp.m.locks < 0 {
@@ -104,6 +113,9 @@ func lock(l *mutex) {
 }
 
 func unlock(l *mutex) {
+	if staticlockranking_enabled {
+		lockRankRelease(l)
+	}
 	v := atomic.Xchg(key32(&l.key), mutex_unlocked)
 	if v == mutex_unlocked {
 		throw("unlock of unlocked lock")

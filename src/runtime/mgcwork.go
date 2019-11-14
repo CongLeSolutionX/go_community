@@ -178,6 +178,10 @@ func (w *gcWork) put(obj uintptr) {
 
 	flushed := false
 	wbuf := w.wbuf1
+	// Record that this may acquire the wbufSpans or heap lock to
+	// allocate a workbuf.
+	lockLogMayAcquire(&work.wbufSpans.lock, _LwbufSpans)
+	lockLogMayAcquire(&mheap_.lock, _Lmheap)
 	if wbuf == nil {
 		w.init()
 		wbuf = w.wbuf1
@@ -423,6 +427,10 @@ func getempty() *workbuf {
 			b.checkempty()
 		}
 	}
+	// Record that this may acquire the wbufSpans or heap lock to
+	// allocate a workbuf.
+	lockLogMayAcquire(&work.wbufSpans.lock, _LwbufSpans)
+	lockLogMayAcquire(&mheap_.lock, _Lmheap)
 	if b == nil {
 		// Allocate more workbufs.
 		var s *mspan

@@ -191,6 +191,9 @@ func gcinit() {
 
 	work.startSema = 1
 	work.markDoneSema = 1
+	lockInit(&work.sweepWaiters.lock, _LsweepWaiters)
+	lockInit(&work.assistQueue.lock, _LassistQueue)
+	lockInit(&work.wbufSpans.lock, _LwbufSpans)
 }
 
 func readgogc() int32 {
@@ -948,9 +951,6 @@ var work struct {
 		// one of the workbuf lists.
 		busy mSpanList
 	}
-
-	// Restore 64-bit alignment on 32-bit.
-	_ uint32
 
 	// bytesMarked is the number of bytes marked this cycle. This
 	// includes bytes blackened in scanned objects, noscan objects

@@ -470,6 +470,8 @@ func mallocinit() {
 	mheap_.init()
 	_g_ := getg()
 	_g_.m.mcache = allocmcache()
+	lockInit(&gcBitsArenas.lock, _LgcBitsArenas)
+	lockInit(&proflock, _Lprof)
 
 	// Create initial arena growth hints.
 	if sys.PtrSize == 8 {
