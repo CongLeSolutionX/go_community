@@ -191,6 +191,9 @@ func gcinit() {
 
 	work.startSema = 1
 	work.markDoneSema = 1
+	lockInit(&work.sweepWaiters.lock, _LsweepWaiters)
+	lockInit(&work.assistQueue.lock, _LassistQueue)
+	lockInit(&work.wbufSpans.lock, _LwbufSpans)
 }
 
 func readgogc() int32 {

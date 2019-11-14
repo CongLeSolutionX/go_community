@@ -435,6 +435,9 @@ func getempty() *workbuf {
 			}
 			unlock(&work.wbufSpans.lock)
 		}
+		// Record that this may acquire the heap lock to
+		// allocate a workbuf.
+		lockLogMayAcquire(&mheap_.lock, _Lmheap)
 		if s == nil {
 			systemstack(func() {
 				s = mheap_.allocManual(workbufAlloc/pageSize, &memstats.gc_sys)

@@ -214,6 +214,7 @@ func scavengeSleep(ns int64) int64 {
 func bgscavenge(c chan int) {
 	scavenge.g = getg()
 
+	lockInit(&scavenge.lock, _Lscavenge)
 	lock(&scavenge.lock)
 	scavenge.parked = true
 

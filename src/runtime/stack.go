@@ -161,9 +161,11 @@ func stackinit() {
 	}
 	for i := range stackpool {
 		stackpool[i].item.span.init()
+		lockInit(&stackpool[i].item.mu, _Lstackpool)
 	}
 	for i := range stackLarge.free {
 		stackLarge.free[i].init()
+		lockInit(&stackLarge.lock, _LstackLarge)
 	}
 }
 
