@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96d9751a_0431b505",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-14T21:41:22Z",
+      "side": 1,
+      "message": "Another option is apply the -trimpath rewrites to p.Dir. I\u0027m less confident about this though:\n\nif dir :\u003d objabi.AbsFile(p.Dir, \"\", a.trimpath()); dir !\u003d \"\" {\n  fmt.Fprintf(h, \"dir %s\\n\", dir)\n}",
+      "revId": "9c4b44e73dafa714c639b73142c705982a179b40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
