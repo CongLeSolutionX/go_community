@@ -154,17 +154,6 @@ const (
 	_Pdead
 )
 
-// Mutual exclusion locks.  In the uncontended case,
-// as fast as spin locks (just a few user-level instructions),
-// but on the contention path they sleep in the kernel.
-// A zeroed Mutex is unlocked (no need to initialize each lock).
-type mutex struct {
-	// Futex-based impl treats it as uint32 key,
-	// while sema-based impl as M* waitm.
-	// Used to be a union, but unions break precise GC.
-	key uintptr
-}
-
 // sleep and wakeup on one-time events.
 // before any calls to notesleep or notewakeup,
 // must call noteclear to initialize the Note.
@@ -392,6 +381,12 @@ type stack struct {
 	hi uintptr
 }
 
+// lockInfo gives info on a held lock and the rank of that lock
+type lockInfo struct {
+	l    uintptr
+	rank int
+}
+
 type g struct {
 	// Stack parameters.
 	// stack describes the actual stack memory: [stack.lo, stack.hi).
@@ -546,6 +541,10 @@ type m struct {
 	dlogPerM
 
 	mOS
+
+	// Up to 10 locks held by this m, maintained by the lock ranking code.
+	lockIndex int
+	locksHeld [10]lockInfo
 }
 
 type p struct {
@@ -1024,8 +1023,9 @@ var (
 	isIntel              bool
 	lfenceBeforeRdtsc    bool
 
-	goarm                uint8 // set by cmd/link on arm systems
-	framepointer_enabled bool  // set by cmd/link
+	goarm                     uint8 // set by cmd/link on arm systems
+	framepointer_enabled      bool  // set by cmd/link
+	staticlockranking_enabled bool  // set by cmd/link
 )
 
 // Set by the linker so the runtime can determine the buildmode.

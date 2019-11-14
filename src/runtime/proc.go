@@ -245,6 +245,7 @@ func init() {
 
 func forcegchelper() {
 	forcegc.g = getg()
+	lockInit(&forcegc.lock, _Lforcegc)
 	for {
 		lock(&forcegc.lock)
 		if forcegc.idle != 0 {
@@ -531,6 +532,20 @@ func cpuinit() {
 //
 // The new G calls runtime·main.
 func schedinit() {
+	lockInit(&sched.lock, _Lsched)
+	lockInit(&sched.deferlock, _Ldefer)
+	lockInit(&sched.sudoglock, _Lsudog)
+	lockInit(&deadlock, _Ldeadlock)
+	lockInit(&paniclk, _Lpanic)
+	lockInit(&allglock, _Lallg)
+	lockInit(&allpLock, _Lallp)
+	lockInit(&reflectOffs.lock, _LreflectOffs)
+	lockInit(&finlock, _Lfin)
+	lockInit(&trace.bufLock, _LtraceBuf)
+	lockInit(&trace.stringsLock, _LtraceStrings)
+	lockInit(&trace.lock, _Ltrace)
+	lockInit(&cpuprof.lock, _Lcpuprof)
+
 	// raceinit must be the first call to race detector.
 	// In particular, it must be done before mallocinit below calls racemapshadow.
 	_g_ := getg()
@@ -4120,6 +4135,7 @@ func (pp *p) init(id int32) {
 			pp.raceprocctx = raceproccreate()
 		}
 	}
+	lockInit(&pp.timersLock, _Ltimers)
 }
 
 // destroy releases all of the resources associated with pp and
