@@ -277,7 +277,7 @@ func eqslice(x, y []uintptr) bool {
 // frees after the world is started again count towards a new heap
 // profiling cycle.
 func mProf_NextCycle() {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	// We explicitly wrap mProf.cycle rather than depending on
 	// uint wraparound because the memRecord.future ring does not
 	// itself wrap at a power of two.
@@ -294,7 +294,7 @@ func mProf_NextCycle() {
 // contrast with mProf_NextCycle, this is somewhat expensive, but safe
 // to do concurrently.
 func mProf_Flush() {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	if !mProf.flushed {
 		mProf_FlushLocked()
 		mProf.flushed = true
@@ -320,7 +320,7 @@ func mProf_FlushLocked() {
 // snapshot as of the last mark termination without advancing the heap
 // profile cycle.
 func mProf_PostSweep() {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	// Flush cycle C+1 to the active profile so everything as of
 	// the last mark termination becomes visible. *Don't* advance
 	// the cycle, since we're still accumulating allocs in cycle
@@ -340,7 +340,7 @@ func mProf_PostSweep() {
 func mProf_Malloc(p unsafe.Pointer, size uintptr) {
 	var stk [maxStack]uintptr
 	nstk := callers(4, stk[:])
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	b := stkbucket(memProfile, size, stk[:nstk], true)
 	c := mProf.cycle
 	mp := b.mp()
@@ -360,7 +360,7 @@ func mProf_Malloc(p unsafe.Pointer, size uintptr) {
 
 // Called when freeing a profiled block.
 func mProf_Free(b *bucket, size uintptr) {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	c := mProf.cycle
 	mp := b.mp()
 	mpc := &mp.future[(c+1)%uint32(len(mp.future))]
@@ -420,7 +420,7 @@ func saveblockevent(cycles int64, skip int, which bucketType) {
 	} else {
 		nstk = gcallers(gp.m.curg, skip, stk[:])
 	}
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	b := stkbucket(which, 0, stk[:nstk], true)
 	b.bp().count++
 	b.bp().cycles += cycles
@@ -541,7 +541,7 @@ func (r *MemProfileRecord) Stack() []uintptr {
 // the testing package's -test.memprofile flag instead
 // of calling MemProfile directly.
 func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	// If we're between mProf_NextCycle and mProf_Flush, take care
 	// of flushing to the active profile so we only have to look
 	// at the active profile below.
@@ -608,7 +608,7 @@ func record(r *MemProfileRecord, b *bucket) {
 }
 
 func iterate_memprof(fn func(*bucket, uintptr, *uintptr, uintptr, uintptr, uintptr)) {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	for b := mbuckets; b != nil; b = b.allnext {
 		mp := b.mp()
 		fn(b, b.nstk, &b.stk()[0], b.size, mp.active.allocs, mp.active.frees)
@@ -632,7 +632,7 @@ type BlockProfileRecord struct {
 // the testing package's -test.blockprofile flag instead
 // of calling BlockProfile directly.
 func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	for b := bbuckets; b != nil; b = b.allnext {
 		n++
 	}
@@ -667,7 +667,7 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 // Most clients should use the runtime/pprof package
 // instead of calling MutexProfile directly.
 func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
-	lock(&proflock)
+	lockLabeled(&proflock, _Lprof)
 	for b := xbuckets; b != nil; b = b.allnext {
 		n++
 	}
@@ -816,7 +816,7 @@ func Stack(buf []byte, all bool) int {
 var tracelock mutex
 
 func tracealloc(p unsafe.Pointer, size uintptr, typ *_type) {
-	lock(&tracelock)
+	lockLabeled(&tracelock, _Ltrace)
 	gp := getg()
 	gp.m.traceback = 2
 	if typ == nil {
@@ -841,7 +841,7 @@ func tracealloc(p unsafe.Pointer, size uintptr, typ *_type) {
 }
 
 func tracefree(p unsafe.Pointer, size uintptr) {
-	lock(&tracelock)
+	lockLabeled(&tracelock, _Ltrace)
 	gp := getg()
 	gp.m.traceback = 2
 	print("tracefree(", p, ", ", hex(size), ")\n")
@@ -857,7 +857,7 @@ func tracefree(p unsafe.Pointer, size uintptr) {
 }
 
 func tracegc() {
-	lock(&tracelock)
+	lockLabeled(&tracelock, _Ltrace)
 	gp := getg()
 	gp.m.traceback = 2
 	print("tracegc()\n")

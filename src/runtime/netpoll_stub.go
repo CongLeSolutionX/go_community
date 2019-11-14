@@ -33,7 +33,7 @@ func netpoll(delay int64) gList {
 	if delay != 0 {
 		// This lock ensures that only one goroutine tries to use
 		// the note. It should normally be completely uncontended.
-		lock(&netpollStubLock)
+		lockLabeled(&netpollStubLock, _LnetpollStub)
 		noteclear(&netpollNote)
 		atomic.Store(&netpollBroken, 0)
 		notetsleep(&netpollNote, delay)

@@ -222,7 +222,7 @@ func gcenable() {
 func setGCPercent(in int32) (out int32) {
 	// Run on the system stack since we grab the heap lock.
 	systemstack(func() {
-		lock(&mheap_.lock)
+		lockLabeled(&mheap_.lock, _Lmheap)
 		out = gcpercent
 		if in < 0 {
 			in = -1
@@ -1130,7 +1130,7 @@ func GC() {
 func gcWaitOnMark(n uint32) {
 	for {
 		// Disable phase transitions.
-		lock(&work.sweepWaiters.lock)
+		lockLabeled(&work.sweepWaiters.lock, _LsweepWaiters)
 		nMarks := atomic.Load(&work.cycles)
 		if gcphase != _GCmark {
 			// We've already completed this cycle's mark.
@@ -1728,7 +1728,7 @@ func gcMarkTermination(nextTriggerRatio float64) {
 	}
 
 	// Bump GC cycle count and wake goroutines waiting on sweep.
-	lock(&work.sweepWaiters.lock)
+	lockLabeled(&work.sweepWaiters.lock, _LsweepWaiters)
 	memstats.numgc++
 	injectglist(&work.sweepWaiters.list)
 	unlock(&work.sweepWaiters.lock)
@@ -1951,7 +1951,7 @@ func gcBgMarkWorker(_p_ *p) {
 					// everything out of the run
 					// queue so it can run
 					// somewhere else.
-					lock(&sched.lock)
+					lockLabeled(&sched.lock, _Lsched)
 					for {
 						gp, _ := runqget(_p_)
 						if gp == nil {
@@ -2132,7 +2132,7 @@ func gcSweep(mode gcMode) {
 		throw("gcSweep being done but phase is not GCoff")
 	}
 
-	lock(&mheap_.lock)
+	lockLabeled(&mheap_.lock, _Lmheap)
 	mheap_.sweepgen += 2
 	mheap_.sweepdone = 0
 	if mheap_.sweepSpans[mheap_.sweepgen/2%2].index != 0 {
@@ -2150,7 +2150,7 @@ func gcSweep(mode gcMode) {
 	if !_ConcurrentSweep || mode == gcForceBlockMode {
 		// Special case synchronous sweep.
 		// Record that no proportional sweeping has to happen.
-		lock(&mheap_.lock)
+		lockLabeled(&mheap_.lock, _Lmheap)
 		mheap_.sweepPagesPerByte = 0
 		unlock(&mheap_.lock)
 		// Sweep all spans eagerly.
@@ -2170,7 +2170,7 @@ func gcSweep(mode gcMode) {
 	}
 
 	// Background sweep.
-	lock(&sweep.lock)
+	lockLabeled(&sweep.lock, _Lsweep)
 	if sweep.parked {
 		sweep.parked = false
 		ready(sweep.g, 0, true)
@@ -2191,7 +2191,7 @@ func gcSweep(mode gcMode) {
 func gcResetMarkState() {
 	// This may be called during a concurrent phase, so make sure
 	// allgs doesn't change.
-	lock(&allglock)
+	lockLabeled(&allglock, _Lallg)
 	for _, gp := range allgs {
 		gp.gcscandone = false // set to true in gcphasework
 		gp.gcAssistBytes = 0
@@ -2200,7 +2200,7 @@ func gcResetMarkState() {
 
 	// Clear page marks. This is just 1MB per 64GB of heap, so the
 	// time here is pretty trivial.
-	lock(&mheap_.lock)
+	lockLabeled(&mheap_.lock, _Lmheap)
 	arenas := mheap_.allArenas
 	unlock(&mheap_.lock)
 	for _, ai := range arenas {
@@ -2233,7 +2233,7 @@ func clearpools() {
 	// Leave per-P caches alone, they have strictly bounded size.
 	// Disconnect cached list before dropping it on the floor,
 	// so that a dangling ref to one entry does not pin all of them.
-	lock(&sched.sudoglock)
+	lockLabeled(&sched.sudoglock, _Lsudog)
 	var sg, sgnext *sudog
 	for sg = sched.sudogcache; sg != nil; sg = sgnext {
 		sgnext = sg.next
@@ -2244,7 +2244,7 @@ func clearpools() {
 
 	// Clear central defer pools.
 	// Leave per-P pools alone, they have strictly bounded size.
-	lock(&sched.deferlock)
+	lockLabeled(&sched.deferlock, _Ldefer)
 	for i := range sched.deferpool {
 		// disconnect cached list before dropping it on the floor,
 		// so that a dangling ref to one entry does not pin all of them.

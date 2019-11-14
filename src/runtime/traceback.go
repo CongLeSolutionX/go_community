@@ -926,7 +926,7 @@ func tracebackothers(me *g) {
 		traceback(^uintptr(0), ^uintptr(0), 0, gp)
 	}
 
-	lock(&allglock)
+	lockLabeled(&allglock, _Lallg)
 	for _, gp := range allgs {
 		if gp == me || gp == g.m.curg || readgstatus(gp) == _Gdead || isSystemGoroutine(gp, false) && level < 2 {
 			continue

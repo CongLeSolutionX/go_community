@@ -1322,7 +1322,7 @@ func persistentalloc1(size, align uintptr, sysStat *uint64) *notInHeap {
 	if mp != nil && mp.p != 0 {
 		persistent = &mp.p.ptr().palloc
 	} else {
-		lock(&globalAlloc.mutex)
+		lockLabeled(&globalAlloc.mutex, _LglobalAlloc)
 		persistent = &globalAlloc.persistentAlloc
 	}
 	persistent.off = alignUp(persistent.off, align)

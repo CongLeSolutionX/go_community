@@ -390,7 +390,7 @@ func newdefer(siz int32) *_defer {
 			// Take the slow path on the system stack so
 			// we don't grow newdefer's stack.
 			systemstack(func() {
-				lock(&sched.deferlock)
+				lockLabeled(&sched.deferlock, _Ldefer)
 				for len(pp.deferpool[sc]) < cap(pp.deferpool[sc])/2 && sched.deferpool[sc] != nil {
 					d := sched.deferpool[sc]
 					sched.deferpool[sc] = d.link
@@ -470,7 +470,7 @@ func freedefer(d *_defer) {
 				}
 				last = d
 			}
-			lock(&sched.deferlock)
+			lockLabeled(&sched.deferlock, _Ldefer)
 			last.link = sched.deferpool[sc]
 			sched.deferpool[sc] = first
 			unlock(&sched.deferlock)
@@ -1247,7 +1247,7 @@ func startpanic_m() bool {
 		// Setting dying >0 has the side-effect of disabling this G's writebuf.
 		_g_.m.dying = 1
 		atomic.Xadd(&panicking, 1)
-		lock(&paniclk)
+		lockLabeled(&paniclk, _Lpanic)
 		if debug.schedtrace > 0 || debug.scheddetail > 0 {
 			schedtrace(true)
 		}
@@ -1313,8 +1313,8 @@ func dopanic_m(gp *g, pc, sp uintptr) bool {
 		// Let it print what it needs to print.
 		// Wait forever without chewing up cpu.
 		// It will exit when it's done.
-		lock(&deadlock)
-		lock(&deadlock)
+		lockLabeled(&deadlock, _Ldeadlock)
+		lockLabeled(&deadlock, _Ldeadlock)
 	}
 
 	printDebugLog()

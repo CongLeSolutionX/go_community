@@ -56,7 +56,7 @@ func getitab(inter *interfacetype, typ *_type, canfail bool) *itab {
 	}
 
 	// Not found.  Grab the lock and try again.
-	lock(&itabLock)
+	lockLabeled(&itabLock, _Litab)
 	if m = itabTable.find(inter, typ); m != nil {
 		unlock(&itabLock)
 		goto finish
@@ -243,7 +243,7 @@ imethods:
 }
 
 func itabsinit() {
-	lock(&itabLock)
+	lockLabeled(&itabLock, _Litab)
 	for _, md := range activeModules() {
 		for _, i := range md.itablinks {
 			itabAdd(i)

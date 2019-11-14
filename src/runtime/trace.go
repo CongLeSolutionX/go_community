@@ -192,7 +192,7 @@ func StartTrace() error {
 	// and decide to write to trace at a random point in time.
 	// However, such syscall will use the global trace.buf buffer, because we've
 	// acquired all p's by doing stop-the-world. So this protects us from such races.
-	lock(&trace.bufLock)
+	lockLabeled(&trace.bufLock, _LtraceBuf)
 
 	if trace.enabled || trace.shutdown {
 		unlock(&trace.bufLock)
@@ -279,7 +279,7 @@ func StopTrace() {
 	stopTheWorldGC("stop tracing")
 
 	// See the comment in StartTrace.
-	lock(&trace.bufLock)
+	lockLabeled(&trace.bufLock, _LtraceBuf)
 
 	if !trace.enabled {
 		unlock(&trace.bufLock)
@@ -330,7 +330,7 @@ func StopTrace() {
 	}
 
 	// The lock protects us from races with StartTrace/StopTrace because they do stop-the-world.
-	lock(&trace.lock)
+	lockLabeled(&trace.lock, _Ltrace)
 	for _, p := range allp[:cap(allp)] {
 		if p.tracebuf != 0 {
 			throw("trace: non-empty trace buffer in proc")
@@ -367,7 +367,7 @@ func ReadTrace() []byte {
 	// Also this function must not allocate while holding trace.lock:
 	// allocation can call heap allocate, which will try to emit a trace
 	// event while holding heap lock.
-	lock(&trace.lock)
+	lockLabeled(&trace.lock, _Ltrace)
 	trace.lockOwner = getg()
 
 	if trace.reader != 0 {
@@ -396,7 +396,7 @@ func ReadTrace() []byte {
 	if trace.fullHead == 0 && !trace.shutdown {
 		trace.reader.set(getg())
 		goparkunlock(&trace.lock, waitReasonTraceReaderBlocked, traceEvGoBlock, 2)
-		lock(&trace.lock)
+		lockLabeled(&trace.lock, _Ltrace)
 	}
 	// Write a buffer.
 	if trace.fullHead != 0 {
@@ -447,7 +447,7 @@ func traceReader() *g {
 	if trace.reader == 0 || (trace.fullHead == 0 && !trace.shutdown) {
 		return nil
 	}
-	lock(&trace.lock)
+	lockLabeled(&trace.lock, _Ltrace)
 	if trace.reader == 0 || (trace.fullHead == 0 && !trace.shutdown) {
 		unlock(&trace.lock)
 		return nil
@@ -465,7 +465,7 @@ func traceProcFree(pp *p) {
 	if buf == 0 {
 		return
 	}
-	lock(&trace.lock)
+	lockLabeled(&trace.lock, _Ltrace)
 	traceFullQueue(buf)
 	unlock(&trace.lock)
 }
@@ -601,7 +601,7 @@ func traceAcquireBuffer() (mp *m, pid int32, bufp *traceBufPtr) {
 	if p := mp.p.ptr(); p != nil {
 		return mp, p.id, &p.tracebuf
 	}
-	lock(&trace.bufLock)
+	lockLabeled(&trace.bufLock, _LtraceBuf)
 	return mp, traceGlobProc, &trace.buf
 }
 
@@ -618,7 +618,7 @@ func traceFlush(buf traceBufPtr, pid int32) traceBufPtr {
 	owner := trace.lockOwner
 	dolock := owner == nil || owner != getg().m.curg
 	if dolock {
-		lock(&trace.lock)
+		lockLabeled(&trace.lock, _Ltrace)
 	}
 	if buf != 0 {
 		traceFullQueue(buf)
@@ -655,7 +655,7 @@ func traceString(bufp *traceBufPtr, pid int32, s string) (uint64, *traceBufPtr) 
 		return 0, bufp
 	}
 
-	lock(&trace.stringsLock)
+	lockLabeled(&trace.stringsLock, _LtraceStrings)
 	if raceenabled {
 		// raceacquire is necessary because the map access
 		// below is race annotated.
@@ -774,7 +774,7 @@ func (tab *traceStackTable) put(pcs []uintptr) uint32 {
 		return id
 	}
 	// Now, double check under the mutex.
-	lock(&tab.lock)
+	lockLabeled(&tab.lock, _LtraceTab)
 	if id := tab.find(pcs, hash); id != 0 {
 		unlock(&tab.lock)
 		return id
@@ -863,7 +863,7 @@ func (tab *traceStackTable) dump() {
 		}
 	}
 
-	lock(&trace.lock)
+	lockLabeled(&trace.lock, _Ltrace)
 	traceFullQueue(bufp)
 	unlock(&trace.lock)
 

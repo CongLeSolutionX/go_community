@@ -33,6 +33,11 @@ const (
 )
 
 func lock(l *mutex) {
+	lock2(l)
+	lockLogAcquire(l)
+}
+
+func lock2(l *mutex) {
 	gp := getg()
 	if gp.m.locks < 0 {
 		throw("runtime·lock: lock count")
@@ -92,6 +97,7 @@ Loop:
 //go:nowritebarrier
 // We might not be holding a p in this code.
 func unlock(l *mutex) {
+	lockLogRelease(l)
 	gp := getg()
 	var mp *m
 	for {

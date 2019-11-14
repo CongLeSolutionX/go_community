@@ -427,7 +427,7 @@ func getempty() *workbuf {
 		// Allocate more workbufs.
 		var s *mspan
 		if work.wbufSpans.free.first != nil {
-			lock(&work.wbufSpans.lock)
+			lockLabeled(&work.wbufSpans.lock, _LwbufSpans)
 			s = work.wbufSpans.free.first
 			if s != nil {
 				work.wbufSpans.free.remove(s)
@@ -435,6 +435,9 @@ func getempty() *workbuf {
 			}
 			unlock(&work.wbufSpans.lock)
 		}
+		// Record that this may acquire the heap lock to
+		// allocate a workbuf.
+		lockLogMayAcquire(&mheap_.lock, _Lmheap)
 		if s == nil {
 			systemstack(func() {
 				s = mheap_.allocManual(workbufAlloc/pageSize, &memstats.gc_sys)
@@ -443,7 +446,7 @@ func getempty() *workbuf {
 				throw("out of memory")
 			}
 			// Record the new span in the busy list.
-			lock(&work.wbufSpans.lock)
+			lockLabeled(&work.wbufSpans.lock, _LwbufSpans)
 			work.wbufSpans.busy.insert(s)
 			unlock(&work.wbufSpans.lock)
 		}
@@ -510,7 +513,7 @@ func handoff(b *workbuf) *workbuf {
 // can be freed to the heap. This must only be called when all
 // workbufs are on the empty list.
 func prepareFreeWorkbufs() {
-	lock(&work.wbufSpans.lock)
+	lockLabeled(&work.wbufSpans.lock, _LwbufSpans)
 	if work.full != 0 {
 		throw("cannot free workbufs when work.full != 0")
 	}
@@ -526,7 +529,7 @@ func prepareFreeWorkbufs() {
 // true if it should be called again to free more.
 func freeSomeWbufs(preemptible bool) bool {
 	const batchSize = 64 // ~1–2 µs per span.
-	lock(&work.wbufSpans.lock)
+	lockLabeled(&work.wbufSpans.lock, _LwbufSpans)
 	if gcphase != _GCoff || work.wbufSpans.free.isEmpty() {
 		unlock(&work.wbufSpans.lock)
 		return false

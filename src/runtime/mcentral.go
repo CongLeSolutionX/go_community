@@ -42,7 +42,7 @@ func (c *mcentral) cacheSpan() *mspan {
 	spanBytes := uintptr(class_to_allocnpages[c.spanclass.sizeclass()]) * _PageSize
 	deductSweepCredit(spanBytes, 0)
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, _Lmcentral)
 	traceDone := false
 	if trace.enabled {
 		traceGCSweepStart()
@@ -83,7 +83,7 @@ retry:
 				s.freeindex = freeIndex
 				goto havespan
 			}
-			lock(&c.lock)
+			lockLabeled(&c.lock, _Lmcentral)
 			// the span is still empty after sweep
 			// it is already in the empty list, so just retry
 			goto retry
@@ -107,7 +107,7 @@ retry:
 	if s == nil {
 		return nil
 	}
-	lock(&c.lock)
+	lockLabeled(&c.lock, _Lmcentral)
 	c.empty.insertBack(s)
 	unlock(&c.lock)
 
@@ -175,7 +175,7 @@ func (c *mcentral) uncacheSpan(s *mspan) {
 		// sweeping the span.
 		atomic.Xadd64(&c.nmalloc, -int64(n))
 
-		lock(&c.lock)
+		lockLabeled(&c.lock, _Lmcentral)
 		c.empty.remove(s)
 		c.nonempty.insert(s)
 		if !stale {
@@ -222,7 +222,7 @@ func (c *mcentral) freeSpan(s *mspan, preserve bool, wasempty bool) bool {
 		return false
 	}
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, _Lmcentral)
 
 	// Move to nonempty if necessary.
 	if wasempty {

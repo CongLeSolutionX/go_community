@@ -392,6 +392,11 @@ type stack struct {
 	hi uintptr
 }
 
+type lockInfo struct {
+	rank int
+	l    uintptr
+}
+
 type g struct {
 	// Stack parameters.
 	// stack describes the actual stack memory: [stack.lo, stack.hi).
@@ -543,6 +548,9 @@ type m struct {
 	dlogPerM
 
 	mOS
+
+	lockIndex int
+	locksHeld [10]lockInfo
 }
 
 type p struct {

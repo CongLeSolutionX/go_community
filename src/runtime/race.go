@@ -402,7 +402,7 @@ func racefini() {
 	// undefined behavior if called more than once. If the lock is
 	// already held it's assumed that the first caller exits the program
 	// so other calls can hang forever without an issue.
-	lock(&raceFiniLock)
+	lockLabeled(&raceFiniLock, _LraceFini)
 	racecall(&__tsan_fini, 0, 0, 0, 0)
 }
 

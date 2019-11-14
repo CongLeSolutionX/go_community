@@ -43,7 +43,13 @@ func key32(p *uintptr) *uint32 {
 	return (*uint32)(unsafe.Pointer(p))
 }
 
+// Use lockLabeled() for static lock ranking
 func lock(l *mutex) {
+	lock2(l)
+	lockLogAcquire(l)
+}
+
+func lock2(l *mutex) {
 	gp := getg()
 
 	if gp.m.locks < 0 {
@@ -72,12 +78,13 @@ func lock(l *mutex) {
 	if ncpu > 1 {
 		spin = active_spin
 	}
+loop:
 	for {
 		// Try for lock, spinning.
 		for i := 0; i < spin; i++ {
 			for l.key == mutex_unlocked {
 				if atomic.Cas(key32(&l.key), mutex_unlocked, wait) {
-					return
+					break loop
 				}
 			}
 			procyield(active_spin_cnt)
@@ -87,7 +94,7 @@ func lock(l *mutex) {
 		for i := 0; i < passive_spin; i++ {
 			for l.key == mutex_unlocked {
 				if atomic.Cas(key32(&l.key), mutex_unlocked, wait) {
-					return
+					break loop
 				}
 			}
 			osyield()
@@ -96,7 +103,7 @@ func lock(l *mutex) {
 		// Sleep.
 		v = atomic.Xchg(key32(&l.key), mutex_sleeping)
 		if v == mutex_unlocked {
-			return
+			break loop
 		}
 		wait = mutex_sleeping
 		futexsleep(key32(&l.key), mutex_sleeping, -1)
@@ -104,6 +111,7 @@ func lock(l *mutex) {
 }
 
 func unlock(l *mutex) {
+	lockLogRelease(l)
 	v := atomic.Xchg(key32(&l.key), mutex_unlocked)
 	if v == mutex_unlocked {
 		throw("unlock of unlocked lock")

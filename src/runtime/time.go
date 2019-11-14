@@ -258,7 +258,7 @@ func addInitializedTimer(t *timer) {
 	when := t.when
 
 	pp := getg().m.p.ptr()
-	lock(&pp.timersLock)
+	lockLabeled(&pp.timersLock, _Ltimers)
 	ok := cleantimers(pp) && doaddtimer(pp, t)
 	unlock(&pp.timersLock)
 	if !ok {
@@ -709,7 +709,7 @@ func addAdjustedTimers(pp *p, moved []*timer) {
 // The netpoller M will wake up and adjust timers before sleeping again.
 //go:nowritebarrierrec
 func nobarrierWakeTime(pp *p) int64 {
-	lock(&pp.timersLock)
+	lockLabeled(&pp.timersLock, _Ltimers)
 	ret := int64(0)
 	if len(pp.timers) > 0 {
 		if atomic.Load(&pp.adjustTimers) > 0 {
@@ -848,7 +848,7 @@ func runOneTimer(pp *p, t *timer, now int64) {
 
 	f(arg, seq)
 
-	lock(&pp.timersLock)
+	lockLabeled(&pp.timersLock, _Ltimers)
 
 	if raceenabled {
 		gp := getg()
@@ -921,15 +921,14 @@ func timeSleepUntil() int64 {
 	next := int64(maxWhen)
 
 	// Prevent allp slice changes. This is like retake.
-	lock(&allpLock)
+	lockLabeled(&allpLock, _Lallp)
 	for _, pp := range allp {
 		if pp == nil {
 			// This can happen if procresize has grown
 			// allp but not yet created new Ps.
 			continue
 		}
-
-		lock(&pp.timersLock)
+		lockLabeled(&pp.timersLock, _Ltimers)
 		c := atomic.Load(&pp.adjustTimers)
 		for _, t := range pp.timers {
 			switch s := atomic.Load(&t.status); s {
