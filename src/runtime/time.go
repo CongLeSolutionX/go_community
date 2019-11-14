@@ -273,7 +273,7 @@ func timeSleepOld(ns int64) {
 	t.f = goroutineReady
 	t.arg = gp
 	tb := t.assignBucket()
-	lock(&tb.lock)
+	lockLabeled(&tb.lock, _Ltb)
 	if !tb.addtimerLocked(t) {
 		unlock(&tb.lock)
 		badTimer()
@@ -341,7 +341,7 @@ func addInitializedTimer(t *timer) {
 	when := t.when
 
 	pp := getg().m.p.ptr()
-	lock(&pp.timersLock)
+	lockLabeled(&pp.timersLock, _Ltimers)
 	ok := cleantimers(pp) && doaddtimer(pp, t)
 	unlock(&pp.timersLock)
 	if !ok {
@@ -372,7 +372,7 @@ func doaddtimer(pp *p, t *timer) bool {
 
 func addtimerOld(t *timer) {
 	tb := t.assignBucket()
-	lock(&tb.lock)
+	lockLabeled(&tb.lock, _Ltb)
 	ok := tb.addtimerLocked(t)
 	unlock(&tb.lock)
 	if !ok {
@@ -525,7 +525,7 @@ func deltimerOld(t *timer) bool {
 
 	tb := t.tb
 
-	lock(&tb.lock)
+	lockLabeled(&tb.lock, _Ltb)
 	removed, ok := tb.deltimerLocked(t)
 	unlock(&tb.lock)
 	if !ok {
@@ -655,7 +655,7 @@ loop:
 func modtimerOld(t *timer, when, period int64, f func(interface{}, uintptr), arg interface{}, seq uintptr) {
 	tb := t.tb
 
-	lock(&tb.lock)
+	lockLabeled(&tb.lock, _Ltb)
 	_, ok := tb.deltimerLocked(t)
 	if ok {
 		t.when = when
@@ -738,7 +738,7 @@ func resettimerOld(t *timer, when int64) {
 func timerproc(tb *timersBucket) {
 	tb.gp = getg()
 	for {
-		lock(&tb.lock)
+		lockLabeled(&tb.lock, _Ltb)
 		tb.sleeping = false
 		now := nanotime()
 		delta := int64(-1)
@@ -786,7 +786,7 @@ func timerproc(tb *timersBucket) {
 				raceacquire(unsafe.Pointer(t))
 			}
 			f(arg, seq)
-			lock(&tb.lock)
+			lockLabeled(&tb.lock, _Ltb)
 		}
 		if delta < 0 || faketime > 0 {
 			// No timers left - put goroutine to sleep.
@@ -993,7 +993,7 @@ func addAdjustedTimers(pp *p, moved []*timer) {
 // The netpoller M will wake up and adjust timers before sleeping again.
 //go:nowritebarrierrec
 func nobarrierWakeTime(pp *p) int64 {
-	lock(&pp.timersLock)
+	lockLabeled(&pp.timersLock, _Ltimers)
 	ret := int64(0)
 	if len(pp.timers) > 0 {
 		if atomic.Load(&pp.adjustTimers) > 0 {
@@ -1125,7 +1125,11 @@ func runOneTimer(pp *p, t *timer, now int64) {
 	// Note that since timers are locked here, f may not call
 	// addtimer or resettimer.
 
+	unlock(&pp.timersLock)
+
 	f(arg, seq)
+
+	lockLabeled(&pp.timersLock, _Ltimers)
 
 	if raceenabled {
 		gp := getg()
@@ -1198,7 +1202,7 @@ func timejumpOld() *g {
 	}
 
 	for i := range timers {
-		lock(&timers[i].lock)
+		lockLabeled(&timers[i].lock, _Ltimers)
 	}
 	gp := timejumpLocked()
 	for i := range timers {
@@ -1244,15 +1248,14 @@ func timeSleepUntil() int64 {
 	next := int64(maxWhen)
 
 	// Prevent allp slice changes. This is like retake.
-	lock(&allpLock)
+	lockLabeled(&allpLock, _Lallp)
 	for _, pp := range allp {
 		if pp == nil {
 			// This can happen if procresize has grown
 			// allp but not yet created new Ps.
 			continue
 		}
-
-		lock(&pp.timersLock)
+		lockLabeled(&pp.timersLock, _Ltimers)
 		c := atomic.Load(&pp.adjustTimers)
 		for _, t := range pp.timers {
 			switch s := atomic.Load(&t.status); s {
@@ -1302,7 +1305,7 @@ func timeSleepUntilOld() int64 {
 	for i := range timers {
 		tb := &timers[i]
 
-		lock(&tb.lock)
+		lockLabeled(&tb.lock, _Ltb)
 		if tb.sleeping && tb.sleepUntil < next {
 			next = tb.sleepUntil
 		}

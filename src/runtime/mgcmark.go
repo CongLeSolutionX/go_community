@@ -110,7 +110,7 @@ func gcMarkRootCheck() {
 		throw("left over markroot jobs")
 	}
 
-	lock(&allglock)
+	lockLabeled(&allglock, _Lallg)
 	// Check that stacks have been scanned.
 	var gp *g
 	for i := 0; i < work.nStackRoots; i++ {
@@ -270,7 +270,7 @@ func markrootBlock(b0, n0 uintptr, ptrmask0 *uint8, gcw *gcWork, shard int) {
 // cached stacks around isn't a problem.
 func markrootFreeGStacks() {
 	// Take list of dead Gs with stacks.
-	lock(&sched.gFree.lock)
+	lockLabeled(&sched.gFree.lock, _LgFree)
 	list := sched.gFree.stack
 	sched.gFree.stack = gList{}
 	unlock(&sched.gFree.lock)
@@ -290,7 +290,7 @@ func markrootFreeGStacks() {
 	}
 
 	// Put Gs back on the free list.
-	lock(&sched.gFree.lock)
+	lockLabeled(&sched.gFree.lock, _LgFree)
 	sched.gFree.noStack.pushAll(q)
 	unlock(&sched.gFree.lock)
 }
@@ -352,7 +352,7 @@ func markrootSpans(gcw *gcWork, shard int) {
 
 		// Lock the specials to prevent a special from being
 		// removed from the list while we're traversing it.
-		lock(&s.speciallock)
+		lockLabeled(&s.speciallock, _LmspanSpecial)
 
 		for sp := s.specials; sp != nil; sp = sp.next {
 			if sp.kind != _KindSpecialFinalizer {
@@ -571,7 +571,7 @@ func gcAssistAlloc1(gp *g, scanWork int64) {
 // at the end of a GC cycle. gcBlackenEnabled must be false to prevent
 // new assists from going to sleep after this point.
 func gcWakeAllAssists() {
-	lock(&work.assistQueue.lock)
+	lockLabeled(&work.assistQueue.lock, _LassistQueue)
 	list := work.assistQueue.q.popList()
 	injectglist(&list)
 	unlock(&work.assistQueue.lock)
@@ -584,7 +584,7 @@ func gcWakeAllAssists() {
 //
 //go:nowritebarrier
 func gcParkAssist() bool {
-	lock(&work.assistQueue.lock)
+	lockLabeled(&work.assistQueue.lock, _LassistQueue)
 	// If the GC cycle finished while we were getting the lock,
 	// exit the assist. The cycle can't finish while we hold the
 	// lock.
@@ -636,7 +636,7 @@ func gcFlushBgCredit(scanWork int64) {
 
 	scanBytes := int64(float64(scanWork) * gcController.assistBytesPerWork)
 
-	lock(&work.assistQueue.lock)
+	lockLabeled(&work.assistQueue.lock, _LassistQueue)
 	for !work.assistQueue.q.empty() && scanBytes > 0 {
 		gp := work.assistQueue.q.pop()
 		// Note that gp.gcAssistBytes is negative because gp

@@ -37,12 +37,14 @@ func lock(l *mutex) {
 	}
 	gp.m.locks++
 	l.key = mutex_locked
+	lockLogAcquire(l)
 }
 
 func unlock(l *mutex) {
 	if l.key == mutex_unlocked {
 		throw("unlock of unlocked lock")
 	}
+	lockLogRelease(l)
 	gp := getg()
 	gp.m.locks--
 	if gp.m.locks < 0 {

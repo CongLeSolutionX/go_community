@@ -41,6 +41,7 @@ func lock(l *mutex) {
 
 	// Speculative grab for lock.
 	if atomic.Casuintptr(&l.key, 0, locked) {
+		lockLogAcquire(l)
 		return
 	}
 	semacreate(gp.m)
@@ -57,6 +58,7 @@ Loop:
 		if v&locked == 0 {
 			// Unlocked. Try to lock.
 			if atomic.Casuintptr(&l.key, v, v|locked) {
+				lockLogAcquire(l)
 				return
 			}
 			i = 0
@@ -92,6 +94,7 @@ Loop:
 //go:nowritebarrier
 // We might not be holding a p in this code.
 func unlock(l *mutex) {
+	lockLogRelease(l)
 	gp := getg()
 	var mp *m
 	for {

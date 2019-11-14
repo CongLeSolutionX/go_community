@@ -196,7 +196,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		t0 = cputicks()
 	}
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, _Lhchan)
 
 	if c.closed != 0 {
 		unlock(&c.lock)
@@ -353,7 +353,7 @@ func closechan(c *hchan) {
 		panic(plainError("close of nil channel"))
 	}
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, _Lhchan)
 	if c.closed != 0 {
 		unlock(&c.lock)
 		panic(plainError("close of closed channel"))
@@ -496,7 +496,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 		t0 = cputicks()
 	}
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, _Lhchan)
 
 	if c.closed != 0 && c.qcount == 0 {
 		if raceenabled {

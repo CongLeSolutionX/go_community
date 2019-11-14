@@ -107,7 +107,7 @@ func poll_runtime_pollServerInit() {
 
 func netpollGenericInit() {
 	if atomic.Load(&netpollInited) == 0 {
-		lock(&netpollInitLock)
+		lockLabeled(&netpollInitLock, _LnetpollInit)
 		if netpollInited == 0 {
 			netpollinit()
 			atomic.Store(&netpollInited, 1)
@@ -131,7 +131,7 @@ func poll_runtime_isPollServerDescriptor(fd uintptr) bool {
 //go:linkname poll_runtime_pollOpen internal/poll.runtime_pollOpen
 func poll_runtime_pollOpen(fd uintptr) (*pollDesc, int) {
 	pd := pollcache.alloc()
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, _LpollDesc)
 	if pd.wg != 0 && pd.wg != pdReady {
 		throw("runtime: blocked write on free polldesc")
 	}
@@ -170,7 +170,7 @@ func poll_runtime_pollClose(pd *pollDesc) {
 }
 
 func (c *pollCache) free(pd *pollDesc) {
-	lock(&c.lock)
+	lockLabeled(&c.lock, _LpollCache)
 	pd.link = c.first
 	c.first = pd
 	unlock(&c.lock)
@@ -222,7 +222,7 @@ func poll_runtime_pollWaitCanceled(pd *pollDesc, mode int) {
 
 //go:linkname poll_runtime_pollSetDeadline internal/poll.runtime_pollSetDeadline
 func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, _LpollDesc)
 	if pd.closing {
 		unlock(&pd.lock)
 		return
@@ -305,7 +305,7 @@ func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 
 //go:linkname poll_runtime_pollUnblock internal/poll.runtime_pollUnblock
 func poll_runtime_pollUnblock(pd *pollDesc) {
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, _LpollDesc)
 	if pd.closing {
 		throw("runtime: unblock on closing polldesc")
 	}
@@ -456,7 +456,7 @@ func netpollunblock(pd *pollDesc, mode int32, ioready bool) *g {
 }
 
 func netpolldeadlineimpl(pd *pollDesc, seq uintptr, read, write bool) {
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, _LpollDesc)
 	// Seq arg is seq when the timer was set.
 	// If it's stale, ignore the timer event.
 	currentSeq := pd.rseq
@@ -508,7 +508,7 @@ func netpollWriteDeadline(arg interface{}, seq uintptr) {
 }
 
 func (c *pollCache) alloc() *pollDesc {
-	lock(&c.lock)
+	lockLabeled(&c.lock, _LpollCache)
 	if c.first == nil {
 		const pdSize = unsafe.Sizeof(pollDesc{})
 		n := pollBlockSize / pdSize

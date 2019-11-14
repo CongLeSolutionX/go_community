@@ -64,7 +64,7 @@ func finishsweep_m() {
 func bgsweep(c chan int) {
 	sweep.g = getg()
 
-	lock(&sweep.lock)
+	lockLabeled(&sweep.lock, _Lsweep)
 	sweep.parked = true
 	c <- 1
 	goparkunlock(&sweep.lock, waitReasonGCSweepWait, traceEvGoBlock, 1)
@@ -77,7 +77,7 @@ func bgsweep(c chan int) {
 		for freeSomeWbufs(true) {
 			Gosched()
 		}
-		lock(&sweep.lock)
+		lockLabeled(&sweep.lock, _Lsweep)
 		if !isSweepDone() {
 			// This can happen if a GC runs between
 			// gosweepone returning ^0 above

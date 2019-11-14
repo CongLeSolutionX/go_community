@@ -382,8 +382,8 @@ func BlockOnSystemStack() {
 
 func blockOnSystemStackInternal() {
 	print("x\n")
-	lock(&deadlock)
-	lock(&deadlock)
+	lockLabeled(&deadlock, _Ldeadlock)
+	lockLabeled(&deadlock, _Ldeadlock)
 }
 
 type RWMutex struct {
@@ -858,7 +858,7 @@ func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
 		getg().m.mallocing++
 
 		// Lock so that we can safely access the bitmap.
-		lock(&mheap_.lock)
+		lockLabeled(&mheap_.lock, _Lmheap)
 	chunkLoop:
 		for i := mheap_.pages.start; i < mheap_.pages.end; i++ {
 			chunk := &mheap_.pages.chunks[i]

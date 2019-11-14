@@ -25,7 +25,7 @@ func tickspersecond() int64 {
 	if r != 0 {
 		return r
 	}
-	lock(&ticks.lock)
+	lockLabeled(&ticks.lock, _Lticks)
 	r = int64(ticks.val)
 	if r == 0 {
 		t0 := nanotime()

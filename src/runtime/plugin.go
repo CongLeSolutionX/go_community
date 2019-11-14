@@ -62,7 +62,7 @@ func plugin_lastmoduleinit() (path string, syms map[string]interface{}, errstr s
 	pluginftabverify(md)
 	moduledataverify1(md)
 
-	lock(&itabLock)
+	lockLabeled(&itabLock, _Litab)
 	for _, i := range md.itablinks {
 		itabAdd(i)
 	}

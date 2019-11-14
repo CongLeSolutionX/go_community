@@ -69,7 +69,7 @@ retry:
 	} else {
 		// Add a new block to the spine, potentially growing
 		// the spine.
-		lock(&b.spineLock)
+		lockLabeled(&b.spineLock, _Lspine)
 		// spineLen cannot change until we release the lock,
 		// but may have changed while we were waiting.
 		spineLen = atomic.Loaduintptr(&b.spineLen)

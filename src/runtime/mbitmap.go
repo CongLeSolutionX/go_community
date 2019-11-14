@@ -1072,7 +1072,7 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 			// GC program execution, but it does catch mistakes specific
 			// to just one of those and bugs in heapBitsSetTypeGCProg's
 			// implementation of arrays.
-			lock(&debugPtrmask.lock)
+			lockLabeled(&debugPtrmask.lock, _LdebugPtrmask)
 			if debugPtrmask.data == nil {
 				debugPtrmask.data = (*byte)(persistentalloc(1<<20, 1, &memstats.other_sys))
 			}

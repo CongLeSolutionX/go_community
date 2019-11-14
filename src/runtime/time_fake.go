@@ -57,7 +57,7 @@ func write(fd uintptr, p unsafe.Pointer, n int32) int32 {
 	// Write with the playback header.
 
 	// First, lock to avoid interleaving writes.
-	lock(&faketimeState.lock)
+	lockLabeled(&faketimeState.lock, _LfaketimeState)
 
 	// If the current fd doesn't match the fd of the previous write,
 	// ensure that the timestamp is strictly greater. That way, we can

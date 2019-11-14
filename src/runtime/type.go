@@ -169,7 +169,7 @@ var reflectOffs struct {
 }
 
 func reflectOffsLock() {
-	lock(&reflectOffs.lock)
+	lockLabeled(&reflectOffs.lock, _LreflectOffs)
 	if raceenabled {
 		raceacquire(unsafe.Pointer(&reflectOffs.lock))
 	}

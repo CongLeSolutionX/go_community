@@ -486,7 +486,7 @@ func readGCStats_m(pauses *[]uint64) {
 	}
 
 	// Pass back: pauses, pause ends, last gc (absolute time), number of gc, total pause ns.
-	lock(&mheap_.lock)
+	lockLabeled(&mheap_.lock, _Lmheap)
 
 	n := memstats.numgc
 	if n > uint32(len(memstats.pause_ns)) {

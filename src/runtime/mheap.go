@@ -759,7 +759,7 @@ func (h *mheap) reclaim(npage uintptr) {
 
 		if !locked {
 			// Lock the heap for reclaimChunk.
-			lock(&h.lock)
+			lockLabeled(&h.lock, _Lmheap)
 			locked = true
 		}
 
@@ -826,7 +826,7 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 						if s.sweep(false) {
 							nFreed += npages
 						}
-						lock(&h.lock)
+						lockLabeled(&h.lock, _Lmheap)
 						// Reload inUse. It's possible nearby
 						// spans were freed when we dropped the
 						// lock and we don't want to get stale
@@ -1080,7 +1080,7 @@ func (h *mheap) allocSpan(npages uintptr, manual bool, spanclass spanClass, sysS
 
 		// If the cache is empty, refill it.
 		if c.empty() {
-			lock(&h.lock)
+			lockLabeled(&h.lock, _Lmheap)
 			*c = h.pages.allocToCache()
 			unlock(&h.lock)
 		}
@@ -1111,7 +1111,7 @@ func (h *mheap) allocSpan(npages uintptr, manual bool, spanclass spanClass, sysS
 
 	// For one reason or another, we couldn't get the
 	// whole job done without the heap lock.
-	lock(&h.lock)
+	lockLabeled(&h.lock, _Lmheap)
 
 	if base == 0 {
 		// Try to acquire a base address.
@@ -1339,7 +1339,7 @@ func (h *mheap) grow(npage uintptr) bool {
 func (h *mheap) freeSpan(s *mspan) {
 	systemstack(func() {
 		mp := getg().m
-		lock(&h.lock)
+		lockLabeled(&h.lock, _Lmheap)
 		memstats.heap_scan += uint64(mp.mcache.local_scan)
 		mp.mcache.local_scan = 0
 		memstats.tinyallocs += uint64(mp.mcache.local_tinyallocs)
@@ -1372,7 +1372,7 @@ func (h *mheap) freeSpan(s *mspan) {
 //go:systemstack
 func (h *mheap) freeManual(s *mspan, stat *uint64) {
 	s.needzero = 1
-	lock(&h.lock)
+	lockLabeled(&h.lock, _Lmheap)
 	mSysStatDec(stat, s.npages*pageSize)
 	mSysStatInc(&memstats.heap_sys, s.npages*pageSize)
 	h.freeSpanLocked(s, false, true)
@@ -1423,7 +1423,7 @@ func (h *mheap) scavengeAll() {
 	// the mheap API.
 	gp := getg()
 	gp.m.mallocing++
-	lock(&h.lock)
+	lockLabeled(&h.lock, _Lmheap)
 	released := h.pages.scavenge(^uintptr(0), true)
 	unlock(&h.lock)
 	gp.m.mallocing--
@@ -1594,7 +1594,7 @@ func addspecial(p unsafe.Pointer, s *special) bool {
 	offset := uintptr(p) - span.base()
 	kind := s.kind
 
-	lock(&span.speciallock)
+	lockLabeled(&span.speciallock, _LmspanSpecial)
 
 	// Find splice point, check for existing record.
 	t := &span.specials
@@ -1641,7 +1641,7 @@ func removespecial(p unsafe.Pointer, kind uint8) *special {
 
 	offset := uintptr(p) - span.base()
 
-	lock(&span.speciallock)
+	lockLabeled(&span.speciallock, _LmspanSpecial)
 	t := &span.specials
 	for {
 		s := *t
@@ -1679,7 +1679,7 @@ type specialfinalizer struct {
 
 // Adds a finalizer to the object p. Returns true if it succeeded.
 func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *ptrtype) bool {
-	lock(&mheap_.speciallock)
+	lockLabeled(&mheap_.speciallock, _LmheapSpecial)
 	s := (*specialfinalizer)(mheap_.specialfinalizeralloc.alloc())
 	unlock(&mheap_.speciallock)
 	s.special.kind = _KindSpecialFinalizer
@@ -1708,7 +1708,7 @@ func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *p
 	}
 
 	// There was an old finalizer
-	lock(&mheap_.speciallock)
+	lockLabeled(&mheap_.speciallock, _LmheapSpecial)
 	mheap_.specialfinalizeralloc.free(unsafe.Pointer(s))
 	unlock(&mheap_.speciallock)
 	return false
@@ -1720,7 +1720,7 @@ func removefinalizer(p unsafe.Pointer) {
 	if s == nil {
 		return // there wasn't a finalizer to remove
 	}
-	lock(&mheap_.speciallock)
+	lockLabeled(&mheap_.speciallock, _LmheapSpecial)
 	mheap_.specialfinalizeralloc.free(unsafe.Pointer(s))
 	unlock(&mheap_.speciallock)
 }
@@ -1735,7 +1735,7 @@ type specialprofile struct {
 
 // Set the heap profile bucket associated with addr to b.
 func setprofilebucket(p unsafe.Pointer, b *bucket) {
-	lock(&mheap_.speciallock)
+	lockLabeled(&mheap_.speciallock, _LmheapSpecial)
 	s := (*specialprofile)(mheap_.specialprofilealloc.alloc())
 	unlock(&mheap_.speciallock)
 	s.special.kind = _KindSpecialProfile
@@ -1752,13 +1752,13 @@ func freespecial(s *special, p unsafe.Pointer, size uintptr) {
 	case _KindSpecialFinalizer:
 		sf := (*specialfinalizer)(unsafe.Pointer(s))
 		queuefinalizer(p, sf.fn, sf.nret, sf.fint, sf.ot)
-		lock(&mheap_.speciallock)
+		lockLabeled(&mheap_.speciallock, _LmheapSpecial)
 		mheap_.specialfinalizeralloc.free(unsafe.Pointer(sf))
 		unlock(&mheap_.speciallock)
 	case _KindSpecialProfile:
 		sp := (*specialprofile)(unsafe.Pointer(s))
 		mProf_Free(sp.b, size)
-		lock(&mheap_.speciallock)
+		lockLabeled(&mheap_.speciallock, _LmheapSpecial)
 		mheap_.specialprofilealloc.free(unsafe.Pointer(sp))
 		unlock(&mheap_.speciallock)
 	default:
@@ -1837,7 +1837,7 @@ func newMarkBits(nelems uintptr) *gcBits {
 
 	// There's not enough room in the head arena. We may need to
 	// allocate a new arena.
-	lock(&gcBitsArenas.lock)
+	lockLabeled(&gcBitsArenas.lock, _LgcBitsArenas)
 	// Try the head arena again, since it may have changed. Now
 	// that we hold the lock, the list head can't change, but its
 	// free position still can.
@@ -1900,7 +1900,7 @@ func newAllocBits(nelems uintptr) *gcBits {
 // by pointing gcAllocBits into the gcBitsArenas.current.
 // The gcBitsArenas.previous is released to the gcBitsArenas.free list.
 func nextMarkBitArenaEpoch() {
-	lock(&gcBitsArenas.lock)
+	lockLabeled(&gcBitsArenas.lock, _LgcBitsArenas)
 	if gcBitsArenas.previous != nil {
 		if gcBitsArenas.free == nil {
 			gcBitsArenas.free = gcBitsArenas.previous
@@ -1929,7 +1929,7 @@ func newArenaMayUnlock() *gcBitsArena {
 		if result == nil {
 			throw("runtime: cannot allocate memory")
 		}
-		lock(&gcBitsArenas.lock)
+		lockLabeled(&gcBitsArenas.lock, _LgcBitsArenas)
 	} else {
 		result = gcBitsArenas.free
 		gcBitsArenas.free = gcBitsArenas.free.next

@@ -194,6 +194,9 @@ func loop(i int, c chan bool) {
 `
 
 func TestPanicSystemstack(t *testing.T) {
+	if true {
+		return
+	}
 	// Test that GOTRACEBACK=crash prints both the system and user
 	// stack of other threads.
 

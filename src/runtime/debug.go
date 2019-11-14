@@ -19,7 +19,7 @@ func GOMAXPROCS(n int) int {
 		n = 1 // WebAssembly has no threads yet, so only one CPU is possible.
 	}
 
-	lock(&sched.lock)
+	lockLabeled(&sched.lock, _Lsched)
 	ret := int(gomaxprocs)
 	unlock(&sched.lock)
 	if n <= 0 || n == ret {

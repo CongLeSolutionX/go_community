@@ -155,7 +155,7 @@ var scavenge struct {
 //
 // mheap_.lock and scavenge.lock must not be held.
 func wakeScavenger() {
-	lock(&scavenge.lock)
+	lockLabeled(&scavenge.lock, _Lscavenge)
 	if scavenge.parked {
 		// Try to stop the timer but we don't really care if we succeed.
 		// It's possible that either a timer was never started, or that
@@ -182,7 +182,7 @@ func wakeScavenger() {
 //
 // Returns the amount of time actually slept.
 func scavengeSleep(ns int64) int64 {
-	lock(&scavenge.lock)
+	lockLabeled(&scavenge.lock, _Lscavenge)
 
 	// Set the timer.
 	//
@@ -208,7 +208,7 @@ func scavengeSleep(ns int64) int64 {
 func bgscavenge(c chan int) {
 	scavenge.g = getg()
 
-	lock(&scavenge.lock)
+	lockLabeled(&scavenge.lock, _Lscavenge)
 	scavenge.parked = true
 
 	scavenge.timer = new(timer)
@@ -245,7 +245,7 @@ func bgscavenge(c chan int) {
 		// Run on the system stack since we grab the heap lock,
 		// and a stack growth with the heap lock means a deadlock.
 		systemstack(func() {
-			lock(&mheap_.lock)
+			lockLabeled(&mheap_.lock, _Lmheap)
 
 			// If background scavenging is disabled or if there's no work to do just park.
 			retained, goal := heapRetained(), mheap_.scavengeGoal
@@ -269,7 +269,7 @@ func bgscavenge(c chan int) {
 		}
 
 		if released == 0 {
-			lock(&scavenge.lock)
+			lockLabeled(&scavenge.lock, _Lscavenge)
 			scavenge.parked = true
 			goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
 			continue
@@ -389,7 +389,7 @@ func (s *pageAlloc) scavengeOne(max uintptr, locked bool) uintptr {
 	// Helpers for locking and unlocking only if locked == false.
 	lockHeap := func() {
 		if !locked {
-			lock(s.mheapLock)
+			lockLabeled(s.mheapLock, _Lmheap)
 		}
 	}
 	unlockHeap := func() {

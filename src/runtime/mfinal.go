@@ -85,7 +85,7 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 		throw("queuefinalizer during GC")
 	}
 
-	lock(&finlock)
+	lockLabeled(&finlock, _Lfin)
 	if finq == nil || finq.cnt == uint32(len(finq.fin)) {
 		if finc == nil {
 			finc = (*finblock)(persistentalloc(_FinBlockSize, 0, &memstats.gc_sys))
@@ -135,7 +135,7 @@ func iterate_finq(callback func(*funcval, unsafe.Pointer, uintptr, *_type, *ptrt
 
 func wakefing() *g {
 	var res *g
-	lock(&finlock)
+	lockLabeled(&finlock, _Lfin)
 	if fingwait && fingwake {
 		fingwait = false
 		fingwake = false
@@ -165,7 +165,7 @@ func runfinq() {
 	)
 
 	for {
-		lock(&finlock)
+		lockLabeled(&finlock, _Lfin)
 		fb := finq
 		finq = nil
 		if fb == nil {
@@ -232,7 +232,7 @@ func runfinq() {
 				atomic.Store(&fb.cnt, i-1)
 			}
 			next := fb.next
-			lock(&finlock)
+			lockLabeled(&finlock, _Lfin)
 			fb.next = finc
 			finc = fb
 			unlock(&finlock)

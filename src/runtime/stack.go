@@ -265,7 +265,7 @@ func stackcacherefill(c *mcache, order uint8) {
 	// Grab half of the allowed capacity (to prevent thrashing).
 	var list gclinkptr
 	var size uintptr
-	lock(&stackpool[order].item.mu)
+	lockLabeled(&stackpool[order].item.mu, _Lstackpool)
 	for size < _StackCacheSize/2 {
 		x := stackpoolalloc(order)
 		x.ptr().next = list
@@ -284,7 +284,7 @@ func stackcacherelease(c *mcache, order uint8) {
 	}
 	x := c.stackcache[order].list
 	size := c.stackcache[order].size
-	lock(&stackpool[order].item.mu)
+	lockLabeled(&stackpool[order].item.mu, _Lstackpool)
 	for size > _StackCacheSize/2 {
 		y := x.ptr().next
 		stackpoolfree(x, order)
@@ -302,7 +302,7 @@ func stackcache_clear(c *mcache) {
 		print("stackcache clear\n")
 	}
 	for order := uint8(0); order < _NumStackOrders; order++ {
-		lock(&stackpool[order].item.mu)
+		lockLabeled(&stackpool[order].item.mu, _Lstackpool)
 		x := c.stackcache[order].list
 		for x.ptr() != nil {
 			y := x.ptr().next
@@ -363,7 +363,7 @@ func stackalloc(n uint32) stack {
 			// procresize. Just get a stack from the global pool.
 			// Also don't touch stackcache during gc
 			// as it's flushed concurrently.
-			lock(&stackpool[order].item.mu)
+			lockLabeled(&stackpool[order].item.mu, _Lstackpool)
 			x = stackpoolalloc(order)
 			unlock(&stackpool[order].item.mu)
 		} else {
@@ -382,7 +382,7 @@ func stackalloc(n uint32) stack {
 		log2npage := stacklog2(npage)
 
 		// Try to get a stack from the large stack cache.
-		lock(&stackLarge.lock)
+		lockLabeled(&stackLarge.lock, _LstackLarge)
 		if !stackLarge.free[log2npage].isEmpty() {
 			s = stackLarge.free[log2npage].first
 			stackLarge.free[log2npage].remove(s)
@@ -454,7 +454,7 @@ func stackfree(stk stack) {
 		x := gclinkptr(v)
 		c := gp.m.mcache
 		if stackNoCache != 0 || c == nil || gp.m.preemptoff != "" {
-			lock(&stackpool[order].item.mu)
+			lockLabeled(&stackpool[order].item.mu, _Lstackpool)
 			stackpoolfree(x, order)
 			unlock(&stackpool[order].item.mu)
 		} else {
@@ -483,7 +483,7 @@ func stackfree(stk stack) {
 			// change would race with GC. Add it to the
 			// large stack cache instead.
 			log2npage := stacklog2(s.npages)
-			lock(&stackLarge.lock)
+			lockLabeled(&stackLarge.lock, _LstackLarge)
 			stackLarge.free[log2npage].insert(s)
 			unlock(&stackLarge.lock)
 		}
@@ -789,7 +789,7 @@ func syncadjustsudogs(gp *g, used uintptr, adjinfo *adjustinfo) uintptr {
 	var lastc *hchan
 	for sg := gp.waiting; sg != nil; sg = sg.waitlink {
 		if sg.c != lastc {
-			lock(&sg.c.lock)
+			lockLabeled(&sg.c.lock, _Lhchan)
 		}
 		lastc = sg.c
 	}
@@ -1145,7 +1145,7 @@ func freeStackSpans() {
 
 	// Scan stack pools for empty stack spans.
 	for order := range stackpool {
-		lock(&stackpool[order].item.mu)
+		lockLabeled(&stackpool[order].item.mu, _Lstackpool)
 		list := &stackpool[order].item.span
 		for s := list.first; s != nil; {
 			next := s.next
@@ -1161,7 +1161,7 @@ func freeStackSpans() {
 	}
 
 	// Free large stack spans.
-	lock(&stackLarge.lock)
+	lockLabeled(&stackLarge.lock, _LstackLarge)
 	for i := range stackLarge.free {
 		for s := stackLarge.free[i].first; s != nil; {
 			next := s.next

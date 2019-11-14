@@ -60,7 +60,7 @@ func SetCPUProfileRate(hz int) {
 		hz = 1000000
 	}
 
-	lock(&cpuprof.lock)
+	lockLabeled(&cpuprof.lock, _Lcpuprof)
 	if hz > 0 {
 		if cpuprof.on || cpuprof.log != nil {
 			print("runtime: cannot set cpu profile rate until previous profile has finished.\n")
@@ -202,12 +202,12 @@ func runtime_pprof_runtime_cyclesPerSecond() int64 {
 //
 //go:linkname runtime_pprof_readProfile runtime/pprof.readProfile
 func runtime_pprof_readProfile() ([]uint64, []unsafe.Pointer, bool) {
-	lock(&cpuprof.lock)
+	lockLabeled(&cpuprof.lock, _Lcpuprof)
 	log := cpuprof.log
 	unlock(&cpuprof.lock)
 	data, tags, eof := log.read(profBufBlocking)
 	if len(data) == 0 && eof {
-		lock(&cpuprof.lock)
+		lockLabeled(&cpuprof.lock, _Lcpuprof)
 		cpuprof.log = nil
 		unlock(&cpuprof.lock)
 	}

@@ -48,7 +48,7 @@ func sellock(scases []scase, lockorder []uint16) {
 		c0 := scases[o].c
 		if c0 != nil && c0 != c {
 			c = c0
-			lock(&c.lock)
+			lockLabeled(&c.lock, _Lhchan)
 		}
 	}
 }

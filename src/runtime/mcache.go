@@ -85,7 +85,7 @@ var emptymspan mspan
 func allocmcache() *mcache {
 	var c *mcache
 	systemstack(func() {
-		lock(&mheap_.lock)
+		lockLabeled(&mheap_.lock, _Lmheap)
 		c = (*mcache)(mheap_.cachealloc.alloc())
 		c.flushGen = mheap_.sweepgen
 		unlock(&mheap_.lock)
@@ -107,7 +107,7 @@ func freemcache(c *mcache) {
 		// a race where the workbuf is double-freed.
 		// gcworkbuffree(c.gcworkbuf)
 
-		lock(&mheap_.lock)
+		lockLabeled(&mheap_.lock, _Lmheap)
 		purgecachedstats(c)
 		mheap_.cachealloc.free(unsafe.Pointer(c))
 		unlock(&mheap_.lock)
