@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7afb7517_362c4b11",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1998,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-11-14T17:56:16Z",
+      "side": 1,
+      "message": "Out of curiosity, it\u0027s really only unsafe to stop between the two instructions (that is, with the PC on the second instruction). Do we get that right, or is the region bigger than strictly necessary? (And are we sure we get the exactly alignment of this right when checking for unsafe points in the runtime?)",
+      "revId": "d5890e9ba0ba87123b598f24ec3e555ba9a2d6a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
