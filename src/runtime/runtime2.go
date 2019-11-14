@@ -163,6 +163,8 @@ type mutex struct {
 	// while sema-based impl as M* waitm.
 	// Used to be a union, but unions break precise GC.
 	key uintptr
+	// static lock ranking of the lock
+	rank int
 }
 
 // sleep and wakeup on one-time events.
@@ -392,6 +394,12 @@ type stack struct {
 	hi uintptr
 }
 
+// lockInfo gives info on a held lock and the rank of that lock
+type lockInfo struct {
+	l    uintptr
+	rank int
+}
+
 type g struct {
 	// Stack parameters.
 	// stack describes the actual stack memory: [stack.lo, stack.hi).
@@ -543,6 +551,10 @@ type m struct {
 	dlogPerM
 
 	mOS
+
+	// Up to 10 locks held by this m, maintained by the lock ranking code.
+	lockIndex int
+	locksHeld [10]lockInfo
 }
 
 type p struct {

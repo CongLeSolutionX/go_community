@@ -33,7 +33,8 @@ func runtime_Semrelease(s *uint32, handoff bool, skipframes int)
 type notifyList struct {
 	wait   uint32
 	notify uint32
-	lock   uintptr
+	lock   uintptr // key field of the mutex
+	rank   int     // rank field of the mutex
 	head   unsafe.Pointer
 	tail   unsafe.Pointer
 }
