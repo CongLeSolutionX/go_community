@@ -16,6 +16,24 @@
       "revId": "9c4b44e73dafa714c639b73142c705982a179b40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adca4979_4ea178e5",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-14T21:48:19Z",
+      "side": 1,
+      "message": "I think I would rather add a new line instead of repurposing the `dir` one, since the module is not really the directory.\n\n(In particular, on a system with two different module caches, it should be fine to reuse the result from building with one cache when building from the other: the directory is different, but the module cache is the same.)\n\nI think the only change that implies here is s/dir/module/.",
+      "parentUuid": "96d9751a_0431b505",
+      "revId": "9c4b44e73dafa714c639b73142c705982a179b40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
