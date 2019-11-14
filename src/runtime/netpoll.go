@@ -526,6 +526,7 @@ func (c *pollCache) alloc() *pollDesc {
 	}
 	pd := c.first
 	c.first = pd.link
+	lockInit(&pd.lock, _LpollDesc)
 	unlock(&c.lock)
 	return pd
 }

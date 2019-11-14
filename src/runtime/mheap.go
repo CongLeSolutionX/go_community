@@ -70,8 +70,6 @@ type mheap struct {
 	// on the swept stack.
 	sweepSpans [2]gcSweepBuf
 
-	// _ uint32 // align uint64 fields on 32-bit for atomics
-
 	// Proportional sweep
 	//
 	// These parameters represent a linear function from heap_live
@@ -670,6 +668,8 @@ func pageIndexOf(p uintptr) (arena *heapArena, pageIdx uintptr, pageMask uint8) 
 
 // Initialize the heap.
 func (h *mheap) init() {
+	lockInit(&h.lock, _Lmheap)
+
 	h.spanalloc.init(unsafe.Sizeof(mspan{}), recordspan, unsafe.Pointer(h), &memstats.mspan_sys)
 	h.cachealloc.init(unsafe.Sizeof(mcache{}), nil, nil, &memstats.mcache_sys)
 	h.specialfinalizeralloc.init(unsafe.Sizeof(specialfinalizer{}), nil, nil, &memstats.other_sys)
@@ -1463,6 +1463,7 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.allocBits = nil
 	span.gcmarkBits = nil
 	span.state.set(mSpanDead)
+	lockInit(&span.speciallock, _LmspanSpecial)
 }
 
 func (span *mspan) inList() bool {
