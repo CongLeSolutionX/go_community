@@ -25,7 +25,7 @@ const (
 	passive_spin    = 1
 )
 
-func lock(l *mutex) {
+func lock2(l *mutex) {
 	if l.key == mutex_locked {
 		// js/wasm is single-threaded so we should never
 		// observe this.
@@ -39,7 +39,7 @@ func lock(l *mutex) {
 	l.key = mutex_locked
 }
 
-func unlock(l *mutex) {
+func unlock2(l *mutex) {
 	if l.key == mutex_unlocked {
 		throw("unlock of unlocked lock")
 	}

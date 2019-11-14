@@ -689,6 +689,12 @@ func (ctxt *Link) linksetup() {
 			s.Size = 0
 			s.AddUint8(1)
 		}
+		if objabi.Staticlockranking_enabled == 1 {
+			s := ctxt.Syms.Lookup("runtime.staticlockranking_enabled", 0)
+			s.Type = sym.SDATA
+			s.Size = 0
+			s.AddUint8(1)
+		}
 	} else {
 		// If OTOH the module does not contain the runtime package,
 		// create a local symbol for the moduledata.
