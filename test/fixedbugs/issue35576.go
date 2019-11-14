@@ -1,0 +1,16 @@
+// run
+
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Check print/println(f()) is allowed
+
+package main
+
+func f() (int, int) { return 0, 0 }
+
+func main() {
+	print(f())
+	println(f())
+}
