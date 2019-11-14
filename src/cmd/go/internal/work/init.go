@@ -34,6 +34,15 @@ func BuildInit() {
 		}
 		cfg.BuildPkgdir = p
 	}
+
+	// If GOEXPERIMENT is set, define a build tag with the same name which can
+	// be used for compiling alternate files for the experiment. XXX Should
+	// probably validate the experiment value, but right now the only list of
+	// possible experiments is in cmd/internal/objabi/util.go.
+	env := os.Getenv("GOEXPERIMENT")
+	if env != "" {
+		cfg.BuildContext.BuildTags = append(cfg.BuildContext.BuildTags, env)
+	}
 }
 
 func instrumentInit() {
