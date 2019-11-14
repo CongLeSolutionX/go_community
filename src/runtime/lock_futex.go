@@ -43,7 +43,7 @@ func key32(p *uintptr) *uint32 {
 	return (*uint32)(unsafe.Pointer(p))
 }
 
-func lock(l *mutex) {
+func lock2(l *mutex) {
 	gp := getg()
 
 	if gp.m.locks < 0 {
@@ -103,7 +103,7 @@ func lock(l *mutex) {
 	}
 }
 
-func unlock(l *mutex) {
+func unlock2(l *mutex) {
 	v := atomic.Xchg(key32(&l.key), mutex_unlocked)
 	if v == mutex_unlocked {
 		throw("unlock of unlocked lock")
