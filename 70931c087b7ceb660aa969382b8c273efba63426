@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1898bde_056a1224",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 3743,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-15T00:07:54Z",
+      "side": 0,
+      "message": "We still need the \"chan int\" cases.\n\nWe need both chan of a defined type (like \"chan int\") and chan of a type that is not a defined type (like \"chan []byte\").",
+      "revId": "70931c087b7ceb660aa969382b8c273efba63426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
