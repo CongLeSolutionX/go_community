@@ -37,6 +37,7 @@ type Relocs struct {
 	l  *Loader  // loader
 
 	ext *sym.Symbol // external symbol if not nil
+	mat Sym         // materialized symbol index if not nil
 }
 
 // Reloc contains the payload for a specific relocation.
@@ -91,13 +92,55 @@ func makeBitmap(n int) bitmap {
 	return make(bitmap, (n+31)/32)
 }
 
+func growBitmap(reqCap int, curCap int, b bitmap) bitmap {
+	if reqCap > curCap {
+		newCap := curCap * 2
+		if newCap < reqCap {
+			newCap = reqCap
+		}
+		newb := makeBitmap(newCap)
+		copy(newb[:curCap], b)
+		b = newb
+	}
+	return b
+}
+
 // A Loader loads new object files and resolves indexed symbol references.
+//
+// Notes on the layout of global symbol index space:
+//
+// - Go object files are read before host object files; each Go object
+//   read allocates a chunk of index space (from 1 to loader.max).
+//   Within the index space for a give object, there are are in turn
+//   three segments: package defs, no-package defs, and no-package refs.
+//
+// - the next chunk of global symbol index space is populated during
+//   host object file reading, via calls to loader.AddExtSym(); these
+//   indices will range from loader.extStart to loader.max. Each index
+//   corresponds to a sym.Symbol the host object loader is creating.
+//
+// - the next segment in the global symbol index space is created via
+//   calls to "loader.AddMatSym", used for symbols that are
+//   defined/created entirely within the linker (such as DWARF type
+//   DIEs). The indices for linker-materialized symbols range from
+//   loader.extStart (or from 1 if no external symbols) to loader.max.
+//   It is important to note that a given materialized symbol may be
+//   referred to (but not defined) from a Go object file. A canonical
+//   example of this is a DWARF type DIE such as
+//   "go.info.type.[]uint8".
+//
+// The intent is to convert over the host object loaders to use
+// loader.AddMatSym (as opposed to having them create sym.Symbol
+// objects), at which point we can merge the notion of a
+// "materialized" vs an "external" symbol.
+//
 type Loader struct {
 	start       map[*oReader]Sym // map from object file to its start index
 	objs        []objIdx         // sorted by start index (i.e. objIdx.i)
 	max         Sym              // current max index
-	extStart    Sym              // from this index on, the symbols are externally defined
+	extStart    Sym              // index of first externally-defined symbol
 	extSyms     []nameVer        // externally defined symbols
+	matStart    Sym              // index of first "linker materialized" symbol
 	builtinSyms []Sym            // global index of builtin symbols
 	ocache      int              // index (into 'objs') of most recent lookup
 
@@ -111,7 +154,8 @@ type Loader struct {
 
 	Syms []*sym.Symbol // indexed symbols. XXX we still make sym.Symbol for now.
 
-	Reachable bitmap // bitmap of reachable symbols, indexed by global index
+	Reachable    bitmap // bitmap of reachable symbols, indexed by global index
+	reachableCap int    // capacity of current reachable bitmap
 
 	// Used to implement field tracking; created during deadcode if
 	// field tracking is enabled. Reachparent[K] contains the index of
@@ -123,6 +167,20 @@ type Loader struct {
 	flags uint32
 
 	strictDupMsgs int // number of strict-dup warning/errors, when FlagStrictDups is enabled
+
+	matSyms []matSym // contents of linker-materialized symbols
+}
+
+// MatSym holds info about a "linker-materialized" symbol, a symbol such as
+// a DWARF type DIE that the linker invents/constructs out of thin air.
+type matSym struct {
+	name   string // TODO: would this be better as offset into str table?
+	size   int64
+	value  int64
+	ver    int
+	kind   sym.SymKind
+	relocs []Reloc
+	data   []byte
 }
 
 const (
@@ -167,10 +225,29 @@ func (l *Loader) addObj(pkg string, r *oReader) Sym {
 	return i
 }
 
+func (l *Loader) extStartSym() Sym {
+	return l.extStart
+}
+
+func (l *Loader) extEndSym() Sym {
+	if l.matStart != 0 {
+		return l.matStart - 1
+	}
+	return l.max
+}
+
+func (l *Loader) matStartSym() Sym {
+	return l.matStart
+}
+
+func (l *Loader) matEndSym() Sym {
+	return l.max
+}
+
 // Add a symbol with a given index, return if it is added.
 func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ sym.SymKind) bool {
-	if l.extStart != 0 {
-		panic("AddSym called after AddExtSym is called")
+	if l.extStart != 0 || l.matStart != 0 {
+		panic("AddSym called after AddExtSym/AddMatSym is called")
 	}
 	if ver == r.version {
 		// Static symbol. Add its global index but don't
@@ -215,6 +292,9 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 // Add an external symbol (without index). Return the index of newly added
 // symbol, or 0 if not added.
 func (l *Loader) AddExtSym(name string, ver int) Sym {
+	if l.matStart != 0 {
+		panic("AddSym called after AddExtSym is called")
+	}
 	static := ver >= sym.SymVerStatic
 	if static {
 		if _, ok := l.extStaticSyms[nameVer{name, ver}]; ok {
@@ -240,8 +320,14 @@ func (l *Loader) AddExtSym(name string, ver int) Sym {
 	return i
 }
 
-func (l *Loader) IsExternal(i Sym) bool {
-	return l.extStart != 0 && i >= l.extStart
+// isExternal returns true if this was an externally defined sym.
+func (l *Loader) isExternal(i Sym) bool {
+	return l.extStart != 0 && (i >= l.extStart &&
+		(l.matStart == 0 || i < l.matStart))
+}
+
+func (l *Loader) isMaterialized(i Sym) bool {
+	return l.matStart != 0 && i >= l.matStart
 }
 
 // Ensure Syms slice has enough space.
@@ -267,8 +353,11 @@ func (l *Loader) toLocal(i Sym) (*oReader, int) {
 	if ov, ok := l.overwrite[i]; ok {
 		i = ov
 	}
-	if l.IsExternal(i) {
+	if l.isExternal(i) {
 		return nil, int(i - l.extStart)
+	}
+	if l.isMaterialized(i) {
+		return nil, int(i - l.matStart)
 	}
 	oc := l.ocache
 	if oc != 0 && i >= l.objs[oc].i && i <= l.objs[oc].e {
@@ -359,7 +448,10 @@ func (l *Loader) IsDup(i Sym) bool {
 	if _, ok := l.overwrite[i]; ok {
 		return true
 	}
-	if l.IsExternal(i) {
+	if l.isExternal(i) {
+		return false
+	}
+	if l.isMaterialized(i) {
 		return false
 	}
 	r, li := l.toLocal(i)
@@ -427,11 +519,15 @@ func (l *Loader) NDef() int {
 
 // Returns the raw (unpatched) name of the i-th symbol.
 func (l *Loader) RawSymName(i Sym) string {
-	if l.IsExternal(i) {
+	if l.isExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Name
 		}
 		return ""
+	}
+	if l.isMaterialized(i) {
+		mi := i - l.matStart
+		return l.matSyms[mi].name
 	}
 	r, li := l.toLocal(i)
 	osym := goobj2.Sym{}
@@ -441,11 +537,15 @@ func (l *Loader) RawSymName(i Sym) string {
 
 // Returns the (patched) name of the i-th symbol.
 func (l *Loader) SymName(i Sym) string {
-	if l.IsExternal(i) {
+	if l.isExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Name // external name should already be patched?
 		}
 		return ""
+	}
+	if l.isMaterialized(i) {
+		mi := i - l.matStart
+		return l.matSyms[mi].name // materalized name will already be patched
 	}
 	r, li := l.toLocal(i)
 	osym := goobj2.Sym{}
@@ -455,11 +555,15 @@ func (l *Loader) SymName(i Sym) string {
 
 // Returns the type of the i-th symbol.
 func (l *Loader) SymType(i Sym) sym.SymKind {
-	if l.IsExternal(i) {
+	if l.isExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Type
 		}
 		return 0
+	}
+	if l.isMaterialized(i) {
+		mi := i - l.matStart
+		return l.matSyms[mi].kind
 	}
 	r, li := l.toLocal(i)
 	osym := goobj2.Sym{}
@@ -469,7 +573,7 @@ func (l *Loader) SymType(i Sym) sym.SymKind {
 
 // Returns the attributes of the i-th symbol.
 func (l *Loader) SymAttr(i Sym) uint8 {
-	if l.IsExternal(i) {
+	if l.isExternal(i) || l.isMaterialized(i) {
 		// TODO: do something? External symbols have different representation of attributes. For now, ReflectMethod is the only thing matters and it cannot be set by external symbol.
 		return 0
 	}
@@ -499,19 +603,33 @@ func (l *Loader) IsItabLink(i Sym) bool {
 
 // Returns the symbol content of the i-th symbol. i is global index.
 func (l *Loader) Data(i Sym) []byte {
-	if l.IsExternal(i) {
+	if l.isExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.P
 		}
 		return nil
 	}
+	if l.isMaterialized(i) {
+		mi := i - l.matStart
+		return l.matSyms[mi].data
+	}
 	r, li := l.toLocal(i)
 	return r.Data(li)
 }
 
+// Value returns the value attribute for a symbol. Currently only
+// makes sense for materialized symbols.
+func (l *Loader) Value(i Sym) int64 {
+	if !l.isMaterialized(i) {
+		panic("loader.(*Loader).Value() called for non-materialized sym")
+	}
+	mi := i - l.matStart
+	return l.matSyms[mi].value
+}
+
 // Returns the number of aux symbols given a global index.
 func (l *Loader) NAux(i Sym) int {
-	if l.IsExternal(i) {
+	if l.isExternal(i) || l.isMaterialized(i) {
 		return 0
 	}
 	r, li := l.toLocal(i)
@@ -521,7 +639,7 @@ func (l *Loader) NAux(i Sym) int {
 // Returns the referred symbol of the j-th aux symbol of the i-th
 // symbol.
 func (l *Loader) AuxSym(i Sym, j int) Sym {
-	if l.IsExternal(i) {
+	if l.isExternal(i) || l.isMaterialized(i) {
 		return 0
 	}
 	r, li := l.toLocal(i)
@@ -534,7 +652,7 @@ func (l *Loader) AuxSym(i Sym, j int) Sym {
 // slice passed as a parameter. If the slice capacity is not large enough, a new
 // larger slice will be allocated. Final slice is returned.
 func (l *Loader) ReadAuxSyms(symIdx Sym, dst []Sym) []Sym {
-	if l.IsExternal(symIdx) {
+	if l.isExternal(symIdx) || l.isMaterialized(symIdx) {
 		return dst[:0]
 	}
 	naux := l.NAux(symIdx)
@@ -559,6 +677,9 @@ func (l *Loader) ReadAuxSyms(symIdx Sym, dst []Sym) []Sym {
 
 // OuterSym gets the outer symbol for host object loaded symbols.
 func (l *Loader) OuterSym(i Sym) Sym {
+	if l.isMaterialized(i) {
+		return 0
+	}
 	sym := l.Syms[i]
 	if sym != nil && sym.Outer != nil {
 		outer := sym.Outer
@@ -569,6 +690,9 @@ func (l *Loader) OuterSym(i Sym) Sym {
 
 // SubSym gets the subsymbol for host object loaded symbols.
 func (l *Loader) SubSym(i Sym) Sym {
+	if l.isMaterialized(i) {
+		return 0
+	}
 	sym := l.Syms[i]
 	if sym != nil && sym.Sub != nil {
 		sub := sym.Sub
@@ -580,6 +704,15 @@ func (l *Loader) SubSym(i Sym) Sym {
 // Initialize Reachable bitmap for running deadcode pass.
 func (l *Loader) InitReachable() {
 	l.Reachable = makeBitmap(l.NSym())
+	l.reachableCap = len(l.Reachable) * 32
+}
+
+// Insure that reachable bitmap has enough size.
+func (l *Loader) growReachable(reqCap int) {
+	if reqCap > l.reachableCap {
+		l.Reachable = growBitmap(reqCap, l.reachableCap, l.Reachable)
+		l.reachableCap = len(l.Reachable) * 32
+	}
 }
 
 // At method returns the j-th reloc for a global symbol.
@@ -594,6 +727,12 @@ func (relocs *Relocs) At(j int) Reloc {
 			Sym:  relocs.l.Lookup(rel.Sym.Name, int(rel.Sym.Version)),
 		}
 	}
+
+	if relocs.mat != 0 {
+		mi := relocs.mat - relocs.l.matStart
+		return relocs.l.matSyms[mi].relocs[j]
+	}
+
 	rel := goobj2.Reloc{}
 	rel.Read(relocs.r.Reader, relocs.r.RelocOff(relocs.li, j))
 	target := relocs.l.resolve(relocs.r, rel.Sym)
@@ -634,6 +773,14 @@ func (relocs *Relocs) ReadAll(dst []Reloc) []Reloc {
 		return dst
 	}
 
+	if relocs.mat != 0 {
+		mi := relocs.mat - relocs.l.matStart
+		for i := 0; i < relocs.Count; i++ {
+			dst = append(dst, relocs.l.matSyms[mi].relocs[i])
+		}
+		return dst
+	}
+
 	off := relocs.r.RelocOff(relocs.li, 0)
 	for i := 0; i < relocs.Count; i++ {
 		rel := goobj2.Reloc{}
@@ -653,13 +800,20 @@ func (relocs *Relocs) ReadAll(dst []Reloc) []Reloc {
 
 // Relocs returns a Relocs object for the given global sym.
 func (l *Loader) Relocs(i Sym) Relocs {
-	if l.IsExternal(i) {
+	if l.isExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return Relocs{Count: len(s.R), l: l, ext: s}
 		}
 		return Relocs{}
 	}
+	if l.isMaterialized(i) {
+		mi := i - l.matStart
+		return Relocs{Count: len(l.matSyms[mi].relocs), l: l, mat: i}
+	}
 	r, li := l.toLocal(i)
+	if r == nil {
+		panic(fmt.Sprintf("trying to get oreader for %d\n%+v\n", i, *l))
+	}
 	return l.relocs(r, li)
 }
 
@@ -671,6 +825,17 @@ func (l *Loader) relocs(r *oReader, li int) Relocs {
 		r:     r,
 		l:     l,
 	}
+}
+
+// MutableReloc returns a pointer to relocation 'ridx' on symbol 'symIdx'.
+// This method will panic if applied to a non-materialized symbol (relocations
+// on object file symbols are treated as read-only at the moment).
+func (l *Loader) MutableReloc(symIdx Sym, ridx int) *Reloc {
+	if !l.isMaterialized(symIdx) {
+		panic("loader.(*Loader).MutableReloc() called for non-materialized sym")
+	}
+	mi := symIdx - l.matStart
+	return &l.matSyms[mi].relocs[ridx]
 }
 
 // Preload a package: add autolibs, add symbols to the symbol table.
@@ -742,7 +907,7 @@ func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch, syms *sym.Symbols) {
 		osym.Read(r.Reader, r.SymOff(ndef+i))
 		name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
 		v := abiToVer(osym.ABI, r.version)
-		l.AddExtSym(name, v)
+		l.AddMatSym(name, v, sym.Sxxx)
 	}
 }
 
@@ -796,17 +961,43 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 	l.relocBatch = make([]sym.Reloc, nr)
 
 	// external symbols
-	for i := l.extStart; i <= l.max; i++ {
-		if s := l.Syms[i]; s != nil {
-			s.Attr.Set(sym.AttrReachable, l.Reachable.Has(i))
-			continue // already loaded from external object
+	es := l.extStartSym()
+	ee := l.extEndSym()
+	if es != 0 {
+		for i := es; i <= ee; i++ {
+			if s := l.Syms[i]; s != nil {
+				s.Attr.Set(sym.AttrReachable, l.Reachable.Has(i))
+				continue // already loaded from external object
+			}
+			nv := l.extSyms[i-l.extStart]
+			if l.Reachable.Has(i) || strings.HasPrefix(nv.name, "gofile..") { // XXX file symbols are used but not marked
+				s := syms.Newsym(nv.name, nv.v)
+				preprocess(arch, s)
+				s.Attr.Set(sym.AttrReachable, l.Reachable.Has(i))
+				l.Syms[i] = s
+			}
 		}
-		nv := l.extSyms[i-l.extStart]
-		if l.Reachable.Has(i) || strings.HasPrefix(nv.name, "gofile..") { // XXX file symbols are used but not marked
-			s := syms.Newsym(nv.name, nv.v)
-			preprocess(arch, s)
+	}
+
+	// materialized symbols
+	ms := l.matStartSym()
+	me := l.matEndSym()
+	if ms != 0 {
+		for i := ms; i <= me; i++ {
+			mat := l.matSyms[i-l.matStart]
+			if !l.Reachable.Has(i) &&
+				!strings.HasPrefix(mat.name, "gofile..") { // XXX file symbols are used but not marked
+				continue
+			}
+			s := syms.Newsym(mat.name, mat.ver)
+			s.Type = mat.kind
+			// assume no need to call preprocess here
+			if len(mat.relocs) != 0 || len(mat.data) != 0 {
+				panic("need to handle this")
+			}
 			s.Attr.Set(sym.AttrReachable, l.Reachable.Has(i))
 			l.Syms[i] = s
+
 		}
 	}
 
@@ -815,16 +1006,25 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 		loadObjFull(l, o.r)
 	}
 
-	// Resolve ABI aliases for external symbols. This is only
+	// Resolve ABI aliases for external/materialized symbols. This is only
 	// needed for internal cgo linking.
 	// (The old code does this in deadcode, but deadcode2 doesn't
 	// do this.)
-	for i := l.extStart; i <= l.max; i++ {
-		if s := l.Syms[i]; s != nil && s.Attr.Reachable() {
-			for ri := range s.R {
-				r := &s.R[ri]
-				if r.Sym != nil && r.Sym.Type == sym.SABIALIAS {
-					r.Sym = r.Sym.R[0].Sym
+	esr := []Sym{es, ee}
+	msr := []Sym{ms, me}
+	extsyms := [][]Sym{esr, msr}
+	for _, rng := range extsyms {
+		es := rng[0]
+		ee := rng[1]
+		if es != 0 {
+			for i := es; i <= ee; i++ {
+				if s := l.Syms[i]; s != nil && s.Attr.Reachable() {
+					for ri := range s.R {
+						r := &s.R[ri]
+						if r.Sym != nil && r.Sym.Type == sym.SABIALIAS {
+							r.Sym = r.Sym.R[0].Sym
+						}
+					}
 				}
 			}
 		}
@@ -969,7 +1169,7 @@ func (l *Loader) LookupOrCreate(name string, version int, syms *sym.Symbols) *sy
 		if int(i) < len(l.Syms) && l.Syms[i] != nil {
 			return l.Syms[i] // already loaded
 		}
-		if l.IsExternal(i) {
+		if l.isExternal(i) {
 			panic("Can't load an external symbol.")
 		}
 		return l.LoadSymbol(name, version, syms)
@@ -978,6 +1178,75 @@ func (l *Loader) LookupOrCreate(name string, version int, syms *sym.Symbols) *sy
 	s := syms.Newsym(name, version)
 	l.Syms[i] = s
 	return s
+}
+
+// Look up a linker-materialized symbol with specified name + version.
+// If the supplied name is empty, we will create a new anonymous
+// symbol and not enter anything into a lookup table. If a name is
+// supplied, then check to make sure there isn't already a symbol of
+// the specified name/version, and if so, return the existing sym
+// index.
+func (l *Loader) AddMatSym(name string, ver int, kind sym.SymKind) Sym {
+	static := ver >= sym.SymVerStatic
+	if name != "" {
+		if static {
+			if i, ok := l.extStaticSyms[nameVer{name, ver}]; ok {
+				return i
+			}
+		} else {
+			if i, ok := l.symsByName[0][name]; ok {
+				return i
+			}
+		}
+	}
+	i := l.max + 1
+	l.max++
+	if name != "" {
+		if static {
+			l.extStaticSyms[nameVer{name, ver}] = i
+		} else {
+			l.symsByName[ver][name] = i
+		}
+	}
+	if l.matStart == 0 {
+		l.matStart = i
+	}
+	if l.reachableCap != 0 {
+		l.growReachable(int(i))
+	}
+	l.matSyms = append(l.matSyms, matSym{name: name, kind: kind, ver: ver})
+	return i
+}
+
+func (l *Loader) AddReloc(symIdx Sym, r Reloc) {
+	if nv, ok := l.overwrite[symIdx]; ok {
+		symIdx = nv
+	}
+	if !l.isMaterialized(symIdx) {
+		fmt.Fprintf(os.Stderr, "%+v\n", *l)
+		m := fmt.Sprintf("trying to mutate non-materialized symidx %d", symIdx)
+		panic(m)
+	}
+	mi := symIdx - l.matStart
+	l.matSyms[mi].relocs = append(l.matSyms[mi].relocs, r)
+}
+
+// Append the specified data slice to a materialized symbol.
+func (l *Loader) AddBytes(symIdx Sym, data []byte) {
+	if nv, ok := l.overwrite[symIdx]; ok {
+		symIdx = nv
+	}
+	if !l.isMaterialized(symIdx) {
+		panic("trying to mutate non-materialized symidx")
+	}
+	l.Reachable.Set(symIdx)
+	mi := symIdx - l.matStart
+	ms := &l.matSyms[mi]
+	if ms.kind == 0 {
+		ms.kind = sym.SDATA
+	}
+	ms.data = append(ms.data, data...)
+	ms.size = int64(len(ms.data))
 }
 
 func loadObjFull(l *Loader, r *oReader) {
@@ -1286,7 +1555,14 @@ func (l *Loader) Dump() {
 			fmt.Println(obj.i, obj.r.unit.Lib)
 		}
 	}
-	fmt.Println("syms")
+	if l.extStart != 0 {
+		fmt.Println("extStart:", l.extStart)
+	}
+	if l.matStart != 0 {
+		fmt.Println("matStart:", l.matStart)
+	}
+	fmt.Println("max:", l.max)
+	fmt.Printf("syms(len=%d)\n", len(l.Syms))
 	for i, s := range l.Syms {
 		if i == 0 {
 			continue
