@@ -16,6 +16,24 @@
       "revId": "c9d9bf0289d5aff1de4fcc2d7fffed1872bb9522",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0652e857_8b1edddd",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-15T08:24:41Z",
+      "side": 1,
+      "message": "Yes, as far as I am currently aware this is only needed to mark for stack checking.",
+      "parentUuid": "bf792332_5216a5a2",
+      "revId": "c9d9bf0289d5aff1de4fcc2d7fffed1872bb9522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
