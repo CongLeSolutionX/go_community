@@ -197,7 +197,7 @@ directive can skip over a directive like any other comment.
 // Line directives typically appear in machine-generated code, so that compilers and debuggers
 // will report positions in the original input to the generator.
 /*
-The line directive is an historical special case; all other directives are of the form
+The line directive is a historical special case; all other directives are of the form
 //go:name and must start at the beginning of a line, indicating that the directive is defined
 by the Go toolchain.
 
