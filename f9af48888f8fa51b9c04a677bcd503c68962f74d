@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "370184d0_49da16fe",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T17:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05712eca_a7b34454",
+      "range": {
+        "startLine": 84,
+        "startChar": 23,
+        "endLine": 84,
+        "endChar": 42
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37cb245f_87cf0eca",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -68,6 +92,30 @@
       "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dcf3f93_e31500a9",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T17:24:47Z",
+      "side": 1,
+      "message": "Changed to plural here, the implication being that not all packages are compatible, even if some individual packages are.",
+      "parentUuid": "37cb245f_87cf0eca",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 72
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "17bde092_5ccbdf32",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T17:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12972d20_336fd58a",
+      "range": {
+        "startLine": 93,
+        "startChar": 66,
+        "endLine": 93,
+        "endChar": 74
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0c7907_6ea95fb0",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "8d62378d_b9167fd2",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T17:24:47Z",
+      "side": 1,
+      "message": "Added some wording to reflect this. I think it helps.",
+      "parentUuid": "9a0c7907_6ea95fb0",
+      "range": {
+        "startLine": 96,
+        "startChar": 71,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1131c422_6df8fdab",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -128,6 +224,30 @@
       "writtenOn": "2019-11-13T19:58:58Z",
       "side": 1,
       "message": "This is not required: consider gopkg.in/natefinch/lumberjack.v2.",
+      "range": {
+        "startLine": 102,
+        "startChar": 55,
+        "endLine": 103,
+        "endChar": 50
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "598f9ca6_3c094df2",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T17:24:47Z",
+      "side": 1,
+      "message": "Oops, thanks!",
+      "parentUuid": "1131c422_6df8fdab",
       "range": {
         "startLine": 102,
         "startChar": 55,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "b722d895_f989a3af",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T17:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4da7be5_a13c9897",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d33e321_caabd339",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -183,6 +327,30 @@
       "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aef610f_1d4aa703",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T17:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d33e321_caabd339",
+      "range": {
+        "startLine": 113,
+        "startChar": 27,
+        "endLine": 115,
+        "endChar": 25
+      },
+      "revId": "f9af48888f8fa51b9c04a677bcd503c68962f74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
