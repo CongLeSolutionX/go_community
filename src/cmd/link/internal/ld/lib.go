@@ -388,7 +388,7 @@ func (ctxt *Link) loadlib() {
 	default:
 		log.Fatalf("invalid -strictdups flag value %d", *FlagStrictDups)
 	}
-	ctxt.loader = loader.NewLoader(flags)
+	ctxt.loader = loader.NewLoader(flags, elfsetstring)
 
 	ctxt.cgo_export_static = make(map[string]bool)
 	ctxt.cgo_export_dynamic = make(map[string]bool)
@@ -1965,7 +1965,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			continue
 		}
 		lsym := ctxt.Syms.Newsym(elfsym.Name, ver)
-		ctxt.loader.Syms[i] = lsym
+		ctxt.loader.InstallSym(i, lsym)
 
 		// Because loadlib above loads all .a files before loading any shared
 		// libraries, any non-dynimport symbols we find that duplicate symbols
@@ -2000,7 +2000,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 				continue
 			}
 			alias := ctxt.Syms.Newsym(elfsym.Name, sym.SymVerABIInternal)
-			ctxt.loader.Syms[i] = alias
+			ctxt.loader.InstallSym(i, alias)
 			if alias.Type != 0 {
 				continue
 			}
