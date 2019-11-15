@@ -22,6 +22,30 @@
       "revId": "b98166b75ab01734c81f89de0330317e5960442a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24b62798_130f47c4",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 32848
+      },
+      "writtenOn": "2019-11-15T02:47:55Z",
+      "side": 1,
+      "message": "I\u0027ll add it. Currently, it only support 8 bytes and 16 bytes because function align in linker is a fixed number 16 bytes.",
+      "parentUuid": "914c8ea9_5d9160b0",
+      "range": {
+        "startLine": 887,
+        "startChar": 0,
+        "endLine": 887,
+        "endChar": 51
+      },
+      "revId": "b98166b75ab01734c81f89de0330317e5960442a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
