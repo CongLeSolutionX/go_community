@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4645e03b_0d05d799",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-11-15T21:38:09Z",
+      "side": 1,
+      "message": "could you add this as a comment into sysMap in mem_aix.go?\n\nor maybe \"Note that sysMap is always called with a non-nil pointer since it transitions a Reserved memory region to Prepared, so mprotect is always possible.\" I just want to put the justification in terms of the state machine described in malloc.go.",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "d027fcad8e6f67cd125970f579530437a834abd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
