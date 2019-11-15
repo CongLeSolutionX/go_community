@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b5d97f72_67724360",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9c66c8b_96001018",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abefe19e_9fa65285",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa4a1e6f_6be1f74c",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abefe19e_9fa65285",
+      "range": {
+        "startLine": 20,
+        "startChar": 68,
+        "endLine": 21,
+        "endChar": 72
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "acb4bdc4_9678e03b",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Edited a bit, let me know what you think.",
+      "parentUuid": "589c0cd1_8dd6e6b0",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 61
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "128edf2d_c001b95b",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e89ca32d_a63ffbd2",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "128edf2d_c001b95b",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 53
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "72622315_36e751e0",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce0d098f_053268e6",
+      "range": {
+        "startLine": 35,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b74b8544_3126f2b9",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -137,6 +257,30 @@
       "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c84c2738_d2245abf",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b74b8544_3126f2b9",
+      "range": {
+        "startLine": 42,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "44830c97_f216f9d2",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "I deleted this paragraph and moved \"build metadata\" to the list below.",
+      "parentUuid": "870f70c4_9846ae19",
+      "range": {
+        "startLine": 46,
+        "startChar": 64,
+        "endLine": 46,
+        "endChar": 68
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8af289f1_a15f67df",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -183,6 +351,30 @@
       "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "469cd4ba_8fa42ac5",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Added more info in the list below.\n\nI may have some details wrong here. Let me know what you think.",
+      "parentUuid": "8af289f1_a15f67df",
+      "range": {
+        "startLine": 46,
+        "startChar": 50,
+        "endLine": 48,
+        "endChar": 70
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "48fa2692_87f545c4",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14ec2678_e1498c5d",
+      "range": {
+        "startLine": 63,
+        "startChar": 66,
+        "endLine": 63,
+        "endChar": 72
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80498669_a7510143",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -229,6 +445,30 @@
       "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c60949_d0aa14e1",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80498669_a7510143",
+      "range": {
+        "startLine": 68,
+        "startChar": 7,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "aec74596_8d5b6589",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2159af65_25f15f7e",
+      "range": {
+        "startLine": 69,
+        "startChar": 47,
+        "endLine": 69,
+        "endChar": 79
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "034540ea_6de64b21",
         "filename": "doc/modules.md",
         "patchSetId": 2
@@ -266,6 +530,30 @@
       "writtenOn": "2019-11-13T16:32:47Z",
       "side": 1,
       "message": "Also describe the conversion for build metadata?",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43b073a5_9e150f62",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure I actually understand this. I think tags that have build metadata are ignored (as with tags that are non-canonical version in general).\n\nIf a \u0027go get\u0027 argument is a valid version that is not canonicalized, do we fetch the canonical version and drop the metadata?",
+      "parentUuid": "034540ea_6de64b21",
       "range": {
         "startLine": 72,
         "startChar": 16,
@@ -298,6 +586,30 @@
       "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ff55951_b676614c",
+        "filename": "doc/modules.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-15T16:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7c13e6a_653b57b3",
+      "range": {
+        "startLine": 239,
+        "startChar": 22,
+        "endLine": 239,
+        "endChar": 29
+      },
+      "revId": "b6ec2d315a07c25afba780680c639d1e157393bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
