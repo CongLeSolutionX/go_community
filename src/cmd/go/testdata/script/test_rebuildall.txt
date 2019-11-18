@@ -1,0 +1,18 @@
+env GO111MODULE=off
+
+# Regression test for golang.org/issue/6844:
+# 'go test -a' should force dependencies in the standard library to be rebuilt.
+
+[short] skip
+
+go test -x -a -c testdata/dep_test.go
+stderr '^.*[/\\]compile'$GOEXE'["]? (.* )?regexp .*[/\\]regexp\.go'
+
+-- testdata/dep_test.go --
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package deps
+
+import _ "testing"
