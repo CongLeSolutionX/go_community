@@ -642,6 +642,7 @@ var (
 	jsQuot      = []byte(`\"`)
 	jsLt        = []byte(`\x3C`)
 	jsGt        = []byte(`\x3E`)
+	jsAmp       = []byte(`\x26`)
 )
 
 // JSEscape writes to w the escaped JavaScript equivalent of the plain text data b.
@@ -670,6 +671,8 @@ func JSEscape(w io.Writer, b []byte) {
 				w.Write(jsLt)
 			case '>':
 				w.Write(jsGt)
+			case '&':
+				w.Write(jsAmp)
 			default:
 				w.Write(jsLowUni)
 				t, b := c>>4, c&0x0f
@@ -704,7 +707,7 @@ func JSEscapeString(s string) string {
 
 func jsIsSpecial(r rune) bool {
 	switch r {
-	case '\\', '\'', '"', '<', '>':
+	case '\\', '\'', '"', '<', '>', '&':
 		return true
 	}
 	return r < ' ' || utf8.RuneSelf <= r
