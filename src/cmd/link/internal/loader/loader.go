@@ -175,7 +175,11 @@ type Loader struct {
 
 	payloads   []extSymPayload // contents of linker-materialized external syms
 	hasPayload bitmap          // whether ext sym has payload, indexed by global index
+
+	elfsetstring elfsetstringFunc
 }
+
+type elfsetstringFunc func(s *sym.Symbol, str string, off int)
 
 // extSymPayload holds the payload (data + relocations) for linker-synthesized
 // external symbols.
@@ -194,7 +198,7 @@ const (
 	FlagStrictDups = 1 << iota
 )
 
-func NewLoader(flags uint32) *Loader {
+func NewLoader(flags uint32, elfsetstring elfsetstringFunc) *Loader {
 	nbuiltin := goobj2.NBuiltin()
 	return &Loader{
 		start:         make(map[*oReader]Sym),
@@ -206,6 +210,7 @@ func NewLoader(flags uint32) *Loader {
 		extStaticSyms: make(map[nameVer]Sym),
 		builtinSyms:   make([]Sym, nbuiltin),
 		flags:         flags,
+		elfsetstring:  elfsetstring,
 	}
 }
 
@@ -640,7 +645,7 @@ func (l *Loader) Data(i Sym) []byte {
 	return r.Data(li)
 }
 
-// Value returns the value attribute for a symbol. Currently only
+// SymValue returns the value attribute for a symbol. Currently only
 // makes sense for linker-materialized external symbols.
 func (l *Loader) SymValue(i Sym) int64 {
 	if !l.isExternal(i) {
@@ -1252,7 +1257,7 @@ func (l *Loader) Create(name string, syms *sym.Symbols) *sym.Symbol {
 	return s
 }
 
-// AddReloc adds a relocation to a linker-materialized external symbo.
+// AddReloc adds a relocation to a linker-materialized external symbol.
 func (l *Loader) AddReloc(symIdx Sym, r Reloc) {
 	if !l.isExternal(symIdx) {
 		panic("trying to add reloc to non-external symbol")
@@ -1281,6 +1286,176 @@ func (l *Loader) AddBytes(symIdx Sym, data []byte) {
 	ps.data = append(ps.data, data...)
 	ps.size = int64(len(ps.data))
 }
+
+func (ms *extSymPayload) Grow(siz int64) {
+	if int64(int(siz)) != siz {
+		log.Fatalf("symgrow size %d too long", siz)
+	}
+	if int64(len(ms.data)) >= siz {
+		return
+	}
+	if cap(ms.data) < int(siz) {
+		data := make([]byte, 2*(siz+1))
+		ms.data = append(data[:0], ms.data...)
+	}
+	ms.data = ms.data[:siz]
+}
+
+func (l *Loader) payload(symIdx Sym) *extSymPayload {
+	if !l.isExternal(symIdx) {
+		panic("trying to mutate non-external symidx")
+	}
+	if !l.hasPayload.Has(symIdx) {
+		panic("trying to mutate non-payload external sym")
+	}
+	pi := symIdx - l.extStart
+	return &l.payloads[pi]
+}
+
+func (l *Loader) AddUint8(symIdx Sym, v uint8) int64 {
+	sp := l.payload(symIdx)
+	off := sp.size
+	if sp.kind == 0 {
+		sp.kind = sym.SDATA
+	}
+	l.Reachable.Set(symIdx)
+	sp.size++
+	sp.data = append(sp.data, v)
+
+	return off
+}
+
+func (l *Loader) AddUintXX(symIdx Sym, arch *sys.Arch, v uint64, wid int) int64 {
+	sp := l.payload(symIdx)
+	off := sp.size
+	l.Reachable.Set(symIdx)
+	sp.setUintXX(arch, off, v, int64(wid))
+	return off
+}
+
+func (sp *extSymPayload) setUintXX(arch *sys.Arch, off int64, v uint64, wid int64) int64 {
+	if sp.kind == 0 {
+		sp.kind = sym.SDATA
+	}
+	if sp.size < off+wid {
+		sp.size = off + wid
+		sp.Grow(sp.size)
+	}
+
+	switch wid {
+	case 1:
+		sp.data[off] = uint8(v)
+	case 2:
+		arch.ByteOrder.PutUint16(sp.data[off:], uint16(v))
+	case 4:
+		arch.ByteOrder.PutUint32(sp.data[off:], uint32(v))
+	case 8:
+		arch.ByteOrder.PutUint64(sp.data[off:], v)
+	}
+
+	return off + wid
+}
+
+func (l *Loader) AddUint16(symIdx Sym, arch *sys.Arch, v uint16) int64 {
+	return l.AddUintXX(symIdx, arch, uint64(v), 2)
+}
+
+func (l *Loader) AddUint32(symIdx Sym, arch *sys.Arch, v uint32) int64 {
+	return l.AddUintXX(symIdx, arch, uint64(v), 4)
+}
+
+func (l *Loader) AddUint64(symIdx Sym, arch *sys.Arch, v uint64) int64 {
+	return l.AddUintXX(symIdx, arch, v, 8)
+}
+
+func (l *Loader) AddUint(symIdx Sym, arch *sys.Arch, v uint64) int64 {
+	return l.AddUintXX(symIdx, arch, v, arch.PtrSize)
+}
+
+func (l *Loader) SetUint8(symIdx Sym, arch *sys.Arch, r int64, v uint8) int64 {
+	sp := l.payload(symIdx)
+	l.Reachable.Set(symIdx)
+	return sp.setUintXX(arch, r, uint64(v), 1)
+}
+
+func (l *Loader) SetUint16(symIdx Sym, arch *sys.Arch, r int64, v uint16) int64 {
+	sp := l.payload(symIdx)
+	l.Reachable.Set(symIdx)
+	return sp.setUintXX(arch, r, uint64(v), 2)
+}
+
+func (l *Loader) SetUint32(symIdx Sym, arch *sys.Arch, r int64, v uint32) int64 {
+	sp := l.payload(symIdx)
+	l.Reachable.Set(symIdx)
+	return sp.setUintXX(arch, r, uint64(v), 4)
+}
+
+func (l *Loader) SetUint(symIdx Sym, arch *sys.Arch, r int64, v uint64) int64 {
+	sp := l.payload(symIdx)
+	l.Reachable.Set(symIdx)
+	return sp.setUintXX(arch, r, v, int64(arch.PtrSize))
+}
+
+func (l *Loader) Addstring(symIdx Sym, str string) int64 {
+	sp := l.payload(symIdx)
+	if sp.kind == 0 {
+		sp.kind = sym.SNOPTRDATA
+	}
+	l.Reachable.Set(symIdx)
+	r := sp.size
+	if sp.name == ".shstrtab" {
+		// FIME: find a better mechanism for this
+		l.elfsetstring(nil, str, int(r))
+	}
+	sp.data = append(sp.data, str...)
+	sp.data = append(sp.data, 0)
+	sp.size = int64(len(sp.data))
+	return r
+}
+
+func (sp *extSymPayload) addRel() *Reloc {
+	sp.relocs = append(sp.relocs, Reloc{})
+	return &sp.relocs[len(sp.relocs)-1]
+}
+
+func (sp *extSymPayload) addAddrPlus(tgt Sym, add int64, typ objabi.RelocType, rsize int) int64 {
+	if sp.kind == 0 {
+		sp.kind = sym.SDATA
+	}
+	i := sp.size
+
+	sp.size += int64(rsize)
+	sp.Grow(sp.size)
+
+	r := sp.addRel()
+	r.Sym = tgt
+	r.Off = int32(i)
+	r.Size = uint8(rsize)
+	r.Type = typ
+	r.Add = add
+
+	return i + int64(r.Size)
+}
+
+func (l *Loader) AddAddrPlus(symIdx Sym, arch *sys.Arch, tgt Sym, add int64) int64 {
+	l.Reachable.Set(symIdx)
+	sp := l.payload(symIdx)
+	return sp.addAddrPlus(tgt, add, objabi.R_ADDR, arch.PtrSize)
+}
+
+func (l *Loader) AddAddrPlus4(symIdx Sym, arch *sys.Arch, tgt Sym, add int64) int64 {
+	l.Reachable.Set(symIdx)
+	sp := l.payload(symIdx)
+	return sp.addAddrPlus(tgt, add, objabi.R_ADDR, 4)
+}
+
+func (l *Loader) AddCURelativeAddrPlus(symIdx Sym, arch *sys.Arch, t Sym, add int64) int64 {
+	l.Reachable.Set(symIdx)
+	sp := l.payload(symIdx)
+	return sp.addAddrPlus(t, add, objabi.R_ADDRCUOFF, arch.PtrSize)
+}
+
+//........................................................................
 
 func loadObjFull(l *Loader, r *oReader) {
 	lib := r.unit.Lib
