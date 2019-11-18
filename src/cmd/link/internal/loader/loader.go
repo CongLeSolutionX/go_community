@@ -1186,6 +1186,130 @@ func (l *Loader) AddBytes(symIdx Sym, data []byte) {
 	ms.size = int64(len(ms.data))
 }
 
+func (ms *matSym) Grow(siz int64) {
+	if int64(int(siz)) != siz {
+		log.Fatalf("symgrow size %d too long", siz)
+	}
+	if int64(len(ms.data)) >= siz {
+		return
+	}
+	if cap(ms.data) < int(siz) {
+		data := make([]byte, 2*(siz+1))
+		ms.data = append(data[:0], ms.data...)
+	}
+	ms.data = ms.data[:siz]
+}
+
+func (l *Loader) AddUint8(symIdx Sym, v uint8) int64 {
+	if !l.isMaterialized(symIdx) {
+		panic("trying to mutate non-materialized symidx")
+	}
+	mi := symIdx - l.matStart
+	ms := &l.matSyms[mi]
+
+	off := ms.size
+	if ms.kind == 0 {
+		ms.kind = sym.SDATA
+	}
+	l.Reachable.Set(symIdx)
+	ms.size++
+	ms.data = append(ms.data, v)
+
+	return off
+}
+
+func (l *Loader) AddUintXX(symIdx Sym, arch *sys.Arch, v uint64, wid int) int64 {
+	if !l.isMaterialized(symIdx) {
+		panic("trying to mutate non-materialized symidx")
+	}
+	mi := symIdx - l.matStart
+	ms := &l.matSyms[mi]
+
+	off := ms.size
+	l.Reachable.Set(symIdx)
+	ms.setUintXX(arch, off, v, int64(wid))
+	return off
+}
+
+func (ms *matSym) setUintXX(arch *sys.Arch, off int64, v uint64, wid int64) int64 {
+	if ms.kind == 0 {
+		ms.kind = sym.SDATA
+	}
+	if ms.size < off+wid {
+		ms.size = off + wid
+		ms.Grow(ms.size)
+	}
+
+	switch wid {
+	case 1:
+		ms.data[off] = uint8(v)
+	case 2:
+		arch.ByteOrder.PutUint16(ms.data[off:], uint16(v))
+	case 4:
+		arch.ByteOrder.PutUint32(ms.data[off:], uint32(v))
+	case 8:
+		arch.ByteOrder.PutUint64(ms.data[off:], v)
+	}
+
+	return off + wid
+}
+
+func (l *Loader) AddUint16(symIdx Sym, arch *sys.Arch, v uint16) int64 {
+	return l.AddUintXX(symIdx, arch, uint64(v), 2)
+}
+
+func (l *Loader) AddUint32(symIdx Sym, arch *sys.Arch, v uint32) int64 {
+	return l.AddUintXX(symIdx, arch, uint64(v), 4)
+}
+
+func (l *Loader) AddUint64(symIdx Sym, arch *sys.Arch, v uint64) int64 {
+	return l.AddUintXX(symIdx, arch, v, 8)
+}
+
+func (l *Loader) AddUint(symIdx Sym, arch *sys.Arch, v uint64) int64 {
+	return l.AddUintXX(symIdx, arch, v, arch.PtrSize)
+}
+
+func (l *Loader) SetUint8(symIdx Sym, arch *sys.Arch, r int64, v uint8) int64 {
+	if !l.isMaterialized(symIdx) {
+		panic("trying to mutate non-materialized symidx")
+	}
+	mi := symIdx - l.matStart
+	ms := &l.matSyms[mi]
+	l.Reachable.Set(symIdx)
+	return ms.setUintXX(arch, r, uint64(v), 1)
+}
+
+func (l *Loader) SetUint16(symIdx Sym, arch *sys.Arch, r int64, v uint16) int64 {
+	if !l.isMaterialized(symIdx) {
+		panic("trying to mutate non-materialized symidx")
+	}
+	mi := symIdx - l.matStart
+	ms := &l.matSyms[mi]
+	l.Reachable.Set(symIdx)
+	return ms.setUintXX(arch, r, uint64(v), 2)
+}
+
+func (l *Loader) SetUint32(symIdx Sym, arch *sys.Arch, r int64, v uint32) int64 {
+	if !l.isMaterialized(symIdx) {
+		panic("trying to mutate non-materialized symidx")
+	}
+	mi := symIdx - l.matStart
+	ms := &l.matSyms[mi]
+	l.Reachable.Set(symIdx)
+	return ms.setUintXX(arch, r, uint64(v), 4)
+}
+
+func (l *Loader) SetUint(symIdx Sym, arch *sys.Arch, r int64, v uint64) int64 {
+	if !l.isMaterialized(symIdx) {
+		panic("trying to mutate non-materialized symidx")
+	}
+	mi := symIdx - l.matStart
+	ms := &l.matSyms[mi]
+	l.Reachable.Set(symIdx)
+	return ms.setUintXX(arch, r, v, int64(arch.PtrSize))
+}
+
 func loadObjFull(l *Loader, r *oReader) {
 	lib := r.unit.Lib
 	istart := l.startIndex(r)
