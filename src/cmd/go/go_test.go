@@ -1369,17 +1369,6 @@ func TestRelativeGOBINFail(t *testing.T) {
 	tg.grepStderr("cannot install, GOBIN must be an absolute path", "go install must fail if $GOBIN is a relative path")
 }
 
-// Test that without $GOBIN set, binaries get installed
-// into the GOPATH bin directory.
-func TestInstallIntoGOPATH(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.creatingTemp("testdata/bin/go-cmd-test" + exeSuffix)
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
-	tg.run("install", "go-cmd-test")
-	tg.wantExecutable("testdata/bin/go-cmd-test"+exeSuffix, "go install go-cmd-test did not write to testdata/bin/go-cmd-test")
-}
-
 // Issue 12407
 func TestBuildOutputToDevNull(t *testing.T) {
 	tg := testgo(t)
