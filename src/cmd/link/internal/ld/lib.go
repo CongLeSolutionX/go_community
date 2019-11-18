@@ -469,8 +469,8 @@ func (ctxt *Link) loadlib() {
 
 		// Drop all the cgo_import_static declarations.
 		// Turns out we won't be needing them.
-		for _, s := range ctxt.Syms.Allsym {
-			if s.Type == sym.SHOSTOBJ {
+		for _, s := range ctxt.loader.Syms {
+			if s != nil && s.Type == sym.SHOSTOBJ {
 				// If a symbol was marked both
 				// cgo_import_static and cgo_import_dynamic,
 				// then we want to make it cgo_import_dynamic
@@ -495,7 +495,10 @@ func (ctxt *Link) loadlib() {
 		// If we have any undefined symbols in external
 		// objects, try to read them from the libgcc file.
 		any := false
-		for _, s := range ctxt.Syms.Allsym {
+		for _, s := range ctxt.loader.Syms {
+			if s == nil {
+				continue
+			}
 			for i := range s.R {
 				r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
 				if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name != ".got" {
