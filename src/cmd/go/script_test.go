@@ -590,16 +590,21 @@ func (ts *testScript) cmdEnv(neg bool, args []string) {
 		}
 		return
 	}
+	var out strings.Builder
 	for _, env := range args {
 		i := strings.Index(env, "=")
 		if i < 0 {
 			// Display value instead of setting it.
-			fmt.Fprintf(&ts.log, "%s=%s\n", env, ts.envMap[env])
+			fmt.Fprintf(&out, "%s=%s\n", env, ts.envMap[env])
 			continue
 		}
 		key, val := env[:i], conv(env[i+1:])
 		ts.env = append(ts.env, key+"="+val)
 		ts.envMap[key] = val
+	}
+	if out.Len() > 0 {
+		ts.stdout = out.String()
+		ts.log.WriteString(out.String())
 	}
 }
 
