@@ -175,7 +175,13 @@ type Loader struct {
 
 	payloads   []extSymPayload // contents of linker-materialized external syms
 	hasPayload bitmap          // whether ext sym has payload, indexed by ext sym index
+
+	align map[Sym]int32 // stores alignment for symbols
+
+	elfsetstring elfsetstringFunc
 }
+
+type elfsetstringFunc func(s *sym.Symbol, str string, off int)
 
 // extSymPayload holds the payload (data + relocations) for linker-synthesized
 // external symbols.
@@ -194,7 +200,7 @@ const (
 	FlagStrictDups = 1 << iota
 )
 
-func NewLoader(flags uint32) *Loader {
+func NewLoader(flags uint32, elfsetstring elfsetstringFunc) *Loader {
 	nbuiltin := goobj2.NBuiltin()
 	return &Loader{
 		start:         make(map[*oReader]Sym),
@@ -202,10 +208,12 @@ func NewLoader(flags uint32) *Loader {
 		symsByName:    [2]map[string]Sym{make(map[string]Sym), make(map[string]Sym)},
 		objByPkg:      make(map[string]*oReader),
 		overwrite:     make(map[Sym]Sym),
+		align:         make(map[Sym]int32),
 		itablink:      make(map[Sym]struct{}),
 		extStaticSyms: make(map[nameVer]Sym),
 		builtinSyms:   make([]Sym, nbuiltin),
 		flags:         flags,
+		elfsetstring:  elfsetstring,
 	}
 }
 
@@ -590,38 +598,6 @@ func (l *Loader) SymType(i Sym) sym.SymKind {
 	return sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
 }
 
-// Set the type of an external symbol.
-func (l *Loader) SetType(i Sym, kind sym.SymKind) {
-	if !l.isExternal(i) {
-		panic("tried to update sym type for non-external sym")
-	}
-	if s := l.Syms[i]; s != nil {
-		s.Type = kind
-		return
-	}
-	pp := l.getPayload(i)
-	if pp == nil {
-		panic("try to set type for no-payload sym")
-	}
-	pp.kind = kind
-}
-
-// Set name of an external symbol.
-func (l *Loader) SetName(i Sym, name string) {
-	if !l.isExternal(i) {
-		panic("tried to update sym name for non-external sym")
-	}
-	if s := l.Syms[i]; s != nil {
-		s.Name = name
-		return
-	}
-	pp := l.getPayload(i)
-	if pp == nil {
-		panic("try to set name for no-payload sym")
-	}
-	pp.name = name
-}
-
 // Returns the attributes of the i-th symbol.
 func (l *Loader) SymAttr(i Sym) uint8 {
 	if l.isExternal(i) {
@@ -663,16 +639,6 @@ func (l *Loader) Data(i Sym) []byte {
 	}
 	r, li := l.toLocal(i)
 	return r.Data(li)
-}
-
-// Value returns the value attribute for a symbol. Currently only
-// makes sense for linker-materialized external symbols.
-func (l *Loader) SymValue(i Sym) int64 {
-	if !l.isExternal(i) {
-		panic("loader.(*Loader).Value() called for non-external sym")
-	}
-	pp := l.getPayload(i)
-	return pp.value
 }
 
 // Size returns the size for a symbol. Currently only supported for
@@ -1268,33 +1234,15 @@ func (l *Loader) Create(name string, syms *sym.Symbols) *sym.Symbol {
 	return s
 }
 
-// AddReloc adds a relocation to a linker-materialized external symbo.
-func (l *Loader) AddReloc(symIdx Sym, r Reloc) {
+func (l *Loader) payload(symIdx Sym) *extSymPayload {
 	if !l.isExternal(symIdx) {
-		panic("trying to add reloc to non-external symbol")
+		panic("trying to mutate non-external symidx")
 	}
-	pp := l.getPayload(symIdx)
-	if pp == nil {
-		panic("adding reloc to ext sym with no payload marking")
+	if !l.hasPayload.Has(symIdx - l.extStart) {
+		panic("trying to mutate non-payload external sym")
 	}
-	pp.relocs = append(pp.relocs, r)
-}
-
-// AddBytes adds the specified data slice to a linker-materialized ext symbol.
-func (l *Loader) AddBytes(symIdx Sym, data []byte) {
-	if !l.isExternal(symIdx) {
-		panic("trying to add data to non-external symbol")
-	}
-	pp := l.getPayload(symIdx)
-	if pp == nil {
-		panic("adding data to ext sym with no payload marking")
-	}
-	l.Reachable.Set(symIdx)
-	if pp.kind == 0 {
-		pp.kind = sym.SDATA
-	}
-	pp.data = append(pp.data, data...)
-	pp.size = int64(len(pp.data))
+	pi := symIdx - l.extStart
+	return &l.payloads[pi]
 }
 
 func loadObjFull(l *Loader, r *oReader) {
@@ -1556,6 +1504,18 @@ func loadObjFull(l *Loader, r *oReader) {
 			lib.DupTextSyms = append(lib.DupTextSyms, s)
 		}
 	}
+}
+
+// NewSymbolBuilder creates a symbol builder helper for an already-allocated
+// external symbol 'symIdx'.
+func (l *Loader) NewSymbolBuilder(symIdx Sym) SymbolBuilder {
+	if l.Syms[symIdx] != nil {
+		panic("can't build if sym.Symbol already present")
+	}
+	if l.hasPayload.Has(symIdx) {
+		panic("can't build if no payload flag")
+	}
+	return SymbolBuilder{symIdx: symIdx}
 }
 
 var emptyPkg = []byte(`"".`)

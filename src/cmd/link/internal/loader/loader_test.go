@@ -7,7 +7,9 @@ package loader
 import (
 	"bytes"
 	"cmd/internal/objabi"
+	"cmd/internal/sys"
 	"cmd/link/internal/sym"
+	"fmt"
 	"testing"
 )
 
@@ -34,11 +36,13 @@ func addDummyObjSym(t *testing.T, ldr *Loader, or *oReader, name string) Sym {
 	if ok := ldr.AddSym(name, 0, idx, or, false, sym.SRODATA); !ok {
 		t.Errorf("AddrSym failed for '" + name + "'")
 	}
+
 	return idx
 }
 
-func TestAddMaterializeSymbol(t *testing.T) {
-	ldr := NewLoader(0)
+func TestAddMaterializedSymbol(t *testing.T) {
+	edummy := func(s *sym.Symbol, str string, off int) {}
+	ldr := NewLoader(0, edummy)
 	dummyOreader := oReader{version: -1}
 	or := &dummyOreader
 
@@ -67,21 +71,35 @@ func TestAddMaterializeSymbol(t *testing.T) {
 		t.Fatalf("CreateExtSym failed for nameless sym")
 	}
 
+	// Grab symbol builder pointers
+	sb1 := ldr.MakeSymbolUpdater(es1)
+	sb2 := ldr.MakeSymbolUpdater(es2)
+	sb3 := ldr.MakeSymbolUpdater(es3)
+
 	// Check get/set symbol type
-	es3typ := ldr.SymType(es3)
+	es3typ := sb3.Type()
 	if es3typ != sym.Sxxx {
 		t.Errorf("SymType(es3): expected %d, got %d", sym.Sxxx, es3typ)
 	}
-	ldr.SetType(es3, sym.SRODATA)
-	es3typ = ldr.SymType(es3)
+	sb2.SetType(sym.SRODATA)
+	es3typ = sb2.Type()
 	if es3typ != sym.SRODATA {
 		t.Errorf("SymType(es3): expected %d, got %d", sym.SRODATA, es3typ)
 	}
-	ldr.SetType(es3, sym.SRODATA)
+
+	// Check/set alignment
+	es3al := sb3.Align()
+	if es3al != 0 {
+		t.Errorf("SymAlign(es3): expected 0, got %d", es3al)
+	}
+	sb3.SetAlign(128)
+	es3al = sb3.Align()
+	if es3al != 128 {
+		t.Errorf("SymAlign(es3): expected 128, got %d", es3al)
+	}
 
 	// New symbols should not be reachable
-	if ldr.Reachable.Has(es1) || ldr.Reachable.Has(es2) ||
-		ldr.Reachable.Has(es3) {
+	if sb1.Reachable() || sb2.Reachable() || sb3.Reachable() {
 		t.Errorf("newly materialized symbols should not be reachable")
 	}
 
@@ -89,27 +107,27 @@ func TestAddMaterializeSymbol(t *testing.T) {
 	r1 := Reloc{0, 1, objabi.R_ADDR, 0, ts1}
 	r2 := Reloc{3, 8, objabi.R_CALL, 0, ts2}
 	r3 := Reloc{7, 1, objabi.R_USETYPE, 0, ts3}
-	ldr.AddReloc(es1, r1)
-	ldr.AddReloc(es1, r2)
-	ldr.AddReloc(es2, r3)
+	sb1.AddReloc(r1)
+	sb1.AddReloc(r2)
+	sb2.AddReloc(r3)
 
 	// Add some data to the symbols.
 	d1 := []byte{1, 2, 3}
 	d2 := []byte{4, 5, 6, 7}
-	ldr.AddBytes(es1, d1)
-	ldr.AddBytes(es2, d2)
+	sb1.AddBytes(d1)
+	sb2.AddBytes(d2)
 
 	// Now invoke the usual loader interfaces to make sure
 	// we're getting the right things back for these symbols.
 	// First relocations...
 	expRel := [][]Reloc{[]Reloc{r1, r2}, []Reloc{r3}}
-	for k, idx := range []Sym{es1, es2} {
-		relocs := ldr.Relocs(idx)
+	for k, sb := range []*SymbolBuilder{sb1, sb2} {
+		rsl := sb.Relocs()
 		exp := expRel[k]
-		rsl := relocs.ReadAll(nil)
 		if !sameRelocSlice(rsl, exp) {
 			t.Errorf("expected relocs %v, got %v", exp, rsl)
 		}
+		relocs := ldr.Relocs(sb.Sym())
 		r0 := relocs.At(0)
 		if r0 != exp[0] {
 			t.Errorf("expected reloc %v, got %v", exp[0], r0)
@@ -117,7 +135,7 @@ func TestAddMaterializeSymbol(t *testing.T) {
 	}
 
 	// ... then data.
-	dat := ldr.Data(es2)
+	dat := sb2.Data()
 	if bytes.Compare(dat, d2) != 0 {
 		t.Errorf("expected es2 data %v, got %v", d2, dat)
 	}
@@ -129,7 +147,7 @@ func TestAddMaterializeSymbol(t *testing.T) {
 	}
 
 	// Read value of materialized symbol.
-	es1val := ldr.SymValue(es1)
+	es1val := sb1.Value()
 	if 0 != es1val {
 		t.Errorf("expected es1 value of 0, got %v", es1val)
 	}
@@ -141,7 +159,127 @@ func TestAddMaterializeSymbol(t *testing.T) {
 	}
 
 	// Writing data to a materialized symbol should mark it reachable.
-	if !ldr.Reachable.Has(es1) || !ldr.Reachable.Has(es2) {
+	if !sb1.Reachable() || !sb2.Reachable() {
 		t.Fatalf("written-to materialized symbols should be reachable")
+	}
+}
+
+type addFunc func(l *Loader, s Sym, s2 Sym)
+
+func TestAddDataMethods(t *testing.T) {
+	edummy := func(s *sym.Symbol, str string, off int) {}
+	ldr := NewLoader(0, edummy)
+	dummyOreader := oReader{version: -1}
+	or := &dummyOreader
+
+	// Populate loader with some symbols.
+	addDummyObjSym(t, ldr, or, "type.uint8")
+	ldr.AddExtSym("hello", 0)
+	ldr.InitReachable()
+
+	arch := sys.ArchAMD64
+	var testpoints = []struct {
+		which       string
+		addDataFunc addFunc
+		expData     []byte
+		expKind     sym.SymKind
+		expRel      []Reloc
+	}{
+		{
+			which: "AddUint8",
+			addDataFunc: func(l *Loader, s Sym, _ Sym) {
+				sb := l.MakeSymbolUpdater(s)
+				sb.AddUint8('a')
+			},
+			expData: []byte{'a'},
+			expKind: sym.SDATA,
+		},
+		{
+			which: "AddUintXX",
+			addDataFunc: func(l *Loader, s Sym, _ Sym) {
+				sb := l.MakeSymbolUpdater(s)
+				sb.AddUintXX(arch, 25185, 2)
+			},
+			expData: []byte{'a', 'b'},
+			expKind: sym.SDATA,
+		},
+		{
+			which: "SetUint8",
+			addDataFunc: func(l *Loader, s Sym, _ Sym) {
+				sb := l.MakeSymbolUpdater(s)
+				sb.AddUint8('a')
+				sb.AddUint8('b')
+				sb.SetUint8(arch, 1, 'c')
+			},
+			expData: []byte{'a', 'c'},
+			expKind: sym.SDATA,
+		},
+		{
+			which: "AddString",
+			addDataFunc: func(l *Loader, s Sym, _ Sym) {
+				sb := l.MakeSymbolUpdater(s)
+				sb.Addstring("hello")
+			},
+			expData: []byte{'h', 'e', 'l', 'l', 'o', 0},
+			expKind: sym.SNOPTRDATA,
+		},
+		{
+			which: "AddAddrPlus",
+			addDataFunc: func(l *Loader, s Sym, s2 Sym) {
+				sb := l.MakeSymbolUpdater(s)
+				sb.AddAddrPlus(arch, s2, 3)
+			},
+			expData: []byte{0, 0, 0, 0, 0, 0, 0, 0},
+			expKind: sym.SDATA,
+			expRel:  []Reloc{Reloc{Type: objabi.R_ADDR, Size: 8, Add: 3, Sym: 6}},
+		},
+		{
+			which: "AddAddrPlus4",
+			addDataFunc: func(l *Loader, s Sym, s2 Sym) {
+				sb := l.MakeSymbolUpdater(s)
+				sb.AddAddrPlus4(arch, s2, 3)
+			},
+			expData: []byte{0, 0, 0, 0},
+			expKind: sym.SDATA,
+			expRel:  []Reloc{Reloc{Type: objabi.R_ADDR, Size: 4, Add: 3, Sym: 7}},
+		},
+		{
+			which: "AddCURelativeAddrPlus",
+			addDataFunc: func(l *Loader, s Sym, s2 Sym) {
+				sb := l.MakeSymbolUpdater(s)
+				sb.AddCURelativeAddrPlus(arch, s2, 7)
+			},
+			expData: []byte{0, 0, 0, 0, 0, 0, 0, 0},
+			expKind: sym.SDATA,
+			expRel:  []Reloc{Reloc{Type: objabi.R_ADDRCUOFF, Size: 8, Add: 7, Sym: 8}},
+		},
+	}
+
+	var pmi Sym
+	for k, tp := range testpoints {
+		name := fmt.Sprintf("new%d", k+1)
+		mi := ldr.AddExtSym(name, 0)
+		if mi == 0 {
+			t.Fatalf("AddExtSym failed for '" + name + "'")
+		}
+		tp.addDataFunc(ldr, mi, pmi)
+		if ldr.SymType(mi) != tp.expKind {
+			t.Errorf("testing Loader.%s: expected kind %s got %s",
+				tp.which, tp.expKind, ldr.SymType(mi))
+		}
+		if bytes.Compare(ldr.Data(mi), tp.expData) != 0 {
+			t.Errorf("testing Loader.%s: expected data %v got %v",
+				tp.which, tp.expData, ldr.Data(mi))
+		}
+		if !ldr.Reachable.Has(mi) {
+			t.Fatalf("testing Loader.%s: sym updated should be reachable", tp.which)
+		}
+		relocs := ldr.Relocs(mi)
+		rsl := relocs.ReadAll(nil)
+		if !sameRelocSlice(rsl, tp.expRel) {
+			t.Fatalf("testing Loader.%s: got relocslice %+v wanted %+v",
+				tp.which, rsl, tp.expRel)
+		}
+		pmi = mi
 	}
 }
