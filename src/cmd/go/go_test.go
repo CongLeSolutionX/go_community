@@ -2768,40 +2768,6 @@ func TestIssue7108(t *testing.T) {
 	tg.runFail("test", "notest")
 }
 
-func TestBuildDashIInstallsDependencies(t *testing.T) {
-	tooSlow(t)
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.parallel()
-	tg.tempFile("src/x/y/foo/foo.go", `package foo
-		func F() {}`)
-	tg.tempFile("src/x/y/bar/bar.go", `package bar
-		import "x/y/foo"
-		func F() { foo.F() }`)
-	tg.setenv("GOPATH", tg.path("."))
-
-	// don't let build -i overwrite runtime
-	tg.wantNotStale("runtime", "", "must be non-stale before build -i")
-
-	checkbar := func(desc string) {
-		tg.run("build", "-v", "-i", "x/y/bar")
-		tg.grepBoth("x/y/foo", "first build -i "+desc+" did not build x/y/foo")
-		tg.run("build", "-v", "-i", "x/y/bar")
-		tg.grepBothNot("x/y/foo", "second build -i "+desc+" built x/y/foo")
-	}
-	checkbar("pkg")
-
-	tg.creatingTemp("bar" + exeSuffix)
-	tg.sleep()
-	tg.tempFile("src/x/y/foo/foo.go", `package foo
-		func F() { F() }`)
-	tg.tempFile("src/x/y/bar/bar.go", `package main
-		import "x/y/foo"
-		func main() { foo.F() }`)
-	checkbar("cmd")
-}
-
 func TestGoBuildTestOnly(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
