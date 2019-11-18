@@ -34,6 +34,24 @@
       "revId": "c9d9bf0289d5aff1de4fcc2d7fffed1872bb9522",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876f4c66_cbeb4772",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-18T22:11:20Z",
+      "side": 1,
+      "message": "Ok, looking at CL 204627, currently we rewrite all the calls to indirect calls. I\u0027m not sure that\u0027s a good idea. But this CL is fine by itself.",
+      "parentUuid": "0652e857_8b1edddd",
+      "revId": "c9d9bf0289d5aff1de4fcc2d7fffed1872bb9522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
