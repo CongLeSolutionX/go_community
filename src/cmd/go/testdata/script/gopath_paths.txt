@@ -1,0 +1,23 @@
+env GO111MODULE=off
+
+env ORIG_GOPATH=$GOPATH
+
+# Blank paths in GOPATH should be rejected (issue 21928).
+env GOPATH=' '${:}$ORIG_GOPATH
+! go build go-cmd-test
+stderr 'GOPATH entry is relative'
+
+[short] stop
+
+# Empty paths in GOPATH should be ignored (issue 21928).
+env GOPATH=${:}$ORIG_GOPATH
+env GOPATH
+go install go-cmd-test
+exists $ORIG_GOPATH/bin/go-cmd-test$GOEXE
+
+-- go-cmd-test/helloworld.go --
+package main
+
+func main() {
+	println("hello world")
+}
