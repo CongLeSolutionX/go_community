@@ -38,6 +38,7 @@ Scripts also have access to these other environment variables:
 	TMPDIR=$WORK/tmp
 	devnull=<value of os.DevNull>
 	goversion=<current Go version; for example, 1.12>
+	:=<OS-specific path list separator>
 
 The scripts supporting files are unpacked relative to $GOPATH/src (aka $WORK/gopath/src)
 and then the script begins execution in that directory as well. Thus the example above runs
