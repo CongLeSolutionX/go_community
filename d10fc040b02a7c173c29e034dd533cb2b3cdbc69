@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "eddc1d75_683c71ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-18T18:29:34Z",
+      "side": 1,
+      "message": "TestInstallIntoGOPATH",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "d10fc040b02a7c173c29e034dd533cb2b3cdbc69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f265c7b_7f94f47d",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-18T18:29:34Z",
+      "side": 1,
+      "message": "This seems like a change that ought to be mentioned in testdata/script/README.",
+      "revId": "d10fc040b02a7c173c29e034dd533cb2b3cdbc69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b9250ed_c7f133b6",
         "filename": "src/cmd/go/testdata/script/gopath_install.txt",
         "patchSetId": 4
@@ -34,6 +74,40 @@
       "revId": "d10fc040b02a7c173c29e034dd533cb2b3cdbc69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15de1f54_b337a114",
+        "filename": "src/cmd/go/testdata/script/gopath_install.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-18T18:29:34Z",
+      "side": 1,
+      "message": "I don\u0027t follow this.  script_test, unlike go_test, sets GOPATH by default.  It seems that this part of the test ought to clear GOPATH.",
+      "revId": "d10fc040b02a7c173c29e034dd533cb2b3cdbc69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "714c1092_9d26d30e",
+        "filename": "src/cmd/go/testdata/script/gopath_install.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-18T18:29:34Z",
+      "side": 1,
+      "message": "What is this about?  Nothing else uses not-gopath.",
+      "revId": "d10fc040b02a7c173c29e034dd533cb2b3cdbc69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
