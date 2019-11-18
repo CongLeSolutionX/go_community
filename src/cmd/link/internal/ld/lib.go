@@ -469,8 +469,8 @@ func (ctxt *Link) loadlib() {
 
 		// Drop all the cgo_import_static declarations.
 		// Turns out we won't be needing them.
-		for _, s := range ctxt.Syms.Allsym {
-			if s.Type == sym.SHOSTOBJ {
+		for _, s := range ctxt.loader.Syms {
+			if s != nil && s.Type == sym.SHOSTOBJ {
 				// If a symbol was marked both
 				// cgo_import_static and cgo_import_dynamic,
 				// then we want to make it cgo_import_dynamic
@@ -495,7 +495,10 @@ func (ctxt *Link) loadlib() {
 		// If we have any undefined symbols in external
 		// objects, try to read them from the libgcc file.
 		any := false
-		for _, s := range ctxt.Syms.Allsym {
+		for _, s := range ctxt.loader.Syms {
+			if s == nil {
+				continue
+			}
 			for i := range s.R {
 				r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
 				if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name != ".got" {
@@ -1960,12 +1963,10 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			ver = sym.SymVerABIInternal
 		}
 
-		i := ctxt.loader.AddExtSym(elfsym.Name, ver)
-		if i == 0 {
+		lsym := ctxt.loader.LookupOrCreate(elfsym.Name, ver, nil)
+		if lsym == nil {
 			continue
 		}
-		lsym := ctxt.Syms.Newsym(elfsym.Name, ver)
-		ctxt.loader.Syms[i] = lsym
 
 		// Because loadlib above loads all .a files before loading any shared
 		// libraries, any non-dynimport symbols we find that duplicate symbols
@@ -1995,13 +1996,8 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 		// mangle Go function names in the .so to include the
 		// ABI.
 		if elf.ST_TYPE(elfsym.Info) == elf.STT_FUNC && ver == 0 {
-			i := ctxt.loader.AddExtSym(elfsym.Name, sym.SymVerABIInternal)
-			if i == 0 {
-				continue
-			}
-			alias := ctxt.Syms.Newsym(elfsym.Name, sym.SymVerABIInternal)
-			ctxt.loader.Syms[i] = alias
-			if alias.Type != 0 {
+			alias := ctxt.loader.LookupOrCreate(elfsym.Name, sym.SymVerABIInternal, nil)
+			if alias == nil || alias.Type != 0 {
 				continue
 			}
 			alias.Type = sym.SABIALIAS
