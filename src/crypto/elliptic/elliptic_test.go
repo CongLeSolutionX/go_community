@@ -628,3 +628,27 @@ func TestUnmarshalToLargeCoordinates(t *testing.T) {
 		t.Errorf("Unmarshal accepts invalid Y coordinate")
 	}
 }
+
+// See https://golang.org/issues/34105
+func TestUnmarshalCompressed(t *testing.T) {
+	p256 := P256()
+	_, x, y, err := GenerateKey(p256, rand.Reader)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	byteLen := (p256.Params().BitSize + 7) >> 3
+	compressed := make([]byte, 1+byteLen)
+	compressed[0] = 3
+	if y.Bit(0) == 0 {
+		compressed[0] = 2
+	}
+	i := byteLen + 1 - len(x.Bytes())
+	copy(compressed[i:], x.Bytes())
+	newX, newY := Unmarshal(p256, compressed)
+	if !p256.IsOnCurve(newX, newY) {
+		t.Error("P256 failed to validate a correct point")
+	} else if x.Cmp(newX) != 0 || y.Cmp(newY) != 0 {
+		t.Error("P256 failed to correctly unmarshal compressed point")
+	}
+}
