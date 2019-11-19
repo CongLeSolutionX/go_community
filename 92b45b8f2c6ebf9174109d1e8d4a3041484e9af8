@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6512d4f5_73e94621",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-19T15:25:45Z",
+      "side": 1,
+      "message": "This can just be folded into cleanGlobPath.  No need for an extra function.",
+      "revId": "92b45b8f2c6ebf9174109d1e8d4a3041484e9af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97532821_7c6b5c9e",
+        "filename": "src/path/filepath/match_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-19T15:25:45Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this result is correct.  filepath/ doesn\u0027t match filepath according to the rules for the Match function.",
+      "revId": "92b45b8f2c6ebf9174109d1e8d4a3041484e9af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
