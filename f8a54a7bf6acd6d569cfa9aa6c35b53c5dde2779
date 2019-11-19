@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f8fee06_bf18a37a",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 32848
+      },
+      "writtenOn": "2019-11-19T10:35:21Z",
+      "side": 1,
+      "message": "Yes, hardware nop instruction. Thanks.",
+      "parentUuid": "3091be22_5278c30b",
+      "range": {
+        "startLine": 57,
+        "startChar": 55,
+        "endLine": 57,
+        "endChar": 75
+      },
+      "revId": "f8a54a7bf6acd6d569cfa9aa6c35b53c5dde2779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "53972f00_572fb0e4",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-11-18T15:27:42Z",
       "side": 1,
       "message": "I don\u0027t think this example is necessary.",
+      "revId": "f8a54a7bf6acd6d569cfa9aa6c35b53c5dde2779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61ff6a14_187c868e",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 32848
+      },
+      "writtenOn": "2019-11-19T10:35:21Z",
+      "side": 1,
+      "message": "I\u0027ll remove it.",
+      "parentUuid": "53972f00_572fb0e4",
       "revId": "f8a54a7bf6acd6d569cfa9aa6c35b53c5dde2779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
