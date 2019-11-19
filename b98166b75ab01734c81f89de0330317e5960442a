@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cad31fbd_217a9824",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 32848
+      },
+      "writtenOn": "2019-11-19T07:52:56Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll add more information on commit message.\n\n  Recently, we get requirements of instructions and functions alignment from the gVisor project. To fit the architecture requirement of interrupt table, they must require an instruction’s address with 128 bytes alignment and a function’s start address with 2K bytes. Thus we add support for PCALIGN directive first.\n\n  Form Go 1.12, Go assemble has supported PCALIGN directive, which indicates that the next instruction should align to a specified value by adding a certain amount of NOOP instructions.\n  Functions in Go are aligned to 16 bytes, thus now we only support 8 and 16 bytes alignment. In Go assemble, the address of one code is the offset from the function entry, and in linker time, the function entry address would be assigned by a new address. To make sure the next instruction could be aligned to the specified value, the simplest way is to make sure the function entry address\nis also aligned to this specified value.\n\n  Below is a discussion about this topic. \n  https://groups.google.com/forum/m/#!topic/golang-dev/RPj90l5x86I",
+      "parentUuid": "534cf6c5_a791418d",
+      "revId": "b98166b75ab01734c81f89de0330317e5960442a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "914c8ea9_5d9160b0",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
