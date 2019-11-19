@@ -16,6 +16,24 @@
       "revId": "4b72121d6ba16111b55c4a6952cb0f549ee90667",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d04dc25_d3c66211",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-19T02:07:54Z",
+      "side": 1,
+      "message": "Ian, I\u0027m not sure I understand your argument. An io.Reader is allowed to return a non-nil, non-EOF error.\n\nBut, from the io.Reader spec:\n\n\u003e Callers should always process the n \u003e 0 bytes returned before considering the error err.\n\nI think this CL violates this rule.",
+      "parentUuid": "3aecd813_627822cf",
+      "revId": "4b72121d6ba16111b55c4a6952cb0f549ee90667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
