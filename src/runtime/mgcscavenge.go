@@ -150,7 +150,6 @@ func gcPaceScavenger() {
 		return
 	}
 	mheap_.scavengeGoal = retainedGoal
-	mheap_.pages.resetScavengeAddr()
 }
 
 // Sleep/wait state of the background scavenger.
@@ -159,15 +158,30 @@ var scavenge struct {
 	g      *g
 	parked bool
 	timer  *timer
+	wake   uint32
+}
+
+// readyForScavenger signals sysmon to wake the scavenger because
+// there may be new work to do.
+//
+// This function may be run in virtually any context in the
+// runtime.
+func readyForScavenger() {
+	atomic.Store(&scavenge.wake, 1)
 }
 
 // wakeScavenger unparks the scavenger if necessary. It must be called
 // after any pacing update.
 //
-// mheap_.lock and scavenge.lock must not be held.
+// May run without a P.
+//
+// mheap_.lock, scavenge.lock, and sched.lock must not be held.
 func wakeScavenger() {
 	lock(&scavenge.lock)
 	if scavenge.parked {
+		// Notify sysmon that it shouldn't bother waking up the scavenger.
+		atomic.Store(&scavenge.wake, 0)
+
 		// Try to stop the timer but we don't really care if we succeed.
 		// It's possible that either a timer was never started, or that
 		// we're racing with it.
@@ -183,9 +197,16 @@ func wakeScavenger() {
 		// scavenger at a "lower priority" but that's OK because it'll
 		// catch up on the work it missed when it does get scheduled.
 		scavenge.parked = false
-		systemstack(func() {
-			ready(scavenge.g, 0, false)
-		})
+
+		// Ready the goroutine by injecting it. We use injectglist instead
+		// of ready or goready in order to allow us to run this function
+		// without a P. injectglist also avoids placing the goroutine in
+		// the current P's runnext slot, which is desireable to prevent
+		// the scavenger from interfering with user goroutine scheduling
+		// too much.
+		var list gList
+		list.push(scavenge.g)
+		injectglist(&list)
 	}
 	unlock(&scavenge.lock)
 }
@@ -400,8 +421,7 @@ func printScavTrace(released uintptr, forced bool) {
 }
 
 // resetScavengeAddr sets the scavenge start address to the top of the heap's
-// address space. This should be called each time the scavenger's pacing
-// changes.
+// address space. This should be called whenever the sweeper is done.
 //
 // s.mheapLock must be held.
 func (s *pageAlloc) resetScavengeAddr() {
