@@ -34,6 +34,24 @@
       "revId": "4b72121d6ba16111b55c4a6952cb0f549ee90667",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "138192fe_895c4b51",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-19T02:40:48Z",
+      "side": 1,
+      "message": "Sorry, my argument is misplaced.  I\u0027m really responding to the goal of this CL, which is to handle Read methods that returns values that are too large.  If a Read method always returns a value between 0 and the length of the slice passed to Read, then this change is not required.\n\nYour point is also correct, of course.",
+      "parentUuid": "1d04dc25_d3c66211",
+      "revId": "4b72121d6ba16111b55c4a6952cb0f549ee90667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
