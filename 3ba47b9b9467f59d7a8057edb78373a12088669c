@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ac5a893c_3378295d",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-20T08:06:55Z",
+      "side": 1,
+      "message": "This is a slightly different issue - FNED is being expanded to two instructions FEQD+XORI. The testing framework is only evaluating the first instruction, so FNED and FEQD both result in the same 32-bit encoding, however FNED has a second instruction (the same goes for FNES and FEQS). The fix would probably be to extend the testing framework to handle multiple instructions (which would also cover the AUIPC+JALR cases for RISC-V).\n\nI\u0027ve added comments to the test data.",
+      "parentUuid": "94b46728_9ff95162",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 31
+      },
+      "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f30fe84d_13503372",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d209376_24b3906f",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-20T08:06:55Z",
+      "side": 1,
+      "message": "Completely agreed - fixed.",
+      "parentUuid": "f30fe84d_13503372",
+      "range": {
+        "startLine": 659,
+        "startChar": 3,
+        "endLine": 659,
+        "endChar": 7
+      },
+      "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
