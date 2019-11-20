@@ -88,6 +88,7 @@ var (
 	FlagDebugTramp  = flag.Int("debugtramp", 0, "debug trampolines")
 	FlagStrictDups  = flag.Int("strictdups", 0, "sanity check duplicate symbol contents during object file reading (1=warn 2=err).")
 	FlagNewLdElf    = flag.Bool("newldelf", true, "ELF host obj load with new loader")
+	FlagNewDw       = flag.Bool("newdw", false, "DWARF gen with new loader")
 
 	FlagRound       = flag.Int("R", -1, "set address rounding `quantum`")
 	FlagTextAddr    = flag.Int64("T", -1, "set text segment `address`")
@@ -214,6 +215,9 @@ func Main(arch *sys.Arch, theArch Arch) {
 	if *FlagNewLdElf {
 		ctxt.linksetup()
 	}
+	if *FlagNewDw {
+		dwarfGenerateDebugInfo(ctxt)
+	}
 
 	ctxt.loadlibfull() // XXX do it here for now
 
@@ -221,7 +225,9 @@ func Main(arch *sys.Arch, theArch Arch) {
 		ctxt.linksetup()
 	}
 	ctxt.dostrdata()
-	dwarfGenerateDebugInfo(ctxt)
+	if !*FlagNewDw {
+		dwarfGenerateDebugInfo(ctxt)
+	}
 
 	if objabi.Fieldtrack_enabled != 0 {
 		fieldtrack(ctxt)

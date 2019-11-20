@@ -2859,6 +2859,13 @@ func (ctxt *Link) loadlibfull() {
 		ctxt.Tlsg = ctxt.loader.Syms[ctxt.Tlsg2]
 	}
 
+	// If -newdw is in effect, then we generated dwarf DIE objects
+	// with embedded loader.Sym refs as opposed to sym.Symbol refs.
+	// Call a helper to rewrite the former to the latter in all DIEs
+	if *FlagNewDw {
+		dwarfConvertSymbols(ctxt)
+	}
+
 	// Pull the symbols out.
 	ctxt.loader.ExtractSymbols(ctxt.Syms)
 
@@ -2886,7 +2893,7 @@ func (ctxt *Link) loadlibfull() {
 	addToTextp(ctxt)
 
 	// Drop the loader.
-	ctxt.loader = nil
+	//ctxt.loader = nil
 }
 
 func (ctxt *Link) dumpsyms() {
