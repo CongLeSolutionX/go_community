@@ -2005,11 +2005,16 @@ func assemble(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		ctxt.Arch.ByteOrder.PutUint32(p, symcode[i])
 	}
 
-	obj.MarkUnsafePoints(ctxt, cursym.Func.Text, newprog, isUnsafePoint)
+	obj.MarkUnsafePoints(ctxt, cursym.Func.Text, newprog, isUnsafePoint, isRestartable)
 }
 
 func isUnsafePoint(p *obj.Prog) bool {
 	return p.From.Reg == REG_TMP || p.To.Reg == REG_TMP || p.Reg == REG_TMP
+}
+
+func isRestartable(*obj.Prog) bool {
+	// TODO
+	return false
 }
 
 var LinkRISCV64 = obj.LinkArch{
