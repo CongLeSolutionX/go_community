@@ -287,8 +287,8 @@ var optab = []Optab{
 	{AADD, C_BITCON, C_RSP, C_NONE, C_RSP, 62, 8, 0, 0, 0},
 	{AADD, C_BITCON, C_NONE, C_NONE, C_RSP, 62, 8, 0, 0, 0},
 	{ACMP, C_BITCON, C_RSP, C_NONE, C_NONE, 62, 8, 0, 0, 0},
-	{AADD, C_ADDCON2, C_RSP, C_NONE, C_RSP, 48, 8, 0, 0, 0},
-	{AADD, C_ADDCON2, C_NONE, C_NONE, C_RSP, 48, 8, 0, 0, 0},
+	{AADD, C_ADDCON2, C_RSP, C_NONE, C_RSP, 48, 8, 0, NOTUSETMP, 0},
+	{AADD, C_ADDCON2, C_NONE, C_NONE, C_RSP, 48, 8, 0, NOTUSETMP, 0},
 	{AADD, C_MOVCON2, C_RSP, C_NONE, C_RSP, 13, 12, 0, 0, 0},
 	{AADD, C_MOVCON2, C_NONE, C_NONE, C_RSP, 13, 12, 0, 0, 0},
 	{AADD, C_MOVCON3, C_RSP, C_NONE, C_RSP, 13, 16, 0, 0, 0},
@@ -1072,16 +1072,24 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	// We use REGTMP as a scratch register during call injection,
 	// so instruction sequences that use REGTMP are unsafe to
 	// preempt asynchronously.
-	obj.MarkUnsafePoints(c.ctxt, c.cursym.Func.Text, c.newprog, c.isUnsafePoint)
+	obj.MarkUnsafePoints(c.ctxt, c.cursym.Func.Text, c.newprog, c.isUnsafePoint, c.isRestartable)
 }
 
 // Return whether p is an unsafe point.
 func (c *ctxt7) isUnsafePoint(p *obj.Prog) bool {
+	// Explicitly use REGTMP. Unsafe to preempt.
+	return p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP
+}
+
+// Return whether p is a multi-instruction sequence that, if preempted,
+// can be restart.
+func (c *ctxt7) isRestartable(p *obj.Prog) bool {
 	if p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP {
-		return true
+		// Explicitly use REGTMP. Not restartable. This is rare.
+		return false
 	}
-	// Most of the multi-instruction sequence uses REGTMP, except
-	// ones marked safe.
+	// Multi-instruction sequence that uses REGTMP.
+	// Currently all those cases are preemptible.
 	o := c.oplook(p)
 	return o.size > 4 && o.flag&NOTUSETMP == 0
 }
@@ -3831,6 +3839,8 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= fields | uint32(rs&31)<<16 | uint32(rb&31)<<5 | uint32(rt&31)
 
 	case 48: /* ADD $C_ADDCON2, Rm, Rd */
+		// NOTE: this case does not use REGTMP. If it ever does,
+		// remove the NOTUSETMP flag in optab.
 		op := c.opirr(p, p.As)
 		if op&Sbit != 0 {
 			c.ctxt.Diag("can not break addition/subtraction when S bit is set", p)

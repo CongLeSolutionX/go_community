@@ -500,7 +500,7 @@ func spanz(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	// We use REGTMP as a scratch register during call injection,
 	// so instruction sequences that use REGTMP are unsafe to
 	// preempt asynchronously.
-	obj.MarkUnsafePoints(c.ctxt, c.cursym.Func.Text, c.newprog, c.isUnsafePoint)
+	obj.MarkUnsafePoints(c.ctxt, c.cursym.Func.Text, c.newprog, c.isUnsafePoint, isRestartable)
 }
 
 // Return whether p is an unsafe point.
@@ -514,6 +514,11 @@ func (c *ctxtz) isUnsafePoint(p *obj.Prog) bool {
 		}
 	}
 	return p.Mark&USETMP != 0
+}
+
+func isRestartable(*obj.Prog) bool {
+	// TODO
+	return false
 }
 
 func isint32(v int64) bool {
