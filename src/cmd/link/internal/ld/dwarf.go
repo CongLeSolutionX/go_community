@@ -599,7 +599,6 @@ func defptrto(ctxt *Link, dwtype *sym.Symbol) *sym.Symbol {
 	if die := find(ctxt, ptrname); die != nil {
 		return die
 	}
-
 	pdie := newdie(ctxt, &dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, 0)
 	newrefattr(pdie, dwarf.DW_AT_type, dwtype)
 
@@ -1615,6 +1614,10 @@ func dwarfEnabled(ctxt *Link) bool {
 // text symbols.
 func dwarfGenerateDebugInfo(ctxt *Link) {
 	if !dwarfEnabled(ctxt) {
+		return
+	}
+	if *FlagNewDw {
+		dwarfGenerateDebugInfo2(ctxt)
 		return
 	}
 
