@@ -16,6 +16,40 @@
       "revId": "ad1cb8f625697dc60c7ba291966f9111955a4b0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd0353b_8c7fb822",
+        "filename": "src/internal/base64/base64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-20T18:06:44Z",
+      "side": 1,
+      "message": "base64util? base64test?\n\nOr remove base64 from the name entirely, as that\u0027s an implementation detail? mangletestdata? obscuretestdata?",
+      "revId": "ad1cb8f625697dc60c7ba291966f9111955a4b0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e2a0a5c_57ddc132",
+        "filename": "src/internal/base64/base64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-20T18:06:44Z",
+      "side": 1,
+      "message": "you\u0027re ignore this write error.",
+      "revId": "ad1cb8f625697dc60c7ba291966f9111955a4b0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
