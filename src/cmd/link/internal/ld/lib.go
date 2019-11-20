@@ -2626,7 +2626,7 @@ func (ctxt *Link) loadlibfull() {
 	}
 
 	// Drop the reference.
-	ctxt.loader = nil
+	//ctxt.loader = nil
 	ctxt.cgodata = nil
 
 	addToTextp(ctxt)
