@@ -404,6 +404,10 @@ func defgotype(ctxt *Link, gotype *sym.Symbol) *sym.Symbol {
 		return mustFind(ctxt, "<unspecified>")
 	}
 
+	if *FlagNewDw {
+		panic("should not be called on this path")
+	}
+
 	if !strings.HasPrefix(gotype.Name, "type.") {
 		Errorf(gotype, "dwarf: type name doesn't start with \"type.\"")
 		return mustFind(ctxt, "<unspecified>")
@@ -424,6 +428,10 @@ func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
 	name := gotype.Name[5:] // could also decode from Type.string
 	kind := decodetypeKind(ctxt.Arch, gotype.P)
 	bytesize := decodetypeSize(ctxt.Arch, gotype.P)
+
+	if *FlagNewDw {
+		panic("should not be called on this path")
+	}
 
 	var die, typedefdie *dwarf.DWDie
 	switch kind {
@@ -599,7 +607,6 @@ func defptrto(ctxt *Link, dwtype *sym.Symbol) *sym.Symbol {
 	if die := find(ctxt, ptrname); die != nil {
 		return die
 	}
-
 	pdie := newdie(ctxt, &dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, 0)
 	newrefattr(pdie, dwarf.DW_AT_type, dwtype)
 
@@ -1615,6 +1622,10 @@ func dwarfEnabled(ctxt *Link) bool {
 // text symbols.
 func dwarfGenerateDebugInfo(ctxt *Link) {
 	if !dwarfEnabled(ctxt) {
+		return
+	}
+	if *FlagNewDw {
+		dwarfGenerateDebugInfo2(ctxt)
 		return
 	}
 
