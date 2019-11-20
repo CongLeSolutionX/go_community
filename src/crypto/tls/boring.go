@@ -11,6 +11,9 @@ import (
 	"crypto/x509"
 )
 
+// boringEnabled is an alias of boring.Enabled to avoid a new import in common.go.
+const boringEnabled = boring.Enabled
+
 // needFIPS returns fipstls.Required(); it avoids a new import in common.go.
 func needFIPS() bool {
 	return fipstls.Required()
