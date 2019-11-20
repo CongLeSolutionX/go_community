@@ -599,7 +599,6 @@ func defptrto(ctxt *Link, dwtype *sym.Symbol) *sym.Symbol {
 	if die := find(ctxt, ptrname); die != nil {
 		return die
 	}
-
 	pdie := newdie(ctxt, &dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, 0)
 	newrefattr(pdie, dwarf.DW_AT_type, dwtype)
 
