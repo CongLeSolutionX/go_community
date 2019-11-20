@@ -965,10 +965,6 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 	// allocate a single large slab of relocations for all live symbols
 	l.relocBatch = make([]sym.Reloc, nr)
 
-	if os.Getenv("THANM_DEBUG") != "" {
-		l.Dump()
-	}
-
 	// external symbols
 	es := l.extStartSym()
 	ee := l.extEndSym()
@@ -1457,6 +1453,7 @@ func loadObjFull(l *Loader, r *oReader) {
 					s := l.Syms[dupsym]
 					if s.Type == sym.STEXT {
 						lib.DupTextSyms = append(lib.DupTextSyms, s)
+						lib.DupTextSyms2 = append(lib.DupTextSyms2, sym.LoaderSym(dupsym))
 					}
 				}
 				continue
