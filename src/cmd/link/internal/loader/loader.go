@@ -1283,6 +1283,56 @@ func (l *Loader) AuxSym(i Sym, j int) Sym {
 	return l.resolve(r, a.Sym)
 }
 
+// GetFuncDwarfAuxSyms collects and returns the auxiliary DWARF
+// symbols associated with a given function symbol.  Prior to the
+// introduction of the loader, this was done purely using name
+// lookups, e.f. for function with name XYZ we would then look up
+// go.info.XYZ, etc.
+// FIXME: once all of dwarfgen is converted over to the loader,
+// it would save some space to make these aux symbols nameless.
+func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, auxDwarfRanges, auxDwarfLines Sym) {
+	if l.SymType(fnSymIdx) != sym.STEXT {
+		log.Fatalf("error: non-function sym %d/%s t=%s passed to GetFuncDwarfAuxSyms", fnSymIdx, l.SymName(fnSymIdx), l.SymType(fnSymIdx).String())
+	}
+	if l.IsExternal(fnSymIdx) {
+		// Current expectation is that any external function will
+		// not have auxsyms.
+		return
+	}
+	naux := l.NAux(fnSymIdx)
+	if naux == 0 {
+		return
+	}
+	r, li := l.toLocal(fnSymIdx)
+	for i := 0; i < naux; i++ {
+		a := goobj2.Aux{}
+		a.Read(r.Reader, r.AuxOff(li, i))
+		switch a.Type {
+		case goobj2.AuxDwarfInfo:
+			auxDwarfInfo = l.resolve(r, a.Sym)
+			if l.SymType(auxDwarfInfo) != sym.SDWARFINFO {
+				panic("aux dwarf info sym with wrong type")
+			}
+		case goobj2.AuxDwarfLoc:
+			auxDwarfLoc = l.resolve(r, a.Sym)
+			if l.SymType(auxDwarfLoc) != sym.SDWARFLOC {
+				panic("aux dwarf loc sym with wrong type")
+			}
+		case goobj2.AuxDwarfRanges:
+			auxDwarfRanges = l.resolve(r, a.Sym)
+			if l.SymType(auxDwarfRanges) != sym.SDWARFRANGE {
+				panic("aux dwarf ranges sym with wrong type")
+			}
+		case goobj2.AuxDwarfLines:
+			auxDwarfLines = l.resolve(r, a.Sym)
+			if l.SymType(auxDwarfLines) != sym.SDWARFLINES {
+				panic("aux dwarf lines sym with wrong type")
+			}
+		}
+	}
+	return
+}
+
 // ReadAuxSyms reads the aux symbol ids for the specified symbol into the
 // slice passed as a parameter. If the slice capacity is not large enough, a new
 // larger slice will be allocated. Final slice is returned.
