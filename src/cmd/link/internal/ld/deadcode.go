@@ -76,23 +76,21 @@ func addToTextp(ctxt *Link) {
 				continue
 			}
 			libtextp := lib.Textp[:0]
-			for idx, s := range lib.Textp {
+			for _, s := range lib.Textp {
 				if s.Attr.Reachable() {
 					textp = append(textp, s)
 					libtextp = append(libtextp, s)
 					if s.Unit != nil {
 						s.Unit.Textp = append(s.Unit.Textp, s)
-						s.Unit.Textp2 = append(s.Unit.Textp2, lib.Textp2[idx])
 					}
 				}
 			}
-			for idx, s := range lib.DupTextSyms {
+			for _, s := range lib.DupTextSyms {
 				if s.Attr.Reachable() && !s.Attr.OnList() {
 					textp = append(textp, s)
 					libtextp = append(libtextp, s)
 					if s.Unit != nil {
 						s.Unit.Textp = append(s.Unit.Textp, s)
-						s.Unit.Textp2 = append(s.Unit.Textp2, lib.DupTextSyms2[idx])
 					}
 					s.Attr |= sym.AttrOnList
 					// dupok symbols may be defined in multiple packages. its
