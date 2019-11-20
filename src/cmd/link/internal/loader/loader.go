@@ -804,7 +804,7 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 		}
 		nv := l.extSyms[i-l.extStart]
 		if l.Reachable.Has(i) || strings.HasPrefix(nv.name, "gofile..") { // XXX file symbols are used but not marked
-			s := l.allocSym(nv.name, nv.v)
+			s := l.allocSym(nv.name, nv.v, i)
 			preprocess(arch, s)
 			s.Attr.Set(sym.AttrReachable, l.Reachable.Has(i))
 			l.Syms[i] = s
@@ -854,7 +854,7 @@ func (l *Loader) ExtractSymbols(syms *sym.Symbols) {
 }
 
 // allocSym allocates a new symbol backing.
-func (l *Loader) allocSym(name string, version int) *sym.Symbol {
+func (l *Loader) allocSym(name string, version int, index Sym) *sym.Symbol {
 	batch := l.symBatch
 	if len(batch) == 0 {
 		batch = make([]sym.Symbol, 1000)
@@ -865,13 +865,14 @@ func (l *Loader) allocSym(name string, version int) *sym.Symbol {
 	s.Dynid = -1
 	s.Name = name
 	s.Version = int16(version)
+	s.Index = int(index)
 
 	return s
 }
 
 // addNewSym adds a new sym.Symbol to the i-th index in the list of symbols.
 func (l *Loader) addNewSym(i Sym, name string, ver int, unit *sym.CompilationUnit, t sym.SymKind) *sym.Symbol {
-	s := l.allocSym(name, ver)
+	s := l.allocSym(name, ver, i)
 	if s.Type != 0 && s.Type != sym.SXREF {
 		fmt.Println("symbol already processed:", unit.Lib, i, s)
 		panic("symbol already processed")
@@ -980,21 +981,30 @@ func (l *Loader) loadSymbol(name string, version int) *sym.Symbol {
 // This should only be called when interacting with parts of the linker
 // that still works on sym.Symbols (i.e. internal cgo linking, for now).
 func (l *Loader) LookupOrCreate(name string, version int) *sym.Symbol {
+	i := l.LookupOrCreateSym(name, version)
+	if i == 0 {
+		panic("Should have found this symbol.")
+	}
+	return l.Syms[i]
+}
+
+func (l *Loader) LookupOrCreateSym(name string, version int) Sym {
 	i := l.Lookup(name, version)
 	if i != 0 {
 		// symbol exists
 		if int(i) < len(l.Syms) && l.Syms[i] != nil {
-			return l.Syms[i]
+			return i
 		}
 		if l.IsExternal(i) {
 			panic("Can't load an external symbol.")
 		}
-		return l.loadSymbol(name, version)
+		l.loadSymbol(name, version)
+		return i
 	}
 	i = l.AddExtSym(name, version)
-	s := l.allocSym(name, version)
+	s := l.allocSym(name, version, i)
 	l.Syms[i] = s
-	return s
+	return i
 }
 
 func loadObjFull(l *Loader, r *oReader) {

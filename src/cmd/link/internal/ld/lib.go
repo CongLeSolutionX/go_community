@@ -1695,7 +1695,9 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 				Errorf(nil, "%v", err)
 				return
 			}
-			ctxt.Textp = append(ctxt.Textp, textp...)
+			for _, i := range textp {
+				ctxt.Textp = append(ctxt.Textp, ctxt.loader.Syms[i])
+			}
 		}
 		return ldhostobj(ldmacho, ctxt.HeadType, f, pkg, length, pn, file)
 	}

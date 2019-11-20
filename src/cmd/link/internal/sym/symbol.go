@@ -36,6 +36,8 @@ type Symbol struct {
 	// P contains the raw symbol data.
 	P []byte
 	R []Reloc
+
+	Index int
 }
 
 // AuxSymbol contains less-frequently used sym.Symbol fields.
