@@ -1464,6 +1464,7 @@ func loadObjFull(l *Loader, r *oReader) {
 					s := l.Syms[dupsym]
 					if s.Type == sym.STEXT {
 						lib.DupTextSyms = append(lib.DupTextSyms, s)
+						lib.DupTextSyms2 = append(lib.DupTextSyms2, sym.LoaderSym(dupsym))
 					}
 				}
 				continue
