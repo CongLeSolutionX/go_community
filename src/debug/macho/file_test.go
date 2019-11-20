@@ -5,6 +5,11 @@
 package macho
 
 import (
+	"bytes"
+	"encoding/base64"
+	"io"
+	"io/ioutil"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -19,7 +24,7 @@ type fileTest struct {
 
 var fileTests = []fileTest{
 	{
-		"testdata/gcc-386-darwin-exec",
+		"testdata/gcc-386-darwin-exec.base64",
 		FileHeader{0xfeedface, Cpu386, 0x3, 0x2, 0xc, 0x3c0, 0x85},
 		[]interface{}{
 			&SegmentHeader{LoadCmdSegment, 0x38, "__PAGEZERO", 0x0, 0x1000, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0},
@@ -45,7 +50,7 @@ var fileTests = []fileTest{
 		nil,
 	},
 	{
-		"testdata/gcc-amd64-darwin-exec",
+		"testdata/gcc-amd64-darwin-exec.base64",
 		FileHeader{0xfeedfacf, CpuAmd64, 0x80000003, 0x2, 0xb, 0x568, 0x85},
 		[]interface{}{
 			&SegmentHeader{LoadCmdSegment64, 0x48, "__PAGEZERO", 0x0, 0x100000000, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0},
@@ -73,7 +78,7 @@ var fileTests = []fileTest{
 		nil,
 	},
 	{
-		"testdata/gcc-amd64-darwin-exec-debug",
+		"testdata/gcc-amd64-darwin-exec-debug.base64",
 		FileHeader{0xfeedfacf, CpuAmd64, 0x80000003, 0xa, 0x4, 0x5a0, 0},
 		[]interface{}{
 			nil, // LC_UUID
@@ -101,7 +106,7 @@ var fileTests = []fileTest{
 		nil,
 	},
 	{
-		"testdata/clang-386-darwin-exec-with-rpath",
+		"testdata/clang-386-darwin-exec-with-rpath.base64",
 		FileHeader{0xfeedface, Cpu386, 0x3, 0x2, 0x10, 0x42c, 0x1200085},
 		[]interface{}{
 			nil, // LC_SEGMENT
@@ -125,7 +130,7 @@ var fileTests = []fileTest{
 		nil,
 	},
 	{
-		"testdata/clang-amd64-darwin-exec-with-rpath",
+		"testdata/clang-amd64-darwin-exec-with-rpath.base64",
 		FileHeader{0xfeedfacf, CpuAmd64, 0x80000003, 0x2, 0x10, 0x4c8, 0x200085},
 		[]interface{}{
 			nil, // LC_SEGMENT
@@ -149,7 +154,7 @@ var fileTests = []fileTest{
 		nil,
 	},
 	{
-		"testdata/clang-386-darwin.obj",
+		"testdata/clang-386-darwin.obj.base64",
 		FileHeader{0xfeedface, Cpu386, 0x3, 0x1, 0x4, 0x138, 0x2000},
 		nil,
 		nil,
@@ -184,7 +189,7 @@ var fileTests = []fileTest{
 		},
 	},
 	{
-		"testdata/clang-amd64-darwin.obj",
+		"testdata/clang-amd64-darwin.obj.base64",
 		FileHeader{0xfeedfacf, CpuAmd64, 0x3, 0x1, 0x4, 0x200, 0x2000},
 		nil,
 		nil,
@@ -221,11 +226,52 @@ var fileTests = []fileTest{
 	},
 }
 
+func readerAtFromBase64(name string) (io.ReaderAt, error) {
+	f, err := os.Open(name)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	b, err := ioutil.ReadAll(base64.NewDecoder(base64.StdEncoding, f))
+	if err != nil {
+		return nil, err
+	}
+	return bytes.NewReader(b), nil
+}
+
+func openBase64(name string) (*File, error) {
+	ra, err := readerAtFromBase64(name)
+	if err != nil {
+		return nil, err
+	}
+	ff, err := NewFile(ra)
+	if err != nil {
+		return nil, err
+	}
+	return ff, nil
+}
+
+func openFatBase64(name string) (*FatFile, error) {
+	ra, err := readerAtFromBase64(name)
+	if err != nil {
+		return nil, err
+	}
+	ff, err := NewFatFile(ra)
+	if err != nil {
+		return nil, err
+	}
+	return ff, nil
+}
+
 func TestOpen(t *testing.T) {
 	for i := range fileTests {
 		tt := &fileTests[i]
 
-		f, err := Open(tt.file)
+		// Use base64-encoded files to prevent Apple’s notarization service from
+		// mistaking them as candidates for notarization and rejecting the entire
+		// toolchain.
+		// See golang.org/issue/34986
+		f, err := openBase64(tt.file)
 		if err != nil {
 			t.Error(err)
 			continue
@@ -318,7 +364,7 @@ func TestOpenFailure(t *testing.T) {
 }
 
 func TestOpenFat(t *testing.T) {
-	ff, err := OpenFat("testdata/fat-gcc-386-amd64-darwin-exec")
+	ff, err := openFatBase64("testdata/fat-gcc-386-amd64-darwin-exec.base64")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -350,8 +396,8 @@ func TestOpenFatFailure(t *testing.T) {
 		t.Errorf("OpenFat %s: succeeded unexpectedly", filename)
 	}
 
-	filename = "testdata/gcc-386-darwin-exec" // not a fat Mach-O
-	ff, err := OpenFat(filename)
+	filename = "testdata/gcc-386-darwin-exec.base64" // not a fat Mach-O
+	ff, err := openFatBase64(filename)
 	if err != ErrNotFat {
 		t.Errorf("OpenFat %s: got %v, want ErrNotFat", filename, err)
 	}
