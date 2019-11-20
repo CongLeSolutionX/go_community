@@ -1998,7 +1998,8 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			// the first instruction.)
 			return p.From.Index == REG_TLS
 		}
-		obj.MarkUnsafePoints(ctxt, s.Func.Text, newprog, useTLS)
+		isRestartable := func(*obj.Prog) bool { return false } // TODO
+		obj.MarkUnsafePoints(ctxt, s.Func.Text, newprog, useTLS, isRestartable)
 	}
 }
 
