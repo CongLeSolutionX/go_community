@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fc7ba61_2240a2c1",
+        "filename": "src/crypto/tls/boring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-11-20T22:22:36Z",
+      "side": 1,
+      "message": "ah you need to import boring here, right?",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "4a996945b93f787d3fab9db06ad35456d4530313",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
