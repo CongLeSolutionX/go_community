@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "576749a7_3730d996",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvfarbranch.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-20T02:51:28Z",
+      "side": 1,
+      "message": "Makes sense, done.",
+      "parentUuid": "f5db85c7_4d296a6c",
+      "revId": "5830c390cc5661b42367d22742a123cddee3a306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a964fc47_acf0f99d",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2019-11-12T22:26:58Z",
       "side": 1,
       "message": "RISC-V has a direct jump instruction. Can we use that? It can only encode target within 1 MB, which is rather small compared to other architectures. But it is probably still enough in many cases. In case it is not, we can teach the linker to generate trampolines.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "5830c390cc5661b42367d22742a123cddee3a306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08a032a5_76beb7fb",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-11-20T02:51:28Z",
+      "side": 1,
+      "message": "This code is only used if we\u0027re doing a CALL or a JMP to a symbol. In all other cases we should be attempting to use a JAL instruction, and then falling back to AUIPC+JALR if the destination is exceeds the maximum offset. We could potentially reduce instructions by using JAL and trampolines when necessary - I\u0027ve added a TODO around this.\n\nI also realised that we should drop the ADDI instruction here and supply the offset as the immediate part of the JALR instruction, which I\u0027ve fixed.",
+      "parentUuid": "a964fc47_acf0f99d",
       "range": {
         "startLine": 46,
         "startChar": 0,
