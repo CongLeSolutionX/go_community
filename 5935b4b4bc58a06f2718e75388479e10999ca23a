@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52422502_be888719",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-20T15:41:16Z",
+      "side": 1,
+      "message": "This is also going to create a _obj directory in the current working directory.  This function should probably remove that.  Or use a -objdir argument to put the generated files somewhere else, and then remove that directory.",
+      "revId": "5935b4b4bc58a06f2718e75388479e10999ca23a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cc5428d_6dc95dbd",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-20T15:41:16Z",
+      "side": 1,
+      "message": "Why can\u0027t we just `go install p`?",
+      "revId": "5935b4b4bc58a06f2718e75388479e10999ca23a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
