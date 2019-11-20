@@ -191,6 +191,23 @@ func (ctxt *Link) Globl(s *LSym, size int64, flag int) {
 	}
 }
 
+// Special PCDATA values.
+const (
+	PcdataEntry  = -1 // PCDATA is the same as function entry
+	PcdataUnsafe = -2 // Unsafe for asynchronous preemption
+
+	// PcdataRestart1(2) apply on a sequence of instructions, within
+	// which if an async preemption happens, we should back off the PC
+	// to the start of the sequence when resume.
+	// We need two so we can distinguish the start/end of the sequence
+	// in case that two sequences are next to each other.
+	PcdataRestart1 = -3
+	PcdataRestart2 = -4
+
+	// Like PcdataRestart1, but back to function entry if async preempted.
+	PcdataRestartAtEntry = -100
+)
+
 // EmitEntryLiveness generates PCDATA Progs after p to switch to the
 // liveness map active at the entry of function s. It returns the last
 // Prog generated.
@@ -208,7 +225,7 @@ func (ctxt *Link) EmitEntryStackMap(s *LSym, p *Prog, newprog ProgAlloc) *Prog {
 	pcdata.From.Type = TYPE_CONST
 	pcdata.From.Offset = objabi.PCDATA_StackMapIndex
 	pcdata.To.Type = TYPE_CONST
-	pcdata.To.Offset = -1 // pcdata starts at -1 at function entry
+	pcdata.To.Offset = PcdataEntry
 
 	return pcdata
 }
@@ -221,7 +238,7 @@ func (ctxt *Link) EmitEntryRegMap(s *LSym, p *Prog, newprog ProgAlloc) *Prog {
 	pcdata.From.Type = TYPE_CONST
 	pcdata.From.Offset = objabi.PCDATA_RegMapIndex
 	pcdata.To.Type = TYPE_CONST
-	pcdata.To.Offset = -1
+	pcdata.To.Offset = PcdataEntry
 
 	return pcdata
 }
@@ -236,7 +253,7 @@ func (ctxt *Link) StartUnsafePoint(p *Prog, newprog ProgAlloc) *Prog {
 	pcdata.From.Type = TYPE_CONST
 	pcdata.From.Offset = objabi.PCDATA_RegMapIndex
 	pcdata.To.Type = TYPE_CONST
-	pcdata.To.Offset = -2 // pcdata -2 marks unsafe point
+	pcdata.To.Offset = PcdataUnsafe
 
 	return pcdata
 }
@@ -261,23 +278,59 @@ func (ctxt *Link) EndUnsafePoint(p *Prog, newprog ProgAlloc, oldval int64) *Prog
 // MarkUnsafePoints inserts PCDATAs to mark nonpreemptible instruction
 // sequences, based on isUnsafePoint predicate. p0 is the start of the
 // instruction stream.
-func MarkUnsafePoints(ctxt *Link, p0 *Prog, newprog ProgAlloc, isUnsafePoint func(*Prog) bool) {
+func MarkUnsafePoints(ctxt *Link, p0 *Prog, newprog ProgAlloc, isUnsafePoint func(*Prog) bool, isRestartable func(*Prog) bool) {
 	prev := p0
-	oldval := int64(-1) // entry pcdata
+	oldval := int64(PcdataEntry)
+	wasRestart1 := false
 	for p := prev.Link; p != nil; p, prev = p.Link, p {
 		if p.As == APCDATA && p.From.Offset == objabi.PCDATA_RegMapIndex {
 			oldval = p.To.Offset
 			continue
 		}
-		if oldval == -2 {
+		if oldval == PcdataUnsafe {
 			continue // already unsafe
 		}
+		if isRestartable(p) {
+			val := int64(PcdataRestart1)
+			if wasRestart1 {
+				val = PcdataRestart2
+				wasRestart1 = false
+			} else {
+				wasRestart1 = true
+			}
+			q := Appendp(prev, newprog)
+			q.As = APCDATA
+			q.From.Type = TYPE_CONST
+			q.From.Offset = objabi.PCDATA_RegMapIndex
+			q.To.Type = TYPE_CONST
+			q.To.Offset = val
+			q.Pc = p.Pc
+			q.Link = p
+
+			if p.Link == nil {
+				break // Reached the end, don't bother marking the end
+			}
+			if isRestartable(p.Link) {
+				// Next Prog is also restartable. No need to mark the end
+				// of this sequence. We'll just go ahead mark the next one.
+				continue
+			}
+			p = Appendp(p, newprog)
+			p.As = APCDATA
+			p.From.Type = TYPE_CONST
+			p.From.Offset = objabi.PCDATA_RegMapIndex
+			p.To.Type = TYPE_CONST
+			p.To.Offset = oldval
+			p.Pc = p.Link.Pc
+			continue
+		}
+		wasRestart1 = false
 		if isUnsafePoint(p) {
 			q := ctxt.StartUnsafePoint(prev, newprog)
 			q.Pc = p.Pc
 			q.Link = p
 			// Advance to the end of unsafe point.
-			for p.Link != nil && isUnsafePoint(p.Link) {
+			for p.Link != nil && isUnsafePoint(p.Link) && !isRestartable(p.Link) {
 				p = p.Link
 			}
 			if p.Link == nil {
