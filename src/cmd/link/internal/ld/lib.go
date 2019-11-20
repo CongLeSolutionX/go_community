@@ -2670,7 +2670,7 @@ func (ctxt *Link) loadlibfull() {
 	addToTextp(ctxt)
 
 	// Drop the loader.
-	ctxt.loader = nil
+	//ctxt.loader = nil
 }
 
 func (ctxt *Link) dumpsyms() {
