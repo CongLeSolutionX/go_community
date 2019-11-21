@@ -65,6 +65,10 @@ type addrRanges struct {
 	// ranges is a slice of ranges sorted by base.
 	ranges []addrRange
 
+	// totalSpace is the total amount address space in bytes counted by
+	// this addrRanges.
+	totalSpace uintptr
+
 	// sysStat is the stat to track allocations by this type
 	sysStat *uint64
 }
@@ -75,6 +79,7 @@ func (a *addrRanges) init(sysStat *uint64) {
 	ranges.cap = 16
 	ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), sys.PtrSize, sysStat))
 	a.sysStat = sysStat
+	a.totalSpace = 0
 }
 
 // findSucc returns the first index in a such that base is
@@ -158,4 +163,40 @@ func (a *addrRanges) add(r addrRange) {
 		}
 		a.ranges[i] = r
 	}
+	a.totalSpace += r.size()
+}
+
+// removeLast removes and returns the highest-addressed contiguous range
+// of a, or the last nbytes of that range, whichever is smaller. If a is
+// empty, it returns an empty range.
+func (a *addrRanges) removeLast(nbytes uintptr) addrRange {
+	if len(a.ranges) == 0 {
+		return addrRange{}
+	}
+	r := a.ranges[len(a.ranges)-1]
+	size := r.size()
+	if size > nbytes {
+		newLimit := r.limit - nbytes
+		a.ranges[len(a.ranges)-1].limit = newLimit
+		a.totalSpace -= nbytes
+		return addrRange{newLimit, r.limit}
+	}
+	a.ranges = a.ranges[:len(a.ranges)-1]
+	a.totalSpace -= size
+	return r
+}
+
+// cloneInto makes a deep clone of a's state into b, re-using
+// b's ranges if able.
+func (a *addrRanges) cloneInto(b *addrRanges) {
+	if len(a.ranges) > cap(b.ranges) {
+		// Grow the array.
+		ranges := (*notInHeapSlice)(unsafe.Pointer(&b.ranges))
+		ranges.len = 0
+		ranges.cap = cap(a.ranges)
+		ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), sys.PtrSize, b.sysStat))
+	}
+	b.ranges = b.ranges[:len(a.ranges)]
+	b.totalSpace = a.totalSpace
+	copy(b.ranges, a.ranges)
 }

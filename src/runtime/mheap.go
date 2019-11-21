@@ -1383,7 +1383,7 @@ func (h *mheap) grow(npage uintptr) bool {
 		if overage := uintptr(retained + uint64(totalGrowth) - h.scavengeGoal); todo > overage {
 			todo = overage
 		}
-		h.pages.scavenge(todo, true)
+		h.pages.scavenge(todo, false)
 	}
 	return true
 }
@@ -1477,14 +1477,16 @@ func (h *mheap) scavengeAll() {
 	gp := getg()
 	gp.m.mallocing++
 	lock(&h.lock)
-	// Reset the scavenger address so we have access to the whole heap.
-	h.pages.resetScavengeAddr()
-	released := h.pages.scavenge(^uintptr(0), true)
+	// Start a new scavenge generation so we have a chance to walk
+	// over the whole heap.
+	h.pages.scavengeStartGen()
+	released := h.pages.scavenge(^uintptr(0), false)
+	gen := h.pages.scav.gen
 	unlock(&h.lock)
 	gp.m.mallocing--
 
 	if debug.scavtrace > 0 {
-		printScavTrace(released, true)
+		printScavTrace(gen, released, true)
 	}
 }
 
