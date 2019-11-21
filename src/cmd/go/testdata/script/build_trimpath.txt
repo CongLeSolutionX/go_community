@@ -4,14 +4,14 @@ env GO111MODULE=on
 # A binary built without -trimpath should contain the current workspace
 # and GOROOT for debugging and stack traces.
 cd a
-go build -o $WORK/paths-a.exe paths.go
+go build -o $WORK/paths-a.exe .
 exec $WORK/paths-a.exe $WORK/paths-a.exe
 stdout 'binary contains GOPATH: true'
 stdout 'binary contains GOROOT: true'
 
 # A binary built with -trimpath should not contain the current workspace
 # or GOROOT.
-go build -trimpath -o $WORK/paths-a.exe paths.go
+go build -trimpath -o $WORK/paths-a.exe .
 exec $WORK/paths-a.exe $WORK/paths-a.exe
 stdout 'binary contains GOPATH: false'
 stdout 'binary contains GOROOT: false'
@@ -26,13 +26,12 @@ stdout 'binary contains GOROOT: false'
 
 # Two binaries built from identical packages in different directories
 # should be identical.
-# TODO(golang.org/issue/35435): at the moment, they are not.
-#mkdir $GOPATH/src/b
-#cp $GOPATH/src/a/go.mod $GOPATH/src/b/go.mod
-#cp $GOPATH/src/a/paths.go $GOPATH/src/b/paths.go
-#cd $GOPATH/src/b
-#go build -trimpath -o $WORK/paths-b.exe .
-#cmp -q $WORK/paths-a.exe $WORK/paths-b.exe
+mkdir $GOPATH/src/b
+cp $GOPATH/src/a/go.mod $GOPATH/src/b/go.mod
+cp $GOPATH/src/a/paths.go $GOPATH/src/b/paths.go
+cd $GOPATH/src/b
+go build -trimpath -o $WORK/paths-b.exe .
+cmp -q $WORK/paths-a.exe $WORK/paths-b.exe
 
 [!exec:gccgo] stop
 
@@ -53,10 +52,9 @@ stdout 'binary contains GOROOT: false'
 
 # Two binaries built from identical packages in different directories
 # should be identical.
-# TODO(golang.org/issue/35435): at the moment, they are not.
-#cd ../b
-#go build -compiler=gccgo -trimpath -o $WORK/gccgo-paths-b.exe .
-#cmp -q $WORK/gccgo-paths-a.exe $WORK/gccgo-paths-b.exe
+cd ../b
+go build -compiler=gccgo -trimpath -o $WORK/gccgo-paths-b.exe .
+cmp -q $WORK/gccgo-paths-a.exe $WORK/gccgo-paths-b.exe
 
 -- $GOPATH/src/a/paths.go --
 package main
@@ -90,4 +88,6 @@ func main() {
 	fmt.Printf("binary contains GOROOT: %v\n", bytes.Contains(data, goroot))
 }
 -- $GOPATH/src/a/go.mod --
-module example.com/a
+module a
+
+go 1.14
