@@ -104,10 +104,16 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	scavenger as well as the total amount of memory returned to the operating system
 	and an estimate of physical memory utilization. The format of this line is subject
 	to change, but currently it is:
-		scav # KiB work, # KiB total, #% util
+		scav # # KiB work, # KiB total, #% util
 	where the fields are as follows:
+<<<<<<< HEAD
 		# KiB work   the amount of memory returned to the OS since the last scav line
 		# KiB total  how much of the heap at this point in time has been released to the OS
+=======
+		scav #       the scavenge cycle number
+		# KiB work   the amount of memory returned to the OS since the last line
+		# KiB total  the total amount of memory returned to the OS
+>>>>>>> 1efbe54671... runtime: remove scavAddr in favor of address ranges
 		#% util      the fraction of all unscavenged memory which is in-use
 	If the line ends with "(forced)", then scavenging was forced by a
 	debug.FreeOSMemory() call.
