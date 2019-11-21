@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ffeb031_3ed78bae",
+        "filename": "src/internal/obscuretestdata/obscuretestdata.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-21T04:43:55Z",
+      "side": 1,
+      "message": "I file opened for read won\u0027t return a Close error. Just fire and forget this close here:\n\n   defer f.Close()",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 4
+      },
+      "revId": "a67497858df04443e798f49c6128697a89b4bf6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ccb09cf_f6d51562",
+        "filename": "src/internal/obscuretestdata/obscuretestdata.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-21T04:43:55Z",
+      "side": 1,
+      "message": "No need to name these results. Neither name adds anything, and not referenced by godoc. Just stutter.\n\n(https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters)",
+      "range": {
+        "startLine": 49,
+        "startChar": 28,
+        "endLine": 49,
+        "endChar": 48
+      },
+      "revId": "a67497858df04443e798f49c6128697a89b4bf6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f67ee07b_70f8ba07",
+        "filename": "src/internal/obscuretestdata/obscuretestdata.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-21T04:43:55Z",
+      "side": 1,
+      "message": "Also just:\n\n    defer f.Close()",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "a67497858df04443e798f49c6128697a89b4bf6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0911a941_3bad66f2",
+        "filename": "src/internal/obscuretestdata/obscuretestdata.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-21T04:43:55Z",
+      "side": 1,
+      "message": "return ioutil.ReadAll(...)",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 14
+      },
+      "revId": "a67497858df04443e798f49c6128697a89b4bf6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
