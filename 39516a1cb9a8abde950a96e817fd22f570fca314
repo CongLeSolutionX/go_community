@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e5b1744_aa9ae83d",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2019-11-21T16:15:13Z",
+      "side": 1,
+      "message": "It should be fine, but did you get a chance to test this change with the original fix removed, to ensure this data causes it to still fail properly?\n\nThe issue was fixed by this CL: https://golang.org/cl/14441051",
+      "revId": "39516a1cb9a8abde950a96e817fd22f570fca314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
