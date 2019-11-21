@@ -296,9 +296,17 @@ func monitorSuspendResume() {
 		callback: compileCallback(*efaceOf(&fn), true),
 	}
 	handle := uintptr(0)
-	if stdcall3(powerRegisterSuspendResumeNotification, _DEVICE_NOTIFY_CALLBACK,
+	switch stdcall3(powerRegisterSuspendResumeNotification, _DEVICE_NOTIFY_CALLBACK,
 		uintptr(unsafe.Pointer(&params)),
-		uintptr(unsafe.Pointer(&handle))) != 0 {
+		uintptr(unsafe.Pointer(&handle))) {
+	case 0:
+		return // Successful, nothing more to do.
+	case 2:
+		// Systems without access to the suspend/resume notifier
+		// also have their clock on "program time", and therefore
+		// don't want or need this anyway.
+		return
+	default:
 		throw("PowerRegisterSuspendResumeNotification failure")
 	}
 }
