@@ -1719,10 +1719,12 @@ func loadObjFull(l *Loader, r *oReader) {
 			}
 			s.Attr.Set(sym.AttrOnList, true)
 			lib.Textp = append(lib.Textp, s)
+			lib.Textp2 = append(lib.Textp2, sym.LoaderSym(isym))
 		} else {
 			// there may be a dup in another package
 			// put into a temp list and add to text later
 			lib.DupTextSyms = append(lib.DupTextSyms, s)
+			lib.DupTextSyms2 = append(lib.DupTextSyms2, sym.LoaderSym(isym))
 		}
 	}
 }
