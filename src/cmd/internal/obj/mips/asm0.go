@@ -526,23 +526,24 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	// We use REGTMP as a scratch register during call injection,
 	// so instruction sequences that use REGTMP are unsafe to
 	// preempt asynchronously.
-	obj.MarkUnsafePoints(c.ctxt, c.cursym.Func.Text, c.newprog, c.isUnsafePoint, isRestartable)
+	obj.MarkUnsafePoints(c.ctxt, c.cursym.Func.Text, c.newprog, c.isUnsafePoint, c.isRestartable)
 }
 
 // Return whether p is an unsafe point.
 func (c *ctxt0) isUnsafePoint(p *obj.Prog) bool {
-	if p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP {
-		return true
-	}
-	// Most of the multi-instruction sequence uses REGTMP, except
-	// ones marked safe.
-	o := c.oplook(p)
-	return o.size > 4 && o.flag&NOTUSETMP == 0
+	// Explicitly use REGTMP. Unsafe to preempt.
+	return p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP
 }
 
-func isRestartable(*obj.Prog) bool {
-	// TODO
-	return false
+func (c *ctxt0) isRestartable(p *obj.Prog) bool {
+	if p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP {
+		// Explicitly use REGTMP. Not restartable. This is rare.
+		return false
+	}
+	// Multi-instruction sequence that uses REGTMP.
+	// Currently all those cases are preemptible.
+	o := c.oplook(p)
+	return o.size > 4 && o.flag&NOTUSETMP == 0
 }
 
 func isint32(v int64) bool {
