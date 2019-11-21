@@ -299,7 +299,7 @@ func monitorSuspendResume() {
 	if stdcall3(powerRegisterSuspendResumeNotification, _DEVICE_NOTIFY_CALLBACK,
 		uintptr(unsafe.Pointer(&params)),
 		uintptr(unsafe.Pointer(&handle))) != 0 {
-		throw("PowerRegisterSuspendResumeNotification failure")
+		return // Treat errors as non-fatal to support containerized environments that don't support this.
 	}
 }
 
