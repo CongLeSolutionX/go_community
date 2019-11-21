@@ -65,6 +65,10 @@ type addrRanges struct {
 	// ranges is a slice of ranges sorted by base.
 	ranges []addrRange
 
+	// totalBytes is the total amount of address space in bytes counted by
+	// this addrRanges.
+	totalBytes uintptr
+
 	// sysStat is the stat to track allocations by this type
 	sysStat *uint64
 }
@@ -75,6 +79,7 @@ func (a *addrRanges) init(sysStat *uint64) {
 	ranges.cap = 16
 	ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), sys.PtrSize, sysStat))
 	a.sysStat = sysStat
+	a.totalBytes = 0
 }
 
 // findSucc returns the first index in a such that base is
@@ -158,4 +163,53 @@ func (a *addrRanges) add(r addrRange) {
 		}
 		a.ranges[i] = r
 	}
+	a.totalBytes += r.size()
+}
+
+// removeLastChunks removes the last nchunks chunks from the range
+// as an addrRange. The top chunk may be partial (unaligned) but
+// the base of the returned region is always aligned to
+// pallocChunkBytes. It returns at most nchunks*pallocChunkBytes
+// in the addrRange, or however much is left in the last addrRange
+// in a.
+//
+// If a is empty, it returns an empty range.
+//
+// If any address range in a has a base not aligned to
+// pallocChunkBytes, this function throws.
+func (a *addrRanges) removeLastChunks(nchunks uint) addrRange {
+	if len(a.ranges) == 0 || nchunks == 0 {
+		return addrRange{}
+	}
+	last := a.ranges[len(a.ranges)-1]
+	if last.base%pallocChunkBytes != 0 {
+		throw("found addrRange with base not aligned to pallocChunkBytes")
+	}
+	chunksInLast := uint((alignUp(last.limit, pallocChunkBytes) - last.base) / pallocChunkBytes)
+	if chunksInLast > nchunks {
+		// There are more available chunks in the range than
+		// we're asking for. Take only up to what we requested.
+		newLimit := alignDown(last.limit-1, pallocChunkBytes) - uintptr(nchunks-1)*pallocChunkBytes
+		a.ranges[len(a.ranges)-1].limit = newLimit
+		a.totalBytes -= last.limit - newLimit
+		return addrRange{newLimit, last.limit}
+	}
+	a.ranges = a.ranges[:len(a.ranges)-1]
+	a.totalBytes -= last.size()
+	return last
+}
+
+// cloneInto makes a deep clone of a's state into b, re-using
+// b's ranges if able.
+func (a *addrRanges) cloneInto(b *addrRanges) {
+	if len(a.ranges) > cap(b.ranges) {
+		// Grow the array.
+		ranges := (*notInHeapSlice)(unsafe.Pointer(&b.ranges))
+		ranges.len = 0
+		ranges.cap = cap(a.ranges)
+		ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), sys.PtrSize, b.sysStat))
+	}
+	b.ranges = b.ranges[:len(a.ranges)]
+	b.totalBytes = a.totalBytes
+	copy(b.ranges, a.ranges)
 }
