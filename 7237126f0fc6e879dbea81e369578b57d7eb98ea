@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b50db43_f7f7c292",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-22T19:44:35Z",
+      "side": 1,
+      "message": "If !key.HasVal() {\n    yyerror(\"literal has no value\")\n}\nJust to be sure.",
+      "revId": "7237126f0fc6e879dbea81e369578b57d7eb98ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aac283d_95a93362",
+        "filename": "test/maplit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-22T19:44:35Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "7237126f0fc6e879dbea81e369578b57d7eb98ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2419a318_77a6dc2a",
+        "filename": "test/maplit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-22T19:44:35Z",
+      "side": 1,
+      "message": "Might want to make one of these return the second entry instead of the first, just to check that the looping is correct.",
+      "revId": "7237126f0fc6e879dbea81e369578b57d7eb98ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80f0ccab_58dbd57a",
+        "filename": "test/maplit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-22T19:44:35Z",
+      "side": 1,
+      "message": "What about:\n\nmap[int]int {\n    1: f(),\n    2: 2,\n}[2]\n\nDo we still observe the side effects of f()?\nSame thing using f() for a key.",
+      "revId": "7237126f0fc6e879dbea81e369578b57d7eb98ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
