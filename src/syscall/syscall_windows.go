@@ -136,7 +136,7 @@ func (e Errno) Is(target error) bool {
 }
 
 func (e Errno) Temporary() bool {
-	return e == EINTR || e == EMFILE || e.Timeout()
+	return e == EINTR || e == EMFILE || e == ENFILE || e.Timeout()
 }
 
 func (e Errno) Timeout() bool {
