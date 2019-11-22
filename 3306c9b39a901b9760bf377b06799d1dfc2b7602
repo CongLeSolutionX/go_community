@@ -16,6 +16,24 @@
       "revId": "3306c9b39a901b9760bf377b06799d1dfc2b7602",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e2ef0d_38aade66",
+        "filename": "src/cmd/go/testdata/script/modfile_flag.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-11-22T16:03:10Z",
+      "side": 1,
+      "message": "I don\u0027t think rm from script_test accepts -r. It should recursively remove everything.",
+      "parentUuid": "b0ea8b4d_9ffc5616",
+      "revId": "3306c9b39a901b9760bf377b06799d1dfc2b7602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
