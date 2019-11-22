@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7152d050_57cdc4f6",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-22T16:21:27Z",
+      "side": 1,
+      "message": "Get rid of trailing spaces.\nLooks like you need to run gofmt on this code?",
+      "revId": "8f0dd0e0d3d4d06b99842a6adb8d4bfa5e76f402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb694366_76d04157",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-22T16:21:27Z",
+      "side": 1,
+      "message": "E should probably not be accessed directly, as it is only valid for certain node types.\nVal() is the method to extract this field.\nI worry that this will have false positives - if both keys (the one in the map literal and the one in the index expression) are not constants, then Val() will return the nil interface for both, and this equality will hold true. Maybe isStaticCompositeLiteral makes sure that n.Right is a constant?",
+      "revId": "8f0dd0e0d3d4d06b99842a6adb8d4bfa5e76f402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029552d9_654a1640",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-11-22T16:21:27Z",
+      "side": 1,
+      "message": "Why can\u0027t this just be a recursive call to walk?\nThen you wouldn\u0027t need to separate out walklit into a separate function.",
+      "revId": "8f0dd0e0d3d4d06b99842a6adb8d4bfa5e76f402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
