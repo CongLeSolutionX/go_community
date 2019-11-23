@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9434dd0_b6e1957d",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-11-23T08:56:50Z",
+      "side": 1,
+      "message": "probably needs WSAEMFILE \u0026 WSAENOBUFS\n\ncommit msg could reference:\nhttps://emptyhammock.com/blog/wsaemfile.html",
+      "revId": "9a6600c2c8630b906cc53628eb0324ddbf325428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
