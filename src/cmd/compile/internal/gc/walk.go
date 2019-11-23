@@ -1087,6 +1087,28 @@ opswitch:
 		}
 
 	case OINDEXMAP:
+		// x = m[key];
+		// if m is a map literal and key is a literal,
+		// and key is defined in m, immediately return the literal
+		if n.Left.Op == OMAPLIT && isStaticCompositeLiteral(n.Right) {
+			key := n.Right
+			maplit := n.Left
+
+			if !key.HasVal() {
+				yyerror("literal has no value")
+			}
+
+			// Check if the key is defined
+			for _, element := range maplit.List.Slice() {
+				elementKey := element.Left
+				elementValue := element.Right
+				if eqval(elementKey.Val(), key.Val()) {
+					n = walkexpr(elementValue, init)
+					break opswitch
+				}
+			}
+		}
+
 		// Replace m[k] with *map{access1,assign}(maptype, m, &k)
 		n.Left = walkexpr(n.Left, init)
 		n.Right = walkexpr(n.Right, init)
