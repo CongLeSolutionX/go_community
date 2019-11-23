@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "cf2cdc1b_c7e35994",
+        "filename": "test/maplit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 34553
+      },
+      "writtenOn": "2019-11-23T12:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2419a318_77a6dc2a",
+      "revId": "7237126f0fc6e879dbea81e369578b57d7eb98ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80f0ccab_58dbd57a",
         "filename": "test/maplit.go",
         "patchSetId": 4
@@ -70,6 +88,24 @@
       "writtenOn": "2019-11-22T19:44:35Z",
       "side": 1,
       "message": "What about:\n\nmap[int]int {\n    1: f(),\n    2: 2,\n}[2]\n\nDo we still observe the side effects of f()?\nSame thing using f() for a key.",
+      "revId": "7237126f0fc6e879dbea81e369578b57d7eb98ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80cb4500_a26efcf9",
+        "filename": "test/maplit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 34553
+      },
+      "writtenOn": "2019-11-23T12:50:21Z",
+      "side": 1,
+      "message": "Let say f is\nfunc f() int {return 2}\n\nFor the case of:\nmap[int]int {\n    1: f(),\n    2: 2,\n}[2]\n\nHere is the AST before optimization:\n     1  *INDEXMAP 0xc0003dfd80 {\n     2  .  Left: *NAME 0x…406e10 {\n     3  .  .  Type: …\n     4  .  .  Orig: …\n     5  .  .  Name: …\n     6  .  .  Sym: …\n     7  .  .  Pos: …\n     8  .  .  Esc: …\n     9  .  .  …\n    10  .  }\n    11  .  Right: *LITERAL 0x…16200 {\n    12  .  .  Type: …\n    13  .  .  Orig: …\n    14  .  .  E: …\n    15  .  .  Xoffset: …\n    16  .  .  Pos: …\n    17  .  .  …\n    18  .  }\n    19  .  Type: *types.Type {\n    20  .  .  Width: …\n    21  .  .  Nod: …\n    22  .  .  Orig: …\n    23  .  .  Cache: …\n    24  .  .  Sym: …\n    25  .  .  Etype: …\n    26  .  .  Align: …\n    27  .  .  …\n    28  .  }\n    29  .  Orig: *(@1)\n    30  .  Xoffset: -1000000000\n    31  .  Pos: test/maplit.go:59:3\n    32  .  …\n    33  }\n\nSo left is actually not a MAPLIT.\n\nAnd for this case: \nmap[int]int {\n    1: 1,\n    2: 2,\n}[f()]\n\nHere is the AST:\n     1  *INDEXMAP 0xc000393d80 {\n     2  .  Left: *MAPLIT 0x…800 {\n     3  .  .  List: …\n     4  .  .  Type: …\n     5  .  .  Orig: …\n     6  .  .  Xoffset: …\n     7  .  .  Pos: …\n     8  .  .  Esc: …\n     9  .  .  …\n    10  .  }\n    11  .  Right: *CONVNOP 0x…c6c00 {\n    12  .  .  Left: …\n    13  .  .  Type: …\n    14  .  .  Orig: …\n    15  .  .  Xoffset: …\n    16  .  .  Pos: …\n    17  .  .  …\n    18  .  }\n    19  .  Type: *types.Type {\n    20  .  .  Width: …\n    21  .  .  Nod: …\n    22  .  .  Orig: …\n    23  .  .  Cache: …\n    24  .  .  Sym: …\n    25  .  .  Etype: …\n    26  .  .  Align: …\n    27  .  .  …\n    28  .  }\n    29  .  Orig: *(@1)\n    30  .  Xoffset: -1000000000\n    31  .  Pos: test/maplit.go:59:3\n    32  .  …\n    33  }\n\nLeft is a MAPLIT but Right (key) is not a considered literal. I should probably see if we can handle this.",
+      "parentUuid": "80f0ccab_58dbd57a",
       "revId": "7237126f0fc6e879dbea81e369578b57d7eb98ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

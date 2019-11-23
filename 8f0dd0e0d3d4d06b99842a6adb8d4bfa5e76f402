@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df02c745_009125bf",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 34553
+      },
+      "writtenOn": "2019-11-23T12:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7152d050_57cdc4f6",
+      "revId": "8f0dd0e0d3d4d06b99842a6adb8d4bfa5e76f402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb694366_76d04157",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "09fa3365_eb9aeea5",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 34553
+      },
+      "writtenOn": "2019-11-23T12:50:21Z",
+      "side": 1,
+      "message": "Using Val seems to work fine, but equality check needs to be done using eqval function. And yes isStaticCompositeLiteral makes sure that the key is a constant",
+      "parentUuid": "bb694366_76d04157",
+      "revId": "8f0dd0e0d3d4d06b99842a6adb8d4bfa5e76f402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "029552d9_654a1640",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "8f0dd0e0d3d4d06b99842a6adb8d4bfa5e76f402",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b041089e_062a71f1",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 34553
+      },
+      "writtenOn": "2019-11-23T12:50:21Z",
+      "side": 1,
+      "message": "Reverted back and I did replace it with a recursive call to walkexpr",
+      "parentUuid": "029552d9_654a1640",
+      "revId": "8f0dd0e0d3d4d06b99842a6adb8d4bfa5e76f402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
