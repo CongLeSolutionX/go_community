@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b9be10b_621d4b96",
+        "filename": "src/syscall/zerrors_linux_riscv64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-23T19:44:45Z",
+      "side": 1,
+      "message": "Is / should there be a corresponding update to the script that generates these files?",
+      "revId": "6f7b96f6cb5f5c156cf4e69b1fa1ec0e57b01677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
