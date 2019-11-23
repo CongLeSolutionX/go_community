@@ -16,6 +16,24 @@
       "revId": "6f7b96f6cb5f5c156cf4e69b1fa1ec0e57b01677",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c636e041_8981d7f1",
+        "filename": "src/syscall/zerrors_linux_riscv64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-23T20:53:26Z",
+      "side": 1,
+      "message": "IIRC that went by a few months ago. But I think these files were generated even a year before that.",
+      "parentUuid": "1b9be10b_621d4b96",
+      "revId": "6f7b96f6cb5f5c156cf4e69b1fa1ec0e57b01677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
