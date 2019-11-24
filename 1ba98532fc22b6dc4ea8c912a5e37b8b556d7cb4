@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a10a8ae_2c329b01",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-11-24T02:22:39Z",
+      "side": 1,
+      "message": "What happens, if PowerRegisterSuspendResumeNotification fails in other (non container) environments? We wouldn\u0027t even notice the problem until some user complain again.\n\nMicrosoft could just make PowerRegisterSuspendResumeNotification fail everywhere, and we wouldn\u0027t know. I am playing devil\u0027s advocate.\n\nMaybe we could somehow determine that we are running in container?\n\nMaybe we could specifically check for ERROR_FILE_NOT_FOUND?",
+      "revId": "1ba98532fc22b6dc4ea8c912a5e37b8b556d7cb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
