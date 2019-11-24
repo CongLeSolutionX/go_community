@@ -23,8 +23,11 @@
 package parser
 
 import (
+	"bytes"
+	"errors"
 	"go/scanner"
 	"go/token"
+	"io"
 	"io/ioutil"
 	"path/filepath"
 	"regexp"
