@@ -27,7 +27,10 @@
 	}
 
 	if (!global.fs && global.require) {
-		global.fs = require("fs");
+		const tempFs = require("fs");
+		if (Object.keys(tempFs) !== 0) {
+			global.fs = tempFs;
+		}
 	}
 
 	const enosys = () => {
