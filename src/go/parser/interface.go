@@ -10,37 +10,15 @@ import (
 	"bytes"
 	"errors"
 	"go/ast"
+	"go/scanner"
 	"go/token"
+	"internal/syntax"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 )
-
-// If src != nil, readSource converts src to a []byte if possible;
-// otherwise it returns an error. If src == nil, readSource returns
-// the result of reading the file specified by filename.
-//
-func readSource(filename string, src interface{}) ([]byte, error) {
-	if src != nil {
-		switch s := src.(type) {
-		case string:
-			return []byte(s), nil
-		case []byte:
-			return s, nil
-		case *bytes.Buffer:
-			// is io.Reader, but src is already available in []byte form
-			if s != nil {
-				return s.Bytes(), nil
-			}
-		case io.Reader:
-			return ioutil.ReadAll(s)
-		}
-		return nil, errors.New("invalid source")
-	}
-	return ioutil.ReadFile(filename)
-}
 
 // A Mode value is a set of flags (or 0).
 // They control the amount of source code parsed and other optional
@@ -81,42 +59,65 @@ func ParseFile(fset *token.FileSet, filename string, src interface{}, mode Mode)
 	if fset == nil {
 		panic("parser.ParseFile: no token.FileSet provided (fset == nil)")
 	}
-
-	// get source
-	text, err := readSource(filename, src)
-	if err != nil {
-		return nil, err
+	var bs []byte
+	switch x := src.(type) {
+	case []byte:
+		bs = x
+	case string:
+		bs = []byte(x)
+	case io.Reader:
+		var err error
+		if bs, err = ioutil.ReadAll(x); err != nil {
+			return nil, err
+		}
+	case nil:
+		var err error
+		if bs, err = ioutil.ReadFile(filename); err != nil {
+			return nil, err
+		}
+	default:
+		return nil, errors.New("invalid source")
 	}
-
-	var p parser
-	defer func() {
-		if e := recover(); e != nil {
-			// resume same panic if it's not a bailout
-			if _, ok := e.(bailout); !ok {
-				panic(e)
+	var errlist scanner.ErrorList
+	errh := func(err error) {
+		switch x := err.(type) {
+		case syntax.Error:
+			pos := token.Position{
+				Line:   int(x.Pos.Line()),
+				Column: int(x.Pos.Col()),
 			}
+			errlist.Add(pos, x.Msg)
+		default:
+			errlist.Add(token.Position{}, x.Error())
 		}
+	}
+	r := bytes.NewReader(bs)
+	sf, err := syntax.Parse(syntax.NewFileBase(filename), r, errh, nil, 0)
+	if sf == nil {
+		return nil, errlist
+	}
+	conv := converter{mode: mode, fset: fset, errh: errh}
 
-		// set result values
-		if f == nil {
-			// source is not a valid Go source file - satisfy
-			// ParseFile API and return a valid (but) empty
-			// *ast.File
-			f = &ast.File{
-				Name:  new(ast.Ident),
-				Scope: ast.NewScope(nil),
-			}
+	base := fset.Base()
+	conv.tokfile = fset.AddFile(filename, base, len(bs))
+
+	lines := make([]int, 1, sf.Lines)
+	for i := 0; i < len(bs); i++ {
+		c := bs[i]
+		if c == '\n' {
+			lines = append(lines, i)
 		}
+	}
+	if !conv.tokfile.SetLines(lines) {
+		//panic("could not set lines")
+	}
+	conv.lines = lines
 
-		p.errors.Sort()
-		err = p.errors.Err()
-	}()
-
-	// parse source
-	p.init(fset, filename, text, mode)
-	f = p.parseFile()
-
-	return
+	f = conv.file(sf)
+	if errlist.Len() == 0 {
+		return f, nil
+	}
+	return f, errlist
 }
 
 // ParseDir calls ParseFile for all files with names ending in ".go" in the
@@ -180,48 +181,8 @@ func ParseDir(fset *token.FileSet, path string, filter func(os.FileInfo) bool, m
 // are returned via a scanner.ErrorList which is sorted by source position.
 //
 func ParseExprFrom(fset *token.FileSet, filename string, src interface{}, mode Mode) (expr ast.Expr, err error) {
-	if fset == nil {
-		panic("parser.ParseExprFrom: no token.FileSet provided (fset == nil)")
-	}
-
-	// get source
-	text, err := readSource(filename, src)
-	if err != nil {
-		return nil, err
-	}
-
-	var p parser
-	defer func() {
-		if e := recover(); e != nil {
-			// resume same panic if it's not a bailout
-			if _, ok := e.(bailout); !ok {
-				panic(e)
-			}
-		}
-		p.errors.Sort()
-		err = p.errors.Err()
-	}()
-
-	// parse expr
-	p.init(fset, filename, text, mode)
-	// Set up pkg-level scopes to avoid nil-pointer errors.
-	// This is not needed for a correct expression x as the
-	// parser will be ok with a nil topScope, but be cautious
-	// in case of an erroneous x.
-	p.openScope()
-	p.pkgScope = p.topScope
-	expr = p.parseRhsOrType()
-	p.closeScope()
-	assert(p.topScope == nil, "unbalanced scopes")
-
-	// If a semicolon was inserted, consume it;
-	// report an error if there's more tokens.
-	if p.tok == token.SEMICOLON && p.lit == "\n" {
-		p.next()
-	}
-	p.expect(token.EOF)
-
-	return
+	// TODO(mvdan): implement
+	return nil, nil
 }
 
 // ParseExpr is a convenience function for obtaining the AST of an expression x.
