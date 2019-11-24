@@ -23,8 +23,11 @@
 package parser
 
 import (
+	"bytes"
+	"errors"
 	"go/scanner"
 	"go/token"
+	"io"
 	"io/ioutil"
 	"path/filepath"
 	"regexp"
@@ -75,7 +78,6 @@ func expectedErrors(fset *token.FileSet, filename string, src []byte) map[token.
 	// not match the position information collected by the parser
 	s.Init(getFile(fset, filename), src, nil, scanner.ScanComments)
 	var prev token.Pos // position of last non-comment, non-semicolon token
-	var here token.Pos // position immediately after the token at position prev
 
 	for {
 		pos, tok, lit := s.Scan()
@@ -85,11 +87,11 @@ func expectedErrors(fset *token.FileSet, filename string, src []byte) map[token.
 		case token.COMMENT:
 			s := errRx.FindStringSubmatch(lit)
 			if len(s) == 3 {
-				pos := prev
+				errPos := prev
 				if s[1] == "HERE" {
-					pos = here
+					errPos = pos
 				}
-				errors[pos] = string(s[2])
+				errors[errPos] = string(s[2])
 			}
 		case token.SEMICOLON:
 			// don't use the position of auto-inserted (invisible) semicolons
@@ -99,13 +101,6 @@ func expectedErrors(fset *token.FileSet, filename string, src []byte) map[token.
 			fallthrough
 		default:
 			prev = pos
-			var l int // token length
-			if tok.IsLiteral() {
-				l = len(lit)
-			} else {
-				l = len(tok.String())
-			}
-			here = prev + token.Pos(l)
 		}
 	}
 }
@@ -147,6 +142,26 @@ func compareErrors(t *testing.T, fset *token.FileSet, expected map[token.Pos]str
 			t.Errorf("%s: %s\n", fset.Position(pos), msg)
 		}
 	}
+}
+
+func readSource(filename string, src interface{}) ([]byte, error) {
+	if src != nil {
+		switch s := src.(type) {
+		case string:
+			return []byte(s), nil
+		case []byte:
+			return s, nil
+		case *bytes.Buffer:
+			// is io.Reader, but src is already available in []byte form
+			if s != nil {
+				return s.Bytes(), nil
+			}
+		case io.Reader:
+			return ioutil.ReadAll(s)
+		}
+		return nil, errors.New("invalid source")
+	}
+	return ioutil.ReadFile(filename)
 }
 
 func checkErrors(t *testing.T, filename string, input interface{}) {
