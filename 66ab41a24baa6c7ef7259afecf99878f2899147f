@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4f42a09_df70e3eb",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-11-24T12:07:06Z",
+      "side": 1,
+      "message": "Let\u0027s use a different name here, because \"temporary file system\" already has a common meaning. maybe simply \"fs\".",
+      "revId": "66ab41a24baa6c7ef7259afecf99878f2899147f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
