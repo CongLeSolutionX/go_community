@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bafb7c8_afb811e6",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-11-24T02:25:44Z",
+      "side": 1,
+      "message": "Let\u0027s unexport this and make an exported copy in internal/syscall/windows.\n\nWe don\u0027t want to add API to syscall, even if it\u0027s super popular.\n\nWe can also add it to x/sys/windows.\n\nIt\u0027s okay to have three copies.",
+      "revId": "1b704a93c151bab365718a973442e7020314a541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
