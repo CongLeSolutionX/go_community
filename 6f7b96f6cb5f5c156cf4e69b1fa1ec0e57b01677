@@ -34,6 +34,24 @@
       "revId": "6f7b96f6cb5f5c156cf4e69b1fa1ec0e57b01677",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c466bc01_43c0099c",
+        "filename": "src/syscall/zerrors_linux_riscv64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-11-24T10:15:31Z",
+      "side": 1,
+      "message": "Yes, the generating scripts were changed in CL 118821. The linux/riscv64 files were taken from the riscv-go port which generated these files before that CL and I forgot to regenerate them before submitting CL 204659.",
+      "parentUuid": "c636e041_8981d7f1",
+      "revId": "6f7b96f6cb5f5c156cf4e69b1fa1ec0e57b01677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
