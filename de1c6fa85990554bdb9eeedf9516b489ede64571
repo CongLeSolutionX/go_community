@@ -16,6 +16,24 @@
       "revId": "de1c6fa85990554bdb9eeedf9516b489ede64571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52c8076b_209e45e3",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-11-25T21:14:45Z",
+      "side": 1,
+      "message": "Eh, I think there will be a lot of other cleanup to do for this. I\u0027ll follow up separately.",
+      "parentUuid": "f01f2fcf_8d03801b",
+      "revId": "de1c6fa85990554bdb9eeedf9516b489ede64571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
