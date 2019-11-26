@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "689c3757_4cb09d83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-11-26T07:34:43Z",
+      "side": 1,
+      "message": "This sounds worrying. Is that a reason the darwin/arm* builders have been experiencing weird crashes during bootstrap even before preemption? If so a better (although more involved) fix would be to re-write the TLS reservation code in Go. Do you agree? If so, I could work on that this week.",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "1f5f117eca7d2f6f7d90ce3b3bace9679a4f6a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
