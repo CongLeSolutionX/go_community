@@ -22,6 +22,30 @@
       "revId": "1f5f117eca7d2f6f7d90ce3b3bace9679a4f6a38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f9f7181_46e7dc74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-26T15:11:32Z",
+      "side": 1,
+      "message": "It could be. But I\u0027m not sure what the signals are and where they come from. \n\nIt has been like this for a long time, and it only affects self-hosting bootstrap, which is not a common use case on iOS. So I guess we probably don\u0027t want to change TLS initialization and save/load G code late in this cycle.",
+      "parentUuid": "689c3757_4cb09d83",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "1f5f117eca7d2f6f7d90ce3b3bace9679a4f6a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
