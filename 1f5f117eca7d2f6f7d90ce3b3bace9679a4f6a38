@@ -46,6 +46,30 @@
       "revId": "1f5f117eca7d2f6f7d90ce3b3bace9679a4f6a38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c92643c_aa7caf18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-11-26T17:11:52Z",
+      "side": 1,
+      "message": "I filed issue #35853 for setting up TLS.",
+      "parentUuid": "7f9f7181_46e7dc74",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "1f5f117eca7d2f6f7d90ce3b3bace9679a4f6a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
