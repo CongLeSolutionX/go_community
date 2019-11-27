@@ -100,5 +100,11 @@ rm $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.2.1.zip
 go mod download rsc.io/quote@v1.2.1
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.2.1.zip
 
+# download -x with version should print
+# the underlying commands such as contacting GOPROXY.
+go mod download -x rsc.io/quote@v1.0.0
+! stdout .
+stderr 'get '$GOPROXY
+
 -- go.mod --
 module m

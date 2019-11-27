@@ -17,7 +17,7 @@ import (
 )
 
 var cmdDownload = &base.Command{
-	UsageLine: "go mod download [-json] [modules]",
+	UsageLine: "go mod download [-x] [-json] [modules]",
 	Short:     "download modules to local cache",
 	Long: `
 Download downloads the named modules, which can be module patterns selecting
@@ -45,6 +45,8 @@ corresponding to this Go struct:
         GoModSum string // checksum for go.mod (as in go.sum)
     }
 
+The -x flag causes download to print the commands download executes.
+
 See 'go help modules' for more about module queries.
 	`,
 }
@@ -53,6 +55,9 @@ var downloadJSON = cmdDownload.Flag.Bool("json", false, "")
 
 func init() {
 	cmdDownload.Run = runDownload // break init cycle
+
+	// TODO(jayconrod): https://golang.org/issue/35849 Apply -x to other 'go mod' commands.
+	cmdDownload.Flag.BoolVar(&cfg.BuildX, "x", false, "")
 }
 
 type moduleJSON struct {
