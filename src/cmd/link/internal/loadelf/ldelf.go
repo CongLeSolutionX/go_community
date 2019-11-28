@@ -941,19 +941,33 @@ func load(arch *sys.Arch, localSymVersion int, newSym, lookup lookupFunc, f *bio
 				rp.Sym = nil
 			} else {
 				var elfsym ElfSym
-				if err := readelfsym(newSym, lookup, arch, elfobj, int(info>>32), &elfsym, 0, 0); err != nil {
+				var index int
+				switch arch.Family {
+				case sys.MIPS, sys.MIPS64:
+					index = int(info & 0xffff)
+				default:
+					index = int(info >> 32)
+				}
+				if err := readelfsym(newSym, lookup, arch, elfobj, index, &elfsym, 0, 0); err != nil {
 					return errorf("malformed elf file: %v", err)
 				}
-				elfsym.sym = symbols[info>>32]
+				elfsym.sym = symbols[index]
 				if elfsym.sym == nil {
-					return errorf("malformed elf file: %s#%d: reloc of invalid sym #%d %s shndx=%d type=%d", sect.sym.Name, j, int(info>>32), elfsym.name, elfsym.shndx, elfsym.type_)
+					return errorf("malformed elf file: %s#%d: reloc of invalid sym #%d %s shndx=%d type=%d", sect.sym.Name, j, index, elfsym.name, elfsym.shndx, elfsym.type_)
 				}
 
 				rp.Sym = elfsym.sym
 			}
+			var relcType uint64
+			switch arch.Family {
+			case sys.MIPS, sys.MIPS64:
+				relcType = info >> 56
+			default:
+				relcType = info
+			}
 
-			rp.Type = objabi.ElfRelocOffset + objabi.RelocType(info)
-			rp.Siz, err = relSize(arch, pn, uint32(info))
+			rp.Type = objabi.ElfRelocOffset + objabi.RelocType(relcType)
+			rp.Siz, err = relSize(arch, pn, uint32(relcType))
 			if err != nil {
 				return nil, 0, err
 			}
@@ -1147,17 +1161,29 @@ func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, error) {
 	// performance.
 
 	const (
-		AMD64 = uint32(sys.AMD64)
-		ARM   = uint32(sys.ARM)
-		ARM64 = uint32(sys.ARM64)
-		I386  = uint32(sys.I386)
-		PPC64 = uint32(sys.PPC64)
-		S390X = uint32(sys.S390X)
+		AMD64  = uint32(sys.AMD64)
+		ARM    = uint32(sys.ARM)
+		ARM64  = uint32(sys.ARM64)
+		I386   = uint32(sys.I386)
+		PPC64  = uint32(sys.PPC64)
+		S390X  = uint32(sys.S390X)
+		MIPS   = uint32(sys.MIPS)
+		MIPS64 = uint32(sys.MIPS64)
 	)
 
 	switch uint32(arch.Family) | elftype<<16 {
 	default:
 		return 0, fmt.Errorf("%s: unknown relocation type %d; compiled without -fpic?", pn, elftype)
+
+	case MIPS | uint32(elf.R_MIPS_GPREL16)<<16,
+		MIPS | uint32(elf.R_MIPS_GOT_PAGE)<<16,
+		MIPS | uint32(elf.R_MIPS_JALR)<<16,
+		MIPS | uint32(elf.R_MIPS_GOT_OFST)<<16,
+		MIPS64 | uint32(elf.R_MIPS_GPREL16)<<16,
+		MIPS64 | uint32(elf.R_MIPS_GOT_PAGE)<<16,
+		MIPS64 | uint32(elf.R_MIPS_JALR)<<16,
+		MIPS64 | uint32(elf.R_MIPS_GOT_OFST)<<16:
+		return 2, nil
 
 	case S390X | uint32(elf.R_390_8)<<16:
 		return 1, nil
