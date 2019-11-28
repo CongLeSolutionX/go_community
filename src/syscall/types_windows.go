@@ -5,33 +5,6 @@
 package syscall
 
 const (
-	// Windows errors.
-	ERROR_FILE_NOT_FOUND      Errno = 2
-	ERROR_PATH_NOT_FOUND      Errno = 3
-	ERROR_ACCESS_DENIED       Errno = 5
-	ERROR_NO_MORE_FILES       Errno = 18
-	ERROR_HANDLE_EOF          Errno = 38
-	ERROR_NETNAME_DELETED     Errno = 64
-	ERROR_FILE_EXISTS         Errno = 80
-	ERROR_BROKEN_PIPE         Errno = 109
-	ERROR_BUFFER_OVERFLOW     Errno = 111
-	ERROR_INSUFFICIENT_BUFFER Errno = 122
-	ERROR_MOD_NOT_FOUND       Errno = 126
-	ERROR_PROC_NOT_FOUND      Errno = 127
-	ERROR_DIR_NOT_EMPTY       Errno = 145
-	ERROR_ALREADY_EXISTS      Errno = 183
-	ERROR_ENVVAR_NOT_FOUND    Errno = 203
-	ERROR_MORE_DATA           Errno = 234
-	ERROR_OPERATION_ABORTED   Errno = 995
-	ERROR_IO_PENDING          Errno = 997
-	ERROR_NOT_FOUND           Errno = 1168
-	ERROR_PRIVILEGE_NOT_HELD  Errno = 1314
-	WSAEACCES                 Errno = 10013
-	WSAECONNABORTED           Errno = 10053
-	WSAECONNRESET             Errno = 10054
-)
-
-const (
 	// Invented values to support what package os expects.
 	O_RDONLY   = 0x00000
 	O_WRONLY   = 0x00001
