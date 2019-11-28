@@ -27,8 +27,10 @@ const (
 	ERROR_NOT_FOUND           Errno = 1168
 	ERROR_PRIVILEGE_NOT_HELD  Errno = 1314
 	WSAEACCES                 Errno = 10013
+	WSAEMFILE                 Errno = 10024
 	WSAECONNABORTED           Errno = 10053
 	WSAECONNRESET             Errno = 10054
+	WSAENOBUFS                Errno = 10055
 )
 
 const (

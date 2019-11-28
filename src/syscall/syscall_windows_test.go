@@ -76,3 +76,12 @@ func TestTOKEN_ALL_ACCESS(t *testing.T) {
 		t.Errorf("TOKEN_ALL_ACCESS = %x, want 0xF01FF", syscall.TOKEN_ALL_ACCESS)
 	}
 }
+
+func TestWSATemporaryErrors(t *testing.T) {
+	if !syscall.WSAEMFILE.Temporary() {
+		t.Error("WSAENFILE is not treated as a temporary error")
+	}
+	if !syscall.WSAENOBUFS.Temporary() {
+		t.Error("WSANOBUFS is not treated as a temporary error")
+	}
+}
