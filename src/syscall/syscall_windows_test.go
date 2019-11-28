@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build windows
+
 package syscall_test
 
 import (
@@ -74,5 +76,14 @@ func ExampleLoadLibrary() {
 func TestTOKEN_ALL_ACCESS(t *testing.T) {
 	if syscall.TOKEN_ALL_ACCESS != 0xF01FF {
 		t.Errorf("TOKEN_ALL_ACCESS = %x, want 0xF01FF", syscall.TOKEN_ALL_ACCESS)
+	}
+}
+
+func TestWSATemporaryErrors(t *testing.T) {
+	if !syscall.WSAEMFILE.Temporary() {
+		t.Error("WSAENFILE is not treated as a temporary error")
+	}
+	if !syscall.WSAENOBUFS.Temporary() {
+		t.Error("WSANOBUFS is not treated as a temporary error")
 	}
 }

@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build windows
+
 // Windows system calls.
 
 package syscall
@@ -136,7 +138,7 @@ func (e Errno) Is(target error) bool {
 }
 
 func (e Errno) Temporary() bool {
-	return e == EINTR || e == EMFILE || e.Timeout()
+	return e == EINTR || e == EMFILE || e == WSAEMFILE || e == WSAENOBUFS || e.Timeout()
 }
 
 func (e Errno) Timeout() bool {
