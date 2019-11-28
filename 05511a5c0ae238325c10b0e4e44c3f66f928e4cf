@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4863e7e_db9f3aa6",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-28T01:02:13Z",
+      "side": 0,
+      "message": "Removing ENFILE will break backward compatibility for no useful gain.  Please don\u0027t do that.",
+      "revId": "05511a5c0ae238325c10b0e4e44c3f66f928e4cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

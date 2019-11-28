@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffe8c04d_3ab7f4ed",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-11-28T01:02:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure what generates this file any more.  I suspect that nothing does.",
+      "revId": "eae58ffbae9a554643252f11b77734c58b626ef1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
