@@ -33,6 +33,24 @@
       "revId": "a5f0c87edbcd3cb472dd98f9a097e7d379688f66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcd30a03_46640983",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-11-29T10:23:59Z",
+      "side": 1,
+      "message": "If this file is generated, where is the generator script? I can\u0027t find mkerrors_windows.sh",
+      "parentUuid": "6dde749d_7d84b081",
+      "revId": "a5f0c87edbcd3cb472dd98f9a097e7d379688f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
