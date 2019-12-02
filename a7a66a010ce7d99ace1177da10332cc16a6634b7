@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4127119c_6718fe86",
+        "filename": "test/codegen/maps.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-12-02T21:44:00Z",
+      "side": 1,
+      "message": "Why do some of these have -\".*mapassign\" and some don\u0027t? I think all three lines can have it.",
+      "revId": "a7a66a010ce7d99ace1177da10332cc16a6634b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
