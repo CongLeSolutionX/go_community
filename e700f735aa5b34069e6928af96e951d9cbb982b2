@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77af1d16_5d3c1851",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T17:13:31Z",
+      "side": 1,
+      "message": "This should read JALR lr, off_lo(TMP). But here we don\u0027t split the offset to hi and lo, so don\u0027t mention it here.",
+      "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e353ae_184a5d5d",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T17:13:31Z",
+      "side": 1,
+      "message": "Can you put the symbol in p.To? This is in consistent with the target register in To.",
+      "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d55f47f_b21280f4",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T17:13:31Z",
+      "side": 1,
+      "message": "Does this case ever happen? When?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 16
+      },
+      "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e4b269f_baf29497",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T17:13:31Z",
+      "side": 1,
+      "message": "Can we use REG_LR as commented in CL 204629?",
+      "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "725b6ba9_92f15f7a",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T17:13:31Z",
+      "side": 1,
+      "message": "This kind of comments all indicate rewriting Progs in the current way is a bad idea.",
+      "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
