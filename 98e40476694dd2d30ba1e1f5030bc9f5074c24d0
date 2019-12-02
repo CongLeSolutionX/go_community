@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "326cb6a2_05d47ede",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T15:45:39Z",
+      "side": 1,
+      "message": "Is this correct for both endianness?",
+      "range": {
+        "startLine": 946,
+        "startChar": 0,
+        "endLine": 947,
+        "endChar": 31
+      },
+      "revId": "98e40476694dd2d30ba1e1f5030bc9f5074c24d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb63412_f29f24a3",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T15:45:39Z",
+      "side": 1,
+      "message": "Also this. Also this doesn\u0027t look right for 32-bit.",
+      "revId": "98e40476694dd2d30ba1e1f5030bc9f5074c24d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57713e23_4bb1920b",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-02T15:45:39Z",
+      "side": 1,
+      "message": "Is this right? I think the relocations are all applied on a 4-byte instruction.",
+      "revId": "98e40476694dd2d30ba1e1f5030bc9f5074c24d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
