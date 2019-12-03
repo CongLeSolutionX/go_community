@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9fc2f1b1_3e7022e0",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-03T18:13:53Z",
+      "side": 1,
+      "message": "Because Allsym gets stripped of all dead symbols, and loader.Syms doesn\u0027t. In other words, loader.Syms has gaps of nil symbols, where Allsym never would.",
+      "parentUuid": "63a2e140_f82a108e",
+      "range": {
+        "startLine": 473,
+        "startChar": 6,
+        "endLine": 473,
+        "endChar": 15
+      },
+      "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94dcec9e_69c2fe66",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "419fcaf4_d472c88e",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-03T18:13:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "94dcec9e_69c2fe66",
+      "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
