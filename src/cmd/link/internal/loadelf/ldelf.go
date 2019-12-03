@@ -452,7 +452,27 @@ func parseArmAttributes(e binary.ByteOrder, data []byte) (found bool, ehdrFlags 
 	return found, ehdrFlags, nil
 }
 
+<<<<<<< HEAD   (27c0ae [dev.link] all: merge branch 'master' into dev.link)
 // Load loads the ELF file pn from f.
+=======
+func Load(l *loader.Loader, arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length int64, pn string, flags uint32) ([]*sym.Symbol, uint32, error) {
+	newSym := func(name string, version int) *sym.Symbol {
+		return l.Create(name, syms)
+	}
+	lookup := func(name string, version int) *sym.Symbol {
+		return l.LookupOrCreate(name, version, syms)
+	}
+	return load(arch, syms.IncVersion(), newSym, lookup, f, pkg, length, pn, flags)
+}
+
+func LoadOld(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length int64, pn string, flags uint32) ([]*sym.Symbol, uint32, error) {
+	return load(arch, syms.IncVersion(), syms.Newsym, syms.Lookup, f, pkg, length, pn, flags)
+}
+
+type lookupFunc func(string, int) *sym.Symbol
+
+// load loads the ELF file pn from f.
+>>>>>>> BRANCH (2ac1ca cmd/vet: honor analyzer flags when running vet outside $GORO)
 // Symbols are written into syms, and a slice of the text symbols is returned.
 //
 // On ARM systems, Load will attempt to determine what ELF header flags to
@@ -1092,7 +1112,14 @@ func readelfsym(lookup func(string, int) *sym.Symbol, arch *sys.Arch, elfobj *El
 				// local names and hidden global names are unique
 				// and should only be referenced by their index, not name, so we
 				// don't bother to add them into the hash table
+<<<<<<< HEAD   (27c0ae [dev.link] all: merge branch 'master' into dev.link)
 				s = lookup(elfsym.name, localSymVersion)
+=======
+				// FIXME: pass empty string here for name? This would
+				// reduce mem use, but also (possibly) make it harder
+				// to debug problems.
+				s = newSym(elfsym.name, localSymVersion)
+>>>>>>> BRANCH (2ac1ca cmd/vet: honor analyzer flags when running vet outside $GORO)
 
 				s.Attr |= sym.AttrVisibilityHidden
 			}
