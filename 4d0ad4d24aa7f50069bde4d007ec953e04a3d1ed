@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "38918c36_33fbd2c2",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-03T22:15:23Z",
+      "side": 1,
+      "message": "Now this is just ctxt.loader.LookupOrCreate (no need for closure).",
+      "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63a2e140_f82a108e",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -49,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "57f153fb_be6447ee",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-03T22:15:23Z",
+      "side": 1,
+      "message": "Maybe we want to compact the global index space and get rid of the holes (not in this CL).",
+      "parentUuid": "9fc2f1b1_3e7022e0",
+      "range": {
+        "startLine": 473,
+        "startChar": 6,
+        "endLine": 473,
+        "endChar": 15
+      },
+      "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94dcec9e_69c2fe66",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -81,6 +122,40 @@
       "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bcbb7a9_63e8636b",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2000,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-03T22:15:23Z",
+      "side": 1,
+      "message": "When would LookupOrCreate return nil?",
+      "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8ad06fb_cd5c9540",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-03T22:15:23Z",
+      "side": 1,
+      "message": "We need this because there are still places use syms.Allsym?\n\nI think we may want to fold this to syms.Add.",
+      "revId": "4d0ad4d24aa7f50069bde4d007ec953e04a3d1ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
