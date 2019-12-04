@@ -105,6 +105,30 @@
       "revId": "5830c390cc5661b42367d22742a123cddee3a306",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b4c9e79_b941ba1a",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-04T09:44:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5871bbef_1fb27a44",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "5830c390cc5661b42367d22742a123cddee3a306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
