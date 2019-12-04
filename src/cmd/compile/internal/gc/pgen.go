@@ -554,7 +554,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *Func, apDecls []*Node) ([]*Node, []*dw
 	var vars []*dwarf.Var
 	var decls []*Node
 	var selected map[*Node]bool
-	if Ctxt.Flag_locationlists && Ctxt.Flag_optimize && fn.DebugInfo != nil {
+	if Ctxt.Flag_locationlists && Ctxt.Flag_optimize && fn.DebugInfo != nil && fn.Pragma&NoDebug == 0 {
 		decls, vars, selected = createComplexVars(fn)
 	} else {
 		decls, vars, selected = createSimpleVars(apDecls)

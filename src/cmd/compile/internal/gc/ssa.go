@@ -5934,7 +5934,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 
 	s.ScratchFpMem = e.scratchFpMem
 
-	if Ctxt.Flag_locationlists {
+	if Ctxt.Flag_locationlists && !e.NoDebug() {
 		if cap(f.Cache.ValueToProgAfter) < f.NumValues() {
 			f.Cache.ValueToProgAfter = make([]*obj.Prog, f.NumValues())
 		}
@@ -6027,7 +6027,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 				thearch.SSAGenValue(&s, v)
 			}
 
-			if Ctxt.Flag_locationlists {
+			if Ctxt.Flag_locationlists && !e.NoDebug() {
 				valueToProgAfter[v.ID] = s.pp.next
 			}
 
@@ -6127,7 +6127,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 		}
 	}
 
-	if Ctxt.Flag_locationlists {
+	if Ctxt.Flag_locationlists && !e.NoDebug() {
 		e.curfn.Func.DebugInfo = ssa.BuildFuncDebug(Ctxt, f, Debug_locationlist > 1, stackOffset)
 		bstart := s.bstart
 		// Note that at this moment, Prog.Pc is a sequence number; it's
@@ -6617,6 +6617,10 @@ type ssafn struct {
 	stksize      int64                  // stack size for current frame
 	stkptrsize   int64                  // prefix of stack containing pointers
 	log          bool                   // print ssa debug to the stdout
+}
+
+func (e *ssafn) NoDebug() bool {
+	return e.curfn.Func.Pragma&NoDebug != 0
 }
 
 // StringData returns a symbol (a *types.Sym wrapped in an interface) which

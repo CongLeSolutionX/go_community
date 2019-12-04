@@ -38,6 +38,7 @@ const (
 	NoCheckPtr                   // func should not be instrumented by checkptr
 	CgoUnsafeArgs                // treat a pointer to one arg as a pointer to them all
 	UintptrEscapes               // pointers converted to uintptr escape
+	NoDebug                      // don't emit debug information for this function.
 
 	// Runtime-only func pragmas.
 	// See ../../../../runtime/README.md for detailed descriptions.
@@ -60,6 +61,8 @@ func pragmaValue(verb string) syntax.Pragma {
 		return Noescape
 	case "go:norace":
 		return Norace
+	case "go:nodebug":
+		return NoDebug
 	case "go:nosplit":
 		return Nosplit | NoCheckPtr // implies NoCheckPtr (see #34972)
 	case "go:noinline":
