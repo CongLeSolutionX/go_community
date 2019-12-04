@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1edcc99_5e4dbc27",
+        "filename": "src/cmd/go/internal/work/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-12-04T18:44:17Z",
+      "side": 1,
+      "message": "Instead of testing here, could you extend TestCgoPkgConfig in src/cmd/go/go_test.go? That\u0027s what currently covers this case (but for --cflags only at the moment). It should be a much smaller change. No mocking should be necessary.",
+      "revId": "e780f4a3b712da68f8749098e0d30a0d543d881f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
