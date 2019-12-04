@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02612c64_3c0a5668",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2019-12-04T21:04:09Z",
+      "side": 1,
+      "message": "This comment looked closer to reality",
+      "parentUuid": "3bd9c0f6_8a7b2aaa",
+      "revId": "a5f0c87edbcd3cb472dd98f9a097e7d379688f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dde749d_7d84b081",
         "filename": "src/syscall/zerrors_windows.go",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "If this file is generated, where is the generator script? I can\u0027t find mkerrors_windows.sh",
       "parentUuid": "6dde749d_7d84b081",
+      "revId": "a5f0c87edbcd3cb472dd98f9a097e7d379688f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "681384dc_3c82229c",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2019-12-04T21:04:09Z",
+      "side": 1,
+      "message": "The generation is not automated here but in x/sys. Details in the comment below.",
+      "parentUuid": "fcd30a03_46640983",
       "revId": "a5f0c87edbcd3cb472dd98f9a097e7d379688f66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
