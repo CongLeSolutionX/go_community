@@ -79,6 +79,30 @@
       "revId": "c4db59dc2c5c04868a0eb959f60c7ec940201432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b5e0ffb_f4791ad7",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-05T16:18:34Z",
+      "side": 1,
+      "message": "This is not addressed. My question was, e.g. why there is no MIPS64 | uint32(elf.R_MIPS_HI16)\u003c\u003c16 ? I think it should be the full Cartesian product of {relocs} x {MIPS, MIPS64}.",
+      "parentUuid": "46292c83_f4256b10",
+      "range": {
+        "startLine": 1174,
+        "startChar": 0,
+        "endLine": 1183,
+        "endChar": 43
+      },
+      "revId": "c4db59dc2c5c04868a0eb959f60c7ec940201432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
