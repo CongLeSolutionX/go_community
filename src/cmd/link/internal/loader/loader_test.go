@@ -81,7 +81,17 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	if es3typ != sym.SRODATA {
 		t.Errorf("SymType(es3): expected %d, got %d", sym.SRODATA, es3typ)
 	}
-	ldr.SetType(es3, sym.SRODATA)
+
+	// Check/set alignment
+	es3al := ldr.SymAlign(es3)
+	if es3al != 0 {
+		t.Errorf("SymAlign(es3): expected 0, got %d", es3al)
+	}
+	ldr.SetSymAlign(es3, 128)
+	es3al = ldr.SymAlign(es3)
+	if es3al != 128 {
+		t.Errorf("SymAlign(es3): expected 128, got %d", es3al)
+	}
 
 	// New symbols should not be reachable
 	if ldr.Reachable.Has(es1) || ldr.Reachable.Has(es2) ||
