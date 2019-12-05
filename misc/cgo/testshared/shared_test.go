@@ -351,9 +351,13 @@ func rnd(v int32, r int32) int32 {
 
 func readwithpad(r io.Reader, sz int32) ([]byte, error) {
 	data := make([]byte, rnd(sz, 4))
-	_, err := io.ReadFull(r, data)
+	n, err := io.ReadFull(r, data)
 	if err != nil {
-		return nil, err
+		n2 := n
+		if n2 > 512 {
+			n2 = 512
+		}
+		return nil, fmt.Errorf("readwithpad: got %d bytes, want %d bytes: %v\ndata = % x", n, len(data), err, data[:n2])
 	}
 	data = data[:sz]
 	return data, nil
