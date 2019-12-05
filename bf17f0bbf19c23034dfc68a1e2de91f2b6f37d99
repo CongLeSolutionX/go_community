@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2fbf662_9fad843a",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2019-12-05T20:25:32Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "5ba8f730_3892c8ef",
+      "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "192fdd77_55ea9001",
         "filename": "src/syscall/syscall_windows_test.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b99bdf_5f85fb66",
+        "filename": "src/syscall/syscall_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2019-12-05T20:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192fdd77_55ea9001",
+      "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "24ea9a5e_c9585813",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2019-12-05T20:25:32Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "fb7d8395_3c1f544f",
+      "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cae54e46_82a1125f",
         "filename": "src/syscall/zerrors_windows.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2019-12-05T10:42:56Z",
       "side": 1,
       "message": "Belong in types_windows.go, with other WSAE* consts.\n\nzerrors_windows.go is for Unix error constants",
+      "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "929a1329_c0eae56a",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2019-12-05T20:25:32Z",
+      "side": 1,
+      "message": "Moved back to types_windows. The idea looked like moving updates to zerrors in line with x/sys/windows package.",
+      "parentUuid": "cae54e46_82a1125f",
       "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
