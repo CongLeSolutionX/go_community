@@ -15,6 +15,7 @@ import (
 	"cmd/link/internal/sym"
 	"fmt"
 	"log"
+	"math/bits"
 	"os"
 	"sort"
 	"strconv"
@@ -168,6 +169,8 @@ type Loader struct {
 	payloads   []extSymPayload // contents of linker-materialized external syms
 	hasPayload bitmap          // whether ext sym has payload, indexed by global index
 
+	align map[Sym]int32 // stores alignment for symbols
+
 	elfsetstring elfsetstringFunc
 }
 
@@ -198,6 +201,7 @@ func NewLoader(flags uint32, elfsetstring elfsetstringFunc) *Loader {
 		symsByName:    [2]map[string]Sym{make(map[string]Sym), make(map[string]Sym)},
 		objByPkg:      make(map[string]*oReader),
 		overwrite:     make(map[Sym]Sym),
+		align:         make(map[Sym]int32),
 		itablink:      make(map[Sym]struct{}),
 		extStaticSyms: make(map[nameVer]Sym),
 		builtinSyms:   make([]Sym, nbuiltin),
@@ -655,6 +659,35 @@ func (l *Loader) SymSize(i Sym) int64 {
 	}
 	pi := i - l.extStart
 	return l.payloads[pi].size
+}
+
+// SymAlign returns the alignment for a symbol.
+func (l *Loader) SymAlign(i Sym) int32 {
+	// If an alignment has been recorded, return that.
+	if align, ok := l.align[i]; ok {
+		return align
+	}
+	// TODO: would it make sense to return an arch-specific
+	// alignment depending on section type? E.g. STEXT => 32,
+	// SDATA => 1, etc?
+	return 0
+}
+
+// SetSymAlign sets the alignment for a symbol.
+func (l *Loader) SetSymAlign(i Sym, align int32) {
+	// reject bad synbols
+	if i < l.max {
+		panic("bad symbol index in SetSymAlign")
+	}
+	// Reject nonsense alignments.
+	// TODO: do we need this?
+	if align < 0 {
+		panic("bad alignment value")
+	}
+	if bits.OnesCount32(uint32(align)) != 1 {
+		panic("bad alignment value")
+	}
+	l.align[i] = align
 }
 
 // Returns the number of aux symbols given a global index.
