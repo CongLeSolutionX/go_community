@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ebaac00_286a8ef6",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-05T20:11:35Z",
+      "side": 1,
+      "message": "Many of the cases where this code is called have a maximum length, but that maximum is lost when calling this function.  That is, when calling syscall.UTF16ToString many of the uses pass a slice of, say, 256 characters.  Here we are just getting a pointer.  In some cases it seems at least possible that the null terminator is not present.  I think it would be safer if we passed a maximum length here.",
+      "revId": "4aa18be7c7ec9cd6294e9e6c44b2cb6749ee3dd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
