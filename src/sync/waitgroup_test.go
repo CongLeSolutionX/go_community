@@ -171,8 +171,13 @@ func TestWaitGroupMisuse3(t *testing.T) {
 			}()
 			wg.Wait()
 		}()
-		wg.Wait()
-		for j := 0; j < 2; j++ {
+		go func() {
+			defer func() {
+				done <- recover()
+			}()
+			wg.Wait()
+		}()
+		for j := 0; j < 3; j++ {
 			if err := <-done; err != nil {
 				panic(err)
 			}
