@@ -75,6 +75,13 @@ type nameVer struct {
 	v    int
 }
 
+// SymbolBuilder is a helper designed to help with the construction
+// of new symbol contents.
+type SymbolBuilder struct {
+	extSymPayload
+	symIdx Sym // maybe zero if not constructed yet
+}
+
 type bitmap []uint32
 
 // set the i-th bit.
@@ -1813,4 +1820,52 @@ func (l *Loader) Dump() {
 	for name, i := range l.symsByName[1] {
 		fmt.Println(i, name, 1)
 	}
+}
+
+// NewSymbolBuilder creates a symbol builder helper for an already-allocated
+// external symbol 'symIdx'.
+func (l *Loader) NewSymbolBuilder(symIdx Sym) SymbolBuilder {
+	if l.Syms[symIdx] != nil {
+		panic("can't build if sym.Symbol already present")
+	}
+	if l.hasPayload.Has(symIdx) {
+		panic("can't build if no payload flag")
+	}
+	return SymbolBuilder{symIdx: symIdx}
+}
+
+func (sb *SymbolBuilder) SetType(kind sym.SymKind) {
+	sb.kind = kind
+}
+
+func (sb *SymbolBuilder) SetSize(size int64) {
+	sb.size = size
+}
+
+func (sb *SymbolBuilder) SetAlign(align int32) {
+	// sb.align = align
+}
+
+func (sb *SymbolBuilder) SetData(data []byte) {
+	sb.data = data
+}
+
+func (sb *SymbolBuilder) Instantiate(l *Loader) Sym {
+	symIdx := sb.symIdx
+	if symIdx == 0 {
+		// for now assume that any new sym is intended to be static
+		symIdx = l.CreateExtSym(sb.name)
+	}
+	if l.Syms[symIdx] != nil {
+		panic("can't build if sym.Symbol already present")
+	}
+	if l.hasPayload.Has(symIdx) {
+		panic("can't build if no payload flag")
+	}
+
+	// Copy payload.
+	pi := symIdx - l.extStart
+	l.payloads[pi] = sb.extSymPayload
+
+	return symIdx
 }
