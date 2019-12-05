@@ -50,6 +50,23 @@
       "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cae54e46_82a1125f",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-12-05T10:42:56Z",
+      "side": 1,
+      "message": "Belong in types_windows.go, with other WSAE* consts.\n\nzerrors_windows.go is for Unix error constants",
+      "revId": "bf17f0bbf19c23034dfc68a1e2de91f2b6f37d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
