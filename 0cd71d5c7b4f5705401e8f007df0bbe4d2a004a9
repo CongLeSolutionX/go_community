@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53e8f1d0_977337dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-12-05T20:34:32Z",
+      "side": 1,
+      "message": "Doesn\u0027t fix these two issues.",
+      "revId": "0cd71d5c7b4f5705401e8f007df0bbe4d2a004a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "443a0778_f1a6f95a",
+        "filename": "src/syscall/zerrors_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-12-05T20:34:32Z",
+      "side": 1,
+      "message": "Belongs in new CL to fix Errno values. Let\u0027s not change this file in this CL.",
+      "revId": "0cd71d5c7b4f5705401e8f007df0bbe4d2a004a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
