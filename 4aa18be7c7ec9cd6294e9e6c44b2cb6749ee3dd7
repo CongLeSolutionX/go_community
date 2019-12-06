@@ -34,6 +34,24 @@
       "revId": "4aa18be7c7ec9cd6294e9e6c44b2cb6749ee3dd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5101dfa_7ff569e6",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-12-06T06:37:17Z",
+      "side": 1,
+      "message": "\u003e In some cases it seems at least possible that the null terminator is not present.  \n\nI don\u0027t think it is possible for null terminator not to be present here. All these calls are similar to strcat function from C. They are all deal with null terminated strings.\n\n\u003e I think it would be safer if we passed a maximum length here.\n\nI think that maximum length parameter is superfluous here. You wouldn\u0027t pass maximum length when calling strcat function. This is similar. If you want to make sure that loop at line 22 stops, lets stop at some predefined hard coded value. Making up that value at function call site makes little sense. No?",
+      "parentUuid": "20365fb9_08d2bbed",
+      "revId": "4aa18be7c7ec9cd6294e9e6c44b2cb6749ee3dd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
