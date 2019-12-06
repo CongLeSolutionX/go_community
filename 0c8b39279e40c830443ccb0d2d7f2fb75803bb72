@@ -22,6 +22,30 @@
       "revId": "0c8b39279e40c830443ccb0d2d7f2fb75803bb72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6f62eeb_798c9ee3",
+        "filename": "src/runtime/chan_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-06T03:07:10Z",
+      "side": 1,
+      "message": "When GOMAXPROCS \u003d\u003d 1, maybe not.",
+      "parentUuid": "389f2045_8ccdfea0",
+      "range": {
+        "startLine": 717,
+        "startChar": 2,
+        "endLine": 717,
+        "endChar": 33
+      },
+      "revId": "0c8b39279e40c830443ccb0d2d7f2fb75803bb72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
