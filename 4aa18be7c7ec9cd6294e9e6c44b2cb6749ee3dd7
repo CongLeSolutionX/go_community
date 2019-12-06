@@ -52,6 +52,24 @@
       "revId": "4aa18be7c7ec9cd6294e9e6c44b2cb6749ee3dd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "053deb72_5716a9ec",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-06T19:51:48Z",
+      "side": 1,
+      "message": "We wanted to do something conservative for Go 1.14 this late in the cycle. We can change this more in February for Go 1.15.",
+      "parentUuid": "a5101dfa_7ff569e6",
+      "revId": "4aa18be7c7ec9cd6294e9e6c44b2cb6749ee3dd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
