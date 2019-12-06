@@ -49,8 +49,10 @@ func _() {
 		_ = syscall.Flock_t{
 			Type:   int16(0),
 			Whence: int16(0),
-			Start:  int64(0),
-			Len:    int64(0),
+			Start1: int32(0),
+			Start2: int32(0),
+			Len1:   int32(0),
+			Len2:   int32(0),
 			Pid:    int32(0),
 		}
 	)
@@ -74,8 +76,8 @@ func TestFcntlFlock(t *testing.T) {
 		t.Skip("skipping; no child processes allowed on iOS")
 	}
 	flock := syscall.Flock_t{
-		Type:  syscall.F_WRLCK,
-		Start: 31415, Len: 271828, Whence: 1,
+		Type:   syscall.F_WRLCK,
+		Start1: 31415, Start2: 0, Len1: 271828, Len2: 0, Whence: 1,
 	}
 	if os.Getenv("GO_WANT_HELPER_PROCESS") == "" {
 		// parent
@@ -107,15 +109,15 @@ func TestFcntlFlock(t *testing.T) {
 		// child
 		got := flock
 		// make sure the child lock is conflicting with the parent lock
-		got.Start--
-		got.Len++
+		got.Start1--
+		got.Len1++
 		if err := syscall.FcntlFlock(3, syscall.F_GETLK, &got); err != nil {
 			t.Fatalf("FcntlFlock(F_GETLK) failed: %v", err)
 		}
 		flock.Pid = int32(syscall.Getppid())
 		// Linux kernel always set Whence to 0
 		flock.Whence = 0
-		if got.Type == flock.Type && got.Start == flock.Start && got.Len == flock.Len && got.Pid == flock.Pid && got.Whence == flock.Whence {
+		if got.Type == flock.Type && got.Start1 == flock.Start1 && got.Start2 == flock.Start2 && got.Len1 == flock.Len1 && got.Len2 == flock.Len2 && got.Pid == flock.Pid && got.Whence == flock.Whence {
 			os.Exit(0)
 		}
 		t.Fatalf("FcntlFlock got %v, want %v", got, flock)

@@ -151,8 +151,9 @@ type Type struct {
 	Sym    *Sym  // symbol containing name, for named types
 	Vargen int32 // unique name for OTYPE/ONAME
 
-	Etype EType // kind of type
-	Align uint8 // the required alignment of this type, in bytes (0 means Width and Align have not yet been computed)
+	Etype      EType // kind of type
+	Align      uint8 // the required alignment of this type, in bytes (0 means Width and Align have not yet been computed)
+	StackAlign uint8 // the required alignment of this type for arguments/returns/locals
 
 	flags bitset8
 }
@@ -548,6 +549,7 @@ func NewPtr(elem *Type) *Type {
 	t.Extra = Ptr{Elem: elem}
 	t.Width = int64(Widthptr)
 	t.Align = uint8(Widthptr)
+	t.StackAlign = uint8(Widthptr)
 	if NewPtrCacheEnabled {
 		elem.Cache.ptr = t
 	}

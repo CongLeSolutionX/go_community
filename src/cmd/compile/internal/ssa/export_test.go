@@ -188,6 +188,7 @@ func init() {
 		t := types.New(typ.et)
 		t.Width = typ.width
 		t.Align = uint8(typ.width)
+		t.StackAlign = uint8(typ.width)
 		types.Types[typ.et] = t
 	}
 	dummyTypes.SetTypPtrs()

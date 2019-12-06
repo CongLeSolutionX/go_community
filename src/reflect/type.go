@@ -304,7 +304,7 @@ type rtype struct {
 	ptrdata    uintptr // number of bytes in the type that can contain pointers
 	hash       uint32  // hash of type; avoids computation in hash tables
 	tflag      tflag   // extra type information flags
-	align      uint8   // alignment of variable with this type
+	align      uint8   // alignment of variable with this type, including args/returns/locals
 	fieldAlign uint8   // alignment of struct field with this type
 	kind       uint8   // enumeration for C
 	// function for comparing objects of this type
@@ -2175,6 +2175,10 @@ func bucketOf(ktyp, etyp *rtype) *rtype {
 	var ptrdata uintptr
 	var overflowPad uintptr
 
+	if ptrSize == 4 && (ktyp.fieldAlign > ptrSize || etyp.fieldAlign > ptrSize) {
+		overflowPad = ptrSize
+	}
+
 	size := bucketSize*(1+ktyp.size+etyp.size) + overflowPad + ptrSize
 	if size&uintptr(ktyp.align-1) != 0 || size&uintptr(etyp.align-1) != 0 {
 		panic("reflect: bad size computation in MapOf")
@@ -2547,9 +2551,9 @@ func StructOf(fields []StructField) Type {
 
 		comparable = comparable && (ft.equal != nil)
 
-		offset := align(size, uintptr(ft.align))
-		if ft.align > typalign {
-			typalign = ft.align
+		offset := align(size, uintptr(ft.fieldAlign))
+		if ft.fieldAlign > typalign {
+			typalign = ft.fieldAlign
 		}
 		size = offset + ft.size
 		f.offsetEmbed |= offset << 1
@@ -3020,6 +3024,10 @@ func funcLayout(t *funcType, rcvr *rtype) (frametype *rtype, argSize, retOffset 
 		size:    offset,
 		ptrdata: uintptr(ptrmap.n) * ptrSize,
 	}
+	// XXX Doesn't seem to be needed?
+	//if runtime.GOARCH == "386" {
+	//	x.align = 8
+	//}
 	if ptrmap.n > 0 {
 		x.gcdata = &ptrmap.data[0]
 	}

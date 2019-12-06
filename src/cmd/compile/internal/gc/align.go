@@ -95,7 +95,11 @@ func expandiface(t *types.Type) {
 	t.Extra.(*types.Interface).Fields.Set(methods)
 }
 
-func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
+// widstruct returns the width of a struct (actually finally offset) and fills in
+// all the field offsets. If funcStruct is true, this is a top-level pseudo-struct
+// representing the receiver, args, or return values of a function. If o is
+// non-zero, it sets the initial offset.  flag sets an extra alignment for the struct.
+func widstruct(errtype *types.Type, t *types.Type, o int64, flag int, funcStruct bool) int64 {
 	starto := o
 	maxalign := int32(flag)
 	if maxalign < 1 {
@@ -110,11 +114,15 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 		}
 
 		dowidth(f.Type)
-		if int32(f.Type.Align) > maxalign {
-			maxalign = int32(f.Type.Align)
+		myalign := f.Type.Align
+		if funcStruct {
+			myalign = f.Type.StackAlign
 		}
-		if f.Type.Align > 0 {
-			o = Rnd(o, int64(f.Type.Align))
+		if int32(myalign) > maxalign {
+			maxalign = int32(myalign)
+		}
+		if myalign > 0 {
+			o = Rnd(o, int64(myalign))
 		}
 		f.Offset = o
 		if n := asNode(f.Nname); n != nil {
@@ -166,6 +174,7 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 		o = Rnd(o, int64(maxalign))
 	}
 	t.Align = uint8(maxalign)
+	t.StackAlign = uint8(maxalign)
 
 	// type width only includes back to first field's offset
 	t.Width = o - starto
@@ -199,6 +208,7 @@ func dowidth(t *types.Type) {
 
 		t.Width = 0
 		t.Align = 1
+		t.StackAlign = 1
 		return
 	}
 
@@ -231,6 +241,7 @@ func dowidth(t *types.Type) {
 
 	t.Width = -2
 	t.Align = 0 // 0 means use t.Width, below
+	t.StackAlign = 0
 
 	et := t.Etype
 	switch et {
@@ -262,7 +273,9 @@ func dowidth(t *types.Type) {
 
 	case TINT64, TUINT64, TFLOAT64:
 		w = 8
-		t.Align = uint8(Widthreg)
+		// For 32-bit architectures, the field alignment will 8,but the
+		// alignment for function args/return values will still be 4
+		t.StackAlign = uint8(Widthreg)
 
 	case TCOMPLEX64:
 		w = 8
@@ -352,7 +365,9 @@ func dowidth(t *types.Type) {
 		if t.IsFuncArgStruct() {
 			Fatalf("dowidth fn struct %v", t)
 		}
-		w = widstruct(t, t, 0, 1)
+		// If a function arg/return value is/has a struct, it is aligned
+		// like all other structs.
+		w = widstruct(t, t, 0, 1, false)
 
 	// make fake type to check later to
 	// trigger function argument computation.
@@ -365,9 +380,9 @@ func dowidth(t *types.Type) {
 	// compute their widths as side-effect.
 	case TFUNCARGS:
 		t1 := t.FuncArgs()
-		w = widstruct(t1, t1.Recvs(), 0, 0)
-		w = widstruct(t1, t1.Params(), w, Widthreg)
-		w = widstruct(t1, t1.Results(), w, Widthreg)
+		w = widstruct(t1, t1.Recvs(), 0, 0, true)
+		w = widstruct(t1, t1.Params(), w, Widthreg, true)
+		w = widstruct(t1, t1.Results(), w, Widthreg, true)
 		t1.Extra.(*types.Func).Argwid = w
 		if w%int64(Widthreg) != 0 {
 			Warn("bad type %v %d\n", t1, w)
@@ -385,6 +400,9 @@ func dowidth(t *types.Type) {
 			Fatalf("invalid alignment for %v", t)
 		}
 		t.Align = uint8(w)
+	}
+	if t.StackAlign == 0 {
+		t.StackAlign = t.Align
 	}
 
 	lineno = lno

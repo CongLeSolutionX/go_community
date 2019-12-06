@@ -112,6 +112,27 @@ func bmap(t *types.Type) *types.Type {
 	elems := makefield("elems", arr)
 	field = append(field, elems)
 
+	// Make sure the overflow pointer is the last memory in the struct,
+	// because the runtime assumes it can use size-ptrSize as the
+	// offset of the overflow pointer. We double-check that property
+	// below once the offsets and size are computed.
+	//
+	// BUCKETSIZE is 8, so the struct is aligned to 64 bits to this point.
+	// On 32-bit systems, the max alignment is 32-bit, and the
+	// overflow pointer will add another 32-bit field, and the struct
+	// will end with no padding.
+	// On 64-bit systems, the max alignment is 64-bit, and the
+	// overflow pointer will add another 64-bit field, and the struct
+	// will end with no padding.
+	// On nacl/amd64p32, however, the max alignment is 64-bit,
+	// but the overflow pointer will add only a 32-bit field,
+	// so if the struct needs 64-bit padding (because a key or elem does)
+	// then it would end with an extra 32-bit padding field.
+	// Preempt that by emitting the padding here.
+	if int(elemtype.Align) > Widthptr || int(keytype.Align) > Widthptr {
+		field = append(field, makefield("pad", types.Types[TUINTPTR]))
+	}
+
 	// If keys and elems have no pointers, the map implementation
 	// can keep a list of overflow pointers on the side so that
 	// buckets can be marked as having no pointers.
@@ -311,6 +332,7 @@ func deferstruct(stksize int64) *types.Type {
 	argtype := types.NewArray(types.Types[TUINT8], stksize)
 	argtype.Width = stksize
 	argtype.Align = 1
+	argtype.StackAlign = 1
 	// These fields must match the ones in runtime/runtime2.go:_defer and
 	// cmd/compile/internal/gc/ssa.go:(*state).call.
 	fields := []*types.Field{
@@ -336,8 +358,9 @@ func deferstruct(stksize int64) *types.Type {
 	s := types.New(TSTRUCT)
 	s.SetNoalg(true)
 	s.SetFields(fields)
-	s.Width = widstruct(s, s, 0, 1)
+	s.Width = widstruct(s, s, 0, 1, true)
 	s.Align = uint8(Widthptr)
+	s.StackAlign = uint8(Widthptr)
 	return s
 }
 
@@ -897,8 +920,10 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 	if i&(i-1) != 0 {
 		Fatalf("invalid alignment %d for %v", t.Align, t)
 	}
-	ot = duint8(lsym, ot, t.Align) // align
-	ot = duint8(lsym, ot, t.Align) // fieldAlign
+	// Confusing, but rt.align is the alignment except for fields, and
+	// rt.fieldAlign is the alignment for fields.
+	ot = duint8(lsym, ot, t.StackAlign) // align
+	ot = duint8(lsym, ot, t.Align)      // fieldAlign
 
 	i = kinds[t.Etype]
 	if isdirectiface(t) {

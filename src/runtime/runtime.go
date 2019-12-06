@@ -15,7 +15,6 @@ import (
 
 var ticks struct {
 	lock mutex
-	pad  uint32 // ensure 8-byte alignment of val on 386
 	val  uint64
 }
 

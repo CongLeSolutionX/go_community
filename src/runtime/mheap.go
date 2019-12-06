@@ -70,8 +70,6 @@ type mheap struct {
 	// on the swept stack.
 	sweepSpans [2]gcSweepBuf
 
-	_ uint32 // align uint64 fields on 32-bit for atomics
-
 	// Proportional sweep
 	//
 	// These parameters represent a linear function from heap_live
@@ -185,8 +183,6 @@ type mheap struct {
 	curArena struct {
 		base, end uintptr
 	}
-
-	_ uint32 // ensure 64-bit alignment of central
 
 	// central free lists for small size classes.
 	// the padding makes sure that the mcentrals are

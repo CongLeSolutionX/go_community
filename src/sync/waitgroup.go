@@ -18,23 +18,14 @@ import (
 //
 // A WaitGroup must not be copied after first use.
 type WaitGroup struct {
-	noCopy noCopy
-
-	// 64-bit value: high 32 bits are counter, low 32 bits are waiter count.
-	// 64-bit atomic operations require 64-bit alignment, but 32-bit
-	// compilers do not ensure it. So we allocate 12 bytes and then use
-	// the aligned 8 bytes in them as state, and the other 4 as storage
-	// for the sema.
-	state1 [3]uint32
+	noCopy   noCopy
+	stateval uint64
+	sema     uint32
 }
 
 // state returns pointers to the state and sema fields stored within wg.state1.
 func (wg *WaitGroup) state() (statep *uint64, semap *uint32) {
-	if uintptr(unsafe.Pointer(&wg.state1))%8 == 0 {
-		return (*uint64)(unsafe.Pointer(&wg.state1)), &wg.state1[2]
-	} else {
-		return (*uint64)(unsafe.Pointer(&wg.state1[1])), &wg.state1[0]
-	}
+	return &wg.stateval, &wg.sema
 }
 
 // Add adds delta, which may be negative, to the WaitGroup counter.

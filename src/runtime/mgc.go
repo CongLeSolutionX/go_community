@@ -949,9 +949,6 @@ var work struct {
 		busy mSpanList
 	}
 
-	// Restore 64-bit alignment on 32-bit.
-	_ uint32
-
 	// bytesMarked is the number of bytes marked this cycle. This
 	// includes bytes blackened in scanned objects, noscan objects
 	// that go straight to black, and permagrey objects scanned by

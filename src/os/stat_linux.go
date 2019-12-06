@@ -11,7 +11,7 @@ import (
 
 func fillFileStatFromSys(fs *fileStat, name string) {
 	fs.name = basename(name)
-	fs.size = fs.sys.Size
+	fs.size = int64(fs.sys.Size1) + int64(fs.sys.Size2)>>32
 	fs.modTime = timespecToTime(fs.sys.Mtim)
 	fs.mode = FileMode(fs.sys.Mode & 0777)
 	switch fs.sys.Mode & syscall.S_IFMT {
