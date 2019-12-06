@@ -28,7 +28,7 @@ func (l *Loader) MakeSymbolBuilder(name string) *SymbolBuilder {
 	if l.Syms[symIdx] != nil {
 		panic("can't build if sym.Symbol already present")
 	}
-	if l.hasPayload.Has(symIdx) {
+	if l.hasPayload.Has(symIdx - l.extStart) {
 		panic("can't build if no payload flag")
 	}
 
@@ -40,10 +40,13 @@ func (l *Loader) MakeSymbolBuilder(name string) *SymbolBuilder {
 // NewSymbolBuilder creates a symbol builder helper for an already-allocated
 // external symbol 'symIdx'.
 func (l *Loader) MakeSymbolUpdater(symIdx Sym) *SymbolBuilder {
+	if !l.isExternal(symIdx) {
+		panic("can't build on non-external sym")
+	}
 	if l.Syms[symIdx] != nil {
 		panic("can't build if sym.Symbol already present")
 	}
-	if l.hasPayload.Has(symIdx) {
+	if !l.hasPayload.Has(symIdx - l.extStart) {
 		panic("can't build if no payload flag")
 	}
 	sb := &SymbolBuilder{l: l, symIdx: symIdx}
@@ -154,11 +157,32 @@ func (sb *SymbolBuilder) AddReloc(r Reloc) {
 }
 
 func (sb *SymbolBuilder) Reachable() bool {
-	return sb.l.Reachable.Has(sb.symIdx)
+	return sb.l.attrReachable.Has(sb.symIdx)
 }
 
 func (sb *SymbolBuilder) setReachable() {
-	sb.l.Reachable.Set(sb.symIdx)
+	sb.l.SetAttrReachable(sb.symIdx, true)
+}
+
+// PrependSub prepends 'sub' onto the sub list for a given outer symbol.
+// Will panic if 'sub' already has an outer sym or sub sym.
+func (sb *SymbolBuilder) PrependSub(sub Sym) {
+	if !sb.l.hasPayload.Has(sub - sb.l.extStart) {
+		panic("expected hasPayload in PrependSub")
+	}
+	outer := sb.symIdx
+	if sb.l.OuterSym(outer) != 0 {
+		panic("outer has outer itself")
+	}
+	if sb.l.SubSym(sub) != 0 {
+		panic("sub set for subsym")
+	}
+	if sb.l.OuterSym(sub) != 0 {
+		panic("outer already set for subsym")
+	}
+	sb.l.sub[sub] = sb.l.sub[outer]
+	sb.l.sub[outer] = sub
+	sb.l.outer[sub] = outer
 }
 
 func (sb *SymbolBuilder) AddUint8(v uint8) int64 {

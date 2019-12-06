@@ -103,6 +103,12 @@ func TestAddMaterializedSymbol(t *testing.T) {
 		t.Errorf("newly materialized symbols should not be reachable")
 	}
 
+	// ... however it should be possible to set their reachability.
+	ldr.SetAttrReachable(es3, false)
+	if ldr.AttrReachable(es3) {
+		t.Errorf("expected unreachable symbol after update")
+	}
+
 	// Add some relocations to the new symbols.
 	r1 := Reloc{0, 1, objabi.R_ADDR, 0, ts1}
 	r2 := Reloc{3, 8, objabi.R_CALL, 0, ts2}
@@ -271,7 +277,7 @@ func TestAddDataMethods(t *testing.T) {
 			t.Errorf("testing Loader.%s: expected data %v got %v",
 				tp.which, tp.expData, ldr.Data(mi))
 		}
-		if !ldr.Reachable.Has(mi) {
+		if !ldr.AttrReachable(mi) {
 			t.Fatalf("testing Loader.%s: sym updated should be reachable", tp.which)
 		}
 		relocs := ldr.Relocs(mi)
@@ -281,5 +287,61 @@ func TestAddDataMethods(t *testing.T) {
 				tp.which, rsl, tp.expRel)
 		}
 		pmi = mi
+	}
+}
+
+func TestOuterSub(t *testing.T) {
+	edummy := func(s *sym.Symbol, str string, off int) {}
+	ldr := NewLoader(0, edummy)
+	dummyOreader := oReader{version: -1}
+	or := &dummyOreader
+
+	// Populate loader with some symbols.
+	addDummyObjSym(t, ldr, or, "type.uint8")
+	es1 := ldr.AddExtSym("outer", 0)
+	es2 := ldr.AddExtSym("sub1", 0)
+	es3 := ldr.AddExtSym("sub2", 0)
+	ldr.InitReachable()
+	sb1 := ldr.MakeSymbolUpdater(es1)
+
+	// Should not have an outer sym initially
+	if ldr.OuterSym(es1) != 0 {
+		t.Errorf("es1 outer sym set ")
+	}
+	if ldr.SubSym(es2) != 0 {
+		t.Errorf("es2 outer sym set ")
+	}
+
+	// Establish first outer/sub relationship
+	sb1.PrependSub(es2)
+	if ldr.OuterSym(es1) != 0 {
+		t.Errorf("ldr.OuterSym(es1) got %d wanted %d", ldr.OuterSym(es1), 0)
+	}
+	if ldr.OuterSym(es2) != es1 {
+		t.Errorf("ldr.OuterSym(es2) got %d wanted %d", ldr.OuterSym(es2), es1)
+	}
+	if ldr.SubSym(es1) != es2 {
+		t.Errorf("ldr.SubSym(es1) got %d wanted %d", ldr.SubSym(es1), es2)
+	}
+	if ldr.SubSym(es2) != 0 {
+		t.Errorf("ldr.SubSym(es2) got %d wanted %d", ldr.SubSym(es2), 0)
+	}
+
+	// Establish second outer/sub relationship
+	sb1.PrependSub(es3)
+	if ldr.OuterSym(es1) != 0 {
+		t.Errorf("ldr.OuterSym(es1) got %d wanted %d", ldr.OuterSym(es1), 0)
+	}
+	if ldr.OuterSym(es2) != es1 {
+		t.Errorf("ldr.OuterSym(es2) got %d wanted %d", ldr.OuterSym(es2), es1)
+	}
+	if ldr.OuterSym(es3) != es1 {
+		t.Errorf("ldr.OuterSym(es3) got %d wanted %d", ldr.OuterSym(es3), es1)
+	}
+	if ldr.SubSym(es1) != es3 {
+		t.Errorf("ldr.SubSym(es1) got %d wanted %d", ldr.SubSym(es1), es3)
+	}
+	if ldr.SubSym(es3) != es2 {
+		t.Errorf("ldr.SubSym(es3) got %d wanted %d", ldr.SubSym(es3), es2)
 	}
 }
