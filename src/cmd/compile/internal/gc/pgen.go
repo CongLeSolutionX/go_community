@@ -177,7 +177,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 			w = 1
 		}
 		s.stksize += w
-		s.stksize = Rnd(s.stksize, int64(n.Type.Align))
+		s.stksize = Rnd(s.stksize, int64(n.Type.StackAlign))
 		if types.Haspointers(n.Type) {
 			s.stkptrsize = s.stksize
 			lastHasPtr = true
@@ -190,8 +190,11 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		n.Xoffset = -s.stksize
 	}
 
-	s.stksize = Rnd(s.stksize, int64(Widthreg))
-	s.stkptrsize = Rnd(s.stkptrsize, int64(Widthreg))
+	// On 32-bit machines, structs will be 64-bit aligned if they have a
+	// 64-bit field. So, we must align the stack frame to 64-bits, so that
+	// these kinds of structs are aligned if they are an arg or return value.
+	s.stksize = Rnd(s.stksize, 8)
+	s.stkptrsize = Rnd(s.stkptrsize, 8)
 }
 
 func funccompile(fn *Node) {

@@ -536,8 +536,9 @@ func (lv *Liveness) blockEffects(b *ssa.Block) *BlockEffects {
 // the first run and then simply copied into bv at the correct offset
 // on future calls with the same type t.
 func onebitwalktype1(t *types.Type, off int64, bv bvec) {
-	if t.Align > 0 && off&int64(t.Align-1) != 0 {
-		Fatalf("onebitwalktype1: invalid initial alignment: type %v has alignment %d, but offset is %v", t, t.Align, off)
+	// This walk is only on args or locals, so we use t.StackAlign here
+	if t.StackAlign > 0 && off&int64(t.StackAlign-1) != 0 {
+		Fatalf("onebitwalktype1: invalid initial alignment: type %v has alignment %d, but offset is %v", t, t.StackAlign, off)
 	}
 
 	switch t.Etype {

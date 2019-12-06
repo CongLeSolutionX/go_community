@@ -6448,9 +6448,18 @@ func TestGCBits(t *testing.T) {
 		Tscalarptr, Tptr,
 		map[Xscalarptr]Xptr(nil),
 		join(hdr, rep(8, lit(0, 1)), rep(8, lit(1)), lit(1)))
-	verifyMapBucket(t, Tint64, Tptr,
-		map[int64]Xptr(nil),
-		join(hdr, rep(8, rep(8/PtrSize, lit(0))), rep(8, lit(1)), lit(1)))
+	_ = Tint64
+	var ptr *int
+	if unsafe.Sizeof(ptr) == 8 {
+		verifyMapBucket(t, Tint64, Tptr,
+			map[int64]Xptr(nil),
+			join(hdr, rep(8, rep(8/PtrSize, lit(0))), rep(8, lit(1)), lit(1)))
+	} else {
+		// For 32-bit architectures, there is padding before the overflow pointer
+		verifyMapBucket(t, Tint64, Tptr,
+			map[int64]Xptr(nil),
+			join(hdr, rep(8, rep(8/PtrSize, lit(0))), rep(8, lit(1)), lit(0), lit(1)))
+	}
 	verifyMapBucket(t,
 		Tscalar, Tscalar,
 		map[Xscalar]Xscalar(nil),

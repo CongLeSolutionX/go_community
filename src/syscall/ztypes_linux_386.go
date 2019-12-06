@@ -107,7 +107,8 @@ type Stat_t struct {
 	Rdev      uint64
 	X__pad2   uint16
 	Pad_cgo_1 [2]byte
-	Size      int64
+	Size1     int32
+	Size2     int32
 	Blksize   int32
 	Blocks    int64
 	Atim      Timespec
@@ -147,8 +148,10 @@ type Fsid struct {
 type Flock_t struct {
 	Type   int16
 	Whence int16
-	Start  int64
-	Len    int64
+	Start1 int32
+	Start2 int32
+	Len1   int32
+	Len2   int32
 	Pid    int32
 }
 
