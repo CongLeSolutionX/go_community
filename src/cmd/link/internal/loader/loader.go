@@ -179,6 +179,14 @@ type Loader struct {
 
 	align map[Sym]int32 // stores alignment for symbols
 
+	// Outer and Sub relations for symbols.
+	// TODO: figure out whether it's more efficient to just have these
+	// as fields on extSymPayload (note that this won't be a viable
+	// strategy if somewhere in the linker we set sub/outer for a
+	// non-external sym).
+	outer map[Sym]Sym
+	sub   map[Sym]Sym
+
 	elfsetstring elfsetstringFunc
 }
 
@@ -772,12 +780,57 @@ func (l *Loader) ReadAuxSyms(symIdx Sym, dst []Sym) []Sym {
 	return dst
 }
 
+// PrependSub prepends 'sub' onto the sub list for outer symbol 'outer'.
+// Will panic if 'sub' already has an outer sym or sub sym.
+func (l *Loader) PrependSub(outer Sym, sub Sym) {
+	os := l.Syms[outer]
+	if os != nil {
+		ss := l.Syms[sub]
+		if ss == nil {
+			panic("outer/sub mismatch")
+		}
+		// NB: needed?
+		if os.Outer != nil {
+			panic("Outer set on os")
+		}
+		if ss.Sub != nil {
+			panic("ss.Sub already set")
+		}
+		if ss.Outer != nil {
+			panic("ss.Outer already set")
+		}
+		ss.Sub = os.Sub
+		os.Sub = ss
+		ss.Outer = os
+		return
+	}
+	if !l.hasPayload.Has(outer) || !l.hasPayload.Has(sub) {
+		panic("expected hasPayload in PrependSub")
+	}
+	if l.OuterSym(outer) != 0 {
+		panic("outer has outer itself")
+	}
+	if l.SubSym(sub) != 0 {
+		panic("sub set for subsym")
+	}
+	if l.OuterSym(sub) != 0 {
+		panic("outer already set for subsym")
+	}
+	l.sub[sub] = l.sub[outer]
+	l.sub[outer] = sub
+	l.outer[sub] = outer
+}
+
 // OuterSym gets the outer symbol for host object loaded symbols.
 func (l *Loader) OuterSym(i Sym) Sym {
 	sym := l.Syms[i]
 	if sym != nil && sym.Outer != nil {
 		outer := sym.Outer
 		return l.Lookup(outer.Name, int(outer.Version))
+	}
+	// FIXME: add check for isExternal?
+	if o, ok := l.outer[i]; ok {
+		return o
 	}
 	return 0
 }
@@ -788,6 +841,11 @@ func (l *Loader) SubSym(i Sym) Sym {
 	if sym != nil && sym.Sub != nil {
 		sub := sym.Sub
 		return l.Lookup(sub.Name, int(sub.Version))
+	}
+	// NB: note -- no check for l.isExternal(), since I am pretty sure
+	// that later phases in the linker set subsym for "type." syms
+	if s, ok := l.sub[i]; ok {
+		return s
 	}
 	return 0
 }
