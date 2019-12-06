@@ -1960,8 +1960,8 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			ver = sym.SymVerABIInternal
 		}
 
-		i := ctxt.loader.AddExtSym(elfsym.Name, ver)
-		if i == 0 {
+		i, added := ctxt.loader.AddExtSym(elfsym.Name, ver)
+		if !added {
 			continue
 		}
 		lsym := ctxt.Syms.Newsym(elfsym.Name, ver)
@@ -1995,8 +1995,8 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 		// mangle Go function names in the .so to include the
 		// ABI.
 		if elf.ST_TYPE(elfsym.Info) == elf.STT_FUNC && ver == 0 {
-			i := ctxt.loader.AddExtSym(elfsym.Name, sym.SymVerABIInternal)
-			if i == 0 {
+			i, added := ctxt.loader.AddExtSym(elfsym.Name, sym.SymVerABIInternal)
+			if !added {
 				continue
 			}
 			alias := ctxt.Syms.Newsym(elfsym.Name, sym.SymVerABIInternal)
