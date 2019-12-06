@@ -170,7 +170,7 @@ func (l *Loader) addObj(pkg string, r *oReader) Sym {
 }
 
 // Add a symbol with a given index, return if it is added.
-func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ sym.SymKind) bool {
+func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ sym.SymKind) (Sym, bool) {
 	if l.extStart != 0 {
 		panic("AddSym called after AddExtSym is called")
 	}
@@ -178,20 +178,20 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 		// Static symbol. Add its global index but don't
 		// add to name lookup table, as it cannot be
 		// referenced by name.
-		return true
+		return i, true
 	}
 	if oldi, ok := l.symsByName[ver][name]; ok {
 		if dupok {
 			if l.flags&FlagStrictDups != 0 {
 				l.checkdup(name, i, r, oldi)
 			}
-			return false
+			return oldi, false
 		}
 		oldr, li := l.toLocal(oldi)
 		oldsym := goobj2.Sym{}
 		oldsym.Read(oldr.Reader, oldr.SymOff(li))
 		if oldsym.Dupok() {
-			return false
+			return oldi, false
 		}
 		overwrite := r.DataSize(int(i-l.startIndex(r))) != 0
 		if overwrite {
@@ -200,6 +200,7 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 			if !oldtyp.IsData() && r.DataSize(li) == 0 {
 				log.Fatalf("duplicated definition of symbol " + name)
 			}
+			oldr.rcache = nil
 			l.overwrite[oldi] = i
 		} else {
 			// old symbol overwrites new symbol.
@@ -207,24 +208,25 @@ func (l *Loader) AddSym(name string, ver int, i Sym, r *oReader, dupok bool, typ
 				log.Fatalf("duplicated definition of symbol " + name)
 			}
 			l.overwrite[i] = oldi
-			return false
+			return oldi, false
 		}
 	}
 	l.symsByName[ver][name] = i
-	return true
+	return i, true
 }
 
-// Add an external symbol (without index). Return the index of newly added
-// symbol, or 0 if not added.
-func (l *Loader) AddExtSym(name string, ver int) Sym {
+// Add an external symbol (without index). Return the index of symbol
+// (possibly newly added) and a boolean indicating whether a new symbol
+// was created.
+func (l *Loader) AddExtSym(name string, ver int) (Sym, bool) {
 	static := ver >= sym.SymVerStatic
 	if static {
-		if _, ok := l.extStaticSyms[nameVer{name, ver}]; ok {
-			return 0
+		if i, ok := l.extStaticSyms[nameVer{name, ver}]; ok {
+			return i, false
 		}
 	} else {
-		if _, ok := l.symsByName[ver][name]; ok {
-			return 0
+		if i, ok := l.symsByName[ver][name]; ok {
+			return i, false
 		}
 	}
 	i := l.max + 1
@@ -239,7 +241,7 @@ func (l *Loader) AddExtSym(name string, ver int) Sym {
 	}
 	l.extSyms = append(l.extSyms, nameVer{name, ver})
 	l.growSyms(int(i))
-	return i
+	return i, true
 }
 
 func (l *Loader) IsExternal(i Sym) bool {
@@ -287,11 +289,12 @@ func (l *Loader) toLocal(i Sym) (*oReader, int) {
 }
 
 // rcacheGet checks for a valid entry for 's' in the readers cache,
-// where 's' is a local PkgIdxNone ref or def, or zero if
-// the cache is empty or doesn't contain a value for 's'.
-func (or *oReader) rcacheGet(symIdx uint32) Sym {
+// where 's' is a local symbol index (PkgIdxNone ref or def). It returns
+// the global symbol corresponding to that local def/ref, or zero
+// if the cache is empty or doesn't contain a value for 's'.
+func (or *oReader) rcacheGet(s uint32) Sym {
 	if len(or.rcache) > 0 {
-		return or.rcache[symIdx]
+		return or.rcache[s]
 	}
 	return 0
 }
@@ -316,6 +319,20 @@ func (l *Loader) resolve(r *oReader, s goobj2.SymRef) Sym {
 		}
 		return 0
 	case goobj2.PkgIdxNone:
+		if os.Getenv("THANM_CHECK_RCACHE") != "" {
+			if cached := r.rcacheGet(s.SymIdx); cached != 0 {
+				i := int(s.SymIdx) + r.NSym()
+				osym := goobj2.Sym{}
+				osym.Read(r.Reader, r.SymOff(i))
+				name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
+				v := abiToVer(osym.ABI, r.version)
+				gsym := l.Lookup(name, v)
+				if cached != gsym {
+					fmt.Fprintf(os.Stderr, "rcache error: cache is %d lookup is %d for %s<%d>\n", cached, gsym, name, v)
+				}
+			}
+		}
+
 		// Check for cached version first
 		if cached := r.rcacheGet(s.SymIdx); cached != 0 {
 			return cached
@@ -713,7 +730,7 @@ func (l *Loader) Preload(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *
 		}
 		v := abiToVer(osym.ABI, localSymVersion)
 		dupok := osym.Dupok()
-		added := l.AddSym(name, v, istart+Sym(i), or, dupok, sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)])
+		gsym, added := l.AddSym(name, v, istart+Sym(i), or, dupok, sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)])
 		if added && strings.HasPrefix(name, "go.itablink.") {
 			l.itablink[istart+Sym(i)] = struct{}{}
 		}
@@ -721,6 +738,11 @@ func (l *Loader) Preload(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *
 			if bi := goobj2.BuiltinIdx(name, v); bi != -1 {
 				// This is a definition of a builtin symbol. Record where it is.
 				l.builtinSyms[bi] = istart + Sym(i)
+			}
+		}
+		if os.Getenv("THANM_RCACHE") != "" {
+			if i >= ndef {
+				or.rcacheSet(uint32(i-ndef), gsym)
 			}
 		}
 	}
@@ -738,13 +760,17 @@ func (l *Loader) LoadRefs(arch *sys.Arch, syms *sym.Symbols) {
 }
 
 func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch, syms *sym.Symbols) {
-	ndef := r.NSym() + r.NNonpkgdef()
+	npdef := r.NNonpkgdef()
+	ndef := r.NSym() + npdef
 	for i, n := 0, r.NNonpkgref(); i < n; i++ {
 		osym := goobj2.Sym{}
 		osym.Read(r.Reader, r.SymOff(ndef+i))
 		name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
 		v := abiToVer(osym.ABI, r.version)
-		l.AddExtSym(name, v)
+		symIdx, _ := l.AddExtSym(name, v)
+		if os.Getenv("THANM_RCACHE") != "" {
+			r.rcacheSet(uint32(npdef+i), symIdx)
+		}
 	}
 }
 
@@ -987,7 +1013,7 @@ func (l *Loader) LookupOrCreate(name string, version int, syms *sym.Symbols) *sy
 		}
 		return l.LoadSymbol(name, version, syms)
 	}
-	i = l.AddExtSym(name, version)
+	i, _ = l.AddExtSym(name, version)
 	s := syms.Newsym(name, version)
 	l.Syms[i] = s
 	return s
