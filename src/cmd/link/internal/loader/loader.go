@@ -1543,7 +1543,9 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 		nr += len(pp.relocs)
 		// create and install the sym.Symbol here so that l.Syms will
 		// be fully populated when we do relocation processing and
-		// outer/sub processing below.
+		// outer/sub processing below. Note that once we do this,
+		// we'll need to get at the payload for a symbol with direct
+		// reference to l.payloads[] as opposed to calling l.getPayload().
 		s := l.allocSym(sname, 0)
 		l.installSym(i, s)
 		toConvert = append(toConvert, i)
