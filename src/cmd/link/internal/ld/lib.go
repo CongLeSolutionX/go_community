@@ -38,6 +38,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loadelf"
+	"cmd/link/internal/loadelf2"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/loadmacho"
 	"cmd/link/internal/loadpe"
@@ -1675,16 +1676,29 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 
 	magic := uint32(c1)<<24 | uint32(c2)<<16 | uint32(c3)<<8 | uint32(c4)
 	if magic == 0x7f454c46 { // \x7F E L F
-		ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
-			textp, flags, err := loadelf.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn, ehdr.flags)
-			if err != nil {
-				Errorf(nil, "%v", err)
-				return
+		if *FlagNewLdElf {
+			ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
+				textp, flags, err := loadelf2.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn, ehdr.flags)
+				if err != nil {
+					Errorf(nil, "%v", err)
+					return
+				}
+				ehdr.flags = flags
+				ctxt.Textp2 = append(ctxt.Textp2, textp...)
 			}
-			ehdr.flags = flags
-			ctxt.Textp = append(ctxt.Textp, textp...)
+			return ldhostobj(ldelf, ctxt.HeadType, f, pkg, length, pn, file)
+		} else {
+			ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
+				textp, flags, err := loadelf.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn, ehdr.flags)
+				if err != nil {
+					Errorf(nil, "%v", err)
+					return
+				}
+				ehdr.flags = flags
+				ctxt.Textp = append(ctxt.Textp, textp...)
+			}
+			return ldhostobj(ldelf, ctxt.HeadType, f, pkg, length, pn, file)
 		}
-		return ldhostobj(ldelf, ctxt.HeadType, f, pkg, length, pn, file)
 	}
 
 	if magic&^1 == 0xfeedface || magic&^0x01000000 == 0xcefaedfe {
