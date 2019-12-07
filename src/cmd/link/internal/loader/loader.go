@@ -1530,7 +1530,9 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 		nr += len(pp.relocs)
 		// create and install the sym.Symbol here so that l.Syms will
 		// be fully populated when we do relocation processing and
-		// outer/sub processing below.
+		// outer/sub processing below. Note that once we do this,
+		// we'll need to get at the payload for a symbol with direct
+		// reference to l.payloads[] as opposed to calling l.getPayload().
 		s := l.allocSym(sname, 0)
 		l.installSym(i, s)
 		toConvert = append(toConvert, i)
@@ -2216,6 +2218,36 @@ func patchDWARFName(s *sym.Symbol, r *oReader) {
 			r.Off += int32(delta)
 		}
 	}
+}
+
+// UndefinedRelocTargets iterates through the global symbol index
+// space, looking for symbols with relocations targeting undefined
+// references. The linker's loadlib method uses this to determine if
+// there are unresolved references to functions in system libraries
+// (for example, libgcc.a), presumably due to CGO code. Return
+// value is a list of loader.Sym's corresponding to the undefined
+// cross-refs. The "limit" param controls the maximum number of
+// results returned; if "limit" is -1, then all undefs are returned.
+func (l *Loader) UndefinedRelocTargets(limit int) []Sym {
+	result := []Sym{}
+	rslice := []Reloc{}
+	for si := Sym(1); si <= l.max; si++ {
+		if _, ok := l.overwrite[si]; ok {
+			continue
+		}
+		relocs := l.Relocs(si)
+		rslice = relocs.ReadAll(rslice)
+		for ri := 0; ri < relocs.Count; ri++ {
+			r := &rslice[ri]
+			if r.Sym != 0 && l.SymType(r.Sym) == sym.SXREF && l.RawSymName(r.Sym) != ".got" {
+				result = append(result, r.Sym)
+				if len(result) >= limit {
+					break
+				}
+			}
+		}
+	}
+	return result
 }
 
 // For debugging.

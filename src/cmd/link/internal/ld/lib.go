@@ -38,6 +38,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loadelf"
+	"cmd/link/internal/loadelf2"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/loadmacho"
 	"cmd/link/internal/loadpe"
@@ -456,28 +457,54 @@ func (ctxt *Link) loadlib() {
 	}
 
 	if ctxt.LinkMode == LinkInternal && len(hostobj) != 0 {
-		// In newobj mode, we typically create sym.Symbols later therefore
-		// also set cgo attributes later. However, for internal cgo linking,
-		// the host object loaders still work with sym.Symbols (for now),
-		// and they need cgo attributes set to work properly. So process
-		// them now.
-		for _, d := range ctxt.cgodata {
-			setCgoAttr(ctxt, ctxt.loader.LookupOrCreate, d.file, d.pkg, d.directives)
-		}
-		ctxt.cgodata = nil
+		if ctxt.IsELF && *FlagNewLdElf {
+			l := ctxt.loader
+			hostObjSyms := make(map[loader.Sym]struct{})
+			for _, d := range ctxt.cgodata {
+				setCgoAttr2(ctxt, ctxt.loader.LookupOrCreateSym, d.file, d.pkg, d.directives, hostObjSyms)
+			}
+			ctxt.cgodata = nil
 
-		// Drop all the cgo_import_static declarations.
-		// Turns out we won't be needing them.
-		for _, s := range ctxt.loader.Syms {
-			if s != nil && s.Type == sym.SHOSTOBJ {
-				// If a symbol was marked both
-				// cgo_import_static and cgo_import_dynamic,
-				// then we want to make it cgo_import_dynamic
-				// now.
-				if s.Extname() != "" && s.Dynimplib() != "" && !s.Attr.CgoExport() {
-					s.Type = sym.SDYNIMPORT
-				} else {
-					s.Type = 0
+			// Drop all the cgo_import_static declarations.
+			// Turns out we won't be needing them.
+			for symIdx := range hostObjSyms {
+				if l.SymType(symIdx) == sym.SHOSTOBJ {
+					// If a symbol was marked both
+					// cgo_import_static and cgo_import_dynamic,
+					// then we want to make it cgo_import_dynamic
+					// now.
+					su, _ := l.MakeSymbolUpdater(symIdx)
+					if l.SymExtname(symIdx) != "" && l.SymDynimplib(symIdx) != "" && !(l.AttrCgoExportStatic(symIdx) || l.AttrCgoExportDynamic(symIdx)) {
+						su.SetType(sym.SDYNIMPORT)
+					} else {
+						su.SetType(0)
+					}
+				}
+			}
+		} else {
+			// In newobj mode, we typically create sym.Symbols later therefore
+			// also set cgo attributes later. However, for internal cgo linking,
+			// the host object loaders still work with sym.Symbols (for now),
+			// and they need cgo attributes set to work properly. So process
+			// them now.
+			for _, d := range ctxt.cgodata {
+				setCgoAttr(ctxt, ctxt.loader.LookupOrCreate, d.file, d.pkg, d.directives)
+			}
+			ctxt.cgodata = nil
+
+			// Drop all the cgo_import_static declarations.
+			// Turns out we won't be needing them.
+			for _, s := range ctxt.loader.Syms {
+				if s != nil && s.Type == sym.SHOSTOBJ {
+					// If a symbol was marked both
+					// cgo_import_static and cgo_import_dynamic,
+					// then we want to make it cgo_import_dynamic
+					// now.
+					if s.Extname() != "" && s.Dynimplib() != "" && !s.Attr.CgoExport() {
+						s.Type = sym.SDYNIMPORT
+					} else {
+						s.Type = 0
+					}
 				}
 			}
 		}
@@ -494,15 +521,22 @@ func (ctxt *Link) loadlib() {
 		// If we have any undefined symbols in external
 		// objects, try to read them from the libgcc file.
 		any := false
-		for _, s := range ctxt.loader.Syms {
-			if s == nil {
-				continue
+		if ctxt.IsELF && *FlagNewLdElf {
+			undefs := ctxt.loader.UndefinedRelocTargets(1)
+			if len(undefs) > 0 {
+				any = true
 			}
-			for i := range s.R {
-				r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
-				if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name != ".got" {
-					any = true
-					break
+		} else {
+			for _, s := range ctxt.loader.Syms {
+				if s == nil {
+					continue
+				}
+				for i := range s.R {
+					r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
+					if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name != ".got" {
+						any = true
+						break
+					}
 				}
 			}
 		}
@@ -1675,16 +1709,29 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 
 	magic := uint32(c1)<<24 | uint32(c2)<<16 | uint32(c3)<<8 | uint32(c4)
 	if magic == 0x7f454c46 { // \x7F E L F
-		ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
-			textp, flags, err := loadelf.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn, ehdr.flags)
-			if err != nil {
-				Errorf(nil, "%v", err)
-				return
+		if *FlagNewLdElf {
+			ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
+				textp, flags, err := loadelf2.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn, ehdr.flags)
+				if err != nil {
+					Errorf(nil, "%v", err)
+					return
+				}
+				ehdr.flags = flags
+				ctxt.Textp2 = append(ctxt.Textp2, textp...)
 			}
-			ehdr.flags = flags
-			ctxt.Textp = append(ctxt.Textp, textp...)
+			return ldhostobj(ldelf, ctxt.HeadType, f, pkg, length, pn, file)
+		} else {
+			ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
+				textp, flags, err := loadelf.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn, ehdr.flags)
+				if err != nil {
+					Errorf(nil, "%v", err)
+					return
+				}
+				ehdr.flags = flags
+				ctxt.Textp = append(ctxt.Textp, textp...)
+			}
+			return ldhostobj(ldelf, ctxt.HeadType, f, pkg, length, pn, file)
 		}
-		return ldhostobj(ldelf, ctxt.HeadType, f, pkg, length, pn, file)
 	}
 
 	if magic&^1 == 0xfeedface || magic&^0x01000000 == 0xcefaedfe {
@@ -2617,11 +2664,13 @@ func (ctxt *Link) loadlibfull() {
 		}
 	}
 
-	// Drop the reference.
-	ctxt.loader = nil
+	// Drop the cgodata reference.
 	ctxt.cgodata = nil
 
 	addToTextp(ctxt)
+
+	// Drop the loader.
+	ctxt.loader = nil
 }
 
 func (ctxt *Link) dumpsyms() {
