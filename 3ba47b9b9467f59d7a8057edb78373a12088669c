@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "66c4e504_f8d20743",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-08T02:30:56Z",
+      "side": 1,
+      "message": "Ah, right. I\u0027ve taken a quick shot at doing converting the Prog rewriting to late Prog expansion - it is the right approach, but it is pretty intrusive and IMO should be done once we have the code in tree.",
+      "parentUuid": "4b183aa6_a5c601a3",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 31
+      },
+      "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f30fe84d_13503372",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
