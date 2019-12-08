@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e619947_b9d4f959",
+        "filename": "src/runtime/race/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-08T17:45:21Z",
+      "side": 1,
+      "message": "is-\u003ein LGTM but also I think it should be a semicolon instead of a comma. Doesn\u0027t really matter for non-public docs, though.",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "56063fdd1cbb3eb9d4eea34919f61d2987f392ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
