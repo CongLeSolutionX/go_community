@@ -505,6 +505,15 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 		if altRT := altProto[scheme]; altRT != nil {
 			if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol {
 				return resp, err
+			} else if req.GetBody != nil {
+				// Rewind the body after ErrSkipAltProtocol, because it can
+				// be already read (Issue 32441).
+				newReq := *req
+				newReq.Body, err = req.GetBody()
+				if err != nil {
+					return nil, err
+				}
+				req = &newReq
 			}
 		}
 	}
