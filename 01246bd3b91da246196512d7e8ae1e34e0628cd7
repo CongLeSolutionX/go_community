@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f882cc0_57c52da8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-12-09T00:42:58Z",
+      "side": 1,
+      "message": "Also #34130, the 1.13.x backport",
+      "revId": "01246bd3b91da246196512d7e8ae1e34e0628cd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
