@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "038f3367_e06b0b0e",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-09T16:31:41Z",
+      "side": 1,
+      "message": "The comment here should match the code below in this function, which does not expand offset to hi/lo yet. If there is further rewriting later, it doesn\u0027t need to be mentioned here.",
+      "parentUuid": "3f089baa_2487402e",
+      "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1e353ae_184a5d5d",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 3
@@ -116,6 +134,30 @@
       "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66dafc92_f3fb3934",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-09T16:31:41Z",
+      "side": 1,
+      "message": "Okay, yes, NAME_NONE can appear. I don\u0027t think NAME_AUTO or NAME_PARAM can appear. That would mean we do something like JMP x+8(SP) or JMP x+8(FP), i.e. the address of a local variable or a parameter.",
+      "parentUuid": "6609d6b9_c7cb041e",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 16
+      },
+      "revId": "e700f735aa5b34069e6928af96e951d9cbb982b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
