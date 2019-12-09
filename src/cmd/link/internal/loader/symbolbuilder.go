@@ -82,7 +82,7 @@ func (ms *extSymPayload) Grow(siz int64) {
 }
 
 func (sb *SymbolBuilder) setReachable() {
-	sb.l.Reachable.Set(sb.symIdx)
+	sb.l.SetAttrReachable(sb.symIdx, true)
 }
 
 func (sb *SymbolBuilder) AddUint8(v uint8) int64 {

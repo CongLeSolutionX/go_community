@@ -94,9 +94,15 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	}
 
 	// New symbols should not be reachable
-	if ldr.Reachable.Has(es1) || ldr.Reachable.Has(es2) ||
-		ldr.Reachable.Has(es3) {
+	if ldr.AttrReachable(es1) || ldr.AttrReachable(es2) ||
+		ldr.AttrReachable(es3) {
 		t.Errorf("newly materialized symbols should not be reachable")
+	}
+
+	// ... however it should be possible to set their reachability.
+	ldr.SetAttrReachable(es3, false)
+	if ldr.AttrReachable(es3) {
+		t.Errorf("expected unreachable symbol after update")
 	}
 
 	// Add some relocations to the new symbols.
@@ -155,7 +161,7 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	}
 
 	// Writing data to a materialized symbol should mark it reachable.
-	if !ldr.Reachable.Has(es1) || !ldr.Reachable.Has(es2) {
+	if !ldr.AttrReachable(es1) || !ldr.AttrReachable(es2) {
 		t.Fatalf("written-to materialized symbols should be reachable")
 	}
 
@@ -278,7 +284,7 @@ func TestAddDataMethods(t *testing.T) {
 			t.Errorf("testing Loader.%s: expected data %v got %v",
 				tp.which, tp.expData, ldr.Data(mi))
 		}
-		if !ldr.Reachable.Has(mi) {
+		if !ldr.AttrReachable(mi) {
 			t.Fatalf("testing Loader.%s: sym updated should be reachable", tp.which)
 		}
 		relocs := ldr.Relocs(mi)
