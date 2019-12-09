@@ -4121,9 +4121,12 @@ func TestServerConnState(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	var mu sync.Mutex // guard stateLog and connID
-	var stateLog = map[int][]ConnState{}
-	var connID = map[net.Conn]int{}
+	var (
+		mu        sync.Mutex // guards following
+		stateLog  = map[int][]ConnState{}
+		connID    = map[net.Conn]int{}
+		lastState ConnState
+	)
 
 	ts.Config.ErrorLog = log.New(ioutil.Discard, "", 0)
 	ts.Config.ConnState = func(c net.Conn, state ConnState) {
@@ -4133,12 +4136,30 @@ func TestServerConnState(t *testing.T) {
 		}
 		mu.Lock()
 		defer mu.Unlock()
+		lastState = state
 		id, ok := connID[c]
 		if !ok {
 			id = len(connID) + 1
 			connID[c] = id
 		}
 		stateLog[id] = append(stateLog[id], state)
+	}
+	// wait waits for a bit for the last state to be state.
+	wait := func(state ConnState) {
+		t.Helper()
+		d := time.Now().Add(5 * time.Second)
+		for time.Now().Before(d) {
+			mu.Lock()
+			ok := lastState == state
+			mu.Unlock()
+			if ok {
+				return
+			}
+			time.Sleep(10 * time.Millisecond)
+		}
+		mu.Lock()
+		defer mu.Unlock()
+		t.Errorf("timeout waiting for last state to be %v; last state still %v", state, lastState)
 	}
 	ts.Start()
 
@@ -4167,12 +4188,16 @@ func TestServerConnState(t *testing.T) {
 
 	mustGet(ts.URL + "/")
 	mustGet(ts.URL + "/close")
+	wait(StateClosed)
 
 	mustGet(ts.URL + "/")
 	mustGet(ts.URL+"/", "Connection", "close")
+	wait(StateClosed)
 
 	mustGet(ts.URL + "/hijack")
+	wait(StateHijacked)
 	mustGet(ts.URL + "/hijack-panic")
+	wait(StateHijacked)
 
 	// New->Closed
 	{
@@ -4181,6 +4206,7 @@ func TestServerConnState(t *testing.T) {
 			t.Fatal(err)
 		}
 		c.Close()
+		wait(StateClosed)
 	}
 
 	// New->Active->Closed
@@ -4194,6 +4220,7 @@ func TestServerConnState(t *testing.T) {
 		}
 		c.Read(make([]byte, 1)) // block until server hangs up on us
 		c.Close()
+		wait(StateClosed)
 	}
 
 	// New->Idle->Closed
@@ -4213,6 +4240,7 @@ func TestServerConnState(t *testing.T) {
 			t.Fatal(err)
 		}
 		c.Close()
+		wait(StateClosed)
 	}
 
 	want := map[int][]ConnState{
