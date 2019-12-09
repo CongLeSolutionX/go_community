@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "d3f7e70b_faaeb659",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-09T16:26:34Z",
+      "side": 1,
+      "message": "Thanks. Do you mind sending a CL for the rewriting, even if it is incomplete? I think we can decide what the best way is from there.\n\nAdd a TODO here so way know this needs to be fixed here.",
+      "parentUuid": "66c4e504_f8d20743",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 31
+      },
+      "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f30fe84d_13503372",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
