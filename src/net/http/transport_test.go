@@ -1394,7 +1394,10 @@ func TestTransportProxy(t *testing.T) {
 			}
 
 			c.Transport.(*Transport).Proxy = ProxyURL(pu)
-			if _, err := c.Head(ts.URL); err != nil {
+			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Minute)
+			defer cancel()
+			headReq, _ := NewRequestWithContext(ctx, "HEAD", ts.URL, nil)
+			if _, err := c.Do(headReq); err != nil {
 				t.Error(err)
 			}
 			var got *Request
