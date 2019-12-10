@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eda56ab1_fc313c87",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4126,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-10T16:20:14Z",
+      "side": 1,
+      "message": "Assuming net/http is behaving at least.",
+      "range": {
+        "startLine": 4126,
+        "startChar": 67,
+        "endLine": 4126,
+        "endChar": 90
+      },
+      "revId": "03365ee51214b852d0295c10828480b3431658cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29408533_8506fe0d",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4131,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-10T16:20:14Z",
+      "side": 1,
+      "message": "I\u0027d prefer if this were *stateLog since each field contains pointers (not just, say, integers or strings).",
+      "revId": "03365ee51214b852d0295c10828480b3431658cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69e5663a_50a01658",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4131,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-10T16:20:14Z",
+      "side": 1,
+      "message": "this comment isn\u0027t entirely obvious. reword?",
+      "range": {
+        "startLine": 4131,
+        "startChar": 40,
+        "endLine": 4131,
+        "endChar": 81
+      },
+      "revId": "03365ee51214b852d0295c10828480b3431658cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e96001a3_1dfa97cc",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4132,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-10T16:20:14Z",
+      "side": 1,
+      "message": "This one exists just so wantLog can remove it? How about making wantLog use a select+default instead? With a comment like \"Clear any previously active connection log.\"",
+      "range": {
+        "startLine": 4132,
+        "startChar": 1,
+        "endLine": 4132,
+        "endChar": 24
+      },
+      "revId": "03365ee51214b852d0295c10828480b3431658cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ac28d2_7052efcf",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4139,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-10T16:20:14Z",
+      "side": 1,
+      "message": "I thought we generally didn\u0027t do this style. But comment why it\u0027s being discarded?",
+      "range": {
+        "startLine": 4139,
+        "startChar": 2,
+        "endLine": 4139,
+        "endChar": 6
+      },
+      "revId": "03365ee51214b852d0295c10828480b3431658cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f409fd5_7285c825",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4180,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-10T16:20:14Z",
+      "side": 1,
+      "message": "You\u0027re just putting it in \u0026 out of the channel buffer each time? Hm, okay. The Mutex at least was explicit.\n\nYou might want to write more docs if you\u0027re going to introduce unique usages of channels in the middle of a test.",
+      "range": {
+        "startLine": 4166,
+        "startChar": 3,
+        "endLine": 4180,
+        "endChar": 17
+      },
+      "revId": "03365ee51214b852d0295c10828480b3431658cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "539a8f91_7b8bf17b",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4210,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-10T16:20:14Z",
+      "side": 1,
+      "message": "Nice. I like this style, wrapping them in the want+verify.\n\nCould also use a func if you prefer:\n\n  wantStateLog([]ConnState{StateNew, StateActive, StateIdle, StateActive, StateClosed}, func() {\n        mustGet(ts.URL + \"/\")\n\tmustGet(ts.URL+\"/\", \"Connection\", \"close\")\n  })\n\n(or with the func version and ...ConnState)\n\nThe advantage of that style is that it\u0027s one fewer variable to track (verify) and the bottom 3 blocks which are already blocks just to get a scope would get their own scope naturally out of the func() { ... }.",
+      "range": {
+        "startLine": 4206,
+        "startChar": 0,
+        "endLine": 4210,
+        "endChar": 9
+      },
+      "revId": "03365ee51214b852d0295c10828480b3431658cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
