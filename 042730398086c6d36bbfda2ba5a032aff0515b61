@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e817135f_0affd983",
+        "filename": "src/syscall/sock_cloexec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 34206
+      },
+      "writtenOn": "2019-12-10T15:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3511bd70_e4eaf259",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "042730398086c6d36bbfda2ba5a032aff0515b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe2f962c_9a928eef",
         "filename": "src/syscall/sock_cloexec_linux.go",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "042730398086c6d36bbfda2ba5a032aff0515b61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee4c9c2a_1cef3a58",
+        "filename": "src/syscall/sock_cloexec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34206
+      },
+      "writtenOn": "2019-12-10T15:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe2f962c_9a928eef",
+      "revId": "042730398086c6d36bbfda2ba5a032aff0515b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
