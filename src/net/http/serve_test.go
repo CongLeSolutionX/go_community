@@ -34,7 +34,6 @@ import (
 	"regexp"
 	"runtime"
 	"runtime/debug"
-	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -4121,9 +4120,43 @@ func TestServerConnState(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	var mu sync.Mutex // guard stateLog and connID
-	var stateLog = map[int][]ConnState{}
-	var connID = map[net.Conn]int{}
+	// A stateLog is a log of states over the lifetime of a connection..
+	type stateLog struct {
+		active   net.Conn        // The connection for which the log is recorded.
+		got      []ConnState     // The sequence of states for 'active', beginning with StateNew.
+		want     []ConnState     // The desired sequence of states.
+		complete chan<- struct{} // If non-nil, closed when either 'got' is equal to 'want', or 'got' is no longer a prefix of 'want'.
+	}
+
+	activeLog := make(chan stateLog, 1) // Always contains a log in the steady state.
+	activeLog <- stateLog{}
+
+	// wantLog sets activeLog to expect the sequence of states in want,
+	// returning a function that waits for those states to be reached.
+	wantLog := func(want ...ConnState) (verify func()) {
+		t.Helper()
+		complete := make(chan struct{})
+		_ = <-activeLog
+		activeLog <- stateLog{want: want, complete: complete}
+
+		return func() {
+			t.Helper()
+
+			timer := time.NewTimer(5 * time.Second)
+			select {
+			case <-timer.C:
+				t.Errorf("Timed out waiting for connection to change state.")
+			case <-complete:
+				timer.Stop()
+			}
+
+			sl := <-activeLog
+			if !reflect.DeepEqual(sl.got, sl.want) {
+				t.Errorf("Unexpected events.\nGot states:\n\t%v\nWant:\n\t%v", sl.got, sl.want)
+			}
+			activeLog <- sl
+		}
+	}
 
 	ts.Config.ErrorLog = log.New(ioutil.Discard, "", 0)
 	ts.Config.ConnState = func(c net.Conn, state ConnState) {
@@ -4131,17 +4164,23 @@ func TestServerConnState(t *testing.T) {
 			t.Errorf("nil conn seen in state %s", state)
 			return
 		}
-		mu.Lock()
-		defer mu.Unlock()
-		id, ok := connID[c]
-		if !ok {
-			id = len(connID) + 1
-			connID[c] = id
+		sl := <-activeLog
+		if sl.active == nil && state == StateNew {
+			sl.active = c
+		} else if sl.active != c {
+			// Wrong connection, possibly from a failed previous trace.
+			activeLog <- sl
+			return
 		}
-		stateLog[id] = append(stateLog[id], state)
+		sl.got = append(sl.got, state)
+		if sl.complete != nil && (len(sl.got) >= len(sl.want) || !reflect.DeepEqual(sl.got, sl.want[:len(sl.got)])) {
+			close(sl.complete)
+			sl.complete = nil
+		}
+		activeLog <- sl
 	}
-	ts.Start()
 
+	ts.Start()
 	c := ts.Client()
 
 	mustGet := func(url string, headers ...string) {
@@ -4165,26 +4204,36 @@ func TestServerConnState(t *testing.T) {
 		}
 	}
 
+	verify := wantLog(StateNew, StateActive, StateIdle, StateActive, StateClosed)
 	mustGet(ts.URL + "/")
 	mustGet(ts.URL + "/close")
+	verify()
 
+	verify = wantLog(StateNew, StateActive, StateIdle, StateActive, StateClosed)
 	mustGet(ts.URL + "/")
 	mustGet(ts.URL+"/", "Connection", "close")
+	verify()
 
+	verify = wantLog(StateNew, StateActive, StateHijacked)
 	mustGet(ts.URL + "/hijack")
-	mustGet(ts.URL + "/hijack-panic")
+	verify()
 
-	// New->Closed
+	verify = wantLog(StateNew, StateActive, StateHijacked)
+	mustGet(ts.URL + "/hijack-panic")
+	verify()
+
 	{
+		verify = wantLog(StateNew, StateClosed)
 		c, err := net.Dial("tcp", ts.Listener.Addr().String())
 		if err != nil {
 			t.Fatal(err)
 		}
 		c.Close()
+		verify()
 	}
 
-	// New->Active->Closed
 	{
+		verify = wantLog(StateNew, StateActive, StateClosed)
 		c, err := net.Dial("tcp", ts.Listener.Addr().String())
 		if err != nil {
 			t.Fatal(err)
@@ -4194,10 +4243,11 @@ func TestServerConnState(t *testing.T) {
 		}
 		c.Read(make([]byte, 1)) // block until server hangs up on us
 		c.Close()
+		verify()
 	}
 
-	// New->Idle->Closed
 	{
+		verify = wantLog(StateNew, StateActive, StateIdle, StateClosed)
 		c, err := net.Dial("tcp", ts.Listener.Addr().String())
 		if err != nil {
 			t.Fatal(err)
@@ -4213,47 +4263,8 @@ func TestServerConnState(t *testing.T) {
 			t.Fatal(err)
 		}
 		c.Close()
+		verify()
 	}
-
-	want := map[int][]ConnState{
-		1: {StateNew, StateActive, StateIdle, StateActive, StateClosed},
-		2: {StateNew, StateActive, StateIdle, StateActive, StateClosed},
-		3: {StateNew, StateActive, StateHijacked},
-		4: {StateNew, StateActive, StateHijacked},
-		5: {StateNew, StateClosed},
-		6: {StateNew, StateActive, StateClosed},
-		7: {StateNew, StateActive, StateIdle, StateClosed},
-	}
-	logString := func(m map[int][]ConnState) string {
-		var b bytes.Buffer
-		var keys []int
-		for id := range m {
-			keys = append(keys, id)
-		}
-		sort.Ints(keys)
-		for _, id := range keys {
-			fmt.Fprintf(&b, "Conn %d: ", id)
-			for _, s := range m[id] {
-				fmt.Fprintf(&b, "%s ", s)
-			}
-			b.WriteString("\n")
-		}
-		return b.String()
-	}
-
-	for i := 0; i < 5; i++ {
-		time.Sleep(time.Duration(i) * 50 * time.Millisecond)
-		mu.Lock()
-		match := reflect.DeepEqual(stateLog, want)
-		mu.Unlock()
-		if match {
-			return
-		}
-	}
-
-	mu.Lock()
-	t.Errorf("Unexpected events.\nGot log:\n%s\n   Want:\n%s\n", logString(stateLog), logString(want))
-	mu.Unlock()
 }
 
 func TestServerKeepAlivesEnabled(t *testing.T) {
