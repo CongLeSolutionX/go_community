@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3511bd70_e4eaf259",
+        "filename": "src/syscall/sock_cloexec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-10T15:28:41Z",
+      "side": 1,
+      "message": "This is a new file, so s/2013/2019/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "042730398086c6d36bbfda2ba5a032aff0515b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe2f962c_9a928eef",
+        "filename": "src/syscall/sock_cloexec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-10T15:28:41Z",
+      "side": 1,
+      "message": "Minor, but please add a period to the end of the sentence.",
+      "revId": "042730398086c6d36bbfda2ba5a032aff0515b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
