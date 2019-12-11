@@ -68,6 +68,17 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	if ldr.AttrReachable(es3) {
 		t.Errorf("expected unreachable symbol after update")
 	}
+
+	// Check/set alignment
+	es3al := ldr.SymAlign(es3)
+	if es3al != 0 {
+		t.Errorf("SymAlign(es3): expected 0, got %d", es3al)
+	}
+	ldr.SetSymAlign(es3, 128)
+	es3al = ldr.SymAlign(es3)
+	if es3al != 128 {
+		t.Errorf("SymAlign(es3): expected 128, got %d", es3al)
+	}
 }
 
 func TestOuterSub(t *testing.T) {
