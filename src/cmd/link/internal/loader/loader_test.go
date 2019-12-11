@@ -52,4 +52,28 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	if es3 == 0 {
 		t.Fatalf("CreateExtSym failed for nameless sym")
 	}
+
+	// New symbols should not initially be reachable.
+	if ldr.AttrReachable(es1) || ldr.AttrReachable(es2) || ldr.AttrReachable(es3) {
+		t.Errorf("newly materialized symbols should not be reachable")
+	}
+
+	// ... however it should be possible to set/unset their reachability.
+	ldr.SetAttrReachable(es3, true)
+	if !ldr.AttrReachable(es3) {
+		t.Errorf("expected reachable symbol after update")
+	}
+	ldr.SetAttrReachable(es3, false)
+	if ldr.AttrReachable(es3) {
+		t.Errorf("expected unreachable symbol after update")
+	}
+
+	// Get/set a few other attributes
+	if ldr.AttrVisibilityHidden(es3) {
+		t.Errorf("expected initially not hidden")
+	}
+	ldr.SetAttrVisibilityHidden(es3, true)
+	if !ldr.AttrVisibilityHidden(es3) {
+		t.Errorf("expected hidden after update")
+	}
 }
