@@ -15,6 +15,7 @@ import (
 	"cmd/link/internal/sym"
 	"fmt"
 	"log"
+	"math/bits"
 	"os"
 	"sort"
 	"strconv"
@@ -197,6 +198,8 @@ type Loader struct {
 	outer map[Sym]Sym
 	sub   map[Sym]Sym
 
+	align map[Sym]int32 // stores alignment for symbols
+
 	// Used to implement field tracking; created during deadcode if
 	// field tracking is enabled. Reachparent[K] contains the index of
 	// the symbol that triggered the marking of symbol K as live.
@@ -234,6 +237,7 @@ func NewLoader(flags uint32) *Loader {
 		objByPkg:      make(map[string]*oReader),
 		outer:         make(map[Sym]Sym),
 		sub:           make(map[Sym]Sym),
+		align:         make(map[Sym]int32),
 		overwrite:     make(map[Sym]Sym),
 		itablink:      make(map[Sym]struct{}),
 		extStaticSyms: make(map[nameVer]Sym),
@@ -918,6 +922,39 @@ func (l *Loader) Data(i Sym) []byte {
 	}
 	r, li := l.toLocal(i)
 	return r.Data(li)
+}
+
+// SymAlign returns the alignment for a symbol.
+func (l *Loader) SymAlign(i Sym) int32 {
+	// If an alignment has been recorded, return that.
+	if align, ok := l.align[i]; ok {
+		return align
+	}
+	// TODO: would it make sense to return an arch-specific
+	// alignment depending on section type? E.g. STEXT => 32,
+	// SDATA => 1, etc?
+	return 0
+}
+
+// SetSymAlign sets the alignment for a symbol.
+func (l *Loader) SetSymAlign(i Sym, align int32) {
+	// reject bad synbols
+	if i > l.max || i == 0 {
+		panic("bad symbol index in SetSymAlign")
+	}
+	// Reject nonsense alignments.
+	// TODO: do we need this?
+	if align < 0 {
+		panic("bad alignment value")
+	}
+	if bits.OnesCount32(uint32(align)) != 1 {
+		panic("bad alignment value")
+	}
+	if align == 0 {
+		delete(l.align, i)
+	} else {
+		l.align[i] = align
+	}
 }
 
 // Returns the number of aux symbols given a global index.
