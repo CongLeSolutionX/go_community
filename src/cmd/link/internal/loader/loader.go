@@ -209,7 +209,11 @@ type Loader struct {
 	flags uint32
 
 	strictDupMsgs int // number of strict-dup warning/errors, when FlagStrictDups is enabled
+
+	elfsetstring elfsetstringFunc
 }
+
+type elfsetstringFunc func(s *sym.Symbol, str string, off int)
 
 // extSymPayload holds the payload (data + relocations) for linker-synthesized
 // external symbols.
@@ -228,7 +232,7 @@ const (
 	FlagStrictDups = 1 << iota
 )
 
-func NewLoader(flags uint32) *Loader {
+func NewLoader(flags uint32, elfsetstring elfsetstringFunc) *Loader {
 	nbuiltin := goobj2.NBuiltin()
 	return &Loader{
 		start:         make(map[*oReader]Sym),
@@ -243,6 +247,7 @@ func NewLoader(flags uint32) *Loader {
 		extStaticSyms: make(map[nameVer]Sym),
 		builtinSyms:   make([]Sym, nbuiltin),
 		flags:         flags,
+		elfsetstring:  elfsetstring,
 	}
 }
 
