@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "2b729ab5_bb0a805d",
+        "filename": "src/syscall/types_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-12-11T21:29:30Z",
+      "side": 1,
+      "message": "Unexport them.\n\nThis package is frozen: https://golang.org/pkg/syscall/#pkg-overview\n\nWe\u0027re not adding new symbols to it.",
+      "parentUuid": "74a11728_527e1f2b",
+      "revId": "0cd71d5c7b4f5705401e8f007df0bbe4d2a004a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "443a0778_f1a6f95a",
         "filename": "src/syscall/zerrors_windows.go",
         "patchSetId": 5
