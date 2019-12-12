@@ -1021,6 +1021,120 @@ func (l *Loader) InitReachable() {
 	l.growAttrBitmaps(l.NSym())
 }
 
+// sortSubRec is a direct line-for-line re-implementation of
+// sym.Symbol.SortSub using the loader's new map-based sub
+// representation.
+func (ldr *Loader) sortSubRec(l Sym) Sym {
+	if l == 0 || ldr.sub[l] == 0 {
+		return l
+	}
+
+	l1 := l
+	l2 := l
+	for {
+		l2 = ldr.sub[l2]
+		if l2 == 0 {
+			break
+		}
+		l2 = ldr.sub[l2]
+		if l2 == 0 {
+			break
+		}
+		l1 = ldr.sub[l1]
+	}
+
+	l2 = ldr.sub[l1]
+	ldr.sub[l1] = 0
+	l1 = ldr.sortSubRec(l)
+	l2 = ldr.sortSubRec(l2)
+
+	/* set up lead element */
+	if ldr.SymValue(l1) < ldr.SymValue(l2) {
+		l = l1
+		l1 = ldr.sub[l1]
+	} else {
+		l = l2
+		l2 = ldr.sub[l2]
+	}
+
+	le := l
+
+	for {
+		if l1 == 0 {
+			for l2 != 0 {
+				ldr.sub[le] = l2
+				le = l2
+				l2 = ldr.sub[l2]
+			}
+
+			ldr.sub[le] = 0
+			break
+		}
+
+		if l2 == 0 {
+			for l1 != 0 {
+				ldr.sub[le] = l1
+				le = l1
+				l1 = ldr.sub[l1]
+			}
+
+			break
+		}
+
+		if ldr.SymValue(l1) < ldr.SymValue(l2) {
+			ldr.sub[le] = l1
+			le = l1
+			l1 = ldr.sub[l1]
+		} else {
+			ldr.sub[le] = l2
+			le = l2
+			l2 = ldr.sub[l2]
+		}
+	}
+
+	ldr.sub[le] = 0
+	return l
+}
+
+type symWithVal struct {
+	s Sym
+	v int64
+}
+type bySymValue []symWithVal
+
+func (s bySymValue) Len() int           { return len(s) }
+func (s bySymValue) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s bySymValue) Less(i, j int) bool { return s[i].v < s[j].v }
+
+// Placeholder.
+func (l *Loader) SortSub(s Sym) Sym {
+
+	if s == 0 || l.sub[s] == 0 {
+		return s
+	}
+
+	// Sort symbols using a slice first.
+	sl := []symWithVal{}
+	for ss := s; ss != 0; ss = l.sub[ss] {
+		sl = append(sl, symWithVal{s: ss, v: l.SymValue(ss)})
+	}
+	sort.Sort(bySymValue(sl))
+
+	// Now sort using in-place algorithm.
+	s = l.sortSubRec(s)
+
+	// Check to make sure lists agree
+	k := 0
+	for ss := s; ss != 0; ss = l.sub[ss] {
+		if ss != sl[k].s {
+			fmt.Fprintf(os.Stderr, "=-= outer=%d subsort mismatch at %d: %d vs %d\n", s, k, sl[k].s, ss)
+		}
+		k++
+	}
+
+	return s
+}
+
 // Insure that reachable bitmap and its siblings have enough size.
 func (l *Loader) growAttrBitmaps(reqLen int) {
 	if reqLen >= l.attrReachable.len() {
