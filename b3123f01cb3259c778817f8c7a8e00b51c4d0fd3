@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f79a0952_1f8c81a4",
+        "filename": "src/cmd/link/internal/ld/util.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:49:46Z",
+      "side": 1,
+      "message": "The name and the comment don\u0027t match.",
+      "range": {
+        "startLine": 44,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "b3123f01cb3259c778817f8c7a8e00b51c4d0fd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
