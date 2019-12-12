@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e64a804c_94fb53c8",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "s/Cap(/cap(/g",
+      "range": {
+        "startLine": 92,
+        "startChar": 17,
+        "endLine": 92,
+        "endChar": 20
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c139a23_12a4be00",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "curCap",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 20
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4577d526_27177735",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "loading",
+      "range": {
+        "startLine": 129,
+        "startChar": 22,
+        "endLine": 129,
+        "endChar": 31
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91abf84e_68ebd430",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "I would put the growReachable call inside growSyms. If not, you\u0027re missing a (few?) calls to growReachable at other growSyms sites.",
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c223b36_96865076",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "Sidenote: I just wonder if this (and other) APIs should be slightly different, and return (Sym,error). No need to change it now, but I kind prefer the explicitness of an error.",
+      "range": {
+        "startLine": 301,
+        "startChar": 17,
+        "endLine": 301,
+        "endChar": 26
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb7ad539_d029e204",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "Not a huge deal, but if returned (*extSymPayload,error), and returned a bogus payload when we also set the error, we can eliminate all the conditionals where this function is used, and still handle the case where we care if we actually found an empty payload.",
+      "range": {
+        "startLine": 343,
+        "startChar": 9,
+        "endLine": 343,
+        "endChar": 12
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4835f0f_f28f5e81",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "Won\u0027t the call here (when deadcode starts) overwrite any of the reachability we\u0027ve possibly set up until this is called? (discussed offline, yes in fact there is a problem here.)",
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ec2cdf_3e3b3bdd",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "this might crash if we don\u0027t check for nil, or use the suggestion of the bogus result.",
+      "range": {
+        "startLine": 727,
+        "startChar": 17,
+        "endLine": 727,
+        "endChar": 27
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2fdbf36_9f74c939",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "ibid.",
+      "range": {
+        "startLine": 771,
+        "startChar": 17,
+        "endLine": 771,
+        "endChar": 27
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2351a22f_5ec4b225",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "s/InstallSym/installSym/g\nI see no reason this should be global.",
+      "range": {
+        "startLine": 1022,
+        "startChar": 17,
+        "endLine": 1022,
+        "endChar": 27
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86d26e53_237bf789",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "Unused externally. I assume this is just a side-effect of your diff stack getting corrupted.",
+      "range": {
+        "startLine": 1168,
+        "startChar": 17,
+        "endLine": 1168,
+        "endChar": 29
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47e6f392_7a541f57",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-12T15:39:05Z",
+      "side": 1,
+      "message": "I\u0027d remove this conditional. Likely knowing extStart is 0 is also helpful so the user doesnt\u0027 forget it exists.",
+      "range": {
+        "startLine": 1502,
+        "startChar": 0,
+        "endLine": 1502,
+        "endChar": 21
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
