@@ -1021,6 +1021,40 @@ func (l *Loader) InitReachable() {
 	l.growAttrBitmaps(l.NSym())
 }
 
+type symWithVal struct {
+	s Sym
+	v int64
+}
+type bySymValue []symWithVal
+
+func (s bySymValue) Len() int           { return len(s) }
+func (s bySymValue) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s bySymValue) Less(i, j int) bool { return s[i].v < s[j].v }
+
+// Placeholder.
+func (l *Loader) SortSub(s Sym) Sym {
+
+	if s == 0 || l.sub[s] == 0 {
+		return s
+	}
+
+	// Sort symbols using a slice first.
+	sl := []symWithVal{}
+	for ss := s; ss != 0; ss = l.sub[ss] {
+		sl = append(sl, symWithVal{s: ss, v: l.SymValue(ss)})
+	}
+	sort.Sort(bySymValue(sl))
+
+	// Then apply any changes needed to the sub map.
+	ns := Sym(0)
+	for i := 0; i < len(sl); i++ {
+		s := sl[len(sl)-i-1].s
+		l.sub[s] = ns
+	}
+
+	return sl[0].s
+}
+
 // Insure that reachable bitmap and its siblings have enough size.
 func (l *Loader) growAttrBitmaps(reqLen int) {
 	if reqLen >= l.attrReachable.len() {
