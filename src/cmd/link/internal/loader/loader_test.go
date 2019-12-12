@@ -88,6 +88,9 @@ func TestOuterSub(t *testing.T) {
 	es1 := ldr.AddExtSym("outer", 0)
 	es2 := ldr.AddExtSym("sub1", 0)
 	es3 := ldr.AddExtSym("sub2", 0)
+	es4 := ldr.AddExtSym("sub3", 0)
+	es5 := ldr.AddExtSym("sub4", 0)
+	es6 := ldr.AddExtSym("sub5", 0)
 
 	// Should not have an outer sym initially
 	if ldr.OuterSym(es1) != 0 {
@@ -128,5 +131,21 @@ func TestOuterSub(t *testing.T) {
 	}
 	if ldr.SubSym(es3) != es2 {
 		t.Errorf("ldr.SubSym(es3) got %d wanted %d", ldr.SubSym(es3), es2)
+	}
+
+	// Some more
+	ldr.PrependSub(es1, es4)
+	ldr.PrependSub(es1, es5)
+	ldr.PrependSub(es1, es6)
+
+	// Hack (reach under the hood to set values)
+	ldr.payloads[es2-ldr.extStart].value = 7
+	ldr.payloads[es3-ldr.extStart].value = 1
+	ldr.payloads[es4-ldr.extStart].value = 13
+	ldr.payloads[es5-ldr.extStart].value = 101
+	ldr.payloads[es6-ldr.extStart].value = 3
+	news := ldr.SortSub(ldr.SubSym(es1))
+	if news != es3 {
+		t.Errorf("ldr.SortSub leader got %d wanted %d", news, es3)
 	}
 }
