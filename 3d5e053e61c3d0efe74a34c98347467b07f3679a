@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4254f1f4_aa7f70d9",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-12-12T19:44:25Z",
+      "side": 1,
+      "message": "The use of UTC here was intentional. Per `go help modules`:\n\u003e Untagged revisions can be referred to using a \"pseudo-version\"\n\u003e like v0.0.0-yyyymmddhhmmss-abcdefabcdef, where the time is the\n\u003e commit time in UTC and the final suffix is the prefix of the commit hash.\n\nIf we were to use local times instead, then users in different timezones would have different pseudo-versions for the same commit. Part of the design of Go modules is to ensure that the mapping between commits and versions is the same for all users at all times.\n\n\n(Moreover, this change would need a test, and would need to pass the existing tests as well.)",
+      "revId": "3d5e053e61c3d0efe74a34c98347467b07f3679a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
