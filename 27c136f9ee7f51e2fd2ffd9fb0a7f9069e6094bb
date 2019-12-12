@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b10b1d68_e24d9fbb",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "ext, if not nil, should equal l.Syms[extIdx], right? Maybe just have extIdx and remove ext.",
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e64a804c_94fb53c8",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -18,6 +35,29 @@
         "startChar": 17,
         "endLine": 92,
         "endChar": 20
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86a776e1_3627dc70",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "cap ?",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 11
       },
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -48,6 +88,29 @@
     },
     {
       "key": {
+        "uuid": "670416d6_57f5db2c",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "Maybe use the builtin append function?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 9
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4577d526_27177735",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -65,6 +128,23 @@
         "endLine": 129,
         "endChar": 31
       },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80ebc720_97579db3",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "Nearly all symbols (Go and external) will need value field, eventually. I think eventually this will live in a different place.",
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -111,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "7e59a004_fb3ba320",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "I don\u0027t think it should return an error. That a symbol already existed is not an error.",
+      "parentUuid": "6c223b36_96865076",
+      "range": {
+        "startLine": 301,
+        "startChar": 17,
+        "endLine": 301,
+        "endChar": 26
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb7ad539_d029e204",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -122,6 +226,30 @@
       "writtenOn": "2019-12-12T15:39:05Z",
       "side": 1,
       "message": "Not a huge deal, but if returned (*extSymPayload,error), and returned a bogus payload when we also set the error, we can eliminate all the conditionals where this function is used, and still handle the case where we care if we actually found an empty payload.",
+      "range": {
+        "startLine": 343,
+        "startChar": 9,
+        "endLine": 343,
+        "endChar": 12
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8303ed54_ece9b2ea",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "Same here.",
+      "parentUuid": "bb7ad539_d029e204",
       "range": {
         "startLine": 343,
         "startChar": 9,
@@ -174,6 +302,30 @@
     },
     {
       "key": {
+        "uuid": "9b03a8e3_3e2b1a5e",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "With extIdx !\u003d 0, I think this shouldn\u0027t happen.",
+      "parentUuid": "44ec2cdf_3e3b3bdd",
+      "range": {
+        "startLine": 727,
+        "startChar": 17,
+        "endLine": 727,
+        "endChar": 27
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2fdbf36_9f74c939",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -213,6 +365,29 @@
         "startChar": 17,
         "endLine": 1022,
         "endChar": 27
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c96a1fd_86ea7407",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-12T16:45:51Z",
+      "side": 1,
+      "message": "Maybe move this into InstallSym?",
+      "range": {
+        "startLine": 1047,
+        "startChar": 0,
+        "endLine": 1049,
+        "endChar": 2
       },
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
