@@ -206,6 +206,9 @@ while(<>) {
 			} else {
 				push @args, "uintptr($name)", "uintptr($name>>32)";
 			}
+
+		} elsif($type eq "int") {
+			push @args, "int($name)";
 		} else {
 			push @args, "uintptr($name)";
 		}
