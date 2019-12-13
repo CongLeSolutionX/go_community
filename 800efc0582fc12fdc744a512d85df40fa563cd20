@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8fcff57b_c14d34a6",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T14:05:28Z",
+      "side": 1,
+      "message": "OK. I can send a patch for that.",
+      "parentUuid": "805d0cd5_be33455f",
+      "revId": "800efc0582fc12fdc744a512d85df40fa563cd20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d78ba17a_510e7656",
         "filename": "src/cmd/link/internal/ld/deadcode2.go",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-12T16:50:12Z",
       "side": 1,
       "message": "Maybe we can have a \"reloc cache\" type replacing the current caching in deadcodePass2. The deadcode pass can instantiate it, and other places can have their own instances as well.",
+      "revId": "800efc0582fc12fdc744a512d85df40fa563cd20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3fa77cc_663cb85f",
+        "filename": "src/cmd/link/internal/ld/deadcode2.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T14:05:28Z",
+      "side": 1,
+      "message": "Agree that there is work to be done here. A general-purpose cache seems like it would not be too hard to write.",
+      "parentUuid": "d78ba17a_510e7656",
       "revId": "800efc0582fc12fdc744a512d85df40fa563cd20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
