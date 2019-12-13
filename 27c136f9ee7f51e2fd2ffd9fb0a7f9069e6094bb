@@ -484,6 +484,30 @@
     },
     {
       "key": {
+        "uuid": "ebfad0c2_5c02412b",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-12-13T15:57:45Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "eb77d573_5ac9cd89",
+      "range": {
+        "startLine": 343,
+        "startChar": 9,
+        "endLine": 343,
+        "endChar": 12
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4835f0f_f28f5e81",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
