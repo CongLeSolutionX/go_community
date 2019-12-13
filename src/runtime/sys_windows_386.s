@@ -437,9 +437,13 @@ TEXT runtime·switchtothread(SB),NOSPLIT,$0
 	RET
 
 // See https://www.dcl.hpi.uni-potsdam.de/research/WRK/2007/08/getting-os-information-the-kuser_shared_data-structure/
+// and https://www.geoffchappell.com/studies/windows/km/ntoskrnl/structs/kuser_shared_data.htm
 // Must read hi1, then lo, then hi2. The snapshot is valid if hi1 == hi2.
+// To compute unbiased interrupt time, we also get a stable read of
+// InterrutTimeBias, which counts 100ns ticks spent suspended.
 #define _INTERRUPT_TIME 0x7ffe0008
 #define _SYSTEM_TIME 0x7ffe0014
+#define _INTERRUPT_TIME_BIAS 0x7ffe03b0
 #define time_lo 0
 #define time_hi1 4
 #define time_hi2 8
@@ -448,18 +452,34 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 	CMPB	runtime·useQPCTime(SB), $0
 	JNE	useQPC
 loop:
+	MOVL	_INTERRUPT_TIME_BIAS, BX
+	MOVL	_INTERRUPT_TIME_BIAS+4, DX
 	MOVL	(_INTERRUPT_TIME+time_hi1), AX
 	MOVL	(_INTERRUPT_TIME+time_lo), CX
 	MOVL	(_INTERRUPT_TIME+time_hi2), DI
 	CMPL	AX, DI
 	JNE	loop
 
-	// wintime = DI:CX, multiply by 100
+	MOVL	_INTERRUPT_TIME_BIAS, AX
+	CMPL	AX, BX
+	JNE	loop
+	MOVL	_INTERRUPT_TIME_BIAS+4, AX
+	CMPL	AX, DX
+	JNE	loop
+
+	// DI:CX = biased interrupt time (in 100ns units)
+	// DX:BX = bias (in 100ns units)
+	// Convert to unbiased interrupt time
+	SUBL	BX, CX
+	SBBL	DX, DI
+
+	// DI:CX = unbiased interrupt time; multiply by 100
 	MOVL	$100, AX
-	MULL	CX
-	IMULL	$100, DI
-	ADDL	DI, DX
-	// wintime*100 = DX:AX
+	MULL	CX		// DX:AX = 100 * CX
+	IMULL	$100, DI	// DI = 100 * DI
+	ADDL	DI, DX		// DX = DX + DI
+
+	// DX:AX = unbiased interrupt time in ns
 	MOVL	AX, ret_lo+0(FP)
 	MOVL	DX, ret_hi+4(FP)
 	RET
@@ -471,19 +491,34 @@ TEXT time·now(SB),NOSPLIT,$0-20
 	CMPB	runtime·useQPCTime(SB), $0
 	JNE	useQPC
 loop:
+	MOVL	_INTERRUPT_TIME_BIAS, BX
+	MOVL	_INTERRUPT_TIME_BIAS+4, DX
 	MOVL	(_INTERRUPT_TIME+time_hi1), AX
 	MOVL	(_INTERRUPT_TIME+time_lo), CX
 	MOVL	(_INTERRUPT_TIME+time_hi2), DI
 	CMPL	AX, DI
 	JNE	loop
 
-	// w = DI:CX
-	// multiply by 100
+	MOVL	_INTERRUPT_TIME_BIAS, AX
+	CMPL	AX, BX
+	JNE	loop
+	MOVL	_INTERRUPT_TIME_BIAS+4, AX
+	CMPL	AX, DX
+	JNE	loop
+
+	// DI:CX = biased interrupt time (in 100ns units)
+	// DX:BX = bias (in 100ns units)
+	// Convert to unbiased interrupt time
+	SUBL	BX, CX
+	SBBL	DX, DI
+
+	// DI:CX = unbiased interrupt time; multiply by 100
 	MOVL	$100, AX
-	MULL	CX
-	IMULL	$100, DI
-	ADDL	DI, DX
-	// w*100 = DX:AX
+	MULL	CX		// DX:AX = 100 * CX
+	IMULL	$100, DI	// DI = 100 * DI
+	ADDL	DI, DX		// DX = DX + DI
+
+	// DX:AX = unbiased interrupt time in ns
 	MOVL	AX, mono+12(FP)
 	MOVL	DX, mono+16(FP)
 

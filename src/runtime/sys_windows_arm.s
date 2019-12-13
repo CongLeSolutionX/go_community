@@ -488,9 +488,13 @@ TEXT runtime·read_tls_fallback(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // See http://www.dcl.hpi.uni-potsdam.de/research/WRK/2007/08/getting-os-information-the-kuser_shared_data-structure/
+// and https://www.geoffchappell.com/studies/windows/km/ntoskrnl/structs/kuser_shared_data.htm
 // Must read hi1, then lo, then hi2. The snapshot is valid if hi1 == hi2.
+// To compute unbiased interrupt time, we also get a stable read of
+// InterrutTimeBias, which counts 100ns ticks spent suspended.
 #define _INTERRUPT_TIME 0x7ffe0008
 #define _SYSTEM_TIME 0x7ffe0014
+#define _INTERRUPT_TIME_BIAS 0x7ffe03b0
 #define time_lo 0
 #define time_hi1 4
 #define time_hi2 8
@@ -501,19 +505,36 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 	CMP	$0, R0
 	BNE	useQPC
 	MOVW	$_INTERRUPT_TIME, R3
+	MOVW	$_INTERRUPT_TIME_BIAS, R5
 loop:
+	MOVW	0(R5), R6
+	MOVW	4(R5), R7
 	MOVW	time_hi1(R3), R1
 	MOVW	time_lo(R3), R0
 	MOVW	time_hi2(R3), R2
 	CMP	R1, R2
 	BNE	loop
 
-	// wintime = R1:R0, multiply by 100
+	// Reload and check bias.
+	MOVW	0(R5), R2
+	CMP	R2, R6
+	BNE	loop
+	MOVW	4(R5), R2
+	CMP	R2, R7
+	BNE	loop
+
+	// R1:R0 = biased interrupt time (in 100ns units)
+	// R7:R6 = bias (in 100ns units)
+	// Convert to unbiased interrupt time
+	SUB.S	R6, R0
+	SBC	R7, R1
+
+	// R1:R0 = unbiased interrupt time; multiply by 100
 	MOVW	$100, R2
 	MULLU	R0, R2, (R4, R3)    // R4:R3 = R1:R0 * R2
 	MULA	R1, R2, R4, R4
 
-	// wintime*100 = R4:R3
+	// R4:R3 = unbiased interrupt time in ns
 	MOVW	R3, ret_lo+0(FP)
 	MOVW	R4, ret_hi+4(FP)
 	RET
@@ -527,19 +548,36 @@ TEXT time·now(SB),NOSPLIT,$0-20
 	CMP	$0, R0
 	BNE	useQPC
 	MOVW	$_INTERRUPT_TIME, R3
+	MOVW	$_INTERRUPT_TIME_BIAS, R5
 loop:
+	MOVW	0(R5), R6
+	MOVW	4(R5), R7
 	MOVW	time_hi1(R3), R1
 	MOVW	time_lo(R3), R0
 	MOVW	time_hi2(R3), R2
 	CMP	R1, R2
 	BNE	loop
 
-	// wintime = R1:R0, multiply by 100
+	// Reload and check bias.
+	MOVW	0(R5), R2
+	CMP	R2, R6
+	BNE	loop
+	MOVW	4(R5), R2
+	CMP	R2, R7
+	BNE	loop
+
+	// biased interrupt time = R1:R0 (in 100ns units)
+	// bias = R7:R6 (in 100ns units)
+	// Convert to unbiased interrupt time
+	SUB.S	R6, R0
+	SBC	R7, R1
+
+	// unbiased interrupt time = R1:R0, multiply by 100
 	MOVW	$100, R2
 	MULLU	R0, R2, (R4, R3)    // R4:R3 = R1:R0 * R2
 	MULA	R1, R2, R4, R4
 
-	// wintime*100 = R4:R3
+	// unbiased interrupt time in ns = R4:R3
 	MOVW	R3, mono+12(FP)
 	MOVW	R4, mono+16(FP)
 

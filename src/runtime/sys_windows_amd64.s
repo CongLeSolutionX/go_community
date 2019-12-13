@@ -466,9 +466,13 @@ TEXT runtime·switchtothread(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // See https://www.dcl.hpi.uni-potsdam.de/research/WRK/2007/08/getting-os-information-the-kuser_shared_data-structure/
+// and https://www.geoffchappell.com/studies/windows/km/ntoskrnl/structs/kuser_shared_data.htm
 // Must read hi1, then lo, then hi2. The snapshot is valid if hi1 == hi2.
+// To compute unbiased interrupt time, we also get a stable read of
+// InterrutTimeBias, which counts 100ns ticks spent suspended.
 #define _INTERRUPT_TIME 0x7ffe0008
 #define _SYSTEM_TIME 0x7ffe0014
+#define _INTERRUPT_TIME_BIAS 0x7ffe03b0
 #define time_lo 0
 #define time_hi1 4
 #define time_hi2 8
@@ -478,13 +482,26 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 	JNE	useQPC
 	MOVQ	$_INTERRUPT_TIME, DI
 loop:
+	MOVQ	_INTERRUPT_TIME_BIAS, DX
 	MOVL	time_hi1(DI), AX
 	MOVL	time_lo(DI), BX
 	MOVL	time_hi2(DI), CX
 	CMPL	AX, CX
 	JNE	loop
+
+	// Reload and check bias.
+	MOVQ	_INTERRUPT_TIME_BIAS, AX
+	CMPL	DX, AX
+	JNE	loop
+
+	// ECX:EBX = biased interrupt time (in 100ns units)
 	SHLQ	$32, CX
 	ORQ	BX, CX
+	// CX = biased interrupt time (in 100ns units)
+	// DX = bias
+	// Convert to unbiased interrupt time
+	SUBQ	DX, CX
+	// CX = unbiased interrupt time (in 100ns units); multiply by 100
 	IMULQ	$100, CX
 	MOVQ	CX, ret+0(FP)
 	RET
@@ -497,15 +514,20 @@ TEXT time·now(SB),NOSPLIT,$0-24
 	JNE	useQPC
 	MOVQ	$_INTERRUPT_TIME, DI
 loop:
+	MOVQ	_INTERRUPT_TIME_BIAS, DX
 	MOVL	time_hi1(DI), AX
 	MOVL	time_lo(DI), BX
 	MOVL	time_hi2(DI), CX
 	CMPL	AX, CX
 	JNE	loop
-	SHLQ	$32, AX
-	ORQ	BX, AX
-	IMULQ	$100, AX
-	MOVQ	AX, mono+16(FP)
+	MOVQ	_INTERRUPT_TIME_BIAS, AX
+	CMPL	DX, AX
+	JNE	loop
+	SHLQ	$32, CX
+	ORQ	BX, CX
+	SUBQ	DX, CX
+	IMULQ	$100, CX
+	MOVQ	CX, mono+16(FP)
 
 	MOVQ	$_SYSTEM_TIME, DI
 wall:
