@@ -1308,6 +1308,24 @@ func (l *Loader) relocs(r *oReader, li int) Relocs {
 	}
 }
 
+// RelocByOff implements sort.Interface for sorting relocations by offset.
+
+type RelocByOff []Reloc
+
+func (x RelocByOff) Len() int      { return len(x) }
+func (x RelocByOff) Swap(i, j int) { x[i], x[j] = x[j], x[i] }
+func (x RelocByOff) Less(i, j int) bool {
+	a := &x[i]
+	b := &x[j]
+	if a.Off < b.Off {
+		return true
+	}
+	if a.Off > b.Off {
+		return false
+	}
+	return false
+}
+
 // Preload a package: add autolibs, add symbols to the symbol table.
 // Does not read symbol data yet.
 func (l *Loader) Preload(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, unit *sym.CompilationUnit, length int64, pn string, flags int) {
