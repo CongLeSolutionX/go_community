@@ -161,6 +161,7 @@ type Loader struct {
 	overwrite     map[Sym]Sym       // overwrite[i]=j if symbol j overwrites symbol i
 
 	payloads []extSymPayload // contents of linker-materialized external syms
+	values   []int64         // symbol values, indexed by global sym index
 
 	itablink map[Sym]struct{} // itablink[j] defined if j is go.itablink.*
 
@@ -201,11 +202,10 @@ type Loader struct {
 }
 
 // extSymPayload holds the payload (data + relocations) for linker-synthesized
-// external symbols.
+// external symbols (note that symbol value is stored in a separate slice).
 type extSymPayload struct {
 	name   string // TODO: would this be better as offset into str table?
 	size   int64
-	value  int64
 	ver    int
 	kind   sym.SymKind
 	relocs []Reloc
@@ -251,6 +251,7 @@ func (l *Loader) addObj(pkg string, r *oReader) Sym {
 	l.start[r] = i
 	l.objs = append(l.objs, objIdx{r, i, i + Sym(n) - 1})
 	l.max += Sym(n)
+	l.growValues(int(l.max))
 	return i
 }
 
@@ -377,6 +378,7 @@ func (l *Loader) growSyms(i int) {
 	}
 	l.Syms = append(l.Syms, make([]*sym.Symbol, i+1-n)...)
 	l.payloads = append(l.payloads, make([]extSymPayload, i+1-n)...)
+	l.growValues(int(i))
 	l.growAttrBitmaps(int(i))
 }
 
@@ -834,6 +836,34 @@ func (l *Loader) IsItabLink(i Sym) bool {
 		return true
 	}
 	return false
+}
+
+// growValues grows the slice used to store symbol values.
+func (l *Loader) growValues(reqLen int) {
+	curLen := len(l.values)
+	if reqLen > curLen {
+		newLen := curLen * 2
+		if newLen < reqLen {
+			newLen = reqLen
+		}
+		l.values = append(l.values, make([]int64, newLen-curLen)...)
+	}
+}
+
+// SymValue returns the value of the i-th symbol. i is global index.
+func (l *Loader) SymValue(i Sym) int64 {
+	if i == 0 || i > l.max {
+		panic("invalid symbol in loader.Loader.SymValue")
+	}
+	return l.values[i]
+}
+
+// SetSymValue sets the value of the i-th symbol. i is global index.
+func (l *Loader) SetSymValue(i Sym, val int64) {
+	if i == 0 || i > l.max {
+		panic("invalid symbol in loader.Loader.SetValue")
+	}
+	l.values[i] = val
 }
 
 // Returns the symbol content of the i-th symbol. i is global index.
