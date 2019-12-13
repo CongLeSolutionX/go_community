@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9bba403_9bedf221",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Good point, I\u0027ll fix that up.",
+      "parentUuid": "b10b1d68_e24d9fbb",
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e64a804c_94fb53c8",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0892736b_21b6e914",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e64a804c_94fb53c8",
+      "range": {
+        "startLine": 92,
+        "startChar": 17,
+        "endLine": 92,
+        "endChar": 20
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86a776e1_3627dc70",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -53,6 +95,30 @@
       "writtenOn": "2019-12-12T16:45:51Z",
       "side": 1,
       "message": "cap ?",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6158722e_8d3792cb",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Would rather leave as len(), seems simpler given that makebitmap always uses 2-arg make. I\u0027ll rename the method instead.",
+      "parentUuid": "86a776e1_3627dc70",
       "range": {
         "startLine": 93,
         "startChar": 8,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "0b44240a_e414d0af",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c139a23_12a4be00",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 20
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "670416d6_57f5db2c",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -108,6 +198,30 @@
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "563c689d_6bf967c2",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "670416d6_57f5db2c",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 9
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "8ea3fdd3_87745626",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4577d526_27177735",
+      "range": {
+        "startLine": 129,
+        "startChar": 22,
+        "endLine": 129,
+        "endChar": 31
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80ebc720_97579db3",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -145,6 +283,24 @@
       "writtenOn": "2019-12-12T16:45:51Z",
       "side": 1,
       "message": "Nearly all symbols (Go and external) will need value field, eventually. I think eventually this will live in a different place.",
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf6a7242_85d10642",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "I suppose you are right, now that I think about it. I will send a separate patch for this.",
+      "parentUuid": "80ebc720_97579db3",
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -165,6 +321,24 @@
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1abf42ea_aa9381cb",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91abf84e_68ebd430",
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +377,30 @@
       "side": 1,
       "message": "I don\u0027t think it should return an error. That a symbol already existed is not an error.",
       "parentUuid": "6c223b36_96865076",
+      "range": {
+        "startLine": 301,
+        "startChar": 17,
+        "endLine": 301,
+        "endChar": 26
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "285d70f2_05875b31",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "I actually went back and forth on this myself in some previous versions of these patches. At this point I think I  agree with Cherry that it\u0027s better to keep it this way",
+      "parentUuid": "7e59a004_fb3ba320",
       "range": {
         "startLine": 301,
         "startChar": 17,
@@ -262,6 +460,30 @@
     },
     {
       "key": {
+        "uuid": "eb77d573_5ac9cd89",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "I can see the logic behind this suggestion, but adding a second error return param seems weird -- call sites would then look like either\n\n  pp, _ :\u003d getPayload(i)\n  pp.\u003cfield\u003e \u003d ...\n\nor\n\n  pp, err :\u003d getPayload(i)\n  if err !\u003d nil {\n    panic(...)\n  }\n\nI think I would rather change it to just panic if handed a bogus symbol. OK with that?",
+      "parentUuid": "8303ed54_ece9b2ea",
+      "range": {
+        "startLine": 343,
+        "startChar": 9,
+        "endLine": 343,
+        "endChar": 12
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4835f0f_f28f5e81",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -276,6 +498,24 @@
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d5650fb_f36aa254",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "I\u0027ll rewrite it to just call growReachable(l.NSym()) instead -- that way if for some reason a symbol has been marked reachable before deadcode, that value will be preserved.",
+      "parentUuid": "d4835f0f_f28f5e81",
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -314,6 +554,30 @@
       "side": 1,
       "message": "With extIdx !\u003d 0, I think this shouldn\u0027t happen.",
       "parentUuid": "44ec2cdf_3e3b3bdd",
+      "range": {
+        "startLine": 727,
+        "startChar": 17,
+        "endLine": 727,
+        "endChar": 27
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0f9b194_bded33fc",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Given that we vett the symbol index that gets written to relocs.extIdx, I am inclined to agree with Cherry here. If it were just some random Sym being handed to us by a client I think a check would be needed.",
+      "parentUuid": "9b03a8e3_3e2b1a5e",
       "range": {
         "startLine": 727,
         "startChar": 17,
@@ -372,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "573a4f64_dca34075",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "OK, good point. Done.",
+      "parentUuid": "2351a22f_5ec4b225",
+      "range": {
+        "startLine": 1022,
+        "startChar": 17,
+        "endLine": 1022,
+        "endChar": 27
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c96a1fd_86ea7407",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -395,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "82c565ee_b95dbaf0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Sounds reasonable. Done.",
+      "parentUuid": "3c96a1fd_86ea7407",
+      "range": {
+        "startLine": 1047,
+        "startChar": 0,
+        "endLine": 1049,
+        "endChar": 2
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86d26e53_237bf789",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 16
@@ -406,6 +718,30 @@
       "writtenOn": "2019-12-12T15:39:05Z",
       "side": 1,
       "message": "Unused externally. I assume this is just a side-effect of your diff stack getting corrupted.",
+      "range": {
+        "startLine": 1168,
+        "startChar": 17,
+        "endLine": 1168,
+        "endChar": 29
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71c9e0ee_567b173b",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "No, it\u0027s just going to be used later on in the stack. The prototype change to convert DWARF generation uses it, for example. Also the prorotype ELF host object loader patch.",
+      "parentUuid": "86d26e53_237bf789",
       "range": {
         "startLine": 1168,
         "startChar": 17,
@@ -438,6 +774,30 @@
       "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d72b191_7cf14df0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-13T13:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47e6f392_7a541f57",
+      "range": {
+        "startLine": 1502,
+        "startChar": 0,
+        "endLine": 1502,
+        "endChar": 21
+      },
+      "revId": "27c136f9ee7f51e2fd2ffd9fb0a7f9069e6094bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
