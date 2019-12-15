@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "596d2468_88eeec02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-12-15T00:32:27Z",
+      "side": 1,
+      "message": "Your explanation is a reasonable guess. But it is phrased as fact. We don\u0027t really know the truth.\n\nMaybe adjust text. Otherwise future readers will assume that you know something that they don\u0027t.",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f44f5196_b1fa6d2e",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-12-15T00:32:27Z",
+      "side": 1,
+      "message": "Is PowerRegisterSuspendResumeNotification really returns Windows error?\n\nAccording to\n\nhttps://docs.microsoft.com/en-us/windows/win32/api/powerbase/nf-powerbase-powerregistersuspendresumenotification\n\n\u003e Returns ERROR_SUCCESS (zero) if the call was successful, and a nonzero value if the call failed.\n\nShouldn\u0027t you call getlasterror instead?",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f47df4bb_82e1cee8",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-12-15T00:32:27Z",
+      "side": 1,
+      "message": "Replace 2 with _ERROR_FILE_NOT_FOUND or something. It will help people like me, who don\u0027t know that 2 is ERROR_FILE_NOT_FOUND, to read this code.",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d29b28fe_1ff1438d",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-12-15T00:32:27Z",
+      "side": 1,
+      "message": "Please, also display getlasterror value. getlasterror is useful when people report errors.\n\nSee mem_windows.go for an example of printing getlasterror. It uses println function. Maybe there is better way to incorporate getlasterror into throw string. But I don\u0027t know it.",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
