@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e93a3f13_94565f8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-12-15T01:12:09Z",
+      "side": 1,
+      "message": "I had different result calling QueryUnbiasedInterruptTime see\n\nhttps://github.com/golang/go/issues/31528#issuecomment-500270601",
+      "revId": "d37d8b347dbfae09c4244e4a23e6c7206f7fefb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
