@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08ec4518_897d3203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "crypto/rand: add test and docs about biases in rand.Int\n\nInt should never return a value whose leading byte is a 0 lest\nthat biases towards low values and is thus a security risk.\nThis CL adds a test and adds docs describing the mentioned risk.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23064ede_b600709a",
+        "filename": "src/crypto/rand/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "Minor nit, please add a period so:\n   risk.",
+      "range": {
+        "startLine": 130,
+        "startChar": 66,
+        "endLine": 130,
+        "endChar": 70
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67e1b50d_16efd680",
+        "filename": "src/crypto/rand/util_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "Let\u0027s ensure that we skip potentially long running tests\n\nif testing.Short() {\n    t.Skip(\"long running test\")\n}",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 36
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8afcc1f0_661ce75a",
+        "filename": "src/crypto/rand/util_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "Please capitalize the T to make the test runnable, so func TestIntUnbiased",
+      "range": {
+        "startLine": 83,
+        "startChar": 5,
+        "endLine": 83,
+        "endChar": 9
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "236f15cf_3919427d",
+        "filename": "src/crypto/rand/util_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "foundUnbiased :\u003d false",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 16
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8331dc72_963116e3",
+        "filename": "src/crypto/rand/util_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "if found {",
+      "range": {
+        "startLine": 87,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 15
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07120481_46ea3a5c",
+        "filename": "src/crypto/rand/util_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "Unfortunately I don\u0027t think that this code compiles.\nPlease make it:\n\n\n\t\t\t\tri, err :\u003d rand.Int(reader, big.NewInt(max))\n\t\t\t\tif err !\u003d nil {\n\t\t\t\t\tt.Fatalf(\"rand.Int: max: %d error: %v\", max, err)\n\t\t\t\t}\n\n\t\t\t\tif ri.Bytes()[0] !\u003d 0 {",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 28
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f93fe63_91d97ab7",
+        "filename": "src/crypto/rand/util_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-12-15T06:57:12Z",
+      "side": 1,
+      "message": "We can make this clearer to read by hoisting it out of the loop so:\n\nfor i :\u003d 0; i \u003c 100; i++ {\n    if foundUnbiased {\n        break\n    }\n    t.Run(fmt.Sprintf(\"i\u003d%d\", i), func(t *testing.T) {\n        crd :\u003d \u0026countingReader{r: rand.Reader}\n        ri, err :\u003d rand.Int(crd, big.NewInt(max))\n        if err !\u003d nil {\n             t.Fatalf(\"rand.Int: max: %d error: %v\", max, err)\n\t}\n        if ri.Bytes()[0] !\u003d 0 {\n             foundUnbiased \u003d true\n             return\n        }\n    })\n}\n\nif !foundUnbiased {\n    t.Fatalf(\"max: %d returned biased output with leading 0 through 100 samples\", max)\n}",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 5
+      },
+      "revId": "e6a5a3a771f66c2e423bf14c3be1a156c585d68c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
