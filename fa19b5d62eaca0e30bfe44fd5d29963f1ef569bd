@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "356a63ba_c43ab6d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-12-15T12:12:45Z",
+      "side": 1,
+      "message": "Actually, I\u0027m mildly sure of this. The chain is:\n\npowrprof.dll!PowerRegisterSuspendResumeNotification -\u003e umpdc.dll!PdcPortOpen -\u003e ntdll.dll!ZwAlpcConnectPort(\"\\\\PdcPort\") -\u003e syscall -\u003e ntdll.exe!AlpcpConnectPort\n\nThis returns RtlNtStatusToDosError(0xC0000034)\u003d\u003d2 when \\\\.\\PdcPort doesn\u0027t exist. PdcPort doesn\u0027t exist when pdc.sys hasn\u0027t been loaded, since loading will register that alpc port. When pdc.sys has been loaded it also supplies hooks for the various timer interrupt functions to update their values based on sleep time. So, no pdc.sys means we\u0027re on program time, since no hooks, and also means we don\u0027t have a \\\\.\\PdcPort.",
+      "parentUuid": "596d2468_88eeec02",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f44f5196_b1fa6d2e",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45f01578_a387e285",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-12-15T12:12:45Z",
+      "side": 1,
+      "message": "No, it\u0027s not a mere boolean. It returns the result of RtlNtStatusToDosError(blah). So indeed I should compare this to a win32 error constant (ERROR_FILE_NOT_FOUND in our case), but GetLastError wouldn\u0027t be correct. Another way of handling it would be to check for !0 and then look at `NtCurrentTeb()-\u003eLastStatusValue \u003d\u003d STATUS_OBJECT_NAME_NOT_FOUND`, which is set during the call to `RtlNtStatusToDosError`, but that seems like total overkill.\n\nSo I\u0027ll fix it up to just use the constant.",
+      "parentUuid": "f44f5196_b1fa6d2e",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "43cd8a3e_96a1877c",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-12-15T12:12:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f47df4bb_82e1cee8",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d29b28fe_1ff1438d",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cde9e806_12fb36b3",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-12-15T12:12:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d29b28fe_1ff1438d",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
