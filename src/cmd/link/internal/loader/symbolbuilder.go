@@ -31,18 +31,58 @@ func (l *Loader) MakeSymbolBuilder(name string) *SymbolBuilder {
 	return sb
 }
 
-// NewSymbolBuilder creates a symbol builder helper for an already-allocated
-// external symbol 'symIdx'.
-func (l *Loader) MakeSymbolUpdater(symIdx Sym) *SymbolBuilder {
+// NewSymbolBuilder creates a symbol builder helper for an existing
+// symbol 'symIdx'. If 'symIdx' is not an external symbol, then create
+// a clone of it (copy name, properties, etc) fix things up so that
+// the lookup tables and caches point to the new version, not the old
+// version. Returns a SymbolBuilder and a Sym (which may be different
+// from the original if we had to clone).
+func (l *Loader) MakeSymbolUpdater(symIdx Sym) (*SymbolBuilder, Sym) {
+	if symIdx == 0 {
+		panic("can't update the null symbol")
+	}
+	if ov, ok := l.overwrite[symIdx]; ok {
+		symIdx = ov
+	}
 	if !l.IsExternal(symIdx) {
-		panic("can't build on non-external sym")
+
+		// Create a clone with the same name/version/kind etc.
+		newSym := l.cloneToExternal(symIdx)
+
+		// Construct updater.
+		sb := &SymbolBuilder{l: l, symIdx: newSym}
+		sb.extSymPayload = &l.payloads[newSym-l.extStart]
+
+		// Fix up the lookup tables if the symbol in question was
+		// present in the lookup tables. At the moment it only makes
+		// sense to do this sort of clone/update for symbols that are
+		// in the symbol table (as opposed to anonymous symbols);
+		// issue an error if we can't look up the original symbol.
+		if sb.ver >= sym.SymVerStatic {
+			s, ok := l.extStaticSyms[nameVer{sb.name, sb.ver}]
+			if !ok || s != symIdx {
+				panic("lookup failed for clone of non-external static symbol")
+			}
+			l.extStaticSyms[nameVer{sb.name, sb.ver}] = newSym
+		} else {
+			s, ok := l.symsByName[sb.ver][sb.name]
+			if !ok || s != symIdx {
+				panic("lookup failed for clone of non-external symbol")
+			}
+			l.symsByName[sb.ver][sb.name] = newSym
+		}
+
+		// Add an overwrite entry (in case there are relocations
+		// against the old symbol).
+		l.overwrite[symIdx] = newSym
+		return sb, newSym
 	}
 	if l.Syms[symIdx] != nil {
 		panic("can't build if sym.Symbol already present")
 	}
 	sb := &SymbolBuilder{l: l, symIdx: symIdx}
 	sb.extSymPayload = &l.payloads[symIdx-l.extStart]
-	return sb
+	return sb, symIdx
 }
 
 // Getters for properties of the symbol we're working on.
