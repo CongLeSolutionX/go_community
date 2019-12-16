@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de1fc2c4_f1f1a887",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-12-16T17:12:51Z",
+      "side": 1,
+      "message": "Add a comment mentioning that it returns the error rather than storing it for GetLastError. It doesn\u0027t need a whole explanation, just enough that people coming through later will know that this was intentional.",
+      "revId": "26d5e45204fce2374e36f319d73e944567b50974",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "3b00a4be_15adf43e",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-12-16T17:12:51Z",
+      "side": 1,
+      "message": "For my own edification, is there a way to know when GetLastError is the wrong thing to do without spelunking the code?",
+      "parentUuid": "45f01578_a387e285",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f47df4bb_82e1cee8",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 2
