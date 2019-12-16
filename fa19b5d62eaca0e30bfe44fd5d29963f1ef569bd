@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "51a71c6b_ad5823b8",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-12-16T17:22:41Z",
+      "side": 1,
+      "message": "MSDN usually says, \u0027Use GetLastError() to see what happened.\" or similar. Most of the functions that use GetLastError() also return a BOOL. So for these functions, if the return value is false, then you look at GetLastError(). Other functions, such as this one here, return a DWORD, which is the straightup error value, and then GetLastError() isn\u0027t used.",
+      "parentUuid": "3b00a4be_15adf43e",
+      "revId": "fa19b5d62eaca0e30bfe44fd5d29963f1ef569bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f47df4bb_82e1cee8",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 2
