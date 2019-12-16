@@ -16,6 +16,24 @@
       "revId": "d37d8b347dbfae09c4244e4a23e6c7206f7fefb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e71e3dad_3e0381ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-12-16T22:55:33Z",
+      "side": 1,
+      "message": "I tried recreating that (I actually started with your code) and this is where I wound up. I\u0027m not sure, but maybe you didn\u0027t do a stack switch? That seems to be where a lot of the 20 ns is coming from. But it\u0027s not safe to call C code from the user stack. (We used to do this for nanotime on Linux and learned our lesson the hard way; now it switches to the system stack.)",
+      "parentUuid": "e93a3f13_94565f8c",
+      "revId": "d37d8b347dbfae09c4244e4a23e6c7206f7fefb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
