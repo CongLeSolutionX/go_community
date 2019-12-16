@@ -371,13 +371,9 @@ func InitMod() {
 	modFile = f
 	index = indexModFile(data, f, fixed)
 
-	if len(f.Syntax.Stmt) == 0 || f.Module == nil {
-		// Empty mod file. Must add module path.
-		path, err := findModulePath(modRoot)
-		if err != nil {
-			base.Fatalf("go: %v", err)
-		}
-		f.AddModuleStmt(path)
+	if f.Module == nil {
+		// No module declaration. Must add module path.
+		base.Fatalf("go: no module declaration in go.mod.\n\tRun 'go mod edit -module=example.com/mod' to specify the module path.")
 	}
 
 	if len(f.Syntax.Stmt) == 1 && f.Module != nil {
