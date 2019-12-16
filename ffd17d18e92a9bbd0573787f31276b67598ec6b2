@@ -19,6 +19,91 @@
     },
     {
       "key": {
+        "uuid": "c47cb9eb_191669ff",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2435,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:47:22Z",
+      "side": 1,
+      "message": "nit: you can reuse \u0027unmarshaler\u0027, which simply records if UnmarshalJSON has been called. practically the same, and you save a bit of extra code.",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b374cd49_8831e85c",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2444,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:47:22Z",
+      "side": 1,
+      "message": "make this string, so that most of the test cases below get a bit simpler",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae98bb27_b66455e1",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2448,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:47:22Z",
+      "side": 1,
+      "message": "subtest names should be CamelCase, just like test names. Otherwise you\u0027ll end up with TestFoo/spaces_got_replaced instead of TestFoo/NicelyConsistent.",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8de9088_57413efd",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2475,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:47:22Z",
+      "side": 1,
+      "message": "all of these are either \"\" or \"max depth\". make it a bool, like errMaxDepth?\n\nthat way you also don\u0027t have to rely on strings.Contains with arbitrary strings, which could be a bit fragile in the long run.",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2028115_9071c5d9",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2481,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:47:22Z",
+      "side": 1,
+      "message": "best to not call this \"new\", as shadowing the builtin might confuse the reader.\n\nhow about \"value\" or \"newValue\"?",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf36bdcf_1b675578",
         "filename": "src/encoding/json/scanner.go",
         "patchSetId": 3
