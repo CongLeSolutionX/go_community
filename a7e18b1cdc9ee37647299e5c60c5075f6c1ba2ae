@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54f4a023_a7becdd6",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-16T22:23:48Z",
+      "side": 1,
+      "message": "Just return a.Off \u003c b.Off .",
+      "range": {
+        "startLine": 1320,
+        "startChar": 0,
+        "endLine": 1326,
+        "endChar": 13
+      },
+      "revId": "a7e18b1cdc9ee37647299e5c60c5075f6c1ba2ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
