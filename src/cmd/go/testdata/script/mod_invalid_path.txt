@@ -1,0 +1,12 @@
+# Test that mod files with invalid or missing paths produce an error.
+
+# Test that go list fails on a go.mod with no module declaration.
+cd $WORK/gopath/src/mod
+! go list .
+stderr 'no module declaration'
+
+-- mod/go.mod --
+
+-- mod/foo.go --
+package foo
+
