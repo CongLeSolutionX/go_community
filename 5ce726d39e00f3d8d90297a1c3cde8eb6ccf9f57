@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fcfda5f_bbb9f913",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-16T20:49:43Z",
+      "side": 1,
+      "message": "I think we should not grow if reqLen fits in the current cap, but only update the length. In fact I think we can just grow to reqLen and let the runtime handle the doubling logic (through the implementation of append).",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 2
+      },
+      "revId": "5ce726d39e00f3d8d90297a1c3cde8eb6ccf9f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
