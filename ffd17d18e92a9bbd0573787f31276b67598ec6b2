@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95ae21f2_edfe9299",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:41:46Z",
+      "side": 1,
+      "message": "to make this a bit more readable, you could do like:\n\nblah blah blah:\n\n* blah blah blah blah\n  blah blah\n\n* blah blah\n\nThat is, avoid lines from getting too long, and use empty lines to clearly separate the items.\n\nOr if you prefer to not mess with markdown-like lists, you can just use regular old paragraphs :)",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf36bdcf_1b675578",
+        "filename": "src/encoding/json/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:41:46Z",
+      "side": 1,
+      "message": "nit: remove the parentheses?",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3063063e_266637d0",
+        "filename": "src/encoding/json/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-16T09:41:46Z",
+      "side": 1,
+      "message": "did you consider reporting what the maximum depth is? otherwise, as a user, I have no idea if the limit is around 1k (which could be expected for some users), or 10k, or 100k, etc.",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
