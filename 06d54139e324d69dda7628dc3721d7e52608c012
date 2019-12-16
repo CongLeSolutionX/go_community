@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62a5796b_003cdb76",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-16T21:17:51Z",
+      "side": 1,
+      "message": "I\u0027m inclined on not putting all these on the loader. Maybe we do want to rename the loader... We can decide this later.",
+      "revId": "06d54139e324d69dda7628dc3721d7e52608c012",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "881de524_738c9af4",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-16T21:17:51Z",
+      "side": 1,
+      "message": "Just do this line (with reqLen), and let the compiler/runtime take care of the rest.",
+      "revId": "06d54139e324d69dda7628dc3721d7e52608c012",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e4fa20a_bb4600ee",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-12-16T21:17:51Z",
+      "side": 1,
+      "message": "I think we can leave this out. If bad things happen, the index out of range panic is fine (and actually provide more information about the bad index).",
+      "revId": "06d54139e324d69dda7628dc3721d7e52608c012",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
