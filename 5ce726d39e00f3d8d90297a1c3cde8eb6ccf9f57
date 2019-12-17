@@ -22,6 +22,30 @@
       "revId": "5ce726d39e00f3d8d90297a1c3cde8eb6ccf9f57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e078d871_9d4878ea",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-17T14:05:06Z",
+      "side": 1,
+      "message": "When I wrote this code I was looking at functions like sym.Symbol.Grow, which has explicit code to do this sort of doubling... which gave me the impression that we needed that that sort of thing somehow for good performance.\n\nYou are right though, if the runtime has fast code to handle all of this then it would be better to have the simpler version. I\u0027ll update accordingly.",
+      "parentUuid": "7fcfda5f_bbb9f913",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 2
+      },
+      "revId": "5ce726d39e00f3d8d90297a1c3cde8eb6ccf9f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
