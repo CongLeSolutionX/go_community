@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a0ded58_bca0c530",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95ae21f2_edfe9299",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c47cb9eb_191669ff",
         "filename": "src/encoding/json/decode_test.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32fd1419_65118a45",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2435,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c47cb9eb_191669ff",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "633ddd02_9578e3e4",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2444,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b374cd49_8831e85c",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae98bb27_b66455e1",
         "filename": "src/encoding/json/decode_test.go",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deaf8b6b_834f3a2e",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2448,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae98bb27_b66455e1",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1ebf97a5_45dde267",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2475,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8de9088_57413efd",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2028115_9071c5d9",
         "filename": "src/encoding/json/decode_test.go",
         "patchSetId": 3
@@ -101,6 +191,24 @@
       "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3ea0fe_bd36e77a",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2481,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2028115_9071c5d9",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "257b9d42_76f48220",
+        "filename": "src/encoding/json/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf36bdcf_1b675578",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3063063e_266637d0",
         "filename": "src/encoding/json/scanner.go",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2019-12-16T09:41:46Z",
       "side": 1,
       "message": "did you consider reporting what the maximum depth is? otherwise, as a user, I have no idea if the limit is around 1k (which could be expected for some users), or 10k, or 100k, etc.",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa510544_55aabba8",
+        "filename": "src/encoding/json/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2019-12-17T07:45:39Z",
+      "side": 1,
+      "message": "I can include it if you\u0027d like, but I was mostly considering this a recoverable equivalent of the stack overflow error... if a user actually hits this limit, it seems like something has gone very wrong, and they should figure out what\u0027s wrong with their JSON, not try to make adjustments to just fit within this limit. Let me know if you\u0027d like the max size in the message.",
+      "parentUuid": "3063063e_266637d0",
       "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
