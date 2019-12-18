@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e369f504_dd630473",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-18T13:10:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "62a5796b_003cdb76",
+      "revId": "06d54139e324d69dda7628dc3721d7e52608c012",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "881de524_738c9af4",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9ac6d9d7_28638d39",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-18T13:10:24Z",
+      "side": 1,
+      "message": "OK. I\u0027ll rewrite.",
+      "parentUuid": "881de524_738c9af4",
+      "revId": "06d54139e324d69dda7628dc3721d7e52608c012",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e4fa20a_bb4600ee",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "06d54139e324d69dda7628dc3721d7e52608c012",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42ec491b_dac1cc95",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-12-18T13:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e4fa20a_bb4600ee",
+      "revId": "06d54139e324d69dda7628dc3721d7e52608c012",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
