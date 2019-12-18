@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "762ce237_7445bcf9",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-18T15:32:27Z",
+      "side": 1,
+      "message": "I\u0027ve mailed the proof-of-concept rewriting:\n\nhttps://go-review.googlesource.com/c/go/+/211917\n\nThis seems to work reasonably well, but as you can see, will require all of the encoding, validation and *obj.Prog code to be rewritten...",
+      "parentUuid": "d3f7e70b_faaeb659",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 31
+      },
+      "revId": "3ba47b9b9467f59d7a8057edb78373a12088669c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f30fe84d_13503372",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
