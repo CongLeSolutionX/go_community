@@ -288,19 +288,11 @@ start:
 
 	// F extension
 	FNEGS	F0, F1					// d3100020
-
-	// FNES gets encoded as FEQS+XORI, which results in both
-	// FEQS and FNES having the same encoding. Ideally we'd check
-	// both instructions in the sequence.
-	FNES	F0, F1, X7				// d3a300a0
+	FNES	F0, F1, X7				// d3a300a093c31300
 
 	// D extension
 	FNEGD	F0, F1					// d3100022
-	FNED	F0, F1, X5				// d3a200a2
+	FNED	F0, F1, X5				// d3a200a293c21200
 	FLTD	F0, F1, X5				// d39200a2
 	FLED	F0, F1, X5				// d38200a2
-
-	// FNED gets encoded as FEQD+XORI, which results in both
-	// FEQD and FNED having the same encoding. Ideally we'd check
-	// both instructions in the sequence.
 	FEQD	F0, F1, X5				// d3a200a2

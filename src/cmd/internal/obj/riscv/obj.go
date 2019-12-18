@@ -514,7 +514,9 @@ func invertBranch(i obj.As) obj.As {
 func setPCs(p *obj.Prog, pc int64) {
 	for ; p != nil; p = p.Link {
 		p.Pc = pc
-		pc += int64(encodingForProg(p).length)
+		for _, ins := range instructionsForProg(p) {
+			pc += int64(ins.length())
+		}
 	}
 }
 
@@ -619,36 +621,6 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 
-		// Replace FNE[SD] with FEQ[SD] and NOT.
-		case AFNES:
-			if p.To.Type != obj.TYPE_REG {
-				ctxt.Diag("progedit: FNES needs an integer register output")
-			}
-			dst := p.To.Reg
-			p.As = AFEQS
-			p = obj.Appendp(p, newprog)
-
-			p.As = AXORI // [bit] xor 1 = not [bit]
-			p.From.Type = obj.TYPE_CONST
-			p.From.Offset = 1
-			p.Reg = dst
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = dst
-
-		case AFNED:
-			if p.To.Type != obj.TYPE_REG {
-				ctxt.Diag("progedit: FNED needs an integer register output")
-			}
-			dst := p.To.Reg
-			p.As = AFEQD
-			p = obj.Appendp(p, newprog)
-
-			p.As = AXORI // [bit] xor 1 = not [bit]
-			p.From.Type = obj.TYPE_CONST
-			p.From.Offset = 1
-			p.Reg = dst
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = dst
 		}
 	}
 
@@ -851,7 +823,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 	// Validate all instructions - this provides nice error messages.
 	for p := cursym.Func.Text; p != nil; p = p.Link {
-		encodingForProg(p).validate(p)
+		for _, ins := range instructionsForProg(p) {
+			ins.validate(ctxt)
+		}
 	}
 }
 
@@ -895,29 +869,29 @@ func Split32BitImmediate(imm int64) (low, high int64, err error) {
 	return low, high, nil
 }
 
-func regVal(r, min, max int16) uint32 {
+func regVal(r, min, max uint32) uint32 {
 	if r < min || r > max {
 		panic(fmt.Sprintf("register out of range, want %d < %d < %d", min, r, max))
 	}
-	return uint32(r - min)
+	return r - min
 }
 
 // regI returns an integer register.
-func regI(r int16) uint32 {
+func regI(r uint32) uint32 {
 	return regVal(r, REG_X0, REG_X31)
 }
 
 // regF returns a float register.
-func regF(r int16) uint32 {
+func regF(r uint32) uint32 {
 	return regVal(r, REG_F0, REG_F31)
 }
 
 // regAddr extracts a register from an Addr.
-func regAddr(a obj.Addr, min, max int16) uint32 {
+func regAddr(a obj.Addr, min, max uint32) uint32 {
 	if a.Type != obj.TYPE_REG {
 		panic(fmt.Sprintf("ill typed: %+v", a))
 	}
-	return regVal(a.Reg, min, max)
+	return regVal(uint32(a.Reg), min, max)
 }
 
 // regIAddr extracts the integer register from an Addr.
@@ -1149,35 +1123,82 @@ func encodeR(p *obj.Prog, rs1 uint32, rs2 uint32, rd uint32) uint32 {
 	return ins.funct7<<25 | ins.rs2<<20 | rs2<<20 | rs1<<15 | ins.funct3<<12 | uint32(p.Scond)<<12 | rd<<7 | ins.opcode
 }
 
+// encodeR encodes an R-type RISC-V instruction.
+func encodeInsR(as obj.As, rs1, rs2, rd, funct3 uint32) uint32 {
+	ins := encode(as)
+	if ins == nil {
+		panic("encodeR: could not encode instruction")
+	}
+	if ins.rs2 != 0 && rs2 != 0 {
+		panic("encodeR: instruction uses rs2, but rs2 was nonzero")
+	}
+	return ins.funct7<<25 | ins.rs2<<20 | rs2<<20 | rs1<<15 | ins.funct3<<12 | funct3<<12 | rd<<7 | ins.opcode
+}
+
 func encodeRIII(p *obj.Prog) uint32 {
-	return encodeR(p, regI(p.Reg), regIAddr(p.From), regIAddr(p.To))
+	return encodeR(p, regI(uint32(p.Reg)), regIAddr(p.From), regIAddr(p.To))
+}
+
+func encodeInsRIII(ins *instruction) uint32 {
+	return encodeInsR(ins.as, regI(ins.rs1), regI(ins.rs2), regI(ins.rd), ins.funct3)
 }
 
 func encodeRFFF(p *obj.Prog) uint32 {
-	return encodeR(p, regF(p.Reg), regFAddr(p.From), regFAddr(p.To))
+	return encodeR(p, regF(uint32(p.Reg)), regFAddr(p.From), regFAddr(p.To))
+}
+
+func encodeInsRFFF(ins *instruction) uint32 {
+	return encodeInsR(ins.as, regF(ins.rs1), regF(ins.rs2), regF(ins.rd), ins.funct3)
 }
 
 func encodeRFFI(p *obj.Prog) uint32 {
-	return encodeR(p, regF(p.Reg), regFAddr(p.From), regIAddr(p.To))
+	return encodeR(p, regF(uint32(p.Reg)), regFAddr(p.From), regIAddr(p.To))
+}
+
+func encodeInsRFFI(ins *instruction) uint32 {
+	return encodeInsR(ins.as, regF(ins.rs1), regF(ins.rs2), regI(ins.rd), ins.funct3)
 }
 
 func encodeRFI(p *obj.Prog) uint32 {
 	return encodeR(p, regFAddr(p.From), 0, regIAddr(p.To))
 }
 
+func encodeInsRFI(ins *instruction) uint32 {
+	return encodeInsR(ins.as, regF(ins.rs2), 0, regI(ins.rd), ins.funct3)
+}
+
 func encodeRIF(p *obj.Prog) uint32 {
 	return encodeR(p, regIAddr(p.From), 0, regFAddr(p.To))
+}
+
+func encodeInsRIF(ins *instruction) uint32 {
+	return encodeInsR(ins.as, regI(ins.rs2), 0, regF(ins.rd), ins.funct3)
 }
 
 func encodeRFF(p *obj.Prog) uint32 {
 	return encodeR(p, regFAddr(p.From), 0, regFAddr(p.To))
 }
 
+func encodeInsRFF(ins *instruction) uint32 {
+	return encodeInsR(ins.as, regF(ins.rs2), 0, regF(ins.rd), ins.funct3)
+}
+
 // encodeI encodes an I-type RISC-V instruction.
 func encodeI(p *obj.Prog, rd uint32) uint32 {
 	imm := immI(p.From, 12)
-	rs1 := regI(p.Reg)
+	rs1 := regI(uint32(p.Reg))
 	ins := encode(p.As)
+	if ins == nil {
+		panic("encodeI: could not encode instruction")
+	}
+	imm |= uint32(ins.csr)
+	return imm<<20 | rs1<<15 | ins.funct3<<12 | rd<<7 | ins.opcode
+}
+
+// encodeI encodes an I-type RISC-V instruction.
+func encodeInsI(as obj.As, rs1, rd, imm uint32) uint32 {
+	//imm := immI(p.From, 12) // XXX
+	ins := encode(as)
 	if ins == nil {
 		panic("encodeI: could not encode instruction")
 	}
@@ -1189,8 +1210,16 @@ func encodeII(p *obj.Prog) uint32 {
 	return encodeI(p, regIAddr(p.To))
 }
 
+func encodeInsII(ins *instruction) uint32 {
+	return encodeInsI(ins.as, regI(ins.rs1), regI(ins.rd), uint32(ins.imm))
+}
+
 func encodeIF(p *obj.Prog) uint32 {
 	return encodeI(p, regFAddr(p.To))
+}
+
+func encodeInsIF(ins *instruction) uint32 {
+	return encodeInsI(ins.as, regI(ins.rs1), regF(ins.rd), uint32(ins.imm))
 }
 
 // encodeS encodes an S-type RISC-V instruction.
@@ -1204,23 +1233,61 @@ func encodeS(p *obj.Prog, rs2 uint32) uint32 {
 	return (imm>>5)<<25 | rs2<<20 | rs1<<15 | ins.funct3<<12 | (imm&0x1f)<<7 | ins.opcode
 }
 
+// encodeS encodes an S-type RISC-V instruction.
+func encodeInsS(as obj.As, rs1, rs2, imm uint32) uint32 {
+	//imm := immI(p.From, 12) // XXX
+	//rs1 := regIAddr(p.To)
+	ins := encode(as)
+	if ins == nil {
+		panic("encodeS: could not encode instruction")
+	}
+	return (imm>>5)<<25 | rs2<<20 | rs1<<15 | ins.funct3<<12 | (imm&0x1f)<<7 | ins.opcode
+}
+
 func encodeSI(p *obj.Prog) uint32 {
-	return encodeS(p, regI(p.Reg))
+	return encodeS(p, regI(uint32(p.Reg)))
+}
+
+func encodeInsSI(ins *instruction) uint32 {
+	if ins.rd == 0 {
+		panic(fmt.Sprintf("%v rd == 0\n", ins.as))
+	}
+	if ins.rs1 == 0 {
+		panic(fmt.Sprintf("%v rs2 == 0\n", ins.as))
+	}
+	return encodeInsS(ins.as, regI(ins.rd), regI(ins.rs1), uint32(ins.imm))
 }
 
 func encodeSF(p *obj.Prog) uint32 {
-	return encodeS(p, regF(p.Reg))
+	return encodeS(p, regF(uint32(p.Reg)))
+}
+
+func encodeInsSF(ins *instruction) uint32 {
+	return encodeInsS(ins.as, regI(ins.rd), regF(ins.rs1), uint32(ins.imm))
 }
 
 // encodeB encodes a B-type RISC-V instruction.
 func encodeB(p *obj.Prog) uint32 {
 	imm := immI(p.To, 13)
-	rs2 := regI(p.Reg)
+	rs2 := regI(uint32(p.Reg))
 	rs1 := regIAddr(p.From)
 	ins := encode(p.As)
 	if ins == nil {
 		panic("encodeB: could not encode instruction")
 	}
+	return (imm>>12)<<31 | ((imm>>5)&0x3f)<<25 | rs2<<20 | rs1<<15 | ins.funct3<<12 | ((imm>>1)&0xf)<<8 | ((imm>>11)&0x1)<<7 | ins.opcode
+}
+
+// encodeB encodes a B-type RISC-V instruction.
+func encodeInsB(in *instruction) uint32 {
+	//imm := immI(p.To, 13) // XXX
+	rs2 := regI(in.rs1)
+	rs1 := regI(in.rs2)
+	ins := encode(in.as)
+	if ins == nil {
+		panic("encodeB: could not encode instruction")
+	}
+	imm := uint32(in.imm)
 	return (imm>>12)<<31 | ((imm>>5)&0x3f)<<25 | rs2<<20 | rs1<<15 | ins.funct3<<12 | ((imm>>1)&0xf)<<8 | ((imm>>11)&0x1)<<7 | ins.opcode
 }
 
@@ -1239,11 +1306,40 @@ func encodeU(p *obj.Prog) uint32 {
 	return imm<<12 | rd<<7 | ins.opcode
 }
 
+// encodeU encodes a U-type RISC-V instruction.
+func encodeInsU(in *instruction) uint32 {
+	// The immediates for encodeU are the upper 20 bits of a 32 bit value.
+	// Rather than have the user/compiler generate a 32 bit constant, the
+	// bottommost bits of which must all be zero, instead accept just the
+	// top bits.
+	//imm := immU(p.From, 20) // XXX
+	imm := uint32(in.imm)
+	rd := regI(in.rd)
+	ins := encode(in.as)
+	if ins == nil {
+		panic("encodeU: could not encode instruction")
+	}
+	return imm<<12 | rd<<7 | ins.opcode
+}
+
 // encodeJ encodes a J-type RISC-V instruction.
 func encodeJ(p *obj.Prog) uint32 {
 	imm := immI(p.To, 21)
 	rd := regIAddr(p.From)
 	ins := encode(p.As)
+	if ins == nil {
+		panic("encodeJ: could not encode instruction")
+	}
+	return (imm>>20)<<31 | ((imm>>1)&0x3ff)<<21 | ((imm>>11)&0x1)<<20 | ((imm>>12)&0xff)<<12 | rd<<7 | ins.opcode
+}
+
+// encodeJ encodes a J-type RISC-V instruction.
+func encodeInsJ(in *instruction) uint32 {
+	//imm := immI(p.To, 21) // XXX
+	imm := uint32(in.imm)
+	//rd := regIAddr(p.From)
+	rd := regI(in.rs2) // XXX
+	ins := encode(in.as)
 	if ins == nil {
 		panic("encodeJ: could not encode instruction")
 	}
@@ -1262,6 +1358,15 @@ func encodeRaw(p *obj.Prog) uint32 {
 		panic(fmt.Sprintf("immediate %d in %v cannot fit in 32 bits", a.Offset, a))
 	}
 	return uint32(a.Offset)
+}
+
+func encodeRawIns(ins *instruction) uint32 {
+	// Treat the raw value specially as a 32-bit unsigned integer.
+	// Nobody wants to enter negative machine code.
+	if ins.imm < 0 || 1<<32 <= ins.imm {
+		panic(fmt.Sprintf("immediate %d cannot fit in 32 bits", ins.imm))
+	}
+	return uint32(ins.imm)
 }
 
 func EncodeIImmediate(imm int64) (int64, error) {
@@ -1286,6 +1391,9 @@ func EncodeUImmediate(imm int64) (int64, error) {
 }
 
 type encoding struct {
+	encodeIns   func(*instruction) uint32
+	validateIns func(*obj.Link, *instruction)
+
 	encode   func(*obj.Prog) uint32 // encode returns the machine code for an *obj.Prog
 	validate func(*obj.Prog)        // validate validates an *obj.Prog, calling ctxt.Diag for any issues
 	length   int                    // length of encoded instruction; 0 for pseudo-ops, 4 otherwise
@@ -1303,37 +1411,37 @@ var (
 	// integer register inputs and an integer register output; sFEncoding
 	// indicates an S-type instruction with rs2 being a float register.
 
-	rIIIEncoding = encoding{encode: encodeRIII, validate: validateRIII, length: 4}
-	rFFFEncoding = encoding{encode: encodeRFFF, validate: validateRFFF, length: 4}
-	rFFIEncoding = encoding{encode: encodeRFFI, validate: validateRFFI, length: 4}
-	rFIEncoding  = encoding{encode: encodeRFI, validate: validateRFI, length: 4}
-	rIFEncoding  = encoding{encode: encodeRIF, validate: validateRIF, length: 4}
-	rFFEncoding  = encoding{encode: encodeRFF, validate: validateRFF, length: 4}
+	rIIIEncoding = encoding{encodeIns: encodeInsRIII, encode: encodeRIII, validate: validateRIII, length: 4}
+	rFFFEncoding = encoding{encodeIns: encodeInsRFFF, encode: encodeRFFF, validate: validateRFFF, length: 4}
+	rFFIEncoding = encoding{encodeIns: encodeInsRFFI, encode: encodeRFFI, validate: validateRFFI, length: 4}
+	rFIEncoding  = encoding{encodeIns: encodeInsRFI, encode: encodeRFI, validate: validateRFI, length: 4}
+	rIFEncoding  = encoding{encodeIns: encodeInsRIF, encode: encodeRIF, validate: validateRIF, length: 4}
+	rFFEncoding  = encoding{encodeIns: encodeInsRFF, encode: encodeRFF, validate: validateRFF, length: 4}
 
-	iIEncoding = encoding{encode: encodeII, validate: validateII, length: 4}
-	iFEncoding = encoding{encode: encodeIF, validate: validateIF, length: 4}
+	iIEncoding = encoding{encodeIns: encodeInsII, encode: encodeII, validate: validateII, length: 4}
+	iFEncoding = encoding{encodeIns: encodeInsIF, encode: encodeIF, validate: validateIF, length: 4}
 
-	sIEncoding = encoding{encode: encodeSI, validate: validateSI, length: 4}
-	sFEncoding = encoding{encode: encodeSF, validate: validateSF, length: 4}
+	sIEncoding = encoding{encodeIns: encodeInsSI, encode: encodeSI, validate: validateSI, length: 4}
+	sFEncoding = encoding{encodeIns: encodeInsSF, encode: encodeSF, validate: validateSF, length: 4}
 
-	bEncoding = encoding{encode: encodeB, validate: validateB, length: 4}
-	uEncoding = encoding{encode: encodeU, validate: validateU, length: 4}
-	jEncoding = encoding{encode: encodeJ, validate: validateJ, length: 4}
+	bEncoding = encoding{encodeIns: encodeInsB, encode: encodeB, validate: validateB, length: 4}
+	uEncoding = encoding{encodeIns: encodeInsU, encode: encodeU, validate: validateU, length: 4}
+	jEncoding = encoding{encodeIns: encodeInsJ, encode: encodeJ, validate: validateJ, length: 4}
 
 	// rawEncoding encodes a raw instruction byte sequence.
-	rawEncoding = encoding{encode: encodeRaw, validate: validateRaw, length: 4}
+	rawEncoding = encoding{encodeIns: encodeRawIns, encode: encodeRaw, validate: validateRaw, length: 4}
 
 	// pseudoOpEncoding panics if encoding is attempted, but does no validation.
-	pseudoOpEncoding = encoding{encode: nil, validate: func(*obj.Prog) {}, length: 0}
+	pseudoOpEncoding = encoding{encodeIns: nil, validateIns: nil, encode: nil, validate: func(*obj.Prog) {}, length: 0}
 
 	// badEncoding is used when an invalid op is encountered.
 	// An error has already been generated, so let anything else through.
-	badEncoding = encoding{encode: func(*obj.Prog) uint32 { return 0 }, validate: func(*obj.Prog) {}, length: 0}
+	badEncoding = encoding{encodeIns: func(*instruction) uint32 { return 0 }, encode: func(*obj.Prog) uint32 { return 0 }, validate: func(*obj.Prog) {}, length: 0}
 )
 
-// encodingForAs contains the encoding for a RISC-V instruction.
+// encodings contains the encodings for RISC-V instructions.
 // Instructions are masked with obj.AMask to keep indices small.
-var encodingForAs = [ALAST & obj.AMask]encoding{
+var encodings = [ALAST & obj.AMask]encoding{
 
 	// Unprivileged ISA
 
@@ -1502,23 +1610,112 @@ var encodingForAs = [ALAST & obj.AMask]encoding{
 	obj.ANOP:      pseudoOpEncoding,
 }
 
-// encodingForProg returns the encoding (encode+validate funcs) for an *obj.Prog.
-func encodingForProg(p *obj.Prog) encoding {
-	if base := p.As &^ obj.AMask; base != obj.ABaseRISCV && base != 0 {
-		p.Ctxt.Diag("encodingForProg: not a RISC-V instruction %s", p.As)
-		return badEncoding
+// encodingForAs returns the encoding for an obj.As.
+func encodingForAs(as obj.As) (encoding, error) {
+	if base := as &^ obj.AMask; base != obj.ABaseRISCV && base != 0 {
+		return badEncoding, fmt.Errorf("encodingForAs: not a RISC-V instruction %s", as)
 	}
-	as := p.As & obj.AMask
-	if int(as) >= len(encodingForAs) {
-		p.Ctxt.Diag("encodingForProg: bad RISC-V instruction %s", p.As)
-		return badEncoding
+	asi := as & obj.AMask
+	if int(asi) >= len(encodings) {
+		return badEncoding, fmt.Errorf("encodingForAs: bad RISC-V instruction %s", as)
 	}
-	enc := encodingForAs[as]
+	enc := encodings[asi]
 	if enc.validate == nil {
-		p.Ctxt.Diag("encodingForProg: no encoding for instruction %s", p.As)
-		return badEncoding
+		return badEncoding, fmt.Errorf("encodingForAs: no encoding for instruction %s", as)
 	}
-	return enc
+	return enc, nil
+}
+
+// encodingForProg returns the encodings for an *obj.Prog.
+func encodingForProg(p *obj.Prog) []encoding {
+	enc, err := encodingForAs(p.As)
+	if err != nil {
+		p.Ctxt.Diag(err.Error())
+	}
+	return []encoding{enc}
+}
+
+type instruction struct {
+	as     obj.As // Assembler opcode
+	rd     uint32 // Destination register
+	rs1    uint32 // Source register 1
+	rs2    uint32 // Source register 2
+	imm    uint64 // Immediate
+	funct3 uint32 // Function 3
+}
+
+func (ins *instruction) encode() (uint32, error) {
+	enc, err := encodingForAs(ins.as)
+	if err != nil {
+		return 0, err
+	}
+	if enc.length > 0 {
+		return enc.encodeIns(ins), nil
+	}
+	return 0, fmt.Errorf("fixme")
+}
+
+func (ins *instruction) length() uint32 {
+	if _, err := ins.encode(); err == nil {
+		return 4
+	}
+	return 0
+}
+
+func (ins *instruction) validate(ctxt *obj.Link) {
+	enc, err := encodingForAs(ins.as)
+	if err != nil {
+		ctxt.Diag(err.Error())
+		return
+	}
+	_ = enc
+	// XXX - enc.validateIns(ctxt, ins)
+}
+
+// instructionsForProg returns the machine instructions for an *obj.Prog.
+func instructionsForProg(p *obj.Prog) []*instruction {
+	ins := &instruction{
+		as:     p.As,
+		rd:     uint32(p.To.Reg),
+		rs1:    uint32(p.Reg),
+		rs2:    uint32(p.From.Reg),
+		imm:    uint64(p.From.Offset),
+		funct3: uint32(p.Scond),
+	}
+	switch ins.as {
+	case AJAL, ABEQ, ABNE, ABLT, ABGE, ABLTU, ABGEU:
+		ins.imm = uint64(p.To.Offset)
+	}
+	inss := []*instruction{ins}
+	switch ins.as {
+	case AFNES:
+		// Replace FNE[SD] with FEQ[SD] and NOT.
+		if p.To.Type != obj.TYPE_REG {
+			//ctxt.Diag("progedit: FNES needs an integer register output")
+		}
+		ins.as = AFEQS
+		xorIns := &instruction{
+			as:  AXORI, // [bit] xor 1 = not [bit]
+			rd:  ins.rd,
+			rs1: ins.rd,
+			imm: 1,
+		}
+		inss = append(inss, xorIns)
+
+	case AFNED:
+		if p.To.Type != obj.TYPE_REG {
+			//ctxt.Diag("progedit: FNED needs an integer register output")
+		}
+		ins.as = AFEQD
+		xorIns := &instruction{
+			as:  AXORI, // [bit] xor 1 = not [bit]
+			rd:  ins.rd,
+			rs1: ins.rd,
+			imm: 1,
+		}
+		inss = append(inss, xorIns)
+	}
+	return inss
 }
 
 // assemble emits machine code.
@@ -1569,9 +1766,14 @@ func assemble(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			rel.Type = rt
 		}
 
-		enc := encodingForProg(p)
-		if enc.length > 0 {
-			symcode = append(symcode, enc.encode(p))
+		for _, ins := range instructionsForProg(p) {
+			ic, err := ins.encode()
+			if err == nil {
+				symcode = append(symcode, ic)
+			}
+			//if enc.length > 0 {
+			//	symcode = append(symcode, enc.encode(p))
+			//}
 		}
 	}
 	cursym.Size = int64(4 * len(symcode))
