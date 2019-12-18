@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8dfc903_f7128f27",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-18T04:49:48Z",
+      "side": 1,
+      "message": "If we\u0027re going to touch this line, can we change .a to .shlibname?  Note that with your change this log is the same as the next one, which wasn\u0027t true before.",
+      "revId": "6c0ec19bbad330d2697790e659db2681094a480a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
