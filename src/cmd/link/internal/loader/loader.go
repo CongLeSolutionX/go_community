@@ -425,12 +425,52 @@ func (l *Loader) growSyms(i int) {
 	l.growAttrBitmaps(int(i) + 1)
 }
 
+// getOverwrite returns the overwrite symbol for 'symIdx', while
+// collapsing any chains of overwrites along the way. This is apparently
+// needed in cases where we add an overwrite entry X -> Y during
+// preload (where both X and Y are non-external symbols), and then
+// we add an additional entry to the overwrite map Y -> W in cloneToExternal
+// when we encouter the real definition of the symbol in a host object
+// file, and we need to build up W's content.
+func (l *Loader) getOverwrite(symIdx Sym) Sym {
+	seen := make(map[Sym]bool)
+	seen[symIdx] = true
+	result := symIdx
+	cur := symIdx
+	for {
+		if ov, ok := l.overwrite[cur]; ok {
+			if _, ok := seen[ov]; ok {
+				panic("cycle in overwrite map")
+			} else {
+				seen[cur] = true
+			}
+			cur = ov
+		} else {
+			break
+		}
+	}
+	if cur != symIdx {
+		result = cur
+		cur = symIdx
+		for {
+			if ov, ok := l.overwrite[cur]; ok {
+				l.overwrite[cur] = result
+				cur = ov
+			} else {
+				break
+			}
+		}
+	}
+	return result
+}
+
 // Convert a local index to a global index.
 func (l *Loader) toGlobal(r *oReader, i int) Sym {
 	g := l.startIndex(r) + Sym(i)
 	if ov, ok := l.overwrite[g]; ok {
 		return ov
 	}
+	g = l.getOverwrite(g)
 	return g
 }
 
@@ -1476,8 +1516,14 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 			s.Attr.Set(sym.AttrReachable, l.attrReachable.has(i))
 			continue
 		}
+		if i != l.getOverwrite(i) {
+			continue
+		}
 		sname := l.RawSymName(i)
 		if !l.attrReachable.has(i) && !strings.HasPrefix(sname, "gofile..") { // XXX file symbols are used but not marked
+			continue
+		}
+		if i != l.getOverwrite(i) {
 			continue
 		}
 		pp := l.getPayload(i)
