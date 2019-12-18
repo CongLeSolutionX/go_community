@@ -327,7 +327,7 @@ func loadinternal(ctxt *Link, name string) *sym.Library {
 		if ctxt.linkShared {
 			shlibname := filepath.Join(libdir, name+".shlibname")
 			if ctxt.Debugvlog != 0 {
-				ctxt.Logf("searching for %s.a in %s\n", name, shlibname)
+				ctxt.Logf("searching for %s.a in %s\n", name, libdir)
 			}
 			if _, err := os.Stat(shlibname); err == nil {
 				return addlibpath(ctxt, "internal", "internal", "", name, shlibname)
@@ -335,7 +335,7 @@ func loadinternal(ctxt *Link, name string) *sym.Library {
 		}
 		pname := filepath.Join(libdir, name+".a")
 		if ctxt.Debugvlog != 0 {
-			ctxt.Logf("searching for %s.a in %s\n", name, pname)
+			ctxt.Logf("searching for %s.a in %s\n", name, libdir)
 		}
 		if _, err := os.Stat(pname); err == nil {
 			return addlibpath(ctxt, "internal", "internal", pname, name, "")
