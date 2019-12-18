@@ -18,19 +18,21 @@ var (
 	// Methods on File will return this error when the receiver is nil.
 	ErrInvalid = errInvalid() // "invalid argument"
 
-	ErrPermission = errPermission() // "permission denied"
-	ErrExist      = errExist()      // "file already exists"
-	ErrNotExist   = errNotExist()   // "file does not exist"
-	ErrClosed     = errClosed()     // "file already closed"
-	ErrNoDeadline = errNoDeadline() // "file type does not support deadline"
+	ErrPermission      = errPermission()      // "permission denied"
+	ErrExist           = errExist()           // "file already exists"
+	ErrNotExist        = errNotExist()        // "file does not exist"
+	ErrClosed          = errClosed()          // "file already closed"
+	ErrNoDeadline      = errNoDeadline()      // "file type does not support deadline"
+	ErrProcessNotExist = errProcessNotExist() // "process does not exist"
 )
 
-func errInvalid() error    { return oserror.ErrInvalid }
-func errPermission() error { return oserror.ErrPermission }
-func errExist() error      { return oserror.ErrExist }
-func errNotExist() error   { return oserror.ErrNotExist }
-func errClosed() error     { return oserror.ErrClosed }
-func errNoDeadline() error { return poll.ErrNoDeadline }
+func errInvalid() error         { return oserror.ErrInvalid }
+func errPermission() error      { return oserror.ErrPermission }
+func errExist() error           { return oserror.ErrExist }
+func errNotExist() error        { return oserror.ErrNotExist }
+func errProcessNotExist() error { return oserror.ErrProcessNotExist }
+func errClosed() error          { return oserror.ErrClosed }
+func errNoDeadline() error      { return poll.ErrNoDeadline }
 
 type timeout interface {
 	Timeout() bool
@@ -90,7 +92,7 @@ func IsExist(err error) bool {
 // report that a file or directory does not exist. It is satisfied by
 // ErrNotExist as well as some syscall errors.
 func IsNotExist(err error) bool {
-	return underlyingErrorIs(err, ErrNotExist)
+	return underlyingErrorIs(err, ErrNotExist) || underlyingErrorIs(err, ErrProcessNotExist)
 }
 
 // IsPermission returns a boolean indicating whether the error is known to

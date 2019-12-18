@@ -85,11 +85,6 @@ func (p *Process) release() error {
 	return nil
 }
 
-func findProcess(pid int) (p *Process, err error) {
-	// NOOP for unix.
-	return newProcess(pid, 0), nil
-}
-
 func (p *ProcessState) userTime() time.Duration {
 	return time.Duration(p.rusage.Utime.Nano()) * time.Nanosecond
 }
