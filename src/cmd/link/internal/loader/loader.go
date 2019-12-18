@@ -427,12 +427,75 @@ func (l *Loader) growSyms(i int) {
 	l.growAttrBitmaps(int(i) + 1)
 }
 
+// getOverwrite returns the overwrite symbol for 'symIdx', while
+// collapsing any chains of overwrites along the way. This is
+// apparently needed in cases where we add an overwrite entry X -> Y
+// during preload (where both X and Y are non-external symbols), and
+// then we add an additional entry to the overwrite map Y -> W in
+// cloneToExternal when we encounter the real definition of the symbol
+// in a host object file, and we need to build up W's content.
+//
+// Note: it would be nice to avoid this sort of complexity. One of the
+// main reasons we wind up with overwrites has to do with the way the
+// compiler handles link-named symbols that are 'defined elsewhere':
+// at the moment they wind up as no-package defs. For example, consider
+// the variablt "runtime.no_pointers_stackmap". This variable is defined
+// in an assembly file as RODATA, then in one of the Go files it is
+// declared this way:
+//
+//     var no_pointers_stackmap uint64 // defined in assembly
+//
+// This generates what amounts to a weak definition (in the object
+// containing the line of code above), which is then overriden by the
+// stronger def from the assembly file. Rather than have things work
+// this way, it would be better if in the Go file we emitted a
+// no-package ref instead of a no-package def, which would eliminate
+// the need for overwrites. Doing this would also require changing the
+// semantics of //go:linkname, however; we'd have to insure that in
+// the cross-package case there is a go:linkname directive on both
+// ends.
+func (l *Loader) getOverwrite(symIdx Sym) Sym {
+	var seen map[Sym]bool
+	result := symIdx
+	cur := symIdx
+	for {
+		if ov, ok := l.overwrite[cur]; ok {
+			if seen == nil {
+				seen = make(map[Sym]bool)
+				seen[symIdx] = true
+			}
+			if _, ok := seen[ov]; ok {
+				panic("cycle in overwrite map")
+			} else {
+				seen[cur] = true
+			}
+			cur = ov
+		} else {
+			break
+		}
+	}
+	if cur != symIdx {
+		result = cur
+		cur = symIdx
+		for {
+			if ov, ok := l.overwrite[cur]; ok {
+				l.overwrite[cur] = result
+				cur = ov
+			} else {
+				break
+			}
+		}
+	}
+	return result
+}
+
 // Convert a local index to a global index.
 func (l *Loader) toGlobal(r *oReader, i int) Sym {
 	g := l.startIndex(r) + Sym(i)
 	if ov, ok := l.overwrite[g]; ok {
 		return ov
 	}
+	g = l.getOverwrite(g)
 	return g
 }
 
@@ -1497,8 +1560,14 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 			s.Attr.Set(sym.AttrReachable, l.attrReachable.has(i))
 			continue
 		}
+		if i != l.getOverwrite(i) {
+			continue
+		}
 		sname := l.RawSymName(i)
 		if !l.attrReachable.has(i) && !strings.HasPrefix(sname, "gofile..") { // XXX file symbols are used but not marked
+			continue
+		}
+		if i != l.getOverwrite(i) {
 			continue
 		}
 		pp := l.getPayload(i)
@@ -2217,6 +2286,7 @@ func (l *Loader) Dump() {
 		}
 	}
 	fmt.Println("extStart:", l.extStart)
+	fmt.Println("max:", l.max)
 	fmt.Println("syms")
 	for i, s := range l.Syms {
 		if i == 0 {
@@ -2225,7 +2295,13 @@ func (l *Loader) Dump() {
 		if s != nil {
 			fmt.Println(i, s, s.Type)
 		} else {
-			fmt.Println(i, l.SymName(Sym(i)), "<not loaded>")
+			otag := ""
+			si := Sym(i)
+			if _, ok := l.overwrite[si]; ok {
+				si = l.getOverwrite(si)
+				otag = fmt.Sprintf(" <overwritten to %d>", si)
+			}
+			fmt.Println(i, l.SymName(si), "<not loaded>", otag)
 		}
 	}
 	fmt.Println("overwrite:", l.overwrite)
