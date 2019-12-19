@@ -22,6 +22,30 @@
       "revId": "0f834bb77e11d1ca1f06fc925f5bd7e44c7f4867",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c41c370_66b06933",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-12-19T20:02:08Z",
+      "side": 1,
+      "message": "\u003e I\u0027m asking because I don\u0027t understand how the file GoMod refers to may be outside of Dir if the module is in the module cache.\n\nUpon refreshing my memory of this, I see that they are indeed in different directories. The .mod file is directly located in the module cache directory, while the extracted module contents are in a different directory.\n\nSorry for noise.",
+      "parentUuid": "d913beef_e227d2c9",
+      "range": {
+        "startLine": 919,
+        "startChar": 47,
+        "endLine": 919,
+        "endChar": 63
+      },
+      "revId": "0f834bb77e11d1ca1f06fc925f5bd7e44c7f4867",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
