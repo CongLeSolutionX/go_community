@@ -279,6 +279,24 @@
       "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e6fa6b_1f5abd98",
+        "filename": "src/encoding/json/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-12-19T22:24:12Z",
+      "side": 1,
+      "message": "Ah, fair enough :) I agree the current error is fine.",
+      "parentUuid": "aa510544_55aabba8",
+      "revId": "ffd17d18e92a9bbd0573787f31276b67598ec6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
