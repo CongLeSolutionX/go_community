@@ -1035,6 +1035,7 @@ func (l *Loader) SetSymAlign(i Sym, align int32) {
 	} else {
 		// Alignment should be a power of 2.
 		if bits.OnesCount32(uint32(align)) != 1 {
+			fmt.Println(align)
 			panic("bad alignment value")
 		}
 		l.align[i] = align
@@ -1615,6 +1616,9 @@ func (l *Loader) preloadSyms(r *oReader, kind int) {
 			strings.HasPrefix(name, "gclocals·") ||
 			strings.HasPrefix(name, "runtime.gcbits.") {
 			l.SetAttrNotInSymbolTable(gi, true)
+		}
+		if a := osym.Align(); a != 0 {
+			l.SetSymAlign(gi, int32(a))
 		}
 	}
 }
