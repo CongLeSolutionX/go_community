@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a626236_6fe05c88",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2142,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-12-19T22:20:46Z",
+      "side": 1,
+      "message": "Add the corresponding comment in Action.trimpath?",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6130e6cd_e624ef66",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2163,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-12-19T22:20:46Z",
+      "side": 1,
+      "message": "This `else` should be paired to only `cfg.BuildTrimpath`. (We can\u0027t do this substitution if the compiler does not support the -fdebug-prefix-map flag.)",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f40d8e0a_1ddfb765",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-12-19T22:20:46Z",
+      "side": 1,
+      "message": "Since this is a long test, we should verify that it actually runs and passes — particularly with Clang on Windows, if that\u0027s feasible.\n\n(One way to verify that it runs would be to temporarily put a bogus command at the end and verify that it fails due to that specific bogus command.)",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0979a906_2f273f78",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-12-19T22:20:46Z",
+      "side": 1,
+      "message": "Does this work for plan9 and aix?\n(I don\u0027t think we have any long-mode aix or plan9 builders.)\n\nGiven that this is a long-mode test, maybe it would be a good idea to skip platforms other than the ones we\u0027ve explicitly tested.\n\n(Or, would it work to just grep for the path in the executable file rather than using something principled like a DWARF reader?)",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
