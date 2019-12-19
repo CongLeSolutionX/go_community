@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d913beef_e227d2c9",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-12-19T19:55:46Z",
+      "side": 1,
+      "message": "What is the definition of module directory?\n\nIs it the same as the Dir field of Module struct above, or something else?\n\nI\u0027m asking because I don\u0027t understand how the file GoMod refers to may be outside of Dir if the module is in the module cache.",
+      "range": {
+        "startLine": 919,
+        "startChar": 47,
+        "endLine": 919,
+        "endChar": 63
+      },
+      "revId": "0f834bb77e11d1ca1f06fc925f5bd7e44c7f4867",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
