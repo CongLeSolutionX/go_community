@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90a5d8b_98e42835",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2019-12-19T17:58:01Z",
+      "side": 1,
+      "message": "I don\u0027t actually agree with this language. It seems misleading.\nFirst, lots of code could execute just before this code. Not just chanrecv and closechan, but chansend and various selects as well. If we\u0027re relying on some invariant, it needs to be established everywhere. \nWe\u0027re *not* guaranteed to observe c.closed and full() after the lock release. It could very well be the case that another goroutine does a recv (and decrements qcount), then this goroutine still sees the queue as full and returns false here. But it is allowed to do that, as this can only happen if there is no synchronization between the goroutines. This goroutine could have run a bit earlier and seen the queue as full.",
+      "revId": "3f4ef481f287f7fdcbdb5c034f490117541b4938",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
