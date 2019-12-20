@@ -1320,7 +1320,14 @@ func fetch(mod module.Version) (dir string, isLocal bool, err error) {
 			if !filepath.IsAbs(dir) {
 				dir = filepath.Join(ModRoot(), dir)
 			}
-			return dir, true, nil
+			// Ensure that the replacement directory actually exists:
+			// dirInModule does not report errors for missing modules,
+			// so if we don't report the error now, later failures will be
+			// very mysterious.
+			if _, err := os.Stat(dir); err != nil {
+				return dir, true, module.VersionError(mod, err)
+			}
+			return dir, true, err
 		}
 		mod = r
 	}
