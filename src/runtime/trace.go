@@ -498,7 +498,7 @@ func traceFullDequeue() traceBufPtr {
 // traceEvent writes a single event to trace buffer, flushing the buffer if necessary.
 // ev is event type.
 // If skip > 0, write current stack id as the last argument (skipping skip top frames).
-// If skip = 0, this event type should contain a stack, but we don't want
+// If skip <= 0, this event type should contain a stack, but we don't want
 // to collect and remember it for this particular call.
 func traceEvent(ev byte, skip int, args ...uint64) {
 	mp, pid, bufp := traceAcquireBuffer()
@@ -1095,7 +1095,9 @@ func traceGoUnpark(gp *g, skip int) {
 }
 
 func traceGoSysCall() {
-	traceEvent(traceEvGoSysCall, 1)
+	// XXX Skip reentersyscall/entersyscall/sys.Syscall*. Not sure yet why
+	// this is needed, something about how syscalls use frame pointers.
+	traceEvent(traceEvGoSysCall, 4)
 }
 
 func traceGoSysExit(ts int64) {

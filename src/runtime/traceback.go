@@ -807,6 +807,42 @@ func callers(skip int, pcbuf []uintptr) int {
 }
 
 func gcallers(gp *g, skip int, pcbuf []uintptr) int {
+	if framepointer_enabled {
+		pc := gp.sched.pc
+		if gp.sched.lr == 1 {
+			// gentraceback sees one extra frame with systemstack_switch vs mcall
+			pc = *(*uintptr)(unsafe.Pointer(gp.sched.sp))
+			skip--
+		}
+
+		// Walk the frames very quickly using frame pointers. For speed,
+		// we don't do anything related to inlining here - we do it in
+		// CallerFrames/Next(), Since we haven't done the inlining, we
+		// can't do skip here either. Instead, we encode skip in the
+		// callers array for use by CallerFrames/Next().
+		//
+		// So, if first value of a callers array is less than (say) 100,
+		// then that value is a skip and we have not done inlining yet.
+		pcbuf[0] = uintptr(skip)
+		n := 1
+
+		max := len(pcbuf)
+		if n < max {
+			pcbuf[n] = pc
+			n++
+		}
+
+		// This loop depends on the stack not being copied out from under it.
+		// Currently ok with no preemption in the runtime (I think)
+		fp := gp.sched.bp
+		for n < max && fp != 0 {
+			pc := *(*uintptr)(unsafe.Pointer(fp + 8)) // TODO: amd64 only
+			pcbuf[n] = pc
+			n++
+			fp = *(*uintptr)(unsafe.Pointer(fp)) // TODO: amd64 only
+		}
+		return n
+	}
 	return gentraceback(^uintptr(0), ^uintptr(0), 0, gp, skip, &pcbuf[0], len(pcbuf), nil, nil, 0)
 }
 

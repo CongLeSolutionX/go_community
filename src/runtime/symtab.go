@@ -19,6 +19,12 @@ type Frames struct {
 	// frames is a slice of Frames that have yet to be returned.
 	frames     []Frame
 	frameStore [2]Frame
+
+	inlNotExpanded bool // true if there has been no inline expansion yet
+	// If there has been no inline expansion yet, then we may have a non-zero
+	// skip that was delayed and must be enforced as we do the inline expansion.
+	skip       uintptr
+	lastFuncID funcID // the funcID of function in previous frame
 }
 
 // Frame is the information returned by Frames for each call frame.
@@ -63,7 +69,14 @@ type Frame struct {
 // prepares to return function/file/line information.
 // Do not change the slice until you are done with the Frames.
 func CallersFrames(callers []uintptr) *Frames {
-	f := &Frames{callers: callers}
+	inlNotExpanded := false
+	skip := uintptr(0)
+	if len(callers) > 0 && callers[0] < 20 {
+		inlNotExpanded = true
+		skip = callers[0]
+		callers = callers[1:]
+	}
+	f := &Frames{callers: callers, inlNotExpanded: inlNotExpanded, skip: skip, lastFuncID: funcID_normal}
 	f.frames = f.frameStore[:0]
 	return f
 }
@@ -99,26 +112,55 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 			// work correctly for entries in the result of runtime.Callers.
 			pc--
 		}
-		name := funcname(funcInfo)
 		if inldata := funcdata(funcInfo, _FUNCDATA_InlTree); inldata != nil {
 			inltree := (*[1 << 20]inlinedCall)(inldata)
-			ix := pcdatavalue(funcInfo, _PCDATA_InlTreeIndex, pc, nil)
-			if ix >= 0 {
+			for {
+				ix := pcdatavalue(funcInfo, _PCDATA_InlTreeIndex, pc, nil)
+				if ix < 0 {
+					break
+				}
 				// Note: entry is not modified. It always refers to a real frame, not an inlined one.
-				f = nil
-				name = funcnameFromNameoff(funcInfo, inltree[ix].func_)
+				name := funcnameFromNameoff(funcInfo, inltree[ix].func_)
 				// File/line is already correct.
 				// TODO: remove file/line from InlinedCall?
+				if !ci.inlNotExpanded || inltree[ix].funcID != funcID_wrapper || !elideWrapperCalling(ci.lastFuncID) {
+					if ci.skip == 0 {
+						ci.frames = append(ci.frames, Frame{
+							PC:       pc,
+							Func:     nil,
+							Function: name,
+							Entry:    entry,
+							funcInfo: funcInfo,
+							// Note: File,Line set below
+						})
+					} else {
+						ci.skip--
+					}
+				}
+				if !ci.inlNotExpanded {
+					pc = 0
+					break
+				}
+				ci.lastFuncID = inltree[ix].funcID
+				pc = entry + uintptr(inltree[ix].parentPc)
 			}
 		}
-		ci.frames = append(ci.frames, Frame{
-			PC:       pc,
-			Func:     f,
-			Function: name,
-			Entry:    entry,
-			funcInfo: funcInfo,
-			// Note: File,Line set below
-		})
+		if pc != 0 && (!ci.inlNotExpanded || funcInfo.funcID != funcID_wrapper || !elideWrapperCalling(ci.lastFuncID)) {
+			name := funcname(funcInfo)
+			if ci.skip == 0 {
+				ci.frames = append(ci.frames, Frame{
+					PC:       pc,
+					Func:     f,
+					Function: name,
+					Entry:    entry,
+					funcInfo: funcInfo,
+					// Note: File,Line set below
+				})
+			} else {
+				ci.skip--
+			}
+			ci.lastFuncID = funcInfo.funcID
+		}
 	}
 
 	// Pop one frame from the frame list. Keep the rest.

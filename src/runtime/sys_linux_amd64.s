@@ -592,6 +592,7 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 
 	// In child, on new stack.
 	MOVQ	SI, SP
+	MOVQ	$0, BP	// mark top of new stack
 
 	// If g or m are nil, skip Go-related setup.
 	CMPQ	R8, $0    // m
