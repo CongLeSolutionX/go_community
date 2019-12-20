@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // Should be a built-in for unsafe.Pointer?
 //go:nosplit
@@ -228,6 +231,12 @@ func getcallerpc() uintptr
 
 //go:noescape
 func getcallersp() uintptr // implemented as an intrinsic on all platforms
+
+//go:nosplit
+func getcallerfp(argp unsafe.Pointer) (r uintptr) {
+	// TODO: amd64 only.  Is this valid for most other architectures with fp?
+	return *(*uintptr)(unsafe.Pointer(uintptr(argp) - 2*sys.RegSize))
+}
 
 // getclosureptr returns the pointer to the current closure.
 // getclosureptr can only be used in an assignment statement

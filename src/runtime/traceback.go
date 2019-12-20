@@ -358,35 +358,48 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			}
 
 			// If there is inlining info, record the inner frames.
-			if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
-				inltree := (*[1 << 20]inlinedCall)(inldata)
-				for {
-					ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, &cache)
-					if ix < 0 {
-						break
-					}
-					if inltree[ix].funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
-						// ignore wrappers
-					} else if skip > 0 {
-						skip--
-					} else if n < max {
-						(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
-						n++
-					}
-					lastFuncID = inltree[ix].funcID
-					// Back up to an instruction in the "caller".
-					tracepc = frame.fn.entry + uintptr(inltree[ix].parentPc)
-					pc = tracepc + 1
+			if flags&_TracePhysicalFrames != 0 {
+				if n == 0 {
+					// Encode the skip as the first element of the slice
+					(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = uintptr(skip)
+					n++
 				}
-			}
-			// Record the main frame.
-			if f.funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
-				// Ignore wrapper functions (except when they trigger panics).
-			} else if skip > 0 {
-				skip--
-			} else if n < max {
-				(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
-				n++
+				if n < max {
+					// Just save the PC without dealing with any inlining or skips.
+					(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
+					n++
+				}
+			} else {
+				if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
+					inltree := (*[1 << 20]inlinedCall)(inldata)
+					for {
+						ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, &cache)
+						if ix < 0 {
+							break
+						}
+						if inltree[ix].funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+							// ignore wrappers
+						} else if skip > 0 {
+							skip--
+						} else if n < max {
+							(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
+							n++
+						}
+						lastFuncID = inltree[ix].funcID
+						// Back up to an instruction in the "caller".
+						tracepc = frame.fn.entry + uintptr(inltree[ix].parentPc)
+						pc = tracepc + 1
+					}
+				}
+				// Record the main frame.
+				if f.funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+					// Ignore wrapper functions (except when they trigger panics).
+				} else if skip > 0 {
+					skip--
+				} else if n < max {
+					(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
+					n++
+				}
 			}
 			lastFuncID = f.funcID
 			n-- // offset n++ below
@@ -808,6 +821,73 @@ func callers(skip int, pcbuf []uintptr) int {
 
 func gcallers(gp *g, skip int, pcbuf []uintptr) int {
 	return gentraceback(^uintptr(0), ^uintptr(0), 0, gp, skip, &pcbuf[0], len(pcbuf), nil, nil, 0)
+}
+
+// physicalCallers is like callers() and gcallers, but returns pcs of physical
+// frames (i.e. doesn't account for inlined functions at all). If gp is non-nil,
+// it uses the PC and SP in gp, else it uses the caller's PC and SP.
+//
+//  If framepointers are enabled, it is extremely quick, since it just follows the
+//  frame pointer.
+func physicalCallers(gp *g, skip int, pcbuf []uintptr) int {
+	var pc, sp uintptr
+
+	if framepointer_enabled {
+		var fp uintptr
+		if gp != nil {
+			pc = gp.sched.pc
+			fp = gp.sched.bp
+		} else {
+			pc = getcallerpc()
+			fp = getcallerfp(unsafe.Pointer(&gp))
+		}
+		if gp != nil && gp.sched.lr == 1 {
+			// gentraceback sees one extra frame with systemstack_switch vs mcall
+			pc = *(*uintptr)(unsafe.Pointer(gp.sched.sp))
+			skip--
+		}
+
+		// Walk the frames very quickly using frame pointers. For speed,
+		// we don't do anything related to inlining here - we do it in
+		// CallerFrames/Next(), Since we haven't done the inlining, we
+		// can't do skip here either. Instead, we encode skip in the
+		// callers array for use by CallerFrames/Next().
+		//
+		// So, if first value of a callers array is less than (say) 100,
+		// then that value is a skip and we have not done inlining yet.
+		pcbuf[0] = uintptr(skip)
+		n := 1
+
+		max := len(pcbuf)
+		if n < max {
+			pcbuf[n] = pc
+			n++
+		}
+
+		// This loop depends on the stack not being copied out from under it.
+		// Currently ok with no preemption in the runtime (I think)
+		for n < max && fp != 0 {
+			pc := *(*uintptr)(unsafe.Pointer(fp + 8)) // TODO: amd64 only
+			pcbuf[n] = pc
+			n++
+			fp = *(*uintptr)(unsafe.Pointer(fp)) // TODO: amd64 only
+		}
+		return n
+	}
+	if gp != nil {
+		pc = ^uintptr(0)
+		sp = ^uintptr(0)
+		return gentraceback(pc, sp, 0, gp, skip, &pcbuf[0], len(pcbuf), nil, nil, _TracePhysicalFrames)
+	} else {
+		pc = getcallerpc()
+		sp = getcallersp()
+		gp = getg()
+		var n int
+		systemstack(func() {
+			n = gentraceback(pc, sp, 0, gp, skip, &pcbuf[0], len(pcbuf), nil, nil, _TracePhysicalFrames)
+		})
+		return n
+	}
 }
 
 // showframe reports whether the frame with the given characteristics should

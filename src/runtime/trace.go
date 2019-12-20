@@ -498,7 +498,7 @@ func traceFullDequeue() traceBufPtr {
 // traceEvent writes a single event to trace buffer, flushing the buffer if necessary.
 // ev is event type.
 // If skip > 0, write current stack id as the last argument (skipping skip top frames).
-// If skip = 0, this event type should contain a stack, but we don't want
+// If skip <= 0, this event type should contain a stack, but we don't want
 // to collect and remember it for this particular call.
 func traceEvent(ev byte, skip int, args ...uint64) {
 	mp, pid, bufp := traceAcquireBuffer()
@@ -579,16 +579,18 @@ func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
 	_g_ := getg()
 	gp := mp.curg
 	var nstk int
+	// For speed, only get physical PCs right now. We'll expand to
+	// logical/inlined PCs and then to full frames in allFrames()
 	if gp == _g_ {
-		nstk = callers(skip+1, buf)
+		nstk = physicalCallers(nil, skip+1, buf)
 	} else if gp != nil {
 		gp = mp.curg
-		nstk = gcallers(gp, skip, buf)
+		nstk = physicalCallers(gp, skip, buf)
 	}
-	if nstk > 0 {
+	if nstk > 1 {
 		nstk-- // skip runtime.goexit
 	}
-	if nstk > 0 && gp.goid == 1 {
+	if nstk > 1 && gp.goid == 1 {
 		nstk-- // skip runtime.main
 	}
 	id := trace.stackTab.put(buf[:nstk])
@@ -821,7 +823,8 @@ func (tab *traceStackTable) newStack(n int) *traceStack {
 // allFrames returns all of the Frames corresponding to pcs.
 func allFrames(pcs []uintptr) []Frame {
 	frames := make([]Frame, 0, len(pcs))
-	ci := CallersFrames(pcs)
+	logicalpcs := convertPhysicalToLogicalCallers(pcs)
+	ci := CallersFrames(logicalpcs)
 	for {
 		f, more := ci.Next()
 		frames = append(frames, f)
@@ -829,6 +832,61 @@ func allFrames(pcs []uintptr) []Frame {
 			return frames
 		}
 	}
+}
+
+// convertPhysicalToLogicalCallers converts a slice of physical PCs to a slice of
+// logical PCs (i.e. where we have accounted for inlined functions).
+func convertPhysicalToLogicalCallers(pcs []uintptr) []uintptr {
+	max := len(pcs)
+
+	skip := pcs[0]
+	if skip > 20 {
+		// A small fraction of the traces gathered are not using traceStackID
+		// and are already logical.
+		return pcs
+	}
+	outpcs := make([]uintptr, 0, max)
+	lastFuncID := funcID_normal
+
+	for in := 1; in < max; in++ {
+		pc := pcs[in]
+		funcInfo := findfunc(pc)
+		if !funcInfo.valid() {
+			panic("hi") // XXX
+		}
+		if pc > funcInfo.entry {
+			pc--
+		}
+		if inldata := funcdata(funcInfo, _FUNCDATA_InlTree); inldata != nil {
+			inltree := (*[1 << 20]inlinedCall)(inldata)
+			for {
+				ix := pcdatavalue(funcInfo, _PCDATA_InlTreeIndex, pc, nil)
+				if ix < 0 {
+					break
+				}
+				if inltree[ix].funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+					// ignore wrappers
+				} else if skip > 0 {
+					skip--
+				} else {
+					outpcs = append(outpcs, pc+1)
+				}
+				lastFuncID = inltree[ix].funcID
+				// Back up to an instruction in the "caller".
+				pc = funcInfo.entry + uintptr(inltree[ix].parentPc)
+			}
+		}
+		// Record the main frame.
+		if funcInfo.funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+			// Ignore wrapper functions (except when they trigger panics).
+		} else if skip > 0 {
+			skip--
+		} else {
+			outpcs = append(outpcs, pc+1)
+		}
+		lastFuncID = funcInfo.funcID
+	}
+	return outpcs
 }
 
 // dump writes all previously cached stacks to trace buffers,
@@ -1095,7 +1153,9 @@ func traceGoUnpark(gp *g, skip int) {
 }
 
 func traceGoSysCall() {
-	traceEvent(traceEvGoSysCall, 1)
+	// XXX Skip reentersyscall/entersyscall/sys.Syscall*. Not sure yet why
+	// this is needed, something about how syscalls use frame pointers.
+	traceEvent(traceEvGoSysCall, 4)
 }
 
 func traceGoSysExit(ts int64) {
