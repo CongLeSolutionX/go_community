@@ -191,22 +191,6 @@ func (r *codeRepo) appendIncompatibleVersions(list, incompatible []string) ([]st
 		return list, nil
 	}
 
-	// We assume that if the latest release of any major version has a go.mod
-	// file, all subsequent major versions will also have go.mod files (and thus
-	// be ineligible for use as +incompatible versions).
-	// If we're wrong about a major version, users will still be able to 'go get'
-	// specific higher versions explicitly — they just won't affect 'latest' or
-	// appear in 'go list'.
-	//
-	// Conversely, we assume that if the latest release of any major version lacks
-	// a go.mod file, all versions also lack go.mod files. If we're wrong, we may
-	// include a +incompatible version that isn't really valid, but most
-	// operations won't try to use that version anyway.
-	//
-	// These optimizations bring
-	// 'go list -versions -m github.com/openshift/origin' down from 1m58s to 0m37s.
-	// That's still not great, but a substantial improvement.
-
 	versionHasGoMod := func(v string) (bool, error) {
 		_, err := r.code.ReadFile(v, "go.mod", codehost.MaxGoMod)
 		if err == nil {
@@ -241,6 +225,24 @@ func (r *codeRepo) appendIncompatibleVersions(list, incompatible []string) ([]st
 		}
 	}
 
+	latestMajorHasGoMod, err := versionHasGoMod(incompatible[len(incompatible)-1])
+	if err != nil {
+		return nil, err
+	}
+	if !latestMajorHasGoMod {
+		// The latest release of the latest incompatible major version lacks a
+		// go.mod file. Either the author has never added one, or added one in an
+		// earlier release and subsequently removed it. Either way, 'latest' queries
+		// should successfully fetch a +incompatible version, so don't bother
+		// checking all of the intervening versions — we may include a spurious
+		// '+incompatible' version in the middle, but it's unlikely to matter, and
+		// checking every version explicitly would be needlessly expensive.
+		for _, v := range incompatible {
+			list = append(list, v+"+incompatible")
+		}
+		return list, nil
+	}
+
 	var lastMajor string
 	for i, v := range incompatible {
 		major := semver.Major(v)
@@ -261,8 +263,15 @@ func (r *codeRepo) appendIncompatibleVersions(list, incompatible []string) ([]st
 		}
 		if ok {
 			// This major version has a go.mod file, so it is not allowed as
-			// +incompatible. Subsequent major versions are likely to also have
-			// go.mod files, so stop here.
+			// +incompatible. The latest major version *also* has a go.mod file, so
+			// this author pretty clearly intends for consumers to be using modules.
+			// Assume that versions in the middle also have go.mod files (and are thus
+			// ineligible for use as +incompatible versions).
+			//
+			// If we're wrong about a major version in the middle, users will still be
+			// able to 'go get' specific tags for that version explicitly — they just
+			// won't appear in 'go list' or as the results for queries with inequality
+			// bounds.
 			break
 		}
 
