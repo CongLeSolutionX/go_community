@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "8f88e622_44452791",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-12-20T22:09:37Z",
+      "side": 1,
+      "message": "\u003e Haven\u0027t used clang on Windows before. I tried setting it up on my test machine, but it seems to have some dependency on MSVC for headers and linking. I may be missing something.\n\u003e \n\u003e Do we have any builders that run Clang on Windows? If not, it may not be meaningful to test it once.\n\nNo idea.\n\n\u003e What kind of bogus command do you mean? \u0027exec clang -v\u0027? Not sure I follow though.\n\nI usually use `stderr walrus`. 😅",
+      "parentUuid": "9470182b_73c2f571",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0979a906_2f273f78",
         "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
         "patchSetId": 1
