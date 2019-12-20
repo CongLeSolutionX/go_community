@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02880aa2_07463c77",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2142,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-12-20T20:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a626236_6fe05c88",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6130e6cd_e624ef66",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fa1baa2_c1962c7a",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2163,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-12-20T20:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6130e6cd_e624ef66",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9470182b_73c2f571",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-12-20T20:13:11Z",
+      "side": 1,
+      "message": "Haven\u0027t used clang on Windows before. I tried setting it up on my test machine, but it seems to have some dependency on MSVC for headers and linking. I may be missing something.\n\nDo we have any builders that run Clang on Windows? If not, it may not be meaningful to test it once.\n\nWhat kind of bogus command do you mean? \u0027exec clang -v\u0027? Not sure I follow though.",
+      "parentUuid": "f40d8e0a_1ddfb765",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0979a906_2f273f78",
         "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8406f4c8_d5c8a459",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-12-20T20:13:11Z",
+      "side": 1,
+      "message": "Renamed to read_elf.go and explicitly listed platforms where ELF is the executable format.\n\nThis won\u0027t work on aix. I don\u0027t think there\u0027s a std package to read XCOFF binaries. I\u0027m now skipping this part of the test.\n\nplan9 doesn\u0027t support cgo so this test won\u0027t run there at all.",
+      "parentUuid": "0979a906_2f273f78",
+      "revId": "eb5656faf9e00177639317ed2c0d5215031dc92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
