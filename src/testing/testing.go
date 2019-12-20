@@ -659,6 +659,7 @@ func (c *common) FailNow() {
 }
 
 // log generates the output. It's always at the same stack depth.
+//go:noinline
 func (c *common) log(s string) {
 	c.logDepth(s, 3) // logDepth + log + public function
 }

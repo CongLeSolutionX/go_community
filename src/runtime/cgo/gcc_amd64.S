@@ -29,6 +29,7 @@ EXT(crosscall_amd64):
 	pushq %r14
 	pushq %r15
 
+	movq $0, %rbp
 #if defined(_WIN64)
 	call *%rcx	/* fn */
 #else

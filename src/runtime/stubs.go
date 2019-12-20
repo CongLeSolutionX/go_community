@@ -245,6 +245,12 @@ func getcallersp() uintptr // implemented as an intrinsic on all platforms
 // pointer from a well-known register (DX on x86 architecture, etc.) directly.
 func getclosureptr() uintptr
 
+//go:nosplit
+func getcallerfp(argp unsafe.Pointer) uintptr {
+	// TODO: amd64 only.  How to do this for other architectures?
+	return *(*uintptr)(add(argp, 1<<64-16))
+}
+
 //go:noescape
 func asmcgocall(fn, arg unsafe.Pointer) int32
 

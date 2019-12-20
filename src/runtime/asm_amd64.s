@@ -312,6 +312,7 @@ TEXT runtime·mcall(SB), NOSPLIT, $0-8
 	JMP	AX
 	MOVQ	SI, g(CX)	// g = m->g0
 	MOVQ	(g_sched+gobuf_sp)(SI), SP	// sp = m->g0->sched.sp
+	MOVQ    $0, BP
 	PUSHQ	AX
 	MOVQ	DI, DX
 	MOVQ	0(DI), DI
@@ -363,6 +364,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVQ	$runtime·mstart(SB), DX
 	MOVQ	DX, 0(BX)
 	MOVQ	BX, SP
+	MOVQ	$0, BP
 
 	// call target function
 	MOVQ	DI, DX

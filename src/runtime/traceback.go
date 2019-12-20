@@ -796,6 +796,36 @@ func printAncestorTracebackFuncInfo(f funcInfo, pc uintptr) {
 }
 
 func callers(skip int, pcbuf []uintptr) int {
+	if framepointer_enabled {
+		// walk the frames using fp
+		// This loop depends on the stack not being copied out from under it.
+		// Currently ok with no preemption in the runtime (I think)
+		fp := getcallerfp(unsafe.Pointer(&skip))
+		n := 0
+		skip--
+		max := len(pcbuf)
+		for n < len(pcbuf) {
+			pc := *(*uintptr)(unsafe.Pointer(fp + 8)) // TODO: amd64 only
+			if false {
+				println("FP", hex(fp), "PC", hex(pc))
+				f := findfunc(pc)
+				if f.valid() {
+					println(funcname(f))
+				}
+			}
+			if skip > 0 {
+				skip--
+			} else {
+				pcbuf[n] = pc
+				n++
+			}
+			fp = *(*uintptr)(unsafe.Pointer(fp)) // TODO: amd64 only
+			if fp == 0 || n >= max {
+				break
+			}
+		}
+		return n
+	}
 	sp := getcallersp()
 	pc := getcallerpc()
 	gp := getg()
