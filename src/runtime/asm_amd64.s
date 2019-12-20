@@ -301,6 +301,7 @@ TEXT runtime·mcall(SB), NOSPLIT, $0-8
 	MOVQ	BX, (g_sched+gobuf_sp)(AX)
 	MOVQ	AX, (g_sched+gobuf_g)(AX)
 	MOVQ	BP, (g_sched+gobuf_bp)(AX)
+	MOVQ	$0, (g_sched+gobuf_lr)(AX) // 0 in lr signals mcall
 
 	// switch to m->g0 & its stack, call fn
 	MOVQ	g(CX), BX
@@ -312,6 +313,7 @@ TEXT runtime·mcall(SB), NOSPLIT, $0-8
 	JMP	AX
 	MOVQ	SI, g(CX)	// g = m->g0
 	MOVQ	(g_sched+gobuf_sp)(SI), SP	// sp = m->g0->sched.sp
+	MOVQ    $0, BP				// mark top of new stack
 	PUSHQ	AX
 	MOVQ	DI, DX
 	MOVQ	0(DI), DI
@@ -354,6 +356,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVQ	SP, (g_sched+gobuf_sp)(AX)
 	MOVQ	AX, (g_sched+gobuf_g)(AX)
 	MOVQ	BP, (g_sched+gobuf_bp)(AX)
+	MOVQ	$1, (g_sched+gobuf_lr)(AX)	// 1 in lr signals systemstack
 
 	// switch to g0
 	MOVQ	DX, g(CX)
@@ -363,6 +366,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVQ	$runtime·mstart(SB), DX
 	MOVQ	DX, 0(BX)
 	MOVQ	BX, SP
+	MOVQ	$0, BP				// mark top of new stack
 
 	// call target function
 	MOVQ	DI, DX
@@ -376,6 +380,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVQ	m_curg(BX), AX
 	MOVQ	AX, g(CX)
 	MOVQ	(g_sched+gobuf_sp)(AX), SP
+	MOVQ	(g_sched+gobuf_bp)(AX), BP	// restore BP
 	MOVQ	$0, (g_sched+gobuf_sp)(AX)
 	RET
 
