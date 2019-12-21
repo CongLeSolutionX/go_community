@@ -34,6 +34,24 @@
       "revId": "d37d8b347dbfae09c4244e4a23e6c7206f7fefb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23bdd171_440ef426",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-12-21T02:35:34Z",
+      "side": 1,
+      "message": "Thank you for explaining. I trust you know what you are talking about. And also your version is much faster too. I am OK with that.",
+      "parentUuid": "e71e3dad_3e0381ef",
+      "revId": "d37d8b347dbfae09c4244e4a23e6c7206f7fefb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
