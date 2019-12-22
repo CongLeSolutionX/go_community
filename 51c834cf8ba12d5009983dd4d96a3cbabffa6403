@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88f096dd_d50dcb93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-12-22T03:47:05Z",
+      "side": 1,
+      "message": "fix readDirNames to not unconditionally read a directory",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "51c834cf8ba12d5009983dd4d96a3cbabffa6403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a72faf6_7cafaa08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-12-22T03:47:05Z",
+      "side": 1,
+      "message": "readDirNames was always called first to read a directory. And then depending on the value of skipDir, we would stop walking further down. This defeated the purpose of skipDir and can possibly hold on to a large amount of memory if the directory has a large number of files.\n\nWe fix this by first checking for the flag and then calling readDirNames.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "51c834cf8ba12d5009983dd4d96a3cbabffa6403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb740a03_f0bfc655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-12-22T03:47:05Z",
+      "side": 1,
+      "message": "Please remove lines after this. All of these instructions are mentioned in the points below: \n\"Delete these instructions once you have read and applied them\"",
+      "revId": "51c834cf8ba12d5009983dd4d96a3cbabffa6403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63e3ee4b_316ce701",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-12-22T03:47:05Z",
+      "side": 1,
+      "message": "Please also re-arrange the comments here. They are not valid anymore.",
+      "revId": "51c834cf8ba12d5009983dd4d96a3cbabffa6403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1203528_c9b33a3b",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-12-22T03:47:05Z",
+      "side": 1,
+      "message": "Please run your code with gofmt, and an all.bash.",
+      "revId": "51c834cf8ba12d5009983dd4d96a3cbabffa6403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
