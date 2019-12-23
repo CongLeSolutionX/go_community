@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15d82545_836be048",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-12-23T11:44:50Z",
+      "side": 1,
+      "message": "This is a range of values, so it reads more intuitively like this:\n\nif whence \u003c 0 || 2 \u003c whence {",
+      "revId": "0a2e711b5e83c1f4882ccbb01e2b0c892abe9aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44cc1d7e_0ef82fb8",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-12-23T11:44:50Z",
+      "side": 1,
+      "message": "s/ specified//\nThe word is superfluous.",
+      "revId": "0a2e711b5e83c1f4882ccbb01e2b0c892abe9aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
