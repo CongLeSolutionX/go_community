@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b70732b_4346d5e3",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-24T16:09:42Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the other cases in this switch.  I don\u0027t see why this is right.\n\nAlso a change like this needs a test.",
+      "revId": "b16dd9e6e7dbec74fe2c24fdc1fd7fa1fa7c287f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
