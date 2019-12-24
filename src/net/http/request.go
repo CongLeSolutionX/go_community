@@ -364,8 +364,13 @@ func (r *Request) WithContext(ctx context.Context) *Request {
 	return r2
 }
 
-// Clone returns a deep copy of r with its context changed to ctx.
+// Clone returns a mostly deep copy of r with its context changed to ctx.
 // The provided ctx must be non-nil.
+//
+// The following fields are shallowly copied:
+//      Body
+//      Response
+//      TLS
 //
 // For an outgoing client request, the context controls the entire
 // lifetime of a request and its response: obtaining a connection,
