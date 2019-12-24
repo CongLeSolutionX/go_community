@@ -367,6 +367,10 @@ func (r *Request) WithContext(ctx context.Context) *Request {
 // Clone returns a deep copy of r with its context changed to ctx.
 // The provided ctx must be non-nil.
 //
+// Fields with non-concrete types or fields that are ephemeral across
+// reads and writes, like Body and Response cannot be cloned, and
+// must be manually changed by the caller.
+//
 // For an outgoing client request, the context controls the entire
 // lifetime of a request and its response: obtaining a connection,
 // sending the request, and reading the response headers and body.
