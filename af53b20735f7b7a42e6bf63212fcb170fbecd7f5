@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8d4d2d2_1bdb00f0",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-12-24T13:45:02Z",
+      "side": 1,
+      "message": "Not sure if adding this dependency is allowed. Otherwise we could just duplicate the definition of FcntlSyscall in internal/poll.",
+      "revId": "af53b20735f7b7a42e6bf63212fcb170fbecd7f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
