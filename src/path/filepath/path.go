@@ -360,17 +360,20 @@ func walk(path string, info os.FileInfo, walkFn WalkFunc) error {
 		return walkFn(path, info, nil)
 	}
 
-	names, err := readDirNames(path)
-	err1 := walkFn(path, info, err)
-	// If err != nil, walk can't walk into this directory.
-	// err1 != nil means walkFn want walk to skip this directory or stop walking.
-	// Therefore, if one of err and err1 isn't nil, walk will return.
-	if err != nil || err1 != nil {
+	err1 := walkFn(path, info, nil)
+	if err1 != nil {
 		// The caller's behavior is controlled by the return value, which is decided
 		// by walkFn. walkFn may ignore err and return nil.
 		// If walkFn returns SkipDir, it will be handled by the caller.
 		// So walk should return whatever walkFn returns.
+		// err1 != nil means walkFn want walk to skip this directory or stop walking.
+		// Therefore, if err1 isn't nil, walk will return
 		return err1
+	}
+	names, err := readDirNames(path)
+	// If err != nil, walk can't walk into this directory.
+	if err != nil {
+		return err
 	}
 
 	for _, name := range names {
