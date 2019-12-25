@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9012fa32_375c3af3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-12-25T08:27:21Z",
+      "side": 1,
+      "message": "Please remove this.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "ecce65189d8dda0f33dedc8b9b7712d2aa107500",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f2e5f9a_85ee620f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-12-25T08:27:21Z",
+      "side": 1,
+      "message": "Please split this into 3 separate lines:\n\n\t\nreadDirNames was always called first to read a directory. And then depending on the value of skipDir,\nwe would stop walking further down. This defeated the purpose of skipDir and can possibly hold on to\na large amount of memory if the directory has a large number of files.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 273
+      },
+      "revId": "ecce65189d8dda0f33dedc8b9b7712d2aa107500",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
