@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c67188e_d390278e",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 29613
+      },
+      "writtenOn": "2019-12-25T11:31:59Z",
+      "side": 1,
+      "message": "level",
+      "range": {
+        "startLine": 58,
+        "startChar": 43,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "99cde9b3aeec6bb766833ec3aab4abd524aa0e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
