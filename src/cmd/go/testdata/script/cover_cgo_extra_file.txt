@@ -1,0 +1,43 @@
+[!cgo] skip
+[gccgo] skip # gccgo has no cover tool
+
+# Test coverage on cgo code. This test case includes an
+# extra empty non-cgo file in the package being checked.
+
+go test -short -cover cgocover4
+! stderr '[^0-9]0\.0%'
+! stdout '[^0-9]0\.0%'
+
+-- cgocover4/notcgo.go --
+package p
+-- cgocover4/p.go --
+package p
+
+/*
+void
+f(void)
+{
+}
+*/
+import "C"
+
+var b bool
+
+func F() {
+	if b {
+		for {
+		}
+	}
+	C.f()
+}
+-- cgocover4/x_test.go --
+package p_test
+
+import (
+	. "cgocover4"
+	"testing"
+)
+
+func TestF(t *testing.T) {
+	F()
+}
