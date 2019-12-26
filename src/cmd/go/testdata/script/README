@@ -40,7 +40,7 @@ Scripts also have access to these other environment variables:
 	goversion=<current Go version; for example, 1.12>
 	:=<OS-specific path list separator>
 
-The scripts supporting files are unpacked relative to $GOPATH/src (aka $WORK/gopath/src)
+The scripts' supporting files are unpacked relative to $GOPATH/src (aka $WORK/gopath/src)
 and then the script begins execution in that directory as well. Thus the example above runs
 in $WORK/gopath/src with GOPATH=$WORK/gopath and $WORK/gopath/src/hello.go
 containing the listed contents.
@@ -80,6 +80,7 @@ should only run when the condition is satisfied. The available conditions are:
    - [exec:prog] for whether prog is available for execution (found by exec.LookPath)
    - [GODEBUG:value] for whether value is one of the comma-separated entries in the GODEBUG variable
    - [buildmode:value] for whether -buildmode=value is supported
+   - [builder] for whether the test is running on a builder
 
 A condition can be negated: [!short] means to run the rest of the line
 when testing.Short() is false. Multiple conditions may be given for a single
