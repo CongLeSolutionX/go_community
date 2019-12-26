@@ -52,6 +52,24 @@
       "revId": "b16dd9e6e7dbec74fe2c24fdc1fd7fa1fa7c287f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c127169c_c268b42d",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 34731
+      },
+      "writtenOn": "2019-12-26T02:24:58Z",
+      "side": 1,
+      "message": "of course",
+      "parentUuid": "4753016a_3191e7db",
+      "revId": "b16dd9e6e7dbec74fe2c24fdc1fd7fa1fa7c287f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
