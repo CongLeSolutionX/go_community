@@ -638,7 +638,7 @@ func (tg *testgoData) grepStderrNot(match, msg string) {
 }
 
 // grepBothNot looks for a regular expression in the test run's
-// standard output or stand error and fails, logging msg, if it is
+// standard output or standard error and fails, logging msg, if it is
 // found.
 func (tg *testgoData) grepBothNot(match, msg string) {
 	tg.t.Helper()
@@ -3638,15 +3638,6 @@ func TestIssue17119(t *testing.T) {
 	tg.grepBothNot("duplicate load|internal error", "internal error")
 }
 
-func TestFatalInBenchmarkCauseNonZeroExitStatus(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	// TODO: tg.parallel()
-	tg.runFail("test", "-run", "^$", "-bench", ".", "./testdata/src/benchfatal")
-	tg.grepBothNot("^ok", "test passed unexpectedly")
-	tg.grepBoth("FAIL.*benchfatal", "test did not run everything")
-}
-
 func TestBinaryOnlyPackages(t *testing.T) {
 	tooSlow(t)
 
@@ -3847,18 +3838,6 @@ func TestMatchesOnlyBenchmarkIsOK(t *testing.T) {
 	tg.run("test", "-run", "^$", "-bench", ".", "testdata/standalone_benchmark_test.go")
 	tg.grepBothNot(noMatchesPattern, "go test did say [no tests to run]")
 	tg.grepBoth(okPattern, "go test did not say ok")
-}
-
-func TestBenchmarkLabels(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	// TODO: tg.parallel()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
-	tg.run("test", "-run", "^$", "-bench", ".", "bench")
-	tg.grepStdout(`(?m)^goos: `+runtime.GOOS, "go test did not print goos")
-	tg.grepStdout(`(?m)^goarch: `+runtime.GOARCH, "go test did not print goarch")
-	tg.grepStdout(`(?m)^pkg: bench`, "go test did not say pkg: bench")
-	tg.grepBothNot(`(?s)pkg:.*pkg:`, "go test said pkg multiple times")
 }
 
 func TestBenchmarkLabelsOutsideGOPATH(t *testing.T) {
