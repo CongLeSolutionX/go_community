@@ -24,6 +24,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -122,6 +123,8 @@ var testCtx = context.Background()
 // The TestMain function creates a go command for testing purposes and
 // deletes it after the tests have been run.
 func TestMain(m *testing.M) {
+	fmt.Fprintln(os.Stderr, "X test main", time.Now())
+
 	// $GO_GCFLAGS a compiler debug flag known to cmd/dist, make.bash, etc.
 	// It is not a standard go command flag; use os.Getenv, not cfg.Getenv.
 	if os.Getenv("GO_GCFLAGS") != "" {
@@ -274,7 +277,9 @@ func TestMain(m *testing.M) {
 		os.Setenv("GOCACHE", testGOCACHE) // because $HOME is gone
 	}
 
+	fmt.Fprintln(os.Stderr, "X right before m.Run()", time.Now())
 	r := m.Run()
+	fmt.Fprintln(os.Stderr, "X right after m.Run()", time.Now())
 	if !*testWork {
 		removeAll(testTmpDir) // os.Exit won't run defer
 	}
@@ -296,6 +301,7 @@ func TestMain(m *testing.M) {
 		removeAll(topTmpdir)
 	}
 
+	fmt.Fprintln(os.Stderr, "X right before os.Exit", time.Now())
 	os.Exit(r)
 }
 
@@ -380,7 +386,14 @@ func (tg *testgoData) parallel() {
 	}
 	tg.inParallel = true
 	tg.t.Parallel()
+	logFirstParallel.Do(func() {
+		fmt.Fprintln(os.Stderr, "X first parallel", time.Now())
+	})
 }
+
+var (
+	logFirstParallel sync.Once
+)
 
 // pwd returns the current directory.
 func (tg *testgoData) pwd() string {
@@ -913,6 +926,7 @@ func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
 
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
 
 	// Copy the runtime packages into a temporary GOROOT
 	// so that we can change files.
@@ -1672,6 +1686,7 @@ func TestDefaultGOPATHGet(t *testing.T) {
 
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
 	tg.setenv("GOPATH", "")
 	tg.tempDir("home")
 	tg.setenv(homeEnvName(), tg.path("home"))
@@ -1696,6 +1711,7 @@ func TestDefaultGOPATHGet(t *testing.T) {
 func TestDefaultGOPATHPrintedSearchList(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
 	tg.setenv("GOPATH", "")
 	tg.tempDir("home")
 	tg.setenv(homeEnvName(), tg.path("home"))
@@ -2434,6 +2450,8 @@ func TestCgoDependsOnSyscall(t *testing.T) {
 
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
+
 	files, err := filepath.Glob(filepath.Join(runtime.GOROOT(), "pkg", "*_race"))
 	tg.must(err)
 	for _, file := range files {
@@ -3852,7 +3870,7 @@ func TestMatchesOnlyBenchmarkIsOK(t *testing.T) {
 func TestBenchmarkLabels(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
-	// TODO: tg.parallel()
+	tg.parallel()
 	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
 	tg.run("test", "-run", "^$", "-bench", ".", "bench")
 	tg.grepStdout(`(?m)^goos: `+runtime.GOOS, "go test did not print goos")
@@ -4407,6 +4425,7 @@ func TestBuildmodePIE(t *testing.T) {
 
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
 
 	tg.tempFile("main.go", `package main; func main() { print("hello") }`)
 	src := tg.path("main.go")
@@ -4570,6 +4589,7 @@ func TestUpxCompression(t *testing.T) {
 
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
 
 	tg.tempFile("main.go", `package main; import "fmt"; func main() { fmt.Print("hello upx") }`)
 	src := tg.path("main.go")
@@ -5108,6 +5128,7 @@ func init() {}
 func TestBadCommandLines(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
 
 	tg.tempFile("src/x/x.go", "package x\n")
 	tg.setenv("GOPATH", tg.path("."))
@@ -5328,6 +5349,7 @@ func TestCgoCache(t *testing.T) {
 func TestFilepathUnderCwdFormat(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
 	tg.run("test", "-x", "-cover", "log")
 	tg.grepStderrNot(`\.log\.cover\.go`, "-x output should contain correctly formatted filepath under cwd")
 }
