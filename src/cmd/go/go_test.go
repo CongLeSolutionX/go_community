@@ -638,7 +638,7 @@ func (tg *testgoData) grepStderrNot(match, msg string) {
 }
 
 // grepBothNot looks for a regular expression in the test run's
-// standard output or stand error and fails, logging msg, if it is
+// standard output or standard error and fails, logging msg, if it is
 // found.
 func (tg *testgoData) grepBothNot(match, msg string) {
 	tg.t.Helper()
