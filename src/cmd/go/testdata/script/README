@@ -78,6 +78,7 @@ should only run when the condition is satisfied. The available conditions are:
    - [root] for os.Geteuid() == 0
    - [symlink] for testenv.HasSymlink()
    - [exec:prog] for whether prog is available for execution (found by exec.LookPath)
+   - [slowsystem] for whether the system can't tolerate slow tests
    - [GODEBUG:value] for whether value is one of the comma-separated entries in the GODEBUG variable
    - [buildmode:value] for whether -buildmode=value is supported
 
