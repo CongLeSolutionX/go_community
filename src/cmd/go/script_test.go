@@ -263,6 +263,8 @@ Script:
 			switch cond.tag {
 			case runtime.GOOS, runtime.GOARCH, runtime.Compiler:
 				ok = true
+			case "skipslow":
+				ok = skipSlow()
 			case "short":
 				ok = testing.Short()
 			case "cgo":
