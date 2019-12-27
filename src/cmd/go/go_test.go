@@ -44,10 +44,16 @@ var (
 	skipExternal = false // skip external tests
 )
 
+// runSlow reports whether we're running in an environment where
+// some slow tests should be run even in -short mode.
+func runSlow() bool {
+	return testenv.Builder() != "" && runtime.GOARCH == "amd64" && (runtime.GOOS == "linux" || runtime.GOOS == "darwin" || runtime.GOOS == "windows")
+}
+
 func tooSlow(t *testing.T) {
 	if testing.Short() {
 		// In -short mode; skip test, except run it on the {darwin,linux,windows}/amd64 builders.
-		if testenv.Builder() != "" && runtime.GOARCH == "amd64" && (runtime.GOOS == "linux" || runtime.GOOS == "darwin" || runtime.GOOS == "windows") {
+		if runSlow() {
 			return
 		}
 		t.Skip("skipping test in -short mode")
