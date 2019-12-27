@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f28ff2d_89e84545",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-27T03:48:55Z",
+      "side": 1,
+      "message": "This should describe the intended meaning of this condition rather than the exact builders on which it works.\n\nBut also I think this is reversed.  I think this will be easier to understand if it is parallel to the existing [short] condition: a condition that is true when not running slow tests.  [short] is pretty much always used as\n    [short] skip\nand the same will be true here.  So perhaps\n    [slowsystem] skip\nand something like\n- [slowsystem] for whether we are running on a system that is not considered fast",
+      "revId": "930633e80d231eeb62a1a8ca97615c6688c4b664",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
