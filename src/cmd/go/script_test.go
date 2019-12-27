@@ -660,9 +660,13 @@ func (ts *testScript) cmdExec(neg bool, args []string) {
 
 // exists checks that the list of files exists.
 func (ts *testScript) cmdExists(neg bool, args []string) {
-	var readonly bool
+	var readonly, exec bool
 	if len(args) > 0 && args[0] == "-readonly" {
 		readonly = true
+		args = args[1:]
+	}
+	if len(args) > 0 && args[0] == "-exec" {
+		exec = true
 		args = args[1:]
 	}
 	if len(args) == 0 {
@@ -684,6 +688,9 @@ func (ts *testScript) cmdExists(neg bool, args []string) {
 		}
 		if err == nil && !neg && readonly && info.Mode()&0222 != 0 {
 			ts.fatalf("%s exists but is writable", file)
+		}
+		if err == nil && !neg && exec && runtime.GOOS != "windows" && info.Mode()&0111 == 0 {
+			ts.fatalf("%s exists but is not executable", file)
 		}
 	}
 }
