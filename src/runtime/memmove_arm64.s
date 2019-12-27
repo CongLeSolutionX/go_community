@@ -47,6 +47,21 @@ noforwardlarge:
 	RET
 
 forwardtail:
+	// If there are 16(8) bytes, do a 16(8)-byte write.
+	// This ensure that we write pointer atomically.
+	// We know R6 <= 31 here.
+	TBZ	$4, R6, 3(PC)	// write 16 bytes if R6&16 != 0
+	LDP.P	16(R4), (R8, R10)
+	STP.P	(R8, R10), 16(R3)
+
+	TBZ	$3, R6, 3(PC)	// write 8 bytes if R6&8 != 0
+	MOVD.P	8(R4), R8
+	MOVD.P	R8, 8(R3)
+
+	AND	$7, R6
+	CBNZ	R6, 2(PC)
+	RET
+
 	ADD	R3, R6, R9	// R9 points just past the destination memory
 
 forwardtailloop:
@@ -99,12 +114,26 @@ backward:
 
 	CBZ	R6, nobackwardtail	// Do we need to do any byte-by-byte copying?
 
-	SUB	R6, R3, R9	// R9 points at the lowest destination byte that should be copied by byte.
+	AND	$7, R6, R12
+	CBZ	R12, nobackwardtailloop
+
+	SUB	R12, R3, R9	// R9 points at the lowest destination byte that should be copied by byte.
 backwardtailloop:
 	MOVBU.W	-1(R4), R8
 	MOVBU.W	R8, -1(R3)
 	CMP	R9, R3
 	BNE	backwardtailloop
+
+nobackwardtailloop:
+	// Do 16(8)-byte write if possible.
+	// See comment at forwardtail.
+	TBZ	$3, R6, 3(PC)
+	MOVD.W	-8(R4), R8
+	MOVD.W	R8, -8(R3)
+
+	TBZ	$4, R6, 3(PC)
+	LDP.W	-16(R4), (R8, R10)
+	STP.W	(R8, R10), -16(R3)
 
 nobackwardtail:
 	CBNZ     R7, backwardlarge	// Do we need to do any doubleword-by-doubleword copying?
