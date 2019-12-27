@@ -11,7 +11,9 @@ import (
 	"internal/race"
 	"internal/testenv"
 	. "runtime"
+	"sync/atomic"
 	"testing"
+	"unsafe"
 )
 
 func TestMemmove(t *testing.T) {
@@ -204,6 +206,66 @@ func cmpb(a, b []byte) int {
 		return -1
 	}
 	return l
+}
+
+// Ensure that memmove writes pointers atomically, so the GC won't
+// observe a partially updated pointer.
+func TestMemmoveAtomicity(t *testing.T) {
+	if race.Enabled {
+		t.Skip("skip under the race detector -- this test is intentionally racy")
+	}
+
+	// We use the tail part of this type to mimic copying of structures
+	// like { [N]*int; b byte } with various N.
+	type S struct {
+		ptr [50]*int
+		b   byte
+	}
+
+	var x int
+	var s0 S
+	for i := range s0.ptr {
+		s0.ptr[i] = &x
+	}
+
+	for _, n := range []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 49} {
+		n := n
+
+		// test copying [N]*int.
+		sz := uintptr(n * PtrSize)
+		testfn := func(t *testing.T) {
+			var s S
+			var ready uint32
+			go func() {
+				src := unsafe.Pointer(&s0.ptr[len(s0.ptr)-n])
+				dst := unsafe.Pointer(&s.ptr[len(s.ptr)-n])
+				atomic.StoreUint32(&ready, 1)
+				for i := 0; i < 10000; i++ {
+					Memmove(dst, src, sz)
+					MemclrNoHeapPointers(dst, sz)
+				}
+			}()
+
+			for atomic.LoadUint32(&ready) == 0 {
+				Gosched()
+			}
+
+			for k := 0; k < 10000; k++ {
+				for i := len(s.ptr) - n; i < len(s.ptr); i++ {
+					p := s.ptr[i]
+					if p != nil && p != &x {
+						t.Fatalf("got partially update pointer %p at s.ptr[%d], want either nil or %p", p, i, &x)
+					}
+				}
+			}
+		}
+		t.Run(fmt.Sprint(sz), testfn)
+
+		// test again with a trailing non-pointer field, i.e.
+		// copying struct { [N]*int; byte }
+		sz++
+		t.Run(fmt.Sprint(sz), testfn)
+	}
 }
 
 func benchmarkSizes(b *testing.B, sizes []int, fn func(b *testing.B, n int)) {
