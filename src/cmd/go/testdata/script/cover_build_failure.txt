@@ -1,0 +1,25 @@
+[short] [!runslow] skip
+
+! go test -x coverbad
+! stderr '[\\/]coverbad\.test( |$)' # TODO(matloob): Is the quoting correct here?
+
+-- coverbad/p.go --
+package p
+
+func f() {
+	g()
+}
+-- coverbad/p1.go --
+package p
+
+import "C"
+
+func h() {
+	j()
+}
+-- coverbad/p_test.go --
+package p
+
+import "testing"
+
+func Test(t *testing.T) {}
