@@ -53,6 +53,24 @@
       "revId": "930633e80d231eeb62a1a8ca97615c6688c4b664",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3278e669_559de864",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-28T05:20:53Z",
+      "side": 1,
+      "message": "I can\u0027t see a reason to add a new condition that will always be used in conjunction with the [short] condition.  We\u0027re trying to express a condition that means \"run if not short or on fast builder.\"  For simpler use we want the negation of that, which is \"if short and not on fast builder.\"  How about [skipslow], used as\n    [skipslow] skip\nskipslow is defined as \"-testing.short and not on fast builder.\"",
+      "parentUuid": "7be6df0e_7fc8ad72",
+      "revId": "930633e80d231eeb62a1a8ca97615c6688c4b664",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
