@@ -1,0 +1,57 @@
+# Test that go test detects test-only import cycles.
+
+! go test -c testcycle/p3
+stderr 'import cycle not allowed in test'
+
+! go test -c testcycle/q1
+stderr 'import cycle not allowed in test'
+
+-- testcycle/p1/p1.go --
+package p1
+
+import _ "testcycle/p2"
+
+func init() {
+	println("p1 init")
+}
+-- testcycle/p1/p1_test.go --
+package p1
+
+import "testing"
+
+func Test(t *testing.T) {
+}
+-- testcycle/p2/p2.go --
+package p2
+
+import _ "testcycle/p3"
+
+func init() {
+	println("p2 init")
+}
+-- testcycle/p3/p3.go --
+package p3
+
+func init() {
+	println("p3 init")
+}
+-- testcycle/p3/p3_test.go --
+package p3
+
+import (
+	"testing"
+
+	_ "testcycle/p1"
+)
+
+func Test(t *testing.T) {
+}
+-- testcycle/q1/q1.go --
+package q1
+-- testcycle/q1/q1_test.go --
+package q1
+
+import "testing"
+import _ "testcycle/q1"
+
+func Test(t *testing.T) {}
