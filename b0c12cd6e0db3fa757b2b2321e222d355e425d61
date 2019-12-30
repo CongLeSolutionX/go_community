@@ -16,6 +16,24 @@
       "revId": "b0c12cd6e0db3fa757b2b2321e222d355e425d61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6557d35_1e88662f",
+        "filename": "src/internal/syscall/unix/nonblocking_libc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-12-30T19:45:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34bfe3a9_57900127",
+      "revId": "b0c12cd6e0db3fa757b2b2321e222d355e425d61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
