@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34bfe3a9_57900127",
+        "filename": "src/internal/syscall/unix/nonblocking_libc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-12-30T19:11:28Z",
+      "side": 1,
+      "message": "I don\u0027t think this is precisely accurate so let\u0027s just say\n\n// Implemented in the syscall package.",
+      "revId": "b0c12cd6e0db3fa757b2b2321e222d355e425d61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
