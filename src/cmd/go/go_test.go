@@ -2162,15 +2162,20 @@ func TestCoverageNoStatements(t *testing.T) {
 	tg.grepStdout("[no statements]", "expected [no statements] for pkg4")
 }
 
-func TestCoverageImportMainLoop(t *testing.T) {
+func TestCoveragePattern(t *testing.T) {
 	skipIfGccgo(t, "gccgo has no cover tool")
+	tooSlow(t)
 	tg := testgo(t)
 	defer tg.cleanup()
+	tg.parallel()
+	tg.makeTempdir()
 	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
-	tg.runFail("test", "importmain/test")
-	tg.grepStderr("not an importable package", "did not detect import main")
-	tg.runFail("test", "-cover", "importmain/test")
-	tg.grepStderr("not an importable package", "did not detect import main")
+
+	// If coverpkg=sleepy... expands by package loading
+	// (as opposed to pattern matching on deps)
+	// then it will try to load sleepybad, which does not compile,
+	// and the test command will fail.
+	tg.run("test", "-coverprofile="+tg.path("cover.out"), "-coverpkg=sleepy...", "-run=^$", "sleepy1")
 }
 
 func TestCoverageErrorLine(t *testing.T) {
@@ -2642,21 +2647,6 @@ func TestGoTestMainAsNormalTest(t *testing.T) {
 	defer tg.cleanup()
 	tg.run("test", "testdata/standalone_main_normal_test.go")
 	tg.grepBoth(okPattern, "go test did not say ok")
-}
-
-func TestGoTestMainTwice(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Skipping in short mode")
-	}
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.makeTempdir()
-	tg.setenv("GOCACHE", tg.tempdir)
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
-	tg.run("test", "-v", "multimain")
-	if strings.Count(tg.getStdout(), "notwithstanding") != 2 {
-		t.Fatal("tests did not run twice")
-	}
 }
 
 func TestGoTestFlagsAfterPackage(t *testing.T) {
