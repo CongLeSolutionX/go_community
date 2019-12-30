@@ -177,6 +177,7 @@ type Loader struct {
 	// semantics / interpretation of the specific flags or attribute.
 	attrReachable        bitmap // reachable symbols, indexed by global index
 	attrOnList           bitmap // "on list" symbols, indexed by global index
+	attrLocal            bitmap // "local" symbols, indexed by global index
 	attrVisibilityHidden bitmap // hidden symbols, indexed by ext sym index
 	attrDuplicateOK      bitmap // dupOK symbols, indexed by ext sym index
 	attrShared           bitmap // shared symbols, indexed by ext sym index
@@ -755,6 +756,23 @@ func (l *Loader) SetAttrOnList(i Sym, v bool) {
 		l.attrOnList.set(i)
 	} else {
 		l.attrOnList.unset(i)
+	}
+}
+
+// AttrLocal returns true for symbols that are only visible within the
+// module (executable or shared library) being linked. Only relevant
+// when dynamically linking Go code.
+func (l *Loader) AttrLocal(i Sym) bool {
+	return l.attrLocal.has(i)
+}
+
+// SetAttrLocal the "local" property for a symbol (see
+// AttrLocal).
+func (l *Loader) SetAttrLocal(i Sym, v bool) {
+	if v {
+		l.attrLocal.set(i)
+	} else {
+		l.attrLocal.unset(i)
 	}
 }
 
@@ -1352,6 +1370,7 @@ func (l *Loader) growAttrBitmaps(reqLen int) {
 		// These are indexed by global symbol
 		l.attrReachable = growBitmap(reqLen, l.attrReachable)
 		l.attrOnList = growBitmap(reqLen, l.attrOnList)
+		l.attrLocal = growBitmap(reqLen, l.attrLocal)
 	}
 	// These are indexed by external symbol offset (e.g. i - l.extStart)
 	if l.extStart == 0 {
@@ -1665,8 +1684,14 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 
 		// Preprocess symbol and set reachability and onlist.
 		preprocess(arch, s)
+		// Note: this is an incomplete set; will be fixed up in
+		// a subsequent patch.
 		s.Attr.Set(sym.AttrReachable, l.attrReachable.has(i))
 		s.Attr.Set(sym.AttrOnList, l.attrOnList.has(i))
+		s.Attr.Set(sym.AttrLocal, l.attrLocal.has(i))
+
+		// Preprocess symbol. May set 'AttrLocal'.
+		preprocess(arch, s)
 
 		// Set sub-symbol attribute. FIXME: would be better
 		// to do away with this and just use l.OuterSymbol() != 0
