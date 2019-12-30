@@ -1,0 +1,21 @@
+cd $WORK # Not necessary, but trying to imitate err msg in TestRunInternal
+go run $WORK/gopath/src/run/good.go
+! go run $WORK/gopath/src/run/bad.go
+stderr 'gopath(\/|\\)src(\/|\\)run(\/|\\)bad\.go\:3\:8\: use of internal package run/subdir/internal/private not allowed'
+
+-- run/bad.go --
+package main
+
+import _ "run/subdir/internal/private"
+
+func main() {}
+-- run/good.go --
+package main
+
+import _ "run/internal"
+
+func main() {}
+-- run/internal/internal.go --
+package internal
+-- run/subdir/internal/private/private.go --
+package private
