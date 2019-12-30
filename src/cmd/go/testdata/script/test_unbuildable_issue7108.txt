@@ -1,3 +1,6 @@
+! go test notest
+
+-- notest/hello.go --
 package notest
 
 func hello() {
