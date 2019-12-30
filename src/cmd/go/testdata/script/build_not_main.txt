@@ -1,0 +1,11 @@
+# go build with -o and -buildmode=exe should on a non-main package should throw an error
+
+cd $TMPDIR # don't confuse the exists command below (the dir not_main exists in the default working dir)
+! go build -buildmode=exe -o not_main$GOEXE not_main
+stderr '-buildmode=exe requires exactly one main package'
+! exists not_main$GOEXE
+
+-- not_main/not_main.go --
+package not_main
+
+func F() {}
