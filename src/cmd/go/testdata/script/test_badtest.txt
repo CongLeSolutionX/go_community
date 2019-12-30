@@ -5,6 +5,7 @@ env GO111MODULE=off
 stdout ^FAIL\tbadtest/badexec
 stdout ^FAIL\tbadtest/badsyntax
 stdout ^FAIL\tbadtest/badvar
+stderr '^badtest/hello.go:6:1: syntax error: non-declaration statement outside function body'
 
 -- badtest/badexec/x_test.go --
 package badexec
@@ -30,3 +31,10 @@ package badvar_test
 func f() {
 	_ = notdefined
 }
+-- badtest/hello.go --
+package notest
+
+func hello() {
+	println("hello world")
+}
+Hello world
