@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2caf01d3_5e1f9c53",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-31T16:05:47Z",
+      "side": 1,
+      "message": "Agreed - this just documents the current state. Once this lands I\u0027m willing to revisit the approach and see if we can move most of the code to assemble with dedicated structs (as previously discussed).",
+      "parentUuid": "b26ce7e4_ab81f03d",
+      "range": {
+        "startLine": 612,
+        "startChar": 29,
+        "endLine": 613,
+        "endChar": 38
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4eee46d7_70e05c3c",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a7b87975_e927e4ea",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-31T16:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eee46d7_70e05c3c",
+      "range": {
+        "startLine": 647,
+        "startChar": 9,
+        "endLine": 647,
+        "endChar": 11
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8f9d761_a3e7d1e8",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecbb236b_39f6ea38",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-31T16:05:47Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "f8f9d761_a3e7d1e8",
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "1faaa741_6f0940be",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-31T16:05:47Z",
+      "side": 1,
+      "message": "Yes, these should definitely be MOV - fixed.",
+      "parentUuid": "4b813815_c92d32b3",
+      "range": {
+        "startLine": 676,
+        "startChar": 2,
+        "endLine": 678,
+        "endChar": 17
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "039cf48f_c00f6f5b",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "aa377294_a85bfd0c",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-31T16:05:47Z",
+      "side": 1,
+      "message": "Yup, fixed.",
+      "parentUuid": "039cf48f_c00f6f5b",
+      "range": {
+        "startLine": 696,
+        "startChar": 36,
+        "endLine": 696,
+        "endChar": 42
+      },
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca9d7fb_44589fd4",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
@@ -125,6 +239,24 @@
       "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e7330af_2743799a",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-12-31T16:05:47Z",
+      "side": 1,
+      "message": "It is used to store the link address when runtime.morestack is called (and runtime.morestack knows about REG_LR and this register). This assignment is unnecessary though, since the jalrToSym call on 1189 does the same thing. Removed.",
+      "parentUuid": "7ca9d7fb_44589fd4",
+      "revId": "2aced571637d25306fc4ffd479541df7186ffa75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
