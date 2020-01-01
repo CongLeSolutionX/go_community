@@ -437,6 +437,24 @@ func TestISOWeek(t *testing.T) {
 	}
 }
 
+func BenchmarkISOWeek(b *testing.B) {
+	// 7 days
+	tests := [...]Time{
+		Now().Add(1 * 24 * Hour),
+		Now().Add(2 * 24 * Hour),
+		Now().Add(3 * 24 * Hour),
+		Now().Add(4 * 24 * Hour),
+		Now().Add(5 * 24 * Hour),
+		Now().Add(6 * 24 * Hour),
+		Now().Add(7 * 24 * Hour),
+	}
+	for i := 0; i < b.N; i++ {
+		for _, tt := range tests {
+			tt.ISOWeek()
+		}
+	}
+}
+
 type YearDayTest struct {
 	year, month, day int
 	yday             int
