@@ -16,6 +16,24 @@
       "revId": "ec5cdad374dd1503f83263c510466e4d383e98b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6bccf6f_6e9ac7fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-01T18:06:08Z",
+      "side": 1,
+      "message": "Yes, it definitely is.  The reference for the change is the Go blog.\n\nhttps://en.wikipedia.org/w/index.php?title\u003dList_of_English_terms_of_venery,_by_animal\u0026diff\u003d921675752\u0026oldid\u003d921432022\n\nMy personal favorite for joke answer for this is \"There is no collective noun for gophers as they do not frequently gather together.\"",
+      "parentUuid": "18363c3c_edd668ec",
+      "revId": "ec5cdad374dd1503f83263c510466e4d383e98b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
