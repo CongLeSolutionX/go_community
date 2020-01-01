@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18363c3c_edd668ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-01-01T05:14:49Z",
+      "side": 1,
+      "message": "That\u0027s gotta be a rogue wikipedia edit, right? :P",
+      "revId": "ec5cdad374dd1503f83263c510466e4d383e98b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
