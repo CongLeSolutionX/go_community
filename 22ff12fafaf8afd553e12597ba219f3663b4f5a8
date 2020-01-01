@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f123102_0cb18d54",
+        "filename": "src/time/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-01-01T01:36:25Z",
+      "side": 1,
+      "message": "Refactoring a function to improve its performance should not affect visible behaviour, thus should not require a change to the function\u0027s comment.\n\nWould you please roll this back.",
+      "revId": "22ff12fafaf8afd553e12597ba219f3663b4f5a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
