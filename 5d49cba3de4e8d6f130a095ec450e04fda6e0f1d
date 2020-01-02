@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b98b1fca_503001a1",
+        "filename": "src/time/time.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 28558
+      },
+      "writtenOn": "2020-01-02T08:52:37Z",
+      "side": 1,
+      "message": "// yes, it‘s has the same result, can do it?\nif d !\u003d 0 {\n\tabs +\u003d uint64(d) * secondsPerDay\n}",
+      "revId": "5d49cba3de4e8d6f130a095ec450e04fda6e0f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
