@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99c60b39_6c820f9c",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:47:47Z",
+      "side": 1,
+      "message": "It would be good to also test the backwards case. That would require a somewhat different structure than this test... Each slot in the array would have to be a different pointer value so the test could distinguish a partial word copy.",
+      "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "881f1247_39fdad1d",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:47:47Z",
+      "side": 1,
+      "message": "Is there any way we could test also having a sub-pointer-sized tail in the copy? It\u0027s tricky because it will definitely create bad pointer values... Maybe if s0 was a struct with both a pointer array and 7 scalar bytes and you copied from the middle of it, always starting at a pointer, but pulling in different amounts of the scalar tail?",
+      "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e92a08f_d122dbc7",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:47:47Z",
+      "side": 1,
+      "message": "This should wait for the goroutine to clean up either using a sync.WaitGroup, or this could set ready to, say 2 when the loop exits and the loop below could run until ready is 2 (I like that latter, since it gets the most out of the test without depending on the loops running at the same rate).",
+      "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
