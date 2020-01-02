@@ -1,0 +1,40 @@
+env GO111MODULE=on
+[short] skip
+
+# Replace directive that points to current main module directory isn't allowed
+cd fail1
+! go list all
+stderr 'go: replace directive points to current main module directory'
+
+# Replace directive that attempts to replace main module with the same version of itself isn't allowed
+cd ../fail2
+! go list all
+stderr 'go: replacing main module with the same version of itself is forbidden'
+
+# Replace directive that resolves to another directory with main module is allowed
+cd ../success
+go list all
+stdout 'example.com/m'
+
+-- fail1/go.mod --
+module example.com/m
+
+replace example.com/m => ./.
+
+-- fail2/go.mod --
+module example.com/m
+
+replace example.com/m v1.1.1 => example.com/m v1.1.1
+
+-- success/go.mod --
+module example.com/m
+
+replace example.com/m => ../fork
+
+-- fork/go.mod --
+module example.com/m
+
+-- success/m.go --
+package main
+
+func main() {}

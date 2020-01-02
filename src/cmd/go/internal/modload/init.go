@@ -426,6 +426,7 @@ func InitMod() {
 		legacyModInit()
 	}
 
+	checkMainModuleReplaces()
 	modFileToBuildList()
 	setDefaultBuildMod()
 	if cfg.BuildMod == "vendor" {
@@ -552,6 +553,29 @@ func setDefaultBuildMod() {
 	if fi, err := os.Stat(p); err == nil && !hasWritePerm(p, fi) {
 		cfg.BuildMod = "readonly"
 		cfg.BuildModReason = "go.mod file is read-only."
+	}
+}
+
+// checkMainModuleReplaces checks that modFile is not trying to replace
+// main module with the same version of itself
+func checkMainModuleReplaces() {
+	for _, r := range modFile.Replace {
+		isMainModule := r.Old.Path == modFile.Module.Mod.Path
+		isSameVersion := r.Old.Path == r.New.Path && r.Old.Version == r.New.Version
+
+		if isMainModule {
+			if isSameVersion {
+				base.Fatalf("go: replacing main module with the same version of itself is forbidden")
+			}
+
+			if modfile.IsDirectoryPath(r.New.Path) {
+				newModFilePath, _ := filepath.Abs(r.New.Path)
+
+				if newModFilePath == ModRoot() {
+					base.Fatalf("go: replace directive points to current main module directory")
+				}
+			}
+		}
 	}
 }
 
