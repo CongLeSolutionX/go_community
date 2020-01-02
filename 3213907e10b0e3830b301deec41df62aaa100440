@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "627d5f99_b3b366a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:36:59Z",
+      "side": 1,
+      "message": "The original reporter says this fixed the issue, so I think we can called this \"Fixes\"",
+      "revId": "3213907e10b0e3830b301deec41df62aaa100440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be56096c_44d4478f",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:36:59Z",
+      "side": 1,
+      "message": "While we\u0027re here, and to make the structure of forwardtail more clear, perhaps document this as \"// Copy 32 bytes at a time\"",
+      "revId": "3213907e10b0e3830b301deec41df62aaa100440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb146244_3431dad3",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:36:59Z",
+      "side": 1,
+      "message": "This comment helped a lot, but I\u0027m not sure I\u0027d understand it out context. Restructuring a bit, maybe:\n\n// There are R6 \u003c\u003d 31 bytes remaining to copy.\n// This is large enough to still contain pointers,\n// which must be copied atomically.\n// Copy the next 16 bytes, then 8 bytes, then any remaining bytes.",
+      "revId": "3213907e10b0e3830b301deec41df62aaa100440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "673b9aa4_47a60e9e",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:36:59Z",
+      "side": 1,
+      "message": "This comment should probably be updated. It\u0027s already a little misleading, since really we copy R7/32 quadwords, and now we don\u0027t copy the R6 byte tail just a byte at a time. Maybe something like\n\n// Copying backwards first copies R6 \u003c\u003d 31 tail bytes, then R7/32 quadwords.",
+      "revId": "3213907e10b0e3830b301deec41df62aaa100440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a3fa2fc_e95f83c5",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:36:59Z",
+      "side": 1,
+      "message": "// Copy sub-pointer-size tail\n\n?",
+      "revId": "3213907e10b0e3830b301deec41df62aaa100440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c784283_425ce6c0",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:36:59Z",
+      "side": 1,
+      "message": "Maybe backwardtaillarge? Below \"nobackwardtail\" is the label for when there\u0027s no tail, whereas here the \"no\" applies to \"loop\". Rather than saying what this doesn\u0027t do, the label could say it does the large part of the tail copy.",
+      "revId": "3213907e10b0e3830b301deec41df62aaa100440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce5808a9_71b09f71",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-02T16:36:59Z",
+      "side": 1,
+      "message": "\"8/16\" would be clearer",
+      "range": {
+        "startLine": 128,
+        "startChar": 7,
+        "endLine": 128,
+        "endChar": 12
+      },
+      "revId": "3213907e10b0e3830b301deec41df62aaa100440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
