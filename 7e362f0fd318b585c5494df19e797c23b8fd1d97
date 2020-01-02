@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db7d9ce6_8d454f52",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-02T18:28:56Z",
+      "side": 1,
+      "message": "It seems like we\u0027ll include invalid +incompatible versions here that actually have go.mod files. Even though this won\u0027t affect @latest, it may affect other queries (e.g., @v2), and it will affect \u0027go list -m -versions` output (which is displayed in places like pkg.go.dev).\n\nAre we just worried about performance here? ReadFile may fetch one ref on each call, but we could probably speed it up.",
+      "revId": "7e362f0fd318b585c5494df19e797c23b8fd1d97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
