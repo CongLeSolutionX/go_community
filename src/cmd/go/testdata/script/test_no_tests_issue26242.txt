@@ -1,3 +1,7 @@
+go test testnorun
+stdout 'testnorun\t\[no test files\]'
+
+-- testnorun/p.go --
 package p
 
 func init() {
