@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8e616ba5_9b70c06d",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-02T21:43:30Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "99c60b39_6c820f9c",
+      "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "881f1247_39fdad1d",
         "filename": "src/runtime/memmove_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-01-02T16:47:47Z",
       "side": 1,
       "message": "Is there any way we could test also having a sub-pointer-sized tail in the copy? It\u0027s tricky because it will definitely create bad pointer values... Maybe if s0 was a struct with both a pointer array and 7 scalar bytes and you copied from the middle of it, always starting at a pointer, but pulling in different amounts of the scalar tail?",
+      "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6159edfc_5cf5c83d",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-02T21:43:30Z",
+      "side": 1,
+      "message": "I attempted to do this (see PS1 of this CL), but it doesn\u0027t seem to work. I think we round up type size to its alignment, so a type that contains pointers is always copied as a size of a multiple of PtrSize.",
+      "parentUuid": "881f1247_39fdad1d",
       "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f9a943_0a507bac",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-02T21:43:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e92a08f_d122dbc7",
+      "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
