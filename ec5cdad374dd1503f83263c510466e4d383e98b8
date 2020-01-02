@@ -34,6 +34,24 @@
       "revId": "ec5cdad374dd1503f83263c510466e4d383e98b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "764cc00e_2655746e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-02T15:16:23Z",
+      "side": 1,
+      "message": "Ian is right.\n\nI\u0027ve heard at least a few people saying the phrase \"slice of gophers\" out loud in the last few months, no doubt as a consequence of the wiki entry. However, it was an option considered earlier too, including in Cassandra\u0027s 2017 Twitter poll (https://twitter.com/cass_ferrara/status/920836197513011202), and even earlier in 2016 (https://twitter.com/mdlayher/status/734853427738607616).\n\nMy personal favorite take is \"We\u0027re a slice of gophers when we\u0027re all together.\" from https://twitter.com/golangpher/status/734929153007472640.\n\nIn the end, all of those terms of venery were made up by people at one point or another, and so far no one has objected to this CL, so I think we\u0027re making history here. :)\n\nOf course, this is just a New Year\u0027s commit message and not to be taken too seriously.",
+      "parentUuid": "18363c3c_edd668ec",
+      "revId": "ec5cdad374dd1503f83263c510466e4d383e98b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
