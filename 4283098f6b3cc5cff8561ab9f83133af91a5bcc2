@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c86107fa_8184721f",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-02T22:51:03Z",
+      "side": 1,
+      "message": "The test doesn\u0027t pass. See the trybot failures of PS1. If the size is not a multiple of PtrSize, we sometimes do overlapping stores, which is not always at a PtrSize boundary. For example, https://go.googlesource.com/go/+/refs/heads/master/src/runtime/memmove_amd64.s#184",
+      "parentUuid": "ce0e8e8e_e45056a5",
+      "revId": "4283098f6b3cc5cff8561ab9f83133af91a5bcc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e92a08f_d122dbc7",
         "filename": "src/runtime/memmove_test.go",
         "patchSetId": 2
