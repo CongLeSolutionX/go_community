@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d20b07f_d1bdf3e9",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5903
+      },
+      "writtenOn": "2020-01-02T21:01:39Z",
+      "side": 1,
+      "message": "Should this be \"\u003ccode\u003eMutex\u003c/code\u003e\" since the change is specific to sync.Mutex values (and types that use it, such as sync.RWMutex)? It doesn\u0027t affect mutual exclusion in general (such as runtime.lock values).",
+      "revId": "5746c207070a00ec4e754da550f1a0686032bf6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
