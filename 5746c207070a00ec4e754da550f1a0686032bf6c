@@ -16,6 +16,23 @@
       "revId": "5746c207070a00ec4e754da550f1a0686032bf6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dc5f726_7b067190",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2020-01-02T21:12:45Z",
+      "side": 1,
+      "message": "Mostly LGTM but maybe it\u0027s worth mentioning that this applies mostly to high GOMAXPROCS and high CPU count machines?",
+      "revId": "5746c207070a00ec4e754da550f1a0686032bf6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
