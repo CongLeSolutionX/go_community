@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4052ae7f_0dceb30b",
+        "filename": "src/cmd/go/testdata/script/run_internal.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T15:40:31Z",
+      "side": 1,
+      "message": "This test is very similar mod_run_internal.txt. Can they be combined? Perhaps the same sources and commands with the only difference being whether GO111MODULE is on or off.",
+      "revId": "a4fd6ec9162f1f7904b59ccb7a0462e9de0d4057",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
