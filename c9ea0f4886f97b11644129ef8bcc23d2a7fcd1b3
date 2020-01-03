@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3260278a_48eb6c38",
+        "filename": "src/cmd/go/testdata/script/test_badtest.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T21:07:02Z",
+      "side": 1,
+      "message": "Rather than expanding a wildcard, let\u0027s run \u0027go test\u0027 once for each package.\n\nThe original test verified that \u0027go test\u0027 fails when there\u0027s a syntax error, but if there are other tests that also fail, we\u0027re not testing that anymore.",
+      "revId": "c9ea0f4886f97b11644129ef8bcc23d2a7fcd1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
