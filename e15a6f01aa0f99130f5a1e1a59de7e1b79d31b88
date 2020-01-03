@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f1f8cda5_ecf6f4b8",
+        "filename": "src/cmd/go/testdata/script/cover_import_main_loop.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T18:30:21Z",
+      "side": 1,
+      "message": "I think it\u0027s okay to drop (unless there\u0027s some good reason for it). The error being tested should not depend on -cover. main packages may be imported by the generated test main when -coverpkg is used, but that\u0027s not what\u0027s being tested.",
+      "parentUuid": "7410755c_cc888a49",
+      "revId": "e15a6f01aa0f99130f5a1e1a59de7e1b79d31b88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edd8d274_b54dc4eb",
         "filename": "src/cmd/go/testdata/script/cover_import_main_loop.txt",
         "patchSetId": 2
