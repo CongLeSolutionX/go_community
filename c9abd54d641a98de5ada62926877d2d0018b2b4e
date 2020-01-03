@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eec7a155_eb69403b",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T17:25:28Z",
+      "side": 1,
+      "message": "Let\u0027s make this part of indexModFile instead of a separate function. It already checks for conflicting replace directives.",
+      "range": {
+        "startLine": 561,
+        "startChar": 5,
+        "endLine": 561,
+        "endChar": 28
+      },
+      "revId": "c9abd54d641a98de5ada62926877d2d0018b2b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78741cf7_7209e78e",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T17:25:28Z",
+      "side": 1,
+      "message": "We need to check two independent conditions here:\n\n1) The main module cannot be on the left side of a replace. The main module has no version. The module path and version on the right side doesn\u0027t matter.\n\nif r.Old.Path \u003d\u003d modFile.Module.Mod.Path \u0026\u0026 r.Old.Version \u003d\u003d \"\" {\n  ...\n}\n\n2) The module root directory cannot be on the right side of a replace. Note that there may not be a module root directory.\n\nif modfile.IsDirectoryPath(r.New.Path) \u0026\u0026 HasModRoot() \u0026\u0026 filepath.Join(ModRoot(), r.New.Path) \u003d\u003d ModRoot() {\n  ...\n}",
+      "revId": "c9abd54d641a98de5ada62926877d2d0018b2b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe785c7f_82931763",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T17:25:28Z",
+      "side": 1,
+      "message": "base.Fatalf(\"go: %s:%d: the main module (%s) cannot be replaced\", modFile.Syntax.Name, r.Syntax.Start.Line, modFile.Module.Mod.Path)",
+      "range": {
+        "startLine": 568,
+        "startChar": 21,
+        "endLine": 568,
+        "endChar": 87
+      },
+      "revId": "c9abd54d641a98de5ada62926877d2d0018b2b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b2b392_817aab1a",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T17:25:28Z",
+      "side": 1,
+      "message": "\"go: %s:%d: the main module root directory (%s) cannot be a replacement for another module\"",
+      "range": {
+        "startLine": 575,
+        "startChar": 22,
+        "endLine": 575,
+        "endChar": 79
+      },
+      "revId": "c9abd54d641a98de5ada62926877d2d0018b2b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfa5edd0_4b7e7775",
+        "filename": "src/cmd/go/testdata/script/mod_replace_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T17:25:28Z",
+      "side": 1,
+      "message": "This is a no-op, not an error. Test without a version on the left side instead.\n\nThe main module has no version, so example.com/m v1.1.1 is a different module version. It may still be in the module graph, and it may be replaced. It just won\u0027t be selected in the build list.",
+      "revId": "c9abd54d641a98de5ada62926877d2d0018b2b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
