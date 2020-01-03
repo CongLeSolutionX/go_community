@@ -52,6 +52,24 @@
       "revId": "e3f6daac9f9607d7a9114b3bce93b088a15cf4db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "babf2d78_464e57b7",
+        "filename": "src/cmd/go/testdata/script/test_unbuildable_issue7108.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-03T20:31:47Z",
+      "side": 1,
+      "message": "Okay, I\u0027ve combined them, and check for the compiler error message in test_badtest.txt.",
+      "parentUuid": "f0eba5df_c5f7b365",
+      "revId": "e3f6daac9f9607d7a9114b3bce93b088a15cf4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
