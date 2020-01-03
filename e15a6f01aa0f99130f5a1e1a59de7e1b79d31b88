@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7410755c_cc888a49",
+        "filename": "src/cmd/go/testdata/script/cover_import_main_loop.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-03T17:16:03Z",
+      "side": 1,
+      "message": "Would we still keep the second check in this file? (We\u0027d need to because we skip on gccgo).",
+      "parentUuid": "6a5116ea_f70de254",
+      "revId": "e15a6f01aa0f99130f5a1e1a59de7e1b79d31b88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edd8d274_b54dc4eb",
         "filename": "src/cmd/go/testdata/script/cover_import_main_loop.txt",
         "patchSetId": 2
