@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a0f9a07_dc1bfa1e",
+        "filename": "src/cmd/go/testdata/script/build_not_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T15:53:54Z",
+      "side": 1,
+      "message": "Consider renaming to build_exe.txt or build_exe_not_main.txt.",
+      "revId": "905a742a5d52e7c08cffc6438a3756accc4c8279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e142611a_ce5ad98f",
+        "filename": "src/cmd/go/testdata/script/build_not_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T15:53:54Z",
+      "side": 1,
+      "message": "I think you could avoid this by calling it not_main.exe (even outside windows). Or anything other than not_main.",
+      "revId": "905a742a5d52e7c08cffc6438a3756accc4c8279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8a9f6f2_aa258306",
+        "filename": "src/cmd/go/testdata/script/build_not_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T15:53:54Z",
+      "side": 1,
+      "message": "Optional: also check the same message is reported with two main packages.",
+      "revId": "905a742a5d52e7c08cffc6438a3756accc4c8279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
