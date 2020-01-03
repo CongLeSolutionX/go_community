@@ -16,6 +16,24 @@
       "revId": "e3f6daac9f9607d7a9114b3bce93b088a15cf4db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62baa64e_5ffb9791",
+        "filename": "src/cmd/go/testdata/script/test_unbuildable_issue7108.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-03T17:28:20Z",
+      "side": 1,
+      "message": "The only error message printed out is:\n\n        notest/hello.go:6:1: syntax error: non-declaration statement outside function body\n\nI\u0027m wondering if we want to check this because we\u0027d be testing the compiler error message.\n\nAlso, this is a bit different from test_badtest because it never prints out the FAIL message. (I\u0027m guessing that\u0027s because there\u0027s no test file).",
+      "parentUuid": "df685c7d_c9054a7c",
+      "revId": "e3f6daac9f9607d7a9114b3bce93b088a15cf4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
