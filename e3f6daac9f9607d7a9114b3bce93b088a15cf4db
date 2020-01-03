@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df685c7d_c9054a7c",
+        "filename": "src/cmd/go/testdata/script/test_unbuildable_issue7108.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T15:45:59Z",
+      "side": 1,
+      "message": "Need to check the error message here, too.\n\nCan this be combined with test_badtest.txt? badtest/badsyntax is similar. Perhaps that test should run a command for each package though, verifying they all fail individually.",
+      "revId": "e3f6daac9f9607d7a9114b3bce93b088a15cf4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
