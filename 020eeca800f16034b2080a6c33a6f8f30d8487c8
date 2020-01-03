@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c468edf8_746e5f93",
+        "filename": "src/cmd/go/testdata/script/cover_pattern.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T15:34:20Z",
+      "side": 1,
+      "message": "Could this be converted to avoid skipslow? Maybe use \u0027go test -c -n\u0027 to speed it up, then change the error in sleepybad to something that would break package loading, like a syntax error in the package statement.",
+      "revId": "020eeca800f16034b2080a6c33a6f8f30d8487c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6289f7d8_8dd17771",
+        "filename": "src/cmd/go/testdata/script/cover_pattern.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T15:34:20Z",
+      "side": 1,
+      "message": "As a control, verify that loading sleepy... fails. \u0027! go list sleepy...\u0027 should do it.",
+      "revId": "020eeca800f16034b2080a6c33a6f8f30d8487c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
