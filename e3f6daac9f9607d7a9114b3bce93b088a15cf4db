@@ -34,6 +34,24 @@
       "revId": "e3f6daac9f9607d7a9114b3bce93b088a15cf4db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0eba5df_c5f7b365",
+        "filename": "src/cmd/go/testdata/script/test_unbuildable_issue7108.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-03T18:37:25Z",
+      "side": 1,
+      "message": "\u003e I\u0027m wondering if we want to check this because we\u0027d be testing the compiler error message.\n\nThat\u0027s fine. We mainly want to check that it doesn\u0027t fail for some unexpected reason (e.g., typo in argument).\n\n\u003e Also, this is a bit different from test_badtest because it never prints out the FAIL message.\n\nI\u0027d still lean toward combining them. test_badtest could cover a bunch of common things that can go wrong with tests.",
+      "parentUuid": "62baa64e_5ffb9791",
+      "revId": "e3f6daac9f9607d7a9114b3bce93b088a15cf4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
