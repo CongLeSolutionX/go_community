@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -152,5 +153,23 @@ func ExampleCommandContext() {
 	if err := exec.CommandContext(ctx, "sleep", "5").Run(); err != nil {
 		// This will fail after 100 milliseconds. The 5 second sleep
 		// will be interrupted.
+	}
+}
+
+func ExampleError() {
+	cmd := exec.Command("unknowncommand")
+	err := cmd.Run()
+	var eerr *exec.Error
+	if errors.As(err, &eerr) {
+		fmt.Printf("the command cannot be executed\n")
+	}
+}
+
+func ExampleExitError() {
+	cmd := exec.Command("sleep", "-u")
+	err := cmd.Run()
+	var exerr *exec.ExitError
+	if errors.As(err, &exerr) {
+		fmt.Printf("the command exited unsuccessfully: %d\n", exerr.ExitCode())
 	}
 }
