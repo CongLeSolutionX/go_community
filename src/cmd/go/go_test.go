@@ -1041,37 +1041,6 @@ func TestInternalCache(t *testing.T) {
 	tg.grepStderr("internal", "did not fail to build p")
 }
 
-func TestImportCommandMatch(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.run("build", "./testdata/importcom/works.go")
-}
-
-func TestImportCommentMismatch(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.runFail("build", "./testdata/importcom/wrongplace.go")
-	tg.grepStderr(`wrongplace expects import "my/x"`, "go build did not mention incorrect import")
-}
-
-func TestImportCommentSyntaxError(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.runFail("build", "./testdata/importcom/bad.go")
-	tg.grepStderr("cannot parse import comment", "go build did not mention syntax error")
-}
-
-func TestImportCommentConflict(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.runFail("build", "./testdata/importcom/conflict.go")
-	tg.grepStderr("found import comments", "go build did not mention comment conflict")
-}
-
 func TestImportCycle(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
