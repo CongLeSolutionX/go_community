@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7eb0c90_868e50fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-06T22:07:59Z",
+      "side": 1,
+      "message": "+1 for removing tooSlow.\n\nI\u0027ve been replacing it with [!short] when converting tests — it\u0027s not an exact mapping, but it\u0027s closeish and removes the (IMO too-arbitrary) distinction between builders and developer-invoked tests.\n\nIt\u0027s less important now that we have windows and linux longtest builders anyway, and it shouldn\u0027t be terribly difficult to add a darwin longtest builder too.\n(See also https://golang.org/issue/35678#issuecomment-555193007.)",
+      "range": {
+        "startLine": 17,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 54
+      },
+      "revId": "a315dd1565904aeb929d4598908fbfb5a6689e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd93724_94532010",
+        "filename": "src/cmd/go/testdata/script/cgo_consistent_results.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-06T22:07:59Z",
+      "side": 1,
+      "message": "(nit) remove trailing whitespace\n\n(You may want to check for an editor option for this — many editors can highlight or otherwise transform trailing spaces.)",
+      "revId": "a315dd1565904aeb929d4598908fbfb5a6689e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
