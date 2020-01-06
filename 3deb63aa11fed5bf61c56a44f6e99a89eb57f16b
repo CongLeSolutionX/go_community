@@ -22,6 +22,30 @@
       "revId": "3deb63aa11fed5bf61c56a44f6e99a89eb57f16b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc1270a9_134c9011",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-06T18:19:26Z",
+      "side": 1,
+      "message": "+1 to handling absolute paths.\n\nI\u0027d lean toward not handling symlinks, since it adds complication, and we don\u0027t do it anywhere else.\n\nsearch.InDir might be the function you\u0027re thinking of (it should return \".\" for equivalent paths).",
+      "parentUuid": "2242adf5_89df97c1",
+      "range": {
+        "startLine": 1021,
+        "startChar": 60,
+        "endLine": 1021,
+        "endChar": 109
+      },
+      "revId": "3deb63aa11fed5bf61c56a44f6e99a89eb57f16b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
