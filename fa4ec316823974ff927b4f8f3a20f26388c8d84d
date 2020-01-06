@@ -34,6 +34,24 @@
       "revId": "fa4ec316823974ff927b4f8f3a20f26388c8d84d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97eac8a4_886471c0",
+        "filename": "src/cmd/go/testdata/script/cover_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-06T18:06:11Z",
+      "side": 1,
+      "message": "Exact numbers would be pretty brittle, but you could probably combine these into a single regexp that won\u0027t match 0.0%. Something like \u0027coverage:.*[1-9][0-9.]+%\u0027.",
+      "parentUuid": "1c27f11d_c5b5ea07",
+      "revId": "fa4ec316823974ff927b4f8f3a20f26388c8d84d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
