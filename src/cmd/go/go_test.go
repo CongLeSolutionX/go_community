@@ -1041,37 +1041,6 @@ func TestInternalCache(t *testing.T) {
 	tg.grepStderr("internal", "did not fail to build p")
 }
 
-func TestImportCommandMatch(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.run("build", "./testdata/importcom/works.go")
-}
-
-func TestImportCommentMismatch(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.runFail("build", "./testdata/importcom/wrongplace.go")
-	tg.grepStderr(`wrongplace expects import "my/x"`, "go build did not mention incorrect import")
-}
-
-func TestImportCommentSyntaxError(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.runFail("build", "./testdata/importcom/bad.go")
-	tg.grepStderr("cannot parse import comment", "go build did not mention syntax error")
-}
-
-func TestImportCommentConflict(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/importcom"))
-	tg.runFail("build", "./testdata/importcom/conflict.go")
-	tg.grepStderr("found import comments", "go build did not mention comment conflict")
-}
-
 func TestImportCycle(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
@@ -2623,82 +2592,6 @@ func TestGoTestBuildsAnXtestContainingOnlyNonRunnableExamples(t *testing.T) {
 	defer tg.cleanup()
 	tg.run("test", "-v", "./testdata/norunexample")
 	tg.grepStdout("File with non-runnable example was built.", "file with non-runnable example was not built")
-}
-
-func TestGoGenerateHandlesSimpleCommand(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping because windows has no echo command")
-	}
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.run("generate", "./testdata/generate/test1.go")
-	tg.grepStdout("Success", "go generate ./testdata/generate/test1.go generated wrong output")
-}
-
-func TestGoGenerateHandlesCommandAlias(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping because windows has no echo command")
-	}
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.run("generate", "./testdata/generate/test2.go")
-	tg.grepStdout("Now is the time for all good men", "go generate ./testdata/generate/test2.go generated wrong output")
-}
-
-func TestGoGenerateVariableSubstitution(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping because windows has no echo command")
-	}
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.run("generate", "./testdata/generate/test3.go")
-	tg.grepStdout(runtime.GOARCH+" test3.go:7 pabc xyzp/test3.go/123", "go generate ./testdata/generate/test3.go generated wrong output")
-}
-
-func TestGoGenerateRunFlag(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping because windows has no echo command")
-	}
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.run("generate", "-run", "y.s", "./testdata/generate/test4.go")
-	tg.grepStdout("yes", "go generate -run yes ./testdata/generate/test4.go did not select yes")
-	tg.grepStdoutNot("no", "go generate -run yes ./testdata/generate/test4.go selected no")
-}
-
-func TestGoGenerateEnv(t *testing.T) {
-	switch runtime.GOOS {
-	case "plan9", "windows":
-		t.Skipf("skipping because %s does not have the env command", runtime.GOOS)
-	}
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.parallel()
-	tg.tempFile("env.go", "package main\n\n//go:generate env")
-	tg.run("generate", tg.path("env.go"))
-	for _, v := range []string{"GOARCH", "GOOS", "GOFILE", "GOLINE", "GOPACKAGE", "DOLLAR"} {
-		tg.grepStdout("^"+v+"=", "go generate environment missing "+v)
-	}
-}
-
-func TestGoGenerateXTestPkgName(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping because windows has no echo command")
-	}
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.parallel()
-	tg.tempFile("env_test.go", "package main_test\n\n//go:generate echo $GOPACKAGE")
-	tg.run("generate", tg.path("env_test.go"))
-	want := "main_test"
-	if got := strings.TrimSpace(tg.getStdout()); got != want {
-		t.Errorf("go generate in XTest file got package name %q; want %q", got, want)
-	}
 }
 
 func TestGoGetCustomDomainWildcard(t *testing.T) {
