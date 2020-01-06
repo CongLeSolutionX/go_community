@@ -7402,6 +7402,7 @@ func rewriteValuegeneric_OpDiv32_0(v *Value) bool {
 func rewriteValuegeneric_OpDiv32F_0(v *Value) bool {
 	b := v.Block
 	// match: (Div32F (Const32F [c]) (Const32F [d]))
+	// cond: !math.IsNaN(float64(auxTo32F(c) / auxTo32F(d)))
 	// result: (Const32F [auxFrom32F(auxTo32F(c) / auxTo32F(d))])
 	for {
 		_ = v.Args[1]
@@ -7415,6 +7416,9 @@ func rewriteValuegeneric_OpDiv32F_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
+		if !(!math.IsNaN(float64(auxTo32F(c) / auxTo32F(d)))) {
+			break
+		}
 		v.reset(OpConst32F)
 		v.AuxInt = auxFrom32F(auxTo32F(c) / auxTo32F(d))
 		return true
@@ -7908,6 +7912,7 @@ func rewriteValuegeneric_OpDiv64_0(v *Value) bool {
 func rewriteValuegeneric_OpDiv64F_0(v *Value) bool {
 	b := v.Block
 	// match: (Div64F (Const64F [c]) (Const64F [d]))
+	// cond: !math.IsNaN(auxTo64F(c) / auxTo64F(d))
 	// result: (Const64F [auxFrom64F(auxTo64F(c) / auxTo64F(d))])
 	for {
 		_ = v.Args[1]
@@ -7921,6 +7926,9 @@ func rewriteValuegeneric_OpDiv64F_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
+		if !(!math.IsNaN(auxTo64F(c) / auxTo64F(d))) {
+			break
+		}
 		v.reset(OpConst64F)
 		v.AuxInt = auxFrom64F(auxTo64F(c) / auxTo64F(d))
 		return true
@@ -28271,7 +28279,7 @@ func rewriteValuegeneric_OpLoad_0(v *Value) bool {
 		return true
 	}
 	// match: (Load <t1> p1 (Store {t2} p2 (Const64 [x]) _))
-	// cond: isSamePtr(p1,p2) && sizeof(t2) == 8 && is64BitFloat(t1)
+	// cond: isSamePtr(p1,p2) && sizeof(t2) == 8 && is64BitFloat(t1) && !math.IsNaN(math.Float64frombits(uint64(x)))
 	// result: (Const64F [x])
 	for {
 		t1 := v.Type
@@ -28289,7 +28297,7 @@ func rewriteValuegeneric_OpLoad_0(v *Value) bool {
 			break
 		}
 		x := v_1_1.AuxInt
-		if !(isSamePtr(p1, p2) && sizeof(t2) == 8 && is64BitFloat(t1)) {
+		if !(isSamePtr(p1, p2) && sizeof(t2) == 8 && is64BitFloat(t1) && !math.IsNaN(math.Float64frombits(uint64(x)))) {
 			break
 		}
 		v.reset(OpConst64F)
@@ -28297,7 +28305,7 @@ func rewriteValuegeneric_OpLoad_0(v *Value) bool {
 		return true
 	}
 	// match: (Load <t1> p1 (Store {t2} p2 (Const32 [x]) _))
-	// cond: isSamePtr(p1,p2) && sizeof(t2) == 4 && is32BitFloat(t1)
+	// cond: isSamePtr(p1,p2) && sizeof(t2) == 4 && is32BitFloat(t1) && !math.IsNaN(float64(math.Float32frombits(uint32(x))))
 	// result: (Const32F [auxFrom32F(math.Float32frombits(uint32(x)))])
 	for {
 		t1 := v.Type
@@ -28315,7 +28323,7 @@ func rewriteValuegeneric_OpLoad_0(v *Value) bool {
 			break
 		}
 		x := v_1_1.AuxInt
-		if !(isSamePtr(p1, p2) && sizeof(t2) == 4 && is32BitFloat(t1)) {
+		if !(isSamePtr(p1, p2) && sizeof(t2) == 4 && is32BitFloat(t1) && !math.IsNaN(float64(math.Float32frombits(uint32(x))))) {
 			break
 		}
 		v.reset(OpConst32F)
@@ -32885,6 +32893,7 @@ func rewriteValuegeneric_OpMul32_10(v *Value) bool {
 }
 func rewriteValuegeneric_OpMul32F_0(v *Value) bool {
 	// match: (Mul32F (Const32F [c]) (Const32F [d]))
+	// cond: !math.IsNaN(float64(auxTo32F(c) * auxTo32F(d)))
 	// result: (Const32F [auxFrom32F(auxTo32F(c) * auxTo32F(d))])
 	for {
 		_ = v.Args[1]
@@ -32898,11 +32907,15 @@ func rewriteValuegeneric_OpMul32F_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
+		if !(!math.IsNaN(float64(auxTo32F(c) * auxTo32F(d)))) {
+			break
+		}
 		v.reset(OpConst32F)
 		v.AuxInt = auxFrom32F(auxTo32F(c) * auxTo32F(d))
 		return true
 	}
 	// match: (Mul32F (Const32F [d]) (Const32F [c]))
+	// cond: !math.IsNaN(float64(auxTo32F(c) * auxTo32F(d)))
 	// result: (Const32F [auxFrom32F(auxTo32F(c) * auxTo32F(d))])
 	for {
 		_ = v.Args[1]
@@ -32916,6 +32929,9 @@ func rewriteValuegeneric_OpMul32F_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
+		if !(!math.IsNaN(float64(auxTo32F(c) * auxTo32F(d)))) {
+			break
+		}
 		v.reset(OpConst32F)
 		v.AuxInt = auxFrom32F(auxTo32F(c) * auxTo32F(d))
 		return true
@@ -33456,6 +33472,7 @@ func rewriteValuegeneric_OpMul64_10(v *Value) bool {
 }
 func rewriteValuegeneric_OpMul64F_0(v *Value) bool {
 	// match: (Mul64F (Const64F [c]) (Const64F [d]))
+	// cond: !math.IsNaN(auxTo64F(c) * auxTo64F(d))
 	// result: (Const64F [auxFrom64F(auxTo64F(c) * auxTo64F(d))])
 	for {
 		_ = v.Args[1]
@@ -33469,11 +33486,15 @@ func rewriteValuegeneric_OpMul64F_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
+		if !(!math.IsNaN(auxTo64F(c) * auxTo64F(d))) {
+			break
+		}
 		v.reset(OpConst64F)
 		v.AuxInt = auxFrom64F(auxTo64F(c) * auxTo64F(d))
 		return true
 	}
 	// match: (Mul64F (Const64F [d]) (Const64F [c]))
+	// cond: !math.IsNaN(auxTo64F(c) * auxTo64F(d))
 	// result: (Const64F [auxFrom64F(auxTo64F(c) * auxTo64F(d))])
 	for {
 		_ = v.Args[1]
@@ -33487,6 +33508,9 @@ func rewriteValuegeneric_OpMul64F_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
+		if !(!math.IsNaN(auxTo64F(c) * auxTo64F(d))) {
+			break
+		}
 		v.reset(OpConst64F)
 		v.AuxInt = auxFrom64F(auxTo64F(c) * auxTo64F(d))
 		return true
@@ -43338,6 +43362,7 @@ func rewriteValuegeneric_OpSlicemask_0(v *Value) bool {
 }
 func rewriteValuegeneric_OpSqrt_0(v *Value) bool {
 	// match: (Sqrt (Const64F [c]))
+	// cond: !math.IsNaN(math.Sqrt(auxTo64F(c)))
 	// result: (Const64F [auxFrom64F(math.Sqrt(auxTo64F(c)))])
 	for {
 		v_0 := v.Args[0]
@@ -43345,6 +43370,9 @@ func rewriteValuegeneric_OpSqrt_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
+		if !(!math.IsNaN(math.Sqrt(auxTo64F(c)))) {
+			break
+		}
 		v.reset(OpConst64F)
 		v.AuxInt = auxFrom64F(math.Sqrt(auxTo64F(c)))
 		return true

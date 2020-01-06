@@ -3,6 +3,7 @@
 
 package ssa
 
+import "math"
 import "cmd/internal/objabi"
 import "cmd/compile/internal/types"
 
@@ -5021,6 +5022,7 @@ func rewriteValueWasm_OpWasmF64Mul_0(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (F64Mul (F64Const [x]) (F64Const [y]))
+	// cond: !math.IsNaN(auxTo64F(x) * auxTo64F(y))
 	// result: (F64Const [auxFrom64F(auxTo64F(x) * auxTo64F(y))])
 	for {
 		_ = v.Args[1]
@@ -5034,6 +5036,9 @@ func rewriteValueWasm_OpWasmF64Mul_0(v *Value) bool {
 			break
 		}
 		y := v_1.AuxInt
+		if !(!math.IsNaN(auxTo64F(x) * auxTo64F(y))) {
+			break
+		}
 		v.reset(OpWasmF64Const)
 		v.AuxInt = auxFrom64F(auxTo64F(x) * auxTo64F(y))
 		return true

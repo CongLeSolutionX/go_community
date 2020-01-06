@@ -342,8 +342,13 @@ var genericOps = []opData{
 	{name: "Const64", aux: "Int64"},    // value is auxint
 	{name: "Const32F", aux: "Float32"}, // value is math.Float64frombits(uint64(auxint)) and is exactly representable as float 32
 	{name: "Const64F", aux: "Float64"}, // value is math.Float64frombits(uint64(auxint))
-	{name: "ConstInterface"},           // nil interface
-	{name: "ConstSlice"},               // nil slice
+	// Note: for both Const32F and Const64F, we disallow encoding NaNs.
+	// Signaling NaNs are tricky because if you do anything with them, they become quiet.
+	// Particularly, converting a 32 bit sNaN to 64 bit and back converts it to a qNaN.
+	// See issue 36399 and 36400.
+	// Encodings of +inf, -inf, and -0 are fine.
+	{name: "ConstInterface"}, // nil interface
+	{name: "ConstSlice"},     // nil slice
 
 	// Constant-like things
 	{name: "InitMem", zeroWidth: true},                               // memory input to the function.
