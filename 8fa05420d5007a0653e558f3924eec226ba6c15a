@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b31c8db4_e0b9833b",
+        "filename": "src/cmd/go/testdata/script/test_flag.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-06T22:20:02Z",
+      "side": 1,
+      "message": "[!short] skip",
+      "revId": "8fa05420d5007a0653e558f3924eec226ba6c15a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ac2c746_10399c13",
+        "filename": "src/cmd/go/testdata/script/test_minus_n.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-06T22:20:02Z",
+      "side": 1,
+      "message": "remove extraneous newline",
+      "revId": "8fa05420d5007a0653e558f3924eec226ba6c15a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
