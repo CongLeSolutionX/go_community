@@ -1,0 +1,9 @@
+! go build selfimport
+
+stderr -count=1 'import cycle not allowed'
+go list -e -json selfimport # Don't hang forever
+
+-- selfimport/selfimport.go --
+package selfimport
+
+import "selfimport"
