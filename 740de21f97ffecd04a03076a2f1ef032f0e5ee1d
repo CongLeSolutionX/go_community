@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "703de32c_d3926cd1",
+        "filename": "src/cmd/go/testdata/script/list_wildcard_skip_nonmatching.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-06T17:15:58Z",
+      "side": 1,
+      "message": "Nit: trailing space",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 14
+      },
+      "revId": "740de21f97ffecd04a03076a2f1ef032f0e5ee1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
