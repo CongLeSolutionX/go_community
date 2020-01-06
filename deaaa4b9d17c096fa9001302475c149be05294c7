@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c7ea3df_421a042f",
+        "filename": "src/cmd/go/testdata/script/test_match_only_example.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-06T22:17:42Z",
+      "side": 1,
+      "message": "I think this needs to be \u0027 instead of `.",
+      "range": {
+        "startLine": 4,
+        "startChar": 7,
+        "endLine": 4,
+        "endChar": 16
+      },
+      "revId": "deaaa4b9d17c096fa9001302475c149be05294c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
