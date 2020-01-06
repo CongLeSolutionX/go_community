@@ -16,6 +16,24 @@
       "revId": "9729b5c217a618904dba2cac75d6e144bdb93c54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d9bc0ee_76b634a6",
+        "filename": "src/cmd/go/testdata/script/test_no_tests_issue26242.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-06T17:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "446447ce_99edab3f",
+      "revId": "9729b5c217a618904dba2cac75d6e144bdb93c54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
