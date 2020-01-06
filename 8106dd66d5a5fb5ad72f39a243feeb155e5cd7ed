@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18521360_61c94006",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-06T19:46:48Z",
+      "side": 1,
+      "message": "Maybe we could create the map only on ELF systems. Doesn\u0027t really matter though.",
+      "revId": "8106dd66d5a5fb5ad72f39a243feeb155e5cd7ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
