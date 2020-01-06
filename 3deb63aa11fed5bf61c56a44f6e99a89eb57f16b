@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2242adf5_89df97c1",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-06T18:00:54Z",
+      "side": 1,
+      "message": "This assumes that r.New.Path is relative. We should also handle absolute paths here, and ideally symlinks.\n\n(I think we have a function somewhere for determining whether two directory paths refer to the same underlying directory, but I can\u0027t find it at the moment...)",
+      "range": {
+        "startLine": 1021,
+        "startChar": 60,
+        "endLine": 1021,
+        "endChar": 109
+      },
+      "revId": "3deb63aa11fed5bf61c56a44f6e99a89eb57f16b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
