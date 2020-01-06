@@ -1,0 +1,73 @@
+[windows] skip # Windows has no echo command
+
+# Test go generate handles a simple command
+go generate ./generate/test1.go
+stdout 'Success'
+
+# Test go generate handles a command alias
+go generate './generate/test2.go'
+stdout 'Now is the time for all good men'
+
+# Test go generate's variable substitution
+go generate './generate/test3.go'
+stdout $GOARCH' test3.go:7 pabc xyzp/test3.go/123'
+
+# Test go generate's run flag
+go generate -run y.s './generate/test4.go'
+stdout 'yes' # test4.go should select yes
+! stdout 'no' # test4.go should not select no
+
+# Test go generate provides the right "$GOPACKAGE" name in an x_test
+go generate './generate/env_test.go'
+stdout 'main_test'
+
+-- generate/test1.go --
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Simple test for go generate.
+
+// We include a build tag that go generate should ignore.
+
+// +build ignore
+
+//go:generate echo Success
+
+package p
+-- generate/test2.go --
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Test that go generate handles command aliases.
+
+//go:generate -command run echo Now is the time
+//go:generate run for all good men
+
+package p
+-- generate/test3.go --
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Test go generate variable substitution.
+
+//go:generate echo $GOARCH $GOFILE:$GOLINE ${GOPACKAGE}abc xyz$GOPACKAGE/$GOFILE/123
+
+package p
+-- generate/test4.go --
+// Copyright 2015 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Test -run flag
+
+//go:generate echo oh yes my man
+//go:generate echo no, no, a thousand times no
+
+package p
+-- generate/env_test.go --
+package main_test
+
+//go:generate echo $GOPACKAGE

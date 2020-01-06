@@ -1,0 +1,15 @@
+[windows] skip # Windows does not have the env command
+[plan9] skip # plan9 does not have the env command
+
+go generate ./env.go
+stdout '^GOARCH='$GOARCH
+stdout '^GOOS='$GOOS
+stdout '^GOFILE='
+stdout '^GOLINE='
+stdout '^GOPACKAGE='
+stdout '^DOLLAR='
+
+-- env.go --
+package main
+
+//go:generate env
