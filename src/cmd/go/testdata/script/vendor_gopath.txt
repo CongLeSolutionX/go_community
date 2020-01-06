@@ -1,0 +1,121 @@
+[!windows] [short] stop 'this test only applies to Windows'
+
+go build run_go.go
+exec ./run_go$GOEXE $GOPATH $GOPATH/src/vend/hello
+stdout 'hello, world'
+
+-- run_go.go --
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
+)
+
+func changeVolume(s string, f func(s string) string) string {
+	vol := filepath.VolumeName(s)
+	return f(vol) + s[len(vol):]
+}
+
+func main() {
+	gopath := changeVolume(os.Args[1], strings.ToLower)
+	dir := changeVolume(os.Args[2], strings.ToUpper)
+	cmd := exec.Command("go", "run", "hello.go")
+	cmd.Dir = dir
+	cmd.Env = append(os.Environ(), "GOPATH="+gopath)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+
+-- vend/bad.go --
+package vend
+
+import _ "r"
+-- vend/dir1/dir1.go --
+package dir1
+-- vend/good.go --
+package vend
+
+import _ "p"
+-- vend/hello/hello.go --
+package main
+
+import (
+	"fmt"
+	"strings" // really ../vendor/strings
+)
+
+func main() {
+	fmt.Printf("%s\n", strings.Msg)
+}
+-- vend/hello/hello_test.go --
+package main
+
+import (
+	"strings" // really ../vendor/strings
+	"testing"
+)
+
+func TestMsgInternal(t *testing.T) {
+	if strings.Msg != "hello, world" {
+		t.Fatalf("unexpected msg: %v", strings.Msg)
+	}
+}
+-- vend/hello/hellox_test.go --
+package main_test
+
+import (
+	"strings" // really ../vendor/strings
+	"testing"
+)
+
+func TestMsgExternal(t *testing.T) {
+	if strings.Msg != "hello, world" {
+		t.Fatalf("unexpected msg: %v", strings.Msg)
+	}
+}
+-- vend/subdir/bad.go --
+package subdir
+
+import _ "r"
+-- vend/subdir/good.go --
+package subdir
+
+import _ "p"
+-- vend/vendor/p/p.go --
+package p
+-- vend/vendor/q/q.go --
+package q
+-- vend/vendor/strings/msg.go --
+package strings
+
+var Msg = "hello, world"
+-- vend/vendor/vend/dir1/dir2/dir2.go --
+package dir2
+-- vend/x/invalid/invalid.go --
+package invalid
+
+import "vend/x/invalid/vendor/foo"
+-- vend/x/vendor/p/p/p.go --
+package p
+
+import _ "notfound"
+-- vend/x/vendor/p/p.go --
+package p
+-- vend/x/vendor/r/r.go --
+package r
+-- vend/x/x.go --
+package x
+
+import _ "p"
+import _ "q"
+import _ "r"
+import _ "vend/dir1"      // not vendored
+import _ "vend/dir1/dir2" // vendored
