@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "537d00ba_69df5b6d",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-06T23:37:06Z",
+      "side": 1,
+      "message": "I think we want a req.closeBody() call before we reassign the req, just in case the other RoundTripper didn\u0027t.\n\nAnd looking at the http2.Transport, I don\u0027t see where it does?\n\nI\u0027m more concerned about missing closes than I am about double closes. Double closes are kinda okay and I have a plan for how to address them all at once in a future release (basically adding a sync.Once-like atomic unexported field to net/http.Request, and making body closes go through a helper CAS method) .",
+      "revId": "81b1a2d16655b0e6dfe0c18b0f2e5199f458d93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
