@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40406d60_61e04c07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-06T22:02:06Z",
+      "side": 1,
+      "message": "FWIW, I don\u0027t think that any tests modify the testdata directory after CL 207965, so it should be safe to run tests that read from it in parallel now.\n\nThat said, I think converting these tests to scripts is better over the long term anyway.",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "fab2e86ba230389b270940c4e1a8e30c2bbb59f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
