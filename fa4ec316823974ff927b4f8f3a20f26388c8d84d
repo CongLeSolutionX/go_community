@@ -16,6 +16,24 @@
       "revId": "fa4ec316823974ff927b4f8f3a20f26388c8d84d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c27f11d_c5b5ea07",
+        "filename": "src/cmd/go/testdata/script/cover_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-06T18:01:01Z",
+      "side": 1,
+      "message": "Okay, how about searching for the string \u0027coverage:\" to make sure that coverage info is printed out? \n\nI\u0027m thinking putting in the exact current coverage numbers would be brittle?",
+      "parentUuid": "447e8bbe_0021d443",
+      "revId": "fa4ec316823974ff927b4f8f3a20f26388c8d84d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
