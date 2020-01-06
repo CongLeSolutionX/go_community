@@ -52,6 +52,24 @@
       "revId": "fa4ec316823974ff927b4f8f3a20f26388c8d84d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d40be8d8_4cef5d4f",
+        "filename": "src/cmd/go/testdata/script/cover_cgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-06T18:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97eac8a4_886471c0",
+      "revId": "fa4ec316823974ff927b4f8f3a20f26388c8d84d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
