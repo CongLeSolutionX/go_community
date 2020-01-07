@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "888c3a9a_4cf467bc",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-01-07T18:46:44Z",
+      "side": 1,
+      "message": "perhaps lazy allocate this since it is barely ever needed?",
+      "range": {
+        "startLine": 1734,
+        "startChar": 15,
+        "endLine": 1734,
+        "endChar": 16
+      },
+      "revId": "71f2c61557e104e80f304b9c0fb4a03793207b45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa8f563_82a2466f",
+        "filename": "test/fixedbugs/issue29312.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-01-07T18:46:44Z",
+      "side": 1,
+      "message": "This test could use some explanation...",
+      "revId": "71f2c61557e104e80f304b9c0fb4a03793207b45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
