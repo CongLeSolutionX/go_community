@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dab8425e_9e5f6aae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-07T16:22:29Z",
+      "side": 1,
+      "message": "removed!",
+      "parentUuid": "c7eb0c90_868e50fa",
+      "range": {
+        "startLine": 17,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 54
+      },
+      "revId": "a315dd1565904aeb929d4598908fbfb5a6689e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4fd93724_94532010",
         "filename": "src/cmd/go/testdata/script/cgo_consistent_results.txt",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "a315dd1565904aeb929d4598908fbfb5a6689e9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2782350_c8dff858",
+        "filename": "src/cmd/go/testdata/script/cgo_consistent_results.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-07T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fd93724_94532010",
+      "revId": "a315dd1565904aeb929d4598908fbfb5a6689e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
