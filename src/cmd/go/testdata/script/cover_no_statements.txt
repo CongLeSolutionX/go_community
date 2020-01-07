@@ -1,0 +1,20 @@
+[short] skip
+go test -cover ./pkg
+stdout '[no statements]'
+
+-- pkg/a.go --
+package pkg4
+
+type T struct {
+	X bool
+}
+-- pkg/a_test.go --
+package pkg4
+
+import (
+	"testing"
+)
+
+func TestT(t *testing.T) {
+	_ = T{}
+}
