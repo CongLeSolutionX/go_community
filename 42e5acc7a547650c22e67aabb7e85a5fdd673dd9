@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a31b0a2f_79bc499e",
+        "filename": "src/cmd/go/testdata/script/build_import_comment.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-07T18:10:29Z",
+      "side": 1,
+      "message": "Feel free to leave as a TODO: add a go.mod file and test with GO111MODULE explicitly on and off.\n\nWe only report the \u0027expects import\u0027 error when modules are disabled. I\u0027m not sure if we report comment parse errors or conflicts in module mode. We shouldn\u0027t.",
+      "revId": "42e5acc7a547650c22e67aabb7e85a5fdd673dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
