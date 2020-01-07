@@ -475,7 +475,7 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 
 	case "shared":
 		if cfg.Goos != "aix" {
-			ldflags = append(ldflags, "-zdefs")
+			ldflags = append(ldflags, "-Wl,-zdefs")
 		}
 		ldflags = append(ldflags, "-shared", "-nostdlib", "-lgo", "-lgcc_s", "-lgcc", "-lc")
 
