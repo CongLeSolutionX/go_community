@@ -46,6 +46,30 @@
       "revId": "63d77ddf4ba6734a1d6e8097d18e2940b7d34712",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6998f8d6_8ef26dac",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-07T19:10:21Z",
+      "side": 1,
+      "message": "On second thought, I think I need to reword this comment to water it down a bit.  The ELF host object loader only sets AttrLocal when dynamically linking Go code, but looking around the rest of the linker there are other places where AttrLocal is applied to symbols in a non-dynamic context.\n\nWill update.",
+      "parentUuid": "87e534a8_a496c248",
+      "range": {
+        "startLine": 785,
+        "startChar": 55,
+        "endLine": 786,
+        "endChar": 36
+      },
+      "revId": "63d77ddf4ba6734a1d6e8097d18e2940b7d34712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
