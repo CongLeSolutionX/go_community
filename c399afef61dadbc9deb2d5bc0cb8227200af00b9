@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b149fac8_270888a1",
+        "filename": "src/cmd/go/testdata/script/test_main_twice.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-07T21:05:45Z",
+      "side": 1,
+      "message": "This test is failing on Windows because $TMPDIR is empty.\n(The Windows variable is TMP or TEMP, but I would probably just set it to $work/tmp instead.)\n\nhttps://build.golang.org/log/520f983ea19d57833c91f42c521b6e143d32fa0d",
+      "revId": "c399afef61dadbc9deb2d5bc0cb8227200af00b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
