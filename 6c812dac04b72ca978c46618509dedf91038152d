@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fe84cf5_82be54d7",
+        "filename": "src/cmd/go/testdata/script/build_import_cycle.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-07T18:04:37Z",
+      "side": 1,
+      "message": "Nit: delete newline here. Add a newline before the \u0027go list\u0027 command.",
+      "revId": "6c812dac04b72ca978c46618509dedf91038152d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "027a2ec5_6228cb7c",
+        "filename": "src/cmd/go/testdata/script/build_import_cycle.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-07T18:04:37Z",
+      "side": 1,
+      "message": "Let\u0027s test that the error message is printed here, too. \u0027go list -e -f {{.Error}}\u0027 or something similar might be easier to match than -json.",
+      "revId": "6c812dac04b72ca978c46618509dedf91038152d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
