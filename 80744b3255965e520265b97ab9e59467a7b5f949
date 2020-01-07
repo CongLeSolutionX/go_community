@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7bc74ae_170cfda1",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-01-07T05:13:48Z",
+      "side": 1,
+      "message": "Minor nit:\n\nif typeStr :\u003d deepTypes[t]; typeStr !\u003d \"\" {\n   return typeStr\n}",
+      "range": {
+        "startLine": 1755,
+        "startChar": 2,
+        "endLine": 1757,
+        "endChar": 3
+      },
+      "revId": "80744b3255965e520265b97ab9e59467a7b5f949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
