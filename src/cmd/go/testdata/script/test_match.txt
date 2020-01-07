@@ -1,0 +1,115 @@
+# Control
+go test standalone_test.go
+! stdout '^ok.*\[no tests to run\]'
+! stderr '^ok.*\[no tests to run\]'
+stdout '^ok'
+
+# Matches no tests
+go test -run ThisWillNotMatch standalone_test.go
+stdout '^ok.*\[no tests to run\]'
+
+# Matches no benchmarks
+go test -run '^$' -bench ThisWillNotMatch standalone_benchmark_test.go
+! stdout '^ok.*\[no tests to run\]'
+! stderr '^ok.*\[no tests to run\]'
+stdout '^ok'
+
+# Matches only benchmarks
+go test -run '^$' -bench . standalone_benchmark_test.go
+! stdout '^ok.*\[no tests to run\]'
+! stderr '^ok.*\[no tests to run\]'
+stdout '^ok'
+
+# Benchmark labels, file outside gopath
+# TODO(matloob): This test was called TestBenchmarkLabelsOutsideGOPATH
+# why "OutsideGOPATH"? Does the go command need to be run outside GOPATH?
+# Do the files need to exist outside GOPATH?
+cp $GOPATH/src/standalone_benchmark_test.go $WORK/tmp/standalone_benchmark_test.go
+go test -run '^$' -bench . $WORK/tmp/standalone_benchmark_test.go
+stdout '^goos: '$GOOS
+stdout '^goarch: '$GOARCH
+! stdout '^pkg:'
+! stderr '^pkg:'
+
+# Matches only tests
+go test -run Test standalone_test.go
+! stdout '^ok.*\[no tests to run\]'
+! stderr '^ok.*\[no tests to run\]'
+stdout '^ok'
+
+# Matches no tests with subtests
+go test -run ThisWillNotMatch standalone_sub_test.go
+stdout '^ok.*\[no tests to run\]'
+
+# The subtests don't match
+go test -run Test/ThisWillNotMatch standalone_sub_test.go
+stdout '^ok.*\[no tests to run\]'
+
+# Matches no subtests, but parent test still fails
+! go test -run TestThatFails/ThisWillNotMatch standalone_fail_sub_test.go
+! stdout '^ok.*\[no tests to run\]'
+! stderr '^ok.*\[no tests to run\]'
+stdout 'FAIL'
+
+# Matches only subtests
+go test -run Test/Sub standalone_sub_test.go
+! stdout '^ok.*\[no tests to run\]'
+! stderr '^ok.*\[no tests to run\]'
+stdout '^ok'
+
+# Matches no subtests, parallel
+go test -run Test/Sub/ThisWillNotMatch standalone_parallel_sub_test.go
+stdout '^ok.*\[no tests to run\]'
+
+# Matches only subtests, parallel
+go test -run Test/Sub/Nested standalone_parallel_sub_test.go
+! stdout '^ok.*\[no tests to run\]'
+! stderr '^ok.*\[no tests to run\]'
+stdout '^ok'
+
+-- standalone_test.go --
+package standalone_test
+
+import "testing"
+
+func Test(t *testing.T) {
+}
+-- standalone_benchmark_test.go --
+package standalone_benchmark
+
+import "testing"
+
+func Benchmark(b *testing.B) {
+}
+-- standalone_sub_test.go --
+package standalone_sub_test
+
+import "testing"
+
+func Test(t *testing.T) {
+	t.Run("Sub", func(t *testing.T) {})
+}
+-- standalone_fail_sub_test.go --
+package standalone_fail_sub_test
+
+import "testing"
+
+func TestThatFails(t *testing.T) {
+	t.Run("Sub", func(t *testing.T) {})
+	t.Fail()
+}
+-- standalone_parallel_sub_test.go --
+package standalone_parallel_sub_test
+
+import "testing"
+
+func Test(t *testing.T) {
+	ch := make(chan bool, 1)
+	t.Run("Sub", func(t *testing.T) {
+		t.Parallel()
+		<-ch
+		t.Run("Nested", func(t *testing.T) {})
+	})
+	// Ensures that Sub will finish after its t.Run call already returned.
+	ch <- true
+}
