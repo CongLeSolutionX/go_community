@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18489924_73471d38",
+        "filename": "src/cmd/go/testdata/script/generate.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-07T18:00:55Z",
+      "side": 1,
+      "message": "We don\u0027t seem to have any test coverage for generate on Windows, so let\u0027s try to make this work.\n\nMaybe add an echo.go at the bottom of this, then on Windows, \u0027go install\u0027 that and add GOBIN to PATH?",
+      "revId": "fb12222b1be57b439eaad8723af3e960054d6a7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca1beb15_6a7d5e64",
+        "filename": "src/cmd/go/testdata/script/generate_env.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-07T18:00:55Z",
+      "side": 1,
+      "message": "Same with generate.txt, we could \u0027go install\u0027 a short program that prints the environment.",
+      "revId": "fb12222b1be57b439eaad8723af3e960054d6a7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
