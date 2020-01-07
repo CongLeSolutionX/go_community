@@ -1747,6 +1747,27 @@ func rewriteValueARM_OpARMADDD_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+	// match: (ADDD a (MULD y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULAD a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMULD {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULAD)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
 	// match: (ADDD (MULD x y) a)
 	// cond: a.Uses == 1 && objabi.GOARM >= 6
 	// result: (MULAD a x y)
@@ -1758,6 +1779,26 @@ func rewriteValueARM_OpARMADDD_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		x := v_0.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULAD)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (ADDD (MULD y x) a)
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULAD a x y)
+	for {
+		a := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMULD {
+			break
+		}
+		x := v_0.Args[1]
+		y := v_0.Args[0]
 		if !(a.Uses == 1 && objabi.GOARM >= 6) {
 			break
 		}
@@ -1788,6 +1829,27 @@ func rewriteValueARM_OpARMADDD_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+	// match: (ADDD a (NMULD y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULSD a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMNMULD {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULSD)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
 	// match: (ADDD (NMULD x y) a)
 	// cond: a.Uses == 1 && objabi.GOARM >= 6
 	// result: (MULSD a x y)
@@ -1799,6 +1861,26 @@ func rewriteValueARM_OpARMADDD_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		x := v_0.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULSD)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (ADDD (NMULD y x) a)
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULSD a x y)
+	for {
+		a := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMNMULD {
+			break
+		}
+		x := v_0.Args[1]
+		y := v_0.Args[0]
 		if !(a.Uses == 1 && objabi.GOARM >= 6) {
 			break
 		}
@@ -1832,6 +1914,27 @@ func rewriteValueARM_OpARMADDF_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+	// match: (ADDF a (MULF y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULAF a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMULF {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULAF)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
 	// match: (ADDF (MULF x y) a)
 	// cond: a.Uses == 1 && objabi.GOARM >= 6
 	// result: (MULAF a x y)
@@ -1843,6 +1946,26 @@ func rewriteValueARM_OpARMADDF_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		x := v_0.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULAF)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (ADDF (MULF y x) a)
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULAF a x y)
+	for {
+		a := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMULF {
+			break
+		}
+		x := v_0.Args[1]
+		y := v_0.Args[0]
 		if !(a.Uses == 1 && objabi.GOARM >= 6) {
 			break
 		}
@@ -1873,6 +1996,27 @@ func rewriteValueARM_OpARMADDF_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+	// match: (ADDF a (NMULF y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULSF a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMNMULF {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULSF)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
 	// match: (ADDF (NMULF x y) a)
 	// cond: a.Uses == 1 && objabi.GOARM >= 6
 	// result: (MULSF a x y)
@@ -1884,6 +2028,26 @@ func rewriteValueARM_OpARMADDF_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		x := v_0.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULSF)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (ADDF (NMULF y x) a)
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULSF a x y)
+	for {
+		a := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMNMULF {
+			break
+		}
+		x := v_0.Args[1]
+		y := v_0.Args[0]
 		if !(a.Uses == 1 && objabi.GOARM >= 6) {
 			break
 		}
@@ -6111,6 +6275,30 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 		v.AddArg(mem)
 		return true
 	}
+	// match: (MOVBUload [0] {sym} (ADD idx ptr) mem)
+	// cond: sym == nil
+	// result: (MOVBUloadidx ptr idx mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVBUloadidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
 	// match: (MOVBUload [off] {sym} (SB) _)
 	// cond: symIsRO(sym)
 	// result: (MOVWconst [int64(read8(sym, off))])
@@ -6341,6 +6529,30 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 		}
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVBloadidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVBload [0] {sym} (ADD idx ptr) mem)
+	// cond: sym == nil
+	// result: (MOVBloadidx ptr idx mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
 		if !(sym == nil) {
 			break
 		}
@@ -6631,6 +6843,32 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 		}
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
+		val := v.Args[1]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVBstoreidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVBstore [0] {sym} (ADD idx ptr) val mem)
+	// cond: sym == nil
+	// result: (MOVBstoreidx ptr idx val mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[2]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
 		val := v.Args[1]
 		if !(sym == nil) {
 			break
@@ -7118,6 +7356,30 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 		v.AddArg(mem)
 		return true
 	}
+	// match: (MOVHUload [0] {sym} (ADD idx ptr) mem)
+	// cond: sym == nil
+	// result: (MOVHUloadidx ptr idx mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVHUloadidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
 	// match: (MOVHUload [off] {sym} (SB) _)
 	// cond: symIsRO(sym)
 	// result: (MOVWconst [int64(read16(sym, off, config.BigEndian))])
@@ -7371,6 +7633,30 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 		}
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVHloadidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVHload [0] {sym} (ADD idx ptr) mem)
+	// cond: sym == nil
+	// result: (MOVHloadidx ptr idx mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
 		if !(sym == nil) {
 			break
 		}
@@ -7678,6 +7964,32 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 		v.AddArg(mem)
 		return true
 	}
+	// match: (MOVHstore [0] {sym} (ADD idx ptr) val mem)
+	// cond: sym == nil
+	// result: (MOVHstoreidx ptr idx val mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[2]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
+		val := v.Args[1]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVHstoreidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
 	return false
 }
 func rewriteValueARM_OpARMMOVHstoreidx_0(v *Value) bool {
@@ -7824,6 +8136,30 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 		}
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVWloadidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVWload [0] {sym} (ADD idx ptr) mem)
+	// cond: sym == nil
+	// result: (MOVWloadidx ptr idx mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
 		if !(sym == nil) {
 			break
 		}
@@ -8348,6 +8684,32 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 		}
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
+		val := v.Args[1]
+		if !(sym == nil) {
+			break
+		}
+		v.reset(OpARMMOVWstoreidx)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVWstore [0] {sym} (ADD idx ptr) val mem)
+	// cond: sym == nil
+	// result: (MOVWstoreidx ptr idx val mem)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		sym := v.Aux
+		mem := v.Args[2]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMADD {
+			break
+		}
+		ptr := v_0.Args[1]
+		idx := v_0.Args[0]
 		val := v.Args[1]
 		if !(sym == nil) {
 			break
@@ -10331,6 +10693,24 @@ func rewriteValueARM_OpARMNEGD_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+	// match: (NEGD (MULD y x))
+	// cond: objabi.GOARM >= 6
+	// result: (NMULD x y)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMULD {
+			break
+		}
+		x := v_0.Args[1]
+		y := v_0.Args[0]
+		if !(objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMNMULD)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
 	return false
 }
 func rewriteValueARM_OpARMNEGF_0(v *Value) bool {
@@ -10344,6 +10724,24 @@ func rewriteValueARM_OpARMNEGF_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		x := v_0.Args[0]
+		if !(objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMNMULF)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (NEGF (MULF y x))
+	// cond: objabi.GOARM >= 6
+	// result: (NMULF x y)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMULF {
+			break
+		}
+		x := v_0.Args[1]
+		y := v_0.Args[0]
 		if !(objabi.GOARM >= 6) {
 			break
 		}
@@ -11396,6 +11794,26 @@ func rewriteValueARM_OpARMRSB_10(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		x := v_0.Args[0]
+		if !(objabi.GOARM == 7) {
+			break
+		}
+		v.reset(OpARMMULS)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(a)
+		return true
+	}
+	// match: (RSB (MUL y x) a)
+	// cond: objabi.GOARM == 7
+	// result: (MULS x y a)
+	for {
+		a := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMUL {
+			break
+		}
+		x := v_0.Args[1]
+		y := v_0.Args[0]
 		if !(objabi.GOARM == 7) {
 			break
 		}
@@ -13291,6 +13709,27 @@ func rewriteValueARM_OpARMSUB_10(v *Value) bool {
 		v.AddArg(a)
 		return true
 	}
+	// match: (SUB a (MUL y x))
+	// cond: objabi.GOARM == 7
+	// result: (MULS x y a)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMUL {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
+		if !(objabi.GOARM == 7) {
+			break
+		}
+		v.reset(OpARMMULS)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(a)
+		return true
+	}
 	return false
 }
 func rewriteValueARM_OpARMSUBD_0(v *Value) bool {
@@ -13315,6 +13754,27 @@ func rewriteValueARM_OpARMSUBD_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+	// match: (SUBD a (MULD y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULSD a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMULD {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULSD)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
 	// match: (SUBD a (NMULD x y))
 	// cond: a.Uses == 1 && objabi.GOARM >= 6
 	// result: (MULAD a x y)
@@ -13327,6 +13787,27 @@ func rewriteValueARM_OpARMSUBD_0(v *Value) bool {
 		}
 		y := v_1.Args[1]
 		x := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULAD)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (SUBD a (NMULD y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULAD a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMNMULD {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
 		if !(a.Uses == 1 && objabi.GOARM >= 6) {
 			break
 		}
@@ -13360,6 +13841,27 @@ func rewriteValueARM_OpARMSUBF_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+	// match: (SUBF a (MULF y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULSF a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMULF {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULSF)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
 	// match: (SUBF a (NMULF x y))
 	// cond: a.Uses == 1 && objabi.GOARM >= 6
 	// result: (MULAF a x y)
@@ -13372,6 +13874,27 @@ func rewriteValueARM_OpARMSUBF_0(v *Value) bool {
 		}
 		y := v_1.Args[1]
 		x := v_1.Args[0]
+		if !(a.Uses == 1 && objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMMULAF)
+		v.AddArg(a)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (SUBF a (NMULF y x))
+	// cond: a.Uses == 1 && objabi.GOARM >= 6
+	// result: (MULAF a x y)
+	for {
+		_ = v.Args[1]
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMNMULF {
+			break
+		}
+		x := v_1.Args[1]
+		y := v_1.Args[0]
 		if !(a.Uses == 1 && objabi.GOARM >= 6) {
 			break
 		}
@@ -20708,6 +21231,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (EQ (CMPconst [0] l:(ADD y x)) yes no)
+		// cond: l.Uses==1
+		// result: (EQ (CMN x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMADD {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMEQ)
+			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (EQ (CMPconst [0] l:(MULA x y a)) yes no)
 		// cond: l.Uses==1
 		// result: (EQ (CMN a (MUL <x.Type> x y)) yes no)
@@ -20940,6 +21487,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (EQ (CMPconst [0] l:(AND y x)) yes no)
+		// cond: l.Uses==1
+		// result: (EQ (TST x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMAND {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMEQ)
+			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (EQ (CMPconst [0] l:(ANDconst [c] x)) yes no)
 		// cond: l.Uses==1
 		// result: (EQ (TSTconst [c] x) yes no)
@@ -21134,6 +21705,30 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			y := l.Args[1]
 			x := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMEQ)
+			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
+		// match: (EQ (CMPconst [0] l:(XOR y x)) yes no)
+		// cond: l.Uses==1
+		// result: (EQ (TEQ x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMXOR {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
@@ -21622,6 +22217,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (GE (CMPconst [0] l:(ADD y x)) yes no)
+		// cond: l.Uses==1
+		// result: (GE (CMN x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMADD {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMGE)
+			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (GE (CMPconst [0] l:(MULA x y a)) yes no)
 		// cond: l.Uses==1
 		// result: (GE (CMN a (MUL <x.Type> x y)) yes no)
@@ -21854,6 +22473,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (GE (CMPconst [0] l:(AND y x)) yes no)
+		// cond: l.Uses==1
+		// result: (GE (TST x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMAND {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMGE)
+			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (GE (CMPconst [0] l:(ANDconst [c] x)) yes no)
 		// cond: l.Uses==1
 		// result: (GE (TSTconst [c] x) yes no)
@@ -22048,6 +22691,30 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			y := l.Args[1]
 			x := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMGE)
+			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
+		// match: (GE (CMPconst [0] l:(XOR y x)) yes no)
+		// cond: l.Uses==1
+		// result: (GE (TEQ x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMXOR {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
@@ -22537,6 +23204,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (GT (CMPconst [0] l:(ADD y x)) yes no)
+		// cond: l.Uses==1
+		// result: (GT (CMN x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMADD {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMGT)
+			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (GT (CMPconst [0] l:(ADDconst [c] x)) yes no)
 		// cond: l.Uses==1
 		// result: (GT (CMNconst [c] x) yes no)
@@ -22731,6 +23422,30 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			y := l.Args[1]
 			x := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMGT)
+			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
+		// match: (GT (CMPconst [0] l:(AND y x)) yes no)
+		// cond: l.Uses==1
+		// result: (GT (TST x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMAND {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
@@ -22963,6 +23678,30 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			y := l.Args[1]
 			x := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMGT)
+			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
+		// match: (GT (CMPconst [0] l:(XOR y x)) yes no)
+		// cond: l.Uses==1
+		// result: (GT (TEQ x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMXOR {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
@@ -23553,6 +24292,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (LE (CMPconst [0] l:(ADD y x)) yes no)
+		// cond: l.Uses==1
+		// result: (LE (CMN x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMADD {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMLE)
+			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (LE (CMPconst [0] l:(MULA x y a)) yes no)
 		// cond: l.Uses==1
 		// result: (LE (CMN a (MUL <x.Type> x y)) yes no)
@@ -23785,6 +24548,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (LE (CMPconst [0] l:(AND y x)) yes no)
+		// cond: l.Uses==1
+		// result: (LE (TST x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMAND {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMLE)
+			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (LE (CMPconst [0] l:(ANDconst [c] x)) yes no)
 		// cond: l.Uses==1
 		// result: (LE (TSTconst [c] x) yes no)
@@ -23979,6 +24766,30 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			y := l.Args[1]
 			x := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMLE)
+			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
+		// match: (LE (CMPconst [0] l:(XOR y x)) yes no)
+		// cond: l.Uses==1
+		// result: (LE (TEQ x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMXOR {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
@@ -24468,6 +25279,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (LT (CMPconst [0] l:(ADD y x)) yes no)
+		// cond: l.Uses==1
+		// result: (LT (CMN x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMADD {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMLT)
+			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (LT (CMPconst [0] l:(MULA x y a)) yes no)
 		// cond: l.Uses==1
 		// result: (LT (CMN a (MUL <x.Type> x y)) yes no)
@@ -24700,6 +25535,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (LT (CMPconst [0] l:(AND y x)) yes no)
+		// cond: l.Uses==1
+		// result: (LT (TST x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMAND {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMLT)
+			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (LT (CMPconst [0] l:(ANDconst [c] x)) yes no)
 		// cond: l.Uses==1
 		// result: (LT (TSTconst [c] x) yes no)
@@ -24894,6 +25753,30 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			y := l.Args[1]
 			x := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMLT)
+			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
+		// match: (LT (CMPconst [0] l:(XOR y x)) yes no)
+		// cond: l.Uses==1
+		// result: (LT (TEQ x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMXOR {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
@@ -25541,6 +26424,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (NE (CMPconst [0] l:(ADD y x)) yes no)
+		// cond: l.Uses==1
+		// result: (NE (CMN x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMADD {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMNE)
+			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (NE (CMPconst [0] l:(MULA x y a)) yes no)
 		// cond: l.Uses==1
 		// result: (NE (CMN a (MUL <x.Type> x y)) yes no)
@@ -25773,6 +26680,30 @@ func rewriteBlockARM(b *Block) bool {
 			b.AddControl(v0)
 			return true
 		}
+		// match: (NE (CMPconst [0] l:(AND y x)) yes no)
+		// cond: l.Uses==1
+		// result: (NE (TST x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMAND {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMNE)
+			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
 		// match: (NE (CMPconst [0] l:(ANDconst [c] x)) yes no)
 		// cond: l.Uses==1
 		// result: (NE (TSTconst [c] x) yes no)
@@ -25967,6 +26898,30 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			y := l.Args[1]
 			x := l.Args[0]
+			if !(l.Uses == 1) {
+				break
+			}
+			b.Reset(BlockARMNE)
+			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.AddControl(v0)
+			return true
+		}
+		// match: (NE (CMPconst [0] l:(XOR y x)) yes no)
+		// cond: l.Uses==1
+		// result: (NE (TEQ x y) yes no)
+		for b.Controls[0].Op == OpARMCMPconst {
+			v_0 := b.Controls[0]
+			if v_0.AuxInt != 0 {
+				break
+			}
+			l := v_0.Args[0]
+			if l.Op != OpARMXOR {
+				break
+			}
+			x := l.Args[1]
+			y := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}

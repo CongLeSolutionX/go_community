@@ -1339,7 +1339,7 @@ func expandOr(r string) []string {
 // Potentially exponential, be careful.
 func commute(r string, arch arch) []string {
 	match, cond, result := Rule{rule: r}.parse()
-	a := commute1(match, varCount(match), arch)
+	a := commute1(match, varCount(match), arch, cond != "")
 	for i, m := range a {
 		if cond != "" {
 			m += " && " + cond
@@ -1361,7 +1361,7 @@ func commute(r string, arch arch) []string {
 	return a
 }
 
-func commute1(m string, cnt map[string]int, arch arch) []string {
+func commute1(m string, cnt map[string]int, arch arch, hasCond bool) []string {
 	if m[0] == '<' || m[0] == '[' || m[0] == '{' || token.IsIdentifier(m) {
 		return []string{m}
 	}
@@ -1397,7 +1397,7 @@ func commute1(m string, cnt map[string]int, arch arch) []string {
 		if idx1 == 0 {
 			log.Fatalf("couldn't find first two args of commutative op %q", s[0])
 		}
-		if cnt[s[idx0]] == 1 && cnt[s[idx1]] == 1 || s[idx0] == s[idx1] {
+		if (!hasCond && cnt[s[idx0]] == 1 && cnt[s[idx1]] == 1) || s[idx0] == s[idx1] {
 			// When we have (Add x y) with no other uses of x and y in the matching rule,
 			// then we can skip the commutative match (Add y x).
 			// Same for (Add x x), for any x.
@@ -1408,7 +1408,7 @@ func commute1(m string, cnt map[string]int, arch arch) []string {
 	// Recursively commute arguments.
 	a := make([][]string, len(s))
 	for i, arg := range s {
-		a[i] = commute1(arg, cnt, arch)
+		a[i] = commute1(arg, cnt, arch, hasCond)
 	}
 
 	// Choose all possibilities from all args.
