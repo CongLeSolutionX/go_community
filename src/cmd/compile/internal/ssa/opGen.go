@@ -10864,12 +10864,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVBstoreidx1",
-		auxType:   auxSymOff,
-		argLen:    4,
-		symEffect: SymWrite,
-		asm:       x86.AMOVB,
-		scale:     1,
+		name:        "MOVBstoreidx1",
+		auxType:     auxSymOff,
+		argLen:      4,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVB,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -10879,12 +10880,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVWstoreidx1",
-		auxType:   auxSymOff,
-		argLen:    4,
-		symEffect: SymWrite,
-		asm:       x86.AMOVW,
-		scale:     1,
+		name:        "MOVWstoreidx1",
+		auxType:     auxSymOff,
+		argLen:      4,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVW,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -10909,12 +10911,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVLstoreidx1",
-		auxType:   auxSymOff,
-		argLen:    4,
-		symEffect: SymWrite,
-		asm:       x86.AMOVL,
-		scale:     1,
+		name:        "MOVLstoreidx1",
+		auxType:     auxSymOff,
+		argLen:      4,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVL,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -10954,12 +10957,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVQstoreidx1",
-		auxType:   auxSymOff,
-		argLen:    4,
-		symEffect: SymWrite,
-		asm:       x86.AMOVQ,
-		scale:     1,
+		name:        "MOVQstoreidx1",
+		auxType:     auxSymOff,
+		argLen:      4,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVQ,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -11036,12 +11040,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVBstoreconstidx1",
-		auxType:   auxSymValAndOff,
-		argLen:    3,
-		symEffect: SymWrite,
-		asm:       x86.AMOVB,
-		scale:     1,
+		name:        "MOVBstoreconstidx1",
+		auxType:     auxSymValAndOff,
+		argLen:      3,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVB,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -11050,12 +11055,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVWstoreconstidx1",
-		auxType:   auxSymValAndOff,
-		argLen:    3,
-		symEffect: SymWrite,
-		asm:       x86.AMOVW,
-		scale:     1,
+		name:        "MOVWstoreconstidx1",
+		auxType:     auxSymValAndOff,
+		argLen:      3,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVW,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -11078,12 +11084,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVLstoreconstidx1",
-		auxType:   auxSymValAndOff,
-		argLen:    3,
-		symEffect: SymWrite,
-		asm:       x86.AMOVL,
-		scale:     1,
+		name:        "MOVLstoreconstidx1",
+		auxType:     auxSymValAndOff,
+		argLen:      3,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVL,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -11106,12 +11113,13 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:      "MOVQstoreconstidx1",
-		auxType:   auxSymValAndOff,
-		argLen:    3,
-		symEffect: SymWrite,
-		asm:       x86.AMOVQ,
-		scale:     1,
+		name:        "MOVQstoreconstidx1",
+		auxType:     auxSymValAndOff,
+		argLen:      3,
+		commutative: true,
+		symEffect:   SymWrite,
+		asm:         x86.AMOVQ,
+		scale:       1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
