@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7cd26e24_dc318ba6",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-08T19:37:28Z",
+      "side": 1,
+      "message": "(https://golang.org/issue/25390#issuecomment-390768893 is relevant here.)",
+      "parentUuid": "e25683e4_7f50c2cd",
+      "revId": "81b1a2d16655b0e6dfe0c18b0f2e5199f458d93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1450102_20d19dda",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
