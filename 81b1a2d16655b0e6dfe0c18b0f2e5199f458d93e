@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "daf6169e_66b47736",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-08T19:36:11Z",
+      "side": 1,
+      "message": "What should we do if req.GetBody _is_ nil?\n\n(I think there is still a bug here: I suspect that we will still erroneously transmit the truncated body to the server.)",
+      "revId": "81b1a2d16655b0e6dfe0c18b0f2e5199f458d93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "537d00ba_69df5b6d",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -13,6 +30,47 @@
       "writtenOn": "2020-01-06T23:37:06Z",
       "side": 1,
       "message": "I think we want a req.closeBody() call before we reassign the req, just in case the other RoundTripper didn\u0027t.\n\nAnd looking at the http2.Transport, I don\u0027t see where it does?\n\nI\u0027m more concerned about missing closes than I am about double closes. Double closes are kinda okay and I have a plan for how to address them all at once in a future release (basically adding a sync.Once-like atomic unexported field to net/http.Request, and making body closes go through a helper CAS method) .",
+      "revId": "81b1a2d16655b0e6dfe0c18b0f2e5199f458d93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e25683e4_7f50c2cd",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-08T19:36:11Z",
+      "side": 1,
+      "message": "\u003e I think we want a req.closeBody() call before we reassign the req, just in case the other RoundTripper didn\u0027t.\n\nThe documentation for RoundTripper says “RoundTrip must always close the body, including on errors”, so it should be safe to assume that the other RoundTripper did indeed close the body. (And if that ever fails to hold, we should fix the RoundTripper implementation.)\n\n\u003e And looking at the http2.Transport, I don\u0027t see where it does?\n\nPerhaps one of these?\n\nhttps://github.com/golang/net/blob/c0dbc17a35534bf2e581d7a942408dc936316da4/http2/transport.go#L1045\nhttps://github.com/golang/net/blob/c0dbc17a35534bf2e581d7a942408dc936316da4/http2/transport.go#L1248\n\n\n\u003e I\u0027m more concerned about missing closes than I am about double closes. Double closes are kinda okay and I have a plan for how to address them all at once in a future release (basically adding a sync.Once-like atomic unexported field to net/http.Request, and making body closes go through a helper CAS method) .\n\nI don\u0027t think double-closes are ok either: the Close implementations in the standard library tend to be very forgiving, but the io.Closer interface doesn\u0027t specify that behavior at all, so valid implementations may (and some do) panic or deadlock.",
+      "parentUuid": "537d00ba_69df5b6d",
+      "revId": "81b1a2d16655b0e6dfe0c18b0f2e5199f458d93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1450102_20d19dda",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6064,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-08T19:36:11Z",
+      "side": 1,
+      "message": "Please also test the behavior for a non-resettable body.\n\n(Wrapping the body in a `struct{ io.Reader }` should suffice.)",
+      "range": {
+        "startLine": 6064,
+        "startChar": 57,
+        "endLine": 6064,
+        "endChar": 86
+      },
       "revId": "81b1a2d16655b0e6dfe0c18b0f2e5199f458d93e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
