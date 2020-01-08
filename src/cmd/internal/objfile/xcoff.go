@@ -8,6 +8,7 @@ package objfile
 
 import (
 	"debug/dwarf"
+	"encoding/binary"
 	"fmt"
 	"internal/xcoff"
 	"io"
@@ -154,6 +155,15 @@ func (f *xcoffFile) goarch() string {
 		return "ppc64"
 	}
 	return ""
+}
+
+func (f *xcoffFile) encoding() (binary.ByteOrder, int) {
+	// TODO(jfaller): Get this right.
+	ptrSize := 4
+	if f.xcoff.TargetMachine == xcoff.U64_TOCMAGIC {
+		ptrSize = 8
+	}
+	return binary.BigEndian, ptrSize
 }
 
 func (f *xcoffFile) loadAddress() (uint64, error) {

@@ -34,6 +34,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"regexp"
@@ -45,12 +46,39 @@ import (
 
 var printCode = flag.Bool("S", false, "print go code alongside assembly")
 var symregexp = flag.String("s", "", "only dump symbols matching this regexp")
+var stats = flag.Bool("stats", false, "print object statistics and section sizes, and exit")
 var symRE *regexp.Regexp
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "usage: go tool objdump [-S] [-s symregexp] binary [start end]\n\n")
 	flag.PrintDefaults()
 	os.Exit(2)
+}
+
+// Print some statistics out about the object file.
+// Right now, we're only really printing a small amount of stuff here.
+func printStats(f *objfile.File, out io.Writer) {
+	for _, entry := range f.Entries() {
+		name := entry.Name()
+		if len(name) == 0 {
+			name = "[NONE]"
+		}
+		io.WriteString(out, fmt.Sprintf("Name: %s\n", name))
+		io.WriteString(out, "\tSection\t\tSize\n")
+
+		if start, data, err := entry.Text(); err != nil {
+			panic(err)
+		} else {
+			io.WriteString(out, fmt.Sprintf("\tTEXT\t\t%d\t0x%08x\n", len(data), start))
+		}
+
+		encoding, ptrSize := entry.Encoding()
+		if data, err := entry.PCLNData(); err != nil {
+			panic(err)
+		} else {
+			printPclnStats(out, encoding, ptrSize, data)
+		}
+	}
 }
 
 func main() {
@@ -76,6 +104,11 @@ func main() {
 		log.Fatal(err)
 	}
 	defer f.Close()
+
+	if *stats {
+		printStats(f, os.Stdout)
+		return
+	}
 
 	dis, err := f.Disasm()
 	if err != nil {

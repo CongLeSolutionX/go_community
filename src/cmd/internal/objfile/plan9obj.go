@@ -9,6 +9,7 @@ package objfile
 import (
 	"debug/dwarf"
 	"debug/plan9obj"
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"io"
@@ -145,6 +146,14 @@ func (f *plan9File) goarch() string {
 		return "arm"
 	}
 	return ""
+}
+
+func (f *plan9File) encoding() (binary.ByteOrder, int) {
+	ptrSize := 4
+	if f.plan9.Magic&plan9obj.Magic64 != 0 {
+		ptrSize = 8
+	}
+	return binary.BigEndian, ptrSize
 }
 
 func (f *plan9File) loadAddress() (uint64, error) {
