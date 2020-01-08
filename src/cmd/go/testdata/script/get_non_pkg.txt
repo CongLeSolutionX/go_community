@@ -1,0 +1,13 @@
+[!net] skip
+[!exec:git] skip
+
+env GOBIN=$WORK/tmp/gobin
+
+! go get -d golang.org/x/tools
+stderr 'golang.org/x/tools: no Go files'
+
+! go get -d -u golang.org/x/tools
+stderr 'golang.org/x/tools: no Go files'
+
+! go get -d golang.org/x/tools
+stderr 'golang.org/x/tools: no Go files'
