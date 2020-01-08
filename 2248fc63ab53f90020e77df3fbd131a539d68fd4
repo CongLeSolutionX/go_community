@@ -34,6 +34,24 @@
       "revId": "2248fc63ab53f90020e77df3fbd131a539d68fd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3167ff89_08957425",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-01-08T22:48:59Z",
+      "side": 1,
+      "message": "Perhaps it\u0027s possible to move the relevant tconv calls into a phase before the parallel phases?",
+      "parentUuid": "4d9d0403_bc60ae53",
+      "revId": "2248fc63ab53f90020e77df3fbd131a539d68fd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
