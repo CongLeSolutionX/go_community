@@ -9,6 +9,7 @@ package objfile
 import (
 	"debug/dwarf"
 	"debug/macho"
+	"encoding/binary"
 	"fmt"
 	"io"
 	"sort"
@@ -119,6 +120,14 @@ func (f *machoFile) goarch() string {
 		return "ppc64"
 	}
 	return ""
+}
+
+func (f *machoFile) encoding() (binary.ByteOrder, int) {
+	ptrSize := 4
+	if f.macho.Magic == macho.Magic64 {
+		ptrSize = 8
+	}
+	return f.macho.ByteOrder, ptrSize
 }
 
 type uint64s []uint64

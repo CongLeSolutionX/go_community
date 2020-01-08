@@ -9,6 +9,7 @@ package objfile
 import (
 	"debug/dwarf"
 	"debug/pe"
+	"encoding/binary"
 	"fmt"
 	"io"
 	"sort"
@@ -194,6 +195,14 @@ func (f *peFile) goarch() string {
 		return "arm"
 	}
 	return ""
+}
+
+func (f *peFile) encoding() (binary.ByteOrder, int) {
+	ptrSize := 4
+	if _, ok := f.pe.OptionalHeader.(*pe.OptionalHeader64); ok {
+		ptrSize = 8
+	}
+	return binary.LittleEndian, ptrSize
 }
 
 func (f *peFile) loadAddress() (uint64, error) {
