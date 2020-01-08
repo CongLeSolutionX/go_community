@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bdf25bae_55284d2a",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6522,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T15:21:07Z",
+      "side": 1,
+      "message": "Yup, done.",
+      "parentUuid": "ac935ee7_ef96a3c3",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a720819_975f16a7",
         "filename": "src/cmd/compile/internal/riscv64/ssa.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f844e027_97de166f",
+        "filename": "src/cmd/compile/internal/riscv64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T15:21:07Z",
+      "side": 1,
+      "message": "v.AuxInt contains an integer representation of a float64, whereas we need float32 here - I\u0027m not sure if we can force v.AuxInt to contain the float32 value somehow...",
+      "parentUuid": "3a720819_975f16a7",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6f62cd0a_c6e38f82",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T15:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0674b1ef_a9f1d42d",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71bb27d7_b1bbb1ea",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5f125f0_f5bc6691",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T15:21:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "71bb27d7_b1bbb1ea",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "e1ac1e4e_2731fd7e",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T15:21:07Z",
+      "side": 1,
+      "message": "I\u0027ve revised the TODO.",
+      "parentUuid": "a2e441df_64cb3db0",
+      "range": {
+        "startLine": 473,
+        "startChar": 28,
+        "endLine": 473,
+        "endChar": 74
+      },
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4658613_4e6bd329",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2019-11-12T20:57:05Z",
       "side": 1,
       "message": "The rewrite rules always pair these with FMVSX/FMVDX. What is the division of responsibility, exactly? What does MOVSconst not do that requires a FMVSX in addition?",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "607f7b12_4862d007",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T15:21:07Z",
+      "side": 1,
+      "message": "On RISCV, to load an immediate into a floating point register, it first needs to be loaded into an integer register, then moved into a floating point register. MOVSconst/MOVDconst are loading a float32/float64 value into an integer register and the FMV instruction is then used to move it into a floating point register.",
+      "parentUuid": "e4658613_4e6bd329",
       "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -141,6 +255,24 @@
       "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ff5a7e2_0839285d",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T15:21:07Z",
+      "side": 1,
+      "message": "Correct. FCVTSW converts a signed 32-bit integer to a floating point value, whereas FCVTSL converts a signed 64-bit integer.",
+      "parentUuid": "6aaca90e_395b7640",
+      "revId": "8d0458761eee35e48cc009f1e749f0dd74695d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
