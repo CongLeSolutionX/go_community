@@ -90,6 +90,11 @@ import (
 type cgoCallers [32]uintptr
 
 // Call from Go to C.
+//
+// This must be nosplit because it's used for syscalls on some
+// platforms. Syscalls may have untyped arguments on the stack, so
+// it's not safe to grow or scan the stack.
+//
 //go:nosplit
 func cgocall(fn, arg unsafe.Pointer) int32 {
 	if !iscgo && GOOS != "solaris" && GOOS != "illumos" && GOOS != "windows" {
@@ -127,6 +132,13 @@ func cgocall(fn, arg unsafe.Pointer) int32 {
 	// saved by entersyscall here.
 	entersyscall()
 
+	// Tell asynchronous preemption that we're entering external
+	// code. We do this after entersyscall because this may block
+	// and cause an async preemption to fail, but at this point a
+	// sync preemption will succeed (though this is not a matter
+	// of correctness).
+	osPreemptExtEnter(mp)
+
 	mp.incgo = true
 	errno := asmcgocall(fn, arg)
 
@@ -134,6 +146,8 @@ func cgocall(fn, arg unsafe.Pointer) int32 {
 	// reschedule us on to a different M.
 	mp.incgo = false
 	mp.ncgo--
+
+	osPreemptExtExit(mp)
 
 	exitsyscall()
 
