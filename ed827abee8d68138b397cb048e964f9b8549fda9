@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9cc01f85_5d0254fe",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T16:55:14Z",
+      "side": 1,
+      "message": "Sure, although I\u0027d prefer to do this as a follow up if possible (we\u0027ve already got riscv64 assembly in tree that is using ABI names).",
+      "parentUuid": "d4db6f09_49f3f4ca",
+      "revId": "ed827abee8d68138b397cb048e964f9b8549fda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25642aa2_42607fbf",
         "filename": "src/runtime/sys_linux_riscv64.s",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "6f795171_911bd921",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T16:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25642aa2_42607fbf",
+      "range": {
+        "startLine": 103,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 12
+      },
+      "revId": "ed827abee8d68138b397cb048e964f9b8549fda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ab05fd8_aa571b81",
         "filename": "src/runtime/sys_linux_riscv64.s",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "ed827abee8d68138b397cb048e964f9b8549fda9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "959c3f1d_f3fe6a0b",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-08T16:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ab05fd8_aa571b81",
+      "range": {
+        "startLine": 116,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 12
+      },
+      "revId": "ed827abee8d68138b397cb048e964f9b8549fda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
