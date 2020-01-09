@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4933c872_f33aa213",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-01-09T14:23:01Z",
+      "side": 1,
+      "message": "How do we feel about these constants being 1 and 2, instead of (perhaps) inExternal and inPreempt?",
+      "range": {
+        "startLine": 165,
+        "startChar": 54,
+        "endLine": 167,
+        "endChar": 61
+      },
+      "revId": "f6dde84af01a0016faa94594398d1db937e5d9bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
