@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06c32593_4e42b412",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-09T17:56:33Z",
+      "side": 1,
+      "message": "That kinda makes it sound like a regression and unsafe for regular use, though.\n\nMaybe we can soften the wording?\n\nSomething about causing false alerts?",
+      "range": {
+        "startLine": 325,
+        "startChar": 10,
+        "endLine": 326,
+        "endChar": 12
+      },
+      "revId": "3196f02c0097968e8e0cb3b06afb66a66f7a4b65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
