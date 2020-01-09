@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6288ba64_055de5c6",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-09T21:48:49Z",
+      "side": 1,
+      "message": "In the object file format, I went back and forth about whether Gotype is an Aux or a field in goobj2.Sym. I chose the former because (1) not all symbols have Aux (therefore save some space) (2) goobj2.Sym doesn\u0027t have any reference to other symbols, i.e. it doesn\u0027t need any index structure. We could consider moving Gotype to goobj2.Sym, if there is a clear benefit. In particular, if we want to read it in preload, we might want to do that.",
+      "range": {
+        "startLine": 1205,
+        "startChar": 42,
+        "endLine": 1207,
+        "endChar": 11
+      },
+      "revId": "d7b59cd9ba1eb99a7b15816f22f7218d0353d644",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
