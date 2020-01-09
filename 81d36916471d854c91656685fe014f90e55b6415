@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "086cdd27_4ca0aef4",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-09T21:27:53Z",
+      "side": 1,
+      "message": "panic instead? (see comment in main.go)",
+      "range": {
+        "startLine": 632,
+        "startChar": 7,
+        "endLine": 632,
+        "endChar": 19
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3cee9a4_0418721d",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-09T21:27:53Z",
+      "side": 1,
+      "message": "discussed offline.\n\nFeels to me like this call becomes less relevant, and that MakeSymbolUpdater() will just take the name/version.",
+      "range": {
+        "startLine": 637,
+        "startChar": 24,
+        "endLine": 637,
+        "endChar": 41
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f1e9581_0b3d3005",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-09T21:27:53Z",
+      "side": 1,
+      "message": "Peinit uses the old sym.Symbol API through ctxt.xdefine. While I was experimenting with the builder/loader API changes in November, I had previously changed xdefine to see if there was still ctxt.loader and using the appropriate symbol creation API. I\u0027m surprised this CL makes it through TryBots without changing xdefine.",
+      "range": {
+        "startLine": 652,
+        "startChar": 2,
+        "endLine": 652,
+        "endChar": 8
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "907ee4d3_fed06aa8",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 2856,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-09T21:27:53Z",
+      "side": 1,
+      "message": "similarly for ctxt.Tlsg2?",
+      "range": {
+        "startLine": 2856,
+        "startChar": 17,
+        "endLine": 2856,
+        "endChar": 27
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42ff2820_29359f50",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-09T21:27:53Z",
+      "side": 1,
+      "message": "linksetupold?",
+      "range": {
+        "startLine": 221,
+        "startChar": 7,
+        "endLine": 221,
+        "endChar": 16
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
