@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b727487b_f94c0289",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 13370
+      },
+      "writtenOn": "2020-01-09T08:37:13Z",
+      "side": 1,
+      "message": "Seems like you are right, but I\u0027m not sure how to fix this specific case.\n\nWe can\u0027t just return an error here because we are not sure that body was even\ntouched. Without http2.Transport implementation details this rewind attempt makes no sense,\nand there can (probably) be cases that we will rewind body when it is not needed, which can lead \nto performance degradation. Currently it even looks like an abstraction leak.\n\nProbably we should refactor interaction with RountTripper in such way \nthat we can explicitly check if body was already read. \n\nWhat do you think?",
+      "parentUuid": "daf6169e_66b47736",
+      "revId": "81b1a2d16655b0e6dfe0c18b0f2e5199f458d93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "537d00ba_69df5b6d",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
