@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a39225f1_ed19c41f",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-09T17:00:40Z",
+      "side": 1,
+      "message": "This is unfortunate (but fine). SuspendThread won\u0027t actually inject the call, as this is not a preemptible point. So it will just resume the thread.",
+      "range": {
+        "startLine": 1248,
+        "startChar": 4,
+        "endLine": 1252,
+        "endChar": 18
+      },
+      "revId": "1f535c15d6d7b69294b79967f83b39f29589562b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
