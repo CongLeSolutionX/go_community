@@ -46,6 +46,30 @@
       "revId": "3196f02c0097968e8e0cb3b06afb66a66f7a4b65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d064ba2_d984779e",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-09T19:07:54Z",
+      "side": 1,
+      "message": "I thought the last one was a sockaddr that was actually fine. It was pointing off the end of the generic sockaddr but that was not the end of the real object since the allocation was a socket-specific sockaddr.\n\nBut I\u0027m not confident that was the only one.",
+      "parentUuid": "619eaaad_b659ad5e",
+      "range": {
+        "startLine": 325,
+        "startChar": 10,
+        "endLine": 326,
+        "endChar": 12
+      },
+      "revId": "3196f02c0097968e8e0cb3b06afb66a66f7a4b65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
