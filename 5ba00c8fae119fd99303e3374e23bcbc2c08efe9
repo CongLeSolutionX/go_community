@@ -16,6 +16,24 @@
       "revId": "5ba00c8fae119fd99303e3374e23bcbc2c08efe9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc64dd31_ad8c9b4a",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-09T02:25:25Z",
+      "side": 1,
+      "message": "Oh, of course. Done.",
+      "parentUuid": "47dbd438_a9026ce0",
+      "revId": "5ba00c8fae119fd99303e3374e23bcbc2c08efe9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
