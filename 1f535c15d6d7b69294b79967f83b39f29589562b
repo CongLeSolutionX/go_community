@@ -22,6 +22,30 @@
       "revId": "1f535c15d6d7b69294b79967f83b39f29589562b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbaa3520_c1b5f450",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-09T17:28:46Z",
+      "side": 1,
+      "message": "Yes, that\u0027s true. But as soon as async preemption gives up, this will go into _Gsyscall, which will allow an immediate sync preemption, so I think it\u0027s okay.",
+      "parentUuid": "a39225f1_ed19c41f",
+      "range": {
+        "startLine": 1248,
+        "startChar": 4,
+        "endLine": 1252,
+        "endChar": 18
+      },
+      "revId": "1f535c15d6d7b69294b79967f83b39f29589562b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
