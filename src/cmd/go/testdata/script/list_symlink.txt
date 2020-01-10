@@ -1,0 +1,91 @@
+[!symlink] skip
+
+# Standard case
+mkdir $WORK/tmp/src
+symlink $WORK/tmp/src/dir1 -> $WORK/tmp 
+cp standard/p.go $WORK/tmp/src/dir1/p.go
+env GOPATH=$WORK/tmp
+go list -f '{{.Root}}' dir1
+stdout '^'$WORK/tmp'$'
+
+# Restore state
+cd $WORK/gopath/src
+rm $WORK/tmp
+env GOPATH=$WORK/gopath
+
+# Vendoring (Issue #14054)
+mkdir $WORK/tmp/gopath/src/dir1/vendor/v
+cp vendor14054/p.go $WORK/tmp/gopath/src/dir1/p.go
+cp vendor14054/v.go $WORK/tmp/gopath/src/dir1/vendor/v/v.go
+symlink $WORK/tmp/symdir1 -> $WORK/tmp/gopath/src/dir1
+env GOPATH=$WORK/tmp/gopath
+cd $WORK/tmp/symdir1
+go list -f '{{.Root}}' .
+stdout '^'$WORK/tmp/gopath'$'
+# Vendoring (Issue #14054): All of these should succeed, not die in vendor-handling code.
+go run p.go
+go build
+go install
+
+# Restore state
+cd $WORK/gopath/src
+rm $WORK/tmp
+env GOPATH=$WORK/gopath
+
+# Vendoring (Issue #15201)
+mkdir $WORK/tmp/gopath/src/x/y/_vendor/src/x
+symlink $WORK/tmp/gopath/src/x/y/_vendor/src/x/y -> ../../..
+mkdir $WORK/tmp/gopath/src/x/y/_vendor/src/x/y/w
+cp vendor15201/w.go $WORK/tmp/gopath/src/x/y/w/w.go
+symlink $WORK/tmp/gopath/src/x/y/w/vendor -> ../_vendor/src
+mkdir $WORK/tmp/gopath/src/x/y/_vendor/src/x/y/z
+cp vendor15201/z.go $WORK/tmp/gopath/src/x/y/z/z.go
+
+env GOPATH=$WORK/tmp/gopath/src/x/y/_vendor${:}$WORK/tmp/gopath
+cd $WORK/tmp/gopath/src
+go list ./...
+
+# Restore state
+cd $WORK/gopath/src
+rm $WORK/tmp
+env GOPATH=$WORK/gopath
+
+# Internal
+mkdir $WORK/tmp/gopath/src/dir1/internal/v
+cp internal/p.go $WORK/tmp/gopath/src/dir1/p.go
+cp internal/v.go $WORK/tmp/gopath/src/dir1/internal/v/v.go
+symlink $WORK/tmp/symdir1 -> $WORK/tmp/gopath/src/dir1
+env GOPATH=$WORK/tmp/gopath
+cd $WORK/tmp/symdir1
+go list -f '{{.Root}}' .
+stdout '^'$WORK/tmp/gopath'$'
+
+# Internal: All of these should succeed, not die in internal-handling code.
+go run p.go
+go build
+go install
+
+-- standard/p.go --
+package p
+-- vendor14054/p.go --
+package main
+
+import _ `v`
+
+func main () {}
+-- vendor14054/v.go --
+package v
+-- vendor15201/w.go --
+package w
+
+import "x/y/z"
+-- vendor15201/z.go --
+package z
+-- internal/p.go --
+package main
+
+import _ `dir1/internal/v`
+
+func main() {}
+-- internal/v.go --
+package v
