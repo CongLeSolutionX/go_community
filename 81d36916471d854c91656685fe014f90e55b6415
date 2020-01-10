@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5fbd8ea_7dc053c9",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-10T01:44:28Z",
+      "side": 1,
+      "message": "OK, will convert to panic.",
+      "parentUuid": "086cdd27_4ca0aef4",
+      "range": {
+        "startLine": 632,
+        "startChar": 7,
+        "endLine": 632,
+        "endChar": 19
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3cee9a4_0418721d",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-09T21:27:53Z",
       "side": 1,
       "message": "discussed offline.\n\nFeels to me like this call becomes less relevant, and that MakeSymbolUpdater() will just take the name/version.",
+      "range": {
+        "startLine": 637,
+        "startChar": 24,
+        "endLine": 637,
+        "endChar": 41
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64539ec6_2fba3e9f",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-10T01:44:28Z",
+      "side": 1,
+      "message": "I think it\u0027s probably a good way to go -- have a function that takes a name/version and returns a loader.SymbolBuilder that you can use to make updates.  Useful idea, but maybe not in this patch.",
+      "parentUuid": "c3cee9a4_0418721d",
       "range": {
         "startLine": 637,
         "startChar": 24,
@@ -62,6 +110,24 @@
       "revId": "81d36916471d854c91656685fe014f90e55b6415",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e861280_87647f10",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-10T01:44:28Z",
+      "side": 1,
+      "message": "Agree, this looks like a leftover. I\u0027ll see about taking it out.",
+      "parentUuid": "884fd1c7_fd80d27d",
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "bb5de3bf_3627d0b0",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-10T01:44:28Z",
+      "side": 1,
+      "message": "Yup, it\u0027s not being exercised right now since we\u0027re only doing ELF. We\u0027ll need a new loader-specific version of xdefine.",
+      "parentUuid": "ed33f55b_9e9de857",
+      "range": {
+        "startLine": 652,
+        "startChar": 2,
+        "endLine": 652,
+        "endChar": 8
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5936901e_121b10aa",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 16
@@ -132,6 +222,30 @@
       "revId": "81d36916471d854c91656685fe014f90e55b6415",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8bf5d70_3403f888",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-10T01:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5936901e_121b10aa",
+      "range": {
+        "startLine": 682,
+        "startChar": 62,
+        "endLine": 682,
+        "endChar": 68
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -170,6 +284,30 @@
       "side": 1,
       "message": "My mistake, despite not being in the comment, it\u0027s in the code.",
       "parentUuid": "907ee4d3_fed06aa8",
+      "range": {
+        "startLine": 2856,
+        "startChar": 17,
+        "endLine": 2856,
+        "endChar": 27
+      },
+      "revId": "81d36916471d854c91656685fe014f90e55b6415",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa7ba39d_86fede74",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 2856,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-10T01:44:28Z",
+      "side": 1,
+      "message": "I\u0027ll fix up the comment.",
+      "parentUuid": "85a95cda_2e503def",
       "range": {
         "startLine": 2856,
         "startChar": 17,
