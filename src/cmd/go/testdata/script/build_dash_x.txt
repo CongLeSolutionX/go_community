@@ -1,0 +1,51 @@
+[short] skip
+[!cgo] skip
+
+[!exec:/usr/bin/env] skip
+[!exec:bash] skip
+[!exec:cat] skip
+
+mkdir $WORK/tmp/cache
+env GOCACHE=$WORK/tmp/cache
+
+# Before building our test main.go, ensure that an up-to-date copy of
+# runtime/cgo is present in the cache. If it isn't, the 'go build' step below
+# will fail with "can't open import". See golang.org/issue/29004.
+go build runtime/cgo
+
+go build -x -o main main.go
+cp stderr commands.txt
+exec cat header.txt commands.txt
+cp stdout test.sh
+
+exec ./main
+cmp stderr hello.txt
+rm ./main
+
+exec /usr/bin/env bash -x test.sh
+exec ./main
+cmp stderr hello.txt
+
+grep '^WORK=(.*)\n' commands.txt
+# TODO(matloob): Is it necessary to remove the WORK directory
+# (matching the group in the grep above) for the test?
+# The original test, TestExec Build did, but we'd have to make
+# a custom go program within this test to do that because we
+# can't pass the match in the grep command to rm, as the
+# original test did. It seems like the original test was removing
+# the work directory for cleanliness purposes rather than as
+# part of the test, so I think it's safe not to have it.
+rm $WORK
+
+-- main.go --
+package main
+
+import "C"
+
+func main() {
+	print("hello\n")
+}
+-- header.txt --
+set -e
+-- hello.txt --
+hello
