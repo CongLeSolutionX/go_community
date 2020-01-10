@@ -22,6 +22,30 @@
       "revId": "d7b59cd9ba1eb99a7b15816f22f7218d0353d644",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5280de0a_ea1922af",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-01-10T01:43:16Z",
+      "side": 1,
+      "message": "yah, I was wondering the same thing.  I think you made the right choice though; I added some code to my linker stats patch to see how many symbols have a defined Gotype field. For kubernetese hyperkube is is 23732 out of 1398008 (reachable) syms, so a bit less than 2%. So my feeling is that this is the right way to go.",
+      "parentUuid": "6288ba64_055de5c6",
+      "range": {
+        "startLine": 1205,
+        "startChar": 42,
+        "endLine": 1207,
+        "endChar": 11
+      },
+      "revId": "d7b59cd9ba1eb99a7b15816f22f7218d0353d644",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
