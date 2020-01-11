@@ -206,6 +206,33 @@ func TestRemoveAllLongPath(t *testing.T) {
 	}
 }
 
+func TestRemoveAllLongPathWindows(t *testing.T) {
+	switch runtime.GOOS {
+	case "windows":
+		break
+	default:
+		t.Skip("skipping as test is specific to the platform")
+	}
+
+	startPath, err := ioutil.TempDir("", "TestRemoveAllLongPath-")
+	if err != nil {
+		t.Fatalf("Could not create TempDir: %s", err)
+	}
+	defer RemoveAll(startPath)
+
+	// Make a long path
+	err = MkdirAll(filepath.Join(startPath, "foo", "bar", strings.Repeat("a", 150),
+		strings.Repeat("b", 150)), ModePerm)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = RemoveAll("foo")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestRemoveAllDot(t *testing.T) {
 	prevDir, err := Getwd()
 	if err != nil {
