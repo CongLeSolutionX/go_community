@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "514fd3b9_8a3a1bcd",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-12T20:55:04Z",
+      "side": 1,
+      "message": "I don\u0027t see anything specific to Windows in the test.  Seems to me we can just run this test for all GOOS values.",
+      "revId": "80629933dd604ce858e5e74be577e09f1748c491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
