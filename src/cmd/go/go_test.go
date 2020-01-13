@@ -1102,42 +1102,6 @@ func TestAccidentalGitCheckout(t *testing.T) {
 	}
 }
 
-func TestVersionControlErrorMessageIncludesCorrectDirectory(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/shadow/root1"))
-	tg.runFail("get", "-u", "foo")
-
-	// TODO(iant): We should not have to use strconv.Quote here.
-	// The code in vcs.go should be changed so that it is not required.
-	quoted := strconv.Quote(filepath.Join("testdata", "shadow", "root1", "src", "foo"))
-	quoted = quoted[1 : len(quoted)-1]
-
-	tg.grepStderr(regexp.QuoteMeta(quoted), "go get -u error does not mention shadow/root1/src/foo")
-}
-
-// Issue 21895
-func TestMSanAndRaceRequireCgo(t *testing.T) {
-	if !canMSan && !canRace {
-		t.Skip("skipping because both msan and the race detector are not supported")
-	}
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.tempFile("triv.go", `package main; func main() {}`)
-	tg.setenv("CGO_ENABLED", "0")
-	if canRace {
-		tg.runFail("install", "-race", "triv.go")
-		tg.grepStderr("-race requires cgo", "did not correctly report that -race requires cgo")
-		tg.grepStderrNot("-msan", "reported that -msan instead of -race requires cgo")
-	}
-	if canMSan {
-		tg.runFail("install", "-msan", "triv.go")
-		tg.grepStderr("-msan requires cgo", "did not correctly report that -msan requires cgo")
-		tg.grepStderrNot("-race", "reported that -race instead of -msan requires cgo")
-	}
-}
-
 func TestPackageMainTestCompilerFlags(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
