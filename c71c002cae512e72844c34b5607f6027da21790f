@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d72a9ead_db33611b",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "Add a comment here as to why we\u0027d see a SUB.\nI would think ideally we shouldn\u0027t see one. For a write barrier check, we should just need a load and a BNE. Perhaps a SNEZ?\nOr are we comparing writeBarrier.enabled with 1?\n\nRegardless, shouldn\u0027t we need to add a load to the following case?",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05d6d206_13f636f6",
+        "filename": "src/cmd/compile/internal/riscv64/ggen.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "remove this comment",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 28
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "316fa7c9_134dd4b6",
+        "filename": "src/cmd/compile/internal/riscv64/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "You can use v.AuxFloat() here.",
+      "range": {
+        "startLine": 281,
+        "startChar": 55,
+        "endLine": 281,
+        "endChar": 93
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aaf66e0_cb4c5dac",
+        "filename": "src/cmd/compile/internal/riscv64/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "I don\u0027t think emitting an UNDEF is necessary here.",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "139f0b42_ffa522a4",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned about notation here. Sometimes the 8/16/32/64 bit suffixes are BHWD, like here. Other places they are BHWL (e.g. FCVTSW and FCVTSL) and D is used for float64.\nI\u0027d rather use L for 64-bit int and D for 64-bit float, always. It will be less confusing that way.\nOf course we\u0027d like to match what the native riscv assembler notation is, which I have no insight into. What names do they use?",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f0d1475_a4df6fdc",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "If we need an intermediate integer register to materialize a floating-point constant, I\u0027d rather do that using\n\n(FMOVSX (MOVWconst [x])) where x is the math.Float32bits of the floating constant.\nThat way we don\u0027t need MOVSconst.\n\nSeems like we already do this for 64-bit floats.",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a61cef7_207f3c80",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "Add \"inclusive\".",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c90c35d_c00d102a",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "this is really more \"element size\" than \"alignment\".",
+      "range": {
+        "startLine": 178,
+        "startChar": 14,
+        "endLine": 178,
+        "endChar": 23
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7345954_1b953fb0",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "The code in riscv64/ssa.go uses BGEU",
+      "range": {
+        "startLine": 182,
+        "startChar": 5,
+        "endLine": 182,
+        "endChar": 8
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91250f20_737f2a49",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "The code in riscv64/ssa.go uses BGEU",
+      "range": {
+        "startLine": 207,
+        "startChar": 5,
+        "endLine": 207,
+        "endChar": 8
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b75d0c8c_c325713f",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "low 32 bits of arg0",
+      "range": {
+        "startLine": 255,
+        "startChar": 146,
+        "endLine": 255,
+        "endChar": 150
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6563bf71_3947ab24",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-13T21:54:49Z",
+      "side": 1,
+      "message": "low 32 bits of arg0",
+      "range": {
+        "startLine": 274,
+        "startChar": 146,
+        "endLine": 274,
+        "endChar": 150
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
