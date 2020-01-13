@@ -1951,7 +1951,6 @@ func TestGoBuildGOPATHOrder(t *testing.T) {
 func TestGoBuildGOPATHOrderBroken(t *testing.T) {
 	// This test is known not to work.
 	// See golang.org/issue/14271.
-	t.Skip("golang.org/issue/14271")
 
 	tg := testgo(t)
 	defer tg.cleanup()
