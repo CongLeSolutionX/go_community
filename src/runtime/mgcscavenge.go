@@ -80,6 +80,17 @@ const (
 	// maxPagesPerPhysPage is the maximum number of supported runtime pages per
 	// physical page, based on maxPhysPageSize.
 	maxPagesPerPhysPage = maxPhysPageSize / pageSize
+
+	// scavengeCostRatio is the approximate ratio between the costs of using previously
+	// scavenged memory and scavenging memory.
+	//
+	// For most systems the cost of scavenging greatly outweighs the costs
+	// associated with using scavenged memory, making this constant 0. On other systems
+	// (especially ones where "sysUsed" is not just a no-op) this cost is non-trivial.
+	//
+	// This ratio is used as part of multiplicative factor to help the scavenger account
+	// for the additional costs of using scavenged memory in its pacing.
+	scavengeCostRatio = 0.7 * sys.GoosDarwin
 )
 
 // heapRetained returns an estimate of the current heap RSS.
@@ -275,12 +286,20 @@ func bgscavenge(c chan int) {
 			continue
 		}
 
+		// Multiply the critical time by 1 + the ratio of the costs of using
+		// scavenged memory vs. scavenging memory. This forces us to pay down
+		// these costs eagerly by sleeping for a longer period of time and
+		// scavenging less frequently. More concretely, we avoid situations
+		// where we end up scavenging so often that we hurt allocation performance
+		// because of the additional overheads of using scavenged memory.
+		critTime := float64(crit) * (1 + scavengeCostRatio)
+
 		// If we spent more than 10 ms (for example, if the OS scheduled us away, or someone
 		// put their machine to sleep) in the critical section, bound the time we use to
 		// calculate at 10 ms to avoid letting the sleep time get arbitrarily high.
-		const maxCrit = 10e6
-		if crit > maxCrit {
-			crit = maxCrit
+		const maxCritTime = 10e6
+		if critTime > maxCritTime {
+			critTime = maxCritTime
 		}
 
 		// Compute the amount of time to sleep, assuming we want to use at most
@@ -290,13 +309,13 @@ func bgscavenge(c chan int) {
 		// much, then scavengeEMWA < idealFraction, so we'll adjust the sleep time
 		// down.
 		adjust := scavengeEWMA / idealFraction
-		sleepTime := int64(adjust * float64(crit) / (scavengePercent / 100.0))
+		sleepTime := int64(adjust * critTime / (scavengePercent / 100.0))
 
 		// Go to sleep.
 		slept := scavengeSleep(sleepTime)
 
 		// Compute the new ratio.
-		fraction := float64(crit) / float64(crit+slept)
+		fraction := critTime / (critTime + float64(slept))
 
 		// Set a lower bound on the fraction.
 		// Due to OS-related anomalies we may "sleep" for an inordinate amount
