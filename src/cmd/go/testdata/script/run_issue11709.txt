@@ -1,0 +1,15 @@
+go run run.go
+! stdout .
+! stderr .
+
+-- run.go --
+package main
+
+import "os"
+
+func main() {
+	if os.Getenv("TERM") != "" {
+		os.Exit(1)	
+	}
+
+}
