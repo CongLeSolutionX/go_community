@@ -1102,42 +1102,6 @@ func TestAccidentalGitCheckout(t *testing.T) {
 	}
 }
 
-func TestVersionControlErrorMessageIncludesCorrectDirectory(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata/shadow/root1"))
-	tg.runFail("get", "-u", "foo")
-
-	// TODO(iant): We should not have to use strconv.Quote here.
-	// The code in vcs.go should be changed so that it is not required.
-	quoted := strconv.Quote(filepath.Join("testdata", "shadow", "root1", "src", "foo"))
-	quoted = quoted[1 : len(quoted)-1]
-
-	tg.grepStderr(regexp.QuoteMeta(quoted), "go get -u error does not mention shadow/root1/src/foo")
-}
-
-// Issue 21895
-func TestMSanAndRaceRequireCgo(t *testing.T) {
-	if !canMSan && !canRace {
-		t.Skip("skipping because both msan and the race detector are not supported")
-	}
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.tempFile("triv.go", `package main; func main() {}`)
-	tg.setenv("CGO_ENABLED", "0")
-	if canRace {
-		tg.runFail("install", "-race", "triv.go")
-		tg.grepStderr("-race requires cgo", "did not correctly report that -race requires cgo")
-		tg.grepStderrNot("-msan", "reported that -msan instead of -race requires cgo")
-	}
-	if canMSan {
-		tg.runFail("install", "-msan", "triv.go")
-		tg.grepStderr("-msan requires cgo", "did not correctly report that -msan requires cgo")
-		tg.grepStderrNot("-race", "reported that -race instead of -msan requires cgo")
-	}
-}
-
 func TestPackageMainTestCompilerFlags(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
@@ -1620,51 +1584,6 @@ func TestSymlinkWarning(t *testing.T) {
 	tg.grepStderr("ignoring symlink", "list should have reported symlink")
 }
 
-func TestShadowingLogic(t *testing.T) {
-	skipIfGccgo(t, "gccgo has no standard packages")
-	tg := testgo(t)
-	defer tg.cleanup()
-	pwd := tg.pwd()
-	sep := string(filepath.ListSeparator)
-	tg.setenv("GOPATH", filepath.Join(pwd, "testdata", "shadow", "root1")+sep+filepath.Join(pwd, "testdata", "shadow", "root2"))
-
-	// The math in root1 is not "math" because the standard math is.
-	tg.run("list", "-f", "({{.ImportPath}}) ({{.ConflictDir}})", "./testdata/shadow/root1/src/math")
-	pwdForwardSlash := strings.ReplaceAll(pwd, string(os.PathSeparator), "/")
-	if !strings.HasPrefix(pwdForwardSlash, "/") {
-		pwdForwardSlash = "/" + pwdForwardSlash
-	}
-	// The output will have makeImportValid applies, but we only
-	// bother to deal with characters we might reasonably see.
-	for _, r := range " :" {
-		pwdForwardSlash = strings.ReplaceAll(pwdForwardSlash, string(r), "_")
-	}
-	want := "(_" + pwdForwardSlash + "/testdata/shadow/root1/src/math) (" + filepath.Join(runtime.GOROOT(), "src", "math") + ")"
-	if strings.TrimSpace(tg.getStdout()) != want {
-		t.Error("shadowed math is not shadowed; looking for", want)
-	}
-
-	// The foo in root1 is "foo".
-	tg.run("list", "-f", "({{.ImportPath}}) ({{.ConflictDir}})", "./testdata/shadow/root1/src/foo")
-	if strings.TrimSpace(tg.getStdout()) != "(foo) ()" {
-		t.Error("unshadowed foo is shadowed")
-	}
-
-	// The foo in root2 is not "foo" because the foo in root1 got there first.
-	tg.run("list", "-f", "({{.ImportPath}}) ({{.ConflictDir}})", "./testdata/shadow/root2/src/foo")
-	want = "(_" + pwdForwardSlash + "/testdata/shadow/root2/src/foo) (" + filepath.Join(pwd, "testdata", "shadow", "root1", "src", "foo") + ")"
-	if strings.TrimSpace(tg.getStdout()) != want {
-		t.Error("shadowed foo is not shadowed; looking for", want)
-	}
-
-	// The error for go install should mention the conflicting directory.
-	tg.runFail("install", "./testdata/shadow/root2/src/foo")
-	want = "go install: no install location for " + filepath.Join(pwd, "testdata", "shadow", "root2", "src", "foo") + ": hidden by " + filepath.Join(pwd, "testdata", "shadow", "root1", "src", "foo")
-	if strings.TrimSpace(tg.getStderr()) != want {
-		t.Error("wrong shadowed install error; looking for", want)
-	}
-}
-
 func TestCgoDependsOnSyscall(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping test that removes $GOROOT/pkg/*_race in short mode")
@@ -1986,16 +1905,6 @@ func TestImportLocal(t *testing.T) {
 	tg.grepStderr("cannot import current directory", "did not diagnose import current directory")
 }
 
-func TestGoRunDirs(t *testing.T) {
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.cd("testdata/rundir")
-	tg.runFail("run", "x.go", "sub/sub.go")
-	tg.grepStderr("named files must all be in one directory; have ./ and sub/", "wrong output")
-	tg.runFail("run", "sub/sub.go", "x.go")
-	tg.grepStderr("named files must all be in one directory; have sub/ and ./", "wrong output")
-}
-
 func TestGoInstallPkgdir(t *testing.T) {
 	skipIfGccgo(t, "gccgo has no standard packages")
 	tooSlow(t)
@@ -2011,26 +1920,6 @@ func TestGoInstallPkgdir(t *testing.T) {
 	tg.run("install", "-i", "-pkgdir", pkg, "sync")
 	tg.mustExist(filepath.Join(pkg, "sync.a"))
 	tg.mustExist(filepath.Join(pkg, "sync/atomic.a"))
-}
-
-func TestGoInstallShadowedGOPATH(t *testing.T) {
-	// golang.org/issue/3652.
-	// go get foo.io (not foo.io/subdir) was not working consistently.
-
-	testenv.MustHaveExternalNetwork(t)
-
-	tg := testgo(t)
-	defer tg.cleanup()
-	tg.makeTempdir()
-	tg.setenv("GOPATH", tg.path("gopath1")+string(filepath.ListSeparator)+tg.path("gopath2"))
-
-	tg.tempDir("gopath1/src/test")
-	tg.tempDir("gopath2/src/test")
-	tg.tempFile("gopath2/src/test/main.go", "package main\nfunc main(){}\n")
-
-	tg.cd(tg.path("gopath2/src/test"))
-	tg.runFail("install")
-	tg.grepStderr("no install location for.*gopath2.src.test: hidden by .*gopath1.src.test", "missing error")
 }
 
 func TestGoBuildGOPATHOrder(t *testing.T) {
