@@ -928,6 +928,7 @@ func tRunner(t *T, fn func(t *T)) {
 			for _, sub := range t.sub {
 				<-sub.signal
 			}
+			t.runCleanup()
 			if !t.isParallel {
 				// Reacquire the count for sequential tests. See comment in Run.
 				t.context.waitParallel()
@@ -947,7 +948,11 @@ func tRunner(t *T, fn func(t *T)) {
 		}
 		t.signal <- signal
 	}()
-	defer t.runCleanup()
+	defer func() {
+		if len(t.sub) == 0 {
+			t.runCleanup()
+		}
+	}()
 
 	t.start = time.Now()
 	t.raceErrors = -race.Errors()
