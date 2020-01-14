@@ -792,14 +792,22 @@ func (c *common) Cleanup(f func()) {
 }
 
 // runCleanup is called at the end of the test.
-func (c *common) runCleanup() {
+// If catchPanic is true, this will catch panics, and returned the recovered
+// value if any.
+func (c *common) runCleanup(catchPanic bool) (panicVal interface{}) {
 	c.mu.Lock()
 	cleanup := c.cleanup
 	c.cleanup = nil
 	c.mu.Unlock()
 	if cleanup != nil {
+		if catchPanic {
+			defer func() {
+				panicVal = recover()
+			}()
+		}
 		cleanup()
 	}
+	return nil
 }
 
 // callerName gives the function name (qualified with a package path)
@@ -902,18 +910,24 @@ func tRunner(t *T, fn func(t *T)) {
 				}
 			}
 		}
-		if err != nil {
+
+		doPanic := func(err interface{}) {
 			t.Fail()
 			// Flush the output log up to the root before dying.
+			t.runCleanup(true)
 			t.mu.Lock()
 			root := &t.common
 			for ; root.parent != nil; root = root.parent {
 				root.duration += time.Since(root.start)
+				root.parent.runCleanup(true)
 				fmt.Fprintf(root.parent.w, "--- FAIL: %s (%s)\n", root.name, fmtDuration(root.duration))
 				root.parent.mu.Lock()
 				io.Copy(root.parent.w, bytes.NewReader(root.output))
 			}
 			panic(err)
+		}
+		if err != nil {
+			doPanic(err)
 		}
 
 		t.duration += time.Since(t.start)
@@ -927,6 +941,9 @@ func tRunner(t *T, fn func(t *T)) {
 			// Wait for subtests to complete.
 			for _, sub := range t.sub {
 				<-sub.signal
+			}
+			if err := t.runCleanup(true); err != nil {
+				doPanic(err)
 			}
 			if !t.isParallel {
 				// Reacquire the count for sequential tests. See comment in Run.
@@ -947,7 +964,11 @@ func tRunner(t *T, fn func(t *T)) {
 		}
 		t.signal <- signal
 	}()
-	defer t.runCleanup()
+	defer func() {
+		if len(t.sub) == 0 {
+			t.runCleanup(false)
+		}
+	}()
 
 	t.start = time.Now()
 	t.raceErrors = -race.Errors()
