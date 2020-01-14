@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ff4d23f_183ff473",
+        "filename": "src/cmd/compile/internal/ssa/rewriteAMD64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12606,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-14T00:30:53Z",
+      "side": 1,
+      "message": "That\u0027s some serious nested looping...",
+      "revId": "dae694c55c3ccc6331a589c8bcf7bfceda004d9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
