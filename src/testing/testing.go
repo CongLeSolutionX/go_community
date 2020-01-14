@@ -792,14 +792,25 @@ func (c *common) Cleanup(f func()) {
 }
 
 // runCleanup is called at the end of the test.
-func (c *common) runCleanup() {
+// If catchPanic is true, this will catch panics, and return the recovered
+// value if any.
+func (c *common) runCleanup(catchPanic bool) (panicVal interface{}) {
 	c.mu.Lock()
 	cleanup := c.cleanup
 	c.cleanup = nil
 	c.mu.Unlock()
-	if cleanup != nil {
-		cleanup()
+	if cleanup == nil {
+		return nil
 	}
+
+	if catchPanic {
+		defer func() {
+			panicVal = recover()
+		}()
+	}
+
+	cleanup()
+	return nil
 }
 
 // callerName gives the function name (qualified with a package path)
@@ -902,18 +913,28 @@ func tRunner(t *T, fn func(t *T)) {
 				}
 			}
 		}
-		if err != nil {
+
+		doPanic := func(err interface{}) {
 			t.Fail()
+			if r := t.runCleanup(true); r != nil {
+				t.Logf("cleanup panicked with %v", r)
+			}
 			// Flush the output log up to the root before dying.
 			t.mu.Lock()
 			root := &t.common
 			for ; root.parent != nil; root = root.parent {
 				root.duration += time.Since(root.start)
 				fmt.Fprintf(root.parent.w, "--- FAIL: %s (%s)\n", root.name, fmtDuration(root.duration))
+				if r := root.parent.runCleanup(true); r != nil {
+					fmt.Fprintf(root.parent.w, "cleanup panicked with %v", r)
+				}
 				root.parent.mu.Lock()
 				io.Copy(root.parent.w, bytes.NewReader(root.output))
 			}
 			panic(err)
+		}
+		if err != nil {
+			doPanic(err)
 		}
 
 		t.duration += time.Since(t.start)
@@ -927,6 +948,12 @@ func tRunner(t *T, fn func(t *T)) {
 			// Wait for subtests to complete.
 			for _, sub := range t.sub {
 				<-sub.signal
+			}
+			cleanupStart := time.Now()
+			err := t.runCleanup(true)
+			t.duration += time.Since(cleanupStart)
+			if err != nil {
+				doPanic(err)
 			}
 			if !t.isParallel {
 				// Reacquire the count for sequential tests. See comment in Run.
@@ -947,7 +974,11 @@ func tRunner(t *T, fn func(t *T)) {
 		}
 		t.signal <- signal
 	}()
-	defer t.runCleanup()
+	defer func() {
+		if len(t.sub) == 0 {
+			t.runCleanup(false)
+		}
+	}()
 
 	t.start = time.Now()
 	t.raceErrors = -race.Errors()
