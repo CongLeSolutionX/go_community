@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c3de7cb_220dd278",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-14T23:31:34Z",
+      "side": 1,
+      "message": "Please see https://golang.org/wiki/CommitMessage.\n\n\nspec: add missing space in EBNF\n\nFixes #36520",
+      "revId": "aa92a01836da2adc34c17ab8747847e315745bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
