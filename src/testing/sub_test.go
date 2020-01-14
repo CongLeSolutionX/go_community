@@ -855,3 +855,19 @@ func TestRunCleanup(t *T) {
 		t.Errorf("unexpected outer cleanup count; got %d want 0", outerCleanup)
 	}
 }
+
+func TestCleanupParallelSubtests(t *T) {
+	ranCleanup := 0
+	t.Run("test", func(t *T) {
+		t.Cleanup(func() { ranCleanup++ })
+		t.Run("x", func(t *T) {
+			t.Parallel()
+			if ranCleanup > 0 {
+				t.Error("outer cleanup ran before parallel subtest")
+			}
+		})
+	})
+	if ranCleanup != 1 {
+		t.Errorf("unexpected cleanup count; got %d want 1", ranCleanup)
+	}
+}
