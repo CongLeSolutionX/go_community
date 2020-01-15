@@ -34,6 +34,24 @@
       "revId": "cdbe907616461ea2075a67370f646cc476bbdd28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5895ae34_9d6b26a0",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-15T18:40:29Z",
+      "side": 1,
+      "message": "Thanks for identifying these issues.\n\nTo be honest, if Cleanup doesn\u0027t work correctly for the normal case of a subtest that calls t.Parallel, then I think it would be better to take it out until it does work.  I\u0027m much more interested in having it do the right thing in the normal case than I am in whether there are bugs in unusual cases.  We can fix bugs in point releases.  We can\u0027t change the basic behavior.\n\n\u003e cleanups no longer count as part of the test duration\n\nAs far as I can see, parallel subtests do not count as part of the test duration either.  So if we run cleanups after parallel subtests, then this seems unavoidable.  But I\u0027m open to suggestions.\n\n\u003e cleanups won\u0027t run if the test panics\n\nFixed.\n\n\u003e if a cleanup panics, it won\u0027t be caught\n\nFixed.\n\n\u003e if a cleanup panics, test log output produced by cleanups can be lost\n\nFixed.\n\n\u003e if a cleanup calls t.Fail, numFailed won\u0027t be incremented\n\nNot fixed yet.  I\u0027m willing to let this slide for now.\n\n\u003e Also, it no longer checks for races in cleanup functions.\n\nI\u0027m not quite sure what you mean here.  Can you expand?  Thanks.",
+      "parentUuid": "15b40b3e_b93a9df7",
+      "revId": "cdbe907616461ea2075a67370f646cc476bbdd28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
