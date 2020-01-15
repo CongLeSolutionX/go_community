@@ -112,6 +112,14 @@ func (sb *SymbolBuilder) setReachable() {
 	sb.l.SetAttrReachable(sb.symIdx, true)
 }
 
+func (sb *SymbolBuilder) ReadOnly() bool {
+	return sb.l.AttrReadOnly(sb.symIdx)
+}
+
+func (sb *SymbolBuilder) SetReadOnly() {
+	sb.l.SetAttrReadOnly(sb.symIdx, true)
+}
+
 func (sb *SymbolBuilder) Outer() Sym {
 	return sb.l.OuterSym(sb.symIdx)
 }
