@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f9694ffa_ff2d5935",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "The write check uses Neq32, which is less than ideal on RISCV64 (and MIPS64, possibly others), as it expands to (SNEZ ((SRLI [32] (SLLI \u003ct\u003e [32] x)) (SUB \u003cx.Type\u003e x y))), rather than a BNE or XOR/BNE. Additionally, many instructions on RISCV have multiple arguments, hence removing this results in:\n\n...: write barrier control value has more than one argument: v465 \u003d SUB \u003cuint32\u003e v378 v125 : X8\n\nBefore we reach the load - I\u0027ve added a comment.\n\nI\u0027m not sure we can readily improve on this without changing the write barrier code to provide something that can be lowered per architecture.\n\nAs an aside, this made me look at the EqB and NeB rewriting - these used Eq8/Ne8 which expand to 4+ instructions rather than one or two XOR, which I\u0027ve fixed.",
+      "parentUuid": "d72a9ead_db33611b",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05d6d206_13f636f6",
         "filename": "src/cmd/compile/internal/riscv64/ggen.go",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "c71c002cae512e72844c34b5607f6027da21790f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa67e18_0ecd76db",
+        "filename": "src/cmd/compile/internal/riscv64/ggen.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05d6d206_13f636f6",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 28
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "5a258dfc_854ad4d2",
+        "filename": "src/cmd/compile/internal/riscv64/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "316fa7c9_134dd4b6",
+      "range": {
+        "startLine": 281,
+        "startChar": 55,
+        "endLine": 281,
+        "endChar": 93
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aaf66e0_cb4c5dac",
         "filename": "src/cmd/compile/internal/riscv64/ssa.go",
         "patchSetId": 7
@@ -79,6 +145,24 @@
       "revId": "c71c002cae512e72844c34b5607f6027da21790f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83fb1041_468a8430",
+        "filename": "src/cmd/compile/internal/riscv64/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aaf66e0_cb4c5dac",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "5bf0369d_74ab343c",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "On RISCV 64, the integer names are B/H/W/D, although the D is often omitted (e.g. LD is used to load a 64-bit integer, whereas MUL implies register size and there is a MULW instruction on 64-bit, not present on 32-bit). Where this differs is the F-extension single-precision floating-point and D-extension double-precision floating-point, where S and D are used and references to 32-bit and 64-bit integers are given as W and L... I would presume this was done to avoid D being indistinguishable between double-precision floating and 64-bit integer.\n\nThe assembly names are available in cmd/internal/obj/riscv/inst.go, otherwise a more readable source is the RISCV specification - https://content.riscv.org/wp-content/uploads/2019/06/riscv-spec.pdf",
+      "parentUuid": "139f0b42_ffa522a4",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0d1475_a4df6fdc",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
         "patchSetId": 7
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "1f8490ad_939ff85e",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Indeed, the conversion can be moved to RISCV64.rules, which is certainly cleaner.",
+      "parentUuid": "2f0d1475_a4df6fdc",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a61cef7_207f3c80",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
         "patchSetId": 7
@@ -136,6 +262,24 @@
       "revId": "c71c002cae512e72844c34b5607f6027da21790f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "825fdb7d_6e5df287",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a61cef7_207f3c80",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "721a12d4_e0ac1c60",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c90c35d_c00d102a",
+      "range": {
+        "startLine": 178,
+        "startChar": 14,
+        "endLine": 178,
+        "endChar": 23
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7345954_1b953fb0",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
         "patchSetId": 7
@@ -182,6 +350,30 @@
       "revId": "c71c002cae512e72844c34b5607f6027da21790f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a1bdfd_2f95fe9a",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7345954_1b953fb0",
+      "range": {
+        "startLine": 182,
+        "startChar": 5,
+        "endLine": 182,
+        "endChar": 8
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -208,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "890ce76e_ddb47c43",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91250f20_737f2a49",
+      "range": {
+        "startLine": 207,
+        "startChar": 5,
+        "endLine": 207,
+        "endChar": 8
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b75d0c8c_c325713f",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
         "patchSetId": 7
@@ -231,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "d4c1ff7d_b95a71a1",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b75d0c8c_c325713f",
+      "range": {
+        "startLine": 255,
+        "startChar": 146,
+        "endLine": 255,
+        "endChar": 150
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6563bf71_3947ab24",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
         "patchSetId": 7
@@ -251,6 +491,30 @@
       "revId": "c71c002cae512e72844c34b5607f6027da21790f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19fee011_d9af6674",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-15T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6563bf71_3947ab24",
+      "range": {
+        "startLine": 274,
+        "startChar": 146,
+        "endLine": 274,
+        "endChar": 150
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
