@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4660b238_31267025",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-01-15T08:21:37Z",
+      "side": 1,
+      "message": "Although this is the \"obvious\" solution, I don\u0027t think it\u0027s quite right (or, at any rate, it changes existing semantics):\n\n- cleanups no longer count as part of the test duration\n- cleanups won\u0027t run if the test panics\n- if a cleanup panics, it won\u0027t be caught\n- if a cleanup panics, test log output produced by cleanups can be lost\n- if a cleanup calls t.Fail, numFailed won\u0027t be incremented\n\nUnfortunately it\u0027s quite hard to write tests for these cases, which is why CI is passing for this change.",
+      "revId": "cdbe907616461ea2075a67370f646cc476bbdd28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
