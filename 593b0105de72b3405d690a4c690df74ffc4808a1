@@ -34,6 +34,24 @@
       "revId": "593b0105de72b3405d690a4c690df74ffc4808a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c41a25_a1cfedd1",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-01-16T02:55:20Z",
+      "side": 1,
+      "message": "yes, i see it now.\nplease write this as\n(num[i-2] \u003c \u00270\u0027 || \u00279\u0027 \u003c num[i-2])\nto better display the condition being tested.\n\nit also needs a comment, this is tricky code.",
+      "parentUuid": "9e001fed_ed8145e4",
+      "revId": "593b0105de72b3405d690a4c690df74ffc4808a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
