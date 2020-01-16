@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "645ae942_298c0b44",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-01-16T09:27:24Z",
+      "side": 1,
+      "message": "AFAIK, we usually use the current year for new files being added. But I saw some riscv64 code being submitted with older copyright years as well (e.g. CL 204633). Maybe someone from the Go team could comment?",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "49b8781122adb8ac1de833f522dafa7e20b4f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba5962dd_986aa2d1",
+        "filename": "src/runtime/defs_linux_riscv64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-01-16T09:27:24Z",
+      "side": 1,
+      "message": "Remove this comment. AFAIK, the other defs_*.go files aren\u0027t fully cgo generated as well. Maybe we should remove these comments everywhere or make the files cgo-generatable again.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 65
+      },
+      "revId": "49b8781122adb8ac1de833f522dafa7e20b4f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5b89331_ae2be9a6",
+        "filename": "src/runtime/defs_linux_riscv64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-01-16T09:27:24Z",
+      "side": 1,
+      "message": "_ENOSYS \u003d 0x26 is missing here (used in src/runtime/nbpipe_pipe2.go)",
+      "revId": "49b8781122adb8ac1de833f522dafa7e20b4f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7ea5881_30b8109b",
+        "filename": "src/runtime/defs_linux_riscv64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-01-16T09:27:24Z",
+      "side": 1,
+      "message": "Move this up to the other _SA_* consts.",
+      "revId": "49b8781122adb8ac1de833f522dafa7e20b4f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "642afe64_15a34a5a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-01-16T09:27:24Z",
+      "side": 1,
+      "message": "Add GOOS \u003d\u003d \"linux\" here so it matches the comment above?",
+      "revId": "49b8781122adb8ac1de833f522dafa7e20b4f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba9ae197_3f044690",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-01-16T09:27:24Z",
+      "side": 1,
+      "message": "Please create an issue for this and reference it here.",
+      "range": {
+        "startLine": 39,
+        "startChar": 77,
+        "endLine": 39,
+        "endChar": 80
+      },
+      "revId": "49b8781122adb8ac1de833f522dafa7e20b4f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ca9e6ba_5218e2a3",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-01-16T09:27:24Z",
+      "side": 1,
+      "message": "Can this be removed? (same for line 66)",
+      "range": {
+        "startLine": 65,
+        "startChar": 1,
+        "endLine": 65,
+        "endChar": 14
+      },
+      "revId": "49b8781122adb8ac1de833f522dafa7e20b4f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
