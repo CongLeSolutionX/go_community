@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b0178433_aab01a45",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-16T17:51:48Z",
+      "side": 1,
+      "message": "Ok for now. Definitely add to your optimization list.\n\nThe write barrier is just (Neq32 (Load ...) (Const32 [0])).\nSo maybe we just need (SUB x (Const32 [0])) -\u003e x\nNot sure about whether you\u0027d need to handle 32-\u003e64 extensions also.",
+      "parentUuid": "f9694ffa_ff2d5935",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05d6d206_13f636f6",
         "filename": "src/cmd/compile/internal/riscv64/ggen.go",
         "patchSetId": 7
@@ -201,6 +219,30 @@
       "side": 1,
       "message": "On RISCV 64, the integer names are B/H/W/D, although the D is often omitted (e.g. LD is used to load a 64-bit integer, whereas MUL implies register size and there is a MULW instruction on 64-bit, not present on 32-bit). Where this differs is the F-extension single-precision floating-point and D-extension double-precision floating-point, where S and D are used and references to 32-bit and 64-bit integers are given as W and L... I would presume this was done to avoid D being indistinguishable between double-precision floating and 64-bit integer.\n\nThe assembly names are available in cmd/internal/obj/riscv/inst.go, otherwise a more readable source is the RISCV specification - https://content.riscv.org/wp-content/uploads/2019/06/riscv-spec.pdf",
       "parentUuid": "139f0b42_ffa522a4",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7ffdafe_16b33b59",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-16T17:51:48Z",
+      "side": 1,
+      "message": "So it looks like we\u0027re already in this ambiguous boat for PPC64.\nThey use the F prefix to distinguish the two Ds.\nPlease put a key at the top of this file, like AMD64Ops.go has. Something like:\n\n// Suffixes encode the bit width of various instructions.\n// D (double word) \u003d 64 bit int\n// W (word)        \u003d 32 bit int\n// H (half word)   \u003d 16 bit int\n// B (byte)        \u003d 8 bit int\n// S (single)      \u003d 32 bit float\n// D (double)      \u003d 64 bit float\n// L               \u003d 64 bit int, used when the opcode starts with F",
+      "parentUuid": "5bf0369d_74ab343c",
       "range": {
         "startLine": 119,
         "startChar": 10,
