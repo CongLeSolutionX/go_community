@@ -895,11 +895,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 		// <load> $imm, REG, TO (load $imm+(REG), TO)
 		// <store> $imm, REG, TO (store $imm+(TO), REG)
-		case ALD, ALB, ALH, ALW, ALBU, ALHU, ALWU,
-			ASD, ASB, ASH, ASW:
-			// LUI $high, TMP
-			// ADDI $low, TMP, TMP
-			q := *p
+		case ALB, ALH, ALW, ALD, ALBU, ALHU, ALWU, AFLW, AFLD, ASB, ASH, ASW, ASD, AFSW, AFSD:
 			low, high, err := Split32BitImmediate(p.From.Offset)
 			if err != nil {
 				ctxt.Diag("%v: constant %d too large", p, p.From.Offset)
@@ -908,8 +904,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				break // no need to split
 			}
 
+			q := *p
 			switch q.As {
-			case ALD, ALB, ALH, ALW, ALBU, ALHU, ALWU:
+			case ALB, ALH, ALW, ALD, ALBU, ALHU, ALWU, AFLW, AFLD:
 				// LUI $high, TMP
 				// ADD TMP, REG, TMP
 				// <load> $low, TMP, TO
@@ -931,7 +928,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: low}
 				p.Reg = REG_TMP
 
-			case ASD, ASB, ASH, ASW:
+			case ASB, ASH, ASW, ASD, AFSW, AFSD:
 				// LUI $high, TMP
 				// ADD TMP, TO, TMP
 				// <store> $low, REG, TMP
