@@ -52,6 +52,24 @@
       "revId": "593b0105de72b3405d690a4c690df74ffc4808a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a98e16bc_d164f1a7",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 34833
+      },
+      "writtenOn": "2020-01-16T03:05:22Z",
+      "side": 1,
+      "message": "ok.\nand i notice that it outputs 0.000 which should be 0.0000 when input is 0.0\nin the case, num is \"+0\", so the for loop body isn\u0027t executed.\ni will fix it later.",
+      "parentUuid": "85c41a25_a1cfedd1",
+      "revId": "593b0105de72b3405d690a4c690df74ffc4808a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
