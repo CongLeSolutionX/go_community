@@ -541,6 +541,10 @@ func (f *fmt) fmtFloat(v float64, size int, verb rune, prec int) {
 			switch num[i] {
 			case '.':
 				hasDecimalPoint = true
+				if f.sharp && num[i-1] == '0' &&
+					(num[i-2] < '0' || num[i-2] > '9') {
+					digits++
+				}
 			case 'p', 'P':
 				tail = append(tail, num[i:]...)
 				num = num[:i]
