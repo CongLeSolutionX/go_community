@@ -541,6 +541,12 @@ func (f *fmt) fmtFloat(v float64, size int, verb rune, prec int) {
 			switch num[i] {
 			case '.':
 				hasDecimalPoint = true
+				// Increase digits with sharp flag
+				//because it's reduced once more at '0' when the input is 0.xxx
+				if f.sharp && num[i-1] == '0' &&
+					(num[i-2] < '0' || '9' < num[i-2]) {
+					digits++
+				}
 			case 'p', 'P':
 				tail = append(tail, num[i:]...)
 				num = num[:i]
@@ -556,6 +562,10 @@ func (f *fmt) fmtFloat(v float64, size int, verb rune, prec int) {
 			}
 		}
 		if !hasDecimalPoint {
+			// Output 0 with sharp flag
+			if f.sharp && num[1] == '0' && len(num) == 2 {
+				digits++
+			}
 			num = append(num, '.')
 		}
 		for digits > 0 {
