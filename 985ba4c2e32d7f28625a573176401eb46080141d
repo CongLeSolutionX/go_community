@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d61362a0_ae6954a8",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-16T21:11:11Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of boolean parameters because the call sites below all look mysterious now (true, true, false, true, ...)\n\nBut not exported so don\u0027t care much.",
+      "revId": "985ba4c2e32d7f28625a573176401eb46080141d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
