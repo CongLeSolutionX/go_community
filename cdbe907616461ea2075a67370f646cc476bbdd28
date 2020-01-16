@@ -52,6 +52,24 @@
       "revId": "cdbe907616461ea2075a67370f646cc476bbdd28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dff0d3_9d7443d5",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-01-16T09:03:39Z",
+      "side": 1,
+      "message": "\u003e As far as I can see, parallel subtests do not count as part of the test duration either.  So if we run cleanups after parallel subtests, then this seems unavoidable.  But I\u0027m open to suggestions.\n\nI made a suggestion.\n\n\u003e \u003e Also, it no longer checks for races in cleanup functions.\n\u003e \n\u003e I\u0027m not quite sure what you mean here.  Can you expand?  Thanks.\n\nI was looking at the \"race detected during execution of test\" condition. You\u0027ve largely fixed that now, at least for cases that don\u0027t start parallel subtests.",
+      "parentUuid": "5895ae34_9d6b26a0",
+      "revId": "cdbe907616461ea2075a67370f646cc476bbdd28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
