@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bbd33c2_e0c06435",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-01-16T02:40:54Z",
+      "side": 1,
+      "message": "num[i-2] could be an index error. Consider 0.0 as the input.",
+      "revId": "593b0105de72b3405d690a4c690df74ffc4808a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
