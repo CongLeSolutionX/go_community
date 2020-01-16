@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c20b8bab_cf52f67a",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-01-16T08:59:01Z",
+      "side": 1,
+      "message": "Nice.",
+      "revId": "6b9a9d0843308a4f6b35ba83b97a299b512e45bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18b11182_55ef998e",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-01-16T08:59:01Z",
+      "side": 1,
+      "message": "s/returned/return/",
+      "revId": "6b9a9d0843308a4f6b35ba83b97a299b512e45bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b170101_008f5693",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-01-16T08:59:01Z",
+      "side": 1,
+      "message": "return early?",
+      "revId": "6b9a9d0843308a4f6b35ba83b97a299b512e45bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e7d6959_914fba69",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-01-16T08:59:01Z",
+      "side": 1,
+      "message": "Do we really want to silence any panic here entirely? If so, it might be worth a comment.",
+      "revId": "6b9a9d0843308a4f6b35ba83b97a299b512e45bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "234463de_eb9fdd10",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-01-16T08:59:01Z",
+      "side": 1,
+      "message": "Perhaps consider adding the cleanup time to the test duration?\n\ncleanupStart :\u003d time.Now()\nerr :\u003d t.runCleanup(true)\nt.duration +\u003d time.Since(cleanupStart)\nif err !\u003d nil {\n     doPanic(err)\n}",
+      "revId": "6b9a9d0843308a4f6b35ba83b97a299b512e45bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
