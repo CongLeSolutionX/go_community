@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f051cca_d4492d6c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2020-01-17T10:26:22Z",
+      "side": 1,
+      "message": "Just noting a comment here per our Slack chat. \n\nI think this is a good addition to the docs for Cleanup. \n\nLooking at the package docs for testing itself, however, I think this change could be subsumed in a wider change that explained clearly, at the package level, what the test/(parallel) subtest lifecycle is. That way the term \"when a test finishes\" is well defined when referred to from the Cleanup docs, but also for the author of the test. \n\nThere\u0027s of course nothing to suggest we can\u0027t make this change now and the wider change later.",
+      "revId": "89f2d2da9d2abba151c11f6ca0575df1bd9537a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
