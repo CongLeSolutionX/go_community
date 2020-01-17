@@ -16,6 +16,24 @@
       "revId": "4fde605e059a0fb40a5f4535d307040c675acf81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5078bca7_945edcba",
+        "filename": "src/cmd/go/testdata/script/build_dash_n_cgo.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-17T18:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb60a201_12f6a1c5",
+      "revId": "4fde605e059a0fb40a5f4535d307040c675acf81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
