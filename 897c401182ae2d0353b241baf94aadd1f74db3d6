@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64e46ce1_466e086a",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-01-17T03:40:26Z",
+      "side": 1,
+      "message": "how about,\n\n// The sharp flag keeps trailing zeros, but a leading 0 (0.xxx)\n// should not contribute to the zero count.",
+      "revId": "897c401182ae2d0353b241baf94aadd1f74db3d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b399183_6204cb70",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-01-17T03:40:26Z",
+      "side": 1,
+      "message": "// See comment for \u0027.\u0027 above.",
+      "revId": "897c401182ae2d0353b241baf94aadd1f74db3d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e224d87_b021b476",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-01-17T03:40:26Z",
+      "side": 1,
+      "message": "f.sharp is always true here.",
+      "revId": "897c401182ae2d0353b241baf94aadd1f74db3d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
