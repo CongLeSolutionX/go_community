@@ -541,6 +541,11 @@ func (f *fmt) fmtFloat(v float64, size int, verb rune, prec int) {
 			switch num[i] {
 			case '.':
 				hasDecimalPoint = true
+				// The sharp flag keeps trailing zeros, but a leading 0 (0.xxx)
+				// should not contribute to the zero count.
+				if num[i-1] == '0' && (num[i-2] < '0' || '9' < num[i-2]) {
+					digits++
+				}
 			case 'p', 'P':
 				tail = append(tail, num[i:]...)
 				num = num[:i]
@@ -556,6 +561,10 @@ func (f *fmt) fmtFloat(v float64, size int, verb rune, prec int) {
 			}
 		}
 		if !hasDecimalPoint {
+			// See comment for '.' above.
+			if num[1] == '0' && len(num) == 2 {
+				digits++
+			}
 			num = append(num, '.')
 		}
 		for digits > 0 {
