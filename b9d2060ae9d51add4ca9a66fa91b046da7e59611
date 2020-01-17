@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5128ba_1ad2eecd",
+        "filename": "src/reflect/asm_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-17T20:27:18Z",
+      "side": 1,
+      "message": "You could just use R0 as a source here.",
+      "revId": "b9d2060ae9d51add4ca9a66fa91b046da7e59611",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48227f23_e4bdbd5c",
+        "filename": "src/reflect/asm_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-17T20:27:18Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "b9d2060ae9d51add4ca9a66fa91b046da7e59611",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
