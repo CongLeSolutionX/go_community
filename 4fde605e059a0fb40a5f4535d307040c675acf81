@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb60a201_12f6a1c5",
+        "filename": "src/cmd/go/testdata/script/build_dash_n_cgo.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-17T15:54:59Z",
+      "side": 1,
+      "message": "Add a quick comment that this verifies golang.org/issue/14944.\n\n(I was going to suggest deleting it, but it seems like a regression test for a specific problem).",
+      "revId": "4fde605e059a0fb40a5f4535d307040c675acf81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
