@@ -228,6 +228,8 @@ control the execution of any test:
 	-coverpkg pattern1,pattern2,pattern3
 	    Apply coverage analysis in each test to packages matching the patterns.
 	    The default is for each test to analyze only the package being tested.
+	    Each analyzed package is linked and initialized in each test binary,
+	    including packages that aren't explicitly imported.
 	    See 'go help packages' for a description of package patterns.
 	    Sets -cover.
 
