@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "842b1d3d_6f4dde32",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-18T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0178433_aab01a45",
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05d6d206_13f636f6",
         "filename": "src/cmd/compile/internal/riscv64/ggen.go",
         "patchSetId": 7
@@ -243,6 +261,30 @@
       "side": 1,
       "message": "So it looks like we\u0027re already in this ambiguous boat for PPC64.\nThey use the F prefix to distinguish the two Ds.\nPlease put a key at the top of this file, like AMD64Ops.go has. Something like:\n\n// Suffixes encode the bit width of various instructions.\n// D (double word) \u003d 64 bit int\n// W (word)        \u003d 32 bit int\n// H (half word)   \u003d 16 bit int\n// B (byte)        \u003d 8 bit int\n// S (single)      \u003d 32 bit float\n// D (double)      \u003d 64 bit float\n// L               \u003d 64 bit int, used when the opcode starts with F",
       "parentUuid": "5bf0369d_74ab343c",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "c71c002cae512e72844c34b5607f6027da21790f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5241f87f_4ac426a4",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-18T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7ffdafe_16b33b59",
       "range": {
         "startLine": 119,
         "startChar": 10,

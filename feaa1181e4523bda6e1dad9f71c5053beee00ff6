@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4008c5d9_be3decf2",
+        "filename": "src/cmd/internal/obj/riscv/list.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-18T13:43:31Z",
+      "side": 1,
+      "message": "I neglected to export RegName, which is needed for cmd/compile/internal/ssa/gen - added here.",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "feaa1181e4523bda6e1dad9f71c5053beee00ff6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
