@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88735f53_785b4f7c",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Since systemstack_switch is not NOFRAME, the link register saving code (store + stack pointer adjustment - SD, ADDI) gets emitted for the function prologue - we\u0027re skipping over these two instructions.",
+      "parentUuid": "81365e8d_5224997d",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46124e9e_6bc75465",
         "filename": "src/runtime/asm_riscv64.s",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f295b6d_5bebfc84",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46124e9e_6bc75465",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a2c99f10_7caeaa67",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b159e7f_c79f4100",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b873ca_095d3435",
         "filename": "src/runtime/defs_linux_riscv64.go",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "8da0f5ad_85a16806",
+        "filename": "src/runtime/defs_linux_riscv64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "These days these files are a mixture of \u0027go tool cgo -godefs\u0027 and manual conversion to get the names/functions that are required for the runtime. Comment added.",
+      "parentUuid": "76b873ca_095d3435",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c98d7f80_49cccd8a",
         "filename": "src/runtime/internal/atomic/atomic_riscv64.s",
         "patchSetId": 4
@@ -84,6 +156,24 @@
       "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b766a34_a4c4f2ab",
+        "filename": "src/runtime/internal/atomic/atomic_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Correct.",
+      "parentUuid": "c98d7f80_49cccd8a",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "d61cd63a_6a337125",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "This is strange - I\u0027m not sure what the history is here. I\u0027ve dropped both the comment and the code, since things seem to be fine without it - we can revisit if need be.",
+      "parentUuid": "81901994_7325baa6",
+      "range": {
+        "startLine": 521,
+        "startChar": 20,
+        "endLine": 521,
+        "endChar": 22
+      },
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69f342cf_64fa9613",
         "filename": "src/runtime/signal_riscv64.go",
         "patchSetId": 4
@@ -130,6 +244,30 @@
       "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87e1450e_c5874276",
+        "filename": "src/runtime/signal_riscv64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Replaced with a throw.",
+      "parentUuid": "69f342cf_64fa9613",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 0
+      },
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "1fe64238_57af35a9",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b41ec4a8_f814d5f3",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 8
+      },
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb95ba2a_a9dac3d7",
         "filename": "src/runtime/sys_linux_riscv64.s",
         "patchSetId": 4
@@ -170,6 +332,24 @@
       "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c64984c7_e26bed05",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "This is just noting that argument 1 is already loaded in A0, since it was returned in A0 from tye SYS_gettid call (admittedly, seeing a commented out instruction is non-obvious) - I\u0027ve replaced this with an \"already in A0\" comment.",
+      "parentUuid": "fb95ba2a_a9dac3d7",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "5080469d_754ef8ae",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "de5121ec_b936ade0",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04e94fb_64ffee3e",
         "filename": "src/runtime/sys_linux_riscv64.s",
         "patchSetId": 4
@@ -204,6 +402,24 @@
       "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26b2e74b_4a0dc4ff",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04e94fb_64ffee3e",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "33c3510f_e8f03791",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "WORD $0 results in an illegal instruction, hence a crash. Comments added.",
+      "parentUuid": "dddd8d49_ffd2daf7",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79efce7b_8c7f1262",
         "filename": "src/runtime/sys_linux_riscv64.s",
         "patchSetId": 4
@@ -238,6 +472,24 @@
       "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32a3694c_2843fde1",
+        "filename": "src/runtime/sys_linux_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-19T13:50:58Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "79efce7b_8c7f1262",
+      "revId": "b9096ee8bc9240e4309c3a0cbbc4a662efccffe8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
