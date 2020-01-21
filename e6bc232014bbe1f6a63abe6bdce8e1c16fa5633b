@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "462bdd1e_dfa18f19",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-21T18:01:10Z",
+      "side": 1,
+      "message": "add a \"//\" blank line before this.\n\nAlso: \"as the value\"",
+      "revId": "e6bc232014bbe1f6a63abe6bdce8e1c16fa5633b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd364c36_34bee8d3",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-21T18:01:10Z",
+      "side": 1,
+      "message": "\"If an X-...\"  (sounds like \"an ex\")",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 7
+      },
+      "revId": "e6bc232014bbe1f6a63abe6bdce8e1c16fa5633b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bf2aaa8_11e04ae1",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-21T18:01:10Z",
+      "side": 1,
+      "message": "to the existing",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "e6bc232014bbe1f6a63abe6bdce8e1c16fa5633b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88c1b7b8_b7e38c1f",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-21T18:01:10Z",
+      "side": 1,
+      "message": "coming",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "e6bc232014bbe1f6a63abe6bdce8e1c16fa5633b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
