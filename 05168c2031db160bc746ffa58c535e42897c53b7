@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f8932d4_5428ce2e",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-21T22:41:16Z",
+      "side": 1,
+      "message": "typo: pseudo.",
+      "range": {
+        "startLine": 576,
+        "startChar": 34,
+        "endLine": 576,
+        "endChar": 40
+      },
+      "revId": "05168c2031db160bc746ffa58c535e42897c53b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fd7fc3a_f1df4272",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-21T22:41:16Z",
+      "side": 1,
+      "message": "Also set the Leaf attribute?",
+      "revId": "05168c2031db160bc746ffa58c535e42897c53b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60995bbb_5e714cf4",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-21T22:41:16Z",
+      "side": 1,
+      "message": "SP (match the code below, and also easy to understand).",
+      "range": {
+        "startLine": 659,
+        "startChar": 36,
+        "endLine": 659,
+        "endChar": 38
+      },
+      "revId": "05168c2031db160bc746ffa58c535e42897c53b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0929bf8d_2f1053bb",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-21T22:41:16Z",
+      "side": 1,
+      "message": "BLTU? (also below)",
+      "range": {
+        "startLine": 1074,
+        "startChar": 5,
+        "endLine": 1074,
+        "endChar": 9
+      },
+      "revId": "05168c2031db160bc746ffa58c535e42897c53b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
