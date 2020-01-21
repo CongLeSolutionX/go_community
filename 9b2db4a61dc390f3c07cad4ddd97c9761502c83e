@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b356e4ee_49fcbc90",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3008,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-21T16:47:55Z",
+      "side": 1,
+      "message": "I don\u0027t think we should commit to this behavior in the documentation. (Importing and initializing unused packages seems like a known bug that we should fix rather than an intentional feature.)",
+      "range": {
+        "startLine": 3007,
+        "startChar": 0,
+        "endLine": 3008,
+        "endChar": 59
+      },
+      "revId": "9b2db4a61dc390f3c07cad4ddd97c9761502c83e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
