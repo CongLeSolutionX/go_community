@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "897aa73a_02d73cca",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-01-21T20:45:15Z",
+      "side": 1,
+      "message": "failed to dump...",
+      "revId": "335d9a0b3eb2131da672fbcf37c69d2d07ffaac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd3cf3e0_7b6f964c",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-01-21T20:45:15Z",
+      "side": 1,
+      "message": "nit: %s for the arch? otherwise it\u0027s a bit inconsistent, given that you use %s for filename above.",
+      "revId": "335d9a0b3eb2131da672fbcf37c69d2d07ffaac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
