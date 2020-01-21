@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12f96110_d34e5970",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-01-21T17:24:03Z",
+      "side": 1,
+      "message": "The s-expression \"match\" and the Go expression \"cond\".",
+      "range": {
+        "startLine": 1431,
+        "startChar": 22,
+        "endLine": 1431,
+        "endChar": 23
+      },
+      "revId": "28ad8db947d6e2d03bef7a46f57360aea296453b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
