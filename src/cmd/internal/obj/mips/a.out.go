@@ -43,6 +43,7 @@ const (
 	NSYM   = 50
 	NREG   = 32 /* number of general registers */
 	NFREG  = 32 /* number of floating point registers */
+	NWREG  = 32 /* number of MSA registers */
 )
 
 const (
@@ -180,6 +181,40 @@ const (
 	REG_FCR30
 	REG_FCR31
 
+	// MSA registers
+	REG_W0 // must be a multiple of 32
+	REG_W1
+	REG_W2
+	REG_W3
+	REG_W4
+	REG_W5
+	REG_W6
+	REG_W7
+	REG_W8
+	REG_W9
+	REG_W10
+	REG_W11
+	REG_W12
+	REG_W13
+	REG_W14
+	REG_W15
+	REG_W16
+	REG_W17
+	REG_W18
+	REG_W19
+	REG_W20
+	REG_W21
+	REG_W22
+	REG_W23
+	REG_W24
+	REG_W25
+	REG_W26
+	REG_W27
+	REG_W28
+	REG_W29
+	REG_W30
+	REG_W31
+
 	REG_HI
 	REG_LO
 
@@ -217,6 +252,7 @@ func init() {
 	f(REG_F0, REG_F31, 32) // For 32-bit MIPS, compiler only uses even numbered registers --  see cmd/compile/internal/ssa/gen/MIPSOps.go
 	MIPSDWARFRegisters[REG_HI] = 64
 	MIPSDWARFRegisters[REG_LO] = 65
+	f(REG_W0, REG_W31, 32)
 }
 
 const (
@@ -243,6 +279,7 @@ const (
 	C_FREG
 	C_FCREG
 	C_MREG /* special processor register */
+	C_WREG /* MSA registers */
 	C_HI
 	C_LO
 	C_ZCON
@@ -405,6 +442,20 @@ const (
 	AMOVVF
 	AMOVVD
 
+	/* MSA */
+	AVLDIB
+	AVLDIH
+	AVLDIW
+	AVLDID
+	AVLDB
+	AVLDH
+	AVLDW
+	AVLDD
+	AVSTB
+	AVSTH
+	AVSTW
+	AVSTD
+
 	ALAST
 
 	// aliases
@@ -429,5 +480,8 @@ func init() {
 	}
 	if REG_FCR0%32 != 0 {
 		panic("REG_FCR0 is not a multiple of 32")
+	}
+	if REG_W0%32 != 0 {
+		panic("REG_W0 is not a multiple of 32")
 	}
 }
