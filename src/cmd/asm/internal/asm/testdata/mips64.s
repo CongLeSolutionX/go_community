@@ -583,6 +583,39 @@ label4:
 	NEGV	R1, R2 // 0001102f
 	RET
 
+// MSA VLDI
+	VLDIB	$511, W0   // 7b0ff807
+	VLDIH	$24, W23   // 7b20c5c7
+	VLDIW	$-24, W15  // 7b5f43c7
+	VLDID	$-511, W31 // 7b700fc7
+
+	VLDB	0(R0), W8      // VLDB	(R0), W8   // 78000220
+	VLDB	511(R3), W0    // 79ff1820
+	VLDB	-512(R12), W21 // 7a006560
+	VLDH	0(R24), W12    // VLDH	(R24), W12 // 7800c321
+	VLDH	110(R19), W8   // 78379a21
+	VLDH	-70(R12), W3   // 7bdd60e1
+	VLDW	0(R3), W31     // VLDW	(R3), W31  // 78001fe2
+	VLDW	64(R20), W16   // 7810a422
+	VLDW	-104(R17), W24 // 7be68e22
+	VLDD	0(R3), W2      // VLDD	(R3), W2   // 780018a3
+	VLDD	128(R23), W19  // 7810bce3
+	VLDD	-256(R31), W0  // 7be0f823
+
+	VSTB	W8, 0(R0)      // VSTB	W8, (R0)   // 78000224
+	VSTB	W0, 511(R3)    // 79ff1824
+	VSTB	W21, -512(R12) // 7a006564
+	VSTH	W12, 0(R24)    // VSTH	W12, (R24) // 7800c325
+	VSTH	W8, 110(R19)   // 78379a25
+	VSTH	W3, -70(R12)   // 7bdd60e5
+	VSTW	W31, 0(R3)     // VSTW	W31, (R3)  // 78001fe6
+	VSTW	W16, 64(R20)   // 7810a426
+	VSTW	W24, -104(R17) // 7be68e26
+	VSTD	W2, 0(R3)      // VSTD	W2, (R3)   // 780018a7
+	VSTD	W19, 128(R23)  // 7810bce7
+	VSTD	W0, -256(R31)  // 7be0f827
+	RET
+
 // END
 //
 //	LEND	comma // asm doesn't support the trailing comma.
