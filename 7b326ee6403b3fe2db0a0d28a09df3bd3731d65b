@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "048d2b36_0c5ceb28",
+        "filename": "src/cmd/go/testdata/script/list_shadow.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-22T21:36:32Z",
+      "side": 1,
+      "message": "Please set `env GO111MODULE\u003doff` explicitly to emphasize that this test is GOPATH-specific.\n\n(That will same some work the next time we try to swap the defaults.)",
+      "revId": "7b326ee6403b3fe2db0a0d28a09df3bd3731d65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd91627_e1f8872c",
+        "filename": "src/cmd/go/testdata/script/list_shadow.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-22T21:36:32Z",
+      "side": 1,
+      "message": "I have no idea what this comment is referring to. Can you figure out what the original was trying to convey and clarify it?",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 47
+      },
+      "revId": "7b326ee6403b3fe2db0a0d28a09df3bd3731d65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
