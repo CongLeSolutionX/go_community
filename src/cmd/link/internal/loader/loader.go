@@ -674,6 +674,9 @@ func (l *Loader) NDef() int {
 
 // Returns the raw (unpatched) name of the i-th symbol.
 func (l *Loader) RawSymName(i Sym) string {
+	if ov, ok := l.overwrite[i]; ok {
+		i = ov
+	}
 	if l.IsExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Name
@@ -904,7 +907,7 @@ func (l *Loader) AttrExternal(i Sym) bool {
 // symbol (see AttrExternal).
 func (l *Loader) SetAttrExternal(i Sym, v bool) {
 	if i < l.extStart {
-		panic("tried to set external attr on non-external symbol")
+		panic(fmt.Sprintf("tried to set external attr on non-external symbol %q", l.RawSymName(i)))
 	}
 	if v {
 		l.attrExternal.set(i - l.extStart)
@@ -1843,6 +1846,13 @@ func (l *Loader) ExtractSymbols(syms *sym.Symbols) {
 
 // allocSym allocates a new symbol backing.
 func (l *Loader) allocSym(name string, version int) *sym.Symbol {
+
+	/*
+		if name == "__tsan_func_enter" {
+			panic("HERE")
+		}
+	*/
+
 	batch := l.symBatch
 	if len(batch) == 0 {
 		batch = make([]sym.Symbol, 1000)
@@ -2110,6 +2120,7 @@ func (l *Loader) copyAttributes(src Sym, dst Sym) {
 	l.SetAttrSpecial(dst, l.AttrSpecial(src))
 	l.SetAttrCgoExportDynamic(dst, l.AttrCgoExportDynamic(src))
 	l.SetAttrCgoExportStatic(dst, l.AttrCgoExportStatic(src))
+	l.SetAttrReadOnly(dst, l.AttrReadOnly(src))
 }
 
 // migrateAttributes copies over all of the attributes of symbol 'src' to
@@ -2128,6 +2139,7 @@ func (l *Loader) migrateAttributes(src Sym, dst *sym.Symbol) {
 	dst.Attr.Set(sym.AttrSpecial, l.AttrSpecial(src))
 	dst.Attr.Set(sym.AttrCgoExportDynamic, l.AttrCgoExportDynamic(src))
 	dst.Attr.Set(sym.AttrCgoExportStatic, l.AttrCgoExportStatic(src))
+	dst.Attr.Set(sym.AttrReadOnly, l.AttrReadOnly(src))
 
 	// Convert outer/sub relationships
 	if outer, ok := l.outer[src]; ok {
