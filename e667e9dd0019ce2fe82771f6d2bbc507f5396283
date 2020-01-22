@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe4e9867_4521e68d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2637,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-22T15:06:09Z",
+      "side": 1,
+      "message": "Could you add a comment explaining the first part of this condition?\n\nIt seems like P x could be idle while P y deletes a bunch of timers in P x\u0027s timer heap, and those still won\u0027t get cleaned up.",
+      "revId": "e667e9dd0019ce2fe82771f6d2bbc507f5396283",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a20c95_d272eb9d",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-22T15:06:09Z",
+      "side": 1,
+      "message": "Can this check numTimers? (It would be nice if it could check deletedTimers, but I don\u0027t think it can because that\u0027s updated without the lock. But numTimers is always updated under the lock.)",
+      "revId": "e667e9dd0019ce2fe82771f6d2bbc507f5396283",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
