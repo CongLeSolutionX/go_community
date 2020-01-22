@@ -292,6 +292,7 @@ func doaddtimer(pp *p, t *timer) bool {
 	if t == pp.timers[0] {
 		atomic.Store64(&pp.timer0When, uint64(t.when))
 	}
+	atomic.Xadd(&pp.numTimers, 1)
 	return ok
 }
 
@@ -370,6 +371,7 @@ func dodeltimer(pp *p, i int) bool {
 	if i == 0 {
 		updateTimer0When(pp)
 	}
+	atomic.Xadd(&pp.numTimers, -1)
 	return ok
 }
 
@@ -394,6 +396,7 @@ func dodeltimer0(pp *p) bool {
 		ok = siftdownTimer(pp.timers, 0)
 	}
 	updateTimer0When(pp)
+	atomic.Xadd(&pp.numTimers, -1)
 	return ok
 }
 
@@ -960,6 +963,7 @@ nextTimer:
 	}
 	pp.timers = timers
 	atomic.Xadd(&pp.deletedTimers, -cdel)
+	atomic.Xadd(&pp.numTimers, -cdel)
 	atomic.Xadd(&pp.adjustTimers, -cearlier)
 	updateTimer0When(pp)
 }
