@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6246e730_42658e30",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2637,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-22T15:47:51Z",
+      "side": 1,
+      "message": "I added a comment pointing the the comment later in the function.\n\nI agree that what you describe could happen.  I don\u0027t know whether it is more important to avoid that situation or to reduce timer lock contention.  Do you have an opinion?",
+      "parentUuid": "fe4e9867_4521e68d",
+      "revId": "e667e9dd0019ce2fe82771f6d2bbc507f5396283",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a20c95_d272eb9d",
         "filename": "src/runtime/time.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "e667e9dd0019ce2fe82771f6d2bbc507f5396283",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94096f77_0b7e4785",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-22T15:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a20c95_d272eb9d",
+      "revId": "e667e9dd0019ce2fe82771f6d2bbc507f5396283",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
