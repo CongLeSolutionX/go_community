@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daff8ae1_f284b807",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-01-22T06:56:32Z",
+      "side": 1,
+      "message": "nit: did you mean CL 214299?",
+      "revId": "7cb7b9669fb52b692f2defe62abb8d71583303fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
