@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b195c2c6_817f52a1",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2637,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-22T15:56:30Z",
+      "side": 1,
+      "message": "Hmm. Since we\u0027d only be doing this if there were a significant number of deleted timers, I think I\u0027d lean toward doing the cleanup even for other Ps, *but* only if numTimers is also over some threshold (1000?). It\u0027s too bad we can\u0027t do a \"try lock\" in that case, though. It could lead to convoying where several Ps notice that some heap is overly deleted and all pile up trying to fix it.\n\nI\u0027m not really sure though...",
+      "parentUuid": "6246e730_42658e30",
+      "revId": "e667e9dd0019ce2fe82771f6d2bbc507f5396283",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a20c95_d272eb9d",
         "filename": "src/runtime/time.go",
         "patchSetId": 3
