@@ -674,6 +674,9 @@ func (l *Loader) NDef() int {
 
 // Returns the raw (unpatched) name of the i-th symbol.
 func (l *Loader) RawSymName(i Sym) string {
+	if ov, ok := l.overwrite[i]; ok {
+		i = ov
+	}
 	if l.IsExternal(i) {
 		if s := l.Syms[i]; s != nil {
 			return s.Name
@@ -904,7 +907,7 @@ func (l *Loader) AttrExternal(i Sym) bool {
 // symbol (see AttrExternal).
 func (l *Loader) SetAttrExternal(i Sym, v bool) {
 	if i < l.extStart {
-		panic("tried to set external attr on non-external symbol")
+		panic(fmt.Sprintf("tried to set external attr on non-external symbol %q", l.RawSymName(i)))
 	}
 	if v {
 		l.attrExternal.set(i - l.extStart)
