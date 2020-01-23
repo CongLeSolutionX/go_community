@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3fe592a_c41b64a3",
+        "filename": "src/cmd/go/testdata/script/build_test_only.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-23T17:23:12Z",
+      "side": 1,
+      "message": "Delete extra test statements. These will be included literally in testonly2/t.go.",
+      "revId": "5e0b27ebc696596c9f86357c6f9c66ded84a0788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
