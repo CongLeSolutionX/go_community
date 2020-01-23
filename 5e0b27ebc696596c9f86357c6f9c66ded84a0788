@@ -16,6 +16,24 @@
       "revId": "5e0b27ebc696596c9f86357c6f9c66ded84a0788",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "548bcad4_a1f39231",
+        "filename": "src/cmd/go/testdata/script/build_test_only.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-23T19:29:52Z",
+      "side": 1,
+      "message": "Done. Thanks for catching this. But we don\u0027t want to add these to the test above?",
+      "parentUuid": "c3fe592a_c41b64a3",
+      "revId": "5e0b27ebc696596c9f86357c6f9c66ded84a0788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
