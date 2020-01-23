@@ -35,6 +35,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
+	"cmd/link/internal/telemetry"
 	"flag"
 	"log"
 	"os"
@@ -173,13 +174,17 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	interpreter = *flagInterpreter
 
+	tele := telemetry.New(telemetry.GC)
+	tele.Mark("libinit")
 	libinit(ctxt) // creates outfile
 
 	if ctxt.HeadType == objabi.Hunknown {
 		ctxt.HeadType.Set(objabi.GOOS)
 	}
 
+	tele.Mark("computeTLSOffset")
 	ctxt.computeTLSOffset()
+	tele.Mark("Archinit")
 	thearch.Archinit(ctxt)
 
 	if ctxt.linkShared && !ctxt.IsELF {
@@ -210,53 +215,82 @@ func Main(arch *sys.Arch, theArch Arch) {
 	default:
 		addlibpath(ctxt, "command line", "command line", flag.Arg(0), "main", "")
 	}
+	tele.Mark("loadlib")
 	ctxt.loadlib()
 
+	tele.Mark("deadcode")
 	deadcode(ctxt)
 
 	if ctxt.loaderSupport() {
+		tele.Mark("linksetup")
 		ctxt.linksetup()
 	}
 
+	tele.Mark("loadlibfull")
 	ctxt.loadlibfull() // XXX do it here for now
 
 	if !ctxt.loaderSupport() {
+		tele.Mark("linksetupold")
 		ctxt.linksetupold()
 	}
+	tele.Mark("dostrdata")
 	ctxt.dostrdata()
+	tele.Mark("dwarfGenerateDebugInfo")
 	dwarfGenerateDebugInfo(ctxt)
 
 	if objabi.Fieldtrack_enabled != 0 {
+		tele.Mark("fieldtrack")
 		fieldtrack(ctxt)
 	}
+	tele.Mark("mangleTypeSym")
 	ctxt.mangleTypeSym()
+	tele.Mark("callgraph")
 	ctxt.callgraph()
 
+	tele.Mark("doelf")
 	ctxt.doelf()
 	if ctxt.HeadType == objabi.Hdarwin {
+		tele.Mark("domacho")
 		ctxt.domacho()
 	}
+	tele.Mark("dostkcheck")
 	ctxt.dostkcheck()
 	if ctxt.HeadType == objabi.Hwindows {
+		tele.Mark("dope")
 		ctxt.dope()
+		tele.Mark("windynrelocsyms")
 		ctxt.windynrelocsyms()
 	}
 	if ctxt.HeadType == objabi.Haix {
+		tele.Mark("doxcoff")
 		ctxt.doxcoff()
 	}
 
+	tele.Mark("addexport")
 	ctxt.addexport()
+	tele.Mark("Gentext")
 	thearch.Gentext(ctxt) // trampolines, call stubs, etc.
+	tele.Mark("textbuildid")
 	ctxt.textbuildid()
+	tele.Mark("textaddress")
 	ctxt.textaddress()
+	tele.Mark("pclntab")
 	ctxt.pclntab()
+	tele.Mark("findfunctab")
 	ctxt.findfunctab()
+	tele.Mark("typelink")
 	ctxt.typelink()
+	tele.Mark("symtab")
 	ctxt.symtab()
+	tele.Mark("buildinfo")
 	ctxt.buildinfo()
+	tele.Mark("dodata")
 	ctxt.dodata()
+	tele.Mark("address")
 	order := ctxt.address()
+	tele.Mark("dwarfcompress")
 	dwarfcompress(ctxt)
+	tele.Mark("layout")
 	filesize := ctxt.layout(order)
 
 	// Write out the output file.
@@ -275,25 +309,36 @@ func Main(arch *sys.Arch, theArch Arch) {
 	if outputMmapped {
 		// Asmb will redirect symbols to the output file mmap, and relocations
 		// will be applied directly there.
+		tele.Mark("Asmb")
 		thearch.Asmb(ctxt)
+		tele.Mark("reloc")
 		ctxt.reloc()
+		tele.Mark("Munmap")
 		ctxt.Out.Munmap()
 	} else {
 		// If we don't mmap, we need to apply relocations before
 		// writing out.
+		tele.Mark("reloc")
 		ctxt.reloc()
+		tele.Mark("Asmb")
 		thearch.Asmb(ctxt)
 	}
+	tele.Mark("Asmb2")
 	thearch.Asmb2(ctxt)
 
+	tele.Mark("undef")
 	ctxt.undef()
+	tele.Mark("hostlink")
 	ctxt.hostlink()
 	if ctxt.Debugvlog != 0 {
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
 	}
+	tele.Mark("Flush")
 	ctxt.Bso.Flush()
+	tele.Mark("archive")
 	ctxt.archive()
+	tele.Report(os.Stdout)
 
 	errorexit()
 }
