@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ced3c085_da86e39f",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-23T21:45:42Z",
+      "side": 1,
+      "message": "Does this matter? I think we only overwrite symbols with same name, so it should be the same name either way, right?",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 2
+      },
+      "revId": "8ba2e1453cca0cd2578442430eeb82447ca329e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84067e95_5538f489",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1854,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-23T21:45:42Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 1850,
+        "startChar": 0,
+        "endLine": 1854,
+        "endChar": 3
+      },
+      "revId": "8ba2e1453cca0cd2578442430eeb82447ca329e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a07e361_2e3914f1",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-23T21:45:42Z",
+      "side": 1,
+      "message": "Minor: what does bld stand for?",
+      "range": {
+        "startLine": 562,
+        "startChar": 2,
+        "endLine": 562,
+        "endChar": 5
+      },
+      "revId": "8ba2e1453cca0cd2578442430eeb82447ca329e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2fadabe_919aee14",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-23T21:45:42Z",
+      "side": 1,
+      "message": "For user facing errors, probably better to use SymName.",
+      "revId": "8ba2e1453cca0cd2578442430eeb82447ca329e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
