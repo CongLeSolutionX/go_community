@@ -34,6 +34,7 @@ import (
 	"bufio"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
+	"cmd/link/internal/benchmark"
 	"cmd/link/internal/sym"
 	"flag"
 	"log"
@@ -95,6 +96,8 @@ var (
 	cpuprofile     = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	memprofile     = flag.String("memprofile", "", "write memory profile to `file`")
 	memprofilerate = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
+
+	benchmarkFlag = flag.String("benchmark", "", "set to enable 'mem' or 'cpu' benchmarking")
 )
 
 func (ctxt *Link) loaderSupport() bool {
@@ -150,6 +153,13 @@ func Main(arch *sys.Arch, theArch Arch) {
 		}
 	}
 
+	if len(*benchmarkFlag) != 0 {
+		if *benchmarkFlag != "mem" && *benchmarkFlag != "cpu" {
+			Errorf(nil, "unknown benchmark flag: %q", *benchmarkFlag)
+			usage()
+		}
+	}
+
 	if objabi.Fieldtrack_enabled != 0 {
 		ctxt.Reachparent = make(map[*sym.Symbol]*sym.Symbol)
 	}
@@ -173,13 +183,23 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	interpreter = *flagInterpreter
 
+	// enable benchmarking
+	gcControl := benchmark.NoGC
+	if *benchmarkFlag == "mem" {
+		gcControl = benchmark.GC
+	}
+	tele := benchmark.New(len(*benchmarkFlag) != 0, gcControl)
+	tele.Start("libinit")
+
 	libinit(ctxt) // creates outfile
 
 	if ctxt.HeadType == objabi.Hunknown {
 		ctxt.HeadType.Set(objabi.GOOS)
 	}
 
+	tele.Start("computeTLSOffset")
 	ctxt.computeTLSOffset()
+	tele.Start("Archinit")
 	thearch.Archinit(ctxt)
 
 	if ctxt.linkShared && !ctxt.IsELF {
@@ -210,53 +230,82 @@ func Main(arch *sys.Arch, theArch Arch) {
 	default:
 		addlibpath(ctxt, "command line", "command line", flag.Arg(0), "main", "")
 	}
+	tele.Start("loadlib")
 	ctxt.loadlib()
 
+	tele.Start("deadcode")
 	deadcode(ctxt)
 
 	if ctxt.loaderSupport() {
+		tele.Start("linksetup")
 		ctxt.linksetup()
 	}
 
+	tele.Start("loadlibfull")
 	ctxt.loadlibfull() // XXX do it here for now
 
 	if !ctxt.loaderSupport() {
+		tele.Start("linksetupold")
 		ctxt.linksetupold()
 	}
+	tele.Start("dostrdata")
 	ctxt.dostrdata()
+	tele.Start("dwarfGenerateDebugInfo")
 	dwarfGenerateDebugInfo(ctxt)
 
 	if objabi.Fieldtrack_enabled != 0 {
+		tele.Start("fieldtrack")
 		fieldtrack(ctxt)
 	}
+	tele.Start("mangleTypeSym")
 	ctxt.mangleTypeSym()
+	tele.Start("callgraph")
 	ctxt.callgraph()
 
+	tele.Start("doelf")
 	ctxt.doelf()
 	if ctxt.HeadType == objabi.Hdarwin {
+		tele.Start("domacho")
 		ctxt.domacho()
 	}
+	tele.Start("dostkcheck")
 	ctxt.dostkcheck()
 	if ctxt.HeadType == objabi.Hwindows {
+		tele.Start("dope")
 		ctxt.dope()
+		tele.Start("windynrelocsyms")
 		ctxt.windynrelocsyms()
 	}
 	if ctxt.HeadType == objabi.Haix {
+		tele.Start("doxcoff")
 		ctxt.doxcoff()
 	}
 
+	tele.Start("addexport")
 	ctxt.addexport()
+	tele.Start("Gentext")
 	thearch.Gentext(ctxt) // trampolines, call stubs, etc.
+	tele.Start("textbuildid")
 	ctxt.textbuildid()
+	tele.Start("textaddress")
 	ctxt.textaddress()
+	tele.Start("pclntab")
 	ctxt.pclntab()
+	tele.Start("findfunctab")
 	ctxt.findfunctab()
+	tele.Start("typelink")
 	ctxt.typelink()
+	tele.Start("symtab")
 	ctxt.symtab()
+	tele.Start("buildinfo")
 	ctxt.buildinfo()
+	tele.Start("dodata")
 	ctxt.dodata()
+	tele.Start("address")
 	order := ctxt.address()
+	tele.Start("dwarfcompress")
 	dwarfcompress(ctxt)
+	tele.Start("layout")
 	filesize := ctxt.layout(order)
 
 	// Write out the output file.
@@ -275,25 +324,36 @@ func Main(arch *sys.Arch, theArch Arch) {
 	if outputMmapped {
 		// Asmb will redirect symbols to the output file mmap, and relocations
 		// will be applied directly there.
+		tele.Start("Asmb")
 		thearch.Asmb(ctxt)
+		tele.Start("reloc")
 		ctxt.reloc()
+		tele.Start("Munmap")
 		ctxt.Out.Munmap()
 	} else {
 		// If we don't mmap, we need to apply relocations before
 		// writing out.
+		tele.Start("reloc")
 		ctxt.reloc()
+		tele.Start("Asmb")
 		thearch.Asmb(ctxt)
 	}
+	tele.Start("Asmb2")
 	thearch.Asmb2(ctxt)
 
+	tele.Start("undef")
 	ctxt.undef()
+	tele.Start("hostlink")
 	ctxt.hostlink()
 	if ctxt.Debugvlog != 0 {
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
 	}
+	tele.Start("Flush")
 	ctxt.Bso.Flush()
+	tele.Start("archive")
 	ctxt.archive()
+	tele.Report(os.Stdout)
 
 	errorexit()
 }
