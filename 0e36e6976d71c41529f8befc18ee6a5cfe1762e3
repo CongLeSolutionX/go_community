@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3827d0a_fdbbf387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-01-23T21:51:17Z",
+      "side": 1,
+      "message": "add method Err on sql.Row",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "0e36e6976d71c41529f8befc18ee6a5cfe1762e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "936f5828_c7932d12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-01-23T21:51:17Z",
+      "side": 1,
+      "message": "The Row.Err method is intended to assist wrapping sql.DB.\nBecause sql.Row is a struct with private fields,\na wrapper in an existing code base cannot easily provider users\nwith a different implementation without large rewrites.\nAdding this method allows query level errors to be handled\ncentrally.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "0e36e6976d71c41529f8befc18ee6a5cfe1762e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c48d299_8bdaab28",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3145,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-01-23T21:51:17Z",
+      "side": 1,
+      "message": "Maybe word it like this:\n\n// Err provides a way for wrapping packages to check for\n// query errors without calling Scan.\n// Err returns the error, if any, that was encountered while running the query.\n// If this error is not nil, this error will also be returned from Scan.",
+      "range": {
+        "startLine": 3143,
+        "startChar": 0,
+        "endLine": 3145,
+        "endChar": 25
+      },
+      "revId": "0e36e6976d71c41529f8befc18ee6a5cfe1762e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
