@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b1686f6_43edc822",
+        "filename": "src/crypto/x509/root_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-01-23T19:42:51Z",
+      "side": 1,
+      "message": "why skip the first certificate in the chain?",
+      "range": {
+        "startLine": 231,
+        "startChar": 30,
+        "endLine": 231,
+        "endChar": 31
+      },
+      "revId": "e899f861e96fac52e49515d7c83c7a68ea92f7e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
