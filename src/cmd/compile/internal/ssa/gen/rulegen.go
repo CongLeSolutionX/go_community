@@ -1293,21 +1293,29 @@ func parseValue(val string, arch arch, loc string) (op opData, oparch, typ, auxi
 	}
 
 	// Sanity check aux, auxint.
-	if auxint != "" {
-		switch op.aux {
-		case "Bool", "Int8", "Int16", "Int32", "Int64", "Int128", "Float32", "Float64", "SymOff", "SymValAndOff", "TypSize":
-		default:
-			log.Fatalf("%s: op %s %s can't have auxint", loc, op.name, op.aux)
-		}
+	if auxint != "" && !opHasAuxInt(op) {
+		log.Fatalf("%s: op %s %s can't have auxint", loc, op.name, op.aux)
 	}
-	if aux != "" {
-		switch op.aux {
-		case "String", "Sym", "SymOff", "SymValAndOff", "Typ", "TypSize", "CCop", "ArchSpecific":
-		default:
-			log.Fatalf("%s: op %s %s can't have aux", loc, op.name, op.aux)
-		}
+	if aux != "" && !opHasAux(op) {
+		log.Fatalf("%s: op %s %s can't have aux", loc, op.name, op.aux)
 	}
 	return
+}
+
+func opHasAuxInt(op opData) bool {
+	switch op.aux {
+	case "Bool", "Int8", "Int16", "Int32", "Int64", "Int128", "Float32", "Float64", "SymOff", "SymValAndOff", "TypSize":
+		return true
+	}
+	return false
+}
+
+func opHasAux(op opData) bool {
+	switch op.aux {
+	case "String", "Sym", "SymOff", "SymValAndOff", "Typ", "TypSize", "CCop", "ArchSpecific":
+		return true
+	}
+	return false
 }
 
 // splitNameExpr splits s-expr arg, possibly prefixed by "name:",
@@ -1539,11 +1547,20 @@ func normalizeMatch(m string, arch arch) string {
 
 func parseEllipsisRules(rules []Rule, arch arch) (newop string, ok bool) {
 	if len(rules) != 1 {
+		for _, r := range rules {
+			if strings.Contains(r.rule, "...") {
+				log.Fatalf("%s: found ellipsis in rule, but there are other rules with the same op", r.loc)
+			}
+		}
 		return "", false
 	}
 	rule := rules[0]
 	match, cond, result := rule.parse()
 	if cond != "" || !isEllipsisValue(match) || !isEllipsisValue(result) {
+		if strings.Contains(rule.rule, "...") {
+			log.Fatalf("%s: found ellipsis in non-ellipsis rule", rule.loc)
+		}
+		checkEllipsisRuleCandidate(rule, arch)
 		return "", false
 	}
 	op, oparch, _, _, _, _ := parseValue(result, arch, rule.loc)
@@ -1560,6 +1577,48 @@ func isEllipsisValue(s string) bool {
 		return false
 	}
 	return true
+}
+
+func checkEllipsisRuleCandidate(rule Rule, arch arch) {
+	match, cond, result := rule.parse()
+	if cond != "" {
+		return
+	}
+	op, _, _, auxint, aux, args := parseValue(match, arch, rule.loc)
+	if result[0] != '(' {
+		// Check for (Foo x) -> x, which can be converted to (Foo ...) -> (Copy ...).
+		if len(args) == 1 && args[0] == result && aux == "" && auxint == "" {
+			if opHasAux(op) && aux == "" {
+				fmt.Printf("%s: rule silently zeros aux, either copy aux or explicitly zero", rule.loc)
+				return
+			}
+			if opHasAuxInt(op) && auxint == "" {
+				fmt.Printf("%s: rule silently zeros auxint, either copy auxint or explicitly zero", rule.loc)
+				return
+			}
+			fmt.Printf("%s: possible ellipsis rule candidate using Copy: %q\n", rule.loc, rule.rule)
+		}
+		return
+	}
+	_, _, _, auxint2, aux2, args2 := parseValue(result, arch, rule.loc)
+	// Check that all restrictions in match are reproduced exactly in result.
+	if aux != aux2 || auxint != auxint2 || len(args) != len(args2) {
+		return
+	}
+	for i := range args {
+		if args[i] != args2[i] {
+			return
+		}
+	}
+	if opHasAux(op) && aux == "" && aux2 == "" {
+		fmt.Printf("%s: rule silently zeros aux, either copy aux or explicitly zero", rule.loc)
+		return
+	}
+	if opHasAuxInt(op) && auxint == "" && auxint2 == "" {
+		fmt.Printf("%s: rule silently zeros auxint, either copy auxint or explicitly zero", rule.loc)
+		return
+	}
+	fmt.Printf("%s: possible ellipsis rule candidate: %q\n", rule.loc, rule.rule)
 }
 
 func opByName(arch arch, name string) opData {
