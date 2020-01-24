@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "b290c939_d99d7e1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-24T14:43:59Z",
+      "side": 1,
+      "message": "Describe what about the test is being changed in order to fix it. (Perhaps something like, “use testing.AllocsPerRun to measure allocations in TestGrow”.)\n\nYou can add a second paragraph to the commit message (by editing the first comment in the GitHub PR) to describe how the change reduces flakiness.",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "b3367fa9bfeea9f840440d556003ebc56f3546b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65f739b6_f57c0701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-24T14:43:59Z",
+      "side": 1,
+      "message": "(nit) The first word of the summary line should not be capitalized. (It is a fragment that completes the sentence “This change modifies Go to ….”\n\n(See https://golang.org/doc/contribute.html#commit_messages.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "b3367fa9bfeea9f840440d556003ebc56f3546b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edc835e2_e6849bac",
         "filename": "src/bytes/buffer_test.go",
         "patchSetId": 1
@@ -47,6 +93,23 @@
       "writtenOn": "2020-01-24T14:43:02Z",
       "side": 1,
       "message": "Remove leading whitespace, or just remove the blank line.",
+      "revId": "b3367fa9bfeea9f840440d556003ebc56f3546b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a196919a_a1d08839",
+        "filename": "src/bytes/buffer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-01-24T14:43:59Z",
+      "side": 1,
+      "message": "There are extraneous tabs here. (Please run `go fmt bytes` to format the source code.)",
       "revId": "b3367fa9bfeea9f840440d556003ebc56f3546b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
