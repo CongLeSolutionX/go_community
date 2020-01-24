@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4b06df8_4d7def55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-24T14:43:02Z",
+      "side": 1,
+      "message": "Start with overall package name, use all lower case, try to avoid generic words like \"fix\", say \"Fixes #NNNNN\".  See https://golang.org/wiki/CommitMessage.  Thanks.\n\nIn this case:\n\nbytes: deflake TestGrow\n\nFixes #36695",
+      "revId": "b3367fa9bfeea9f840440d556003ebc56f3546b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edc835e2_e6849bac",
+        "filename": "src/bytes/buffer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-24T14:43:02Z",
+      "side": 1,
+      "message": "In strings.TestBuilderGrow the growlen loop is outside the AllocsPerRun loop.  That seems to me to make a bit more sense.",
+      "revId": "b3367fa9bfeea9f840440d556003ebc56f3546b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26da5f02_8293bf4f",
+        "filename": "src/bytes/buffer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-24T14:43:02Z",
+      "side": 1,
+      "message": "Remove leading whitespace, or just remove the blank line.",
+      "revId": "b3367fa9bfeea9f840440d556003ebc56f3546b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
