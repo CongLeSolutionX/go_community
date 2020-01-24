@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "459ff1cc_c217962f",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Changed to benchmark.",
+      "parentUuid": "4232fa0b_91becffe",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "948b1286_835a03c5",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "0edde131137c2befac8fa09debe88ee343f54788",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43e6ec11_c7316cdc",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Since this going to be more permanent, I\u0027ll add control flags.",
+      "parentUuid": "948b1286_835a03c5",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "45606a48_315a1e88",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30fbca56_c5480b6e",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eca6403c_a81f527f",
         "filename": "src/cmd/link/internal/telemetry/telemtry.go",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "0edde131137c2befac8fa09debe88ee343f54788",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18d8485a_633d0ec7",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eca6403c_a81f527f",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "4f121a42_58124107",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "ARGH!",
+      "parentUuid": "adc0df6a_7d65bd26",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "233a5995_4f389a92",
         "filename": "src/cmd/link/internal/telemetry/telemtry.go",
         "patchSetId": 3
@@ -107,6 +203,24 @@
       "revId": "0edde131137c2befac8fa09debe88ee343f54788",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a29f20f_06af8adf",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "233a5995_4f389a92",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "0c80003b_73d2f0f0",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd0db921_272ebfb6",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af86f9c_3827c71e",
         "filename": "src/cmd/link/internal/telemetry/telemtry.go",
         "patchSetId": 3
@@ -141,6 +273,24 @@
       "revId": "0edde131137c2befac8fa09debe88ee343f54788",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b915f5c_a56b18ec",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "9af86f9c_3827c71e",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "1b29c2ba_e7bdd9ee",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96caf58a_0bc7f5b9",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95ff25db_778c03bc",
         "filename": "src/cmd/link/internal/telemetry/telemtry.go",
         "patchSetId": 3
@@ -175,6 +343,24 @@
       "revId": "0edde131137c2befac8fa09debe88ee343f54788",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6399ebbe_ff2f080e",
+        "filename": "src/cmd/link/internal/telemetry/telemtry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-24T20:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95ff25db_778c03bc",
+      "revId": "0edde131137c2befac8fa09debe88ee343f54788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
