@@ -35,7 +35,8 @@ func Compile(f *Func) {
 
 	var rnd *rand.Rand
 	if checkEnabled {
-		rnd = rand.New(rand.NewSource(int64(crc32.ChecksumIEEE(([]byte)(f.Name)))))
+		seed := int64(crc32.ChecksumIEEE(([]byte)(f.Name))) ^ int64(checkRandSeed)
+		rnd = rand.New(rand.NewSource(seed))
 	}
 
 	// hook to print function & phase if panic happens
@@ -199,7 +200,10 @@ func (p *pass) addDump(s string) {
 }
 
 // Run consistency checker between each phase
-var checkEnabled = false
+var (
+	checkEnabled  = false
+	checkRandSeed = 0
+)
 
 // Debug output
 var IntrinsicsDebug int
@@ -291,6 +295,12 @@ commas. For example:
 	}
 	if phase == "check" && flag == "off" {
 		checkEnabled = val == 0
+		debugPoset = checkEnabled
+		return ""
+	}
+	if phase == "check" && flag == "seed" {
+		checkEnabled = true
+		checkRandSeed = val
 		debugPoset = checkEnabled
 		return ""
 	}
