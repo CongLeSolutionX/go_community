@@ -2468,11 +2468,11 @@ func rewriteValueWasm_OpMove(v *Value) bool {
 		}
 		v.reset(OpMove)
 		v.AuxInt = s - s%16
-		v0 := b.NewValue0(v.Pos, OpOffPtr, dst.Type)
+		v0 := b.NewValue0(v.Pos, OpWasmI64AddConst, dst.Type)
 		v0.AuxInt = s % 16
 		v0.AddArg(dst)
 		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpOffPtr, src.Type)
+		v1 := b.NewValue0(v.Pos, OpWasmI64AddConst, src.Type)
 		v1.AuxInt = s % 16
 		v1.AddArg(src)
 		v.AddArg(v1)
@@ -2499,11 +2499,11 @@ func rewriteValueWasm_OpMove(v *Value) bool {
 		}
 		v.reset(OpMove)
 		v.AuxInt = s - s%16
-		v0 := b.NewValue0(v.Pos, OpOffPtr, dst.Type)
+		v0 := b.NewValue0(v.Pos, OpWasmI64AddConst, dst.Type)
 		v0.AuxInt = s % 16
 		v0.AddArg(dst)
 		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpOffPtr, src.Type)
+		v1 := b.NewValue0(v.Pos, OpWasmI64AddConst, src.Type)
 		v1.AuxInt = s % 16
 		v1.AddArg(src)
 		v.AddArg(v1)
@@ -2730,7 +2730,7 @@ func rewriteValueWasm_OpRotateLeft16(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpOr16)
-		v0 := b.NewValue0(v.Pos, OpLsh16x64, t)
+		v0 := b.NewValue0(v.Pos, OpLsh64x64, t)
 		v0.AddArg(x)
 		v1 := b.NewValue0(v.Pos, OpWasmI64Const, typ.Int64)
 		v1.AuxInt = c & 15
@@ -2761,7 +2761,7 @@ func rewriteValueWasm_OpRotateLeft8(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpOr8)
-		v0 := b.NewValue0(v.Pos, OpLsh8x64, t)
+		v0 := b.NewValue0(v.Pos, OpLsh64x64, t)
 		v0.AddArg(x)
 		v1 := b.NewValue0(v.Pos, OpWasmI64Const, typ.Int64)
 		v1.AuxInt = c & 7
@@ -5053,7 +5053,7 @@ func rewriteValueWasm_OpZero(v *Value) bool {
 		}
 		v.reset(OpZero)
 		v.AuxInt = s - s%8
-		v0 := b.NewValue0(v.Pos, OpOffPtr, destptr.Type)
+		v0 := b.NewValue0(v.Pos, OpWasmI64AddConst, destptr.Type)
 		v0.AuxInt = s % 8
 		v0.AddArg(destptr)
 		v.AddArg(v0)

@@ -169,6 +169,8 @@ func genRulesSuffix(arch arch, suff string) {
 	}
 	sort.Strings(ops)
 
+	arch.opFor = make(map[string]string)
+
 	genFile := &File{arch: arch, suffix: suff}
 	// Main rewrite routine is a switch on v.Op.
 	fn := &Func{kind: "Value", arglen: -1}
@@ -177,6 +179,7 @@ func genRulesSuffix(arch arch, suff string) {
 	for _, op := range ops {
 		eop, ok := parseEllipsisRules(oprules[op], arch)
 		if ok {
+			arch.opFor[op] = eop
 			swc := &Case{expr: exprf(op)}
 			swc.add(stmtf("v.Op = %s", eop))
 			swc.add(stmtf("return true"))
@@ -957,6 +960,11 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string, cnt map[string]int, 
 
 	checkOp = fmt.Sprintf("Op%s%s", oparch, op.name)
 
+	// TODO: enable this check when all rules pass it.
+	// if replace, ok := arch.opFor[checkOp]; ok {
+	// 	log.Fatalf("%s: use %s instead of %s\n", rr.loc, replace, checkOp)
+	// }
+
 	if op.faultOnNilArg0 || op.faultOnNilArg1 {
 		// Prefer the position of an instruction which could fault.
 		pos = v + ".Pos"
@@ -1108,6 +1116,12 @@ func genResult0(rr *RuleRewrite, arch arch, result string, top, move bool, pos s
 
 	op, oparch, typ, auxint, aux, args := parseValue(result, arch, rr.loc)
 
+	checkOp := fmt.Sprintf("Op%s%s", oparch, op.name)
+	replace, replaceOK := arch.opFor[checkOp]
+	if !replaceOK {
+		replace = checkOp
+	}
+
 	// Find the type of the variable.
 	typeOverride := typ != ""
 	if typ == "" && op.typ != "" {
@@ -1126,7 +1140,7 @@ func genResult0(rr *RuleRewrite, arch arch, result string, top, move bool, pos s
 		}
 		v = fmt.Sprintf("v%d", rr.alloc)
 		rr.alloc++
-		rr.add(declf(v, "b.NewValue0(%s, Op%s%s, %s)", pos, oparch, op.name, typ))
+		rr.add(declf(v, "b.NewValue0(%s, %s, %s)", pos, replace, typ))
 		if move && top {
 			// Rewrite original into a copy
 			rr.add(stmtf("v.reset(OpCopy)"))
