@@ -13654,10 +13654,10 @@ func rewriteValue386_OpDiv8(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(Op386DIVW)
-		v0 := b.NewValue0(v.Pos, OpSignExt8to16, typ.Int16)
+		v0 := b.NewValue0(v.Pos, Op386MOVBLSX, typ.Int16)
 		v0.AddArg(x)
 		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpSignExt8to16, typ.Int16)
+		v1 := b.NewValue0(v.Pos, Op386MOVBLSX, typ.Int16)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -13674,10 +13674,10 @@ func rewriteValue386_OpDiv8u(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(Op386DIVWU)
-		v0 := b.NewValue0(v.Pos, OpZeroExt8to16, typ.UInt16)
+		v0 := b.NewValue0(v.Pos, Op386MOVBLZX, typ.UInt16)
 		v0.AddArg(x)
 		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpZeroExt8to16, typ.UInt16)
+		v1 := b.NewValue0(v.Pos, Op386MOVBLZX, typ.UInt16)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -15015,10 +15015,10 @@ func rewriteValue386_OpMod8(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(Op386MODW)
-		v0 := b.NewValue0(v.Pos, OpSignExt8to16, typ.Int16)
+		v0 := b.NewValue0(v.Pos, Op386MOVBLSX, typ.Int16)
 		v0.AddArg(x)
 		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpSignExt8to16, typ.Int16)
+		v1 := b.NewValue0(v.Pos, Op386MOVBLSX, typ.Int16)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -15035,10 +15035,10 @@ func rewriteValue386_OpMod8u(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(Op386MODWU)
-		v0 := b.NewValue0(v.Pos, OpZeroExt8to16, typ.UInt16)
+		v0 := b.NewValue0(v.Pos, Op386MOVBLZX, typ.UInt16)
 		v0.AddArg(x)
 		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpZeroExt8to16, typ.UInt16)
+		v1 := b.NewValue0(v.Pos, Op386MOVBLZX, typ.UInt16)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true

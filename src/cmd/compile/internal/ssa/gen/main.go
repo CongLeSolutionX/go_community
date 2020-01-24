@@ -42,6 +42,8 @@ type arch struct {
 	linkreg         int8
 	generic         bool
 	imports         []string
+	// map of op substitutions in this arch, filled in during rulelgen
+	opFor map[string]string
 }
 
 type opData struct {

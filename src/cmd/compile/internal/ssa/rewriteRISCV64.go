@@ -1034,7 +1034,7 @@ func rewriteValueRISCV64_OpGeq64(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(OpNot)
-		v0 := b.NewValue0(v.Pos, OpLess64, typ.Bool)
+		v0 := b.NewValue0(v.Pos, OpRISCV64SLT, typ.Bool)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -1066,7 +1066,7 @@ func rewriteValueRISCV64_OpGeq64U(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(OpNot)
-		v0 := b.NewValue0(v.Pos, OpLess64U, typ.Bool)
+		v0 := b.NewValue0(v.Pos, OpRISCV64SLTU, typ.Bool)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -1393,7 +1393,7 @@ func rewriteValueRISCV64_OpLeq64(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(OpNot)
-		v0 := b.NewValue0(v.Pos, OpLess64, typ.Bool)
+		v0 := b.NewValue0(v.Pos, OpRISCV64SLT, typ.Bool)
 		v0.AddArg(y)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -1411,7 +1411,7 @@ func rewriteValueRISCV64_OpLeq64U(v *Value) bool {
 		x := v_0
 		y := v_1
 		v.reset(OpNot)
-		v0 := b.NewValue0(v.Pos, OpLess64U, typ.Bool)
+		v0 := b.NewValue0(v.Pos, OpRISCV64SLTU, typ.Bool)
 		v0.AddArg(y)
 		v0.AddArg(x)
 		v.AddArg(v0)
