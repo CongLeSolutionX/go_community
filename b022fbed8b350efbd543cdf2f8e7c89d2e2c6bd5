@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cc03b24_ef0b6b96",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-24T22:38:34Z",
+      "side": 1,
+      "message": "The new option should be documented in here somewhere.",
+      "revId": "b022fbed8b350efbd543cdf2f8e7c89d2e2c6bd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
