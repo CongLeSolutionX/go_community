@@ -23052,9 +23052,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "DIVD",
-		argLen: 2,
-		asm:    ppc64.ADIVD,
+		name:    "DIVD",
+		auxType: auxBool,
+		argLen:  2,
+		asm:     ppc64.ADIVD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
@@ -23066,9 +23067,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "DIVW",
-		argLen: 2,
-		asm:    ppc64.ADIVW,
+		name:    "DIVW",
+		auxType: auxBool,
+		argLen:  2,
+		asm:     ppc64.ADIVW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29

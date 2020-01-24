@@ -231,10 +231,10 @@ func init() {
 		{name: "FDIV", argLength: 2, reg: fp21, asm: "FDIV"},   // arg0/arg1
 		{name: "FDIVS", argLength: 2, reg: fp21, asm: "FDIVS"}, // arg0/arg1
 
-		{name: "DIVD", argLength: 2, reg: gp21, asm: "DIVD", typ: "Int64"},   // arg0/arg1 (signed 64-bit)
-		{name: "DIVW", argLength: 2, reg: gp21, asm: "DIVW", typ: "Int32"},   // arg0/arg1 (signed 32-bit)
-		{name: "DIVDU", argLength: 2, reg: gp21, asm: "DIVDU", typ: "Int64"}, // arg0/arg1 (unsigned 64-bit)
-		{name: "DIVWU", argLength: 2, reg: gp21, asm: "DIVWU", typ: "Int32"}, // arg0/arg1 (unsigned 32-bit)
+		{name: "DIVD", argLength: 2, reg: gp21, asm: "DIVD", typ: "Int64", aux: "Bool"}, // arg0/arg1 (signed 64-bit)
+		{name: "DIVW", argLength: 2, reg: gp21, asm: "DIVW", typ: "Int32", aux: "Bool"}, // arg0/arg1 (signed 32-bit)
+		{name: "DIVDU", argLength: 2, reg: gp21, asm: "DIVDU", typ: "Int64"},            // arg0/arg1 (unsigned 64-bit)
+		{name: "DIVWU", argLength: 2, reg: gp21, asm: "DIVWU", typ: "Int32"},            // arg0/arg1 (unsigned 32-bit)
 
 		// MOD is implemented as rem := arg0 - (arg0/arg1) * arg1
 

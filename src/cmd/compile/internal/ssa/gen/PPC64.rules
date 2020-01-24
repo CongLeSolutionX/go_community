@@ -28,9 +28,9 @@
 (Mul(32|16|8)  x y) -> (MULLW  x y)
 (Mul64uhilo x y) -> (LoweredMuluhilo x y)
 
-(Div64  x y) -> (DIVD  x y)
+(Div64 [a] x y) -> (DIVD [a] x y)
 (Div64u x y) -> (DIVDU x y)
-(Div32  x y) -> (DIVW  x y)
+(Div32 [a] x y) -> (DIVW [a] x y)
 (Div32u x y) -> (DIVWU x y)
 (Div16  x y) -> (DIVW  (SignExt16to32 x) (SignExt16to32 y))
 (Div16u x y) -> (DIVWU (ZeroExt16to32 x) (ZeroExt16to32 y))

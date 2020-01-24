@@ -1718,12 +1718,14 @@ func rewriteValuePPC64_OpDiv16u_0(v *Value) bool {
 	}
 }
 func rewriteValuePPC64_OpDiv32_0(v *Value) bool {
-	// match: (Div32 x y)
-	// result: (DIVW x y)
+	// match: (Div32 [a] x y)
+	// result: (DIVW [a] x y)
 	for {
+		a := v.AuxInt
 		y := v.Args[1]
 		x := v.Args[0]
 		v.reset(OpPPC64DIVW)
+		v.AuxInt = a
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -1754,12 +1756,14 @@ func rewriteValuePPC64_OpDiv32u_0(v *Value) bool {
 	}
 }
 func rewriteValuePPC64_OpDiv64_0(v *Value) bool {
-	// match: (Div64 x y)
-	// result: (DIVD x y)
+	// match: (Div64 [a] x y)
+	// result: (DIVD [a] x y)
 	for {
+		a := v.AuxInt
 		y := v.Args[1]
 		x := v.Args[0]
 		v.reset(OpPPC64DIVD)
+		v.AuxInt = a
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
