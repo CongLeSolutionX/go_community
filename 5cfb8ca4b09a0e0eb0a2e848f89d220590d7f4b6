@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "543963aa_218e17c2",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-01-24T18:32:46Z",
+      "side": 1,
+      "message": "Yay!\n\nWorth mentioning that it is still opt-in?",
+      "range": {
+        "startLine": 28,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 77
+      },
+      "revId": "5cfb8ca4b09a0e0eb0a2e848f89d220590d7f4b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
