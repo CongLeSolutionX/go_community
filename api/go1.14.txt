@@ -14,6 +14,8 @@ pkg crypto/tls, type CipherSuite struct, ID uint16
 pkg crypto/tls, type CipherSuite struct, Insecure bool
 pkg crypto/tls, type CipherSuite struct, Name string
 pkg crypto/tls, type CipherSuite struct, SupportedVersions []uint16
+pkg database/sql/driver, type Validator interface { IsValid }
+pkg database/sql/driver, type Validator interface, IsValid() bool
 pkg debug/dwarf, const AttrAddrBase = 115
 pkg debug/dwarf, const AttrAddrBase Attr
 pkg debug/dwarf, const AttrAlignment = 136
