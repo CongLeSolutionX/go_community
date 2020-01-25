@@ -578,7 +578,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *Node) {
 			e.expr(k.note(n, "captured by a closure"), v.Name.Defn)
 		}
 
-	case ORUNES2STR, OBYTES2STR, OSTR2RUNES, OSTR2BYTES, ORUNESTR:
+	case ORUNES2STR, OBYTES2STR, OSTR2RUNES, OSTR2BYTES, ORUNESTR, OSLICE2ARRPTR:
 		e.spill(k, n)
 		e.discard(n.Left)
 

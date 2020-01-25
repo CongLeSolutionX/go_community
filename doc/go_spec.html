@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of Jan 14, 2020",
+	"Subtitle": "Version of Jan 25, 2020",
 	"Path": "/ref/spec"
 }-->
 
@@ -4154,6 +4154,9 @@ in any of these cases:
 	<li>
 	<code>x</code> is a string and <code>T</code> is a slice of bytes or runes.
 	</li>
+	<li>
+	<code>x</code> is a slice and <code>T</code> is a pointer to an array and the slice element type is <a href="#Type_identity">identical to</a> the array element type.
+	</li>
 </ul>
 
 <p>
@@ -4304,6 +4307,17 @@ MyRunes("白鵬翔")           // []rune{0x767d, 0x9d6c, 0x7fd4}
 </li>
 </ol>
 
+<h4 id="Conversions_from_a_slice_to_an_array_pointer">Conversions from a slice to an array pointer</h4>
+
+Converting a slice to an array pointer yields a pointer to underlying array of the slice
+if the capacity of the slice is greater than or equal to the array length, and nil otherwise.
+
+<pre>
+s := make([]byte, 0, 4)
+a2 := (*[2]byte)(s) // &a2[0] == &s[0]
+a4 := (*[4]byte)(s) // &a4[0] == &s[0]
+a8 := (*[8]byte)(s) // a8 == nil
+</pre>
 
 <h3 id="Constant_expressions">Constant expressions</h3>
 
