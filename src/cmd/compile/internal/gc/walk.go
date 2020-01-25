@@ -498,7 +498,7 @@ opswitch:
 		// stringsym for constant strings.
 
 	case ONOT, ONEG, OPLUS, OBITNOT, OREAL, OIMAG, ODOTMETH, ODOTINTER,
-		ODEREF, OSPTR, OITAB, OIDATA, OADDR:
+		ODEREF, OSPTR, OITAB, OIDATA, OADDR, OSLICE2ARRPTR:
 		n.Left = walkexpr(n.Left, init)
 
 	case OEFACE, OAND, OSUB, OMUL, OADD, OOR, OXOR, OLSH, ORSH:

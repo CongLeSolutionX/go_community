@@ -2480,6 +2480,10 @@ func convertOp(dst, src *rtype) func(Value, Type) Value {
 				return cvtRunesString
 			}
 		}
+		if dst.Kind() == Ptr && dst.Elem().Kind() == Array &&
+			src.Elem() == dst.Elem().Elem() {
+			return cvtSliceArrayPtr
+		}
 
 	case Chan:
 		if dst.Kind() == Chan && specialChannelAssignability(dst, src) {
@@ -2663,6 +2667,19 @@ func cvtRunesString(v Value, t Type) Value {
 // convertOp: string -> []rune
 func cvtStringRunes(v Value, t Type) Value {
 	return makeRunes(v.flag.ro(), []rune(v.String()), t)
+}
+
+// convertOp: []T -> *[N]T
+func cvtSliceArrayPtr(v Value, t Type) Value {
+	n := t.Elem().Len()
+	var ptr unsafe.Pointer
+	if h := (*sliceHeader)(v.ptr); n <= h.Cap {
+		ptr = h.Data
+	}
+	ret := New(t).Elem()
+	ret.ptr = ptr
+	ret.flag = v.flag &^ flagIndir
+	return ret
 }
 
 // convertOp: direct copy

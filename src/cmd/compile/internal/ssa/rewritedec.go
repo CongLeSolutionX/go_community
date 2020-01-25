@@ -17,6 +17,8 @@ func rewriteValuedec(v *Value) bool {
 		return rewriteValuedec_OpITab(v)
 	case OpLoad:
 		return rewriteValuedec_OpLoad(v)
+	case OpSliceArrayPtr:
+		return rewriteValuedec_OpSliceArrayPtr(v)
 	case OpSliceCap:
 		return rewriteValuedec_OpSliceCap(v)
 	case OpSliceLen:
@@ -202,6 +204,20 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v2.AddArg(ptr)
 		v1.AddArg2(v2, mem)
 		v.AddArg2(v0, v1)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpSliceArrayPtr(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SliceArrayPtr (SliceMake ptr _ _ ))
+	// result: ptr
+	for {
+		if v_0.Op != OpSliceMake {
+			break
+		}
+		ptr := v_0.Args[0]
+		v.copyOf(ptr)
 		return true
 	}
 	return false

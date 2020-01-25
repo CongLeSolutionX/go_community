@@ -648,6 +648,7 @@ const (
 	OSTR2BYTES    // Type(Left) (Type is []byte, Left is a string)
 	OSTR2BYTESTMP // Type(Left) (Type is []byte, Left is a string, ephemeral)
 	OSTR2RUNES    // Type(Left) (Type is []rune, Left is a string)
+	OSLICE2ARRPTR // Type(Left) (Type is *[N]T, Left is []T)
 	OAS           // Left = Right or (if Colas=true) Left := Right
 	OAS2          // List = Rlist (x, y, z = a, b, c)
 	OAS2DOTTYPE   // List = Right (x, ok = I.(int))

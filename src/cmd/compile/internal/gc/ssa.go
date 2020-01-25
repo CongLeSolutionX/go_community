@@ -2703,6 +2703,38 @@ func (s *state) expr(n *Node) *ssa.Value {
 		p, l, _ := s.slice(v, i, j, nil, n.Bounded())
 		return s.newValue2(ssa.OpStringMake, n.Type, p, l)
 
+	case OSLICE2ARRPTR:
+		// ptr := nil
+		// if arraylen <= slice.cap {
+		//   ptr = slice.ptr
+		// }
+		v := s.expr(n.Left)
+		s.vars[n] = s.constNil(n.Type)
+
+		vcap := s.newValue1(ssa.OpSliceCap, types.Types[TINT], v)
+		arrlen := s.constInt(types.Types[TINT], n.Type.Elem().NumElem())
+		cmp := s.newValue2(ssa.OpIsSliceInBounds, types.Types[TBOOL], arrlen, vcap)
+		b := s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.SetControl(cmp)
+		b.Likely = ssa.BranchLikely
+
+		bThen := s.f.NewBlock(ssa.BlockPlain)
+		bDone := s.f.NewBlock(ssa.BlockPlain)
+
+		b.AddEdgeTo(bThen)
+		b.AddEdgeTo(bDone)
+
+		b = s.endBlock()
+
+		s.startBlock(bThen)
+		s.vars[n] = s.newValue1(ssa.OpSliceArrayPtr, types.Types[TINT], v)
+		b = s.endBlock()
+		b.AddEdgeTo(bDone)
+
+		s.startBlock(bDone)
+		return s.variable(n, n.Type)
+
 	case OCALLFUNC:
 		if isIntrinsicCall(n) {
 			return s.intrinsicCall(n)

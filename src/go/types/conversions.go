@@ -133,6 +133,14 @@ func (x *operand) convertibleTo(check *Checker, T Type) bool {
 		return true
 	}
 
+	// "x is a slice and T is a pointer to an array and
+	// the slice element type is identical to the array element type"
+	if isArrayPtr(T) && isSlice(V) {
+		if Tu.(*Pointer).Elem().Underlying().(*Array).Elem() == Vu.(*Slice).Elem() {
+			return true
+		}
+	}
+
 	return false
 }
 
@@ -160,4 +168,19 @@ func isBytesOrRunes(typ Type) bool {
 		return ok && (t.kind == Byte || t.kind == Rune)
 	}
 	return false
+}
+
+func isSlice(typ Type) bool {
+	_, ok := typ.Underlying().(*Slice)
+	return ok
+}
+
+func isArray(typ Type) bool {
+	_, ok := typ.Underlying().(*Array)
+	return ok
+}
+
+func isArrayPtr(typ Type) bool {
+	t, ok := typ.Underlying().(*Pointer)
+	return ok && isArray(t.Elem())
 }

@@ -3659,6 +3659,8 @@ type MyStruct struct {
 }
 type MyString string
 type MyBytes []byte
+type MyBytesArrayPtr *[4]byte
+type MyBytesArray [4]byte
 type MyRunes []int32
 type MyFunc func()
 type MyByte byte
@@ -3961,6 +3963,26 @@ var convertTests = []struct {
 	{V(MyRunes("runes🙈🙉🙊")), V(MyRunes("runes🙈🙉🙊"))},
 	{V(MyString("runes♝")), V(MyRunes("runes♝"))},
 	{V(MyRunes("runes♕")), V(MyString("runes♕"))},
+
+	// slice to array pointer
+	{V([]byte(nil)), V((*[1]byte)(nil))},
+	{V([]byte{}), V((*[1]byte)(nil))},
+	{V([]byte{7}), V(&[1]byte{7})},
+	{V(MyBytes([]byte(nil))), V((*[1]byte)(nil))},
+	{V(MyBytes([]byte{})), V((*[1]byte)(nil))},
+	{V(MyBytes([]byte{9})), V(&[1]byte{9})},
+	{V([]byte(nil)), V(MyBytesArrayPtr(nil))},
+	{V([]byte{}), V(MyBytesArrayPtr(nil))},
+	{V([]byte{1, 2, 3, 4}), V(MyBytesArrayPtr(&[4]byte{1, 2, 3, 4}))},
+	{V(MyBytes([]byte{})), V(MyBytesArrayPtr(nil))},
+	{V(MyBytes([]byte{5, 6, 7, 8})), V(MyBytesArrayPtr(&[4]byte{5, 6, 7, 8}))},
+
+	{V([]byte(nil)), V((*MyBytesArray)(nil))},
+	{V([]byte{}), V((*MyBytesArray)(nil))},
+	{V([]byte{1, 2, 3, 4}), V(&MyBytesArray{1, 2, 3, 4})},
+	{V(MyBytes([]byte(nil))), V((*MyBytesArray)(nil))},
+	{V(MyBytes([]byte{})), V((*MyBytesArray)(nil))},
+	{V(MyBytes([]byte{5, 6, 7, 8})), V(&MyBytesArray{5, 6, 7, 8})},
 
 	// named types and equal underlying types
 	{V(new(int)), V(new(integer))},

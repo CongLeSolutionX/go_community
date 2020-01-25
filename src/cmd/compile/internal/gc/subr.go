@@ -785,12 +785,21 @@ func convertop(srcConstant bool, src, dst *types.Type, why *string) Op {
 		return OCONVNOP
 	}
 
-	// src is map and dst is a pointer to corresponding hmap.
+	// 10. src is map and dst is a pointer to corresponding hmap.
 	// This rule is needed for the implementation detail that
 	// go gc maps are implemented as a pointer to a hmap struct.
 	if src.Etype == TMAP && dst.IsPtr() &&
 		src.MapType().Hmap == dst.Elem() {
 		return OCONVNOP
+	}
+
+	// 11. src is slice and dst is a pointer to an array.
+	// They must have same element type.
+	if langSupported(1, 15, curpkg()) {
+		if src.IsSlice() && dst.IsPtr() && dst.Elem().IsArray() &&
+			types.Identical(src.Elem(), dst.Elem().Elem()) {
+			return OSLICE2ARRPTR
+		}
 	}
 
 	return OXXX
