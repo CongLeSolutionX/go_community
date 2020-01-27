@@ -572,6 +572,7 @@ var gentab = []struct {
 	nameprefix string
 	gen        func(string, string)
 }{
+	{"zbootstrap.go", mkzbootstrap},
 	{"zdefaultcc.go", mkzdefaultcc},
 	{"zosarch.go", mkzosarch},
 	{"zversion.go", mkzversion},
@@ -1085,6 +1086,7 @@ var cleanlist = []string{
 	"runtime/internal/sys",
 	"cmd/cgo",
 	"cmd/go/internal/cfg",
+	"cmd/internal/objabi",
 	"go/build",
 }
 
