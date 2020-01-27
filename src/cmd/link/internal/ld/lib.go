@@ -1878,15 +1878,12 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 
 	if c1 == 0x4c && c2 == 0x01 || c1 == 0x64 && c2 == 0x86 {
 		ldpe := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
-			textp, rsrc, err := loadpe.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn)
+			textp, err := loadpe.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn)
 			if err != nil {
 				Errorf(nil, "%v", err)
 				return
 			}
-			if rsrc != nil {
-				setpersrc(ctxt, rsrc)
-			}
-			ctxt.Textp = append(ctxt.Textp, textp...)
+			ctxt.Textp2 = append(ctxt.Textp2, textp...)
 		}
 		return ldhostobj(ldpe, ctxt.HeadType, f, pkg, length, pn, file)
 	}
@@ -2812,9 +2809,6 @@ func (ctxt *Link) loadlibfull() {
 	ctxt.cgodata = nil
 
 	addToTextp(ctxt)
-
-	// Drop the loader.
-	ctxt.loader = nil
 }
 
 func (ctxt *Link) dumpsyms() {

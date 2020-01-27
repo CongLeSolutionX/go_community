@@ -282,7 +282,6 @@ type Dll struct {
 }
 
 var (
-	rsrcsym     *sym.Symbol
 	PESECTHEADR int32
 	PEFILEHEADR int32
 	pe64        int
@@ -1469,27 +1468,24 @@ func (ctxt *Link) dope() {
 	initdynexport(ctxt)
 }
 
-func setpersrc(ctxt *Link, sym *sym.Symbol) {
-	if rsrcsym != nil {
-		Errorf(sym, "too many .rsrc sections")
-	}
-
-	rsrcsym = sym
-}
-
 func addpersrc(ctxt *Link) {
-	if rsrcsym == nil {
+	rsrcsym := ctxt.loader.Lookup(".rsrc", 0)
+	if rsrcsym == 0 {
 		return
 	}
+	bld, _ := ctxt.loader.MakeSymbolUpdater(rsrcsym)
 
-	h := pefile.addSection(".rsrc", int(rsrcsym.Size), int(rsrcsym.Size))
+	size := int(bld.Size())
+	h := pefile.addSection(".rsrc", size, size)
 	h.characteristics = IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_CNT_INITIALIZED_DATA
 	h.checkOffset(ctxt.Out.Offset())
 
 	// relocation
-	for ri := range rsrcsym.R {
-		r := &rsrcsym.R[ri]
-		p := rsrcsym.P[r.Off:]
+	relocs := ctxt.loader.Relocs(rsrcsym)
+	for i := 0; i < relocs.Count; i++ {
+		r := relocs.At(i)
+		//r := &rsrcsym.R[ri]
+		p := bld.Data()[r.Off:]
 		val := uint32(int64(h.virtualAddress) + r.Add)
 
 		// 32-bit little-endian
@@ -1500,8 +1496,8 @@ func addpersrc(ctxt *Link) {
 		p[3] = byte(val >> 24)
 	}
 
-	ctxt.Out.Write(rsrcsym.P)
-	h.pad(ctxt.Out, uint32(rsrcsym.Size))
+	ctxt.Out.Write(bld.Data())
+	h.pad(ctxt.Out, uint32(size))
 
 	// update data directory
 	pefile.dataDirectory[IMAGE_DIRECTORY_ENTRY_RESOURCE].VirtualAddress = h.virtualAddress
