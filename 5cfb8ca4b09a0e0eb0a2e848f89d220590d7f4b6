@@ -46,6 +46,30 @@
       "revId": "5cfb8ca4b09a0e0eb0a2e848f89d220590d7f4b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "146413fa_c2ad4fc9",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-01-27T14:01:03Z",
+      "side": 1,
+      "message": "I don\u0027t want to confuse things with talk of opt-in or opt-out.\nIt\u0027s there if you use modules (have a go.mod) and not if you don\u0027t.\nThe automatic mode (the default) is the right setting for most people.\nI\u0027ve seen far too many people sending around commands prefixed with\nGO111MODULE\u003don. Let\u0027s not encourage that.",
+      "parentUuid": "a5115449_b4b75109",
+      "range": {
+        "startLine": 28,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 77
+      },
+      "revId": "5cfb8ca4b09a0e0eb0a2e848f89d220590d7f4b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
