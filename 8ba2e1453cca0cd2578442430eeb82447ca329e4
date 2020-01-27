@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c2dbe426_d19af43d",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-27T16:27:04Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I think this makes sense. But it seems we also need this for all the other accessors as well (SymName, SymType, etc.). Would it work if we do this in IsExternal?",
+      "parentUuid": "0bcb7efb_838993c6",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 2
+      },
+      "revId": "8ba2e1453cca0cd2578442430eeb82447ca329e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84067e95_5538f489",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "Builder? I think of these as builders like string builders in java, etc.",
       "parentUuid": "0a07e361_2e3914f1",
+      "range": {
+        "startLine": 562,
+        "startChar": 2,
+        "endLine": 562,
+        "endChar": 5
+      },
+      "revId": "8ba2e1453cca0cd2578442430eeb82447ca329e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee67398c_ffab7016",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-27T16:27:04Z",
+      "side": 1,
+      "message": "Thanks.\n\nIt seems Than used \"sb\" in the ELF loader. You could consider that for consistency (also fine not to).",
+      "parentUuid": "2a261afc_5179c49c",
       "range": {
         "startLine": 562,
         "startChar": 2,
