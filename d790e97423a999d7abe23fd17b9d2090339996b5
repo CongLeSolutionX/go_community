@@ -22,6 +22,30 @@
       "revId": "d790e97423a999d7abe23fd17b9d2090339996b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b272e04d_598b73d7",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-01-27T23:54:45Z",
+      "side": 1,
+      "message": "Indeed it should, thanks. Done.\n\nI was being saved by Daniel\u0027s go/types magic below that makes unused values disappear.",
+      "parentUuid": "024cc008_4510a5ac",
+      "range": {
+        "startLine": 598,
+        "startChar": 13,
+        "endLine": 598,
+        "endChar": 21
+      },
+      "revId": "d790e97423a999d7abe23fd17b9d2090339996b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
