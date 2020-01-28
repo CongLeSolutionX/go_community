@@ -33,6 +33,24 @@
       "revId": "1b21d4958647583b02ae91947a948f8782da677e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd2c68f_e5750d63",
+        "filename": "src/os/executable_dragonfly.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 16980
+      },
+      "writtenOn": "2020-01-28T17:41:56Z",
+      "side": 1,
+      "message": "it could be definitely be merged together i guess. the only difference is the third element of the array. but how would you differentiate which number to pick? or should one create for example executable_sysctl.go with a wrapper function to a function provided by each _dragonfly.go and _freebsd.go ?",
+      "parentUuid": "317e2d18_5c09777b",
+      "revId": "1b21d4958647583b02ae91947a948f8782da677e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
