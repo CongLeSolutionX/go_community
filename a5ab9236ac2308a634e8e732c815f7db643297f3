@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "122717c0_758ed987",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-28T20:21:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "823df3e9_cf321567",
+      "range": {
+        "startLine": 40,
+        "startChar": 5,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "a5ab9236ac2308a634e8e732c815f7db643297f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ded9d2f_10a6145a",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e8b56eae_bee8c175",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-28T20:21:47Z",
+      "side": 1,
+      "message": "It always measures both, but you\u0027re right the flag is kinda confusing....",
+      "parentUuid": "6ded9d2f_10a6145a",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "a5ab9236ac2308a634e8e732c815f7db643297f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "924dcf0e_281e5e15",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 7
@@ -62,6 +110,24 @@
       "revId": "a5ab9236ac2308a634e8e732c815f7db643297f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa31e802_545fe5a1",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-28T20:21:47Z",
+      "side": 1,
+      "message": "It helps us know differences in the function. Ie, I malloc\u0027d N times in this function, etc.",
+      "parentUuid": "924dcf0e_281e5e15",
+      "revId": "a5ab9236ac2308a634e8e732c815f7db643297f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
