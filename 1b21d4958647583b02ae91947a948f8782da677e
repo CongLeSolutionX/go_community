@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fc236a4_51b56bf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-28T15:16:16Z",
+      "side": 1,
+      "message": "Please delete these lines left over from the template.",
+      "revId": "1b21d4958647583b02ae91947a948f8782da677e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "317e2d18_5c09777b",
+        "filename": "src/os/executable_dragonfly.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-28T15:16:16Z",
+      "side": 1,
+      "message": "Can we combine with with executable_freebsd.go rather than duplicating the code?",
+      "revId": "1b21d4958647583b02ae91947a948f8782da677e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
