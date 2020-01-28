@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "326361be_f4273c5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-28T21:14:49Z",
+      "side": 1,
+      "message": "Reference the CL at which this regressed?\n\nEither here and/or in the issue?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 12
+      },
+      "revId": "c13777530ee1fef8101af324827d8d211982cd7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea2c73ec_24c91259",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-28T21:14:49Z",
+      "side": 1,
+      "message": "mention how req\u0027s involved?",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 41
+      },
+      "revId": "c13777530ee1fef8101af324827d8d211982cd7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e94ea1f8_4d0b92f9",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-28T21:14:49Z",
+      "side": 1,
+      "message": "Ideally we\u0027d have more test coverage around this function too. But not necessary at this stage. The integration test is enough.",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 13
+      },
+      "revId": "c13777530ee1fef8101af324827d8d211982cd7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b3e781_7d388dfd",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-28T21:14:49Z",
+      "side": 1,
+      "message": "sound like this returns a string, not a RoundTripper.\n\nalternateRoundTripper perhaps?",
+      "range": {
+        "startLine": 472,
+        "startChar": 3,
+        "endLine": 472,
+        "endChar": 75
+      },
+      "revId": "c13777530ee1fef8101af324827d8d211982cd7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d13ff0d0_8a87533a",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6147,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-28T21:14:49Z",
+      "side": 1,
+      "message": "I like to also summarize the test in words after the issue number.",
+      "revId": "c13777530ee1fef8101af324827d8d211982cd7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
