@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a6ec7882_cca38593",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-28T02:20:02Z",
+      "side": 1,
+      "message": "Indeed, removed.",
+      "parentUuid": "5d002367_56d79047",
+      "revId": "2e32af5346180093fac3af6b821d625b102ff08f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0489ab63_73a524b0",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "2e32af5346180093fac3af6b821d625b102ff08f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10d534c8_680cfa64",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-01-28T02:20:02Z",
+      "side": 1,
+      "message": "Yup, done.",
+      "parentUuid": "0489ab63_73a524b0",
+      "revId": "2e32af5346180093fac3af6b821d625b102ff08f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
