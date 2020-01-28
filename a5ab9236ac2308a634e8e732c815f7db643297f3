@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "823df3e9_cf321567",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-28T15:45:44Z",
+      "side": 1,
+      "message": "Maybe also update this variable name.",
+      "range": {
+        "startLine": 40,
+        "startChar": 5,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "a5ab9236ac2308a634e8e732c815f7db643297f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ded9d2f_10a6145a",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-28T15:45:44Z",
+      "side": 1,
+      "message": "Do we always measure both? I thought we can choose what to measure. Maybe it is fine as the overhead of measuring time is probably minimal.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "a5ab9236ac2308a634e8e732c815f7db643297f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "924dcf0e_281e5e15",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-28T15:45:44Z",
+      "side": 1,
+      "message": "If GC is enabled, do we need ReadMemStats before GC?",
+      "revId": "a5ab9236ac2308a634e8e732c815f7db643297f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
