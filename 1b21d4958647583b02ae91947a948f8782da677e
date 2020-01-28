@@ -69,6 +69,24 @@
       "revId": "1b21d4958647583b02ae91947a948f8782da677e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "896f383a_eb36eb40",
+        "filename": "src/os/executable_dragonfly.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-28T18:25:46Z",
+      "side": 1,
+      "message": "I wouldn\u0027t use a wrapper function, I would just use a const setting the third element of the array.",
+      "parentUuid": "7fd2c68f_e5750d63",
+      "revId": "1b21d4958647583b02ae91947a948f8782da677e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
