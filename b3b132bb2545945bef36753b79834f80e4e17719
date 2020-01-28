@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "626908fd_ea99a9cc",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-28T19:23:09Z",
+      "side": 1,
+      "message": "Not sure if this is related. I think it was copied from above?",
+      "range": {
+        "startLine": 452,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 8
+      },
+      "revId": "b3b132bb2545945bef36753b79834f80e4e17719",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
