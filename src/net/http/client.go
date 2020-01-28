@@ -289,9 +289,14 @@ func timeBeforeContextDeadline(t time.Time, ctx context.Context) bool {
 // knownRoundTripperImpl reports whether rt is a RoundTripper that's
 // maintained by the Go team and known to implement the latest
 // optional semantics (notably contexts).
-func knownRoundTripperImpl(rt RoundTripper) bool {
-	switch rt.(type) {
-	case *Transport, *http2Transport:
+func knownRoundTripperImpl(rt RoundTripper, req *Request) bool {
+	switch t := rt.(type) {
+	case *Transport:
+		if altRT := t.alternateProtocol(req); altRT != nil {
+			return knownRoundTripperImpl(altRT, req)
+		}
+		return true
+	case *http2Transport:
 		return true
 	}
 	// There's a very minor chance of a false positive with this.
@@ -319,7 +324,7 @@ func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTi
 	if deadline.IsZero() {
 		return nop, alwaysFalse
 	}
-	knownTransport := knownRoundTripperImpl(rt)
+	knownTransport := knownRoundTripperImpl(rt, req)
 	oldCtx := req.Context()
 
 	if req.Cancel == nil && knownTransport {
