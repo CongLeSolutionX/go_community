@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f106311_c3506e7d",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:15:06Z",
+      "side": 1,
+      "message": "These should be allowed in either order.",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "165abd48_5d5d78a7",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:15:06Z",
+      "side": 1,
+      "message": "Add [-exec]\n\nAlso, make sure to update testdata/script/README.",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32c7935d_8bf0516a",
+        "filename": "src/cmd/go/testdata/script/cover_build_failure.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:15:06Z",
+      "side": 1,
+      "message": "Do we need the [gccgo] predicate here?",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12f638ff_7ac66f21",
+        "filename": "src/cmd/go/testdata/script/cover_build_failure.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:15:06Z",
+      "side": 1,
+      "message": "Seems correct. Remove TODO? Maybe comment that \u0027go test\u0027 should not claim to have run the test.\n\nIs there another error we can verify is printed?",
+      "range": {
+        "startLine": 4,
+        "startChar": 36,
+        "endLine": 4,
+        "endChar": 81
+      },
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f817306_dfcf3826",
+        "filename": "src/cmd/go/testdata/script/cover_dep_loop.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:15:06Z",
+      "side": 1,
+      "message": "[gccgo] skip?",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d6e695_ac112b36",
+        "filename": "src/cmd/go/testdata/script/cover_error.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:15:06Z",
+      "side": 1,
+      "message": "[exec:sed] skip\n\nMaybe instead \u0027go run\u0027 a short program?",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
