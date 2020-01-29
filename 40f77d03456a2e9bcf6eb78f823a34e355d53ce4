@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7af7584_4a953b18",
+        "filename": "src/go/build/build_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-29T18:40:46Z",
+      "side": 1,
+      "message": "I think this is a bit confusing. It takes a second to  figure out the evaluation order. I think it might be better to assign GO111MODULE To a variable and defer setting GO111MODULE back to that value.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 57
+      },
+      "revId": "40f77d03456a2e9bcf6eb78f823a34e355d53ce4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
