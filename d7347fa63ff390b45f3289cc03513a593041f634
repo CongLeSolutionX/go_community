@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bda7492_62cbee0f",
+        "filename": "src/cmd/go/testdata/script/test_match_only_example.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:19:49Z",
+      "side": 1,
+      "message": "Optional: [short] skip for both of these.",
+      "revId": "d7347fa63ff390b45f3289cc03513a593041f634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c8c983c_7bc6f5ab",
+        "filename": "src/cmd/go/testdata/script/test_source_order.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-01-29T18:19:49Z",
+      "side": 1,
+      "message": "Let\u0027s add a control case:\n\n! go test example2_test.go example1_test.go",
+      "revId": "d7347fa63ff390b45f3289cc03513a593041f634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
