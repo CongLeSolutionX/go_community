@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97ad6a14_397341d2",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-29T21:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f106311_c3506e7d",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "165abd48_5d5d78a7",
         "filename": "src/cmd/go/script_test.go",
         "patchSetId": 20
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "64b7eed5_39fedb91",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-29T21:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165abd48_5d5d78a7",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32c7935d_8bf0516a",
         "filename": "src/cmd/go/testdata/script/cover_build_failure.txt",
         "patchSetId": 20
@@ -50,6 +86,24 @@
       "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6603e94f_8ed25973",
+        "filename": "src/cmd/go/testdata/script/cover_build_failure.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-29T21:32:46Z",
+      "side": 1,
+      "message": "Hmm.. itt looks like this isn\u0027t actually testing coverage. I\u0027m going to rename the test.",
+      "parentUuid": "32c7935d_8bf0516a",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "334d17af_f8f534de",
+        "filename": "src/cmd/go/testdata/script/cover_build_failure.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-29T21:32:46Z",
+      "side": 1,
+      "message": "we can verify the compilation errors",
+      "parentUuid": "12f638ff_7ac66f21",
+      "range": {
+        "startLine": 4,
+        "startChar": 36,
+        "endLine": 4,
+        "endChar": 81
+      },
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f817306_dfcf3826",
         "filename": "src/cmd/go/testdata/script/cover_dep_loop.txt",
         "patchSetId": 20
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "2d8f879c_a4c32e7d",
+        "filename": "src/cmd/go/testdata/script/cover_dep_loop.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-29T21:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f817306_dfcf3826",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69d6e695_ac112b36",
         "filename": "src/cmd/go/testdata/script/cover_error.txt",
         "patchSetId": 20
@@ -107,6 +203,24 @@
       "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8209c88_12ad865a",
+        "filename": "src/cmd/go/testdata/script/cover_error.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-01-29T21:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69d6e695_ac112b36",
+      "revId": "4aaefa23816bb3ddc6eb39563252418bd6a04769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
