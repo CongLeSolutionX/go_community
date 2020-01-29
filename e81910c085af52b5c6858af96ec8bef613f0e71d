@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ec7aa65_8b77e6d2",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 6150,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-29T00:51:32Z",
+      "side": 1,
+      "message": "Nitpick, s/cancelation/cancellation/ for consistency with the Go project.\n\n(See https://dmitri.shuralyov.com/idiomatic-go#use-consistent-spelling-of-certain-words and https://golang.org/cl/170060.)\n\nHere, in the comment above, and in 2 places in the commit message.",
+      "range": {
+        "startLine": 6150,
+        "startChar": 17,
+        "endLine": 6150,
+        "endChar": 28
+      },
+      "revId": "e81910c085af52b5c6858af96ec8bef613f0e71d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
