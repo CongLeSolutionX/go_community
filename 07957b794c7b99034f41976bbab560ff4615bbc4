@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbca7531_84e7f235",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-30T00:10:35Z",
+      "side": 1,
+      "message": "s/go.mod/go-test/\n\n(We can\u0027t use \"testing\" id because the testing package already uses it (further below in the document.)",
+      "range": {
+        "startLine": 302,
+        "startChar": 8,
+        "endLine": 302,
+        "endChar": 14
+      },
+      "revId": "07957b794c7b99034f41976bbab560ff4615bbc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ccbacc9_8358f918",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-30T00:10:35Z",
+      "side": 1,
+      "message": "It may be more readable to move the \"\u003c!-- golang.org/issue/24929 --\u003e\" text to be on this line, immediately after \u003cp\u003e.\n\n(There\u0027s a mix of both styles above, so this suggestion is optional.)",
+      "revId": "07957b794c7b99034f41976bbab560ff4615bbc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
