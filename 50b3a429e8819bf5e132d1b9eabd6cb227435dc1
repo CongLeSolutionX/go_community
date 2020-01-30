@@ -1,0 +1,283 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd865657_7ce7632b",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Package doc",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91cc3990_e9bff71f",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Are we imagining any other settings for this? Seems like a bool would do fine, at least for now. Or maybe to make this more self-documenting, this should be a flag bitmap, in which case s/GCControl/Flags/, GC Flags \u003d 1 \u003c\u003c iota, and perhaps NoGC \u003d 0, just so you can spell out that you don\u0027t want GCs?",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7cd639a_4555b27b",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "\"current\"?",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccd311aa_e64949cb",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Missing enabled argument",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f882e82_63adc834",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Rather than keeping an enabled flag in Metrics, what do you think of making the nil *Metrics be the disabled Metrics?",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4bbbba2_cdd168ef",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Print this last, since sums are usually printed at the bottom of a table. (Nit: you could also combine the for loops, then)",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4f8a8fa_60846a5a",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "These should all be fmt.Fprintf(w, ...)",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2273c6d_bd681be2",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "For consistency with the testing package, this should be ns/op. Tooling understands that unit and how to scale it. (Or, one could argue that using non-base units like this was a mistake in the testing package, but then this should be sec/op, in which case tooling doesn\u0027t need special knowledge of how to scale it, but it\u0027s probably better to just be consistent.)",
+      "range": {
+        "startLine": 79,
+        "startChar": 41,
+        "endLine": 79,
+        "endChar": 46
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7113b70_16f987c2",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "\"B/op\" for consistency. (Especially since the testing package uses \"allocs/op\" for the number of allocations, so this inconsistency is extra confusing.)",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c283732_5970177c",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "\"allocs/op\" for consistency.",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1271c9_5ab9d651",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure this unit is self-descriptive enough. \"heap-B\" maybe? Another thing to consider is whether the unit should be different between GC and NoGC. Like, this could be \"live-B\" and the other \"heap-B\".",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1de110aa_daed1f4c",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Old term. But this also isn\u0027t very descriptive, since neither a \"mark\" or a \"table\" are otherwise exposed to the user or defined. \"Start marks the beginning of a new measurement phase. Once a phase is started...\"?",
+      "range": {
+        "startLine": 91,
+        "startChar": 28,
+        "endLine": 91,
+        "endChar": 37
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "198349e9_2d8d67c1",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Might as well avoid the O(n^2) behavior here and do all this in a []rune. Or use a bytes.Buffer and Buffer.WriteRune.",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f85cb98_d332914b",
+        "filename": "src/cmd/link/internal/benchmark/bench_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "Erm?",
+      "range": {
+        "startLine": 18,
+        "startChar": 22,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ef067d4_2cddb599",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-01-30T17:49:50Z",
+      "side": 1,
+      "message": "\"set to \u0027mem\u0027 or \u0027cpu\u0027 to enable benchmarking\"? Otherwise, it sounds like this is a boolean flag.",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
