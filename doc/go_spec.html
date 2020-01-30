@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of Jan 14, 2020",
+	"Subtitle": "Version of Jan 30, 2020",
 	"Path": "/ref/spec"
 }-->
 
@@ -3157,8 +3157,9 @@ For <code>a</code> of <a href="#String_types">string type</a>:
 	    if the string <code>a</code> is also constant</li>
 	<li>if <code>x</code> is out of range at run time,
 	    a <a href="#Run_time_panics">run-time panic</a> occurs</li>
-	<li><code>a[x]</code> is the non-constant byte value at index <code>x</code> and the type of
+	<li><code>a[x]</code> is the byte value at index <code>x</code> and the type of
 	    <code>a[x]</code> is <code>byte</code></li>
+	<li><code>a[x]</code> is a constant if both <code>a</code> and <code>x</code> are constant</li>
 	<li><code>a[x]</code> may not be assigned to</li>
 </ul>
 
@@ -3275,9 +3276,11 @@ If the indices are out of range at run time, a <a href="#Run_time_panics">run-ti
 </p>
 
 <p>
-Except for <a href="#Constants">untyped strings</a>, if the sliced operand is a string or slice,
-the result of the slice operation is a non-constant value of the same type as the operand.
-For untyped string operands the result is a non-constant value of type <code>string</code>.
+Except for <a href="#Constants">untyped strings</a> sliced by non-constant indices, if the sliced
+operand is a string or slice, the result of the slice operation is a value of the same type as the
+operand. The result is a constant if the (string) operand and all indices are constant.
+For untyped string operands sliced by at least one non-constant index,
+the result is a non-constant value of type <code>string</code>.
 If the sliced operand is an array, it must be <a href="#Address_operators">addressable</a>
 and the result of the slice operation is a slice with the same element type as the array.
 </p>
