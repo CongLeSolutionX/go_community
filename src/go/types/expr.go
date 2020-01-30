@@ -868,36 +868,36 @@ func (check *Checker) binary(x *operand, e *ast.BinaryExpr, lhs, rhs ast.Expr, o
 
 // index checks an index expression for validity.
 // If max >= 0, it is the upper bound for index.
-// If index is valid and the result i >= 0, then i is the constant value of index.
+// If the result i >= 0, i is the (possibly invalid) constant value of index.
 func (check *Checker) index(index ast.Expr, max int64) (i int64, valid bool) {
 	var x operand
 	check.expr(&x, index)
 	if x.mode == invalid {
-		return
+		return -1, false
 	}
 
 	// an untyped constant must be representable as Int
 	check.convertUntyped(&x, Typ[Int])
 	if x.mode == invalid {
-		return
+		return -1, false
 	}
 
 	// the index must be of integer type
 	if !isInteger(x.typ) {
 		check.invalidArg(x.pos(), "index %s must be integer", &x)
-		return
+		return -1, false
 	}
 
 	// a constant index i must be in bounds
 	if x.mode == constant_ {
 		if constant.Sign(x.val) < 0 {
 			check.invalidArg(x.pos(), "index %s must not be negative", &x)
-			return
+			return 0 /* >= 0 */, false
 		}
 		i, valid = constant.Int64Val(constant.ToInt(x.val))
 		if !valid || max >= 0 && i >= max {
 			check.errorf(x.pos(), "index %s is out of bounds", &x)
-			return i, false
+			return i /* >= 0 */, false
 		}
 		// 0 <= i [ && i < max ]
 		return i, true
@@ -1276,16 +1276,19 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 
 		valid := false
 		length := int64(-1) // valid if >= 0
+		var str struct {
+			bytes string
+			valid bool
+		}
 		switch typ := x.typ.Underlying().(type) {
 		case *Basic:
 			if isString(typ) {
 				valid = true
 				if x.mode == constant_ {
-					length = int64(len(constant.StringVal(x.val)))
+					str.bytes = constant.StringVal(x.val)
+					str.valid = true
+					length = int64(len(str.bytes))
 				}
-				// an indexed string always yields a byte value
-				// (not a constant) even if the string and the
-				// index are constant
 				x.mode = value
 				x.typ = universeByte // use 'byte' name
 			}
@@ -1334,8 +1337,16 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			goto Error
 		}
 
-		check.index(e.Index, length)
-		// ok to continue
+		index, valid := check.index(e.Index, length)
+		if str.valid && index >= 0 {
+			// We have a constant string indexed by a constant index.
+			// If the index is valid, use it to access the indexed byte.
+			x.val = constant.MakeUnknown()
+			if valid {
+				x.val = constant.MakeInt64(int64(str.bytes[index]))
+			}
+			x.mode = constant_
+		}
 
 	case *ast.SliceExpr:
 		check.expr(x, e.X)
@@ -1346,6 +1357,10 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 
 		valid := false
 		length := int64(-1) // valid if >= 0
+		var str struct {
+			bytes string
+			valid bool
+		}
 		switch typ := x.typ.Underlying().(type) {
 		case *Basic:
 			if isString(typ) {
@@ -1355,12 +1370,9 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 				}
 				valid = true
 				if x.mode == constant_ {
-					length = int64(len(constant.StringVal(x.val)))
-				}
-				// spec: "For untyped string operands the result
-				// is a non-constant value of type string."
-				if typ.kind == UntypedString {
-					x.typ = Typ[String]
+					str.bytes = constant.StringVal(x.val)
+					str.valid = true
+					length = int64(len(str.bytes))
 				}
 			}
 
@@ -1400,6 +1412,8 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 
 		// check indices
 		var ind [3]int64
+		constIndices := true // all indices are constant
+		validIndices := true // all indices are valid
 		for i, expr := range []ast.Expr{e.Low, e.High, e.Max} {
 			x := int64(-1)
 			switch {
@@ -1411,7 +1425,14 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 				if length >= 0 {
 					max = length + 1
 				}
-				if t, ok := check.index(expr, max); ok && t >= 0 {
+				t, ok := check.index(expr, max)
+				if t < 0 {
+					constIndices = false
+				}
+				if !ok {
+					validIndices = false
+				}
+				if ok && t >= 0 {
 					x = t
 				}
 			case i == 0:
@@ -1424,7 +1445,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			ind[i] = x
 		}
 
-		// constant indices must be in range
+		// valid constant indices must be in range
 		// (check.index already checks that existing indices >= 0)
 	L:
 		for i, x := range ind[:len(ind)-1] {
@@ -1432,9 +1453,26 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 				for _, y := range ind[i+1:] {
 					if y >= 0 && x > y {
 						check.errorf(e.Rbrack, "invalid slice indices: %d > %d", x, y)
+						validIndices = false
 						break L // only report one error, ok to continue
 					}
 				}
+			}
+		}
+
+		if str.valid {
+			if constIndices {
+				// We have a constant string sliced by constant indices.
+				// If all indices are valid, use them to compute the substring.
+				x.val = constant.MakeUnknown()
+				if validIndices {
+					x.val = constant.MakeString(str.bytes[ind[0]:ind[1]])
+				}
+				x.mode = constant_
+			} else if x.typ.Underlying() == Typ[UntypedString] {
+				// We have an untyped constant string with non-constant indices.
+				// The result is a value of type string.
+				x.typ = Typ[String]
 			}
 		}
 

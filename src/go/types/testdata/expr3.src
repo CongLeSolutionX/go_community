@@ -140,7 +140,7 @@ func indexes() {
 	var i, j int
 	ss = "foo"[1:2]
 	ss = "foo"[i:j]
-	ms = "foo" /* ERROR "cannot use .* in assignment" */ [1:2]
+	ms = "foo"[1:2] // valid per issue #28591
 	ms = "foo" /* ERROR "cannot use .* in assignment" */ [i:j]
 	_, _ = ss, ms
 }

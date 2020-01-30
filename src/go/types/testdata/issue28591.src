@@ -1,0 +1,60 @@
+// Copyright 2020 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file contains test cases for constant string
+// index and slice expressions.
+
+package issue28591
+
+const (
+	_ = "foo"[- /* ERROR must not be negative */ 1]
+	_ = "foo"[0]
+	_ = "foo"[2]
+	_ = "foo"[3 /* ERROR out of bounds */]
+	_ = - /* ERROR overflows byte */ "A"[0] // -byte('A') is not a valid byte
+
+	_ = assert("abc"[0] == 'a')
+)
+
+// Example by Jimmy Frasche.
+const (
+  a = "abc"[iota]
+  b
+  c
+  _ = assert(a == 'a' && b == 'b' && c == 'c')
+)
+
+var _ = - /* ERROR overflows byte */ "A"[0]
+
+type mystring string
+var index int
+
+const (
+	_ = "foo"[- /* ERROR must not be negative */ 1:]
+	_ = "foo"[0:]
+	_ = "foo"[:0]
+	_ = "foo"[:4 /* ERROR out of bounds */ ]
+	_ = "foo"[0:3]
+	_ = "foo" /* ERROR not constant */ [0:index]
+
+	_ string = "foo"[0:3]
+	_ mystring = "foo"[0:3]
+	_ mystring = string /* ERROR cannot use */ ("foo")[0:3]
+)
+
+var (
+	_ string = "foo"[0:index]
+	_ mystring = "foo" /* ERROR cannot use */ [0:index]
+	_ mystring = string /* ERROR cannot use */ ("foo")[0:3]
+)
+
+const (
+	abc = "abc"[iota:]
+	bc
+	c_
+
+	_ = assert(abc == "abc" && bc == "bc" && c_ == "c")
+)
+
+var _ uint = - /* ERROR overflows uint */ uint(len("abc"[:]))
