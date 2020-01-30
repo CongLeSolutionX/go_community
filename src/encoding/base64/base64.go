@@ -8,7 +8,9 @@ package base64
 import (
 	"encoding/binary"
 	"io"
+	"reflect"
 	"strconv"
+	"unsafe"
 )
 
 /*
@@ -177,7 +179,8 @@ func (enc *Encoding) Encode(dst, src []byte) {
 func (enc *Encoding) EncodeToString(src []byte) string {
 	buf := make([]byte, enc.EncodedLen(len(src)))
 	enc.Encode(buf, src)
-	return string(buf)
+
+	return *(*string)(unsafe.Pointer(&buf))
 }
 
 type encoder struct {
@@ -382,7 +385,12 @@ func (enc *Encoding) decodeQuantum(dst, src []byte, si int) (nsi, n int, err err
 // DecodeString returns the bytes represented by the base64 string s.
 func (enc *Encoding) DecodeString(s string) ([]byte, error) {
 	dbuf := make([]byte, enc.DecodedLen(len(s)))
-	n, err := enc.Decode(dbuf, []byte(s))
+
+	h := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	shdr := reflect.SliceHeader{Data: h.Data, Len: h.Len, Cap: h.Len}
+	sbuf := *(*[]byte)(unsafe.Pointer(&shdr))
+
+	n, err := enc.Decode(dbuf, sbuf)
 	return dbuf[:n], err
 }
 
@@ -480,15 +488,16 @@ func (enc *Encoding) Decode(dst, src []byte) (n int, err error) {
 
 	si := 0
 	for strconv.IntSize >= 64 && len(src)-si >= 8 && len(dst)-n >= 8 {
+		src2 := src[si : si+8]
 		if dn, ok := assemble64(
-			enc.decodeMap[src[si+0]],
-			enc.decodeMap[src[si+1]],
-			enc.decodeMap[src[si+2]],
-			enc.decodeMap[src[si+3]],
-			enc.decodeMap[src[si+4]],
-			enc.decodeMap[src[si+5]],
-			enc.decodeMap[src[si+6]],
-			enc.decodeMap[src[si+7]],
+			enc.decodeMap[src2[0]],
+			enc.decodeMap[src2[1]],
+			enc.decodeMap[src2[2]],
+			enc.decodeMap[src2[3]],
+			enc.decodeMap[src2[4]],
+			enc.decodeMap[src2[5]],
+			enc.decodeMap[src2[6]],
+			enc.decodeMap[src2[7]],
 		); ok {
 			binary.BigEndian.PutUint64(dst[n:], dn)
 			n += 6
@@ -504,11 +513,12 @@ func (enc *Encoding) Decode(dst, src []byte) (n int, err error) {
 	}
 
 	for len(src)-si >= 4 && len(dst)-n >= 4 {
+		src2 := src[si : si+4]
 		if dn, ok := assemble32(
-			enc.decodeMap[src[si+0]],
-			enc.decodeMap[src[si+1]],
-			enc.decodeMap[src[si+2]],
-			enc.decodeMap[src[si+3]],
+			enc.decodeMap[src2[0]],
+			enc.decodeMap[src2[1]],
+			enc.decodeMap[src2[2]],
+			enc.decodeMap[src2[3]],
 		); ok {
 			binary.BigEndian.PutUint32(dst[n:], dn)
 			n += 3
