@@ -34,6 +34,24 @@
       "revId": "f889845ad8e291af85a4fca97cd9206b41e059b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e28cab1b_aa352756",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-01-30T20:30:22Z",
+      "side": 1,
+      "message": "This has now been addressed with:\n\nhttps://golang.org/cl/217100\nhttps://golang.org/cl/217104",
+      "parentUuid": "d34a754c_256dbbc7",
+      "revId": "f889845ad8e291af85a4fca97cd9206b41e059b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
