@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10513862_5c105847",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-31T00:39:40Z",
+      "side": 1,
+      "message": "I suggest making the commit subject more specific about what it changed (and no need to justify the reason, that is already done in the body).\n\nThat way it\u0027s easier to tell commits apart when there are many \"fix typos\" in a row in git log --oneline view.\n\nPerhaps something like:\n\n    doc/go1.14: fix id attribute of Testing heading",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "d7f3d8dd9a90d81787732a46de46e657b458398d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "344d7497_e3df1a94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-31T00:39:40Z",
+      "side": 1,
+      "message": "s/earlier review/CL 216917/\n\nIt\u0027s shorter and more informative. :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "d7f3d8dd9a90d81787732a46de46e657b458398d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
