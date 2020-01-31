@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d043a1ed_8e0c2d8c",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-01-31T05:04:18Z",
+      "side": 1,
+      "message": "https works, so use that instead.",
+      "range": {
+        "startLine": 623,
+        "startChar": 15,
+        "endLine": 623,
+        "endChar": 19
+      },
+      "revId": "7d713511cd011224cd61e9fa07d6c2c1ee1e234f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
