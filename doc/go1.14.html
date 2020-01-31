@@ -479,7 +479,13 @@ TODO
 <dl id="mime"><dt><a href="/pkg/mime/">mime</a></dt>
   <dd>
     <p><!-- CL 186927 -->
-      TODO: <a href="https://golang.org/cl/186927">https://golang.org/cl/186927</a>: update type of .js and .mjs files to text/javascript
+      The default type of <code>.js</code> and <code>.mjs</code> files
+      is now <code>text/javascript</code> rather
+      than <code>application/javascript</code>.
+      This is in accordance
+      with <a href="https://datatracker.ietf.org/doc/draft-ietf-dispatch-javascript-mjs/">an
+	IEFT draft</a> which
+      treats <code>application/javascript</code> as obsolete.
     </p>
 
 </dl><!-- mime -->
