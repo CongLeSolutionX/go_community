@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e60d28_fd786a7f",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-31T01:46:04Z",
+      "side": 1,
+      "message": "Both New and NewFromFiles compute package documentation. The latter also includes examples, which are associated to the appropriate package elements.\n\nOne of the big usability improvements of the NewFromFiles API is that it accepts a Go package via a list of parsed Go files ([]*ast.File), which is much easier and more convenient to construct than the *ast.Package that New requires.\n\nPerhaps we can call this out by writing:\n\n    The new\n    function \u003ca ...\u003eNewFromFiles\u003c/a\u003e\n    computes package documentation from a list of \u003ccode\u003e*ast.File\u003c/code\u003es and\n    associates examples with the appropriate package elements.\n\nIf you don\u0027t think this would be an improvement, I think the current version is good too.",
+      "revId": "81d1d33323acd968328792b3e691184816411c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da552694_a2136d2c",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-01-31T01:46:04Z",
+      "side": 1,
+      "message": "I don\u0027t know if it would read better, but an option we can consider is to link the new field specifically, in addition or instead of the type it was added in:\n\n    new \u003ca href\u003d\"/pkg/go/doc/#Example.Suffix\"\u003e\u003ccode\u003eSuffix\u003c/code\u003e\u003c/a\u003e field in\n\nI think the current version is very good, so you should leave it as is unless you think the above change would make it better.",
+      "revId": "81d1d33323acd968328792b3e691184816411c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
