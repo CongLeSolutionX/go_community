@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00e61110_e525ebc0",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 26867
+      },
+      "writtenOn": "2020-01-31T00:05:22Z",
+      "side": 1,
+      "message": "Needs godoc.",
+      "revId": "046d8ed2b62d36f6ca786ccc02dd7a6d578825ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
