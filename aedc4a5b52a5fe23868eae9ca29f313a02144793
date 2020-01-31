@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eebb8797_25d0909f",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-31T20:21:23Z",
+      "side": 1,
+      "message": "Delete the code after //.\n\nIt is fine to clean up the uses in a follow-up CL.",
+      "revId": "aedc4a5b52a5fe23868eae9ca29f313a02144793",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffe02bd7_32100e79",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-01-31T20:21:23Z",
+      "side": 1,
+      "message": "PLT and GOT are useful on other platforms as well. Why are they specific to PE? Maybe only on PE we set them early? If so, once we migrate more code to new style, it will be used on other platforms as well.\n\nAlso, I\u0027m not sure \"dynimport\" and PLT are the same. Maybe they are on PE?",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 0
+      },
+      "revId": "aedc4a5b52a5fe23868eae9ca29f313a02144793",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
