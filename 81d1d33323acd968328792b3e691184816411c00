@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "29849e8f_bc1b5be2",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-31T02:44:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91e60d28_fd786a7f",
+      "revId": "81d1d33323acd968328792b3e691184816411c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da552694_a2136d2c",
         "filename": "doc/go1.14.html",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "81d1d33323acd968328792b3e691184816411c00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8472086_6c48fc41",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-01-31T02:44:23Z",
+      "side": 1,
+      "message": "Done.  Thanks.  I didn\u0027t know you could do that.",
+      "parentUuid": "da552694_a2136d2c",
+      "revId": "81d1d33323acd968328792b3e691184816411c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
