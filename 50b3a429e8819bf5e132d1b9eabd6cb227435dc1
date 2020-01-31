@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7fa5ca81_aef391e6",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd865657_7ce7632b",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91cc3990_e9bff71f",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd6a640f_159612b7",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "I hate random bools (eg, doCoolStuff(false) -- what does that mean???), and use enums like this.",
+      "parentUuid": "91cc3990_e9bff71f",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "64ab8e2a_e78ea0c8",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "I went with curMark.",
+      "parentUuid": "d7cd639a_4555b27b",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccd311aa_e64949cb",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d838f0b6_43e758c2",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccd311aa_e64949cb",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f882e82_63adc834",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 8
@@ -84,6 +156,24 @@
       "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1863c6_d1ff771d",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f882e82_63adc834",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +217,48 @@
     },
     {
       "key": {
+        "uuid": "c713eef9_d81659be",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4bbbba2_cdd168ef",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a13a380_b4686c60",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4f8a8fa_60846a5a",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2273c6d_bd681be2",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 8
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "847f431b_64116889",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2273c6d_bd681be2",
+      "range": {
+        "startLine": 79,
+        "startChar": 41,
+        "endLine": 79,
+        "endChar": 46
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7113b70_16f987c2",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 8
@@ -164,6 +320,24 @@
       "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b40981c_064b627d",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7113b70_16f987c2",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "c644b3df_f26d5c03",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c283732_5970177c",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e1271c9_5ab9d651",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 8
@@ -198,6 +390,24 @@
       "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ec934ee_57971e57",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "I went with live-B/heap-B, as suggested. Seems the cleanest.",
+      "parentUuid": "0e1271c9_5ab9d651",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -224,6 +434,30 @@
     },
     {
       "key": {
+        "uuid": "03b3307e_8388982d",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1de110aa_daed1f4c",
+      "range": {
+        "startLine": 91,
+        "startChar": 28,
+        "endLine": 91,
+        "endChar": 37
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "198349e9_2d8d67c1",
         "filename": "src/cmd/link/internal/benchmark/bench.go",
         "patchSetId": 8
@@ -238,6 +472,24 @@
       "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96ae9cce_3d8f98a1",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "198349e9_2d8d67c1",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -264,6 +516,30 @@
     },
     {
       "key": {
+        "uuid": "0d6bfbd7_d99cbaa8",
+        "filename": "src/cmd/link/internal/benchmark/bench_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "If there\u0027s anything we\u0027ve established is that I can\u0027t spell tememetry.\n\n(it was a sed error.)",
+      "parentUuid": "3f85cb98_d332914b",
+      "range": {
+        "startLine": 18,
+        "startChar": 22,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ef067d4_2cddb599",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 8
@@ -278,6 +554,24 @@
       "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f1e77d2_01176051",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-01-31T19:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ef067d4_2cddb599",
+      "revId": "50b3a429e8819bf5e132d1b9eabd6cb227435dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
