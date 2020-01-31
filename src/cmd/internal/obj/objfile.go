@@ -17,7 +17,154 @@ import (
 )
 
 func WriteObjFile(ctxt *Link, bout *bio.Writer, pkgpath string) {
+<<<<<<< HEAD   (23c96e [dev.link] cmd/internal/obj: emit only '/' in DWARF file nam)
 	WriteObjFile2(ctxt, bout, pkgpath)
+=======
+	if ctxt.Flag_newobj {
+		WriteObjFile2(ctxt, bout, pkgpath)
+		return
+	}
+
+	b := bout.Writer
+	w := newObjWriter(ctxt, b, pkgpath)
+
+	// Magic header
+	w.wr.WriteString("\x00go114ld")
+
+	// Version
+	w.wr.WriteByte(1)
+
+	// Autolib
+	for _, pkg := range ctxt.Imports {
+		w.writeString(pkg)
+	}
+	w.writeString("")
+
+	// DWARF File Table
+	fileTable := ctxt.PosTable.DebugLinesFileTable()
+	w.writeInt(int64(len(fileTable)))
+	for _, str := range fileTable {
+		w.writeString(filepath.ToSlash(str))
+	}
+
+	// Symbol references
+	for _, s := range ctxt.Text {
+		w.writeRefs(s)
+		w.addLengths(s)
+	}
+
+	if ctxt.Headtype == objabi.Haix {
+		// Data must be sorted to keep a constant order in TOC symbols.
+		// As they are created during Progedit, two symbols can be switched between
+		// two different compilations. Therefore, BuildID will be different.
+		// TODO: find a better place and optimize to only sort TOC symbols
+		sort.Slice(ctxt.Data, func(i, j int) bool {
+			return ctxt.Data[i].Name < ctxt.Data[j].Name
+		})
+	}
+
+	for _, s := range ctxt.Data {
+		w.writeRefs(s)
+		w.addLengths(s)
+	}
+	for _, s := range ctxt.ABIAliases {
+		w.writeRefs(s)
+		w.addLengths(s)
+	}
+	// End symbol references
+	w.wr.WriteByte(0xff)
+
+	// Lengths
+	w.writeLengths()
+
+	// Data block
+	for _, s := range ctxt.Text {
+		w.wr.Write(s.P)
+		pc := &s.Func.Pcln
+		w.wr.Write(pc.Pcsp.P)
+		w.wr.Write(pc.Pcfile.P)
+		w.wr.Write(pc.Pcline.P)
+		w.wr.Write(pc.Pcinline.P)
+		for _, pcd := range pc.Pcdata {
+			w.wr.Write(pcd.P)
+		}
+	}
+	for _, s := range ctxt.Data {
+		if len(s.P) > 0 {
+			switch s.Type {
+			case objabi.SBSS, objabi.SNOPTRBSS, objabi.STLSBSS:
+				ctxt.Diag("cannot provide data for %v sym %v", s.Type, s.Name)
+			}
+		}
+		w.wr.Write(s.P)
+	}
+
+	// Symbols
+	for _, s := range ctxt.Text {
+		w.writeSym(s)
+	}
+	for _, s := range ctxt.Data {
+		w.writeSym(s)
+	}
+	for _, s := range ctxt.ABIAliases {
+		w.writeSym(s)
+	}
+
+	// Magic footer
+	w.wr.WriteString("\xffgo114ld")
+}
+
+// Symbols are prefixed so their content doesn't get confused with the magic footer.
+const symPrefix = 0xfe
+
+func (w *objWriter) writeRef(s *LSym, isPath bool) {
+	if s == nil || s.RefIdx != 0 {
+		return
+	}
+	w.wr.WriteByte(symPrefix)
+	if isPath {
+		w.writeString(filepath.ToSlash(s.Name))
+	} else if w.pkgpath != "" {
+		// w.pkgpath is already escaped.
+		n := strings.Replace(s.Name, "\"\".", w.pkgpath+".", -1)
+		w.writeString(n)
+	} else {
+		w.writeString(s.Name)
+	}
+	// Write ABI/static information.
+	abi := int64(s.ABI())
+	if s.Static() {
+		abi = -1
+	}
+	w.writeInt(abi)
+	w.nRefs++
+	s.RefIdx = w.nRefs
+}
+
+func (w *objWriter) writeRefs(s *LSym) {
+	w.writeRef(s, false)
+	w.writeRef(s.Gotype, false)
+	for _, r := range s.R {
+		w.writeRef(r.Sym, false)
+	}
+
+	if s.Type == objabi.STEXT {
+		pc := &s.Func.Pcln
+		for _, d := range pc.Funcdata {
+			w.writeRef(d, false)
+		}
+		for _, f := range pc.File {
+			fsym := w.ctxt.Lookup(f)
+			w.writeRef(fsym, true)
+		}
+		for _, call := range pc.InlTree.nodes {
+			w.writeRef(call.Func, false)
+			f, _ := linkgetlineFromPos(w.ctxt, call.Pos)
+			fsym := w.ctxt.Lookup(f)
+			w.writeRef(fsym, true)
+		}
+	}
+>>>>>>> BRANCH (96002c doc/go1.14: fix id attribute of Testing heading)
 }
 
 func (ctxt *Link) writeSymDebug(s *LSym) {
