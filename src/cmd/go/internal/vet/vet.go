@@ -70,7 +70,7 @@ func runVet(cmd *base.Command, args []string) {
 
 	root := &work.Action{Mode: "go vet"}
 	for _, p := range pkgs {
-		_, ptest, pxtest, err := load.TestPackagesFor(p, nil)
+		_, ptest, pxtest, err := testPackagesFor(p)
 		if err != nil {
 			base.Errorf("%v", err)
 			continue
@@ -87,4 +87,35 @@ func runVet(cmd *base.Command, args []string) {
 		}
 	}
 	b.Do(root)
+}
+
+// testPackagesFor is like load.TestPackagesAndErrors but it returns
+// an error if the test packages or their dependencies have errors.
+// Only test packages without errors are returned.
+func testPackagesFor(p *load.Package) (pmain, ptest, pxtest *load.Package, err error) {
+	pmain, ptest, pxtest = load.TestPackagesAndErrors(p, nil)
+	for _, p1 := range []*load.Package{ptest, pxtest, pmain} {
+		if p1 == nil {
+			// pxtest may be nil
+			continue
+		}
+		if p1.Error != nil {
+			err = p1.Error
+			break
+		}
+		if len(p1.DepsErrors) > 0 {
+			err = p1.DepsErrors[0]
+			break
+		}
+	}
+	if pmain.Error != nil || len(pmain.DepsErrors) > 0 {
+		pmain = nil
+	}
+	if ptest.Error != nil || len(ptest.DepsErrors) > 0 {
+		ptest = nil
+	}
+	if pxtest != nil && (pxtest.Error != nil || len(pxtest.DepsErrors) > 0) {
+		pxtest = nil
+	}
+	return pmain, ptest, pxtest, err
 }
