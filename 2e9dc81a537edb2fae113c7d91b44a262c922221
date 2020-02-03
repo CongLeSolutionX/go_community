@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d8f5c10_f6895f49",
+        "filename": "src/cmd/go/internal/modfetch/pseudo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-03T18:58:57Z",
+      "side": 1,
+      "message": "Nit: const instead of var.",
+      "revId": "2e9dc81a537edb2fae113c7d91b44a262c922221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
