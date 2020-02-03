@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aaedbdf3_66f21003",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-03T20:00:42Z",
+      "side": 1,
+      "message": "I did that so I can proceed to change the loader without worrying that piece of code. Sorry if that conflicts with yours.",
+      "parentUuid": "f6766ad4_c501b440",
+      "revId": "aedc4a5b52a5fe23868eae9ca29f313a02144793",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffe02bd7_32100e79",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 3

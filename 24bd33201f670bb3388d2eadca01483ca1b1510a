@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dbc5ba6_ca557d84",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-03T20:00:42Z",
+      "side": 1,
+      "message": "In loadpe the .rsrc symbol is added with localSymVersion. Here we look up with version 0. I\u0027m not sure how this works.",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "313be310_de9f09ab",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-03T20:00:42Z",
+      "side": 1,
+      "message": "It seems we are not actually updating the symbol content here, only reading it. So we don\u0027t need an updater. You can use loader.Data to access symbol data.",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26ca6210_d267b028",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1487,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-03T20:00:42Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be1dad06_79a9484a",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-03T20:00:42Z",
+      "side": 1,
+      "message": "Why do we need to create the builder lazily? Why does it make any difference vs. if we create it upfront? I wonder if this is related to the problem fixed in CL 217063. Does it work without this if you sync your tree?",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7015484_55d5d506",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-03T20:00:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure why we need this. The old code does not use RO lookup. Why do we now? Also this doesn\u0027t look like actual RO lookup -- it can still create symbol. Could we have some comment explaining what\u0027s going on here?",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 2
+      },
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

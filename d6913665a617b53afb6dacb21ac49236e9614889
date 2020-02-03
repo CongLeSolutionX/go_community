@@ -34,6 +34,24 @@
       "revId": "d6913665a617b53afb6dacb21ac49236e9614889",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02891ad7_d188f644",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2817,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-03T20:00:42Z",
+      "side": 0,
+      "message": "I\u0027m also not super passionate about special symbols. But it seems this symbol is special on PE regardless what we do here, because it needs special handling.\n\nCurrently we have a property: before loadlibfull everything uses the loader, after loadlibfull nothing uses the loader. This makes an exception. If more exceptions are made along the way, I\u0027m not sure it\u0027s a good idea.\n\nAlso not dropping the loader makes memory usage measurement less meaningful. At least, drop the loader on non-Windows platforms.",
+      "parentUuid": "6718a203_64cc695f",
+      "revId": "d6913665a617b53afb6dacb21ac49236e9614889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
