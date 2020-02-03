@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6766ad4_c501b440",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-03T18:56:54Z",
+      "side": 1,
+      "message": "I have a followup CL, removing lots of this loader stuff. You also do some of it cl/217518.",
+      "parentUuid": "eebb8797_25d0909f",
+      "revId": "aedc4a5b52a5fe23868eae9ca29f313a02144793",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffe02bd7_32100e79",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "aedc4a5b52a5fe23868eae9ca29f313a02144793",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c4c0a2_a8c34682",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-03T18:56:54Z",
+      "side": 1,
+      "message": "Yes, they\u0027re set early for pe, and not the other platforms. They\u0027re also used that way on pe.",
+      "parentUuid": "ffe02bd7_32100e79",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 0
+      },
+      "revId": "aedc4a5b52a5fe23868eae9ca29f313a02144793",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

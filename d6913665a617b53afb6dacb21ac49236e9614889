@@ -16,6 +16,24 @@
       "revId": "d6913665a617b53afb6dacb21ac49236e9614889",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6718a203_64cc695f",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2817,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-03T18:56:54Z",
+      "side": 0,
+      "message": "Yes, this is why.\n\nPersonally, I don\u0027t want to special case all the symbols we keep around for whatever reason. If you\u0027re super passionate about it, I\u0027ll concede; but, for now, I disagree. :(",
+      "parentUuid": "c3f78873_4312ade0",
+      "revId": "d6913665a617b53afb6dacb21ac49236e9614889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
