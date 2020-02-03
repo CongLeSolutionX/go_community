@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "271a7f9d_d804f43d",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-03T16:04:53Z",
+      "side": 1,
+      "message": "A sync.Once is probably not needed here. (os.MkdirAll is idempotent, and if it ends up making too many system calls that should probably be addressed in the os package rather than at every call site.)\n\nActually, I think we can avoid the need for multiple MkdirAll calls by moving the check anyway.",
+      "revId": "a6f84abc278ec43d87c1e07320038e0cd112777f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba981a35_edb08008",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-03T16:04:53Z",
+      "side": 1,
+      "message": "Move this to line 135, right before the call to ioutil.WriteFile.\n\nThat makes the reason for the MkdirAll call much clearer, and also makes it more robust to future additions to vendor/modules.txt.",
+      "revId": "a6f84abc278ec43d87c1e07320038e0cd112777f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f981ba1_15526258",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_unused_only",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-03T16:04:53Z",
+      "side": 1,
+      "message": "This file needs a .txt filename extension. (Otherwise, I\u0027m not sure that the script engine will recognize it.)",
+      "revId": "a6f84abc278ec43d87c1e07320038e0cd112777f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
