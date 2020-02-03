@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fcd58d4_bf0e7ea3",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-03T20:37:23Z",
+      "side": 1,
+      "message": "this function reads slightly easier if we invert the ok here, and move what\u0027s down below up here. No need to do it here, just that I noticed it.",
+      "revId": "d59560e8da514951f075a303b022bba5c7b77564",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
