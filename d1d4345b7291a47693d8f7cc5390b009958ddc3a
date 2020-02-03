@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7472c713_65e81701",
+        "filename": "src/cmd/go/testdata/script/test_relative_import_ad_hoc.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-03T20:29:09Z",
+      "side": 1,
+      "message": "Consider renaming to test_relative_cmdline.txt. I don\u0027t think we\u0027ve defined \"ad hoc package\" anywhere.\n\nOr alternatively, consolidate these into the same test. They\u0027re small and closely related.",
+      "revId": "d1d4345b7291a47693d8f7cc5390b009958ddc3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "398ab847_1ecdfe10",
+        "filename": "src/cmd/go/testdata/script/test_relative_import_dash_i.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-03T20:29:09Z",
+      "side": 1,
+      "message": "-i means it should install dependencies in GOPATH/pkg. That doesn\u0027t seem meaningful for relative imports, so perhaps this just check that it\u0027s safe to use that flag?",
+      "revId": "d1d4345b7291a47693d8f7cc5390b009958ddc3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
