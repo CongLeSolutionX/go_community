@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b318d89a_17b4b985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-02-04T21:48:20Z",
+      "side": 1,
+      "message": "Update the commit message for submission.",
+      "revId": "da45b95b3912c9ab75172e97dbe3b37f120b8cbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5245dab6_7403cfe3",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-02-04T21:48:20Z",
+      "side": 1,
+      "message": "Not that it particularly matters, but this makes the value of GC \"2\" instead of \"1\". You\u0027d have to put NoGC last to avoid that.",
+      "revId": "da45b95b3912c9ab75172e97dbe3b37f120b8cbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd7cf29b_1b450ba0",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-02-04T21:48:20Z",
+      "side": 1,
+      "message": "Since the nil Metrics means disabled now, you don\u0027t necessarily need this argument to New at all. Alternatively, you could avoid the naked bool argument (which I know you love) by making another flag bit (e.g., add \"Disabled\" to the Flags enum).",
+      "revId": "da45b95b3912c9ab75172e97dbe3b37f120b8cbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec74cdf_105be817",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-02-04T21:48:20Z",
+      "side": 1,
+      "message": "\"to enable\"\n\nShould we call it \"phase benchmarking\"?",
+      "revId": "da45b95b3912c9ab75172e97dbe3b37f120b8cbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
