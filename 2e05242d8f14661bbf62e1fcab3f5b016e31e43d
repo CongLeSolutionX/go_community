@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "218ebbf2_056490b0",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-04T17:20:05Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "f94091e7_d3dd1b42",
+      "range": {
+        "startLine": 518,
+        "startChar": 32,
+        "endLine": 518,
+        "endChar": 34
+      },
+      "revId": "2e05242d8f14661bbf62e1fcab3f5b016e31e43d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc788a24_b9525fc1",
         "filename": "doc/go1.14.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "2e05242d8f14661bbf62e1fcab3f5b016e31e43d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d5507d3_3984f692",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-04T17:20:05Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "dc788a24_b9525fc1",
+      "range": {
+        "startLine": 520,
+        "startChar": 32,
+        "endLine": 520,
+        "endChar": 34
+      },
+      "revId": "2e05242d8f14661bbf62e1fcab3f5b016e31e43d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
