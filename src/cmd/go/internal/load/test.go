@@ -54,9 +54,7 @@ func TestPackagesFor(p *Package, cover *TestCover) (pmain, ptest, pxtest *Packag
 			break
 		}
 		if len(p1.DepsErrors) > 0 {
-			perr := p1.DepsErrors[0]
-			perr.Pos = "" // show full import stack
-			err = perr
+			err = p1.DepsErrors[0]
 			break
 		}
 	}

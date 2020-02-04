@@ -728,12 +728,16 @@ func runTest(cmd *base.Command, args []string) {
 
 		buildTest, runTest, printTest, err := builderTest(&b, p)
 		if err != nil {
-			str := err.Error()
-			str = strings.TrimPrefix(str, "\n")
 			if p.ImportPath != "" {
-				base.Errorf("# %s\n%s", p.ImportPath, str)
+				// Strip off line number info so we can show the full import stack.
+				perr, ok := err.(*load.PackageError)
+				if ok {
+					perr.Pos = ""
+				}
+
+				base.Errorf("# %s\n%s", p.ImportPath, strings.TrimPrefix(err.Error(), "\n"))
 			} else {
-				base.Errorf("%s", str)
+				base.Errorf("%s", strings.TrimPrefix(err.Error(), "\n"))
 			}
 			fmt.Printf("FAIL\t%s [setup failed]\n", p.ImportPath)
 			continue
