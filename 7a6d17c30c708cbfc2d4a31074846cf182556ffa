@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2830d24_1e3b1414",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-04T02:05:20Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this sentence, the topic suffices.",
+      "revId": "7a6d17c30c708cbfc2d4a31074846cf182556ffa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "332723a3_5d213dc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-04T02:05:20Z",
+      "side": 1,
+      "message": "Please remove all this template text.",
+      "revId": "7a6d17c30c708cbfc2d4a31074846cf182556ffa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
