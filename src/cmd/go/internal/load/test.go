@@ -55,7 +55,15 @@ func TestPackagesFor(p *Package, cover *TestCover) (pmain, ptest, pxtest *Packag
 		}
 		if len(p1.DepsErrors) > 0 {
 			perr := p1.DepsErrors[0]
-			perr.Pos = "" // show full import stack
+			// A typical ImportStack looks like
+			// [ "command-line-arguments", "(test)", "real/pkg/name" ]
+			// so we want to look at index 2 to see if the error is in the package
+			// we're looking at directly.
+			direct := len(perr.ImportStack) <= 2 ||
+				len(perr.ImportStack) == 3 && perr.ImportStack[2] == p1.ImportPath
+			if !direct {
+				perr.Pos = "" // show full import stack
+			}
 			err = perr
 			break
 		}
