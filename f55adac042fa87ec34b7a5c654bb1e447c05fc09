@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "254bf66d_56af3cd4",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-02-04T17:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8718fc_d87c3290",
+      "range": {
+        "startLine": 268,
+        "startChar": 21,
+        "endLine": 268,
+        "endChar": 53
+      },
+      "revId": "f55adac042fa87ec34b7a5c654bb1e447c05fc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ab0900f_9db2bf6c",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bf82e4da_e5110655",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-02-04T17:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ab0900f_9db2bf6c",
+      "range": {
+        "startLine": 268,
+        "startChar": 21,
+        "endLine": 269,
+        "endChar": 14
+      },
+      "revId": "f55adac042fa87ec34b7a5c654bb1e447c05fc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74a8231b_bae8c942",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2020-02-03T17:38:26Z",
       "side": 1,
       "message": "Please update or clarify this comment — the code at lines 1126̣–1127 appears to read the resetSession and ci fields without the lock held.",
+      "range": {
+        "startLine": 458,
+        "startChar": 14,
+        "endLine": 458,
+        "endChar": 33
+      },
+      "revId": "f55adac042fa87ec34b7a5c654bb1e447c05fc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f4a25dc_ceb46ac7",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-02-04T17:09:24Z",
+      "side": 1,
+      "message": "I\u0027ve kept the \"needs reset\" flag under the mutex, as well as the calls to the SessionResetter.\n\nI agree that I can\u0027t conceive how it would cause a data race, but under principle by putting all calls to the driver under the same mutex, I can be sure that driver connections don\u0027t ever have to think about it.",
+      "parentUuid": "74a8231b_bae8c942",
       "range": {
         "startLine": 458,
         "startChar": 14,
