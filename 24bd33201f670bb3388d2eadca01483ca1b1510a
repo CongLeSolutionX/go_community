@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4740dbc5_80ad8369",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-04T20:33:35Z",
+      "side": 1,
+      "message": "argh! fixed.",
+      "parentUuid": "1dbc5ba6_ca557d84",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "313be310_de9f09ab",
         "filename": "src/cmd/link/internal/ld/pe.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed383926_b310641d",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-04T20:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "313be310_de9f09ab",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1982eb92_33526f55",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1487,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-04T20:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26ca6210_d267b028",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be1dad06_79a9484a",
         "filename": "src/cmd/link/internal/loadpe/ldpe.go",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90df9ae7_1d507409",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-04T20:33:35Z",
+      "side": 1,
+      "message": "This is because Builders aren\u0027t always valid to create. As such, lazily creating the builder prevents the weird cases.",
+      "parentUuid": "be1dad06_79a9484a",
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -90,6 +162,30 @@
       "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53add990_7044ac65",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-04T20:33:35Z",
+      "side": 1,
+      "message": "I\u0027ve cleaned this up to be less annoying.",
+      "parentUuid": "d7015484_55d5d506",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 2
+      },
+      "revId": "24bd33201f670bb3388d2eadca01483ca1b1510a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
