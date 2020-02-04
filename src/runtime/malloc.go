@@ -63,7 +63,7 @@
 // directly, bypassing the mcache and mcentral.
 //
 // Free object slots in an mspan are zeroed only if mspan.needzero is
-// false. If needzero is true, objects are zeroed as they are
+// true. If needzero is true, objects are zeroed as they are
 // allocated. There are various benefits to delaying zeroing this way:
 //
 //	1. Stack frame allocation can avoid zeroing altogether.
