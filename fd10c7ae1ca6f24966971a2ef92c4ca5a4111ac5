@@ -16,6 +16,24 @@
       "revId": "fd10c7ae1ca6f24966971a2ef92c4ca5a4111ac5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc4bbb21_1d0dae50",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-05T00:05:27Z",
+      "side": 1,
+      "message": "\u003e This could be slightly clearer. Maybe \"The default behavior for sigPreempt is to ignore the signal, so badsignal will be a no-op anyway.\"\n\nDone.\n\n\u003e We may want to mention the OpenBSD behavior as justification for why we\u0027re bothering anyway. The performance of avoiding badsignal in an extremely rare case doesn\u0027t seem like good justification on its own, and maybe we should drop this added complexity once OpenBSD 6.2 is no longer supported.\n\nI don\u0027t agree.  Not only is badsignal fairly slow in general, it actually sleeps for a microsecond with the signal handler disabled, meaning that no preemption will be effective during that time.",
+      "parentUuid": "250ba5f7_2d32685e",
+      "revId": "fd10c7ae1ca6f24966971a2ef92c4ca5a4111ac5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
