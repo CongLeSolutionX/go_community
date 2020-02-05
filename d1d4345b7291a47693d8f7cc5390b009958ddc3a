@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1221c00b_25dfa811",
+        "filename": "src/cmd/go/testdata/script/test_relative_import_ad_hoc.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-05T21:22:59Z",
+      "side": 1,
+      "message": "Renamed. I think we should keep short tests that do builds as small as possible.",
+      "parentUuid": "7472c713_65e81701",
+      "revId": "d1d4345b7291a47693d8f7cc5390b009958ddc3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "398ab847_1ecdfe10",
         "filename": "src/cmd/go/testdata/script/test_relative_import_dash_i.txt",
         "patchSetId": 18
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-03T20:29:09Z",
       "side": 1,
       "message": "-i means it should install dependencies in GOPATH/pkg. That doesn\u0027t seem meaningful for relative imports, so perhaps this just check that it\u0027s safe to use that flag?",
+      "revId": "d1d4345b7291a47693d8f7cc5390b009958ddc3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "520e4827_e933197b",
+        "filename": "src/cmd/go/testdata/script/test_relative_import_dash_i.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-05T21:22:59Z",
+      "side": 1,
+      "message": "Okay, how\u0027s this comment?",
+      "parentUuid": "398ab847_1ecdfe10",
       "revId": "d1d4345b7291a47693d8f7cc5390b009958ddc3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
