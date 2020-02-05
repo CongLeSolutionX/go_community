@@ -16,6 +16,24 @@
       "revId": "d59560e8da514951f075a303b022bba5c7b77564",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc43894d_945f89be",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-05T20:50:29Z",
+      "side": 1,
+      "message": "Done. In the early version of this code, there were cases in the ok branch that fall through. All the cases return now.",
+      "parentUuid": "9fcd58d4_bf0e7ea3",
+      "revId": "d59560e8da514951f075a303b022bba5c7b77564",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
