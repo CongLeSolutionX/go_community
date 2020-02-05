@@ -395,6 +395,8 @@ func (e *importError) ImportPath() string {
 // An ImportStack is a stack of import paths, possibly with the suffix " (test)" appended.
 // The import path of a test package is the import path of the corresponding
 // non-test package with the suffix "_test" added.
+// Sometimes the first entry will be "command-line-arguments" to indicate
+// an import stack relative to the command-line working directory.
 type ImportStack []string
 
 func (s *ImportStack) Push(p string) {

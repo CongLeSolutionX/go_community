@@ -55,7 +55,18 @@ func TestPackagesFor(p *Package, cover *TestCover) (pmain, ptest, pxtest *Packag
 		}
 		if len(p1.DepsErrors) > 0 {
 			perr := p1.DepsErrors[0]
-			perr.Pos = "" // show full import stack
+			// A typical ImportStack looks like
+			// [ "command-line-arguments (test)", "pkg/with/error" ]
+			// or
+			// [ "command-line-arguments (test)", "parent/pkg", "pkg/with/error" ]
+			// so the package with the error has the highest index. So we want
+			// to check the second highest index to see if we should print the full stack.
+			direct := len(perr.ImportStack) < 2 ||
+				(perr.ImportStack[len(perr.ImportStack)-2] == p1.ImportPath ||
+					strings.HasPrefix(perr.ImportStack[len(perr.ImportStack)-2], "command-line-arguments"))
+			if !direct {
+				perr.Pos = "" // show full import stack
+			}
 			err = perr
 			break
 		}

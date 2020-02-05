@@ -1,0 +1,19 @@
+env GO111MODULE=off
+
+# Issue 36173. Verify that "go vet" prints line numbers on load errors.
+
+! go vet a/a_test.go
+stderr 'a_test.go:4:3: use of internal package'
+
+-- a/a.go --
+package a
+
+-- a/a_test.go --
+package a
+
+import (
+  _ "a/x/internal/y"
+)
+
+-- a/x/internal/y/y.go --
+package y
