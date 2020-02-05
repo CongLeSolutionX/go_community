@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e073a236_5de724ae",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-05T19:48:59Z",
+      "side": 1,
+      "message": "There\u0027s something strange about this to me. \"command-line-arguments\" is the package path of a package composed of files provided to cmd/go on the command line. So it\u0027s just a regular entry here.\n\nAlso, does ImportStack consist of import paths? I thought it would be package paths.",
+      "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7534d4a4_a88bc483",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-05T19:48:59Z",
+      "side": 1,
+      "message": "maybe one of the examples shouldn\u0027t have command-line-arguments at the top?",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 61,
+        "endChar": 73
+      },
+      "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be770603_8ffa560d",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-05T19:48:59Z",
+      "side": 1,
+      "message": "Could we modify the comment to specify why we\u0027re checking the second highest index? Also, what makes command-line-arguments special here? We should have a comment about that.",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 92
+      },
+      "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
