@@ -34,6 +34,24 @@
       "revId": "144da4ecc95446788eb1bd783a9c54706e7c3ad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d461d35_ae86edb1",
+        "filename": "src/cmd/link/internal/benchmark/bench_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-02-05T21:17:33Z",
+      "side": 1,
+      "message": "Oh, I see. The report itself is also a no-op.\n\nPass a nil io.Writer so it panics if it tries to write at all? :)",
+      "parentUuid": "ca2e5345_e8e515af",
+      "revId": "144da4ecc95446788eb1bd783a9c54706e7c3ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
