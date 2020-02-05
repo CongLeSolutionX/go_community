@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4a863e2_71246844",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-05T11:31:43Z",
+      "side": 1,
+      "message": "s/u/U/\n\nPer https://golang.org/doc/contribute.html#main_content:\n\n\u003e Write in complete sentences with correct punctuation",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "398e45cfc241a14d4879a192b105c3d664f28817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
