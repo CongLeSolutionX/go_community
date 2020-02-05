@@ -16,6 +16,24 @@
       "revId": "a018b340706430d7064e28c99bbfed98fe805306",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a47c9fa_61fbd6dc",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-05T17:05:40Z",
+      "side": 1,
+      "message": "OK. I fixed the check up and added some comments about the command-line-arguments thing",
+      "parentUuid": "712ec4d2_0d1aa29e",
+      "revId": "a018b340706430d7064e28c99bbfed98fe805306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
