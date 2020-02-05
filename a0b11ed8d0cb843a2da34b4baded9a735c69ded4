@@ -110,6 +110,30 @@
       "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d069c2cd_736565ba",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-05T21:12:26Z",
+      "side": 1,
+      "message": "I agree that command-line-arguments should not be special here.\n\nGenerally users should be running `go vet` on a complete package, not a specific _test.go file.\n\nIf need be, update the script test. (It\u0027s fine to test `go vet` with an explicit _test.go argument, but it\u0027s also fine for the output to be a bit wonky in that case. For `go vet` with a package argument, the output should be clean.)",
+      "parentUuid": "27397b96_9c36537f",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 92
+      },
+      "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
