@@ -16,6 +16,24 @@
       "revId": "144da4ecc95446788eb1bd783a9c54706e7c3ad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca2e5345_e8e515af",
+        "filename": "src/cmd/link/internal/benchmark/bench_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-05T21:02:51Z",
+      "side": 1,
+      "message": "No. This is a nil metrics pointer, and ensuring that Nil objects don\u0027t panic. Is the test name not helpful enough?",
+      "parentUuid": "54787b19_d6668c74",
+      "revId": "144da4ecc95446788eb1bd783a9c54706e7c3ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
