@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "712ec4d2_0d1aa29e",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-05T15:27:09Z",
+      "side": 1,
+      "message": "The format is explained in the doc comment for ImportStack in pkg.go, so anything missing should go there instead of here. Perhaps the type of the PackageError.ImportStack field should be ImportStack instead of []string though.\n\nThe actual paths are the ones printed by \u0027go list\u0027. Test variants may have \"_test\", \" (test)\", or \".test\" suffixes to distinguish them from the package being tested (those are for external tests, internal tests, and generated test mains, respectively).\n\nThe stack grows up, so the package with the error will have the highest index. We\u0027ll want to check the second highest index.",
+      "revId": "a018b340706430d7064e28c99bbfed98fe805306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
