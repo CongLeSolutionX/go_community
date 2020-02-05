@@ -62,6 +62,30 @@
       "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70139e36_599ae8c6",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-05T19:56:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure command-line-arguments is special here. The original issue described a test package specified as .go files, but this also comes up when the package path is written normally on the command line.",
+      "parentUuid": "be770603_8ffa560d",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 92
+      },
+      "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
