@@ -22,6 +22,23 @@
       "revId": "398e45cfc241a14d4879a192b105c3d664f28817",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfda8f36_1c5484fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-05T11:32:30Z",
+      "side": 1,
+      "message": "Also please add:\n\n    Updates #36878",
+      "revId": "398e45cfc241a14d4879a192b105c3d664f28817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
