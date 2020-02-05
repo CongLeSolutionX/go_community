@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabd2635_8d52f82b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-05T01:12:22Z",
+      "side": 1,
+      "message": "Please update the change description.  Thanks.",
+      "revId": "6234510e1b4f9f074ca23b2c5c1f5f8fb705834e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
