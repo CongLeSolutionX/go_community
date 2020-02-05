@@ -86,6 +86,30 @@
       "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27397b96_9c36537f",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-05T21:05:16Z",
+      "side": 1,
+      "message": "for what it\u0027s worth, the string \"command-line-arguments\" appears hard-coded several times in this package. I could not find any comments that explained what it means or what its significance is. Without the check for this, the script test I added fails.\n\nIf you\u0027d like me to add some documentation, I\u0027d be happy to add that! But I\u0027m not familiar with this code, so not sure what it would say.",
+      "parentUuid": "70139e36_599ae8c6",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 92
+      },
+      "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
