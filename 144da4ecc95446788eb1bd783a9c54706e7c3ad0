@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54787b19_d6668c74",
+        "filename": "src/cmd/link/internal/benchmark/bench_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-02-05T20:39:15Z",
+      "side": 1,
+      "message": "Doesn\u0027t this make the test noisy? Maybe ioutil.Discard instead of os.Stdout, if you\u0027re not going to check the output anyway.",
+      "revId": "144da4ecc95446788eb1bd783a9c54706e7c3ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
