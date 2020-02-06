@@ -134,6 +134,30 @@
       "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8e98a1e_0e04df02",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-06T04:09:12Z",
+      "side": 1,
+      "message": "@Bryan: thanks for this comment! it helped a lot to clarify some things about how this is expected to behave. for what it\u0027s worth, the bug was introduced in Go 1.13 and happens even if you use a package argument (see this comment https://github.com/golang/go/issues/36173#issuecomment-581097562)",
+      "parentUuid": "d069c2cd_736565ba",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 92
+      },
+      "revId": "a0b11ed8d0cb843a2da34b4baded9a735c69ded4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
