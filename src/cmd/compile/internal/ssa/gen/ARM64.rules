@@ -1902,6 +1902,11 @@
 (ORshiftRL [rc] (ANDconst [ac] x) (SLLconst [lc] y))
 	&& lc > rc && ac == ^((1<<uint(64-lc)-1) << uint64(lc-rc))
 	-> (BFI [armBFAuxInt(lc-rc, 64-lc)] x y)
+(ORshiftLL [ys] (ANDconst [xc] x) (ANDconst [yc] y))
+	&& isARM64BFMask(ys, yc, 0)
+	&& xc == ^((1<<uint(arm64BFWidth(yc, 0))-1) << uint64(ys))
+	-> (BFI [armBFAuxInt(ys, arm64BFWidth(yc, 0))] x y)
+
 // bfxil
 (OR (UBFX [bfc] x) (ANDconst [ac] y)) && ac == ^(1<<uint(getARM64BFwidth(bfc))-1)
 	-> (BFXIL [bfc] y x)
