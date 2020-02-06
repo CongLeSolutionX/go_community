@@ -6996,6 +6996,23 @@ func rewriteValueARM64_OpARM64MOVBUreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	// match: (MOVBUreg (UBFX [bfc] x))
+	// cond: getARM64BFwidth(bfc) <= 8
+	// result: (UBFX [bfc] x)
+	for {
+		if v_0.Op != OpARM64UBFX {
+			break
+		}
+		bfc := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(getARM64BFwidth(bfc) <= 8) {
+			break
+		}
+		v.reset(OpARM64UBFX)
+		v.AuxInt = bfc
+		v.AddArg(x)
+		return true
+	}
 	return false
 }
 func rewriteValueARM64_OpARM64MOVBload(v *Value) bool {
@@ -7199,6 +7216,23 @@ func rewriteValueARM64_OpARM64MOVBreg(v *Value) bool {
 		}
 		v.reset(OpARM64SBFIZ)
 		v.AuxInt = armBFAuxInt(lc, 8-lc)
+		v.AddArg(x)
+		return true
+	}
+	// match: (MOVBreg (SBFX [bfc] x))
+	// cond: getARM64BFwidth(bfc) < 8
+	// result: (SBFX [bfc] x)
+	for {
+		if v_0.Op != OpARM64SBFX {
+			break
+		}
+		bfc := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(getARM64BFwidth(bfc) < 8) {
+			break
+		}
+		v.reset(OpARM64SBFX)
+		v.AuxInt = bfc
 		v.AddArg(x)
 		return true
 	}
@@ -10406,6 +10440,23 @@ func rewriteValueARM64_OpARM64MOVHUreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	// match: (MOVHUreg (UBFX [bfc] x))
+	// cond: getARM64BFwidth(bfc) <= 16
+	// result: (UBFX [bfc] x)
+	for {
+		if v_0.Op != OpARM64UBFX {
+			break
+		}
+		bfc := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(getARM64BFwidth(bfc) <= 16) {
+			break
+		}
+		v.reset(OpARM64UBFX)
+		v.AuxInt = bfc
+		v.AddArg(x)
+		return true
+	}
 	return false
 }
 func rewriteValueARM64_OpARM64MOVHload(v *Value) bool {
@@ -10788,6 +10839,23 @@ func rewriteValueARM64_OpARM64MOVHreg(v *Value) bool {
 		}
 		v.reset(OpARM64SBFIZ)
 		v.AuxInt = armBFAuxInt(lc, 16-lc)
+		v.AddArg(x)
+		return true
+	}
+	// match: (MOVHreg (SBFX [bfc] x))
+	// cond: getARM64BFwidth(bfc) < 16
+	// result: (SBFX [bfc] x)
+	for {
+		if v_0.Op != OpARM64SBFX {
+			break
+		}
+		bfc := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(getARM64BFwidth(bfc) < 16) {
+			break
+		}
+		v.reset(OpARM64SBFX)
+		v.AuxInt = bfc
 		v.AddArg(x)
 		return true
 	}
@@ -12455,6 +12523,23 @@ func rewriteValueARM64_OpARM64MOVWUreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	// match: (MOVWUreg (UBFX [bfc] x))
+	// cond: getARM64BFwidth(bfc) <= 32
+	// result: (UBFX [bfc] x)
+	for {
+		if v_0.Op != OpARM64UBFX {
+			break
+		}
+		bfc := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(getARM64BFwidth(bfc) <= 32) {
+			break
+		}
+		v.reset(OpARM64UBFX)
+		v.AuxInt = bfc
+		v.AddArg(x)
+		return true
+	}
 	return false
 }
 func rewriteValueARM64_OpARM64MOVWload(v *Value) bool {
@@ -12895,6 +12980,23 @@ func rewriteValueARM64_OpARM64MOVWreg(v *Value) bool {
 		}
 		v.reset(OpARM64SBFIZ)
 		v.AuxInt = armBFAuxInt(lc, 32-lc)
+		v.AddArg(x)
+		return true
+	}
+	// match: (MOVWreg (SBFX [bfc] x))
+	// cond: getARM64BFwidth(bfc) < 32
+	// result: (SBFX [bfc] x)
+	for {
+		if v_0.Op != OpARM64SBFX {
+			break
+		}
+		bfc := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(getARM64BFwidth(bfc) < 32) {
+			break
+		}
+		v.reset(OpARM64SBFX)
+		v.AuxInt = bfc
 		v.AddArg(x)
 		return true
 	}

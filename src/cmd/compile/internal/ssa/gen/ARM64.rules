@@ -1830,6 +1830,10 @@
 (SRAconst [sc] (SBFIZ [bfc] x)) && sc >= getARM64BFlsb(bfc)
 	&& sc < getARM64BFlsb(bfc)+getARM64BFwidth(bfc)
 	-> (SBFX [armBFAuxInt(sc-getARM64BFlsb(bfc), getARM64BFlsb(bfc)+getARM64BFwidth(bfc)-sc)] x)
+// merge width extension into SBFX
+(MOVWreg (SBFX [bfc] x)) && getARM64BFwidth(bfc) < 32 -> (SBFX [bfc] x)
+(MOVHreg (SBFX [bfc] x)) && getARM64BFwidth(bfc) < 16 -> (SBFX [bfc] x)
+(MOVBreg (SBFX [bfc] x)) && getARM64BFwidth(bfc) <  8 -> (SBFX [bfc] x)
 
 // ubfiz
 // (x & ac) << sc
@@ -1894,6 +1898,10 @@
 (UBFX [bfc] (SLLconst [sc] x)) && sc > getARM64BFlsb(bfc)
 	&& sc < getARM64BFlsb(bfc)+getARM64BFwidth(bfc)
 	-> (UBFIZ [armBFAuxInt(sc-getARM64BFlsb(bfc), getARM64BFlsb(bfc)+getARM64BFwidth(bfc)-sc)] x)
+// merge width extension into UBFX
+(MOVWUreg (UBFX [bfc] x)) && getARM64BFwidth(bfc) <= 32 -> (UBFX [bfc] x)
+(MOVHUreg (UBFX [bfc] x)) && getARM64BFwidth(bfc) <= 16 -> (UBFX [bfc] x)
+(MOVBUreg (UBFX [bfc] x)) && getARM64BFwidth(bfc) <=  8 -> (UBFX [bfc] x)
 
 // bfi
 (OR (UBFIZ [bfc] x) (ANDconst [ac] y))
