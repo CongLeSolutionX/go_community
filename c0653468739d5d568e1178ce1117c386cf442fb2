@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04ff909_71fdce14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-07T23:33:22Z",
+      "side": 1,
+      "message": "s/thus/this/",
+      "range": {
+        "startLine": 17,
+        "startChar": 16,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "c0653468739d5d568e1178ce1117c386cf442fb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
