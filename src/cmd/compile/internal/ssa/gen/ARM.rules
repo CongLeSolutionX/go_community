@@ -552,6 +552,8 @@
 // if a register move has only 1 use, just use the same register without emitting instruction
 // MOVWnop doesn't emit instruction, only for ensuring the type.
 (MOVWreg x) && x.Uses == 1 -> (MOVWnop x)
+// Allow MOVWconst to pass through MOVWnop, even though they may have different types.
+(MOVWnop (MOVWconst [c])) -> (MOVWconst [c])
 
 // mul by constant
 (MUL x (MOVWconst [c])) && int32(c) == -1 -> (RSBconst [0] x)
