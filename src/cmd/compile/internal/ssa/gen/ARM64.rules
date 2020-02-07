@@ -1834,6 +1834,9 @@
 (MOVWreg (SBFX [bfc] x)) && getARM64BFwidth(bfc) < 32 -> (SBFX [bfc] x)
 (MOVHreg (SBFX [bfc] x)) && getARM64BFwidth(bfc) < 16 -> (SBFX [bfc] x)
 (MOVBreg (SBFX [bfc] x)) && getARM64BFwidth(bfc) <  8 -> (SBFX [bfc] x)
+(SBFX [bfc] (MOVWreg x)) && getARM64BFwidth(bfc) <= 32 -> (SBFX [bfc] x)
+(SBFX [bfc] (MOVHreg x)) && getARM64BFwidth(bfc) <= 16 -> (SBFX [bfc] x)
+(SBFX [bfc] (MOVBreg x)) && getARM64BFwidth(bfc) <=  8 -> (SBFX [bfc] x)
 
 // ubfiz
 // (x & ac) << sc
@@ -1902,6 +1905,9 @@
 (MOVWUreg (UBFX [bfc] x)) && getARM64BFwidth(bfc) <= 32 -> (UBFX [bfc] x)
 (MOVHUreg (UBFX [bfc] x)) && getARM64BFwidth(bfc) <= 16 -> (UBFX [bfc] x)
 (MOVBUreg (UBFX [bfc] x)) && getARM64BFwidth(bfc) <=  8 -> (UBFX [bfc] x)
+(UBFX [bfc] (MOVWUreg x)) && getARM64BFwidth(bfc) <= 32 -> (UBFX [bfc] x)
+(UBFX [bfc] (MOVHUreg x)) && getARM64BFwidth(bfc) <= 16 -> (UBFX [bfc] x)
+(UBFX [bfc] (MOVBUreg x)) && getARM64BFwidth(bfc) <=  8 -> (UBFX [bfc] x)
 
 // bfi
 (OR (UBFIZ [bfc] x) (ANDconst [ac] y))
