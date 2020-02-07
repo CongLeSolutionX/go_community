@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea243f71_7dc7edbe",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-02-07T20:11:15Z",
+      "side": 1,
+      "message": "The length must not be zero.",
+      "revId": "96979abaa311233c131f099c95cf61038a4fc9ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fa935a7_df0c193f",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-02-07T20:11:15Z",
+      "side": 1,
+      "message": "cipher: the nonce can\u0027t have zero length, or the security of the key will be immediately compromised",
+      "revId": "96979abaa311233c131f099c95cf61038a4fc9ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1b1db3f_8c6778f7",
+        "filename": "src/crypto/cipher/gcm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-02-07T20:11:15Z",
+      "side": 1,
+      "message": "continue, unlike break, works from within a switch AFAIK.",
+      "revId": "96979abaa311233c131f099c95cf61038a4fc9ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
