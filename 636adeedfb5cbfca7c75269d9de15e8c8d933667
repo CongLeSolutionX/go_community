@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c39b460_2d7536f7",
+        "filename": "src/cmd/go/internal/auth/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 10815
+      },
+      "writtenOn": "2020-02-07T23:13:19Z",
+      "side": 1,
+      "message": "All good. I wrote the patch a few days back, so was overly verbose to record the detail I would need for creating the issue etc.  Removed.",
+      "parentUuid": "48d4fe28_4f5d71ad",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 84
+      },
+      "revId": "636adeedfb5cbfca7c75269d9de15e8c8d933667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a681a51f_b7187476",
         "filename": "src/cmd/go/internal/auth/auth.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "636adeedfb5cbfca7c75269d9de15e8c8d933667",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b6961a0_e42a8989",
+        "filename": "src/cmd/go/internal/auth/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 10815
+      },
+      "writtenOn": "2020-02-07T23:13:19Z",
+      "side": 1,
+      "message": "Nice! Done.",
+      "parentUuid": "a681a51f_b7187476",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 2
+      },
+      "revId": "636adeedfb5cbfca7c75269d9de15e8c8d933667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
