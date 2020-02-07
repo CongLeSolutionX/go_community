@@ -166,17 +166,15 @@ func NewMethodSet(T Type) *MethodSet {
 			}
 		}
 
-		// Multiple fields with matching names collide at this depth and shadow all
-		// entries further down; add them as collisions to base if no entries with
-		// matching names exist already.
-		for k, f := range fset {
-			if f == nil {
-				if _, found := base[k]; !found {
-					if base == nil {
-						base = make(methodSet)
-					}
-					base[k] = nil // collision
+		// Add all fields at this depth as collisions (since they will hide any
+		// method further down) to base if no entries with matching names exist
+		// already.
+		for k := range fset {
+			if _, found := base[k]; !found {
+				if base == nil {
+					base = make(methodSet)
 				}
+				base[k] = nil // collision
 			}
 		}
 
