@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0dd5f08_b9b3822d",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-08T14:55:02Z",
+      "side": 1,
+      "message": "Please remove this trailing space.",
+      "range": {
+        "startLine": 575,
+        "startChar": 57,
+        "endLine": 575,
+        "endChar": 58
+      },
+      "revId": "451d364a3326b7c3a3ee04e7cd867a54464e5a3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
