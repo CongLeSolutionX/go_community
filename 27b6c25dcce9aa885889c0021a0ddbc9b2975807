@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d23bbbf_daa18bfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-02-08T17:50:45Z",
+      "side": 1,
+      "message": "Indeed. Thanks for catching this.",
+      "parentUuid": "390d1cc5_ae6d30df",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "27b6c25dcce9aa885889c0021a0ddbc9b2975807",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "071639d6_4a2f0a04",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "27b6c25dcce9aa885889c0021a0ddbc9b2975807",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f87934b3_7269603a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-02-08T17:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "071639d6_4a2f0a04",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "27b6c25dcce9aa885889c0021a0ddbc9b2975807",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
