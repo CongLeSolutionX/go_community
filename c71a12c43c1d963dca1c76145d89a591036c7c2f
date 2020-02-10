@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "687ff726_cf16ab7d",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-10T21:30:47Z",
+      "side": 1,
+      "message": "Please run `go fmt cmd/go/internal/modcmd` to fix indentation.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 4
+      },
+      "revId": "c71a12c43c1d963dca1c76145d89a591036c7c2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
