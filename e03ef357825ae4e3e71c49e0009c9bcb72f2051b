@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc9e973b_6678f820",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-10T20:01:35Z",
+      "side": 1,
+      "message": "I\u0027ve been thinking about this some more. Why do we need to check the second-highest index here rather than the highest one?\n\nMore detail in the comment would be helpful, but looking at the details of #36173, I wonder if it\u0027s possible that we\u0027re building the wrong import stack for this class of error. Arguably the disallowed import path should not be on the import stack at all, since there isn\u0027t necessarily a problem with that package itself.\n\n(That is: the “problem” for a disallowed import is arguably in the importing package, not the package to be imported — that package may be perfectly valid for use elsewhere. So perhaps this error should have been reported as p1.Error rather than in p1.DepsErrors in the first place.)",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
