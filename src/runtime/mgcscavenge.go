@@ -450,9 +450,29 @@ func (s *pageAlloc) scavengeStartGen() {
 		printScavTrace(s.scav.gen, s.scav.released, false)
 	}
 	s.inUse.cloneInto(&s.scav.inUse)
+
+	// Pick the new starting address for the scavenger cycle.
+	var startAddr uintptr
+	if s.scav.scavLWM < s.scav.freeHWM {
+		// The "free" high watermark exceeds the "scavenged" low watermark,
+		// so there are free scavengable pages in parts of the address space
+		// that the scavenger already searched, the high watermark being the
+		// highest one. Pick that as our new starting point to ensure we
+		// see those pages.
+		startAddr = s.scav.freeHWM
+	} else {
+		// The "free" high watermark does not exceed the "scavenged" low
+		// watermark. This means the allocator didn't free any memory in
+		// the range we scavenged last cycle, so we might as well continue
+		// scavenging from where we were.
+		startAddr = s.scav.scavLWM
+	}
+	s.scav.inUse.removeAbove(startAddr)
 	s.scav.reservationBytes = alignUp(s.inUse.totalBytes, pallocChunkBytes) / scavengeReservationShards
 	s.scav.gen++
 	s.scav.released = 0
+	s.scav.freeHWM = 0
+	s.scav.scavLWM = maxSearchAddr
 }
 
 // scavengeReserve reserves a contiguous range of the address space
@@ -663,6 +683,11 @@ func (s *pageAlloc) scavengeRangeLocked(ci chunkIdx, base, npages uint) uintptr 
 
 	// Compute the full address for the start of the range.
 	addr := chunkBase(ci) + uintptr(base)*pageSize
+
+	// Update the scavenge low watermark.
+	if addr < s.scav.scavLWM {
+		s.scav.scavLWM = addr
+	}
 
 	// Only perform the actual scavenging if we're not in a test.
 	// It's dangerous to do so otherwise.
