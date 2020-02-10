@@ -453,8 +453,17 @@ func (s *pageAlloc) scavengeStartGen() {
 		printScavTrace(s.scav.gen, s.scav.released, false)
 	}
 	s.inUse.cloneInto(&s.scav.inUse)
+	var startAddr uintptr
+	if s.scav.scavLWM < s.scav.freeHWM {
+		startAddr = s.scav.freeHWM
+	} else {
+		startAddr = s.scav.scavLWM
+	}
+	s.scav.inUse.removeAbove(startAddr)
 	s.scav.gen++
 	s.scav.released = 0
+	s.scav.freeHWM = 0
+	s.scav.scavLWM = maxSearchAddr
 }
 
 // scavengeReserve reserves a contiguous range of the address space
@@ -646,6 +655,11 @@ func (s *pageAlloc) scavengeRangeLocked(ci chunkIdx, base, npages uint) uintptr 
 
 	// Compute the full address for the start of the range.
 	addr := chunkBase(ci) + uintptr(base)*pageSize
+
+	// Update the scavenge low watermark.
+	if s.scav.scavLWM > addr {
+		s.scav.scavLWM = addr
+	}
 
 	// Only perform the actual scavenging if we're not in a test.
 	// It's dangerous to do so otherwise.

@@ -200,3 +200,26 @@ func (a *addrRanges) cloneInto(b *addrRanges) {
 	b.totalBytes = a.totalBytes
 	copy(b.ranges, a.ranges)
 }
+
+// removeAbove removes the ranges of a which are above addr, and additionally
+// splits any range containing addr.
+func (a *addrRanges) removeAbove(addr uintptr) {
+	pivot := a.findSucc(addr)
+	if pivot == 0 {
+		a.totalSpace = 0
+		a.ranges = a.ranges[:0]
+		return
+	}
+	total := uintptr(0)
+	for _, r := range a.ranges[pivot:] {
+		total += r.size()
+	}
+	if r := a.ranges[pivot-1]; r.contains(addr) {
+		total += r.size()
+		r = r.subtract(addrRange{addr, maxSearchAddr})
+		total -= r.size()
+		a.ranges[pivot-1] = r
+	}
+	a.ranges = a.ranges[:pivot]
+	a.totalSpace -= total
+}
