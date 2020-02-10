@@ -1,0 +1,14 @@
+Written by hand.
+A module that has a package with the build constraint
+"+build ignore" that can be used to exclude all Go files.
+
+-- .mod --
+module goban.example
+-- .info --
+{"Version":"v0.0.0"}
+-- go.mod --
+module goban.example
+-- asset/asset.go --
+// +build ignore
+
+package asset

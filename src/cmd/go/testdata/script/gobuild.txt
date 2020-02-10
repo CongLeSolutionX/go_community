@@ -1,0 +1,39 @@
+env GO111MODULE=on
+
+# Regression test for golang.org/issue/31603 and golang.org/issue/37153:
+# Calling build.Import in build.FindOnly mode on an import path of a Go package
+# that produces errors when loading (e.g., due to build constraints not matching
+# the current build context) should return nil error and the package directory.
+
+go run .
+stdout -count=2 '^dir="\$WORK\/gopath\/pkg\/mod\/goban\.example@v0\.0\.0\/asset" err=<nil>$'
+! stdout 'build constraints'
+
+-- go.mod --
+module issues31603and37153.test
+-- main.go --
+package main
+
+import (
+	"fmt"
+	"go/build"
+	"os"
+)
+
+func main() {
+	// Issue 31603: non-empty srcDir.
+	{
+		wd, err := os.Getwd()
+		if err != nil {
+			panic(err)
+		}
+		p, err := build.Import("goban.example/asset", wd, build.FindOnly)
+		fmt.Printf("dir=%q err=%v\n", p.Dir, err)
+	}
+
+	// Issue 37153: empty srcDir.
+	{
+		p, err := build.Import("goban.example/asset", "", build.FindOnly)
+		fmt.Printf("dir=%q err=%v\n", p.Dir, err)
+	}
+}
