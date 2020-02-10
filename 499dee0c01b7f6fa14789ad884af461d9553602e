@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8c4e04b_0f5eb892",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-10T06:43:43Z",
+      "side": 1,
+      "message": "debug/gosym: avoid data race due to inconsistent field protection\n\n(No need for \"src\".  Try to avoid words like \"fix\" that don\u0027t say anything.  See https://golang.org/wiki/CommitMessage.  Thanks.)",
+      "revId": "499dee0c01b7f6fa14789ad884af461d9553602e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
