@@ -55,7 +55,27 @@ func TestPackagesFor(p *Package, cover *TestCover) (pmain, ptest, pxtest *Packag
 		}
 		if len(p1.DepsErrors) > 0 {
 			perr := p1.DepsErrors[0]
-			perr.Pos = "" // show full import stack
+			isDirect := false
+
+			// If this is an indirect error in a package we depend on,
+			// we want to print the full import stack.
+			// We do this by removing the position information from the error.
+			if len(perr.ImportStack) >= 1 {
+				errPath := perr.ImportStack[len(perr.ImportStack)-1]
+				if _, ok := perr.Err.(ImportPathError); ok {
+					// ImportErrors are special: their stack trace includes the imported package,
+					// but the error should be associated with the importing package.
+					errPath = perr.ImportStack[len(perr.ImportStack)-2]
+				}
+
+				errPath = strings.TrimSuffix(errPath, " (test)")
+
+				isDirect = errPath == p1.ImportPath
+			}
+
+			if !isDirect {
+				perr.Pos = ""
+			}
 			err = perr
 			break
 		}
