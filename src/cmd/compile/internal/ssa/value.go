@@ -176,6 +176,9 @@ func (v *Value) auxString() string {
 	case auxInt64, auxInt128:
 		return fmt.Sprintf(" [%d]", v.AuxInt)
 	case auxFloat32, auxFloat64:
+		if math.IsNaN(v.AuxFloat()) {
+			return fmt.Sprintf(" [%g(0x%x)]", v.AuxFloat(), v.AuxInt)
+		}
 		return fmt.Sprintf(" [%g]", v.AuxFloat())
 	case auxString:
 		return fmt.Sprintf(" {%q}", v.Aux)
