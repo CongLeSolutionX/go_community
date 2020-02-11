@@ -244,6 +244,11 @@ func genAMD64() {
 
 	// TODO: MXCSR register?
 
+	// TODO: write a nice comment.
+	p("#ifdef GOOS_darwin")
+	p("VZEROUPPER")
+	p("#endif")
+
 	p("PUSHQ BP")
 	p("MOVQ SP, BP")
 	p("// Save flags before clobbering them")
