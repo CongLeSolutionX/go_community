@@ -221,10 +221,10 @@ TEXT runtime·walltime1(SB),NOSPLIT,$8-12
 	MOVQ	g_m(AX), BX // BX unchanged by C code.
 
 	// Set vdsoPC and vdsoSP for SIGPROF traceback.
-	MOVQ	0(SP), DX
-	MOVQ	DX, m_vdsoPC(BX)
-	LEAQ	sec+0(SP), DX
+	LEAQ	sec+0(FP), DX
 	MOVQ	DX, m_vdsoSP(BX)
+	MOVQ	-8(DX), DX
+	MOVQ	DX, m_vdsoPC(BX)
 
 	CMPQ	AX, m_curg(BX)	// Only switch if on curg.
 	JNE	noswitch
@@ -275,10 +275,10 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$8-8
 	MOVQ	g_m(AX), BX // BX unchanged by C code.
 
 	// Set vdsoPC and vdsoSP for SIGPROF traceback.
-	MOVQ	0(SP), DX
-	MOVQ	DX, m_vdsoPC(BX)
-	LEAQ	ret+0(SP), DX
+	LEAQ	ret+0(FP), DX
 	MOVQ	DX, m_vdsoSP(BX)
+	MOVQ	-8(DX), DX
+	MOVQ	DX, m_vdsoPC(BX)
 
 	CMPQ	AX, m_curg(BX)	// Only switch if on curg.
 	JNE	noswitch
