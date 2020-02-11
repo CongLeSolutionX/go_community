@@ -1238,6 +1238,10 @@
 (MOVLstoreconstidx4 [x] {sym} ptr (ADDQconst [c] idx) mem) && ValAndOff(x).canAdd(4*c) -> (MOVLstoreconstidx4 [ValAndOff(x).add(4*c)] {sym} ptr idx mem)
 (MOVQstoreconstidx8 [x] {sym} ptr (ADDQconst [c] idx) mem) && ValAndOff(x).canAdd(8*c) -> (MOVQstoreconstidx8 [ValAndOff(x).add(8*c)] {sym} ptr idx mem)
 
+// This elision is very important on OSX; presence of MOVLi2f causes unusual slowdowns for signal handling (preemptive scheduling and profiling).
+(MOVLi2f <t> x:(MOVLloadidx4 [c] {sym} ptr idx mem)) -> @x.Block (MOVSSloadidx4 <t> [c] {sym} ptr idx mem)
+(MOVQi2f <t> x:(MOVQloadidx8 [c] {sym} ptr idx mem)) -> @x.Block (MOVSDloadidx8 <t> [c] {sym} ptr idx mem)
+
 // fold LEAQs together
 (LEAQ [off1] {sym1} (LEAQ [off2] {sym2} x)) && is32Bit(off1+off2) && canMergeSym(sym1, sym2) ->
       (LEAQ [off1+off2] {mergeSym(sym1,sym2)} x)
