@@ -16,6 +16,24 @@
       "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cb5b209_fffc59f8",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-11T04:47:16Z",
+      "side": 1,
+      "message": "That\u0027s a good question! I think this is a property of all ImportPathErrors. The stack trace includes the imported package (the last one), but the error should be associated with the importing package (the second to last one). See this comment:\nhttps://github.com/golang/go/blob/993ec7f6cdaeb38b88091f42d6369d408dcb894b/src/cmd/go/internal/load/pkg.go#L353\n\nI added a special case for ImportPathErrors, does that make sense?",
+      "parentUuid": "dc9e973b_6678f820",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
