@@ -1238,6 +1238,18 @@
 (MOVLstoreconstidx4 [x] {sym} ptr (ADDQconst [c] idx) mem) && ValAndOff(x).canAdd(4*c) -> (MOVLstoreconstidx4 [ValAndOff(x).add(4*c)] {sym} ptr idx mem)
 (MOVQstoreconstidx8 [x] {sym} ptr (ADDQconst [c] idx) mem) && ValAndOff(x).canAdd(8*c) -> (MOVQstoreconstidx8 [ValAndOff(x).add(8*c)] {sym} ptr idx mem)
 
+// This elision is very important on OSX; presence of MOVLi2f causes unusual slowdowns for signal handling (preemptive scheduling and profiling).
+// Does not check for x.Uses == 1 because that is not initially true in the usual idiom, despite being usually ultimately true
+// I.e., there is a phase-ordering problem; a second run of lowered opt does the trick with the uses constrain.
+(MOVLi2f <t> x:(MOVLloadidx4 [c] {sym} ptr idx mem)) -> @x.Block (MOVSSloadidx4 <t> [c] {sym} ptr idx mem)
+(MOVQi2f <t> x:(MOVQloadidx8 [c] {sym} ptr idx mem)) -> @x.Block (MOVSDloadidx8 <t> [c] {sym} ptr idx mem)
+(MOVLf2i <t> x:(MOVSSloadidx4 [c] {sym} ptr idx mem)) -> @x.Block (MOVLloadidx4 <t> [c] {sym} ptr idx mem)
+(MOVQf2i <t> x:(MOVSDloadidx8 [c] {sym} ptr idx mem)) -> @x.Block (MOVQloadidx8 <t> [c] {sym} ptr idx mem)
+
+// This is not profitable unless the constant load can be hoisted.
+// (MOVQi2f (BTRQconst [63] (MOVQf2i x))) -> (PAND x (MOVSDconst <typ.Float64> [math.MaxInt64]))
+// (MOVLi2f (BTRLconst [31] (MOVLf2i x))) -> (PAND x (MOVSSconst <typ.Float32> [math.MaxInt32]))
+
 // fold LEAQs together
 (LEAQ [off1] {sym1} (LEAQ [off2] {sym2} x)) && is32Bit(off1+off2) && canMergeSym(sym1, sym2) ->
       (LEAQ [off1+off2] {mergeSym(sym1,sym2)} x)
