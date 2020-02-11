@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ddab16c4_3b48d386",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-02-11T21:39:42Z",
+      "side": 1,
+      "message": "No, my point is you are actually changing the address being stored in m_vdsoSP for 386, but it does seem more correct (now points to the first arg slot, rather than to the return address slot).",
+      "parentUuid": "b19e65a3_a37cced5",
+      "revId": "5ab625578b40611a1e0cec0461539c2a8c851078",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da52311c_c046cc9d",
         "filename": "src/runtime/sys_linux_amd64.s",
         "patchSetId": 1
