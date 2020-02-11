@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db6454b4_a823ca8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-11T20:09:31Z",
+      "side": 1,
+      "message": "It\u0027s probably more readable to keep this command on one long line, or if it\u0027s split across multiple lines, then to indent them all.",
+      "revId": "8f26c22cb3ead016ec82553aea65aff1db70c168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "874d4455_6233c2be",
+        "filename": "src/cmd/trace/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-11T20:09:31Z",
+      "side": 1,
+      "message": "s/8 spaces/1 tab/",
+      "revId": "8f26c22cb3ead016ec82553aea65aff1db70c168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d88d7c54_c5366b27",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-11T20:09:31Z",
+      "side": 1,
+      "message": "\"traceviewer\" sounds like a command name, but the command is named \"trace\".\n\nPerhaps change this to be \"the trace viewer works ...\" or \"trace works ...\".",
+      "range": {
+        "startLine": 58,
+        "startChar": 130,
+        "endLine": 58,
+        "endChar": 141
+      },
+      "revId": "8f26c22cb3ead016ec82553aea65aff1db70c168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
