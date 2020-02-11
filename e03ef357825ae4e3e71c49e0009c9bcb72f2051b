@@ -34,6 +34,24 @@
       "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fbb48eb_abe34db6",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-11T20:20:47Z",
+      "side": 1,
+      "message": "Ah, now we\u0027re getting somewhere!\n\nI see that many of the invocations of `ImportErrorf` follow it up with `setErrorPos` explicitly:\nhttps://github.com/golang/go/blob/993ec7f6cdaeb38b88091f42d6369d408dcb894b/src/cmd/go/internal/load/pkg.go#L602-L624\n\nThis specific error does not:\nhttps://github.com/golang/go/blob/993ec7f6cdaeb38b88091f42d6369d408dcb894b/src/cmd/go/internal/load/pkg.go#L1301-L1308\n\nThat is probably the root of the bug. And there are a few other cases there that are also missing the setErrorPos call.\n\nI wonder if we could fix all of these at the construction site by refactoring `ImportErrorf` to take the `*ImportStack` and `[]token.Position` as explicit arguments and return a `*PackageError` rather than an `ImportPathError`.",
+      "parentUuid": "8cb5b209_fffc59f8",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
