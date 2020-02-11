@@ -14,7 +14,7 @@ Example usage:
 Generate a trace file with 'go test':
 	go test -trace trace.out pkg
 View the trace in a web browser:
-	go tool trace trace.out
+	go tool trace -http=localhost:8000 trace.out
 Generate a pprof-like profile from the trace:
 	go tool trace -pprof=TYPE trace.out > TYPE.pprof
 
