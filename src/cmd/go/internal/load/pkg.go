@@ -1300,8 +1300,15 @@ func disallowInternal(srcDir string, importer *Package, importerPath string, p *
 
 	// Internal is present, and srcDir is outside parent's tree. Not allowed.
 	perr := *p
+
+	// The stack in the error should point to the importing package,
+	// so pop off the last stack frame.
+	importStack := stk.Copy()
+	if len(importStack) > 0 {
+		importStack = importStack[:len(importStack)-1]
+	}
 	perr.Error = &PackageError{
-		ImportStack: stk.Copy(),
+		ImportStack: importStack,
 		Err:         ImportErrorf(p.ImportPath, "use of internal package "+p.ImportPath+" not allowed"),
 	}
 	perr.Incomplete = true

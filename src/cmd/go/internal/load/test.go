@@ -55,7 +55,19 @@ func TestPackagesFor(p *Package, cover *TestCover) (pmain, ptest, pxtest *Packag
 		}
 		if len(p1.DepsErrors) > 0 {
 			perr := p1.DepsErrors[0]
-			perr.Pos = "" // show full import stack
+			isDirect := false
+
+			// The package with the error has the highest index in the stack.
+			if len(perr.ImportStack) >= 1 {
+				importer := strings.TrimSuffix(perr.ImportStack[len(perr.ImportStack)-1], " (test)")
+				isDirect = importer == p1.ImportPath
+			}
+
+			if !isDirect {
+				// Remove the position information, so that we'll
+				// print the full import stack to the error.
+				perr.Pos = ""
+			}
 			err = perr
 			break
 		}
