@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b4ad8a2_35a7e772",
+        "filename": "src/cmd/go/testdata/script/mod_gobuild_import.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-11T19:42:23Z",
+      "side": 1,
+      "message": "I\u0027ll remove this trailing slash. It\u0027s not needed, and the command is simpler/shorter without it.",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "f1f2e17dec7d546ad3167fa6683451debdf1225f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
