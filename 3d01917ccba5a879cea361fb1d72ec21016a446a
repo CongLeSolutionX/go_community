@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9a31f13_73aa9fb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-11T19:12:33Z",
+      "side": 1,
+      "message": "(nit) No markdown in Go commit messages.\n\n(For historical reasons, we tend to use single-quotes for multi-word commands in commit messages.)",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "3d01917ccba5a879cea361fb1d72ec21016a446a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a02be19b_a9667661",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-11T19:12:33Z",
+      "side": 1,
+      "message": "(nit) No colon in the “Fixes” / “Updates” lines.",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "3d01917ccba5a879cea361fb1d72ec21016a446a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
