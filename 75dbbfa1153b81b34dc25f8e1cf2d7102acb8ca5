@@ -46,6 +46,30 @@
       "revId": "75dbbfa1153b81b34dc25f8e1cf2d7102acb8ca5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "723e8f05_a0290875",
+        "filename": "src/cmd/go/testdata/script/mod_gobuild_import.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-11T20:45:54Z",
+      "side": 1,
+      "message": "The backslash is escaping the dollar sign for regexp purposes, to match the literal string \"$WORK\" in output:\n\n    [stdout]\n    dir\u003d\"$WORK/gopath/src/i\" err\u003d\u003cnil\u003e\n\nGood catch on %q making the $WORK substitution in stdout (documented at https://github.com/golang/go/blob/1c241d28792fad017cbd64bae72ea3f3ee51e4df/src/cmd/go/testdata/script/README#L250-L251) fail on Windows. I should use %s if I\u0027m going to rely on that.\n\nDone.",
+      "parentUuid": "14a61299_aa20ece8",
+      "range": {
+        "startLine": 58,
+        "startChar": 14,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "75dbbfa1153b81b34dc25f8e1cf2d7102acb8ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
