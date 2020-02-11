@@ -22,6 +22,30 @@
       "revId": "c71a12c43c1d963dca1c76145d89a591036c7c2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4992609_f439f59e",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 34944
+      },
+      "writtenOn": "2020-02-11T06:10:47Z",
+      "side": 1,
+      "message": "Oh goodness, embarrassing.  Wrote this changeset on a laptop where I usually do Python!?",
+      "parentUuid": "687ff726_cf16ab7d",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 4
+      },
+      "revId": "c71a12c43c1d963dca1c76145d89a591036c7c2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
