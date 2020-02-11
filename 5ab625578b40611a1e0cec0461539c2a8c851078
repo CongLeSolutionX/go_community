@@ -16,6 +16,24 @@
       "revId": "5ab625578b40611a1e0cec0461539c2a8c851078",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8c61eb8_7230f68c",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-11T21:18:23Z",
+      "side": 1,
+      "message": "I think this BP is to save the current SP so we can restore it when we return from VDSO, at line 247. I agree that this clobbers the frame pointer we just saved. Maybe we want to choose a different register.\n\nIt is okay if we get a signal here, where vdsoSP is still 0 so we\u0027ll use the current PC/SP for unwinding, and the SP delta is correct here before we switch the stack and align the SP. But frame-pointer based unwinding may go off.\n\nI agree that it might be better to just explicitly save/restore frame pointer.",
+      "parentUuid": "da52311c_c046cc9d",
+      "revId": "5ab625578b40611a1e0cec0461539c2a8c851078",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
