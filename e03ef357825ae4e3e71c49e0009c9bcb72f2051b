@@ -52,6 +52,24 @@
       "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e1878f5_308c6ee9",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-11T20:31:05Z",
+      "side": 1,
+      "message": "AIUI, the expected behavior is that sometimes we should print a stack trace, and sometimes we shouldn\u0027t, depending on which root package is being checked. \n\nSo you can\u0027t fix this bug at the point where the error is constructed. It might help for you and Jay to chat separately about this, since it sounds like you two have some disagreement about the expected behavior\n\nfwiw, the err pos from disallowImports is added here:\nhttps://github.com/golang/go/blob/993ec7f6cdaeb38b88091f42d6369d408dcb894b/src/cmd/go/internal/load/pkg.go#L594\nand I\u0027m pretty confident that\u0027s not the root of the bug",
+      "parentUuid": "1fbb48eb_abe34db6",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
