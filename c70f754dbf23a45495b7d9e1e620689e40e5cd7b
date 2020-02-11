@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3de5b2e2_7e5dbedf",
+        "filename": "src/cmd/go/testdata/script/mod_gobuild_import.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-11T19:02:30Z",
+      "side": 1,
+      "message": "(minor) You can probably speed up this test a bit by building (and linking!) these binaries in parallel.\n\n(Perhaps: `go build -o $WORK/ ./testimport ./testfindonly`, and then use the $GOEXE variable rather than hard-coding `.exe` below?)",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 0
+      },
+      "revId": "c70f754dbf23a45495b7d9e1e620689e40e5cd7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
