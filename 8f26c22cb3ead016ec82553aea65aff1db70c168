@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed134805_0ea67a41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-02-11T20:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db6454b4_a823ca8c",
+      "revId": "8f26c22cb3ead016ec82553aea65aff1db70c168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "874d4455_6233c2be",
         "filename": "src/cmd/trace/doc.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "caf294e0_27b3972a",
+        "filename": "src/cmd/trace/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-02-11T20:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "874d4455_6233c2be",
+      "revId": "8f26c22cb3ead016ec82553aea65aff1db70c168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d88d7c54_c5366b27",
         "filename": "src/cmd/trace/main.go",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2020-02-11T20:09:31Z",
       "side": 1,
       "message": "\"traceviewer\" sounds like a command name, but the command is named \"trace\".\n\nPerhaps change this to be \"the trace viewer works ...\" or \"trace works ...\".",
+      "range": {
+        "startLine": 58,
+        "startChar": 130,
+        "endLine": 58,
+        "endChar": 141
+      },
+      "revId": "8f26c22cb3ead016ec82553aea65aff1db70c168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f6a4d14_e8e5b84c",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-02-11T20:34:33Z",
+      "side": 1,
+      "message": "Changed to \"trace viewer\", which is consistent with line52-53. \nI meant the menu that uses the trace viewer, not the entire trace tool.",
+      "parentUuid": "d88d7c54_c5366b27",
       "range": {
         "startLine": 58,
         "startChar": 130,
