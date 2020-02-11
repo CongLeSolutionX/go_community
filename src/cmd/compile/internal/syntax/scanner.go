@@ -385,7 +385,7 @@ func (s *scanner) isIdentRune(c rune, first bool) bool {
 			s.errorf("identifier cannot begin with digit %#U", c)
 		}
 	case c >= utf8.RuneSelf:
-		s.errorf("invalid identifier character %#U", c)
+		s.errorf("invalid character %#U in identifier", c)
 	default:
 		return false
 	}
@@ -612,13 +612,13 @@ func (s *scanner) rune() {
 		if r == '\n' {
 			s.ungetr() // assume newline is not part of literal
 			if !s.bad {
-				s.errorf("newline in character literal")
+				s.errorf("newline in rune literal")
 			}
 			break
 		}
 		if r < 0 {
 			if !s.bad {
-				s.errorAtf(0, "invalid character literal (missing closing ')")
+				s.errorAtf(0, "rune literal not terminated")
 			}
 			break
 		}
@@ -626,9 +626,9 @@ func (s *scanner) rune() {
 
 	if !s.bad {
 		if n == 0 {
-			s.errorf("empty character literal or unescaped ' in character literal")
+			s.errorf("empty rune literal or unescaped '")
 		} else if n != 1 {
-			s.errorAtf(0, "invalid character literal (more than one character)")
+			s.errorAtf(0, "more than one character in rune literal")
 		}
 	}
 
@@ -836,7 +836,7 @@ func (s *scanner) escape(quote rune) {
 			if base == 8 {
 				kind = "octal"
 			}
-			s.errorf("non-%s character in escape sequence: %c", kind, c)
+			s.errorf("invalid character %q in %s escape sequence", c, kind)
 			s.ungetr()
 			return
 		}
@@ -847,7 +847,7 @@ func (s *scanner) escape(quote rune) {
 	s.ungetr()
 
 	if x > max && base == 8 {
-		s.errorf("octal escape value > 255: %d", x)
+		s.errorf("octal escape sequence value %d > 255", x)
 		return
 	}
 
