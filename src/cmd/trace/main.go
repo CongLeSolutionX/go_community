@@ -44,7 +44,7 @@ Supported profile types are:
     - sched: scheduler latency profile
 
 Flags:
-	-http=addr: HTTP service address (e.g., ':6060')
+	-http=addr: HTTP service address (e.g., ':8000')
 	-pprof=type: print a pprof-like profile instead
 	-d: print debug info such as parsed events
 
@@ -55,7 +55,7 @@ and is only actively tested on that browser.
 `
 
 var (
-	httpFlag  = flag.String("http", "localhost:0", "HTTP service address (e.g., ':6060')")
+	httpFlag  = flag.String("http", "127.0.0.1:8000", "HTTP service address (e.g., '127.0.0.1:8000'). Due to golang.org/issue/34374, traceviewer works only with ports between 8000-8003.")
 	pprofFlag = flag.String("pprof", "", "print a pprof-like profile instead")
 	debugFlag = flag.Bool("d", false, "print debug information such as parsed events list")
 

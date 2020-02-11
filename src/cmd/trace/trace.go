@@ -50,6 +50,18 @@ func httpTrace(w http.ResponseWriter, r *http.Request) {
 var templTrace = `
 <html>
 <head>
+<!-- Temporary workaround for golang.org/issue/34374 (WebComponents V0 deprecation)
+     These origin trial tokens will expire on Feb 1, 2021. -->
+
+<!-- 127.0.0.1:8000 -->
+<meta http-equiv="origin-trial" content="AoghAotKyTuqiCscRLhuZu0/qntcnX+onAuzrHtiVJ48s/H6AXB9rJ/i3k4iro96nF7NxM5zY4su0lXELEEzzgoAAABSeyJvcmlnaW4iOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJmZWF0dXJlIjoiV2ViQ29tcG9uZW50c1YwIiwiZXhwaXJ5IjoxNjEyMjIzOTk5fQ==">
+<!-- 127.0.0.1:8001 -->
+<meta http-equiv="origin-trial" content="AoCYawMODwwxMNVRL7KOi/xy4mV57oKU2Bz9Sk/yg/OSIgyQ0+aWDZ0VFXCM16LCfOLGzNfkl5dA732km3AcYw8AAABSeyJvcmlnaW4iOiJodHRwOi8vMTI3LjAuMC4xOjgwMDEiLCJmZWF0dXJlIjoiV2ViQ29tcG9uZW50c1YwIiwiZXhwaXJ5IjoxNjEyMjIzOTk5fQ==">
+<!-- 127.0.0.1:8002 -->
+<meta http-equiv="origin-trial" content="AuzTbYTr1sldirHeq69/JWztabecL7/HiY1I427W9GC+s721SKBuwIDZd7/axk7KaZrUCxK8NGo6lzv2VbcMgAkAAABSeyJvcmlnaW4iOiJodHRwOi8vMTI3LjAuMC4xOjgwMDIiLCJmZWF0dXJlIjoiV2ViQ29tcG9uZW50c1YwIiwiZXhwaXJ5IjoxNjEyMjIzOTk5fQ==">
+<!-- 127.0.0.1:8003 -->
+<meta http-equiv="origin-trial" content="AuwWuUBIJgUHKi5rgEkqYaWR/Rbl/WrQPklxP3Lb9JBLQwdU4ykouPn0hTva5pHumlKNc1TqeZD1GEWo3YXTtQUAAABSeyJvcmlnaW4iOiJodHRwOi8vMTI3LjAuMC4xOjgwMDMiLCJmZWF0dXJlIjoiV2ViQ29tcG9uZW50c1YwIiwiZXhwaXJ5IjoxNjEyMjIzOTk5fQ==">
+
 <link href="/trace_viewer_html" rel="import">
 <style type="text/css">
   html, body {
