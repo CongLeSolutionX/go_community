@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b19e65a3_a37cced5",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-11T21:33:05Z",
+      "side": 1,
+      "message": "Yes. The old code works correctly if the frame size is 0, but not otherwise. The new code should work no matter the frame size is 0 or not. And it is still good to use FP offset for argument anyway (as we generally do).",
+      "parentUuid": "de26b337_4a74662a",
+      "revId": "5ab625578b40611a1e0cec0461539c2a8c851078",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da52311c_c046cc9d",
         "filename": "src/runtime/sys_linux_amd64.s",
         "patchSetId": 1
