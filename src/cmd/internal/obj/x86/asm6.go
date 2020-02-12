@@ -78,6 +78,20 @@ const (
 	branchLoopHead
 )
 
+// Bit flags that are used for the arch specific Mark field
+const (
+	// padWithPrefix1, padWithPrefix2 and padWithPrefix3 reserve
+	// bits in the Mark bitfield that are used to record the number of
+	// prefixes to insert before an instruction to ensure that a
+	// subsequent jump does not cross or end on a 32 byte boundary.
+	// These bits are only used if GOAMD64=alignedjumps.
+	padWithPrefix1 = (1 << iota)
+	padWithPrefix2
+	padWithPrefix3
+
+	padWithPrefixMask = padWithPrefix1 | padWithPrefix2 | padWithPrefix3
+)
+
 // opBytes holds optab encoding bytes.
 // Each ytab reserves fixed amount of bytes in this array.
 //
@@ -1838,6 +1852,12 @@ func fillnop(p []byte, n int) {
 	}
 }
 
+func noppad(ctxt *obj.Link, s *obj.LSym, c int32, pad int32) int32 {
+	s.Grow(int64(c) + int64(pad))
+	fillnop(s.P[c:], int(pad))
+	return c + pad
+}
+
 func spadjop(ctxt *obj.Link, l, q obj.As) obj.As {
 	if ctxt.Arch.Family != sys.AMD64 || ctxt.Arch.PtrSize == 4 {
 		return l
@@ -1845,7 +1865,170 @@ func spadjop(ctxt *obj.Link, l, q obj.As) obj.As {
 	return q
 }
 
+// If the environment variable GOAMD64=alignedjumps the assembler will ensure that
+// no standalone or macro-fused jump will straddle or end on a 32 byte boundary.
+// There are two strategies for preventing this.
+//
+// 1. Inserting NOPs before the jumps
+// 2. Adding prefixes to instructions which occur before the jump.  This is the
+//    preferred strategy but may not always be possible.
+//
+// Jumps are padded in two phases.  First we assemble the function inserting NOPs
+// where needed and resolving jump addresses.  We then re-assemble, attempting
+// to replace the NOPs with prefixes.
+
+func alignJump(p *obj.Prog) bool {
+	return p.Pcond != nil || p.As == obj.AJMP || p.As == obj.ACALL ||
+		p.As == obj.ARET || p.As == obj.ADUFFCOPY || p.As == obj.ADUFFZERO
+}
+
+func checkForJump(p *obj.Prog) *obj.Prog {
+	// Skip any PCDATA, FUNCDATA or NOP instructions
+	var q *obj.Prog
+	for q = p.Link; q != nil && (q.As == obj.APCDATA || q.As == obj.AFUNCDATA || q.As == obj.ANOP); q = q.Link {
+	}
+
+	if q == nil || q.Pcond == nil || p.As == obj.AJMP || p.As == obj.ACALL {
+		return nil
+	}
+
+	return q
+}
+
+// fusedJump determines whether p can be fused with a subsequent conditional jump instruction.
+// If it can, the jump is returned.  If it can't, we return nil.  Macro fusion
+// rules are derived from the Intel Optimization Manual (April 2019) section 3.4.2.2.
+func fusedJump(p *obj.Prog) *obj.Prog {
+	cmp := p.As == ACMPB || p.As == ACMPL || p.As == ACMPQ || p.As == ACMPW
+
+	cmpAddSub := p.As == AADDB || p.As == AADDL || p.As == AADDW || p.As == AADDQ ||
+		p.As == ASUBB || p.As == ASUBL || p.As == ASUBW || p.As == ASUBQ || cmp
+
+	testAnd := p.As == ATESTB || p.As == ATESTL || p.As == ATESTQ || p.As == ATESTW ||
+		p.As == AANDB || p.As == AANDL || p.As == AANDQ || p.As == AANDW
+
+	incDec := p.As == AINCB || p.As == AINCL || p.As == AINCQ || p.As == AINCW ||
+		p.As == ADECB || p.As == ADECL || p.As == ADECQ || p.As == ADECW
+
+	if !cmpAddSub && !testAnd && !incDec {
+		return nil
+	}
+
+	if !incDec {
+		var argOne obj.AddrType
+		var argTwo obj.AddrType
+		if cmp {
+			argOne = p.From.Type
+			argTwo = p.To.Type
+		} else {
+			argOne = p.To.Type
+			argTwo = p.From.Type
+		}
+		if argOne == obj.TYPE_REG {
+			if argTwo != obj.TYPE_REG && argTwo != obj.TYPE_CONST && argTwo != obj.TYPE_MEM {
+				return nil
+			}
+		} else if argOne == obj.TYPE_MEM {
+			if argTwo != obj.TYPE_REG {
+				return nil
+			}
+		} else {
+			return nil
+		}
+	}
+
+	jmp := checkForJump(p)
+	if jmp == nil {
+		return nil
+	}
+
+	if testAnd {
+		return jmp
+	}
+
+	if jmp.As == AJOC || jmp.As == AJOS || jmp.As == AJMI ||
+		jmp.As == AJPL || jmp.As == AJPS || jmp.As == AJPC {
+		return nil
+	}
+
+	if cmpAddSub {
+		return jmp
+	}
+
+	if jmp.As == AJCS || jmp.As == AJCC || jmp.As == AJHI || jmp.As == AJLS {
+		return nil
+	}
+
+	return jmp
+}
+
+// Padding jump instructions with prefixes requires additional
+// passes to assemble the function.  A state machine,
+// padJumpsCtx.state, is used keep track of the process.  It
+// may be set to one of the following values.
+
+type padJumpsCtx struct {
+	jumpAlignment int32
+}
+
+func makePjc(ctxt *obj.Link) *padJumpsCtx {
+	// Disable jump padding on 32 bit builds by settting
+	// jumpAlignment to 0.
+	if ctxt.Arch.Family == sys.I386 {
+		return &padJumpsCtx{}
+	}
+
+	if objabi.GOAMD64 != "alignedjumps" {
+		return &padJumpsCtx{}
+	}
+	return &padJumpsCtx{
+		jumpAlignment: 32,
+	}
+}
+
+// padJump detects whether the instruction being assembled is a standalone or a macro-fused
+// jump that needs to be padded.  If it is, NOPs are inserted to ensure that the jump does
+// not cross or end on a 32 byte boundary.  We also check the prefix list to see whether enough prefix
+// space is available in preceding instructions to pad the jump.  If there is, we mark the
+// relevant instructions and set the state variable to padJumpsPaddedWithNOPS.  This may result
+// in further passes of the assembler once the final size of the function is known.  The prefixes
+// will be inserted in these later passes and the NOPs should vanish.
+func (pjc *padJumpsCtx) padJump(ctxt *obj.Link, s *obj.LSym, p *obj.Prog, c int32) int32 {
+	if pjc.jumpAlignment == 0 {
+		return c
+	}
+
+	var toPad int32
+	fj := fusedJump(p)
+	mask := pjc.jumpAlignment - 1
+	if fj != nil {
+		if (c&mask)+int32(p.Isize+fj.Isize) >= pjc.jumpAlignment {
+			toPad = pjc.jumpAlignment - (c & mask)
+		}
+	} else if alignJump(p) {
+		if (c&mask)+int32(p.Isize) >= pjc.jumpAlignment {
+			toPad = pjc.jumpAlignment - (c & mask)
+		}
+	}
+	if toPad <= 0 {
+		return c
+	}
+
+	c = noppad(ctxt, s, c, toPad)
+
+	return c
+}
+
+// reAssemble is called if an instruction's size changes during assembly.  If
+// it does and the instruction is a standalone or a macro-fused jump we need to
+// reassemble.
+func (pjc *padJumpsCtx) reAssemble(p *obj.Prog) bool {
+	return pjc.jumpAlignment > 0 && ((fusedJump(p) != nil) || alignJump(p))
+}
+
 func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
+	pjc := makePjc(ctxt)
+
 	if s.P != nil {
 		return
 	}
@@ -1904,6 +2087,8 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		c = 0
 		for p := s.Func.Text; p != nil; p = p.Link {
 
+			c = pjc.padJump(ctxt, s, p, c)
+
 			if (p.Back&branchLoopHead != 0) && c&(loopAlign-1) != 0 {
 				// pad with NOPs
 				v := -c & (loopAlign - 1)
@@ -1936,13 +2121,19 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 
-			p.Rel = nil
+			p.Mark &^= padWithPrefixMask
 
+			p.Rel = nil
 			p.Pc = int64(c)
 			ab.asmins(ctxt, s, p)
 			m := ab.Len()
 			if int(p.Isize) != m {
 				p.Isize = uint8(m)
+				if pjc.reAssemble(p) {
+					// We need to re-assemble here to check for jumps and fused jumps
+					// that span or end on 32 byte boundaries.
+					reAssemble = true
+				}
 			}
 
 			s.Grow(p.Pc + int64(m))

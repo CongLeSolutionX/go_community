@@ -289,3 +289,34 @@ func TestRegIndex(t *testing.T) {
 		}
 	}
 }
+
+func TestCountAssembledPrefixes(t *testing.T) {
+	testCases := []struct {
+		buf      []byte
+		count    int
+		rexflag  int
+		vexflag  bool
+		evexflag bool
+	}{
+		{buf: []byte{0x66, 0x0F, 0x3A, 0xC1, 0x08}, count: 3},                       // PALIGNR
+		{buf: []byte{0xF3, 0x0F, 0xE6}, count: 2},                                   // CVTDQ2PD
+		{buf: []byte{0x66, 0x0F, 0x38, 0x01}, count: 3},                             // PHADDW
+		{buf: []byte{0xF3, 0x40, 0x0F, 0xE6}, count: 3, rexflag: 0x40},              // CVTDQ2PD
+		{buf: []byte{0x67, 0x66, 0x0f, 0x3A, 0x60, 0x00, 0x03}, count: 4},           // PCMPESTRM
+		{buf: []byte{0x14, 0x07}, count: 0},                                         // ADDCB
+		{buf: []byte{0x66, 0x81, 0x13, 0x23, 0xf1}, count: 1},                       // ADCW
+		{buf: []byte{0xC4, 0xE1, 0x31, 0x58, 0x13}, count: 3, vexflag: true},        // VADDPD (VEX)
+		{buf: []byte{0xC5, 0x33, 0x58, 0x1B}, count: 2, vexflag: true},              // VADDSD (VEX)
+		{buf: []byte{0x62, 0x91, 0x34, 0x49, 0x5E, 0xDC}, count: 4, evexflag: true}, // VDIVPS (EVEX)
+	}
+
+	for i, tc := range testCases {
+		ab := AsmBuf{
+			off:      len(tc.buf),
+			rexflag:  tc.rexflag,
+			vexflag:  tc.vexflag,
+			evexflag: tc.evexflag,
+		}
+		copy(ab.buf[:], tc.buf)
+	}
+}
