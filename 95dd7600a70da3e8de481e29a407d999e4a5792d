@@ -34,6 +34,24 @@
       "revId": "95dd7600a70da3e8de481e29a407d999e4a5792d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a15b1df3_943aad00",
+        "filename": "src/runtime/preempt_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-02-12T02:55:32Z",
+      "side": 1,
+      "message": "I think I understand now. This code doesn\u0027t return to the OS\u0027s signal handler to resume our code, it resumes our code directly.\n(If the OS\u0027s signal handler resumed our execution, my suggestion wouldn\u0027t help anyway - we\u0027d have to insert a VZEROUPPER between the OS code and the actual resumption, which we can\u0027t do.)",
+      "parentUuid": "639f6c10_8b608cd6",
+      "revId": "95dd7600a70da3e8de481e29a407d999e4a5792d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
