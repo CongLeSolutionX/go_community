@@ -2618,7 +2618,7 @@ func (ctxt *Link) loadlibfull() {
 	}
 
 	// Pull the symbols out.
-	ctxt.loader.ExtractSymbols(ctxt.Syms)
+	ctxt.loader.ExtractSymbols(ctxt.Syms, ctxt.Reachparent)
 
 	setupdynexp(ctxt)
 

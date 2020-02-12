@@ -235,17 +235,18 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.linksetup()
 
 	bench.Start("loadlibfull")
-	ctxt.loadlibfull() // XXX do it here for now
 
 	bench.Start("dostrdata")
 	ctxt.dostrdata()
+	if objabi.Fieldtrack_enabled != 0 {
+		bench.Start("fieldtrack")
+		fieldtrack(ctxt.Arch, ctxt.loader)
+	}
+	ctxt.loadlibfull() // XXX do it here for now
+
 	bench.Start("dwarfGenerateDebugInfo")
 	dwarfGenerateDebugInfo(ctxt)
 
-	if objabi.Fieldtrack_enabled != 0 {
-		bench.Start("fieldtrack")
-		fieldtrack(ctxt)
-	}
 	bench.Start("mangleTypeSym")
 	ctxt.mangleTypeSym()
 	bench.Start("callgraph")
