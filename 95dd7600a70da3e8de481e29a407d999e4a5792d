@@ -16,6 +16,24 @@
       "revId": "95dd7600a70da3e8de481e29a407d999e4a5792d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "639f6c10_8b608cd6",
+        "filename": "src/runtime/preempt_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T02:42:30Z",
+      "side": 1,
+      "message": "The entry of this function is where the kernel\u0027s signal handling code exits to. So we do it immediately after returning from the kernel. After that we should call to the runtime and be running Go code. I guess we could do one here as well, to be more conservative, in case we got a signal during scheduler execution or some funny things happen in context switch or syscall.",
+      "parentUuid": "5125eda5_26422620",
+      "revId": "95dd7600a70da3e8de481e29a407d999e4a5792d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
