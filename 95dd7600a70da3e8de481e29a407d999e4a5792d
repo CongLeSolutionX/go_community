@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5125eda5_26422620",
+        "filename": "src/runtime/preempt_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-02-12T00:51:56Z",
+      "side": 1,
+      "message": "Why not one here as well?\nAre we sure that the corruption is only occurring inside the kernel/libc on the way into here, and not on the way back out?",
+      "revId": "95dd7600a70da3e8de481e29a407d999e4a5792d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
