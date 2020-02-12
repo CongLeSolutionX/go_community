@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf3f0b8_125fae6d",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 35020
+      },
+      "writtenOn": "2020-02-12T16:55:06Z",
+      "side": 1,
+      "message": "Why not register a token for 6060 since that\u0027s consistent with the previous suggested default?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 213
+      },
+      "revId": "b605503230a8289d583f957f01352dbf6d95bea8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
