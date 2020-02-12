@@ -1,0 +1,358 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f00a1d7_5d4ff9db",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Do we still need to populate per-library and per-unit Textp? I thought they are only used for DWARF.\n\nAnd we can make ctxt.Textp directly from the Textp2\u0027s.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "014b3d15_44c3d71e",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Is an array better? I think this will get populated enough that using an array probably doesn\u0027t waste too much space.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26dfcff_a1f5e227",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Also this one. Or maybe we could generate an aux for this.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4f402be_c7fb2546",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "I\u0027ll MakeSymbolUpdater not return the symbol index. It should always return the same one now.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69056bc0_fc494696",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "The ctxt argument seems not necessary. Also functions below.",
+      "range": {
+        "startLine": 231,
+        "startChar": 25,
+        "endLine": 231,
+        "endChar": 35
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59b89ab0_f6e42d64",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "You could just return d.tmap[name]. If it is not in the map it will return 0.",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 9
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f737fd4f_7742ec22",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "It seems unnecessary to rename the variable.",
+      "range": {
+        "startLine": 357,
+        "startChar": 60,
+        "endLine": 357,
+        "endChar": 66
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80078b52_37daa0a6",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Seems this doesn\u0027t need to be wrapped.",
+      "range": {
+        "startLine": 488,
+        "startChar": 38,
+        "endLine": 488,
+        "endChar": 50
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "336646f9_8dd49ee7",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Seems worth cache this.",
+      "range": {
+        "startLine": 544,
+        "startChar": 38,
+        "endLine": 544,
+        "endChar": 59
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faa05468_99a4d483",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "(For future) Would it be helpful if we can link from the element type symbol to the pointer type symbol (i.e. from type.T to type.*T) ? I think there is a ptrToThis field in the type descriptor. Maybe we can follow that link.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec1abe8c_9ff14f02",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Maybe we can replace this with a linear array or switch statement. We could also define special indices for them.",
+      "range": {
+        "startLine": 1246,
+        "startChar": 0,
+        "endLine": 1254,
+        "endChar": 2
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff6b96a0_302d57bf",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Maybe you don\u0027t want to use :\u003d here?",
+      "range": {
+        "startLine": 1355,
+        "startChar": 11,
+        "endLine": 1355,
+        "endChar": 13
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae475f18_c35937b9",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "This loop doesn\u0027t look too bad to me.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e90f25ad_fdde7dd7",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "It probably makes more sense to move this to the compiler, as we already did for functions.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d31e3f_4085b985",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1433,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Maybe also here (:\u003d)",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "178fa252_3c4ab478",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 2366,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "Maybe use a bitmap?",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50ef528_b2e26255",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 2376,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "I think we can use ReadWithoutName here. We don\u0027t need to check the name. It is a TEXT symbol so it cannot be nameless.",
+      "range": {
+        "startLine": 2376,
+        "startChar": 8,
+        "endLine": 2376,
+        "endChar": 12
+      },
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c31a7e_96d92554",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 2389,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-12T21:30:20Z",
+      "side": 1,
+      "message": "I think we probably only need isdup. For TEXT symbols, I think if isdup is true dupok must be true.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
