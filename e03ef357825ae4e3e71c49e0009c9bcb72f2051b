@@ -70,6 +70,24 @@
       "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e78ea3dd_ed24f087",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-12T18:00:40Z",
+      "side": 1,
+      "message": "To build on what Bryan said, I think it makes sense to fix this in the PackageError and ImportStack types: the way they are represented, constructed, and formatted.\n\nThis is quite a bit of refactoring work, so I\u0027m not sure Nick wants to sign up for this in what started out as a small CL. :)\n\nBut maybe something like below would let us fix these problems?\n\n// ImportStack now keeps a position for each import.\ntype ImportStack []struct {\n  Path string\n  Pos token.Position\n}\n\n// PackageError has a full stack. Pos is no longer needed.\n// The text and JSON output could still be the same (with bugs fixed)\ntype PackageError struct {\n  ImportStack ImportStack\n  Err error\n  IsImportCycle bool\n  Hard bool\n}\n\nfunc ImportErrorf(path string, pos token.Position, format string, args ...interface{}) *PackageError { ... }\n\nPackageError.Error() could do something intelligent with the stack. For an unknown package, the stack would not have a zero position for the top entry, so Error could show the position from the importing package (right below top) instead. Then the caller (TestPackagesFor) would not need a special case.",
+      "parentUuid": "2e1878f5_308c6ee9",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
