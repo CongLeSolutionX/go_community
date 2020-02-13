@@ -215,6 +215,8 @@ type ElfSectBytes struct {
 	Entsize [4]uint8
 }
 
+const ElfSectBytesSize = 40
+
 type ElfProgBytes struct {
 }
 
@@ -270,19 +272,20 @@ type ElfSymBytes64 struct {
 }
 
 type ElfSect struct {
-	name    string
-	nameoff uint32
-	type_   uint32
-	flags   uint64
-	addr    uint64
-	off     uint64
-	size    uint64
-	link    uint32
-	info    uint32
-	align   uint64
-	entsize uint64
-	base    []byte
-	sym     loader.Sym
+	name     string
+	nameoff  uint32
+	type_    uint32
+	flags    uint64
+	addr     uint64
+	off      uint64
+	size     uint64
+	link     uint32
+	info     uint32
+	align    uint64
+	entsize  uint64
+	base     []byte
+	readOnly bool
+	sym      loader.Sym
 }
 
 type ElfObj struct {
@@ -473,8 +476,8 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 
 	base := f.Offset()
 
-	var hdrbuf [64]uint8
-	if _, err := io.ReadFull(f, hdrbuf[:]); err != nil {
+	hdrbuf, _, err := f.Slice(64)
+	if err != nil {
 		return errorf("malformed elf file: %v", err)
 	}
 	hdr := new(ElfHdrBytes)
@@ -600,8 +603,9 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 		sect := &elfobj.sect[i]
 		if is64 != 0 {
 			var b ElfSectBytes64
-
-			if err := binary.Read(f, e, &b); err != nil {
+			if dat, _, err := f.Slice(64); err != nil {
+				return errorf("malformed elf file: %v", err)
+			} else if err := binary.Read(bytes.NewReader(dat), e, &b); err != nil {
 				return errorf("malformed elf file: %v", err)
 			}
 
@@ -618,7 +622,9 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 		} else {
 			var b ElfSectBytes
 
-			if err := binary.Read(f, e, &b); err != nil {
+			if dat, _, err := f.Slice(ElfSectBytesSize); err != nil {
+				return errorf("malformed elf file: %v", err)
+			} else if err := binary.Read(bytes.NewReader(dat), e, &b); err != nil {
 				return errorf("malformed elf file: %v", err)
 			}
 
@@ -750,6 +756,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 
 		sb.SetSize(int64(sect.size))
 		sb.SetAlign(int32(sect.align))
+		sb.SetReadonly(sect.readOnly)
 
 		sect.sym = sb.Sym()
 	}
@@ -1019,9 +1026,9 @@ func elfmap(elfobj *ElfObj, sect *ElfSect) (err error) {
 		return err
 	}
 
-	sect.base = make([]byte, sect.size)
 	elfobj.f.MustSeek(int64(uint64(elfobj.base)+sect.off), 0)
-	if _, err := io.ReadFull(elfobj.f, sect.base); err != nil {
+	sect.base, sect.readOnly, err = elfobj.f.Slice(uint64(sect.size))
+	if err != nil {
 		return fmt.Errorf("short read: %v", err)
 	}
 
