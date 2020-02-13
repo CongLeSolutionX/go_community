@@ -106,6 +106,24 @@
       "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ea81890_6129ec6e",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-13T20:22:44Z",
+      "side": 1,
+      "message": "\u003e Ya, I was expecting that since this is fixing a Go 1.12 -\u003e 1.13 regression, the Go team would be in favor of a quick local fix, rather than a refactor that\u0027s more likely to introduce follow-on bugs. \n\nWe\u0027re deep into the 1.14 freeze at this point. Actually 1.14 is already two weeks late. Until the development branch opens, nothing can be merged except critical bug fixes and zero-risk changes (e.g., documentation). So this has to wait for 1.15 unfortunately.\n\n\u003e One question: It looks like the Go CLI lets you introspect on PackageError ... How important is it to preserve that behavior?\n\nIt\u0027s important that the structure remains the same, since tools consume that output, but the content can change. Thanks for bringing this up actually; we can control the -json presentation with the MarshalJSON method, but we\u0027ll have to be more careful with text/template.",
+      "parentUuid": "f8fcf543_03ae83ca",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
