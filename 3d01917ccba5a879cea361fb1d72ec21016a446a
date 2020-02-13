@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72f4cfaf_a9e7ed0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34944
+      },
+      "writtenOn": "2020-02-13T06:04:01Z",
+      "side": 1,
+      "message": "Thanks for the style nits.  It helps!\n\nResolved in patchset 5.",
+      "parentUuid": "a9a31f13_73aa9fb3",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "3d01917ccba5a879cea361fb1d72ec21016a446a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a02be19b_a9667661",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "3d01917ccba5a879cea361fb1d72ec21016a446a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad82254f_7afe7029",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 34944
+      },
+      "writtenOn": "2020-02-13T06:04:01Z",
+      "side": 1,
+      "message": "Resolved in patchset 5.",
+      "parentUuid": "a02be19b_a9667661",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "3d01917ccba5a879cea361fb1d72ec21016a446a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
