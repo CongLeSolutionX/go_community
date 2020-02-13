@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "dc765fd2_9f00a9fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T20:30:49Z",
+      "side": 1,
+      "message": "CL 206139 . Gerrit UI understands that syntax and will make a link.",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b86e427_ee5e4894",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 2
