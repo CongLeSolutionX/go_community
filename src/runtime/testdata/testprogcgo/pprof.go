@@ -87,7 +87,7 @@ func CgoPprof() {
 	}
 
 	t0 := time.Now()
-	for C.getCpuHogCount() < 2 && time.Since(t0) < time.Second {
+	for C.getCpuHogCount() < 1 && time.Since(t0) < time.Second {
 		C.cpuHog()
 	}
 
