@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f128b35_73359c1e",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T15:41:50Z",
+      "side": 1,
+      "message": "The old code reuses the data memory, the new one does not. Maybe fine as this code shouldn\u0027t be called very frequently. But then line 956 doesn\u0027t seem necessary. It was needed in the old code as if s.P points to RO memory it will panic. Maybe it is fine to always set it to nil, or always do line 956, but not both. We could also do SetReadOnly unconditionally.",
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1430036f_e7052484",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2640,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T15:41:50Z",
+      "side": 1,
+      "message": "Can also delete this piece of code.",
+      "range": {
+        "startLine": 2625,
+        "startChar": 0,
+        "endLine": 2640,
+        "endChar": 0
+      },
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20efe5b6_f6fa152e",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T15:41:50Z",
+      "side": 1,
+      "message": "As you already converted fieldtrack to use the loader, I don\u0027t think this is necessary. The only thing consumes Reachparent is fieldtrack.",
+      "range": {
+        "startLine": 1706,
+        "startChar": 0,
+        "endLine": 1711,
+        "endChar": 2
+      },
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
