@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b86e427_ee5e4894",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T20:29:30Z",
+      "side": 1,
+      "message": "Use unsafe.Sizeof.",
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35768984_5e4782b2",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T20:29:30Z",
+      "side": 1,
+      "message": "For small reads like this, I don\u0027t think we want to do this. It creates many small mmaps which we never unmap. I think we only want to use mmap for the data content. Or we mmap the whole file and slice it.",
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01c07f85_e5694000",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T20:29:30Z",
+      "side": 1,
+      "message": "I feel that this kind of if-else if pattern is hard to follow. It would be clearer with two if statements. Maybe it\u0027s only me...",
+      "range": {
+        "startLine": 606,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 4
+      },
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
