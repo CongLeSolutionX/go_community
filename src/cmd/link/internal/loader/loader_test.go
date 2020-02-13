@@ -323,6 +323,7 @@ func TestAddDataMethods(t *testing.T) {
 	}
 
 	var pmi Sym
+	rrsl := []Relocs{}
 	for k, tp := range testpoints {
 		name := fmt.Sprintf("new%d", k+1)
 		mi := ldr.AddExtSym(name, 0)
@@ -347,6 +348,7 @@ func TestAddDataMethods(t *testing.T) {
 			t.Fatalf("testing Loader.%s: got relocslice %+v wanted %+v",
 				tp.which, rsl, tp.expRel)
 		}
+		rrsl = append(rrsl, relocs)
 		pmi = mi
 	}
 }
