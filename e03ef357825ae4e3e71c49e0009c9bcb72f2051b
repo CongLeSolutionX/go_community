@@ -88,6 +88,24 @@
       "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8fcf543_03ae83ca",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-13T15:33:07Z",
+      "side": 1,
+      "message": "Ya, I was expecting that since this is fixing a Go 1.12 -\u003e 1.13 regression, the Go team would be in favor of a quick local fix, rather than a refactor that\u0027s more likely to introduce follow-on bugs. \n\nBut I can take a crack at changing the ImportStack format.\n\nOne question: It looks like the Go CLI lets you introspect on PackageError, as in this test:\nhttps://github.com/golang/go/blob/master/src/cmd/go/testdata/script/mod_build_info_err.txt\n\ngo list -e -deps -f \u0027{{with .Error}}{{.Pos}}: {{.Err}}{{end}}\u0027 ./main\n\nwhich reads the Pos field off of PackageError. How important is it to preserve that behavior?",
+      "parentUuid": "e78ea3dd_ed24f087",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
