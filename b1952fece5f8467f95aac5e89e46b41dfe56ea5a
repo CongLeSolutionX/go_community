@@ -412,6 +412,23 @@
     },
     {
       "key": {
+        "uuid": "dbf901a5_873a2ed0",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T20:07:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this comment should be here. In about 3 weeks this comment adds no value.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec1abe8c_9ff14f02",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 61
@@ -541,6 +558,24 @@
     },
     {
       "key": {
+        "uuid": "51a3df3d_ecc3d6f0",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T20:07:53Z",
+      "side": 1,
+      "message": "I dissent slightly here. At a minimum I would prefer to see all the if conditions moved to a helper function (that could be easily tested :D), but I won\u0027t fight anyone on it.",
+      "parentUuid": "11fa3e21_3d4b12f9",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e90f25ad_fdde7dd7",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 61
@@ -608,6 +643,91 @@
       "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97e26dd5_b26b1577",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1450,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T20:07:53Z",
+      "side": 1,
+      "message": "Is this strictly necessary? Doesnt\u0027 dwarfctxt go out of scope at the end of this function, and get GC\u0027d anyway?",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4cc1f4c_19f72c82",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T20:07:53Z",
+      "side": 1,
+      "message": "Original comment: Would this be better placed in Loader.ExtractSymbols?\n\nEDIT: I see it\u0027s called in loadlibfull -- right after Extract Symbols. I won\u0027t fight on the placement of this code, but feel that since this is really loader.Sym-\u003e*sym.Symbol remapping, it should really live there.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7bc6cf4_045e8754",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T20:07:53Z",
+      "side": 1,
+      "message": "I think there\u0027s a panic here if the cast doesn\u0027t work. I believe this should be on line 1523.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cb6450f_a9992ad5",
+        "filename": "src/cmd/link/internal/ld/dwarf2.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T20:07:53Z",
+      "side": 1,
+      "message": "Was this done with a \"git cp\"? It\u0027s certainly too late to make that work now, but It would be nice to know what\u0027s changed.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417e0abf_0b174212",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1263,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T20:07:53Z",
+      "side": 1,
+      "message": "lots of duplicated code in here. Couldn\u0027t you just assign the comparison value to a variable, and remove the duplicated code?",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
