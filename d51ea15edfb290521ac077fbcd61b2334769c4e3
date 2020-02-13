@@ -16,6 +16,24 @@
       "revId": "d51ea15edfb290521ac077fbcd61b2334769c4e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6677719f_c128bd8c",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-13T16:56:52Z",
+      "side": 1,
+      "message": "Yeah, I also thought about this when I did the rewrite. Seems a little weird at first. On the other hand it kind of makes sense: make an updater, so we can update the symbol, as it sounds. Maybe we could do it unconditionally -- if s is external, MakeSymbolUpdater is pretty cheap.",
+      "parentUuid": "79f416f0_4e37aa85",
+      "revId": "d51ea15edfb290521ac077fbcd61b2334769c4e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
