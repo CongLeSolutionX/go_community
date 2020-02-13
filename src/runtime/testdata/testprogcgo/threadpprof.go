@@ -111,7 +111,7 @@ func pprofThread() {
 	C.runCPUHogThread()
 
 	t0 := time.Now()
-	for C.getCPUHogThreadCount() < 2 && time.Since(t0) < time.Second {
+	for C.getCPUHogThreadCount() < 10 && time.Since(t0) < time.Second {
 		time.Sleep(100 * time.Millisecond)
 	}
 
