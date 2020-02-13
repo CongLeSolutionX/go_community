@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79f416f0_4e37aa85",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T15:24:50Z",
+      "side": 1,
+      "message": "I\u0027ve thought about this code since it went in, and this section of code has stuck with me as probably bad design. We\u0027re using the SymbolUpdater call\u0027s side effect of allowing symbols to be updated. In any case, I don\u0027t think it\u0027ll be widespread in the codebase, but just expressing my general \"ugh\" feeling here.",
+      "revId": "d51ea15edfb290521ac077fbcd61b2334769c4e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
