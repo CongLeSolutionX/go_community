@@ -576,6 +576,24 @@
     },
     {
       "key": {
+        "uuid": "a3501718_7e9816af",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-13T20:48:56Z",
+      "side": 1,
+      "message": "I tried extracting the tests into a separate helper function, but it\u0027s kind of messy, since we either need to return bool + symname or read the sym name twice... I think I\u0027d rather leavethings the way they are now.",
+      "parentUuid": "51a3df3d_ecc3d6f0",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e90f25ad_fdde7dd7",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 61
@@ -663,6 +681,24 @@
     },
     {
       "key": {
+        "uuid": "54eb21fd_c636c408",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1450,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-13T20:48:56Z",
+      "side": 1,
+      "message": "You are quite right. I had imagined at one point that we would keep the dwarfcxt around from phase 1 and feed it into phase 2, but in fact there isn\u0027t anything that needs preserving right now. I\u0027ll remove.",
+      "parentUuid": "97e26dd5_b26b1577",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4cc1f4c_19f72c82",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 61
@@ -697,6 +733,24 @@
     },
     {
       "key": {
+        "uuid": "600a0add_a013870b",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-13T20:48:56Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure what you mean here. The cast is checked (includes an OK flag) so I don\u0027t think a panic can happen.",
+      "parentUuid": "b7bc6cf4_045e8754",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3cb6450f_a9992ad5",
         "filename": "src/cmd/link/internal/ld/dwarf2.go",
         "patchSetId": 61
@@ -708,6 +762,24 @@
       "writtenOn": "2020-02-13T20:07:53Z",
       "side": 1,
       "message": "Was this done with a \"git cp\"? It\u0027s certainly too late to make that work now, but It would be nice to know what\u0027s changed.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b289b185_cf5f07af",
+        "filename": "src/cmd/link/internal/ld/dwarf2.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-13T20:48:56Z",
+      "side": 1,
+      "message": "Apologies, I did not use \"git cp\". Hopefully this is ok given that all this code will be gone once I convert DWARF phase 2.",
+      "parentUuid": "3cb6450f_a9992ad5",
       "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

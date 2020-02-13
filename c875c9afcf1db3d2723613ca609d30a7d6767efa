@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "76aff58c_0cb7ddb0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 62
+      },
+      "lineNbr": 2381,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-13T20:48:56Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "9da7d120_936ca44c",
+      "revId": "c875c9afcf1db3d2723613ca609d30a7d6767efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed4ba20f_2a6008d0",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 62
@@ -50,6 +68,24 @@
       "revId": "c875c9afcf1db3d2723613ca609d30a7d6767efa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9a9fdf_e004107f",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 62
+      },
+      "lineNbr": 2409,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-13T20:48:56Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll fix that up.",
+      "parentUuid": "6d3fda48_5265f071",
+      "revId": "c875c9afcf1db3d2723613ca609d30a7d6767efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
