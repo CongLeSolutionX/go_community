@@ -751,6 +751,23 @@
     },
     {
       "key": {
+        "uuid": "2a56f8f6_ccde8247",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-13T21:05:46Z",
+      "side": 1,
+      "message": "discussed offline. Than will look at this code.",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3cb6450f_a9992ad5",
         "filename": "src/cmd/link/internal/ld/dwarf2.go",
         "patchSetId": 61
