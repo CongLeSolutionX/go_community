@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32ac14bb_45953e84",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-14T16:35:16Z",
+      "side": 1,
+      "message": "Could this be Pos? ReturnPos sounds like there is some control flow.",
+      "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dbe3f4e_f104457a",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-14T16:35:16Z",
+      "side": 1,
+      "message": "Nit: I think it\u0027s better for callers to just say f.Pos.IsValid().",
+      "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17809cf4_2ec9e26f",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-14T16:35:16Z",
+      "side": 1,
+      "message": "Nit: consolidate to `func (s *ImportStack) Push(path string, importPos []token.Position)`.\n\nIt\u0027s fine for callers to say `stk.Push(path, nil)` if they don\u0027t have a position.",
+      "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
