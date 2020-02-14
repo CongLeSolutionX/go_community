@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ac2945b6_dd36bccb",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T15:11:48Z",
+      "side": 1,
+      "message": "Hmm. Good point. Changed to always clearing the data, and setting readonly to false.",
+      "parentUuid": "5f128b35_73359c1e",
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1430036f_e7052484",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "30fd265d_ebcbf814",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2640,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T15:11:48Z",
+      "side": 1,
+      "message": "Thanks, Done.",
+      "parentUuid": "1430036f_e7052484",
+      "range": {
+        "startLine": 2625,
+        "startChar": 0,
+        "endLine": 2640,
+        "endChar": 0
+      },
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9156813f_5fc23eef",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93cf2231_be225aae",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T15:11:48Z",
+      "side": 1,
+      "message": "oops.",
+      "parentUuid": "9156813f_5fc23eef",
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3ecd9ac_bafe7374",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T15:11:48Z",
+      "side": 1,
+      "message": "Not entirely true. It\u0027s used in the xcoff code, it seems for AIX.\n\ncl/164005",
+      "parentUuid": "20efe5b6_f6fa152e",
+      "range": {
+        "startLine": 1706,
+        "startChar": 0,
+        "endLine": 1711,
+        "endChar": 2
+      },
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
