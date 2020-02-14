@@ -124,6 +124,24 @@
       "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37b80519_578432a3",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-14T06:25:13Z",
+      "side": 1,
+      "message": "😳😳😳\n\nok, i took a crack at completely restructuring ImportStack, and happily it fixed some unrelated bugs with TODOs on them",
+      "parentUuid": "9ea81890_6129ec6e",
+      "revId": "e03ef357825ae4e3e71c49e0009c9bcb72f2051b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
