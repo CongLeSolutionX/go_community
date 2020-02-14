@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c32c9000_999a4d1c",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 63
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T20:23:38Z",
+      "side": 1,
+      "message": "Do we need a cache of DWDie here, rather than calling new every time?\n\n(Similar for newattr above?)",
+      "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65fdc624_cbed5ece",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 63
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T20:23:38Z",
+      "side": 1,
+      "message": "Do we want to special case the name attr and not bother hanging them off as an attribute every time?",
+      "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4f048fe_ecad1069",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 63
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T20:23:38Z",
+      "side": 1,
+      "message": "Looking at this function, there seems a lot of duplication, and I can envision the first cases in this switch handled by a map lookup on kind. I don\u0027t know how much of dwarf generation is spent here, but seems a possible easy optimization for some future date.",
+      "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
