@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "9156813f_5fc23eef",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-02-14T02:11:27Z",
+      "side": 1,
+      "message": "Don\u0027t forget to move this, too.",
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20efe5b6_f6fa152e",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
