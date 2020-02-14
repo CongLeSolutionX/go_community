@@ -104,6 +104,24 @@
       "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b1c2d3b_f6be58e1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 63
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T20:51:01Z",
+      "side": 1,
+      "message": "Even better than my suggestions (RE:caching).\n\nAlso, I know this was hairy. I know you\u0027re focused on making it work, then correct, then fast. This is excellent work so far!",
+      "parentUuid": "4dc69549_b39406ee",
+      "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
