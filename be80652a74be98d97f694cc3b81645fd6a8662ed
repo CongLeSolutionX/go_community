@@ -211,6 +211,30 @@
       "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94e4c645_21519c91",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T15:45:48Z",
+      "side": 1,
+      "message": "It seems that all uses of Rename are happening after fieldtracking, I\u0027ve removed it entirely from Rename.",
+      "parentUuid": "3b8b18a7_6ebf1d18",
+      "range": {
+        "startLine": 1706,
+        "startChar": 0,
+        "endLine": 1711,
+        "endChar": 2
+      },
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
