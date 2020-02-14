@@ -768,6 +768,42 @@
     },
     {
       "key": {
+        "uuid": "9478ecaa_67a552c9",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-14T13:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "600a0add_a013870b",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972f0baf_5790de4e",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-14T13:13:36Z",
+      "side": 1,
+      "message": "OK, I have fixed this up. Thanks.",
+      "parentUuid": "2a56f8f6_ccde8247",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cb6450f_a9992ad5",
         "filename": "src/cmd/link/internal/ld/dwarf2.go",
         "patchSetId": 61
