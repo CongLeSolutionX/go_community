@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8adb95a1_36124c03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T18:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc765fd2_9f00a9fa",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b86e427_ee5e4894",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "0d5c27d3_0bf5fe58",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T18:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b86e427_ee5e4894",
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35768984_5e4782b2",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b00b39f6_b0870e6c",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T18:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35768984_5e4782b2",
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75af1e2c_14a8ce42",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-14T18:33:14Z",
+      "side": 1,
+      "message": "Eliminating small reads makes this comment moot.",
+      "parentUuid": "01c07f85_e5694000",
+      "range": {
+        "startLine": 606,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 4
+      },
+      "revId": "06ee34d7c31e035da3098c4ee89ac8aecdf61e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
