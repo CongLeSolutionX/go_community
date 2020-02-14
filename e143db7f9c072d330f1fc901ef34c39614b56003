@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "22df6103_906ef330",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 63
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-14T20:45:06Z",
+      "side": 1,
+      "message": "It is an interesting idea... batch allocation is probably a good thing since we only create DIEs for live symbols. I\u0027ll make a note.",
+      "parentUuid": "c32c9000_999a4d1c",
+      "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65fdc624_cbed5ece",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 63
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "06a909a6_86ec87ab",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 63
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-14T20:45:06Z",
+      "side": 1,
+      "message": "It\u0027s worth trying, might help. I think at one point during the distant past this might not have been possible, but at the moment every DIE created in the linker does have a name. I\u0027ll make a note.",
+      "parentUuid": "65fdc624_cbed5ece",
+      "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4f048fe_ecad1069",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 63
@@ -47,6 +83,24 @@
       "writtenOn": "2020-02-14T20:23:38Z",
       "side": 1,
       "message": "Looking at this function, there seems a lot of duplication, and I can envision the first cases in this switch handled by a map lookup on kind. I don\u0027t know how much of dwarf generation is spent here, but seems a possible easy optimization for some future date.",
+      "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dc69549_b39406ee",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 63
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-14T20:45:06Z",
+      "side": 1,
+      "message": "In my defense, it was pretty big and hairy even before I started hacking on it :-).\n\nOne thing that I think would help this routine to expand on the \"prototype\" DIE idea, e.g. create a DIE object for a basetype and keep it lying around, then when you need to create a new KindBasetype die you clone the prototype and then just fix up a field or two.\n\nI think there is also a heck of a lot of room for improvement in the DIE/ATTR representation. Rather than have a linked list of attrs in each DIE (expensive pointers), the attrs should be a slice of attr indices, where each index points into a big shared table. That way we could have all DIEs share the same single DW_AT_byte_size attr with value 8, that sort of thing.\n\nWith that said, I think the priority is to get things working first.",
+      "parentUuid": "b4f048fe_ecad1069",
       "revId": "e143db7f9c072d330f1fc901ef34c39614b56003",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
