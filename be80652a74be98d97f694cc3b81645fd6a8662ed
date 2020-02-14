@@ -163,6 +163,30 @@
       "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb77b5dd_814e7b7b",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-14T15:28:45Z",
+      "side": 1,
+      "message": "The use in xcoff is a red herring here I think.  xcoff has to rename a symbol, and the sym.Syms.Rename method asks for the reachparent map because it needs to update it in the case where something is being renamed before field tracking. doxcoff however happens after fieldtrack, so really it should be passing nil there. Might be worth sending a CL to clean this up.",
+      "parentUuid": "c3ecd9ac_bafe7374",
+      "range": {
+        "startLine": 1706,
+        "startChar": 0,
+        "endLine": 1711,
+        "endChar": 2
+      },
+      "revId": "be80652a74be98d97f694cc3b81645fd6a8662ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
