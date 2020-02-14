@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b036e2e7_f68a3b5e",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-14T22:23:53Z",
+      "side": 1,
+      "message": "Maybe add a comment mentioning that this is backed by read-only memory (as opposite of being an ELF read-only section).",
+      "revId": "72df4b01cd3e536125c162ddfed1f5d448a4bad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
