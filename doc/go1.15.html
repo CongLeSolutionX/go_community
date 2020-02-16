@@ -67,6 +67,12 @@ TODO
       that reports the time at which the test binary will have exceeded its
       timeout.
     </p>
+    <p><!-- golang.org/issue/34129 -->
+      The <code>TestMain</code> is not required to call <code>os.Exit</code>.
+      <code>testing.M.Run</code> records its own exit code, then pass to 
+      <code>os.Exit</code> with that result if <code>TestMain</code> returns.
+    </p>
+  </dd>
 </dl><!-- testing -->
 
 <h3 id="minor_library_changes">Minor changes to the library</h3>
