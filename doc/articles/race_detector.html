@@ -379,6 +379,42 @@ func (w *Watchdog) Start() {
 }
 </pre>
 
+<h3 id="Unsynchronized_send_and_close_operations">Unsynchronized send and close operations</h3>
+
+<p>
+Unsynchronized send and close operations on a channel can also be
+detected as data races, as in this example:
+</p>
+
+<pre>
+func main() {
+	var c = make(chan struct{}) // or buffered channel
+	// The execution order of following concurrent
+	// send and close operations is non-deterministic.
+	go func() {
+		c <- struct{}{}
+	}()
+	close(c)
+}
+</pre>
+
+<p>
+A fix is to use a receive operation to synchronize the send and close,
+because a send on a channel happens before the corresponding receive
+from that channel completes:
+</p>
+
+<pre>
+func main() {
+	var c = make(chan struct{}) // or buffered channel
+	go func() {
+		c <- struct{}{}
+	}()
+	<-c
+	close(c)
+}
+</pre>
+
 <h2 id="Supported_Systems">Supported Systems</h2>
 
 <p>
