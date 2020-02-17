@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef5ba508_b6e5cea8",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-17T04:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32ac14bb_45953e84",
+      "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dbe3f4e_f104457a",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-14T16:35:16Z",
       "side": 1,
       "message": "Nit: I think it\u0027s better for callers to just say f.Pos.IsValid().",
+      "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b74e4784_c5119e90",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-17T04:13:16Z",
+      "side": 1,
+      "message": "Here is the compiler error message I get when I do that:\n\npkg.go:350:45: cannot call pointer method on stack.LastFrame().Pos\n\nI have no idea why Position IsValid() has a pointer receiver.\n\nhttps://golang.org/pkg/go/token/#Position.IsValid",
+      "parentUuid": "5dbe3f4e_f104457a",
       "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e03a10bb_efc5ef78",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 34965
+      },
+      "writtenOn": "2020-02-17T04:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17809cf4_2ec9e26f",
+      "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
