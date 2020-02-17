@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcc31990_590932bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-02-17T20:34:44Z",
+      "side": 1,
+      "message": "generate, not generates",
+      "revId": "1731763ee863d3db2c8536d112b0139d6721e0d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
