@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0571454a_90f4af6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T22:04:58Z",
+      "side": 1,
+      "message": "(https://golang.org/doc/contribute.html#first_line)\n\nThis part of the first line should complete the sentence “This change modifies Go to ….”, so s/fixed/fix/\n\nBut “fix” isn\u0027t particularly descriptive either: at this point in the project\u0027s lifecycle, _most_ changes are fixes.\n\nSo perhaps instead, “cmd/go: escape $WORK in ccompile when -n is set”",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "b790d4fb3a26957e751791d6471a2b6ee2ec6215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "357a71cf_6b89949f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T22:04:58Z",
+      "side": 1,
+      "message": "Please add a regression test in src/cmd/go/testdata/script.",
+      "revId": "b790d4fb3a26957e751791d6471a2b6ee2ec6215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b27367d_7ff6e517",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T22:04:58Z",
+      "side": 1,
+      "message": "(nit) no colon after “Fixes”",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "b790d4fb3a26957e751791d6471a2b6ee2ec6215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
