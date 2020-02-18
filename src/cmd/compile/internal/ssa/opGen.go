@@ -17358,7 +17358,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "BFI",
-		auxType:      auxInt64,
+		auxType:      auxARM64BitField,
 		argLen:       2,
 		resultInArg0: true,
 		asm:          arm64.ABFI,
@@ -17374,7 +17374,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "BFXIL",
-		auxType:      auxInt64,
+		auxType:      auxARM64BitField,
 		argLen:       2,
 		resultInArg0: true,
 		asm:          arm64.ABFXIL,
@@ -17390,7 +17390,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "SBFIZ",
-		auxType: auxInt64,
+		auxType: auxARM64BitField,
 		argLen:  1,
 		asm:     arm64.ASBFIZ,
 		reg: regInfo{
@@ -17404,7 +17404,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "SBFX",
-		auxType: auxInt64,
+		auxType: auxARM64BitField,
 		argLen:  1,
 		asm:     arm64.ASBFX,
 		reg: regInfo{
@@ -17418,7 +17418,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "UBFIZ",
-		auxType: auxInt64,
+		auxType: auxARM64BitField,
 		argLen:  1,
 		asm:     arm64.AUBFIZ,
 		reg: regInfo{
@@ -17432,7 +17432,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "UBFX",
-		auxType: auxInt64,
+		auxType: auxARM64BitField,
 		argLen:  1,
 		asm:     arm64.AUBFX,
 		reg: regInfo{
