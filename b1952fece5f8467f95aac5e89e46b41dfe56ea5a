@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "34dc03fd_b4c82560",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-18T21:47:49Z",
+      "side": 1,
+      "message": "Good point. Maybe we don\u0027t use aux for this, then.",
+      "parentUuid": "d2aca736_1ddd4d03",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4f402be_c7fb2546",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 61
@@ -406,6 +424,24 @@
       "side": 1,
       "message": "You mean link via aux symbol? Yes, I think that would be helpful. I\u0027ll add a note",
       "parentUuid": "faa05468_99a4d483",
+      "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f9431ce_74d575be",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-18T21:47:49Z",
+      "side": 1,
+      "message": "Yeah, an aux symbol is fine. The type symbol also already has a relocation on its ptrToThis field, see cmd/compile/internal/gc/reflect.go:dcommontype. We could follow that link.",
+      "parentUuid": "567ceb60_d4bd7921",
       "revId": "b1952fece5f8467f95aac5e89e46b41dfe56ea5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
