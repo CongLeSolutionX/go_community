@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf510453_6cdeb128",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "The amount of complexity that we\u0027re needing to add to the PackageError type suggests that this issue should be addressed elsewhere in the code instead. (See my longer comment below.)",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 338,
+        "endChar": 1
+      },
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f41834_24be59a0",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "I still think this should be addressed at the construction site rather than as a post-processing step on the returned PackageError: we should truncate the stack at the point where the error occurs (currently the second-to-last frame) rather that appending an additional frame for the prohibited package.\n\nThat is: instead of constructing a PathError like:\n\n\t\u0026PackageError{\n\t\tImportStack: []string{\n\t\t\t\"a\",\n\t\t\t\"a/x/internal/y\",\n\t\t},\n\t\tPos: token.Position{\n\t\t\tFilename: \"a.go\",\n\t\t\tLine:     5,\n\t\t\tColumn:   3,\n\t\t}.String(),\n\t\tErr: ImportErrorf(\"a/x/internal/y\", \"use of internal package %s not allowed\", \"a/x/internal/y\"),\n\t}\n\nwe should construct one like:\n\n\t\u0026PackageError{\n\t\tImportStack: []string{\n\t\t\t\"a\",\n\t\t},\n\t\tPos: token.Position{\n\t\t\tFilename: \"a.go\",\n\t\t\tLine:     5,\n\t\t\tColumn:   3,\n\t\t}.String(),\n\t\tErr: ImportErrorf(\"a/x/internal/y\", \"use of internal package %s not allowed\", \"a/x/internal/y\"),\n\t}\n\nThen we don\u0027t need to check the second-to-last element, because the last element is (invariantly) the package in which the actual error was found.",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 34
+      },
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c831c508_ecaa2fc4",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "It seems strange to accept a whole slice of token.Positionswhen we really only care about the first element. (And why only the first one instead of only the last one?)\n\nInstead, how about an evocatively-named helper function that accepts a `[]token.Position` and returns either the last element or a zero `token.Position`? That would make the semantics of the call sites much clearer — especially the call sites that end up setting the `Pos` field to the zero-value.",
+      "range": {
+        "startLine": 463,
+        "startChar": 15,
+        "endLine": 463,
+        "endChar": 27
+      },
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b031691_5358594f",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "This method doesn\u0027t seem worth the indirection — as far as I can tell, calling the method saves only one character over writing out the body inline, and there is no additional documentation on the method (so it also doesn\u0027t serve to, say, consolidate occurrences of a subtle comment).",
+      "range": {
+        "startLine": 468,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 1
+      },
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96bda3d0_ae56a7ba",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "(https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences)\n\n// Push pushes …",
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aad11956_0fe4ec17",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "Generally a given type should be treated consistently as either a “value type” (with non-mutating methods), such as a time.Time or a slice type, or a “reference type” (with mutating-in-place methods), such as a `*list.List` or `*token.FileSet`.\n\n`ImportStack` is more of a reference type, so its `Copy` method should return a pointer.\n\n(I realize that to some extent this is an existing defect in the API, but you\u0027re already changing the return type in this CL — so we may as well change it to the best alternative.)",
+      "range": {
+        "startLine": 503,
+        "startChar": 29,
+        "endLine": 503,
+        "endChar": 40
+      },
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee162722_637cbb3d",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "*ImportStack",
+      "range": {
+        "startLine": 510,
+        "startChar": 36,
+        "endLine": 510,
+        "endChar": 47
+      },
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

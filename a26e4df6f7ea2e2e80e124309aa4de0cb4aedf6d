@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "6902de07_5888102a",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-18T17:20:43Z",
+      "side": 1,
+      "message": "That suggests that `stack.LastFrame` should return a pointer rather than a value.\n\n(Given inlining and escape analysis, the two are more-or-less equivalent at run time anyway.)",
+      "parentUuid": "b74e4784_c5119e90",
+      "revId": "a26e4df6f7ea2e2e80e124309aa4de0cb4aedf6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17809cf4_2ec9e26f",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 8
