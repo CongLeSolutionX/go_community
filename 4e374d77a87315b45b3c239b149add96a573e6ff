@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "336927c4_3d1ddec7",
+        "filename": "src/os/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-02-18T14:56:23Z",
+      "side": 1,
+      "message": "This looks like a duplication of the line above.",
+      "revId": "4e374d77a87315b45b3c239b149add96a573e6ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "413a6458_c087d610",
+        "filename": "src/os/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-02-18T14:56:23Z",
+      "side": 1,
+      "message": "Same here, this looks like a duplicate of the line above.",
+      "revId": "4e374d77a87315b45b3c239b149add96a573e6ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
