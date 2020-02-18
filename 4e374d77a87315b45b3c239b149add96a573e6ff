@@ -33,6 +33,24 @@
       "revId": "4e374d77a87315b45b3c239b149add96a573e6ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46535005_6a411e7a",
+        "filename": "src/os/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 34941
+      },
+      "writtenOn": "2020-02-18T16:44:27Z",
+      "side": 1,
+      "message": "I have copied all existing cases and wrapped tested errors. This is to ensure that wrapping an error does not produce a different result. It is very repetitive, but I hope it is readable.\n\nIf you can propose how to improve those tests please let me know and I will apply the change.",
+      "parentUuid": "413a6458_c087d610",
+      "revId": "4e374d77a87315b45b3c239b149add96a573e6ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
