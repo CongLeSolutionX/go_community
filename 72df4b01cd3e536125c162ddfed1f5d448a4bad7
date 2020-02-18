@@ -16,6 +16,24 @@
       "revId": "72df4b01cd3e536125c162ddfed1f5d448a4bad7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e0d9680_e51da15b",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-18T15:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b036e2e7_f68a3b5e",
+      "revId": "72df4b01cd3e536125c162ddfed1f5d448a4bad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
