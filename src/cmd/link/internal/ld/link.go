@@ -98,8 +98,6 @@ type Link struct {
 	compUnits []*sym.CompilationUnit // DWARF compilation units
 	runtimeCU *sym.CompilationUnit   // One of the runtime CUs, the last one seen.
 
-	relocbuf []byte // temporary buffer for applying relocations
-
 	loader  *loader.Loader
 	cgodata []cgodata // cgo directives to load, three strings are args for loadcgo
 
