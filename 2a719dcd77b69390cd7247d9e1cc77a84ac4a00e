@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c38f3c5_74835fdd",
+        "filename": "src/cmd/go/testdata/script/build_vendor.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-19T20:40:20Z",
+      "side": 1,
+      "message": "Several tests seem to use the same set of files. Can they be consolidated into a single test to avoid repetition? build_vendor.txt or just vendor.txt would be fine.",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15b63967_4ef69a52",
+        "filename": "src/cmd/go/testdata/script/vendor_cache.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-19T20:40:20Z",
+      "side": 1,
+      "message": "Rename to vendor_resolve.txt or vendor_import.txt. vendor_cache.txt makes it sound like this is related to the build cache.",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a94e223c_61249c84",
+        "filename": "src/cmd/go/testdata/script/vendor_get.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-19T20:40:20Z",
+      "side": 1,
+      "message": "Nit: rename to get_vendor.txt. The name of the command should come first if a specific command is being tested.",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b6ad09_9e3ef0d1",
+        "filename": "src/cmd/go/testdata/script/vendor_get.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-19T20:40:20Z",
+      "side": 1,
+      "message": "Nit: trailing whitespace.",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 7
+      },
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c8ff47b_5cb9d5d7",
+        "filename": "src/cmd/go/testdata/script/vendor_gopath.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-19T20:40:20Z",
+      "side": 1,
+      "message": "Are all the files below needed to reproduce this problem? It seems like a fairly narrow regression test.\n\nAlso, is there an issue that this test verifies?",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c053dca4_0904df3c",
+        "filename": "src/cmd/go/testdata/script/vendor_list.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-02-19T20:40:20Z",
+      "side": 1,
+      "message": "This test should probably have the issue number in its name. vendor_list.txt makes it sound much more generic.",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
