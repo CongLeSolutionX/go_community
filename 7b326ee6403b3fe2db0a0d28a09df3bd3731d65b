@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea585482_ddd9e9fa",
+        "filename": "src/cmd/go/testdata/script/list_shadow.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-19T23:25:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "048d2b36_0c5ceb28",
+      "revId": "7b326ee6403b3fe2db0a0d28a09df3bd3731d65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbd91627_e1f8872c",
         "filename": "src/cmd/go/testdata/script/list_shadow.txt",
         "patchSetId": 17
@@ -39,6 +57,30 @@
       "revId": "7b326ee6403b3fe2db0a0d28a09df3bd3731d65b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8665ff1a_d7a58b4c",
+        "filename": "src/cmd/go/testdata/script/list_shadow.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-19T23:25:25Z",
+      "side": 1,
+      "message": "Removed the comment, because it no longer applies.\n\nThe following code in the original test was trying to apply makeImportValid in a simplified way and then check the output path. But now we use a regexp (and match at \u0027src\u0027 to make sure it\u0027s against the correct directory).\n\n\tpwdForwardSlash :\u003d strings.ReplaceAll(pwd, string(os.PathSeparator), \"/\")\n\tif !strings.HasPrefix(pwdForwardSlash, \"/\") {\n\t\tpwdForwardSlash \u003d \"/\" + pwdForwardSlash\n\t}\n\t// The output will have makeImportValid applies, but we only\n\t// bother to deal with characters we might reasonably see.\n\tfor _, r :\u003d range \" :\" {\n\t\tpwdForwardSlash \u003d strings.ReplaceAll(pwdForwardSlash, string(r), \"_\")\n\t}\n\twant :\u003d \"(_\" + pwdForwardSlash + \"/testdata/shadow/root1/src/math) (\" + filepath.Join(runtime.GOROOT(), \"src\", \"math\") + \")\"",
+      "parentUuid": "fbd91627_e1f8872c",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 47
+      },
+      "revId": "7b326ee6403b3fe2db0a0d28a09df3bd3731d65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
