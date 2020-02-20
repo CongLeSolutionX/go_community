@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f1a9709_3fdc21d1",
+        "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-20T21:07:10Z",
+      "side": 1,
+      "message": "go$GOEXE",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "fa3e6d46fd5c492c4114783c18fb7789e2272d7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e85e7339_eed1f961",
+        "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-20T21:07:10Z",
+      "side": 1,
+      "message": "I am skeptical that this will actually work. The `cp` command is implemented using ioutil.WriteFile, which AFAIK makes no effort to ensure that other threads do not retain the file descriptor.\n\nTo make this work with the script framework, we\u0027ll either need to change the `cmdCp` implementation to do something drastic (like changing runtime.GOMAXPROCS to 1 or executing a subprocess), or find a way to use the `go` command itself to relocate the binary.\n\nPerhaps we should do the latter. Maybe run `go build -o $WORK/new/bin/go$GOEXE cmd/go` instead of copying the existing binary?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "fa3e6d46fd5c492c4114783c18fb7789e2272d7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb35f163_0e262eb7",
+        "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-20T21:07:10Z",
+      "side": 1,
+      "message": "(nit) trailing whitespace throughout",
+      "range": {
+        "startLine": 24,
+        "startChar": 58,
+        "endLine": 24,
+        "endChar": 59
+      },
+      "revId": "fa3e6d46fd5c492c4114783c18fb7789e2272d7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
