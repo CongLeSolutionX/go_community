@@ -18,6 +18,9 @@ func Acquire(addr unsafe.Pointer) {
 func Release(addr unsafe.Pointer) {
 }
 
+func ReleaseAcquire(addr unsafe.Pointer) {
+}
+
 func ReleaseMerge(addr unsafe.Pointer) {
 }
 
