@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5e80722e_ec09942d",
+        "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T21:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f1a9709_3fdc21d1",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "fa3e6d46fd5c492c4114783c18fb7789e2272d7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb35f163_0e262eb7",
         "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
         "patchSetId": 2
@@ -68,6 +92,30 @@
       "revId": "fa3e6d46fd5c492c4114783c18fb7789e2272d7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcdadf98_46d42d97",
+        "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T21:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb35f163_0e262eb7",
+      "range": {
+        "startLine": 24,
+        "startChar": 58,
+        "endLine": 24,
+        "endChar": 59
+      },
+      "revId": "fa3e6d46fd5c492c4114783c18fb7789e2272d7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
