@@ -575,52 +575,20 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpFMA_0(v)
 	case OpFloor:
 		return rewriteValueARM64_OpFloor_0(v)
-	case OpGeq16:
-		return rewriteValueARM64_OpGeq16_0(v)
-	case OpGeq16U:
-		return rewriteValueARM64_OpGeq16U_0(v)
-	case OpGeq32:
-		return rewriteValueARM64_OpGeq32_0(v)
 	case OpGeq32F:
 		return rewriteValueARM64_OpGeq32F_0(v)
-	case OpGeq32U:
-		return rewriteValueARM64_OpGeq32U_0(v)
-	case OpGeq64:
-		return rewriteValueARM64_OpGeq64_0(v)
 	case OpGeq64F:
 		return rewriteValueARM64_OpGeq64F_0(v)
-	case OpGeq64U:
-		return rewriteValueARM64_OpGeq64U_0(v)
-	case OpGeq8:
-		return rewriteValueARM64_OpGeq8_0(v)
-	case OpGeq8U:
-		return rewriteValueARM64_OpGeq8U_0(v)
 	case OpGetCallerPC:
 		return rewriteValueARM64_OpGetCallerPC_0(v)
 	case OpGetCallerSP:
 		return rewriteValueARM64_OpGetCallerSP_0(v)
 	case OpGetClosurePtr:
 		return rewriteValueARM64_OpGetClosurePtr_0(v)
-	case OpGreater16:
-		return rewriteValueARM64_OpGreater16_0(v)
-	case OpGreater16U:
-		return rewriteValueARM64_OpGreater16U_0(v)
-	case OpGreater32:
-		return rewriteValueARM64_OpGreater32_0(v)
 	case OpGreater32F:
 		return rewriteValueARM64_OpGreater32F_0(v)
-	case OpGreater32U:
-		return rewriteValueARM64_OpGreater32U_0(v)
-	case OpGreater64:
-		return rewriteValueARM64_OpGreater64_0(v)
 	case OpGreater64F:
 		return rewriteValueARM64_OpGreater64F_0(v)
-	case OpGreater64U:
-		return rewriteValueARM64_OpGreater64U_0(v)
-	case OpGreater8:
-		return rewriteValueARM64_OpGreater8_0(v)
-	case OpGreater8U:
-		return rewriteValueARM64_OpGreater8U_0(v)
 	case OpHmul32:
 		return rewriteValueARM64_OpHmul32_0(v)
 	case OpHmul32u:
@@ -24926,61 +24894,6 @@ func rewriteValueARM64_OpFloor_0(v *Value) bool {
 		return true
 	}
 }
-func rewriteValueARM64_OpGeq16_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Geq16 x y)
-	// result: (GreaterEqual (CMPW (SignExt16to32 x) (SignExt16to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqual)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpSignExt16to32, typ.Int32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpSignExt16to32, typ.Int32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGeq16U_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Geq16U x y)
-	// result: (GreaterEqualU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqualU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGeq32_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq32 x y)
-	// result: (GreaterEqual (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqual)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
 func rewriteValueARM64_OpGeq32F_0(v *Value) bool {
 	b := v.Block
 	// match: (Geq32F x y)
@@ -24990,36 +24903,6 @@ func rewriteValueARM64_OpGeq32F_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpARM64GreaterEqualF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPS, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGeq32U_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq32U x y)
-	// result: (GreaterEqualU (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqualU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGeq64_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq64 x y)
-	// result: (GreaterEqual (CMP x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqual)
-		v0 := b.NewValue0(v.Pos, OpARM64CMP, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -25037,61 +24920,6 @@ func rewriteValueARM64_OpGeq64F_0(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPD, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGeq64U_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq64U x y)
-	// result: (GreaterEqualU (CMP x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqualU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMP, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGeq8_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Geq8 x y)
-	// result: (GreaterEqual (CMPW (SignExt8to32 x) (SignExt8to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqual)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpSignExt8to32, typ.Int32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpSignExt8to32, typ.Int32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGeq8U_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Geq8U x y)
-	// result: (GreaterEqualU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterEqualU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpZeroExt8to32, typ.UInt32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpZeroExt8to32, typ.UInt32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
 		v.AddArg(v0)
 		return true
 	}
@@ -25120,61 +24948,6 @@ func rewriteValueARM64_OpGetClosurePtr_0(v *Value) bool {
 		return true
 	}
 }
-func rewriteValueARM64_OpGreater16_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Greater16 x y)
-	// result: (GreaterThan (CMPW (SignExt16to32 x) (SignExt16to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThan)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpSignExt16to32, typ.Int32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpSignExt16to32, typ.Int32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGreater16U_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Greater16U x y)
-	// result: (GreaterThanU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThanU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGreater32_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater32 x y)
-	// result: (GreaterThan (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThan)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
 func rewriteValueARM64_OpGreater32F_0(v *Value) bool {
 	b := v.Block
 	// match: (Greater32F x y)
@@ -25184,36 +24957,6 @@ func rewriteValueARM64_OpGreater32F_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpARM64GreaterThanF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPS, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGreater32U_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater32U x y)
-	// result: (GreaterThanU (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThanU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGreater64_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater64 x y)
-	// result: (GreaterThan (CMP x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThan)
-		v0 := b.NewValue0(v.Pos, OpARM64CMP, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -25231,61 +24974,6 @@ func rewriteValueARM64_OpGreater64F_0(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPD, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGreater64U_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater64U x y)
-	// result: (GreaterThanU (CMP x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThanU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMP, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGreater8_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Greater8 x y)
-	// result: (GreaterThan (CMPW (SignExt8to32 x) (SignExt8to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThan)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpSignExt8to32, typ.Int32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpSignExt8to32, typ.Int32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValueARM64_OpGreater8U_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Greater8U x y)
-	// result: (GreaterThanU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(OpARM64GreaterThanU)
-		v0 := b.NewValue0(v.Pos, OpARM64CMPW, types.TypeFlags)
-		v1 := b.NewValue0(v.Pos, OpZeroExt8to32, typ.UInt32)
-		v1.AddArg(x)
-		v0.AddArg(v1)
-		v2 := b.NewValue0(v.Pos, OpZeroExt8to32, typ.UInt32)
-		v2.AddArg(y)
-		v0.AddArg(v2)
 		v.AddArg(v0)
 		return true
 	}

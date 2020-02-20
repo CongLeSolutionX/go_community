@@ -406,22 +406,10 @@ func rewriteValue386(v *Value) bool {
 		return rewriteValue386_OpEqB_0(v)
 	case OpEqPtr:
 		return rewriteValue386_OpEqPtr_0(v)
-	case OpGeq16:
-		return rewriteValue386_OpGeq16_0(v)
-	case OpGeq16U:
-		return rewriteValue386_OpGeq16U_0(v)
-	case OpGeq32:
-		return rewriteValue386_OpGeq32_0(v)
 	case OpGeq32F:
 		return rewriteValue386_OpGeq32F_0(v)
-	case OpGeq32U:
-		return rewriteValue386_OpGeq32U_0(v)
 	case OpGeq64F:
 		return rewriteValue386_OpGeq64F_0(v)
-	case OpGeq8:
-		return rewriteValue386_OpGeq8_0(v)
-	case OpGeq8U:
-		return rewriteValue386_OpGeq8U_0(v)
 	case OpGetCallerPC:
 		return rewriteValue386_OpGetCallerPC_0(v)
 	case OpGetCallerSP:
@@ -430,22 +418,10 @@ func rewriteValue386(v *Value) bool {
 		return rewriteValue386_OpGetClosurePtr_0(v)
 	case OpGetG:
 		return rewriteValue386_OpGetG_0(v)
-	case OpGreater16:
-		return rewriteValue386_OpGreater16_0(v)
-	case OpGreater16U:
-		return rewriteValue386_OpGreater16U_0(v)
-	case OpGreater32:
-		return rewriteValue386_OpGreater32_0(v)
 	case OpGreater32F:
 		return rewriteValue386_OpGreater32F_0(v)
-	case OpGreater32U:
-		return rewriteValue386_OpGreater32U_0(v)
 	case OpGreater64F:
 		return rewriteValue386_OpGreater64F_0(v)
-	case OpGreater8:
-		return rewriteValue386_OpGreater8_0(v)
-	case OpGreater8U:
-		return rewriteValue386_OpGreater8U_0(v)
 	case OpHmul32:
 		return rewriteValue386_OpHmul32_0(v)
 	case OpHmul32u:
@@ -14315,51 +14291,6 @@ func rewriteValue386_OpEqPtr_0(v *Value) bool {
 		return true
 	}
 }
-func rewriteValue386_OpGeq16_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq16 x y)
-	// result: (SETGE (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETGE)
-		v0 := b.NewValue0(v.Pos, Op386CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGeq16U_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq16U x y)
-	// result: (SETAE (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETAE)
-		v0 := b.NewValue0(v.Pos, Op386CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGeq32_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq32 x y)
-	// result: (SETGE (CMPL x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETGE)
-		v0 := b.NewValue0(v.Pos, Op386CMPL, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
 func rewriteValue386_OpGeq32F_0(v *Value) bool {
 	b := v.Block
 	// match: (Geq32F x y)
@@ -14375,21 +14306,6 @@ func rewriteValue386_OpGeq32F_0(v *Value) bool {
 		return true
 	}
 }
-func rewriteValue386_OpGeq32U_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq32U x y)
-	// result: (SETAE (CMPL x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETAE)
-		v0 := b.NewValue0(v.Pos, Op386CMPL, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
 func rewriteValue386_OpGeq64F_0(v *Value) bool {
 	b := v.Block
 	// match: (Geq64F x y)
@@ -14399,36 +14315,6 @@ func rewriteValue386_OpGeq64F_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(Op386SETGEF)
 		v0 := b.NewValue0(v.Pos, Op386UCOMISD, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGeq8_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq8 x y)
-	// result: (SETGE (CMPB x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETGE)
-		v0 := b.NewValue0(v.Pos, Op386CMPB, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGeq8U_0(v *Value) bool {
-	b := v.Block
-	// match: (Geq8U x y)
-	// result: (SETAE (CMPB x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETAE)
-		v0 := b.NewValue0(v.Pos, Op386CMPB, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -14469,51 +14355,6 @@ func rewriteValue386_OpGetG_0(v *Value) bool {
 		return true
 	}
 }
-func rewriteValue386_OpGreater16_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater16 x y)
-	// result: (SETG (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETG)
-		v0 := b.NewValue0(v.Pos, Op386CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGreater16U_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater16U x y)
-	// result: (SETA (CMPW x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETA)
-		v0 := b.NewValue0(v.Pos, Op386CMPW, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGreater32_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater32 x y)
-	// result: (SETG (CMPL x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETG)
-		v0 := b.NewValue0(v.Pos, Op386CMPL, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
 func rewriteValue386_OpGreater32F_0(v *Value) bool {
 	b := v.Block
 	// match: (Greater32F x y)
@@ -14529,21 +14370,6 @@ func rewriteValue386_OpGreater32F_0(v *Value) bool {
 		return true
 	}
 }
-func rewriteValue386_OpGreater32U_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater32U x y)
-	// result: (SETA (CMPL x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETA)
-		v0 := b.NewValue0(v.Pos, Op386CMPL, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
 func rewriteValue386_OpGreater64F_0(v *Value) bool {
 	b := v.Block
 	// match: (Greater64F x y)
@@ -14553,36 +14379,6 @@ func rewriteValue386_OpGreater64F_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(Op386SETGF)
 		v0 := b.NewValue0(v.Pos, Op386UCOMISD, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGreater8_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater8 x y)
-	// result: (SETG (CMPB x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETG)
-		v0 := b.NewValue0(v.Pos, Op386CMPB, types.TypeFlags)
-		v0.AddArg(x)
-		v0.AddArg(y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGreater8U_0(v *Value) bool {
-	b := v.Block
-	// match: (Greater8U x y)
-	// result: (SETA (CMPB x y))
-	for {
-		y := v.Args[1]
-		x := v.Args[0]
-		v.reset(Op386SETA)
-		v0 := b.NewValue0(v.Pos, Op386CMPB, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
