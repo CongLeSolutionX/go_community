@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b4ebdb_93e7a1dd",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-20T05:36:50Z",
+      "side": 1,
+      "message": "This is unused after CL 143023 and can also be deleted.",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 1
+      },
+      "revId": "0b0add64269f20a7274e74f1449d338a1197b66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
