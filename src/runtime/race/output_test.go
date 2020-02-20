@@ -338,4 +338,68 @@ func TestPass(t *testing.T) {
 --- FAIL: TestFail \(0...s\)
 .*testing.go:.*: race detected during execution of test
 FAIL`},
+	// Test for https://github.com/golang/go/issues/37355
+	{"chanmm", "run", "", "atexit_sleep_ms=0", `
+// A race should have been reported between the writes in t2 and t4
+package main
+
+import (
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
+var z = 0
+
+func t1(c chan bool) {
+	defer wg.Done()
+	c <- true
+}
+
+func t2(c chan bool) {
+	defer wg.Done()
+	z = 82
+	<-c
+}
+
+func t3(c chan bool) {
+	defer wg.Done()
+	time.Sleep(time.Second)
+	c <- true
+}
+
+func t4(c chan bool) {
+	defer wg.Done()
+	time.Sleep(time.Second)
+	<-c
+	z = 1509
+}
+
+func main() {
+	c := make(chan bool, 1)
+	wg.Add(4)
+	go t1(c)
+	go t2(c)
+	go t3(c)
+	go t4(c)
+	wg.Wait()
+}
+`, `==================
+WARNING: DATA RACE
+Write at 0x[0-9,a-f]+ by goroutine [0-9]:
+  main\.t4\(\)
+      .*/main\.go:34 \+0x[0-9,a-f]+
+
+Previous write at 0x[0-9,a-f]+ by goroutine [0-9]:
+  main\.t2\(\)
+      .*/main\.go:20 \+0x[0-9,a-f]+
+
+Goroutine [0-9] \(running\) created at:
+  main\.main\(\)
+      .*/main.go:[0-9]+ \+0x[0-9,a-f]+
+
+Goroutine [0-9] \(finished\) created at:
+  main\.main\(\)
+      .*/main.go:[0-9]+ \+0x[0-9,a-f]+
+==================`},
 }
