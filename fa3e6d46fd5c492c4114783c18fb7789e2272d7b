@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4634179b_3e115209",
+        "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T21:11:55Z",
+      "side": 1,
+      "message": "okay, modified the test to rebuild cmd/go.",
+      "parentUuid": "e85e7339_eed1f961",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "fa3e6d46fd5c492c4114783c18fb7789e2272d7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb35f163_0e262eb7",
         "filename": "src/cmd/go/testdata/script/goroot_executable.txt",
         "patchSetId": 2
