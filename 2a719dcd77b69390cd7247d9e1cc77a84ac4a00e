@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "85ec30b9_89872a83",
+        "filename": "src/cmd/go/testdata/script/build_vendor.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T00:30:09Z",
+      "side": 1,
+      "message": "I\u0027d like to keep the tests separate if we can, since they\u0027re run in short mode, and do builds.\n\nBut I think I can remove a bunch of unnecessary files.",
+      "parentUuid": "1c38f3c5_74835fdd",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15b63967_4ef69a52",
         "filename": "src/cmd/go/testdata/script/vendor_cache.txt",
         "patchSetId": 17
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "58886245_2060c37f",
+        "filename": "src/cmd/go/testdata/script/vendor_cache.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T00:30:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15b63967_4ef69a52",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a94e223c_61249c84",
         "filename": "src/cmd/go/testdata/script/vendor_get.txt",
         "patchSetId": 17
@@ -50,6 +86,24 @@
       "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f298dc7_63262f10",
+        "filename": "src/cmd/go/testdata/script/vendor_get.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T00:30:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a94e223c_61249c84",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "a246769b_fe5f72e7",
+        "filename": "src/cmd/go/testdata/script/vendor_get.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T00:30:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23b6ad09_9e3ef0d1",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 7
+      },
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c8ff47b_5cb9d5d7",
         "filename": "src/cmd/go/testdata/script/vendor_gopath.txt",
         "patchSetId": 17
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "8e0d6b78_2433f891",
+        "filename": "src/cmd/go/testdata/script/vendor_gopath.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T00:30:09Z",
+      "side": 1,
+      "message": "removed extra files.\n\nYes, it\u0027s https://github.com/golang/go/issues/11409. Added issueid to file name.",
+      "parentUuid": "9c8ff47b_5cb9d5d7",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c053dca4_0904df3c",
         "filename": "src/cmd/go/testdata/script/vendor_list.txt",
         "patchSetId": 17
@@ -107,6 +203,24 @@
       "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce979020_635b02b8",
+        "filename": "src/cmd/go/testdata/script/vendor_list.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-20T00:30:09Z",
+      "side": 1,
+      "message": "okay, looking at the blame (https://go-review.googlesource.com/c/go/+/13230/), this seems related to issue 11977",
+      "parentUuid": "c053dca4_0904df3c",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
