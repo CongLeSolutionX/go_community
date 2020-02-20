@@ -47,7 +47,7 @@ func si64x8() {
 
 // Unsigned 64-bit compare-and-branch.
 func ui64(x, y chan uint64) {
-	// s390x:"CLGRJ\t[$]2, R[0-9]+, R[0-9]+, "
+	// s390x:"CLGRJ\t[$]4, R[0-9]+, R[0-9]+, "
 	for <-x > <-y {
 		dummy()
 	}
@@ -119,7 +119,7 @@ func si32x8() {
 
 // Unsigned 32-bit compare-and-branch.
 func ui32(x, y chan uint32) {
-	// s390x:"CLRJ\t[$]2, R[0-9]+, R[0-9]+, "
+	// s390x:"CLRJ\t[$]4, R[0-9]+, R[0-9]+, "
 	for <-x > <-y {
 		dummy()
 	}
