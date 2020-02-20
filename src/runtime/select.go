@@ -410,14 +410,14 @@ bufrecv:
 		if cas.elem != nil {
 			raceWriteObjectPC(c.elemtype, cas.elem, cas.pc, chanrecvpc)
 		}
-		raceacquire(chanbuf(c, c.recvx))
-		racerelease(chanbuf(c, c.recvx))
+		racerelease(chanbuf(c, c.recvx, false))
+		raceacquire(chanbuf(c, c.recvx, true))
 	}
 	if msanenabled && cas.elem != nil {
 		msanwrite(cas.elem, c.elemtype.size)
 	}
 	recvOK = true
-	qp = chanbuf(c, c.recvx)
+	qp = chanbuf(c, c.recvx, true)
 	if cas.elem != nil {
 		typedmemmove(c.elemtype, cas.elem, qp)
 	}
@@ -433,14 +433,14 @@ bufrecv:
 bufsend:
 	// can send to buffer
 	if raceenabled {
-		raceacquire(chanbuf(c, c.sendx))
-		racerelease(chanbuf(c, c.sendx))
+		racerelease(chanbuf(c, c.sendx, true))
+		raceacquire(chanbuf(c, c.sendx, false))
 		raceReadObjectPC(c.elemtype, cas.elem, cas.pc, chansendpc)
 	}
 	if msanenabled {
 		msanread(cas.elem, c.elemtype.size)
 	}
-	typedmemmove(c.elemtype, chanbuf(c, c.sendx), cas.elem)
+	typedmemmove(c.elemtype, chanbuf(c, c.sendx, true), cas.elem)
 	c.sendx++
 	if c.sendx == c.dataqsiz {
 		c.sendx = 0

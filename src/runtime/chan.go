@@ -33,6 +33,7 @@ type hchan struct {
 	qcount   uint           // total data in the queue
 	dataqsiz uint           // size of the circular queue
 	buf      unsafe.Pointer // points to an array of dataqsiz elements
+	backbuf  unsafe.Pointer // used for synchronization when race-detection is enabled
 	elemsize uint16
 	closed   uint32
 	elemtype *_type // element type
@@ -95,15 +96,19 @@ func makechan(t *chantype, size int) *hchan {
 		c = (*hchan)(mallocgc(hchanSize, nil, true))
 		// Race detector uses this location for synchronization.
 		c.buf = c.raceaddr()
+		// Forward and backward queues collapse into one.
+		// No need for setting c.backbuf
 	case elem.ptrdata == 0:
 		// Elements do not contain pointers.
 		// Allocate hchan and buf in one call.
 		c = (*hchan)(mallocgc(hchanSize+mem, nil, true))
 		c.buf = add(unsafe.Pointer(c), hchanSize)
+		c.backbuf = add(unsafe.Pointer(c.buf), hchanSize)
 	default:
 		// Elements contain pointers.
 		c = new(hchan)
 		c.buf = mallocgc(mem, elem, true)
+		c.backbuf = mallocgc(mem, elem, true)
 	}
 
 	c.elemsize = uint16(elem.size)
@@ -117,8 +122,11 @@ func makechan(t *chantype, size int) *hchan {
 }
 
 // chanbuf(c, i) is pointer to the i'th slot in the buffer.
-func chanbuf(c *hchan, i uint) unsafe.Pointer {
-	return add(c.buf, uintptr(i)*uintptr(c.elemsize))
+func chanbuf(c *hchan, i uint, forward bool) unsafe.Pointer {
+	if forward {
+		return add(c.buf, uintptr(i)*uintptr(c.elemsize))
+	}
+	return add(c.backbuf, uintptr(i)*uintptr(c.elemsize))
 }
 
 // entry point for c <- x from compiled code
@@ -196,10 +204,11 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 
 	if c.qcount < c.dataqsiz {
 		// Space is available in the channel buffer. Enqueue the element to send.
-		qp := chanbuf(c, c.sendx)
+		qp := chanbuf(c, c.sendx, true)
+		bp := chanbuf(c, c.sendx, false)
 		if raceenabled {
-			raceacquire(qp)
 			racerelease(qp)
+			raceacquire(bp)
 		}
 		typedmemmove(c.elemtype, qp, ep)
 		c.sendx++
@@ -275,7 +284,7 @@ func send(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func(), skip int) {
 			// Pretend we go through the buffer, even though
 			// we copy directly. Note that we need to increment
 			// the head/tail locations only when raceenabled.
-			qp := chanbuf(c, c.recvx)
+			qp := chanbuf(c, c.recvx, true)
 			raceacquire(qp)
 			racerelease(qp)
 			raceacquireg(sg.g, qp)
@@ -482,10 +491,11 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 
 	if c.qcount > 0 {
 		// Receive directly from queue
-		qp := chanbuf(c, c.recvx)
+		qp := chanbuf(c, c.recvx, true)
+		bp := chanbuf(c, c.recvx, false)
 		if raceenabled {
+			racerelease(bp)
 			raceacquire(qp)
-			racerelease(qp)
 		}
 		if ep != nil {
 			typedmemmove(c.elemtype, ep, qp)
@@ -567,7 +577,7 @@ func recv(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func(), skip int) {
 		// head of the queue. Make the sender enqueue
 		// its item at the tail of the queue. Since the
 		// queue is full, those are both the same slot.
-		qp := chanbuf(c, c.recvx)
+		qp := chanbuf(c, c.recvx, true)
 		if raceenabled {
 			raceacquire(qp)
 			racerelease(qp)
@@ -765,8 +775,8 @@ func (c *hchan) raceaddr() unsafe.Pointer {
 }
 
 func racesync(c *hchan, sg *sudog) {
-	racerelease(chanbuf(c, 0))
-	raceacquireg(sg.g, chanbuf(c, 0))
-	racereleaseg(sg.g, chanbuf(c, 0))
-	raceacquire(chanbuf(c, 0))
+	racerelease(chanbuf(c, 0, true))
+	raceacquireg(sg.g, chanbuf(c, 0, true))
+	racereleaseg(sg.g, chanbuf(c, 0, true))
+	raceacquire(chanbuf(c, 0, true))
 }
