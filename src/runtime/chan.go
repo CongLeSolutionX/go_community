@@ -198,8 +198,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		// Space is available in the channel buffer. Enqueue the element to send.
 		qp := chanbuf(c, c.sendx)
 		if raceenabled {
-			raceacquire(qp)
-			racerelease(qp)
+			racereleaseacquire(qp)
 		}
 		typedmemmove(c.elemtype, qp, ep)
 		c.sendx++
@@ -484,8 +483,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 		// Receive directly from queue
 		qp := chanbuf(c, c.recvx)
 		if raceenabled {
-			raceacquire(qp)
-			racerelease(qp)
+			racereleaseacquire(qp)
 		}
 		if ep != nil {
 			typedmemmove(c.elemtype, ep, qp)

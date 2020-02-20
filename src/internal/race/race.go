@@ -21,6 +21,10 @@ func Release(addr unsafe.Pointer) {
 	runtime.RaceRelease(addr)
 }
 
+func ReleaseAcquire(addr unsafe.Pointer) {
+	runtime.RaceReleaseAcquire(addr)
+}
+
 func ReleaseMerge(addr unsafe.Pointer) {
 	runtime.RaceReleaseMerge(addr)
 }
