@@ -121,6 +121,19 @@ func chanbuf(c *hchan, i uint) unsafe.Pointer {
 	return add(c.buf, uintptr(i)*uintptr(c.elemsize))
 }
 
+func chanbbuf(c *hchan, send bool) unsafe.Pointer {
+	if send {
+		if c.sendx+1 == c.dataqsiz {
+			return add(c.buf, uintptr(c.elemsize))
+		}
+		return add(c.buf, (uintptr(c.sendx)+1)*uintptr(c.elemsize))
+	}
+	if c.recvx == 0 {
+		return add(c.buf, uintptr(c.dataqsiz))
+	}
+	return add(c.buf, (uintptr(c.recvx)-1)*uintptr(c.elemsize))
+}
+
 // entry point for c <- x from compiled code
 //go:nosplit
 func chansend1(c *hchan, elem unsafe.Pointer) {
@@ -198,8 +211,8 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		// Space is available in the channel buffer. Enqueue the element to send.
 		qp := chanbuf(c, c.sendx)
 		if raceenabled {
-			raceacquire(qp)
 			racerelease(qp)
+			raceacquire(chanbbuf(c, true))
 		}
 		typedmemmove(c.elemtype, qp, ep)
 		c.sendx++
@@ -484,8 +497,8 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 		// Receive directly from queue
 		qp := chanbuf(c, c.recvx)
 		if raceenabled {
+			racerelease(chanbbuf(c, false))
 			raceacquire(qp)
-			racerelease(qp)
 		}
 		if ep != nil {
 			typedmemmove(c.elemtype, ep, qp)
