@@ -39,6 +39,7 @@ import (
 	"cmd/link/internal/sym"
 	"debug/elf"
 	"fmt"
+	"sync"
 )
 
 type Shlib struct {
@@ -116,15 +117,21 @@ type unresolvedSymKey struct {
 	to   *sym.Symbol // Unresolved symbol referenced by "from"
 }
 
-// ErrorUnresolved prints unresolved symbol error for r.Sym that is referenced from s.
-func (ctxt *Link) ErrorUnresolved(s *sym.Symbol, r *sym.Reloc) {
-	if ctxt.unresolvedSymSet == nil {
-		ctxt.unresolvedSymSet = make(map[unresolvedSymKey]bool)
-	}
+type roLookup func(name string, v int) *sym.Symbol
+
+var unresOnce sync.Once
+var unresSyms map[unresolvedSymKey]bool
+var unresMutex sync.Mutex
+
+// errorUnresolved prints unresolved symbol error for r.Sym that is referenced from s.
+func errorUnresolved(lookup roLookup, s *sym.Symbol, r *sym.Reloc) {
+	unresOnce.Do(func() { unresSyms = make(map[unresolvedSymKey]bool) })
 
 	k := unresolvedSymKey{from: s, to: r.Sym}
-	if !ctxt.unresolvedSymSet[k] {
-		ctxt.unresolvedSymSet[k] = true
+	unresMutex.Lock()
+	defer unresMutex.Unlock()
+	if !unresSyms[k] {
+		unresSyms[k] = true
 
 		// Try to find symbol under another ABI.
 		var reqABI, haveABI obj.ABI
@@ -136,7 +143,7 @@ func (ctxt *Link) ErrorUnresolved(s *sym.Symbol, r *sym.Reloc) {
 				if v == -1 {
 					continue
 				}
-				if rs := ctxt.Syms.ROLookup(r.Sym.Name, v); rs != nil && rs.Type != sym.Sxxx {
+				if rs := lookup(r.Sym.Name, v); rs != nil && rs.Type != sym.Sxxx {
 					haveABI = abi
 				}
 			}

@@ -266,7 +266,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 	if ctxt.IsELF {
 		return addelfdynrel(ctxt, s, r)
 	} else if ctxt.HeadType == objabi.Haix {
-		return ld.Xcoffadddynrel(ctxt, s, r)
+		return ld.Xcoffadddynrel(ld.MakeTarget(ctxt), s, r)
 	}
 	return false
 }
