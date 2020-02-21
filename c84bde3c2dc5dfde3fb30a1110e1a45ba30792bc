@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0caa4818_920f8059",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2020-02-21T12:23:55Z",
+      "side": 1,
+      "message": "Please copy in a formatted version:\nhttps://play.golang.org/p/xzLHdZR2WRJ\nSince all Go code out there is formatted uniformly, this really hurts my eyes :)",
+      "revId": "c84bde3c2dc5dfde3fb30a1110e1a45ba30792bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
