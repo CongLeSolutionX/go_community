@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ced684e_6c4873fe",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-21T13:46:45Z",
+      "side": 1,
+      "message": "(optional) “accepts decoding” seems a bit awkward to me. Maybe just “decodes” or “accepts” or “parses”?",
+      "range": {
+        "startLine": 588,
+        "startChar": 6,
+        "endLine": 588,
+        "endChar": 22
+      },
+      "revId": "4b8a823c05dd2273fa71668e0337ab90ce5ad7ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
