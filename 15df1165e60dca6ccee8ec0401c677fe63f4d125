@@ -16,6 +16,24 @@
       "revId": "15df1165e60dca6ccee8ec0401c677fe63f4d125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c38b7ad1_b1d6a7e9",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-02-21T20:21:17Z",
+      "side": 1,
+      "message": "It\u0027s not, thanks. Reverted.\n\n(I originally had added it to all of these and then realized that it wasn\u0027t ever going to matter, and somehow missed one when reverting. Thanks for catching it.)",
+      "parentUuid": "b40a5fa3_defa0495",
+      "revId": "15df1165e60dca6ccee8ec0401c677fe63f4d125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
