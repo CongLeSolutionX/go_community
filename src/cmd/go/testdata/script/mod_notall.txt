@@ -1,0 +1,86 @@
+# This test demonstrates go commands that combine the 'all' pattern
+# with packages outside of 'all'.
+
+# With -deps, 'all' should include test dependencies of packages in the main
+# module, but not should not include test dependencies of packages imported only
+# by other root patterns.
+
+go list -deps all x/otherroot
+
+stdout '^x/inall$'
+stdout '^x/importedbyall$'
+stdout '^x/inall/fromtest$'
+stdout '^x/otherroot$'
+stdout '^x/otherimport$'
+
+stdout '^x/importedbyalltest$'  # TODO(#36460): Not in 'all' with lazy loading.
+
+! stdout '^x/otherroot/testonly$'
+! stdout '^x/otherimport/testonly$'
+
+# With -deps -test, test dependencies of other roots should be included,
+# but test dependencies of non-roots should not.
+
+go list -deps -test all x/otherroot
+stdout '^x/inall$'
+stdout '^x/importedbyall$'
+stdout '^x/inall/fromtest$'
+stdout '^x/importedbyalltest$'
+stdout '^x/otherroot$'
+stdout '^x/otherimport$'
+
+stdout '^x/otherroot/testonly$'
+! stdout '^x/otherimport/testonly$'
+
+-- m.go --
+package m
+
+import _ "x/inall"
+-- m_test.go --
+package m_test
+
+import _ "x/inall/fromtest"
+-- go.mod --
+module m
+
+go 1.16
+
+require x v0.1.0
+
+replace x v0.1.0 => ./x
+-- x/go.mod --
+module x
+
+go 1.16
+-- x/inall/inall.go --
+package inall
+
+import _ "x/importedbyall"
+-- x/inall/inall_test.go --
+package inall_test
+
+import _ "x/importedbyalltest"
+-- x/inall/fromtest/fromtest.go --
+package bytest
+-- x/importedbyall/importedbyall.go --
+package importedbyall
+-- x/importedbyalltest/importedbyalltest.go --
+package importedbyalltest
+-- x/otherroot/otherroot.go --
+package otherroot
+
+import _ "x/otherimport"
+-- x/otherroot/otherroot_test.go --
+package otherroot_test
+
+import _ "x/otherroot/testonly"
+-- x/otherimport/otherimport.go --
+package otherimport
+-- x/otherimport/otherimport_test.go --
+package otherimport_test
+
+import _ "x/otherimport/testonly"
+-- x/otherroot/testonly/testonly.go --
+package testonly
+-- x/otherimport/testonly/testonly.go --
+If you load this package, you've gone too far.
