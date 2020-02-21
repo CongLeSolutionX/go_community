@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b40a5fa3_defa0495",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-21T18:48:06Z",
+      "side": 1,
+      "message": "Why this one is special?",
+      "revId": "15df1165e60dca6ccee8ec0401c677fe63f4d125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
