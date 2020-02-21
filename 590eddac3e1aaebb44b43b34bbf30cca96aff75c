@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "f087ef45_0800a232",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-21T22:04:21Z",
+      "side": 1,
+      "message": "like this?",
+      "parentUuid": "b6f41834_24be59a0",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 34
+      },
+      "revId": "590eddac3e1aaebb44b43b34bbf30cca96aff75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c831c508_ecaa2fc4",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 9
