@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2506f57_7fcc0f52",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-02-22T04:59:35Z",
+      "side": 1,
+      "message": "Is \u0027a\u0027 known to be zero, required to be zero, or just ignored?\nI think a comment on this rule (and the other one like it) would be helpful to future us.",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 11
+      },
+      "revId": "deb993d3a83612466e9744ffe806e974cac15bd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
