@@ -22,6 +22,30 @@
       "revId": "a25f7b16010a27b72f64d9b4545e6b8055273d43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42b8da30_251a4a00",
+        "filename": "src/time/tick_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-02-23T19:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65dfd35d_ca76a524",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "a25f7b16010a27b72f64d9b4545e6b8055273d43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
