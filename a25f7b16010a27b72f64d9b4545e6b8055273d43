@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65dfd35d_ca76a524",
+        "filename": "src/time/tick_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2020-02-23T19:23:37Z",
+      "side": 1,
+      "message": "s/doubled/double",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "a25f7b16010a27b72f64d9b4545e6b8055273d43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
