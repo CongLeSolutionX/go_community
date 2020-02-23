@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78e08679_2a859cd7",
+        "filename": "src/time/tick_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2020-02-23T18:50:59Z",
+      "side": 1,
+      "message": "It’s unclear to me why using an odd count caused the original test failures, and looking at the previous CL doesn’t provide much context. Can you explain more in this comment why this needs to be odd? Alternatively, you can explain more in the issue why it failed?",
+      "range": {
+        "startLine": 25,
+        "startChar": 5,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "6b6364a5175e004416777e9e3d18e12f19a2c3fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
