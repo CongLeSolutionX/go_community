@@ -7,7 +7,7 @@ go install example.com/printversion
 go run example.com/printversion
 cmp stdout out.txt
 
-go version -m $GOPATH/bin/printversion
+go version -m $GOPATH/bin/printversion$GOEXE
 stdout '^.*[/\\]bin[/\\]printversion: .*$'
 stdout '^	path	example.com/printversion$'
 stdout '^	mod	example.com/printversion	v0.1.0$'
