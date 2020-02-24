@@ -1269,8 +1269,6 @@ type dsaSignature struct {
 	R, S *big.Int
 }
 
-type ecdsaSignature dsaSignature
-
 var emptyConfig Config
 
 func defaultConfig() *Config {
