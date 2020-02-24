@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9267a34a_1ba51462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-02-24T22:42:16Z",
+      "side": 1,
+      "message": "\"use new ecdsa.VerifyASN1 API\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "4a7ff4323a184cf027da909ca70ef46edd371f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bde1613_61cc9b25",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-02-24T22:42:16Z",
+      "side": 1,
+      "message": "While here, drop this TODO, and move the dsaSignature type wherever it\u0027s used, ideally not in the package scope.",
+      "revId": "4a7ff4323a184cf027da909ca70ef46edd371f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
