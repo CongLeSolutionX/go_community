@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da460d33_6a43bfbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-24T21:05:49Z",
+      "side": 1,
+      "message": "Please add a [release-branch.go1.14] prefix in front, as described at https://golang.org/wiki/MinorReleases#making-cherry-pick-cls.",
+      "revId": "18401bb1efe911ee107fbc2616929a6e17fb1f79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
