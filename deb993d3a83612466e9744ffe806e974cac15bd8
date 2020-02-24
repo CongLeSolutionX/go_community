@@ -22,6 +22,30 @@
       "revId": "deb993d3a83612466e9744ffe806e974cac15bd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10751927_35c570d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-02-24T21:46:20Z",
+      "side": 1,
+      "message": "Actually, I have a better idea: Stop setting auxint on Div/Mod on architectures in which we don\u0027t use it. Then we can just use ellipses here and no one has to be puzzled. :)\n\nFor reasons of sanity, I\u0027m going to go ahead and submit this CL stack as it stands, and mail that as a follow-up. Sound OK?",
+      "parentUuid": "c2506f57_7fcc0f52",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 11
+      },
+      "revId": "deb993d3a83612466e9744ffe806e974cac15bd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
