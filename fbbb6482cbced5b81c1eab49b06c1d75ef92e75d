@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3e5a2d9_2e9cb18a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-02-25T18:05:43Z",
+      "side": 1,
+      "message": "You can remove this explanation as the commit message is precise,\nand the CL is short.",
+      "revId": "fbbb6482cbced5b81c1eab49b06c1d75ef92e75d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
