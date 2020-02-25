@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17b73357_8a07b1ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-25T02:04:35Z",
+      "side": 1,
+      "message": "Please write this as \"CL 164357\".  Thanks.",
+      "revId": "eee5142aa45a34fcd2500869b32886a635005e99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
