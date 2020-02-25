@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9503ef8b_892352f8",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-02-25T09:01:08Z",
+      "side": 1,
+      "message": "lacks a \\n",
+      "revId": "a05e61f5ffd1e59a6db016a4af914b2da90b240c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baab687f_ba8d4e63",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-02-25T09:01:08Z",
+      "side": 1,
+      "message": "lacks a \\n",
+      "revId": "a05e61f5ffd1e59a6db016a4af914b2da90b240c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "493df8fb_35a3e894",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1615,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-02-25T09:01:08Z",
+      "side": 1,
+      "message": "these three printf cases are nearly identical to the three ones above, with the exception of aux2 and auxint2.\n\nWhy not join them, letting aux2 and auxint2 be the default empty string in the other case?\n\nYou can still do the parseValue and args[i] check in the \"else\" block.\n\nReason I bring this up: there were minor issues with the formatting before (the newlines), and you copy-pasted the same mistake here :)",
+      "revId": "a05e61f5ffd1e59a6db016a4af914b2da90b240c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
