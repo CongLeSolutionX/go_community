@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12c8a56e_edcb1d53",
+        "filename": "src/crypto/internal/boring/build/build.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-02-25T21:59:50Z",
+      "side": 1,
+      "message": "what\u0027s this doing? Can we add a note in the CL description?",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "fc0723ac5ff321ebba3938f8771fd38f9c4f391a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43e4c4d3_914fc646",
+        "filename": "src/crypto/internal/boring/rsa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-02-25T21:59:50Z",
+      "side": 1,
+      "message": "I don\u0027t see anywhere in this function where the gokey is being used except for the KeepAlive. Can you explain what this is doing here? (maybe in a comment would be even better than responding here)",
+      "range": {
+        "startLine": 105,
+        "startChar": 14,
+        "endLine": 105,
+        "endChar": 19
+      },
+      "revId": "fc0723ac5ff321ebba3938f8771fd38f9c4f391a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

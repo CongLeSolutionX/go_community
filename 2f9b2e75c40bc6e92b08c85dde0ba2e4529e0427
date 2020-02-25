@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d9ba411_2a736a52",
+        "filename": "src/crypto/internal/boring/rsa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-02-25T21:59:50Z",
+      "side": 0,
+      "message": "Can we keep some kind of comment for the KeepAlive now that it\u0027s been moved. Maybe this one isn\u0027t accurate anymore, but something would be good.",
+      "range": {
+        "startLine": 195,
+        "startChar": 26,
+        "endLine": 195,
+        "endChar": 65
+      },
+      "revId": "2f9b2e75c40bc6e92b08c85dde0ba2e4529e0427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
