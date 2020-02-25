@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad81ead_1e0d2d58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-02-25T00:25:35Z",
+      "side": 1,
+      "message": "is this a typo? should be just \"math\", or maybe \"math package\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "193589c86851b1dad1a64665a697e6e86f936eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
