@@ -22,6 +22,30 @@
       "revId": "193589c86851b1dad1a64665a697e6e86f936eb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0a1e93_3f2619cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-25T15:11:57Z",
+      "side": 1,
+      "message": "I was thinking about the file name, thus math.a. I\u0027ll reword.",
+      "parentUuid": "4ad81ead_1e0d2d58",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "193589c86851b1dad1a64665a697e6e86f936eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
