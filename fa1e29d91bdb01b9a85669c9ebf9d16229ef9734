@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5afa68a8_8dacb1b1",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-25T18:21:37Z",
+      "side": 1,
+      "message": "\u003ct\u003e is not necessary now.",
+      "range": {
+        "startLine": 112,
+        "startChar": 32,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "fa1e29d91bdb01b9a85669c9ebf9d16229ef9734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e0ffeb9_bf87f4db",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-25T18:21:37Z",
+      "side": 1,
+      "message": "This sign-extends the result to 64-bit? Add this to the comment.",
+      "revId": "fa1e29d91bdb01b9a85669c9ebf9d16229ef9734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
