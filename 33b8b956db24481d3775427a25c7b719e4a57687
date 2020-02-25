@@ -22,6 +22,30 @@
       "revId": "33b8b956db24481d3775427a25c7b719e4a57687",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6310c0ce_34e189d7",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-02-25T18:55:43Z",
+      "side": 1,
+      "message": "I actually tried both, but didn\u0027t care for either. You\u0027re convinced me I have never been more wrong, and should go with benchmarkprofile.",
+      "parentUuid": "c72850ce_f1cab353",
+      "range": {
+        "startLine": 102,
+        "startChar": 34,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "33b8b956db24481d3775427a25c7b719e4a57687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
