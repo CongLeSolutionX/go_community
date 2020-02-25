@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2a253cc_f1a22c66",
+        "filename": "test/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-02-25T23:59:16Z",
+      "side": 1,
+      "message": "This is a little confusing. Maybe we should augment the prove pass to somehow indicate which direction it proved.\nFor another CL.",
+      "revId": "1715ace20e4a3d129920f80603042ae10b6727f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
