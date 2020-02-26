@@ -214,6 +214,43 @@ func (v *Value) AddArg(w *Value) {
 	v.Args = append(v.Args, w)
 	w.Uses++
 }
+
+//go:noinline
+func (v *Value) AddArg2(w1, w2 *Value) {
+	if v.Args == nil {
+		v.resetArgs() // use argstorage
+	}
+	v.Args = append(v.Args, w1, w2)
+	w1.Uses++
+	w2.Uses++
+}
+
+//go:noinline
+func (v *Value) AddArg3(w1, w2, w3 *Value) {
+	if v.Args == nil {
+		v.resetArgs() // use argstorage
+	}
+	v.Args = append(v.Args, w1, w2, w3)
+	w1.Uses++
+	w2.Uses++
+	w3.Uses++
+}
+
+func (v *Value) AddArg4(w1, w2, w3, w4 *Value) {
+	v.AddArg3(w1, w2, w3)
+	v.AddArg(w4)
+}
+
+func (v *Value) AddArg5(w1, w2, w3, w4, w5 *Value) {
+	v.AddArg3(w1, w2, w3)
+	v.AddArg2(w4, w5)
+}
+
+func (v *Value) AddArg6(w1, w2, w3, w4, w5, w6 *Value) {
+	v.AddArg3(w1, w2, w3)
+	v.AddArg3(w4, w5, w6)
+}
+
 func (v *Value) AddArgs(a ...*Value) {
 	if v.Args == nil {
 		v.resetArgs() // use argstorage
