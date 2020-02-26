@@ -46,6 +46,12 @@ import (
 // default, object keys which don't have a corresponding struct field are
 // ignored (see Decoder.DisallowUnknownFields for an alternative).
 //
+// Note that decoding into a struct happens one object key at a time. As such,
+// an existing field not matched by the input JSON is left untouched. Similarly,
+// the preference for case sensitive matches applies to each key separately. If
+// two incoming object keys match a field, both are decoded into said field
+// regardless of which match was exact.
+//
 // To unmarshal JSON into an interface value,
 // Unmarshal stores one of these in the interface value:
 //
