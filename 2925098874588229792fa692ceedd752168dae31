@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53b4fd52_a8939a1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-02-26T17:10:00Z",
+      "side": 1,
+      "message": "If we intend to change some of this behavior in the future, then we should avoid documenting the behavior so strongly. Doing so makes it near impossible to change in Go 1 since we have clearly stated the expected behavior.\n\nThere is a benefit to some degree of ambiguity as it keeps the doors open for us to change unspecified behavior without breaking the Go 1 compatibility promise.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "2925098874588229792fa692ceedd752168dae31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c9c0b4c_dd51423d",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-02-26T17:10:00Z",
+      "side": 1,
+      "message": "This behavior is suspect and if we document this, we\u0027re binded to support this behavior for all time.\n\nFor example, in https://github.com/golang/go/issues/14750#issuecomment-591522083, it\u0027s stated:\n\n\u003e I think that a proposal to modify the decoder\u0027s API or behavior should be filed separately, once this issue is fixed with docs. This thread has become too long to discuss any one particular solution, and proposals have had their own process for a few years now.\n\nDocument this is making that proposed change unlikely to ever happen.",
+      "range": {
+        "startLine": 50,
+        "startChar": 70,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "2925098874588229792fa692ceedd752168dae31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
