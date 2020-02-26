@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c25461d2_53c8d043",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T03:41:30Z",
+      "side": 1,
+      "message": "Per https://go-review.googlesource.com/c/go/+/217106/9/src/cmd/go/internal/load/pkg.go#376, this seems like a lot of complexity compared to putting the translation logic at the error the construction site.\n\nIt also makes the PackageError struct even lossier when round-tripped through marshaling and unmarshaling, and (less important but still not trivial) makes the merge with CL 185345 much more difficult.",
+      "revId": "5be80e70a5e450044417bca751871fb5abe6927a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75f97181_317329bf",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T03:41:30Z",
+      "side": 1,
+      "message": "(nit) s/Pos/Posn/\n\n(Heschi recently said that Pos refers to a token.Pos, while Posn refers to a token.Position.)",
+      "range": {
+        "startLine": 438,
+        "startChar": 1,
+        "endLine": 438,
+        "endChar": 4
+      },
+      "revId": "5be80e70a5e450044417bca751871fb5abe6927a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15e8ea89_664df973",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T03:41:30Z",
+      "side": 1,
+      "message": "NewImportStackFrame is nearly identical to (*ImportStack).Push — why do we need them both?",
+      "range": {
+        "startLine": 440,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 1
+      },
+      "revId": "5be80e70a5e450044417bca751871fb5abe6927a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21179ba8_a3c936c0",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T03:41:30Z",
+      "side": 1,
+      "message": "As noted in https://go-review.googlesource.com/c/go/+/217106/9/src/cmd/go/internal/load/pkg.go#463, I think it\u0027s strange to accept a `[]token.Position` when we really only care about at most one Position.\n\nMoreover, the `nil` at some of the call sites seems mysterious, where `token.Position{}` would clearly indicate which information is missing.\n\nA plain `token.Position` argument combined with a `firstPosn` helper-function seems like it would make the behavior clearer at the call sites.",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 473,
+        "endChar": 2
+      },
+      "revId": "5be80e70a5e450044417bca751871fb5abe6927a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d434572_3503e5f9",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T03:41:30Z",
+      "side": 1,
+      "message": "I don\u0027t like this approach — it implies that the ImportStack is not always actually a stack of imports. (But sometimes it is?)\n\nI would much rather have firmer invariants that we can reason about consistently, and that we can use to guide fixes: if an ImportStack is always a stack of imports proper, then the way that we fix bugs involving weird things on the top of the stack is by preventing them from being added in the first place.\n\n(The lack of firm invariants in cmd/go has bitten me time and time again — search Gerrit for [thecodelesscode.com/case/84] for a few such examples.)",
+      "range": {
+        "startLine": 486,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 1
+      },
+      "revId": "5be80e70a5e450044417bca751871fb5abe6927a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
