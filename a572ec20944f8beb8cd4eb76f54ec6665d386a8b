@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "224d90c8_4cb86c76",
+        "filename": "src/cmd/go/testdata/script/build_cgo_escape_work_prefix.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T14:39:27Z",
+      "side": 1,
+      "message": "(nit) We try to use very concise names for these tests, because we sometimes need to name them on the command line in order to filter them.\n\n`build_n_cgo.txt` seems clear enough.",
+      "revId": "a572ec20944f8beb8cd4eb76f54ec6665d386a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c89c57_1c5511cc",
+        "filename": "src/cmd/go/testdata/script/build_cgo_escape_work_prefix.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T14:39:27Z",
+      "side": 1,
+      "message": "Please refer to issue #37012 somewhere in the comments of this test file.",
+      "revId": "a572ec20944f8beb8cd4eb76f54ec6665d386a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc23512c_adf9eb10",
+        "filename": "src/cmd/go/testdata/script/build_cgo_escape_work_prefix.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-02-26T14:39:27Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure what this escape is doing — is it matching a literal slash?\n\nGenerally for slashes in file paths (especially for Windows portability) we use the expression \u0027[/\\\\]\u0027.",
+      "range": {
+        "startLine": 5,
+        "startChar": 10,
+        "endLine": 5,
+        "endChar": 12
+      },
+      "revId": "a572ec20944f8beb8cd4eb76f54ec6665d386a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
