@@ -56,6 +56,30 @@
       "revId": "a572ec20944f8beb8cd4eb76f54ec6665d386a8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cc8d848_751f1acf",
+        "filename": "src/cmd/go/testdata/script/build_cgo_escape_work_prefix.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 34712
+      },
+      "writtenOn": "2020-02-26T15:08:56Z",
+      "side": 1,
+      "message": "\u003e is it matching a literal slash\n\nExactly. Fixed that",
+      "parentUuid": "fc23512c_adf9eb10",
+      "range": {
+        "startLine": 5,
+        "startChar": 10,
+        "endLine": 5,
+        "endChar": 12
+      },
+      "revId": "a572ec20944f8beb8cd4eb76f54ec6665d386a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
