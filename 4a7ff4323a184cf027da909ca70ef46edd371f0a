@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2db028cc_7a29c04b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-02-26T15:48:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9267a34a_1ba51462",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "4a7ff4323a184cf027da909ca70ef46edd371f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bde1613_61cc9b25",
         "filename": "src/crypto/tls/common.go",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "4a7ff4323a184cf027da909ca70ef46edd371f0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dd5ca74_d5682982",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-02-26T15:48:15Z",
+      "side": 1,
+      "message": "It actually isn\u0027t used anywhere in crypto/tls that I can see, and all the tests pass without it, so I just deleted it entirely :)",
+      "parentUuid": "0bde1613_61cc9b25",
+      "revId": "4a7ff4323a184cf027da909ca70ef46edd371f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
