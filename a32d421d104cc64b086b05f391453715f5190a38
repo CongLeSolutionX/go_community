@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30a65190_0b26a43f",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2020-02-26T13:49:14Z",
+      "side": 1,
+      "message": "Uh, this is quite unpleasant change. I don\u0027t like sacrificing production performance properties for debugging tools unless absolutely necessary.\nThe case above also seem to produce out-of-bounds accesses if hchanSize\u003esizeof(elem), that will break things.\nI realized doing release followed by acquire on the same location is wrong. I assume that\u0027s what you are fixing here.\nI challenge you to implement it without adding additional members to hchan, without allocating additional heap blocks and without affecting production build.\n\nFor backwards slot we could use the corresponding forward slot + 1. It will work unless size of elem \u003e 1. But 1-byte elem also implies it\u0027s not a pointer. So for \"Elements contain pointers\" case we can just do nothing and use +1 address.\nFor the \"Elements do not contain pointers\" case we can also do nothing unless elem size is 1. In which case we could allocate 2x memory for buffer (but in the same allocation). All of this should not require additional fields in hcahn.\nBetter ideas?",
+      "revId": "a32d421d104cc64b086b05f391453715f5190a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
