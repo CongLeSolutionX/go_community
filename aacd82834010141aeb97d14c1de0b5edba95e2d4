@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ecfcb72_cecaaa62",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2020-02-26T15:40:05Z",
+      "side": 1,
+      "message": "`c :\u003d make(chan struct{})` is shorter and more idiomatic.",
+      "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7214659a_565e9eeb",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2020-02-26T15:40:05Z",
+      "side": 1,
+      "message": "I would explicitly mention potential panic.\nI think there are some important things are being unsaid. Especially wrt the \"or buffered channel\" remark. For the buffered channel it\u0027s actually kinda deterministic, right? The more interesting case is the unbuffered chan, where most likely during testing it does not panic (otherwise would be caught without race detector), but may also panic depending on timings.\nIt makes sense to explain more here. It may be not obvious initially, and these are the people we are aiming here.",
+      "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
