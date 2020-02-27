@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0984787_a26d2e34",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-02-27T18:44:11Z",
+      "side": 1,
+      "message": "Whoops, this is an artifact of a failed attempt to do absolute value entirely in floating point registers.\n(You\u0027d think it would be faster, but it is slower, even with the constant hoisted out of the loop into a register.)\n\nIt\u0027s harmless, turns out sometimes you want to know which NaN you are dealing with.",
+      "range": {
+        "startLine": 179,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "02ddda3330a113ec06215aade27ed72e3f721b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
