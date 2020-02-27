@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5f3f1e7c_4511c356",
+        "filename": "src/cmd/go/testdata/script/build_vendor.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-27T21:33:22Z",
+      "side": 1,
+      "message": "resolving",
+      "parentUuid": "85ec30b9_89872a83",
+      "revId": "2a719dcd77b69390cd7247d9e1cc77a84ac4a00e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15b63967_4ef69a52",
         "filename": "src/cmd/go/testdata/script/vendor_cache.txt",
         "patchSetId": 17
