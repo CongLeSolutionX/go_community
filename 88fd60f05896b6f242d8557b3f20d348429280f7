@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "754bab64_3b3131a0",
+        "filename": "src/cmd/vendor/github.com/google/pprof/profile/proto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-27T18:34:08Z",
+      "side": 1,
+      "message": "This passes the vet check but it sure looks like the wrong change.  This looks like the programmer made the mistake we are trying to avoid: they thought that string(b.typ) is the same as fmt.Sprintf(\"%d\", b.typ).  This ought to be\n    return nil, fmt.Errorf(\"unknown wire type: %d\", b.typ)\nI commented on the recent commit to the pprof GitHub repo.",
+      "revId": "88fd60f05896b6f242d8557b3f20d348429280f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bd6801d_a5155cd8",
+        "filename": "src/vendor/golang.org/x/net/dns/dnsmessage/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2143,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-27T18:34:08Z",
+      "side": 1,
+      "message": "This one looks wrong too.  And it\u0027s my fault.  I sent https://golang.org/cl/221437.",
+      "revId": "88fd60f05896b6f242d8557b3f20d348429280f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
