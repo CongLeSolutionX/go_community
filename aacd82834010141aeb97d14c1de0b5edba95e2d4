@@ -87,6 +87,24 @@
       "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7171dca_30ddff1c",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-02-27T16:14:07Z",
+      "side": 1,
+      "message": "It is now reworked.",
+      "parentUuid": "93ba0031_6795a1d9",
+      "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
