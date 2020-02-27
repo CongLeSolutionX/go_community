@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "356d0fa1_de1076e0",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-02-27T21:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9503ef8b_892352f8",
+      "revId": "a05e61f5ffd1e59a6db016a4af914b2da90b240c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baab687f_ba8d4e63",
         "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7e37f82e_a766bb09",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-02-27T21:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baab687f_ba8d4e63",
+      "revId": "a05e61f5ffd1e59a6db016a4af914b2da90b240c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "493df8fb_35a3e894",
         "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "a05e61f5ffd1e59a6db016a4af914b2da90b240c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5947ada_a65760e3",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1615,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-02-27T21:03:08Z",
+      "side": 1,
+      "message": "Thanks, done. See what you think of the new structure.",
+      "parentUuid": "493df8fb_35a3e894",
+      "revId": "a05e61f5ffd1e59a6db016a4af914b2da90b240c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
