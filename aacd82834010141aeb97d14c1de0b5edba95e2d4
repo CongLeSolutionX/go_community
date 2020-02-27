@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ced2fadb_ade75edc",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-02-27T15:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ecfcb72_cecaaa62",
+      "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7214659a_565e9eeb",
         "filename": "doc/articles/race_detector.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-26T15:40:05Z",
       "side": 1,
       "message": "I would explicitly mention potential panic.\nI think there are some important things are being unsaid. Especially wrt the \"or buffered channel\" remark. For the buffered channel it\u0027s actually kinda deterministic, right? The more interesting case is the unbuffered chan, where most likely during testing it does not panic (otherwise would be caught without race detector), but may also panic depending on timings.\nIt makes sense to explain more here. It may be not obvious initially, and these are the people we are aiming here.",
+      "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb6312a_6b91725f",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-02-27T15:03:08Z",
+      "side": 1,
+      "message": "Don\u0027t you think the more we explain, the more confuse could cause?\nThe key aspect is to understand the concurrent send and close,\nand race detector reports races fits this scenario.\n\nTherefore I think this is good enough to understand why there is a race,\nwithout talking panic, and I think send on closed channel will be panic\nis well known to the readers.\n\nSo I explicitly put send and close operation on different goroutines, \nand remove the context of they are in a main goroutine.",
+      "parentUuid": "7214659a_565e9eeb",
       "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
