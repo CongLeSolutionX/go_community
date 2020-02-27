@@ -69,6 +69,24 @@
       "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93ba0031_6795a1d9",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2020-02-27T15:12:28Z",
+      "side": 1,
+      "message": "Maybe. But if you want to keep it dry, it needs to be formally correct and precise.\nFormally, this is not a _data_ race, but rather a race condition. Also the code is not non-deterministic as is, while we state it is.\n\nAnd the proposed solution is very confusing without explanation. I think it needs to be either reworked, or explained or removed.",
+      "parentUuid": "dbb6312a_6b91725f",
+      "revId": "aacd82834010141aeb97d14c1de0b5edba95e2d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
