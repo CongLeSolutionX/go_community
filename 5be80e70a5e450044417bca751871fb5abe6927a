@@ -111,6 +111,30 @@
     },
     {
       "key": {
+        "uuid": "2937c14b_f112ec26",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-27T18:54:48Z",
+      "side": 1,
+      "message": "Here\u0027s what I was trying to do with this: the import stack represents the stack of imports at the time the error was spotted. But that\u0027s different from the stack that\u0027s relevant to the *user*. So in some cases, when we know that the package that\u0027s actually being examined isn\u0027t relevant to the error, we chop it off the stack. In both cases, the ImportStack is a stack of imports.\n\nMaybe the function is poorly named? I wanted it to imply that it\u0027s a stack of imports for an error that was caused in the importing package (hence popping off the top entry of the stack).\n\nAn alternative that would address this would be to push the element on the stack right before reporting the error, rather than when we start examining a package, but to me that seems to be breaking a different invariant that the code seems to me to be trying to satisfy, that the top of the import stack is the package currently being examined.",
+      "parentUuid": "8d434572_3503e5f9",
+      "range": {
+        "startLine": 486,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 1
+      },
+      "revId": "5be80e70a5e450044417bca751871fb5abe6927a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f34f9ee_60c90fc1",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 7
@@ -122,6 +146,30 @@
       "writtenOn": "2020-02-26T04:29:51Z",
       "side": 1,
       "message": "I\u0027m having trouble following this expression — this is a lot of conditions and a lot of indexing.\n\nI would rather we avoid pushing an irrelevant last element onto the stack in the first place.",
+      "range": {
+        "startLine": 1630,
+        "startChar": 0,
+        "endLine": 1630,
+        "endChar": 138
+      },
+      "revId": "5be80e70a5e450044417bca751871fb5abe6927a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9486204e_147ccd9b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1630,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-02-27T18:54:48Z",
+      "side": 1,
+      "message": "This is what I was trying to do:\n\nFirst condition -\u003e is this an import error?\nSecond condition -\u003e is there an import path we can check (so that the next conditions don\u0027t panic)\nThird condition -\u003e is the top of the stack redundant with the import error message (not strictly necessary, but without this we will have a bit of redundancy in the error message)\nFourth condition -\u003e does the frame on the top have a valid position? (Mostly for backwards compatibility)",
+      "parentUuid": "1f34f9ee_60c90fc1",
       "range": {
         "startLine": 1630,
         "startChar": 0,
