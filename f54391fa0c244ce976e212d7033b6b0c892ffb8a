@@ -16,6 +16,24 @@
       "revId": "f54391fa0c244ce976e212d7033b6b0c892ffb8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37cb1e00_0922b0ea",
+        "filename": "doc/effective_go.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2698,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-02-28T20:02:22Z",
+      "side": 1,
+      "message": "I agree with Ian. Just drop the original parenthetical remark.",
+      "parentUuid": "36456792_bf7f1cf8",
+      "revId": "f54391fa0c244ce976e212d7033b6b0c892ffb8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
