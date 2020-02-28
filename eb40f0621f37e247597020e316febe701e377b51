@@ -45,6 +45,30 @@
       "revId": "eb40f0621f37e247597020e316febe701e377b51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f31d9c6_fd2fc128",
+        "filename": "src/go/format/internal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-28T03:50:30Z",
+      "side": 1,
+      "message": "I believe the original \"\\n\\n\" was correct. gofmt turns the semicolon in \"package p; func _() {\" into two newline characters, not one.\n\n(Try pressing \"Format\" on https://play.golang.org/p/Abkdg53Joue.)",
+      "parentUuid": "cad934fd_b07ec9f3",
+      "range": {
+        "startLine": 75,
+        "startChar": 38,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "eb40f0621f37e247597020e316febe701e377b51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
