@@ -56,12 +56,11 @@ func decodetypeFuncOutType2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sy
 	return decodetypeFuncInType2(ldr, arch, symIdx, symRelocs, i+decodetypeFuncInCount(arch, ldr.Data(symIdx)))
 }
 
-func decodetypeArrayElem2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
-	// FIXME: it's inefficient to read the relocations each time. Add some
-	// sort of cache here, or pass in the relocs. Alternatively we could
-	// switch to relocs.At() to see if that performs better.
+func decodetypeArrayElem2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, ra *loader.RelocAllocator) loader.Sym {
 	relocs := ldr.Relocs(symIdx)
-	rslice := relocs.ReadAll(nil)
+	rslice := ra.Alloc(relocs.Count)
+	defer ra.Release(relocs.Count)
+	rslice = relocs.ReadAll(rslice)
 	return decodeRelocSym2(ldr, symIdx, rslice, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
@@ -70,38 +69,27 @@ func decodetypeArrayLen2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) 
 	return int64(decodeInuxi(arch, data[commonsize(arch)+2*arch.PtrSize:], arch.PtrSize))
 }
 
-func decodetypeChanElem2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
-	// FIXME: it's inefficient to read the relocations each time. Add some
-	// sort of cache here, or pass in the relocs.
+func decodetypeChanElem2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, ra *loader.RelocAllocator) loader.Sym {
 	relocs := ldr.Relocs(symIdx)
-	rslice := relocs.ReadAll(nil)
+	rslice := ra.Alloc(relocs.Count)
+	rslice = relocs.ReadAll(rslice)
+	defer ra.Release(relocs.Count)
 	return decodeRelocSym2(ldr, symIdx, rslice, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
-func decodetypeMapKey2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
-	// FIXME: it's inefficient to read the relocations each time. Add some
-	// sort of cache here, or pass in the relocs. Alternatively we could
-	// switch to relocs.At() to see if that performs better.
-	relocs := ldr.Relocs(symIdx)
-	rslice := relocs.ReadAll(nil)
+func decodetypeMapKey2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, rslice []loader.Reloc) loader.Sym {
 	return decodeRelocSym2(ldr, symIdx, rslice, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
-func decodetypeMapValue2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
-	// FIXME: it's inefficient to read the relocations each time. Add some
-	// sort of cache here, or pass in the relocs. Alternatively we could
-	// switch to relocs.At() to see if that performs better.
-	relocs := ldr.Relocs(symIdx)
-	rslice := relocs.ReadAll(nil)
+func decodetypeMapValue2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, rslice []loader.Reloc) loader.Sym {
 	return decodeRelocSym2(ldr, symIdx, rslice, int32(commonsize(arch))+int32(arch.PtrSize)) // 0x20 / 0x38
 }
 
-func decodetypePtrElem2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
-	// FIXME: it's inefficient to read the relocations each time. Add some
-	// sort of cache here, or pass in the relocs. Alternatively we could
-	// switch to relocs.At() to see if that performs better.
+func decodetypePtrElem2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, ra *loader.RelocAllocator) loader.Sym {
 	relocs := ldr.Relocs(symIdx)
-	rslice := relocs.ReadAll(nil)
+	rslice := ra.Alloc(relocs.Count)
+	defer ra.Release(relocs.Count)
+	rslice = relocs.ReadAll(rslice)
 	return decodeRelocSym2(ldr, symIdx, rslice, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
@@ -120,23 +108,13 @@ func decodetypeStructFieldArrayOff2(ldr *loader.Loader, arch *sys.Arch, symIdx l
 	return off
 }
 
-func decodetypeStructFieldName2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) string {
+func decodetypeStructFieldName2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, rslice []loader.Reloc, i int) string {
 	off := decodetypeStructFieldArrayOff2(ldr, arch, symIdx, i)
-	// FIXME: it's inefficient to read the relocations each time. Add some
-	// sort of cache here, or pass in the relocs. Alternatively we could
-	// switch to relocs.At() to see if that performs better.
-	relocs := ldr.Relocs(symIdx)
-	rslice := relocs.ReadAll(nil)
 	return decodetypeName2(ldr, symIdx, rslice, off)
 }
 
-func decodetypeStructFieldType2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) loader.Sym {
+func decodetypeStructFieldType2(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, rslice []loader.Reloc, i int) loader.Sym {
 	off := decodetypeStructFieldArrayOff2(ldr, arch, symIdx, i)
-	// FIXME: it's inefficient to read the relocations each time. Add some
-	// sort of cache here, or pass in the relocs. Alternatively we could
-	// switch to relocs.At() to see if that performs better.
-	relocs := ldr.Relocs(symIdx)
-	rslice := relocs.ReadAll(nil)
 	return decodeRelocSym2(ldr, symIdx, rslice, int32(off+arch.PtrSize))
 }
 

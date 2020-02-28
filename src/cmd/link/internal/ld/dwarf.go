@@ -54,6 +54,9 @@ type dwctxt2 struct {
 	typeRuntimeEface loader.Sym
 	typeRuntimeIface loader.Sym
 	uintptrInfoSym   loader.Sym
+
+	// To speed up reloc slice allocation.
+	ra *loader.RelocAllocator
 }
 
 func newdwctxt2(linkctxt *Link, forTypeGen bool) dwctxt2 {
@@ -64,6 +67,7 @@ func newdwctxt2(linkctxt *Link, forTypeGen bool) dwctxt2 {
 		tmap:     make(map[string]loader.Sym),
 		tdmap:    make(map[loader.Sym]loader.Sym),
 		rtmap:    make(map[loader.Sym]loader.Sym),
+		ra:       loader.MakeRelocAllocator(linkctxt.loader),
 	}
 	d.typeRuntimeEface = d.lookupOrDiag("type.runtime.eface")
 	d.typeRuntimeIface = d.lookupOrDiag("type.runtime.iface")
@@ -529,7 +533,7 @@ func (d *dwctxt2) newtype(gotype loader.Sym) *dwarf.DWDie {
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_ARRAYTYPE, name, 0)
 		typedefdie = d.dotypedef(&dwtypes, gotype, name, die)
 		newattr(die, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, bytesize, 0)
-		s := decodetypeArrayElem2(d.ldr, d.arch, gotype)
+		s := decodetypeArrayElem2(d.ldr, d.arch, gotype, d.ra)
 		d.newrefattr(die, dwarf.DW_AT_type, d.defgotype(s))
 		fld := d.newdie(die, dwarf.DW_ABRV_ARRAYRANGE, "range", 0)
 
@@ -540,7 +544,7 @@ func (d *dwctxt2) newtype(gotype loader.Sym) *dwarf.DWDie {
 
 	case objabi.KindChan:
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_CHANTYPE, name, 0)
-		s := decodetypeChanElem2(d.ldr, d.arch, gotype)
+		s := decodetypeChanElem2(d.ldr, d.arch, gotype, d.ra)
 		d.newrefattr(die, dwarf.DW_AT_go_elem, d.defgotype(s))
 		// Save elem type for synthesizechantypes. We could synthesize here
 		// but that would change the order of DIEs we output.
@@ -553,7 +557,8 @@ func (d *dwctxt2) newtype(gotype loader.Sym) *dwarf.DWDie {
 		data := d.ldr.Data(gotype)
 		// FIXME: add caching or reuse reloc slice.
 		relocs := d.ldr.Relocs(gotype)
-		rslice := relocs.ReadAll(nil)
+		rslice := d.ra.Alloc(relocs.Count)
+		rslice = relocs.ReadAll(rslice)
 		nfields := decodetypeFuncInCount(d.arch, data)
 		for i := 0; i < nfields; i++ {
 			s := decodetypeFuncInType2(d.ldr, d.arch, gotype, rslice, i)
@@ -572,6 +577,7 @@ func (d *dwctxt2) newtype(gotype loader.Sym) *dwarf.DWDie {
 			fld := d.newdie(die, dwarf.DW_ABRV_FUNCTYPEPARAM, sn[5:], 0)
 			d.newrefattr(fld, dwarf.DW_AT_type, d.defptrto(d.defgotype(s)))
 		}
+		d.ra.Release(relocs.Count)
 
 	case objabi.KindInterface:
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_IFACETYPE, name, 0)
@@ -588,25 +594,29 @@ func (d *dwctxt2) newtype(gotype loader.Sym) *dwarf.DWDie {
 
 	case objabi.KindMap:
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_MAPTYPE, name, 0)
-		s := decodetypeMapKey2(d.ldr, d.arch, gotype)
+		gtrelocs := d.ldr.Relocs(gotype)
+		gtrslice := d.ra.Alloc(gtrelocs.Count)
+		gtrslice = gtrelocs.ReadAll(gtrslice)
+		s := decodetypeMapKey2(d.ldr, d.arch, gotype, gtrslice)
 		d.newrefattr(die, dwarf.DW_AT_go_key, d.defgotype(s))
-		s = decodetypeMapValue2(d.ldr, d.arch, gotype)
+		s = decodetypeMapValue2(d.ldr, d.arch, gotype, gtrslice)
 		d.newrefattr(die, dwarf.DW_AT_go_elem, d.defgotype(s))
 		// Save gotype for use in synthesizemaptypes. We could synthesize here,
 		// but that would change the order of the DIEs.
 		d.newrefattr(die, dwarf.DW_AT_type, gotype)
+		d.ra.Release(gtrelocs.Count)
 
 	case objabi.KindPtr:
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_PTRTYPE, name, 0)
 		typedefdie = d.dotypedef(&dwtypes, gotype, name, die)
-		s := decodetypePtrElem2(d.ldr, d.arch, gotype)
+		s := decodetypePtrElem2(d.ldr, d.arch, gotype, d.ra)
 		d.newrefattr(die, dwarf.DW_AT_type, d.defgotype(s))
 
 	case objabi.KindSlice:
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_SLICETYPE, name, 0)
 		typedefdie = d.dotypedef(&dwtypes, gotype, name, die)
 		newattr(die, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, bytesize, 0)
-		s := decodetypeArrayElem2(d.ldr, d.arch, gotype)
+		s := decodetypeArrayElem2(d.ldr, d.arch, gotype, d.ra)
 		elem := d.defgotype(s)
 		d.newrefattr(die, dwarf.DW_AT_go_elem, elem)
 
@@ -618,10 +628,13 @@ func (d *dwctxt2) newtype(gotype loader.Sym) *dwarf.DWDie {
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_STRUCTTYPE, name, 0)
 		typedefdie = d.dotypedef(&dwtypes, gotype, name, die)
 		newattr(die, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, bytesize, 0)
+		gtrelocs := d.ldr.Relocs(gotype)
+		gtrslice := d.ra.Alloc(gtrelocs.Count)
+		gtrslice = gtrelocs.ReadAll(gtrslice)
 		nfields := decodetypeStructFieldCount2(d.ldr, d.arch, gotype)
 		for i := 0; i < nfields; i++ {
-			f := decodetypeStructFieldName2(d.ldr, d.arch, gotype, i)
-			s := decodetypeStructFieldType2(d.ldr, d.arch, gotype, i)
+			f := decodetypeStructFieldName2(d.ldr, d.arch, gotype, gtrslice, i)
+			s := decodetypeStructFieldType2(d.ldr, d.arch, gotype, gtrslice, i)
 			if f == "" {
 				sn := d.ldr.SymName(s)
 				f = sn[5:] // skip "type."
@@ -634,6 +647,7 @@ func (d *dwctxt2) newtype(gotype loader.Sym) *dwarf.DWDie {
 				newattr(fld, dwarf.DW_AT_go_embedded_field, dwarf.DW_CLS_FLAG, 1, 0)
 			}
 		}
+		d.ra.Release(gtrelocs.Count)
 
 	case objabi.KindUnsafePointer:
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_BARE_PTRTYPE, name, 0)
@@ -828,8 +842,12 @@ func (d *dwctxt2) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 			continue
 		}
 		gotype := loader.Sym(getattr(die, dwarf.DW_AT_type).Data.(dwSym))
-		keytype := decodetypeMapKey2(d.ldr, d.arch, gotype)
-		valtype := decodetypeMapValue2(d.ldr, d.arch, gotype)
+		gtrelocs := d.ldr.Relocs(gotype)
+		gtrslice := d.ra.Alloc(gtrelocs.Count)
+		gtrslice = gtrelocs.ReadAll(gtrslice)
+		keytype := decodetypeMapKey2(d.ldr, d.arch, gotype, gtrslice)
+		valtype := decodetypeMapValue2(d.ldr, d.arch, gotype, gtrslice)
+		d.ra.Release(gtrelocs.Count)
 		keydata := d.ldr.Data(keytype)
 		valdata := d.ldr.Data(valtype)
 		keysize, valsize := decodetypeSize(d.arch, keydata), decodetypeSize(d.arch, valdata)
@@ -1047,7 +1065,8 @@ func (d *dwctxt2) importInfoSymbol(ctxt *Link, dsym loader.Sym) {
 		log.Fatalf("error: DWARF info sym %d/%s with incorrect type %s", dsym, d.ldr.SymName(dsym), d.ldr.SymType(dsym).String())
 	}
 	drelocs := d.ldr.Relocs(dsym)
-	rslice := drelocs.ReadSyms(nil)
+	rslice := d.ra.Alloc(drelocs.Count)
+	rslice = drelocs.ReadSyms(rslice)
 	for i := 0; i < len(rslice); i++ {
 		r := &rslice[i]
 		if r.Type != objabi.R_DWARFSECREF {
@@ -1066,6 +1085,7 @@ func (d *dwctxt2) importInfoSymbol(ctxt *Link, dsym loader.Sym) {
 		ts := d.ldr.Lookup("type."+tn, 0)
 		d.defgotype(ts)
 	}
+	d.ra.Release(drelocs.Count)
 }
 
 func (d *dwctxt2) writelines(ctxt *Link, unit *sym.CompilationUnit, ls loader.Sym) {
@@ -1462,6 +1482,8 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 	// they have loader.Sym attributes and not sym.Symbol attributes.
 	// At the point when loadlibfull runs we will need to visit
 	// every DIE constructed and convert the symbols.
+
+	d.ra.SanityCheck()
 }
 
 // dwarfConvertSymbols is invoked around the time that loader.LoadFull
