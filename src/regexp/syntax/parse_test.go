@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package syntax
+package syntax_test
 
 import (
 	"fmt"
+	"regexp/syntax"
 	"strings"
 	"testing"
 	"unicode"
@@ -209,7 +210,7 @@ var parseTests = []parseTest{
 	{`((((((((((x{1}){2}){2}){2}){2}){2}){2}){2}){2}){2})`, ``},
 }
 
-const testFlags = MatchNL | PerlX | UnicodeGroups
+const testFlags = syntax.MatchNL | syntax.PerlX | syntax.UnicodeGroups
 
 func TestParseSimple(t *testing.T) {
 	testParseDump(t, parseTests, testFlags)
@@ -228,7 +229,7 @@ var foldcaseTests = []parseTest{
 }
 
 func TestParseFoldCase(t *testing.T) {
-	testParseDump(t, foldcaseTests, FoldCase)
+	testParseDump(t, foldcaseTests, syntax.FoldCase)
 }
 
 var literalTests = []parseTest{
@@ -236,7 +237,7 @@ var literalTests = []parseTest{
 }
 
 func TestParseLiteral(t *testing.T) {
-	testParseDump(t, literalTests, Literal)
+	testParseDump(t, literalTests, syntax.Literal)
 }
 
 var matchnlTests = []parseTest{
@@ -247,7 +248,7 @@ var matchnlTests = []parseTest{
 }
 
 func TestParseMatchNL(t *testing.T) {
-	testParseDump(t, matchnlTests, MatchNL)
+	testParseDump(t, matchnlTests, syntax.MatchNL)
 }
 
 var nomatchnlTests = []parseTest{
@@ -262,9 +263,9 @@ func TestParseNoMatchNL(t *testing.T) {
 }
 
 // Test Parse -> Dump.
-func testParseDump(t *testing.T, tests []parseTest, flags Flags) {
+func testParseDump(t *testing.T, tests []parseTest, flags syntax.Flags) {
 	for _, tt := range tests {
-		re, err := Parse(tt.Regexp, flags)
+		re, err := syntax.Parse(tt.Regexp, flags)
 		if err != nil {
 			t.Errorf("Parse(%#q): %v", tt.Regexp, err)
 			continue
@@ -282,56 +283,56 @@ func testParseDump(t *testing.T, tests []parseTest, flags Flags) {
 
 // dump prints a string representation of the regexp showing
 // the structure explicitly.
-func dump(re *Regexp) string {
+func dump(re *syntax.Regexp) string {
 	var b strings.Builder
 	dumpRegexp(&b, re)
 	return b.String()
 }
 
 var opNames = []string{
-	OpNoMatch:        "no",
-	OpEmptyMatch:     "emp",
-	OpLiteral:        "lit",
-	OpCharClass:      "cc",
-	OpAnyCharNotNL:   "dnl",
-	OpAnyChar:        "dot",
-	OpBeginLine:      "bol",
-	OpEndLine:        "eol",
-	OpBeginText:      "bot",
-	OpEndText:        "eot",
-	OpWordBoundary:   "wb",
-	OpNoWordBoundary: "nwb",
-	OpCapture:        "cap",
-	OpStar:           "star",
-	OpPlus:           "plus",
-	OpQuest:          "que",
-	OpRepeat:         "rep",
-	OpConcat:         "cat",
-	OpAlternate:      "alt",
+	syntax.OpNoMatch:        "no",
+	syntax.OpEmptyMatch:     "emp",
+	syntax.OpLiteral:        "lit",
+	syntax.OpCharClass:      "cc",
+	syntax.OpAnyCharNotNL:   "dnl",
+	syntax.OpAnyChar:        "dot",
+	syntax.OpBeginLine:      "bol",
+	syntax.OpEndLine:        "eol",
+	syntax.OpBeginText:      "bot",
+	syntax.OpEndText:        "eot",
+	syntax.OpWordBoundary:   "wb",
+	syntax.OpNoWordBoundary: "nwb",
+	syntax.OpCapture:        "cap",
+	syntax.OpStar:           "star",
+	syntax.OpPlus:           "plus",
+	syntax.OpQuest:          "que",
+	syntax.OpRepeat:         "rep",
+	syntax.OpConcat:         "cat",
+	syntax.OpAlternate:      "alt",
 }
 
 // dumpRegexp writes an encoding of the syntax tree for the regexp re to b.
 // It is used during testing to distinguish between parses that might print
 // the same using re's String method.
-func dumpRegexp(b *strings.Builder, re *Regexp) {
+func dumpRegexp(b *strings.Builder, re *syntax.Regexp) {
 	if int(re.Op) >= len(opNames) || opNames[re.Op] == "" {
 		fmt.Fprintf(b, "op%d", re.Op)
 	} else {
 		switch re.Op {
 		default:
 			b.WriteString(opNames[re.Op])
-		case OpStar, OpPlus, OpQuest, OpRepeat:
-			if re.Flags&NonGreedy != 0 {
+		case syntax.OpStar, syntax.OpPlus, syntax.OpQuest, syntax.OpRepeat:
+			if re.Flags&syntax.NonGreedy != 0 {
 				b.WriteByte('n')
 			}
 			b.WriteString(opNames[re.Op])
-		case OpLiteral:
+		case syntax.OpLiteral:
 			if len(re.Rune) > 1 {
 				b.WriteString("str")
 			} else {
 				b.WriteString("lit")
 			}
-			if re.Flags&FoldCase != 0 {
+			if re.Flags&syntax.FoldCase != 0 {
 				for _, r := range re.Rune {
 					if unicode.SimpleFold(r) != r {
 						b.WriteString("fold")
@@ -343,30 +344,30 @@ func dumpRegexp(b *strings.Builder, re *Regexp) {
 	}
 	b.WriteByte('{')
 	switch re.Op {
-	case OpEndText:
-		if re.Flags&WasDollar == 0 {
+	case syntax.OpEndText:
+		if re.Flags&syntax.WasDollar == 0 {
 			b.WriteString(`\z`)
 		}
-	case OpLiteral:
+	case syntax.OpLiteral:
 		for _, r := range re.Rune {
 			b.WriteRune(r)
 		}
-	case OpConcat, OpAlternate:
+	case syntax.OpConcat, syntax.OpAlternate:
 		for _, sub := range re.Sub {
 			dumpRegexp(b, sub)
 		}
-	case OpStar, OpPlus, OpQuest:
+	case syntax.OpStar, syntax.OpPlus, syntax.OpQuest:
 		dumpRegexp(b, re.Sub[0])
-	case OpRepeat:
+	case syntax.OpRepeat:
 		fmt.Fprintf(b, "%d,%d ", re.Min, re.Max)
 		dumpRegexp(b, re.Sub[0])
-	case OpCapture:
+	case syntax.OpCapture:
 		if re.Name != "" {
 			b.WriteString(re.Name)
 			b.WriteByte(':')
 		}
 		dumpRegexp(b, re.Sub[0])
-	case OpCharClass:
+	case syntax.OpCharClass:
 		sep := ""
 		for i := 0; i < len(re.Rune); i += 2 {
 			b.WriteString(sep)
@@ -383,7 +384,7 @@ func dumpRegexp(b *strings.Builder, re *Regexp) {
 }
 
 func mkCharClass(f func(rune) bool) string {
-	re := &Regexp{Op: OpCharClass}
+	re := &syntax.Regexp{Op: syntax.OpCharClass}
 	lo := rune(-1)
 	for i := rune(0); i <= unicode.MaxRune; i++ {
 		if f(i) {
@@ -423,13 +424,13 @@ func TestFoldConstants(t *testing.T) {
 		if unicode.SimpleFold(i) == i {
 			continue
 		}
-		if last == -1 && minFold != i {
-			t.Errorf("minFold=%#U should be %#U", minFold, i)
+		if last == -1 && syntax.MinFold != i {
+			t.Errorf("minFold=%#U should be %#U", syntax.MinFold, i)
 		}
 		last = i
 	}
-	if maxFold != last {
-		t.Errorf("maxFold=%#U should be %#U", maxFold, last)
+	if syntax.MaxFold != last {
+		t.Errorf("maxFold=%#U should be %#U", syntax.MaxFold, last)
 	}
 }
 
@@ -440,8 +441,8 @@ func TestAppendRangeCollapse(t *testing.T) {
 	// Note that we are not calling cleanClass.
 	var r []rune
 	for i := rune('A'); i <= 'Z'; i++ {
-		r = appendRange(r, i, i)
-		r = appendRange(r, i+'a'-'A', i+'a'-'A')
+		r = syntax.AppendRange(r, i, i)
+		r = syntax.AppendRange(r, i+'a'-'A', i+'a'-'A')
 	}
 	if string(r) != "AZaz" {
 		t.Errorf("appendRange interlaced A-Z a-z = %s, want AZaz", string(r))
@@ -508,26 +509,26 @@ var onlyPOSIX = []string{
 
 func TestParseInvalidRegexps(t *testing.T) {
 	for _, regexp := range invalidRegexps {
-		if re, err := Parse(regexp, Perl); err == nil {
+		if re, err := syntax.Parse(regexp, syntax.Perl); err == nil {
 			t.Errorf("Parse(%#q, Perl) = %s, should have failed", regexp, dump(re))
 		}
-		if re, err := Parse(regexp, POSIX); err == nil {
+		if re, err := syntax.Parse(regexp, syntax.POSIX); err == nil {
 			t.Errorf("Parse(%#q, POSIX) = %s, should have failed", regexp, dump(re))
 		}
 	}
 	for _, regexp := range onlyPerl {
-		if _, err := Parse(regexp, Perl); err != nil {
+		if _, err := syntax.Parse(regexp, syntax.Perl); err != nil {
 			t.Errorf("Parse(%#q, Perl): %v", regexp, err)
 		}
-		if re, err := Parse(regexp, POSIX); err == nil {
+		if re, err := syntax.Parse(regexp, syntax.POSIX); err == nil {
 			t.Errorf("Parse(%#q, POSIX) = %s, should have failed", regexp, dump(re))
 		}
 	}
 	for _, regexp := range onlyPOSIX {
-		if re, err := Parse(regexp, Perl); err == nil {
+		if re, err := syntax.Parse(regexp, syntax.Perl); err == nil {
 			t.Errorf("Parse(%#q, Perl) = %s, should have failed", regexp, dump(re))
 		}
-		if _, err := Parse(regexp, POSIX); err != nil {
+		if _, err := syntax.Parse(regexp, syntax.POSIX); err != nil {
 			t.Errorf("Parse(%#q, POSIX): %v", regexp, err)
 		}
 	}
@@ -535,7 +536,7 @@ func TestParseInvalidRegexps(t *testing.T) {
 
 func TestToStringEquivalentParse(t *testing.T) {
 	for _, tt := range parseTests {
-		re, err := Parse(tt.Regexp, testFlags)
+		re, err := syntax.Parse(tt.Regexp, testFlags)
 		if err != nil {
 			t.Errorf("Parse(%#q): %v", tt.Regexp, err)
 			continue
@@ -557,7 +558,7 @@ func TestToStringEquivalentParse(t *testing.T) {
 			// Unfortunately we can't check the length here, because
 			// ToString produces "\\{" for a literal brace,
 			// but "{" is a shorter equivalent in some contexts.
-			nre, err := Parse(s, testFlags)
+			nre, err := syntax.Parse(s, testFlags)
 			if err != nil {
 				t.Errorf("Parse(%#q.String() = %#q): %v", tt.Regexp, s, err)
 				continue

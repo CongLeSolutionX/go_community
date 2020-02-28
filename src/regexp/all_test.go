@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package regexp
+package regexp_test
 
 import (
 	"reflect"
+	"regexp"
 	"regexp/syntax"
 	"strings"
 	"testing"
@@ -51,8 +52,8 @@ var badRe = []stringError{
 	{`\x`, "invalid escape sequence: `\\x`"},
 }
 
-func compileTest(t *testing.T, expr string, error string) *Regexp {
-	re, err := Compile(expr)
+func compileTest(t *testing.T, expr string, error string) *regexp.Regexp {
+	re, err := regexp.Compile(expr)
 	if error == "" && err != nil {
 		t.Error("compiling `", expr, "`; unexpected error: ", err.Error())
 	}
@@ -99,7 +100,7 @@ func TestMatch(t *testing.T) {
 }
 
 func matchFunctionTest(t *testing.T, test *FindTest) {
-	m, err := MatchString(test.pat, test.text)
+	m, err := regexp.MatchString(test.pat, test.text)
 	if err == nil {
 		return
 	}
@@ -262,7 +263,7 @@ var replaceFuncTests = []ReplaceFuncTest{
 
 func TestReplaceAll(t *testing.T) {
 	for _, tc := range replaceTests {
-		re, err := Compile(tc.pattern)
+		re, err := regexp.Compile(tc.pattern)
 		if err != nil {
 			t.Errorf("Unexpected error compiling %q: %v", tc.pattern, err)
 			continue
@@ -287,7 +288,7 @@ func TestReplaceAllLiteral(t *testing.T) {
 		if strings.Contains(tc.replacement, "$") {
 			continue
 		}
-		re, err := Compile(tc.pattern)
+		re, err := regexp.Compile(tc.pattern)
 		if err != nil {
 			t.Errorf("Unexpected error compiling %q: %v", tc.pattern, err)
 			continue
@@ -307,7 +308,7 @@ func TestReplaceAllLiteral(t *testing.T) {
 
 	// Run literal-specific tests.
 	for _, tc := range replaceLiteralTests {
-		re, err := Compile(tc.pattern)
+		re, err := regexp.Compile(tc.pattern)
 		if err != nil {
 			t.Errorf("Unexpected error compiling %q: %v", tc.pattern, err)
 			continue
@@ -328,7 +329,7 @@ func TestReplaceAllLiteral(t *testing.T) {
 
 func TestReplaceAllFunc(t *testing.T) {
 	for _, tc := range replaceFuncTests {
-		re, err := Compile(tc.pattern)
+		re, err := regexp.Compile(tc.pattern)
 		if err != nil {
 			t.Errorf("Unexpected error compiling %q: %v", tc.pattern, err)
 			continue
@@ -377,7 +378,7 @@ var literalPrefixTests = []MetaTest{
 func TestQuoteMeta(t *testing.T) {
 	for _, tc := range metaTests {
 		// Verify that QuoteMeta returns the expected string.
-		quoted := QuoteMeta(tc.pattern)
+		quoted := regexp.QuoteMeta(tc.pattern)
 		if quoted != tc.output {
 			t.Errorf("QuoteMeta(`%s`) = `%s`; want `%s`",
 				tc.pattern, quoted, tc.output)
@@ -387,7 +388,7 @@ func TestQuoteMeta(t *testing.T) {
 		// Verify that the quoted string is in fact treated as expected
 		// by Compile -- i.e. that it matches the original, unquoted string.
 		if tc.pattern != "" {
-			re, err := Compile(quoted)
+			re, err := regexp.Compile(quoted)
 			if err != nil {
 				t.Errorf("Unexpected error compiling QuoteMeta(`%s`): %v", tc.pattern, err)
 				continue
@@ -407,7 +408,7 @@ func TestQuoteMeta(t *testing.T) {
 func TestLiteralPrefix(t *testing.T) {
 	for _, tc := range append(metaTests, literalPrefixTests...) {
 		// Literal method needs to scan the pattern.
-		re := MustCompile(tc.pattern)
+		re := regexp.MustCompile(tc.pattern)
 		str, complete := re.LiteralPrefix()
 		if complete != tc.isLiteral {
 			t.Errorf("LiteralPrefix(`%s`) = %t; want %t", tc.pattern, complete, tc.isLiteral)
@@ -440,7 +441,7 @@ var subexpCases = []subexpCase{
 
 func TestSubexp(t *testing.T) {
 	for _, c := range subexpCases {
-		re := MustCompile(c.input)
+		re := regexp.MustCompile(c.input)
 		n := re.NumSubexp()
 		if n != c.num {
 			t.Errorf("%q: NumSubexp = %d, want %d", c.input, n, c.num)
@@ -494,7 +495,7 @@ var splitTests = []struct {
 
 func TestSplit(t *testing.T) {
 	for i, test := range splitTests {
-		re, err := Compile(test.r)
+		re, err := regexp.Compile(test.r)
 		if err != nil {
 			t.Errorf("#%d: %q: compile error: %s", i, test.r, err.Error())
 			continue
@@ -505,10 +506,10 @@ func TestSplit(t *testing.T) {
 			t.Errorf("#%d: %q: got %q; want %q", i, test.r, split, test.out)
 		}
 
-		if QuoteMeta(test.r) == test.r {
+		if regexp.QuoteMeta(test.r) == test.r {
 			strsplit := strings.SplitN(test.s, test.r, test.n)
 			if !reflect.DeepEqual(split, strsplit) {
-				t.Errorf("#%d: Split(%q, %q, %d): regexp vs strings mismatch\nregexp=%q\nstrings=%q", i, test.s, test.r, test.n, split, strsplit)
+				t.Errorf("#%d: Split(%q, %q, %d): Regexp vs strings mismatch\nregexp.Regexp=%q\nstrings=%q", i, test.s, test.r, test.n, split, strsplit)
 			}
 		}
 	}
@@ -530,7 +531,7 @@ func TestParseAndCompile(t *testing.T) {
 		if err != nil {
 			t.Fatalf("%d: parse: %v", i, err)
 		}
-		re, err := Compile(parsed.String())
+		re, err := regexp.Compile(parsed.String())
 		if err != nil {
 			t.Fatalf("%d: compile: %v", i, err)
 		}
@@ -550,7 +551,7 @@ func TestOnePassCutoff(t *testing.T) {
 	if err != nil {
 		t.Fatalf("compile: %v", err)
 	}
-	if compileOnePass(p) != nil {
+	if regexp.CompileOnePass(p) != nil {
 		t.Fatalf("makeOnePass succeeded; wanted nil")
 	}
 }
@@ -558,8 +559,8 @@ func TestOnePassCutoff(t *testing.T) {
 // Check that the same machine can be used with the standard matcher
 // and then the backtracker when there are no captures.
 func TestSwitchBacktrack(t *testing.T) {
-	re := MustCompile(`a|b`)
-	long := make([]byte, maxBacktrackVector+1)
+	re := regexp.MustCompile(`a|b`)
+	long := make([]byte, regexp.MaxBacktrackVector+1)
 
 	// The following sequence of Match calls used to panic. See issue #10319.
 	re.Match(long)     // triggers standard matcher
@@ -568,7 +569,7 @@ func TestSwitchBacktrack(t *testing.T) {
 
 func BenchmarkFind(b *testing.B) {
 	b.StopTimer()
-	re := MustCompile("a+b+")
+	re := regexp.MustCompile("a+b+")
 	wantSubs := "aaabb"
 	s := []byte("acbb" + wantSubs + "dd")
 	b.StartTimer()
@@ -582,7 +583,7 @@ func BenchmarkFind(b *testing.B) {
 }
 
 func BenchmarkFindAllNoMatches(b *testing.B) {
-	re := MustCompile("a+b+")
+	re := regexp.MustCompile("a+b+")
 	s := []byte("acddee")
 	b.ReportAllocs()
 	b.ResetTimer()
@@ -596,7 +597,7 @@ func BenchmarkFindAllNoMatches(b *testing.B) {
 
 func BenchmarkFindString(b *testing.B) {
 	b.StopTimer()
-	re := MustCompile("a+b+")
+	re := regexp.MustCompile("a+b+")
 	wantSubs := "aaabb"
 	s := "acbb" + wantSubs + "dd"
 	b.StartTimer()
@@ -611,7 +612,7 @@ func BenchmarkFindString(b *testing.B) {
 
 func BenchmarkFindSubmatch(b *testing.B) {
 	b.StopTimer()
-	re := MustCompile("a(a+b+)b")
+	re := regexp.MustCompile("a(a+b+)b")
 	wantSubs := "aaabb"
 	s := []byte("acbb" + wantSubs + "dd")
 	b.StartTimer()
@@ -629,7 +630,7 @@ func BenchmarkFindSubmatch(b *testing.B) {
 
 func BenchmarkFindStringSubmatch(b *testing.B) {
 	b.StopTimer()
-	re := MustCompile("a(a+b+)b")
+	re := regexp.MustCompile("a(a+b+)b")
 	wantSubs := "aaabb"
 	s := "acbb" + wantSubs + "dd"
 	b.StartTimer()
@@ -648,7 +649,7 @@ func BenchmarkFindStringSubmatch(b *testing.B) {
 func BenchmarkLiteral(b *testing.B) {
 	x := strings.Repeat("x", 50) + "y"
 	b.StopTimer()
-	re := MustCompile("y")
+	re := regexp.MustCompile("y")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		if !re.MatchString(x) {
@@ -660,7 +661,7 @@ func BenchmarkLiteral(b *testing.B) {
 func BenchmarkNotLiteral(b *testing.B) {
 	x := strings.Repeat("x", 50) + "y"
 	b.StopTimer()
-	re := MustCompile(".y")
+	re := regexp.MustCompile(".y")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		if !re.MatchString(x) {
@@ -672,7 +673,7 @@ func BenchmarkNotLiteral(b *testing.B) {
 func BenchmarkMatchClass(b *testing.B) {
 	b.StopTimer()
 	x := strings.Repeat("xxxx", 20) + "w"
-	re := MustCompile("[abcdw]")
+	re := regexp.MustCompile("[abcdw]")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		if !re.MatchString(x) {
@@ -686,7 +687,7 @@ func BenchmarkMatchClass_InRange(b *testing.B) {
 	// 'b' is between 'a' and 'c', so the charclass
 	// range checking is no help here.
 	x := strings.Repeat("bbbb", 20) + "c"
-	re := MustCompile("[ac]")
+	re := regexp.MustCompile("[ac]")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		if !re.MatchString(x) {
@@ -698,7 +699,7 @@ func BenchmarkMatchClass_InRange(b *testing.B) {
 func BenchmarkReplaceAll(b *testing.B) {
 	x := "abcdefghijklmnopqrstuvwxyz"
 	b.StopTimer()
-	re := MustCompile("[cjrw]")
+	re := regexp.MustCompile("[cjrw]")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.ReplaceAllString(x, "")
@@ -708,7 +709,7 @@ func BenchmarkReplaceAll(b *testing.B) {
 func BenchmarkAnchoredLiteralShortNonMatch(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcdefghijklmnopqrstuvwxyz")
-	re := MustCompile("^zbc(d|e)")
+	re := regexp.MustCompile("^zbc(d|e)")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -721,7 +722,7 @@ func BenchmarkAnchoredLiteralLongNonMatch(b *testing.B) {
 	for i := 0; i < 15; i++ {
 		x = append(x, x...)
 	}
-	re := MustCompile("^zbc(d|e)")
+	re := regexp.MustCompile("^zbc(d|e)")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -731,7 +732,7 @@ func BenchmarkAnchoredLiteralLongNonMatch(b *testing.B) {
 func BenchmarkAnchoredShortMatch(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcdefghijklmnopqrstuvwxyz")
-	re := MustCompile("^.bc(d|e)")
+	re := regexp.MustCompile("^.bc(d|e)")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -744,7 +745,7 @@ func BenchmarkAnchoredLongMatch(b *testing.B) {
 	for i := 0; i < 15; i++ {
 		x = append(x, x...)
 	}
-	re := MustCompile("^.bc(d|e)")
+	re := regexp.MustCompile("^.bc(d|e)")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -754,7 +755,7 @@ func BenchmarkAnchoredLongMatch(b *testing.B) {
 func BenchmarkOnePassShortA(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcddddddeeeededd")
-	re := MustCompile("^.bc(d|e)*$")
+	re := regexp.MustCompile("^.bc(d|e)*$")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -764,7 +765,7 @@ func BenchmarkOnePassShortA(b *testing.B) {
 func BenchmarkNotOnePassShortA(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcddddddeeeededd")
-	re := MustCompile(".bc(d|e)*$")
+	re := regexp.MustCompile(".bc(d|e)*$")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -774,7 +775,7 @@ func BenchmarkNotOnePassShortA(b *testing.B) {
 func BenchmarkOnePassShortB(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcddddddeeeededd")
-	re := MustCompile("^.bc(?:d|e)*$")
+	re := regexp.MustCompile("^.bc(?:d|e)*$")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -784,7 +785,7 @@ func BenchmarkOnePassShortB(b *testing.B) {
 func BenchmarkNotOnePassShortB(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcddddddeeeededd")
-	re := MustCompile(".bc(?:d|e)*$")
+	re := regexp.MustCompile(".bc(?:d|e)*$")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -794,7 +795,7 @@ func BenchmarkNotOnePassShortB(b *testing.B) {
 func BenchmarkOnePassLongPrefix(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcdefghijklmnopqrstuvwxyz")
-	re := MustCompile("^abcdefghijklmnopqrstuvwxyz.*$")
+	re := regexp.MustCompile("^abcdefghijklmnopqrstuvwxyz.*$")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -804,7 +805,7 @@ func BenchmarkOnePassLongPrefix(b *testing.B) {
 func BenchmarkOnePassLongNotPrefix(b *testing.B) {
 	b.StopTimer()
 	x := []byte("abcdefghijklmnopqrstuvwxyz")
-	re := MustCompile("^.bcdefghijklmnopqrstuvwxyz.*$")
+	re := regexp.MustCompile("^.bcdefghijklmnopqrstuvwxyz.*$")
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		re.Match(x)
@@ -813,7 +814,7 @@ func BenchmarkOnePassLongNotPrefix(b *testing.B) {
 
 func BenchmarkMatchParallelShared(b *testing.B) {
 	x := []byte("this is a long line that contains foo bar baz")
-	re := MustCompile("foo (ba+r)? baz")
+	re := regexp.MustCompile("foo (ba+r)? baz")
 	b.ResetTimer()
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
@@ -824,7 +825,7 @@ func BenchmarkMatchParallelShared(b *testing.B) {
 
 func BenchmarkMatchParallelCopied(b *testing.B) {
 	x := []byte("this is a long line that contains foo bar baz")
-	re := MustCompile("foo (ba+r)? baz")
+	re := regexp.MustCompile("foo (ba+r)? baz")
 	b.ResetTimer()
 	b.RunParallel(func(pb *testing.PB) {
 		re := re.Copy()
@@ -839,7 +840,7 @@ var sink string
 func BenchmarkQuoteMetaAll(b *testing.B) {
 	specials := make([]byte, 0)
 	for i := byte(0); i < utf8.RuneSelf; i++ {
-		if special(i) {
+		if regexp.Special(i) {
 			specials = append(specials, i)
 		}
 	}
@@ -847,7 +848,7 @@ func BenchmarkQuoteMetaAll(b *testing.B) {
 	b.SetBytes(int64(len(s)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		sink = QuoteMeta(s)
+		sink = regexp.QuoteMeta(s)
 	}
 }
 
@@ -856,7 +857,7 @@ func BenchmarkQuoteMetaNone(b *testing.B) {
 	b.SetBytes(int64(len(s)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		sink = QuoteMeta(s)
+		sink = regexp.QuoteMeta(s)
 	}
 }
 
@@ -871,7 +872,7 @@ func BenchmarkCompile(b *testing.B) {
 		b.Run(data.name, func(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
-				if _, err := Compile(data.re); err != nil {
+				if _, err := regexp.Compile(data.re); err != nil {
 					b.Fatal(err)
 				}
 			}
@@ -880,8 +881,8 @@ func BenchmarkCompile(b *testing.B) {
 }
 
 func TestDeepEqual(t *testing.T) {
-	re1 := MustCompile("a.*b.*c.*d")
-	re2 := MustCompile("a.*b.*c.*d")
+	re1 := regexp.MustCompile("a.*b.*c.*d")
+	re2 := regexp.MustCompile("a.*b.*c.*d")
 	if !reflect.DeepEqual(re1, re2) { // has always been true, since Go 1.
 		t.Errorf("DeepEqual(re1, re2) = false, want true")
 	}
@@ -923,9 +924,9 @@ var minInputLenTests = []struct {
 func TestMinInputLen(t *testing.T) {
 	for _, tt := range minInputLenTests {
 		re, _ := syntax.Parse(tt.Regexp, syntax.Perl)
-		m := minInputLen(re)
+		m := regexp.MinInputLen(re)
 		if m != tt.min {
-			t.Errorf("regexp %#q has minInputLen %d, should be %d", tt.Regexp, m, tt.min)
+			t.Errorf("Regexp %#q has minInputLen %d, should be %d", tt.Regexp, m, tt.min)
 		}
 	}
 }

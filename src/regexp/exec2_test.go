@@ -4,7 +4,7 @@
 
 // +build !race
 
-package regexp
+package regexp_test
 
 import (
 	"testing"

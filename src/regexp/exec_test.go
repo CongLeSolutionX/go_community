@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package regexp
+package regexp_test
 
 import (
 	"bufio"
@@ -12,6 +12,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"regexp"
 	"regexp/syntax"
 	"strconv"
 	"strings"
@@ -87,8 +88,8 @@ func testRE2(t *testing.T, file string) {
 		str       []string
 		input     []string
 		inStrings bool
-		re        *Regexp
-		refull    *Regexp
+		re        *regexp.Regexp
+		refull    *regexp.Regexp
 		nfail     int
 		ncase     int
 	)
@@ -198,57 +199,57 @@ func testRE2(t *testing.T, file string) {
 	t.Logf("%d cases tested", ncase)
 }
 
-var run = []func(*Regexp, *Regexp, string) ([]int, string){
+var run = []func(*regexp.Regexp, *regexp.Regexp, string) ([]int, string){
 	runFull,
 	runPartial,
 	runFullLongest,
 	runPartialLongest,
 }
 
-func runFull(re, refull *Regexp, text string) ([]int, string) {
-	refull.longest = false
+func runFull(re, refull *regexp.Regexp, text string) ([]int, string) {
+	regexp.SetLongest(refull, false)
 	return refull.FindStringSubmatchIndex(text), "[full]"
 }
 
-func runPartial(re, refull *Regexp, text string) ([]int, string) {
-	re.longest = false
+func runPartial(re, refull *regexp.Regexp, text string) ([]int, string) {
+	regexp.SetLongest(re, false)
 	return re.FindStringSubmatchIndex(text), ""
 }
 
-func runFullLongest(re, refull *Regexp, text string) ([]int, string) {
-	refull.longest = true
+func runFullLongest(re, refull *regexp.Regexp, text string) ([]int, string) {
+	regexp.SetLongest(refull, true)
 	return refull.FindStringSubmatchIndex(text), "[full,longest]"
 }
 
-func runPartialLongest(re, refull *Regexp, text string) ([]int, string) {
-	re.longest = true
+func runPartialLongest(re, refull *regexp.Regexp, text string) ([]int, string) {
+	regexp.SetLongest(re, true)
 	return re.FindStringSubmatchIndex(text), "[longest]"
 }
 
-var match = []func(*Regexp, *Regexp, string) (bool, string){
+var match = []func(*regexp.Regexp, *regexp.Regexp, string) (bool, string){
 	matchFull,
 	matchPartial,
 	matchFullLongest,
 	matchPartialLongest,
 }
 
-func matchFull(re, refull *Regexp, text string) (bool, string) {
-	refull.longest = false
+func matchFull(re, refull *regexp.Regexp, text string) (bool, string) {
+	regexp.SetLongest(refull, false)
 	return refull.MatchString(text), "[full]"
 }
 
-func matchPartial(re, refull *Regexp, text string) (bool, string) {
-	re.longest = false
+func matchPartial(re, refull *regexp.Regexp, text string) (bool, string) {
+	regexp.SetLongest(re, false)
 	return re.MatchString(text), ""
 }
 
-func matchFullLongest(re, refull *Regexp, text string) (bool, string) {
-	refull.longest = true
+func matchFullLongest(re, refull *regexp.Regexp, text string) (bool, string) {
+	regexp.SetLongest(refull, true)
 	return refull.MatchString(text), "[full,longest]"
 }
 
-func matchPartialLongest(re, refull *Regexp, text string) (bool, string) {
-	re.longest = true
+func matchPartialLongest(re, refull *regexp.Regexp, text string) (bool, string) {
+	regexp.SetLongest(re, true)
 	return re.MatchString(text), "[longest]"
 }
 
@@ -261,14 +262,14 @@ func isSingleBytes(s string) bool {
 	return true
 }
 
-func tryCompile(s string) (re *Regexp, err error) {
+func tryCompile(s string) (re *regexp.Regexp, err error) {
 	// Protect against panic during Compile.
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("panic: %v", r)
 		}
 	}()
-	return Compile(s)
+	return regexp.Compile(s)
 }
 
 func parseResult(t *testing.T, file string, lineno int, res string) []int {
@@ -339,7 +340,7 @@ func TestFowler(t *testing.T) {
 	}
 }
 
-var notab = MustCompilePOSIX(`[^\t]+`)
+var notab = regexp.MustCompilePOSIX(`[^\t]+`)
 
 func testFowler(t *testing.T, file string) {
 	f, err := os.Open(file)
@@ -518,7 +519,7 @@ Reading:
 				// extended regexp (what we support)
 			case 'L':
 				// literal
-				pattern = QuoteMeta(pattern)
+				pattern = regexp.QuoteMeta(pattern)
 			}
 
 			for _, c := range flag {
@@ -528,7 +529,7 @@ Reading:
 				}
 			}
 
-			re, err := compile(pattern, syn, true)
+			re, err := regexp.CompileInternal(pattern, syn, true)
 			if err != nil {
 				if shouldCompile {
 					t.Errorf("%s:%d: %#q did not compile", file, lineno, pattern)
@@ -663,7 +664,7 @@ func BenchmarkMatch(b *testing.B) {
 	isRaceBuilder := strings.HasSuffix(testenv.Builder(), "-race")
 
 	for _, data := range benchData {
-		r := MustCompile(data.re)
+		r := regexp.MustCompile(data.re)
 		for _, size := range benchSizes {
 			if (isRaceBuilder || testing.Short()) && size.n > 1<<10 {
 				continue
@@ -683,8 +684,8 @@ func BenchmarkMatch(b *testing.B) {
 
 func BenchmarkMatch_onepass_regex(b *testing.B) {
 	isRaceBuilder := strings.HasSuffix(testenv.Builder(), "-race")
-	r := MustCompile(`(?s)\A.*\z`)
-	if r.onepass == nil {
+	r := regexp.MustCompile(`(?s)\A.*\z`)
+	if regexp.IsOnePassNil(r) {
 		b.Fatalf("want onepass regex, but %q is not onepass", r)
 	}
 	for _, size := range benchSizes {
@@ -726,7 +727,7 @@ var benchSizes = []struct {
 }
 
 func TestLongest(t *testing.T) {
-	re, err := Compile(`a(|b)`)
+	re, err := regexp.Compile(`a(|b)`)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -742,7 +743,7 @@ func TestLongest(t *testing.T) {
 // TestProgramTooLongForBacktrack tests that a regex which is too long
 // for the backtracker still executes properly.
 func TestProgramTooLongForBacktrack(t *testing.T) {
-	longRegex := MustCompile(`(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|twentyone|twentytwo|twentythree|twentyfour|twentyfive|twentysix|twentyseven|twentyeight|twentynine|thirty|thirtyone|thirtytwo|thirtythree|thirtyfour|thirtyfive|thirtysix|thirtyseven|thirtyeight|thirtynine|forty|fortyone|fortytwo|fortythree|fortyfour|fortyfive|fortysix|fortyseven|fortyeight|fortynine|fifty|fiftyone|fiftytwo|fiftythree|fiftyfour|fiftyfive|fiftysix|fiftyseven|fiftyeight|fiftynine|sixty|sixtyone|sixtytwo|sixtythree|sixtyfour|sixtyfive|sixtysix|sixtyseven|sixtyeight|sixtynine|seventy|seventyone|seventytwo|seventythree|seventyfour|seventyfive|seventysix|seventyseven|seventyeight|seventynine|eighty|eightyone|eightytwo|eightythree|eightyfour|eightyfive|eightysix|eightyseven|eightyeight|eightynine|ninety|ninetyone|ninetytwo|ninetythree|ninetyfour|ninetyfive|ninetysix|ninetyseven|ninetyeight|ninetynine|onehundred)`)
+	longRegex := regexp.MustCompile(`(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|twentyone|twentytwo|twentythree|twentyfour|twentyfive|twentysix|twentyseven|twentyeight|twentynine|thirty|thirtyone|thirtytwo|thirtythree|thirtyfour|thirtyfive|thirtysix|thirtyseven|thirtyeight|thirtynine|forty|fortyone|fortytwo|fortythree|fortyfour|fortyfive|fortysix|fortyseven|fortyeight|fortynine|fifty|fiftyone|fiftytwo|fiftythree|fiftyfour|fiftyfive|fiftysix|fiftyseven|fiftyeight|fiftynine|sixty|sixtyone|sixtytwo|sixtythree|sixtyfour|sixtyfive|sixtysix|sixtyseven|sixtyeight|sixtynine|seventy|seventyone|seventytwo|seventythree|seventyfour|seventyfive|seventysix|seventyseven|seventyeight|seventynine|eighty|eightyone|eightytwo|eightythree|eightyfour|eightyfive|eightysix|eightyseven|eightyeight|eightynine|ninety|ninetyone|ninetytwo|ninetythree|ninetyfour|ninetyfive|ninetysix|ninetyseven|ninetyeight|ninetynine|onehundred)`)
 	if !longRegex.MatchString("two") {
 		t.Errorf("longRegex.MatchString(\"two\") was false, want true")
 	}

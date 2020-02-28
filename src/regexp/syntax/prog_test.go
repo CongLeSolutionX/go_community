@@ -2,9 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package syntax
+package syntax_test
 
-import "testing"
+import (
+	"regexp/syntax"
+	"testing"
+)
 
 var compileTests = []struct {
 	Regexp string
@@ -93,8 +96,8 @@ var compileTests = []struct {
 
 func TestCompile(t *testing.T) {
 	for _, tt := range compileTests {
-		re, _ := Parse(tt.Regexp, Perl)
-		p, _ := Compile(re)
+		re, _ := syntax.Parse(tt.Regexp, syntax.Perl)
+		p, _ := syntax.Compile(re)
 		s := p.String()
 		if s != tt.Prog {
 			t.Errorf("compiled %#q:\n--- have\n%s---\n--- want\n%s---", tt.Regexp, s, tt.Prog)
@@ -106,9 +109,9 @@ func BenchmarkEmptyOpContext(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var r1 rune = -1
 		for _, r2 := range "foo, bar, baz\nsome input text.\n" {
-			EmptyOpContext(r1, r2)
+			syntax.EmptyOpContext(r1, r2)
 			r1 = r2
 		}
-		EmptyOpContext(r1, -1)
+		syntax.EmptyOpContext(r1, -1)
 	}
 }
