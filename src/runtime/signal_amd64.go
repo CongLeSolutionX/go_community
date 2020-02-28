@@ -85,3 +85,10 @@ func (c *sigctxt) pushCall(targetPC uintptr) {
 	c.set_rsp(uint64(sp))
 	c.set_rip(uint64(targetPC))
 }
+
+// This function is injected when a preemption signal is received
+// but not actually preempt.
+// It must not actually preempt, and must not clobber any registers
+// that are used by Go.
+// Implemented in assembly.
+func notAsyncPreempt()

@@ -75,3 +75,5 @@ func (c *sigctxt) pushCall(targetPC uintptr) {
 	c.set_esp(uint32(sp))
 	c.set_eip(uint32(targetPC))
 }
+
+func notAsyncPreempt() { throw("unreachable") }

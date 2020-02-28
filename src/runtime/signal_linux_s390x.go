@@ -125,3 +125,5 @@ func (c *sigctxt) pushCall(targetPC uintptr) {
 	c.set_link(c.pc())
 	c.set_pc(uint64(targetPC))
 }
+
+func notAsyncPreempt() { throw("unreachable") }

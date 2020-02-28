@@ -83,3 +83,5 @@ const pushCallSupported = false
 func (c *sigctxt) pushCall(targetPC uintptr) {
 	throw("unimplemented")
 }
+
+func notAsyncPreempt() { throw("unreachable") }

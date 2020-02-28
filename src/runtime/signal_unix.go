@@ -330,6 +330,22 @@ func doSigPreempt(gp *g, ctxt *sigctxt) {
 		// Inject a call to asyncPreempt.
 		ctxt.pushCall(funcPC(asyncPreempt))
 	}
+	if GOOS == "darwin" && GOARCH == "amd64" && !wantAsyncPreempt(gp) && isAsyncSafePoint(gp, ctxt.sigpc(), ctxt.sigsp(), ctxt.siglr()) {
+		// Apparently, the signal handling code path in darwin kernel leaves
+		// the upper bits of Y registers in a dirty state, which causes
+		// many SSE operations (128-bit and narrower) become much slower.
+		// See issue #37174.
+		// We clear the upper bits to get to a clean state at the entry of
+		// asyncPreempt, if a call of asyncPreempt is actually injected.
+		// But it doesn't help if we don't preempt.
+		// Here, we inject a call that just clear the dirty state even if it
+		// doesn't preempt.
+		// We need to ensure the Y registers are not live here. isAsyncSafePoint
+		// ensure it is running Go code, so it is safe.
+		// TODO: relax this check to just "this is a Go frame". The unsafe point
+		// marker and whether it is in runtime don't matter.
+		ctxt.pushCall(funcPC(notAsyncPreempt))
+	}
 
 	// Acknowledge the preemption.
 	atomic.Xadd(&gp.m.preemptGen, 1)
