@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36456792_bf7f1cf8",
+        "filename": "doc/effective_go.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2698,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-28T19:32:27Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this detail in this document.  Let\u0027s just omit the parenthetical.",
+      "revId": "f54391fa0c244ce976e212d7033b6b0c892ffb8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
