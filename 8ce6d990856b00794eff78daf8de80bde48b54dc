@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "988945b0_2bce0472",
+        "filename": "src/time/time.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-02-28T16:22:09Z",
+      "side": 1,
+      "message": "No need for the if statement.  This is just\n    abs +\u003d uint64(d) * secondsPerDay",
+      "revId": "8ce6d990856b00794eff78daf8de80bde48b54dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
