@@ -1,0 +1,41 @@
+# Download a module
+go mod download -modcacherw rsc.io/quote
+exists $GOPATH/pkg/mod/rsc.io/quote@v1.5.2/go.mod
+
+# Create a .partial file and delete something to simulate
+# an error extracting the zip file.
+cp empty $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.partial
+rm $GOPATH/pkg/mod/rsc.io/quote@v1.5.2/go.mod
+
+# go mod verify should not fail, since the module hasn't been completely
+# ingested into the cache.
+go mod verify
+
+# go list should not load packages from the directory.
+! go list $GOPATH/pkg/mod/rsc.io/quote@v1.5.2
+stderr 'outside available modules'
+
+# go list -m should not print the directory.
+go list -m -f '{{.Dir}}' rsc.io/quote
+! stdout .
+
+# 'go mod download' should re-extract the module and remove the .partial file.
+go mod download
+! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.partial
+exists $GOPATH/pkg/mod/rsc.io/quote@v1.5.2/go.mod
+
+# go mod verify and go list should succeed.
+go mod verify
+go list $GOPATH/pkg/mod/rsc.io/quote@v1.5.2
+stdout '^rsc.io/quote$'
+go list -m -f '{{.Dir}}' rsc.io/quote
+stdout 'pkg[/\\]mod[/\\]rsc.io[/\\]quote@v1.5.2'
+
+-- go.mod --
+module m
+
+go 1.14
+
+require rsc.io/quote v1.5.2
+
+-- empty --
