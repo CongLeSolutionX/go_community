@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package regexp
+package regexp_test
 
 import (
 	"reflect"
+	"regexp"
 	"regexp/syntax"
 	"strings"
 	"testing"
@@ -29,7 +30,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 69},
 		[]rune{69, 69},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 1,
 	},
 	{
@@ -37,7 +38,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 69},
 		[]rune{69, 69},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 	{
@@ -69,7 +70,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 74},
 		[]rune{71, 71},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 	{
@@ -77,7 +78,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 74},
 		[]rune{68, 75},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 	{
@@ -85,7 +86,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 74},
 		[]rune{74, 75},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 	{
@@ -93,7 +94,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 74},
 		[]rune{65, 69},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 	{
@@ -101,7 +102,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 74},
 		[]rune{71, 74},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 	{
@@ -109,7 +110,7 @@ var runeMergeTests = []struct {
 		[]rune{69, 74},
 		[]rune{65, 71},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 	{
@@ -117,14 +118,14 @@ var runeMergeTests = []struct {
 		[]rune{69, 74, 60, 65},
 		[]rune{66, 67},
 		[]rune{},
-		[]uint32{mergeFailed},
+		[]uint32{regexp.MergeFailed},
 		1, 2,
 	},
 }
 
 func TestMergeRuneSet(t *testing.T) {
 	for ix, test := range runeMergeTests {
-		merged, next := mergeRuneSets(&test.left, &test.right, test.leftPC, test.rightPC)
+		merged, next := regexp.MergeRuneSets(&test.left, &test.right, test.leftPC, test.rightPC)
 		if !reflect.DeepEqual(merged, test.merged) {
 			t.Errorf("mergeRuneSet :%d (%v, %v) merged\n have\n%v\nwant\n%v", ix, test.left, test.right, merged, test.merged)
 		}
@@ -192,7 +193,7 @@ func TestCompileOnePass(t *testing.T) {
 			t.Errorf("Compile(%q) got err:%s, want success", test.re, err)
 			continue
 		}
-		isOnePass := compileOnePass(p) != nil
+		isOnePass := regexp.CompileOnePass(p) != nil
 		if isOnePass != test.isOnePass {
 			t.Errorf("CompileOnePass(%q) got isOnePass=%v, expected %v", test.re, isOnePass, test.isOnePass)
 		}
@@ -209,12 +210,12 @@ var onePassTests1 = []struct {
 
 func TestRunOnePass(t *testing.T) {
 	for _, test := range onePassTests1 {
-		re, err := Compile(test.re)
+		re, err := regexp.Compile(test.re)
 		if err != nil {
 			t.Errorf("Compile(%q): got err: %s", test.re, err)
 			continue
 		}
-		if re.onepass == nil {
+		if regexp.IsOnePassNil(re) {
 			t.Errorf("Compile(%q): got nil, want one-pass", test.re)
 			continue
 		}

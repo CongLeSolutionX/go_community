@@ -2,9 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package syntax
+package syntax_test
 
-import "testing"
+import (
+	"regexp/syntax"
+	"testing"
+)
 
 var simplifyTests = []struct {
 	Regexp string
@@ -138,7 +141,7 @@ var simplifyTests = []struct {
 
 func TestSimplify(t *testing.T) {
 	for _, tt := range simplifyTests {
-		re, err := Parse(tt.Regexp, MatchNL|Perl&^OneLine)
+		re, err := syntax.Parse(tt.Regexp, syntax.MatchNL|syntax.Perl&^syntax.OneLine)
 		if err != nil {
 			t.Errorf("Parse(%#q) = error %v", tt.Regexp, err)
 			continue
