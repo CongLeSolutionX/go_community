@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db565059_ff1a9746",
+        "filename": "src/cmd/link/internal/ld/target.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-28T19:50:29Z",
+      "side": 1,
+      "message": "nit: IsARM",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 22
+      },
+      "revId": "2c9f2d913aa369f939d67b90aaed602a5b13fab2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0189bdb2_00511c9b",
+        "filename": "src/cmd/link/internal/ld/target.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-02-28T19:50:29Z",
+      "side": 1,
+      "message": "nit: IsAIX",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "2c9f2d913aa369f939d67b90aaed602a5b13fab2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
