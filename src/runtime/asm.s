@@ -32,3 +32,8 @@ GLOBL runtime·no_pointers_stackmap(SB),RODATA, $8
 // This function must be sizeofSkipFunction bytes.
 TEXT runtime·skipPleaseUseCallersFrames(SB),NOSPLIT,$0-0
 	SKIP64; SKIP64; SKIP64; SKIP64
+
+#ifndef GOARCH_amd64
+TEXT runtime·notAsyncPreempt(SB),NOSPLIT,$0-0
+	UNDEF
+#endif

@@ -310,6 +310,13 @@ func asyncPreempt2() {
 	gp.asyncSafePoint = false
 }
 
+// notAsyncPreempt is injected when a preemption signal is received
+// but not actually preempt.
+// It must not actually preempt, and must not clobber any registers
+// that are used by Go.
+// Currently only used on darwin/amd64. Implemented in assembly.
+func notAsyncPreempt()
+
 // asyncPreemptStack is the bytes of stack space required to inject an
 // asyncPreempt call.
 var asyncPreemptStack = ^uintptr(0)

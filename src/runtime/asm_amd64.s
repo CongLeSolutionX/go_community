@@ -1743,3 +1743,17 @@ TEXT runtime·panicSlice3CU(SB),NOSPLIT,$0-16
 DATA runtime·tls_g+0(SB)/8, $16
 GLOBL runtime·tls_g+0(SB), NOPTR, $8
 #endif
+
+TEXT runtime·notAsyncPreempt(SB),NOSPLIT,$0-0
+#ifdef GOOS_darwin
+	// Clear the upper bits of Y registers on darwin. See the comment in
+	// mkpreempt.go.
+	PUSHFQ
+	CMPB	internal∕cpu·X86+const_offsetX86HasAVX(SB), $0
+	JE	2(PC)
+	VZEROUPPER
+	POPFQ
+	RET
+#else
+	UNDEF
+#endif
