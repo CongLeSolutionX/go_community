@@ -48,6 +48,14 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpConstString(v)
 	case OpConvert:
 		return rewriteValuegeneric_OpConvert(v)
+	case OpCtz16:
+		return rewriteValuegeneric_OpCtz16(v)
+	case OpCtz32:
+		return rewriteValuegeneric_OpCtz32(v)
+	case OpCtz64:
+		return rewriteValuegeneric_OpCtz64(v)
+	case OpCtz8:
+		return rewriteValuegeneric_OpCtz8(v)
 	case OpCvt32Fto32:
 		return rewriteValuegeneric_OpCvt32Fto32(v)
 	case OpCvt32Fto64:
@@ -2827,6 +2835,66 @@ func rewriteValuegeneric_OpConvert(v *Value) bool {
 		v.reset(OpCopy)
 		v.Type = ptr.Type
 		v.AddArg(ptr)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpCtz16(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (Ctz16 (Const16 [c]))
+	// result: (Const16 [ntz16(c)])
+	for {
+		if v_0.Op != OpConst16 {
+			break
+		}
+		c := v_0.AuxInt
+		v.reset(OpConst16)
+		v.AuxInt = ntz16(c)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpCtz32(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (Ctz32 (Const32 [c]))
+	// result: (Const32 [ntz32(c)])
+	for {
+		if v_0.Op != OpConst32 {
+			break
+		}
+		c := v_0.AuxInt
+		v.reset(OpConst32)
+		v.AuxInt = ntz32(c)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpCtz64(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (Ctz64 (Const64 [c]))
+	// result: (Const64 [ntz(c)])
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		c := v_0.AuxInt
+		v.reset(OpConst64)
+		v.AuxInt = ntz(c)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpCtz8(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (Ctz8 (Const8 [c]))
+	// result: (Const8 [ntz8(c)])
+	for {
+		if v_0.Op != OpConst8 {
+			break
+		}
+		c := v_0.AuxInt
+		v.reset(OpConst8)
+		v.AuxInt = ntz8(c)
 		return true
 	}
 	return false
