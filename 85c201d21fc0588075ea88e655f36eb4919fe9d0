@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e31604c0_330ee509",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-02-28T22:33:15Z",
+      "side": 1,
+      "message": "Maybe mention what the seed is used for?\nIt\u0027s probably not obvious to the reader why a checker needs a seed.",
+      "revId": "85c201d21fc0588075ea88e655f36eb4919fe9d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
