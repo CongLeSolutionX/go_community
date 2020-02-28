@@ -1,0 +1,31 @@
+[short] skip
+[!race] skip
+
+! go test -v -race main_panic/testmain_parallel_sub_panic_test.go -timeout 10s
+stdout '(?s)setup\(\).*=== RUN   TestA/1/1.*--- FAIL: TestA/1/1.*panic: A/1/1 panics \[recovered\].*panic: A/1/1 panics.*\$WORK/gopath/src/main\_panic/testmain\_parallel\_sub\_panic\_test\.go:11.*FAIL'
+! stdout 'DATA RACE'
+-- main_panic/testmain_parallel_sub_panic_test.go --
+package testmain_parallel_sub_panic_test
+
+import "testing"
+
+func setup()    { println("setup()") }
+func teardown() { println("teardown()") }
+func TestA(t *testing.T) {
+	t.Run("1", func(t *testing.T) {
+		t.Run("1", func(t *testing.T) {
+			t.Parallel()
+			panic("A/1/1 panics")
+		})
+		t.Run("2", func(t *testing.T) {
+			t.Parallel()
+			println("A/1/2 is ok")
+		})
+	})
+}
+
+func TestMain(m *testing.M) {
+	setup()
+	defer teardown()
+	m.Run()
+}
