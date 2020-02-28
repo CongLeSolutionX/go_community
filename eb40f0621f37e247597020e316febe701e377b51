@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c5bddc9_5bae9064",
+        "filename": "src/go/format/internal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-28T03:45:46Z",
+      "side": 1,
+      "message": "The same change should be applied to the src/cmd/gofmt/internal.go file.",
+      "range": {
+        "startLine": 5,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "eb40f0621f37e247597020e316febe701e377b51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad934fd_b07ec9f3",
+        "filename": "src/go/format/internal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-02-28T03:45:46Z",
+      "side": 1,
+      "message": "This used to say \\n\\n, and now says \\n. Is deleting one of the newline characters an intentional change or a typo? The commit message doesn\u0027t talk about this, so it\u0027s not easy to tell.",
+      "range": {
+        "startLine": 75,
+        "startChar": 38,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "eb40f0621f37e247597020e316febe701e377b51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
