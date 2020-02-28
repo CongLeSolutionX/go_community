@@ -91,6 +91,9 @@
 (SignExt16to64 (Const16 [c])) -> (Const64 [int64( int16(c))])
 (SignExt32to64 (Const32 [c])) -> (Const64 [int64( int32(c))])
 
+(ZeroExt8to(16|32|64) (ConstBool [c])) -> (Const(16|32|64) [c])
+(SignExt8to(16|32|64) (ConstBool [c])) -> (Const(16|32|64) [c])
+
 (Neg8   (Const8   [c])) -> (Const8   [int64( -int8(c))])
 (Neg16  (Const16  [c])) -> (Const16  [int64(-int16(c))])
 (Neg32  (Const32  [c])) -> (Const32  [int64(-int32(c))])
