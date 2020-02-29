@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d30506d_02cd2517",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-02-29T22:10:01Z",
+      "side": 1,
+      "message": "cmd/go: invert if for common case when go.sum files are non-empty\n\nSince most of the times, go.sum files are non-empty, this change\nchecks for the common case, with a speed up for readGoSum.\n\nBenchmarks:\nReadGoSum-12   329µs ± 0%   326µs ± 0%   ~     (p\u003d1.000 n\u003d1+1)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 118
+      },
+      "revId": "d52088b443c6b6bf4db468af6e9ced239a537160",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
