@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97c56ba4_3d09d2fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-02-29T13:27:32Z",
+      "side": 1,
+      "message": "Please don\u0027t use markdown formatting in commit messages as per http://golang.org/wiki/CommitMessage",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "ba066ada38bc5b596ba30634c0261c0ab0c4558b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21646247_27087053",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-02-29T13:27:32Z",
+      "side": 1,
+      "message": "You can drop these lines from the commit message.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "ba066ada38bc5b596ba30634c0261c0ab0c4558b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20556dd7_48d51d76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-02-29T13:27:32Z",
+      "side": 1,
+      "message": "Drop this line as well, just the benchstat output in is fine.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "ba066ada38bc5b596ba30634c0261c0ab0c4558b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
