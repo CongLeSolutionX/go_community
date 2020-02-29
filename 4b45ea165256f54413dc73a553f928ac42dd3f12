@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75fa815b_e06eb1c8",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-02-29T17:08:13Z",
+      "side": 1,
+      "message": "Maybe this is no longer necessary?",
+      "revId": "4b45ea165256f54413dc73a553f928ac42dd3f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d12cf4_447f7470",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-02-29T17:08:13Z",
+      "side": 1,
+      "message": "For 4,5,6 we won\u0027t fit in argstorage, so it\u0027s kind of useless to do resetArgs in these cases.\nMaybe just:\n\nv.Args \u003d append(v.Args, w1, w2, w3, w4)\nw1.Uses++\nw2.Uses++\nw3.Uses++\nw4.Uses++\n\nIt\u0027s not that much code.",
+      "revId": "4b45ea165256f54413dc73a553f928ac42dd3f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
