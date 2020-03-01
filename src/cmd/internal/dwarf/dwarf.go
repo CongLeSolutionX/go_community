@@ -889,7 +889,6 @@ func GetAbbrev() []byte {
 // the referenced instance, for all others, value is the whole thing
 // and data is null.
 type DWAttr struct {
-	Link  *DWAttr
 	Atr   uint16 // DW_AT_
 	Cls   uint8  // DW_CLS_
 	Value int64
@@ -901,7 +900,7 @@ type DWDie struct {
 	Abbrev int
 	Link   *DWDie
 	Child  *DWDie
-	Attr   *DWAttr
+	Attrs  []uint32
 	Sym    Sym
 }
 
@@ -1012,25 +1011,6 @@ func Putattr(ctxt Context, s Sym, abbrev int, form int, cls int, value int64, da
 		return fmt.Errorf("dwarf: unsupported attribute form %d / class %d", form, cls)
 	}
 	return nil
-}
-
-// PutAttrs writes the attributes for a DIE to symbol 's'.
-//
-// Note that we can (and do) add arbitrary attributes to a DIE, but
-// only the ones actually listed in the Abbrev will be written out.
-func PutAttrs(ctxt Context, s Sym, abbrev int, attr *DWAttr) {
-	abbrevs := Abbrevs()
-Outer:
-	for _, f := range abbrevs[abbrev].Attr {
-		for ap := attr; ap != nil; ap = ap.Link {
-			if ap.Atr == f.Attr {
-				Putattr(ctxt, s, abbrev, int(f.Form), int(ap.Cls), ap.Value, ap.Data)
-				continue Outer
-			}
-		}
-
-		Putattr(ctxt, s, abbrev, int(f.Form), 0, 0, nil)
-	}
 }
 
 // HasChildren reports whether 'die' uses an abbrev that supports children.
