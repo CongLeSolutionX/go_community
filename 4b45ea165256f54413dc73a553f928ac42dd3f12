@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eabde93e_f6299a10",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-01T06:36:14Z",
+      "side": 1,
+      "message": "We should keep it, to avoid unnoticed regressions from other changes...such as CL 221421 (review pending), which IIRC makes AddArg inlineable.\n\nFurther evidence: I spelled out AddArg[4,5,6] below, as suggested, but forgot to mark them as go:noinline. And it turns out that that annotation makes a 200k difference (\u003e1%) in the size of cmd/compile.",
+      "parentUuid": "75fa815b_e06eb1c8",
+      "revId": "4b45ea165256f54413dc73a553f928ac42dd3f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7d12cf4_447f7470",
         "filename": "src/cmd/compile/internal/ssa/value.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "4b45ea165256f54413dc73a553f928ac42dd3f12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ba2fe14_43c4f198",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-01T06:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7d12cf4_447f7470",
+      "revId": "4b45ea165256f54413dc73a553f928ac42dd3f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
