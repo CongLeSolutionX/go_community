@@ -120,34 +120,6 @@ func writeabbrev(ctxt *Link) *sym.Symbol {
 	return s
 }
 
-// Every DIE manufactured by the linker has at least an AT_name
-// attribute (but it will only be written out if it is listed in the abbrev).
-// The compiler does create nameless DWARF DIEs (ex: concrete subprogram
-// instance).
-func newdie(ctxt *Link, parent *dwarf.DWDie, abbrev int, name string, version int) *dwarf.DWDie {
-	die := new(dwarf.DWDie)
-	die.Abbrev = abbrev
-	die.Link = parent.Child
-	parent.Child = die
-
-	newattr(die, dwarf.DW_AT_name, dwarf.DW_CLS_STRING, int64(len(name)), name)
-
-	if name != "" && (abbrev <= dwarf.DW_ABRV_VARIABLE || abbrev >= dwarf.DW_ABRV_NULLTYPE) {
-		if abbrev != dwarf.DW_ABRV_VARIABLE || version == 0 {
-			if abbrev == dwarf.DW_ABRV_COMPUNIT {
-				// Avoid collisions with "real" symbol names.
-				name = fmt.Sprintf(".pkg.%s.%d", name, len(ctxt.compUnits))
-			}
-			s := ctxt.Syms.Lookup(dwarf.InfoPrefix+name, version)
-			s.Attr |= sym.AttrNotInSymbolTable
-			s.Type = sym.SDWARFINFO
-			die.Sym = s
-		}
-	}
-
-	return die
-}
-
 func adddwarfref(ctxt *Link, s *sym.Symbol, t *sym.Symbol, size int) int64 {
 	var result int64
 	switch size {
@@ -162,13 +134,6 @@ func adddwarfref(ctxt *Link, s *sym.Symbol, t *sym.Symbol, size int) int64 {
 	r := &s.R[len(s.R)-1]
 	r.Type = objabi.R_DWARFSECREF
 	return result
-}
-
-func newrefattr(die *dwarf.DWDie, attr uint16, ref *sym.Symbol) *dwarf.DWAttr {
-	if ref == nil {
-		return nil
-	}
-	return newattr(die, attr, dwarf.DW_CLS_REFERENCE, 0, ref)
 }
 
 func dtolsym(s dwarf.Sym) *sym.Symbol {
@@ -190,7 +155,7 @@ func putdie(linkctxt *Link, ctxt dwarf.Context, syms []*sym.Symbol, die *dwarf.D
 		syms = append(syms, s)
 	}
 	dwarf.Uleb128put(ctxt, s, int64(die.Abbrev))
-	dwarf.PutAttrs(ctxt, s, die.Abbrev, die.Attr)
+	putAttrs(ctxt, linkctxt.dwarfAttrTab, s, die.Abbrev, die)
 	if dwarf.HasChildren(die) {
 		for die := die.Child; die != nil; die = die.Link {
 			syms = putdie(linkctxt, ctxt, syms, die)
@@ -302,7 +267,8 @@ func writelines(ctxt *Link, unit *sym.CompilationUnit, ls *sym.Symbol) {
 	headerstart := int64(-1)
 	headerend := int64(-1)
 
-	newattr(unit.DWInfo, dwarf.DW_AT_stmt_list, dwarf.DW_CLS_PTR, ls.Size, ls)
+	atb := ctxt.dwarfAttrTab
+	newattr(atb, unit.DWInfo, dwarf.DW_AT_stmt_list, dwarf.DW_CLS_PTR, ls.Size, ls)
 
 	// Write .debug_line Line Number Program Header (sec 6.2.4)
 	// Fields marked with (*) must be changed for 64-bit dwarf
@@ -469,8 +435,9 @@ func writepcranges(ctxt *Link, unit *sym.CompilationUnit, base *sym.Symbol, pcs 
 	unitLengthOffset := ranges.Size
 
 	// Create PC ranges for this CU.
-	newattr(unit.DWInfo, dwarf.DW_AT_ranges, dwarf.DW_CLS_PTR, ranges.Size, ranges)
-	newattr(unit.DWInfo, dwarf.DW_AT_low_pc, dwarf.DW_CLS_ADDRESS, base.Value, base)
+	atb := ctxt.dwarfAttrTab
+	newattr(atb, unit.DWInfo, dwarf.DW_AT_ranges, dwarf.DW_CLS_PTR, ranges.Size, ranges)
+	newattr(atb, unit.DWInfo, dwarf.DW_AT_low_pc, dwarf.DW_CLS_ADDRESS, base.Value, base)
 	dwarf.PutBasedRanges(dwarfctxt, ranges, pcs)
 
 	if ctxt.HeadType == objabi.Haix {
@@ -632,6 +599,7 @@ func writeinfo(ctxt *Link, syms []*sym.Symbol, units []*sym.CompilationUnit, abb
 
 	var dwarfctxt dwarf.Context = dwctxt{ctxt}
 
+	atb := ctxt.dwarfAttrTab
 	for _, u := range units {
 		compunit := u.DWInfo
 		s := dtolsym(compunit.Sym)
@@ -655,7 +623,7 @@ func writeinfo(ctxt *Link, syms []*sym.Symbol, units []*sym.CompilationUnit, abb
 		s.AddUint8(uint8(ctxt.Arch.PtrSize)) // address_size
 
 		dwarf.Uleb128put(dwarfctxt, s, int64(compunit.Abbrev))
-		dwarf.PutAttrs(dwarfctxt, s, compunit.Abbrev, compunit.Attr)
+		putAttrs(dwarfctxt, ctxt.dwarfAttrTab, s, compunit.Abbrev, compunit)
 
 		cu := []*sym.Symbol{s}
 		cu = append(cu, u.AbsFnDIEs...)
@@ -672,7 +640,7 @@ func writeinfo(ctxt *Link, syms []*sym.Symbol, units []*sym.CompilationUnit, abb
 			l := len(cu)
 			lastSymSz := cu[l-1].Size
 			cu = putdie(ctxt, dwarfctxt, cu, die)
-			if ispubname(die) {
+			if ispubname(atb, die) {
 				pubNames.add(die, cusize)
 			}
 			if ispubtype(die) {
@@ -735,7 +703,7 @@ func (pw *pubWriter) beginCompUnit(compunit *dwarf.DWDie) {
 }
 
 func (pw *pubWriter) add(die *dwarf.DWDie, offset int64) {
-	dwa := getattr(die, dwarf.DW_AT_name)
+	dwa := getattr(pw.ctxt.dwarfAttrTab, die, dwarf.DW_AT_name)
 	name := dwa.Data.(string)
 	if die.Sym == nil {
 		fmt.Println("Missing sym for ", name)
