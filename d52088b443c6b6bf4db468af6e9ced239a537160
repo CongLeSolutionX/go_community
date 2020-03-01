@@ -22,6 +22,23 @@
       "revId": "d52088b443c6b6bf4db468af6e9ced239a537160",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90422c54_e88407bf",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-01T01:52:51Z",
+      "side": 1,
+      "message": "I don\u0027t see why this change would make any difference.  All you are doing is reversing a conditional.",
+      "revId": "d52088b443c6b6bf4db468af6e9ced239a537160",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
