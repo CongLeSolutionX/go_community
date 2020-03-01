@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "755ac144_9cc74de8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-01T11:21:26Z",
+      "side": 1,
+      "message": "time: use values larger than 24 for day in Format examples",
+      "revId": "f693464b5466a18344974d68b28f1bbd622eeedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77239b13_70232741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-01T11:21:26Z",
+      "side": 1,
+      "message": "We don’t use markdown formatting in these commit messages, please make it “extremely”",
+      "revId": "f693464b5466a18344974d68b28f1bbd622eeedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c567aa21_12e060c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-01T11:21:26Z",
+      "side": 1,
+      "message": "“\u003e24 day” is a little ambiguous on its own.\nPerhaps, “values greater than 24, for day”",
+      "revId": "f693464b5466a18344974d68b28f1bbd622eeedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94bc5a7c_31368261",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-01T11:21:26Z",
+      "side": 1,
+      "message": "“Additional context” instead of “Adtl context”",
+      "revId": "f693464b5466a18344974d68b28f1bbd622eeedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
