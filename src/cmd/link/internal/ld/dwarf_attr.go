@@ -70,7 +70,7 @@
 //   ┌────────────┐  .                                        .
 //   │ Abbrev: 17 │  .    DWAttr index 2      DWAttr index 3  .
 //   │ Sym:  ...  │  .    ┌──────────────┐    ┌────────────┐  .
-//   │ Child: nil │  .    │ Atr: 73      │    │ Atr: 73    │  .
+//   │ Child: nil │  .    │ Atr: 73      │    │ Atr: 3     │  .
 //   │ Attrs:     │  .    │ Cls:  ...    │    │ Cls:  ...  │  .
 //   │  [3 1 2]   │  .    │ Value: ...   │    │ Value: ... │  .
 //   │ Link: \    │  .    │ Data: <tsym> │    │ Data: "p2" │  .
@@ -78,11 +78,24 @@
 //           v       ..........................................
 //          ...
 //
+// In terms of the effectiveness of the table when used in the Go
+// linker: for kubernetes 'kubelet', about 70% of all attributes wind
+// up being commoned, which is pretty decent.
+//
+// Worth noting: some attribute codes have better hit ratios than
+// others. For example, DW_AT_go_runtime_type, DW_AT_go_package_name,
+// DW_AT_stmt_list, and a couple of other attributes virtually all
+// have unique values, meaning that the table provides no benefit. If
+// this things change and the overall hit ratio goes down, it would
+// not be hard to change the lookup method to skip the content check
+// completely for certain attribute codes (just install a new attr
+// without checking); this might speed thing up a bit.
 
 package ld
 
 import (
 	"cmd/internal/dwarf"
+	"cmd/link/internal/loader"
 )
 
 const indexSlabSize = 4096
@@ -180,6 +193,18 @@ func (at *attrTab) lookup(attr uint16, cls int, value int64, data interface{}) u
 	newIdx := at.insert(cand)
 	at.hm[cand] = newIdx
 	return newIdx
+}
+
+// Convert loader.Sym to sym.Symbol in all hashed attributes.
+// Temporary only needed until DWARF phase 2 is always on.
+func (at *attrTab) convertSymbols(l *loader.Loader) {
+	for _, slab := range at.attrSlabs {
+		for i := range slab {
+			if attrSym, ok := slab[i].Data.(dwSym); ok {
+				slab[i].Data = l.Syms[loader.Sym(attrSym)]
+			}
+		}
+	}
 }
 
 type attrTabStats struct {
