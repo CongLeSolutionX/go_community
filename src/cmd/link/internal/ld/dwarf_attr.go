@@ -6,6 +6,7 @@ package ld
 
 import (
 	"cmd/internal/dwarf"
+	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"fmt"
 )
@@ -245,6 +246,18 @@ func (at *attrTab) lookup(attr uint16, cls int, value int64, data interface{}) u
 	}
 	buck.count++
 	return newIdx
+}
+
+// Convert loader.Sym to sym.Symbol in all hashed attributes.
+// Temporary only needed until DWARF phase 2 is checked in.
+func (at *attrTab) convertSymbols(l *loader.Loader) {
+	for _, slab := range at.attrSlabs {
+		for i := range slab {
+			if attrSym, ok := slab[i].Data.(dwSym); ok {
+				slab[i].Data = l.Syms[loader.Sym(attrSym)]
+			}
+		}
+	}
 }
 
 type attrTabStats struct {
