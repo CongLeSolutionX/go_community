@@ -91,6 +91,8 @@ type Link struct {
 
 	cgo_export_static  map[string]bool
 	cgo_export_dynamic map[string]bool
+
+	dwarfAttrTab *attrTab // hashed table of DWARF attributes.
 }
 
 type cgodata struct {
