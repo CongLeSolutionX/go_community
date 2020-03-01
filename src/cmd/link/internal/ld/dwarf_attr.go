@@ -70,7 +70,7 @@
 //   ┌────────────┐  .                                        .
 //   │ Abbrev: 17 │  .    DWAttr index 2      DWAttr index 3  .
 //   │ Sym:  ...  │  .    ┌──────────────┐    ┌────────────┐  .
-//   │ Child: nil │  .    │ Atr: 73      │    │ Atr: 73    │  .
+//   │ Child: nil │  .    │ Atr: 73      │    │ Atr: 3     │  .
 //   │ Attrs:     │  .    │ Cls:  ...    │    │ Cls:  ...  │  .
 //   │  [3 1 2]   │  .    │ Value: ...   │    │ Value: ... │  .
 //   │ Link: \    │  .    │ Data: <tsym> │    │ Data: "p2" │  .
@@ -78,13 +78,27 @@
 //           v       ..........................................
 //          ...
 //
+// In terms of the effectiveness of the table when used in the Go
+// linker: for kubernetes 'kubelet', about 70% of all attributes wind
+// up being commoned, which is pretty decent.
+//
+// Worth noting: some attribute codes have better hit ratios than
+// others. For example, DW_AT_go_runtime_type, DW_AT_go_package_name,
+// DW_AT_stmt_list, and a couple of other attributes virtually all
+// have unique values, meaning that the table provides no benefit. If
+// this things change and the overall hit ratio goes down, it would
+// not be hard to change the lookup method to skip the content check
+// completely for certain attribute codes (just install a new attr
+// without checking); this might speed thing up a bit.
 
 package ld
 
 import (
 	"cmd/internal/dwarf"
+	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"fmt"
+	"sort"
 )
 
 const indexSlabSize = 4096
@@ -106,6 +120,8 @@ type attrTab struct {
 	attrSlabs [][]dwarf.DWAttr
 	buckSlab  []attrBucket
 	indexSlab []uint32
+	lkmap     map[uint16]uint64
+	missmap   map[uint16]uint64
 	lookups   uint64
 	buckCount uint32
 	attrCount uint32
@@ -119,6 +135,8 @@ func makeAttrTab() *attrTab {
 		attrCount: 1,
 		attrSlabs: [][]dwarf.DWAttr{make([]dwarf.DWAttr, 1, attrSlabSize)},
 		buckSlab:  make([]attrBucket, bucketSlabSize),
+		lkmap:     make(map[uint16]uint64),
+		missmap:   make(map[uint16]uint64),
 	}
 }
 
@@ -309,13 +327,15 @@ func (at *attrTab) lookup(attr uint16, cls int, value int64, data interface{}) u
 	at.lookups++
 	cand := dwarf.DWAttr{Atr: attr, Cls: uint8(cls), Value: value, Data: data}
 
+	at.lkmap[attr] = at.lkmap[attr] + 1
+
 	// Hash the contents of the attribute and look it up in our table to
 	// see if we have an instance already.
 	hashCode := hashAttr(cand)
 	buck := at.hm[hashCode]
 	if buck != nil {
 		for {
-			for i := range buck.slots {
+			for i := uint32(0); i < buck.count; i++ {
 				if equalAttr(&cand, at.get(buck.slots[i])) {
 					return buck.slots[i]
 				}
@@ -330,6 +350,8 @@ func (at *attrTab) lookup(attr uint16, cls int, value int64, data interface{}) u
 		at.hm[hashCode] = buck
 	}
 
+	at.missmap[attr] = at.missmap[attr] + 1
+
 	newIdx := at.insert(attr, cls, value, data)
 	if buck.count < bucketNumSlots {
 		buck.slots[buck.count] = newIdx
@@ -342,13 +364,39 @@ func (at *attrTab) lookup(attr uint16, cls int, value int64, data interface{}) u
 	return newIdx
 }
 
+// Convert loader.Sym to sym.Symbol in all hashed attributes.
+// Temporary only needed until DWARF phase 2 is checked in.
+func (at *attrTab) convertSymbols(l *loader.Loader) {
+	for _, slab := range at.attrSlabs {
+		for i := range slab {
+			if attrSym, ok := slab[i].Data.(dwSym); ok {
+				slab[i].Data = l.Syms[loader.Sym(attrSym)]
+			}
+		}
+	}
+}
+
 type attrTabStats struct {
 	lookups     uint64
 	created     uint64
 	buckets     uint32
 	longestbuck uint32
 	avgbucklen  float64
+	missratio   float64
+	breakdown   string
 }
+
+type atCount struct {
+	look uint64
+	miss uint64
+	atr  uint16
+}
+
+type byAtCount []atCount
+
+func (s byAtCount) Len() int           { return len(s) }
+func (s byAtCount) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s byAtCount) Less(i, j int) bool { return s[j].look < s[i].look }
 
 // stats returns a few statistics on what's happened with hash table
 // performance (total lookups, total buckets, total attrs created, etc)
@@ -358,15 +406,42 @@ func (at *attrTab) stats() attrTabStats {
 	totbucklen := uint32(0)
 	longestbucklen := uint32(0)
 	for _, buck := range at.hm {
-		bl := uint32(len(buck.slots))
-		totbucklen += bl
-		if bl > longestbucklen {
-			longestbucklen = bl
+		thisbucklen := uint32(0)
+		for {
+			bl := uint32(buck.count)
+			thisbucklen += bl
+			if buck.next == nil {
+				break
+			}
+			buck = buck.next
+		}
+		totbucklen += thisbucklen
+		if thisbucklen > longestbucklen {
+			longestbucklen = thisbucklen
 		}
 	}
 	avgbucklen := float64(0)
 	if buckets != 0 {
 		avgbucklen = float64(totbucklen) / float64(buckets)
+	}
+	missratio := float64(0)
+	if at.attrCount != 0 {
+		missratio = float64(at.attrCount) / float64(at.lookups) * float64(100)
+	}
+
+	sl := []atCount{}
+	for k, v := range at.lkmap {
+		sl = append(sl, atCount{look: v, atr: k, miss: at.missmap[k]})
+	}
+	sort.Stable(byAtCount(sl))
+	breakdown := ""
+	for _, atc := range sl {
+		missratio := float64(0)
+		if atc.miss != 0 {
+			missratio = float64(atc.miss) / float64(atc.look) * float64(100)
+		}
+		breakdown += fmt.Sprintf("atr 0x%4x lk:%6d miss:%6d missratio:%2.1f\n",
+			atc.atr, atc.look, atc.miss, missratio)
 	}
 	return attrTabStats{
 		lookups:     at.lookups,
@@ -374,5 +449,7 @@ func (at *attrTab) stats() attrTabStats {
 		buckets:     buckets,
 		longestbuck: longestbucklen,
 		avgbucklen:  avgbucklen,
+		missratio:   missratio,
+		breakdown:   breakdown,
 	}
 }
