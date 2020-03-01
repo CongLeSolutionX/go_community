@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d84f4904_e4dd2494",
+        "filename": "src/time/time.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-01T02:25:12Z",
+      "side": 1,
+      "message": "Sorry for not noticing this, but absDate returns yday, not week.  The variable \"week\" should be named \"yday\".  Then \"yday/7\" is a week number.",
+      "revId": "31bca8767a329a12dffe222e511ded1fc4dcd2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
