@@ -7,6 +7,7 @@ package ld
 import (
 	intdwarf "cmd/internal/dwarf"
 	objfilepkg "cmd/internal/objfile" // renamed to avoid conflict with objfile function
+	"cmd/link/internal/loader"
 	"debug/dwarf"
 	"debug/pe"
 	"errors"
@@ -1346,5 +1347,86 @@ func main() {
 			}
 		}
 		rdr.SkipChildren()
+	}
+}
+
+func TestDwarfAttrTab(t *testing.T) {
+	t.Parallel()
+
+	// Attr indices we've seen already.
+	seen := make(map[uint32]bool)
+
+	// A couple of dummy loader symbols.
+	s1 := loader.Sym(1)
+	s2 := loader.Sym(2)
+
+	// Table to work with.
+	at := makeAttrTab()
+
+	// Store new attr indices here the first time we add them.
+	atIdxes := []uint32{}
+
+	// Helper used when adding an attr expected to be new.
+	adder := func(attr uint16, cls int, value int64, data interface{}) {
+		idx := at.lookup(attr, cls, value, data)
+		if seen[idx] {
+			t.Errorf("newly added attr {%v,%v,%v,%v} already seen (idx %d)\n",
+				attr, cls, value, data, idx)
+		}
+		seen[idx] = true
+		atIdxes = append(atIdxes, idx)
+		d := at.get(idx)
+		if d.Atr != attr {
+			t.Errorf("attr idx %d got attr %d wanted %d", idx, d.Atr, attr)
+		}
+		if d.Cls != uint8(cls) {
+			t.Errorf("attr idx %d got cls %d wanted %d", idx, d.Cls, cls)
+		}
+		if d.Value != value {
+			t.Errorf("attr idx %d got value %d wanted %d", idx, d.Value, value)
+		}
+		if d.Data != data {
+			t.Errorf("attr idx %d got data %v wanted %v", idx, d.Data, data)
+		}
+	}
+
+	// Store attr indices in this the second time we add them.
+	againAtIdxes := []uint32{}
+
+	// Helper used when adding something that we expect to be reused.
+	addAgain := func(attr uint16, cls int, value int64, data interface{}) {
+		idx := at.lookup(attr, cls, value, data)
+		if idx != atIdxes[len(againAtIdxes)] {
+			t.Errorf("second add of attr {%v,%v,%v,%v} got %d want %d\n",
+				attr, cls, value, data, idx, atIdxes[len(againAtIdxes)])
+		}
+		againAtIdxes = append(againAtIdxes, idx)
+	}
+
+	// Add some entries to the table.
+	str1 := string("a")
+	str2 := string("b")
+	adder(intdwarf.DW_AT_name, intdwarf.DW_CLS_STRING, int64(len(str1)), str1)
+	adder(intdwarf.DW_AT_name, intdwarf.DW_CLS_STRING, int64(len(str2)), str2)
+	adder(intdwarf.DW_AT_type, intdwarf.DW_CLS_REFERENCE, 0, dwSym(s1))
+	adder(intdwarf.DW_AT_type, intdwarf.DW_CLS_REFERENCE, 0, dwSym(s2))
+	adder(intdwarf.DW_AT_data_member_location, intdwarf.DW_CLS_CONSTANT, 3, 0)
+	adder(intdwarf.DW_AT_data_member_location, intdwarf.DW_CLS_CONSTANT, 7, 0)
+
+	// Make sure that if we add the same thing again, we get the prev index back.
+	addAgain(intdwarf.DW_AT_name, intdwarf.DW_CLS_STRING, int64(len(str1)), str1)
+	addAgain(intdwarf.DW_AT_name, intdwarf.DW_CLS_STRING, int64(len(str2)), str2)
+	addAgain(intdwarf.DW_AT_type, intdwarf.DW_CLS_REFERENCE, 0, dwSym(s1))
+	addAgain(intdwarf.DW_AT_type, intdwarf.DW_CLS_REFERENCE, 0, dwSym(s2))
+	addAgain(intdwarf.DW_AT_data_member_location, intdwarf.DW_CLS_CONSTANT, 3, 0)
+	addAgain(intdwarf.DW_AT_data_member_location, intdwarf.DW_CLS_CONSTANT, 7, 0)
+
+	// Check stats
+	atst := at.stats()
+	if atst.lookups != 12 {
+		t.Errorf("at.stats lookups got %d wanted %d\n", atst.lookups, 5)
+	}
+	if atst.created != 7 {
+		t.Errorf("at.stats created got %d wanted %d\n", atst.created, 7)
 	}
 }
