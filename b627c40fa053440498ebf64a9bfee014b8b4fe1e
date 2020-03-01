@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc01ba7d_67fa4e75",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-01T20:40:26Z",
+      "side": 1,
+      "message": "But this is incorrect: Go didn\u0027t launch 2009-11-25.\n\nI\u0027m not sure how changing the date used here fits in with the goal of this CL.  There shouldn\u0027t be any confusing about time.Date, and the date output here is ISO 8601 which I hope is not confusing for anybody.",
+      "revId": "b627c40fa053440498ebf64a9bfee014b8b4fe1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40dc8a22_1e7e6ded",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-01T20:40:26Z",
+      "side": 1,
+      "message": "This comment no longer makes sense.  The output is exactly the same as the \"Basic full date\" output.  Before this CL the output here was different, because padding was used for the single digit day.  You need to use a single digit day here.",
+      "revId": "b627c40fa053440498ebf64a9bfee014b8b4fe1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
