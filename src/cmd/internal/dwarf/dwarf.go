@@ -301,9 +301,9 @@ func Sleb128put(ctxt Context, s Sym, v int64) {
  * Abbrevs and DIEs, and we will always write them out in the order
  * of declaration in the abbrev.
  */
-type dwAttrForm struct {
-	attr uint16
-	form uint8
+type DwAttrForm struct {
+	Attr uint16
+	Form uint8
 }
 
 // Go-specific type attributes.
@@ -367,10 +367,10 @@ const (
 	DW_NABRV
 )
 
-type dwAbbrev struct {
-	tag      uint8
-	children uint8
-	attr     []dwAttrForm
+type DwAbbrev struct {
+	Tag      uint8
+	Children uint8
+	Attr     []DwAttrForm
 }
 
 var abbrevsFinalized bool
@@ -395,13 +395,13 @@ func expandPseudoForm(form uint8) uint8 {
 
 // Abbrevs() returns the finalized abbrev array for the platform,
 // expanding any DW_FORM pseudo-ops to real values.
-func Abbrevs() [DW_NABRV]dwAbbrev {
+func Abbrevs() [DW_NABRV]DwAbbrev {
 	if abbrevsFinalized {
 		return abbrevs
 	}
 	for i := 1; i < DW_NABRV; i++ {
-		for j := 0; j < len(abbrevs[i].attr); j++ {
-			abbrevs[i].attr[j].form = expandPseudoForm(abbrevs[i].attr[j].form)
+		for j := 0; j < len(abbrevs[i].Attr); j++ {
+			abbrevs[i].Attr[j].Form = expandPseudoForm(abbrevs[i].Attr[j].Form)
 		}
 	}
 	abbrevsFinalized = true
@@ -412,15 +412,15 @@ func Abbrevs() [DW_NABRV]dwAbbrev {
 // by the Abbrevs() function above prior to being consumed, to expand
 // the 'pseudo-form' entries below to real DWARF form values.
 
-var abbrevs = [DW_NABRV]dwAbbrev{
+var abbrevs = [DW_NABRV]DwAbbrev{
 	/* The mandatory DW_ABRV_NULL entry. */
-	{0, 0, []dwAttrForm{}},
+	{0, 0, []DwAttrForm{}},
 
 	/* COMPUNIT */
 	{
 		DW_TAG_compile_unit,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_language, DW_FORM_data1},
 			{DW_AT_stmt_list, DW_FORM_sec_offset},
@@ -436,7 +436,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_compile_unit,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_language, DW_FORM_data1},
 			{DW_AT_comp_dir, DW_FORM_string},
@@ -449,7 +449,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_subprogram,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_low_pc, DW_FORM_addr},
 			{DW_AT_high_pc, DW_FORM_addr},
@@ -463,7 +463,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_subprogram,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_inline, DW_FORM_data1},
 			{DW_AT_external, DW_FORM_flag},
@@ -474,7 +474,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_subprogram,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_low_pc, DW_FORM_addr},
 			{DW_AT_high_pc, DW_FORM_addr},
@@ -486,7 +486,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_inlined_subroutine,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_low_pc, DW_FORM_addr},
 			{DW_AT_high_pc, DW_FORM_addr},
@@ -499,7 +499,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_inlined_subroutine,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_ranges, DW_FORM_sec_offset},
 			{DW_AT_call_file, DW_FORM_data4},
@@ -511,7 +511,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_variable,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_location, DW_FORM_block1},
 			{DW_AT_type, DW_FORM_ref_addr},
@@ -523,7 +523,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_constant,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_const_value, DW_FORM_sdata},
@@ -534,7 +534,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_variable,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_decl_line, DW_FORM_udata},
 			{DW_AT_type, DW_FORM_ref_addr},
@@ -546,7 +546,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_variable,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_decl_line, DW_FORM_udata},
 			{DW_AT_type, DW_FORM_ref_addr},
@@ -558,7 +558,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_variable,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_decl_line, DW_FORM_udata},
 			{DW_AT_type, DW_FORM_ref_addr},
@@ -569,7 +569,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_variable,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_block1},
 		},
@@ -579,7 +579,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_variable,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_sec_offset},
 		},
@@ -589,7 +589,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_formal_parameter,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_variable_parameter, DW_FORM_flag},
 			{DW_AT_decl_line, DW_FORM_udata},
@@ -602,7 +602,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_formal_parameter,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_variable_parameter, DW_FORM_flag},
 			{DW_AT_decl_line, DW_FORM_udata},
@@ -615,7 +615,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_formal_parameter,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_variable_parameter, DW_FORM_flag},
 			{DW_AT_type, DW_FORM_ref_addr},
@@ -626,7 +626,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_formal_parameter,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_block1},
 		},
@@ -636,7 +636,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_formal_parameter,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_sec_offset},
 		},
@@ -646,7 +646,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_lexical_block,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_ranges, DW_FORM_sec_offset},
 		},
 	},
@@ -655,7 +655,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_lexical_block,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_low_pc, DW_FORM_addr},
 			{DW_AT_high_pc, DW_FORM_addr},
 		},
@@ -665,7 +665,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_member,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_data_member_location, DW_FORM_udata},
 			{DW_AT_type, DW_FORM_ref_addr},
@@ -679,7 +679,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 		DW_CHILDREN_no,
 
 		// No name!
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_type, DW_FORM_ref_addr},
 		},
 	},
@@ -688,7 +688,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_unspecified_parameters,
 		DW_CHILDREN_no,
-		[]dwAttrForm{},
+		[]DwAttrForm{},
 	},
 
 	/* ARRAYRANGE */
@@ -697,7 +697,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 		DW_CHILDREN_no,
 
 		// No name!
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_count, DW_FORM_udata},
 		},
@@ -708,7 +708,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_unspecified_type,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 		},
 	},
@@ -717,7 +717,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_base_type,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_encoding, DW_FORM_data1},
 			{DW_AT_byte_size, DW_FORM_data1},
@@ -731,7 +731,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_array_type,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_byte_size, DW_FORM_udata},
@@ -744,7 +744,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_typedef,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -757,7 +757,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_subroutine_type,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -769,7 +769,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_typedef,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -781,7 +781,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_typedef,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -795,7 +795,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_pointer_type,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -807,7 +807,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_pointer_type,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 		},
 	},
@@ -816,7 +816,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_structure_type,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -829,7 +829,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_structure_type,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -841,7 +841,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_structure_type,
 		DW_CHILDREN_yes,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
 			{DW_AT_go_kind, DW_FORM_data1},
@@ -853,7 +853,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 	{
 		DW_TAG_typedef,
 		DW_CHILDREN_no,
-		[]dwAttrForm{
+		[]DwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 		},
@@ -867,11 +867,11 @@ func GetAbbrev() []byte {
 	for i := 1; i < DW_NABRV; i++ {
 		// See section 7.5.3
 		buf = AppendUleb128(buf, uint64(i))
-		buf = AppendUleb128(buf, uint64(abbrevs[i].tag))
-		buf = append(buf, abbrevs[i].children)
-		for _, f := range abbrevs[i].attr {
-			buf = AppendUleb128(buf, uint64(f.attr))
-			buf = AppendUleb128(buf, uint64(f.form))
+		buf = AppendUleb128(buf, uint64(abbrevs[i].Tag))
+		buf = append(buf, abbrevs[i].Children)
+		for _, f := range abbrevs[i].Attr {
+			buf = AppendUleb128(buf, uint64(f.Attr))
+			buf = AppendUleb128(buf, uint64(f.Form))
 		}
 		buf = append(buf, 0, 0)
 	}
@@ -905,7 +905,7 @@ type DWDie struct {
 	Sym    Sym
 }
 
-func putattr(ctxt Context, s Sym, abbrev int, form int, cls int, value int64, data interface{}) error {
+func Putattr(ctxt Context, s Sym, abbrev int, form int, cls int, value int64, data interface{}) error {
 	switch form {
 	case DW_FORM_addr: // address
 		// Allow nil addresses for DW_AT_go_runtime_type.
@@ -1021,30 +1021,30 @@ func putattr(ctxt Context, s Sym, abbrev int, form int, cls int, value int64, da
 func PutAttrs(ctxt Context, s Sym, abbrev int, attr *DWAttr) {
 	abbrevs := Abbrevs()
 Outer:
-	for _, f := range abbrevs[abbrev].attr {
+	for _, f := range abbrevs[abbrev].Attr {
 		for ap := attr; ap != nil; ap = ap.Link {
-			if ap.Atr == f.attr {
-				putattr(ctxt, s, abbrev, int(f.form), int(ap.Cls), ap.Value, ap.Data)
+			if ap.Atr == f.Attr {
+				Putattr(ctxt, s, abbrev, int(f.Form), int(ap.Cls), ap.Value, ap.Data)
 				continue Outer
 			}
 		}
 
-		putattr(ctxt, s, abbrev, int(f.form), 0, 0, nil)
+		Putattr(ctxt, s, abbrev, int(f.Form), 0, 0, nil)
 	}
 }
 
 // HasChildren reports whether 'die' uses an abbrev that supports children.
 func HasChildren(die *DWDie) bool {
 	abbrevs := Abbrevs()
-	return abbrevs[die.Abbrev].children != 0
+	return abbrevs[die.Abbrev].Children != 0
 }
 
 // PutIntConst writes a DIE for an integer constant
 func PutIntConst(ctxt Context, info, typ Sym, name string, val int64) {
 	Uleb128put(ctxt, info, DW_ABRV_INT_CONSTANT)
-	putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
-	putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, typ)
-	putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_sdata, DW_CLS_CONSTANT, val, nil)
+	Putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
+	Putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, typ)
+	Putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_sdata, DW_CLS_CONSTANT, val, nil)
 }
 
 // PutBasedRanges writes a range table to sym. All addresses in ranges are
@@ -1197,16 +1197,16 @@ func PutAbstractFunc(ctxt Context, s *FnState) error {
 		// origin references to work).
 		fullname = objabi.PathToPrefix(s.Importpath) + "." + s.Name[3:]
 	}
-	putattr(ctxt, s.Absfn, abbrev, DW_FORM_string, DW_CLS_STRING, int64(len(fullname)), fullname)
+	Putattr(ctxt, s.Absfn, abbrev, DW_FORM_string, DW_CLS_STRING, int64(len(fullname)), fullname)
 
 	// DW_AT_inlined value
-	putattr(ctxt, s.Absfn, abbrev, DW_FORM_data1, DW_CLS_CONSTANT, int64(DW_INL_inlined), nil)
+	Putattr(ctxt, s.Absfn, abbrev, DW_FORM_data1, DW_CLS_CONSTANT, int64(DW_INL_inlined), nil)
 
 	var ev int64
 	if s.External {
 		ev = 1
 	}
-	putattr(ctxt, s.Absfn, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
+	Putattr(ctxt, s.Absfn, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
 
 	// Child variables (may be empty)
 	var flattened []*Var
@@ -1276,22 +1276,22 @@ func PutInlinedFunc(ctxt Context, s *FnState, callersym Sym, callIdx int) error 
 	}
 
 	// Abstract origin.
-	putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, callee)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, callee)
 
 	if abbrev == DW_ABRV_INLINED_SUBROUTINE_RANGES {
-		putattr(ctxt, s.Info, abbrev, DW_FORM_sec_offset, DW_CLS_PTR, s.Ranges.Length(ctxt), s.Ranges)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_sec_offset, DW_CLS_PTR, s.Ranges.Length(ctxt), s.Ranges)
 		s.PutRanges(ctxt, ic.Ranges)
 	} else {
 		st := ic.Ranges[0].Start
 		en := ic.Ranges[0].End
-		putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, st, s.StartPC)
-		putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, en, s.StartPC)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, st, s.StartPC)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, en, s.StartPC)
 	}
 
 	// Emit call file, line attrs.
 	ctxt.AddFileRef(s.Info, ic.CallFile)
 	form := int(expandPseudoForm(DW_FORM_udata_pseudo))
-	putattr(ctxt, s.Info, abbrev, form, DW_CLS_CONSTANT, int64(ic.CallLine), nil)
+	Putattr(ctxt, s.Info, abbrev, form, DW_CLS_CONSTANT, int64(ic.CallLine), nil)
 
 	// Variables associated with this inlined routine instance.
 	vars := ic.InlVars
@@ -1333,14 +1333,14 @@ func PutConcreteFunc(ctxt Context, s *FnState) error {
 	Uleb128put(ctxt, s.Info, int64(abbrev))
 
 	// Abstract origin.
-	putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, s.Absfn)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, s.Absfn)
 
 	// Start/end PC.
-	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, 0, s.StartPC)
-	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, s.Size, s.StartPC)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, 0, s.StartPC)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, s.Size, s.StartPC)
 
 	// cfa / frame base
-	putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
 
 	// Scopes
 	if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
@@ -1378,17 +1378,17 @@ func PutDefaultFunc(ctxt Context, s *FnState) error {
 		name = strings.Replace(name, "\"\".", objabi.PathToPrefix(s.Importpath)+".", -1)
 	}
 
-	putattr(ctxt, s.Info, DW_ABRV_FUNCTION, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
-	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, 0, s.StartPC)
-	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, s.Size, s.StartPC)
-	putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
+	Putattr(ctxt, s.Info, DW_ABRV_FUNCTION, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, 0, s.StartPC)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, s.Size, s.StartPC)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
 	ctxt.AddFileRef(s.Info, s.Filesym)
 
 	var ev int64
 	if s.External {
 		ev = 1
 	}
-	putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
+	Putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
 
 	// Scopes
 	if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
@@ -1436,11 +1436,11 @@ func putscope(ctxt Context, s *FnState, scopes []Scope, curscope int32, fnabbrev
 
 		if len(scope.Ranges) == 1 {
 			Uleb128put(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_SIMPLE)
-			putattr(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_SIMPLE, DW_FORM_addr, DW_CLS_ADDRESS, scope.Ranges[0].Start, s.StartPC)
-			putattr(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_SIMPLE, DW_FORM_addr, DW_CLS_ADDRESS, scope.Ranges[0].End, s.StartPC)
+			Putattr(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_SIMPLE, DW_FORM_addr, DW_CLS_ADDRESS, scope.Ranges[0].Start, s.StartPC)
+			Putattr(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_SIMPLE, DW_FORM_addr, DW_CLS_ADDRESS, scope.Ranges[0].End, s.StartPC)
 		} else {
 			Uleb128put(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_RANGES)
-			putattr(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_RANGES, DW_FORM_sec_offset, DW_CLS_PTR, s.Ranges.Length(ctxt), s.Ranges)
+			Putattr(ctxt, s.Info, DW_ABRV_LEXICAL_BLOCK_RANGES, DW_FORM_sec_offset, DW_CLS_PTR, s.Ranges.Length(ctxt), s.Ranges)
 
 			s.PutRanges(ctxt, scope.Ranges)
 		}
@@ -1532,7 +1532,7 @@ func putAbstractVar(ctxt Context, info Sym, v *Var) {
 	}
 
 	Uleb128put(ctxt, info, int64(abbrev))
-	putattr(ctxt, info, abbrev, DW_FORM_string, DW_CLS_STRING, int64(len(v.Name)), v.Name)
+	Putattr(ctxt, info, abbrev, DW_FORM_string, DW_CLS_STRING, int64(len(v.Name)), v.Name)
 
 	// Isreturn attribute if this is a param
 	if abbrev == DW_ABRV_PARAM_ABSTRACT {
@@ -1540,17 +1540,17 @@ func putAbstractVar(ctxt Context, info Sym, v *Var) {
 		if v.IsReturnValue {
 			isReturn = 1
 		}
-		putattr(ctxt, info, abbrev, DW_FORM_flag, DW_CLS_FLAG, isReturn, nil)
+		Putattr(ctxt, info, abbrev, DW_FORM_flag, DW_CLS_FLAG, isReturn, nil)
 	}
 
 	// Line
 	if abbrev != DW_ABRV_PARAM_ABSTRACT {
 		// See issue 23374 for more on why decl line is skipped for abs params.
-		putattr(ctxt, info, abbrev, DW_FORM_udata, DW_CLS_CONSTANT, int64(v.DeclLine), nil)
+		Putattr(ctxt, info, abbrev, DW_FORM_udata, DW_CLS_CONSTANT, int64(v.DeclLine), nil)
 	}
 
 	// Type
-	putattr(ctxt, info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, v.Type)
+	Putattr(ctxt, info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, v.Type)
 
 	// Var has no children => no terminator
 }
@@ -1565,27 +1565,27 @@ func putvar(ctxt Context, s *FnState, v *Var, absfn Sym, fnabbrev, inlIndex int,
 	if concrete {
 		// Here we are making a reference to a child DIE of an abstract
 		// function subprogram DIE. The child DIE has no LSym, so instead
-		// after the call to 'putattr' below we make a call to register
+		// after the call to 'Putattr' below we make a call to register
 		// the child DIE reference.
-		putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, absfn)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, absfn)
 		ctxt.RecordDclReference(s.Info, absfn, int(v.ChildIndex), inlIndex)
 	} else {
 		// Var name, line for abstract and default cases
 		n := v.Name
-		putattr(ctxt, s.Info, abbrev, DW_FORM_string, DW_CLS_STRING, int64(len(n)), n)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_string, DW_CLS_STRING, int64(len(n)), n)
 		if abbrev == DW_ABRV_PARAM || abbrev == DW_ABRV_PARAM_LOCLIST || abbrev == DW_ABRV_PARAM_ABSTRACT {
 			var isReturn int64
 			if v.IsReturnValue {
 				isReturn = 1
 			}
-			putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, isReturn, nil)
+			Putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, isReturn, nil)
 		}
-		putattr(ctxt, s.Info, abbrev, DW_FORM_udata, DW_CLS_CONSTANT, int64(v.DeclLine), nil)
-		putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, v.Type)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_udata, DW_CLS_CONSTANT, int64(v.DeclLine), nil)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, v.Type)
 	}
 
 	if abbrevUsesLoclist(abbrev) {
-		putattr(ctxt, s.Info, abbrev, DW_FORM_sec_offset, DW_CLS_PTR, s.Loc.Length(ctxt), s.Loc)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_sec_offset, DW_CLS_PTR, s.Loc.Length(ctxt), s.Loc)
 		v.PutLocationList(s.Loc, s.StartPC)
 	} else {
 		loc := encbuf[:0]
@@ -1598,7 +1598,7 @@ func putvar(ctxt Context, s *FnState, v *Var, absfn Sym, fnabbrev, inlIndex int,
 			loc = append(loc, DW_OP_fbreg)
 			loc = AppendSleb128(loc, int64(v.StackOffset))
 		}
-		putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, int64(len(loc)), loc)
+		Putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, int64(len(loc)), loc)
 	}
 
 	// Var has no children => no terminator
