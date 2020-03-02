@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faf076f_642d480c",
+        "filename": "src/crypto/internal/boring/rsa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-03-02T20:44:18Z",
+      "side": 1,
+      "message": "s/uses/use?",
+      "range": {
+        "startLine": 129,
+        "startChar": 71,
+        "endLine": 129,
+        "endChar": 75
+      },
+      "revId": "fb28a5bb6b7132651eae6847029ad9251abd6372",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
