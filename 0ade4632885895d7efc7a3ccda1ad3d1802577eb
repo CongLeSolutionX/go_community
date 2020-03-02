@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "00166840_1f13d8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-02T22:25:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "278a4937_9ea15905",
+      "range": {
+        "startLine": 12,
+        "startChar": 41,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "0ade4632885895d7efc7a3ccda1ad3d1802577eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77dc42fa_5eaee82d",
         "filename": "src/runtime/iface.go",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "0ade4632885895d7efc7a3ccda1ad3d1802577eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c25be910_14dcc856",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-02T22:25:34Z",
+      "side": 1,
+      "message": "Yep. That was one of the motivations behind CL 220499.",
+      "parentUuid": "77dc42fa_5eaee82d",
+      "revId": "0ade4632885895d7efc7a3ccda1ad3d1802577eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
