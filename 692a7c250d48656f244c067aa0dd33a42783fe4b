@@ -22,6 +22,30 @@
       "revId": "692a7c250d48656f244c067aa0dd33a42783fe4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5e23a09_3a8c095e",
+        "filename": "src/runtime/softfloat64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T17:17:12Z",
+      "side": 1,
+      "message": "Most of our hardware generates a 0 payload, so that\u0027s the behavior I\u0027d rather match.",
+      "parentUuid": "2a06a62e_45a6c3c5",
+      "range": {
+        "startLine": 16,
+        "startChar": 79,
+        "endLine": 16,
+        "endChar": 88
+      },
+      "revId": "692a7c250d48656f244c067aa0dd33a42783fe4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
