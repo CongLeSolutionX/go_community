@@ -473,6 +473,8 @@ func recordspan(vh unsafe.Pointer, p unsafe.Pointer) {
 		if n < cap(h.allspans)*3/2 {
 			n = cap(h.allspans) * 3 / 2
 		}
+		n = int(alignUp(uintptr(n), physPageSize/sys.PtrSize))
+
 		var new []*mspan
 		sp := (*slice)(unsafe.Pointer(&new))
 		sp.array = sysAlloc(uintptr(n)*sys.PtrSize, &memstats.other_sys)
