@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6a803d0_f85da462",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "Remove this?",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2640c03f_6f7deddd",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "Maybe just put this at the end of the constants below (and maybe call it _Lleafrank or _Lleaf?)",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eaa7629_cbbd8e6b",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "You can write this instead like:\n\n_Lsched: {_Lscavenge, ... },\n\nThen I think you don\u0027t need any of the empty entries, and trailing comments.",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "051c2e32_c74c4738",
+        "filename": "src/runtime/lockrank_disabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "Maybe mention that initialization is helpful for static lock ranking, but not required.",
+      "range": {
+        "startLine": 8,
+        "startChar": 31,
+        "endLine": 8,
+        "endChar": 62
+      },
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "917e7aa3_4b930a60",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f5264aa_30924f8c",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "It\u0027s kind of weird that lockRankAcquire actually does the locking, but lockRankRelease doesn\u0027t do the unlocking. Could we settle on one protocol or the other?",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67f1a9a8_80d767c1",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "Where is the actual rank comparison?\nI would have expected to see\n\nif gp.m.locksHeld[i-1].rank \u003c gp.m.locksHeld[i-2].rank { ... throw ... }\n\nOr is that all statically captured in the arcs list?",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50d68c83_da339c91",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "len(list)\n\nOr just \u0027for _, entry :\u003d range list {\u0027?",
+      "range": {
+        "startLine": 68,
+        "startChar": 19,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b70868a0_6e724deb",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "This would be worth investigating further. lock2 and unlock2 do getg().m.locks++ and getg().m.locks--, so if the m changes between those two we\u0027re in trouble.",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dd1f7c1_76e1a9c6",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "Why this change?",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d5c222_4f89cb63",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-02T20:36:30Z",
+      "side": 1,
+      "message": "Do we need both build tags and this runtime flag?\nMaybe just defining this flag as a constant in both lockrank_enabled.go and lockrank_disabled.go would be enough.\nUnless you want to be able to turn it off at runtime, even though it is enabled at link time.",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
