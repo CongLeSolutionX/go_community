@@ -34,6 +34,24 @@
       "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4930b8a0_57ac6510",
+        "filename": "src/go/types/methodset.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2020-03-02T21:48:54Z",
+      "side": 1,
+      "message": "Got it, thanks.\n\nIt would be clearer to document at \u0027base\u0027 that base[k]\u003d\u003dnil means that k denotes a field (including a field/method collision). I was confused by the comment on L177, where there is a field but really no collision.",
+      "parentUuid": "9aa480bf_5ebfce1c",
+      "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
