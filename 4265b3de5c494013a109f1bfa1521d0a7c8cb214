@@ -52,6 +52,24 @@
       "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa44cd00_c8da91c2",
+        "filename": "src/go/types/methodset.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2020-03-02T21:51:58Z",
+      "side": 1,
+      "message": "Just as soon as I hit send I remembered that the e.multiples logic causes nils to be inserted for method/method collisions too, so base[k]\u003dnil can mean \"no method\" for three reasons: method/method collision, field/method collision, or plain old field.",
+      "parentUuid": "4930b8a0_57ac6510",
+      "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
