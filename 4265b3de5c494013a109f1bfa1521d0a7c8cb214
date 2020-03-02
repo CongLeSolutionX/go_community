@@ -16,6 +16,24 @@
       "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa480bf_5ebfce1c",
+        "filename": "src/go/types/methodset.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-02T21:15:42Z",
+      "side": 1,
+      "message": "The comment says it: \"since they will hide any method further down\".\n\nThis is not general lookup, this is just method lookup/method set computation. Any field at depth d will shadow any other field OR method with the same name at a lower (as in deeper) depth (d+1, d+2, ...). Those methods will not be in the method set. That was the bug.",
+      "parentUuid": "6533b3c0_2e9cdfc6",
+      "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
