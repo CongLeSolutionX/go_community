@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b5e7eac_d2935caa",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-03-02T08:24:35Z",
+      "side": 1,
+      "message": "Replace with,\n\nAs this example demonstrates, unsynchronized send and close operations\non the same channel can also be a race condition:",
+      "revId": "e463e994d2ae4f0c5f1f7a22b0e75dfe17ca7dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c68a52_32fc78e2",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-03-02T08:24:35Z",
+      "side": 1,
+      "message": "s/derivate/derive/",
+      "revId": "e463e994d2ae4f0c5f1f7a22b0e75dfe17ca7dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f846fe6b_59ccc0b9",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-03-02T08:24:35Z",
+      "side": 1,
+      "message": "s/operation/operations/",
+      "revId": "e463e994d2ae4f0c5f1f7a22b0e75dfe17ca7dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36c45231_7ee527f9",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-03-02T08:24:35Z",
+      "side": 1,
+      "message": "s/happens/happen/",
+      "revId": "e463e994d2ae4f0c5f1f7a22b0e75dfe17ca7dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d164a7b_118b69a0",
+        "filename": "doc/articles/race_detector.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-03-02T08:24:35Z",
+      "side": 1,
+      "message": "s/operations is to use/operations, use/",
+      "revId": "e463e994d2ae4f0c5f1f7a22b0e75dfe17ca7dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
