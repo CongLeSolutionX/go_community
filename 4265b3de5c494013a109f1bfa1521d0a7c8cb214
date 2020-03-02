@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6533b3c0_2e9cdfc6",
+        "filename": "src/go/types/methodset.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2020-03-02T16:20:36Z",
+      "side": 1,
+      "message": "I don\u0027t understand the logic or comment. Why does a field \"collide\" with (as opposed to \"shadow\") a field or method from a lower depth? IIUC, collisions act as if neither name is present, whereas shadowing causes the higher name to appear and the lower name to disappear.",
+      "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
