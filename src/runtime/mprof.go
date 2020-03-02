@@ -141,7 +141,7 @@ var (
 	mbuckets  *bucket // memory profile buckets
 	bbuckets  *bucket // blocking profile buckets
 	xbuckets  *bucket // mutex profile buckets
-	buckhash  *[179999]*bucket
+	buckhash  *[buckHashSize]*bucket
 	bucketmem uintptr
 
 	mProf struct {
@@ -204,7 +204,10 @@ func (b *bucket) bp() *blockRecord {
 // Return the bucket for stk[0:nstk], allocating new bucket if needed.
 func stkbucket(typ bucketType, size uintptr, stk []uintptr, alloc bool) *bucket {
 	if buckhash == nil {
-		buckhash = (*[buckHashSize]*bucket)(sysAlloc(unsafe.Sizeof(*buckhash), &memstats.buckhash_sys))
+		buckhash = (*[buckHashSize]*bucket)(persistentalloc(
+			unsafe.Sizeof(*buckhash),
+			unsafe.Alignof(*buckhash),
+			&memstats.buckhash_sys))
 		if buckhash == nil {
 			throw("runtime: cannot allocate memory")
 		}
