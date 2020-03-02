@@ -70,6 +70,24 @@
       "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e6b9ae_47db429f",
+        "filename": "src/go/types/methodset.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-02T21:54:44Z",
+      "side": 1,
+      "message": "Correct. I\u0027ll add a suitable comment to that effect. Thanks.\n\nIf you have a chance, please also look at the follow-up CL (next on stack). Just a simplification. Thanks.",
+      "parentUuid": "fa44cd00_c8da91c2",
+      "revId": "4265b3de5c494013a109f1bfa1521d0a7c8cb214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
