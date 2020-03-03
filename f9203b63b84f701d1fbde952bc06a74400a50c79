@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "71798191_27fd6d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-03T16:43:53Z",
+      "side": 1,
+      "message": "(nit) s/Fixes:/Fixes/",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "f9203b63b84f701d1fbde952bc06a74400a50c79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "108d12fe_f68375fa",
         "filename": "misc/cgo/test/sigaltstack.go",
         "patchSetId": 1
