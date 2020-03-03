@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5db18426_8f62f28c",
+        "filename": "src/cmd/asm/internal/asm/testdata/mips64.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-03-03T15:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86c6be0c_f165d72f",
+      "range": {
+        "startLine": 592,
+        "startChar": 7,
+        "endLine": 592,
+        "endChar": 12
+      },
+      "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abb16478_de068e7f",
         "filename": "src/cmd/internal/obj/mips/a.out.go",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537ff0de_03fb131d",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-03-03T15:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abb16478_de068e7f",
+      "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "855c8968_8f9ee3b2",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-03-03T15:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de28d9f_cd426ce7",
+      "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f1be6b5_7ce571f9",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 6
@@ -73,6 +133,24 @@
       "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0129818d_f1fdd7fd",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-03-03T15:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f1be6b5_7ce571f9",
+      "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "91ef95a3_cab8deeb",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2085,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-03-03T15:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "996aec6c_e3340991",
+      "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b733294f_87b8f6b9",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 6
@@ -107,6 +203,24 @@
       "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "742a18f4_6ef0d796",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2091,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-03-03T15:14:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b733294f_87b8f6b9",
+      "revId": "6f18be7aa2a11646d345de111b11bd9374a43c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
