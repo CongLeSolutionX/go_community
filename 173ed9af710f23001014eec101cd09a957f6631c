@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb1a49e9_1331287e",
+        "filename": "src/cmd/compile/internal/syntax/scanner_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-04T22:56:40Z",
+      "side": 1,
+      "message": "Maybe put \"tokens :\u003d []token{...}\" right below \"const src\" so it\u0027s easier to see they match up?",
+      "range": {
+        "startLine": 26,
+        "startChar": 22,
+        "endLine": 26,
+        "endChar": 141
+      },
+      "revId": "173ed9af710f23001014eec101cd09a957f6631c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
