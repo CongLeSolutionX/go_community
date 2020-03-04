@@ -22,6 +22,30 @@
       "revId": "e0df346308fca83ee047fb4998ec39e2db71da0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61757076_347ad35a",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-04T23:13:53Z",
+      "side": 1,
+      "message": "I was going back and forth on this. Happy to switch to the shorter suggested phrasing.\n\nWhat about lines 818 and 855? Do you think just saying \"escape\" is ok? Or leave alone and thus \"inconsistent\" with the other uses?",
+      "parentUuid": "3bc8b639_6925c4b0",
+      "range": {
+        "startLine": 850,
+        "startChar": 25,
+        "endLine": 850,
+        "endChar": 33
+      },
+      "revId": "e0df346308fca83ee047fb4998ec39e2db71da0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
