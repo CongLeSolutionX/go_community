@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c61c4b8d_238f3969",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-04T19:30:03Z",
+      "side": 1,
+      "message": "Length, or Len, or Size. Lens doesn\u0027t read right.",
+      "range": {
+        "startLine": 888,
+        "startChar": 15,
+        "endLine": 888,
+        "endChar": 19
+      },
+      "revId": "8abb03bab62d0bad9dcd9c64bf80fbe2a66bc588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af22dccb_78211237",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-04T19:30:03Z",
+      "side": 1,
+      "message": "Now there are four special instructions, use a switch statement. Also below.",
+      "revId": "8abb03bab62d0bad9dcd9c64bf80fbe2a66bc588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd19c42_c871966b",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-04T19:30:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure I followed here. Why not just let asmout to emit the right bytes? Why use out[0]? Changing o.size in asmout seems a bad idea to me.",
+      "revId": "8abb03bab62d0bad9dcd9c64bf80fbe2a66bc588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
