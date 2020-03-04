@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f6ee18f_000f0d58",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Yes, good catch, no need for this.",
+      "parentUuid": "c6a803d0_f85da462",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2640c03f_6f7deddd",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "028ae2ac_18a08d5d",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2640c03f_6f7deddd",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2eaa7629_cbbd8e6b",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 9
@@ -50,6 +86,24 @@
       "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23cc028e_ff335ded",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Good suggestion, done!",
+      "parentUuid": "2eaa7629_cbbd8e6b",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "6d33b7d0_0b45c3ec",
+        "filename": "src/runtime/lockrank_disabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051c2e32_c74c4738",
+      "range": {
+        "startLine": 8,
+        "startChar": 31,
+        "endLine": 8,
+        "endChar": 62
+      },
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "917e7aa3_4b930a60",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 9
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "0641af91_37738eca",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "917e7aa3_4b930a60",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f5264aa_30924f8c",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 9
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "d316aee0_9af72c16",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Good point, I changed lockLockRelease() to do the unlock2(), so now they are consistent.",
+      "parentUuid": "5f5264aa_30924f8c",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67f1a9a8_80d767c1",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 9
@@ -130,6 +250,24 @@
       "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a6584d_9282e0fe",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Yes, I was just using the arcs list rather than the static lock rank ordering.  The arcs is just a partial order and doesn\u0027t fully determine the full rank ordering.  But I have now added in a quick direct rank comparison, just to make sure that ranks are actually in the correct order (not just that the arcs are all there).  Thanks for the suggestion.  The arcs are the most informative about dependencies, but the full rank ordering is useful as documentation and an easy way to decide where a lock should fit among the other locks.\n\nThanks for the comment!",
+      "parentUuid": "67f1a9a8_80d767c1",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -153,6 +291,30 @@
       "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a20a7d16_5adcc683",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Yes, I should have cleaned this up, thanks.  Done.",
+      "parentUuid": "50d68c83_da339c91",
+      "range": {
+        "startLine": 68,
+        "startChar": 19,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -190,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "5aa2c662_981c886b",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "Done for 32-bit alignment issues, but I fixed as you suggested below (appropriate extra padding for the mutex definition used when lock ranking).",
+      "parentUuid": "5dd1f7c1_76e1a9c6",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08d5c222_4f89cb63",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 9
@@ -201,6 +381,24 @@
       "writtenOn": "2020-03-02T20:36:30Z",
       "side": 1,
       "message": "Do we need both build tags and this runtime flag?\nMaybe just defining this flag as a constant in both lockrank_enabled.go and lockrank_disabled.go would be enough.\nUnless you want to be able to turn it off at runtime, even though it is enabled at link time.",
+      "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab280be7_ccb3738c",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-04T02:03:08Z",
+      "side": 1,
+      "message": "I\u0027m undecided on this, since I think we do want to have \u0027staticlockranking_enabled\u0027 in the global list of possible experiments.  So, it may be worth just defining it like the other experiment variables.  However, we actually don\u0027t need to check it in the lockrank_enabled.go and lockrank_disabled.go files, since we know what its value is.  (And I removed a couple cases where I hadn\u0027t clean things up enough and was still checking its value in lockrank_enabled.go)",
+      "parentUuid": "08d5c222_4f89cb63",
       "revId": "21dabe12d4e75cd3904710d2889046606ef9d926",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
