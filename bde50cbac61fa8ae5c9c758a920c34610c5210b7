@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ea5432d_fb283d9a",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-04T21:13:10Z",
+      "side": 1,
+      "message": "The net/url package docs use \"a URL\" rather than \"an URL\", and we should do the same here.",
+      "range": {
+        "startLine": 765,
+        "startChar": 22,
+        "endLine": 765,
+        "endChar": 24
+      },
+      "revId": "bde50cbac61fa8ae5c9c758a920c34610c5210b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c16f37c6_342b90d3",
+        "filename": "doc/go1.14.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-04T21:13:10Z",
+      "side": 1,
+      "message": "Run-on sentence.  Put a period after \"unparsable URL\" and say something like \"This provides clearer structure....\"",
+      "range": {
+        "startLine": 770,
+        "startChar": 7,
+        "endLine": 770,
+        "endChar": 70
+      },
+      "revId": "bde50cbac61fa8ae5c9c758a920c34610c5210b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
