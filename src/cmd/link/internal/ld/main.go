@@ -246,6 +246,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	bench.Start("loadlibfull")
 	ctxt.loadlibfull() // XXX do it here for now
+	ctxt.setArchSyms() // NB: Keep me after loadlibfull
 
 	bench.Start("mangleTypeSym")
 	ctxt.mangleTypeSym()
@@ -271,7 +272,6 @@ func Main(arch *sys.Arch, theArch Arch) {
 		ctxt.doxcoff()
 	}
 
-	ctxt.setArchSyms()
 	bench.Start("addexport")
 	ctxt.addexport()
 	bench.Start("Gentext")
