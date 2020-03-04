@@ -245,6 +245,12 @@ func Main(arch *sys.Arch, theArch Arch) {
 	bench.Start("dwarfGenerateDebugInfo")
 	dwarfGenerateDebugInfo(ctxt)
 
+	bench.Start("loadlibfull")
+	ctxt.loadlibfull() // XXX do it here for now
+	ctxt.setArchSyms() // NB: Keep me after loadlibfull
+
+	bench.Start("mangleTypeSym")
+	ctxt.mangleTypeSym()
 	bench.Start("callgraph")
 	ctxt.callgraph()
 

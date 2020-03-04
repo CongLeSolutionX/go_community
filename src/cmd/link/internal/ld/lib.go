@@ -112,6 +112,16 @@ type ArchSyms struct {
 	Dynamic *sym.Symbol
 	DynSym  *sym.Symbol
 	DynStr  *sym.Symbol
+
+	// Elf specific
+	Rel     *sym.Symbol
+	Rela    *sym.Symbol
+	RelPLT  *sym.Symbol
+	RelaPLT *sym.Symbol
+
+	// Darwin symbols
+	LinkedItGOT *sym.Symbol
+	LinkedItPLT *sym.Symbol
 }
 
 // setArchSyms sets up the ArchSyms structure, and must be called before
@@ -126,6 +136,17 @@ func (ctxt *Link) setArchSyms() {
 	ctxt.Dynamic = ctxt.Syms.Lookup(".dynamic", 0)
 	ctxt.DynSym = ctxt.Syms.Lookup(".dynsym", 0)
 	ctxt.DynStr = ctxt.Syms.Lookup(".dynstr", 0)
+
+	if ctxt.IsElf() {
+		ctxt.Rel = ctxt.Syms.Lookup(".rel", 0)
+		ctxt.Rela = ctxt.Syms.Lookup(".rela", 0)
+		ctxt.RelPLT = ctxt.Syms.Lookup(".rel.plt", 0)
+		ctxt.RelaPLT = ctxt.Syms.Lookup(".rela.plt", 0)
+	}
+	if ctxt.IsDarwin() {
+		ctxt.LinkedItGOT = ctxt.Syms.Lookup(".linkedit.got", 0)
+		ctxt.LinkedItPLT = ctxt.Syms.Lookup(".linkedit.plt", 0)
+	}
 }
 
 type Arch struct {
