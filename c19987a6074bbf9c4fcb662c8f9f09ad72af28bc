@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fb4d34a3_e28a3543",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-05T20:22:57Z",
+      "side": 1,
+      "message": "Yes, this is a good idea. I will write up some comments.",
+      "parentUuid": "6ddda290_be70b15d",
+      "revId": "c19987a6074bbf9c4fcb662c8f9f09ad72af28bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49ce1388_9379bdfc",
         "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "c19987a6074bbf9c4fcb662c8f9f09ad72af28bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3bc74d2_cb78592d",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-05T20:22:57Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll fix that.",
+      "parentUuid": "49ce1388_9379bdfc",
+      "revId": "c19987a6074bbf9c4fcb662c8f9f09ad72af28bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
