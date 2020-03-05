@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "564eca09_3bb86bcb",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-05T23:47:19Z",
+      "side": 1,
+      "message": "Yes, that should probably be cleaned up at some point. Not this CL.",
+      "range": {
+        "startLine": 43,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "f0b3e9d0352dbf156e94626d068e3bf1843e3bd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb6f82e2_aaa1b413",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-05T23:47:19Z",
+      "side": 1,
+      "message": "You don\u0027t need to assign found\u003dfalse here, it is already false.",
+      "revId": "f0b3e9d0352dbf156e94626d068e3bf1843e3bd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
