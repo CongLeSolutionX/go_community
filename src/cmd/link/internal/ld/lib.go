@@ -2672,7 +2672,9 @@ func (ctxt *Link) loadlibfull() {
 	// When we generated dwarf DIE objects, we created them
 	// with embedded loader.Sym refs as opposed to sym.Symbol refs.
 	// Call a helper to rewrite the former to the latter in all DIEs.
-	dwarfConvertSymbols(ctxt)
+	if dwarfEnabled(ctxt) {
+		dwarfConvertSymbols(ctxt)
+	}
 
 	setupdynexp(ctxt)
 
