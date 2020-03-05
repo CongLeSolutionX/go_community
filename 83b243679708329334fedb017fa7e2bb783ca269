@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6842e803_1b3493e4",
+        "filename": "src/cmd/link/internal/ld/dwarf2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-03-05T17:12:36Z",
+      "side": 1,
+      "message": "atb?",
+      "revId": "83b243679708329334fedb017fa7e2bb783ca269",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
