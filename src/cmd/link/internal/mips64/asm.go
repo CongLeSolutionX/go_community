@@ -42,7 +42,7 @@ import (
 
 func gentext(ctxt *ld.Link) {}
 
-func adddynrel(_ *ld.Link, target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc) bool {
+func adddynrel(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc) bool {
 	log.Fatalf("adddynrel not implemented")
 	return false
 }
@@ -91,7 +91,7 @@ func elfreloc1(ctxt *ld.Link, r *sym.Reloc, sectoff int64) bool {
 	return true
 }
 
-func elfsetupplt(_ *ld.Link, target *ld.Target, syms *ld.ArchSyms) {
+func elfsetupplt(target *ld.Target, syms *ld.ArchSyms) {
 	return
 }
 

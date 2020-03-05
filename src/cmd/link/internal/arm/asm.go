@@ -115,7 +115,7 @@ func braddoff(a int32, b int32) int32 {
 	return int32((uint32(a))&0xff000000 | 0x00ffffff&uint32(a+b))
 }
 
-func adddynrel(_ *ld.Link, target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc) bool {
+func adddynrel(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc) bool {
 	targ := r.Sym
 
 	switch r.Type {
@@ -300,7 +300,7 @@ func elfreloc1(ctxt *ld.Link, r *sym.Reloc, sectoff int64) bool {
 	return true
 }
 
-func elfsetupplt(_ *ld.Link, target *ld.Target, syms *ld.ArchSyms) {
+func elfsetupplt(target *ld.Target, syms *ld.ArchSyms) {
 	plt := syms.GOT
 	got := syms.GOTPLT
 	if plt.Size == 0 {
@@ -697,7 +697,7 @@ func addpltsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 		got := syms.GOTPLT
 		rel := syms.RelPLT
 		if plt.Size == 0 {
-			elfsetupplt(nil, target, syms)
+			elfsetupplt(target, syms)
 		}
 
 		// .got entry

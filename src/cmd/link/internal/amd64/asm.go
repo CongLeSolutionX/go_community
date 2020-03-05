@@ -106,7 +106,7 @@ func makeWritable(s *sym.Symbol) {
 	}
 }
 
-func adddynrel(_ *ld.Link, target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc) bool {
+func adddynrel(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc) bool {
 	targ := r.Sym
 
 	switch r.Type {
@@ -572,7 +572,7 @@ func archrelocvariant(target *ld.Target, syms *ld.ArchSyms, r *sym.Reloc, s *sym
 	return t
 }
 
-func elfsetupplt(_ *ld.Link, target *ld.Target, syms *ld.ArchSyms) {
+func elfsetupplt(target *ld.Target, syms *ld.ArchSyms) {
 	plt := syms.PLT
 	got := syms.GOTPLT
 	if plt.Size == 0 {
@@ -611,7 +611,7 @@ func addpltsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 		got := syms.GOTPLT
 		rela := syms.RelaPLT
 		if plt.Size == 0 {
-			elfsetupplt(nil, target, syms)
+			elfsetupplt(target, syms)
 		}
 
 		// jmpq *got+size(IP)
