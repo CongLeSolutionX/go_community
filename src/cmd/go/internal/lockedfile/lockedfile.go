@@ -36,12 +36,17 @@ type osFile struct {
 // If flag includes os.O_WRONLY or os.O_RDWR, the file is write-locked;
 // otherwise, it is read-locked.
 func OpenFile(name string, flag int, perm os.FileMode) (*File, error) {
+	if err := incGlobalCount(); err != nil {
+		return nil, err
+	}
+
 	var (
 		f   = new(File)
 		err error
 	)
 	f.osFile.File, err = openFile(name, flag, perm)
 	if err != nil {
+		decGlobalCount()
 		return nil, err
 	}
 
@@ -92,6 +97,9 @@ func (f *File) Close() error {
 
 	err := closeFile(f.osFile.File)
 	runtime.SetFinalizer(f, nil)
+	if decErr := decGlobalCount(); err == nil {
+		err = decErr
+	}
 	return err
 }
 

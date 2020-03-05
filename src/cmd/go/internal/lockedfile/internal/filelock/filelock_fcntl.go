@@ -13,10 +13,8 @@
 // or an F_OFD_SETLK command for 'fcntl', that allows for better concurrency and
 // does not require per-inode bookkeeping in the application.
 //
-// TODO(bcmills): If we add a build tag for Illumos (see golang.org/issue/20603)
-// then Illumos should use F_OFD_SETLK, and the resulting code would be as
-// simple as filelock_unix.go. We will still need the code in this file for AIX
-// or as long as Oracle Solaris provides only F_SETLK.
+// TODO(golang.org/issue/35618): add a syscall.Flock binding for Illumos and
+// switch it over to use filelock_unix.go.
 
 package filelock
 
@@ -27,6 +25,8 @@ import (
 	"sync"
 	"syscall"
 )
+
+func init() { platformHasEDEADLKBug = true }
 
 type lockType int16
 

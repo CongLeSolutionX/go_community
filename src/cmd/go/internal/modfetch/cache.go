@@ -109,6 +109,29 @@ func SideLock() (unlock func(), err error) {
 	return lockedfile.MutexAt(path).Lock()
 }
 
+// ConfigureGlobalLock configures the lockedfile package to use a global parent
+// lockfile within the module cache, if needed to avoid spurious EDEADLK errors
+// when files in the module cache are locked concurrently from multiple
+// goroutines.
+//
+// On most platforms, ConfigurGlobalLock is a no-op.
+func ConfigureGlobalLock() error {
+	if PkgMod == "" {
+		base.Fatalf("go: internal error: modfetch.PkgMod not set")
+	}
+
+	if lockedfile.NeedsGlobalParent() {
+		path := filepath.Join(PkgMod, "cache", "global.lock")
+		if err := os.MkdirAll(filepath.Dir(path), 0777); err != nil {
+			return fmt.Errorf("failed to create cache directory for global lockfile: %w", err)
+		}
+
+		lockedfile.SetGlobalParent(path)
+	}
+
+	return nil
+}
+
 // A cachingRepo is a cache around an underlying Repo,
 // avoiding redundant calls to ModulePath, Versions, Stat, Latest, and GoMod (but not Zip).
 // It is also safe for simultaneous use by multiple goroutines

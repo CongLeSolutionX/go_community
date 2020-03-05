@@ -195,20 +195,26 @@ func Init() {
 		base.Fatalf("missing $GOPATH")
 	}
 	gopath = list[0]
-	if _, err := os.Stat(filepath.Join(gopath, "go.mod")); err == nil {
-		base.Fatalf("$GOPATH/go.mod exists but should not")
-	}
+	if gopath != os.DevNull {
+		if _, err := os.Stat(filepath.Join(gopath, "go.mod")); err == nil {
+			base.Fatalf("$GOPATH/go.mod exists but should not")
+		}
 
-	oldSrcMod := filepath.Join(list[0], "src/mod")
-	pkgMod := filepath.Join(list[0], "pkg/mod")
-	infoOld, errOld := os.Stat(oldSrcMod)
-	_, errMod := os.Stat(pkgMod)
-	if errOld == nil && infoOld.IsDir() && errMod != nil && os.IsNotExist(errMod) {
-		os.Rename(oldSrcMod, pkgMod)
-	}
+		oldSrcMod := filepath.Join(gopath, "src/mod")
+		pkgMod := filepath.Join(gopath, "pkg/mod")
+		infoOld, errOld := os.Stat(oldSrcMod)
+		_, errMod := os.Stat(pkgMod)
+		if errOld == nil && infoOld.IsDir() && errMod != nil && os.IsNotExist(errMod) {
+			os.Rename(oldSrcMod, pkgMod)
+		}
 
-	modfetch.PkgMod = pkgMod
-	codehost.WorkRoot = filepath.Join(pkgMod, "cache/vcs")
+		modfetch.PkgMod = pkgMod
+		if err := modfetch.ConfigureGlobalLock(); err != nil {
+			base.Fatalf("go: %s", err)
+		}
+
+		codehost.WorkRoot = filepath.Join(pkgMod, "cache/vcs")
+	}
 
 	cfg.ModulesEnabled = true
 	load.ModBinDir = BinDir

@@ -96,3 +96,12 @@ func underlyingError(err error) error {
 	}
 	return err
 }
+
+// PlatformHasEDEADLKBug reports whether the current platform is believed to
+// return spurious EDEADLK errors for multi-threaded programs that may acquire
+// multiple locks from different threads.
+func PlatformHasEDEADLKBug() bool {
+	return platformHasEDEADLKBug
+}
+
+var platformHasEDEADLKBug = false // overridden in init on buggy platforms

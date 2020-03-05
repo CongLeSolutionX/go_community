@@ -66,6 +66,16 @@ TODO
   directory of each individual test).
 </p>
 
+<h4 id="EDEADLK">File-locking on AIX, Solaris, and Illumos</h4>
+
+<p><!-- https://golang.org/issue/32817 -->
+  Concurrent invocations of the <code>go</code> command on AIX, Solaris, and
+  Illumos no longer fail with spurious <code>EDEADLK</code> errors due to
+  defects in the kernel's deadlock detection. However, the workaround within
+  the <code>go</code> command requires an extra file-lock within the module
+  cache, which may slightly increase build times on these platforms.
+</p>
+
 <h2 id="runtime">Runtime</h2>
 
 <p>
