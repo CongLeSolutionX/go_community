@@ -48,6 +48,40 @@
     },
     {
       "key": {
+        "uuid": "b8206b31_427d44df",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-05T04:00:33Z",
+      "side": 1,
+      "message": "Since these functions will be used a whole lot, I think we\nhave a license to micro-optimize 😊\n\nSo:\nI think an inclined comparison would be even simpler and perhaps faster\nthan lower(ch) which has a bit set, and despite getting inined, most def still\nincurs a register store for the value. Perhaps:\nfunc isLetter(ch rune) bool {\n   return ‘a’ \u003c\u003d ch \u0026\u0026 ch \u003c\u003d ‘z’ || ‘A’ \u003c\u003d ch \u0026\u0026 ch \u003c\u003d ‘Z’ || ch \u003d\u003d ‘_’\n}",
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97aac45c_459ce9fc",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-05T04:00:33Z",
+      "side": 1,
+      "message": "Ditto for isHex",
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40228084_e91f99ec",
         "filename": "src/cmd/compile/internal/syntax/scanner.go",
         "patchSetId": 3
