@@ -46,6 +46,30 @@
       "revId": "e0df346308fca83ee047fb4998ec39e2db71da0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec543a9f_fa5ff5a4",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T03:05:19Z",
+      "side": 1,
+      "message": "Ah, yeah, I missed those.\n\nYeah, I think removing \"sequence\" everywhere was appropriate. Thanks!",
+      "parentUuid": "61757076_347ad35a",
+      "range": {
+        "startLine": 850,
+        "startChar": 25,
+        "endLine": 850,
+        "endChar": 33
+      },
+      "revId": "e0df346308fca83ee047fb4998ec39e2db71da0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
