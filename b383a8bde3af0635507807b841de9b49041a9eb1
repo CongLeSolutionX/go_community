@@ -519,6 +519,30 @@
     },
     {
       "key": {
+        "uuid": "2b3ccfb0_29df020d",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T08:03:07Z",
+      "side": 1,
+      "message": "Thanks, that explanation makes sense.\n\nAt the time I left that comment, I think I was focused on source.go, so I didn\u0027t yet understand the pattern of calling nextch() in scanner.go.\n\nUnderstood about \"..\" scanning as _Dot, _Dot (I remember you explaining that before :)). When I said \"x..f\" should cause a syntax error, I was thinking parser error, not scanner error. Sorry for the confusion!",
+      "parentUuid": "a876978b_f2469784",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 47
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3a8ffe1_2134a86d",
         "filename": "src/cmd/compile/internal/syntax/source.go",
         "patchSetId": 3
