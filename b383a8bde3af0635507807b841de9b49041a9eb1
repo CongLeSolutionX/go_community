@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "144dee05_0df5dd17",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07ea891_82df4052",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618d37f9_85d3a75a",
         "filename": "src/cmd/compile/internal/syntax/scanner.go",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5de4a24_0cae8267",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done and renamed isIdentRune to atIdentChar.",
+      "parentUuid": "618d37f9_85d3a75a",
+      "range": {
+        "startLine": 390,
+        "startChar": 30,
+        "endLine": 390,
+        "endChar": 37
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -101,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "dfdb9b96_b4a44f23",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b01ac26b_7a686451",
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97aac45c_459ce9fc",
         "filename": "src/cmd/compile/internal/syntax/scanner.go",
         "patchSetId": 3
@@ -118,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "8f175196_224bb24e",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "97aac45c_459ce9fc",
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40228084_e91f99ec",
         "filename": "src/cmd/compile/internal/syntax/scanner.go",
         "patchSetId": 3
@@ -129,6 +213,24 @@
       "writtenOn": "2020-03-05T00:34:00Z",
       "side": 1,
       "message": "How does this work when scanning something like \"0.9\"?\n\nReading through the code, I\u0027d expect base would be set to 8 from line 487, and then the 9 would get rejected when scanning the fractional part at line 504. Am I misunderstanding something?",
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c82539c_a521d800",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Interesting. It happens to work because s.digits continues to read digits (but records the index of \u00279\u0027 in *invalid). Since we switch to FloatLit on 503, there is no invalid character reported and it works.\n\nThis seems a bit confusing, I admit. The old code seems to have the same problem. If it wouldn\u0027t work, we would have seen this by now (it\u0027s been in use for 1 year).\n\nKeeping this unresolved for now. There ought to be a cleaner way to do this.",
+      "parentUuid": "40228084_e91f99ec",
       "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -158,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "1a811090_d096bd2e",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02fd7305_54378ef9",
+      "range": {
+        "startLine": 805,
+        "startChar": 47,
+        "endLine": 805,
+        "endChar": 52
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4b9947d_942c2c7b",
         "filename": "src/cmd/compile/internal/syntax/source.go",
         "patchSetId": 3
@@ -178,6 +304,30 @@
       "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4f5ad9b_a4399f04",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4b9947d_942c2c7b",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 11
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -204,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "8c2ae8b3_e06e626f",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc359cf6_95cf0bdc",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f245d66_bba08761",
         "filename": "src/cmd/compile/internal/syntax/source.go",
         "patchSetId": 3
@@ -224,6 +398,30 @@
       "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d8b7bd1_242070a5",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f245d66_bba08761",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 63
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -250,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "e168e720_ac730d58",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Using \"stop\" here, and \"rewind\" below.",
+      "parentUuid": "a94fbdb1_3551e5ad",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 21
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6c856e_b6206016",
         "filename": "src/cmd/compile/internal/syntax/source.go",
         "patchSetId": 3
@@ -270,6 +492,30 @@
       "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a876978b_f2469784",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "This is correct as is.\n\nYou are correct that reset (now: rewind) will rewind the scanner read position and s.ch to the state we had when start was called. So s.ch has already been read (one char look-ahead) and it\u0027s the first character in the active segment.\n\nIn the scanner, after rewind we want to be in the same position that we were in when we hit \"case \u0027.\u0027. The first thing we do in that case is consume that \u0027.\u0027 (and read the character following it into s.ch). So after rewind, we need to consume that \u0027.\u0027 again, i.e., read the character following it into s.ch (which in the case of \"..\" would be the 2nd \u0027.\u0027). The scanner reports a _Dot (first one), and in the subsequent next() call it sees \u0027.\u0027 in s.ch (the 2nd \u0027.\u0027) and reports another _Dot. Added a comment in the scanner and expanded TestSmoke to check.\n\nNote that \"..\" is not a syntax error, it\u0027s just _Dot, _Dot. We could make it an invalid token error, and then we wouldn\u0027t need rewind at all - and admittedly that would be simpler and probably wouldn\u0027t make a difference in practice (but for a different reported error). But it\u0027s a bit against the rules which say that the next token is the longest character sequence that makes up a valid token. (We do break that rule for literals because we believe we get less confusing error messages in those cases if there\u0027s an error. Maybe that would be true here as well. Could try, in a separate CL.)\n\nAs an aside, rewind must only be called if we have an active segment. Added a comment to that effect and test for it (rewind is basically never called).",
+      "parentUuid": "3a6c856e_b6206016",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 47
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -296,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "83c2e592_11392fdd",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3a8ffe1_2134a86d",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76ac8d89_bbf4d24b",
         "filename": "src/cmd/compile/internal/syntax/source.go",
         "patchSetId": 3
@@ -319,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "095490e9_5b290678",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76ac8d89_bbf4d24b",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 26
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7678884_326b4186",
         "filename": "src/cmd/compile/internal/syntax/source.go",
         "patchSetId": 3
@@ -339,6 +633,30 @@
       "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbb264c7_d8966038",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-05T05:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7678884_326b4186",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 23
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
