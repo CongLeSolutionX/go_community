@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ddda290_be70b15d",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-03-05T16:58:09Z",
+      "side": 1,
+      "message": "Can we have a comment here describing the overall approach. Taking the relevant sections from the CL description would likely be adequate.",
+      "revId": "c19987a6074bbf9c4fcb662c8f9f09ad72af28bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49ce1388_9379bdfc",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-03-05T16:58:09Z",
+      "side": 1,
+      "message": "unneeded case, unless we should be panicking below.",
+      "revId": "c19987a6074bbf9c4fcb662c8f9f09ad72af28bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
