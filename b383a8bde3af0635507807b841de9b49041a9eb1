@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "db404b26_5e0eba68",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T04:26:28Z",
+      "side": 1,
+      "message": "The compiler *should* be able to optimize\n\n    \u0027a\u0027 \u003c\u003d lower(ch) \u0026\u0026 lower(ch) \u003c\u003d \u0027z\u0027\n\ninto just\n\n    uint32(((\u0027a\u0027 - \u0027A\u0027) | ch) - \u0027a\u0027) \u003c\u003d uint32(\u0027z\u0027 - \u0027a\u0027)\n\nwhich is two arithmetic operations and a single comparison.\n\nI\u0027m not sure if it\u0027s doing that currently though. I played with a simple example earlier, and it seems like the range comparison optimization is currently broken. :/",
+      "parentUuid": "b8206b31_427d44df",
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97aac45c_459ce9fc",
         "filename": "src/cmd/compile/internal/syntax/scanner.go",
         "patchSetId": 3
