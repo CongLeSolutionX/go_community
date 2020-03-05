@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07ea891_82df4052",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "nit: their",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "618d37f9_85d3a75a",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "Could remove this parameter since it\u0027s currently always \"s.ch\", and the errors below would be misreported if it wasn\u0027t.",
+      "range": {
+        "startLine": 390,
+        "startChar": 30,
+        "endLine": 390,
+        "endChar": 37
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40228084_e91f99ec",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "How does this work when scanning something like \"0.9\"?\n\nReading through the code, I\u0027d expect base would be set to 8 from line 487, and then the 9 would get rejected when scanning the fractional part at line 504. Am I misunderstanding something?",
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02fd7305_54378ef9",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "It probably doesn\u0027t matter much, but if quote was at the beginning of the list, the compiler would be able to handle the string of constants as one big binary search. As-is, it has to do two separate binary searches, separated by the comparison with quote.",
+      "range": {
+        "startLine": 805,
+        "startChar": 47,
+        "endLine": 805,
+        "endChar": 52
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4b9947d_942c2c7b",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "nit: can probably remove \"which is\".",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 11
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc359cf6_95cf0bdc",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "nit: \"are\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f245d66_bba08761",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "This section separately explains b, r, and e, but the current structure makes it a little hard to quickly skim. (In particular, my eyes get a little dizzy with lines 24--28 all starting with \"the\".)\n\nMaybe organizing a list of invariants would make it easier to read?\n\n  The source buffer is accessed using three indices: b (begin), r (read), and e (end).\n  * If b \u003e\u003d 0, it points to ....\n  * r points to ...\n  * e points to ...",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 63
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a94fbdb1_3551e5ad",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "nit: maybe \"clear\", \"end\", or \"stop\"?\n\nGoogle style guide advises to avoid \"kill\": https://developers.google.com/style/word-list#kill",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 21
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a6c856e_b6206016",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "I assume this means we reset to the same state as when we had called s.start()? That is, s.ch is the first character of the segment (as opposed to the character immediately before the segment)?\n\nIf so, why does scanner call s.nextch() a second time after calling s.reset()? Doesn\u0027t that mean \"x..f\" gets incorrectly scanned as \"x.f\" when it should report a syntax error?",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 47
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3a8ffe1_2134a86d",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "nit: maybe \"rewind\"?",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76ac8d89_bbf4d24b",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "I think \"s.e - s.r \u003c utf8.UTFMax\" would be a little easier to understand, but don\u0027t feel strongly if you prefer as-is.",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 26
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7678884_326b4186",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-03-05T00:34:00Z",
+      "side": 1,
+      "message": "Could move these down into the if statement. Not important though; doesn\u0027t affect correctness.",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 23
+      },
+      "revId": "b383a8bde3af0635507807b841de9b49041a9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
