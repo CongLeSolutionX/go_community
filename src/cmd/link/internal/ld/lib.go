@@ -2265,8 +2265,7 @@ func (sc *stkChk) check(up *chain, depth int) int {
 		}
 
 		// Process calls in this span.
-		for i := 0; i < relocs.Count; i++ {
-			r := relocs.At2(i)
+		for i, r := 0, relocs.At2(0); i < relocs.Count; i, r = i+1, r.Next() {
 			if uint32(r.Off()) >= pcsp.NextPC {
 				break
 			}

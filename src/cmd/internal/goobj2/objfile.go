@@ -330,6 +330,8 @@ func (r *Reloc2) Set(off int32, size uint8, typ uint8, add int64, sym SymRef) {
 	binary.LittleEndian.PutUint32(r[18:], sym.SymIdx)
 }
 
+func (r *Reloc2) Next() *Reloc2 { return (*Reloc2)(add(unsafe.Pointer(r), RelocSize)) }
+
 // Aux symbol info.
 type Aux struct {
 	Type uint8
@@ -638,4 +640,8 @@ func (r *Reader) ReadOnly() bool {
 // Flags returns the flag bits read from the object file header.
 func (r *Reader) Flags() uint32 {
 	return r.h.Flags
+}
+
+func add(x unsafe.Pointer, a uintptr) unsafe.Pointer {
+	return unsafe.Pointer(uintptr(x) + a)
 }
