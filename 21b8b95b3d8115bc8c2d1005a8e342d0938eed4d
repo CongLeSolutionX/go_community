@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fc98851_65af65e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-06T23:43:05Z",
+      "side": 1,
+      "message": "See https://golang.org/wiki/CommitMessage.\n\ncmd/cgo: avoid extra newline in doc comment of exported function\n\nFixes #37722",
+      "revId": "21b8b95b3d8115bc8c2d1005a8e342d0938eed4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
