@@ -317,6 +317,8 @@ func addelfdynrel(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Re
 			ld.Adddynsym(target, syms, targ)
 
 			rela := syms.Rela
+			syms.Lock()
+			defer syms.Unlock()
 			rela.AddAddrPlus(target.Arch, s, int64(r.Off))
 			rela.AddUint64(target.Arch, ld.ELF64_R_INFO(uint32(targ.Dynid), uint32(elf.R_PPC64_ADDR64)))
 			rela.AddUint64(target.Arch, uint64(r.Add))
@@ -500,6 +502,8 @@ func elfreloc1(ctxt *ld.Link, r *sym.Reloc, sectoff int64) bool {
 }
 
 func elfsetupplt(target *ld.Target, syms *ld.ArchSyms) {
+	syms.Lock()
+	defer syms.Unlock()
 	plt := syms.PLT
 	if plt.Size == 0 {
 		// The dynamic linker stores the address of the

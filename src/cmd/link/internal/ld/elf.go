@@ -2276,6 +2276,8 @@ func elfadddynsym(target *Target, syms *ArchSyms, s *sym.Symbol) {
 		s.Dynid = int32(Nelfsym)
 		Nelfsym++
 
+		syms.Lock()
+		defer syms.Unlock()
 		d := syms.DynSym
 
 		name := s.Extname()
@@ -2319,6 +2321,8 @@ func elfadddynsym(target *Target, syms *ArchSyms, s *sym.Symbol) {
 		Nelfsym++
 
 		d := syms.DynSym
+		syms.Lock()
+		defer syms.Unlock()
 
 		/* name */
 		name := s.Extname()
