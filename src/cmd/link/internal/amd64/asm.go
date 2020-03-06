@@ -355,6 +355,8 @@ func adddynrel(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc
 			// AddAddrPlus is used for r_offset and r_addend to
 			// generate new R_ADDR relocations that will update
 			// these fields in the 'reloc' phase.
+			syms.Lock()
+			defer syms.Unlock()
 			rela := syms.Rela
 			rela.AddAddrPlus(target.Arch, s, int64(r.Off))
 			if r.Siz == 8 {
@@ -383,6 +385,8 @@ func adddynrel(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc
 			// but we only need to support cgo and that's all it needs.
 			ld.Adddynsym(target, syms, targ)
 
+			syms.Lock()
+			defer syms.Unlock()
 			got := syms.GOT
 			s.Type = got.Type
 			s.Attr |= sym.AttrSubSymbol
@@ -573,6 +577,8 @@ func archrelocvariant(target *ld.Target, syms *ld.ArchSyms, r *sym.Reloc, s *sym
 }
 
 func elfsetupplt(target *ld.Target, syms *ld.ArchSyms) {
+	syms.Lock()
+	defer syms.Unlock()
 	plt := syms.PLT
 	got := syms.GOTPLT
 	if plt.Size == 0 {
@@ -614,6 +620,9 @@ func addpltsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 			elfsetupplt(target, syms)
 		}
 
+		syms.Lock()
+		defer syms.Unlock()
+
 		// jmpq *got+size(IP)
 		plt.AddUint8(0xff)
 
@@ -654,6 +663,9 @@ func addpltsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 		addgotsym(target, syms, s)
 		plt := syms.PLT
 
+		syms.Lock()
+		defer syms.Unlock()
+
 		syms.LinkedItPLT.AddUint32(target.Arch, uint32(s.Dynid))
 
 		// jmpq *got+size(IP)
@@ -674,6 +686,8 @@ func addgotsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 
 	ld.Adddynsym(target, syms, s)
 	got := syms.GOT
+	syms.Lock()
+	defer syms.Unlock()
 	s.SetGot(int32(got.Size))
 	got.AddUint64(target.Arch, 0)
 
