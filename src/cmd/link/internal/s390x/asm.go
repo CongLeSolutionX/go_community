@@ -337,6 +337,9 @@ func elfsetupplt(target *ld.Target, syms *ld.ArchSyms) {
 	plt := syms.PLT
 	got := syms.GOT
 	if plt.Size == 0 {
+		syms.Lock()
+		defer syms.Unlock()
+
 		// stg     %r1,56(%r15)
 		plt.AddUint8(0xe3)
 		plt.AddUint8(0x10)
@@ -435,6 +438,9 @@ func addpltsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 		}
 		// larl    %r1,_GLOBAL_OFFSET_TABLE_+index
 
+		syms.Lock()
+		defer syms.Unlock()
+
 		plt.AddUint8(0xc0)
 		plt.AddUint8(0x10)
 		plt.AddPCRelPlus(target.Arch, got, got.Size+6) // need variant?
@@ -489,6 +495,8 @@ func addgotsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 
 	ld.Adddynsym(target, syms, s)
 	got := syms.GOT
+	syms.Lock()
+	defer syms.Unlock()
 	s.SetGot(int32(got.Size))
 	got.AddUint64(target.Arch, 0)
 
