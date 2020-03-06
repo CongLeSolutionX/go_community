@@ -100,6 +100,9 @@ type LookupFn func(name string, version int) *sym.Symbol
 // relocation.  Rather than allowing them universal access to all symbols,
 // we keep a subset for relocation application.
 type ArchSyms struct {
+	// Embed a mutex if you want to go mucking with these symbols.
+	sync.Mutex
+
 	TOC    *sym.Symbol
 	DotTOC *sym.Symbol
 	GOT    *sym.Symbol

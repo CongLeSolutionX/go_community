@@ -698,14 +698,24 @@ func dynreloc(ctxt *Link, data *[sym.SXREF][]*sym.Symbol) {
 		return
 	}
 
-	for _, s := range ctxt.Textp {
-		dynrelocsym(ctxt, s)
-	}
-	for _, syms := range data {
-		for _, s := range syms {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		for _, s := range ctxt.Textp {
 			dynrelocsym(ctxt, s)
 		}
+		wg.Done()
+	}()
+	for _, syms := range data {
+		wg.Add(1)
+		go func(lsyms []*sym.Symbol) {
+			for _, s := range lsyms {
+				dynrelocsym(ctxt, s)
+			}
+			wg.Done()
+		}(syms)
 	}
+	wg.Wait()
 	if ctxt.IsELF {
 		elfdynhash(ctxt)
 	}
