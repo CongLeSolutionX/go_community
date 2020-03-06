@@ -61,6 +61,9 @@ type Reloc2 struct {
 func (rel Reloc2) Type() objabi.RelocType { return objabi.RelocType(rel.Reloc2.Type()) }
 func (rel Reloc2) Sym() Sym               { return rel.l.resolve(rel.r, rel.Reloc2.Sym()) }
 
+// Advance to the next relocation record. Must not be called for external symbols.
+func (rel Reloc2) Next() Reloc2 { return Reloc2{rel.Reloc2.Next(), rel.r, rel.l} }
+
 // oReader is a wrapper type of obj.Reader, along with some
 // extra information.
 // TODO: rename to objReader once the old one is gone?
@@ -1460,6 +1463,9 @@ func (relocs *Relocs) At(j int) Reloc {
 }
 
 func (relocs *Relocs) At2(j int) Reloc2 {
+	if j >= relocs.Count {
+		return Reloc2{}
+	}
 	if relocs.l.isExtReader(relocs.r) {
 		pp := relocs.l.payloads[relocs.li]
 		r := pp.relocs[j]

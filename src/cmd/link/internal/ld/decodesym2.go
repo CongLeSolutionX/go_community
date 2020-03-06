@@ -26,10 +26,9 @@ func decodeReloc2(ldr *loader.Loader, symIdx loader.Sym, symRelocs []loader.Relo
 }
 
 func decodeReloc3(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs, off int32) loader.Reloc2 {
-	for j := 0; j < relocs.Count; j++ {
-		rel := relocs.At2(j)
-		if rel.Off() == off {
-			return rel
+	for i, r := 0, relocs.At2(0); i < relocs.Count; i, r = i+1, r.Next() {
+		if r.Off() == off {
+			return r
 		}
 	}
 	return loader.Reloc2{}

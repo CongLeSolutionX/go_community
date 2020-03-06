@@ -87,7 +87,8 @@ func (d *deadcodePass2) init() {
 			if exportsIdx != 0 {
 				relocs := d.ldr.Relocs(exportsIdx)
 				for i := 0; i < relocs.Count; i++ {
-					d.mark(relocs.At2(i).Sym(), 0)
+					r := relocs.At2(i)
+					d.mark(r.Sym(), 0)
 				}
 			}
 		}
@@ -139,9 +140,28 @@ func (d *deadcodePass2) flood() {
 			}
 		}
 
+		if d.ldr.IsExternal(symIdx) {
+			// External symbols don't have methods or aux symbols
+			// just mark relocations, and outer/sub symbols.
+			// Special case this as r.Next() is more efficient but doesn't
+			// work with external symbols.
+			for i := 0; i < relocs.Count; i++ {
+				r := relocs.At2(i)
+				d.mark(r.Sym(), symIdx)
+			}
+			// Some host object symbols have an outer object, which acts like a
+			// "carrier" symbol, or it holds all the symbols for a particular
+			// section. We need to mark all "referenced" symbols from that carrier,
+			// so we make sure we're pulling in all outer symbols, and their sub
+			// symbols. This is not ideal, and these carrier/section symbols could
+			// be removed.
+			d.mark(d.ldr.OuterSym(symIdx), symIdx)
+			d.mark(d.ldr.SubSym(symIdx), symIdx)
+			continue
+		}
+
 		var methods []methodref2
-		for i := 0; i < relocs.Count; i++ {
-			r := relocs.At2(i)
+		for i, r := 0, relocs.At2(0); i < relocs.Count; i, r = i+1, r.Next() {
 			t := r.Type()
 			if t == objabi.R_WEAKADDROFF {
 				continue
@@ -152,6 +172,7 @@ func (d *deadcodePass2) flood() {
 				}
 				methods = append(methods, methodref2{src: symIdx, r: i})
 				i += 2
+				r = r.Next().Next()
 				continue
 			}
 			if t == objabi.R_USETYPE {
@@ -166,14 +187,6 @@ func (d *deadcodePass2) flood() {
 		for i := 0; i < len(auxSyms); i++ {
 			d.mark(auxSyms[i], symIdx)
 		}
-		// Some host object symbols have an outer object, which acts like a
-		// "carrier" symbol, or it holds all the symbols for a particular
-		// section. We need to mark all "referenced" symbols from that carrier,
-		// so we make sure we're pulling in all outer symbols, and their sub
-		// symbols. This is not ideal, and these carrier/section symbols could
-		// be removed.
-		d.mark(d.ldr.OuterSym(symIdx), symIdx)
-		d.mark(d.ldr.SubSym(symIdx), symIdx)
 
 		if len(methods) != 0 {
 			if !isgotype {
@@ -216,9 +229,10 @@ func (d *deadcodePass2) mark(symIdx, parent loader.Sym) {
 
 func (d *deadcodePass2) markMethod(m methodref2) {
 	relocs := d.ldr.Relocs(m.src)
-	d.mark(relocs.At2(m.r).Sym(), m.src)
-	d.mark(relocs.At2(m.r+1).Sym(), m.src)
-	d.mark(relocs.At2(m.r+2).Sym(), m.src)
+	r := relocs.At2(m.r)
+	d.mark(r.Sym(), m.src)
+	d.mark(r.Next().Sym(), m.src)
+	d.mark(r.Next().Next().Sym(), m.src)
 }
 
 func deadcode2(ctxt *Link) {
