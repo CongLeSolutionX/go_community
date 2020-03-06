@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "adb911e8_ae04db93",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-06T20:12:57Z",
+      "side": 1,
+      "message": "Jeremy voiced similar concerns during a hallway conversation. \n\nYour observations about byte slices are interesting. Most of the attributes that have []byte-flavored data (usually location lists) are done in the compiler, so they are not an issue here. I think it may be possible to work out a solution for that of some sort that will allow regular map use. \n\nI\u0027ll take another look.",
+      "parentUuid": "271740a2_65e6f58e",
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c354a5d_e534e415",
         "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
         "patchSetId": 5
