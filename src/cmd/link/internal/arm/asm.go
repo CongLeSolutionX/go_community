@@ -245,6 +245,8 @@ func adddynrel(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc
 		if target.IsElf() {
 			ld.Adddynsym(target, syms, targ)
 			rel := syms.Rel
+			syms.Lock()
+			defer syms.Unlock()
 			rel.AddAddrPlus(target.Arch, s, int64(r.Off))
 			rel.AddUint32(target.Arch, ld.ELF32_R_INFO(uint32(targ.Dynid), uint32(elf.R_ARM_GLOB_DAT))) // we need a nil + A dynamic reloc
 			r.Type = objabi.R_CONST                                                                     // write r->add during relocsym
@@ -304,6 +306,8 @@ func elfsetupplt(target *ld.Target, syms *ld.ArchSyms) {
 	plt := syms.GOT
 	got := syms.GOTPLT
 	if plt.Size == 0 {
+		syms.Lock()
+		defer syms.Unlock()
 		// str lr, [sp, #-4]!
 		plt.AddUint32(target.Arch, 0xe52de004)
 
@@ -700,6 +704,9 @@ func addpltsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 			elfsetupplt(target, syms)
 		}
 
+		sys.Lock()
+		defer syms.Unlock()
+
 		// .got entry
 		s.SetGot(int32(got.Size))
 
@@ -730,6 +737,8 @@ func addgotsyminternal(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 	}
 
 	got := syms.GOT
+	syms.Lock()
+	defer syms.Unlock()
 	s.SetGot(int32(got.Size))
 
 	got.AddAddrPlus(target.Arch, s, 0)
@@ -747,6 +756,8 @@ func addgotsym(target *ld.Target, syms *ld.ArchSyms, s *sym.Symbol) {
 
 	ld.Adddynsym(target, syms, s)
 	got := syms.GOT
+	syms.Lock()
+	defer syms.Unlock()
 	s.SetGot(int32(got.Size))
 	got.AddUint32(target.Arch, 0)
 
