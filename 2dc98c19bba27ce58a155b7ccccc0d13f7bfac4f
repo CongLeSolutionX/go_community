@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0d45b33_9148c198",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-06T19:46:07Z",
+      "side": 1,
+      "message": "We should grant you some title for ASCII-Art expert.",
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "271740a2_65e6f58e",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-06T19:46:07Z",
+      "side": 1,
+      "message": "This is basically a hand-written map implementation. Is there any reason that this is more preferred than using the builtin map?\n\nI think it would be nice if we could use the builtin map. The only trouble I see here is the byte slice for DW_CLS_BLOCK. Are there lots of duplicates for such kind of DIEs? Or the byte slice are pretty much unique? If it is the latter, maybe we could just not insert this kind of DIEs into the map.\n\nIf it is the former, could the duplicates be captured by pointer equality? I.e. equality of \u0026b[0], maybe plus the length. Or it needs full content equality? If the former, we could make a key like\n\nfunc key(at dwarf.DWAttr) dwarf.DWAttr {\n  if at.Cls !\u003d dwarf.DW_CLS_BLOCK { return at }\n  k :\u003d at\n  k.Data \u003d \u0026at.Data.([]byte)[0]\n  return k\n}\n\nIf the latter, k.Data can be a hash of at.Data.\n\nIf a hand-written implementation is really preferred, maybe add some comments describing the algorithm (although it is not very complex).\n\nThanks.",
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c354a5d_e534e415",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-06T19:46:07Z",
+      "side": 1,
+      "message": "For these cases, the interface equality at1.Data \u003d\u003d at2.Data should do the right thing. And I don\u0027t think it will be much slower.",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 19
+      },
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe13df37_3884056d",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-06T19:46:07Z",
+      "side": 1,
+      "message": "Delete. Or replace the previous panic.",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 191
+      },
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
