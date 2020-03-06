@@ -64,6 +64,17 @@ func (rel Reloc2) Sym() Sym               { return rel.l.resolve(rel.r, rel.Relo
 // Advance to the next relocation record. Must not be called for external symbols.
 func (rel Reloc2) Next() Reloc2 { return Reloc2{rel.Reloc2.Next(), rel.r, rel.l} }
 
+// Aux2 holds a "handle" to access an aux symbol record from an
+// object file.
+type Aux2 struct {
+	*goobj2.Aux2
+	r *oReader
+	l *Loader
+}
+
+func (a Aux2) Sym() Sym   { return a.l.resolve(a.r, a.Aux2.Sym()) }
+func (a Aux2) Next() Aux2 { return Aux2{a.Aux2.Next(), a.r, a.l} }
+
 // oReader is a wrapper type of obj.Reader, along with some
 // extra information.
 // TODO: rename to objReader once the old one is gone?
@@ -1163,12 +1174,13 @@ func (l *Loader) SymGoType(i Sym) Sym {
 	}
 	r, li := l.toLocal(i)
 	naux := r.NAux(li)
-	for j := 0; j < naux; j++ {
-		a := goobj2.Aux{}
-		a.Read(r.Reader, r.AuxOff(li, j))
-		switch a.Type {
+	if naux == 0 {
+		return 0
+	}
+	for j, a := 0, r.Aux2(li, 0); j < naux; j, a = j+1, a.Next() {
+		switch a.Type() {
 		case goobj2.AuxGotype:
-			return l.resolve(r, a.Sym)
+			return l.resolve(r, a.Sym())
 		}
 	}
 	return 0
@@ -1262,6 +1274,18 @@ func (l *Loader) AuxSym(i Sym, j int) Sym {
 	a := goobj2.Aux{}
 	a.Read(r.Reader, r.AuxOff(li, j))
 	return l.resolve(r, a.Sym)
+}
+
+// Returns the "handle" to the j-th aux symbol of the i-th symbol.
+func (l *Loader) Aux2(i Sym, j int) Aux2 {
+	if l.IsExternal(i) {
+		return Aux2{}
+	}
+	r, li := l.toLocal(i)
+	if j >= r.NAux(li) {
+		return Aux2{}
+	}
+	return Aux2{r.Aux2(li, j), r, l}
 }
 
 // GetFuncDwarfAuxSyms collects and returns the auxiliary DWARF
@@ -1590,11 +1614,9 @@ func (l *Loader) FuncInfo(i Sym) FuncInfo {
 	}
 	r, li := l.toLocal(i)
 	n := r.NAux(li)
-	for j := 0; j < n; j++ {
-		a := goobj2.Aux{}
-		a.Read(r.Reader, r.AuxOff(li, j))
-		if a.Type == goobj2.AuxFuncInfo {
-			b := r.Data(int(a.Sym.SymIdx))
+	for j, a := 0, r.Aux2(li, 0); j < n; j, a = j+1, a.Next() {
+		if a.Type() == goobj2.AuxFuncInfo {
+			b := r.Data(int(a.Sym().SymIdx))
 			return FuncInfo{l, r, b}
 		}
 	}
