@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1f2c82b3_b41b08c3",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-08T20:05:48Z",
+      "side": 1,
+      "message": "By all means, I am ready to hear suggestions!\n\nGrand Imperial Poobah ASCII Artiste Deluxe? :-)",
+      "parentUuid": "e0d45b33_9148c198",
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "271740a2_65e6f58e",
         "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
         "patchSetId": 5
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "77f95ab7_2bba5d17",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-08T20:05:48Z",
+      "side": 1,
+      "message": "OK, after looking at the code a bit more closely, it appears that the only\nclients that create DWARF attrs with []byte-flavored data are in the\ncompiler, so we don\u0027t need to handle that case in the linker. I\u0027ll update the\ncode accordingly.\n\nThat\u0027s the good news. The bad news is that I don\u0027t see any way to use\na vanilla map implementation without doubling the amount of storage\nused for attributes.\n\nAt the moment I have a map keyed by hash code, which points to an index,\nthen the index can be used to retrieve the DWAttr for clients (via \"get\").\n\nIf I key the map by DWAttr, this eliminates the boilerplate code for computing\nthe hash and for comparing two DWAttrs for equality, but it means that each\nDWAttr has to be stored twice: once for the key (inside the map) and once\nas the data items (value that the map points to), since there is no way to\nreturn a pointer to the storage occupied by a map key. This puts a big dent\nin the space savings achieved by the table.\n\nMy tentative plan at this point: get rid of equalAttr entirely (just use the \"\u003d\u003d\"\noperators), but keep hashAttr, in some simplified form. I will also write \nsome better comments for how the hashing scheme works. Let me know if this sounds ok.",
+      "parentUuid": "adb911e8_ae04db93",
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c354a5d_e534e415",
         "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
         "patchSetId": 5
@@ -77,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "cc8f9118_fa865087",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-08T20:05:48Z",
+      "side": 1,
+      "message": "Current plan is to remove this routine (as per remarks on line 104).",
+      "parentUuid": "0c354a5d_e534e415",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 19
+      },
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe13df37_3884056d",
         "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
         "patchSetId": 5
@@ -97,6 +157,30 @@
       "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751d2ad5_c597c6c2",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-08T20:05:48Z",
+      "side": 1,
+      "message": "Likewise",
+      "parentUuid": "fe13df37_3884056d",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 191
+      },
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
