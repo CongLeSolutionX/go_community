@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78223812_5f2d8f07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 35165
+      },
+      "writtenOn": "2020-03-09T21:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3d76e85_46d38966",
+      "revId": "471e880bffd623e4dce8e51d6621071165470edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e86cb8fe_ba0b14d1",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "daa90091_7383a8c5",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 35165
+      },
+      "writtenOn": "2020-03-09T21:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e86cb8fe_ba0b14d1",
+      "range": {
+        "startLine": 807,
+        "startChar": 33,
+        "endLine": 807,
+        "endChar": 35
+      },
+      "revId": "471e880bffd623e4dce8e51d6621071165470edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2721018_d05ebe46",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "471e880bffd623e4dce8e51d6621071165470edc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa020f15_2c67318e",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 35165
+      },
+      "writtenOn": "2020-03-09T21:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2721018_d05ebe46",
+      "revId": "471e880bffd623e4dce8e51d6621071165470edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
