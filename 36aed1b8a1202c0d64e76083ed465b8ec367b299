@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e42a214_e8f91856",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-09T22:14:23Z",
+      "side": 1,
+      "message": "The defer still exists, but when we do a recover, we will now process that defer normally via inline code (unless we happen to do another panic) and pop the stack frame related to that defer.  So, the defer entry won\u0027t get automatically removed from the chain, and the stack pointer, etc. in the defer entry will become invalid/stale.  It is the processing of this stale defer entry later in the program that causes the bug.  So, we need to remove that defer entry (and any other open-coded defer entries) from the chain.\n\nAnother way to say it is we only want entries for open-coded defers on the defer chain while a panic is in progress.  When no panic is in progress, we don\u0027t want any entries for open-coded defers on the chain, since we will be processing all open-coded defers inline.",
+      "parentUuid": "a90e2b19_e12bb3c4",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "36aed1b8a1202c0d64e76083ed465b8ec367b299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d889475_012555db",
         "filename": "src/runtime/panic.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-09T20:44:33Z",
       "side": 1,
       "message": "out-dated how?",
+      "range": {
+        "startLine": 1009,
+        "startChar": 35,
+        "endLine": 1010,
+        "endChar": 16
+      },
+      "revId": "36aed1b8a1202c0d64e76083ed465b8ec367b299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99bd81e2_354d8c2c",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-09T22:14:23Z",
+      "side": 1,
+      "message": "I hope I explained this in my response to your comment on the commit message.  I will put more detail into this comment.",
+      "parentUuid": "4d889475_012555db",
       "range": {
         "startLine": 1009,
         "startChar": 35,
