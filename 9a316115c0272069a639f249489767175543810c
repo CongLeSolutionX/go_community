@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f10c421_dbb75095",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-09T04:59:17Z",
+      "side": 1,
+      "message": "In the commit message, use complete sentences other than the topic line.  Also, no colon after \"Fixes\".  See https://golang.org/wiki/CommitMessage.  Thanks.",
+      "revId": "9a316115c0272069a639f249489767175543810c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e8a8b68_a7a2ea54",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-09T04:59:17Z",
+      "side": 1,
+      "message": "Sorry, I guess I misunderstood the suggestion.  We aren\u0027t going to make this restriction.  If the parameter names aren\u0027t ASCII, we can use a fake parameter name in the export header file.",
+      "revId": "9a316115c0272069a639f249489767175543810c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
