@@ -272,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "782c529a_fdb44613",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-09T20:56:43Z",
+      "side": 1,
+      "message": "Oof, good catch.\n\nI don\u0027t think this error is printed anywhere at the moment. All callers of DownloadDir either just care whether or not there was an error or we handle it without printing anything if it satisfies errors.Is(err, os.ErrNotExist).",
+      "parentUuid": "5d926130_5491d744",
+      "range": {
+        "startLine": 109,
+        "startChar": 91,
+        "endLine": 109,
+        "endChar": 96
+      },
+      "revId": "bdbb7bbb00b870ab0aededcac59087119b2aeffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9804c23c_3ce801be",
         "filename": "src/cmd/go/internal/modfetch/fetch.go",
         "patchSetId": 1
@@ -359,6 +383,24 @@
     },
     {
       "key": {
+        "uuid": "0a4e7d2e_cc408df7",
+        "filename": "src/cmd/go/testdata/script/mod_download_partial.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-09T20:56:43Z",
+      "side": 1,
+      "message": "Added note.\n\nWe may also want to distinguish between directories outside the module cache and (complete) module directories that are not in the build list. But yeah, pretty esoteric.",
+      "parentUuid": "3c493e03_fdc4d0b3",
+      "revId": "bdbb7bbb00b870ab0aededcac59087119b2aeffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46ef0801_da261d8d",
         "filename": "src/cmd/go/testdata/script/mod_download_partial.txt",
         "patchSetId": 1
@@ -373,6 +415,24 @@
       "revId": "bdbb7bbb00b870ab0aededcac59087119b2aeffb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4b05e8_8d95b619",
+        "filename": "src/cmd/go/testdata/script/mod_download_partial.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-09T20:56:43Z",
+      "side": 1,
+      "message": "Moved these around a bit. \u0027go mod verify\u0027 should fail if the directory is modified, and there is no .partial file. It should act like the directory doesn\u0027t exist if there is a .partial file.",
+      "parentUuid": "46ef0801_da261d8d",
+      "revId": "bdbb7bbb00b870ab0aededcac59087119b2aeffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
