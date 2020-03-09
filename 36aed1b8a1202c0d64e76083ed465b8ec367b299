@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a90e2b19_e12bb3c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-09T20:44:33Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused by this. The defer still exists, right? Is the problem that it will be a duplicate of the open-coded defer that will run after recover?\nOr are its captured variables stale? Or something else?",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "36aed1b8a1202c0d64e76083ed465b8ec367b299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d889475_012555db",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-09T20:44:33Z",
+      "side": 1,
+      "message": "out-dated how?",
+      "range": {
+        "startLine": 1009,
+        "startChar": 35,
+        "endLine": 1010,
+        "endChar": 16
+      },
+      "revId": "36aed1b8a1202c0d64e76083ed465b8ec367b299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
