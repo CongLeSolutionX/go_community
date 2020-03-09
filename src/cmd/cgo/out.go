@@ -22,6 +22,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"unicode"
 )
 
 var (
@@ -802,6 +803,24 @@ func (p *Package) packedAttribute() string {
 	return s + "))"
 }
 
+// filterParamName returns the value of param as it should be
+// displayed in a c header file. if param contains any non-ASCII
+// characters, this function will return the character p followed by
+// the value of position; otherwise, this function will return the
+// value of param.
+func filterParamName(param string, position int) string {
+	pname := param
+
+	for i := 0; i < len(param); i++ {
+		if param[i] > unicode.MaxASCII {
+			pname = fmt.Sprintf("p%d", position)
+			break
+		}
+	}
+
+	return pname
+}
+
 // Write out the various stubs we need to support functions exported
 // from Go so that they are callable from C.
 func (p *Package) writeExports(fgo2, fm, fgcc, fgcch io.Writer) {
@@ -915,7 +934,7 @@ func (p *Package) writeExports(fgo2, fm, fgcc, fgcch io.Writer) {
 				if i > 0 || fn.Recv != nil {
 					s += ", "
 				}
-				s += fmt.Sprintf("%s p%d", p.cgoType(atype).C, i)
+				s += fmt.Sprintf("%s %s", p.cgoType(atype).C, filterParamName(aname, i))
 			})
 		s += ")"
 
@@ -941,7 +960,7 @@ func (p *Package) writeExports(fgo2, fm, fgcc, fgcch io.Writer) {
 		}
 		forFieldList(fntype.Params,
 			func(i int, aname string, atype ast.Expr) {
-				fmt.Fprintf(fgcc, "\ta.p%d = p%d;\n", i, i)
+				fmt.Fprintf(fgcc, "\ta.p%d = %s;\n", i, filterParamName(aname, i))
 			})
 		fmt.Fprintf(fgcc, "\t_cgo_tsan_release();\n")
 		fmt.Fprintf(fgcc, "\tcrosscall2(_cgoexp%s_%s, &a, %d, _cgo_ctxt);\n", cPrefix, exp.ExpName, off)
