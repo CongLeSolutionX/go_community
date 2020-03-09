@@ -80,6 +80,24 @@
       "revId": "8abb03bab62d0bad9dcd9c64bf80fbe2a66bc588",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5abd50b7_0b97bde6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 32848
+      },
+      "writtenOn": "2020-03-09T07:00:15Z",
+      "side": 1,
+      "message": "For directive obj.APCALIGN, the original o.size is 0, and after asmout, I store the padding size to o.size. Then I compare o.size before asmout with after asmout, then I can check if weather is obj.APCALIGN directive and also know the padding size by o.size. In asmout, I only set out[0] as NOOP in order to overflow out[] array. So here, I know the padding size and just set the following instruction by c.ctxt.Arch.ByteOrder.PutUint32(bp, out[0]) on the control of o.size. \nAfter padding NOOP, need re-set o.size to 0, since the size of directive obj.PCALIGN is defined as 0.\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nif not use o.size to check directive and store padding size, could I use asmout() out[0] to store padding size?  like that:\nc.asmout(p, o, out[:])\nif o.as \u003d\u003d obj.APCALIGN {\n\t// the padding size stored in out[0]\n\tv :\u003d out[0]\n\tif v !\u003d 0 {\n\t\tfor i \u003d 0; i \u003c int(v/4); i++ {\n\t\t\tc.ctxt.Arch.ByteOrder.PutUint32(bp, OP_NOOP)\n\t\t\tbp \u003d bp[4:]\n\t\t\tpsz +\u003d 4\n\t\t}\n\t}\n} else {\n\tfor i \u003d 0; i \u003c int(o.size/4); i++ {\n\t\tc.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])\n\t\tbp \u003d bp[4:]\n\t\tpsz +\u003d 4\n\t}\n}",
+      "parentUuid": "3cd19c42_c871966b",
+      "revId": "8abb03bab62d0bad9dcd9c64bf80fbe2a66bc588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
