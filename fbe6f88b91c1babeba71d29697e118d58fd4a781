@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "25370977_61ad144c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-10T18:44:35Z",
+      "side": 1,
+      "message": "Yeah, it is fine for a separate CL.\n\nI think -dwarf\u003dfalse will disable generating more things in the first place. Or maybe not?",
+      "parentUuid": "be69effc_7957c4e8",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3a7da7d_cadf4b3e",
         "filename": "src/cmd/asm/internal/flags/flags.go",
         "patchSetId": 2
