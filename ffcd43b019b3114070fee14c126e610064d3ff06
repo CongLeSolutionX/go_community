@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ea65a2c_c4b85c86",
+        "filename": "src/cmd/compile/internal/ssa/html.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-10T18:51:15Z",
+      "side": 1,
+      "message": "Fix format. It seems most lines here use spaces for indentation.",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 13
+      },
+      "revId": "ffcd43b019b3114070fee14c126e610064d3ff06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
