@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "92c335a9_b30af97b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-10T18:58:57Z",
+      "side": 1,
+      "message": "I think you are right, it will reduce compile time. I think probably what\u0027s happening is that the symbols get created regardless of whether DWARF is on. In any case, I\u0027ll see about taking care of it in another CL.",
+      "parentUuid": "25370977_61ad144c",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3a7da7d_cadf4b3e",
         "filename": "src/cmd/asm/internal/flags/flags.go",
         "patchSetId": 2
