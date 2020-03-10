@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c391934_fc6a05da",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-10T04:07:29Z",
+      "side": 1,
+      "message": "Add \"rewriting for \" or some other prefix like that.\nMaybe use the same prefix here and below (instead of just f.pass.name).",
+      "revId": "27166a7061bc2f0bf684b46d1d1cc7701fea96ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
