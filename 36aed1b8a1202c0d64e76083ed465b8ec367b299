@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "db812649_12f70ba8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-10T02:00:14Z",
+      "side": 1,
+      "message": "Well, I wouldn\u0027t say \u0027it can\u0027t be both\u0027.  The open-coded defer info is temporarily duplicated on the defer chain during a panic, so we can get the ordering between open-coded and non-open-coded defers correct.  Also, we need somewhere to store the defer \u0027started\u0027 state (which already exists for non-open-coded defers), in order to distinguish the case of another panic happening while running a defer.\n\nThen when we do a recover, we get rid of the duplicates on the chain, since during non-panic state, we don\u0027t want/need them there.",
+      "parentUuid": "3cb3317d_17ff8c48",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "36aed1b8a1202c0d64e76083ed465b8ec367b299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d889475_012555db",
         "filename": "src/runtime/panic.go",
         "patchSetId": 1
