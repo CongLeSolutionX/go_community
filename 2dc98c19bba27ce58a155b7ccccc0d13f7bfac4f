@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "9fb40208_e305ebb1",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-10T14:52:02Z",
+      "side": 1,
+      "message": "It would be really nice if we didn\u0027t have to write our own hash table here. You\u0027re right it would double the space needed for attr, cls, and value, but the data at least should be able to share the reference between the map key and value. That\u0027s, I think, 32 bytes per attribute? Is that enough to help? Is the bulk of the space in long string data or in tons of little scalar attributes?",
+      "parentUuid": "77f95ab7_2bba5d17",
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c354a5d_e534e415",
         "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
         "patchSetId": 5
