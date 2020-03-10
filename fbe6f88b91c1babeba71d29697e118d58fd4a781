@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be69effc_7957c4e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-10T16:53:34Z",
+      "side": 1,
+      "message": "I think this is already effectively happening:\n\n  $ go tool compile -S -p mypack vec.go  | fgrep DWARF\n  go.cuinfo.packagename.mypack SDWARFINFO dupok size\u003d0\n  go.loc.\"\".Sum SDWARFLOC size\u003d191\n  go.info.\"\".Sum SDWARFINFO size\u003d103\n  go.range.\"\".Sum SDWARFRANGE size\u003d0\n  go.debuglines.\"\".Sum SDWARFMISC size\u003d28\n\n  $ go tool compile -S vec.go  | fgrep DWARF\n  go.cuinfo.packagename. SDWARFINFO dupok size\u003d0\n  go.loc.\"\".Sum SDWARFLOC size\u003d0\n  go.info.\"\".Sum SDWARFINFO size\u003d0\n  go.range.\"\".Sum SDWARFRANGE size\u003d0\n  go.debuglines.\"\".Sum SDWARFMISC size\u003d0\n\n  $ go tool compile -S -dwarf\u003d0 vec.go  | fgrep DWARF\n  go.cuinfo.packagename. SDWARFINFO dupok size\u003d0\n  go.info.\"\".Sum SDWARFINFO size\u003d0\n  go.range.\"\".Sum SDWARFRANGE size\u003d0\n  go.debuglines.\"\".Sum SDWARFMISC size\u003d0\n\nIt might be worth cleaning things up so that if dwarf is off we don\u0027t get a bunch of zero length symbols, however.\n\nIf it is ok with you I think I\u0027d like to do that in a separate patch?",
+      "parentUuid": "cd08760c_51bb7156",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3a7da7d_cadf4b3e",
         "filename": "src/cmd/asm/internal/flags/flags.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c59fdf40_4e355b63",
+        "filename": "src/cmd/asm/internal/flags/flags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-10T16:53:34Z",
+      "side": 1,
+      "message": "I\u0027ll remove the quoting.",
+      "parentUuid": "a3a7da7d_cadf4b3e",
+      "range": {
+        "startLine": 26,
+        "startChar": 64,
+        "endLine": 26,
+        "endChar": 70
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b3dc798_9da607e6",
         "filename": "src/cmd/go/internal/work/gc.go",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb98f08e_915b95ec",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-10T16:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b3dc798_9da607e6",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 2
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
