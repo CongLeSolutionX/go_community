@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd08760c_51bb7156",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-10T16:07:07Z",
+      "side": 1,
+      "message": "I think we can also change the compiler so that if myimportpath is empty, set flagDWARF to false.",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a7da7d_cadf4b3e",
+        "filename": "src/cmd/asm/internal/flags/flags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-10T16:07:07Z",
+      "side": 1,
+      "message": "I think we don\u0027t quote in other places, so remove this one as well.",
+      "range": {
+        "startLine": 26,
+        "startChar": 64,
+        "endLine": 26,
+        "endChar": 70
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b3dc798_9da607e6",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-10T16:07:07Z",
+      "side": 1,
+      "message": "This this is shared for invoking the compiler and the assembler, put this into a helper function?",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 2
+      },
+      "revId": "fbe6f88b91c1babeba71d29697e118d58fd4a781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
