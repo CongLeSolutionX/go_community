@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "6a05bbcc_59a879bb",
+        "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-10T14:59:07Z",
+      "side": 1,
+      "message": "\"share the reference\" -- I assume you mean the Data field.\n\nbulk of space: I think it\u0027s the latter, tons of little scalar attributes.  For the string-valued attrs (primarily DW_AT_name), in theory all the string values are coming from calls to loader.SymName, which (if we\u0027ve constructed things correctly) will all be read-only mmap\u0027d storage from an object file. \n\nDWAttr is 32 bytes in size total, once the Link field is removed.",
+      "parentUuid": "9fb40208_e305ebb1",
+      "revId": "2dc98c19bba27ce58a155b7ccccc0d13f7bfac4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c354a5d_e534e415",
         "filename": "src/cmd/link/internal/ld/dwarf_attr.go",
         "patchSetId": 5
