@@ -1,0 +1,97 @@
+cd $GOPATH
+# compile_ext will fail if the buildtags that are enabled (or not enabled) for the
+# framepointer and fieldtrack experiments are not consistent with the value of
+# GOEXPERIMENT.
+
+go run compile_expt
+
+-- compile_expt/expt_main.go --
+package main
+
+import (
+	"os"
+	"strings"
+)
+
+func main() {
+  fp()
+  ft()
+}
+
+func hasExpEntry(s string) bool {
+	g := os.Getenv("GOEXPERIMENT")
+	for _, f := range strings.Split(g, ",") {
+		if f == s {
+			return true
+		}
+	}
+	return false
+}
+
+-- compile_expt/fp_off.go --
+// +build !framepointer
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func fp() {
+	if !hasExpEntry("noframepointer") {
+		fmt.Println("in !framepointer build, but GOEXPERIMENT does not have 'noframepointer', is", os.Getenv("GOEXPERIMENT"))
+		os.Exit(1)
+	}
+}
+
+-- compile_expt/fp_on.go --
+// +build framepointer
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func fp() {
+	if hasExpEntry("noframepointer") {
+		fmt.Println("in framepointer build, but GOEXPERIMENT has 'noframepointer'")
+		os.Exit(1)
+	}
+}
+
+-- compile_expt/ft_off.go --
+// +build !fieldtrack
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func ft() {
+	if hasExpEntry("fieldtrack") {
+		fmt.Println("in !fieldtrack build, but GOEXPERIMENT has 'fieldtrack'")
+		os.Exit(1)
+	}
+}
+
+-- compile_expt/ft_on.go --
+// +build fieldtrack
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func ft() {
+	if !hasExpEntry("fieldtrack") {
+		fmt.Println("in fieldtrack build, but GOEXPERIMENT does not 'fieldtracek', is", os.Getenv("GOEXPERIMENT"))
+		os.Exit(1)
+	}
+}
