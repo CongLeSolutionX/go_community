@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ac03ef4_c570d69b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-11T16:48:52Z",
+      "side": 1,
+      "message": "I don\u0027t think we do dynreloc in most executions in all.bash. It is only used when we generate a dynamically-linked binary, e.g. shared object, or PIE. Maybe you could try\ngo build -buildmode\u003dpie \u003cbinary\u003e, with both internal and external linkmode.",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "20286861fa0014444b1b92e10941ebb149add23f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
