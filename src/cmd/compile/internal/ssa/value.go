@@ -294,10 +294,16 @@ func (v *Value) SetArgs1(a *Value) {
 	v.resetArgs()
 	v.AddArg(a)
 }
-func (v *Value) SetArgs2(a *Value, b *Value) {
+func (v *Value) SetArgs2(a, b *Value) {
 	v.resetArgs()
 	v.AddArg(a)
 	v.AddArg(b)
+}
+func (v *Value) SetArgs3(a, b, c *Value) {
+	v.resetArgs()
+	v.AddArg(a)
+	v.AddArg(b)
+	v.AddArg(c)
 }
 
 func (v *Value) resetArgs() {
@@ -368,6 +374,27 @@ func (v *Value) copyIntoWithXPos(b *Block, pos src.XPos) *Value {
 		}
 	}
 	return c
+}
+
+// moveTo moves v to dst, adjusting the appropriate Block.Values slices.
+// The caller is responsible for ensuring that this is safe.
+func (v *Value) moveTo(dst *Block) {
+	src := v.Block
+	if src == dst {
+		return
+	}
+	v.Block = dst
+	dst.Values = append(dst.Values, v)
+	var i int
+	for i = range src.Values {
+		if v == src.Values[i] {
+			break
+		}
+	}
+	last := len(src.Values) - 1
+	src.Values[i] = src.Values[last]
+	src.Values[last] = nil
+	src.Values = src.Values[:last]
 }
 
 func (v *Value) Logf(msg string, args ...interface{}) { v.Block.Logf(msg, args...) }
