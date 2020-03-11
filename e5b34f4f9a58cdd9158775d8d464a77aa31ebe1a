@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7f753ad_6584f3a2",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-11T22:15:27Z",
+      "side": 1,
+      "message": "Normal symbols don\u0027t have \":\" in the dump. I guess we don\u0027t need it here as well. Up to you.",
+      "range": {
+        "startLine": 447,
+        "startChar": 50,
+        "endLine": 447,
+        "endChar": 53
+      },
+      "revId": "e5b34f4f9a58cdd9158775d8d464a77aa31ebe1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7459a843_f5ada1e0",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-11T22:15:27Z",
+      "side": 1,
+      "message": "The name shadowing doesn\u0027t look right.",
+      "revId": "e5b34f4f9a58cdd9158775d8d464a77aa31ebe1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d6014a5_c9ccf1fb",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-11T22:15:27Z",
+      "side": 1,
+      "message": "Also here.",
+      "revId": "e5b34f4f9a58cdd9158775d8d464a77aa31ebe1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
