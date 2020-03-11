@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "753fcfe3_20833b8f",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-11T22:30:24Z",
+      "side": 1,
+      "message": "I\u0027ll remove. I don\u0027t have any strong feelings about the format.",
+      "parentUuid": "e7f753ad_6584f3a2",
+      "range": {
+        "startLine": 447,
+        "startChar": 50,
+        "endLine": 447,
+        "endChar": 53
+      },
+      "revId": "e5b34f4f9a58cdd9158775d8d464a77aa31ebe1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7459a843_f5ada1e0",
         "filename": "src/cmd/internal/obj/sym.go",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "3a542bda_6502059d",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-11T22:30:24Z",
+      "side": 1,
+      "message": "Thanks for catching that. Definitely a mistake.",
+      "parentUuid": "7459a843_f5ada1e0",
+      "revId": "e5b34f4f9a58cdd9158775d8d464a77aa31ebe1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d6014a5_c9ccf1fb",
         "filename": "src/cmd/internal/obj/sym.go",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "e5b34f4f9a58cdd9158775d8d464a77aa31ebe1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84777169_ba5ccf93",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-11T22:30:24Z",
+      "side": 1,
+      "message": "Thanks, fixed.",
+      "parentUuid": "5d6014a5_c9ccf1fb",
+      "revId": "e5b34f4f9a58cdd9158775d8d464a77aa31ebe1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
