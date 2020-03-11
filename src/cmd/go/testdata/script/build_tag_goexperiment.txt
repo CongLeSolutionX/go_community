@@ -1,0 +1,100 @@
+# compile_ext will fail if the buildtags that are enabled (or not enabled) for the
+# framepointer and fieldtrack experiments are not consistent with the value of
+# GOEXPERIMENT (which actually comes from objabi.Expstring()).
+
+[short] skip
+go run m
+
+-- expt_main.go --
+package main
+
+import (
+	"os"
+	"strings"
+)
+
+func main() {
+  fp()
+  ft()
+}
+
+func hasExpEntry(s string) bool {
+	g := os.Getenv("GOEXPERIMENT")
+	for _, f := range strings.Split(g, ",") {
+		if f == s {
+			return true
+		}
+	}
+	return false
+}
+
+-- fp_off.go --
+// +build !framepointer
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func fp() {
+	if hasExpEntry("framepointer") {
+		fmt.Println("in !framepointer build, but objabi.Expstring() has 'framepointer'")
+		os.Exit(1)
+	}
+}
+
+-- fp_on.go --
+// +build framepointer
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func fp() {
+	if !hasExpEntry("framepointer") {
+		fmt.Println("in framepointer build, but objabi.Expstring() does not have 'framepointer', is", os.Getenv("GOEXPERIMENT"))
+		os.Exit(1)
+	}
+}
+
+-- ft_off.go --
+// +build !fieldtrack
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func ft() {
+	if hasExpEntry("fieldtrack") {
+		fmt.Println("in !fieldtrack build, but objabi.Expstring() has 'fieldtrack'")
+		os.Exit(1)
+	}
+}
+
+-- ft_on.go --
+// +build fieldtrack
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func ft() {
+	if !hasExpEntry("fieldtrack") {
+		fmt.Println("in fieldtrack build, but objabi.Expstring() does not have 'fieldtrack', is", os.Getenv("GOEXPERIMENT"))
+		os.Exit(1)
+	}
+}
+
+-- go.mod --
+module m
