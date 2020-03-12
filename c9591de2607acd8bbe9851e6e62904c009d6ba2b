@@ -22,6 +22,30 @@
       "revId": "c9591de2607acd8bbe9851e6e62904c009d6ba2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19ee4bfc_c0015f95",
+        "filename": "src/runtime/os_linux_x86.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-12T19:56:08Z",
+      "side": 1,
+      "message": "That seems less interesting, but, sure.  Done.",
+      "parentUuid": "68b22832_3db54d4c",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 20
+      },
+      "revId": "c9591de2607acd8bbe9851e6e62904c009d6ba2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
