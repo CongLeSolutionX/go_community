@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -479,7 +480,20 @@ func rt_sigaction(sig uintptr, new, old *sigactiont, size uintptr) int32
 func getpid() int
 func tgkill(tgid, tid, sig int)
 
+// prepareSignalMQuirk, if non-nil, is called by signalM before sending the
+// signal. Although the type is unsafe.Pointer to allow for atomic access,
+// the real type is func(*m).
+//
+// TODO(austin): Remove this after Go 1.15 when we remove the
+// mlockGsignal workaround.
+var prepareSignalMQuirk unsafe.Pointer
+
 // signalM sends a signal to mp.
 func signalM(mp *m, sig int) {
+	quirk := atomic.Loadp(unsafe.Pointer(&prepareSignalMQuirk))
+	if quirk != nil {
+		quirkf := *(*func(*m))(unsafe.Pointer(&quirk))
+		quirkf(mp)
+	}
 	tgkill(getpid(), int(mp.procid), sig)
 }
