@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68b22832_3db54d4c",
+        "filename": "src/runtime/os_linux_x86.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-12T05:14:45Z",
+      "side": 1,
+      "message": "These atomics to update function variables that are actually declared as unsafe.Pointer seems unnecessarily complicated. Can we just do here:\n\natomic.Store(\u0026touchBeforeSignal, 1)\n\nand then in os_linux.go, do\n\nif atomic.Load(\u0026touchBeforeSignal) \u003e 0 {\n    atomic.Cas((*uint32)(unsafe.Pointer(mp.gsignal.stack.hi-4)), 0, 0)\n}\n\nsame for deciding whether to call throwBadKernel in panic.go.\n\nif atomic.Load(\u0026touchBeforeSignal) \u003e 0 {\n    println(...)\n}\n\nIt means some of the code is included in non-linux/x86 binaries, whereas in this CL they wouldn\u0027t be, but the code in question is tiny.",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 20
+      },
+      "revId": "c9591de2607acd8bbe9851e6e62904c009d6ba2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
