@@ -27,6 +27,7 @@ import (
 	"strings"
 
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // buildList is the list of modules to use for building packages.
@@ -43,6 +44,10 @@ var buildList []module.Version
 // loaded is the most recently-used package loader.
 // It holds details about individual packages.
 var loaded *loader
+
+// lazyLoadingVersion is the Go version (plus leading "v") at which lazy module
+// loading takes effect.
+const lazyLoadingVersionV = "v1.16"
 
 // ImportPaths returns the set of packages matching the args (patterns),
 // on the target platform. Modules may be added to the build list
@@ -67,7 +72,11 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 	for _, pattern := range search.CleanPatterns(patterns) {
 		matches = append(matches, search.NewMatch(pattern))
 		if pattern == "all" {
-			allLevel = importedByTransitiveTestFromTarget
+			if index == nil || semver.Compare(index.goVersionV, lazyLoadingVersionV) >= 0 {
+				allLevel = importedByTarget
+			} else {
+				allLevel = importedByTransitiveTestFromTarget
+			}
 		}
 	}
 
@@ -406,9 +415,17 @@ func ReloadBuildList() []module.Version {
 // It adds modules to the build list as needed to satisfy new imports.
 // This set is useful for deciding whether a particular import is needed
 // anywhere in a module.
+//
+// In modules that specify "go 1.16" or higher, ALL follows only one layer of
+// test dependencies. In "go 1.15" or lower, ALL follows the imports of tests of
+// dependencies of tests.
 func LoadALL() []string {
 	InitMod()
-	return loadAll(importedByTransitiveTestFromTarget)
+	if index == nil || semver.Compare(index.goVersionV, lazyLoadingVersionV) >= 0 {
+		return loadAll(importedByTarget)
+	} else {
+		return loadAll(importedByTransitiveTestFromTarget)
+	}
 }
 
 // LoadVendor is like LoadALL but only follows test dependencies
@@ -615,8 +632,8 @@ type loader struct {
 
 	// reset on each iteration
 	roots    []*loadPkg
-	pkgCache *par.Cache
-	pkgs     []*loadPkg // populated in buildStacks
+	pkgCache *par.Cache // map from package path (string) to *loadPkg
+	pkgs     []*loadPkg // the transitive closure of loaded packages and tests; populated in buildStacks
 
 	// computed at end of iterations
 	direct map[string]bool // imported directly by main module
@@ -645,14 +662,19 @@ const (
 	noAll allLevel = iota
 
 	// importedByTarget includes all packages transitively imported by packages
-	// and tests in the main module. importedByTarget is the set of packages
-	// included by "go mod vendor" in Go 1.11–1.15.
+	// and tests in the main module. importedByTarget is the root of "all" in Go
+	// 1.16+, or the set of packages included by "go mod vendor" in Go 1.11–1.15.
+	//
+	// In Go 1.16+, every package in this level should be provided by a
+	// module explicitly required in the main module's go.mod file, and
+	// every test dependency of every such package should be provided
+	// by a module *required by* an explicitly require module.
 	importedByTarget
 
 	// importedByTransitiveTestFromTarget includes the transitive closure of the
 	// imports of all packages and tests of those packages starting with the set
-	// of packages and tests in the main module. It is the root of both "go mod
-	// tidy" (ignoring tags) and "all" in Go 1.11–1.15.
+	// of packages and tests in the main module. It is the root of "all" in Go
+	// 1.11–1.15.
 	importedByTransitiveTestFromTarget
 )
 
@@ -685,7 +707,7 @@ type loadPkg struct {
 	inStd       bool
 
 	// Populated by a single goroutine in loadFromRoots:
-	inAll  bool
+	inAll  bool // are this package (and its imports) known to be in the "all" package pattern?
 	isRoot bool
 	loaded bool     // if true, imports and either testImports or test are populated
 	test   *loadPkg // package with test imports, if we need test
