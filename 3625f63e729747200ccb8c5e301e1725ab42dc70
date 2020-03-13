@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4817b7d7_be281a01",
+        "filename": "src/cmd/go2go/testdata/go2path/src/maps/maps.go2",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2020-03-13T15:37:51Z",
+      "side": 1,
+      "message": "nit: I never liked this word because its connotations are ambiguous. (In English we would say \"filter out the junk\", but `Filter(m, IsJunk)` would do the opposite.)\n\nMaybe \"Keep\"?\n\nIn Common Lisp (admittedly a much more verbose language), this would be called DeleteIfNot.",
+      "range": {
+        "startLine": 83,
+        "startChar": 5,
+        "endLine": 83,
+        "endChar": 11
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c109fd7e_6b37dff0",
         "filename": "src/go/go2go/importer.go",
         "patchSetId": 12
