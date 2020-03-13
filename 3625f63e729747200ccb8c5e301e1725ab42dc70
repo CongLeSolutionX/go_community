@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "68fa8a9d_dfe55697",
+        "filename": "src/cmd/go2go/testdata/go2path/src/maps/maps.go2",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-13T22:56:06Z",
+      "side": 1,
+      "message": "The names used here are the names used in Python.  E.g., https://docs.python.org/3/library/functions.html#filter.  See also std::ranges::views::filter in C++ (https://en.cppreference.com/w/cpp/ranges/filter_view).  Though of course C++ also has `std::copy_if`.  Javascript also has map, reduce, and filter.",
+      "parentUuid": "4817b7d7_be281a01",
+      "range": {
+        "startLine": 83,
+        "startChar": 5,
+        "endLine": 83,
+        "endChar": 11
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c109fd7e_6b37dff0",
         "filename": "src/go/go2go/importer.go",
         "patchSetId": 12
