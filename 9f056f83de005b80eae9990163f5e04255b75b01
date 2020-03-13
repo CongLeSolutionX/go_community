@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c610d794_dae2134f",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1226,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-13T18:00:30Z",
+      "side": 1,
+      "message": "Maybe operand 1/2/3/etc. I think this is closer to user input. It may be not obvious which operand is rs1.",
+      "range": {
+        "startLine": 1226,
+        "startChar": 26,
+        "endLine": 1226,
+        "endChar": 30
+      },
+      "revId": "9f056f83de005b80eae9990163f5e04255b75b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
