@@ -564,7 +564,7 @@ var defaultVetFlags = []string{
 }
 
 func runTest(cmd *base.Command, args []string) {
-	modload.LoadTests = true
+	modload.LoadRootTests = true
 
 	pkgArgs, testArgs = testFlags(args)
 

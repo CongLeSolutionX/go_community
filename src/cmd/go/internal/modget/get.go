@@ -275,7 +275,7 @@ func runGet(cmd *base.Command, args []string) {
 	if *getM {
 		base.Fatalf("go get: -m flag is no longer supported; consider -d to skip building packages")
 	}
-	modload.LoadTests = *getT
+	modload.LoadRootTests = *getT
 
 	buildList := modload.LoadBuildList()
 	buildList = buildList[:len(buildList):len(buildList)] // copy on append

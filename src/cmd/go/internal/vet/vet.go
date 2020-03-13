@@ -49,7 +49,7 @@ See also: go fmt, go fix.
 }
 
 func runVet(cmd *base.Command, args []string) {
-	modload.LoadTests = true
+	modload.LoadRootTests = true
 
 	vetFlags, pkgArgs := vetFlags(args)
 
