@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c109fd7e_6b37dff0",
+        "filename": "src/go/go2go/importer.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-13T14:15:56Z",
+      "side": 1,
+      "message": "I tried out this prototype, and I could not import my .go2 package.\nIt seems that imp.packages does not handle GO2PATH\u0027s import path properly. \n\nFor instance, I created a module called github.com/changkun/go2demo in the GO2PATH, which is $GO2PATH/src/github.com/changkun/go2demo, and there is a package inside this module called `contracts` which is in $GO2PATH/src/github.com/changkun/go2demo. When I try to import the contracts package in another package, say `algo` in $GO2PATH/src/github.com/changkun/go2demo/algo, then use `go2go test` and a circular import arises.\n\nMy first impression is the go/parser is buggy for import path (haven\u0027t looked into it yet), this comment is just an experience report for you, nothing serious since it is clear prototype is buggy of course.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 75
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
