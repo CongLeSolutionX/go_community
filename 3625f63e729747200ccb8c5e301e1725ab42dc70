@@ -22,6 +22,23 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50e279fc_2ce3676f",
+        "filename": "src/go/parser/testdata/metrics.go2",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-13T15:13:44Z",
+      "side": 1,
+      "message": "The variadic type parameters is missing in the current design. An add-on design that follows the current contracts design could be:\n\ncontract Comparables(Ts...) {\n\tif  len(Ts) \u003e 0 {\n\t\tcontracts.Comparables(Ts[1:]...)\n\t} else {\n\t\tcontracts.Comparable(Ts[0])\n\t}\n}\n\ncontract Comparable(T) {\n\tT int, int8, int16, int32, int64,\n\t\tuint, uint8, uint16, uint32, uint64, uintptr,\n\t\tfloat32, float64,\n\t\tstring\n}\n\ntype Keys(type Ts ...Comparables) struct {\n    fs ...Ts\n}\n\ntype Metric(type Ts ...contracts.Comparables) struct {\n\tmu sync.Mutex\n\tm  map[Keys(Ts...)]int\n}\n\nfunc (m *Metric(Ts...)) Add(vs ...Ts) {\n\tm.mu.Lock()\n\tdefer m.mu.Unlock()\n\tif m.m \u003d\u003d nil {\n\t\tm.m \u003d make(map[Keys(Ts...))]int)\n\t}\n\tm[Keys(Ts...){vs...}]++\n}\n\n\n// To use the metric\n\nm :\u003d Metric(int, float64, string){m: make(map[Keys(int, float64, string)]int}\nm.Add(1, 2.0, \"variadic\")",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
