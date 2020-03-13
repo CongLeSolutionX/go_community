@@ -62,6 +62,24 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "621df9a9_ffb3fca0",
+        "filename": "src/go/parser/testdata/metrics.go2",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-13T17:21:33Z",
+      "side": 1,
+      "message": "the `contracts.` in this example should be deleted. sorry for the confusion",
+      "parentUuid": "50e279fc_2ce3676f",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
