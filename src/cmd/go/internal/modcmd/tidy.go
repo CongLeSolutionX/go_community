@@ -42,6 +42,12 @@ func runTidy(cmd *base.Command, args []string) {
 		base.Fatalf("go mod tidy: no arguments allowed")
 	}
 
+	// Tidy aims to make "go test" reproducible for any package in "all", so we
+	// need to include test dependencies. For modules that specify go 1.15 or
+	// earlier this is a no-op (because "all" saturates transitive test
+	// dependencies) but with lazy loading (go 1.16+) it matters.
+	modload.LoadTests = true
+
 	modload.LoadALL()
 	modload.TidyBuildList()
 	modTidyGoSum() // updates memory copy; WriteGoMod on next line flushes it out
