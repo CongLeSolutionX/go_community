@@ -33,6 +33,23 @@
       "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd51aeab_59c94220",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-13T17:23:25Z",
+      "side": 1,
+      "message": "We had considered only doing this on certain signals that are likely to indicate memory corruption. Is the idea with doing it unconditionally that memory corruption can cause all sorts of different failures?",
+      "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
