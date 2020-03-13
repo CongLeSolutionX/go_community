@@ -27,6 +27,7 @@ import (
 	"strings"
 
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // buildList is the list of modules to use for building packages.
@@ -43,6 +44,10 @@ var buildList []module.Version
 // loaded is the most recently-used package loader.
 // It holds details about individual packages.
 var loaded *loader
+
+// lazyLoadingVersion is the Go version (plus leading "v") at which lazy module
+// loading takes effect.
+const lazyLoadingVersionV = "v1.16"
 
 // ImportPaths returns the set of packages matching the args (patterns),
 // on the target platform. Modules may be added to the build list
@@ -67,7 +72,11 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 	for _, pattern := range search.CleanPatterns(patterns) {
 		matches = append(matches, search.NewMatch(pattern))
 		if pattern == "all" {
-			allLevel = importedByTransitiveTestFromTarget
+			if index == nil || semver.Compare(index.goVersionV, lazyLoadingVersionV) >= 0 {
+				allLevel = importedByTarget
+			} else {
+				allLevel = importedByTransitiveTestFromTarget
+			}
 		}
 	}
 
@@ -406,9 +415,17 @@ func ReloadBuildList() []module.Version {
 // It adds modules to the build list as needed to satisfy new imports.
 // This set is useful for deciding whether a particular import is needed
 // anywhere in a module.
+//
+// In modules that specify "go 1.16" or higher, ALL follows only one layer of
+// test dependencies. In "go 1.15" or lower, ALL follows the imports of tests of
+// dependencies of tests.
 func LoadALL() []string {
 	InitMod()
-	return loadAll(importedByTransitiveTestFromTarget)
+	if index == nil || semver.Compare(index.goVersionV, lazyLoadingVersionV) >= 0 {
+		return loadAll(importedByTestOfPackageImportedByTarget)
+	} else {
+		return loadAll(importedByTransitiveTestFromTarget)
+	}
 }
 
 // LoadVendor is like LoadALL but only follows test dependencies
@@ -615,8 +632,8 @@ type loader struct {
 
 	// reset on each iteration
 	roots    []*loadPkg
-	pkgCache *par.Cache
-	pkgs     []*loadPkg // populated in buildStacks
+	pkgCache *par.Cache // map from package path (string) to *loadPkg
+	pkgs     []*loadPkg // the transitive closure of loaded packages and tests; populated in buildStacks
 
 	// computed at end of iterations
 	direct    map[string]bool   // module paths providing any package imported directly by main module
@@ -646,9 +663,22 @@ const (
 	noAll allLevel = iota
 
 	// importedByTarget includes all packages transitively imported by packages
-	// and tests in the main module. importedByTarget is the set of packages
-	// included by "go mod vendor" in Go 1.11–1.15.
+	// and tests in the main module. importedByTarget is the root of "all" in Go
+	// 1.16+, or the set of packages included by "go mod vendor" in Go 1.11–1.15.
+	//
+	// In Go 1.16+, every package in this level should be provided by a
+	// module explicitly required in the main module's go.mod file.
 	importedByTarget
+
+	// importedByTestOfPackageImportedByTarget includes all packages transitively
+	// imported by packages and tests in the main module, plus the packages
+	// imported by the *tests of* those packages. packagesImportedByTarget is the
+	// root of "go mod tidy" (ignoring tags) in Go 1.16+.
+	//
+	// Every package in this level should be provided by a module required
+	// in either the main module's go.mod file or the go.mod file of one of its
+	// immediate dependencies.
+	importedByTestOfPackageImportedByTarget
 
 	// importedByTransitiveTestFromTarget includes the transitive closure of the
 	// imports of all packages and tests of those packages starting with the set
@@ -686,10 +716,11 @@ type loadPkg struct {
 	inStd       bool
 
 	// Populated by a single goroutine in loadFromRoots:
-	inAll  bool
-	loaded bool     // if true, imports and either testImports or test are populated
-	test   *loadPkg // package with test imports, if we need test
-	testOf *loadPkg
+	importedByTarget bool // directly or indirectly imported by any package or test in the main module, or is itself a package or test in the main module
+	inAll            bool
+	loaded           bool     // if true, imports and either testImports or test are populated
+	test             *loadPkg // package with test imports, if we need test
+	testOf           *loadPkg
 
 	// Populated in (*loader).buildStacks:
 	stack *loadPkg // package importing this one in minimal import stack for this pkg
@@ -1005,14 +1036,53 @@ func (ld *loader) loadAll(roots []string) {
 		}
 		pkg.loaded = true
 
-		if ld.allLevel >= importedByTarget && pkg.mod == Target {
-			pkg.inAll = true
+		if pkg.mod == Target {
+			pkg.importedByTarget = true
+			if ld.allLevel >= importedByTarget {
+				test := ld.loadTestOf(pkg)
+				test.importedByTarget = true
+				ld.propagateImportedByTarget(test)
+			}
+		}
+		if pkg.importedByTarget {
+			ld.propagateImportedByTarget(pkg)
+			if ld.allLevel >= importedByTarget {
+				pkg.inAll = true
+			}
 		}
 		if LoadTests && (pkg.inAll || isRoot[pkg]) {
 			ld.loadTestOf(pkg)
 		}
 		if pkg.inAll {
 			ld.propagateInAll(pkg)
+		}
+	}
+}
+
+// propagateImportedByTarget sets importedByTarget and/or inAll for packages
+// that have those attributes by virtue of the fact that pkg is imported by the
+// target module.
+func (ld *loader) propagateImportedByTarget(pkg *loadPkg) {
+	if !pkg.loaded {
+		return
+	}
+
+	for _, dep := range pkg.imports {
+		if !dep.importedByTarget {
+			dep.importedByTarget = true
+			ld.propagateImportedByTarget(dep)
+		}
+	}
+
+	if ld.allLevel >= importedByTarget && !pkg.inAll {
+		pkg.inAll = true
+		ld.propagateInAll(pkg)
+	}
+
+	if !pkg.isTest() && ld.allLevel >= importedByTestOfPackageImportedByTarget {
+		if test := ld.loadTestOf(pkg); !test.inAll {
+			test.inAll = true
+			ld.propagateInAll(test)
 		}
 	}
 }
@@ -1031,8 +1101,7 @@ func (ld *loader) propagateInAll(pkg *loadPkg) {
 		}
 	}
 
-	if !pkg.isTest() && (ld.allLevel >= importedByTransitiveTestFromTarget ||
-		(ld.allLevel >= importedByTarget && pkg.mod == Target)) {
+	if !pkg.isTest() && ld.allLevel >= importedByTransitiveTestFromTarget {
 		if test := ld.loadTestOf(pkg); !test.inAll {
 			test.inAll = true
 			ld.propagateInAll(test)
