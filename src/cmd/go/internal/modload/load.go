@@ -27,6 +27,7 @@ import (
 	"sync"
 
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // buildList is the list of modules to use for building packages.
@@ -47,6 +48,10 @@ var buildList []module.Version
 // afterward, it is copied back into the global buildList,
 // which should be used instead.
 var loaded *loader
+
+// lazyLoadingVersion is the Go version (plus leading "v") at which lazy module
+// loading takes effect.
+const lazyLoadingVersionV = "v1.16"
 
 // ImportPaths returns the set of packages matching the args (patterns),
 // on the target platform. Modules may be added to the build list
@@ -71,7 +76,11 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 	for _, pattern := range search.CleanPatterns(patterns) {
 		matches = append(matches, search.NewMatch(pattern))
 		if pattern == "all" {
-			allLevel = importedByTransitiveTest
+			if semver.Compare(index.goVersionV, lazyLoadingVersionV) >= 0 {
+				allLevel = importedByTarget
+			} else {
+				allLevel = importedByTransitiveTest
+			}
 		}
 	}
 
@@ -410,9 +419,17 @@ func ReloadBuildList() []module.Version {
 // It adds modules to the build list as needed to satisfy new imports.
 // This set is useful for deciding whether a particular import is needed
 // anywhere in a module.
+//
+// In modules that specify "go 1.16" or higher, ALL follows only one layer of
+// test dependencies. In "go 1.15" or lower, ALL follows the imports of tests of
+// dependencies of tests.
 func LoadALL() []string {
 	InitMod()
-	return loadAll(importedByTransitiveTest)
+	if semver.Compare(index.goVersionV, lazyLoadingVersionV) >= 0 {
+		return loadAll(importedByTestOfPackageImportedByTarget)
+	} else {
+		return loadAll(importedByTransitiveTest)
+	}
 }
 
 // LoadVendor is like LoadALL but only follows test dependencies
@@ -618,9 +635,9 @@ type loader struct {
 
 	// reset on each iteration
 	roots    []*loadPkg
-	pkgCache *par.Cache
+	pkgCache *par.Cache      // map from package path (string) to *loadPkg
 	newPkgs  chan []*loadPkg // 1-buffered or nil; all packages and tests added since the last time newPkgs was cleared
-	pkgs     []*loadPkg
+	pkgs     []*loadPkg      // the transitive closure of loaded packages and tests; populated in buildStacks
 
 	// computed at end of iterations
 	direct    map[string]bool   // module paths providing any package imported directly by main module
@@ -638,9 +655,22 @@ const (
 	noAll allLevel = iota
 
 	// importedByTarget includes all packages transitively imported by packages
-	// and tests in the main module. importedByTarget is the set of packages
-	// included by "go mod vendor" in Go 1.11–1.15.
+	// and tests in the main module. importedByTarget is the root of "all" in Go
+	// 1.16+, or the set of packages included by "go mod vendor" in Go 1.11–1.15.
+	//
+	// In Go 1.16+, every package in this level should be provided by a
+	// module explicitly required in the main module's go.mod file.
 	importedByTarget
+
+	// importedByTestOfPackageImportedByTarget includes all packages transitively
+	// imported by packages and tests in the main module, plus the packages
+	// imported by the *tests of* those packages. packagesImportedByTarget is the
+	// root of "go mod tidy" (ignoring tags) in Go 1.16+.
+	//
+	// Every package in this level should be provided by a module required
+	// in either the main module's go.mod file or the go.mod file of one of its
+	// immediate dependencies.
+	importedByTestOfPackageImportedByTarget
 
 	// importedByTransitiveTest includes the transitive closure of the imports of
 	// all packages and tests of those packages starting with the set of packages
@@ -686,6 +716,8 @@ type loadPkg struct {
 
 	// Populated in loadFromRoots (after (*loader).load):
 	inStd bool // package is in the standard library
+
+	importedByTarget bool // directly or indirectly imported by any package or test in the main module, or is itself in the main module
 
 	// Populated in (*loader).testOf (after loadOne):
 	test   *loadPkg // package with test imports, if we need test
@@ -994,6 +1026,12 @@ func (ld *loader) loadAll(roots []string) {
 
 		for _, pkg := range newPkgs {
 			if pkg.mod == Target {
+				ld.markImportedByTarget(pkg, func(dep *loadPkg) {
+					if dep.testOf == nil && ld.allLevel >= importedByTestOfPackageImportedByTarget {
+						// dep is imported by Target, so its test dependencies are in "all"
+						ld.loadTestOf(dep)
+					}
+				})
 				if pkg.testOf == nil && ld.allLevel >= importedByTarget {
 					ld.loadTestOf(pkg)
 				}
@@ -1004,6 +1042,21 @@ func (ld *loader) loadAll(roots []string) {
 	}
 }
 
+func (ld *loader) markImportedByTarget(pkg *loadPkg, afterMark func(*loadPkg)) {
+	if pkg.importedByTarget {
+		return
+	}
+	// Set before recursing to break cycles, which are possible especially when
+	// ignoring build constraints.
+	pkg.importedByTarget = true
+	if afterMark != nil {
+		afterMark(pkg)
+	}
+	for _, dep := range pkg.imports {
+		ld.markImportedByTarget(dep, afterMark)
+	}
+}
+
 // expandTest loads the test of each root package, and of each package in "all"
 // if ld.allLevel is set.
 //
@@ -1011,11 +1064,13 @@ func (ld *loader) loadAll(roots []string) {
 func (ld *loader) expandTest() {
 	defer func() {
 		ld.wait()
-		_ = <-ld.newPkgs
+		newPkgs := <-ld.newPkgs
 		ld.newPkgs <- nil
-		// TODO(bcmills): When we start tracking the complete set of packages
-		// imported by the main module, update that set from the final newPkgs
-		// slice.
+		for _, pkg := range newPkgs {
+			if pkg.mod == Target {
+				ld.markImportedByTarget(pkg, nil)
+			}
+		}
 	}()
 
 	if ld.allLevel == noAll {
@@ -1025,8 +1080,33 @@ func (ld *loader) expandTest() {
 		return
 	}
 
-	// TODO(bcmills): When we have an intermediate "all" level for lazy loading,
-	// expand the set of loaded packages by one test-level here.
+	if ld.allLevel >= importedByTransitiveTest {
+		// Nothing to do: "all" already includes its transitive test dependencies.
+		return
+	}
+
+	seen := map[*loadPkg]bool{}
+	var expand func(*loadPkg)
+	expand = func(pkg *loadPkg) {
+		if seen[pkg] {
+			return
+		}
+		seen[pkg] = true
+		if pkg.testOf == nil {
+			if pkg.test == nil {
+				ld.loadTestOf(pkg)
+			} else {
+				expand(pkg.test)
+			}
+		}
+		for _, dep := range pkg.imports {
+			expand(dep)
+		}
+	}
+
+	for _, root := range ld.roots {
+		expand(root)
+	}
 }
 
 // computePatternAll returns the list of packages matching pattern "all",
@@ -1038,9 +1118,19 @@ func (ld *loader) computePatternAll() (all []string) {
 
 	seen := make(map[*loadPkg]bool)
 
+	if ld.allLevel == importedByTarget {
+		for _, pkg := range ld.pkgs {
+			if pkg.testOf == nil && (pkg.mod == Target || pkg.importedByTarget) {
+				all = append(all, pkg.path)
+			}
+		}
+		return all
+	}
+
 	if ld.allLevel != importedByTransitiveTest {
-		// computePatternAll is nonsensical for noAll, and we don't yet call it at
-		// level importedByTarget.
+		// computePatternAll is nonsensical for noAll. We also don't ever call it
+		// with importedByTestOfPackageImportedByTarget, so that level is not worth
+		// implementing here.
 		panic(fmt.Sprintf("can't compute 'all' pattern with allLevel %v", ld.allLevel))
 	}
 
