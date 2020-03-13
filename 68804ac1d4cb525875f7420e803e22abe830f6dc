@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "239f1697_7f6075d7",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-13T17:26:24Z",
+      "side": 1,
+      "message": "Yeah, it is used in the compiler as well. cmd/dist copies the sort package at bootstrap, so it will use the current sort package instead of the one from the bootstrap toolchain.",
+      "parentUuid": "29ff8848_db10a0a1",
+      "range": {
+        "startLine": 1254,
+        "startChar": 1,
+        "endLine": 1254,
+        "endChar": 11
+      },
+      "revId": "68804ac1d4cb525875f7420e803e22abe830f6dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "028ee29d_c4e9ceb7",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
