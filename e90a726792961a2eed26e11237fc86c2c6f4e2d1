@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ee65936_f708d781",
+        "filename": "src/runtime/os_linux_x86.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-13T19:28:11Z",
+      "side": 1,
+      "message": "Good idea.  Done.",
+      "parentUuid": "d3a85760_0e6bad7f",
+      "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac00da42_ad70f072",
         "filename": "src/runtime/os_linux_x86.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "38559741_023d5ba9",
+        "filename": "src/runtime/os_linux_x86.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-13T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac00da42_ad70f072",
+      "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd51aeab_59c94220",
         "filename": "src/runtime/panic.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb385636_ec84d8a7",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-13T19:28:11Z",
+      "side": 1,
+      "message": "Yes.  I looked back at the error reports, and most of them failed due to memory corruption rather than via a signal.  So it didn\u0027t seem to make sense to restrict the report to only happen on a signal.",
+      "parentUuid": "cd51aeab_59c94220",
+      "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
