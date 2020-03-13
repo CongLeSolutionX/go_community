@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3a85760_0e6bad7f",
+        "filename": "src/runtime/os_linux_x86.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-13T17:21:50Z",
+      "side": 1,
+      "message": "Store the error code in the atomic and report it in throwBadKernel?",
+      "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac00da42_ad70f072",
+        "filename": "src/runtime/os_linux_x86.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-13T17:21:50Z",
+      "side": 1,
+      "message": "Should this be conditional on touchStackBeforeSignal indicating there was an mlock failure?",
+      "revId": "e90a726792961a2eed26e11237fc86c2c6f4e2d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
