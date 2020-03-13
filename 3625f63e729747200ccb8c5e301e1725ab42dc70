@@ -80,6 +80,24 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4181b338_fcd5d205",
+        "filename": "src/go/parser/testdata/metrics.go2",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-13T22:44:25Z",
+      "side": 1,
+      "message": "This CL is not a good place to discuss changes to the design draft.",
+      "parentUuid": "621df9a9_ffb3fca0",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
