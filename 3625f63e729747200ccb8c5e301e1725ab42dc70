@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2cc745b1_c552b1d1",
+        "filename": "src/go/go2go/importer.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-13T22:49:47Z",
+      "side": 1,
+      "message": "I don\u0027t know if this is the problem, but note that the go2go tool doesn\u0027t support modules at all.  There is no plan to support modules.\n\nAlso, when looking at a specific package, both package level import and test imports are handled together.  An x_test package that imports y that imports x will work for the normal Go tool, but won\u0027t work for go2go.\n\nIf that doesn\u0027t help, send a tar file or something to iant@golang.org, and tell me exactly what commands you run, and I\u0027ll take a look.",
+      "parentUuid": "c109fd7e_6b37dff0",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 75
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50e279fc_2ce3676f",
         "filename": "src/go/parser/testdata/metrics.go2",
         "patchSetId": 12
