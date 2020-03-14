@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "838a7d5d_c33f9050",
+        "filename": "src/math/atan2_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-03-14T21:30:07Z",
+      "side": 1,
+      "message": "Can use an immediate here:\n\ns/R3/$0/",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 14
+      },
+      "revId": "bcfa5220979dc7dd526bafc4f59bf01f72fa2947",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfe81cde_f11c0fa3",
+        "filename": "src/math/atan2_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-03-14T21:30:07Z",
+      "side": 1,
+      "message": "Again, immediate form is fine here:\n\ns/R1/$0/",
+      "range": {
+        "startLine": 298,
+        "startChar": 1,
+        "endLine": 298,
+        "endChar": 20
+      },
+      "revId": "bcfa5220979dc7dd526bafc4f59bf01f72fa2947",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
