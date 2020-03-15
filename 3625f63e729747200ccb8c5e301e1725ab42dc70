@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "5e23071c_44041bab",
+        "filename": "src/go/go2go/go2go.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-15T22:48:36Z",
+      "side": 1,
+      "message": "Thanks. Note that the code example in case l \u003e 1 suppose to be \n\nvv :\u003d Max(vn[0], vn[1:]...)\nif v0 \u003e vv { return v0 }\nreturn vv\n\nwhich was an incorrect implementation, although it is irrelevant to type checking. \nSorry about that...",
+      "parentUuid": "c6759473_699197c5",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 71
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c109fd7e_6b37dff0",
         "filename": "src/go/go2go/importer.go",
         "patchSetId": 12
