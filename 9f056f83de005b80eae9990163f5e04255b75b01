@@ -22,6 +22,30 @@
       "revId": "9f056f83de005b80eae9990163f5e04255b75b01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7723324e_089fa792",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1226,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-03-15T06:42:03Z",
+      "side": 1,
+      "message": "On one hand I agree, however it depends on which obj.Prog was expanded and what those fields (p.From/p.Reg/p.To/p.RegTo2) mapped to in the instruction (especially where there are multiple instructions being generated from a obj.Prog). We do not have any of that information available here, which makes it challenging to know how this maps to the user input.\n\nI\u0027m going to leave it as is for now, but we can readily revisit this in the future.",
+      "parentUuid": "c610d794_dae2134f",
+      "range": {
+        "startLine": 1226,
+        "startChar": 26,
+        "endLine": 1226,
+        "endChar": 30
+      },
+      "revId": "9f056f83de005b80eae9990163f5e04255b75b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
