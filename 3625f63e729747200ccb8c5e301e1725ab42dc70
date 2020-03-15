@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "73f34a7b_c0526d8d",
+        "filename": "src/go/go2go/go2go.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-15T23:36:24Z",
+      "side": 1,
+      "message": "Sure. As an aside, I would write this function like this:\n\nfunc Max(type T Comparable)(x ...T) T {\n       var x0 T\n       if len(x) \u003e 0 {\n               x0 \u003d x[0]\n       }\n       if len(x) \u003e 1 {\n               if x1 :\u003d Max(x[1:]...); x1 \u003e x0 {\n                       return x1\n               }\n       }\n       return x0\n}\n\nI have fixed this in the type-checker. If you want to, you can apply manually the 2 changes in go/types/predicates.go, method Checker.identical0:\n\n1) Instead of (in the beginning):\n\nif x \u003d\u003d y {\n       return true\n}\n\nit should be:\n\nif tparams \u003d\u003d nil \u0026\u0026 x \u003d\u003d y {\n       return true\n}\n\n2) And if the *TypeParam case, instead of:\n\nif x :\u003d tparams[x.index]; x !\u003d nil {\n       return check.identical0(x, y, cmpTags, p, tparams)\n}\n\nit should be:\n\nif x :\u003d tparams[x.index]; x !\u003d nil {\n       if x \u003d\u003d y {\n              return true\n       }\n       return check.identical0(x, y, cmpTags, p, tparams)\n}",
+      "parentUuid": "5e23071c_44041bab",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 71
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c109fd7e_6b37dff0",
         "filename": "src/go/go2go/importer.go",
         "patchSetId": 12
