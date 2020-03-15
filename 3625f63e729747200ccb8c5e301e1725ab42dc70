@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c6759473_699197c5",
+        "filename": "src/go/go2go/go2go.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-15T21:48:42Z",
+      "side": 1,
+      "message": "Thanks. I will look into this. It\u0027s a type inference issue.",
+      "parentUuid": "03435809_21877582",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 71
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c109fd7e_6b37dff0",
         "filename": "src/go/go2go/importer.go",
         "patchSetId": 12
