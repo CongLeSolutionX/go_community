@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "f60c6a8d_740f3708",
+        "filename": "src/go/go2go/go2go.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-15T23:43:56Z",
+      "side": 1,
+      "message": "Thanks for such a quick fix. Now it falls into the \"unimplemented Expr\" case.",
+      "parentUuid": "73f34a7b_c0526d8d",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 71
+      },
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c109fd7e_6b37dff0",
         "filename": "src/go/go2go/importer.go",
         "patchSetId": 12
