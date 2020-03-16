@@ -2157,11 +2157,11 @@ func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) int {
 		osym := goobj2.Sym{}
 		osym.Read(r.Reader, r.SymOff(i))
 		name := strings.Replace(osym.Name, "\"\".", r.pkgprefix, -1)
-		if name == "" {
+		t := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
+		if name == "" && t != sym.SDWARFINFO {
 			continue
 		}
 		ver := abiToVer(osym.ABI, r.version)
-		t := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
 		if t == sym.SXREF {
 			log.Fatalf("bad sxref")
 		}
