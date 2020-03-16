@@ -297,32 +297,34 @@ func (ctxt *Link) traverseSyms(flag traverseFlag, fn func(*LSym)) {
 					f := func(parent *LSym, aux *LSym) {
 						fn(aux)
 					}
-					ctxt.traverseFuncAux(s, f)
+					ctxt.traverseFuncAux(flag, s, f)
 				}
 			}
 		}
 	}
 }
 
-func (ctxt *Link) traverseFuncAux(fsym *LSym, fn func(parent *LSym, aux *LSym)) {
+func (ctxt *Link) traverseFuncAux(flag traverseFlag, fsym *LSym, fn func(parent *LSym, aux *LSym)) {
 	pc := &fsym.Func.Pcln
-	for _, d := range pc.Funcdata {
-		if d != nil {
-			fn(fsym, d)
+	if flag&traverseAux != 0 {
+		for _, d := range pc.Funcdata {
+			if d != nil {
+				fn(fsym, d)
+			}
 		}
-	}
-	for _, f := range pc.File {
-		if filesym := ctxt.Lookup(f); filesym != nil {
-			fn(fsym, filesym)
+		for _, f := range pc.File {
+			if filesym := ctxt.Lookup(f); filesym != nil {
+				fn(fsym, filesym)
+			}
 		}
-	}
-	for _, call := range pc.InlTree.nodes {
-		if call.Func != nil {
-			fn(fsym, call.Func)
-		}
-		f, _ := linkgetlineFromPos(ctxt, call.Pos)
-		if filesym := ctxt.Lookup(f); filesym != nil {
-			fn(fsym, filesym)
+		for _, call := range pc.InlTree.nodes {
+			if call.Func != nil {
+				fn(fsym, call.Func)
+			}
+			f, _ := linkgetlineFromPos(ctxt, call.Pos)
+			if filesym := ctxt.Lookup(f); filesym != nil {
+				fn(fsym, filesym)
+			}
 		}
 	}
 	dwsyms := []*LSym{fsym.Func.dwarfRangesSym, fsym.Func.dwarfLocSym, fsym.Func.dwarfDebugLinesSym}
@@ -330,22 +332,33 @@ func (ctxt *Link) traverseFuncAux(fsym *LSym, fn func(parent *LSym, aux *LSym)) 
 		if dws == nil || dws.Size == 0 {
 			continue
 		}
-		fn(fsym, dws)
+		if flag&traverseAux != 0 {
+			fn(fsym, dws)
+		}
+		if flag&traverseRefs != 0 {
+			for _, r := range dws.R {
+				if r.Sym != nil {
+					fn(dws, r.Sym)
+				}
+			}
+		}
 	}
 }
 
 // Traverse aux symbols, calling fn for each sym/aux pair.
-func (ctxt *Link) traverseAuxSyms(fn func(parent *LSym, aux *LSym)) {
+func (ctxt *Link) traverseAuxSyms(flag traverseFlag, fn func(parent *LSym, aux *LSym)) {
 	lists := [][]*LSym{ctxt.Text, ctxt.Data, ctxt.ABIAliases}
 	for _, list := range lists {
 		for _, s := range list {
 			if s.Gotype != nil {
-				fn(s, s.Gotype)
+				if flag&traverseDefs != 0 {
+					fn(s, s.Gotype)
+				}
 			}
 			if s.Type != objabi.STEXT {
 				continue
 			}
-			ctxt.traverseFuncAux(s, fn)
+			ctxt.traverseFuncAux(flag, s, fn)
 		}
 	}
 }
