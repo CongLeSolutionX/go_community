@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27c8c452_9038a3ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-17T22:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e83bff3_6f95df0c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "578338fb_0faf8f7f",
         "filename": "src/database/sql/fakedb_test.go",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "664cbec4_a87e960b",
+        "filename": "src/database/sql/fakedb_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-17T22:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "578338fb_0faf8f7f",
+      "range": {
+        "startLine": 399,
+        "startChar": 35,
+        "endLine": 399,
+        "endChar": 46
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "b9cc9d12_536f136b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-17T22:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c80cc079_c3f6f978",
+      "range": {
+        "startLine": 505,
+        "startChar": 22,
+        "endLine": 505,
+        "endChar": 37
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72fa8c32_24bfb68c",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-17T22:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0cab0da_a49b8e06",
+      "range": {
+        "startLine": 505,
+        "startChar": 38,
+        "endLine": 505,
+        "endChar": 50
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0cf02c3_cf44e76c",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 9
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "10ec0fb6_89262e69",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-17T22:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0cf02c3_cf44e76c",
+      "range": {
+        "startLine": 1156,
+        "startChar": 2,
+        "endLine": 1160,
+        "endChar": 3
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecbe9d90_65a88b5d",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 9
@@ -128,6 +248,24 @@
       "writtenOn": "2020-03-17T04:23:06Z",
       "side": 1,
       "message": "Let\u0027s perhaps add a new line right before here and add a comment to say:\n\nif err :\u003d conn.resetSession(ctx); err \u003d\u003d driver.ErrBadConn {\n     conn.Close()\n     return nil, err\n}\n\n// The session has been successfully been reset.\nreturn conn, nil",
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54358a9f_4c545f96",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-17T22:48:31Z",
+      "side": 1,
+      "message": "This should be apparent using an early return pattern. Also, conn.resetSession only conditionally resets the connection (it needs it and has the correct driver interface). As such I would be concerned that comment would be slightly misleading. I added a comment that might address your concern.",
+      "parentUuid": "ecbe9d90_65a88b5d",
       "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -154,6 +292,30 @@
       "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba428259_851de78b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-17T22:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "614d29f2_a27113b0",
+      "range": {
+        "startLine": 1210,
+        "startChar": 3,
+        "endLine": 1214,
+        "endChar": 4
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
