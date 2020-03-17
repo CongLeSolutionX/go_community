@@ -3,6 +3,12 @@
 :: license that can be found in the LICENSE file.
 @echo off
 
+if exist ..\bin\go goto ok
+echo run.bat must be run from go\src after installing cmd/go
+:: cannot exit: would kill parent command interpreter
+goto end
+:ok
+
 :: Keep environment variables within this script
 :: unless invoked with --no-local.
 if x%1==x--no-local goto nolocal
@@ -35,13 +41,13 @@ echo.
 set GOROOT_FINAL=
 
 :: get CGO_ENABLED
-go env > env.bat
+..\bin\go env > env.bat
 if errorlevel 1 goto fail
 call env.bat
 del env.bat
 echo.
 
-go tool dist test
+..\bin\go tool dist test
 if errorlevel 1 goto fail
 echo.
 
