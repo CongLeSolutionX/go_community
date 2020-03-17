@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b54d10e_dcefd3aa",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-03-17T00:39:41Z",
+      "side": 1,
+      "message": "Maybe\n\nif atomic.Cas(\u0026mp.signalPending, 0, 1) {\n\ninstead?",
+      "range": {
+        "startLine": 363,
+        "startChar": 1,
+        "endLine": 364,
+        "endChar": 36
+      },
+      "revId": "6a4fe61b465ec6d4621e8713e6c47a62e395e051",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
