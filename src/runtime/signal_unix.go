@@ -333,6 +333,7 @@ func doSigPreempt(gp *g, ctxt *sigctxt) {
 
 	// Acknowledge the preemption.
 	atomic.Xadd(&gp.m.preemptGen, 1)
+	atomic.Store(&gp.m.signalPending, 0)
 }
 
 const preemptMSupported = pushCallSupported
@@ -359,7 +360,10 @@ func preemptM(mp *m) {
 		// required).
 		return
 	}
-	signalM(mp, sigPreempt)
+	if atomic.Load(&mp.signalPending) == 0 {
+		atomic.Store(&mp.signalPending, 1)
+		signalM(mp, sigPreempt)
+	}
 }
 
 // sigFetchG fetches the value of G safely when running in a signal handler.
