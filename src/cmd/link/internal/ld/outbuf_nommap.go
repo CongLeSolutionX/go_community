@@ -8,8 +8,15 @@ package ld
 
 import "errors"
 
-var errNotSupported = errors.New("mmap not supported")
+func (out *OutBuf) Mmap(filesize uint64) error {
+	out.buf = make([]byte, filesize)
+	return nil
+}
 
-func (out *OutBuf) Mmap(filesize uint64) error { return errNotSupported }
-func (out *OutBuf) Munmap()                    { panic("unreachable") }
-func (out *OutBuf) Msync() error               { panic("unreachable") }
+func (out *OutBuf) Munmap() {
+	out.buf = nil
+}
+
+func (out *OutBuf) Msync() error {
+	return nil
+}
