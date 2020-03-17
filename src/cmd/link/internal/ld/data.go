@@ -712,14 +712,15 @@ func dynreloc(ctxt *Link, data *[sym.SXREF][]*sym.Symbol) {
 }
 
 func Codeblk(ctxt *Link, addr int64, size int64) {
-	CodeblkPad(ctxt, addr, size, zeros[:])
+	CodeblkPad(ctxt, ctxt.Out, addr, size, zeros[:])
 }
-func CodeblkPad(ctxt *Link, addr int64, size int64, pad []byte) {
+
+func CodeblkPad(ctxt *Link, out *OutBuf, addr int64, size int64, pad []byte) {
 	if *flagA {
 		ctxt.Logf("codeblk [%#x,%#x) at offset %#x\n", addr, addr+size, ctxt.Out.Offset())
 	}
 
-	blk(ctxt.Out, ctxt.Textp, addr, size, pad)
+	blk(out, ctxt.Textp, addr, size, pad)
 
 	/* again for printing */
 	if !*flagA {
@@ -779,7 +780,7 @@ func CodeblkPad(ctxt *Link, addr int64, size int64, pad []byte) {
 
 func blk(out *OutBuf, syms []*sym.Symbol, addr, size int64, pad []byte) {
 	for i, s := range syms {
-		if !s.Attr.SubSymbol() && s.Value >= addr {
+		if s.Value >= addr && !s.Attr.SubSymbol() {
 			syms = syms[i:]
 			break
 		}
@@ -823,11 +824,34 @@ func blk(out *OutBuf, syms []*sym.Symbol, addr, size int64, pad []byte) {
 	if addr < eaddr {
 		out.WriteStringPad("", int(eaddr-addr), pad)
 	}
-	out.Flush()
+}
+
+type writeFn func(*Link, *OutBuf, int64, int64)
+
+// WriteParallel handles scheduling parallel execution of data write functions.
+// On platforms where parallel write is not supported, we just do serial output.
+func WriteParallel(wg *sync.WaitGroup, fn writeFn, ctxt *Link, seek, vaddr, length uint64) {
+	out, err := ctxt.Out.Copy(seek, length)
+	if err != nil {
+		// Couldn't copy the OutBuf, parallel output won't work.
+		ctxt.Out.SeekSet(int64(seek))
+		fn(ctxt, ctxt.Out, int64(vaddr), int64(length))
+		return
+	}
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		out.SeekSet(int64(seek))
+		fn(ctxt, out, int64(vaddr), int64(length))
+	}()
 }
 
 func Datblk(ctxt *Link, addr int64, size int64) {
 	writeDatblkToOutBuf(ctxt, ctxt.Out, addr, size)
+}
+
+func Datblk2(ctxt *Link, out *OutBuf, addr, size int64) {
+	writeDatblkToOutBuf(ctxt, out, addr, size)
 }
 
 // Used only on Wasm for now.
@@ -911,6 +935,14 @@ func writeDatblkToOutBuf(ctxt *Link, out *OutBuf, addr int64, size int64) {
 		ctxt.Logf("\t%.8x| 00 ...\n", uint(addr))
 	}
 	ctxt.Logf("\t%.8x|\n", uint(eaddr))
+}
+
+func Dwarfblk2(ctxt *Link, out *OutBuf, addr int64, size int64) {
+	if *flagA {
+		ctxt.Logf("dwarfblk [%#x,%#x) at offset %#x\n", addr, addr+size, ctxt.Out.Offset())
+	}
+
+	blk(out, dwarfp, addr, size, zeros[:])
 }
 
 func Dwarfblk(ctxt *Link, addr int64, size int64) {

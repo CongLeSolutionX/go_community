@@ -9,6 +9,7 @@ import (
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
 	"encoding/binary"
+	"errors"
 	"log"
 	"os"
 )
@@ -23,19 +24,88 @@ import (
 // Second, it provides a very cheap offset counter that doesn't require
 // any system calls to read the value.
 //
-// It also mmaps the output file (if available). The intended usage is:
+// Third, it also mmaps the output file (if available). The intended usage is:
 // - Mmap the output file
 // - Write the content
 // - possibly apply any edits in the output buffer
 // - Munmap the output file
 // - possibly write more content to the file, which will not be edited later.
+//
+// And finally, it provides a mechanism by which you can multithread the
+// writing of output files. This mechanism is accomplished by copying a OutBuf,
+// using it in the thread/goroutine, and closing it in the goroutine.
+//
+// Parallel OutBuf is intended to be used like:
+//
+//  func write(out *OutBuf) {
+//    var wg sync.WaitGroup
+//    for i := 0; i < 10; i++ {
+//      wg.Add(1)
+//      copy, err := out.Copy(start[i], lengthi])
+//      if err != nil { /* etc */ }
+//      go func(out *OutBuf, i int) {
+//        // do output
+//        wg.Done()
+//      }(copy, i)
+//    }
+//    wg.Wait()
+//    out.Flush()
+//  }
 type OutBuf struct {
-	arch   *sys.Arch
-	off    int64
-	w      *bufio.Writer
-	buf    []byte // backing store of mmap'd output file
-	f      *os.File
-	encbuf [8]byte // temp buffer used by WriteN methods
+	arch          *sys.Arch
+	off           int64
+	w             *bufio.Writer
+	buf           []byte // backing store of mmap'd output file
+	name          string
+	f             *os.File
+	encbuf        [8]byte // temp buffer used by WriteN methods
+	start, length uint64  // start and length mmaped data.
+}
+
+func (out *OutBuf) Open(name string) error {
+	if out.f != nil {
+		return errors.New("cannont open more than one file")
+	}
+	f, err := os.OpenFile(name, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0775)
+	if err != nil {
+		return err
+	}
+	out.off = 0
+	out.name = name
+	out.w = bufio.NewWriter(f)
+	out.f = f
+	return nil
+}
+
+func NewOutBuf(arch *sys.Arch) *OutBuf {
+	return &OutBuf{
+		arch: arch,
+	}
+}
+
+func (out *OutBuf) Copy(start, length uint64) (*OutBuf, error) {
+	if out.buf == nil {
+		return nil, errors.New("can't parallelize output")
+	}
+	return &OutBuf{
+		arch:   out.arch,
+		name:   out.name,
+		buf:    out.buf,
+		start:  start,
+		length: length,
+	}, nil
+}
+
+func (out *OutBuf) Close() error {
+	out.Flush()
+	if out.f == nil {
+		return nil
+	}
+	if err := out.f.Close(); err != nil {
+		return err
+	}
+	out.f = nil
+	return nil
 }
 
 func (out *OutBuf) SeekSet(p int64) {
@@ -45,7 +115,7 @@ func (out *OutBuf) SeekSet(p int64) {
 	if out.buf == nil {
 		out.Flush()
 		if _, err := out.f.Seek(p, 0); err != nil {
-			Exitf("seeking to %d in %s: %v", p, out.f.Name(), err)
+			Exitf("seeking to %d in %s: %v", p, out.name, err)
 		}
 	}
 	out.off = p
@@ -154,13 +224,16 @@ func (out *OutBuf) WriteStringPad(s string, n int, pad []byte) {
 // edit to the symbol content.
 // If the output file is not Mmap'd, just writes the content.
 func (out *OutBuf) WriteSym(s *sym.Symbol) {
+	// NB: We inline the Write call for speediness.
 	if out.buf != nil {
 		start := out.off
-		out.Write(s.P)
+		n := copy(out.buf[out.off:], s.P)
+		out.off += int64(n)
 		s.P = out.buf[start:out.off]
 		s.Attr.Set(sym.AttrReadOnly, false)
 	} else {
-		out.Write(s.P)
+		n, _ := out.w.Write(s.P)
+		out.off += int64(n)
 	}
 }
 
@@ -168,10 +241,11 @@ func (out *OutBuf) Flush() {
 	var err error
 	if out.buf != nil {
 		err = out.Msync()
-	} else {
+	}
+	if out.w != nil {
 		err = out.w.Flush()
 	}
 	if err != nil {
-		Exitf("flushing %s: %v", out.f.Name(), err)
+		Exitf("flushing %s: %v", out.name, err)
 	}
 }
