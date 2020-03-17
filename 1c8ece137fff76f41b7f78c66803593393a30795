@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e83bff3_6f95df0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-17T04:23:06Z",
+      "side": 1,
+      "message": "Adds a new interface, driver.ConnectionValidator",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "578338fb_0faf8f7f",
+        "filename": "src/database/sql/fakedb_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-17T04:23:06Z",
+      "side": 1,
+      "message": "(*fakeConn)(nil)",
+      "range": {
+        "startLine": 399,
+        "startChar": 35,
+        "endLine": 399,
+        "endChar": 46
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c80cc079_c3f6f978",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-17T04:23:06Z",
+      "side": 1,
+      "message": "I\u0027d call this validateConnection, because it is also setting attributes\nof *driverConn.",
+      "range": {
+        "startLine": 505,
+        "startChar": 22,
+        "endLine": 505,
+        "endChar": 37
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0cab0da_a49b8e06",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-17T04:23:06Z",
+      "side": 1,
+      "message": "needsReset",
+      "range": {
+        "startLine": 505,
+        "startChar": 38,
+        "endLine": 505,
+        "endChar": 50
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0cf02c3_cf44e76c",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-17T04:23:06Z",
+      "side": 1,
+      "message": "if err :\u003d conn.resetSession(ctx); err \u003d\u003d driver.ErrBadConn {\n   conn.Close()\n   return nil, err\n}",
+      "range": {
+        "startLine": 1156,
+        "startChar": 2,
+        "endLine": 1160,
+        "endChar": 3
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecbe9d90_65a88b5d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-17T04:23:06Z",
+      "side": 1,
+      "message": "Let\u0027s perhaps add a new line right before here and add a comment to say:\n\nif err :\u003d conn.resetSession(ctx); err \u003d\u003d driver.ErrBadConn {\n     conn.Close()\n     return nil, err\n}\n\n// The session has been successfully been reset.\nreturn conn, nil",
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614d29f2_a27113b0",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-17T04:23:06Z",
+      "side": 1,
+      "message": "if err :\u003d ret.conn.resetSession(ctx); err \u003d\u003d driver.ErrBadConn {\n   ret.conn.Close()\n   return nil, err\n}",
+      "range": {
+        "startLine": 1210,
+        "startChar": 3,
+        "endLine": 1214,
+        "endChar": 4
+      },
+      "revId": "1c8ece137fff76f41b7f78c66803593393a30795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
