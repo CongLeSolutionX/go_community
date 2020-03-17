@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "827c03d9_fc6681a2",
+        "filename": "src/cmd/go/testdata/script/test_main_panic.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-17T00:52:38Z",
+      "side": 1,
+      "message": "Can we drop the -timeout argument here?  10s is not going to be enough on a slow busy builder.",
+      "revId": "00fe0b54ed93cd77b49ea9de98231f7fe7c48fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d717021_2f9b01c8",
+        "filename": "src/cmd/go/testdata/script/test_main_panic.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-17T00:52:38Z",
+      "side": 1,
+      "message": "What do we need to match here?  It doesn\u0027t seem necessary to match strings like \"recovered\", and i\u0027m not sure why we need the full path.  Or the long name with all the underscores.",
+      "revId": "00fe0b54ed93cd77b49ea9de98231f7fe7c48fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0909c95_a33c8670",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-17T00:52:38Z",
+      "side": 1,
+      "message": "There doesn\u0027t seem to be a reason to call fmtDuration with the lock.  Seems like\n    d :\u003d root.duration\nwould be fine, and then use fmtDuration below.",
+      "revId": "00fe0b54ed93cd77b49ea9de98231f7fe7c48fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
