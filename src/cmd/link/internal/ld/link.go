@@ -53,7 +53,11 @@ type Link struct {
 	Target
 	ErrorReporter
 	ArchSyms
-	Out *OutBuf
+
+	// We write to the output buffer in parallel, and limit the number of writers
+	// to GOMAXPROCS.
+	outSem chan int
+	Out    *OutBuf
 
 	Syms *sym.Symbols
 
