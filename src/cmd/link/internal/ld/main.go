@@ -327,6 +327,8 @@ func Main(arch *sys.Arch, theArch Arch) {
 		err := ctxt.Out.Mmap(filesize)
 		outputMmapped = err == nil
 	}
+	// Asmb will redirect symbols to the output file mmap, and relocations
+	// will be applied directly there.
 	if outputMmapped {
 		// Asmb will redirect symbols to the output file mmap, and relocations
 		// will be applied directly there.
@@ -344,8 +346,6 @@ func Main(arch *sys.Arch, theArch Arch) {
 		bench.Start("Asmb")
 		thearch.Asmb(ctxt)
 	}
-	bench.Start("Asmb2")
-	thearch.Asmb2(ctxt)
 
 	bench.Start("undef")
 	ctxt.undef()
