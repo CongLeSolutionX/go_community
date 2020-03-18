@@ -769,32 +769,46 @@ func gcSetTriggerRatio(triggerRatio float64) {
 		goal = memstats.heap_marked + memstats.heap_marked*uint64(gcpercent)/100
 	}
 
-	// If we let triggerRatio go too low, then if the application
-	// is allocating very rapidly we might end up in a situation
-	// where we're allocating black during a nearly always-on GC.
-	// The result of this is a growing heap and ultimately an
-	// increase in RSS. By capping us at a point >0, we're essentially
-	// saying that we're OK using more CPU during the GC to prevent
-	// this growth in RSS.
-	//
-	// The current constant was chosen empirically: given a sufficiently
-	// fast/scalable allocator with 48 Ps that could drive the trigger ratio
-	// to <0.05, this constant causes applications to retain the same peak
-	// RSS compared to not having this allocator.
-	const minTriggerRatio = 0.6
-
 	// Set the trigger ratio, capped to reasonable bounds.
-	if triggerRatio < minTriggerRatio {
-		// This can happen if the mutator is allocating very
-		// quickly or the GC is scanning very slowly.
-		triggerRatio = minTriggerRatio
-	} else if gcpercent >= 0 {
+	if gcpercent >= 0 {
+		scalingFactor := float64(gcpercent) / 100
 		// Ensure there's always a little margin so that the
 		// mutator assist ratio isn't infinity.
-		maxTriggerRatio := 0.95 * float64(gcpercent) / 100
+		maxTriggerRatio := 0.95 * scalingFactor
 		if triggerRatio > maxTriggerRatio {
 			triggerRatio = maxTriggerRatio
 		}
+
+		// If we let triggerRatio go too low, then if the application
+		// is allocating very rapidly we might end up in a situation
+		// where we're allocating black during a nearly always-on GC.
+		// The result of this is a growing heap and ultimately an
+		// increase in RSS. By capping us at a point >0, we're essentially
+		// saying that we're OK using more CPU during the GC to prevent
+		// this growth in RSS.
+		//
+		// The current constant was chosen empirically: given a sufficiently
+		// fast/scalable allocator with 48 Ps that could drive the trigger ratio
+		// to <0.05, this constant causes applications to retain the same peak
+		// RSS compared to not having this allocator.
+		minTriggerRatio := 0.6
+		if gcpercent < 100 {
+			// Use the scaling factor if gcpercent < 100 so that minTriggerRatio
+			// is never greater than maxTriggerRatio. However, if gcpercent > 100,
+			// we want to let the application still bring down the triggerRatio to
+			// the gcpercent == 100 value to avoid adding additional latency and
+			// backpressure from assists when the user is already indicating that
+			// they're willing to use more memory (i.e. we let them allocate black
+			// more).
+			minTriggerRatio *= scalingFactor
+		}
+		if triggerRatio < minTriggerRatio {
+			triggerRatio = minTriggerRatio
+		}
+	} else if triggerRatio < 0 {
+		// gcpercent < 0, so just make sure we're not getting a negative
+		// triggerRatio.
+		triggerRatio = 0
 	}
 	memstats.triggerRatio = triggerRatio
 
