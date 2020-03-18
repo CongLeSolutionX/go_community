@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00108790_50e429b0",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-03-18T19:50:23Z",
+      "side": 1,
+      "message": "Maybe write this as\n\nminTriggerRatio \u003d 0.6\nif gcpercent \u003c 100 { // Scale minTriggerRatio for small gcpercent, ensure it is less than maxTriggerRatio.\n  minTriggerRatio \u003d 0.6 * maxTriggerRatio\n}\n\nIt\u0027s not exactly the same (0.95x, so 5% smaller), you could change the constant to 0.632 if that\u0027s a problem, or use 0.6/0.95. I am ever so slightly bugged by these repeated constants floating around, but they are pretty close to each other.  Could use const defaultMinTriggerRatio \u003d 0.6; const fudgedMaxTriggerMultiplier \u003d 0.95; something like that, but perhaps that is too much.",
+      "range": {
+        "startLine": 793,
+        "startChar": 2,
+        "endLine": 798,
+        "endChar": 3
+      },
+      "revId": "b0d961e5544a5b87d07122a8436f02162299ba51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
