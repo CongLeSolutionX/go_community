@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3ea9459_f1fafb22",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-18T15:51:10Z",
+      "side": 1,
+      "message": "Can this be objabi.Expstring()[2:] instead? If I understand correctly, the go command will ignore the value of GOEXPERIMENT at run time, so the tests should ignore it too.\n\nAs you said, the tests can\u0027t access the value directly, so it makes sense to expose it to them through the environment, but I think we can ignore GOEXPERIMENT in the environment \u0027go test\u0027 is started with.",
+      "range": {
+        "startLine": 114,
+        "startChar": 20,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "38e5b3f806eea774b1f4727cdcacd3e7a4d2b7f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c79f9a_d56c5100",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-18T15:51:10Z",
+      "side": 1,
+      "message": "Nit: I think this line can be dropped. The working directory shouldn\u0027t matter to \u0027go run\u0027 since it doesn\u0027t use any local paths.",
+      "revId": "38e5b3f806eea774b1f4727cdcacd3e7a4d2b7f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6f3e230_850626ff",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-18T15:51:10Z",
+      "side": 1,
+      "message": "Nit: typo",
+      "range": {
+        "startLine": 94,
+        "startChar": 63,
+        "endLine": 94,
+        "endChar": 74
+      },
+      "revId": "38e5b3f806eea774b1f4727cdcacd3e7a4d2b7f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
