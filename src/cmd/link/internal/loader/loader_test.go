@@ -29,7 +29,7 @@ func addDummyObjSym(t *testing.T, ldr *Loader, or *oReader, name string) Sym {
 
 func TestAddMaterializedSymbol(t *testing.T) {
 	edummy := func(s *sym.Symbol, str string, off int) {}
-	ldr := NewLoader(0, edummy)
+	ldr := NewLoader(0, edummy, nil)
 	dummyOreader := oReader{version: -1, syms: make([]Sym, 100)}
 	or := &dummyOreader
 
@@ -230,7 +230,7 @@ type addFunc func(l *Loader, s Sym, s2 Sym) Sym
 
 func TestAddDataMethods(t *testing.T) {
 	edummy := func(s *sym.Symbol, str string, off int) {}
-	ldr := NewLoader(0, edummy)
+	ldr := NewLoader(0, edummy, nil)
 	dummyOreader := oReader{version: -1, syms: make([]Sym, 100)}
 	or := &dummyOreader
 
@@ -353,7 +353,7 @@ func TestAddDataMethods(t *testing.T) {
 
 func TestOuterSub(t *testing.T) {
 	edummy := func(s *sym.Symbol, str string, off int) {}
-	ldr := NewLoader(0, edummy)
+	ldr := NewLoader(0, edummy, nil)
 	dummyOreader := oReader{version: -1, syms: make([]Sym, 100)}
 	or := &dummyOreader
 

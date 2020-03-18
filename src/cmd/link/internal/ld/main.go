@@ -35,6 +35,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/benchmark"
+	"cmd/link/internal/objstats"
 	"flag"
 	"log"
 	"os"
@@ -92,14 +93,16 @@ var (
 	FlagTextAddr    = flag.Int64("T", -1, "set text segment `address`")
 	flagEntrySymbol = flag.String("E", "", "set `entry` symbol name")
 
-	cpuprofile     = flag.String("cpuprofile", "", "write cpu profile to `file`")
-	memprofile     = flag.String("memprofile", "", "write memory profile to `file`")
-	memprofilerate = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
-
+	cpuprofile        = flag.String("cpuprofile", "", "write cpu profile to `file`")
+	memprofile        = flag.String("memprofile", "", "write memory profile to `file`")
+	memprofilerate    = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
 	benchmarkFlag     = flag.String("benchmark", "", "set to 'mem' or 'cpu' to enable phase benchmarking")
 	benchmarkFileFlag = flag.String("benchmarkprofile", "", "emit phase profiles to `base`_phase.{cpu,mem}prof")
 
 	flagGo115Newobj = flag.Bool("go115newobj", true, "use new object file format")
+	Flagshowdead    = flag.String("showdead", "", "emit statistics on dead symbols to `file` (or stderr if file is `--`)")
+	Flagshowdeadx   = flag.Bool("showdead-details", false, "emit a more verbose summary of live/dead when -showdead is in effect")
+	Flagsdrelocs    = flag.String("showdead-pkg-relocs", "", "for showdead-details, dump relocations for specified package")
 )
 
 // Main is the main entry point for the linker code.
@@ -130,6 +133,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	flag.Var(&ctxt.LinkMode, "linkmode", "set link `mode`")
 	flag.Var(&ctxt.BuildMode, "buildmode", "set build `mode`")
 	flag.BoolVar(&ctxt.compressDWARF, "compressdwarf", true, "compress DWARF if possible")
+	flag.StringVar(&ctxt.emitStats, "stats", "", "emit input/output statistics on symbols and relocations to specified file")
 	objabi.Flagfn1("B", "add an ELF NT_GNU_BUILD_ID `note` when using ELF", addbuildinfo)
 	objabi.Flagfn1("L", "add specified `directory` to library path", func(a string) { Lflag(ctxt, a) })
 	objabi.AddVersionFlag() // -V
@@ -231,14 +235,31 @@ func Main(arch *sys.Arch, theArch Arch) {
 	bench.Start("loadlib")
 	ctxt.loadlib()
 
+	if ctxt.emitStats != "" {
+		if ctxt.emitStats == "-" {
+			ctxt.statsout = bufio.NewWriter(os.Stdout)
+		} else {
+			fl := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+			f, err := os.OpenFile(ctxt.emitStats, fl, 0644)
+			if err != nil {
+				Exitf("cannot create %s: %v", ctxt.emitStats, err)
+			}
+			ctxt.statsoutf = f
+			ctxt.statsout = bufio.NewWriter(f)
+		}
+		ctxt.stats.Dump("objfile", ctxt.statsout)
+	}
+
 	bench.Start("deadcode")
 	deadcode(ctxt)
+	emitStatsAt(ctxt, "afterDead", false)
 
 	bench.Start("linksetup")
 	ctxt.linksetup()
 
 	bench.Start("dostrdata")
 	ctxt.dostrdata()
+
 	if objabi.Fieldtrack_enabled != 0 {
 		bench.Start("fieldtrack")
 		fieldtrack(ctxt.Arch, ctxt.loader)
@@ -246,6 +267,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	bench.Start("dwarfGenerateDebugInfo")
 	dwarfGenerateDebugInfo(ctxt)
+	emitStatsAt(ctxt, "afterDwarf", false)
 
 	bench.Start("callgraph")
 	ctxt.callgraph()
@@ -302,6 +324,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.loadlibfull() // XXX do it here for now
 	bench.Start("dodata")
 	ctxt.dodata()
+	emitStatsAt(ctxt, "afterData", false)
 	bench.Start("address")
 	order := ctxt.address()
 	bench.Start("dwarfcompress")
@@ -345,10 +368,20 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.undef()
 	bench.Start("hostlink")
 	ctxt.hostlink()
+
 	if ctxt.Debugvlog != 0 {
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
 	}
+
+	if ctxt.emitStats != "" {
+		emitStatsAt(ctxt, "final", false)
+		ctxt.statsout.Flush()
+		if ctxt.statsoutf != nil {
+			ctxt.statsoutf.Close()
+		}
+	}
+
 	bench.Start("Flush")
 	ctxt.Bso.Flush()
 	bench.Start("archive")
@@ -356,6 +389,22 @@ func Main(arch *sys.Arch, theArch Arch) {
 	bench.Report(os.Stdout)
 
 	errorexit()
+}
+
+func emitStatsAt(ctxt *Link, tag string, deepreloc bool) {
+	if ctxt.emitStats == "" {
+		return
+	}
+	var stats objstats.SymStats
+	if ctxt.loader != nil {
+		ctxt.loader.RecordStats()
+		stats.Loader = ctxt.stats.Loader
+	}
+	stats.Deepreloc = deepreloc
+	for _, s := range ctxt.Syms.Allsym {
+		stats.RecordSym(s, ctxt.Syms)
+	}
+	stats.Dump(tag, ctxt.statsout)
 }
 
 type Rpath struct {

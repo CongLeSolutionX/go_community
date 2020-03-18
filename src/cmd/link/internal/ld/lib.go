@@ -41,6 +41,7 @@ import (
 	"cmd/link/internal/loadmacho"
 	"cmd/link/internal/loadpe"
 	"cmd/link/internal/loadxcoff"
+	"cmd/link/internal/objstats"
 	"cmd/link/internal/sym"
 	"crypto/sha1"
 	"debug/elf"
@@ -503,7 +504,12 @@ func (ctxt *Link) loadlib() {
 	default:
 		log.Fatalf("invalid -strictdups flag value %d", *FlagStrictDups)
 	}
-	ctxt.loader = loader.NewLoader(flags, elfsetstring)
+
+	var stats *objstats.SymStats
+	if ctxt.emitStats != "" {
+		stats = &ctxt.stats
+	}
+	ctxt.loader = loader.NewLoader(flags, elfsetstring, stats)
 	ctxt.ErrorReporter.SymName = func(s loader.Sym) string {
 		return ctxt.loader.SymName(s)
 	}
@@ -1832,11 +1838,24 @@ func hostlinkArchArgs(arch *sys.Arch) []string {
 	return nil
 }
 
+func addHostObjStats(stats *objstats.SymStats, syms []*sym.Symbol) {
+	if stats == nil {
+		return
+	}
+	stats.RecordHostObject(syms)
+}
+
 // ldobj loads an input object. If it is a host object (an object
 // compiled by a non-Go compiler) it returns the Hostobj pointer. If
 // it is a Go object, it returns nil.
 func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string, file string) *Hostobj {
 	pkg := objabi.PathToPrefix(lib.Pkg)
+
+	// TODO: restore stats on symbols from host objects.
+	//var stats *objstats.SymStats
+	//if ctxt.emitStats != "" {
+	//stats = &ctxt.stats
+	//}
 
 	eof := f.Offset() + length
 	start := f.Offset()
@@ -1864,6 +1883,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	}
 
 	if magic&^1 == 0xfeedface || magic&^0x01000000 == 0xcefaedfe {
+
 		ldmacho := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 			textp, err := loadmacho.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn)
 			if err != nil {
@@ -1876,6 +1896,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	}
 
 	if c1 == 0x4c && c2 == 0x01 || c1 == 0x64 && c2 == 0x86 {
+
 		ldpe := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 			textp, rsrc, err := loadpe.Load(ctxt.loader, ctxt.Arch, ctxt.Syms.IncVersion(), f, pkg, length, pn)
 			if err != nil {
@@ -2820,6 +2841,8 @@ func (ctxt *Link) loadlibfull() {
 
 	// Drop the cgodata reference.
 	ctxt.cgodata = nil
+
+	emitStatsAt(ctxt, "afterLoadLibFull", false)
 
 	addToTextp(ctxt)
 

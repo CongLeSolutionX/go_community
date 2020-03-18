@@ -11,6 +11,7 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
+	"cmd/link/internal/objstats"
 	"cmd/link/internal/sym"
 	"debug/elf"
 	"fmt"
@@ -66,6 +67,7 @@ type Reloc2 struct {
 
 func (rel Reloc2) Type() objabi.RelocType { return objabi.RelocType(rel.Reloc.Type()) + rel.typ }
 func (rel Reloc2) Sym() Sym               { return rel.l.resolve(rel.r, rel.Reloc.Sym()) }
+func (rel Reloc2) RawSym() goobj2.SymRef  { return rel.Reloc.Sym() }
 func (rel Reloc2) SetSym(s Sym)           { rel.Reloc.SetSym(goobj2.SymRef{PkgIdx: 0, SymIdx: uint32(s)}) }
 
 func (rel Reloc2) SetType(t objabi.RelocType) {
@@ -267,6 +269,8 @@ type Loader struct {
 	elfsetstring elfsetstringFunc
 
 	SymLookup func(name string, ver int) *sym.Symbol
+
+	stats *objstats.SymStats
 }
 
 const (
@@ -297,7 +301,7 @@ const (
 	FlagStrictDups = 1 << iota
 )
 
-func NewLoader(flags uint32, elfsetstring elfsetstringFunc) *Loader {
+func NewLoader(flags uint32, elfsetstring elfsetstringFunc, stats *objstats.SymStats) *Loader {
 	nbuiltin := goobj2.NBuiltin()
 	return &Loader{
 		start:                make(map[*oReader]Sym),
@@ -328,7 +332,8 @@ func NewLoader(flags uint32, elfsetstring elfsetstringFunc) *Loader {
 		builtinSyms:          make([]Sym, nbuiltin),
 		flags:                flags,
 		elfsetstring:         elfsetstring,
-		sects:                []*sym.Section{nil}, // reserve index 0 for nil section
+		sects:                []*sym.Section{nil}, // reserve index 0 for nil se
+		stats:                stats,
 	}
 }
 
@@ -526,11 +531,17 @@ func (l *Loader) growSyms(i int) {
 
 // Convert a local index to a global index.
 func (l *Loader) toGlobal(r *oReader, i int) Sym {
+	if l.stats != nil {
+		l.stats.Loader.ToGlobalCalls++
+	}
 	return r.syms[i]
 }
 
 // Convert a global index to a local index.
 func (l *Loader) toLocal(i Sym) (*oReader, int) {
+	if l.stats != nil {
+		l.stats.Loader.ToLocalCalls++
+	}
 	return l.objSyms[i].r, int(l.objSyms[i].s)
 }
 
@@ -1772,6 +1783,7 @@ func (l *Loader) Preload(syms *sym.Symbols, f *bio.Reader, lib *sym.Library, uni
 // Preload symbols of given kind from an object.
 func (l *Loader) preloadSyms(r *oReader, kind int) {
 	ndef := r.NSym()
+	naux := 0
 	nnonpkgdef := r.NNonpkgdef()
 	var start, end int
 	switch kind {
@@ -1792,6 +1804,12 @@ func (l *Loader) preloadSyms(r *oReader, kind int) {
 		v := abiToVer(osym.ABI(), r.version)
 		dupok := osym.Dupok()
 		gi, added := l.AddSym(name, v, r, i, kind, dupok, sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type())])
+		if l.stats != nil && !added {
+			nr := r.NReloc(i)
+			ds := r.DataSize(i)
+			st := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type())]
+			l.stats.Os.RecordDupSym(st, nr, ds)
+		}
 		r.syms[i] = gi
 		if !added {
 			continue
@@ -1819,6 +1837,15 @@ func (l *Loader) preloadSyms(r *oReader, kind int) {
 		if a := osym.Align(); a != 0 {
 			l.SetSymAlign(gi, int32(a))
 		}
+		naux += r.NAux(i)
+	}
+
+	if l.stats != nil {
+		nmm := 0
+		if r.ReadOnly() {
+			nmm = 1
+		}
+		l.stats.RecordPreload(nmm, r.NSym(), r.NNonpkgdef(), r.NNonpkgref(), naux)
 	}
 }
 
@@ -1845,6 +1872,9 @@ func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch) {
 			l.SetAttrLocal(gi, true)
 		}
 		l.preprocess(arch, gi, name)
+		if l.stats != nil {
+			l.stats.Loader.ExtObjRefs++
+		}
 	}
 }
 
@@ -2781,5 +2811,346 @@ func (l *Loader) Dump() {
 	for i := range l.payloads {
 		pp := l.payloads[i]
 		fmt.Println(i, pp.name, pp.ver, pp.kind)
+	}
+}
+
+func (l *Loader) RecordStats() {
+	if l.stats == nil {
+		return
+	}
+	l.stats.Loader.TotalSyms = uint64(l.NSym())
+	nExt := 0
+	for i := range l.objSyms {
+		if l.IsExternal(Sym(i)) {
+			nExt++
+		}
+	}
+	l.stats.Loader.ExternalSyms = uint64(nExt)
+	l.stats.Loader.Builtins = uint64(len(l.builtinSyms))
+}
+
+type countAndBytes struct {
+	count uint64
+	bytes uint64
+}
+
+func (cb countAndBytes) Equal(othercb countAndBytes) bool {
+	return cb.count == othercb.count && cb.bytes == othercb.bytes
+}
+
+func (cb countAndBytes) Less(othercb countAndBytes) bool {
+	if cb.bytes != othercb.bytes {
+		return cb.bytes < othercb.bytes
+	}
+	return cb.count < othercb.count
+}
+
+type deadKind struct {
+	kind sym.SymKind
+	cb   countAndBytes
+}
+type byDeadKind []deadKind
+
+func (d byDeadKind) Len() int      { return len(d) }
+func (d byDeadKind) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
+func (d byDeadKind) Less(i, j int) bool {
+	if !d[i].cb.Equal(d[j].cb) {
+		return d[j].cb.Less(d[i].cb)
+	}
+	return d[i].kind < d[j].kind
+}
+
+type deadPkg struct {
+	lib   *sym.Library
+	total countAndBytes
+	dead  countAndBytes
+}
+
+type byDeadPkg []deadPkg
+
+func (d byDeadPkg) Len() int      { return len(d) }
+func (d byDeadPkg) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
+func (d byDeadPkg) Less(i, j int) bool {
+	if !d[i].dead.Equal(d[j].dead) {
+		return d[j].dead.Less(d[i].dead)
+	}
+	if !d[i].total.Equal(d[j].total) {
+		return d[j].dead.Less(d[i].dead)
+	}
+	return d[i].lib.File < d[j].lib.File
+}
+
+// gaux stores the type of a nameless aux symbol and the global index
+// of the symbol to which the aux symbol belongs.
+type gaux struct {
+	typ uint8
+	sym Sym
+}
+
+// gauxmap hold info about aux symbols. Given a map entry with key K
+// and value {T,J} means that nameless local symbol K is an aux symbol
+// belonging to global symbol J with type T.
+type gauxmap map[int]gaux
+
+// mkAuxMap constructs an aux map (as described above) for a given object.
+func (l *Loader) mkAuxMap(r *oReader, istart Sym) gauxmap {
+
+	// It's worth noting that non-package defs can have aux symbols
+	// that we're interested in (typically inline functions).
+	m := make(gauxmap)
+	for li := 0; li < r.NSym()+r.NNonpkgdef(); li++ {
+		auxs := r.Auxs(li)
+		for ai := range auxs {
+			a := &auxs[ai]
+			if a.Sym().PkgIdx != goobj2.PkgIdxSelf {
+				continue
+			}
+			as := l.resolve(r, a.Sym())
+			if l.RawSymName(as) != "" {
+				continue
+			}
+			asym := int(a.Sym().SymIdx)
+			if ax, ok := m[asym]; ok {
+				// as of the writing of this code we don't expect to see
+				// a given aux symbol pointed at by more than one non-aux
+				// symbol. This is easy to fix, just not there yet.
+				panic(fmt.Sprintf("lib %s aux %d li %d: asym %d already has entry %v name %s\n", r.unit.Lib, ai, li, asym, ax, l.SymName(ax.sym)))
+			}
+			m[asym] = gaux{typ: a.Type(), sym: as}
+		}
+	}
+	return m
+}
+
+// auxString returns a meaningful string description for a given nameless
+// aux symbol (by local index).
+func auxString(li int, am gauxmap) string {
+	aux, ok := am[li]
+	if !ok {
+		return "?"
+	}
+	which := fmt.Sprintf("Aux<%d>", aux.typ)
+	switch aux.typ {
+	case goobj2.AuxGotype:
+		which = "AuxGoType"
+	case goobj2.AuxFuncInfo:
+		which = "AuxFuncInfo"
+	case goobj2.AuxFuncdata:
+		which = "AuxFuncdata"
+	case goobj2.AuxDwarfInfo:
+		which = "AuxDwarfInfo"
+	case goobj2.AuxDwarfLoc:
+		which = "AuxDwarfLoc"
+	case goobj2.AuxDwarfRanges:
+		which = "AuxDwarfRanges"
+	case goobj2.AuxDwarfLines:
+		which = "AuxDwarfLines"
+	}
+	return fmt.Sprintf("%s for %d", which, aux.sym)
+}
+
+// relocSymRefString returns a human-readable description for a symref
+// in a relocation, of the form [P,S] where P is a package classifier
+// or index, and S is a local sym index.
+func relocSymRefString(sr goobj2.SymRef, ns int) string {
+	switch sr.PkgIdx {
+	case goobj2.PkgIdxNone:
+		return fmt.Sprintf("[np,%d]", sr.SymIdx+uint32(ns))
+	case goobj2.PkgIdxBuiltin:
+		return fmt.Sprintf("[bi,%d]", sr.SymIdx)
+	case goobj2.PkgIdxSelf:
+		return fmt.Sprintf("[self,%d]", sr.SymIdx)
+	default:
+		return fmt.Sprintf("[%d,%d]", sr.PkgIdx, sr.SymIdx)
+	}
+}
+
+func (l *Loader) emitBasicDeadStats(f *os.File, reflectSeen bool) {
+	// Collect stats.
+	mtotal := make(map[*sym.Library]countAndBytes)
+	mdead := make(map[*sym.Library]countAndBytes)
+	totkind := make(map[sym.SymKind]countAndBytes)
+	deadkind := make(map[sym.SymKind]countAndBytes)
+	tot := countAndBytes{}
+	totdead := countAndBytes{}
+
+	var i Sym
+	for i = 1; i < l.extStart; i++ {
+		r, li := l.toLocal(i)
+		if r == nil {
+			continue
+		}
+		ds := len(l.Data(Sym(i)))
+		if ds == 0 {
+			continue
+		}
+		tot.count++
+		tot.bytes += uint64(ds)
+		isdead := !l.AttrReachable(i)
+		osym := r.Sym(li)
+		skind := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type())]
+
+		cb := totkind[skind]
+		cb.count++
+		cb.bytes += uint64(ds)
+		totkind[skind] = cb
+		if isdead {
+			totdead.count++
+			totdead.bytes += uint64(ds)
+			cb := deadkind[skind]
+			cb.count++
+			cb.bytes += uint64(ds)
+			deadkind[skind] = cb
+		}
+		cbl := mtotal[r.unit.Lib]
+		cbl.count++
+		cbl.bytes += uint64(ds)
+		mtotal[r.unit.Lib] = cbl
+		if isdead {
+			cb := mdead[r.unit.Lib]
+			cb.count++
+			cb.bytes += uint64(ds)
+			mdead[r.unit.Lib] = cb
+		}
+	}
+
+	// First the basics.
+	fmt.Fprintf(f, "\ndeadcode: reflectSeen=%v\n\n", reflectSeen)
+	fmt.Fprintf(f, "loader: objs=%d max=%d\n\n", len(l.objs), l.NSym())
+	fmt.Fprintf(f, "marked dead: %d of %d payload bytes, %d of %d symbols\n\n",
+		totdead.bytes, tot.bytes, totdead.count, tot.count)
+
+	// Then show a breakdown of dead symbol count/bytes by symbol kind.
+	kindsl := []deadKind{}
+	for k, cb := range deadkind {
+		kindsl = append(kindsl, deadKind{kind: k, cb: cb})
+	}
+	sort.Sort(byDeadKind(kindsl))
+	fmt.Fprintf(f, "summary of dead symbols by kind:\n")
+	fmt.Fprintf(f, "%11s %11s %11s %11s  %s\n",
+		"dead", "dead", "total", "total", "kind")
+	fmt.Fprintf(f, "%11s %11s %11s %11s  %s\n",
+		"bytes", "count", "bytes", "count", "kind")
+	fmt.Fprintf(f, "%11s %11s %11s %11s  %s\n",
+		"-----", "-----", "-----", "-----", "----")
+	for _, dk := range kindsl {
+		tk := totkind[dk.kind]
+		fmt.Fprintf(f, "%11d %11d %11d %11d  %s\n",
+			dk.cb.bytes, dk.cb.count, tk.bytes, tk.count, dk.kind.String())
+	}
+
+	// Now a breakdown by package.
+	pkgsl := []deadPkg{}
+	for l, cb := range mtotal {
+		deadcb := mdead[l]
+		pkgsl = append(pkgsl, deadPkg{lib: l, total: cb, dead: deadcb})
+	}
+	sort.Sort(byDeadPkg(pkgsl))
+	fmt.Fprintf(f, "\ncount of dead symbols by package:\n")
+	for _, dp := range pkgsl {
+		s := fmt.Sprintf("%d of %d bytes, %d of %d syms",
+			dp.dead.bytes, dp.total.bytes, dp.dead.count, dp.total.count)
+		fmt.Fprintf(f, "%45s | %s\n", s, dp.lib.Pkg)
+	}
+}
+
+func (l *Loader) emitDeadDetails(f *os.File, rpkg string) {
+	fmt.Fprintf(f, "\nfull symbol breakdown by package:\n\n")
+	fmt.Fprintf(f, "legend:\n")
+	fmt.Fprintf(f, "  '*' duplicate\n")
+	fmt.Fprintf(f, "  '%%' marked reachable\n")
+	fmt.Fprintf(f, "  '^' overwrite\n")
+	fmt.Fprintf(f, "  '@' loader.Lookup returns 0 for this sym\n")
+
+	for _, o := range l.objs {
+		if o.r == nil {
+			continue
+		}
+		r := o.r
+
+		fmt.Fprintf(f, "\nlib: '%s' start:%d pdef:%d ndef:%d nref:%d\n",
+			r.unit.Lib, o.i, r.NSym(), r.NNonpkgdef(), r.NNonpkgref())
+
+		// Defs
+		am := l.mkAuxMap(r, o.i)
+		for li := 0; li < r.NSym()+r.NNonpkgdef(); li++ {
+			osym := r.Sym(li)
+			fl := "pdef"
+			if li >= r.NSym() {
+				fl = "ndef"
+			}
+			rch := " "
+			symIdx := o.i + Sym(li)
+			if l.AttrReachable(symIdx) {
+				rch = "%"
+			}
+			name := strings.Replace(osym.Name(r.Reader), "\"\".", r.pkgprefix, -1)
+			if name == "" {
+				t := auxString(li, am)
+				fmt.Fprintf(f, "  %s %s%sG%-7d L%-5d: %s\n",
+					fl, rch, " ", symIdx, li, t)
+				continue
+			}
+			v := abiToVer(osym.ABI(), r.version)
+			dt := " "
+			gsym := l.Lookup(name, v)
+			ovr := ""
+			if gsym != o.i+Sym(li) {
+				dt = "*"
+			}
+			fmt.Fprintf(f, "  %s %s%sG%-7d L%-5d: %s<%d>%s\n",
+				fl, rch, dt, gsym, li, name, v, ovr)
+			if rpkg != "" && (r.unit.Lib.String() == rpkg || rpkg == "*") {
+				relocs := l.Relocs(symIdx)
+				nr := relocs.Count()
+				for ri := 0; ri < nr; ri++ {
+					rel := relocs.At2(ri)
+					target := rel.Sym()
+					sn := "?"
+					sv := 0
+					if target != 0 {
+						sn = l.SymName(target)
+						if int(target) < len(l.Syms) && l.Syms[target] != nil {
+							sv = int(l.Syms[target].Version)
+						}
+					}
+					rt := objabi.RelocType(rel.Type())
+					rsrs := relocSymRefString(rel.RawSym(), r.NSym())
+					fmt.Fprintf(f, "    R%d: %-9s o=%d sr=%s si=%d s=%s<%d>\n",
+						ri, rt.String(), rel.Off(), rsrs, target, sn, sv)
+				}
+			}
+		}
+
+		// No-package refs
+		ndef := r.NSym() + r.NNonpkgdef()
+		for li, n := 0, r.NNonpkgref(); li < n; li++ {
+			osym := r.Sym(li)
+			name := strings.Replace(osym.Name(r.Reader), "\"\".", r.pkgprefix, -1)
+			v := abiToVer(osym.ABI(), r.version)
+			gsym := l.Lookup(name, v)
+			rch := " "
+			if l.AttrReachable(gsym) {
+				rch = "%"
+			}
+			fmt.Fprintf(f, "  %s %s G%-7d L%-5d: %s<%d>\n",
+				"nref", rch, gsym, ndef+li, name, v)
+		}
+	}
+}
+
+// EmitDeadStats generates statistics on dead (non-reachable) symbols,
+// including breakdowns by type and package, writing output to file 'f'.
+// If showDetail is set, the dump will include a listing of every
+// symbol in every package. If rpkg is non-empty, relocations will be
+// dumped for that specified package.
+func (l *Loader) EmitDeadStats(f *os.File, reflectSeen bool, showDetail bool, rpkg string) {
+
+	// First basics.
+	l.emitBasicDeadStats(f, reflectSeen)
+
+	// If details requested, then give a complete rundown on every sym.
+	if showDetail {
+		l.emitDeadDetails(f, rpkg)
 	}
 }
