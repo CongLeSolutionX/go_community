@@ -377,6 +377,24 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b5b839_debb7cb6",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-18T23:34:08Z",
+      "side": 1,
+      "message": "This is actually working as intended (or at least as best as it can):\n\nLet\u0027s consider the simplified case\n\n   type T(type P) struct{}\n\n   func _() {\n\t_ \u003d []T(int){}\n   }\n\nThe problem is that the parser doesn\u0027t know if this is ([]T)(int) or [](T(int)) (followed by {} in both cases), so it assumes the former ([]T) which fails. If you put parentheses there so it reads\n\n        _ \u003d [](T(int)){}\n\nit works. Same for your examples. I believe this is documented in the draft design.\n\nThe reason why the parentheses are not needed in your first case is that there we are in \"type context\"; i.e., the parser expects a type, not a conversion, and thus when seeing the \"(\" of \"(T1, T2)\" it can safely assume it is the instantiation of P. If we are not in type context, the parser cannot in general assume that a \"(\" is part of the type as that would be backward-incompatible. That is why []P(T) must be parsed as ([]P)(T). A concrete example would be: []byte(s). We want this to be a conversion of the string s to a []byte; not a slice of \"bytes instantiated with s\".\n\nIn the case of a {} following, one could argue that the parser should be smart enough to know that we have a type literal. But consider this case:\n\n   if T(P) { ...\n\nwhich is already problematic in regular Go. That said, perhaps ([]T(P){...}) should be ok and not require ([](T(P)){}). I\u0027ll look into this, but that\u0027s not urgent.\n\nFinally, for the built-in calls new and make, we do know that the first argument is a type, and thus we are in a type context. But the parser cannot know (somebody may declare a function new, or make). Only a type-checking time we can know. Thus, the parentheses are required as well.\n\n(It may be possible to have the type-checker \"re-associate\" the AST when type-checking, but I am not sure we want to go there quite yet.)",
+      "parentUuid": "21822002_3d5fe99d",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
