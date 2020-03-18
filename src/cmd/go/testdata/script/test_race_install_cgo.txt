@@ -2,10 +2,8 @@
 
 [!race] skip
 
-! stale cmd/cgo
-
 env GOBIN=$WORK/bin
-go install mtime sametime
+go install mtime sametime cmd/cgo
 
 go tool -n cgo
 cp stdout cgopath.txt
