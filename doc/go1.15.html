@@ -66,6 +66,15 @@ TODO
   directory of each individual test).
 </p>
 
+<h4 id="go-mtimes">Binary modification times</h4>
+
+<p><!-- https://golang.org/cl/223919 -->
+  <code>go</code> <code>install</code> and <code>go</code> <code>get</code> no
+  longer update the modification times of installed binaries that were not
+  already stale (as reported by
+  <a href="/cmd/go/#hdr-List_packages_or_modules"><code>go</code> <code>list</code></a>).
+</p>
+
 <h2 id="runtime">Runtime</h2>
 
 <p>

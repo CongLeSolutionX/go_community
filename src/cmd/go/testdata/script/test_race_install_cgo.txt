@@ -1,25 +1,41 @@
 # Tests Issue #10500
 
 [!race] skip
+[short] skip  # Builds and runs a binary.
 
-! stale cmd/cgo
+# Build and install binaries relevant to the test.
+go install mtime sametime cmd/cgo
 
-env GOBIN=$WORK/bin
-go install mtime sametime
 
+# Get the mtime of cmd/cgo. We just installed it, so we know that it is not
+# stale and its mtime should not change even if other concurrent tests also
+# reinstall it.
 go tool -n cgo
 cp stdout cgopath.txt
-exec $GOBIN/mtime cgopath.txt # get the mtime of the file whose name is in cgopath.txt
-cp stdout cgotime_before.txt
+exec $GOPATH/bin/mtime cgopath.txt # get the mtime of the file whose name is in cgopath.txt
+cp stdout cgotime_install1.txt
 
+
+# As a baseline, ensure that 'go install cmd/cgo' is a no-op when it is not stale.
+ # 'go test -i' should be equivalent to 'go install' on the dependencies,
+ # so it should be a no-op only if 'go install' is itself a no-op.
+go get cmd/cgo
+exec $GOPATH/bin/mtime cgopath.txt # get the mtime of the file whose name is in cgopath.txt
+cp stdout cgotime_install2.txt
+exec $GOPATH/bin/sametime cgotime_install1.txt cgotime_install2.txt
+
+
+# Now run 'go test -race -i' on an arbitrary package that uses cgo.
+# It should not overwrite cmd/cgo.
  # For this test, we don't actually care whether 'go test -race -i' succeeds.
  # It may fail if GOROOT is read-only (perhaps it was installed as root).
  # We only care that it does not overwrite cmd/cgo regardless.
 ? go test -race -i runtime/race
 
-exec $GOBIN/mtime cgopath.txt # get the mtime of the file whose name is in cgopath.txt
+exec $GOPATH/bin/mtime cgopath.txt # get the mtime of the file whose name is in cgopath.txt
 cp stdout cgotime_after.txt
-exec $GOBIN/sametime cgotime_before.txt cgotime_after.txt
+exec $GOPATH/bin/sametime cgotime_install1.txt cgotime_after.txt
+
 
 -- mtime/mtime.go --
 package main

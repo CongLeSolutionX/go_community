@@ -1462,11 +1462,16 @@ func BuildInstallFunc(b *Builder, a *Action) (err error) {
 		if !a.buggyInstall {
 			b.cleanup(a1)
 		}
+
+		// It turned out that we didn't need to rebuild the target after all:
+		// it was still up-to-date.
+		//
 		// Whether we're smart enough to avoid a complete rebuild
 		// depends on exactly what the staleness and rebuild algorithms
 		// are, as well as potentially the state of the Go build cache.
-		// We don't really want users to be able to infer (or worse start depending on)
-		// those details from whether the modification time changes during
+		// We aleady expose staleness information through 'go list',
+		// but we don't want users to be able to infer (or worse start depending on)
+		// details beyond that from modification time changes during
 		// "go install", so do a best-effort update of the file times to make it
 		// look like we rewrote a.Target even if we did not. Updating the mtime
 		// may also help other mtime-based systems that depend on our
@@ -1474,13 +1479,7 @@ func BuildInstallFunc(b *Builder, a *Action) (err error) {
 		// This is still not perfect - we ignore the error result, and if the file was
 		// unwritable for some reason then pretending to have written it is also
 		// confusing - but it's probably better than not doing the mtime update.
-		//
-		// But don't do that for the special case where building an executable
-		// with -linkshared implicitly installs all its dependent libraries.
-		// We want to hide that awful detail as much as possible, so don't
-		// advertise it by touching the mtimes (usually the libraries are up
-		// to date).
-		if !a.buggyInstall && !b.IsCmdList {
+		if a.Package.Stale && !b.IsCmdList {
 			now := time.Now()
 			os.Chtimes(a.Target, now, now)
 		}

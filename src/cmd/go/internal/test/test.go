@@ -915,6 +915,8 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 			runAction = buildAction
 		} else {
 			pmain.Target = target
+			pmain.Stale = true
+			pmain.StaleReason = "test -c or profiling flag in use"
 			installAction = &work.Action{
 				Mode:    "test build",
 				Func:    work.BuildInstallFunc,
