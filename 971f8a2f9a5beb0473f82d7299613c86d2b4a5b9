@@ -16,6 +16,24 @@
       "revId": "971f8a2f9a5beb0473f82d7299613c86d2b4a5b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08361327_4c794384",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-03-18T15:39:53Z",
+      "side": 1,
+      "message": "I\u0027ll rename to Validator {IsValid() bool}.",
+      "parentUuid": "7514957d_293a7ed3",
+      "revId": "971f8a2f9a5beb0473f82d7299613c86d2b4a5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
