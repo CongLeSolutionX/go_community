@@ -45,6 +45,29 @@
       "revId": "c2844073e19052bfbd5aa55d93b36d5b39c1e117",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "577229d7_278bedd4",
+        "filename": "src/cmd/go/internal/modload/help.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-03-18T20:16:08Z",
+      "side": 1,
+      "message": "\"downloading modules to\"?",
+      "range": {
+        "startLine": 180,
+        "startChar": 37,
+        "endLine": 180,
+        "endChar": 57
+      },
+      "revId": "c2844073e19052bfbd5aa55d93b36d5b39c1e117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
