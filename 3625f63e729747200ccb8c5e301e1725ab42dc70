@@ -342,6 +342,23 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77ec9291_7a3d3078",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-18T09:27:56Z",
+      "side": 1,
+      "message": "Sorry for my spams, just found another type checking glitch:\n\ntype P(type T1, T2) struct {\n\tK T1\n\tV T2\n}\ntype Q(type T1, T2) struct {\n\ts []P(T1, T2)\n}\n\nfunc F1(type T1, T2) () Q(T1, T2) {\n\tvar s []P(T1, T2)            // OK\n\t// s :\u003d []P(T1, T2){}        // FAIL\n\t// s :\u003d *new([]P(T1, T2))    // FAIL\n\t// s :\u003d make([]P(T1, T2), 0) // FAIL\n\treturn Q(T1, T2){s}\n}",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
