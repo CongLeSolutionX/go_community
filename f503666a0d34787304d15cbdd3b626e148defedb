@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e42f988c_cb69ac45",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-18T18:52:23Z",
+      "side": 1,
+      "message": "Please add `[short] skip` before this so that we can avoid the (relatively expensive) link+run step in short mode.",
+      "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b146788_86d1bd2a",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-18T18:52:23Z",
+      "side": 1,
+      "message": "Please either add `env GO111MODULE\u003doff` explicitly, or (better still) add a `go.mod` file specifying a module path.\n\n(That way, we will not have to update this test the next time we try changing the default value of GO111MODULE.)",
+      "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf51340f_e4ee0264",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-18T18:52:23Z",
+      "side": 1,
+      "message": "(nit) If you write the test in module mode, you could leave off the path prefix here (and just run `go run .`)",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
