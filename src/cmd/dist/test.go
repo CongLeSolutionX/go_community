@@ -123,27 +123,34 @@ func (t *tester) run() {
 		goInstall("go", append([]string{"-a", "-i"}, toolchain...)...)
 	}
 
-	// Complete rebuild bootstrap, even with -no-rebuild.
-	// If everything is up-to-date, this is a no-op.
-	// If everything is not up-to-date, the first checkNotStale
-	// during the test process will kill the tests, so we might
-	// as well install the world.
-	// Now that for example "go install cmd/compile" does not
-	// also install runtime (you need "go install -i cmd/compile"
-	// for that), it's easy for previous workflows like
-	// "rebuild the compiler and then run run.bash"
-	// to break if we don't automatically refresh things here.
-	// Rebuilding is a shortened bootstrap.
-	// See cmdbootstrap for a description of the overall process.
-	//
-	// But don't do this if we're running in the Go build system,
-	// where cmd/dist is invoked many times. This just slows that
-	// down (Issue 24300).
-	if !t.listMode && os.Getenv("GO_BUILDER_NAME") == "" {
-		goInstall("go", append([]string{"-i"}, toolchain...)...)
-		goInstall("go", append([]string{"-i"}, toolchain...)...)
-		goInstall("go", "std", "cmd")
-		checkNotStale("go", "std", "cmd")
+	if !t.listMode {
+		// Complete rebuild bootstrap, even with -no-rebuild.
+		// If everything is up-to-date, this is a no-op.
+		// If everything is not up-to-date, the first checkNotStale
+		// during the test process will kill the tests, so we might
+		// as well install the world.
+		// Now that for example "go install cmd/compile" does not
+		// also install runtime (you need "go install -i cmd/compile"
+		// for that), it's easy for previous workflows like
+		// "rebuild the compiler and then run run.bash"
+		// to break if we don't automatically refresh things here.
+		// Rebuilding is a shortened bootstrap.
+		// See cmdbootstrap for a description of the overall process.
+		//
+		// But don't do this if we're running in the Go build system,
+		// where cmd/dist is invoked many times. This just slows that
+		// down (Issue 24300).
+		if os.Getenv("GO_BUILDER_NAME") == "" {
+			goInstall("go", append([]string{"-i"}, toolchain...)...)
+			goInstall("go", append([]string{"-i"}, toolchain...)...)
+			goInstall("go", "std", "cmd")
+		}
+
+		willTest := []string{"std"}
+		if t.shouldTestCmd() {
+			willTest = append(willTest, "cmd")
+		}
+		checkNotStale("go", willTest...)
 	}
 
 	t.timeoutScale = 1
