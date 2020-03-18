@@ -13,6 +13,8 @@ import (
 	"cmd/link/internal/sym"
 	"container/heap"
 	"fmt"
+	"log"
+	"os"
 	"unicode"
 )
 
@@ -278,6 +280,10 @@ func deadcode2(ctxt *Link) {
 			}
 		}
 	}
+
+	if *Flagshowdead != "" {
+		d.showDeadStats()
+	}
 }
 
 // methodref2 holds the relocations from a receiver type symbol to its
@@ -391,4 +397,27 @@ func (d *deadcodePass2) decodetypeMethods2(ldr *loader.Loader, arch *sys.Arch, s
 	off += moff                // offset to array of reflect.method values
 	const sizeofMethod = 4 * 4 // sizeof reflect.method in program
 	return d.decodeMethodSig2(ldr, arch, symIdx, relocs, off, sizeofMethod, mcount)
+}
+
+func (d *deadcodePass2) showDeadStats() {
+
+	// Open output file.
+	var err error
+	var f *os.File
+	if *Flagshowdead == "--" {
+		f = os.Stderr
+	} else {
+		f, err = os.Create(*Flagshowdead)
+	}
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	defer func() {
+		if *Flagshowdead != "--" {
+			f.Close()
+		}
+	}()
+
+	// Call a helper function in the loader.
+	d.ldr.EmitDeadStats(f, d.reflectSeen, *Flagshowdeadx, *Flagsdrelocs)
 }

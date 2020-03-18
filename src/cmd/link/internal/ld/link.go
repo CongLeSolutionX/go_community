@@ -35,9 +35,11 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
+	"cmd/link/internal/objstats"
 	"cmd/link/internal/sym"
 	"debug/elf"
 	"fmt"
+	"os"
 )
 
 type Shlib struct {
@@ -63,6 +65,10 @@ type Link struct {
 	Loaded bool // set after all inputs have been loaded as symbols
 
 	compressDWARF bool
+	emitStats     string
+	stats         objstats.SymStats
+	statsoutf     *os.File
+	statsout      *bufio.Writer
 
 	Tlsg2        loader.Sym
 	Libdir       []string
