@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8a9f8e95_26ac7ab5",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-18T21:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e42f988c_cb69ac45",
+      "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b146788_86d1bd2a",
         "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3443426_f27e95c6",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-18T21:58:16Z",
+      "side": 1,
+      "message": "Added go.mod file with \u0027module m\u0027",
+      "parentUuid": "5b146788_86d1bd2a",
+      "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c1713b_7bc0fd4a",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-18T21:58:16Z",
+      "side": 1,
+      "message": "I got rid of the paths, and that worked, but I had to say \u0027go run m\u0027.  Just \u0027go run\u0027 didn\u0027t work.  Was there something else I was supposed to do?",
+      "parentUuid": "bf51340f_e4ee0264",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
