@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca97cb70_222a9945",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2515,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-18T19:51:02Z",
+      "side": 1,
+      "message": "It does a bit more validation than that even if the version is less than 1.14: it at least fails if `vendor/modules.txt` explicitly contradicts `go.mod`.\n\n(Search for `pre114` in checkVendorConsistency: https://github.com/golang/go/blob/20a838ab94178c55bc4dc23ddc332fce8545a493/src/cmd/go/internal/modload/init.go#L558-L646.)",
+      "range": {
+        "startLine": 2511,
+        "startChar": 26,
+        "endLine": 2515,
+        "endChar": 43
+      },
+      "revId": "c2844073e19052bfbd5aa55d93b36d5b39c1e117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7acac04e_6bff3997",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2734,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-18T19:51:02Z",
+      "side": 1,
+      "message": "“The vendor directory is used automatically”\n\n(“Vendoring is enabled automatically” might suggest the erroneous idea that the `vendor` directory is *updated* automatically.)",
+      "range": {
+        "startLine": 2734,
+        "startChar": 3,
+        "endLine": 2734,
+        "endChar": 37
+      },
+      "revId": "c2844073e19052bfbd5aa55d93b36d5b39c1e117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
