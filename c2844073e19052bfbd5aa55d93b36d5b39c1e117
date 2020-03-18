@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bbc33c2a_84c61810",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2515,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-18T20:22:53Z",
+      "side": 1,
+      "message": "Fixed by removing mention of the \"go\" version. How\u0027s this?\n\nThe module reference documentation should be more specific about modules.txt. I don\u0027t think we should go into too much detail here.",
+      "parentUuid": "ca97cb70_222a9945",
+      "range": {
+        "startLine": 2511,
+        "startChar": 26,
+        "endLine": 2515,
+        "endChar": 43
+      },
+      "revId": "c2844073e19052bfbd5aa55d93b36d5b39c1e117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7acac04e_6bff3997",
         "filename": "src/cmd/go/alldocs.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c2844073e19052bfbd5aa55d93b36d5b39c1e117",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c810153_b53b4910",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2734,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-18T20:22:53Z",
+      "side": 1,
+      "message": "Good point. Reworded.",
+      "parentUuid": "7acac04e_6bff3997",
+      "range": {
+        "startLine": 2734,
+        "startChar": 3,
+        "endLine": 2734,
+        "endChar": 37
+      },
+      "revId": "c2844073e19052bfbd5aa55d93b36d5b39c1e117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
