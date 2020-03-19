@@ -22,6 +22,30 @@
       "revId": "9cdc3eebe88cca7b18df828c939b5bc3f1bf253d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3869fa25_f5954cc2",
+        "filename": "src/cmd/go2go/testdata/go2path/src/slices/slices.go2",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-19T21:25:08Z",
+      "side": 1,
+      "message": "I think a better way than panicking is to change the function declaration:\n\nfunc Max(type Elem contracts.Ordered)(s0 Elem, sn ...Elem) Elem\nfunc Min(type Elem contracts.Ordered)(s0 Elem, sn ...Elem) Elem\n\nIn this case, the parameter set is guaranteed to have at least one argument, which is s0.\nIf len(sn) \u003d\u003d 0, then we can safely return s0.",
+      "parentUuid": "664eb5a4_8db9ecf7",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 2
+      },
+      "revId": "9cdc3eebe88cca7b18df828c939b5bc3f1bf253d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
