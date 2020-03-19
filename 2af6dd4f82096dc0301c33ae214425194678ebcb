@@ -16,6 +16,24 @@
       "revId": "2af6dd4f82096dc0301c33ae214425194678ebcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bf44036_e7c0941a",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 35232
+      },
+      "writtenOn": "2020-03-19T17:58:07Z",
+      "side": 1,
+      "message": "Agreed, it\u0027s not necessary to say \"flag\" twice.  I\u0027ll clean that up if it\u0027s decided to move forward with this. \n\nI\u0027d like to push back on your suggestion `flag not defined: \"-%s\"` however. I was trying to avoid the ambiguity of using \"defined\" here because when it\u0027s presented to the user like that it\u0027s not clear *who* didn\u0027t define it. It\u0027s really saying that the flag in question was not defined to the flag package (i.e. the programmer didn\u0027t define it), and that wording seems ambiguous to the user of the tool.",
+      "parentUuid": "6b43c4f1_64ca8855",
+      "revId": "2af6dd4f82096dc0301c33ae214425194678ebcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
