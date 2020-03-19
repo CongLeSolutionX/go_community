@@ -395,6 +395,24 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aaee4e8_884d2ac3",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-19T07:38:31Z",
+      "side": 1,
+      "message": "Very interesting. Actually, I read the proposal and thought this could (at least) be avoid if we have two types because parentheses is only for type casting and cannot be applied to two or more type literals. Thank you for the thoughtful explanation, and looking forward to the future updates.",
+      "parentUuid": "f4b5b839_debb7cb6",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
