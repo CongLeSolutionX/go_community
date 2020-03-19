@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "14f77717_96ef166d",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2734,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-19T20:47:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bf82abf_4ee166c3",
+      "revId": "eb2abe744db7fac684a66e3bd91a1f84fed86942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443aa6be_4789600b",
         "filename": "src/cmd/go/alldocs.go",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "I think we are unlikely to change the consistency check as a result of that issue.\n\nThe consistency check seems like a significant benefit for most users, and even the use-case there seems better addressed through `replace` directives than through a cobbled-together `vendor` tree.",
       "parentUuid": "443aa6be_4789600b",
+      "revId": "eb2abe744db7fac684a66e3bd91a1f84fed86942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71edabe1_3464d93d",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-19T20:47:11Z",
+      "side": 1,
+      "message": "+1. Would rather not change the consistency check.\n\nIf a change is made, it should update this text in a separate CL. This CL should be backported to 1.14, so it shouldn\u0027t mention any change in 1.15.",
+      "parentUuid": "26a01c82_61b0ce1c",
       "revId": "eb2abe744db7fac684a66e3bd91a1f84fed86942",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
