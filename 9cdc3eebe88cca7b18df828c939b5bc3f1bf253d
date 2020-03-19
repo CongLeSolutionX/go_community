@@ -46,6 +46,30 @@
       "revId": "9cdc3eebe88cca7b18df828c939b5bc3f1bf253d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d242852_274a6760",
+        "filename": "src/cmd/go2go/testdata/go2path/src/slices/slices.go2",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2020-03-19T21:37:57Z",
+      "side": 1,
+      "message": "It would work. I\u0027m not a fan of that in general since you have to do Max(ints[0], ints[1:]...) instead of Max(ints...) and you need to make sure len(ints) \u003e 0 in either case. Not a big deal as the common case would be Max(a, b, c, d)",
+      "parentUuid": "3869fa25_f5954cc2",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 2
+      },
+      "revId": "9cdc3eebe88cca7b18df828c939b5bc3f1bf253d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
