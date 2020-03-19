@@ -34,6 +34,24 @@
       "revId": "2af6dd4f82096dc0301c33ae214425194678ebcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97fb69f9_c538d9c1",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-19T19:28:44Z",
+      "side": 1,
+      "message": "What about\n\nunknown flag -%s\n\n?\n\nGNU getopt prints either\n\ninvalid option -- \u0027z\u0027\n\nor\n\nunrecognized option \u0027--zz\u0027\n\nPOSIX recommends (https://pubs.opengroup.org/onlinepubs/9699919799/)\n\n\"%s: illegal option -- %c\\n\", program, opt",
+      "parentUuid": "2bf44036_e7c0941a",
+      "revId": "2af6dd4f82096dc0301c33ae214425194678ebcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
