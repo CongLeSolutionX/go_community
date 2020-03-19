@@ -118,6 +118,30 @@
       "revId": "9cdc3eebe88cca7b18df828c939b5bc3f1bf253d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "078ce926_7fcf7ba3",
+        "filename": "src/cmd/go2go/testdata/go2path/src/slices/slices.go2",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-19T22:26:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a shortcoming of the generics draft. If anything, it\u0027s a shortcoming of the specific example. There\u0027s various ways this could be addressed:\n\n1) panic if len(s) \u003d\u003d 0: Max is simply not defined, which is reasonable\n2) provide the minimum element when calling Max\n3) make contracts.Ordered provide a Min method\n4) provide an s0 element to Max\n\nThere are probably more.\n\nMore generally, this is really an issue to be discussed when designing a good generics library. We are not looking at that with this prototype. Let\u0027s keep this example in mind and move on. Thanks.",
+      "parentUuid": "11bbdfd6_cea6d0bc",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 2
+      },
+      "revId": "9cdc3eebe88cca7b18df828c939b5bc3f1bf253d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
