@@ -413,6 +413,24 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f26735_9d549990",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-19T20:03:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by \"having two types\".\n\nEither way, I have revisited the parser code, and I believe it\u0027s doing the right thing for now. But the question is if something like\n\ntype a(type T) []T\n\nfunc _() {\n    _ \u003d []a(int){}   // 1) this is not ok\n    _ \u003d [](a(int)){} // 2) this is ok\n}\n\nshould work because the only interpretation for 1) is that we have a composite literal. We can probably make it work by having the parser automatically re-associate ([]a)(int) to [](a(int)) if a { is following and we\u0027re not in a control flow header (such as an \u0027if\u0027 statement). But this is not urgent. It may also be difficult to understand which rules are applied when. But perhaps, if done well, it just feels \"right\" when writing code. I\u0027ll add it to my TODOs.",
+      "parentUuid": "4aaee4e8_884d2ac3",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
