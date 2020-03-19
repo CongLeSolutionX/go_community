@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bf82abf_4ee166c3",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2734,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2020-03-19T16:30:55Z",
+      "side": 1,
+      "message": "Is it worth being explicit here on where the vendor directory is present? Just for the complete avoidance of doubt? I know it\u0027s mentioned below and in other places, but this is the sentence that people will refer to/quote.",
+      "revId": "eb2abe744db7fac684a66e3bd91a1f84fed86942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "443aa6be_4789600b",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2020-03-19T16:30:55Z",
+      "side": 1,
+      "message": "Also not sure whether https://github.com/golang/go/issues/37948 impacts the wording we\u0027re concluding on here.",
+      "revId": "eb2abe744db7fac684a66e3bd91a1f84fed86942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
