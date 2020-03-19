@@ -116,6 +116,30 @@
       "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd6b7cea_e98795f8",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-19T15:13:04Z",
+      "side": 1,
+      "message": "This is fine. Unlike other commands, \u0027go run\u0027 requires at least one argument. \u0027go run .\u0027 would also work.",
+      "parentUuid": "71c1713b_7bc0fd4a",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "f503666a0d34787304d15cbdd3b626e148defedb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

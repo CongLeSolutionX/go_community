@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97ee4ffd_240daf3b",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-03-19T15:13:04Z",
+      "side": 1,
+      "message": "Optional nit: add \u0027go 1.14\u0027 on a line below this.",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
