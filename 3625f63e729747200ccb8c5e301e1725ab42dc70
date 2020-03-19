@@ -431,6 +431,24 @@
       "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "349de829_8af8a750",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-19T20:08:45Z",
+      "side": 1,
+      "message": "\"having two types\" \u003d\u003d\u003e \"have two type parameters\":\n\n    s :\u003d []P(T1, T2){}        // FAIL\n    s :\u003d *new([]P(T1, T2))    // FAIL\n    s :\u003d make([]P(T1, T2), 0) // FAIL\n\nTherefore I mean I can\u0027t imagine why []P(T1, T2) is a type casting.\n\nAnyway, glad to hear a TODO 😉",
+      "parentUuid": "d9f26735_9d549990",
+      "revId": "3625f63e729747200ccb8c5e301e1725ab42dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
