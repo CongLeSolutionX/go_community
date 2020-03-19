@@ -33,6 +33,24 @@
       "revId": "eb2abe744db7fac684a66e3bd91a1f84fed86942",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26a01c82_61b0ce1c",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-19T19:15:30Z",
+      "side": 1,
+      "message": "I think we are unlikely to change the consistency check as a result of that issue.\n\nThe consistency check seems like a significant benefit for most users, and even the use-case there seems better addressed through `replace` directives than through a cobbled-together `vendor` tree.",
+      "parentUuid": "443aa6be_4789600b",
+      "revId": "eb2abe744db7fac684a66e3bd91a1f84fed86942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
