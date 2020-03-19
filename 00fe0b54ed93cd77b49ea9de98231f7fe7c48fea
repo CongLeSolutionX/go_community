@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4db16dd3_f1b23501",
+        "filename": "src/cmd/go/testdata/script/test_main_panic.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-19T10:22:24Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "827c03d9_fc6681a2",
+      "revId": "00fe0b54ed93cd77b49ea9de98231f7fe7c48fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d717021_2f9b01c8",
         "filename": "src/cmd/go/testdata/script/test_main_panic.txt",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fa6b4d64_d3ce9454",
+        "filename": "src/cmd/go/testdata/script/test_main_panic.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-19T10:22:24Z",
+      "side": 1,
+      "message": "It was intended for the subsequent CL. Now it is removed from here.",
+      "parentUuid": "5d717021_2f9b01c8",
+      "revId": "00fe0b54ed93cd77b49ea9de98231f7fe7c48fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0909c95_a33c8670",
         "filename": "src/testing/testing.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "00fe0b54ed93cd77b49ea9de98231f7fe7c48fea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d451344f_f4e5d60c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-03-19T10:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0909c95_a33c8670",
+      "revId": "00fe0b54ed93cd77b49ea9de98231f7fe7c48fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
