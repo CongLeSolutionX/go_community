@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b43c4f1_64ca8855",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-03-19T09:09:55Z",
+      "side": 1,
+      "message": "You don\u0027t need to say \"flag\" twice. Normally I would argue for %q but I like the minus here. Use double quotes though please; it\u0027s a string.\n\nThis will do: `flag not defined: \"-%s\"`",
+      "revId": "2af6dd4f82096dc0301c33ae214425194678ebcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
