@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b37befe6_52b80d1e",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2020-03-20T13:46:09Z",
+      "side": 1,
+      "message": "Does this still reproduce the error on plan9 without the fix?",
+      "revId": "1f9a592d857f210ac581d946c860cb9148576179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af91481c_0c5dc80e",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2020-03-20T13:46:09Z",
+      "side": 1,
+      "message": "This should be an error message like t.Fatalf(\"Chmod %q %v: %s\"), to be consistent with other errors and provide context.",
+      "revId": "1f9a592d857f210ac581d946c860cb9148576179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
