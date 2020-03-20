@@ -549,22 +549,31 @@ func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, 
 		ctxt.Diag("dwarfSym of non-TEXT %v", s)
 	}
 	if s.Func.dwarfInfoSym == nil {
-		s.Func.dwarfInfoSym = &LSym{
-			Type: objabi.SDWARFINFO,
-		}
-		if ctxt.Flag_locationlists {
-			s.Func.dwarfLocSym = &LSym{
-				Type: objabi.SDWARFLOC,
+		if ctxt.Flag_go115newobj {
+			s.Func.dwarfInfoSym = &LSym{
+				Type: objabi.SDWARFINFO,
 			}
-		}
-		s.Func.dwarfRangesSym = &LSym{
-			Type: objabi.SDWARFRANGE,
+			if ctxt.Flag_locationlists {
+				s.Func.dwarfLocSym = &LSym{
+					Type: objabi.SDWARFLOC,
+				}
+			}
+			s.Func.dwarfRangesSym = &LSym{
+				Type: objabi.SDWARFRANGE,
+			}
+			s.Func.dwarfDebugLinesSym = &LSym{
+				Type: objabi.SDWARFLINES,
+			}
+		} else {
+			s.Func.dwarfInfoSym = ctxt.LookupDerived(s, dwarf.InfoPrefix+s.Name)
+			if ctxt.Flag_locationlists {
+				s.Func.dwarfLocSym = ctxt.LookupDerived(s, dwarf.LocPrefix+s.Name)
+			}
+			s.Func.dwarfRangesSym = ctxt.LookupDerived(s, dwarf.RangePrefix+s.Name)
+			s.Func.dwarfDebugLinesSym = ctxt.LookupDerived(s, dwarf.DebugLinesPrefix+s.Name)
 		}
 		if s.WasInlined() {
 			s.Func.dwarfAbsFnSym = ctxt.DwFixups.AbsFuncDwarfSym(s)
-		}
-		s.Func.dwarfDebugLinesSym = &LSym{
-			Type: objabi.SDWARFLINES,
 		}
 	}
 	return s.Func.dwarfInfoSym, s.Func.dwarfLocSym, s.Func.dwarfRangesSym, s.Func.dwarfAbsFnSym, s.Func.dwarfDebugLinesSym
