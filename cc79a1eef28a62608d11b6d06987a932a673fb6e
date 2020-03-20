@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09d974df_0b5f8b65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-03-20T18:49:23Z",
+      "side": 1,
+      "message": "NIT: technically this change is \"if slice length is equal\". Would it work if it was \u003e\u003d, and why not any discussion of cap, rather than len?",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "cc79a1eef28a62608d11b6d06987a932a673fb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
