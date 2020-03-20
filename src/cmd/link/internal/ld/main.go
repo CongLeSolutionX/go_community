@@ -100,7 +100,7 @@ var (
 	benchmarkFlag     = flag.String("benchmark", "", "set to 'mem' or 'cpu' to enable phase benchmarking")
 	benchmarkFileFlag = flag.String("benchmarkprofile", "", "set to enable per-phase pprof profiling")
 
-	flagGo115Newobj = flag.Bool("go115newobj", true, "use new object file format")
+	flagGo115Newobj = flag.Bool("go115newobj", false, "use new object file format")
 )
 
 // Main is the main entry point for the linker code.
