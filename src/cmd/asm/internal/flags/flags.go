@@ -26,7 +26,7 @@ var (
 	Importpath = flag.String("p", "", "set expected package import to path")
 	Spectre    = flag.String("spectre", "", "enable spectre mitigations in `list` (all, ret)")
 
-	Go115Newobj = flag.Bool("go115newobj", true, "use new object file format")
+	Go115Newobj = flag.Bool("go115newobj", false, "use new object file format")
 )
 
 var (

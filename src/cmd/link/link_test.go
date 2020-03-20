@@ -680,6 +680,8 @@ func TestIndexMismatch(t *testing.T) {
 	// Test that index mismatch will cause a link-time error (not run-time error).
 	// This shouldn't happen with "go build". We invoke the compiler and the linker
 	// manually, and try to "trick" the linker with an inconsistent object file.
+	t.Skip("this test requires go115newobj")
+
 	testenv.MustHaveGoBuild(t)
 
 	tmpdir, err := ioutil.TempDir("", "TestIndexMismatch")
