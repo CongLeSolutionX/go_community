@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5a628f7_242ddbc8",
+        "filename": "src/cmd/link/internal/benchmark/bench.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-20T20:40:42Z",
+      "side": 1,
+      "message": "this is not related to your change, but I am wondering if the CPU pprof profiles would be more accurate if we reversed the order of things and did pprof.StopCPUProfile() before runtime.GC() in this function?",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 14
+      },
+      "revId": "c46c401409649d92a2c613cbf7c7738cd3afb43d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
