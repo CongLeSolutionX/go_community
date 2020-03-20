@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7646570e_3a73d271",
+        "filename": "src/runtime/chanbarrier_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-20T19:01:24Z",
+      "side": 1,
+      "message": "I added a similar test to runtime/race/testdata/chan_test.go, which is the place for race detector tests.  I\u0027m not sure we also need this test here.",
+      "revId": "21f151d50eb0746f3f0c7bd35786dcfb0f054052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
