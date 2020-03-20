@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "f02094f0_5f39621d",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-20T14:21:10Z",
+      "side": 1,
+      "message": "Perhaps \"// Strip leading \"X:\".\" Otherwise this looks really weird. :)",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d71a9345_3b3a6ca5",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-20T14:21:10Z",
+      "side": 1,
+      "message": "If there are no experiments set, this will define the build tag \"none\", which is probably not desired.",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e276dd4_9f0d9574",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-20T14:21:10Z",
+      "side": 1,
+      "message": "Do we want to do any sort of namespacing of these build tags? For example, \"goexperiment:\"+expt? It seems unlikely they would clash with user build tags, but I always worry that may happen with these sorts of global tags.",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24f5ca2f_77ec8de4",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-20T14:21:10Z",
+      "side": 1,
+      "message": "I wonder if we want to use a different environment variable name for this, since the string Expstring isn\u0027t exactly the GOEXPERIMENT from when the toolchain was built. GOEXPSTRING?",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278f5d39_f08c2fc0",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-20T14:21:10Z",
+      "side": 1,
+      "message": "It took me a bit to figure out how this test worked, since this is picking up GOEXPERIMENT from the environment so it *looks* like it wouldn\u0027t pick up the build-time GOEXPERIMENT. Maybe a comment here that script_test puts the build-time GOEXPERIMENT back in the environment? Or maybe this is just standard convention in script tests that I\u0027m not aware of.",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97ee4ffd_240daf3b",
         "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
         "patchSetId": 5
