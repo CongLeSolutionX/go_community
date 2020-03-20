@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e9924d5_c988337e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-20T03:54:58Z",
+      "side": 1,
+      "message": "encoding/xml: fix reserved namespace check to be case-insensitive\n\nFixes the check for the reserved namespace prefix\n\"xml\" to be case insensitive, so as to match all variants of:\n   ((\u0027X\u0027|\u0027x\u0027)(\u0027M\u0027|\u0027m\u0027)(\u0027L\u0027|\u0027l\u0027))\nas mandated by Section 2.3 of https://www.w3.org/TR/REC-xml/\n\nFixes #35151",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "e57baf8cd648e7e3f837c559f7b3fe374ead314a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e40dd718_c1aa9e53",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-20T03:54:58Z",
+      "side": 1,
+      "message": "We can use the strings.EqualFold function. Please change this code to:\n\n      // xmlanything is reserved and any variant of it regardless of\n      // case should be matched, so:\n      //    ((\u0027X\u0027|\u0027x\u0027) (\u0027M\u0027|\u0027m\u0027) (\u0027L\u0027|\u0027l\u0027))\n      // See Section 2.3 of https://www.w3.org/TR/REC-xml/\n      if len(prefix) \u003e\u003d 3 \u0026\u0026 strings.EqualFold(prefix[:3], \"xml\") {\n               ...\n      }",
+      "range": {
+        "startLine": 348,
+        "startChar": 0,
+        "endLine": 359,
+        "endChar": 47
+      },
+      "revId": "e57baf8cd648e7e3f837c559f7b3fe374ead314a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d574240_6d74d1ba",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2276,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-20T03:54:58Z",
+      "side": 1,
+      "message": "Let\u0027s add even more variants of the namespace with at least 3 cases, all lower, all CAPS, mixed case i.e. \"xML\"\n\nand we\u0027ll name them appropriately:\n\n      desc: \"reserved namespace prefix -- all lower case\",\n      desc: \"reserved namespace prefix -- all upper case\",\n      desc: \"reserved namespace prefix -- all mixed case\",",
+      "range": {
+        "startLine": 2269,
+        "startChar": 0,
+        "endLine": 2276,
+        "endChar": 116
+      },
+      "revId": "e57baf8cd648e7e3f837c559f7b3fe374ead314a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
