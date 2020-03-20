@@ -22,6 +22,30 @@
       "revId": "cc79a1eef28a62608d11b6d06987a932a673fb6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b625bc59_f3a0a027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-20T20:29:23Z",
+      "side": 1,
+      "message": "I\u0027ll reword this. I think for relocation slices we don\u0027t really run into situations where cap(s) \u003e len(s) as far as I know.",
+      "parentUuid": "09d974df_0b5f8b65",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "cc79a1eef28a62608d11b6d06987a932a673fb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
