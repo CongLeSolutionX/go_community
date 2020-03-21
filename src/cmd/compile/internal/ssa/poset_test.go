@@ -6,6 +6,7 @@ package ssa
 
 import (
 	"fmt"
+	"math"
 	"testing"
 )
 
@@ -26,23 +27,27 @@ const (
 	SetNonEqual_Fail     = "SetNonEqual_Fail"
 	NonEqual             = "NonEqual"
 	NonEqual_Fail        = "NonEqual_Fail"
+	BoundedMin           = "BoundedMin"
+	BoundedMax           = "BoundedMax"
+	BoundedMin_Fail      = "BoundedMin_Fail"
+	BoundedMax_Fail      = "BoundedMax_Fail"
 	Checkpoint           = "Checkpoint"
 	Undo                 = "Undo"
 )
 
 type posetTestOp struct {
 	typ  string
-	a, b int
+	a, b int64
 }
 
-func vconst(i int) int {
+func vconst(i int64) int64 {
 	if i < -128 || i >= 128 {
 		panic("invalid const")
 	}
 	return 1000 + 128 + i
 }
 
-func vconst2(i int) int {
+func vconst2(i int64) int64 {
 	if i < -128 || i >= 128 {
 		panic("invalid const")
 	}
@@ -67,12 +72,15 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 	po := newPoset()
 	po.SetUnsigned(unsigned)
 	for idx, op := range ops {
+		undoLen := len(po.undo)
+		mutation := false
 		t.Logf("op%d%v", idx, op)
 		switch op.typ {
 		case SetOrder:
 			if !po.SetOrder(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v failed", idx, op)
 			}
+			mutation = true
 		case SetOrder_Fail:
 			if po.SetOrder(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v passed", idx, op)
@@ -81,6 +89,7 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 			if !po.SetOrderOrEqual(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v failed", idx, op)
 			}
+			mutation = true
 		case SetOrderOrEqual_Fail:
 			if po.SetOrderOrEqual(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v passed", idx, op)
@@ -105,6 +114,7 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 			if !po.SetEqual(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v failed", idx, op)
 			}
+			mutation = true
 		case SetEqual_Fail:
 			if po.SetEqual(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v passed", idx, op)
@@ -121,6 +131,7 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 			if !po.SetNonEqual(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v failed", idx, op)
 			}
+			mutation = true
 		case SetNonEqual_Fail:
 			if po.SetNonEqual(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v passed", idx, op)
@@ -133,13 +144,47 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 			if po.NonEqual(v[op.a], v[op.b]) {
 				t.Errorf("FAILED: op%d%v passed", idx, op)
 			}
+		case BoundedMin:
+			if !unsigned {
+				if min, _ := po.SignedBounds(v[op.a]); min != op.b {
+					t.Errorf("FAILED: op%d%v got=%v", idx, op, min)
+				}
+			} else {
+				if min, _ := po.UnsignedBounds(v[op.a]); min != uint64(op.b) {
+					t.Errorf("FAILED: op%d%v got=%v", idx, op, min)
+				}
+			}
+		case BoundedMax:
+			if !unsigned {
+				if _, max := po.SignedBounds(v[op.a]); max != op.b {
+					t.Errorf("FAILED: op%d%v got=%v", idx, op, max)
+				}
+			} else {
+				if _, max := po.UnsignedBounds(v[op.a]); max != uint64(op.b) {
+					t.Errorf("FAILED: op%d%v got=%v", idx, op, max)
+				}
+			}
+		case BoundedMin_Fail:
+			if min, _ := po.SignedBounds(v[op.a]); (unsigned && uint64(min) != 0) || (!unsigned && min != math.MinInt64) {
+				t.Errorf("FAILED: op%d%v got=%v", idx, op, min)
+			}
+		case BoundedMax_Fail:
+			if _, max := po.SignedBounds(v[op.a]); (unsigned && uint64(max) != math.MaxUint64) || (!unsigned && max != math.MaxInt64) {
+				t.Errorf("FAILED: op%d%v got=%v", idx, op, max)
+			}
 		case Checkpoint:
 			po.Checkpoint()
+			mutation = true
 		case Undo:
 			t.Log("Undo stack", po.undo)
 			po.Undo()
+			mutation = true
 		default:
 			panic("unimplemented")
+		}
+
+		if !mutation && len(po.undo) != undoLen {
+			t.Errorf("FAILED: op%d%v changed poset on non-mutation", idx, op)
 		}
 
 		if false {
@@ -656,10 +701,14 @@ func TestPosetConst(t *testing.T) {
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, 1, 5},
 		{SetOrderOrEqual, 5, 25},
-		{SetEqual, vconst(-20), 5},
+		{SetEqual, 5, vconst(-20)},
 		{SetEqual, vconst(-25), 1},
 		{Ordered, 1, 5},
 		{Ordered, vconst(-30), 1},
+		{BoundedMin, 1, -25},
+		{BoundedMax, 1, -25},
+		{BoundedMin, 5, -20},
+		{BoundedMax, 5, -20},
 		{Undo, 0, 0},
 
 		{Checkpoint, 0, 0},
@@ -796,5 +845,324 @@ func TestPosetNonEqual(t *testing.T) {
 		{Undo, 0, 0},
 		{Equal_Fail, 10, 20},
 		{NonEqual_Fail, 10, 20},
+	})
+}
+
+func TestPosetBounds(t *testing.T) {
+	testPosetOps(t, false, []posetTestOp{
+		{Checkpoint, 0, 0},
+		{SetOrderOrEqual, vconst(5), 10},
+		{SetOrder, 10, 11},
+		{SetOrderOrEqual, 11, 12},
+		{SetOrder, 12, 13},
+		{SetOrder, 13, 14},
+		{SetOrderOrEqual, 14, vconst(100)},
+		{BoundedMin, 10, 5},
+		{BoundedMin, 11, 6},
+		{BoundedMin, 12, 6},
+		{BoundedMin, 13, 7},
+		{BoundedMin, 14, 8},
+		{BoundedMax, 14, 100},
+		{BoundedMax, 13, 99},
+		{BoundedMax, 12, 98},
+		{BoundedMax, 11, 98},
+		{BoundedMax, 10, 97},
+
+		{SetOrderOrEqual, vconst(5), 20},
+		{BoundedMin, 20, 5},
+		{BoundedMax_Fail, 20, 0},
+		{SetOrderOrEqual, 30, vconst(100)},
+		{BoundedMin_Fail, 30, 0},
+		{BoundedMax, 30, 100},
+
+		{Checkpoint, 0, 0},
+		{SetOrder, 11, 12},
+		{Ordered, 11, 12},
+		{BoundedMin, 14, 9},
+		{SetOrder, vconst(11), 13},
+		{BoundedMin, 14, 13},
+
+		{Undo, 0, 0},
+		{OrderedOrEqual, 11, 12},
+		{BoundedMin, 14, 8},
+
+		{Undo, 0, 0},
+	})
+
+	testPosetOps(t, false, []posetTestOp{
+		{Checkpoint, 0, 0},
+		{SetOrderOrEqual, vconst(5), 50},
+		{SetOrderOrEqual, vconst(10), 50},
+		{SetOrderOrEqual, vconst(20), 50},
+
+		{SetOrderOrEqual, vconst(21), 51},
+		{SetOrderOrEqual, vconst(11), 51},
+		{SetOrderOrEqual, vconst(6), 51},
+
+		{Checkpoint, 0, 0},
+		{SetOrderOrEqual, 50, 51},
+		{SetOrderOrEqual, 51, 52},
+		{SetOrder, 50, 52},
+		{BoundedMin, 50, 20},
+		{BoundedMin, 51, 21},
+		{BoundedMin, 52, 21},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		{SetOrderOrEqual, 51, 50},
+		{SetOrderOrEqual, 50, 52},
+		{SetOrder, 51, 52},
+		{BoundedMin, 50, 21},
+		{BoundedMin, 51, 21},
+		{BoundedMin, 52, 22},
+
+		{Checkpoint, 0, 0},
+		{SetNonEqual, 50, vconst2(21)},
+		{SetNonEqual, 51, vconst2(21)},
+		{SetNonEqual, 52, vconst2(22)},
+		{BoundedMin, 50, 22},
+		{BoundedMin, 51, 22},
+		{BoundedMin, 52, 23},
+		{SetNonEqual, 50, vconst(22)},
+		{SetNonEqual, 51, vconst(22)},
+		{SetNonEqual, 52, vconst(23)},
+		{BoundedMin, 50, 23},
+		{BoundedMin, 51, 23},
+		{BoundedMin, 52, 24},
+		{Undo, 0, 0},
+
+		{BoundedMin, 50, 21},
+		{BoundedMin, 51, 21},
+		{BoundedMin, 52, 22},
+		{Undo, 0, 0},
+
+		{Undo, 0, 0},
+	})
+
+	testPosetOps(t, false, []posetTestOp{
+		{Checkpoint, 0, 0},
+		{SetOrderOrEqual, 50, vconst(10)},
+		{SetOrder, 49, 50},
+		{BoundedMax, 50, 10},
+		{BoundedMax, 49, 9},
+
+		{SetNonEqual, 50, vconst(10)},
+		{BoundedMax, 50, 9},
+		{BoundedMax, 49, 8},
+
+		{SetNonEqual, 49, vconst(8)},
+		{BoundedMax, 50, 9},
+		{BoundedMax, 49, 7},
+
+		{Undo, 0, 0},
+	})
+}
+
+func TestPosetLearnFromBounds(t *testing.T) {
+	testPosetOps(t, true, []posetTestOp{
+		{Checkpoint, 0, 0},
+		{BoundedMin, 50, 0},
+		{BoundedMin, 51, 0},
+
+		// 0 < v50 implies min(v50)==1
+		{SetOrder, vconst(0), 50},
+		{BoundedMin, 50, 1},
+		{BoundedMin, 51, 0},
+
+		// ... implies v50 != 0
+		{NonEqual, vconst(0), 50},
+		{BoundedMin, 50, 1},
+		{BoundedMin, 51, 0},
+
+		// 0 < v50 < v51 implies min(v51)==2
+		{SetOrder, 50, 51},
+		{BoundedMin, 50, 1},
+		{BoundedMin, 51, 2},
+
+		// Check ordering with difference instances of constants
+		{Ordered, vconst2(0), 50},
+		{OrderedOrEqual, vconst2(1), 50},
+		{Ordered, vconst2(1), 51},
+		{OrderedOrEqual, vconst2(2), 51},
+
+		// Can't learn v50 < 0, v51 < 0, v51 < 1
+		{SetOrder_Fail, 50, vconst2(0)},
+		{SetOrder_Fail, 51, vconst2(0)},
+		{SetOrder_Fail, 51, vconst2(1)},
+		{SetOrderOrEqual_Fail, 50, vconst2(0)},
+		{SetOrderOrEqual_Fail, 51, vconst2(0)},
+		{SetOrderOrEqual_Fail, 51, vconst2(1)},
+
+		// v50 <= 1 implies v50 == 1
+		{Checkpoint, 0, 0},
+		{SetOrderOrEqual, 50, vconst2(1)},
+		{SetOrderOrEqual, 51, vconst2(2)},
+		{Equal, 50, vconst(1)},
+		{Equal, 51, vconst(2)},
+		{Undo, 0, 0},
+
+		// v50 < 2 implies v50 == 1
+		{Checkpoint, 0, 0},
+		{SetOrder, 50, vconst2(2)},
+		{SetOrder, 51, vconst2(3)},
+		{Equal, 50, vconst(1)},
+		{Equal, 51, vconst(2)},
+		{Undo, 0, 0},
+
+		{Undo, 0, 0},
+
+		// Same as above, but change order of inference. Just to make sure we don't depend
+		// on the exact order of facts being learnt
+		{Checkpoint, 0, 0},
+		{BoundedMin, 50, 0},
+		{BoundedMin, 51, 0},
+		{SetOrder, 50, 51},
+		{BoundedMin, 50, 0},
+		{BoundedMin, 51, 1},
+		{SetNonEqual, vconst(0), 50},
+		{BoundedMin, 50, 1},
+		{BoundedMin, 51, 2},
+		{Ordered, vconst2(0), 50},
+		{OrderedOrEqual, vconst2(1), 50},
+		{SetOrder_Fail, 50, vconst2(0)},
+		{Ordered, vconst2(1), 51},
+		{OrderedOrEqual, vconst2(2), 51},
+		{SetOrder_Fail, 51, vconst2(1)},
+		{Undo, 0, 0},
+	})
+
+	testPosetOps(t, true, []posetTestOp{
+		{Checkpoint, 0, 0},
+		// v10 < v11 < v12 < v13
+		{SetOrder, 10, 11},
+		{SetOrder, 11, 12},
+		{SetOrder, 12, 13},
+
+		// v10 = 0 => new minimum bound for v13 is 3, can't set it to 2
+		{Checkpoint, 0, 0},
+		{SetEqual, 10, vconst(0)},
+		{SetEqual_Fail, 13, vconst(2)},
+		{BoundedMin, 13, 3},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		// v13 < 4 implies that v10=0, v11=1, etc.
+		// Can't set them as non-equal to their correct values.
+		{SetOrder, 13, vconst(4)},
+		{SetNonEqual_Fail, 13, vconst(3)},
+		{SetNonEqual_Fail, 12, vconst(2)},
+		{SetNonEqual_Fail, 11, vconst(1)},
+		{SetNonEqual_Fail, 10, vconst(0)},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		{SetNonEqual, 10, vconst(0)},
+		{SetOrder_Fail, 13, vconst(4)},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		{SetNonEqual, 11, vconst(1)},
+		{SetOrder_Fail, 13, vconst(4)},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		{SetNonEqual, 12, vconst(2)},
+		{SetOrder_Fail, 13, vconst(4)},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		{SetNonEqual, 13, vconst(3)},
+		{SetOrder_Fail, 13, vconst(4)},
+		{Undo, 0, 0},
+
+		{Undo, 0, 0},
+	})
+
+	testPosetOps(t, true, []posetTestOp{
+		{Checkpoint, 0, 0},
+		{SetOrder, vconst(10), 20},
+		{SetOrderOrEqual, vconst(10), 10},
+		{NonEqual, 20, vconst2(10)},
+		{NonEqual, 20, vconst2(5)},
+		{NonEqual, 20, vconst2(0)},
+		{NonEqual_Fail, 10, vconst2(10)},
+		{NonEqual, 10, vconst2(5)},
+		{NonEqual, 10, vconst2(0)},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		{SetOrder, vconst(19), 20},
+		{SetOrder, 20, vconst(21)},
+		{SetOrder, vconst2(19), 30},
+		{SetOrder, 30, vconst2(21)},
+		{Equal, 20, 30},
+		{SetOrder, vconst(10), 40},
+		{Equal_Fail, 20, 40},
+		{NonEqual_Fail, 20, 40},
+		{SetOrder, 40, vconst(12)},
+		{Equal_Fail, 20, 40},
+		{NonEqual, 20, 40},
+		{Undo, 0, 0},
+	})
+
+	testPosetOps(t, true, []posetTestOp{
+		{Checkpoint, 0, 0},
+		{SetOrder, vconst(10), 20},
+		{SetOrderOrEqual, vconst(10), 10},
+		{NonEqual, 20, vconst2(10)},
+		{NonEqual, 20, vconst2(5)},
+		{NonEqual, 20, vconst2(0)},
+		{NonEqual_Fail, 10, vconst2(10)},
+		{NonEqual, 10, vconst2(5)},
+		{NonEqual, 10, vconst2(0)},
+		{Undo, 0, 0},
+
+		{Checkpoint, 0, 0},
+		{SetOrder, vconst(19), 20},
+		{SetOrder, 20, vconst(21)},
+		{SetOrder, vconst2(19), 30},
+		{SetOrder, 30, vconst2(21)},
+		{Equal, 20, 30},
+		{SetOrder, vconst(10), 40},
+		{Equal_Fail, 20, 40},
+		{NonEqual_Fail, 20, 40},
+		{SetOrder, 40, vconst(12)},
+		{Equal_Fail, 20, 40},
+		{NonEqual, 20, 40},
+		{Undo, 0, 0},
+	})
+
+	testPosetOps(t, true, []posetTestOp{
+		{Checkpoint, 0, 0},
+
+		{SetOrder, 1, 2},
+		{SetOrder, 2, 3},
+		{SetOrder, 3, 4},
+		{SetEqual_Fail, 4, vconst(1)},
+		{SetEqual_Fail, vconst(1), 4},
+		{SetEqual, 4, vconst2(4)},
+		{Equal_Fail, 3, vconst(3)},
+		{Equal_Fail, 2, vconst(2)},
+		{Equal_Fail, 1, vconst(1)},
+		{SetNonEqual, 1, vconst(0)},
+		{Equal, 3, vconst(3)},
+		{Equal, 2, vconst(2)},
+		{Equal, 1, vconst(1)},
+
+		{Undo, 0, 0},
+	})
+
+	testPosetOps(t, false, []posetTestOp{
+		{Checkpoint, 0, 0},
+
+		{SetOrder, vconst(0), vconst(8)},
+		{SetOrder, vconst(7), vconst(8)},
+		{SetOrderOrEqual, vconst(0), 16},
+		{SetOrder, 16, vconst(8)},
+		{SetNonEqual, 16, vconst(7)},
+		{SetOrder_Fail, vconst2(7), 16},
+		{SetOrder_Fail, vconst2(6), 16},
+
+		{Undo, 0, 0},
 	})
 }
