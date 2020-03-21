@@ -361,6 +361,68 @@ func (po *poset) lookup(n *Value, materializeConstants bool) (i uint32, min pose
 	return
 }
 
+// isInvalidConstant returns true if this constant is not valid for this poset.
+// To reason about bounds, posets stores constant values as 64-bit values
+// whose signedness matches the one used for the poset itself (see posetBound).
+// This means that an unsigned poset cannot reason on a negative constant,
+// and a signed bound cannot reason on an unsigned constant bigger than 2**63.
+func (po *poset) isInvalidConstant(n *Value) bool {
+	if n.isGenericIntConst() {
+		_, valid := po.constVal(n)
+		return !valid
+	}
+	return false
+}
+
+// constVal extracts the numerical value from a SSA OpConst* as a posetBound
+// (that is, a 64-bit whose signedness matches the one of the poset), and a
+// boolean that says if the operation succeeded (that is, if the constant
+// can be represented in this poset).
+//
+// There are two hurdles here:
+//   * In SSA Value, constants are stored with sign-extension even if the
+//     value is actually unsigned, so we cannot just use AuxInt. We need to
+//     go through Value.AuxUnsigned to extract the correct value.
+//   * Some constants cannot be represented as posetBound, so the operation might
+//     fail (see isInvalidConsent for an explanation).
+func (po *poset) constVal(n *Value) (posetBound, bool) {
+	if !n.isGenericIntConst() {
+		panic("constVal on non-constant")
+	}
+
+	posigned := po.flags&posetFlagUnsigned == 0
+	csigned := n.Type.IsSigned()
+
+	switch {
+	case posigned && csigned:
+		return posetBound{n.AuxInt}, true
+	case posigned && !csigned:
+		// Check if we can represent the unsigned constant in a signed int64.
+		// In fact, a signed poset is unable to store relations about constants
+		// bigger than 2**63.
+		val := n.AuxUnsigned()
+		if int64(val) < 0 {
+			return posetBound{}, false
+		}
+		return posetBound{int64(val)}, true
+
+	case !posigned && !csigned:
+		return posetBound{int64(n.AuxUnsigned())}, true
+
+	case !posigned && csigned:
+		// Check if we can represent the signed constant into a uint64.
+		// In fact, an unsigned poset is unable to store relations about
+		// negative numbers.
+		if n.AuxInt < 0 {
+			return posetBound{}, false
+		}
+		return posetBound{n.AuxInt}, true
+
+	default:
+		panic("unreachable")
+	}
+}
+
 // newconst creates a node for a constant. It links it to other constants, so
 // that n<=5 is detected true when n<=3 is known to be true.
 // TODO: this is O(N), fix it.
@@ -371,11 +433,14 @@ func (po *poset) newconst(n *Value) {
 
 	// If the same constant is already present in the poset through a different
 	// Value, just alias to it without allocating a new node.
-	val := n.AuxInt
-	if po.flags&posetFlagUnsigned != 0 {
-		val = int64(n.AuxUnsigned())
+	bound, ok := po.constVal(n)
+	if !ok {
+		// This should never happen: we should filter out invalid constants
+		// before we get here
+		panic("newconst on unrepresentable constant")
 	}
-	if c, found := po.constants[val]; found {
+
+	if c, found := po.constants[bound.v]; found {
 		po.values[n.ID] = c
 		po.upushalias(n.ID, 0)
 		return
@@ -383,8 +448,8 @@ func (po *poset) newconst(n *Value) {
 
 	// Create the new node for this constant, and give it fixed bounds (min=max=value)
 	i := po.newnode(n)
-	po.setmin(i, posetBound{val})
-	po.setmax(i, posetBound{val})
+	po.setmin(i, bound)
+	po.setmax(i, bound)
 
 	// If this is the first constant, put it as a new root, as
 	// we can't record an existing connection so we don't have
@@ -396,7 +461,7 @@ func (po *poset) newconst(n *Value) {
 		po.roots = append(po.roots, i)
 		po.roots[0], po.roots[idx] = po.roots[idx], po.roots[0]
 		po.upush(undoNewRoot, i, 0)
-		po.constants[val] = i
+		po.constants[bound.v] = i
 		po.upushconst(i, 0)
 		return
 	}
@@ -410,7 +475,7 @@ func (po *poset) newconst(n *Value) {
 
 	if po.flags&posetFlagUnsigned != 0 {
 		var lower, higher uint64
-		val1 := n.AuxUnsigned()
+		val1 := uint64(bound.v)
 		for val2, ptr := range po.constants {
 			val2 := uint64(val2)
 			if val1 == val2 {
@@ -426,7 +491,7 @@ func (po *poset) newconst(n *Value) {
 		}
 	} else {
 		var lower, higher int64
-		val1 := n.AuxInt
+		val1 := bound.v
 		for val2, ptr := range po.constants {
 			if val1 == val2 {
 				panic("unreachable")
@@ -487,7 +552,7 @@ func (po *poset) newconst(n *Value) {
 		po.addchild(i, i2, true)
 	}
 
-	po.constants[val] = i
+	po.constants[bound.v] = i
 	po.upushconst(i, 0)
 }
 
@@ -1254,6 +1319,11 @@ func (po *poset) SetOrder(n1, n2 *Value) bool {
 	if n1.ID == n2.ID {
 		panic("should not call SetOrder with n1==n2")
 	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
+	}
 	return po.setOrder(n1, n2, true)
 }
 
@@ -1265,6 +1335,11 @@ func (po *poset) SetOrderOrEqual(n1, n2 *Value) bool {
 	}
 	if n1.ID == n2.ID {
 		panic("should not call SetOrder with n1==n2")
+	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
 	}
 	return po.setOrder(n1, n2, false)
 }
@@ -1278,6 +1353,11 @@ func (po *poset) SetEqual(n1, n2 *Value) bool {
 	}
 	if n1.ID == n2.ID {
 		panic("should not call Add with n1==n2")
+	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
 	}
 
 	// If n1==n2, it is a contradiction if max2<min1 or max1<min2 (because
@@ -1348,6 +1428,11 @@ func (po *poset) SetNonEqual(n1, n2 *Value) bool {
 	}
 	if n1.ID == n2.ID {
 		panic("should not call SetNonEqual with n1==n2")
+	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
 	}
 
 	// Check if we're contradicting an existing relation
