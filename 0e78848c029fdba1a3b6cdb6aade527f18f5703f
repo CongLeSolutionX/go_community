@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6cee665_f23bf097",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-21T13:46:41Z",
+      "side": 1,
+      "message": "This needs to be changed so that it is gated off the old object file flag also. For old objects we need:\n\n\tls :\u003d s.(*LSym)\n\trsym :\u003d f.(*LSym)\n\tls.WriteAddr(c.Link, ls.Size, 4, rsym, 0)\n\tr :\u003d \u0026ls.R[len(ls.R)-1]\n\tr.Type \u003d objabi.R_DWARFFILEREF",
+      "range": {
+        "startLine": 508,
+        "startChar": 1,
+        "endLine": 514,
+        "endChar": 47
+      },
+      "revId": "0e78848c029fdba1a3b6cdb6aade527f18f5703f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
