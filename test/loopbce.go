@@ -261,7 +261,7 @@ func d1(a [100]int) [100]int {
 	for i := 0; i < 100; i++ { // ERROR "Induction variable: limits \[0,100\), increment 1$"
 		for j := 0; j < i; j++ { // ERROR "Induction variable: limits \[0,\?\), increment 1$"
 			a[j] = 0   // ERROR "Proved IsInBounds$"
-			a[j+1] = 0 // FIXME: this boundcheck should be eliminated
+			a[j+1] = 0 // ERROR "Proved IsInBounds$"
 			a[j+2] = 0
 		}
 	}
@@ -272,7 +272,7 @@ func d2(a [100]int) [100]int {
 	for i := 0; i < 100; i++ { // ERROR "Induction variable: limits \[0,100\), increment 1$"
 		for j := 0; i > j; j++ { // ERROR "Induction variable: limits \[0,\?\), increment 1$"
 			a[j] = 0   // ERROR "Proved IsInBounds$"
-			a[j+1] = 0 // FIXME: this boundcheck should be eliminated
+			a[j+1] = 0 // ERROR "Proved IsInBounds$"
 			a[j+2] = 0
 		}
 	}
