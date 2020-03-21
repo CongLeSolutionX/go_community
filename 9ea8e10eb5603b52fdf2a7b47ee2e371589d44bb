@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4cb0a8d_ccbb51d0",
+        "filename": "src/os/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-03-21T10:21:46Z",
+      "side": 1,
+      "message": "unspecified",
+      "range": {
+        "startLine": 19,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "9ea8e10eb5603b52fdf2a7b47ee2e371589d44bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
