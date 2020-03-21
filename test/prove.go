@@ -737,6 +737,46 @@ func make2(n int) []int {
 	return s
 }
 
+func make3(n1, n2 int) {
+	if n1 < 0 || n2 < 0 {
+		return
+	}
+	s := make([]int, n1+n2+15)
+	_ = s[:n1]        // Can't prove this (think n1=n2=MaxInt => n1+n2+15 == 13)
+	_ = s[n1:n2]      // Same as previous line
+	_ = s[len(s)-16:] // This needs a bound (in case n1=n2=0)
+	_ = s[len(s)-15:] // ERROR "Proved IsSliceInBounds$"
+	_ = s[len(s)-5:]  // ERROR "Proved IsSliceInBounds$"
+}
+
+func slice1(s []int, x int) {
+	_ = s[x]         // Learn that there is at least one element
+	_ = s[len(s)-1:] // ERROR "Proved IsSliceInBounds$"
+}
+
+func slice2(s []int, x int) {
+	_ = s[x] // Learn that there is at least one element
+	x++
+	if x < len(s) {
+		_ = s[x] // ERROR "Proved IsInBounds$"
+	}
+}
+
+func slice3(s1, s2 []int, data [256]int) {
+	if len(s1) > 16 {
+		return
+	}
+	if len(s2) > 17 {
+		return
+	}
+	for i := range s1 { // ERROR "Induction variable: limits \[0,\?\), increment 1$"
+		useInt(data[i+240]) // ERROR "Proved IsInBounds$"
+	}
+	for i := range s2 { // ERROR "Induction variable: limits \[0,\?\), increment 1$"
+		useInt(data[i+240]) // We shouldn't remove this boundcheck
+	}
+}
+
 // The range tests below test the index variable of range loops.
 
 // range1 compiles to the "efficiently indexable" form of a range loop.
@@ -761,6 +801,16 @@ func range2(b [][32]int) {
 		}
 		if i >= 0 { // ERROR "Proved Leq64$"
 			println("x")
+		}
+	}
+}
+
+func range3(a []int) {
+	for i := range a { // ERROR "Induction variable: limits \[0,\?\), increment 1$"
+		i++
+		if i < len(a) {
+			println(a[i]) // ERROR "Proved IsInBounds$"
+			println(a[i+1])
 		}
 	}
 }
@@ -989,6 +1039,13 @@ func negIndex2(n int) {
 	}
 	useSlice(a)
 	useSlice(c)
+}
+
+func div1(a, b int) {
+	useInt(5000 / a) // ERROR "Proved Div64 does not need fix-up"
+	if b > a {
+		useInt(b / a) // ERROR "Proved Div64 does not need fix-up" "Proved Neq64"
+	}
 }
 
 //go:noinline

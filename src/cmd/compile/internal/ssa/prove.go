@@ -439,19 +439,28 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 			// x-1 >= w && x > min  ⇒  x > w
 			//
 			// Useful for i > 0; s[i-1].
-			lim, ok := ft.limits[x.ID]
-			if ok && ((d == signed && lim.min > opMin[v.Op]) || (d == unsigned && lim.umin > 0)) {
-				ft.update(parent, x, w, d, gt)
+			if d == signed {
+				if min, _ := ft.orderS.SignedBounds(x); min > opMin[v.Op] {
+					ft.update(parent, x, w, d, gt)
+				}
+			} else {
+				if min, _ := ft.orderU.UnsignedBounds(x); min > 0 {
+					ft.update(parent, x, w, d, gt)
+				}
 			}
 		} else if x, delta := isConstDelta(w); x != nil && delta == 1 {
 			// v >= x+1 && x < max  ⇒  v > x
-			lim, ok := ft.limits[x.ID]
-			if ok && ((d == signed && lim.max < opMax[w.Op]) || (d == unsigned && lim.umax < opUMax[w.Op])) {
-				ft.update(parent, v, x, d, gt)
+			if d == signed {
+				if _, max := ft.orderS.SignedBounds(x); max < opMax[w.Op] {
+					ft.update(parent, v, x, d, gt)
+				}
+			} else {
+				if _, max := ft.orderU.UnsignedBounds(x); max < opUMax[w.Op] {
+					ft.update(parent, v, x, d, gt)
+				}
 			}
 		}
 	}
-
 	// Process: x+delta > w (with delta constant)
 	// Only signed domain for now (useful for accesses to slices in loops).
 	if r == gt || r == gt|eq {
@@ -463,9 +472,10 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 				// If we know that x+delta > w but w is not constant, we can derive:
 				//    if delta < 0 and x > MinInt - delta, then x > w (because x+delta cannot underflow)
 				// This is useful for loops with bounds "len(slice)-K" (delta = -K)
-				if l, has := ft.limits[x.ID]; has && delta < 0 {
-					if (x.Type.Size() == 8 && l.min >= math.MinInt64-delta) ||
-						(x.Type.Size() == 4 && l.min >= math.MinInt32-delta) {
+				if delta < 0 {
+					min, _ := ft.orderS.SignedBounds(x)
+					if (x.Type.Size() == 8 && min >= math.MinInt64-delta) ||
+						(x.Type.Size() == 4 && min >= math.MinInt32-delta) {
 						ft.update(parent, x, w, signed, r)
 					}
 				}
@@ -516,16 +526,15 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 					// We know that either x>min OR x<=max. factsTable cannot record OR conditions,
 					// so let's see if we can already prove that one of them is false, in which case
 					// the other must be true
-					if l, has := ft.limits[x.ID]; has {
-						if l.max <= min {
-							if r&eq == 0 || l.max < min {
-								// x>min (x>=min) is impossible, so it must be x<=max
-								ft.update(parent, vmax, x, d, r|eq)
-							}
-						} else if l.min > max {
-							// x<=max is impossible, so it must be x>min
-							ft.update(parent, x, vmin, d, r)
+					xmin, xmax := ft.orderS.SignedBounds(x)
+					if xmax <= min {
+						if r&eq == 0 || xmax < min {
+							// x>min (x>=min) is impossible, so it must be x<=max
+							ft.update(parent, vmax, x, d, r|eq)
 						}
+					} else if xmin > max {
+						// x<=max is impossible, so it must be x>min
+						ft.update(parent, x, vmin, d, r)
 					}
 				}
 			}
@@ -589,20 +598,18 @@ func (ft *factsTable) isNonNegative(v *Value) bool {
 	}
 
 	// Check if the recorded limits can prove that the value is positive
-
-	if l, has := ft.limits[v.ID]; has && (l.min >= 0 || l.umax <= uint64(max)) {
+	if smin, _ := ft.orderS.SignedBounds(v); smin >= 0 {
 		return true
 	}
 
 	// Check if v = x+delta, and we can use x's limits to prove that it's positive
 	if x, delta := isConstDelta(v); x != nil {
-		if l, has := ft.limits[x.ID]; has {
-			if delta > 0 && l.min >= -delta && l.max <= max-delta {
-				return true
-			}
-			if delta < 0 && l.min >= -delta {
-				return true
-			}
+		smin, smax := ft.orderS.SignedBounds(x)
+		if delta > 0 && smin >= -delta && smax <= max-delta {
+			return true
+		}
+		if delta < 0 && smin >= -delta {
+			return true
 		}
 	}
 
@@ -611,8 +618,8 @@ func (ft *factsTable) isNonNegative(v *Value) bool {
 		return true
 	}
 
-	// Check if the signed poset can prove that the value is >= 0
-	return ft.orderS.OrderedOrEqual(ft.zero, v)
+	// We can't prove that v is non-negative, return false
+	return false
 }
 
 // checkpoint saves the current state of known relations.
@@ -1159,11 +1166,8 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 			}
 			// slicemask(x + y)
 			// if x is larger than -y (y is negative), then slicemask is -1.
-			lim, ok := ft.limits[x.ID]
-			if !ok {
-				continue
-			}
-			if lim.umin > uint64(-delta) {
+			umin, _ := ft.orderU.UnsignedBounds(x)
+			if umin > uint64(-delta) {
 				if v.Args[0].Op == OpAdd64 {
 					v.reset(OpConst64)
 				} else {
@@ -1179,11 +1183,9 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 			// code for CtzNN if we know that the argument is non-zero.
 			// Capture that information here for use in arch-specific optimizations.
 			x := v.Args[0]
-			lim, ok := ft.limits[x.ID]
-			if !ok {
-				continue
-			}
-			if lim.umin > 0 || lim.min > 0 || lim.max < 0 {
+			umin, _ := ft.orderU.UnsignedBounds(x)
+			min, max := ft.orderS.SignedBounds(x)
+			if umin > 0 || min > 0 || max < 0 {
 				if b.Func.pass.debug > 0 {
 					b.Func.Warnl(v.Pos, "Proved %v non-zero", v.Op)
 				}
@@ -1205,14 +1207,12 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 			// Check whether, for a << b, we know that b
 			// is strictly less than the number of bits in a.
 			by := v.Args[1]
-			lim, ok := ft.limits[by.ID]
-			if !ok {
-				continue
-			}
+			_, max := ft.orderS.SignedBounds(by)
+			_, umax := ft.orderU.UnsignedBounds(by)
 			bits := 8 * v.Args[0].Type.Size()
-			if lim.umax < uint64(bits) || (lim.max < bits && ft.isNonNegative(by)) {
+			if umax < uint64(bits) || (max < bits && ft.isNonNegative(by)) {
 				v.AuxInt = 1 // see shiftIsBounded
-				if b.Func.pass.debug > 0 {
+				if b.Func.pass.debug > 0 && !by.isGenericIntConst() {
 					b.Func.Warnl(v.Pos, "Proved %v bounded", v.Op)
 				}
 			}
@@ -1226,11 +1226,11 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 				break
 			}
 			divr := v.Args[1]
-			divrLim, divrLimok := ft.limits[divr.ID]
+			divrMin, divrMax := ft.orderS.SignedBounds(divr)
 			divd := v.Args[0]
-			divdLim, divdLimok := ft.limits[divd.ID]
-			if (divrLimok && (divrLim.max < -1 || divrLim.min > -1)) ||
-				(divdLimok && divdLim.min > mostNegativeDividend[v.Op]) {
+			divdMin, _ := ft.orderS.SignedBounds(divd)
+			if divrMax < -1 || divrMin > -1 ||
+				divdMin > mostNegativeDividend[v.Op] {
 				// See DivisionNeedsFixUp in rewrite.go.
 				// v.AuxInt = 1 means we have proved both that the divisor is not -1
 				// and that the dividend is not the most negative integer,
