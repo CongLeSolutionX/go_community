@@ -200,6 +200,7 @@ var knownFormats = map[string]string{
 	"uint64 %08x":          "",
 	"uint64 %b":            "",
 	"uint64 %d":            "",
+	"uint64 %v":            "",
 	"uint64 %x":            "",
 	"uint8 %d":             "",
 	"uint8 %v":             "",

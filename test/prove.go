@@ -396,8 +396,8 @@ func f13e(a int) int {
 }
 
 func f13f(a int64) int64 {
-	if a > math.MaxInt64 {
-		if a == 0 { // ERROR "Disproved Eq64$"
+	if a > math.MaxInt64 { // ERROR "Disproved Less64$"
+		if a == 0 {
 			return 1
 		}
 	}
@@ -428,7 +428,18 @@ func f13h(a int) int {
 	return 0
 }
 
-func f13i(a uint) int {
+func f13i(a, b int) int {
+	if a < 3 && a > 1 {
+		if b < 3 && b > 1 {
+			if a == b { // ERROR "Proved Eq64$"
+				return 5
+			}
+		}
+	}
+	return 0
+}
+
+func f13j(a uint) int {
 	if a == 0 {
 		return 1
 	}
@@ -436,6 +447,19 @@ func f13i(a uint) int {
 		return 2
 	}
 	return 3
+}
+
+func f13k(a uint) int {
+	if a == 0 {
+		return 1
+	}
+	if a == 1 {
+		return 2
+	}
+	if a > 1 { // ERROR "Proved Less64U$"
+		return 3
+	}
+	return 4
 }
 
 func f14(p, q *int, a []int) {
@@ -627,6 +651,17 @@ func trans3(a, b []int, i int) {
 
 	_ = a[i]
 	_ = b[i] // ERROR "Proved IsInBounds$"
+}
+
+func trans4(x, y, z uint64) int {
+	if z < 2 {
+		if y < z {
+			if x < y { // ERROR "Disproved Less64U$"
+				return 0
+			}
+		}
+	}
+	return 1
 }
 
 // Derived from nat.cmp
@@ -854,7 +889,7 @@ func unrollInclStepTooLarge(a []int) int {
 // Not an induction variable (min too small, iterating down)
 func unrollDecMin(a []int) int {
 	var i, x int
-	for i = len(a); i >= math.MinInt64; i -= 2 {
+	for i = len(a); i >= math.MinInt64+1; i -= 2 {
 		x += a[i-1]
 		x += a[i-2]
 	}
@@ -867,7 +902,7 @@ func unrollDecMin(a []int) int {
 // Not an induction variable (min too small, iterating up -- perhaps could allow, but why bother?)
 func unrollIncMin(a []int) int {
 	var i, x int
-	for i = len(a); i >= math.MinInt64; i += 2 {
+	for i = len(a); i >= math.MinInt64+1; i += 2 {
 		x += a[i-1]
 		x += a[i-2]
 	}
@@ -901,13 +936,13 @@ func zeroExtNto64(x []int, j8 uint8, j16 uint16, j32 uint32) int {
 	if len(x) < 22 {
 		return 0
 	}
-	if j8 >= 0 && j8 < 22 {
+	if j8 < 22 {
 		return x[j8] // ERROR "Proved IsInBounds$"
 	}
-	if j16 >= 0 && j16 < 22 {
+	if j16 < 22 {
 		return x[j16] // ERROR "Proved IsInBounds$"
 	}
-	if j32 >= 0 && j32 < 22 {
+	if j32 < 22 {
 		return x[j32] // ERROR "Proved IsInBounds$"
 	}
 	return 0
