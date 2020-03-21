@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e7ac22f_743b972a",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-03-21T21:41:57Z",
+      "side": 1,
+      "message": "This seems more aggressive than necessary. It mandates that for comments to remain, they must have a leading space (after the // or /* ).\n\nJust check for \"go:\" and \"line \" prefix?",
+      "revId": "13f04e4d139a727e02c2f4a261cdf892369c0f4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
