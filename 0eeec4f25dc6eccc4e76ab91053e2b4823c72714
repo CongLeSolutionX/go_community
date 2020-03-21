@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b14ac9_ace9ce24",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-03-21T20:37:20Z",
+      "side": 0,
+      "message": "A space should be added at the beginning of this comment to keep this example working after this go/doc change.\n\n(It can be done in this CL, or independently, whatever is easier.)",
+      "revId": "0eeec4f25dc6eccc4e76ab91053e2b4823c72714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
