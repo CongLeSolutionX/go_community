@@ -10,6 +10,8 @@ package ast
 import (
 	"go/token"
 	"strings"
+	"unicode"
+	"unicode/utf8"
 )
 
 // ----------------------------------------------------------------------------
@@ -87,9 +89,11 @@ func stripTrailingWhitespace(s string) string {
 
 // Text returns the text of the comment.
 // Comment markers (//, /*, and */), the first space of a line comment, and
-// leading and trailing empty lines are removed. Multiple empty lines are
-// reduced to one, and trailing space on lines is trimmed. Unless the result
-// is empty, it is newline-terminated.
+// leading and trailing empty lines are removed.
+// Comments beginning with // followed by a non-space character,
+// such as //go:noinline or //line, are removed.
+// Multiple empty lines are reduced to one, and trailing space on lines is trimmed.
+// Unless the result is empty, it is newline-terminated.
 //
 func (g *CommentGroup) Text() string {
 	if g == nil {
@@ -108,9 +112,18 @@ func (g *CommentGroup) Text() string {
 		case '/':
 			//-style comment (no newline at the end)
 			c = c[2:]
-			// strip first space - required for Example tests
-			if len(c) > 0 && c[0] == ' ' {
+			if len(c) == 0 {
+				// empty line
+				break
+			}
+			if c[0] == ' ' {
+				// strip first space - required for Example tests
 				c = c[1:]
+				break
+			}
+			if r, _ := utf8.DecodeRuneInString(c); !unicode.IsSpace(r) {
+				// Ignore //go:noinline, //line, and so on.
+				continue
 			}
 		case '*':
 			/*-style comment */

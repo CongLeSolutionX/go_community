@@ -33,6 +33,8 @@ var comments = []struct {
 	{[]string{"/* Foo*/", "/*\n*/", "//", "/*\n*/", "// Bar"}, " Foo\n\nBar\n"},
 	{[]string{"/* Foo*/", "// Bar"}, " Foo\nBar\n"},
 	{[]string{"/* Foo\n Bar*/"}, " Foo\n Bar\n"},
+
+	{[]string{"// foo", "//go:noinline", "// bar"}, "foo\nbar\n"},
 }
 
 func TestCommentText(t *testing.T) {
