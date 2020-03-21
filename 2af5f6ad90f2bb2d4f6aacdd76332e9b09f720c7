@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2c9c0035_be1a3a82",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-21T00:47:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f02094f0_5f39621d",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71a9345_3b3a6ca5",
         "filename": "src/cmd/go/internal/work/init.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c92067f_a816a1ec",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-21T00:47:53Z",
+      "side": 1,
+      "message": "Good catch!  Fixed.",
+      "parentUuid": "d71a9345_3b3a6ca5",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "73ad4e08_fdb9dca7",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-21T00:47:53Z",
+      "side": 1,
+      "message": "You can\u0027t use a colon in a build tag, but you can use dot/period, so I added a prefix of \"goexperiment.\"  Thanks for the suggestion -- I wasn\u0027t really think that build tag could include any special chars.",
+      "parentUuid": "6e276dd4_9f0d9574",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f5ca2f_77ec8de4",
         "filename": "src/cmd/go/testdata/script/README",
         "patchSetId": 5
@@ -67,6 +121,24 @@
       "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a71db45_9cb76256",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-21T00:47:53Z",
+      "side": 1,
+      "message": "Done.  Changed the environment variable to GOEXPSTRING.",
+      "parentUuid": "24f5ca2f_77ec8de4",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "74cceefc_0ab92168",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-21T00:47:53Z",
+      "side": 1,
+      "message": "Added a comment, and it is now GOEXPSTRING, so that\u0027s somewhat clearer now too.",
+      "parentUuid": "278f5d39_f08c2fc0",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97ee4ffd_240daf3b",
         "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
         "patchSetId": 5
@@ -101,6 +191,24 @@
       "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c4e940e_61ce15e5",
+        "filename": "src/cmd/go/testdata/script/build_tag_goexperiment.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-21T00:47:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97ee4ffd_240daf3b",
+      "revId": "2af5f6ad90f2bb2d4f6aacdd76332e9b09f720c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
