@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da212819_c966d4f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-03-21T21:01:47Z",
+      "side": 1,
+      "message": "say just Match; with the \"path:\" title prefix, \"path.\" is redundant.",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "7558b8dd5bb66536218b299a15f745a4c2df6745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5827ec7_6c8e4894",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-03-21T21:01:47Z",
+      "side": 1,
+      "message": "wrap these around 80 or so columns for readability, and avoid markdown. See https://github.com/golang/go/wiki/CommitMessage\n\nAlso, this last line is a comment for the reviewer, so it shouldn\u0027t be in the commit message itself. I do think that we should apply the same change to both packages, but it seems fair to get this one reviewed first.",
+      "revId": "7558b8dd5bb66536218b299a15f745a4c2df6745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10354446_02315a4e",
+        "filename": "src/path/match.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-03-21T21:01:47Z",
+      "side": 1,
+      "message": "add a space to all these comments, like \"// foo bar\"",
+      "revId": "7558b8dd5bb66536218b299a15f745a4c2df6745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3025230b_d2871b71",
+        "filename": "src/path/match_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-03-21T21:01:47Z",
+      "side": 1,
+      "message": "no need to change this.",
+      "revId": "7558b8dd5bb66536218b299a15f745a4c2df6745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
