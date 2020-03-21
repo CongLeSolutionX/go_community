@@ -6,6 +6,7 @@ package ssa
 
 import (
 	"fmt"
+	"math"
 	"os"
 )
 
@@ -67,8 +68,8 @@ type posetUndo struct {
 }
 
 const (
-	// Make poset handle constants as unsigned numbers.
-	posetFlagUnsigned = 1 << iota
+	posetFlagUnsigned    = 1 << iota // Make poset handle constants as unsigned numbers.
+	posetFlagDirtyBounds             // Must recalculate numeric bounds of each node
 )
 
 // A poset edge. The zero value is the null/empty edge.
@@ -94,7 +95,51 @@ func (e posetEdge) String() string {
 
 // posetNode is a node of a DAG within the poset.
 type posetNode struct {
-	l, r posetEdge
+	l, r     posetEdge  // edges to the left and right children (if any)
+	min, max posetBound // inclusive numeric min/max bounds for this node
+}
+
+// posetBound represents a minimum or maximum bound on a node. The bound
+// is saved as a int64 value, but it needs to always be compared with the correct
+// signedness (depending on whether the poset is configured to handle signed or
+// unsigned numbers). All methods of this structure receive a unsigned bool
+// argument that indicate the signedness with which calculations must be performed.
+type posetBound struct{ v int64 }
+
+// LessThan returns true if b<b2 (with the correct signedness)
+func (b posetBound) LessThan(b2 posetBound, unsigned bool) bool {
+	if unsigned {
+		return uint64(b.v) < uint64(b2.v)
+	}
+	return int64(b.v) < int64(b2.v)
+}
+
+// LessThan returns true if b<=b2 (with the correct signedness)
+func (b posetBound) LessOrEqualThan(b2 posetBound, unsigned bool) bool {
+	if unsigned {
+		return uint64(b.v) <= uint64(b2.v)
+	}
+	return int64(b.v) <= int64(b2.v)
+}
+
+// Increment increments the bound by 1, with signed/unsigned saturation (avoiding overflows).
+// Return true if the value was incremented, false if saturated.
+func (b *posetBound) Increment(unsigned bool) bool {
+	if (unsigned && uint64(b.v) != math.MaxUint64) || (!unsigned && int64(b.v) != math.MaxInt64) {
+		b.v++
+		return true
+	}
+	return false
+}
+
+// Decrement decrements the bound by 1, with signed/unsigned saturation (avoiding overflows).
+// Return true if the value was decremented, false if saturated.
+func (b *posetBound) Decrement(unsigned bool) bool {
+	if (unsigned && uint64(b.v) != 0) || (!unsigned && int64(b.v) != math.MinInt64) {
+		b.v--
+		return true
+	}
+	return false
 }
 
 // poset is a union-find data structure that can represent a partially ordered set
@@ -176,6 +221,8 @@ func (po *poset) SetUnsigned(uns bool) {
 	}
 }
 
+func (po *poset) unsigned() bool { return po.flags&posetFlagUnsigned != 0 }
+
 // Handle children
 func (po *poset) setchl(i uint32, l posetEdge) { po.nodes[i].l = l }
 func (po *poset) setchr(i uint32, r posetEdge) { po.nodes[i].r = r }
@@ -184,31 +231,40 @@ func (po *poset) chr(i uint32) uint32          { return po.nodes[i].r.Target() }
 func (po *poset) children(i uint32) (posetEdge, posetEdge) {
 	return po.nodes[i].l, po.nodes[i].r
 }
+func (po *poset) setmin(i uint32, min posetBound) { po.nodes[i].min = min }
+func (po *poset) setmax(i uint32, max posetBound) { po.nodes[i].max = max }
+func (po *poset) min(i uint32) posetBound         { return po.nodes[i].min }
+func (po *poset) max(i uint32) posetBound         { return po.nodes[i].max }
 
 // upush records a new undo step. It can be used for simple
 // undo passes that record up to one index and one edge.
 func (po *poset) upush(typ undoType, p uint32, e posetEdge) {
 	po.undo = append(po.undo, posetUndo{typ: typ, idx: p, edge: e})
+	po.flags |= posetFlagDirtyBounds
 }
 
 // upushnew pushes an undo pass for a new node
 func (po *poset) upushnew(id ID, idx uint32) {
 	po.undo = append(po.undo, posetUndo{typ: undoNewNode, ID: id, idx: idx})
+	po.flags |= posetFlagDirtyBounds
 }
 
 // upushneq pushes a new undo pass for a nonequal relation
 func (po *poset) upushneq(idx1 uint32, idx2 uint32) {
 	po.undo = append(po.undo, posetUndo{typ: undoNonEqual, ID: ID(idx1), idx: idx2})
+	po.flags |= posetFlagDirtyBounds
 }
 
 // upushalias pushes a new undo pass for aliasing two nodes
 func (po *poset) upushalias(id ID, i2 uint32) {
 	po.undo = append(po.undo, posetUndo{typ: undoAliasNode, ID: id, idx: i2})
+	po.flags |= posetFlagDirtyBounds
 }
 
 // upushconst pushes a new undo pass for a new constant
 func (po *poset) upushconst(idx uint32, old uint32) {
 	po.undo = append(po.undo, posetUndo{typ: undoNewConstant, idx: idx, ID: ID(old)})
+	po.flags |= posetFlagDirtyBounds
 }
 
 // addchild adds i2 as direct child of i1.
@@ -255,7 +311,8 @@ func (po *poset) addchild(i1, i2 uint32, strict bool) {
 func (po *poset) newnode(n *Value) uint32 {
 	i := po.lastidx + 1
 	po.lastidx++
-	po.nodes = append(po.nodes, posetNode{})
+	min, max := po.noBounds()
+	po.nodes = append(po.nodes, posetNode{min: min, max: max})
 	if n != nil {
 		if po.values[n.ID] != 0 {
 			panic("newnode for Value already inserted")
@@ -268,15 +325,102 @@ func (po *poset) newnode(n *Value) uint32 {
 	return i
 }
 
-// lookup searches for a SSA value into the forest of DAGS, and return its node.
-// Constants are materialized on the fly during lookup.
-func (po *poset) lookup(n *Value) (uint32, bool) {
-	i, f := po.values[n.ID]
-	if !f && n.isGenericIntConst() {
-		po.newconst(n)
-		i, f = po.values[n.ID]
+// lookup searches for a SSA value into the forest of DAGS, and returns its node
+// index (i) and its bounds (min, max), plus a found flag (f) which is false
+// if the node was not found.
+//
+// If materializeConstants is true, looking up a constant value creates it
+// within the poset if it doesn't exist, and returns it. This is very useful to
+// simplify callers, as for instance we want to always deduce that x<6 if we
+// know that x<5, even if we have not seen a SSA constant node "6" before.
+//
+// lookup always returns semantically valid bounds. In fact:
+//   * For existing nodes, bounds are transparently recalculated (if required),
+//     so that valid updated values are returned.
+//   * For constants, lookup always returns min=max=const
+//   * For unknown nodes, lookup returns min=minint, max=maxint, which is
+//     a semantically valid bound for a node which we know nothing about.
+func (po *poset) lookup(n *Value, materializeConstants bool) (i uint32, min posetBound, max posetBound, f bool) {
+	i, f = po.values[n.ID]
+	if f {
+		po.recalcBounds()
+		min, max = po.min(i), po.max(i)
+	} else if n.isGenericIntConst() {
+		if materializeConstants {
+			po.newconst(n)
+			i, f = po.values[n.ID]
+		}
+		val := n.AuxInt
+		if po.flags&posetFlagUnsigned != 0 {
+			val = int64(n.AuxUnsigned())
+		}
+		min, max = posetBound{val}, posetBound{val}
+	} else {
+		min, max = po.noBounds()
 	}
-	return i, f
+	return
+}
+
+// isInvalidConstant returns true if this constant is not valid for this poset.
+// To reason about bounds, posets stores constant values as 64-bit values
+// whose signedness matches the one used for the poset itself (see posetBound).
+// This means that an unsigned poset cannot reason on a negative constant,
+// and a signed bound cannot reason on an unsigned constant bigger than 2**63.
+func (po *poset) isInvalidConstant(n *Value) bool {
+	if n.isGenericIntConst() {
+		_, valid := po.constVal(n)
+		return !valid
+	}
+	return false
+}
+
+// constVal extracts the numerical value from a SSA OpConst* as a posetBound
+// (that is, a 64-bit whose signedness matches the one of the poset), and a
+// boolean that says if the operation succeeded (that is, if the constant
+// can be represented in this poset).
+//
+// There are two hurdles here:
+//   * In SSA Value, constants are stored with sign-extension even if the
+//     value is actually unsigned, so we cannot just use AuxInt. We need to
+//     go through Value.AuxUnsigned to extract the correct value.
+//   * Some constants cannot be represented as posetBound, so the operation might
+//     fail (see isInvalidConsent for an explanation).
+func (po *poset) constVal(n *Value) (posetBound, bool) {
+	if !n.isGenericIntConst() {
+		panic("constVal on non-constant")
+	}
+
+	posigned := po.flags&posetFlagUnsigned == 0
+	csigned := n.Type.IsSigned()
+
+	switch {
+	case posigned && csigned:
+		return posetBound{n.AuxInt}, true
+	case posigned && !csigned:
+		// Check if we can represent the unsigned constant in a signed int64.
+		// In fact, a signed poset is unable to store relations about constants
+		// bigger than 2**63.
+		val := n.AuxUnsigned()
+		if int64(val) < 0 {
+			return posetBound{}, false
+		}
+		return posetBound{int64(val)}, true
+
+	case !posigned && !csigned:
+		return posetBound{int64(n.AuxUnsigned())}, true
+
+	case !posigned && csigned:
+		// Check if we can represent the signed constant into a uint64.
+		// In fact, an unsigned poset is unable to store relations about
+		// negative numbers.
+		if n.AuxInt < 0 {
+			return posetBound{}, false
+		}
+		return posetBound{n.AuxInt}, true
+
+	default:
+		panic("unreachable")
+	}
 }
 
 // newconst creates a node for a constant. It links it to other constants, so
@@ -289,18 +433,23 @@ func (po *poset) newconst(n *Value) {
 
 	// If the same constant is already present in the poset through a different
 	// Value, just alias to it without allocating a new node.
-	val := n.AuxInt
-	if po.flags&posetFlagUnsigned != 0 {
-		val = int64(n.AuxUnsigned())
+	bound, ok := po.constVal(n)
+	if !ok {
+		// This should never happen: we should filter out invalid constants
+		// before we get here
+		panic("newconst on unrepresentable constant")
 	}
-	if c, found := po.constants[val]; found {
+
+	if c, found := po.constants[bound.v]; found {
 		po.values[n.ID] = c
 		po.upushalias(n.ID, 0)
 		return
 	}
 
-	// Create the new node for this constant
+	// Create the new node for this constant, and give it fixed bounds (min=max=value)
 	i := po.newnode(n)
+	po.setmin(i, bound)
+	po.setmax(i, bound)
 
 	// If this is the first constant, put it as a new root, as
 	// we can't record an existing connection so we don't have
@@ -312,7 +461,7 @@ func (po *poset) newconst(n *Value) {
 		po.roots = append(po.roots, i)
 		po.roots[0], po.roots[idx] = po.roots[idx], po.roots[0]
 		po.upush(undoNewRoot, i, 0)
-		po.constants[val] = i
+		po.constants[bound.v] = i
 		po.upushconst(i, 0)
 		return
 	}
@@ -326,7 +475,7 @@ func (po *poset) newconst(n *Value) {
 
 	if po.flags&posetFlagUnsigned != 0 {
 		var lower, higher uint64
-		val1 := n.AuxUnsigned()
+		val1 := uint64(bound.v)
 		for val2, ptr := range po.constants {
 			val2 := uint64(val2)
 			if val1 == val2 {
@@ -342,7 +491,7 @@ func (po *poset) newconst(n *Value) {
 		}
 	} else {
 		var lower, higher int64
-		val1 := n.AuxInt
+		val1 := bound.v
 		for val2, ptr := range po.constants {
 			if val1 == val2 {
 				panic("unreachable")
@@ -363,7 +512,7 @@ func (po *poset) newconst(n *Value) {
 		panic("no constant found")
 	}
 
-	// Create the new node and connect it to the bounds, so that
+	// Connect the new node to the bounds, so that
 	// lower < n < higher. We could have found both bounds or only one
 	// of them, depending on what other constants are present in the poset.
 	// Notice that we always link constants together, so they
@@ -403,7 +552,7 @@ func (po *poset) newconst(n *Value) {
 		po.addchild(i, i2, true)
 	}
 
-	po.constants[val] = i
+	po.constants[bound.v] = i
 	po.upushconst(i, 0)
 }
 
@@ -482,6 +631,8 @@ func (po *poset) aliasnodes(n1 *Value, i2s bitset) {
 		if i2s.Test(idx) {
 			po.constants[val] = i1
 			po.upushconst(i1, idx)
+			po.setmin(i1, posetBound{val})
+			po.setmax(i1, posetBound{val})
 		}
 	}
 }
@@ -697,8 +848,8 @@ func (po *poset) isnoneq(i1, i2 uint32) bool {
 
 // Record that i1!=i2
 func (po *poset) setnoneq(n1, n2 *Value) {
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
+	i1, _, _, f1 := po.lookup(n1, true)
+	i2, _, _, f2 := po.lookup(n2, true)
 
 	// If any of the nodes do not exist in the poset, allocate them. Since
 	// we don't know any relation (in the partial order) about them, they must
@@ -741,8 +892,13 @@ func (po *poset) setnoneq(n1, n2 *Value) {
 func (po *poset) CheckIntegrity() {
 	// Record which index is a constant
 	constants := newBitset(int(po.lastidx + 1))
-	for _, c := range po.constants {
+	for val, c := range po.constants {
 		constants.Set(c)
+		// Verify that constants have correct bounds. This is an invariant
+		// that we always hold true, even other bounds are dirty.
+		if po.min(c).v != val || po.max(c).v != val {
+			panic(fmt.Errorf("invalid bounds on constant %v", val))
+		}
 	}
 
 	// Verify that each node appears in a single DAG, and that
@@ -783,6 +939,18 @@ func (po *poset) CheckIntegrity() {
 			if n.l.Target() == uint32(i) || n.r.Target() == uint32(i) {
 				panic(fmt.Errorf("self-loop on node %d", i))
 			}
+		}
+	}
+
+	// Verify that the calculated bounds are meaningful
+	po.recalcBounds()
+	unsigned := po.flags&posetFlagUnsigned != 0
+	for i, n := range po.nodes {
+		if i == 0 {
+			continue
+		}
+		if n.max.LessThan(n.min, unsigned) {
+			panic(fmt.Errorf("inverted min/max bound on node %d s[%v,%v]", i, n.min.v, n.max.v))
 		}
 	}
 }
@@ -897,13 +1065,18 @@ func (po *poset) Ordered(n1, n2 *Value) bool {
 		panic("should not call Ordered with n1==n2")
 	}
 
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
-	if !f1 || !f2 {
-		return false
+	// If both operands are in the poset, see if know a relation
+	// between them.
+	i1, _, max1, f1 := po.lookup(n1, false)
+	i2, min2, _, f2 := po.lookup(n2, false)
+	if max1.LessThan(min2, po.unsigned()) {
+		return true
+	}
+	if f1 && f2 {
+		return i1 != i2 && po.reaches(i1, i2, true)
 	}
 
-	return i1 != i2 && po.reaches(i1, i2, true)
+	return false
 }
 
 // Ordered reports whether n1<=n2. It returns false either when it is
@@ -918,19 +1091,22 @@ func (po *poset) OrderedOrEqual(n1, n2 *Value) bool {
 		panic("should not call Ordered with n1==n2")
 	}
 
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
-	if !f1 || !f2 {
-		return false
+	i1, _, max1, f1 := po.lookup(n1, false)
+	i2, min2, _, f2 := po.lookup(n2, false)
+	if max1.LessOrEqualThan(min2, po.unsigned()) {
+		return true
+	}
+	if f1 && f2 {
+		return i1 == i2 || po.reaches(i1, i2, false)
 	}
 
-	return i1 == i2 || po.reaches(i1, i2, false)
+	return false
 }
 
 // Equal reports whether n1==n2. It returns false either when it is
 // certain that n1==n2 is false, or if there is not enough information
 // to tell.
-// Complexity is O(1).
+// Complexity is normally O(1), can be O(n) if it's the first call after a mutation.
 func (po *poset) Equal(n1, n2 *Value) bool {
 	if debugPoset {
 		defer po.CheckIntegrity()
@@ -939,8 +1115,13 @@ func (po *poset) Equal(n1, n2 *Value) bool {
 		panic("should not call Equal with n1==n2")
 	}
 
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
+	i1, min1, max1, f1 := po.lookup(n1, false)
+	i2, min2, max2, f2 := po.lookup(n2, false)
+	if min1.v == max1.v && min2.v == max2.v && min1.v == min2.v {
+		return true
+	}
+
+	// If they're aliased to the same node, they're equal
 	return f1 && f2 && i1 == i2
 }
 
@@ -959,8 +1140,12 @@ func (po *poset) NonEqual(n1, n2 *Value) bool {
 
 	// If we never saw the nodes before, we don't
 	// have a recorded non-equality.
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
+	i1, min1, max1, f1 := po.lookup(n1, false)
+	i2, min2, max2, f2 := po.lookup(n2, false)
+	if max2.LessThan(min1, po.unsigned()) || max1.LessThan(min2, po.unsigned()) {
+		return true
+	}
+
 	if !f1 || !f2 {
 		return false
 	}
@@ -982,8 +1167,26 @@ func (po *poset) NonEqual(n1, n2 *Value) bool {
 // if this is a contradiction.
 // Implements SetOrder() and SetOrderOrEqual()
 func (po *poset) setOrder(n1, n2 *Value, strict bool) bool {
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
+	// Given n1 in range [min1, max1] and n2 in range [min2, max2],
+	// we must check the following conditions:
+	//   If n1 < n2, then it is a contradiction to have max2 <= min1
+	//   If n1 <= n2, then it is a contradiction to have max1 < min1
+	_, min1, _, _ := po.lookup(n1, false)
+	_, _, max2, _ := po.lookup(n2, false)
+	if strict {
+		if max2.LessOrEqualThan(min1, po.unsigned()) {
+			return false
+		}
+	} else {
+		if max2.LessThan(min1, po.unsigned()) {
+			return false
+		}
+	}
+
+	// Lookup again, and materialize constants if any. We didn't do this before
+	// to avoid creating constants nodes if they were not needed.
+	i1, _, _, f1 := po.lookup(n1, true)
+	i2, _, _, f2 := po.lookup(n2, true)
 
 	switch {
 	case !f1 && !f2:
@@ -1116,6 +1319,11 @@ func (po *poset) SetOrder(n1, n2 *Value) bool {
 	if n1.ID == n2.ID {
 		panic("should not call SetOrder with n1==n2")
 	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
+	}
 	return po.setOrder(n1, n2, true)
 }
 
@@ -1127,6 +1335,11 @@ func (po *poset) SetOrderOrEqual(n1, n2 *Value) bool {
 	}
 	if n1.ID == n2.ID {
 		panic("should not call SetOrder with n1==n2")
+	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
 	}
 	return po.setOrder(n1, n2, false)
 }
@@ -1141,9 +1354,24 @@ func (po *poset) SetEqual(n1, n2 *Value) bool {
 	if n1.ID == n2.ID {
 		panic("should not call Add with n1==n2")
 	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
+	}
 
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
+	// If n1==n2, it is a contradiction if max2<min1 or max1<min2 (because
+	// the range are disjoint).
+	_, min1, max1, _ := po.lookup(n1, false)
+	_, min2, max2, _ := po.lookup(n2, false)
+	if max2.LessThan(min1, po.unsigned()) || max1.LessThan(min2, po.unsigned()) {
+		return false
+	}
+
+	// Lookup again, and materialize constants if any. We didn't do this before
+	// to avoid creating constants nodes if they were not needed.
+	i1, _, _, f1 := po.lookup(n1, true)
+	i2, _, _, f2 := po.lookup(n2, true)
 
 	switch {
 	case !f1 && !f2:
@@ -1201,10 +1429,20 @@ func (po *poset) SetNonEqual(n1, n2 *Value) bool {
 	if n1.ID == n2.ID {
 		panic("should not call SetNonEqual with n1==n2")
 	}
+	if po.isInvalidConstant(n1) || po.isInvalidConstant(n2) {
+		// We can't store relations about invalid constants, so just pretend
+		// that we did
+		return true
+	}
+
+	// Check if we're contradicting an existing relation
+	if po.Equal(n1, n2) {
+		return false
+	}
 
 	// Check whether the nodes are already in the poset
-	i1, f1 := po.lookup(n1)
-	i2, f2 := po.lookup(n2)
+	i1, _, _, f1 := po.lookup(n1, true)
+	i2, _, _, f2 := po.lookup(n2, true)
 
 	// If either node wasn't present, we just record the new relation
 	// and exit.
@@ -1216,11 +1454,6 @@ func (po *poset) SetNonEqual(n1, n2 *Value) bool {
 	// See if we already know this, in which case there's nothing to do.
 	if po.isnoneq(i1, i2) {
 		return true
-	}
-
-	// Check if we're contradicting an existing equality relation
-	if po.Equal(n1, n2) {
-		return false
 	}
 
 	// Record non-equality
@@ -1238,6 +1471,243 @@ func (po *poset) SetNonEqual(n1, n2 *Value) bool {
 	}
 
 	return true
+}
+
+// SignedBounds extracts the known signed bounds for a given node, that is
+// the minimum and maximum constant values that we can prove that min <= n <= max.
+// Calling SignedBounds on an unsigned poset will panic; use UnsignedBounds instead.
+// Complexity is usually O(1) because of a caching layer; when the cache needs to
+// be updated (currently, after every poset mutation), complexity is O(n).
+func (po *poset) SignedBounds(n *Value) (min int64, max int64) {
+	if po.flags&posetFlagUnsigned != 0 {
+		panic("cannot call SignedBounds on unsigned poset")
+	}
+	_, bmin, bmax, _ := po.lookup(n, false)
+	return bmin.v, bmax.v
+}
+
+// UnsignedBounds extracts the known unsigned bounds for a given node, that is
+// the minimum and maximum constant values that we can prove that min <= n <= max.
+// Calling UnignedBounds on an signed poset will panic; use SignedBounds instead.
+// Complexity is usually O(1) because of a caching layer; when the cache needs to
+// be updated (currently, after every poset mutation), complexity is O(n).
+func (po *poset) UnsignedBounds(n *Value) (min uint64, max uint64) {
+	if po.flags&posetFlagUnsigned == 0 {
+		panic("cannot call UnsignedBounds on signed poset")
+	}
+	_, bmin, bmax, _ := po.lookup(n, false)
+	return uint64(bmin.v), uint64(bmax.v)
+}
+
+// noBounds returns the min/max bounds that correspond to having no bounds
+// (that is, the minimum/maximum 64bit integer of the correct signedness)
+func (po *poset) noBounds() (min, max posetBound) {
+	if po.flags&posetFlagUnsigned != 0 {
+		return posetBound{0}, posetBound{-1}
+	}
+	return posetBound{math.MinInt64}, posetBound{math.MaxInt64}
+}
+
+func (po *poset) recalcBounds() {
+	if po.flags&posetFlagDirtyBounds == 0 {
+		return
+	}
+	po.flags &^= posetFlagDirtyBounds
+	if po.lastidx == 0 {
+		// Empty poset, nothing to do
+		return
+	}
+	// Reset min/max bounds for all nodes that are not constants.
+	// This is the default correct value in case we cannot infer
+	// anything about them.
+	nomin, nomax := po.noBounds()
+	for i := uint32(1); i <= po.lastidx; i++ {
+		po.setmin(i, nomin)
+		po.setmax(i, nomax)
+	}
+	for val, i := range po.constants {
+		po.setmin(i, posetBound{val})
+		po.setmax(i, posetBound{val})
+	}
+
+	// Allocate memory buffers that will be used for recalcMin/recalcMax
+	// (so that we reuse them across all roots)
+	seen := newBitset(len(po.nodes))
+	ins := make([]int16, len(po.nodes))
+
+	// Now recalc bounds on all nodes under all roots. Even if constants
+	// are only in DAG #0, we can still infer bound information on nodes
+	// in other DAGs from non-equality relations. For instance, in an
+	// unsigned poset, if A<B<C, we know that the minimum bounds
+	// of B,C are respectively 1,2.
+	for _, r := range po.roots {
+		po.recalcMax(r, seen)
+		po.recalcMin(r, ins)
+
+		// Reset buffers that will be reused
+		seen.Reset()
+		for i := range ins {
+			ins[i] = 0
+		}
+	}
+}
+
+// recalcMax recalculates maximum bounds for all nodes under root.
+// It uses a recursive DFS visit to go through all the nodes once, enforcing
+// the basic property that a node's maximum bound is the lowest maximum bound of
+// its children. So we first recurse on each child and then calculate the current
+// node's bound. We use a recursive implementation because we want to observe the edges:
+// strict edges lower the maximum bound by 1. For instance, if X < Y <= 6, X's maximum
+// bound is 5.
+func (po *poset) recalcMax(root uint32, seen bitset) {
+	// Set the 0th node with nobounds, and mark it as already visited.
+	// This node is not used in any DAG, but setting it to nobounds
+	// simplify the implementation of recalcMax, as it doesn't have to
+	// special case empty edges (see below).
+	nomin, nomax := po.noBounds()
+	po.setmin(0, nomin)
+	po.setmax(0, nomax)
+	seen.Set(0)
+
+	po.recalcMax1(root, seen)
+}
+
+func (po *poset) recalcMax1(i uint32, seen bitset) {
+	// First, recurse into children. Node 0th has been marked as seen,
+	// so we don't need to explictly check for null edges.
+	l, r := po.children(i)
+	if !seen.Test(l.Target()) {
+		seen.Set(l.Target())
+		po.recalcMax1(l.Target(), seen)
+	}
+	if !seen.Test(r.Target()) {
+		seen.Set(r.Target())
+		po.recalcMax1(r.Target(), seen)
+	}
+
+	// If this is a constant, we already know its bounds
+	if po.min(i).v == po.max(i).v {
+		return
+	}
+
+	// Calculate the current node's bound as the lower of the children's bounds
+	// taking strict edges into account. Notice that we don't have to special
+	// case null edges here, as the 0th node has been marked as having no bounds.
+	unsigned := (po.flags & posetFlagUnsigned) != 0
+	maxl, maxr := po.max(l.Target()), po.max(r.Target())
+	if l.Strict() {
+		if !maxl.Decrement(unsigned) {
+			panic("impossible maximum bound")
+		}
+	}
+	if r.Strict() {
+		if !maxr.Decrement(unsigned) {
+			panic("impossible maximum bound")
+		}
+	}
+
+	var max posetBound
+	if maxr.LessThan(maxl, unsigned) {
+		max = maxr
+	} else {
+		max = maxl
+	}
+
+	// Check if we have a non-equality relation with the current maximum.
+	// If so, decrement it (and then check again)
+	for {
+		maxidx, found := po.constants[max.v]
+		if found && po.isnoneq(i, maxidx) {
+			if !max.Decrement(unsigned) {
+				panic("impossible maximum bound")
+			}
+			continue
+		}
+		break
+	}
+
+	po.setmax(i, max)
+}
+
+// recalcMin recalculates the minimum bounds for all nodes under root.
+// The property being enforced is that a node's minimum bound is the maximum of
+// all its parents. To make sure to process all parents of a node before processing
+// the node itself, we must walk the DAG in topological order; we do it using a
+// recursive version of Kahn's algorithm, which uses a count of each node's incoming
+// links (aka parents).
+// We use recursion because we want to observe the edges, as strict edges increase the
+// minimum bound. For instance, if 5 <= X < Y, Y's minimum bound is 6.
+func (po *poset) recalcMin(root uint32, ins []int16) {
+	for i := uint32(1); i <= po.lastidx; i++ {
+		l, r := po.children(i)
+		ins[l.Target()]++
+		if ins[l.Target()] == 0 {
+			panic("recalcMin overflow")
+		}
+		ins[r.Target()]++
+		if ins[r.Target()] == 0 {
+			panic("recalcMin overflow")
+		}
+	}
+	ins[root]++ // we start from root, so give it one incoming link
+	if ins[root] == 0 {
+		panic("recalcMin overflow")
+	}
+
+	nomin, _ := po.noBounds()
+	po.recalcMin1(root, false, nomin, ins)
+}
+
+func (po *poset) recalcMin1(i uint32, strict bool, min posetBound, ins []int16) {
+	unsigned := (po.flags & posetFlagUnsigned) != 0
+	if ins[i] <= 0 {
+		panic("no inner links?")
+	}
+	// If this is not a constant, update the minimum bound
+	if po.min(i).v != po.max(i).v {
+		// Update this node's minimum bound, comparing with the minimum of its
+		// parent through this path. If the current node was reached
+		// through a strict edge, the parent's minimum can be incremented by 1.
+		if strict {
+			if !min.Increment(unsigned) {
+				panic("impossible minimum bound")
+			}
+		}
+		if po.min(i).LessThan(min, unsigned) {
+			po.setmin(i, min)
+		}
+	}
+
+	// Decrement this node's counter of parents. If we reached zero, it means
+	// that we went through all the paths coming here: this node's minimum
+	// bound is now correct, and we can recurse to the children.
+	ins[i]--
+	if ins[i] != 0 {
+		return
+	}
+
+	// Check if we have a non-equality relation with the current minimum.
+	// If so, increment it (and then check again)
+	min = po.min(i)
+	for {
+		minidx, found := po.constants[min.v]
+		if found && po.isnoneq(i, minidx) {
+			if !min.Increment(unsigned) {
+				panic("impossible minimum bound")
+			}
+			po.setmin(i, min)
+			continue
+		}
+		break
+	}
+
+	l, r := po.children(i)
+	if l != 0 {
+		po.recalcMin1(l.Target(), l.Strict(), min, ins)
+	}
+	if r != 0 {
+		po.recalcMin1(r.Target(), r.Strict(), min, ins)
+	}
 }
 
 // Checkpoint saves the current state of the DAG so that it's possible
@@ -1258,6 +1728,9 @@ func (po *poset) Undo() {
 	if debugPoset {
 		defer po.CheckIntegrity()
 	}
+
+	// After an undo pass, bounds might be outdated
+	po.flags |= posetFlagDirtyBounds
 
 	for len(po.undo) > 0 {
 		pass := po.undo[len(po.undo)-1]
@@ -1292,24 +1765,19 @@ func (po *poset) Undo() {
 			po.lastidx--
 
 		case undoNewConstant:
-			// FIXME: remove this O(n) loop
-			var val int64
-			var i uint32
-			for val, i = range po.constants {
-				if i == pass.idx {
-					break
-				}
-			}
-			if i != pass.idx {
-				panic("constant not found in undo pass")
+			val := po.nodes[pass.idx]
+			if val.min.v != val.max.v {
+				panic("invalid constant with non-constant bounds")
 			}
 			if pass.ID == 0 {
-				delete(po.constants, val)
+				delete(po.constants, val.min.v)
 			} else {
 				// Restore previous index as constant node
 				// (also restoring the invariant on correct bounds)
 				oldidx := uint32(pass.ID)
-				po.constants[val] = oldidx
+				po.constants[val.min.v] = oldidx
+				po.nodes[oldidx].min = val.min
+				po.nodes[oldidx].max = val.max
 			}
 
 		case undoAliasNode:
