@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63b2cfab_09c39ef5",
+        "filename": "doc/install-source.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-22T19:50:04Z",
+      "side": 1,
+      "message": "I think it would be clearer to say that the scripts look for a \"go\" command in $PATH.\n\n(Also s/a Go/Go/).",
+      "revId": "acce501e4cdf20d4fd3155af5175ae189d11bdd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b42300d9_4462a5f7",
+        "filename": "doc/install-source.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-22T19:50:04Z",
+      "side": 1,
+      "message": "I think this paragraph can be shorter and more direct, and maybe incorporated into the preceding paragraph.\n\nYou can also set $GOROOT_BOOTSTRAP to the root of a Go installation to use to build the new Go toolchain; $GOROOT_BOOTSTRAP/bin/go should be the go command to use.",
+      "revId": "acce501e4cdf20d4fd3155af5175ae189d11bdd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
