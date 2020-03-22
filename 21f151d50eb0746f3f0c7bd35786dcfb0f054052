@@ -16,6 +16,24 @@
       "revId": "21f151d50eb0746f3f0c7bd35786dcfb0f054052",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19b07e82_9ef7a22a",
+        "filename": "src/runtime/chanbarrier_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 20251
+      },
+      "writtenOn": "2020-03-22T19:02:58Z",
+      "side": 1,
+      "message": "OK, removed in favor of your test.",
+      "parentUuid": "7646570e_3a73d271",
+      "revId": "21f151d50eb0746f3f0c7bd35786dcfb0f054052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
