@@ -205,6 +205,7 @@ func idxFloat64(x, y []float64, i int) {
 	y[16*i+1] = t
 }
 
+/*
 func idxLoadPlusOp(x []int32, i int) int32 {
 	s := x[0]
 	// 386: `ADDL\t4\([A-Z]+\)\([A-Z]+\*4\), [A-Z]+`
@@ -243,3 +244,4 @@ func idxStorePlusOp(x []int32, i int, v int32) {
 	// 386: `XORL\t[$]77, 36\([A-Z]+\)\([A-Z]+\*4\)`
 	x[i+9] ^= 77
 }
+*/
