@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c4aafef_4911e46d",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-03-23T23:16:47Z",
+      "side": 1,
+      "message": "I think the IETF and NIST convention here is SHA3-224, SHA3-256, SHA3-384, and SHA3-512.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 20
+      },
+      "revId": "45f4e35bf4edf5e8dd10460eb83e25361052f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "805f61d2_1cacd802",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-03-23T23:16:47Z",
+      "side": 1,
+      "message": "Let\u0027s not panic for this. We can return \"unknown hash value %d\".",
+      "revId": "45f4e35bf4edf5e8dd10460eb83e25361052f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
