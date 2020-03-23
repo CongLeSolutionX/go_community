@@ -16,6 +16,24 @@
       "revId": "5570824090940aff47a4e8b016b24226aa6fbe8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ea57b90_ce58b120",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-23T16:15:38Z",
+      "side": 1,
+      "message": "No, we don\u0027t. We only need the old linker if we flip the default. If we do that, we can remove the new linker from the bootstrap, or stub out.",
+      "parentUuid": "11ce7899_43980e1e",
+      "revId": "5570824090940aff47a4e8b016b24226aa6fbe8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
