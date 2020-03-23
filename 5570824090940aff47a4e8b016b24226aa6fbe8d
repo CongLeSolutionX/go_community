@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11ce7899_43980e1e",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-23T16:11:18Z",
+      "side": 1,
+      "message": "Does it make sense to build both linkers during bootstrap? We\u0027re only going to use one of them. Or is this primarily to make sure they both continue to build with Go 1.4?",
+      "revId": "5570824090940aff47a4e8b016b24226aa6fbe8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
