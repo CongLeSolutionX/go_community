@@ -102,7 +102,7 @@ var pkgDeps = map[string][]string{
 	// L3 adds reflection and some basic utility packages
 	// and interface definitions, but nothing that makes
 	// system calls.
-	"crypto":                 {"L2", "hash"}, // interfaces
+	"crypto":                 {"L2", "fmt", "hash"}, // interfaces
 	"crypto/cipher":          {"L2", "crypto/subtle", "crypto/internal/subtle", "encoding/binary"},
 	"crypto/internal/subtle": {"unsafe", "reflect"}, // reflect behind a appengine tag
 	"crypto/subtle":          {},
