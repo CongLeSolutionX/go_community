@@ -11,6 +11,8 @@ import (
 	"strconv"
 )
 
+//go:generate stringer -type=Hash
+
 // Hash identifies a cryptographic hash function that is implemented in another
 // package.
 type Hash uint
