@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eaacbe8_48aafde4",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-03-23T18:38:45Z",
+      "side": 1,
+      "message": "Looks like this will turn maxHash into a string, which shouldn\u0027t happen (because we might add a hash with that value at some point).",
+      "revId": "6d7f35c99b7d3ac5bf5d5b3e2cd447654b1e1a77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
