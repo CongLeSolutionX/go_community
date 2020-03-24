@@ -1133,6 +1133,14 @@ func (l *Loader) SetSymElfType(i Sym, et elf.SymType) {
 	}
 }
 
+// SymPlt returns the plt value for pe symbols.
+func (l *Loader) SymPlt(s Sym) int32 {
+	if v, ok := l.plt[s]; ok {
+		return v
+	}
+	return -1
+}
+
 // SetPlt sets the plt value for pe symbols.
 func (l *Loader) SetPlt(i Sym, v int32) {
 	if i >= Sym(len(l.objSyms)) || i == 0 {
@@ -1143,6 +1151,14 @@ func (l *Loader) SetPlt(i Sym, v int32) {
 	} else {
 		l.plt[i] = v
 	}
+}
+
+// SymGot returns the got value for pe symbols.
+func (l *Loader) SymGot(s Sym) int32 {
+	if v, ok := l.got[s]; ok {
+		return v
+	}
+	return -1
 }
 
 // SetGot sets the got value for pe symbols.
@@ -1257,11 +1273,11 @@ func (l *Loader) SymLocalentry(i Sym) uint8 {
 	return l.localentry[i]
 }
 
-// SetSymExtname sets the "extname" attribute for a symbol.
+// SetSymLocalentry sets the "local entry" attribute for a symbol.
 func (l *Loader) SetSymLocalentry(i Sym, value uint8) {
 	// reject bad symbols
 	if i >= Sym(len(l.objSyms)) || i == 0 {
-		panic("bad symbol index in SetExtname")
+		panic("bad symbol index in SetSymLocalentry")
 	}
 	if value == 0 {
 		delete(l.localentry, i)
