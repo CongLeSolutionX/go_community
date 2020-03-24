@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee51fe25_b8a0e0b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-24T18:50:50Z",
+      "side": 1,
+      "message": "s/3adbdb6d9931276894c5e2524f5ca8ca26bfeab5/CL 224837/",
+      "revId": "ea43dd5d5b02a1129212b20b6619d7aec3dce115",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
