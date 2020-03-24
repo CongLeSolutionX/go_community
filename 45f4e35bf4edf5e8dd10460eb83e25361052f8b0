@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e117641_6141855c",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-03-24T14:27:04Z",
+      "side": 1,
+      "message": "Heh. I just assumed that these would follow the same convention as the other SHA algorithms, ie. since SHA512_224 is described as SHA-512/224, I figured SHA3_224 would be SHA-3/224 😊\n\nFixed.",
+      "parentUuid": "4c4aafef_4911e46d",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 20
+      },
+      "revId": "45f4e35bf4edf5e8dd10460eb83e25361052f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "805f61d2_1cacd802",
         "filename": "src/crypto/crypto.go",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "45f4e35bf4edf5e8dd10460eb83e25361052f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38497ed2_fbaf1334",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-03-24T14:27:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "805f61d2_1cacd802",
+      "revId": "45f4e35bf4edf5e8dd10460eb83e25361052f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
