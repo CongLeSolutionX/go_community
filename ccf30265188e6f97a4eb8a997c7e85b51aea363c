@@ -16,6 +16,24 @@
       "revId": "ccf30265188e6f97a4eb8a997c7e85b51aea363c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c511a09_0b2dc5dc",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-24T18:57:51Z",
+      "side": 1,
+      "message": "Yes, dropping the call to cleantimers was intentional.  It\u0027s never necessary to call cleantimers; it can just speed things up later by removing timers that we no longer need.  It makes sense to call it from addtimer, because nothing much is happening there, so calling cleantimers amortizes timer cleanup time across goroutines that use timers.  But calling cleantimers while we are in timerModifying state can slow down other P\u0027s.",
+      "parentUuid": "2749f6b5_7eaa90bb",
+      "revId": "ccf30265188e6f97a4eb8a997c7e85b51aea363c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
