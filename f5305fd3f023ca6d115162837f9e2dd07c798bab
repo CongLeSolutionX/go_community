@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2641bf8f_f1185118",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-24T21:23:27Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure about this reasoning. The relationship between GOGC and memory is already less linear than I would like, and this seems like it would make that worse.",
+      "range": {
+        "startLine": 799,
+        "startChar": 33,
+        "endLine": 802,
+        "endChar": 12
+      },
+      "revId": "f5305fd3f023ca6d115162837f9e2dd07c798bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db28863c_5cead0c1",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-24T21:23:27Z",
+      "side": 1,
+      "message": "Consider writing this as minTriggerRatio \u003d 0.6 * scalingFactor so the parallel with the maxTriggerRatio computation is clear. It\u0027s fine the leave the initializing assignment as is.",
+      "revId": "f5305fd3f023ca6d115162837f9e2dd07c798bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dc69c39_c4c552ea",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-24T21:23:27Z",
+      "side": 1,
+      "message": "Out of curiosity, can this case actually happen? (I\u0027m not opposed to being defensive here, but it might be nice to expand the comment.)",
+      "revId": "f5305fd3f023ca6d115162837f9e2dd07c798bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
