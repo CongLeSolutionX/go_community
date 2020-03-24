@@ -277,7 +277,11 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 	if ctxt.IsWindows() {
 		bench.Start("windynrelocsyms")
-		ctxt.windynrelocsyms()
+		if os.Getenv("THANM_WINDYNRELOCSYMS") != "" {
+			ctxt.windynrelocsyms2()
+		} else {
+			ctxt.windynrelocsyms()
+		}
 	}
 
 	bench.Start("mangleTypeSym")
