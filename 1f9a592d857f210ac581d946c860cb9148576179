@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "821a8786_baf50374",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-03-24T15:12:37Z",
+      "side": 1,
+      "message": "Good question. I don\u0027t know. I believe it should be asked in the upstream CL 203502, since if it is a problem, it will affect the master branch. The scope of this backport CL is to fix the Windows longtest builder.",
+      "parentUuid": "b37befe6_52b80d1e",
+      "revId": "1f9a592d857f210ac581d946c860cb9148576179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af91481c_0c5dc80e",
         "filename": "src/os/removeall_test.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2020-03-20T13:46:09Z",
       "side": 1,
       "message": "This should be an error message like t.Fatalf(\"Chmod %q %v: %s\"), to be consistent with other errors and provide context.",
+      "revId": "1f9a592d857f210ac581d946c860cb9148576179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86250613_82b4097b",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-03-24T15:12:37Z",
+      "side": 1,
+      "message": "This is a reasonable suggestion, but I think it should be made in the upstream CL 203502. This CL is an exact backport of the changes in that CL (with the inclusion of removal of an unused variable from CL 204060), and I would prefer not to change its content.",
+      "parentUuid": "af91481c_0c5dc80e",
       "revId": "1f9a592d857f210ac581d946c860cb9148576179",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
