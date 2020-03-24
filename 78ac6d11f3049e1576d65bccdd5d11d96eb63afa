@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0afc0af_fa7667cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-24T19:48:24Z",
+      "side": 1,
+      "message": "Just drop this line entirely, we don\u0027t need it.  Do this by editing the GitHub pull request.",
+      "revId": "78ac6d11f3049e1576d65bccdd5d11d96eb63afa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
