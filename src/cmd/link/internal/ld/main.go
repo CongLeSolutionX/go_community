@@ -271,6 +271,12 @@ func Main(arch *sys.Arch, theArch Arch) {
 	if ctxt.IsWindows() {
 		bench.Start("dope")
 		ctxt.dope()
+		bench.Start("windynrelocsyms")
+		if os.Getenv("THANM_WINDYNRELOCSYMS") != "no" {
+			ctxt.windynrelocsyms2()
+		} else {
+			ctxt.windynrelocsyms()
+		}
 	}
 	bench.Start("loadlibfull")
 	ctxt.loadlibfull() // XXX do it here for now
@@ -278,11 +284,6 @@ func Main(arch *sys.Arch, theArch Arch) {
 		bench.Start("doxcoff")
 		ctxt.doxcoff()
 	}
-	if ctxt.IsWindows() {
-		bench.Start("windynrelocsyms")
-		ctxt.windynrelocsyms()
-	}
-
 	ctxt.setArchSyms()
 	bench.Start("addexport")
 	ctxt.addexport()
