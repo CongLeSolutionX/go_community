@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9b2fc5ec_c3557bb8",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-03-24T15:59:47Z",
+      "side": 1,
+      "message": "Those SHA-512 variants are basically truncated SHA-512, rather than different hashes. It\u0027s a bit messy.",
+      "parentUuid": "2e117641_6141855c",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 20
+      },
+      "revId": "45f4e35bf4edf5e8dd10460eb83e25361052f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "805f61d2_1cacd802",
         "filename": "src/crypto/crypto.go",
         "patchSetId": 3
