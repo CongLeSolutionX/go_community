@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ed7c4aa_ad62a77d",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-24T21:17:20Z",
+      "side": 1,
+      "message": "The relocation is always added at offset 0. So they are the same if the symbol size is 0 to begin with. I\u0027ll see if if I can do this with an assert.",
+      "parentUuid": "7f8ee84f_d1314a24",
+      "range": {
+        "startLine": 1099,
+        "startChar": 1,
+        "endLine": 1100,
+        "endChar": 106
+      },
+      "revId": "fb4c99ce88a22335f13f7d37366cf4c5c3d8ebd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c34766b1_b67b6a80",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 1
