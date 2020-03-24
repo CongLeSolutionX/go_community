@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "177d40a3_9aa7e754",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-24T21:46:09Z",
+      "side": 1,
+      "message": "This seems not necessary. If v\u003d\u003d0 it will not enter the loop anyway.",
+      "revId": "6a03ecbd4c1e28c3f5648791edc8b31ec247f85e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
