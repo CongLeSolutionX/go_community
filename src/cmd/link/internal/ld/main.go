@@ -37,6 +37,7 @@ import (
 	"cmd/link/internal/benchmark"
 	"cmd/link/internal/sym"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -101,6 +102,8 @@ var (
 	benchmarkFileFlag = flag.String("benchmarkprofile", "", "emit phase profiles to `base`_phase.{cpu,mem}prof")
 
 	flagGo115Newobj = flag.Bool("go115newobj", true, "use new object file format")
+	flagNewWinDyn   = flag.Bool("newwindyn", false, "new windynrelocsyms2")
+	flagThanDebug   = flag.Bool("thandebug", false, "debugging")
 )
 
 // Main is the main entry point for the linker code.
@@ -271,6 +274,10 @@ func Main(arch *sys.Arch, theArch Arch) {
 	if ctxt.IsWindows() {
 		bench.Start("dope")
 		ctxt.dope()
+		bench.Start("windynrelocsyms")
+		if *flagNewWinDyn {
+			ctxt.windynrelocsyms2()
+		}
 	}
 	if ctxt.IsAIX() {
 		bench.Start("doxcoff")
@@ -284,8 +291,58 @@ func Main(arch *sys.Arch, theArch Arch) {
 	setupdynexp(ctxt)
 	ctxt.loadlibfull() // XXX do it here for now
 	if ctxt.IsWindows() {
-		bench.Start("windynrelocsyms")
-		ctxt.windynrelocsyms()
+		if !*flagNewWinDyn {
+			ctxt.windynrelocsyms()
+		}
+	}
+
+	// DEBUGGING CODE, REMOVE BEFORE SUBMITTING.
+
+	if *flagThanDebug || os.Getenv("THANM_DEBUG") != "" {
+		fmt.Fprintf(os.Stderr, "ctxt.IsWindows()=%v iscgo=%v ctxt.IsInternal()=%v\n", ctxt.IsWindows(), iscgo, ctxt.IsInternal())
+		fmt.Fprintf(os.Stderr, "=-= SYMBOLS:\n")
+		si := make(map[*sym.Symbol]int)
+		for i := 1; i < len(ctxt.loader.Syms); i++ {
+			if ctxt.loader.Syms[i] == nil {
+				continue
+			}
+			si[ctxt.loader.Syms[i]] = i
+		}
+		for _, s := range ctxt.Syms.Allsym {
+			switch s.Type {
+			case sym.SDWARFSECT, sym.SDWARFRANGE,
+				sym.SDWARFLOC, sym.SDWARFLINES, sym.SFILEPATH, sym.SCONST:
+				continue
+			}
+			rch := " "
+			if s.Attr.Reachable() {
+				rch = "%"
+			}
+			rod := " "
+			if s.Attr.ReadOnly() {
+				rch = "%"
+			}
+			fmt.Fprintf(os.Stderr, "=-= G%d: %s%s%s<%d> t=%s sz=%d len(s.P)=%d val=%d\n", si[s], rod, rch, s.Name, s.Version, s.Type.String(), s.Size, len(s.P), s.Value)
+			if s.Name == ".rel" {
+				fmt.Fprintf(os.Stderr, "=-= contents of .rel: %+v\n",
+					s.P)
+			}
+			if s.Type == sym.STEXT && s.FuncInfo != nil {
+				pc := s.FuncInfo
+				fmt.Fprintf(os.Stderr, "=-= text G%d: len(pc.Funcdata)=%d len(pc.Pcdata)=%d\n", si[s], len(pc.Funcdata), len(pc.Pcdata))
+				fmt.Fprintf(os.Stderr, "=-= text G%d: plt=%d got=%d\n", si[s], s.Plt(), s.Got())
+				for ri := 0; ri < len(s.R); ri++ {
+					r := &s.R[ri]
+					rt := r.Type
+					rsrs := "<nil>"
+					if r.Sym != nil {
+						rsrs = r.Sym.String()
+					}
+					fmt.Fprintf(os.Stderr, "=-=    R%d: %-9s o=%d tgt=%s\n",
+						ri, rt.String(), r.Off, rsrs)
+				}
+			}
+		}
 	}
 
 	ctxt.setArchSyms()

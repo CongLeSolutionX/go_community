@@ -664,6 +664,86 @@ func (ctxt *Link) windynrelocsyms() {
 	}
 }
 
+func windynrelocsym2(ctxt *Link, rel *loader.SymbolBuilder, s loader.Sym) {
+	var su *loader.SymbolBuilder
+	var rslice []loader.Reloc
+	relocs := ctxt.loader.Relocs(s)
+	for ri := 0; ri < relocs.Count; ri++ {
+		r := relocs.At2(ri)
+		targ := r.Sym()
+		if targ == 0 {
+			continue
+		}
+		rt := r.Type()
+		if !ctxt.loader.AttrReachable(targ) {
+			if rt == objabi.R_WEAKADDROFF {
+				continue
+			}
+			ctxt.Errorf(s, "dynamic relocation to unreachable symbol %s",
+				ctxt.loader.SymName(targ))
+		}
+
+		tplt := ctxt.loader.SymPlt(targ)
+		tgot := ctxt.loader.SymGot(targ)
+		if tplt == -2 && tgot != -2 { // make dynimport JMP table for PE object files.
+			ctxt.loader.SetPlt(targ, int32(rel.Size()))
+
+			if su == nil {
+				su = ctxt.loader.MakeSymbolUpdater(s)
+				rslice = su.Relocs()
+			}
+			r := &rslice[ri]
+			r.Sym = rel.Sym()
+			r.Add = int64(tplt)
+
+			// jmp *addr
+			switch ctxt.Arch.Family {
+			default:
+				ctxt.Errorf(s, "unsupported arch %v", ctxt.Arch.Family)
+				return
+			case sys.I386:
+				rel.AddUint8(0xff)
+				rel.AddUint8(0x25)
+				rel.AddAddrPlus(ctxt.Arch, targ, 0)
+				rel.AddUint8(0x90)
+				rel.AddUint8(0x90)
+			case sys.AMD64:
+				rel.AddUint8(0xff)
+				rel.AddUint8(0x24)
+				rel.AddUint8(0x25)
+				rel.AddAddrPlus4(ctxt.Arch, targ, 0)
+				rel.AddUint8(0x90)
+			}
+		} else if tplt >= 0 {
+			if su == nil {
+				su = ctxt.loader.MakeSymbolUpdater(s)
+				rslice = su.Relocs()
+			}
+			r := &rslice[ri]
+			r.Sym = rel.Sym()
+			r.Add = int64(tplt)
+		}
+	}
+}
+
+// windynrelocsyms generates jump table to C library functions that will be
+// added later. windynrelocsyms writes the table into .rel symbol.
+func (ctxt *Link) windynrelocsyms2() {
+	if !(ctxt.IsWindows() && iscgo && ctxt.IsInternal()) {
+		return
+	}
+
+	rel := ctxt.loader.LookupOrCreateSym(".rel", 0)
+	relu := ctxt.loader.MakeSymbolUpdater(rel)
+	relu.SetType(sym.STEXT)
+
+	for _, s := range ctxt.Textp2 {
+		windynrelocsym2(ctxt, relu, s)
+	}
+
+	ctxt.Textp2 = append(ctxt.Textp2, rel)
+}
+
 func dynrelocsym(ctxt *Link, s *sym.Symbol) {
 	target := &ctxt.Target
 	ldr := ctxt.loader
