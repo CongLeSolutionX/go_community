@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b1e0690d_3d678d44",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-03-24T21:53:00Z",
+      "side": 1,
+      "message": "The size wasn\u0027t always 0 (may be 8 bytes of zeros). But it works if I set the size to 0 then AddAddr. Do you think this is better?",
+      "parentUuid": "0ed7c4aa_ad62a77d",
+      "range": {
+        "startLine": 1099,
+        "startChar": 1,
+        "endLine": 1100,
+        "endChar": 106
+      },
+      "revId": "fb4c99ce88a22335f13f7d37366cf4c5c3d8ebd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c34766b1_b67b6a80",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 1
