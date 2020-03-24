@@ -22,6 +22,30 @@
       "revId": "b0d961e5544a5b87d07122a8436f02162299ba51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b69a5d_ed07b456",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-03-24T17:47:14Z",
+      "side": 1,
+      "message": "I don\u0027t feel great about multiplying the maxTriggerRatio by 0.6 since that doesn\u0027t really have that much meaning (thought it does work, and it is close; that being said, it does matter here because I want to backport this, so the behavior for GOGC\u003d\u003e\u003d100 should be identical). I\u0027d rather break out float64(gcpercent) / 100 and turn that into a \"scaling factor\" and then the constants only appear in one place. how do you feel about that?",
+      "parentUuid": "00108790_50e429b0",
+      "range": {
+        "startLine": 793,
+        "startChar": 2,
+        "endLine": 798,
+        "endChar": 3
+      },
+      "revId": "b0d961e5544a5b87d07122a8436f02162299ba51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
