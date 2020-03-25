@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4897997d_b4e45c0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-25T16:31:24Z",
+      "side": 1,
+      "message": "Update the commit message for the latest logic.",
+      "revId": "c4e1368996da0bb60605f12f654008c5ed1fbb42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
