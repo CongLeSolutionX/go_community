@@ -840,7 +840,6 @@ var optab = []Optab{
 	{obj.ANOP, C_NONE, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0, 0},
 	{obj.ADUFFZERO, C_NONE, C_NONE, C_NONE, C_SBRA, 5, 4, 0, 0, 0}, // same as AB/ABL
 	{obj.ADUFFCOPY, C_NONE, C_NONE, C_NONE, C_SBRA, 5, 4, 0, 0, 0}, // same as AB/ABL
-	{obj.APCALIGN, C_LCON, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0, 0},  // align code
 
 	{obj.AXXX, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, 0, 0},
 }
@@ -881,32 +880,6 @@ var prfopfield = []struct {
 	{REG_PSTL3STRM, 21},
 }
 
-// Used for padinng NOOP instruction
-const OP_NOOP = 0xd503201f
-
-// align code to a certain length by padding bytes.
-func pcAlignPadLength(pc int64, alignedValue int64, ctxt *obj.Link) int {
-	switch alignedValue {
-	case 8:
-		if pc%8 == 4 {
-			return 4
-		}
-	case 16:
-		switch pc % 16 {
-		case 4:
-			return 12
-		case 8:
-			return 8
-		case 12:
-			return 4
-		}
-	default:
-		ctxt.Diag("Unexpected alignment: %d for PCALIGN directive\n", alignedValue)
-	}
-
-	return 0
-}
-
 func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	if ctxt.Retpoline {
 		ctxt.Diag("-spectre=ret not supported on arm64")
@@ -938,17 +911,12 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		o = c.oplook(p)
 		m = int(o.size)
 		if m == 0 {
-			switch p.As {
-			case obj.APCALIGN:
-				a := p.From.Offset
-				m = pcAlignPadLength(pc, a, ctxt)
-				break
-			case obj.ANOP, obj.AFUNCDATA, obj.APCDATA:
-				continue
-			default:
+			if p.As != obj.ANOP && p.As != obj.AFUNCDATA && p.As != obj.APCDATA {
 				c.ctxt.Diag("zero-width instruction\n%v", p)
 			}
+			continue
 		}
+
 		switch o.flag & (LFROM | LTO) {
 		case LFROM:
 			c.addpool(p, &p.From)
@@ -1015,16 +983,10 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			m = int(o.size)
 
 			if m == 0 {
-				switch p.As {
-				case obj.APCALIGN:
-					a := p.From.Offset
-					m = pcAlignPadLength(pc, a, ctxt)
-					break
-				case obj.ANOP, obj.AFUNCDATA, obj.APCDATA:
-					continue
-				default:
+				if p.As != obj.ANOP && p.As != obj.AFUNCDATA && p.As != obj.APCDATA {
 					c.ctxt.Diag("zero-width instruction\n%v", p)
 				}
+				continue
 			}
 
 			pc += int64(m)
@@ -1060,22 +1022,11 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		if int(o.size) > 4*len(out) {
 			log.Fatalf("out array in span7 is too small, need at least %d for %v", o.size/4, p)
 		}
-		if p.As == obj.APCALIGN {
-			alignedValue := p.From.Offset
-			v := pcAlignPadLength(p.Pc, alignedValue, c.ctxt)
-			for i = 0; i < int(v/4); i++ {
-				// emit ANOOP instruction by the padding size
-				c.ctxt.Arch.ByteOrder.PutUint32(bp, OP_NOOP)
-				bp = bp[4:]
-				psz += 4
-			}
-		} else {
-			c.asmout(p, o, out[:])
-			for i = 0; i < int(o.size/4); i++ {
-				c.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])
-				bp = bp[4:]
-				psz += 4
-			}
+		c.asmout(p, o, out[:])
+		for i = 0; i < int(o.size/4); i++ {
+			c.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])
+			bp = bp[4:]
+			psz += 4
 		}
 	}
 
@@ -2804,7 +2755,6 @@ func buildop(ctxt *obj.Link) {
 		case obj.ANOP,
 			obj.AUNDEF,
 			obj.AFUNCDATA,
-			obj.APCALIGN,
 			obj.APCDATA,
 			obj.ADUFFZERO,
 			obj.ADUFFCOPY:
