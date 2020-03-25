@@ -274,7 +274,7 @@ type extSymPayload struct {
 	ver    int
 	kind   sym.SymKind
 	objidx uint32 // index of original object if sym made by cloneToExternal
-	gotype Sym    // Gotype (0 if not present)
+	olocal uint32 // local index in original obj if sym made by cloneToExternal
 	relocs []Reloc
 	data   []byte
 }
@@ -1194,6 +1194,22 @@ func (l *Loader) SetSymDynid(i Sym, val int32) {
 	}
 }
 
+// auxToLocal is a wrapper around toLocal that returns an oReader
+// and local sym index for the specified sym. In the case that the
+// sym is external but was produced by running cloneToExternal on a
+// non-external symbol, we use the recorded predecessor to return
+// the right reader + local index.
+func (l *Loader) auxToLocal(i Sym) (*oReader, int) {
+	if l.IsExternal(i) {
+		pp := l.getPayload(i)
+		if pp.objidx != 0 {
+			return l.objs[pp.objidx].r, int(pp.olocal)
+		}
+		return nil, 0
+	}
+	return l.toLocal(i)
+}
+
 // SymGoType returns the 'Gotype' property for a given symbol (set by
 // the Go compiler for variable symbols). This version relies on
 // reading aux symbols for the target sym -- it could be that a faster
@@ -1201,11 +1217,10 @@ func (l *Loader) SetSymDynid(i Sym, val int32) {
 // results in to a map (might want to try this at some point and see
 // if it helps speed things up).
 func (l *Loader) SymGoType(i Sym) Sym {
-	if l.IsExternal(i) {
-		pp := l.getPayload(i)
-		return pp.gotype
+	r, li := l.auxToLocal(i)
+	if r == nil {
+		return 0
 	}
-	r, li := l.toLocal(i)
 	auxs := r.Auxs2(li)
 	for j := range auxs {
 		a := &auxs[j]
@@ -1220,15 +1235,10 @@ func (l *Loader) SymGoType(i Sym) Sym {
 // SymUnit returns the compilation unit for a given symbol (which will
 // typically be nil for external or linker-manufactured symbols).
 func (l *Loader) SymUnit(i Sym) *sym.CompilationUnit {
-	if l.IsExternal(i) {
-		pp := l.getPayload(i)
-		if pp.objidx != 0 {
-			r := l.objs[pp.objidx].r
-			return r.unit
-		}
+	r, _ := l.auxToLocal(i)
+	if r == nil {
 		return nil
 	}
-	r, _ := l.toLocal(i)
 	return r.unit
 }
 
@@ -1238,18 +1248,13 @@ func (l *Loader) SymUnit(i Sym) *sym.CompilationUnit {
 // symbol is read from a a shared library), will hold the library
 // name.
 func (l *Loader) SymFile(i Sym) string {
-	if l.IsExternal(i) {
-		if f, ok := l.symFile[i]; ok {
-			return f
-		}
-		pp := l.getPayload(i)
-		if pp.objidx != 0 {
-			r := l.objs[pp.objidx].r
-			return r.unit.Lib.File
-		}
+	if f, ok := l.symFile[i]; ok {
+		return f
+	}
+	r, _ := l.auxToLocal(i)
+	if r == nil {
 		return ""
 	}
-	r, _ := l.toLocal(i)
 	return r.unit.Lib.File
 }
 
@@ -1288,20 +1293,20 @@ func (l *Loader) SetSymLocalentry(i Sym, value uint8) {
 
 // Returns the number of aux symbols given a global index.
 func (l *Loader) NAux(i Sym) int {
-	if l.IsExternal(i) {
+	r, li := l.auxToLocal(i)
+	if r == nil {
 		return 0
 	}
-	r, li := l.toLocal(i)
 	return r.NAux(li)
 }
 
 // Returns the referred symbol of the j-th aux symbol of the i-th
 // symbol.
 func (l *Loader) AuxSym(i Sym, j int) Sym {
-	if l.IsExternal(i) {
+	r, li := l.auxToLocal(i)
+	if r == nil {
 		return 0
 	}
-	r, li := l.toLocal(i)
 	a := goobj2.Aux{}
 	a.Read(r.Reader, r.AuxOff(li, j))
 	return l.resolve(r, a.Sym)
@@ -1309,10 +1314,10 @@ func (l *Loader) AuxSym(i Sym, j int) Sym {
 
 // Returns the "handle" to the j-th aux symbol of the i-th symbol.
 func (l *Loader) Aux2(i Sym, j int) Aux2 {
-	if l.IsExternal(i) {
+	r, li := l.auxToLocal(i)
+	if r == nil {
 		return Aux2{}
 	}
-	r, li := l.toLocal(i)
 	if j >= r.NAux(li) {
 		return Aux2{}
 	}
@@ -1324,22 +1329,18 @@ func (l *Loader) Aux2(i Sym, j int) Aux2 {
 // introduction of the loader, this was done purely using name
 // lookups, e.f. for function with name XYZ we would then look up
 // go.info.XYZ, etc.
-// FIXME: once all of dwarfgen is converted over to the loader,
-// it would save some space to make these aux symbols nameless.
 func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, auxDwarfRanges, auxDwarfLines Sym) {
 	if l.SymType(fnSymIdx) != sym.STEXT {
 		log.Fatalf("error: non-function sym %d/%s t=%s passed to GetFuncDwarfAuxSyms", fnSymIdx, l.SymName(fnSymIdx), l.SymType(fnSymIdx).String())
 	}
-	if l.IsExternal(fnSymIdx) {
-		// Current expectation is that any external function will
-		// not have auxsyms.
+	r, li := l.auxToLocal(fnSymIdx)
+	if r == nil {
 		return
 	}
-	naux := l.NAux(fnSymIdx)
+	naux := r.NAux(li)
 	if naux == 0 {
 		return
 	}
-	r, li := l.toLocal(fnSymIdx)
 	for i := 0; i < naux; i++ {
 		a := goobj2.Aux{}
 		a.Read(r.Reader, r.AuxOff(li, i))
@@ -1373,10 +1374,11 @@ func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, a
 // slice passed as a parameter. If the slice capacity is not large enough, a new
 // larger slice will be allocated. Final slice is returned.
 func (l *Loader) ReadAuxSyms(symIdx Sym, dst []Sym) []Sym {
-	if l.IsExternal(symIdx) {
+	r, li := l.auxToLocal(symIdx)
+	if r == nil {
 		return dst[:0]
 	}
-	naux := l.NAux(symIdx)
+	naux := r.NAux(li)
 	if naux == 0 {
 		return dst[:0]
 	}
@@ -1386,7 +1388,6 @@ func (l *Loader) ReadAuxSyms(symIdx Sym, dst []Sym) []Sym {
 	}
 	dst = dst[:0]
 
-	r, li := l.toLocal(symIdx)
 	a := goobj2.Aux{}
 	for i := 0; i < naux; i++ {
 		a.ReadSym(r.Reader, r.AuxOff(li, i))
@@ -1642,10 +1643,10 @@ func (fi *FuncInfo) Pcsp() []byte {
 // TODO: more accessors.
 
 func (l *Loader) FuncInfo(i Sym) FuncInfo {
-	if l.IsExternal(i) {
+	r, li := l.auxToLocal(i)
+	if r == nil {
 		return FuncInfo{}
 	}
-	r, li := l.toLocal(i)
 	auxs := r.Auxs2(li)
 	for j := range auxs {
 		a := &auxs[j]
@@ -1849,8 +1850,9 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 		s.Version = int16(pp.ver)
 		s.Type = pp.kind
 		s.Size = pp.size
-		if pp.gotype != 0 {
-			s.Gotype = l.Syms[pp.gotype]
+		sgt := l.SymGoType(i)
+		if sgt != 0 {
+			s.Gotype = l.Syms[sgt]
 		}
 		if f, ok := l.symFile[i]; ok {
 			s.File = f
@@ -2259,6 +2261,7 @@ func (l *Loader) cloneToExternal(symIdx Sym) {
 	pp.ver = sver
 	pp.size = int64(osym.Siz)
 	pp.objidx = r.objidx
+	pp.olocal = uint32(li)
 
 	// If this is a def, then copy the guts. We expect this case
 	// to be very rare (one case it may come up is with -X).
@@ -2270,20 +2273,6 @@ func (l *Loader) cloneToExternal(symIdx Sym) {
 
 		// Copy data
 		pp.data = r.Data(li)
-	}
-
-	// If we're overriding a data symbol, collect the associated
-	// Gotype, so as to propagate it to the new symbol.
-	naux := r.NAux(li)
-	for j := 0; j < naux; j++ {
-		a := goobj2.Aux{}
-		a.Read(r.Reader, r.AuxOff(li, j))
-		switch a.Type {
-		case goobj2.AuxGotype:
-			pp.gotype = l.resolve(r, a.Sym)
-		default:
-			log.Fatalf("internal error: cloneToExternal applied to %s symbol %s with non-gotype aux data %d", skind.String(), sname, a.Type)
-		}
 	}
 
 	// Install new payload to global index space.
