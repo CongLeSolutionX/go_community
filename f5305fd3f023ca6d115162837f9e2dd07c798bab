@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "6bfdb36d_10b064de",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-03-25T14:50:01Z",
+      "side": 1,
+      "message": "you\u0027re right. I did not think this through the right way. fixed.",
+      "parentUuid": "68453157_85b20c45",
+      "range": {
+        "startLine": 799,
+        "startChar": 33,
+        "endLine": 802,
+        "endChar": 12
+      },
+      "revId": "f5305fd3f023ca6d115162837f9e2dd07c798bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db28863c_5cead0c1",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 3
@@ -90,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "4e890254_643dec0a",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-03-25T14:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db28863c_5cead0c1",
+      "revId": "f5305fd3f023ca6d115162837f9e2dd07c798bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dc69c39_c4c552ea",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 3
@@ -101,6 +143,24 @@
       "writtenOn": "2020-03-24T21:23:27Z",
       "side": 1,
       "message": "Out of curiosity, can this case actually happen? (I\u0027m not opposed to being defensive here, but it might be nice to expand the comment.)",
+      "revId": "f5305fd3f023ca6d115162837f9e2dd07c798bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b4214e_e514b9bd",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-03-25T14:50:01Z",
+      "side": 1,
+      "message": "before this change, and the one preceding it which introduced the minTriggerRatio, this code looked something like:\n\n  if triggerRatio \u003c 0 {\n    // This can happen if we\u0027re allocating really fast or scanning really slowly.\n    triggerRatio \u003d 0\n  } else if gcpercent \u003e\u003d 0 {\n    maxTriggerRatio :\u003d 0.95*float64(gcpercent)/100\n    if triggerRatio \u003e maxTriggerRatio {\n      triggerRatio \u003d maxTriggerRatio\n    }\n  }\n\ncurrently in the codebase, the first condition had 0 replaced with 0.6. since I\u0027m changing this code to move the minTriggerRatio underneath the gcpercent \u003e\u003d 0, there\u0027s this original case missing wherein if triggerRatio \u003c 0 and gcpercent \u003c 0, we just make sure it doesn\u0027t go negative.\n\nto answer your question of whether this can happen: I don\u0027t know. however, if gcpercent \u003c 0, then triggerRatio doesn\u0027t flow into gc_trigger. the triggerRatio may be weird if gcpercent \u003c 0 and folks are invoking runtime.GC() themselves, but it shouldn\u0027t have any effect on the values computed by this function. so, I think this is purely defensive.",
+      "parentUuid": "1dc69c39_c4c552ea",
       "revId": "f5305fd3f023ca6d115162837f9e2dd07c798bab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
