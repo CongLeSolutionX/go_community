@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3a999d4_1cfac7e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-25T19:17:45Z",
+      "side": 1,
+      "message": "Please drop this line, as it just repeats the topic sentence.  You can do this by editing the GitHub pull request.  See https://golang.org/wiki/CommitMessage.",
+      "revId": "f1c74776ddbea13c6701d1c227d583ed343e411e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
