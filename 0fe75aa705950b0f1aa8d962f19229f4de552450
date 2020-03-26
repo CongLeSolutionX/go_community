@@ -1,0 +1,885 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0b94396_49d9f829",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Just noting some valuable follow-up work:\n\n1. We should bring back golang.org/cl/192701 and integrate it with this (it will need some serious rebasing, sadly) to check the locks that *may* be acquired by morestack. That check was incredibly fruitful when I added it to the dynamic lock checker.\n\n2. We should integrate the _Gscan bit into the lock order since that\u0027s an important lock.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02aa45c8_f857ac1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Please wrap at 72 columns (this is a convention based on how \"git log\" presents things)",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3e60e0f_8deefb0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "This is written like you\u0027re contrasting with dynamic lock ranking, but this is also true of dynamic lock ranking.",
+      "range": {
+        "startLine": 13,
+        "startChar": 74,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6001c9ba_2da05663",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Likewise, there\u0027s nothing incompatible between dynamic lock ranking and having \"memory\" (e.g., my implementation kept a memory across all.bash).",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1737218_d942c54b",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "It looks like this symbol isn\u0027t used anywhere, which makes sense since we now have a build tag. Experiments don\u0027t need a dynamic flag (most don\u0027t have one), so I would just remove it.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86316ef7_f3558c02",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "This renaming is a bit unfortunate. \"2\" doesn\u0027t tell you anything; \"go to definition\" now takes you to the wrapper; and if we want to wrap locks in other, different ways, wrapping this way doesn\u0027t compose well.\n\nThere may not be a good answer to this, given that sometimes you have to pass the rank information when acquiring the lock. But maybe it would be a little better to do something like\n\nIn lock_futex.go:\n\nfunc lock(l *mutex) {\n  preLockRank(l, getLockRank(l))\n  lock2(l)\n}\n\nfunc lockWithRank(l *mutex, rank int) {\n  preLockRank(l, rank)\n  lock2(l)\n}\n\nfunc lock2(l *mutex) { ... }\n\nIn lockrank_enabled.go:\n\nfunc preLockRank(l *mutex, rank int) { ... }\nfunc getLockRank(l *mutex) int { return l.rank }\n\nMaybe that\u0027s not any better...",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8680602f_c2067995",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "\"This file records the ...\"? The implementation is really in lockrank_enabled.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a7ea82_54d658fd",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Extra space",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8285bc5a_f4db41d1",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "arcs",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b82d9177_94c0396a",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Please introduce a type for lock ranks so they can\u0027t be mixed up with other integers. It would probably make sense for that type to then have a String method, which would make some of the printing a little nicer.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db05771_d3e4e546",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "These names really don\u0027t follow Go naming conventions... Probably they should be something like \"rankScavenge\"",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8842e48_a68d0ea4",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Follow Go conventions: \"lockNames gives the names ...\" Likewise for the other definitions in this file.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a7f7c77_b148e082",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "var lockNames \u003d []string{",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f0991d_1b336427",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "\"arcs\" is too generic a name for a package global in the runtime. \"lockOrder\"?",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 171,
+        "endChar": 8
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a775783_7f678fd9",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "It would be much nicer if each element was a slice. Is there a reason that doesn\u0027t work? Then you wouldn\u0027t need maxArcsPerLock, you could just range loop over an entry without worrying about breaking when you hit 0, and this wouldn\u0027t waste a bunch of space with zeros.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "721a68d0_7f0abcfe",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "It would be really nice if we could check that the arcs table is consistent with the global ranking, since if it\u0027s not bad things will happen. Maybe do this in an init function in lockrank_enabled?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa834d6f_4817d85b",
+        "filename": "src/runtime/lockrank_disabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "\"_disabled\" and \"_enabled\" make the file name pretty long. \"_on\" and \"_off\" are much shorter and would match the (very weakly) established convention from debuglog_*.go.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c5d86f_9d488909",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "It\u0027s unfortunate that this documentation is duplicated, since that encourages drift.\n\nCan we instead do this as an embedding? Leave a single mutex type in runtime2.go like\n\n  type mutex struct {\n    lockRank\n    // ... doc ...\n    key uintptr\n  }\n\nThen have two definitions of lockRank:\n\n  type lockRank {}  // if disabled\n  type lockRank {   // if enabled\n    rank int\n    pad  int\n  }\n\n?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a4cfcb8_ebe390b8",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "I assume the padding is to keep sizeof(mutex{})%64 \u003d\u003d 32 on 32-bit platforms? It would be worth documenting that.\n\nIt\u0027s a little unfortunate this makes mutex bigger on 64-bit, too. This is kind of gross, but what about something like\n\n  pad [8-sys.PtrSize]byte\n\n?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c3b916_21597cc1",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Drop this line.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec23f97_48d10c08",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "lock also \"records\" this. Maybe \"but allows the caller to specify a lock class and rank when acquiring a non-static lock\"?",
+      "range": {
+        "startLine": 44,
+        "startChar": 40,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "316b8a98_44018987",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "In the \"lock\" function, \"lock\" is a verb, so by extension, there are two redundant verbs in this name. \"lockWithRank\"?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7224e3bb_f51e8655",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Add a comment explaining this special case.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8277f77a_058960b7",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "len(gp.m.locksHeld)",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 12
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b04acabc_926c27be",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Be more specific: \"too many locks held concurrently for rank checking\"",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31297394_eafbcdc2",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "I think the following code would be a little clearer if i remaining the index of the newly-added lock. \"if i \u003e 1\" would be \"if i \u003e 0\" and \"gp.m.locksHeld[i-2].rank\" would be i-1, both of which are much more common patterns.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0b1bc77_2d55275b",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "\"found\" sort of makes sense in the arc check code, but is a little confusing as a general name. \"rankOK\"?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035bdf58_59e3e4e9",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "// Rank inversions are always an error.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335222b9_3c51fcaa",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "// Leaf locks are not in the arc table, but have an implicit arc from every non-leaf lock.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11466620_312eb4e3",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Maybe \"rankOK \u003d prevRank \u003c _LleafRank\"? That avoids depending on the default value of \"found\" and I think captures the spirit of this case a little better.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cd621f2_7477cf82",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. This makes it sounds like you\u0027re checking the arcs table, but isn\u0027t the point of this that the arcs table is considered \"the truth\" and you\u0027re checking the lock acquisition against it? Also, this is static lock ranking, but the comment makes it sound like we\u0027re doing something else.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "140aff38_c2bf68c7",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Do a \"printlock()\" before this so messages don\u0027t get interleaved. Since this ends in a throw, you don\u0027t need to printunlock.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b34f68d_b07ff7f4",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "for j, held :\u003d range gp.m.locksHeld[:gp.m.lockIndex]",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51d77ff9_38465562",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "It\u0027s too bad we don\u0027t have names for leaf locks. With go test, the binary is long gone when you get the error, and sometimes it\u0027s not even obvious what binary it came from, which can make it hard to manually symbolize. And if it\u0027s a non-static lock, the address doesn\u0027t do you any good.\n\nI went to a lot of trouble to DWARF symbolize lock addresses in my checker, but I don\u0027t see how something like that would work in this structure.\n\nWhat if we recorded the acquisition PC? We could even symbolize that here. In my checker I found the symbolized acquisition traces invaluable and it would make it easy to figure out the lock if we\u0027re missing its name.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e81bb932_0737fb5b",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "println already adds spaces between its arguments, so this is going to look pretty weird. It would probably be better to use print and add the \"\\n\" yourself. There are several other printlns in this file this also applies to.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc903de3_a01f9bf9",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "copy(gp.m.locksHeld[i:], gp.m.locksHeld[i+1:gp.m.lockIndex])",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2aec7fa_cb9cb852",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Can we do the same symbolization here that we do for lockRankAcquire?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f890a149_a17451b9",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Maybe \"unlock without matching lock acquire\"?",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 25
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0410fe99_1be29ae9",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b1ba4eb_cf911983",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Short-circuit here if rank \u003d\u003d _LleafRank \u0026\u0026 gp.m.lockIndex \u003d\u003d 0? When I modeled maymorestack locks, that was an important optimization to not grind the whole thing to a crawl.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "329d465e_c48e2289",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "It seems like this logic ought to be nearly identical to the bulk of lockRankAcquire. One difference is that this doesn\u0027t have to actually add the lock to the list, but in the interest of abstracting the shared logic into a single function, I think it would be fine to just add the lock to locksHeld in both, do the check, and then just immediately decrement lockIndex here.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64b6e23f_1ecafde4",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "I think this should all go away, but if not, this should be a range loop, and needs to be defensive against leaf locks like the logic in lockRankAcquire. Probably even if you can\u0027t merge all of lockRankAcquire with this, you could at least merge the printing of the held locks.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b259ccf5_ea476712",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "range loop",
+      "range": {
+        "startLine": 153,
+        "startChar": 19,
+        "endLine": 153,
+        "endChar": 21
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79d56987_289c3003",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Undo change",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38015cca_4a80578b",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "\"lockInfo\" suggests that this is just information about a lock, rather than a held lock. \"heldLock\"?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "534f1a32_3e297727",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "lockAddr?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81d89358_dc3d455f",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "This isn\u0027t an index (locksHeld[lockIndex] isn\u0027t meaningful). locksLen?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "462d222a_acd6c8f7",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "I\u0027m surprised 10 is enough. In golang.org/cl/176218, I had a table of 16 and still needed an escape hatch if that filled up (which was doable in that CL, but not here).\n\nUsually the blow-up was when we acquired a bunch of same-rank locks, like channel locks in select, or timer locks. In this case, there will be a run of acquires at the same rank, so we could collapse them into a single lockInfo entry with a count. You\u0027d lose the lockInfo.l lock pointer, but maybe that\u0027s okay?",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb4c812_6fd08839",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-03-26T21:37:35Z",
+      "side": 1,
+      "message": "Remove if you remove it from the linker.",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
