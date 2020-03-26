@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 // This is based on the former libgo/runtime/netpoll_select.c implementation
 // except that it uses poll instead of select and is written in Go.
@@ -41,6 +44,7 @@ var (
 	rdwake         int32
 	wrwake         int32
 	pendingUpdates int32
+	netpollWakeSig uintptr // used to avoid duplicate calls of netpollBreak
 )
 
 func netpollinit() {
@@ -130,7 +134,9 @@ func netpollarm(pd *pollDesc, mode int) {
 
 // netpollBreak interrupts a poll.
 func netpollBreak() {
-	netpollwakeup()
+	if atomic.Casuintptr(&netpollWakeSig, 0, 1) {
+		netpollwakeup()
+	}
 }
 
 // netpoll checks for ready network connections.
@@ -184,6 +190,7 @@ retry:
 			var b [1]byte
 			for read(rdwake, unsafe.Pointer(&b[0]), 1) == 1 {
 			}
+			atomic.Storeuintptr(&netpollWakeSig, 0)
 		}
 		// Still look at the other fds even if the mode may have
 		// changed, as netpollBreak might have been called.
