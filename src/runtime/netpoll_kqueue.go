@@ -8,12 +8,17 @@ package runtime
 
 // Integrated network poller (kqueue-based implementation).
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 var (
 	kq int32 = -1
 
 	netpollBreakRd, netpollBreakWr uintptr // for netpollBreak
+
+	netpollWakeSig uintptr // restrict to avoid duplicate calls of netpollBreak
 )
 
 func netpollinit() {
@@ -78,17 +83,19 @@ func netpollarm(pd *pollDesc, mode int) {
 
 // netpollBreak interrupts a kevent.
 func netpollBreak() {
-	for {
-		var b byte
-		n := write(netpollBreakWr, unsafe.Pointer(&b), 1)
-		if n == 1 || n == -_EAGAIN {
-			break
+	if atomic.Casuintptr(&netpollWakeSig, 0, 1) {
+		for {
+			var b byte
+			n := write(netpollBreakWr, unsafe.Pointer(&b), 1)
+			if n == 1 || n == -_EAGAIN {
+				break
+			}
+			if n == -_EINTR {
+				continue
+			}
+			println("runtime: netpollBreak write failed with", -n)
+			throw("runtime: netpollBreak write failed")
 		}
-		if n == -_EINTR {
-			continue
-		}
-		println("runtime: netpollBreak write failed with", -n)
-		throw("runtime: netpollBreak write failed")
 	}
 }
 
@@ -135,6 +142,7 @@ retry:
 		ev := &events[i]
 
 		if uintptr(ev.ident) == netpollBreakRd {
+			atomic.Storeuintptr(&netpollWakeSig, 0)
 			if ev.filter != _EVFILT_READ {
 				println("runtime: netpoll: break fd ready for", ev.filter)
 				throw("runtime: netpoll: break fd ready for something unexpected")
