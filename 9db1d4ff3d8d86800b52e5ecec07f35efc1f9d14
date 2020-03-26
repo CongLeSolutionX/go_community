@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df83341c_bad9d95c",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-26T16:25:04Z",
+      "side": 1,
+      "message": "Looking at this code now, I think that this version of netpollBreak is wrong.  And when I correct it, I don\u0027t think we need this change.  I sent https://golang.org/cl/225618.",
+      "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6faa28ad_37f40d10",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-26T16:25:04Z",
+      "side": 1,
+      "message": "Minor, but let\u0027s make these comments \"used to avoid duplicate calls of netpollBreak\".  \"Restrict\" doesn\u0027t sound right.",
+      "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e043f3_1c01b461",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-26T16:25:04Z",
+      "side": 1,
+      "message": "If this works without race conditions, then it seems to me that we should set netpollWakeSig to 0 a few lines down, in the delay !\u003d 0 case.  That\u0027s the point where we actually pay attention to the wakeup.",
+      "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
