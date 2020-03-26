@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0f3369e9_8aa98694",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-26T18:22:27Z",
+      "side": 1,
+      "message": "If you agree that CL 225618 will accomplish the same effect, let\u0027s just drop netpoll_aix.go from this CL entirely.  Thanks.",
+      "parentUuid": "df83341c_bad9d95c",
+      "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6faa28ad_37f40d10",
         "filename": "src/runtime/netpoll_epoll.go",
         "patchSetId": 16
