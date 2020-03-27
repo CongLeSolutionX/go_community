@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "890ed62c_b3035b76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-03-27T17:56:08Z",
+      "side": 1,
+      "message": "can you provide some more context on why this is necessary (or is there a tracking issue?)?\n\nlooking at the code it seems like maybe this was just an oversight? since every other call to netpollwakeup happens under mtxpoll.",
+      "revId": "48a7a924a21405f90c040d35bcb174e8c73aa02e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
