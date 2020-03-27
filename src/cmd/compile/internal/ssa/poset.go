@@ -68,7 +68,7 @@ type posetUndo struct {
 }
 
 const (
-	posetFlagUnsigned    = 1 << iota // Make poset handle constants as unsigned numbers.
+	posetFlagSigned      = 1 << iota // Make poset handle constants as signed numbers.
 	posetFlagDirtyBounds             // Must recalculate numeric bounds of each node
 )
 
@@ -102,30 +102,30 @@ type posetNode struct {
 // posetBound represents a minimum or maximum bound on a node. The bound
 // is saved as a int64 value, but it needs to always be compared with the correct
 // signedness (depending on whether the poset is configured to handle signed or
-// unsigned numbers). All methods of this structure receive a unsigned bool
+// unsigned numbers). All methods of this structure receive a signed bool
 // argument that indicate the signedness with which calculations must be performed.
 type posetBound struct{ v int64 }
 
 // LessThan returns true if b<b2 (with the correct signedness)
-func (b posetBound) LessThan(b2 posetBound, unsigned bool) bool {
-	if unsigned {
-		return uint64(b.v) < uint64(b2.v)
+func (b posetBound) LessThan(b2 posetBound, signed bool) bool {
+	if signed {
+		return int64(b.v) < int64(b2.v)
 	}
-	return int64(b.v) < int64(b2.v)
+	return uint64(b.v) < uint64(b2.v)
 }
 
 // LessThan returns true if b<=b2 (with the correct signedness)
-func (b posetBound) LessOrEqualThan(b2 posetBound, unsigned bool) bool {
-	if unsigned {
-		return uint64(b.v) <= uint64(b2.v)
+func (b posetBound) LessOrEqualThan(b2 posetBound, signed bool) bool {
+	if signed {
+		return int64(b.v) <= int64(b2.v)
 	}
-	return int64(b.v) <= int64(b2.v)
+	return uint64(b.v) <= uint64(b2.v)
 }
 
 // Increment increments the bound by 1, with signed/unsigned saturation (avoiding overflows).
 // Return true if the value was incremented, false if saturated.
-func (b *posetBound) Increment(unsigned bool) bool {
-	if (unsigned && uint64(b.v) != math.MaxUint64) || (!unsigned && int64(b.v) != math.MaxInt64) {
+func (b *posetBound) Increment(signed bool) bool {
+	if (!signed && uint64(b.v) != math.MaxUint64) || (signed && int64(b.v) != math.MaxInt64) {
 		b.v++
 		return true
 	}
@@ -134,8 +134,8 @@ func (b *posetBound) Increment(unsigned bool) bool {
 
 // Decrement decrements the bound by 1, with signed/unsigned saturation (avoiding overflows).
 // Return true if the value was decremented, false if saturated.
-func (b *posetBound) Decrement(unsigned bool) bool {
-	if (unsigned && uint64(b.v) != 0) || (!unsigned && int64(b.v) != math.MinInt64) {
+func (b *posetBound) Decrement(signed bool) bool {
+	if (!signed && uint64(b.v) != 0) || (signed && int64(b.v) != math.MinInt64) {
 		b.v--
 		return true
 	}
@@ -213,15 +213,15 @@ func newPoset() *poset {
 	}
 }
 
-func (po *poset) SetUnsigned(uns bool) {
-	if uns {
-		po.flags |= posetFlagUnsigned
+func (po *poset) SetSigned(signed bool) {
+	if signed {
+		po.flags |= posetFlagSigned
 	} else {
-		po.flags &^= posetFlagUnsigned
+		po.flags &^= posetFlagSigned
 	}
 }
 
-func (po *poset) unsigned() bool { return po.flags&posetFlagUnsigned != 0 }
+func (po *poset) signed() bool { return po.flags&posetFlagSigned != 0 }
 
 // Handle children
 func (po *poset) setChl(i uint32, l posetEdge) { po.nodes[i].l = l }
@@ -351,7 +351,7 @@ func (po *poset) lookup(n *Value, materializeConstants bool) (i uint32, min pose
 			i, f = po.values[n.ID]
 		}
 		val := n.AuxInt
-		if po.flags&posetFlagUnsigned != 0 {
+		if po.flags&posetFlagSigned == 0 {
 			val = int64(n.AuxUnsigned())
 		}
 		min, max = posetBound{val}, posetBound{val}
@@ -390,7 +390,7 @@ func (po *poset) constVal(n *Value) (posetBound, bool) {
 		panic("constVal on non-constant")
 	}
 
-	posigned := po.flags&posetFlagUnsigned == 0
+	posigned := po.flags&posetFlagSigned != 0
 	csigned := n.Type.IsSigned()
 
 	switch {
@@ -473,7 +473,7 @@ func (po *poset) newConst(n *Value) {
 	// depending on how the poset was configured.
 	var lowerptr, higherptr uint32
 
-	if po.flags&posetFlagUnsigned != 0 {
+	if po.flags&posetFlagSigned == 0 {
 		var lower, higher uint64
 		val1 := uint64(bound.v)
 		for val2, ptr := range po.constants {
@@ -944,12 +944,12 @@ func (po *poset) CheckIntegrity() {
 
 	// Verify that the calculated bounds are meaningful
 	po.recalcBounds()
-	unsigned := po.flags&posetFlagUnsigned != 0
+	signed := po.flags&posetFlagSigned != 0
 	for i, n := range po.nodes {
 		if i == 0 {
 			continue
 		}
-		if n.max.LessThan(n.min, unsigned) {
+		if n.max.LessThan(n.min, signed) {
 			panic(fmt.Errorf("inverted min/max bound on node %d s[%v,%v]", i, n.min.v, n.max.v))
 		}
 	}
@@ -1021,7 +1021,7 @@ func (po *poset) DotDump(fn string, title string) error {
 			if val, ok := consts[i]; ok {
 				// Constant
 				var vals string
-				if po.flags&posetFlagUnsigned != 0 {
+				if po.flags&posetFlagSigned == 0 {
 					vals = fmt.Sprint(uint64(val))
 				} else {
 					vals = fmt.Sprint(int64(val))
@@ -1069,7 +1069,7 @@ func (po *poset) Ordered(n1, n2 *Value) bool {
 	// between them.
 	i1, _, max1, f1 := po.lookup(n1, false)
 	i2, min2, _, f2 := po.lookup(n2, false)
-	if max1.LessThan(min2, po.unsigned()) {
+	if max1.LessThan(min2, po.signed()) {
 		return true
 	}
 	if f1 && f2 {
@@ -1093,7 +1093,7 @@ func (po *poset) OrderedOrEqual(n1, n2 *Value) bool {
 
 	i1, _, max1, f1 := po.lookup(n1, false)
 	i2, min2, _, f2 := po.lookup(n2, false)
-	if max1.LessOrEqualThan(min2, po.unsigned()) {
+	if max1.LessOrEqualThan(min2, po.signed()) {
 		return true
 	}
 	if f1 && f2 {
@@ -1142,7 +1142,7 @@ func (po *poset) NonEqual(n1, n2 *Value) bool {
 	// have a recorded non-equality.
 	i1, min1, max1, f1 := po.lookup(n1, false)
 	i2, min2, max2, f2 := po.lookup(n2, false)
-	if max2.LessThan(min1, po.unsigned()) || max1.LessThan(min2, po.unsigned()) {
+	if max2.LessThan(min1, po.signed()) || max1.LessThan(min2, po.signed()) {
 		return true
 	}
 
@@ -1174,11 +1174,11 @@ func (po *poset) setOrder(n1, n2 *Value, strict bool) bool {
 	_, min1, _, _ := po.lookup(n1, false)
 	_, _, max2, _ := po.lookup(n2, false)
 	if strict {
-		if max2.LessOrEqualThan(min1, po.unsigned()) {
+		if max2.LessOrEqualThan(min1, po.signed()) {
 			return false
 		}
 	} else {
-		if max2.LessThan(min1, po.unsigned()) {
+		if max2.LessThan(min1, po.signed()) {
 			return false
 		}
 	}
@@ -1364,7 +1364,7 @@ func (po *poset) SetEqual(n1, n2 *Value) bool {
 	// the range are disjoint).
 	_, min1, max1, _ := po.lookup(n1, false)
 	_, min2, max2, _ := po.lookup(n2, false)
-	if max2.LessThan(min1, po.unsigned()) || max1.LessThan(min2, po.unsigned()) {
+	if max2.LessThan(min1, po.signed()) || max1.LessThan(min2, po.signed()) {
 		return false
 	}
 
@@ -1479,7 +1479,7 @@ func (po *poset) SetNonEqual(n1, n2 *Value) bool {
 // Complexity is usually O(1) because of a caching layer; when the cache needs to
 // be updated (currently, after every poset mutation), complexity is O(n).
 func (po *poset) SignedBounds(n *Value) (min int64, max int64) {
-	if po.flags&posetFlagUnsigned != 0 {
+	if po.flags&posetFlagSigned == 0 {
 		panic("cannot call SignedBounds on unsigned poset")
 	}
 	_, bmin, bmax, _ := po.lookup(n, false)
@@ -1492,7 +1492,7 @@ func (po *poset) SignedBounds(n *Value) (min int64, max int64) {
 // Complexity is usually O(1) because of a caching layer; when the cache needs to
 // be updated (currently, after every poset mutation), complexity is O(n).
 func (po *poset) UnsignedBounds(n *Value) (min uint64, max uint64) {
-	if po.flags&posetFlagUnsigned == 0 {
+	if po.flags&posetFlagSigned != 0 {
 		panic("cannot call UnsignedBounds on signed poset")
 	}
 	_, bmin, bmax, _ := po.lookup(n, false)
@@ -1502,10 +1502,10 @@ func (po *poset) UnsignedBounds(n *Value) (min uint64, max uint64) {
 // noBounds returns the min/max bounds that correspond to having no bounds
 // (that is, the minimum/maximum 64bit integer of the correct signedness)
 func (po *poset) noBounds() (min, max posetBound) {
-	if po.flags&posetFlagUnsigned != 0 {
-		return posetBound{0}, posetBound{-1}
+	if po.flags&posetFlagSigned != 0 {
+		return posetBound{math.MinInt64}, posetBound{math.MaxInt64}
 	}
-	return posetBound{math.MinInt64}, posetBound{math.MaxInt64}
+	return posetBound{0}, posetBound{-1}
 }
 
 func (po *poset) recalcBounds() {
@@ -1593,21 +1593,21 @@ func (po *poset) recalcMax1(i uint32, seen bitset) {
 	// Calculate the current node's bound as the lower of the children's bounds
 	// taking strict edges into account. Notice that we don't have to special
 	// case null edges here, as the 0th node has been marked as having no bounds.
-	unsigned := (po.flags & posetFlagUnsigned) != 0
+	signed := (po.flags & posetFlagSigned) != 0
 	maxl, maxr := po.max(l.Target()), po.max(r.Target())
 	if l.Strict() {
-		if !maxl.Decrement(unsigned) {
+		if !maxl.Decrement(signed) {
 			panic("impossible maximum bound")
 		}
 	}
 	if r.Strict() {
-		if !maxr.Decrement(unsigned) {
+		if !maxr.Decrement(signed) {
 			panic("impossible maximum bound")
 		}
 	}
 
 	var max posetBound
-	if maxr.LessThan(maxl, unsigned) {
+	if maxr.LessThan(maxl, signed) {
 		max = maxr
 	} else {
 		max = maxl
@@ -1618,7 +1618,7 @@ func (po *poset) recalcMax1(i uint32, seen bitset) {
 	for {
 		maxidx, found := po.constants[max.v]
 		if found && po.isNonEq(i, maxidx) {
-			if !max.Decrement(unsigned) {
+			if !max.Decrement(signed) {
 				panic("impossible maximum bound")
 			}
 			continue
@@ -1659,7 +1659,7 @@ func (po *poset) recalcMin(root uint32, ins []int16) {
 }
 
 func (po *poset) recalcMin1(i uint32, strict bool, min posetBound, ins []int16) {
-	unsigned := (po.flags & posetFlagUnsigned) != 0
+	signed := (po.flags & posetFlagSigned) != 0
 	if ins[i] <= 0 {
 		panic("no inner links?")
 	}
@@ -1669,11 +1669,11 @@ func (po *poset) recalcMin1(i uint32, strict bool, min posetBound, ins []int16) 
 		// parent through this path. If the current node was reached
 		// through a strict edge, the parent's minimum can be incremented by 1.
 		if strict {
-			if !min.Increment(unsigned) {
+			if !min.Increment(signed) {
 				panic("impossible minimum bound")
 			}
 		}
-		if po.min(i).LessThan(min, unsigned) {
+		if po.min(i).LessThan(min, signed) {
 			po.setMin(i, min)
 		}
 	}
@@ -1692,7 +1692,7 @@ func (po *poset) recalcMin1(i uint32, strict bool, min posetBound, ins []int16) 
 	for {
 		minidx, found := po.constants[min.v]
 		if found && po.isNonEq(i, minidx) {
-			if !min.Increment(unsigned) {
+			if !min.Increment(signed) {
 				panic("impossible minimum bound")
 			}
 			po.setMin(i, min)

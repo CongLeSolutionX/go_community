@@ -151,8 +151,8 @@ func newFactsTable(f *Func) *factsTable {
 	ft := &factsTable{}
 	ft.orderS = f.newPoset()
 	ft.orderU = f.newPoset()
-	ft.orderS.SetUnsigned(false)
-	ft.orderU.SetUnsigned(true)
+	ft.orderS.SetSigned(true)
+	ft.orderU.SetSigned(false)
 	ft.facts = make(map[pair]relation)
 	ft.stack = make([]fact, 4)
 	ft.zero = f.ConstInt64(f.Config.Types.Int64, 0)
