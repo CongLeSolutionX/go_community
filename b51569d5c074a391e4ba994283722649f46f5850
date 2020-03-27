@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b615dec9_bd306677",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-27T15:04:46Z",
+      "side": 1,
+      "message": "Shouldn\u0027t make a difference, since any time you call one of the SymbolBuilder methods that adds data or relocations, it sets reachability.",
+      "parentUuid": "df569d37_d87167d3",
+      "revId": "b51569d5c074a391e4ba994283722649f46f5850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ac22f4c_ae5be852",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2020-03-27T14:29:09Z",
       "side": 1,
       "message": "You\u0027re not checking if s \u003d\u003d rel here. Again a difference with the original code (like if the symbol already existed, I could see it ending up in Textp2).",
+      "revId": "b51569d5c074a391e4ba994283722649f46f5850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78548b92_47bd1677",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-27T15:04:46Z",
+      "side": 1,
+      "message": "The original code adds rel to ctxt.Textp before the loop, then checks for it to skip it inside the loop -- this seemed weird to me, so I got rid of the check and moved the append to Textp after the loop.",
+      "parentUuid": "8ac22f4c_ae5be852",
       "revId": "b51569d5c074a391e4ba994283722649f46f5850",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
