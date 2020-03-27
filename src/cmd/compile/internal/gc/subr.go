@@ -541,8 +541,13 @@ func methtype(t *types.Type) *types.Type {
 
 // Is type src assignment compatible to type dst?
 // If so, return op code to use in conversion.
+<<<<<<< HEAD   (6143ce [release-branch.go1.14] runtime/race: rebuild netbsd .syso)
 // If not, return 0.
 func assignop(src *types.Type, dst *types.Type, why *string) Op {
+=======
+// If not, return OXXX.
+func assignop(src, dst *types.Type, why *string) Op {
+>>>>>>> CHANGE (343142 cmd/compile: fix constant conversion involving complex types)
 	if why != nil {
 		*why = ""
 	}
@@ -664,8 +669,14 @@ func assignop(src *types.Type, dst *types.Type, why *string) Op {
 
 // Can we convert a value of type src to a value of type dst?
 // If so, return op code to use in conversion (maybe OCONVNOP).
+<<<<<<< HEAD   (6143ce [release-branch.go1.14] runtime/race: rebuild netbsd .syso)
 // If not, return 0.
 func convertop(src *types.Type, dst *types.Type, why *string) Op {
+=======
+// If not, return OXXX.
+// srcConstant indicates whether the value of type src is a constant.
+func convertop(srcConstant bool, src, dst *types.Type, why *string) Op {
+>>>>>>> CHANGE (343142 cmd/compile: fix constant conversion involving complex types)
 	if why != nil {
 		*why = ""
 	}
@@ -738,6 +749,13 @@ func convertop(src *types.Type, dst *types.Type, why *string) Op {
 		if simtype[src.Etype] == simtype[dst.Etype] {
 			return OCONVNOP
 		}
+		return OCONV
+	}
+
+	// Special case for constant conversions: any numeric
+	// conversion is potentially okay. We'll validate further
+	// within evconst. See #38117.
+	if srcConstant && (src.IsInteger() || src.IsFloat() || src.IsComplex()) && (dst.IsInteger() || dst.IsFloat() || dst.IsComplex()) {
 		return OCONV
 	}
 
