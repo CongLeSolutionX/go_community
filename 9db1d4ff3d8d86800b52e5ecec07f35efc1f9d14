@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "426b1342_6e170daa",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-03-27T01:16:39Z",
+      "side": 1,
+      "message": "Sorry I don\u0027t quite grasp this CL of adding lock to netpollBreak, it seems that lock doesn\u0027t benefit anything, or was I missing something?",
+      "parentUuid": "df83341c_bad9d95c",
+      "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6faa28ad_37f40d10",
         "filename": "src/runtime/netpoll_epoll.go",
         "patchSetId": 16
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "27e744fa_ec7fbad1",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-03-27T01:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6faa28ad_37f40d10",
+      "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40e043f3_1c01b461",
         "filename": "src/runtime/netpoll_epoll.go",
         "patchSetId": 16
@@ -68,6 +104,24 @@
       "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7811ada9_892b471e",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-03-27T01:16:39Z",
+      "side": 1,
+      "message": "Make sense, Done.",
+      "parentUuid": "40e043f3_1c01b461",
+      "revId": "9db1d4ff3d8d86800b52e5ecec07f35efc1f9d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
