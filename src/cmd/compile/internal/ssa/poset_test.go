@@ -62,9 +62,8 @@ func vconst2(i int64) int64 {
 	return 1000 + 256 + i
 }
 
-func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
+func testPosetOps(t *testing.T, signed bool, ops []posetTestOp) {
 	types := NewTypes()
-
 	var v [1512]*Value
 	for i := range v {
 		v[i] = new(Value)
@@ -82,7 +81,7 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 	}
 
 	po := newPoset()
-	po.SetUnsigned(unsigned)
+	po.SetSigned(signed)
 	for idx, op := range ops {
 		undoLen := len(po.undo)
 		mutation := false
@@ -157,7 +156,7 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 				t.Errorf("FAILED: op%d%v passed", idx, op)
 			}
 		case BoundedMin:
-			if !unsigned {
+			if signed {
 				if min, _ := po.SignedBounds(v[op.a]); min != op.b {
 					t.Errorf("FAILED: op%d%v got=%v", idx, op, min)
 				}
@@ -167,7 +166,7 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 				}
 			}
 		case BoundedMax:
-			if !unsigned {
+			if signed {
 				if _, max := po.SignedBounds(v[op.a]); max != op.b {
 					t.Errorf("FAILED: op%d%v got=%v", idx, op, max)
 				}
@@ -177,11 +176,11 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 				}
 			}
 		case BoundedMin_Fail:
-			if min, _ := po.SignedBounds(v[op.a]); (unsigned && uint64(min) != 0) || (!unsigned && min != math.MinInt64) {
+			if min, _ := po.SignedBounds(v[op.a]); (!signed && uint64(min) != 0) || (signed && min != math.MinInt64) {
 				t.Errorf("FAILED: op%d%v got=%v", idx, op, min)
 			}
 		case BoundedMax_Fail:
-			if _, max := po.SignedBounds(v[op.a]); (unsigned && uint64(max) != math.MaxUint64) || (!unsigned && max != math.MaxInt64) {
+			if _, max := po.SignedBounds(v[op.a]); (!signed && uint64(max) != math.MaxUint64) || (signed && max != math.MaxInt64) {
 				t.Errorf("FAILED: op%d%v got=%v", idx, op, max)
 			}
 		case Checkpoint:
@@ -213,7 +212,7 @@ func testPosetOps(t *testing.T, unsigned bool, ops []posetTestOp) {
 }
 
 func TestPoset(t *testing.T) {
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Ordered_Fail, 123, 124},
 
 		// Dag #0: 100<101
@@ -429,7 +428,7 @@ func TestPoset(t *testing.T) {
 
 func TestPosetStrict(t *testing.T) {
 
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		// Build: 20!=30, 10<20<=30<40. The 20<=30 will become 20<30.
 		{SetNonEqual, 20, 30},
@@ -496,7 +495,7 @@ func TestPosetStrict(t *testing.T) {
 }
 
 func TestPosetCollapse(t *testing.T) {
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		// Create a complex graph of <= relations among nodes between 10 and 25.
 		{SetOrderOrEqual, 10, 15},
@@ -602,7 +601,7 @@ func TestPosetCollapse(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, 10, 15},
 		{SetOrderOrEqual, 15, 20},
@@ -616,7 +615,7 @@ func TestPosetCollapse(t *testing.T) {
 }
 
 func TestPosetSetEqual(t *testing.T) {
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		// 10<=20<=30<40,  20<=100<110
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, 10, 20},
@@ -690,7 +689,7 @@ func TestPosetSetEqual(t *testing.T) {
 }
 
 func TestPosetConst(t *testing.T) {
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrder, 1, vconst(15)},
 		{SetOrderOrEqual, 100, vconst(120)},
@@ -738,7 +737,7 @@ func TestPosetConst(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, true, []posetTestOp{
+	testPosetOps(t, false, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrder, 1, vconst(15)},
 		// An unsigned poset cannot record relations with negative numbers
@@ -764,7 +763,7 @@ func TestPosetConst(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, 1, vconst(3)},
 		{SetNonEqual, 1, vconst(0)},
@@ -772,7 +771,7 @@ func TestPosetConst(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		// Check relations of a constant with itself
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, vconst(3), vconst2(3)},
@@ -817,7 +816,7 @@ func TestPosetConst(t *testing.T) {
 }
 
 func TestPosetNonEqual(t *testing.T) {
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Equal_Fail, 10, 20},
 		{NonEqual_Fail, 10, 20},
 
@@ -873,7 +872,7 @@ func TestPosetNonEqual(t *testing.T) {
 }
 
 func TestPosetBounds(t *testing.T) {
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, vconst(5), 10},
 		{SetOrder, 10, 11},
@@ -913,7 +912,7 @@ func TestPosetBounds(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, vconst(5), 50},
 		{SetOrderOrEqual, vconst(10), 50},
@@ -963,7 +962,7 @@ func TestPosetBounds(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrderOrEqual, 50, vconst(10)},
 		{SetOrder, 49, 50},
@@ -983,7 +982,7 @@ func TestPosetBounds(t *testing.T) {
 }
 
 func TestPosetLearnFromBounds(t *testing.T) {
-	testPosetOps(t, true, []posetTestOp{
+	testPosetOps(t, false, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{BoundedMin, 50, 0},
 		{BoundedMin, 51, 0},
@@ -1055,7 +1054,7 @@ func TestPosetLearnFromBounds(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, true, []posetTestOp{
+	testPosetOps(t, false, []posetTestOp{
 		{Checkpoint, 0, 0},
 		// v10 < v11 < v12 < v13
 		{SetOrder, 10, 11},
@@ -1102,7 +1101,7 @@ func TestPosetLearnFromBounds(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, true, []posetTestOp{
+	testPosetOps(t, false, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrder, vconst(10), 20},
 		{SetOrderOrEqual, vconst(10), 10},
@@ -1129,7 +1128,7 @@ func TestPosetLearnFromBounds(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, true, []posetTestOp{
+	testPosetOps(t, false, []posetTestOp{
 		{Checkpoint, 0, 0},
 		{SetOrder, vconst(10), 20},
 		{SetOrderOrEqual, vconst(10), 10},
@@ -1156,7 +1155,7 @@ func TestPosetLearnFromBounds(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, true, []posetTestOp{
+	testPosetOps(t, false, []posetTestOp{
 		{Checkpoint, 0, 0},
 
 		{SetOrder, 1, 2},
@@ -1176,7 +1175,7 @@ func TestPosetLearnFromBounds(t *testing.T) {
 		{Undo, 0, 0},
 	})
 
-	testPosetOps(t, false, []posetTestOp{
+	testPosetOps(t, true, []posetTestOp{
 		{Checkpoint, 0, 0},
 
 		{SetOrder, vconst(0), vconst(8)},
