@@ -40,7 +40,24 @@ func main() {
 	}
 	ctxt.Flag_dynlink = *flags.Dynlink
 	ctxt.Flag_shared = *flags.Shared || *flags.Dynlink
+<<<<<<< HEAD   (c7e3d8 [dev.link] cmd/link: migrate symbol's Value and Align when c)
 	ctxt.Flag_go115newobj = *flags.Go115Newobj
+=======
+	ctxt.Flag_newobj = *flags.Newobj
+	switch *flags.Spectre {
+	default:
+		log.Printf("unknown setting -spectre=%s", *flags.Spectre)
+		os.Exit(2)
+	case "":
+		// nothing
+	case "index":
+		// known to compiler; ignore here so people can use
+		// the same list with -gcflags=-spectre=LIST and -asmflags=-spectrre=LIST
+	case "all", "ret":
+		ctxt.Retpoline = true
+	}
+
+>>>>>>> BRANCH (0cc129 runtime: converge duplicate calls to netpollBreak into one)
 	ctxt.Bso = bufio.NewWriter(os.Stdout)
 	defer ctxt.Bso.Flush()
 

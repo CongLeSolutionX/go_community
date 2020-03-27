@@ -652,7 +652,12 @@ type Link struct {
 	Flag_linkshared    bool
 	Flag_optimize      bool
 	Flag_locationlists bool
+<<<<<<< HEAD   (c7e3d8 [dev.link] cmd/link: migrate symbol's Value and Align when c)
 	Flag_go115newobj   bool // use new object file format
+=======
+	Flag_newobj        bool // use new object file format
+	Retpoline          bool // emit use of retpoline stubs for indirect jmp/call
+>>>>>>> BRANCH (0cc129 runtime: converge duplicate calls to netpollBreak into one)
 	Bso                *bufio.Writer
 	Pathname           string
 	hashmu             sync.Mutex       // protects hash, funchash
