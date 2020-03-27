@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df569d37_d87167d3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-03-27T14:29:09Z",
+      "side": 1,
+      "message": "not setting reachability here. doubt it matters, just a difference in the code.",
+      "revId": "b51569d5c074a391e4ba994283722649f46f5850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac22f4c_ae5be852",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-03-27T14:29:09Z",
+      "side": 1,
+      "message": "You\u0027re not checking if s \u003d\u003d rel here. Again a difference with the original code (like if the symbol already existed, I could see it ending up in Textp2).",
+      "revId": "b51569d5c074a391e4ba994283722649f46f5850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
