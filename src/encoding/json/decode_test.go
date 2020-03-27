@@ -2420,15 +2420,25 @@ func (m *textUnmarshalerString) UnmarshalText(text []byte) error {
 }
 
 // Test unmarshal to a map, with map key is a user defined type.
-// See golang.org/issues/34437.
 func TestUnmarshalMapWithTextUnmarshalerStringKey(t *testing.T) {
 	var p map[textUnmarshalerString]string
+
+	// See golang.org/issues/34437.
 	if err := Unmarshal([]byte(`{"FOO": "1"}`), &p); err != nil {
 		t.Fatalf("Unmarshal unexpected error: %v", err)
 	}
 
 	if _, ok := p["foo"]; !ok {
-		t.Errorf(`Key "foo" is not existed in map: %v`, p)
+		t.Errorf(`Key "foo" does not exist in map: %v`, p)
+	}
+
+	// See golang.org/issues/38105.
+	if err := Unmarshal([]byte(`{"开源":"12345开源"}`), &p); err != nil {
+		t.Fatalf("Unmarshal unexpected error: %v", err)
+	}
+
+	if _, ok := p["开源"]; !ok {
+		t.Errorf(`Key "开源" does not exist in map: %v`, p)
 	}
 }
 
