@@ -16,6 +16,24 @@
       "revId": "7865e559b60282beb12db5dae1b9f91d64e627c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37b6c154_6e85efaa",
+        "filename": "doc/install-source.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2020-03-28T15:41:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fbfa71b_8b95bf45",
+      "revId": "7865e559b60282beb12db5dae1b9f91d64e627c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
