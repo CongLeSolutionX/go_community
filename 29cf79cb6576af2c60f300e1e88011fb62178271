@@ -16,6 +16,24 @@
       "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8703d71a_4490d986",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-03-29T22:39:21Z",
+      "side": 1,
+      "message": "See previous discussion at https://go-review.googlesource.com/c/go/+/226204/2/src/net/http/roundtrip_js.go#113.",
+      "parentUuid": "1468aca6_65456119",
+      "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
