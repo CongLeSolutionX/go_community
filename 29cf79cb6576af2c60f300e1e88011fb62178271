@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1468aca6_65456119",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2020-03-29T21:49:02Z",
+      "side": 1,
+      "message": "Should these be deferred? Not sure I\u0027m clear on exactly what consequences this has.",
+      "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
