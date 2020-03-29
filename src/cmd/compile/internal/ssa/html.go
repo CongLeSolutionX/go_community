@@ -19,9 +19,12 @@ import (
 
 type HTMLWriter struct {
 	Logger
-	w    io.WriteCloser
-	path string
-	dot  *dotWriter
+	w             io.WriteCloser
+	path          string
+	dot           *dotWriter
+	prevHash      []byte
+	pendingPhases []string
+	pendingTitles []string
 }
 
 func NewHTMLWriter(path string, logger Logger, funcname, cfgMask string) *HTMLWriter {
@@ -94,21 +97,14 @@ td.collapsed {
     font-size: 12px;
     width: 12px;
     border: 1px solid white;
-    padding: 0;
+    padding: 2px;
     cursor: pointer;
     background: #fafafa;
 }
 
-td.collapsed  div {
-     -moz-transform: rotate(-90.0deg);  /* FF3.5+ */
-       -o-transform: rotate(-90.0deg);  /* Opera 10.5 */
-  -webkit-transform: rotate(-90.0deg);  /* Saf3.1+, Chrome */
-             filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
-         -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
-         margin-top: 10.3em;
-         margin-left: -10em;
-         margin-right: -10em;
-         text-align: right;
+td.collapsed div {
+    writing-mode: vertical-rl;
+    white-space: pre;
 }
 
 code, pre, .lines, .ast {
@@ -509,9 +505,12 @@ window.onload = function() {
         var phase = id.substr(0, id.length-4);
         var show = expandedDefault.indexOf(phase) !== -1
         if (id.endsWith("-exp")) {
-            var h2 = td[i].getElementsByTagName("h2");
-            if (h2 && h2[0]) {
-                h2[0].addEventListener('click', toggler(phase));
+            const h2Els = td[i].getElementsByTagName("h2");
+            const len = h2Els.length;
+            if (len > 0) {
+                for (let i = 0; i < len; i++) {
+                    h2Els[i].addEventListener('click', toggler(phase));
+                }
             }
         } else {
             td[i].addEventListener('click', toggler(phase));
@@ -738,8 +737,16 @@ func (w *HTMLWriter) WriteFunc(phase, title string, f *Func) {
 	if w == nil {
 		return // avoid generating HTML just to discard it
 	}
-	//w.WriteColumn(phase, title, "", f.HTML())
-	w.WriteColumn(phase, title, "", f.HTML(phase, w.dot))
+	hash := hashFunc(f)
+	w.pendingPhases = append(w.pendingPhases, phase)
+	w.pendingTitles = append(w.pendingTitles, title)
+	if !bytes.Equal(hash, w.prevHash) {
+		phases := strings.Join(w.pendingPhases, "  +  ")
+		w.WriteMultiTitleColumn(phases, w.pendingTitles, fmt.Sprintf("hash-%x", hash), f.HTML(phase, w.dot))
+		w.pendingPhases = w.pendingPhases[:0]
+		w.pendingTitles = w.pendingTitles[:0]
+	}
+	w.prevHash = hash
 }
 
 // FuncLines contains source code for a function to be displayed
@@ -853,6 +860,10 @@ func (w *HTMLWriter) WriteAST(phase string, buf *bytes.Buffer) {
 // WriteColumn writes raw HTML in a column headed by title.
 // It is intended for pre- and post-compilation log output.
 func (w *HTMLWriter) WriteColumn(phase, title, class, html string) {
+	w.WriteMultiTitleColumn(phase, []string{title}, class, html)
+}
+
+func (w *HTMLWriter) WriteMultiTitleColumn(phase string, titles []string, class, html string) {
 	if w == nil {
 		return
 	}
@@ -865,9 +876,11 @@ func (w *HTMLWriter) WriteColumn(phase, title, class, html string) {
 	} else {
 		w.Printf("<td id=\"%v-exp\" class=\"%v\">", id, class)
 	}
-	w.WriteString("<h2>" + title + "</h2>")
+	for _, title := range titles {
+		w.WriteString("<h2>" + title + "</h2>")
+	}
 	w.WriteString(html)
-	w.WriteString("</td>")
+	w.WriteString("</td>\n")
 }
 
 func (w *HTMLWriter) Printf(msg string, v ...interface{}) {
