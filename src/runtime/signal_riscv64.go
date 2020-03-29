@@ -78,8 +78,14 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	c.set_pc(uint64(funcPC(sigpanic)))
 }
 
-const pushCallSupported = false
+const pushCallSupported = true
 
 func (c *sigctxt) pushCall(targetPC uintptr) {
-	throw("unimplemented")
+	sp := c.sp() - sys.PtrSize
+	c.set_sp(sp)
+	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.ra()
+	// Set up PC and LR to pretend the function being signaled
+	// calls targetPC at the faulting PC.
+	c.set_ra(c.pc())
+	c.set_pc(uint64(targetPC))
 }

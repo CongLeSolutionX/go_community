@@ -938,9 +938,18 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	}
 
 	// Validate all instructions - this provides nice error messages.
+	// Also refine Spadjs for framelesss functions that was ignored by above passes.
 	for p := cursym.Func.Text; p != nil; p = p.Link {
 		for _, ins := range instructionsForProg(p) {
 			ins.validate(ctxt)
+		}
+
+		switch p.As {
+		case AADDI:
+			if p.To.Reg != REG_SP || p.Spadj != 0 {
+				break
+			}
+			p.Spadj = int32(-p.From.Offset)
 		}
 	}
 }
@@ -1956,6 +1965,15 @@ func assemble(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	for p, i := cursym.P, 0; i < len(symcode); p, i = p[4:], i+1 {
 		ctxt.Arch.ByteOrder.PutUint32(p, symcode[i])
 	}
+
+	obj.MarkUnsafePoints(ctxt, cursym.Func.Text, newprog, isUnsafePoint)
+}
+
+func isUnsafePoint(p *obj.Prog) bool {
+	if p.From.Reg == REG_TMP || p.To.Reg == REG_TMP || p.Reg == REG_TMP {
+		return true
+	}
+	return false
 }
 
 var LinkRISCV64 = obj.LinkArch{
