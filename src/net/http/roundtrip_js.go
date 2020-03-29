@@ -102,7 +102,8 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		js.CopyBytesToJS(buf, body)
 		opt.Set("body", buf)
 	}
-	respPromise := js.Global().Call("fetch", req.URL.String(), opt)
+
+	fetchPromise := js.Global().Call("fetch", req.URL.String(), opt)
 	var (
 		respCh = make(chan *Response, 1)
 		errCh  = make(chan error, 1)
@@ -141,36 +142,36 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		}
 
 		code := result.Get("status").Int()
-		select {
-		case respCh <- &Response{
+		respCh <- &Response{
 			Status:        fmt.Sprintf("%d %s", code, StatusText(code)),
 			StatusCode:    code,
 			Header:        header,
 			ContentLength: contentLength,
 			Body:          body,
 			Request:       req,
-		}:
-		case <-req.Context().Done():
 		}
 
 		return nil
 	})
 	defer success.Release()
 	failure := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		err := fmt.Errorf("net/http: fetch() failed: %s", args[0].String())
-		select {
-		case errCh <- err:
-		case <-req.Context().Done():
-		}
+		errCh <- fmt.Errorf("net/http: fetch() failed: %s", args[0].String())
 		return nil
 	})
 	defer failure.Release()
-	respPromise.Call("then", success, failure)
+
+	fetchPromise.Call("then", success, failure)
 	select {
 	case <-req.Context().Done():
 		if !ac.IsUndefined() {
-			// Abort the Fetch request
+			// Abort the Fetch request.
 			ac.Call("abort")
+		}
+		// Wait for fetchPromise to complete, before its success and failure
+		// callbacks are released.
+		select {
+		case <-respCh:
+		case <-errCh:
 		}
 		return nil, req.Context().Err()
 	case resp := <-respCh:
