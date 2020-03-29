@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5ba9f99_fa290645",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-03-29T19:35:50Z",
+      "side": 1,
+      "message": "I see no reason for using \"defer\" here.",
+      "revId": "e34b7849559a7d3d0ea8c5f7271d4da10ac66806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
