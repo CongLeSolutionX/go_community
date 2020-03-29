@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3564857_276dcff4",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-03-29T03:49:09Z",
+      "side": 1,
+      "message": "Hmm, AbortController is supported on almost all modern browsers by now (https://caniuse.com/#search\u003dAbortController), but if we\u0027re supporting browsers where it\u0027s not, then this approach is bad. It would prevent request cancellation from returning earlier when AbortController is unavailable.\n\nI\u0027ll explore an alternative fix idea of moving the {success,failure}.Release() calls into the closure itself rather than deferring them, that might work better for both cases.",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 166,
+        "endChar": 22
+      },
+      "revId": "96329ee151ffe520854dc765d873722ad3c05523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
