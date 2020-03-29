@@ -38,7 +38,7 @@ func explode(s string, n int) []string {
 
 // Count counts the number of non-overlapping instances of substr in s.
 // If substr is an empty string, Count returns 1 + the number of Unicode code points in s.
-func Count(s, substr string) int {
+func Count(s string, substr string) int {
 	// special case
 	if len(substr) == 0 {
 		return utf8.RuneCountInString(s) + 1
@@ -58,12 +58,12 @@ func Count(s, substr string) int {
 }
 
 // Contains reports whether substr is within s.
-func Contains(s, substr string) bool {
+func Contains(s string, substr string) bool {
 	return Index(s, substr) >= 0
 }
 
 // ContainsAny reports whether any Unicode code points in chars are within s.
-func ContainsAny(s, chars string) bool {
+func ContainsAny(s string, chars string) bool {
 	return IndexAny(s, chars) >= 0
 }
 
@@ -73,7 +73,7 @@ func ContainsRune(s string, r rune) bool {
 }
 
 // LastIndex returns the index of the last instance of substr in s, or -1 if substr is not present in s.
-func LastIndex(s, substr string) int {
+func LastIndex(s string, substr string) int {
 	n := len(substr)
 	switch {
 	case n == 0:
@@ -138,7 +138,7 @@ func IndexRune(s string, r rune) int {
 
 // IndexAny returns the index of the first instance of any Unicode code point
 // from chars in s, or -1 if no Unicode code point from chars is present in s.
-func IndexAny(s, chars string) int {
+func IndexAny(s string, chars string) int {
 	if chars == "" {
 		// Avoid scanning all of s.
 		return -1
@@ -172,7 +172,7 @@ func IndexAny(s, chars string) int {
 // LastIndexAny returns the index of the last instance of any Unicode code
 // point from chars in s, or -1 if no Unicode code point from chars is
 // present in s.
-func LastIndexAny(s, chars string) int {
+func LastIndexAny(s string, chars string) int {
 	if chars == "" {
 		// Avoid scanning all of s.
 		return -1
@@ -233,7 +233,7 @@ func LastIndexByte(s string, c byte) int {
 
 // Generic split: splits after each instance of sep,
 // including sepSave bytes of sep in the subarrays.
-func genSplit(s, sep string, sepSave, n int) []string {
+func genSplit(s string, sep string, sepSave, n int) []string {
 	if n == 0 {
 		return nil
 	}
@@ -270,7 +270,7 @@ func genSplit(s, sep string, sepSave, n int) []string {
 //
 // Edge cases for s and sep (for example, empty strings) are handled
 // as described in the documentation for Split.
-func SplitN(s, sep string, n int) []string { return genSplit(s, sep, 0, n) }
+func SplitN(s string, sep string, n int) []string { return genSplit(s, sep, 0, n) }
 
 // SplitAfterN slices s into substrings after each instance of sep and
 // returns a slice of those substrings.
@@ -282,7 +282,7 @@ func SplitN(s, sep string, n int) []string { return genSplit(s, sep, 0, n) }
 //
 // Edge cases for s and sep (for example, empty strings) are handled
 // as described in the documentation for SplitAfter.
-func SplitAfterN(s, sep string, n int) []string {
+func SplitAfterN(s string, sep string, n int) []string {
 	return genSplit(s, sep, len(sep), n)
 }
 
@@ -296,7 +296,7 @@ func SplitAfterN(s, sep string, n int) []string {
 // and sep are empty, Split returns an empty slice.
 //
 // It is equivalent to SplitN with a count of -1.
-func Split(s, sep string) []string { return genSplit(s, sep, 0, -1) }
+func Split(s string, sep string) []string { return genSplit(s, sep, 0, -1) }
 
 // SplitAfter slices s into all substrings after each instance of sep and
 // returns a slice of those substrings.
@@ -308,7 +308,7 @@ func Split(s, sep string) []string { return genSplit(s, sep, 0, -1) }
 // both s and sep are empty, SplitAfter returns an empty slice.
 //
 // It is equivalent to SplitAfterN with a count of -1.
-func SplitAfter(s, sep string) []string {
+func SplitAfter(s string, sep string) []string {
 	return genSplit(s, sep, len(sep), -1)
 }
 
@@ -436,12 +436,12 @@ func Join(elems []string, sep string) string {
 }
 
 // HasPrefix tests whether the string s begins with prefix.
-func HasPrefix(s, prefix string) bool {
+func HasPrefix(s string, prefix string) bool {
 	return len(s) >= len(prefix) && s[0:len(prefix)] == prefix
 }
 
 // HasSuffix tests whether the string s ends with suffix.
-func HasSuffix(s, suffix string) bool {
+func HasSuffix(s string, suffix string) bool {
 	return len(s) >= len(suffix) && s[len(s)-len(suffix):] == suffix
 }
 
@@ -625,7 +625,7 @@ func ToTitleSpecial(c unicode.SpecialCase, s string) string {
 
 // ToValidUTF8 returns a copy of the string s with each run of invalid UTF-8 byte sequences
 // replaced by the replacement string, which may be empty.
-func ToValidUTF8(s, replacement string) string {
+func ToValidUTF8(s string, replacement string) string {
 	var b Builder
 
 	for i, c := range s {
@@ -894,7 +894,7 @@ func TrimSpace(s string) string {
 
 // TrimPrefix returns s without the provided leading prefix string.
 // If s doesn't start with prefix, s is returned unchanged.
-func TrimPrefix(s, prefix string) string {
+func TrimPrefix(s string, prefix string) string {
 	if HasPrefix(s, prefix) {
 		return s[len(prefix):]
 	}
@@ -903,7 +903,7 @@ func TrimPrefix(s, prefix string) string {
 
 // TrimSuffix returns s without the provided trailing suffix string.
 // If s doesn't end with suffix, s is returned unchanged.
-func TrimSuffix(s, suffix string) string {
+func TrimSuffix(s string, suffix string) string {
 	if HasSuffix(s, suffix) {
 		return s[:len(s)-len(suffix)]
 	}
@@ -916,7 +916,7 @@ func TrimSuffix(s, suffix string) string {
 // and after each UTF-8 sequence, yielding up to k+1 replacements
 // for a k-rune string.
 // If n < 0, there is no limit on the number of replacements.
-func Replace(s, old, new string, n int) string {
+func Replace(s string, old, new string, n int) string {
 	if old == new || n == 0 {
 		return s // avoid allocation
 	}
@@ -955,14 +955,14 @@ func Replace(s, old, new string, n int) string {
 // If old is empty, it matches at the beginning of the string
 // and after each UTF-8 sequence, yielding up to k+1 replacements
 // for a k-rune string.
-func ReplaceAll(s, old, new string) string {
+func ReplaceAll(s string, old, new string) string {
 	return Replace(s, old, new, -1)
 }
 
 // EqualFold reports whether s and t, interpreted as UTF-8 strings,
 // are equal under Unicode case-folding, which is a more general
 // form of case-insensitivity.
-func EqualFold(s, t string) bool {
+func EqualFold(s string, t string) bool {
 	for s != "" && t != "" {
 		// Extract first rune from each string.
 		var sr, tr rune
@@ -1016,7 +1016,7 @@ func EqualFold(s, t string) bool {
 }
 
 // Index returns the index of the first instance of substr in s, or -1 if substr is not present in s.
-func Index(s, substr string) int {
+func Index(s string, substr string) int {
 	n := len(substr)
 	switch {
 	case n == 0:
