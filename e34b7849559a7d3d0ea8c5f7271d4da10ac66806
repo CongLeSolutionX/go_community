@@ -16,6 +16,24 @@
       "revId": "e34b7849559a7d3d0ea8c5f7271d4da10ac66806",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf85eff9_1d43e124",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-03-29T20:56:34Z",
+      "side": 1,
+      "message": "Great. I wasn\u0027t sure if it was safe to release while the function is in the middle of running.\n\nThe documentation currently says:\n\n\u003e Func.Release must be called to free up resources when the function will not be used any more.\n\n\u003e Release frees up resources allocated for the function. The function must not be invoked after calling Release.\n\nI\u0027ve removed it and filed issue #38152 about clarifying the documentation.",
+      "parentUuid": "e5ba9f99_fa290645",
+      "revId": "e34b7849559a7d3d0ea8c5f7271d4da10ac66806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
