@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e1d4ab4_65fad731",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-03-29T03:51:09Z",
+      "side": 1,
+      "message": "We don\u0027t need this additional sentence, it\u0027s already covered by the topic line.  Thanks.",
+      "revId": "bdaed227bd0e8cdf2892a5c083dc495a3ef28c38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
