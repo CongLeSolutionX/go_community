@@ -22,6 +22,30 @@
       "revId": "96329ee151ffe520854dc765d873722ad3c05523",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2589e037_201adef2",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-03-29T18:32:06Z",
+      "side": 1,
+      "message": "This idea seems to have worked out. Implemented it in patch set 2.",
+      "parentUuid": "a3564857_276dcff4",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 166,
+        "endChar": 22
+      },
+      "revId": "96329ee151ffe520854dc765d873722ad3c05523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
