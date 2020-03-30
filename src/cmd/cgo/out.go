@@ -1659,14 +1659,24 @@ func _cgo_runtime_cgocall(unsafe.Pointer, uintptr) int32
 func _cgo_runtime_cgocallback(unsafe.Pointer, unsafe.Pointer, uintptr, uintptr)
 
 //go:linkname _cgoCheckPointer runtime.cgoCheckPointer
-func _cgoCheckPointer(interface{}, interface{})
+func _cgoCheckPointer(interface{})
+
+//go:linkname _cgoCheckPointerContent runtime.cgoCheckPointerContent
+func _cgoCheckPointerContent(interface{})
+
+//go:linkname _cgoCheckArray runtime.cgoCheckArray
+func _cgoCheckArray(interface{})
 
 //go:linkname _cgoCheckResult runtime.cgoCheckResult
 func _cgoCheckResult(interface{})
 `
 
 const gccgoGoProlog = `
-func _cgoCheckPointer(interface{}, interface{})
+func _cgoCheckPointer(interface{})
+
+func _cgoCheckPointerContent(interface{})
+
+func _cgoCheckArray(interface{})
 
 func _cgoCheckResult(interface{})
 `
@@ -1853,16 +1863,42 @@ typedef struct __go_empty_interface {
 	void *__object;
 } Eface;
 
-extern void runtimeCgoCheckPointer(Eface, Eface)
+extern void runtimeCgoCheckPointer(Eface)
 	__asm__("runtime.cgoCheckPointer")
 	__attribute__((weak));
 
-extern void localCgoCheckPointer(Eface, Eface)
+extern void localCgoCheckPointer(Eface)
 	__asm__("GCCGOSYMBOLPREF._cgoCheckPointer");
 
-void localCgoCheckPointer(Eface ptr, Eface arg) {
+void localCgoCheckPointer(Eface ptr) {
 	if(runtimeCgoCheckPointer) {
-		runtimeCgoCheckPointer(ptr, arg);
+		runtimeCgoCheckPointer(ptr);
+	}
+}
+
+extern void runtimeCgoCheckPointerContent(Eface)
+	__asm__("runtime.cgoCheckPointerContent")
+	__attribute__((weak));
+
+extern void localCgoCheckPointerContent(Eface)
+	__asm__("GCCGOSYMBOLPREF._cgoCheckPointerContent");
+
+void localCgoCheckPointerContent(Eface ptr) {
+	if(runtimeCgoCheckPointerContent) {
+		runtimeCgoCheckPointerContent(ptr);
+	}
+}
+
+extern void runtimeCgoCheckArray(Eface)
+	__asm__("runtime.cgoCheckArray")
+	__attribute__((weak));
+
+extern void localCgoCheckArray(Eface)
+	__asm__("GCCGOSYMBOLPREF._cgoCheckArray");
+
+void localCgoCheckArray(Eface ptr) {
+	if(runtimeCgoCheckArray) {
+		runtimeCgoCheckArray(ptr);
 	}
 }
 

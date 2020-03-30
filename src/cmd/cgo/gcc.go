@@ -816,7 +816,7 @@ func (p *Package) rewriteCall(f *File, call *Call) (string, bool) {
 	// Rewrite C.f(p) to
 	//    func() {
 	//            _cgo0 := p
-	//            _cgoCheckPointer(_cgo0, nil)
+	//            _cgoCheckPointer(_cgo0)
 	//            C.f(_cgo0)
 	//    }()
 	// Using a function literal like this lets us evaluate the
@@ -834,7 +834,7 @@ func (p *Package) rewriteCall(f *File, call *Call) (string, bool) {
 	//    defer func() func() {
 	//            _cgo0 := p
 	//            return func() {
-	//                    _cgoCheckPointer(_cgo0, nil)
+	//                    _cgoCheckPointer(_cgo0)
 	//                    C.f(_cgo0)
 	//            }
 	//    }()()
@@ -921,7 +921,7 @@ func (p *Package) rewriteCall(f *File, call *Call) (string, bool) {
 		}
 
 		fmt.Fprintf(&sb, "_cgo%d := %s; ", i, gofmtPos(arg, origArg.Pos()))
-		fmt.Fprintf(&sbCheck, "_cgoCheckPointer(_cgo%d, nil); ", i)
+		fmt.Fprintf(&sbCheck, "_cgoCheckPointer(_cgo%d); ", i)
 	}
 
 	if call.Deferred {
@@ -1120,14 +1120,18 @@ func (p *Package) mangle(f *File, arg *ast.Expr) (ast.Expr, bool) {
 //    _cgoIndexNN := a
 //    _cgoNN := &cgoIndexNN[i] // with type conversions, if any
 // to sb, and writes
-//    _cgoCheckPointer(_cgoNN, _cgoIndexNN)
-// to sbCheck, and returns true. If a is a simple variable or field reference,
-// it writes
-//    _cgoIndexNN := &a
-// and dereferences the uses of _cgoIndexNN. Taking the address avoids
-// making a copy of an array.
+//    _cgoCheckArray(&_cgoIndexNN)
+// to sbCheck, and returns true.
 //
-// This tells _cgoCheckPointer to check the complete contents of the
+// If a is a simple variable or field reference, it writes
+//    _cgoIndexNN := &a
+//    _cgoNN := &(*cgoIndexNN)[i] // with type conversions, if any
+// to sb, and writes
+//    _cgoCheckArray(_cgoIndexNN)
+// to sbCheck, and returns true.
+//
+// Taking the address to array avoids making a copy.
+// cgoCheckArray checks the complete contents of the
 // slice or array being indexed, but no other part of the memory allocation.
 func (p *Package) checkIndex(sb, sbCheck *bytes.Buffer, arg ast.Expr, i int) bool {
 	// Strip type conversions.
@@ -1149,22 +1153,25 @@ func (p *Package) checkIndex(sb, sbCheck *bytes.Buffer, arg ast.Expr, i int) boo
 	}
 
 	addr := ""
-	deref := ""
+	ref := "&"
 	if p.isVariable(index.X) {
 		addr = "&"
-		deref = "*"
+		ref = ""
 	}
 
+	// If possible we take an address here to avoid a copy of an array.
 	fmt.Fprintf(sb, "_cgoIndex%d := %s%s; ", i, addr, gofmtPos(index.X, index.X.Pos()))
 	origX := index.X
 	index.X = ast.NewIdent(fmt.Sprintf("_cgoIndex%d", i))
-	if deref == "*" {
+	if addr == "&" {
 		index.X = &ast.StarExpr{X: index.X}
 	}
 	fmt.Fprintf(sb, "_cgo%d := %s; ", i, gofmtPos(arg, arg.Pos()))
 	index.X = origX
 
-	fmt.Fprintf(sbCheck, "_cgoCheckPointer(_cgo%d, %s_cgoIndex%d); ", i, deref, i)
+	// If we were unable to make a pointer to the previous array,
+	// we do it here to avoid copying the array.
+	fmt.Fprintf(sbCheck, "_cgoCheckArray(%s_cgoIndex%d); ", ref, i)
 
 	return true
 }
@@ -1174,10 +1181,8 @@ func (p *Package) checkIndex(sb, sbCheck *bytes.Buffer, arg ast.Expr, i int) boo
 //    _cgoBaseNN := &x
 //    _cgoNN := _cgoBaseNN // with type conversions, if any
 // to sb, and writes
-//    _cgoCheckPointer(_cgoBaseNN, true)
-// to sbCheck, and returns true. This tells _cgoCheckPointer to check
-// just the contents of the pointer being passed, not any other part
-// of the memory allocation. This is run after checkIndex, which looks
+//    _cgoCheckPointerContent(_cgoBaseNN)
+// to sbCheck, and returns true. This is run after checkIndex, which looks
 // for the special case of &a[i], which requires different checks.
 func (p *Package) checkAddr(sb, sbCheck *bytes.Buffer, arg ast.Expr, i int) bool {
 	// Strip type conversions.
@@ -1200,9 +1205,7 @@ func (p *Package) checkAddr(sb, sbCheck *bytes.Buffer, arg ast.Expr, i int) bool
 	fmt.Fprintf(sb, "_cgo%d := %s; ", i, gofmtPos(arg, arg.Pos()))
 	*px = origX
 
-	// Use "0 == 0" to do the right thing in the unlikely event
-	// that "true" is shadowed.
-	fmt.Fprintf(sbCheck, "_cgoCheckPointer(_cgoBase%d, 0 == 0); ", i)
+	fmt.Fprintf(sbCheck, "_cgoCheckPointerContent(_cgoBase%d); ", i)
 
 	return true
 }
