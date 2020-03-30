@@ -34,6 +34,24 @@
       "revId": "e34b7849559a7d3d0ea8c5f7271d4da10ac66806",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a02aa69_780844fb",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-03-30T08:28:52Z",
+      "side": 1,
+      "message": "Even with \"defer\" it would still run at the end of the function, so it wouldn\u0027t make much difference. But yes, it should be fine to release a function while it is running.",
+      "parentUuid": "bf85eff9_1d43e124",
+      "revId": "e34b7849559a7d3d0ea8c5f7271d4da10ac66806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
