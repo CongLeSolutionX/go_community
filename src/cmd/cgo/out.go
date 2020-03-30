@@ -1658,15 +1658,25 @@ func _cgo_runtime_cgocall(unsafe.Pointer, uintptr) int32
 //go:linkname _cgo_runtime_cgocallback runtime.cgocallback
 func _cgo_runtime_cgocallback(unsafe.Pointer, unsafe.Pointer, uintptr, uintptr)
 
-//go:linkname _cgoCheckPointer runtime.cgoCheckPointer
-func _cgoCheckPointer(interface{}, interface{})
+//go:linkname _cgoCheckPointerAny runtime.cgoCheckPointerAny
+func _cgoCheckPointerAny(interface{})
+
+//go:linkname _cgoCheckPointerContent runtime.cgoCheckPointerContent
+func _cgoCheckPointerContent(interface{})
+
+//go:linkname _cgoCheckArray runtime.cgoCheckArray
+func _cgoCheckArray(interface{})
 
 //go:linkname _cgoCheckResult runtime.cgoCheckResult
 func _cgoCheckResult(interface{})
 `
 
 const gccgoGoProlog = `
-func _cgoCheckPointer(interface{}, interface{})
+func _cgoCheckPointerAny(interface{})
+
+func _cgoCheckPointerContent(interface{})
+
+func _cgoCheckArray(interface{})
 
 func _cgoCheckResult(interface{})
 `
@@ -1857,12 +1867,51 @@ extern void runtimeCgoCheckPointer(Eface, Eface)
 	__asm__("runtime.cgoCheckPointer")
 	__attribute__((weak));
 
-extern void localCgoCheckPointer(Eface, Eface)
-	__asm__("GCCGOSYMBOLPREF._cgoCheckPointer");
 
-void localCgoCheckPointer(Eface ptr, Eface arg) {
-	if(runtimeCgoCheckPointer) {
-		runtimeCgoCheckPointer(ptr, arg);
+extern void runtimeCgoCheckPointerAny(Eface)
+	__asm__("runtime.cgoCheckPointerAny")
+	__attribute__((weak));
+
+extern void localCgoCheckPointerAny(Eface)
+	__asm__("GCCGOSYMBOLPREF._cgoCheckPointerAny");
+
+void localCgoCheckPointerAny(Eface ptr) {
+	if(runtimeCgoCheckPointerAny) {
+		runtimeCgoCheckPointerAny(ptr);
+	} else if(runtimeCgoCheckPointer) {
+		runtimeCgoCheckPointer(ptr, Eface{});
+	}
+}
+
+extern void runtimeCgoCheckPointerContent(Eface)
+	__asm__("runtime.cgoCheckPointerContent")
+	__attribute__((weak));
+
+extern void localCgoCheckPointerContent(Eface)
+	__asm__("GCCGOSYMBOLPREF._cgoCheckPointerContent");
+
+void localCgoCheckPointerContent(Eface ptr) {
+	if(runtimeCgoCheckPointerContent) {
+		runtimeCgoCheckPointerContent(ptr);
+	} else if(runtimeCgoCheckPointer) {
+		Eface True; // ???
+		runtimeCgoCheckPointer(ptr, True);
+	}
+}
+
+extern void runtimeCgoCheckArray(Eface)
+	__asm__("runtime.cgoCheckArray")
+	__attribute__((weak));
+
+extern void localCgoCheckArray(Eface)
+	__asm__("GCCGOSYMBOLPREF._cgoCheckArray");
+
+void localCgoCheckArray(Eface ptr) {
+	if(runtimeCgoCheckArray) {
+		runtimeCgoCheckArray(ptr);
+	} else if(runtimeCgoCheckPointer) {
+		Eface TODO; // ???
+		runtimeCgoCheckPointer(ptr, TODO);
 	}
 }
 
