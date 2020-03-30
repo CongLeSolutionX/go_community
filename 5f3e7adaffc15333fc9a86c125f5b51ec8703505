@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7be382fa_5b3a72c5",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-03-30T16:00:16Z",
+      "side": 1,
+      "message": "This probably should be:\n\n```\nif p.To.Type \u003d\u003d obj.TYPE_REG \u0026\u0026 p.To.Reg \u003d\u003d REG_SP \u0026\u0026 p.From.Type \u003d\u003d obj.TYPE_CONST {\n  p.Spadj \u003d int32(-p.From.Offset)\n}\n```\n\nAlso, this really should be done in the \"Additional instruction rewriting\" section above, to avoid having to handle cases with split immediates.",
+      "range": {
+        "startLine": 949,
+        "startChar": 3,
+        "endLine": 949,
+        "endChar": 42
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65e69f35_0fd3df3b",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1973,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-03-30T16:00:16Z",
+      "side": 1,
+      "message": "This can be written as:\n\n```return p.From.Reg \u003d\u003d REG_TMP || p.To.Reg \u003d\u003d REG_TMP || p.Reg \u003d\u003d REG_TMP```",
+      "range": {
+        "startLine": 1973,
+        "startChar": 4,
+        "endLine": 1973,
+        "endChar": 68
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71cdb3ea_b9529f3a",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-03-30T16:00:16Z",
+      "side": 1,
+      "message": "// Add integer registers (X3, X5-X30).",
+      "range": {
+        "startLine": 508,
+        "startChar": 4,
+        "endLine": 508,
+        "endChar": 12
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecb69358_3025aad3",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-03-30T16:00:16Z",
+      "side": 1,
+      "message": "// Add floating point registers (F0-F31).",
+      "range": {
+        "startLine": 517,
+        "startChar": 1,
+        "endLine": 517,
+        "endChar": 19
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d07d51a_0273d2c6",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-03-30T16:00:16Z",
+      "side": 1,
+      "message": "s/fscr/FCSR/ ?\n\nAlso, can you elaborate on this? In particular, is there a reason not to do this now?",
+      "range": {
+        "startLine": 518,
+        "startChar": 18,
+        "endLine": 518,
+        "endChar": 22
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fddf016_da136406",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-03-30T16:00:16Z",
+      "side": 1,
+      "message": "This needs to be MOVD (MOVF is single-precision floating point).",
+      "range": {
+        "startLine": 521,
+        "startChar": 9,
+        "endLine": 521,
+        "endChar": 13
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
