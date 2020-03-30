@@ -34,6 +34,23 @@
       "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5749ddc_fab14b9d",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-03-30T14:53:31Z",
+      "side": 1,
+      "message": "drop parens after fetch per normal Go style, and might as well change %s to more conventional %v while you\u0027re here. At least the %s and .String() seem redundantly explicit.",
+      "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
