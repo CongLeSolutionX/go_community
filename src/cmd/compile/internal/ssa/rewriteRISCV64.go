@@ -5155,15 +5155,16 @@ func rewriteBlockRISCV64(b *Block) bool {
 		for b.Controls[0].Op == OpRISCV64SNEZ {
 			v_0 := b.Controls[0]
 			x := v_0.Args[0]
-			b.resetWithControl(BlockRISCV64BNE, x)
+			yes := b.Controls[1]
+			b.resetWithControl2(BlockRISCV64BNE, x, yes)
 			return true
 		}
 	case BlockIf:
 		// match: (If cond yes no)
-		// result: (BNE cond yes no)
+		// result: (BNEZ cond yes no)
 		for {
 			cond := b.Controls[0]
-			b.resetWithControl(BlockRISCV64BNE, cond)
+			b.resetWithControl(BlockRISCV64BNEZ, cond)
 			return true
 		}
 	}

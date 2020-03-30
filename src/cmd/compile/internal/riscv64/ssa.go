@@ -610,27 +610,70 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = b.Aux.(*obj.LSym)
-	case ssa.BlockRISCV64BNE:
+	case ssa.BlockRISCV64BEQ, ssa.BlockRISCV64BEQZ, ssa.BlockRISCV64BNE, ssa.BlockRISCV64BNEZ,
+		ssa.BlockRISCV64BLT, ssa.BlockRISCV64BLEZ, ssa.BlockRISCV64BGE, ssa.BlockRISCV64BGEZ,
+		ssa.BlockRISCV64BLTZ, ssa.BlockRISCV64BGTZ, ssa.BlockRISCV64BLTU, ssa.BlockRISCV64BGEU:
+
+		as := riscv.ABEQ
+		switch b.Kind {
+		case ssa.BlockRISCV64BEQ:
+			as = riscv.ABEQ
+		case ssa.BlockRISCV64BEQZ:
+			as = riscv.ABEQZ
+		case ssa.BlockRISCV64BGE:
+			as = riscv.ABGE
+		case ssa.BlockRISCV64BGEU:
+			as = riscv.ABGEU
+		case ssa.BlockRISCV64BGEZ:
+			as = riscv.ABGEZ
+		case ssa.BlockRISCV64BGTZ:
+			as = riscv.ABGTZ
+		case ssa.BlockRISCV64BLEZ:
+			as = riscv.ABLEZ
+		case ssa.BlockRISCV64BLT:
+			as = riscv.ABLT
+		case ssa.BlockRISCV64BLTU:
+			as = riscv.ABLTU
+		case ssa.BlockRISCV64BLTZ:
+			as = riscv.ABLTZ
+		case ssa.BlockRISCV64BNE:
+			as = riscv.ABNE
+		case ssa.BlockRISCV64BNEZ:
+			as = riscv.ABNEZ
+		}
+		invAs := riscv.InvertBranch(as)
+
 		var p *obj.Prog
 		switch next {
 		case b.Succs[0].Block():
-			p = s.Br(riscv.ABNE, b.Succs[1].Block())
-			p.As = riscv.InvertBranch(p.As)
+			p = s.Br(invAs, b.Succs[1].Block())
 		case b.Succs[1].Block():
-			p = s.Br(riscv.ABNE, b.Succs[0].Block())
+			p = s.Br(as, b.Succs[0].Block())
 		default:
 			if b.Likely != ssa.BranchUnlikely {
-				p = s.Br(riscv.ABNE, b.Succs[0].Block())
+				p = s.Br(as, b.Succs[0].Block())
 				s.Br(obj.AJMP, b.Succs[1].Block())
 			} else {
-				p = s.Br(riscv.ABNE, b.Succs[1].Block())
-				p.As = riscv.InvertBranch(p.As)
+				p = s.Br(invAs, b.Succs[1].Block())
 				s.Br(obj.AJMP, b.Succs[0].Block())
 			}
 		}
-		p.Reg = b.Controls[0].Reg()
+
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = riscv.REG_ZERO
+		switch b.Kind {
+		case ssa.BlockRISCV64BEQ, ssa.BlockRISCV64BNE, ssa.BlockRISCV64BLT, ssa.BlockRISCV64BGE, ssa.BlockRISCV64BLTU, ssa.BlockRISCV64BGEU:
+			if b.NumControls() != 2 {
+				b.Fatalf("Unexpected number of controls (%d != 2): %s", b.NumControls(), b.LongString())
+			}
+			p.From.Reg = b.Controls[0].Reg()
+			p.Reg = b.Controls[1].Reg()
+
+		case ssa.BlockRISCV64BEQZ, ssa.BlockRISCV64BNEZ, ssa.BlockRISCV64BGEZ, ssa.BlockRISCV64BLEZ, ssa.BlockRISCV64BLTZ, ssa.BlockRISCV64BGTZ:
+			if b.NumControls() != 1 {
+				b.Fatalf("Unexpected number of controls (%d != 1): %s", b.NumControls(), b.LongString())
+			}
+			p.From.Reg = b.Controls[0].Reg()
+		}
 
 	default:
 		b.Fatalf("Unhandled block: %s", b.LongString())
