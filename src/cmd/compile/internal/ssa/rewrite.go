@@ -48,6 +48,7 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 				if debug > 1 {
 					fmt.Printf("rewriting %s  ->  %s\n", b0.LongString(), b.LongString())
 				}
+				continue
 			}
 			for j, v := range b.Values {
 				var v0 *Value
