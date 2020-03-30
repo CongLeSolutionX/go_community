@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "dd0413fc_4a223e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02aa45c8_f857ac1b",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3e60e0f_8deefb0b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "ffbfbe42_397b86be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "OK, I changed the description, and just emphasized that static lock ranking establishes a documented lock ordering.",
+      "parentUuid": "c3e60e0f_8deefb0b",
+      "range": {
+        "startLine": 13,
+        "startChar": 74,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6001c9ba_2da05663",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -73,6 +115,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "080d6eba_be687c82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Agreed.  I would say that static lock ordering makes \"memory\" significantly easier to maintain across many all.bash runs by many people, though it also adds the burden to update the ranking when things change.",
+      "parentUuid": "6001c9ba_2da05663",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "666c0e60_c17df973",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1737218_d942c54b",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86316ef7_f3558c02",
         "filename": "src/runtime/lock_futex.go",
         "patchSetId": 12
@@ -104,6 +182,24 @@
       "writtenOn": "2020-03-26T21:37:35Z",
       "side": 1,
       "message": "This renaming is a bit unfortunate. \"2\" doesn\u0027t tell you anything; \"go to definition\" now takes you to the wrapper; and if we want to wrap locks in other, different ways, wrapping this way doesn\u0027t compose well.\n\nThere may not be a good answer to this, given that sometimes you have to pass the rank information when acquiring the lock. But maybe it would be a little better to do something like\n\nIn lock_futex.go:\n\nfunc lock(l *mutex) {\n  preLockRank(l, getLockRank(l))\n  lock2(l)\n}\n\nfunc lockWithRank(l *mutex, rank int) {\n  preLockRank(l, rank)\n  lock2(l)\n}\n\nfunc lock2(l *mutex) { ... }\n\nIn lockrank_enabled.go:\n\nfunc preLockRank(l *mutex, rank int) { ... }\nfunc getLockRank(l *mutex) int { return l.rank }\n\nMaybe that\u0027s not any better...",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc6229f6_1b09010d",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "I can\u0027t do exactly what you suggest, because it requires moving the lock2() call outside of the systemstack() call, which means we can cause an unintended stack split when calling lock2() inside lock().  I\u0027ll keep thinking about whether there is a better way to do things.",
+      "parentUuid": "86316ef7_f3558c02",
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -124,6 +220,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f33b947_85a0c483",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8680602f_c2067995",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "aa5428cf_4d6fd785",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a7ea82_54d658fd",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8285bc5a_f4db41d1",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 12
@@ -173,6 +311,30 @@
     },
     {
       "key": {
+        "uuid": "7c0a154e_524c8ed9",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8285bc5a_f4db41d1",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b82d9177_94c0396a",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 12
@@ -187,6 +349,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f2eec5d_3a85a201",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done.  Good idea to add a String method!",
+      "parentUuid": "b82d9177_94c0396a",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "1850f3e8_d095d01f",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "OK, renamed _LsweepWaiters to lockRankSweepWaiters, etc.",
+      "parentUuid": "1db05771_d3e4e546",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8842e48_a68d0ea4",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 12
@@ -224,6 +422,24 @@
     },
     {
       "key": {
+        "uuid": "62ffed45_a29d3584",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8842e48_a68d0ea4",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a7f7c77_b148e082",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 12
@@ -238,6 +454,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "146cd368_a9c811ce",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a7f7c77_b148e082",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -281,6 +515,48 @@
     },
     {
       "key": {
+        "uuid": "f4f5c723_bb28f983",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Good point!  That was easier to convert over than I thought...!  Somehow, I was thinking that the initialization of the table would be a pain, but it all just works.",
+      "parentUuid": "0a775783_7f678fd9",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "184c1930_a886a8a9",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62f0991d_1b336427",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 171,
+        "endChar": 8
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "721a68d0_7f0abcfe",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 12
@@ -295,6 +571,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2079df00_87a75982",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Good suggestion!  I was thinking I should enforce this, but then kept forgetting.",
+      "parentUuid": "721a68d0_7f0abcfe",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -315,6 +609,24 @@
     },
     {
       "key": {
+        "uuid": "6f1d18eb_d4260fb5",
+        "filename": "src/runtime/lockrank_disabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa834d6f_4817d85b",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70c5d86f_9d488909",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -329,6 +641,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed86e9e_42bad784",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Nice idea!",
+      "parentUuid": "70c5d86f_9d488909",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -349,6 +679,24 @@
     },
     {
       "key": {
+        "uuid": "c6f78fb4_366ca249",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "OK, I added a comment about the padding.\n\nI can\u0027t do the padding hack, since I need to do the same padding in sync/runtime2_lockrank.go, and it doesn\u0027t have access to sys.*.",
+      "parentUuid": "1a4cfcb8_ebe390b8",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c3b916_21597cc1",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -363,6 +711,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57212340_e419721f",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c3b916_21597cc1",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -389,6 +755,30 @@
     },
     {
       "key": {
+        "uuid": "e591a98f_67ce6e7e",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eec23f97_48d10c08",
+      "range": {
+        "startLine": 44,
+        "startChar": 40,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "316b8a98_44018987",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -406,6 +796,24 @@
     },
     {
       "key": {
+        "uuid": "c8fe8047_a512b9ac",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "316b8a98_44018987",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7224e3bb_f51e8655",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -420,6 +828,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e14b3b6_b833b073",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done.  debugLock is used only for print/println, and println() is used to print out a lock ordering problem, so we don\u0027t want to confuse things by further ranking the debug lock, while printing out an existing failure.",
+      "parentUuid": "7224e3bb_f51e8655",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -446,6 +872,30 @@
     },
     {
       "key": {
+        "uuid": "fa81b858_ccaa2c69",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8277f77a_058960b7",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 12
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04acabc_926c27be",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -460,6 +910,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78ef159b_64d57347",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04acabc_926c27be",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -480,6 +948,24 @@
     },
     {
       "key": {
+        "uuid": "60504052_f9be0279",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31297394_eafbcdc2",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0b1bc77_2d55275b",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -494,6 +980,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5fc053c_4a610f8e",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0b1bc77_2d55275b",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -514,6 +1018,24 @@
     },
     {
       "key": {
+        "uuid": "d93ab74c_0d1468ac",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "035bdf58_59e3e4e9",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "335222b9_3c51fcaa",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -528,6 +1050,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a8e00c3_81c22378",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "335222b9_3c51fcaa",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -548,6 +1088,24 @@
     },
     {
       "key": {
+        "uuid": "9368156c_adaa0999",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11466620_312eb4e3",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cd621f2_7477cf82",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -562,6 +1120,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ad5964d_27b4faa1",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Good point, I improved the comment.  We have actually already checked the static ranking above at line 70.  I\u0027ve changed this comment to just say we are enforcing the partial order as well.",
+      "parentUuid": "8cd621f2_7477cf82",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -582,6 +1158,24 @@
     },
     {
       "key": {
+        "uuid": "0992a64d_a1a49e9d",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t know about printlock() for batching messages.",
+      "parentUuid": "140aff38_c2bf68c7",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b34f68d_b07ff7f4",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -596,6 +1190,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dbf853d_9022dd35",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done.  Not totally sure that the range loop is clearer than the existing for loop...",
+      "parentUuid": "3b34f68d_b07ff7f4",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -616,6 +1228,24 @@
     },
     {
       "key": {
+        "uuid": "73af5587_a28254ff",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "I can easily have names for leaf locks if it turns out to be a problem.  I was just doing the tradeoff of having less code changes (no lockInit() call for leaf locks) vs. more code changes, but better labeling.  You get the full stack trace when you have a lock ordering problem, so you can typically tell what locks are involved by looking up the stack trace.\n\nRecording the acquisition PC seems possible, though that actually wouldn\u0027t help much of time unless you do have arranged to preserve the test binary.",
+      "parentUuid": "51d77ff9_38465562",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e81bb932_0737fb5b",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -630,6 +1260,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68aa6391_b3b45f1b",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done.  Thanks, hadn\u0027t fully absorbed that println() already adds spaces between args!",
+      "parentUuid": "e81bb932_0737fb5b",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -650,6 +1298,24 @@
     },
     {
       "key": {
+        "uuid": "eb1c72bb_9aa99173",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc903de3_a01f9bf9",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2aec7fa_cb9cb852",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -664,6 +1330,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b15dca_52abb94e",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2aec7fa_cb9cb852",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -690,6 +1374,30 @@
     },
     {
       "key": {
+        "uuid": "a770b7b4_8816cf4a",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f890a149_a17451b9",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 25
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0410fe99_1be29ae9",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -704,6 +1412,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50fb912a_b90421c5",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0410fe99_1be29ae9",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -724,6 +1450,24 @@
     },
     {
       "key": {
+        "uuid": "6921ee2a_4cc44dae",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Good point.  We can short-circuit the systemstack if gp.m.mlockIndex is zero (no need for rank \u003d\u003d _LleafRank).",
+      "parentUuid": "9b1ba4eb_cf911983",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "329d465e_c48e2289",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -741,6 +1485,24 @@
     },
     {
       "key": {
+        "uuid": "9af81812_ff9583d4",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done.  Did as you said -- added the lock temporarily to the locksHeld list, and broke out the common logic here and above to a function checkRanks().",
+      "parentUuid": "329d465e_c48e2289",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64b6e23f_1ecafde4",
         "filename": "src/runtime/lockrank_enabled.go",
         "patchSetId": 12
@@ -755,6 +1517,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a900396a_92626b57",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done, moved the common logic to shared function checkRanks().",
+      "parentUuid": "64b6e23f_1ecafde4",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -781,6 +1561,30 @@
     },
     {
       "key": {
+        "uuid": "6c2b9dbe_72a6d6f6",
+        "filename": "src/runtime/lockrank_enabled.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b259ccf5_ea476712",
+      "range": {
+        "startLine": 153,
+        "startChar": 19,
+        "endLine": 153,
+        "endChar": 21
+      },
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79d56987_289c3003",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 12
@@ -795,6 +1599,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9b51567_5cadefdb",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79d56987_289c3003",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -815,6 +1637,24 @@
     },
     {
       "key": {
+        "uuid": "315f0352_8253c3eb",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38015cca_4a80578b",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "534f1a32_3e297727",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 12
@@ -832,6 +1672,24 @@
     },
     {
       "key": {
+        "uuid": "62c45544_c793658e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "534f1a32_3e297727",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81d89358_dc3d455f",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 12
@@ -846,6 +1704,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b064d1f4_dd24959c",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done.  Renamed it to locksHeldLen.",
+      "parentUuid": "81d89358_dc3d455f",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -880,6 +1756,24 @@
       "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8114b6e9_27bf5ebb",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-30T05:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eb4c812_6fd08839",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
