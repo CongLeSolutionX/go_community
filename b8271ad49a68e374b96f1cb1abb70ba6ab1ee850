@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bed9c52_bb8a0a07",
+        "filename": "src/cmd/compile/internal/ssa/html.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-30T18:47:36Z",
+      "side": 1,
+      "message": "Not sure I understand this correctly, but it looks like there\u0027s one listener for every phase. Would all of them get triggered when someone clicks on the box that has all of their names in it? Shouldn\u0027t there be just one listener for every combined-phases box?",
+      "revId": "b8271ad49a68e374b96f1cb1abb70ba6ab1ee850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
