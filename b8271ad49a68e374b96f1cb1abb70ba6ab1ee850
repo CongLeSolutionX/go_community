@@ -16,6 +16,24 @@
       "revId": "b8271ad49a68e374b96f1cb1abb70ba6ab1ee850",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dc33c00_7d414de1",
+        "filename": "src/cmd/compile/internal/ssa/html.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 35029
+      },
+      "writtenOn": "2020-03-30T19:12:19Z",
+      "side": 1,
+      "message": "Great question, after combining columns what was happening is there could be for example five h2 titles now at the top of a combined column. If you clicked on the first one you could collapse the column. If you clicked on any of the following four h2 titles, there would be no event listener at all because it used to apply the listener to `h2[0]`. The intent here is to iterate over all of the h2 titles (which can now be \u003e\u003d 1) and apply an identical phase event listener toggle to them. What ends up happening is you can click on any of the combined column titles to collapse their respected phase/column.",
+      "parentUuid": "8bed9c52_bb8a0a07",
+      "revId": "b8271ad49a68e374b96f1cb1abb70ba6ab1ee850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
