@@ -1121,11 +1121,15 @@ func (p *Package) mangle(f *File, arg *ast.Expr) (ast.Expr, bool) {
 //    _cgoNN := &cgoIndexNN[i] // with type conversions, if any
 // to sb, and writes
 //    _cgoCheckPointer(_cgoNN, _cgoIndexNN)
-// to sbCheck, and returns true. If a is a simple variable or field reference,
-// it writes
+// to sbCheck, and returns true.
+//
+// If a is a simple variable or field reference, it writes
 //    _cgoIndexNN := &a
-// and dereferences the uses of _cgoIndexNN. Taking the address avoids
-// making a copy of an array.
+//    _cgoNN := &(*cgoIndexNN)[i] // with type conversions, if any
+// to sb, and writes
+//    _cgoCheckPointer(_cgoNN, _cgoIndexNN)
+// to sbCheck, and returns true.
+// Taking the address avoids making a copy of an array.
 //
 // This tells _cgoCheckPointer to check the complete contents of the
 // slice or array being indexed, but no other part of the memory allocation.
@@ -1149,22 +1153,20 @@ func (p *Package) checkIndex(sb, sbCheck *bytes.Buffer, arg ast.Expr, i int) boo
 	}
 
 	addr := ""
-	deref := ""
 	if p.isVariable(index.X) {
 		addr = "&"
-		deref = "*"
 	}
 
 	fmt.Fprintf(sb, "_cgoIndex%d := %s%s; ", i, addr, gofmtPos(index.X, index.X.Pos()))
 	origX := index.X
 	index.X = ast.NewIdent(fmt.Sprintf("_cgoIndex%d", i))
-	if deref == "*" {
+	if addr == "&" {
 		index.X = &ast.StarExpr{X: index.X}
 	}
 	fmt.Fprintf(sb, "_cgo%d := %s; ", i, gofmtPos(arg, arg.Pos()))
 	index.X = origX
 
-	fmt.Fprintf(sbCheck, "_cgoCheckPointer(_cgo%d, %s_cgoIndex%d); ", i, deref, i)
+	fmt.Fprintf(sbCheck, "_cgoCheckPointer(_cgo%d, _cgoIndex%d); ", i, i)
 
 	return true
 }

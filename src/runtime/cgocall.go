@@ -431,17 +431,19 @@ func cgoCheckPointer(ptr interface{}, arg interface{}) {
 	}
 
 	ep := efaceOf(&ptr)
+	epdata := ep.data
 	t := ep._type
 
 	top := true
 	if arg != nil && (t.kind&kindMask == kindPtr || t.kind&kindMask == kindUnsafePointer) {
 		p := ep.data
-		if t.kind&kindDirectIface == 0 {
+		if !isDirectIface(t) {
 			p = *(*unsafe.Pointer)(p)
 		}
 		if p == nil || !cgoIsGoPointer(p) {
 			return
 		}
+
 		aep := efaceOf(&arg)
 		switch aep._type.kind & kindMask {
 		case kindBool:
@@ -452,23 +454,33 @@ func cgoCheckPointer(ptr interface{}, arg interface{}) {
 			pt := (*ptrtype)(unsafe.Pointer(t))
 			cgoCheckArg(pt.elem, p, true, false, cgoCheckPointerFail)
 			return
-		case kindSlice:
-			// Check the slice rather than the pointer.
-			ep = aep
-			t = ep._type
-		case kindArray:
-			// Check the array rather than the pointer.
-			// Pass top as false since we have a pointer
-			// to the array.
-			ep = aep
-			t = ep._type
-			top = false
+		case kindPtr:
+			// Slices and Arrays are passed in as pointers to avoid an additional copy.
+			aept := (*ptrtype)(unsafe.Pointer(aep._type))
+			if aept.elem == nil {
+				throw("can't happen")
+			}
+			switch aept.elem.kind & kindMask {
+			case kindSlice:
+				// Check the slice rather than the pointer.
+				epdata = *(*unsafe.Pointer)(unsafe.Pointer(aep.data))
+				t = aept.elem
+			case kindArray:
+				// Check the array rather than the pointer.
+				// Pass top as false since we have a pointer
+				// to the array.
+				epdata = *(*unsafe.Pointer)(unsafe.Pointer(aep.data))
+				t = aept.elem
+				top = false
+			default:
+				throw("can't happen")
+			}
 		default:
 			throw("can't happen")
 		}
 	}
 
-	cgoCheckArg(t, ep.data, t.kind&kindDirectIface == 0, top, cgoCheckPointerFail)
+	cgoCheckArg(t, epdata, t.kind&kindDirectIface == 0, top, cgoCheckPointerFail)
 }
 
 const cgoCheckPointerFail = "cgo argument has Go pointer to Go pointer"
