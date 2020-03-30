@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "507e5640_5c01e534",
+        "filename": "src/runtime/lockrank.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2020-03-30T23:22:21Z",
+      "side": 1,
+      "message": "This slice literal would be less error-prone if it were keyed:\n\n  var lockNames \u003d []string{\n  \tlockRankScavenge: \"scavenge\",\n  \tlockRankForcegc:  \"forcegc\",\n  \t...\n  }",
+      "revId": "19ca6d16972a4cf734416c171223b9a09dd69fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
