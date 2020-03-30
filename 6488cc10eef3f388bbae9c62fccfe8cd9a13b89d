@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "483fae80_3136f1e7",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-03-30T20:11:29Z",
+      "side": 1,
+      "message": "I think rules like this should be\n\n(BNEZ (SEQZ (SUB x y)) yes no) -\u003e (BEQ x y yes no)\n\nThat way the order of rule application doesn\u0027t matter.\n\nOr even, as there is already the rule:\n\n(BNEZ (SEQZ x) yes no) -\u003e (BEQZ x yes no)\n\nThen you just need\n\n(BEQZ (SUB x y) yes no) -\u003e (BEQ x y yes no)\n\nIn general, machine-independent opcodes (and any non-terminal opcode, really) should not appear except at the top level in a rewrite rule.",
+      "revId": "6488cc10eef3f388bbae9c62fccfe8cd9a13b89d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
