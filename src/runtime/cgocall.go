@@ -401,7 +401,7 @@ var racecgosync uint64 // represents possible synchronization in C code
 // to memory allocated by the Go runtime. Programs that use unsafe
 // can evade this restriction easily, so we don't try to catch them.
 // The cgo program will rewrite all possibly bad pointer arguments to
-// call cgoCheckPointer, where we can catch cases of a Go pointer
+// call cgoCheckPointerAny, where we can catch cases of a Go pointer
 // pointing to a Go pointer.
 
 // Complicating matters, taking the address of a slice or array
@@ -409,7 +409,7 @@ var racecgosync uint64 // represents possible synchronization in C code
 // or array. In that case we will see a pointer to a single element,
 // but we need to check the entire data structure.
 
-// The cgoCheckPointer call takes additional arguments indicating that
+// The cgoCheckPointerAny call takes additional arguments indicating that
 // it was called on an address expression. An additional argument of
 // true means that it only needs to check a single element. An
 // additional argument of a slice or array means that it needs to
@@ -418,14 +418,23 @@ var racecgosync uint64 // represents possible synchronization in C code
 // which is conservative but safe.
 
 // When and if we implement a moving garbage collector,
-// cgoCheckPointer will pin the pointer for the duration of the cgo
+// cgoCheckPointerAny will pin the pointer for the duration of the cgo
 // call.  (This is necessary but not sufficient; the cgo program will
 // also have to change to pin Go pointers that cannot point to Go
 // pointers.)
 
-// cgoCheckPointer checks if the argument contains a Go pointer that
+// cgoCheckPointerAny checks if the argument contains a Go pointer that
 // points to a Go pointer, and panics if it does.
-func cgoCheckPointer(ptr interface{}, arg interface{}) {
+func cgoCheckPointerAny(ptr interface{}) {
+	if debug.cgocheck == 0 {
+		return
+	}
+
+	ep := efaceOf(&ptr)
+	cgoCheckArg(ep._type, ep.data, !isDirectIface(ep._type), true, cgoCheckPointerFail)
+}
+
+func cgoCheckPointerContent(ptr interface{}) {
 	if debug.cgocheck == 0 {
 		return
 	}
@@ -433,42 +442,45 @@ func cgoCheckPointer(ptr interface{}, arg interface{}) {
 	ep := efaceOf(&ptr)
 	t := ep._type
 
-	top := true
-	if arg != nil && (t.kind&kindMask == kindPtr || t.kind&kindMask == kindUnsafePointer) {
-		p := ep.data
-		if t.kind&kindDirectIface == 0 {
-			p = *(*unsafe.Pointer)(p)
-		}
-		if p == nil || !cgoIsGoPointer(p) {
-			return
-		}
-		aep := efaceOf(&arg)
-		switch aep._type.kind & kindMask {
-		case kindBool:
-			if t.kind&kindMask == kindUnsafePointer {
-				// We don't know the type of the element.
-				break
-			}
-			pt := (*ptrtype)(unsafe.Pointer(t))
-			cgoCheckArg(pt.elem, p, true, false, cgoCheckPointerFail)
-			return
-		case kindSlice:
-			// Check the slice rather than the pointer.
-			ep = aep
-			t = ep._type
-		case kindArray:
-			// Check the array rather than the pointer.
-			// Pass top as false since we have a pointer
-			// to the array.
-			ep = aep
-			t = ep._type
-			top = false
-		default:
-			throw("can't happen")
-		}
+	if t.kind&kindMask != kindPtr {
+		// ptr must be either a pointer or an unsafe pointer.
+		throw("can't happen")
 	}
 
-	cgoCheckArg(t, ep.data, t.kind&kindDirectIface == 0, top, cgoCheckPointerFail)
+	// check whether the pointed data is a Go pointer.
+	p := ep.data
+	if !isDirectIface(t) {
+		p = *(*unsafe.Pointer)(p)
+	}
+	if p == nil || !cgoIsGoPointer(p) {
+		return
+	}
+
+	pt := (*ptrtype)(unsafe.Pointer(t))
+	cgoCheckArg(pt.elem, p, true, false, cgoCheckPointerFail)
+}
+
+func cgoCheckArray(arrayOrSlicePtr interface{}) {
+	if debug.cgocheck == 0 {
+		return
+	}
+
+	arrp := efaceOf(&arrayOrSlicePtr)
+	arrt := arrp._type
+
+	if arrt.kind&kindMask != kindPtr {
+		throw("can't happen")
+	}
+	arrptr := (*ptrtype)(unsafe.Pointer(arrp._type))
+
+	switch arrptr.elem.kind & kindMask {
+	case kindSlice:
+		cgoCheckArg(arrptr.elem, arrp.data, true, true, cgoCheckPointerFail)
+	case kindArray:
+		cgoCheckArg(arrptr.elem, arrp.data, true, false, cgoCheckPointerFail)
+	default:
+		throw("can't happen")
+	}
 }
 
 const cgoCheckPointerFail = "cgo argument has Go pointer to Go pointer"
