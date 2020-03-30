@@ -33,6 +33,7 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 			}
 			if rb(b) {
 				change = true
+				continue
 			}
 			for j, v := range b.Values {
 				change = phielimValue(v) || change
