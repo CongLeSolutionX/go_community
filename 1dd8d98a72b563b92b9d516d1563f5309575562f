@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11688c46_cd8b2aa6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-30T15:19:02Z",
+      "side": 1,
+      "message": "Will try to clarify.",
+      "parentUuid": "8490393b_47d6166e",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7214594d_a505ec50",
         "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "25dd7196_dec47a56",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-30T15:19:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7214594d_a505ec50",
+      "range": {
+        "startLine": 87,
+        "startChar": 5,
+        "endLine": 87,
+        "endChar": 6
+      },
+      "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "612787de_218d206a",
         "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2020-03-13T17:50:07Z",
       "side": 1,
       "message": "This assumes the behavior of (*Value).moveTo. I don\u0027t see an easy way around that, though.",
+      "range": {
+        "startLine": 241,
+        "startChar": 3,
+        "endLine": 241,
+        "endChar": 6
+      },
+      "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc67e116_ae4a420e",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-30T15:19:02Z",
+      "side": 1,
+      "message": "I\u0027ll move moveTo to this file, as an attempt to signal that the implementations are tied.",
+      "parentUuid": "612787de_218d206a",
       "range": {
         "startLine": 241,
         "startChar": 3,
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "85abc74b_c2c5d8af",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-30T15:19:02Z",
+      "side": 1,
+      "message": "Will do. I wasn\u0027t sure whether they were worth the visual space, but will add them throughout.",
+      "parentUuid": "33b00411_a230fff9",
+      "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4574dc7e_a5a86dfa",
         "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
         "patchSetId": 1
@@ -99,6 +189,24 @@
       "writtenOn": "2020-03-13T17:50:07Z",
       "side": 1,
       "message": "Change op from Phi to Copy?",
+      "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e2f5f99_b43ea596",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-30T15:19:02Z",
+      "side": 1,
+      "message": "The caller will call phielimvalue, which takes care of this. I can add if you\u0027d rather it be more explicit.",
+      "parentUuid": "4574dc7e_a5a86dfa",
       "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "15e1ace7_9ef711cd",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-30T15:19:02Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "12777479_0a656d10",
+      "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3c297d9_3e02fcdd",
         "filename": "src/cmd/compile/internal/ssa/value.go",
         "patchSetId": 1
@@ -133,6 +259,24 @@
       "writtenOn": "2020-03-13T17:50:07Z",
       "side": 1,
       "message": "This could lead to quadratic behavior.\nMight not be a big deal in our case, as we\u0027re always moving from b, and b is very likely small.\nI want to discourage use of this generally, though. Maybe a nasty comment.",
+      "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bac8a5f3_a8536743",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-30T15:19:02Z",
+      "side": 1,
+      "message": "Will do. And moving this function to shortcircuit.go will probably also help.\n\nIs there a cheaper way to accomplish this?\n\nMaybe the caller has enough info to provide i. Will check...",
+      "parentUuid": "d3c297d9_3e02fcdd",
       "revId": "1dd8d98a72b563b92b9d516d1563f5309575562f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
