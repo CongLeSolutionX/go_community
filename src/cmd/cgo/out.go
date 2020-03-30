@@ -1659,14 +1659,20 @@ func _cgo_runtime_cgocall(unsafe.Pointer, uintptr) int32
 func _cgo_runtime_cgocallback(unsafe.Pointer, unsafe.Pointer, uintptr, uintptr)
 
 //go:linkname _cgoCheckPointer runtime.cgoCheckPointer
-func _cgoCheckPointer(interface{}, interface{})
+func _cgoCheckPointer(interface{})
+
+//go:linkname _cgoCheckPointerContent runtime.cgoCheckPointerContent
+func _cgoCheckPointerContent(interface{})
+
+//go:linkname _cgoCheckArray runtime.cgoCheckArray
+func _cgoCheckArray(interface{})
 
 //go:linkname _cgoCheckResult runtime.cgoCheckResult
 func _cgoCheckResult(interface{})
 `
 
 const gccgoGoProlog = `
-func _cgoCheckPointer(interface{}, interface{})
+func _cgoCheckPointer(interface{})
 
 func _cgoCheckResult(interface{})
 `
