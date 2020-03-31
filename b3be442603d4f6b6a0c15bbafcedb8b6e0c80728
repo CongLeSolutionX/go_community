@@ -87,6 +87,24 @@
       "revId": "b3be442603d4f6b6a0c15bbafcedb8b6e0c80728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5b47593_32146293",
+        "filename": "src/cmd/compile/internal/ssa/html.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 35029
+      },
+      "writtenOn": "2020-03-31T23:51:58Z",
+      "side": 1,
+      "message": "I know right 😐, sounds good - added a TODO to the latest patch set.",
+      "parentUuid": "32f55c52_e5111d71",
+      "revId": "b3be442603d4f6b6a0c15bbafcedb8b6e0c80728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
