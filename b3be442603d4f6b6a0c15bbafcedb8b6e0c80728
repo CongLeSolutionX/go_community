@@ -69,6 +69,24 @@
       "revId": "b3be442603d4f6b6a0c15bbafcedb8b6e0c80728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32f55c52_e5111d71",
+        "filename": "src/cmd/compile/internal/ssa/html.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-03-31T23:16:10Z",
+      "side": 1,
+      "message": "Wow, I guess I just got lucky using firefox: https://caniuse.com/#search\u003dsideways-lr\n\nBummer. Well, maybe leave a TODO and forward march with what we have.",
+      "parentUuid": "e7df8cc8_ebd37808",
+      "revId": "b3be442603d4f6b6a0c15bbafcedb8b6e0c80728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
