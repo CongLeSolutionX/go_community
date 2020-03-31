@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "9f660712_1373e124",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-03-31T19:55:44Z",
+      "side": 1,
+      "message": "An expanded comment for this condition would be helpful. I\u0027m still having trouble following.",
+      "parentUuid": "e3c1a85c_174ecf16",
+      "range": {
+        "startLine": 211,
+        "startChar": 19,
+        "endLine": 211,
+        "endChar": 41
+      },
+      "revId": "f79bbdd667bd43ae7acae51aa539034677d54925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1b92962_55ca9e53",
         "filename": "src/cmd/internal/test2json/testdata/issue29755.test",
         "patchSetId": 1
