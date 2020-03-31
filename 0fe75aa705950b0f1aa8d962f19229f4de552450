@@ -206,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "99e347d2_d3264048",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-03-31T21:37:31Z",
+      "side": 1,
+      "message": "Here\u0027s what I decided to do.  I repeated the definitions of lock() and unlock() in both lock_futex.go and lock_sema.go.  This means when you go to the definition of lock/unlock, you will see the \"real\" definitions lock2/unlock right nearby.",
+      "parentUuid": "dc6229f6_1b09010d",
+      "revId": "0fe75aa705950b0f1aa8d962f19229f4de552450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8680602f_c2067995",
         "filename": "src/runtime/lockrank.go",
         "patchSetId": 12
