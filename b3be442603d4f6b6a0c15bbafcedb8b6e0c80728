@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66e96a1c_1bf9841b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 35029
+      },
+      "writtenOn": "2020-03-31T23:09:41Z",
+      "side": 1,
+      "message": "Yup, great catch - it was actually already working in that way for me. The only reason I left it was to note that I checked it and it was already behaving that way. Will remove from the commit though!",
+      "parentUuid": "8d36b749_0ec99652",
+      "revId": "b3be442603d4f6b6a0c15bbafcedb8b6e0c80728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6b6d7d5_a01a22b1",
         "filename": "src/cmd/compile/internal/ssa/html.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2020-03-31T21:38:44Z",
       "side": 1,
       "message": "I\u0027d prefer to preserve the existing orientation of the text, which is why I used sideways-lr. Is there a reason to use vertical over sideways? Will using vertical-lr put the text back the way it was before?",
+      "revId": "b3be442603d4f6b6a0c15bbafcedb8b6e0c80728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7df8cc8_ebd37808",
+        "filename": "src/cmd/compile/internal/ssa/html.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 35029
+      },
+      "writtenOn": "2020-03-31T23:09:41Z",
+      "side": 1,
+      "message": "Yes, I will this to `vertical-lr`. I found something interesting... Chrome (and the majority of browsers) actually don\u0027t support `sideways-*` - https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode. I believe it was working before by calling `rotate` in the CSS. The behavior of `vertical-lr` and `vertical-rl` are slightly different than `sideways-*`. There is no option to get the text in the same exact orientation it was previously that I could find... I think the closest is with \u0027vertical-lr`. Let me know if this a blocker. If it is, I think the alternative would be going back to playing with some different `rotate` calls, etc here. Also more than happy to follow up with another CL for it at some point. Let me know!",
+      "parentUuid": "d6b6d7d5_a01a22b1",
       "revId": "b3be442603d4f6b6a0c15bbafcedb8b6e0c80728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
