@@ -437,6 +437,34 @@ This is a wrapper function and should not count as disabling <code>recover</code
 (For <code>TEXT</code> items.)
 This function is a closure so it uses its incoming context register.
 </li>
+<li>
+<code>LOCAL</code> = 128
+<br>
+Local means make the symbol local even when compiling Go code to reference Go
+symbols in other shared libraries, as in this mode symbols are global by default.
+</li>
+<li>
+<code>TLSBSS</code> = 256
+<br>
+(For <code>DATA</code> and <code>GLOBL</code> items.)
+Allocate a word of thread local storage and store the offset from the thread local
+base to the thread local storage in this variable.
+</li>
+<li>
+<code>NOFRAME</code> = 512
+<br>
+(For <code>TEXT</code> items.)
+Do not insert instructions to allocate a stack frame and save/restore the return
+address, even if this is not a leaf function.
+Only valid on functions that declare a frame size of 0.
+</li>
+<li>
+<code>TOPFRAME</code> = 2048
+<br>
+(For <code>TEXT</code> items.)
+Function is the top of the call stack. Call stack unwinders should stop
+at this function.
+</li>
 </ul>
 
 <h3 id="runtime">Runtime Coordination</h3>
