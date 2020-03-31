@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e16278ee_c80e969a",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-03-31T19:30:22Z",
+      "side": 1,
+      "message": "is there a reason why this uses individual tool invocation, as opposed to setting up a dummy gopath and doing a \"go build\"? The latter is a bit more robust/maintainable.",
+      "range": {
+        "startLine": 242,
+        "startChar": 2,
+        "endLine": 248,
+        "endChar": 0
+      },
+      "revId": "5b5f36cfba2e1636af7cb97bbff2b60171bb070b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
