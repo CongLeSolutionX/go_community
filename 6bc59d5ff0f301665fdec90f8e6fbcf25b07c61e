@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bdbec758_054e8220",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-04-01T22:23:42Z",
+      "side": 1,
+      "message": "These are copied verbatim from the spec. I also disagree with some of their wording choices, but I did my best to keep them as-is, and then make the code resemble the instructions.",
+      "parentUuid": "d81c8875_1e506416",
+      "range": {
+        "startLine": 79,
+        "startChar": 50,
+        "endLine": 79,
+        "endChar": 73
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4637a44_0e87811b",
         "filename": "src/crypto/rsa/pss.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a1f49f90_b0a89d1b",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-04-01T22:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4637a44_0e87811b",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 97,
+        "endChar": 14
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad83a38a_ad4b22b9",
         "filename": "src/crypto/rsa/pss.go",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a312ea6_122b9125",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-04-01T22:23:42Z",
+      "side": 1,
+      "message": "This would be a panic, because it should be impossible, as the caller calculates emLen the same way as here. I wanted to anchor that assertion for the reader, but I also learned my lesson about unnecessary panics in DoS-able code.",
+      "parentUuid": "ad83a38a_ad4b22b9",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 2
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -114,6 +186,30 @@
       "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5f27017_300565fd",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-04-01T22:23:42Z",
+      "side": 1,
+      "message": "Heh, we did before too! The FindSaltLength loop used to scan through every byte from the left (by reducing sLen, which makes PS longer, and moves the delimiter to the right) checking if they are 0x01, and if not ensuring they are 0x00. This was at the same time, in a single scan, finding 0x01 and checking that the prefix is all 0x00.\n\nIt was clever. So now it\u0027s gone.\n\nI was trying to write a comment about it and then I realized it would be much clearer to only do the extra part (finding the 0x01) and then reusing the existing code to check the 0x00. This also gave me much more confidence that the 0x00 are being checked appropriately, and that everything is consistent.",
+      "parentUuid": "0cd88ce5_140e502f",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 168,
+        "endChar": 0
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
