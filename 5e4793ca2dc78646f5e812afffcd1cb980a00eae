@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0feb1669_7c6e1ffc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-01T15:49:44Z",
+      "side": 1,
+      "message": "Question: whether we want to use Sym2, Reloc2, Aux2 on the writer side as well. We could use field setters. Then we can get rid of the old-style types (and the \"2\" in the names). On the other hand, the literal syntax looks nicer (e.g. https://go.googlesource.com/go/+/refs/heads/dev.link/src/cmd/internal/obj/objfile2.go#247).\n\nP.S. this reminds me the open vs. opaque proto API...",
+      "revId": "5e4793ca2dc78646f5e812afffcd1cb980a00eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
