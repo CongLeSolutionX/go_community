@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f8ea85d_76786735",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-01T13:55:07Z",
+      "side": 1,
+      "message": "Yeah, there\u0027s the case of not writing to the end of the list of symbols. Thanks for hitting your head against this. It took me a while to get it mostly right.\n\nThings that are this hard to get right deserve more in-depth commentary (and maybe a test case). I won\u0027t beat you up to make a test case, but while we\u0027re here, can we drop more comments. Something like:\n\n\"\"\"\nWe need to bounds the length to either the last address, or, the next symbol\u0027s start address. It could be that there are no more symbols to write, or that the next symbol\u0027s start address is past the absolute length we want to write. Handle either case.\n\"\"\"\n\nI leave the wordsmithing up to you.\n\nAgain, thanks for also beating your head against this.",
+      "range": {
+        "startLine": 837,
+        "startChar": 5,
+        "endLine": 837,
+        "endChar": 8
+      },
+      "revId": "7e51e3a462f683932c4d9dc192420c45ece7e4ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
