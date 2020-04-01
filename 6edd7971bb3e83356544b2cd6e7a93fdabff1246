@@ -93,6 +93,30 @@
       "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a34d1ca_f511c4de",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-01T19:59:27Z",
+      "side": 1,
+      "message": "That should work.\n\nWhen I compile:\n\npackage main\n\nfunc f(x int) {\n     _ \u003d make([]byte, x, 10)\n}\n\nI get code with things like SARL $31, CX, which is extending to 64 bits and then doing a 64-bit comparison.\n\nThat said, maybe TUINT isn\u0027t exactly right either. We know i can fit in a 32-bit int, but the length argument to make might be 32 or 64 bit. (Or is that normalized before walk in the compiler somewhere?). We should do a u64 comparison if the l.Type is 64-bit, and a 32-bit comparison otherwise.\n\nIt gets tricky. See cmd/compile/internal/gc/ssa.go:extendIndex for the kind of logic that the Node-\u003eSSA rewriter uses.",
+      "parentUuid": "eb1077df_133f14a6",
+      "range": {
+        "startLine": 1347,
+        "startChar": 48,
+        "endLine": 1347,
+        "endChar": 55
+      },
+      "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
