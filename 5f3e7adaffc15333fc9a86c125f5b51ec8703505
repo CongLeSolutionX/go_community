@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a95c29f_f5aee9cc",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-01T01:33:10Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "7be382fa_5b3a72c5",
+      "range": {
+        "startLine": 949,
+        "startChar": 3,
+        "endLine": 949,
+        "endChar": 42
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65e69f35_0fd3df3b",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-30T16:00:16Z",
       "side": 1,
       "message": "This can be written as:\n\n```return p.From.Reg \u003d\u003d REG_TMP || p.To.Reg \u003d\u003d REG_TMP || p.Reg \u003d\u003d REG_TMP```",
+      "range": {
+        "startLine": 1973,
+        "startChar": 4,
+        "endLine": 1973,
+        "endChar": 68
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e42a581c_16090585",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1973,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-01T01:33:10Z",
+      "side": 1,
+      "message": "Ah, sure.",
+      "parentUuid": "65e69f35_0fd3df3b",
       "range": {
         "startLine": 1973,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d1e7a8c7_51fe1e0f",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-01T01:33:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "71cdb3ea_b9529f3a",
+      "range": {
+        "startLine": 508,
+        "startChar": 4,
+        "endLine": 508,
+        "endChar": 12
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecb69358_3025aad3",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f8d6cee_1598a32c",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-01T01:33:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ecb69358_3025aad3",
+      "range": {
+        "startLine": 517,
+        "startChar": 1,
+        "endLine": 517,
+        "endChar": 19
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e5fdb37c_e0b42e16",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-01T01:33:10Z",
+      "side": 1,
+      "message": "Adding FSCR in a runtime feature patch is kind of out of focus to me.  I argue that it is better to leave FCSR a (near) future work, since\n\n1. FCSR controls precision and rounding, which often works well with just default settings.  Adding FCSR also means that I would have had to figure out how the math part in golang controls such FPU register.  I didn\u0027t start my survey but it may be some work.\n2. There is no such thing as FCSR in current riscv port. I think the early contributors have their reason to ignore this register, maybe something related to previous point.",
+      "parentUuid": "8d07d51a_0273d2c6",
+      "range": {
+        "startLine": 518,
+        "startChar": 18,
+        "endLine": 518,
+        "endChar": 22
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fddf016_da136406",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2020-03-30T16:00:16Z",
       "side": 1,
       "message": "This needs to be MOVD (MOVF is single-precision floating point).",
+      "range": {
+        "startLine": 521,
+        "startChar": 9,
+        "endLine": 521,
+        "endChar": 13
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04127c86_8dbc3340",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-01T01:33:10Z",
+      "side": 1,
+      "message": "OK.\n\nMeanwhile, Does it imply that this riscv64 port supports RV64G and this configuration only?  Is there any references for such preference?  It is a generally interesting question how RISC-V supports in go whould look like if there are so many different possible configurations.",
+      "parentUuid": "7fddf016_da136406",
       "range": {
         "startLine": 521,
         "startChar": 9,
