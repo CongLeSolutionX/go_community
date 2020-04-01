@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d81c8875_1e506416",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-01T22:16:05Z",
+      "side": 1,
+      "message": "Do you just want to define psLen somewhere in this docs and use it, rather than the full equation here (and in 8.)?",
+      "range": {
+        "startLine": 79,
+        "startChar": 50,
+        "endLine": 79,
+        "endChar": 73
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4637a44_0e87811b",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-01T22:16:05Z",
+      "side": 1,
+      "message": "0xff? (or is there a reason to change 0xBC -\u003e 0xbc but not 0xFF -\u003e 0xff)",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 97,
+        "endChar": 14
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad83a38a_ad4b22b9",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-01T22:16:05Z",
+      "side": 1,
+      "message": "Why is this not an ErrVerification like the rest?",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 2
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d50b6bd_19b95cb4",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-01T22:16:05Z",
+      "side": 1,
+      "message": "Had to confirm for myself that this math lined up, since it\u0027s calculated slightly differently. Seems okay though: https://play.golang.org/p/bENuC-PIolK",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 25
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cd88ce5_140e502f",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-01T22:16:05Z",
+      "side": 1,
+      "message": "Is this explained in the commit message? I\u0027m trying to figure out why we now know to look in 0x01 where we didn\u0027t before.",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 168,
+        "endChar": 0
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
