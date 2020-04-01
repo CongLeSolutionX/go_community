@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afe2604d_3214a113",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-01T21:02:20Z",
+      "side": 1,
+      "message": "Maybe \"In particular, items that...\" since it\u0027s not just about buffers; that\u0027s just a common and tempting usage. (Not that there\u0027s anything wrong with putting buffers in Pools, you just have to size-segregate your Pools exactly like you would size-segregate any other homogeneous free list.)",
+      "revId": "6d08c96a7d6772f26128a638518dbf3f70801422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39548efd_a1f8c06c",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-01T21:02:20Z",
+      "side": 1,
+      "message": "This is about both allocation and not returning large buffers to the pool. Maybe \"In such cases, it is better to only Get and Put small buffers to the Pool, and to allocate the occasional large buffer outside of the Pool.\" I\u0027m not totally happy with that since you don\u0027t allocate things inside or outside of Pools...",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 68
+      },
+      "revId": "6d08c96a7d6772f26128a638518dbf3f70801422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
