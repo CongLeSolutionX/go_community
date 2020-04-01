@@ -1338,13 +1338,14 @@ opswitch:
 				Fatalf("walkexpr: invalid index %v", r)
 			}
 
-			// cap is constrained to [0,2^31), so it's safe to do:
+			// cap is constrained to [0,2^31) or [0,2^63) depending on whether it's 32 or 64 bit.
+			// So it's safe to do:
 			//
-			// if uint64(len) > cap {
+			// if uint(len) > cap {
 			//     if len < 0 { panicmakeslicelen() }
 			//     panicmakeslicecap()
 			// }
-			nif := nod(OIF, nod(OGT, conv(l, types.Types[TUINT64]), nodintconst(i)), nil)
+			nif := nod(OIF, nod(OGT, conv(l, types.Types[TUINT]), nodintconst(i)), nil)
 			niflen := nod(OIF, nod(OLT, l, nodintconst(0)), nil)
 			niflen.Nbody.Set1(mkcall("panicmakeslicelen", nil, init))
 			nif.Nbody.Append(niflen, mkcall("panicmakeslicecap", nil, init))
