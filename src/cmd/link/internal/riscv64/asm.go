@@ -19,6 +19,9 @@ import (
 func gentext(ctxt *ld.Link) {
 }
 
+func gentext2(ctxt *ld.Link, ldr *loader.Loader) {
+}
+
 func adddynrela(target *ld.Target, syms *ld.ArchSyms, rel *sym.Symbol, s *sym.Symbol, r *sym.Reloc) {
 	log.Fatalf("adddynrela not implemented")
 }

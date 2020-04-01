@@ -54,6 +54,94 @@ func addcall(ctxt *ld.Link, s *sym.Symbol, t *sym.Symbol) {
 	r.Siz = 4
 }
 
+func gentext2(ctxt *ld.Link, ldr *loader.Loader) {
+	if ctxt.DynlinkingGo() {
+		// We need get_pc_thunk.
+	} else {
+		switch ctxt.BuildMode {
+		case ld.BuildModeCArchive:
+			if !ctxt.IsELF {
+				return
+			}
+		case ld.BuildModePIE, ld.BuildModeCShared, ld.BuildModePlugin:
+			// We need get_pc_thunk.
+		default:
+			return
+		}
+	}
+
+	// Generate little thunks that load the PC of the next instruction into a register.
+	thunks := make([]loader.Sym, 0, 7+len(ctxt.Textp2))
+	for _, r := range [...]struct {
+		name string
+		num  uint8
+	}{
+		{"ax", 0},
+		{"cx", 1},
+		{"dx", 2},
+		{"bx", 3},
+		// sp
+		{"bp", 5},
+		{"si", 6},
+		{"di", 7},
+	} {
+		thunkfunc := ldr.CreateSymForUpdate("__x86.get_pc_thunk."+r.name, 0)
+		thunkfunc.SetType(sym.STEXT)
+		ldr.SetAttrLocal(thunkfunc.Sym(), true)
+		o := func(op ...uint8) {
+			for _, op1 := range op {
+				thunkfunc.AddUint8(op1)
+			}
+		}
+		// 8b 04 24	mov    (%esp),%eax
+		// Destination register is in bits 3-5 of the middle byte, so add that in.
+		o(0x8b, 0x04+r.num<<3, 0x24)
+		// c3		ret
+		o(0xc3)
+
+		thunks = append(thunks, thunkfunc.Sym())
+	}
+	ctxt.Textp2 = append(thunks, ctxt.Textp2...) // keep Textp2 in dependency order
+
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	o := func(op ...uint8) {
+		for _, op1 := range op {
+			initfunc.AddUint8(op1)
+		}
+	}
+
+	// go.link.addmoduledata:
+	//      53                      push %ebx
+	//      e8 00 00 00 00          call __x86.get_pc_thunk.cx + R_CALL __x86.get_pc_thunk.cx
+	//      8d 81 00 00 00 00       lea 0x0(%ecx), %eax + R_PCREL ctxt.Moduledata
+	//      8d 99 00 00 00 00       lea 0x0(%ecx), %ebx + R_GOTPC _GLOBAL_OFFSET_TABLE_
+	//      e8 00 00 00 00          call runtime.addmoduledata@plt + R_CALL runtime.addmoduledata
+	//      5b                      pop %ebx
+	//      c3                      ret
+
+	o(0x53)
+
+	o(0xe8)
+	initfunc.AddSymRef(ctxt.Arch, ldr.Lookup("__x86.get_pc_thunk.cx", 0), 0, objabi.R_CALL, 4)
+
+	o(0x8d, 0x81)
+	initfunc.AddPCRelPlus(ctxt.Arch, ctxt.Moduledata2, 6)
+
+	o(0x8d, 0x99)
+	gotsym := ldr.Lookup("_GLOBAL_OFFSET_TABLE_", 0)
+	initfunc.AddSymRef(ctxt.Arch, gotsym, 12, objabi.R_PCREL, 4)
+	o(0xe8)
+	initfunc.AddSymRef(ctxt.Arch, addmoduledata, 0, objabi.R_CALL, 4)
+
+	o(0x5b)
+
+	o(0xc3)
+}
+
 func gentext(ctxt *ld.Link) {
 	if ctxt.DynlinkingGo() {
 		// We need get_pc_thunk.

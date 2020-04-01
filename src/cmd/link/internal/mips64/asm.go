@@ -44,6 +44,8 @@ import (
 
 func gentext(ctxt *ld.Link) {}
 
+func gentext2(ctxt *ld.Link, ldr *loader.Loader) {}
+
 func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s *sym.Symbol, r *sym.Reloc) bool {
 	log.Fatalf("adddynrel not implemented")
 	return false

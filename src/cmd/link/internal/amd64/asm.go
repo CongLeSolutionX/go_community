@@ -58,6 +58,31 @@ func Addcall(ctxt *ld.Link, s *sym.Symbol, t *sym.Symbol) int64 {
 	return i + int64(r.Siz)
 }
 
+func gentext2(ctxt *ld.Link, ldr *loader.Loader) {
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	o := func(op ...uint8) {
+		for _, op1 := range op {
+			initfunc.AddUint8(op1)
+		}
+	}
+
+	// 0000000000000000 <local.dso_init>:
+	//    0:	48 8d 3d 00 00 00 00 	lea    0x0(%rip),%rdi        # 7 <local.dso_init+0x7>
+	// 			3: R_X86_64_PC32	runtime.firstmoduledata-0x4
+	o(0x48, 0x8d, 0x3d)
+	initfunc.AddPCRelPlus(ctxt.Arch, ctxt.Moduledata2, 0)
+	//    7:	e8 00 00 00 00       	callq  c <local.dso_init+0xc>
+	// 			8: R_X86_64_PLT32	runtime.addmoduledata-0x4
+	o(0xe8)
+	initfunc.AddSymRef(ctxt.Arch, addmoduledata, 0, objabi.R_CALL, 4)
+	//    c:	c3                   	retq
+	o(0xc3)
+}
+
 func gentext(ctxt *ld.Link) {
 	if !ctxt.DynlinkingGo() {
 		return

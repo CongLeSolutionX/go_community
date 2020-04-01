@@ -42,6 +42,42 @@ import (
 	"sync"
 )
 
+func gentext2(ctxt *ld.Link, ldr *loader.Loader) {
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	o := func(op uint32) {
+		initfunc.AddUint32(ctxt.Arch, op)
+	}
+	// 0000000000000000 <local.dso_init>:
+	// 0:	90000000 	adrp	x0, 0 <runtime.firstmoduledata>
+	// 	0: R_AARCH64_ADR_PREL_PG_HI21	local.moduledata
+	// 4:	91000000 	add	x0, x0, #0x0
+	// 	4: R_AARCH64_ADD_ABS_LO12_NC	local.moduledata
+	o(0x90000000)
+	o(0x91000000)
+	rel := loader.Reloc{
+		Off:  0,
+		Size: 8,
+		Type: objabi.R_ADDRARM64,
+		Sym:  ctxt.Moduledata2,
+	}
+	initfunc.AddReloc(rel)
+
+	// 8:	14000000 	b	0 <runtime.addmoduledata>
+	// 	8: R_AARCH64_CALL26	runtime.addmoduledata
+	o(0x14000000)
+	rel2 := loader.Reloc{
+		Off:  8,
+		Size: 4,
+		Type: objabi.R_CALLARM64, // Really should be R_AARCH64_JUMP26 but doesn't seem to make any difference
+		Sym:  addmoduledata,
+	}
+	initfunc.AddReloc(rel2)
+}
+
 func gentext(ctxt *ld.Link) {
 	if !ctxt.DynlinkingGo() {
 		return

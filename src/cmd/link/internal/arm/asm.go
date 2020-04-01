@@ -42,6 +42,40 @@ import (
 	"sync"
 )
 
+func gentext2(ctxt *ld.Link, ldr *loader.Loader) {
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	o := func(op uint32) {
+		initfunc.AddUint32(ctxt.Arch, op)
+	}
+	o(0xe59f0004)
+	o(0xe08f0000)
+
+	o(0xeafffffe)
+	rel := loader.Reloc{
+		Off:  8,
+		Size: 4,
+		Type: objabi.R_CALLARM,
+		Sym:  addmoduledata,
+		Add:  0xeafffffe, // vomit
+	}
+	initfunc.AddReloc(rel)
+
+	o(0x00000000)
+
+	rel2 := loader.Reloc{
+		Off:  12,
+		Size: 4,
+		Type: objabi.R_PCREL,
+		Sym:  ctxt.Moduledata2,
+		Add:  4,
+	}
+	initfunc.AddReloc(rel2)
+}
+
 // This assembler:
 //
 //         .align 2

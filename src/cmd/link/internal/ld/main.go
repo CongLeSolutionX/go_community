@@ -93,6 +93,7 @@ var (
 	FlagTextAddr    = flag.Int64("T", -1, "set text segment `address`")
 	flagEntrySymbol = flag.String("E", "", "set `entry` symbol name")
 
+	flagNewGentext = flag.Bool("newgentext", true, "Invoke updated gentext2() instead of gentext(). Temporary.")
 	cpuprofile     = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	memprofile     = flag.String("memprofile", "", "write memory profile to `file`")
 	memprofilerate = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
@@ -286,11 +287,18 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.setArchSyms(BeforeLoadlibFull)
 	ctxt.addexport()
 
+	if useNewGentext(ctxt) {
+		thearch.Gentext2(ctxt, ctxt.loader) // trampolines, call stubs, etc.
+	}
+
 	bench.Start("loadlibfull")
 	ctxt.loadlibfull() // XXX do it here for now
 
 	bench.Start("Gentext")
-	thearch.Gentext(ctxt) // trampolines, call stubs, etc.
+	if !useNewGentext(ctxt) {
+		thearch.Gentext(ctxt) // trampolines, call stubs, etc.
+	}
+
 	bench.Start("textaddress")
 	ctxt.textaddress()
 	bench.Start("pclntab")
@@ -453,4 +461,21 @@ func oldlink() {
 		os.Exit(2) // would be nice to use ExitError.ExitCode(), but that is too new
 	}
 	log.Fatal("invoke oldlink failed:", err)
+}
+
+// useNewGentext() returns true if we should use the loader-based version
+// of gentext() instead of the sym.Symbol equivalent.
+func useNewGentext(ctxt *Link) bool {
+	if thearch.Gentext2 == nil {
+		return false
+	}
+	// temporary
+	ovr := os.Getenv("THANM_NEW")
+	if ovr == "1" {
+		return true
+	}
+	if ovr == "0" {
+		return false
+	}
+	return *flagNewGentext
 }
