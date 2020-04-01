@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fae91ee7_621eee90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-01T23:27:26Z",
+      "side": 1,
+      "message": "Please remove \"()\".  We don\u0027t usually use that notation, as godoc doesn\u0027t recognize it.",
+      "revId": "21346bc0270f15fffa990d1021729dc837d09551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0592b2af_ccf10f52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-01T23:27:26Z",
+      "side": 1,
+      "message": "Please remove extra space.",
+      "revId": "21346bc0270f15fffa990d1021729dc837d09551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf3c8f01_8e76f218",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-01T23:27:26Z",
+      "side": 1,
+      "message": "I don\u0027t see any reason to add this new API, and this was not part of the proposal.  Let\u0027s just always exit 0 when directly implementing -h/-help.",
+      "revId": "21346bc0270f15fffa990d1021729dc837d09551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33cc86d0_a5eef7ca",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-01T23:27:26Z",
+      "side": 1,
+      "message": "This comment needs to be updated.\n    Call os.Exit(2) or for -h/-help Exit(0).",
+      "revId": "21346bc0270f15fffa990d1021729dc837d09551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
