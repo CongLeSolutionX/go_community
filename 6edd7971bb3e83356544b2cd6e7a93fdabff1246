@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59f5e796_9c5eebf1",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-01T17:01:20Z",
+      "side": 1,
+      "message": "31 or 63, depending on whether it\u0027s 32 or 64 bit.",
+      "range": {
+        "startLine": 1341,
+        "startChar": 33,
+        "endLine": 1341,
+        "endChar": 35
+      },
+      "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9325b636_79412d9b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-01T17:01:20Z",
+      "side": 1,
+      "message": "This should really be TUINT, not TUINT64. Using TUINT64 generates a bunch of extra code on a 32-bit system.",
+      "range": {
+        "startLine": 1347,
+        "startChar": 48,
+        "endLine": 1347,
+        "endChar": 55
+      },
+      "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
