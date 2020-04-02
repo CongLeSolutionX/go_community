@@ -104,6 +104,51 @@ type cgodata struct {
 	directives [][]string
 }
 
+<<<<<<< HEAD   (d92a5a [dev.link] cmd: support large function alignment)
+=======
+type unresolvedSymKey struct {
+	from *sym.Symbol // Symbol that referenced unresolved "to"
+	to   *sym.Symbol // Unresolved symbol referenced by "from"
+}
+
+// ErrorUnresolved prints unresolved symbol error for r.Sym that is referenced from s.
+func (ctxt *Link) ErrorUnresolved(s *sym.Symbol, r *sym.Reloc) {
+	if ctxt.unresolvedSymSet == nil {
+		ctxt.unresolvedSymSet = make(map[unresolvedSymKey]bool)
+	}
+
+	k := unresolvedSymKey{from: s, to: r.Sym}
+	if !ctxt.unresolvedSymSet[k] {
+		ctxt.unresolvedSymSet[k] = true
+
+		// Try to find symbol under another ABI.
+		var reqABI, haveABI obj.ABI
+		haveABI = ^obj.ABI(0)
+		reqABI, ok := sym.VersionToABI(int(r.Sym.Version))
+		if ok {
+			for abi := obj.ABI(0); abi < obj.ABICount; abi++ {
+				v := sym.ABIToVersion(abi)
+				if v == -1 {
+					continue
+				}
+				if rs := ctxt.Syms.ROLookup(r.Sym.Name, v); rs != nil && rs.Type != sym.Sxxx && rs.Type != sym.SXREF {
+					haveABI = abi
+				}
+			}
+		}
+
+		// Give a special error message for main symbol (see #24809).
+		if r.Sym.Name == "main.main" {
+			Errorf(s, "function main is undeclared in the main package")
+		} else if haveABI != ^obj.ABI(0) {
+			Errorf(s, "relocation target %s not defined for %s (but is defined for %s)", r.Sym.Name, reqABI, haveABI)
+		} else {
+			Errorf(s, "relocation target %s not defined", r.Sym.Name)
+		}
+	}
+}
+
+>>>>>>> BRANCH (aa4d92 cmd/link: skip symbol references when looking for missing sy)
 // The smallest possible offset from the hardware stack pointer to a local
 // variable on the stack. Architectures that use a link register save its value
 // on the stack in the function prologue and so always have a pointer between
