@@ -210,6 +210,30 @@
       "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78f0d602_7d8e1a42",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-02T13:22:41Z",
+      "side": 1,
+      "message": "Ahh I see, okay. So where is the prefix of 0x00 check happening now? Is that the loop at line 174?",
+      "parentUuid": "f5f27017_300565fd",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 168,
+        "endChar": 0
+      },
+      "revId": "6bc59d5ff0f301665fdec90f8e6fbcf25b07c61e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
