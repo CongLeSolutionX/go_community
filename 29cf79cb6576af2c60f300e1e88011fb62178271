@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "727ba2cb_d3d5dff8",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-04-02T23:01:03Z",
+      "side": 1,
+      "message": "Marking resolved.",
+      "parentUuid": "8703d71a_4490d986",
+      "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5749ddc_fab14b9d",
         "filename": "src/net/http/roundtrip_js.go",
         "patchSetId": 3
@@ -51,6 +69,24 @@
       "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd25c3d8_b0600e07",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-04-02T23:01:03Z",
+      "side": 1,
+      "message": "Thanks for the suggestions, I\u0027ve considered them.\n\nI\u0027ve already factored out changes related to the error message into CL 226205.\n\nFor background, I initially also changed \"fetch()\" to fetch because it jumped out as alien to me. Later on, I realized that it wasn\u0027t referring to a normal function \"fetch\" but the JavaScript Fetch API. Various documentation for it refers to it by \"fetch()\" very frequently (e.g., https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API, https://developers.google.com/web/updates/2015/03/introduction-to-fetch). After seeing all that, I decided to avoid making changes for now. There may be room for improvement if we can make it clear that the JavaScript fetch function is being referred to in the error message, but I can\u0027t think of something that is definitely better.\n\nAs far as .String() goes, it does look more unusual, but it\u0027s being used to convert a js.Value to a String. It looks a lot (and is) like the fmt.Stringer method, but that isn\u0027t the primary focus here. Since this code is low level and consistent with other places where a js.Value of TypeString is converted to string via an explicit call to String method, I\u0027ll leave it as is.",
+      "parentUuid": "b5749ddc_fab14b9d",
+      "revId": "29cf79cb6576af2c60f300e1e88011fb62178271",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
