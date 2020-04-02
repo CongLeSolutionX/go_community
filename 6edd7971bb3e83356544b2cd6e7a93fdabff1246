@@ -117,6 +117,30 @@
       "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "987c1078_35f54fdf",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-02T05:35:19Z",
+      "side": 1,
+      "message": "\u003e That should work.\n\nHere\u0027s output of go tool compile -S in my MacOS:\n\nGOARCH\u003d386 go tool compile -S p.go\n\"\".f STEXT size\u003d50 args\u003d0x4 locals\u003d0x0\n\t0x0000 00000 (p.go:3)\tTEXT\t\"\".f(SB), ABIInternal, $0-4\n\t0x0000 00000 (p.go:3)\tMOVL\tTLS, CX\n\t0x0007 00007 (p.go:3)\tPCDATA\t$0, $-2\n\t0x0007 00007 (p.go:3)\tMOVL\t(CX)(TLS*2), CX\n\t0x000d 00013 (p.go:3)\tPCDATA\t$0, $-1\n\t0x000d 00013 (p.go:3)\tCMPL\tSP, 8(CX)\n\t0x0010 00016 (p.go:3)\tPCDATA\t$0, $-2\n\t0x0010 00016 (p.go:3)\tJLS\t43\n\t0x0012 00018 (p.go:3)\tPCDATA\t$0, $-1\n\t0x0012 00018 (p.go:3)\tPCDATA\t$0, $-2\n\t0x0012 00018 (p.go:3)\tPCDATA\t$1, $-2\n\t0x0012 00018 (p.go:3)\tFUNCDATA\t$0, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x0012 00018 (p.go:3)\tFUNCDATA\t$1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x0012 00018 (p.go:3)\tFUNCDATA\t$2, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x0012 00018 (p.go:4)\tPCDATA\t$0, $0\n\t0x0012 00018 (p.go:4)\tPCDATA\t$1, $0\n\t0x0012 00018 (p.go:4)\tMOVL\t\"\".x+4(SP), AX\n\t0x0016 00022 (p.go:4)\tCMPL\tAX, $10\n\t0x0019 00025 (p.go:4)\tJHI\t28\n\t0x001b 00027 (p.go:5)\tPCDATA\t$0, $-1\n\t0x001b 00027 (p.go:5)\tPCDATA\t$1, $-1\n\t0x001b 00027 (p.go:5)\tRET\n\t0x001c 00028 (p.go:4)\tPCDATA\t$0, $0\n\t0x001c 00028 (p.go:4)\tPCDATA\t$1, $0\n\t0x001c 00028 (p.go:4)\tTESTL\tAX, AX\n\t0x001e 00030 (p.go:4)\tJGE\t37\n\t0x0020 00032 (p.go:4)\tCALL\truntime.panicmakeslicelen(SB)\n\t0x0025 00037 (p.go:4)\tCALL\truntime.panicmakeslicecap(SB)\n\t0x002a 00042 (p.go:4)\tXCHGL\tAX, AX\n\t0x002b 00043 (p.go:4)\tNOP\n\t0x002b 00043 (p.go:3)\tPCDATA\t$1, $-1\n\t0x002b 00043 (p.go:3)\tPCDATA\t$0, $-2\n\t0x002b 00043 (p.go:3)\tCALL\truntime.morestack_noctxt(SB)\n\t0x0030 00048 (p.go:3)\tPCDATA\t$0, $-1\n\t0x0030 00048 (p.go:3)\tJMP\t0\n\t0x0000 65 8b 0d 00 00 00 00 8b 89 00 00 00 00 3b 61 08  e............;a.\n\t0x0010 76 19 8b 44 24 04 83 f8 0a 77 01 c3 85 c0 7d 05  v..D$....w....}.\n\t0x0020 e8 00 00 00 00 e8 00 00 00 00 90 e8 00 00 00 00  ................\n\t0x0030 eb ce                                            ..\n\trel 9+4 t\u003d17 TLS+0\n\trel 33+4 t\u003d8 runtime.panicmakeslicelen+0\n\trel 38+4 t\u003d8 runtime.panicmakeslicecap+0\n\trel 44+4 t\u003d8 runtime.morestack_noctxt+0\n\nIIRC, you are using Mac, too?",
+      "parentUuid": "5a34d1ca_f511c4de",
+      "range": {
+        "startLine": 1347,
+        "startChar": 48,
+        "endLine": 1347,
+        "endChar": 55
+      },
+      "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
