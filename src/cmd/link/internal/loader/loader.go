@@ -249,6 +249,7 @@ type Loader struct {
 	dynid      map[Sym]int32       // stores Dynid for symbol
 
 	relocVariant map[relocId]sym.RelocVariant // stores variant relocs
+	symtoc       map[Sym]Sym                  // stores TOC origin for ppc
 
 	// Used to implement field tracking; created during deadcode if
 	// field tracking is enabled. Reachparent[K] contains the index of
@@ -1282,6 +1283,29 @@ func (l *Loader) SetSymLocalentry(i Sym, value uint8) {
 	}
 }
 
+// SymTocOrigin returns the "original TOC sym" property for the specified
+// symbol. For PPC, when the linker creates a stub symbol for a call from
+// function F to some other function, we need to record the parent
+// of the stub so as to retrieve the correct TOC symbol for it.
+func (l *Loader) SymTocOrigin(i Sym) Sym {
+	return l.symtoc[i]
+}
+
+// SetTocOrigin sets the "local entry" attribute for a symbol.
+func (l *Loader) SetTocOrigin(i Sym, value Sym) {
+	if i >= Sym(len(l.objSyms)) || i < 1 {
+		panic("bad symbol index in SetTocOrigin")
+	}
+	if l.symtoc == nil {
+		l.symtoc = make(map[Sym]Sym)
+	}
+	if value == 0 {
+		delete(l.symtoc, i)
+	} else {
+		l.symtoc[i] = value
+	}
+}
+
 // Returns the number of aux symbols given a global index.
 func (l *Loader) NAux(i Sym) int {
 	if l.IsExternal(i) {
@@ -2245,6 +2269,15 @@ func (l *Loader) migrateAttributes(src Sym, dst *sym.Symbol) {
 	}
 	if sub, ok := l.sub[src]; ok {
 		dst.Sub = l.Syms[sub]
+	}
+
+	// Convert sym "TOC" origin property -- this is stored in the
+	// sym.Symbol Outer field as well.
+	if tocOrigin, ok := l.symtoc[src]; ok {
+		if dst.Outer != nil {
+			panic("clash on Outer field")
+		}
+		dst.Outer = l.Syms[tocOrigin]
 	}
 
 	// Set sub-symbol attribute. FIXME: would be better to do away
