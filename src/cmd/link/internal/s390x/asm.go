@@ -41,6 +41,31 @@ import (
 	"sync"
 )
 
+func gentext2(ctxt *ld.Link, ldr *loader.Loader) {
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	// larl %r2, <local.moduledata>
+	initfunc.AddUint8(0xc0)
+	initfunc.AddUint8(0x20)
+	initfunc.AddSymRef(ctxt.Arch, ctxt.Moduledata2, 6, objabi.R_PCREL, 4)
+	r1 := initfunc.Relocs()
+	ldr.SetRelocVariant(initfunc.Sym(), r1.Count()-1, sym.RV_390_DBL)
+	//initfunc.AddUint32(ctxt.Arch, 0)
+
+	// jg <runtime.addmoduledata[@plt]>
+	initfunc.AddUint8(0xc0)
+	initfunc.AddUint8(0xf4)
+	initfunc.AddSymRef(ctxt.Arch, addmoduledata, 6, objabi.R_CALL, 4)
+	r2 := initfunc.Relocs()
+	ldr.SetRelocVariant(initfunc.Sym(), r2.Count()-1, sym.RV_390_DBL)
+
+	// undef (for debugging)
+	initfunc.AddUint32(ctxt.Arch, 0)
+}
+
 // gentext generates assembly to append the local moduledata to the global
 // moduledata linked list at initialization time. This is only done if the runtime
 // is in a different module.

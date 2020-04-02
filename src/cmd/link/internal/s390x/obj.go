@@ -55,6 +55,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		Elfreloc1:        elfreloc1,
 		Elfsetupplt:      elfsetupplt,
 		Gentext:          gentext,
+		Gentext2:         gentext2,
 		Machoreloc1:      machoreloc1,
 
 		Linuxdynld: "/lib64/ld64.so.1",
