@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81a8f868_c130770a",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-02T22:58:02Z",
+      "side": 1,
+      "message": "How about something like\n\nWhen the flag package sees \u003ccode\u003e-h\u003c/code\u003e or \u003ccode\u003e-help\u003c/code\u003e, and those flags are not defined, the flag package prints a usage message.\nIf the \u003ca href\u003d...\u003e\u003ccode\u003eFlagSet\u003c/code\u003e\u003c/a\u003e was created with \u003ca href\u003d...\u003e\u003ccode\u003eExitOnError\u003c/code\u003e\u003c/a\u003e, \u003ca href\u003d...\u003e\u003ccode\u003eFlagSet.Parse\u003c/code\u003e\u003c/a\u003e would then exit with a status of 2.\nIn this release, the exit status for \u003ccode\u003e-h\u003c/code\u003e or \u003ccode\u003e-help\u003c/code\u003e has been changed to 0.\nIn particular, this applies to the default handling of command line flags.",
+      "range": {
+        "startLine": 125,
+        "startChar": 91,
+        "endLine": 125,
+        "endChar": 94
+      },
+      "revId": "ae2b643b1fc4517dce1c58a7bda12278f98e57d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "695feec0_8a4cd625",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-02T22:58:02Z",
+      "side": 1,
+      "message": "s/Previsouly/Previously/",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 16
+      },
+      "revId": "ae2b643b1fc4517dce1c58a7bda12278f98e57d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de25c7b_55a862cf",
+        "filename": "src/flag/flag_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-02T22:58:02Z",
+      "side": 1,
+      "message": "Don\u0027t use a string like _child_flag, use a string like GO_CHILD_FLAG.",
+      "revId": "ae2b643b1fc4517dce1c58a7bda12278f98e57d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c804e126_0096393d",
+        "filename": "src/flag/flag_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-02T22:58:02Z",
+      "side": 1,
+      "message": "You may have to skip this test on Windows and perhaps Plan 9, I\u0027m not sure.",
+      "revId": "ae2b643b1fc4517dce1c58a7bda12278f98e57d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
