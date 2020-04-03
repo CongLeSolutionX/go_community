@@ -566,12 +566,19 @@ import (
 	"reflect"
 )
 func alignPc()
+func alignFunc()
 
 func main() {
-	addr := reflect.ValueOf(alignPc).Pointer()
-	if (addr % 512) != 0 {
-		fmt.Printf("expected 512 bytes alignment, got %v\n", addr)
-	} else {
+	addr1 := reflect.ValueOf(alignPc).Pointer()
+	addr2 := reflect.ValueOf(alignFunc).Pointer()
+	switch {
+	case (addr1 % 512) != 0 && (addr2 % 2048) != 0:
+		fmt.Printf("expected 512 bytes alignment, got %v; expected 2048 bytes alignment, got %v\n", addr1, addr2)
+	case (addr1 % 512) != 0:
+		fmt.Printf("expected 512 bytes alignment, got %v\n", addr1)
+	case (addr2 % 2048) != 0:
+		fmt.Printf("expected 2048 bytes alignment, got %v\n", addr2)
+	default:
 		fmt.Printf("PASS")
 	}
 }
@@ -579,6 +586,11 @@ func main() {
 
 const testFuncAlignAsmSrc = `
 #include "textflag.h"
+
+TEXT	·alignFunc(SB),NOSPLIT|ALIGN2048, $0-0
+	MOVD	$2, R0
+	MOVD	$3, R1
+	RET
 
 TEXT	·alignPc(SB),NOSPLIT, $0-0
 	MOVD	$2, R0
