@@ -264,6 +264,12 @@
 (Neq16 (Const16 <t> [c]) (Add16 (Const16 <t> [d]) x)) -> (Neq16 (Const16 <t> [int64(int16(c-d))]) x)
 (Neq8  (Const8  <t> [c]) (Add8  (Const8  <t> [d]) x)) -> (Neq8 (Const8 <t> [int64(int8(c-d))]) x)
 
+// remove sign extension before comparison with constant on left hand side
+((Less64|Leq64|Less64U|Leq64U) (Const64 [c]) (SignExt32to64 x)) && is32Bit(c) -> ((Less32|Leq32|Less32U|Leq32U) (Const32 <x.Type> [int64(int32(c))]) x)
+
+// remove sign extension before comparison with constant on right hand side
+((Less64|Leq64|Less64U|Leq64U) (SignExt32to64 x) (Const64 [c])) && is32Bit(c) -> ((Less32|Leq32|Less32U|Leq32U) x (Const32 <x.Type> [int64(int32(c))]))
+
 // signed integer range: ( c <= x && x (<|<=) d ) -> ( unsigned(x-c) (<|<=) unsigned(d-c) )
 (AndB (Leq64 (Const64 [c]) x) ((Less|Leq)64 x (Const64 [d]))) && d >= c -> ((Less|Leq)64U (Sub64 <x.Type> x (Const64 <x.Type> [c])) (Const64 <x.Type> [d-c]))
 (AndB (Leq32 (Const32 [c]) x) ((Less|Leq)32 x (Const32 [d]))) && d >= c -> ((Less|Leq)32U (Sub32 <x.Type> x (Const32 <x.Type> [c])) (Const32 <x.Type> [d-c]))

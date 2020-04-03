@@ -125,3 +125,20 @@ func TestMoveSmall(t *testing.T) {
 		}
 	}
 }
+
+func TestRemovedSignExtensionsInComparison(t *testing.T) {
+	tests := []struct {
+		name string
+		x    int64
+		c    int64
+	}{
+		{"-1 < -2", -1, -2},
+		{"2 << 32 < 0xffffffff", 2 << 32, 0xffffffff},
+	}
+
+	for _, tc := range tests {
+		if uint64(tc.x) < uint64(tc.c) {
+			t.Errorf("Expression returns true: %q", tc.name)
+		}
+	}
+}

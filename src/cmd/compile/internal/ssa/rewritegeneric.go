@@ -9895,6 +9895,49 @@ func rewriteValuegeneric_OpLeq32U(v *Value) bool {
 func rewriteValuegeneric_OpLeq64(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	// match: (Leq64 (Const64 [c]) (SignExt32to64 x))
+	// cond: is32Bit(c)
+	// result: (Leq32 (Const32 <x.Type> [int64(int32(c))]) x)
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		c := v_0.AuxInt
+		if v_1.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_1.Args[0]
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLeq32)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(v0, x)
+		return true
+	}
+	// match: (Leq64 (SignExt32to64 x) (Const64 [c]))
+	// cond: is32Bit(c)
+	// result: (Leq32 x (Const32 <x.Type> [int64(int32(c))]))
+	for {
+		if v_0.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpConst64 {
+			break
+		}
+		c := v_1.AuxInt
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLeq32)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(x, v0)
+		return true
+	}
 	// match: (Leq64 (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [b2i(c <= d)])
 	for {
@@ -9979,6 +10022,49 @@ func rewriteValuegeneric_OpLeq64F(v *Value) bool {
 func rewriteValuegeneric_OpLeq64U(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	// match: (Leq64U (Const64 [c]) (SignExt32to64 x))
+	// cond: is32Bit(c)
+	// result: (Leq32U (Const32 <x.Type> [int64(int32(c))]) x)
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		c := v_0.AuxInt
+		if v_1.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_1.Args[0]
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLeq32U)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(v0, x)
+		return true
+	}
+	// match: (Leq64U (SignExt32to64 x) (Const64 [c]))
+	// cond: is32Bit(c)
+	// result: (Leq32U x (Const32 <x.Type> [int64(int32(c))]))
+	for {
+		if v_0.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpConst64 {
+			break
+		}
+		c := v_1.AuxInt
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLeq32U)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(x, v0)
+		return true
+	}
 	// match: (Leq64U (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [b2i(uint64(c) <= uint64(d))])
 	for {
@@ -10183,6 +10269,49 @@ func rewriteValuegeneric_OpLess32U(v *Value) bool {
 func rewriteValuegeneric_OpLess64(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	// match: (Less64 (Const64 [c]) (SignExt32to64 x))
+	// cond: is32Bit(c)
+	// result: (Less32 (Const32 <x.Type> [int64(int32(c))]) x)
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		c := v_0.AuxInt
+		if v_1.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_1.Args[0]
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLess32)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(v0, x)
+		return true
+	}
+	// match: (Less64 (SignExt32to64 x) (Const64 [c]))
+	// cond: is32Bit(c)
+	// result: (Less32 x (Const32 <x.Type> [int64(int32(c))]))
+	for {
+		if v_0.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpConst64 {
+			break
+		}
+		c := v_1.AuxInt
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLess32)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(x, v0)
+		return true
+	}
 	// match: (Less64 (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [b2i(c < d)])
 	for {
@@ -10223,6 +10352,49 @@ func rewriteValuegeneric_OpLess64F(v *Value) bool {
 func rewriteValuegeneric_OpLess64U(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	// match: (Less64U (Const64 [c]) (SignExt32to64 x))
+	// cond: is32Bit(c)
+	// result: (Less32U (Const32 <x.Type> [int64(int32(c))]) x)
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		c := v_0.AuxInt
+		if v_1.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_1.Args[0]
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLess32U)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(v0, x)
+		return true
+	}
+	// match: (Less64U (SignExt32to64 x) (Const64 [c]))
+	// cond: is32Bit(c)
+	// result: (Less32U x (Const32 <x.Type> [int64(int32(c))]))
+	for {
+		if v_0.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpConst64 {
+			break
+		}
+		c := v_1.AuxInt
+		if !(is32Bit(c)) {
+			break
+		}
+		v.reset(OpLess32U)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = int64(int32(c))
+		v.AddArg2(x, v0)
+		return true
+	}
 	// match: (Less64U (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [b2i(uint64(c) < uint64(d))])
 	for {
