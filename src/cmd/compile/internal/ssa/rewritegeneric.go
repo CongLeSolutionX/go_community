@@ -20780,6 +20780,8 @@ func rewriteValuegeneric_OpSignExt16to64(v *Value) bool {
 }
 func rewriteValuegeneric_OpSignExt32to64(v *Value) bool {
 	v_0 := v.Args[0]
+	b := v.Block
+	config := b.Func.Config
 	// match: (SignExt32to64 (Const32 [c]))
 	// result: (Const64 [int64( int32(c))])
 	for {
@@ -20789,6 +20791,18 @@ func rewriteValuegeneric_OpSignExt32to64(v *Value) bool {
 		c := v_0.AuxInt
 		v.reset(OpConst64)
 		v.AuxInt = int64(int32(c))
+		return true
+	}
+	// match: (SignExt32to64 x)
+	// cond: config.PtrSize == 4 && is32BitInt(x.Type) && x.Type.IsSigned()
+	// result: (ZeroExt32to64 x)
+	for {
+		x := v_0
+		if !(config.PtrSize == 4 && is32BitInt(x.Type) && x.Type.IsSigned()) {
+			break
+		}
+		v.reset(OpZeroExt32to64)
+		v.AddArg(x)
 		return true
 	}
 	// match: (SignExt32to64 (Trunc64to32 x:(Rsh64x64 _ (Const64 [s]))))
