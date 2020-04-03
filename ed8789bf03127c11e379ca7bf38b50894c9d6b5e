@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf333fa3_7144829b",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-03T00:19:19Z",
+      "side": 1,
+      "message": "I don\u0027t see any use of Security.Framework in this file. Should I?",
+      "revId": "ed8789bf03127c11e379ca7bf38b50894c9d6b5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fb4ca69_adb3c55d",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-03T00:19:19Z",
+      "side": 1,
+      "message": "I don\u0027t see any Security uses yet.",
+      "revId": "ed8789bf03127c11e379ca7bf38b50894c9d6b5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
