@@ -10183,6 +10183,21 @@ func rewriteValuegeneric_OpLess32U(v *Value) bool {
 func rewriteValuegeneric_OpLess64(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	// match: (Less64 (SignExt32to64 x) (SignExt32to64 y))
+	// result: (Less32 x y)
+	for {
+		if v_0.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpSignExt32to64 {
+			break
+		}
+		y := v_1.Args[0]
+		v.reset(OpLess32)
+		v.AddArg2(x, y)
+		return true
+	}
 	// match: (Less64 (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [b2i(c < d)])
 	for {
@@ -10223,6 +10238,56 @@ func rewriteValuegeneric_OpLess64F(v *Value) bool {
 func rewriteValuegeneric_OpLess64U(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (Less64U (SignExt32to64 x) (Const64 <t> [c]))
+	// cond: c >= 0
+	// result: (Less64U (ZeroExt32to64 x) (Const64 <t> [c]))
+	for {
+		if v_0.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpConst64 {
+			break
+		}
+		t := v_1.Type
+		c := v_1.AuxInt
+		if !(c >= 0) {
+			break
+		}
+		v.reset(OpLess64U)
+		v0 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpConst64, t)
+		v1.AuxInt = c
+		v.AddArg2(v0, v1)
+		return true
+	}
+	// match: (Less64U (Const64 <t> [c]) (SignExt32to64 x))
+	// cond: c >= 0
+	// result: (Less64U (Const64 <t> [c]) (ZeroExt32to64 x))
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		t := v_0.Type
+		c := v_0.AuxInt
+		if v_1.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_1.Args[0]
+		if !(c >= 0) {
+			break
+		}
+		v.reset(OpLess64U)
+		v0 := b.NewValue0(v.Pos, OpConst64, t)
+		v0.AuxInt = c
+		v1 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
+		v1.AddArg(x)
+		v.AddArg2(v0, v1)
+		return true
+	}
 	// match: (Less64U (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [b2i(uint64(c) < uint64(d))])
 	for {

@@ -473,6 +473,11 @@
 (Rsh64x64 (Lsh64x64 x (Const64 [48])) (Const64 [48])) -> (SignExt16to64 (Trunc64to16 <typ.Int16> x))
 (Rsh64x64 (Lsh64x64 x (Const64 [32])) (Const64 [32])) -> (SignExt32to64 (Trunc64to32 <typ.Int32> x))
 
+// comparisons with sign extenstions
+(Less64 (SignExt32to64 x) (SignExt32to64 y)) -> (Less32 x y)
+(Less64U (SignExt32to64 x) (Const64 <t> [c])) && c >= 0 -> (Less64U (ZeroExt32to64 x) (Const64 <t> [c]))
+(Less64U (Const64 <t> [c]) (SignExt32to64 x)) && c >= 0 -> (Less64U (Const64 <t> [c]) (ZeroExt32to64 x))
+
 // constant comparisons
 (Eq(64|32|16|8)      (Const(64|32|16|8) [c]) (Const(64|32|16|8) [d])) -> (ConstBool [b2i(c == d)])
 (Neq(64|32|16|8)     (Const(64|32|16|8) [c]) (Const(64|32|16|8) [d])) -> (ConstBool [b2i(c != d)])
