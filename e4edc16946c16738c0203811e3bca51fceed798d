@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "194287a3_113bf87b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-03T20:00:35Z",
+      "side": 1,
+      "message": "If we create the stub as the same version as the original function, will it find the right versioned TOC symbol?\n\nIf this doesn\u0027t work, is there any problem using the Outer field? I guess it is fine to use separate methods as Outer is kind of overloaded.",
+      "revId": "e4edc16946c16738c0203811e3bca51fceed798d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0590bae3_fc78186e",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 3
