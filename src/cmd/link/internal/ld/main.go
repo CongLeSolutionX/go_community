@@ -320,6 +320,10 @@ func Main(arch *sys.Arch, theArch Arch) {
 	// which we don't know the size.
 	var outputMmapped bool
 	if ctxt.Arch.Family != sys.Wasm {
+		if err := ctxt.Out.Fallocate(filesize); err != nil {
+			Errorf(nil, "error reserving space (%b) on disk: %v", filesize, err)
+		}
+
 		// Don't mmap if we're building for Wasm. Wasm file
 		// layout is very different so filesize is meaningless.
 		err := ctxt.Out.Mmap(filesize)
