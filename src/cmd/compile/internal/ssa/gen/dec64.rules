@@ -132,6 +132,7 @@
 		(Bswap32 <typ.UInt32> (Int64Lo x))
 		(Bswap32 <typ.UInt32> (Int64Hi x)))
 
+(SignExt32to64 x) && config.PtrSize == 4 && is32BitInt(x.Type) -> (Int64Make (Const32 <x.Type> [0]) x)
 (SignExt32to64 x) -> (Int64Make (Signmask x) x)
 (SignExt16to64 x) -> (SignExt32to64 (SignExt16to32 x))
 (SignExt8to64 x) -> (SignExt32to64 (SignExt8to32 x))

@@ -2009,7 +2009,22 @@ func rewriteValuedec64_OpSignExt16to64(v *Value) bool {
 func rewriteValuedec64_OpSignExt32to64(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
+	config := b.Func.Config
 	typ := &b.Func.Config.Types
+	// match: (SignExt32to64 x)
+	// cond: config.PtrSize == 4 && is32BitInt(x.Type)
+	// result: (Int64Make (Const32 <x.Type> [0]) x)
+	for {
+		x := v_0
+		if !(config.PtrSize == 4 && is32BitInt(x.Type)) {
+			break
+		}
+		v.reset(OpInt64Make)
+		v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+		v0.AuxInt = 0
+		v.AddArg2(v0, x)
+		return true
+	}
 	// match: (SignExt32to64 x)
 	// result: (Int64Make (Signmask x) x)
 	for {
