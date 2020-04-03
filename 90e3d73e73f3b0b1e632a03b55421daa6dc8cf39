@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a105c958_6347ee0c",
+        "filename": "src/cmd/link/internal/s390x/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-03T20:33:37Z",
+      "side": 1,
+      "message": "I can\u0027t offer much help either, honestly. The addend seems especially mysterious.",
+      "parentUuid": "22cfa85c_1597b7b6",
+      "range": {
+        "startLine": 63,
+        "startChar": 49,
+        "endLine": 63,
+        "endChar": 50
+      },
+      "revId": "90e3d73e73f3b0b1e632a03b55421daa6dc8cf39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9861af5d_7167370e",
         "filename": "src/cmd/link/internal/s390x/asm.go",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "90e3d73e73f3b0b1e632a03b55421daa6dc8cf39",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c1be077_994695fd",
+        "filename": "src/cmd/link/internal/s390x/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-03T20:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9861af5d_7167370e",
+      "revId": "90e3d73e73f3b0b1e632a03b55421daa6dc8cf39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
