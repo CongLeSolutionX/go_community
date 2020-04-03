@@ -251,9 +251,6 @@ func (out *OutBuf) WriteSym(s *sym.Symbol) {
 
 func (out *OutBuf) Flush() {
 	var err error
-	if out.buf != nil {
-		err = out.Msync()
-	}
 	if out.w != nil {
 		err = out.w.Flush()
 	}
