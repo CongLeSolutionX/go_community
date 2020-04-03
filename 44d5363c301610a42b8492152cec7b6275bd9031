@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73fd2899_c2a9b388",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-03T20:53:30Z",
+      "side": 1,
+      "message": "Bleah.  Looks like my code to invoke Loader.SetTocOrigin got lost somehow.  I\u0027ll add it back in.",
+      "parentUuid": "124fe7b8_547f5464",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 20
+      },
+      "revId": "44d5363c301610a42b8492152cec7b6275bd9031",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a78af2af_a0fe646e",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "aee8e754_be44bd89",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-03T20:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a78af2af_a0fe646e",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 156,
+        "endChar": 18
+      },
+      "revId": "44d5363c301610a42b8492152cec7b6275bd9031",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9cbe6af_0ca27527",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2020-04-03T20:32:45Z",
       "side": 1,
       "message": "It seems this pattern comes frequently. Maybe AddReloc could return the number of the last-added reloc, then you don\u0027t need to do Count().",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 0
+      },
+      "revId": "44d5363c301610a42b8492152cec7b6275bd9031",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc43c6b_04a12c2f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-03T20:53:30Z",
+      "side": 1,
+      "message": "That\u0027s a good idea, I will look into that.",
+      "parentUuid": "c9cbe6af_0ca27527",
       "range": {
         "startLine": 248,
         "startChar": 0,
