@@ -141,6 +141,30 @@
       "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60b51a44_51ebca7f",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-03T04:10:18Z",
+      "side": 1,
+      "message": "With current tip 041bcb32b5, I now see SARL $31, CX:\n\nGOARCH\u003d386 go tool compile -S p.go\n\"\".f STEXT size\u003d101 args\u003d0x4 locals\u003d0x8\n\t0x0000 00000 (p.go:3)\tTEXT\t\"\".f(SB), ABIInternal, $8-4\n\t0x0000 00000 (p.go:3)\tMOVL\t(TLS), CX\n\t0x0007 00007 (p.go:3)\tCMPL\tSP, 8(CX)\n\t0x000a 00010 (p.go:3)\tPCDATA\t$0, $-2\n\t0x000a 00010 (p.go:3)\tJLS\t94\n\t0x000c 00012 (p.go:3)\tPCDATA\t$0, $-1\n\t0x000c 00012 (p.go:3)\tSUBL\t$8, SP\n\t0x000f 00015 (p.go:3)\tPCDATA\t$0, $-2\n\t0x000f 00015 (p.go:3)\tPCDATA\t$1, $-2\n\t0x000f 00015 (p.go:3)\tFUNCDATA\t$0, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x000f 00015 (p.go:3)\tFUNCDATA\t$1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x000f 00015 (p.go:3)\tFUNCDATA\t$2, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x000f 00015 (p.go:4)\tPCDATA\t$0, $0\n\t0x000f 00015 (p.go:4)\tPCDATA\t$1, $0\n\t0x000f 00015 (p.go:4)\tMOVL\t\"\".x+12(SP), CX\n\t0x0013 00019 (p.go:4)\tCMPL\tCX, $10\n\t0x0016 00022 (p.go:4)\tSETHI\tAX\n\t0x0019 00025 (p.go:4)\tMOVL\tCX, BX\n\t0x001b 00027 (p.go:4)\tSARL\t$31, CX\n\t0x001e 00030 (p.go:4)\tTESTL\tCX, CX\n\t0x0020 00032 (p.go:4)\tSETEQ\tBP\n\t0x0027 00039 (p.go:4)\tSETHI\tSI\n\t0x002e 00046 (p.go:4)\tANDL\tAX, BP\n\t0x0030 00048 (p.go:4)\tORL\tBP, SI\n\t0x0032 00050 (p.go:4)\tTESTB\tSI, SI\n\t0x0036 00054 (p.go:4)\tJNE\t65\n\t0x0038 00056 (p.go:4)\tCMPL\tBX, $10\n\t0x003b 00059 (p.go:4)\tJHI\t71\n\t0x003d 00061 (p.go:5)\tPCDATA\t$0, $-1\n\t0x003d 00061 (p.go:5)\tPCDATA\t$1, $-1\n\t0x003d 00061 (p.go:5)\tADDL\t$8, SP\n\t0x0040 00064 (p.go:5)\tRET\n\t0x0041 00065 (p.go:4)\tPCDATA\t$0, $0\n\t0x0041 00065 (p.go:4)\tPCDATA\t$1, $0\n\t0x0041 00065 (p.go:4)\tTESTL\tBX, BX\n\t0x0043 00067 (p.go:4)\tJLT\t83\n\t0x0045 00069 (p.go:4)\tJMP\t88\n\t0x0047 00071 (p.go:4)\tMOVL\tBX, CX\n\t0x0049 00073 (p.go:4)\tMOVL\t$10, DX\n\t0x004e 00078 (p.go:4)\tCALL\truntime.panicSliceAlen(SB)\n\t0x0053 00083 (p.go:4)\tCALL\truntime.panicmakeslicelen(SB)\n\t0x0058 00088 (p.go:4)\tCALL\truntime.panicmakeslicecap(SB)\n\t0x005d 00093 (p.go:4)\tXCHGL\tAX, AX\n\t0x005e 00094 (p.go:4)\tNOP\n\t0x005e 00094 (p.go:3)\tPCDATA\t$1, $-1\n\t0x005e 00094 (p.go:3)\tPCDATA\t$0, $-2\n\t0x005e 00094 (p.go:3)\tCALL\truntime.morestack_noctxt(SB)\n\t0x0063 00099 (p.go:3)\tPCDATA\t$0, $-1\n\t0x0063 00099 (p.go:3)\tJMP\t0\n\t0x0000 65 8b 0d 00 00 00 00 3b 61 08 76 52 83 ec 08 8b  e......;a.vR....\n\t0x0010 4c 24 0c 83 f9 0a 0f 97 c0 89 cb c1 f9 1f 85 c9  L$..............\n\t0x0020 87 dd 0f 94 c3 87 dd 87 de 0f 97 c3 87 de 21 c5  ..............!.\n\t0x0030 09 ee 96 84 c0 96 75 09 83 fb 0a 77 0a 83 c4 08  ......u....w....\n\t0x0040 c3 85 db 7c 0e eb 11 89 d9 ba 0a 00 00 00 e8 00  ...|............\n\t0x0050 00 00 00 e8 00 00 00 00 e8 00 00 00 00 90 e8 00  ................\n\t0x0060 00 00 00 eb 9b                                   .....\n\trel 3+4 t\u003d17 TLS+0\n\trel 79+4 t\u003d8 runtime.panicSliceAlen+0\n\trel 84+4 t\u003d8 runtime.panicmakeslicelen+0\n\trel 89+4 t\u003d8 runtime.panicmakeslicecap+0\n\trel 95+4 t\u003d8 runtime.morestack_noctxt+0\ngo.cuinfo.packagename. SDWARFINFO dupok size\u003d0\n\t0x0000 70                                               p\ngclocals·33cdeccccebe80329f1fdbee7f5874cb SRODATA dupok size\u003d8\n\t0x0000 01 00 00 00 00 00 00 00\n\nThere\u0027s also a call to `CALL\truntime.panicSliceAlen(SB)`.",
+      "parentUuid": "987c1078_35f54fdf",
+      "range": {
+        "startLine": 1347,
+        "startChar": 48,
+        "endLine": 1347,
+        "endChar": 55
+      },
+      "revId": "6edd7971bb3e83356544b2cd6e7a93fdabff1246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
