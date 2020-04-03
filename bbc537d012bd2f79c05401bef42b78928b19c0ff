@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db817f4a_e88ab559",
+        "filename": "src/cmd/link/internal/x86/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-03T19:29:53Z",
+      "side": 1,
+      "message": "The old code creates the symbol if not exists. Does the symbol always exist?",
+      "revId": "bbc537d012bd2f79c05401bef42b78928b19c0ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
