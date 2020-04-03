@@ -34,6 +34,24 @@
       "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8be24bd9_7c00a0f8",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-03T21:55:43Z",
+      "side": 1,
+      "message": "Maybe? Write a program to try lots of x \u0026 c and see if it is always true.\n\nThis one I know is true:\n\n(Less64 (SignExt32to64 x) (SignExt32to64 y)) -\u003e (Less32 x y)\n\nTry to see if you can find a set of rules like this, where each is obviously true, which eliminates the extraneous code.",
+      "parentUuid": "69b3e76d_2081beb4",
+      "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
