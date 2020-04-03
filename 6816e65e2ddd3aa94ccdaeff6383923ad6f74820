@@ -16,6 +16,24 @@
       "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69b3e76d_2081beb4",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-03T21:48:19Z",
+      "side": 1,
+      "message": "So something like:\n\n(Less64U (SignExt32to64 x) (Const64 [c])) \u0026\u0026 c \u003e 0",
+      "parentUuid": "ebcbc3d0_1383952e",
+      "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
