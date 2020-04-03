@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49fccee1_7701114e",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-03T21:18:41Z",
+      "side": 1,
+      "message": "x should always satisfy is32BitInt(x.Type) here. That\u0027s the only argument type allowed to SignExt32to64.\nYou can\u0027t sign extend a signed integer with zeros. You have to use the sign bit.\n\nI think you might have to do use a match involving a comparison.",
+      "revId": "f96460c330f61b0533961707a57fef829dee5628",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
