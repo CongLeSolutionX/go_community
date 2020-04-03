@@ -52,6 +52,24 @@
       "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc391525_29a471e4",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-03T22:31:32Z",
+      "side": 1,
+      "message": "Hey Keith, I added a test in codegen for 386, but sounds like Try-Runbot does not run `./test` in the builder, is it intended?",
+      "parentUuid": "8be24bd9_7c00a0f8",
+      "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
