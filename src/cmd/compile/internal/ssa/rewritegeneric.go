@@ -10223,6 +10223,45 @@ func rewriteValuegeneric_OpLess64F(v *Value) bool {
 func rewriteValuegeneric_OpLess64U(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	config := b.Func.Config
+	typ := &b.Func.Config.Types
+	// match: (Less64U (SignExt32to64 x) y)
+	// cond: config.PtrSize == 4
+	// result: (Less64U (ZeroExt32to64 x) y)
+	for {
+		if v_0.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_0.Args[0]
+		y := v_1
+		if !(config.PtrSize == 4) {
+			break
+		}
+		v.reset(OpLess64U)
+		v0 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
+		v0.AddArg(x)
+		v.AddArg2(v0, y)
+		return true
+	}
+	// match: (Less64U y (SignExt32to64 x))
+	// cond: config.PtrSize == 4
+	// result: (Less64U y (ZeroExt32to64 x))
+	for {
+		y := v_0
+		if v_1.Op != OpSignExt32to64 {
+			break
+		}
+		x := v_1.Args[0]
+		if !(config.PtrSize == 4) {
+			break
+		}
+		v.reset(OpLess64U)
+		v0 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
+		v0.AddArg(x)
+		v.AddArg2(y, v0)
+		return true
+	}
 	// match: (Less64U (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [b2i(uint64(c) < uint64(d))])
 	for {
