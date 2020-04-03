@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "124fe7b8_547f5464",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-03T20:30:36Z",
+      "side": 1,
+      "message": "It seems this needs to be addressed before submission. Is this the place where we need the previous CL?",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 20
+      },
+      "revId": "44d5363c301610a42b8492152cec7b6275bd9031",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78af2af_a0fe646e",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-03T20:30:36Z",
+      "side": 1,
+      "message": "I think we have a special symbol for this. DotTOC[0]?",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 156,
+        "endChar": 18
+      },
+      "revId": "44d5363c301610a42b8492152cec7b6275bd9031",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
