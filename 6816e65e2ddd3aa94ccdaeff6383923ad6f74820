@@ -70,6 +70,24 @@
       "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c44d460_937dc017",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-03T22:35:00Z",
+      "side": 1,
+      "message": "Read the introduction section in test/codegen/README",
+      "parentUuid": "bc391525_29a471e4",
+      "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
