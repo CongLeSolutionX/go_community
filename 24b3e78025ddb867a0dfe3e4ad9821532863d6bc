@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8385cfd_0fcf056e",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-04-04T18:31:12Z",
+      "side": 1,
+      "message": "I believe you can now also remove the comment since we are at 1.15 now and the referenced issue has been closed already.",
+      "revId": "24b3e78025ddb867a0dfe3e4ad9821532863d6bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
