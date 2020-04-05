@@ -180,7 +180,7 @@ func (ctxt *Link) setArchSyms(which int) {
 	ctxt.mkArchSym(which, ".dynsym", &ctxt.DynSym2, &ctxt.DynSym)
 	ctxt.mkArchSym(which, ".dynstr", &ctxt.DynStr2, &ctxt.DynStr)
 
-	if ctxt.IsAIX() {
+	if ctxt.IsPPC64() {
 		ctxt.mkArchSym(which, "TOC", &ctxt.TOC2, &ctxt.TOC)
 
 		// NB: note the +2 below for DotTOC2 compared to the +1 for
