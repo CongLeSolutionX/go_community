@@ -16,6 +16,24 @@
       "revId": "24b3e78025ddb867a0dfe3e4ad9821532863d6bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a94de76b_25d7c65f",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-04-05T04:20:53Z",
+      "side": 1,
+      "message": "Done.\n\nI was considering this originally. But I am unfamiliar with this code. And TODO text is not clear. So I decided to leave this for reviewers.",
+      "parentUuid": "f8385cfd_0fcf056e",
+      "revId": "24b3e78025ddb867a0dfe3e4ad9821532863d6bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
