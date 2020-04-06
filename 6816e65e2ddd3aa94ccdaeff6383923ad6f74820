@@ -142,6 +142,24 @@
       "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9de2d6c_f4be296c",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-06T17:20:03Z",
+      "side": 1,
+      "message": "I asked the builder folks and this is actually intentional.\nFor trybots we try to return quickly so people can get answers quickly.\nThe tests will be run on the full build/test after submit (the ones on the dashboard https://build.golang.org/)\n\nThe builder folks are going to work on making it so that if you request slowbots (in this case, a linux-386 slowbot) it will run all the tests that the dashboard builders would run.",
+      "parentUuid": "b481e46d_620e15d2",
+      "revId": "6816e65e2ddd3aa94ccdaeff6383923ad6f74820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
