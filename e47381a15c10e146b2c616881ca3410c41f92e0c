@@ -16,6 +16,24 @@
       "revId": "e47381a15c10e146b2c616881ca3410c41f92e0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "542652c9_4e70a4bf",
+        "filename": "src/cmd/compile/internal/ssa/rewrite_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-06T18:06:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1a54714f_5dccbba1",
+      "revId": "e47381a15c10e146b2c616881ca3410c41f92e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
