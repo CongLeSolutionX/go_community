@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c594f79_4f634e35",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-06T17:09:39Z",
+      "side": 1,
+      "message": "I didn\u0027t actually mean to add this. It was just an example of a rule that seems obviously true.\n(Unless it actually helps this issue?)",
+      "revId": "8b7ced6ec1a2b1c204e6179a7835886e773c8e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5698013_e5421319",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-06T17:09:39Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right, for c \u003e\u003d 2^32.\n\nx \u003d 0xffffffff, then SignExt32to64(x) \u003d\u003d 0xffffffffffffffff\nc \u003d 1\u003c\u003c32\nthen the LHS is false, but the RHS is true.",
+      "revId": "8b7ced6ec1a2b1c204e6179a7835886e773c8e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
