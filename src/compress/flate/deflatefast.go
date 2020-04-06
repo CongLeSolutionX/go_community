@@ -8,10 +8,11 @@ package flate
 // based on Snappy's LZ77-style encoder: github.com/golang/snappy
 
 const (
-	tableBits  = 14             // Bits used in the table.
-	tableSize  = 1 << tableBits // Size of the table.
-	tableMask  = tableSize - 1  // Mask for table indices. Redundant, but can eliminate bounds checks.
-	tableShift = 32 - tableBits // Right-shift to get the tableBits most significant bits of a uint32.
+	tableBits   = 14                                  // Bits used in the table.
+	tableSize   = 1 << tableBits                      // Size of the table.
+	tableMask   = tableSize - 1                       // Mask for table indices. Redundant, but can eliminate bounds checks.
+	tableShift  = 32 - tableBits                      // Right-shift to get the tableBits most significant bits of a uint32.
+	bufferReset = (1 << 31) - maxStoreBlockSize*2 - 1 // Reset the buffer offset when reaching this.
 )
 
 func load32(b []byte, i int32) uint32 {
@@ -59,7 +60,7 @@ func newDeflateFast() *deflateFast {
 // to dst and returns the result.
 func (e *deflateFast) encode(dst []token, src []byte) []token {
 	// Ensure that e.cur doesn't wrap.
-	if e.cur > 1<<30 {
+	if e.cur >= bufferReset {
 		e.resetAll()
 	}
 
@@ -264,7 +265,7 @@ func (e *deflateFast) reset() {
 	e.cur += maxMatchOffset
 
 	// Protect against e.cur wraparound.
-	if e.cur > 1<<30 {
+	if e.cur > bufferReset {
 		e.resetAll()
 	}
 }
@@ -275,11 +276,22 @@ func (e *deflateFast) reset() {
 //
 // See https://golang.org/issue/18636.
 func (e *deflateFast) resetAll() {
-	// This is equivalent to:
-	//	*e = deflateFast{cur: maxStoreBlockSize, prev: e.prev[:0]}
-	e.cur = maxStoreBlockSize
-	e.prev = e.prev[:0]
-	for i := range e.table {
-		e.table[i] = tableEntry{}
+	if len(e.prev) == 0 {
+		// We have no history; just clear the table.
+		for i := range e.table[:] {
+			e.table[i] = tableEntry{}
+		}
+		e.cur = maxMatchOffset
+		return
 	}
+
+	// Shift down everything in the table that isn't already too far away.
+	for i := range e.table[:] {
+		v := e.table[i].offset - e.cur + maxMatchOffset
+		if v < 0 {
+			v = 0
+		}
+		e.table[i].offset = v
+	}
+	e.cur = maxMatchOffset
 }
