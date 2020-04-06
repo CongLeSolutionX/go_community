@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a54714f_5dccbba1",
+        "filename": "src/cmd/compile/internal/ssa/rewrite_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-06T17:57:19Z",
+      "side": 1,
+      "message": "This is a variable-variable comparison, not a variable-constant comparison. I don\u0027t think it tests the rules you\u0027re adding.\n(They are still fine tests, but I think you would need to write out each test instead of using a loop, to get the constant comparisons.)",
+      "revId": "e47381a15c10e146b2c616881ca3410c41f92e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
