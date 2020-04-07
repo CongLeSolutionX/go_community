@@ -82,7 +82,7 @@ func helperCommandContext(t *testing.T, ctx context.Context, s ...string) (cmd *
 
 	// Temporary code to try to resolve #25628.
 	// TODO(iant): Remove this when we no longer need it.
-	if runtime.GOARCH == "386" && runtime.GOOS == "linux" && testenv.Builder() != "" && len(s) == 1 && s[0] == "read3" && ctx == nil {
+	if runtime.GOARCH == "386" && runtime.GOOS == "linux" && testenv.Builder() != "" && len(s) == 1 && s[0] == "read3" {
 		cmd = exec.Command("/usr/bin/strace", append([]string{"-f", os.Args[0]}, cs...)...)
 	}
 
@@ -683,7 +683,14 @@ func TestExtraFiles(t *testing.T) {
 		t.Fatalf("Seek: %v", err)
 	}
 
-	c := helperCommand(t, "read3")
+	// Use a deadline to try to get some output even if the program hangs.
+	ctx := context.Background()
+	if deadline, ok := t.Deadline(); ok {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithDeadline(ctx, deadline.Add(-time.Second))
+		defer cancel()
+	}
+	c := helperCommandContext(t, ctx, "read3")
 	var stdout, stderr bytes.Buffer
 	c.Stdout = &stdout
 	c.Stderr = &stderr
