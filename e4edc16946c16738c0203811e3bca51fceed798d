@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6a4226f0_9781f908",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-07T16:53:50Z",
+      "side": 1,
+      "message": "OK, I tested Cherry\u0027s idea of creating the stub symbol with the parent\u0027s version, and this does indeed eliminated the need to store the TOC original in the loader. I will go ahead and ditch this patch. Thanks.",
+      "parentUuid": "9c1704e3_7862a6e3",
+      "revId": "e4edc16946c16738c0203811e3bca51fceed798d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0590bae3_fc78186e",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 3
