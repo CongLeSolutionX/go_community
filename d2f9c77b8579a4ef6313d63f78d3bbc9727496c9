@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b599b39_e51dd474",
+        "filename": "src/go/go2go/names.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 24715
+      },
+      "writtenOn": "2020-04-08T06:32:35Z",
+      "side": 1,
+      "message": "This is hit on nesting like this:\n\n```\nvar _ Tree(Tree(int)) \u003d Tree(Tree(int)){}\n```\n\n\u0027\u003c\u0027 in \"struct{left *p.Tree\u003cE₂\u003e; right *p.Tree\u003cE₂\u003e; payload int}\"",
+      "revId": "d2f9c77b8579a4ef6313d63f78d3bbc9727496c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
