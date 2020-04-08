@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c266754a_a8972910",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-08T22:10:53Z",
+      "side": 1,
+      "message": "This gets fixed up at line 248, below:\n\n// We may have left behind some phi values with no uses\n// but the wrong number of arguments. Eliminate those.\nfor _, v :\u003d range b.Values {\n  if v.Uses \u003d\u003d 0 {\n    v.reset(OpInvalid)\n  }\n}",
+      "parentUuid": "93088f37_9d663a94",
+      "range": {
+        "startLine": 218,
+        "startChar": 6,
+        "endLine": 218,
+        "endChar": 19
+      },
+      "revId": "cac42e801f23630d8e79499a85f9005055abbb62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbf57eb6_4362a317",
         "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "cac42e801f23630d8e79499a85f9005055abbb62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c238aa_757c82b2",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-08T22:10:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dbf57eb6_4362a317",
+      "range": {
+        "startLine": 489,
+        "startChar": 35,
+        "endLine": 489,
+        "endChar": 40
+      },
+      "revId": "cac42e801f23630d8e79499a85f9005055abbb62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
