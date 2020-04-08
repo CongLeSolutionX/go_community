@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ccfbc77_c273f151",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-04-08T06:58:20Z",
+      "side": 1,
+      "message": "I renamed cgoCheckPointer to cgoCheckPointerAny. I wasn\u0027t able to come up with a better name.\n\nWith regards to the second argument, I\u0027m not sure how to construct Eface{} for \"true\".\n\nAnd I\u0027m still thinking how to handle the array case. One option would be to take the input array pointer p and then call `cgoCheckPointer(\u0026(*p)[0], *p)`. However, I\u0027m not sure how to do that arithmetic in Go. But, I suspect that there might be a way to handle this without that conversion and instead call `cgoCheckPointer(*p, Eface{})` or similar.",
+      "parentUuid": "a5e130a0_7eca27d9",
+      "revId": "704f8ab8d897d4d5d38c57522888cae3434c23d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a3b39af_382256ce",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2020-04-08T00:09:51Z",
       "side": 1,
       "message": "We still have to call cgoCheckArg in this case.",
+      "revId": "704f8ab8d897d4d5d38c57522888cae3434c23d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4ef5757_f16f65e8",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-04-08T06:58:20Z",
+      "side": 1,
+      "message": "I just realized that cgoCheckPointerContent is called with an argument \u0026a, it should be the case that it\u0027s always a kindPtr.\n\nOr is there a scenario where an unsafe.Pointer could come from?",
+      "parentUuid": "7a3b39af_382256ce",
       "revId": "704f8ab8d897d4d5d38c57522888cae3434c23d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
