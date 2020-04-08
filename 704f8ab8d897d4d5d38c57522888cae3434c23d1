@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5e130a0_7eca27d9",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-08T00:09:51Z",
+      "side": 1,
+      "message": "All this attribute((weak)) stuff is so to separate the version of cgo from the version of gccgo.  To make that work here we should rename _cgoCheckPointer also.  Then the new functions should call _cgoCheckPointer with the appropriate second argument if _cgoCheckPointer is not defined.",
+      "revId": "704f8ab8d897d4d5d38c57522888cae3434c23d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3b39af_382256ce",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-08T00:09:51Z",
+      "side": 1,
+      "message": "We still have to call cgoCheckArg in this case.",
+      "revId": "704f8ab8d897d4d5d38c57522888cae3434c23d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
