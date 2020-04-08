@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1cd6315_9e5c24f9",
+        "filename": "src/cmd/compile/internal/gc/bv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-04-08T22:27:49Z",
+      "side": 1,
+      "message": "Does this compute the same value as before? I think maybe we want \"32 - LeadingZeros32(w)\".",
+      "range": {
+        "startLine": 125,
+        "startChar": 42,
+        "endLine": 125,
+        "endChar": 57
+      },
+      "revId": "864f4d19ed405e41d9da65382f59a7f525bc9bde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
