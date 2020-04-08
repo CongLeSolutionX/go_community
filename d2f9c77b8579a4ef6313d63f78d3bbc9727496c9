@@ -16,6 +16,24 @@
       "revId": "d2f9c77b8579a4ef6313d63f78d3bbc9727496c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae2f6ab1_45b0e43b",
+        "filename": "src/go/go2go/names.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-08T18:04:04Z",
+      "side": 1,
+      "message": "This may be gone in the latest version (not yet uploaded). Ian?",
+      "parentUuid": "8b599b39_e51dd474",
+      "revId": "d2f9c77b8579a4ef6313d63f78d3bbc9727496c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
