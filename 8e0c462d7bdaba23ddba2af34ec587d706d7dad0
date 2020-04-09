@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8849052e_be12d853",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-09T15:51:14Z",
+      "side": 1,
+      "message": "This is not specific to frameless functions.",
+      "range": {
+        "startLine": 749,
+        "startChar": 24,
+        "endLine": 749,
+        "endChar": 45
+      },
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d203044c_36003cdd",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-09T15:51:14Z",
+      "side": 1,
+      "message": "Is this essential for programs to work correctly?",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bacca94a_4203b61e",
+        "filename": "src/runtime/signal_riscv64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-09T15:51:14Z",
+      "side": 1,
+      "message": "Add the same comment as on other architectures.\n\n        // Push the LR to stack, as we\u0027ll clobber it in order to\n        // push the call. The function being pushed is responsible\n        // for restoring the LR and setting the SP back.\n        // This extra slot is known to gentraceback.",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
