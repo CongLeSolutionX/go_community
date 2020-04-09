@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190566dc_a81cc6db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-04-09T13:47:02Z",
+      "side": 1,
+      "message": "Please use cmd/internal/obj/ppc64: so it is clear what you changed.",
+      "revId": "d5a27eaceee1b3a8e749cfff3485b2454a1fcd2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1530aa53_7a13af44",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-04-09T13:47:02Z",
+      "side": 1,
+      "message": "Could you add a space here so it is consistent with the others.",
+      "revId": "d5a27eaceee1b3a8e749cfff3485b2454a1fcd2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
