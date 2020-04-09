@@ -281,6 +281,30 @@
       "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd88559_e4cc6a2a",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-09T16:00:41Z",
+      "side": 1,
+      "message": "You mean machine without FPU? No, currently we don\u0027t have that support. But it shouldn\u0027t be too hard to get the softfloat implementation that we do on MIPS and ARM to work for RISCV as well.",
+      "parentUuid": "04127c86_8dbc3340",
+      "range": {
+        "startLine": 521,
+        "startChar": 9,
+        "endLine": 521,
+        "endChar": 13
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
