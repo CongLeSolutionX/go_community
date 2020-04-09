@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85362ba1_539e9156",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-09T18:54:12Z",
+      "side": 1,
+      "message": "Please expand the comment to explain why we need to copy req unconditionally here.\n\nAccording to https://golang.org/pkg/net/http/#RoundTripper:\n\n\u003e RoundTrip must always close the body, including on errors,\n\u003e but depending on the implementation may do so in a separate\n\u003e goroutine even after RoundTrip returns.\n\nSo it seems like another option would be to inject a req.Body wrapper that closes a channel when its Close method is called, and then block until that channel is closed before restoring req.Body and proceeding.\n\nBut since we know that this is specifically a net/http.Transport, do we already have stronger guarantees about when and whether it will access the Body?",
+      "revId": "2f1f567e778380c6b189afce3039149a308f3514",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
