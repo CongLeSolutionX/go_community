@@ -52,6 +52,24 @@
       "revId": "758e284d7f93082e48d29b1bf8612d19ddea5f6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1fcc634_b269a07c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-10T04:20:35Z",
+      "side": 1,
+      "message": "Sure, that said we can use `b.Cleanup(func() {})` to disable current cleanup. But since when the documentation says nothing about nil, I expect it should work, too.\n\nIf nil check is not the choice, we should at least document the nil case.",
+      "parentUuid": "19d7862c_7d882fcb",
+      "revId": "758e284d7f93082e48d29b1bf8612d19ddea5f6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
