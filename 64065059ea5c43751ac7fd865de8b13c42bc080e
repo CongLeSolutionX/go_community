@@ -86,6 +86,24 @@
       "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb1cbc7_3d04a700",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-10T22:44:18Z",
+      "side": 1,
+      "message": "This boils down to the question whether interfaces are comparable with respect to the comparable contract.   TBD. Thanks for pointing this out.",
+      "parentUuid": "7569b717_133568bc",
+      "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
