@@ -848,7 +848,15 @@ func asmb2(ctxt *ld.Link) {
 
 		case objabi.Hdarwin:
 			if ctxt.LinkMode == ld.LinkExternal {
-				ld.Machoemitreloc(ctxt)
+				if ctxt.EarlyMunmap() {
+					ld.Machoemitreloc(ctxt, ld.Emit)
+				} else {
+					mem := ld.Machoemitreloc(ctxt, ld.DontEmit)
+					ctxt.Out.MustAccommodate(mem)
+					if emitted := ld.Machoemitreloc(ctxt, ld.Emit); emitted != mem {
+						ctxt.Errorf(0, "didn't emit the right number of relocations: %d != %d", emitted, mem)
+					}
+				}
 			}
 		}
 	}

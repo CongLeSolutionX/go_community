@@ -103,6 +103,11 @@ var (
 	flagGo115Newobj = flag.Bool("go115newobj", true, "use new object file format")
 )
 
+// EarlyMunmap returns true if we should MUnmap early.
+func (ctxt *Link) EarlyMunmap() bool {
+	return !ctxt.IsDarwin()
+}
+
 // Main is the main entry point for the linker code.
 func Main(arch *sys.Arch, theArch Arch) {
 	thearch = theArch
@@ -331,8 +336,10 @@ func Main(arch *sys.Arch, theArch Arch) {
 		thearch.Asmb(ctxt)
 		bench.Start("reloc")
 		ctxt.reloc()
-		bench.Start("Munmap")
-		ctxt.Out.Munmap()
+		if ctxt.EarlyMunmap() {
+			bench.Start("Munmap")
+			ctxt.Out.Munmap()
+		}
 	} else {
 		// If we don't mmap, we need to apply relocations before
 		// writing out.
@@ -343,6 +350,11 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 	bench.Start("Asmb2")
 	thearch.Asmb2(ctxt)
+
+	if !ctxt.EarlyMunmap() && outputMmapped {
+		bench.Start("Munmap")
+		ctxt.Out.Munmap()
+	}
 
 	bench.Start("undef")
 	ctxt.undef()

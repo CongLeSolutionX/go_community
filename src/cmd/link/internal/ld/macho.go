@@ -996,6 +996,17 @@ func Domacholink(ctxt *Link) int64 {
 
 	if size > 0 {
 		linkoff = Rnd(int64(uint64(HEADR)+Segtext.Length), int64(*FlagRound)) + Rnd(int64(Segdata.Filelen), int64(*FlagRound)) + Rnd(int64(Segdwarf.Filelen), int64(*FlagRound))
+
+		// Grow the output buffer.
+		if !ctxt.EarlyMunmap() {
+			lengthNeeded := uint64(linkoff + s1.Size + s2.Size + s3.Size + s4.Size)
+			if lengthNeeded > ctxt.Out.Length() {
+				if err := ctxt.Out.GrowBy(lengthNeeded - ctxt.Out.Length()); err != nil {
+					ctxt.Errorf(0, "error growing output file %v", err)
+				}
+			}
+		}
+
 		ctxt.Out.SeekSet(linkoff)
 
 		ctxt.Out.Write(s1.P[:s1.Size])
@@ -1007,10 +1018,13 @@ func Domacholink(ctxt *Link) int64 {
 	return Rnd(int64(size), int64(*FlagRound))
 }
 
-func machorelocsect(ctxt *Link, sect *sym.Section, syms []*sym.Symbol) {
+// machorelocsect will emit the relocations for a section, returning the space
+// of relocations emitted.
+func machorelocsect(ctxt *Link, sect *sym.Section, syms []*sym.Symbol, dryRun bool) uint64 {
+	var total uint64
 	// If main section has no bits, nothing to relocate.
 	if sect.Vaddr >= sect.Seg.Vaddr+sect.Seg.Filelen {
-		return
+		return total
 	}
 
 	sect.Reloff = uint64(ctxt.Out.Offset())
@@ -1044,30 +1058,40 @@ func machorelocsect(ctxt *Link, sect *sym.Section, syms []*sym.Symbol) {
 			if !r.Xsym.Attr.Reachable() {
 				Errorf(s, "unreachable reloc %d (%s) target %v", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Xsym.Name)
 			}
-			if !thearch.Machoreloc1(ctxt.Arch, ctxt.Out, s, r, int64(uint64(s.Value+int64(r.Off))-sect.Vaddr)) {
-				Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, r.Sym.Name)
+			total += 8 // 2x32 bits/reloc
+			if !dryRun {
+				if !thearch.Machoreloc1(ctxt.Arch, ctxt.Out, s, r, int64(uint64(s.Value+int64(r.Off))-sect.Vaddr)) {
+					Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, r.Sym.Name)
+				}
 			}
 		}
 	}
 
 	sect.Rellen = uint64(ctxt.Out.Offset()) - sect.Reloff
+	return total
 }
 
-func Machoemitreloc(ctxt *Link) {
-	for ctxt.Out.Offset()&7 != 0 {
-		ctxt.Out.Write8(0)
+// Machoemitreloc will emit the relocations (or not, depending on the value of
+// dryRun) and return the amount of filespace used.
+func Machoemitreloc(ctxt *Link, dryRun bool) uint64 {
+	total := uint64(ctxt.Out.Offset() & 7)
+	if !dryRun {
+		for ctxt.Out.Offset()&7 != 0 {
+			ctxt.Out.Write8(0)
+		}
 	}
 
-	machorelocsect(ctxt, Segtext.Sections[0], ctxt.Textp)
+	total += machorelocsect(ctxt, Segtext.Sections[0], ctxt.Textp, dryRun)
 	for _, sect := range Segtext.Sections[1:] {
-		machorelocsect(ctxt, sect, ctxt.datap)
+		total += machorelocsect(ctxt, sect, ctxt.datap, dryRun)
 	}
 	for _, sect := range Segdata.Sections {
-		machorelocsect(ctxt, sect, ctxt.datap)
+		total += machorelocsect(ctxt, sect, ctxt.datap, dryRun)
 	}
 	for _, sect := range Segdwarf.Sections {
-		machorelocsect(ctxt, sect, dwarfp)
+		total += machorelocsect(ctxt, sect, dwarfp, dryRun)
 	}
+	return total
 }
 
 // hostobjMachoPlatform returns the first platform load command found

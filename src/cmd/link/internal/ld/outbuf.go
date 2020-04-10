@@ -103,6 +103,31 @@ func (out *OutBuf) View(start uint64) (*OutBuf, error) {
 	}, nil
 }
 
+const (
+	DontEmit = true
+	Emit     = false
+)
+
+// GrowBy will increase the output file size, remapping if necessary, etc.
+func (out *OutBuf) GrowBy(amount uint64) error {
+	isMmapped := len(out.buf) != 0
+	newLength := out.length + amount
+	out.Munmap()
+	if isMmapped {
+		return out.Mmap(newLength)
+	}
+	return nil
+}
+
+// MustAccomodate will increase the output file size if necessary to accommodate
+// enough data.
+func (out *OutBuf) MustAccommodate(amount uint64) error {
+	if uint64(out.off)+amount <= out.length {
+		return nil
+	}
+	return out.GrowBy(uint64(out.off) + amount - out.length)
+}
+
 var viewCloseError = errors.New("cannot Close OutBuf from View")
 
 func (out *OutBuf) Close() error {
@@ -135,6 +160,10 @@ func (out *OutBuf) SeekSet(p int64) {
 
 func (out *OutBuf) Offset() int64 {
 	return out.off
+}
+
+func (out *OutBuf) Length() uint64 {
+	return out.length
 }
 
 // Write writes the contents of v to the buffer.
