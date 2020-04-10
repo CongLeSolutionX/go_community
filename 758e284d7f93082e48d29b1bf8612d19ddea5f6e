@@ -34,6 +34,24 @@
       "revId": "758e284d7f93082e48d29b1bf8612d19ddea5f6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d7862c_7d882fcb",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-10T04:08:21Z",
+      "side": 1,
+      "message": "\u003e Since when oldCleanup is guarded with a nil check, I expect it happens the same with f, too.\n\n`oldCleanup` is an implementation detail, not part of the `Cleanup` method\u0027s public API.\n\n\u003e Also see my example in issue\n\nI think that example should be written:\n\n\tnop :\u003d func() {}\n\t…\n\tfor … {\n\t\t…\n\t\tif i \u003d\u003d 1000 {\n\t\t\tb.Cleanup(nop)\n\t\t}\n\t}\n\nwhich more clearly expresses the intent to call Cleanup with a no-op argument.",
+      "parentUuid": "c93a6555_6500c80b",
+      "revId": "758e284d7f93082e48d29b1bf8612d19ddea5f6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
