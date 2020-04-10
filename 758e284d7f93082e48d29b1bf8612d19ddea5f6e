@@ -16,6 +16,24 @@
       "revId": "758e284d7f93082e48d29b1bf8612d19ddea5f6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c93a6555_6500c80b",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-10T04:01:40Z",
+      "side": 1,
+      "message": "Since when oldCleanup is guarded with a nil check, I expect it happens the same with f, too. Also see my example in issue:\n\n```\nfunc BenchmarkNewEmptyMap(b *testing.B) {\n        b.ReportAllocs()\n        b.Cleanup(func() { b.Log(\"Start logginng\") })\n        for i :\u003d 0; i \u003c b.N; i++ {\n                _ \u003d make(map[int]int)\n                if i \u003d\u003d 1000 {\n                        b.Cleanup(nil)\n                }\n        }\n}\n```\n\nIt\u0027s useful in case we run for some iterations, we want to disable Cleanup.",
+      "parentUuid": "5a46b955_aa327ca5",
+      "revId": "758e284d7f93082e48d29b1bf8612d19ddea5f6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
