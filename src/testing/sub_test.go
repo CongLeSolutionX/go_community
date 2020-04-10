@@ -638,6 +638,14 @@ func TestBRun(t *T) {
 			}
 		},
 	}, {
+		desc: "cleanup is called with nil func",
+		f: func(b *B) {
+			b.Run("", func(b *B) {
+				b.Cleanup(nil)
+				work(b)
+			})
+		},
+	}, {
 		desc:   "cleanup is called on failure",
 		failed: true,
 		f: func(b *B) {

@@ -793,7 +793,9 @@ func (c *common) Cleanup(f func()) {
 		if oldCleanup != nil {
 			defer oldCleanup()
 		}
-		f()
+		if f != nil {
+			f()
+		}
 	}
 }
 
