@@ -6,9 +6,11 @@ package httptest
 
 import (
 	"bufio"
+	"context"
 	"io"
 	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"testing"
 )
@@ -288,6 +290,57 @@ func TestTLSServerWithHTTP2(t *testing.T) {
 			}
 			if g, w := res.Header.Get("X-Proto"), tt.wantProto; g != w {
 				t.Fatalf("X-Proto header mismatch:\n\tgot:  %q\n\twant: %q", g, w)
+			}
+		})
+	}
+}
+
+// TestCloseBlocksUntilRequestsCompleted attempts to reproduce the race reported
+// in https://golang.org/issue/38370: (*Server).Close was not correctly waiting
+// for the request handler to return for HTTP/2 requests.
+func TestCloseBlocksUntilRequestsCompleted(t *testing.T) {
+	t.Parallel()
+
+	modes := []string{
+		"http1",
+		"http2",
+	}
+
+	for _, mode := range modes {
+		mode := mode
+		t.Run(mode, func(t *testing.T) {
+			t.Parallel()
+
+			ctx, cancel := context.WithCancel(context.Background())
+			closed := false
+
+			cst := NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				cancel()
+
+				io.Copy(w, r.Body)
+
+				<-r.Context().Done()
+				if closed {
+					panic("Close did not wait for handler to return")
+				}
+			}))
+
+			switch mode {
+			case "http1":
+				cst.Start()
+			case "http2":
+				cst.EnableHTTP2 = true
+				cst.StartTLS()
+			}
+			defer func() {
+				cst.Close()
+				closed = true
+			}()
+
+			req, _ := http.NewRequestWithContext(ctx, "POST", cst.URL, strings.NewReader("Hello, server!"))
+			resp, err := cst.Client().Do(req)
+			if err == nil {
+				resp.Body.Close()
 			}
 		})
 	}
