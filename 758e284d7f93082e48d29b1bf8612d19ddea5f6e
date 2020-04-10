@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a46b955_aa327ca5",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-10T03:54:56Z",
+      "side": 1,
+      "message": "Alternately, perhaps we should panic here (before acquiring c.mu) if f is nil.\n\n(The Cleanup function documentation doesn\u0027t say anything about nil arguments, and absent more specific documentation callers generally should not expect to be able to pass nil functions as callbacks.)",
+      "revId": "758e284d7f93082e48d29b1bf8612d19ddea5f6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
