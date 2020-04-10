@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d3969512_1100d6b7",
+        "filename": "src/go/go2go/rewrite.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-10T19:28:49Z",
+      "side": 1,
+      "message": "Thanks for the test case.  This will be fixed in the next update.",
+      "parentUuid": "7c729f70_c1df0335",
+      "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abd4c7bb_751ce7f6",
         "filename": "src/go/types/NOTES",
         "patchSetId": 15
