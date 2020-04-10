@@ -69,6 +69,23 @@
       "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7569b717_133568bc",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 24715
+      },
+      "writtenOn": "2020-04-10T20:22:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is just an implementation oversight or an outstanding design decision that should be discussed on GitHub, but the comparable contract\u0027s behavior doesn\u0027t quite match what I would expect for interfaces.\n\nTake for example:\n\n```\npackage comparable_err\n\nfunc Equals(type T comparable)(a, b T) bool {\n    return a \u003d\u003d b\n}\n```\n\nIf you instantiate this with an interface (e.g. `Equals(error)`), you get an error:\n\n```\n./comparable_err.go2:7:16: error does not satisfy comparable\n```\n\nIn one sense, this is correct because it is possible to create non-comparable errors. However, monomorphic Go 1 code comparing errors compiles just fine (but may panic at runtime), so I would think the most consistent / least surprising thing would be if this compiled.",
+      "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
