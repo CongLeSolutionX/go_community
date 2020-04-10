@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abd4c7bb_751ce7f6",
+        "filename": "src/go/types/NOTES",
+        "patchSetId": 15
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-04-10T08:10:49Z",
+      "side": 1,
+      "message": "After tried the current contract implementation for about a month, I am a little bit wondering what are the destiny for the existing built-in functions. All of them can be implemented in a generic way:\n\n```\nfunc Append(type T)(slice []T, elems ...T) []T {...}\nfunc Copy(type T)(dst, src []T) int {...}\nfunc Delete(type K, V)(m map[K]V, k K) {...}\nfunc Make(type T, I Integer(I))(siz ...I) T {...}\nfunc New(type T)() *T {...}\nfunc Close(type T)(c chan\u003c- T) {...}\nfunc Panic(type T)(v T) {...}\nfunc Recover(type T)() T {...}\nfunc Print(type ...T)(args ...T) {...}\nfunc Println(type ...T)(args ...T) {...}\n```\n\nWill they be gone in Go2? How could Go 2 deal with such a huge impact on the existing Go 1 codebase? These seem to be open questions.\n\nMoreover, these two are a little bit special:\n\n```\nfunc Len(type T C)(t T) int {...}\nfunc Cap(type T C)(t T) int {...}\n```\n\nHow to implement such a contract `C`, such that a type parameter can only be generic slice `[]Ts`, map `map[Tk]Tv`, and channel `chan Tc` where `T Ts Tk Tv Tc` are different?",
+      "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
