@@ -226,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "5ed35442_41af8016",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 21295
+      },
+      "writtenOn": "2020-04-11T23:15:37Z",
+      "side": 1,
+      "message": "I forgot to say that https://github.com/golang/go/issues/23036 has all the context for the problem. \n\nWhen the second condition is removed, the tests for the 23036 fix fails with an index out of range panic.\n\nI didn\u0027t include that in the comment because it\u0027s not actually fixing that problem. Let me know if including a link to that issue would help.",
+      "parentUuid": "d71aa3bd_1fb1b7ea",
+      "range": {
+        "startLine": 211,
+        "startChar": 19,
+        "endLine": 211,
+        "endChar": 41
+      },
+      "revId": "f79bbdd667bd43ae7acae51aa539034677d54925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1b92962_55ca9e53",
         "filename": "src/cmd/internal/test2json/testdata/issue29755.test",
         "patchSetId": 1
