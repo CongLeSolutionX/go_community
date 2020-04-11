@@ -35,23 +35,24 @@
 //
 // Additional help topics:
 //
-// 	buildmode   build modes
-// 	c           calling between Go and C
-// 	cache       build and test caching
-// 	environment environment variables
-// 	filetype    file types
-// 	go.mod      the go.mod file
-// 	gopath      GOPATH environment variable
-// 	gopath-get  legacy GOPATH go get
-// 	goproxy     module proxy protocol
-// 	importpath  import path syntax
-// 	modules     modules, module versions, and more
-// 	module-get  module-aware go get
-// 	module-auth module authentication using go.sum
-// 	module-private module configuration for non-public modules
-// 	packages    package lists and patterns
-// 	testflag    testing flags
-// 	testfunc    testing functions
+// 	buildconstraint build constraints
+// 	buildmode       build modes
+// 	c               calling between Go and C
+// 	cache           build and test caching
+// 	environment     environment variables
+// 	filetype        file types
+// 	go.mod          the go.mod file
+// 	gopath          GOPATH environment variable
+// 	gopath-get      legacy GOPATH go get
+// 	goproxy         module proxy protocol
+// 	importpath      import path syntax
+// 	modules         modules, module versions, and more
+// 	module-get      module-aware go get
+// 	module-auth     module authentication using go.sum
+// 	module-private  module configuration for non-public modules
+// 	packages        package lists and patterns
+// 	testflag        testing flags
+// 	testfunc        testing functions
 //
 // Use "go help <topic>" for more information about that topic.
 //
@@ -1469,6 +1470,55 @@
 // For more about these flags, see 'go help build'.
 //
 // See also: go fmt, go fix.
+//
+//
+// Build constraints
+//
+// Build constraints (also known as build tags) define if file should be part of
+// the package. File can have many build constraints. Single build tag is
+// a line comment like
+//
+// 	// +build linux,386 darwin,!cgo arm
+//
+// File with above build constraint will be part of the package only if
+//
+// 	(linux AND 386) OR (darwin AND !cgo) OR arm
+//
+// evaluates to true. Multiple build constraints are connected with AND, for
+// example,
+//
+// 	// +build linux
+// 	// +build go1.14
+//
+// corresponds to formula:
+//
+// 	linux AND go1.14
+//
+// Build constraints comments can be preceded only by empty lines or line comments.
+// Last build tag must be followed by empty line.
+//
+// Simple build constraints can be specified as a part of file name. If name of
+// the file after stripping extension and optional _test suffix matches:
+//
+// 	*_GOOS
+// 	*_GOARCH
+// 	*_GOOS_GOARCH
+//
+// then it's equivalent to the following implicit build tags:
+//
+// 	// +build GOOS
+// 	// +build GOARCH
+// 	// +build GOOS,GOARCH
+//
+// For example,
+//
+// 	source_windows_amd64.go
+//
+// is equivalent to implicit build constraint:
+//
+// 	// +build windows,amd64
+//
+// See the go/build package documentation for more details.
 //
 //
 // Build modes
