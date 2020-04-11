@@ -104,6 +104,24 @@
       "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70550c28_0350fc9b",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-11T00:45:30Z",
+      "side": 1,
+      "message": "Turns out this was just an oversight. Interfaces should be comparable. This will be fixed the next time I refresh this CL. Thanks for finding the issue.",
+      "parentUuid": "3eb1cbc7_3d04a700",
+      "revId": "64065059ea5c43751ac7fd865de8b13c42bc080e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
