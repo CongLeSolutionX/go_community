@@ -305,6 +305,30 @@
       "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b7405c2_b7e833e6",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-11T07:13:21Z",
+      "side": 1,
+      "message": "Not only that.  RISC-V is designed to be a modular ISA, not increamental we are used to.  Theoretically you can combine different ISA modules into a valid configuration.  The RV64G I mentioned is a abbreviation of RV64IMAFD, in which\n- RV64I: base ISA for 64-bit integer instructions\n- M: integer multiplication/division extension\n- A: atomic instructions extension\n- F: single precision floating-point extension\n- D: double precision floating-point extension\n\nIt is a subset of RV[64|32]GC, which are claimed by upstream Linux guys that they only support this.  The support of C extension (two-byte compreessed instructions) in riscv64/Linux golang port is already tracked in github.  I was just wondering how will golang handle more future RISC-V extensions if possible, especially for some promising extesions such as P (SIMD support), V (vector), Q (quad precision), L (decimal), etc.",
+      "parentUuid": "2cd88559_e4cc6a2a",
+      "range": {
+        "startLine": 521,
+        "startChar": 9,
+        "endLine": 521,
+        "endChar": 13
+      },
+      "revId": "5f3e7adaffc15333fc9a86c125f5b51ec8703505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

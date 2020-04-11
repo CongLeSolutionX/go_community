@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d875fdf_b354983b",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-11T07:13:21Z",
+      "side": 1,
+      "message": "You are right.  The comment is not totally correct.\n\nSpadjs are done earlier for functions with frame, so \"case ADDI\" has nothing to do with their generated prologues/epilogues.  But if there is any stack adjustment in the function body, this  \"case ADDI\" can still recording Spadjs for the instructions.  Previously I just assumed there will be no such cases without proofs.\n\nWhat about this?\n// Refine Spadjs for stack pointer adjustment out of generated prologue/epilogue",
+      "parentUuid": "8849052e_be12d853",
+      "range": {
+        "startLine": 749,
+        "startChar": 24,
+        "endLine": 749,
+        "endChar": 45
+      },
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d203044c_36003cdd",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2020-04-09T15:51:14Z",
       "side": 1,
       "message": "Is this essential for programs to work correctly?",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cae690e_8da3fe06",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-11T07:13:21Z",
+      "side": 1,
+      "message": "FCSR controls rounding mode settings and provides read-only exception flags.  Since current riscv64/Linux port is not FCSR-aware, goroutines cannot have rounding modes other than a default one.  Exception flags can be a bigger issue, because goroutine A\u0027s exception flags remain untouched after being asynchronously preempted to goroutine B.  But then again they have no way to read those flags for now, so nothing could really happen.  Please also note that RISC-V FP exceptions don\u0027t trap programs.\n\nSo my answer is that my patch will leave all RISC-V FP computations as is.  If some was wrong because the exception flags were not properly handled, it remains wrong.  If any was right, it is because it didn\u0027t need rounding mode settings and has been causing no FP exceptions, so it will remain right after the async-preempt patch.\n\nAlso, as to Joel\u0027s question \"Is there a reason not to include this now?\", I suggest we leave it for now and revisit this in a floating point enhancement patch set.  We will have to dealing with rounding mode setting/preserving (during any kinds of preemptions), proper excption checking/handling, and maybe even more complicated cases like the interaction with C.  I also plan to add handcrafted matrix multiplications as an async-preempt test, because MM has properties that 1) can run for a long time without any function calls, thus a good async-preempt target, and 2) it can be carfully crafted to be rounding sensitive, so we can run two pairs of goroutine and apply different rounding modes to each pair.",
+      "parentUuid": "d203044c_36003cdd",
       "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a26567b_9ee91f8c",
+        "filename": "src/runtime/signal_riscv64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-11T07:13:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bacca94a_4203b61e",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
