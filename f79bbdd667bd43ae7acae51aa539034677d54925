@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "d71aa3bd_1fb1b7ea",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 21295
+      },
+      "writtenOn": "2020-04-11T22:10:14Z",
+      "side": 1,
+      "message": "Thank you for taking another look at this! I agree this comment was insufficient for explaining the condition.\n\nIt took me a few days, but I have pushed some changes which I hope will make it better.\n\nI started by inverting the comparison (to `\u003c\u003d`), which I think might help clarify. I have also added a much longer comment, which I hope explains both the extra check, and what happens when that extra check evaluates to false.\n\nLooking forward to your response! Thank you again!",
+      "parentUuid": "9f660712_1373e124",
+      "range": {
+        "startLine": 211,
+        "startChar": 19,
+        "endLine": 211,
+        "endChar": 41
+      },
+      "revId": "f79bbdd667bd43ae7acae51aa539034677d54925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1b92962_55ca9e53",
         "filename": "src/cmd/internal/test2json/testdata/issue29755.test",
         "patchSetId": 1
