@@ -762,3 +762,55 @@ GODEBUG=gocachetest=1 causes the go command to print details of its
 decisions about whether to reuse a cached test result.
 `,
 }
+
+var HelpBuildConstraint = &base.Command{
+	UsageLine: "buildconstraint",
+	Short:     "build constraints (build tags)",
+	Long: `
+Build constraints (also known as build tags) define if file should be part of
+the package. File can have many build constraints. Single build tag is
+a line comment like
+
+	// +build linux,386 darwin,!cgo arm
+
+File with above build constraint will be part of the package only if
+
+	(linux AND 386) OR (darwin AND !cgo) OR arm
+
+evaluates to true. Multiple build constraints are connected with AND, for
+example,
+
+	// +build linux
+	// +build go1.14
+
+corresponds to formula:
+
+	linux AND go1.14
+
+Build constraints comments can be preceded only by empty lines or line comments.
+Last build tag must be followed by empty line.
+
+Simple build constraints can be specified as a part of file name. If name of
+the file after stripping extension and optional _test suffix matches:
+
+	*_GOOS
+	*_GOARCH
+	*_GOOS_GOARCH
+
+then it's equivalent to the following implicit build tags:
+
+	// +build GOOS
+	// +build GOARCH
+	// +build GOOS,GOARCH
+
+For example,
+
+	source_windows_amd64.go
+
+is equivalent to implicit build constraint:
+
+	// +build windows,amd64
+
+See the go/build package documentation for more details.
+`,
+}
