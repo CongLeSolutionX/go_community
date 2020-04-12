@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b723fd17_4f50f8b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T03:48:23Z",
+      "side": 1,
+      "message": "In the commit message, let\u0027s also document that we accept format:\n\n   N+Ni",
+      "parentUuid": "f569ecb0_3f1be34a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4a8c629_553f80fc",
         "filename": "src/strconv/atoc.go",
         "patchSetId": 8
@@ -180,6 +204,30 @@
     },
     {
       "key": {
+        "uuid": "01cc84fa_e1464d4d",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T03:48:23Z",
+      "side": 1,
+      "message": "Acknowledged from comment that we shall only be accepting: N+Ni format.",
+      "parentUuid": "8c6ed014_4d8f09f2",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 2
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37603ee8_23bf8431",
         "filename": "src/strconv/atoc.go",
         "patchSetId": 8
@@ -297,6 +345,30 @@
       "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8d35a02_2d20e758",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T03:48:23Z",
+      "side": 1,
+      "message": "Acknowledged from comment that we shall only be accepting: N+Ni format.",
+      "parentUuid": "92c889ff_b12c75a3",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 109,
+        "endChar": 3
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
