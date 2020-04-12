@@ -1,0 +1,554 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f569ecb0_3f1be34a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "strconv: add FormatComplex and ParseComplex\n\nAdds two functions to deal with complex numbers:\n* FormatComplex\n* ParseComplex\n\nFixes #36771.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4a8c629_553f80fc",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4845c0d8_699f0fa9",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Newline here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 82,
+        "endLine": 36,
+        "endChar": 84
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734c41e3_7ee4ae3b",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "IEEE 754",
+      "range": {
+        "startLine": 42,
+        "startChar": 9,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d647a894_f4f00a92",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04e0d430_8340ae53",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please use s throughout for coherence:\t\n\tif len(s) \u003d\u003d 0 {\n\t\treturn 0, syntaxError(fnParseComplex, s)\n\t}\n\n        orig :\u003d s",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 2
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e98566_47fc7cba",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "How come we are using a string here and not just a rune?\nPlease make it:\n      endCh :\u003d s[len(s)-1]",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 33
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c6ed014_4d8f09f2",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Am not sure that\u0027s a correct assumption, a user could pass in:\n     3i + 10\n     -10.9i - 56\n\nand unfortunately this wouldn\u0027t pass.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 2
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37603ee8_23bf8431",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Let\u0027s give this variable a more descriptive name, perhaps:\n     var signPos []int",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 15
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cac3180d_aa252aca",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c1be834_26ac26d1",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "for i, ch :\u003d range s {\n\t\tif ch \u003d\u003d \u0027+\u0027 || ch \u003d\u003d \u0027-\u0027 {\n\t\t\tsignPos \u003d append(signPos, i)\n\t\t}\n\t}",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 2
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f94644af_e1c1e23e",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12373d4c_a0231bd3",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92c889ff_b12c75a3",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Am not sure this is true either. The user could pass in:\n   10\n   59i",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 109,
+        "endChar": 3
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948deb63_f5f02812",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Let\u0027s break this comment in to 90 character long lines. and consistently use //",
+      "range": {
+        "startLine": 114,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 51
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d32e6735_2bf3025c",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "for i :\u003d 0; i \u003c len(signPos); i++ {",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 32
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a491755_a9c54a92",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Unnecessary newline.",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "160c3390_1928b7b6",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d517fd4d_741e7b4b",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "We can move this into the table test internally.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41ac0176_5ba0dc58",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73b7a6bf_18358b0d",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "tests :\u003d []struct{\n              str string\n              want complex128\n              wantErr error\n        }{",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 18
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33302913_4271f48e",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Let\u0027s use sub-tests:\n\n\tfor i, tt :\u003d range tests {\n                t :\u003d t\n                t.Run(tt.str, func(t *testing.T) {\n\t\t        got, err :\u003d ParseComplex(tt.str, 128)\n                        if g, w :\u003d err, tt.wantErr; g !\u003d w {\n                                t.Fatalf(\"Error mismatch\\nGot:  %v\\nWant: %v\", g, w)\n                        }\n                        if got !\u003d tt.want {\n                                t.Fatalf(\"Result mismatch\\nGot:  %v\\nWant: %v\", g, w)\n                        }\n                }) \n\t}",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 2
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84b303f_e1750d12",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please remove this newline and the others :)",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b962fbf_4fa4655e",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3602883_c0d452bf",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c5d7ee2_1c0b0700",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-12T02:14:19Z",
+      "side": 1,
+      "message": "Please add a comment as why you are doing this.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 2
+      },
+      "revId": "c0f3f1d6ad0e7715f657f5fc0bcf5b449abaeda0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
