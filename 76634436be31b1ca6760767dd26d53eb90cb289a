@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18503ada_fe627f5d",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-04-12T18:02:06Z",
+      "side": 1,
+      "message": "This needs to be (or equivalent):\n\n```\n       p(\"MOV %d(X2), X1\", l.stack)\n       p(\"MOV (X2), X31\")\n       p(\"ADD $%d, X2\", l.stack+8)\n       p(\"JMP (X31)\")\n```\n\nWith this change Go builds successfully (still waiting for tests to complete).",
+      "range": {
+        "startLine": 529,
+        "startChar": 0,
+        "endLine": 533,
+        "endChar": 16
+      },
+      "revId": "76634436be31b1ca6760767dd26d53eb90cb289a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
