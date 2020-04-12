@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "69e10af4_26d90c18",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-04-12T16:25:52Z",
+      "side": 1,
+      "message": "Add a blank line above this one (for consistency with the rest of the cases in the switch statement).",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8849052e_be12d853",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
@@ -49,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "4f78dd54_4545eac5",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-04-12T16:25:52Z",
+      "side": 1,
+      "message": "Perhaps something like:\n\n// Update Spadj to account for adjustment via ADDI instruction.\n\nOtherwise the comment could just be omitted - most other architectures do not have comments and the intent is fairly obvious.",
+      "parentUuid": "8d875fdf_b354983b",
+      "range": {
+        "startLine": 749,
+        "startChar": 24,
+        "endLine": 749,
+        "endChar": 45
+      },
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d203044c_36003cdd",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 2
@@ -78,6 +119,24 @@
       "side": 1,
       "message": "FCSR controls rounding mode settings and provides read-only exception flags.  Since current riscv64/Linux port is not FCSR-aware, goroutines cannot have rounding modes other than a default one.  Exception flags can be a bigger issue, because goroutine A\u0027s exception flags remain untouched after being asynchronously preempted to goroutine B.  But then again they have no way to read those flags for now, so nothing could really happen.  Please also note that RISC-V FP exceptions don\u0027t trap programs.\n\nSo my answer is that my patch will leave all RISC-V FP computations as is.  If some was wrong because the exception flags were not properly handled, it remains wrong.  If any was right, it is because it didn\u0027t need rounding mode settings and has been causing no FP exceptions, so it will remain right after the async-preempt patch.\n\nAlso, as to Joel\u0027s question \"Is there a reason not to include this now?\", I suggest we leave it for now and revisit this in a floating point enhancement patch set.  We will have to dealing with rounding mode setting/preserving (during any kinds of preemptions), proper excption checking/handling, and maybe even more complicated cases like the interaction with C.  I also plan to add handcrafted matrix multiplications as an async-preempt test, because MM has properties that 1) can run for a long time without any function calls, thus a good async-preempt target, and 2) it can be carfully crafted to be rounding sensitive, so we can run two pairs of goroutine and apply different rounding modes to each pair.",
       "parentUuid": "d203044c_36003cdd",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e36f082c_51694509",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-04-12T16:25:52Z",
+      "side": 1,
+      "message": "I\u0027ve just double checked and I do not believe we need this for current Go programs to work correctly - as already noted, Go does not currently use dynamic rounding mode (rounding mode is encoded in instructions directly) and nothing in Go currently reads the accrued exception flags.",
+      "parentUuid": "8cae690e_8da3fe06",
       "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
