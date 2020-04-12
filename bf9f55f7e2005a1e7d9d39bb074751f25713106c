@@ -176,6 +176,30 @@
       "revId": "bf9f55f7e2005a1e7d9d39bb074751f25713106c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09975754_a4d49378",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-12T20:08:53Z",
+      "side": 1,
+      "message": "This is reachable, I tried with my patch in local, and it passes toolstash-check. \"special return\" here just means empty return statement in named results function.\n\nI guess we can safely remove it, since when ascompatee does not generate `x \u003d x` when returns.\n\nAlso, I tried with go1.7, and the test still passes without the if block. I can\u0027t try earlier version, go1.6 can not build in my MacOS 10.15.3. Looking at git history, the code is existed when Go is still written in C.",
+      "parentUuid": "fa9a6d4f_1b3b9aa3",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 320,
+        "endChar": 42
+      },
+      "revId": "bf9f55f7e2005a1e7d9d39bb074751f25713106c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
