@@ -16,6 +16,24 @@
       "revId": "27166a7061bc2f0bf684b46d1d1cc7701fea96ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd9bc66_98629723",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-13T21:38:25Z",
+      "side": 1,
+      "message": "Done. Changed to \"rewriting\" below. Kept the pass name here so we can tell which pass (opt, lower, etc.) we\u0027re looking at.",
+      "parentUuid": "3c391934_fc6a05da",
+      "revId": "27166a7061bc2f0bf684b46d1d1cc7701fea96ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
