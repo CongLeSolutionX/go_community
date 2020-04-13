@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cccd5a_84c4bc2e",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-13T17:19:31Z",
+      "side": 1,
+      "message": "These two columns should be aligned. Add padding to the template in internal/help/help.go.",
+      "revId": "38277be729d57c3b2beacc11576b1ff4ff59917c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bb75b88_8da23b41",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-13T17:19:31Z",
+      "side": 1,
+      "message": "Let\u0027s leave \"build tags\" out of the short description.",
+      "revId": "38277be729d57c3b2beacc11576b1ff4ff59917c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "911f5f50_97e98eff",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-13T17:19:31Z",
+      "side": 1,
+      "message": "There are a few grammatical errors here, but I think it would be better to just start with the text in https://pkg.go.dev/go/build?tab\u003ddoc#hdr-Build_Constraints. That text is already pretty concise. I don\u0027t think there\u0027s actually much that can be removed.",
+      "revId": "38277be729d57c3b2beacc11576b1ff4ff59917c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f880c0f9_f84a8463",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-13T17:19:31Z",
+      "side": 1,
+      "message": "There should be something that explains what words are true for a given build. From this text, it\u0027s not clear what go1.14 means or when it would be true.",
+      "range": {
+        "startLine": 784,
+        "startChar": 11,
+        "endLine": 784,
+        "endChar": 17
+      },
+      "revId": "38277be729d57c3b2beacc11576b1ff4ff59917c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
