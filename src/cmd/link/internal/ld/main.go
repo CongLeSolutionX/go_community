@@ -331,8 +331,6 @@ func Main(arch *sys.Arch, theArch Arch) {
 		thearch.Asmb(ctxt)
 		bench.Start("reloc")
 		ctxt.reloc()
-		bench.Start("Munmap")
-		ctxt.Out.Munmap()
 	} else {
 		// If we don't mmap, we need to apply relocations before
 		// writing out.
@@ -343,6 +341,11 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 	bench.Start("Asmb2")
 	thearch.Asmb2(ctxt)
+
+	if outputMmapped {
+		bench.Start("Munmap")
+		ctxt.Out.Munmap()
+	}
 
 	bench.Start("undef")
 	ctxt.undef()
