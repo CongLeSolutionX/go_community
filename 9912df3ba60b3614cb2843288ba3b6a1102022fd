@@ -16,6 +16,74 @@
       "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc4956c8_c47597e4",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-13T21:17:43Z",
+      "side": 1,
+      "message": "This paragraph is no longer accurate.",
+      "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8621452_556e4e66",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-13T21:17:43Z",
+      "side": 1,
+      "message": "This comment should explain exactly what kinds of types are permitted here.  Can this be anything at all?",
+      "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8bdbc2d_8d27e34a",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-13T21:17:43Z",
+      "side": 1,
+      "message": "This function needs a comment.",
+      "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cea32ef_a844b81d",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-13T21:17:43Z",
+      "side": 1,
+      "message": "This function needs a comment.\n\nAs I think you allude to elsewhere, it\u0027s not immediately clear to me why we need both this and cgoCheckPointerContent.  I guess this function is slightly different when it gets a pointer to a slice type.  Is the issue that cgo doesn\u0027t know whether it is looking at an array or a slice, so we need to differentiate them here?",
+      "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
