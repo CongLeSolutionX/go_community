@@ -58,15 +58,18 @@ func TestEmbeddedTZData(t *testing.T) {
 	}
 }
 
-// equal is a small version of reflect.DeepEqual that we use to
-// compare the values of zoneinfo unexported fields.
+// equal is a variant of reflect.DeepEqual that we use to compare the values
+// of zoneinfo unexported fields.
 func equal(t *testing.T, f1, f2 reflect.Value) bool {
 	switch f1.Type().Kind() {
 	case reflect.Slice:
-		if f1.Len() != f2.Len() {
-			return false
+		// We permit extra elements at the end of a slice.
+		// This lets us ignore additions to the zone list.
+		ln := f1.Len()
+		if ln > f2.Len() {
+			ln = f2.Len()
 		}
-		for i := 0; i < f1.Len(); i++ {
+		for i := 0; i < ln; i++ {
 			if !equal(t, f1.Index(i), f2.Index(i)) {
 				return false
 			}
