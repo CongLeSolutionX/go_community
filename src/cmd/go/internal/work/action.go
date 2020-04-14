@@ -50,7 +50,7 @@ type Builder struct {
 	scriptDir string // current directory in printed script
 
 	exec      sync.Mutex
-	readySema chan bool
+	readySema chan struct{}
 	ready     actionQueue
 
 	id           sync.Mutex

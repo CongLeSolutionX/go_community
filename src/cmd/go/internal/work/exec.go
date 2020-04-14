@@ -94,7 +94,7 @@ func (b *Builder) Do(root *Action) {
 	}
 	writeActionGraph()
 
-	b.readySema = make(chan bool, len(all))
+	b.readySema = make(chan struct{}, len(all))
 
 	// Initialize per-action execution state.
 	for _, a := range all {
@@ -104,7 +104,7 @@ func (b *Builder) Do(root *Action) {
 		a.pending = len(a.Deps)
 		if a.pending == 0 {
 			b.ready.push(a)
-			b.readySema <- true
+			b.readySema <- struct{}{}
 		}
 	}
 
@@ -142,7 +142,7 @@ func (b *Builder) Do(root *Action) {
 			}
 			if a0.pending--; a0.pending == 0 {
 				b.ready.push(a0)
-				b.readySema <- true
+				b.readySema <- struct{}{}
 			}
 		}
 
