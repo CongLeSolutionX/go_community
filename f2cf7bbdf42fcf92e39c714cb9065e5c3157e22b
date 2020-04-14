@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59d08d4b_5f6b8e3d",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-14T15:32:56Z",
+      "side": 1,
+      "message": "I think we should aim for a shorter pseudo-command, since we\u0027re asking folks to type this on the command line. How about just “constraints”?\n\n(The only other constraint-like concept that we have is “module requirements”, and it seems like “go help require” would be a better fit for that anyway.)",
+      "revId": "f2cf7bbdf42fcf92e39c714cb9065e5c3157e22b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

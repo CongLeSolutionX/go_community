@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "cef11f5a_e879ba2b",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-14T15:32:56Z",
+      "side": 1,
+      "message": "I think we should aim for no more than a reasonable screenful, with a link to https://golang.org/pkg/go/build/#hdr-Build_Constraints at the end.\n\nPerhaps:\n\nA build constraint is a line comment that begins\n\n// +build\n\nthat lists the conditions under which the containing file\nshould be included in the package.\n\nOnly blank lines and other line comments may appear before\nthe build constraint comment(s), and the build constraint\ncomment(s) must be followed by a blank line.\n\nA build constraint is evaluated as the OR of space-separated options.\nEach option evaluates as the AND of its comma-separated terms.\nEach term consists of letters, digits, underscores, and dots.\n\nDuring a particular build, the following terms are satisfied:\n\n- the target operating system and architecture,\n  as spelled by runtime.GOOS and runtime.GOARCH respectively\n\n- the compiler being used, either \"gc\" or \"gccgo\"\n\n- \"cgo\", if the cgo command is supported\n  (see CGO_ENABLED in \u0027go help environment\u0027)\n\n- a term for each Go major release, through the current version:\n  \"go1.1\" from Go version 1.1 onward,\n  \"go1.2\" from Go version 1.2 onward, and so on\n\n- and any additional tags given by the \u0027-tags\u0027 flag\n  (see \u0027go help build\u0027).\n\nSee https://golang.org/pkg/go/build/#hdr-Build_Constraints\nfor more detail.",
+      "parentUuid": "dc386008_8359a326",
+      "revId": "38277be729d57c3b2beacc11576b1ff4ff59917c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f880c0f9_f84a8463",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
