@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "ef483648_4fae8900",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-14T19:24:15Z",
+      "side": 1,
+      "message": "Hmm, if we want to include the implicit filename constraints, we should probably mention those on par with the constraint comments. Otherwise it\u0027s too easy to miss the separate topic.\n\nMaybe:\n\nBuild constraints describe the conditions under which each\nsource file should be included in the corresponding package.\nBuild constraints for a given source file may be added by\nbuild constraint comments within the file, or by specific\npatterns in the file\u0027s name.\n\nA build constraint comment begins\n\n// +build\n\nand follows with a space-separate list of options on the same line.\nThe constraint is evaluated as the OR of the options.\nEach option …\n\n…\n\n- and any additional tags given by the \u0027-tags\u0027 flag\n  (see \u0027go help build\u0027).\n\nAn additional build constraint may be derived from the source file name.\nIf a file\u0027s name, after stripping the extension and a possible _test suffix,\nmatches the patterns *_GOOS, *_GOARCH, or *_GOOS_GOARCH for any known\nGOOS or GOARCH value, then the file is implicitly constrained to that\nspecific GOOS and/or GOARCH, in addition to any other build constraints\ndeclared as comments within the file.\n\nSee https://golang.org/pkg/go/build/#hdr-Build_Constraints\nfor detail and examples.",
+      "parentUuid": "059e1edf_a6b20891",
+      "revId": "38277be729d57c3b2beacc11576b1ff4ff59917c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f880c0f9_f84a8463",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1

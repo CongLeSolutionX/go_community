@@ -106,6 +106,24 @@
       "revId": "f2cf7bbdf42fcf92e39c714cb9065e5c3157e22b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324c88f4_66954d5d",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-14T19:24:15Z",
+      "side": 1,
+      "message": "It\u0027s not my first preference, but I\u0027m ok with sticking with \"buildconstraint\".",
+      "parentUuid": "1d5da2c2_a219cb13",
+      "revId": "f2cf7bbdf42fcf92e39c714cb9065e5c3157e22b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
