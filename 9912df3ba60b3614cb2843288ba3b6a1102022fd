@@ -102,6 +102,24 @@
       "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33c5d62f_9581c529",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-04-14T14:41:01Z",
+      "side": 1,
+      "message": "I decided to test and use cgoCheckPointerContent instead and it fails. The reason is that when a pointer to a slice is passed then it figures that the slice contains a Go pointer.\n\nExample testcase that would fail: https://github.com/golang/go/blob/b234fdb5cd13ae43bda389e4eb3ce7cee3cfc420/misc/cgo/test/test.go#L2157\n\nThe option here would be to use in cgoCheckPointerContent:\n\n\tcgoCheckArg(pt.elem, p, true, pt.elem.kind\u0026kindMask \u003d\u003d kindSlice, cgoCheckPointerFail)\n\nHowever, I think that wouldn\u0027t check correctly when somebody passes a pointer to a slice into C. But, that seems like a bad idea in the first place.",
+      "parentUuid": "6f987609_e224a154",
+      "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
