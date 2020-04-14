@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "7114a95f_df2018f6",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-04-14T15:59:29Z",
+      "side": 1,
+      "message": "Maybe we should add at least one example after:\n\n\"A build constraint is evaluated as the OR of space-separated options.\nEach option evaluates as the AND of its comma-separated terms.\nEach term consists of letters, digits, underscores, and dots.\"\n\nlike\n\n\"\nFor example, the build constraint:\n\n\t// +build linux,386 darwin,!cgo arm\n\ncorresponds to boolean formula:\n\n\t(linux AND 386) OR (darwin AND !cgo) OR arm\n\"\n?",
+      "parentUuid": "cef11f5a_e879ba2b",
+      "revId": "38277be729d57c3b2beacc11576b1ff4ff59917c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f880c0f9_f84a8463",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
