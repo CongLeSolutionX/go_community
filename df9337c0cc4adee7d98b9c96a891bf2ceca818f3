@@ -16,6 +16,24 @@
       "revId": "df9337c0cc4adee7d98b9c96a891bf2ceca818f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6906200_051ddae5",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-14T17:08:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b180dd90_63d4f508",
+      "revId": "df9337c0cc4adee7d98b9c96a891bf2ceca818f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
