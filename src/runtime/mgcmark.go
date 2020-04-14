@@ -673,8 +673,7 @@ func gcFlushBgCredit(scanWork int64) {
 
 // scanstack scans gp's stack, greying all pointers found on the stack.
 //
-// scanstack will also shrink the stack if it is safe to do so. If it
-// is not, it schedules a stack shrink for the next synchronous safe
+// scanstack will schedules a stack shrink for the next synchronous safe
 // point.
 //
 // scanstack is marked go:systemstack because it must not be preempted
@@ -705,11 +704,8 @@ func scanstack(gp *g, gcw *gcWork) {
 		throw("can't scan our own stack")
 	}
 
-	if isShrinkStackSafe(gp) {
-		// Shrink the stack if not much of it is being used.
-		shrinkstack(gp)
-	} else {
-		// Otherwise, shrink the stack at the next sync safe point.
+	if !isShrinkStackSafe(gp) && !gp.preemptShrink {
+		// shrink the stack at the next sync safe point.
 		gp.preemptShrink = true
 	}
 
