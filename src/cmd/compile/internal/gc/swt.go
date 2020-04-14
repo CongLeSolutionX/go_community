@@ -581,7 +581,7 @@ func walkTypeSwitch(sw *Node) {
 			val := s.facename
 			if singleType != nil {
 				// We have a single concrete type. Extract the data.
-				val = ifaceData(s.facename, singleType)
+				val = ifaceData(ncase.Pos, s.facename, singleType)
 			}
 			l := []*Node{
 				nodl(ncase.Pos, ODCL, caseVar, nil),
