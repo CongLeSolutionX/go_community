@@ -52,6 +52,24 @@
       "revId": "f2cf7bbdf42fcf92e39c714cb9065e5c3157e22b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f9e09bd_e288127b",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-14T16:13:54Z",
+      "side": 1,
+      "message": "Or perhaps just `tags`, to parallel the `-tags` flag?\n\nBut tags and constraints are semantically somewhat different, so I\u0027d rather we avoid exacerbating that confusion here.\n(The tags are the values for the terminal symbols; the constraints are boolean predicates over those symbols.)",
+      "parentUuid": "98f65855_90cf9b21",
+      "revId": "f2cf7bbdf42fcf92e39c714cb9065e5c3157e22b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
