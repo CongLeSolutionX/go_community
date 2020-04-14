@@ -371,10 +371,6 @@ func rewriteValue386(v *Value) bool {
 		return rewriteValue386_OpEqB(v)
 	case OpEqPtr:
 		return rewriteValue386_OpEqPtr(v)
-	case OpGeq32F:
-		return rewriteValue386_OpGeq32F(v)
-	case OpGeq64F:
-		return rewriteValue386_OpGeq64F(v)
 	case OpGetCallerPC:
 		v.Op = Op386LoweredGetCallerPC
 		return true
@@ -387,10 +383,6 @@ func rewriteValue386(v *Value) bool {
 	case OpGetG:
 		v.Op = Op386LoweredGetG
 		return true
-	case OpGreater32F:
-		return rewriteValue386_OpGreater32F(v)
-	case OpGreater64F:
-		return rewriteValue386_OpGreater64F(v)
 	case OpHmul32:
 		v.Op = Op386HMULL
 		return true
@@ -8871,70 +8863,6 @@ func rewriteValue386_OpEqPtr(v *Value) bool {
 		return true
 	}
 }
-func rewriteValue386_OpGeq32F(v *Value) bool {
-	v_1 := v.Args[1]
-	v_0 := v.Args[0]
-	b := v.Block
-	// match: (Geq32F x y)
-	// result: (SETGEF (UCOMISS x y))
-	for {
-		x := v_0
-		y := v_1
-		v.reset(Op386SETGEF)
-		v0 := b.NewValue0(v.Pos, Op386UCOMISS, types.TypeFlags)
-		v0.AddArg2(x, y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGeq64F(v *Value) bool {
-	v_1 := v.Args[1]
-	v_0 := v.Args[0]
-	b := v.Block
-	// match: (Geq64F x y)
-	// result: (SETGEF (UCOMISD x y))
-	for {
-		x := v_0
-		y := v_1
-		v.reset(Op386SETGEF)
-		v0 := b.NewValue0(v.Pos, Op386UCOMISD, types.TypeFlags)
-		v0.AddArg2(x, y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGreater32F(v *Value) bool {
-	v_1 := v.Args[1]
-	v_0 := v.Args[0]
-	b := v.Block
-	// match: (Greater32F x y)
-	// result: (SETGF (UCOMISS x y))
-	for {
-		x := v_0
-		y := v_1
-		v.reset(Op386SETGF)
-		v0 := b.NewValue0(v.Pos, Op386UCOMISS, types.TypeFlags)
-		v0.AddArg2(x, y)
-		v.AddArg(v0)
-		return true
-	}
-}
-func rewriteValue386_OpGreater64F(v *Value) bool {
-	v_1 := v.Args[1]
-	v_0 := v.Args[0]
-	b := v.Block
-	// match: (Greater64F x y)
-	// result: (SETGF (UCOMISD x y))
-	for {
-		x := v_0
-		y := v_1
-		v.reset(Op386SETGF)
-		v0 := b.NewValue0(v.Pos, Op386UCOMISD, types.TypeFlags)
-		v0.AddArg2(x, y)
-		v.AddArg(v0)
-		return true
-	}
-}
 func rewriteValue386_OpIsInBounds(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
@@ -10046,14 +9974,14 @@ func rewriteValue386_OpMove(v *Value) bool {
 		return true
 	}
 	// match: (Move [s] dst src mem)
-	// cond: s > 8 && s <= 4*128 && s%4 == 0 && !config.noDuffDevice
+	// cond: s > 8 && s <= 4*128 && s%4 == 0 && !config.noDuffDevice && logLargeCopy(v, s)
 	// result: (DUFFCOPY [10*(128-s/4)] dst src mem)
 	for {
 		s := v.AuxInt
 		dst := v_0
 		src := v_1
 		mem := v_2
-		if !(s > 8 && s <= 4*128 && s%4 == 0 && !config.noDuffDevice) {
+		if !(s > 8 && s <= 4*128 && s%4 == 0 && !config.noDuffDevice && logLargeCopy(v, s)) {
 			break
 		}
 		v.reset(Op386DUFFCOPY)
@@ -10062,14 +9990,14 @@ func rewriteValue386_OpMove(v *Value) bool {
 		return true
 	}
 	// match: (Move [s] dst src mem)
-	// cond: (s > 4*128 || config.noDuffDevice) && s%4 == 0
+	// cond: (s > 4*128 || config.noDuffDevice) && s%4 == 0 && logLargeCopy(v, s)
 	// result: (REPMOVSL dst src (MOVLconst [s/4]) mem)
 	for {
 		s := v.AuxInt
 		dst := v_0
 		src := v_1
 		mem := v_2
-		if !((s > 4*128 || config.noDuffDevice) && s%4 == 0) {
+		if !((s > 4*128 || config.noDuffDevice) && s%4 == 0 && logLargeCopy(v, s)) {
 			break
 		}
 		v.reset(Op386REPMOVSL)
