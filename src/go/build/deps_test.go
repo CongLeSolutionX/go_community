@@ -129,6 +129,9 @@ var depsRules = `
 	MATH
 	< math/rand;
 
+	MATH
+	< runtime/metrics;
+
 	MATH, unicode/utf8
 	< strconv;
 
