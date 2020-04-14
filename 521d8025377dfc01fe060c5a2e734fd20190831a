@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a81d2c8a_01621a91",
+        "filename": "doc/asm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-14T18:56:26Z",
+      "side": 1,
+      "message": "ggloblsym and LSym are implementation details of the compiler, not for general users. We should drop the implementation details.",
+      "revId": "521d8025377dfc01fe060c5a2e734fd20190831a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "def72a0d_b8c5f9ad",
+        "filename": "doc/asm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-14T18:56:26Z",
+      "side": 1,
+      "message": "Do not insert instructions to allocate a stack frame and save/restore the return address, even if this is not a leaf function.",
+      "range": {
+        "startLine": 458,
+        "startChar": 70,
+        "endLine": 458,
+        "endChar": 71
+      },
+      "revId": "521d8025377dfc01fe060c5a2e734fd20190831a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af6e3df_794376c3",
+        "filename": "doc/asm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-14T18:56:26Z",
+      "side": 1,
+      "message": "Let\u0027s leave this out. User shouldn\u0027t set this flag manually.",
+      "revId": "521d8025377dfc01fe060c5a2e734fd20190831a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2789602d_d6c49765",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-14T18:56:26Z",
+      "side": 1,
+      "message": "in the range of [8, 2048]",
+      "range": {
+        "startLine": 52,
+        "startChar": 34,
+        "endLine": 52,
+        "endChar": 56
+      },
+      "revId": "521d8025377dfc01fe060c5a2e734fd20190831a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da438863_796948e8",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-14T18:56:26Z",
+      "side": 1,
+      "message": "I don\u0027t think this is actually accurate. With the function alignment, it is actually aligned globally. And this is also implementation detail. I suggest we leave this out and just mention the effect of PCALIGN to function alignment.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 22
+      },
+      "revId": "521d8025377dfc01fe060c5a2e734fd20190831a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b2d5dd0_b7d36a52",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-14T18:56:26Z",
+      "side": 1,
+      "message": "We typically don\u0027t use this syntax for functions in doc. Maybe \"function Add\".",
+      "range": {
+        "startLine": 65,
+        "startChar": 26,
+        "endLine": 65,
+        "endChar": 31
+      },
+      "revId": "521d8025377dfc01fe060c5a2e734fd20190831a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99d396cd_69e16f4c",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-14T18:56:26Z",
+      "side": 1,
+      "message": "I think this example is confusing. At link time it may still insert padding bytes at the end of previous function. I suggest that we just mention that PCALIGN at function entry will align the function\u0027s address, leaving out the details.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 9
+      },
+      "revId": "521d8025377dfc01fe060c5a2e734fd20190831a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
