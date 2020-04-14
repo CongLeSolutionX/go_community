@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35a68da5_999cdab0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2207,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-14T16:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77d6dbca_c6d2f68e",
+      "range": {
+        "startLine": 2207,
+        "startChar": 55,
+        "endLine": 2207,
+        "endChar": 57
+      },
+      "revId": "b23d56b7b0a834ee62a48ab7176a40c20680e9e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a887e263_9f5cea9f",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-14T16:24:02Z",
       "side": 1,
       "message": "Why do we need them now but not before? Were they created in PropagateLoaderChangesToSymbols in the old code?",
+      "range": {
+        "startLine": 2212,
+        "startChar": 24,
+        "endLine": 2212,
+        "endChar": 71
+      },
+      "revId": "b23d56b7b0a834ee62a48ab7176a40c20680e9e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c020fa_54da68b2",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2212,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-14T16:43:00Z",
+      "side": 1,
+      "message": "Yup, you got it. PropagateLoaderChangesToSymbols doesn\u0027t skip nameless symbols.",
+      "parentUuid": "a887e263_9f5cea9f",
       "range": {
         "startLine": 2212,
         "startChar": 24,
