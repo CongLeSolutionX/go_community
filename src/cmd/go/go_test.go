@@ -61,7 +61,7 @@ func init() {
 		canRun = false
 	case "darwin":
 		switch runtime.GOARCH {
-		case "arm", "arm64":
+		case "arm64":
 			canRun = false
 		}
 	case "linux":
@@ -1954,9 +1954,9 @@ func TestGenerateUsesBuildContext(t *testing.T) {
 	tg.grepStdout("linux amd64", "unexpected GOOS/GOARCH combination")
 
 	tg.setenv("GOOS", "darwin")
-	tg.setenv("GOARCH", "386")
+	tg.setenv("GOARCH", "arm64")
 	tg.run("generate", "gen")
-	tg.grepStdout("darwin 386", "unexpected GOOS/GOARCH combination")
+	tg.grepStdout("darwin arm64", "unexpected GOOS/GOARCH combination")
 }
 
 func TestGoEnv(t *testing.T) {

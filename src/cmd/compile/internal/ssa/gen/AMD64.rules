@@ -194,32 +194,22 @@
 (Rsh16x(64|32|16|8) x y) && shiftIsBounded(v) -> (SARW x y)
 (Rsh8x(64|32|16|8) x y)  && shiftIsBounded(v) -> (SARB x y)
 
-// Lowering comparisons
-(Less(64|32|16|8)  x y) -> (SETL (CMP(Q|L|W|B) x y))
-(Less(64|32|16|8)U x y) -> (SETB (CMP(Q|L|W|B) x y))
-// Use SETGF with reversed operands to dodge NaN case
-(Less(32|64)F x y) -> (SETGF (UCOMIS(S|D) y x))
+// Lowering integer comparisons
+(Less(64|32|16|8)      x y) -> (SETL  (CMP(Q|L|W|B)     x y))
+(Less(64|32|16|8)U     x y) -> (SETB  (CMP(Q|L|W|B)     x y))
+(Leq(64|32|16|8)       x y) -> (SETLE (CMP(Q|L|W|B)     x y))
+(Leq(64|32|16|8)U      x y) -> (SETBE (CMP(Q|L|W|B)     x y))
+(Eq(Ptr|64|32|16|8|B)  x y) -> (SETEQ (CMP(Q|Q|L|W|B|B) x y))
+(Neq(Ptr|64|32|16|8|B) x y) -> (SETNE (CMP(Q|Q|L|W|B|B) x y))
 
-(Leq(64|32|16|8)  x y) -> (SETLE (CMP(Q|L|W|B) x y))
-(Leq(64|32|16|8)U x y) -> (SETBE (CMP(Q|L|W|B) x y))
-// Use SETGEF with reversed operands to dodge NaN case
-(Leq(32|64)F x y) -> (SETGEF (UCOMIS(S|D) y x))
-
+// Lowering floating point comparisons
 // Note Go assembler gets UCOMISx operand order wrong, but it is right here
-// Bug is accommodated at generation of assembly language.
-(Greater(32|64)F x y) -> (SETGF (UCOMIS(S|D) x y))
-
-// Note Go assembler gets UCOMISx operand order wrong, but it is right here
-// Bug is accommodated at generation of assembly language.
-(Geq(32|64)F x y) -> (SETGEF (UCOMIS(S|D) x y))
-
-(Eq(64|32|16|8|B)  x y) -> (SETEQ (CMP(Q|L|W|B|B) x y))
-(EqPtr x y) -> (SETEQ (CMPQ x y))
-(Eq(32|64)F x y) -> (SETEQF (UCOMIS(S|D) x y))
-
-(Neq(64|32|16|8|B)  x y) -> (SETNE (CMP(Q|L|W|B|B) x y))
-(NeqPtr x y) -> (SETNE (CMPQ x y))
-(Neq(32|64)F x y) -> (SETNEF (UCOMIS(S|D) x y))
+// and the operands are reversed when generating assembly language.
+(Eq(32|64)F   x y) -> (SETEQF (UCOMIS(S|D) x y))
+(Neq(32|64)F  x y) -> (SETNEF (UCOMIS(S|D) x y))
+// Use SETGF/SETGEF with reversed operands to dodge NaN case.
+(Less(32|64)F x y) -> (SETGF  (UCOMIS(S|D) y x))
+(Leq(32|64)F  x y) -> (SETGEF (UCOMIS(S|D) y x))
 
 // Lowering loads
 (Load <t> ptr mem) && (is64BitInt(t) || isPtr(t)) -> (MOVQload ptr mem)
@@ -317,7 +307,7 @@
 // Medium copying uses a duff device.
 (Move [s] dst src mem)
 	&& s > 64 && s <= 16*64 && s%16 == 0
-	&& !config.noDuffDevice ->
+	&& !config.noDuffDevice && logLargeCopy(v, s) ->
 	(DUFFCOPY [14*(64-s/16)] dst src mem)
 // 14 and 64 are magic constants.  14 is the number of bytes to encode:
 //	MOVUPS	(SI), X0
@@ -327,7 +317,7 @@
 // and 64 is the number of such blocks. See src/runtime/duff_amd64.s:duffcopy.
 
 // Large copying uses REP MOVSQ.
-(Move [s] dst src mem) && (s > 16*64 || config.noDuffDevice) && s%8 == 0 ->
+(Move [s] dst src mem) && (s > 16*64 || config.noDuffDevice) && s%8 == 0 && logLargeCopy(v, s) ->
 	(REPMOVSQ dst src (MOVQconst [s/8]) mem)
 
 // Lowering Zero instructions
@@ -478,6 +468,8 @@
 (GetClosurePtr ...) -> (LoweredGetClosurePtr ...)
 (GetCallerPC ...) -> (LoweredGetCallerPC ...)
 (GetCallerSP ...) -> (LoweredGetCallerSP ...)
+
+(HasCPUFeature {s}) -> (SETNE (CMPQconst [0] (LoweredHasCPUFeature {s})))
 (Addr ...) -> (LEAQ ...)
 (LocalAddr {sym} base _) -> (LEAQ {sym} base)
 
@@ -2153,11 +2145,14 @@
 (CMP(Q|L|W|B) l:(MOV(Q|L|W|B)load {sym} [off] ptr mem) x) && canMergeLoad(v, l) && clobber(l) -> (CMP(Q|L|W|B)load {sym} [off] ptr x mem)
 (CMP(Q|L|W|B) x l:(MOV(Q|L|W|B)load {sym} [off] ptr mem)) && canMergeLoad(v, l) && clobber(l) -> (InvertFlags (CMP(Q|L|W|B)load {sym} [off] ptr x mem))
 
-(CMP(Q|L|W|B)const l:(MOV(Q|L|W|B)load {sym} [off] ptr mem) [c])
+(CMP(Q|L)const l:(MOV(Q|L)load {sym} [off] ptr mem) [c])
 	&& l.Uses == 1
-	&& validValAndOff(c, off)
-	&& clobber(l) ->
-  @l.Block (CMP(Q|L|W|B)constload {sym} [makeValAndOff(c,off)] ptr mem)
+	&& clobber(l) =>
+@l.Block (CMP(Q|L)constload {sym} [makeValAndOff32(c,off)] ptr mem)
+(CMP(W|B)const l:(MOV(W|B)load {sym} [off] ptr mem) [c])
+	&& l.Uses == 1
+	&& clobber(l) =>
+@l.Block (CMP(W|B)constload {sym} [makeValAndOff32(int32(c),off)] ptr mem)
 
 (CMPQload {sym} [off] ptr (MOVQconst [c]) mem) && validValAndOff(c,off) -> (CMPQconstload {sym} [makeValAndOff(c,off)] ptr mem)
 (CMPLload {sym} [off] ptr (MOVLconst [c]) mem) && validValAndOff(c,off) -> (CMPLconstload {sym} [makeValAndOff(c,off)] ptr mem)
