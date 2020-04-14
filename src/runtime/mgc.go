@@ -213,7 +213,7 @@ func readgogc() int32 {
 // scavenger goroutine, and enables GC.
 func gcenable() {
 	// Kick off sweeping and scavenging.
-	c := make(chan int, 2)
+	c := make(chan struct{}, 2)
 	go bgsweep(c)
 	go bgscavenge(c)
 	<-c

@@ -61,13 +61,13 @@ func finishsweep_m() {
 	nextMarkBitArenaEpoch()
 }
 
-func bgsweep(c chan int) {
+func bgsweep(c chan struct{}) {
 	sweep.g = getg()
 
 	lockInit(&sweep.lock, lockRankSweep)
 	lock(&sweep.lock)
 	sweep.parked = true
-	c <- 1
+	c <- struct{}{}
 	goparkunlock(&sweep.lock, waitReasonGCSweepWait, traceEvGoBlock, 1)
 
 	for {
