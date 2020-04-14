@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e95dc70_f0a22970",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-04-14T17:26:16Z",
+      "side": 1,
+      "message": "std,cmd: update golang.org/x/crypto to v0.0.0-20200414155820-4f8f47aa7992",
+      "revId": "b1be00e9c4593f6d1db5a032dcd22c4470930fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55264be8_c241f6e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-04-14T17:26:16Z",
+      "side": 1,
+      "message": "No need for the golang/go prefix in the go repo.",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 16,
+        "endChar": 15
+      },
+      "revId": "b1be00e9c4593f6d1db5a032dcd22c4470930fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
