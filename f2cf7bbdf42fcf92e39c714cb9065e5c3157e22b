@@ -70,6 +70,24 @@
       "revId": "f2cf7bbdf42fcf92e39c714cb9065e5c3157e22b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dda7abc_c5ed7bb9",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-04-14T16:24:31Z",
+      "side": 1,
+      "message": "Right, let\u0027s stick with constraints then. Options so far are \"constraint(s)\" (in `go help` I see singulars and plurals) or \"buildconstraint\". First is short, latter is consistent with `go help buildmode`. Any strong preference?",
+      "parentUuid": "7f9e09bd_e288127b",
+      "revId": "f2cf7bbdf42fcf92e39c714cb9065e5c3157e22b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
