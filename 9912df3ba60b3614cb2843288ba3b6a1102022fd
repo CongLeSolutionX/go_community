@@ -84,6 +84,24 @@
       "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f987609_e224a154",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-04-14T05:16:13Z",
+      "side": 1,
+      "message": "I guess the main reason I have cgoCheckArray is that it\u0027s mentally easier to make sure that it does the same thing as before.\n\nI\u0027m still not certain that calling cgoCheckPointerContent will do the same thing. All my instincts tells me that is indeed so, however, I haven\u0027t yet been able to prove that to myself.",
+      "parentUuid": "2cea32ef_a844b81d",
+      "revId": "9912df3ba60b3614cb2843288ba3b6a1102022fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
