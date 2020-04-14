@@ -22,6 +22,30 @@
       "revId": "5772df1f0dda00d97f21545aafcc62c15701311b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0f2c7fa_9b871711",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-04-14T20:28:18Z",
+      "side": 1,
+      "message": "I didn\u0027t want to alter its performance in this change.\n\nWith a NewFloat(3) here instead it\u0027s:\n\ndev:big $ benchstat  before after\nname                 old time/op    new time/op    delta\nFloatSqrt/64-8         1.06µs ±10%    1.03µs ± 3%     ~     (p\u003d0.182 n\u003d10+9)\nFloatSqrt/128-8        2.26µs ± 9%    2.22µs ± 2%     ~     (p\u003d0.563 n\u003d10+9)\nFloatSqrt/256-8        2.29µs ± 5%    2.37µs ± 4%   +3.36%  (p\u003d0.013 n\u003d9+10)\nFloatSqrt/1000-8       5.82µs ± 3%    5.98µs ± 9%     ~     (p\u003d0.083 n\u003d9+10)\nFloatSqrt/10000-8      56.4µs ± 5%    56.3µs ± 4%     ~     (p\u003d0.905 n\u003d10+9)\nFloatSqrt/100000-8     1.34ms ± 8%    1.30ms ± 2%     ~     (p\u003d0.146 n\u003d10+8)\nFloatSqrt/1000000-8     106ms ± 5%     105ms ± 2%     ~     (p\u003d0.604 n\u003d10+9)\n\nname                 old alloc/op   new alloc/op   delta\nFloatSqrt/64-8           280B ± 0%      280B ± 0%     ~     (all equal)\nFloatSqrt/128-8          504B ± 0%      504B ± 0%     ~     (all equal)\nFloatSqrt/256-8          344B ± 0%      352B ± 0%   +2.33%  (p\u003d0.000 n\u003d10+10)\nFloatSqrt/1000-8       1.30kB ± 0%    1.31kB ± 0%   +0.61%  (p\u003d0.000 n\u003d10+10)\nFloatSqrt/10000-8      13.5kB ± 0%    13.5kB ± 0%   +0.05%  (p\u003d0.000 n\u003d10+10)\nFloatSqrt/100000-8      123kB ± 0%     123kB ± 0%     ~     (p\u003d0.564 n\u003d10+9)\nFloatSqrt/1000000-8    1.84MB ± 7%    1.84MB ± 3%     ~     (p\u003d0.853 n\u003d10+10)\n\nname                 old allocs/op  new allocs/op  delta\nFloatSqrt/64-8           8.00 ± 0%      8.00 ± 0%     ~     (all equal)\nFloatSqrt/128-8          11.0 ± 0%      11.0 ± 0%     ~     (all equal)\nFloatSqrt/256-8          5.00 ± 0%      6.00 ± 0%  +20.00%  (p\u003d0.000 n\u003d10+10)\nFloatSqrt/1000-8         6.00 ± 0%      7.00 ± 0%  +16.67%  (p\u003d0.000 n\u003d10+10)\nFloatSqrt/10000-8        6.00 ± 0%      7.00 ± 0%  +16.67%  (p\u003d0.000 n\u003d10+10)\nFloatSqrt/100000-8       6.00 ± 0%      7.00 ± 0%  +16.67%  (p\u003d0.000 n\u003d10+10)\nFloatSqrt/1000000-8      10.9 ±10%      11.9 ± 9%   +9.17%  (p\u003d0.017 n\u003d10+10)\n\n\nSure you want that?",
+      "parentUuid": "a6d0dd9f_3efc0bc9",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 15
+      },
+      "revId": "5772df1f0dda00d97f21545aafcc62c15701311b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
