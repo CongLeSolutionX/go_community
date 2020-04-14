@@ -222,7 +222,7 @@ func scavengeSleep(ns int64) int64 {
 // The background scavenger maintains the RSS of the application below
 // the line described by the proportional scavenging statistics in
 // the mheap struct.
-func bgscavenge(c chan int) {
+func bgscavenge(c chan struct{}) {
 	scavenge.g = getg()
 
 	lockInit(&scavenge.lock, lockRankScavenge)
@@ -234,7 +234,7 @@ func bgscavenge(c chan int) {
 		wakeScavenger()
 	}
 
-	c <- 1
+	c <- struct{}{}
 	goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
 
 	// Exponentially-weighted moving average of the fraction of time this
