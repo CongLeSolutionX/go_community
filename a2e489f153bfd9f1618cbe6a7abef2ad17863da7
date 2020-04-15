@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5d2c83ed_fd3bed23",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-15T18:43:27Z",
+      "side": 1,
+      "message": "Apparently, it was necessary to make wasm work. Fixed without readding it.",
+      "parentUuid": "1b067e7f_dcd7ffc2",
+      "revId": "a2e489f153bfd9f1618cbe6a7abef2ad17863da7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cdb64ed_19dadd4d",
         "filename": "src/cmd/link/internal/ld/outbuf.go",
         "patchSetId": 3
