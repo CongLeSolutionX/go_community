@@ -559,6 +559,10 @@ type m struct {
 	// Up to 10 locks held by this m, maintained by the lock ranking code.
 	locksHeldLen int
 	locksHeld    [10]heldLockInfo
+	// We have acquired gscan bit, then an hchan lock (violating normal
+	// ordering). We allow this for the suspendG case, but set this flag to
+	// indicate no other locks should be acquired other than hchan.
+	forceLeaf bool
 }
 
 type p struct {
