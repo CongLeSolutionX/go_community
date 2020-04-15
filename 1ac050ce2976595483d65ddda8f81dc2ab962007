@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "940aa423_2df1bcc1",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-04-15T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e46bbfa3_b7808978",
+      "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6485b1e7_3f5412f6",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a1ec4c39_b4c6c5c0",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-04-15T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6485b1e7_3f5412f6",
+      "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0277272c_d30f96ac",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 5
@@ -50,6 +86,24 @@
       "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "256b1a8e_dca1c7c5",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-04-15T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0277272c_d30f96ac",
+      "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -73,6 +127,30 @@
       "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffaa4fd0_5fb7c057",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-04-15T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2219498b_512fb24a",
+      "range": {
+        "startLine": 793,
+        "startChar": 0,
+        "endLine": 793,
+        "endChar": 1
+      },
+      "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
