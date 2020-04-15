@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f23be0c_e873a7b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Lol!",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf7109d2_4017facc",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Please remove this newline and for all the other spots. The usual style is to keep these pragmas bound to the definition without a newline.",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe77b4d5_caaabc79",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Newline before this, please.",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a9cf8a_948aa900",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "ditto, newline before this.",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d76ce9_eb876400",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Couldn\u0027t we use:\n\n//go:linkname syscall runtime.syscall\nfunc syscall(fn, a1, a2, a3, a4, a5, a6 uintptr) uintptr\n\n//go:linkname funcPC runtime.funcPC\nfunc funcPC(func()) uintptr",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 1
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a70482b_e913572a",
+        "filename": "src/crypto/x509/internal/macOS/security.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Might be useful to add the suffix to the file name, \"security_darwin_amd64.go\"\n\nThat will make it easier to audit and for other readers/maintainers later.",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3a1ec5c_8ffb1f5c",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 7,
+        "startChar": 71,
+        "endLine": 7,
+        "endChar": 73
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3757bae_cd1644a9",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Does this code compile?",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 1
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0802f81a_da5a32e5",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "What happens if all the prior certificates within each trust domain return errors?\nWe\u0027ll return a pool with no certificates and no error either.\nIs that desirable? Should we somehow be keeping track of already seen errors and then\nreturning those one we get to this section and len(trustedRoots) \u003d\u003d 0?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 17
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193219b3_f57b3431",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Minor nit: new line after this.",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a89a5d_39a8b6b7",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-15T02:23:36Z",
+      "side": 1,
+      "message": "Minor nit, let\u0027s ensure that both have non zero lengths, lest a certificate with no\nfields will sneak through this test\n\nfunc isRootCertificate(cert *Certificate) bool {\n\treturn len(cert.RawSubject) !\u003d 0 \u0026\u0026\n               len(cert.RawIssuer) !\u003d 0 \u0026\u0026 \n               bytes.Equal(cert.RawSubject, cert.RawIssuer)\n}\n\nMight seem a little paranoid, but a check for root certificates should be extra paranoid :)",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
