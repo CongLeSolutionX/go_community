@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1b067e7f_dcd7ffc2",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-15T18:31:24Z",
+      "side": 1,
+      "message": "vestigial debugging that I didn\u0027t catch, thanks.\n\nRemoved.",
+      "parentUuid": "292b64c4_db1a2b63",
+      "revId": "a2e489f153bfd9f1618cbe6a7abef2ad17863da7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cdb64ed_19dadd4d",
         "filename": "src/cmd/link/internal/ld/outbuf.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "a2e489f153bfd9f1618cbe6a7abef2ad17863da7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9636f417_86c29f92",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-15T18:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cdb64ed_19dadd4d",
+      "revId": "a2e489f153bfd9f1618cbe6a7abef2ad17863da7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
