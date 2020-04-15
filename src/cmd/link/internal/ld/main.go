@@ -324,28 +324,19 @@ func Main(arch *sys.Arch, theArch Arch) {
 		err := ctxt.Out.Mmap(filesize)
 		outputMmapped = err == nil
 	}
-	if outputMmapped {
-		// Asmb will redirect symbols to the output file mmap, and relocations
-		// will be applied directly there.
-		bench.Start("Asmb")
-		thearch.Asmb(ctxt)
-		bench.Start("reloc")
-		ctxt.reloc()
-	} else {
-		// If we don't mmap, we need to apply relocations before
-		// writing out.
-		bench.Start("reloc")
-		ctxt.reloc()
-		bench.Start("Asmb")
-		thearch.Asmb(ctxt)
-	}
+
+	// Asmb will redirect symbols to the output file mmap, and relocations
+	// will be applied directly there.
+	bench.Start("Asmb")
+	thearch.Asmb(ctxt)
+	bench.Start("reloc")
+	ctxt.reloc()
+
 	bench.Start("Asmb2")
 	thearch.Asmb2(ctxt)
 
-	if outputMmapped {
-		bench.Start("Munmap")
-		ctxt.Out.Munmap()
-	}
+	bench.Start("Munmap")
+	ctxt.Out.Close() // Close handles Munmapping if necessary.
 
 	bench.Start("undef")
 	ctxt.undef()
