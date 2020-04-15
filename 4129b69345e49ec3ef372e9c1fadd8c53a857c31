@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c711e09d_ef96d7d2",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-15T20:50:11Z",
+      "side": 1,
+      "message": "Can we acquirem before the systemstack? Or can we semrelease while on the system stack? Just to make it really clear no preemption is possible here. (We do these dances all over the runtime where we drop something delicate and then grab it again before it hits the floor and it always scares me!)",
+      "revId": "4129b69345e49ec3ef372e9c1fadd8c53a857c31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
