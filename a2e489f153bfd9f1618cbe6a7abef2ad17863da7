@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "292b64c4_db1a2b63",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-15T18:21:24Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "revId": "a2e489f153bfd9f1618cbe6a7abef2ad17863da7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cdb64ed_19dadd4d",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-15T18:21:24Z",
+      "side": 1,
+      "message": "Check for errors?",
+      "revId": "a2e489f153bfd9f1618cbe6a7abef2ad17863da7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
