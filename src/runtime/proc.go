@@ -762,6 +762,7 @@ func casfrom_Gscanstatus(gp *g, oldval, newval uint32) {
 		dumpgstatus(gp)
 		throw("casfrom_Gscanstatus: gp->status is not in scan state")
 	}
+	lockRankReleaseOnly(lockRankGscan)
 }
 
 // This will return false if the gp is not in the expected status and the cas fails.
@@ -773,7 +774,12 @@ func castogscanstatus(gp *g, oldval, newval uint32) bool {
 		_Gwaiting,
 		_Gsyscall:
 		if newval == oldval|_Gscan {
-			return atomic.Cas(&gp.atomicstatus, oldval, newval)
+			r := atomic.Cas(&gp.atomicstatus, oldval, newval)
+			if r {
+				lockRankAcquireOnly(lockRankGscan)
+			}
+			return r
+
 		}
 	}
 	print("runtime: castogscanstatus oldval=", hex(oldval), " newval=", hex(newval), "\n")
@@ -793,6 +799,9 @@ func casgstatus(gp *g, oldval, newval uint32) {
 			throw("casgstatus: bad incoming values")
 		})
 	}
+
+	lockRankAcquireOnly(lockRankGscan)
+	lockRankReleaseOnly(lockRankGscan)
 
 	// See https://golang.org/cl/21503 for justification of the yield delay.
 	const yieldDelay = 5 * 1000
@@ -844,6 +853,7 @@ func casGToPreemptScan(gp *g, old, new uint32) {
 	if old != _Grunning || new != _Gscan|_Gpreempted {
 		throw("bad g transition")
 	}
+	lockRankAcquireOnly(lockRankGscan)
 	for !atomic.Cas(&gp.atomicstatus, _Grunning, _Gscan|_Gpreempted) {
 	}
 }

@@ -75,6 +75,26 @@ func lockWithRank(l *mutex, rank lockRank) {
 	})
 }
 
+//go:nosplit
+func lockRankAcquireOnly(rank lockRank) {
+	gp := getg()
+	// Log the new class.
+	systemstack(func() {
+		i := gp.m.locksHeldLen
+		if i >= len(gp.m.locksHeld) {
+			throw("too many locks held concurrently for rank checking")
+		}
+		gp.m.locksHeld[i].rank = rank
+		gp.m.locksHeld[i].lockAddr = 0
+		gp.m.locksHeldLen++
+
+		// i is the index of the lock being acquired
+		if i > 0 {
+			checkRanks(gp, gp.m.locksHeld[i-1].rank, rank)
+		}
+	})
+}
+
 func checkRanks(gp *g, prevRank, rank lockRank) {
 	rankOK := false
 	// If rank < prevRank, then we definitely have a rank error
@@ -132,6 +152,20 @@ func lockRankRelease(l *mutex) {
 			throw("unlock without matching lock acquire")
 		}
 		unlock2(l)
+	})
+}
+
+//go:nosplit
+func lockRankReleaseOnly(rank lockRank) {
+	gp := getg()
+	systemstack(func() {
+		if gp.m.locksHeldLen > 0 && gp.m.locksHeld[gp.m.locksHeldLen-1].rank == rank &&
+			gp.m.locksHeld[gp.m.locksHeldLen-1].lockAddr == 0 {
+			gp.m.locksHeldLen--
+		} else {
+			println(gp.m.procid, ":", rank.String(), rank)
+			throw("lockRank release without matching lockRank acquire")
+		}
 	})
 }
 
