@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46bbfa3_b7808978",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-15T15:18:51Z",
+      "side": 1,
+      "message": "A build constraint comment appears before the file\u0027s package clause and must be separated from the package clause by at least one blank line. The comment begins with:",
+      "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6485b1e7_3f5412f6",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-15T15:18:51Z",
+      "side": 1,
+      "message": "Each term may be negated with a leading exclamation point.",
+      "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0277272c_d30f96ac",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-15T15:18:51Z",
+      "side": 1,
+      "message": "(linux AND 386) OR (darwin AND NOT cgo) OR arm",
+      "revId": "1ac050ce2976595483d65ddda8f81dc2ab962007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
