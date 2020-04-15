@@ -48,6 +48,7 @@ func InjectDebugCall(gp *g, fn, args interface{}, tkill func(tid int) error, ret
 
 	h := new(debugCallHandler)
 	h.gp = gp
+	h.mp = gp.m
 	h.fv, h.argp, h.argSize = fv, argp, argSize
 	h.handleF = h.handle // Avoid allocating closure during signal
 
@@ -86,6 +87,7 @@ func InjectDebugCall(gp *g, fn, args interface{}, tkill func(tid int) error, ret
 
 type debugCallHandler struct {
 	gp      *g
+	mp      *m
 	fv      *funcval
 	argp    unsafe.Pointer
 	argSize uintptr
@@ -102,8 +104,8 @@ type debugCallHandler struct {
 func (h *debugCallHandler) inject(info *siginfo, ctxt *sigctxt, gp2 *g) bool {
 	switch h.gp.atomicstatus {
 	case _Grunning:
-		if getg().m != h.gp.m {
-			println("trap on wrong M", getg().m, h.gp.m)
+		if getg().m != h.mp {
+			println("trap on wrong M", getg().m, h.mp)
 			return false
 		}
 		// Push current PC on the stack.
@@ -135,8 +137,8 @@ func (h *debugCallHandler) inject(info *siginfo, ctxt *sigctxt, gp2 *g) bool {
 
 func (h *debugCallHandler) handle(info *siginfo, ctxt *sigctxt, gp2 *g) bool {
 	// Sanity check.
-	if getg().m != h.gp.m {
-		println("trap on wrong M", getg().m, h.gp.m)
+	if getg().m != h.mp {
+		println("trap on wrong M", getg().m, h.mp)
 		return false
 	}
 	f := findfunc(uintptr(ctxt.rip()))
