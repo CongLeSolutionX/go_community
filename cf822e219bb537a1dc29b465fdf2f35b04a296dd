@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "c362c3b9_455faf5b",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-15T17:24:21Z",
+      "side": 1,
+      "message": "Any reason to tie to this particular version? There\u0027s an alias to the current version at\n\n/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+      "range": {
+        "startLine": 35,
+        "startChar": 78,
+        "endLine": 35,
+        "endChar": 155
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf7109d2_4017facc",
         "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
         "patchSetId": 11
@@ -36,6 +59,29 @@
     },
     {
       "key": {
+        "uuid": "04f87fc2_2c3c5e4e",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-15T17:24:21Z",
+      "side": 1,
+      "message": "These names are weird. I\u0027d call this CFStringFromString or StringToCFString or something.\nOr is the intent that these match the Core Foundation functions of the same name?",
+      "range": {
+        "startLine": 37,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 28
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe77b4d5_caaabc79",
         "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
         "patchSetId": 11
@@ -47,6 +93,29 @@
       "writtenOn": "2020-04-15T02:23:36Z",
       "side": 1,
       "message": "Newline before this, please.",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29ab0d95_8e678fe5",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-15T17:24:21Z",
+      "side": 1,
+      "message": "These seem typed like everything is interface{}. Maybe introduce CFStringRef, CFDictionaryRef, etc.? That will avoid type errors by the caller.\nIs this function used with different key types, or is it always string?",
+      "range": {
+        "startLine": 49,
+        "startChar": 35,
+        "endLine": 49,
+        "endChar": 50
+      },
       "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -150,6 +219,23 @@
         "endLine": 290,
         "endChar": 1
       },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d34d9f_d1156442",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-15T17:24:21Z",
+      "side": 1,
+      "message": "Do you want to error out completely if one of the domains fails, but the others are ok?",
       "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
