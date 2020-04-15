@@ -67,6 +67,7 @@ const (
 
 	lockRankMcentral
 	lockRankSpine
+	lockRankGscan
 	lockRankStackpool
 	lockRankStackLarge
 	lockRankDefer
@@ -138,6 +139,7 @@ var lockNames = []string{
 
 	lockRankMcentral:   "mcentral",
 	lockRankSpine:      "spine",
+	lockRankGscan:      "gscan",
 	lockRankStackpool:  "stackpool",
 	lockRankStackLarge: "stackLarge",
 	lockRankDefer:      "defer",
@@ -213,12 +215,13 @@ var lockPartialOrder [][]lockRank = [][]lockRank{
 
 	lockRankMcentral:     {lockRankScavenge, lockRankForcegc, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankAllg, lockRankAllp, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankHchan},
 	lockRankSpine:        {lockRankScavenge, lockRankCpuprof, lockRankSched, lockRankAllg, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankHchan},
-	lockRankStackpool:    {lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankFin, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankTrace, lockRankTraceStackTab, lockRankNetpollInit, lockRankRwmutexR, lockRankMcentral, lockRankSpine},
-	lockRankStackLarge:   {lockRankAssistQueue, lockRankSched, lockRankItab, lockRankHchan, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankMcentral},
+	lockRankGscan:        {lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankFin, lockRankTraceBuf, lockRankTraceStrings, lockRankRoot, lockRankNotifyList, lockRankProf, lockRankGcBitsArenas, lockRankTrace, lockRankTraceStackTab, lockRankNetpollInit, lockRankMcentral, lockRankSpine},
+	lockRankStackpool:    {lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankFin, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankGscan, lockRankTrace, lockRankTraceStackTab, lockRankNetpollInit, lockRankRwmutexR, lockRankMcentral, lockRankSpine},
+	lockRankStackLarge:   {lockRankAssistQueue, lockRankSched, lockRankItab, lockRankHchan, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankGscan, lockRankMcentral},
 	lockRankDefer:        {},
 	lockRankSudog:        {lockRankNotifyList, lockRankHchan},
-	lockRankWbufSpans:    {lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankSched, lockRankAllg, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankNotifyList, lockRankTraceStrings, lockRankMspanSpecial, lockRankProf, lockRankRoot, lockRankDefer, lockRankSudog},
-	lockRankMheap:        {lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankAllg, lockRankAllp, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankHchan, lockRankMspanSpecial, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankMcentral, lockRankStackpool, lockRankStackLarge, lockRankDefer, lockRankSudog, lockRankWbufSpans},
+	lockRankWbufSpans:    {lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankSched, lockRankAllg, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankNotifyList, lockRankTraceStrings, lockRankMspanSpecial, lockRankProf, lockRankRoot, lockRankGscan, lockRankDefer, lockRankSudog},
+	lockRankMheap:        {lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankAllg, lockRankAllp, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankHchan, lockRankMspanSpecial, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankGscan, lockRankMcentral, lockRankStackpool, lockRankStackLarge, lockRankDefer, lockRankSudog, lockRankWbufSpans},
 	lockRankMheapSpecial: {lockRankScavenge, lockRankCpuprof, lockRankSched, lockRankAllg, lockRankAllp, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankHchan},
 	lockRankGlobalAlloc:  {lockRankSpine, lockRankMheap},
 

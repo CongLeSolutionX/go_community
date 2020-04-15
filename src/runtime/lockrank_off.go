@@ -14,12 +14,18 @@ func getLockRank(l *mutex) lockRank {
 	return 0
 }
 
+func lockWithRank(l *mutex, rank lockRank) {
+	lock2(l)
+}
+
+func lockRankAcquireOnly(rank lockRank) {
+}
+
 func lockRankRelease(l *mutex) {
 	unlock2(l)
 }
 
-func lockWithRank(l *mutex, rank lockRank) {
-	lock2(l)
+func lockRankReleaseOnly(rank lockRank) {
 }
 
 func lockWithRankMayAcquire(l *mutex, rank lockRank) {

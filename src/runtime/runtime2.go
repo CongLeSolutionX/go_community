@@ -559,6 +559,7 @@ type m struct {
 	// Up to 10 locks held by this m, maintained by the lock ranking code.
 	locksHeldLen int
 	locksHeld    [10]heldLockInfo
+	forceLeaf    bool
 }
 
 type p struct {

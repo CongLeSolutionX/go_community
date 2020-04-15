@@ -69,31 +69,64 @@ func lockWithRank(l *mutex, rank lockRank) {
 
 		// i is the index of the lock being acquired
 		if i > 0 {
-			checkRanks(gp, gp.m.locksHeld[i-1].rank, rank)
+			gp.m.forceLeaf = checkRanks(gp, gp.m.locksHeld[i-1].rank, rank, gp.m.forceLeaf)
 		}
 		lock2(l)
 	})
 }
 
-func checkRanks(gp *g, prevRank, rank lockRank) {
+// Acquire a rank which is not associated with a mutex lock
+//go:nosplit
+func lockRankAcquireOnly(rank lockRank) {
+	gp := getg()
+	// Log the new class.
+	systemstack(func() {
+		i := gp.m.locksHeldLen
+		if i >= len(gp.m.locksHeld) {
+			throw("too many locks held concurrently for rank checking")
+		}
+		gp.m.locksHeld[i].rank = rank
+		gp.m.locksHeld[i].lockAddr = 0
+		gp.m.locksHeldLen++
+
+		// i is the index of the lock being acquired
+		if i > 0 {
+			gp.m.forceLeaf = checkRanks(gp, gp.m.locksHeld[i-1].rank, rank, gp.m.forceLeaf)
+		}
+	})
+}
+
+func checkRanks(gp *g, prevRank, rank lockRank, forceLeaf bool) bool {
 	rankOK := false
-	// If rank < prevRank, then we definitely have a rank error
-	if prevRank <= rank {
-		if rank == lockRankLeafRank {
-			// If new lock is a leaf lock, then the preceding lock can
-			// be anything except another leaf lock.
-			rankOK = prevRank < lockRankLeafRank
-		} else {
-			// We've already verified the total lock ranking, but we
-			// also enforce the partial ordering specified by
-			// lockPartialOrder as well. Two locks with the same rank
-			// can only be acquired at the same time if explicitly
-			// listed in the lockPartialOrder table.
-			list := lockPartialOrder[rank]
-			for _, entry := range list {
-				if entry == prevRank {
-					rankOK = true
-					break
+	if forceLeaf {
+		// If forceLeaf is set, we had a gscan/hChan edge, and now we only
+		// allow more hscan locks.
+		if rank == lockRankHchan {
+			rankOK = true
+		}
+	} else {
+		// If rank < prevRank, then we definitely have a rank error
+		if prevRank == lockRankGscan && rank == lockRankHchan {
+			// Allow a gscan/hChan edge (out of order), but then don't
+			// allow any further lock acquisitions other than hchan.
+			return true
+		} else if prevRank <= rank {
+			if rank == lockRankLeafRank {
+				// If new lock is a leaf lock, then the preceding lock can
+				// be anything except another leaf lock.
+				rankOK = prevRank < lockRankLeafRank
+			} else {
+				// We've already verified the total lock ranking, but we
+				// also enforce the partial ordering specified by
+				// lockPartialOrder as well. Two locks with the same rank
+				// can only be acquired at the same time if explicitly
+				// listed in the lockPartialOrder table.
+				list := lockPartialOrder[rank]
+				for _, entry := range list {
+					if entry == prevRank {
+						rankOK = true
+						break
+					}
 				}
 			}
 		}
@@ -106,6 +139,7 @@ func checkRanks(gp *g, prevRank, rank lockRank) {
 		}
 		throw("lock ordering problem")
 	}
+	return false
 }
 
 //go:nosplit
@@ -132,6 +166,23 @@ func lockRankRelease(l *mutex) {
 			throw("unlock without matching lock acquire")
 		}
 		unlock2(l)
+		gp.m.forceLeaf = false
+	})
+}
+
+// Release a rank which is not associated with a mutex lock
+//go:nosplit
+func lockRankReleaseOnly(rank lockRank) {
+	gp := getg()
+	systemstack(func() {
+		if gp.m.locksHeldLen > 0 && gp.m.locksHeld[gp.m.locksHeldLen-1].rank == rank &&
+			gp.m.locksHeld[gp.m.locksHeldLen-1].lockAddr == 0 {
+			gp.m.locksHeldLen--
+		} else {
+			println(gp.m.procid, ":", rank.String(), rank)
+			throw("lockRank release without matching lockRank acquire")
+		}
+		gp.m.forceLeaf = false
 	})
 }
 
@@ -154,7 +205,7 @@ func lockWithRankMayAcquire(l *mutex, rank lockRank) {
 		gp.m.locksHeld[i].rank = rank
 		gp.m.locksHeld[i].lockAddr = uintptr(unsafe.Pointer(l))
 		gp.m.locksHeldLen++
-		checkRanks(gp, gp.m.locksHeld[i-1].rank, rank)
+		checkRanks(gp, gp.m.locksHeld[i-1].rank, rank, gp.m.forceLeaf)
 		gp.m.locksHeldLen--
 	})
 }
