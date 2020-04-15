@@ -16,6 +16,24 @@
       "revId": "4129b69345e49ec3ef372e9c1fadd8c53a857c31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fdf452c_fea616df",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-15T21:09:14Z",
+      "side": 1,
+      "message": "yeah I agree this isn\u0027t great.\n\nI originally thought to semrelease on the system stack, but my concern there is that semrelease has the _potential_ to try to goyield. It won\u0027t in this case, because semrelease always passes handoff\u003dfalse to semrelease1, but what if that changes one day? I\u0027d rather be defensive about it.\n\nacquirem before startTheWorldWithSema... ugh the first thing it does is acquirem. is it safe to have nested acquirem calls? just looking at acquirem, it looks like the answer is yes? all it does is increment g.m.locks.",
+      "parentUuid": "c711e09d_ef96d7d2",
+      "revId": "4129b69345e49ec3ef372e9c1fadd8c53a857c31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
