@@ -1381,11 +1381,15 @@ func gcStart(trigger gcTrigger) {
 	// because we will need to reacquire it later but before
 	// this goroutine becomes runnable again, and we could
 	// self-deadlock otherwise.
-	semrelease(&worldsema)
-
+	//
 	// In STW mode, we could block the instant systemstack
-	// returns, so don't do anything important here. Make sure we
-	// block rather than returning to user code.
+	// returns, so make sure we're not preemptible.
+	mp = acquirem()
+	semrelease(&worldsema)
+	releasem(mp)
+
+	// Make sure we block instead of returning to user code
+	// in STW mode.
 	if mode != gcBackgroundMode {
 		Gosched()
 	}
