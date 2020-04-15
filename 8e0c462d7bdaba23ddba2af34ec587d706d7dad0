@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65f689ba_5bcdc2c3",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-15T13:10:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "69e10af4_26d90c18",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8849052e_be12d853",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
@@ -90,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "ab61444a_7c5b0913",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-15T13:10:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f78dd54_4545eac5",
+      "range": {
+        "startLine": 749,
+        "startChar": 24,
+        "endLine": 749,
+        "endChar": 45
+      },
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d203044c_36003cdd",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 2
@@ -137,6 +179,24 @@
       "side": 1,
       "message": "I\u0027ve just double checked and I do not believe we need this for current Go programs to work correctly - as already noted, Go does not currently use dynamic rounding mode (rounding mode is encoded in instructions directly) and nothing in Go currently reads the accrued exception flags.",
       "parentUuid": "8cae690e_8da3fe06",
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41edc6c2_565939eb",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-04-15T13:10:07Z",
+      "side": 1,
+      "message": "So I shall just remove the TODO comment.",
+      "parentUuid": "e36f082c_51694509",
       "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
