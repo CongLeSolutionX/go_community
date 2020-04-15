@@ -34,6 +34,24 @@
       "revId": "4129b69345e49ec3ef372e9c1fadd8c53a857c31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e19aa202_c53d667d",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-15T21:20:54Z",
+      "side": 1,
+      "message": "yeah acquirem before the startTheWorldWithSema seems to work fine.",
+      "parentUuid": "2fdf452c_fea616df",
+      "revId": "4129b69345e49ec3ef372e9c1fadd8c53a857c31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
