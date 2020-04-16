@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4286d9fa_aeec15c6",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-04-16T23:45:48Z",
+      "side": 1,
+      "message": "maybe set labels \u003d nil and continue?\nshould be impossible but better not to crash the entire process due to monitoring related path. (Like said in L765)",
+      "range": {
+        "startLine": 723,
+        "startChar": 0,
+        "endLine": 723,
+        "endChar": 35
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11ede782_3c439e2c",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-04-16T23:45:48Z",
+      "side": 1,
+      "message": "Can we preserve the previous logic as much as possible\nto make review easier?\n\nr, lbl :\u003d p, labels\n...\nr, lbl \u003d r[1:], lbl[1:]\n\n...\nsaveg(..., \u0026r[0])\nr \u003d r[1:]\nif labels !\u003d nil { \n  lbl[0] \u003d gp1.labels\n  lbl \u003d lbl[1:] \n}",
+      "range": {
+        "startLine": 763,
+        "startChar": 0,
+        "endLine": 763,
+        "endChar": 4
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f90e972_cc2a085b",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-04-16T23:45:48Z",
+      "side": 1,
+      "message": "Can\u0027t this be a free helper function that takes a label map as a parameter?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdfbcc43_c5525749",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-04-16T23:45:48Z",
+      "side": 1,
+      "message": "maybe no space for compactness",
+      "range": {
+        "startLine": 49,
+        "startChar": 44,
+        "endLine": 49,
+        "endChar": 45
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13b1e5ae_7e1a30d6",
+        "filename": "src/runtime/pprof/label_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-04-16T23:45:48Z",
+      "side": 1,
+      "message": "Follow the test error message patterns used in https://github.com/golang/go/wiki/CodeReviewComments#useful-test-failures (got\u0026want)\nAnd no line break",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dd824fd_bbc56828",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-04-16T23:45:48Z",
+      "side": 1,
+      "message": "\"\\n# labels:\" to make it look like a comment for human (like printStackRecord)\njust in case there is any legacy output parser.",
+      "range": {
+        "startLine": 421,
+        "startChar": 19,
+        "endLine": 421,
+        "endChar": 32
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12547f2c_e84e0918",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-04-16T23:45:48Z",
+      "side": 1,
+      "message": "This part was refactored in 1.14 cycle. I hope conflict resolution is not too hard...",
+      "range": {
+        "startLine": 462,
+        "startChar": 1,
+        "endLine": 472,
+        "endChar": 3
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
