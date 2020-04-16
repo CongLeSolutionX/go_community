@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cd002a2_05e05518",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-16T01:31:09Z",
+      "side": 1,
+      "message": "I think now we can get rid of this conditional and always do Asmb and then reloc.",
+      "revId": "04d1666687d92d207eb0f6b2e61c8b36290385f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b802d1af_4455fee0",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-16T01:31:09Z",
+      "side": 1,
+      "message": "Maybe panic if isMmapped?",
+      "revId": "04d1666687d92d207eb0f6b2e61c8b36290385f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
