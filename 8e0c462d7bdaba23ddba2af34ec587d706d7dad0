@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "713f71cc_b1606825",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-16T03:35:46Z",
+      "side": 1,
+      "message": "I also like Joel\u0027s wording.",
+      "parentUuid": "ab61444a_7c5b0913",
+      "range": {
+        "startLine": 749,
+        "startChar": 24,
+        "endLine": 749,
+        "endChar": 45
+      },
+      "revId": "8e0c462d7bdaba23ddba2af34ec587d706d7dad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d203044c_36003cdd",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 2
