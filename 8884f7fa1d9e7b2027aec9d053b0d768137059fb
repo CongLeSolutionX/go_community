@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4ec33e99_df99b266",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390XOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-16T18:06:19Z",
+      "side": 1,
+      "message": "Let\u0027s be consistent with Values for now.\n\nIn the back of my mind, this strongly typed world allows us to remove the distinction between aux and auxint at some point. In that world, you could do [sym,off] instead of {sym} [off] for SymOff opcodes. For that, we\u0027d need all the type info in the same place anyway.",
+      "parentUuid": "4bf45387_bfcbe85c",
+      "range": {
+        "startLine": 790,
+        "startChar": 29,
+        "endLine": 790,
+        "endChar": 63
+      },
+      "revId": "8884f7fa1d9e7b2027aec9d053b0d768137059fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79033211_e3d654d5",
         "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
         "patchSetId": 1
