@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cd47a03_e295a6f5",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390XOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-16T16:22:59Z",
+      "side": 1,
+      "message": "For the Value aux/auxint fields, we use a single string in the *Ops.go files to encode both.\nFor example, SymOff means a Sym in the aux field and an int64 in the auxint field.\nCan we do that here?",
+      "range": {
+        "startLine": 790,
+        "startChar": 29,
+        "endLine": 790,
+        "endChar": 63
+      },
+      "revId": "8884f7fa1d9e7b2027aec9d053b0d768137059fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79033211_e3d654d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-16T16:22:59Z",
+      "side": 1,
+      "message": "These functions should probably just be op.AuxType() !\u003d \"\".\n(For another CL.)",
+      "revId": "8884f7fa1d9e7b2027aec9d053b0d768137059fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
