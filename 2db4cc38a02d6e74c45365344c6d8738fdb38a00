@@ -16,6 +16,24 @@
       "revId": "2db4cc38a02d6e74c45365344c6d8738fdb38a00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1527560b_f557e62f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2552,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-04-16T23:37:10Z",
+      "side": 1,
+      "message": "Ah. Yeah, I always feel iffy about those flags where we give them multiple meanings based on n.Op. :/\n\nFWIW, I don\u0027t think we use n.Bounded() on pointers anywhere except in this CL. The closest I see is we set it on some ODOTPTR nodes to indicate they won\u0027t deref nil, but it\u0027s set on n itself, not on n.Left.",
+      "parentUuid": "12b7fd03_0aedbc32",
+      "revId": "2db4cc38a02d6e74c45365344c6d8738fdb38a00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
