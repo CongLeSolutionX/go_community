@@ -123,6 +123,24 @@ go env -w GOTMPDIR=
 go env GOTMPDIR
 stdout ^$
 
+# go env -w rejects relative CC values
+go env -w CC=/usr/bin/clang
+go env -w CC=clang
+! go env -w CC=./clang
+! go env -w CC=bin/clang
+[windows] go env -w CC=$HOME\\bin\\clang
+[windows] ! go env -w CC=.\\clang
+[windows] ! go env -w CC=bin\\clang
+
+# go env -w rejects relative CXX values
+go env -w CC=/usr/bin/c++
+go env -w CXX=c++
+! go env -w CXX=./c++
+! go env -w CXX=bin/c++
+[windows] go env -w CC=$HOME\\bin\\c++
+[windows] ! go env -w CC=.\\c++
+[windows] ! go env -w CC=bin\\c++
+
 # go env -w/-u checks validity of GOOS/ARCH combinations
 env GOOS=
 env GOARCH=
