@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da46484d_42ea966c",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-04-16T08:01:15Z",
+      "side": 1,
+      "message": "Why check for this if inlcalls won\u0027t inline self-recursion anyway?",
+      "revId": "ed7a8332c413f41d466db3bfc9606025e0c264d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
