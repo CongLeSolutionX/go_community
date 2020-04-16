@@ -52,6 +52,24 @@
       "revId": "4129b69345e49ec3ef372e9c1fadd8c53a857c31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4aec554_ae2f9930",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-16T00:28:34Z",
+      "side": 1,
+      "message": "Nested acquirem is totally fine. We probably do that all over the place, so we\u0027re not going to break it.",
+      "parentUuid": "e19aa202_c53d667d",
+      "revId": "4129b69345e49ec3ef372e9c1fadd8c53a857c31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
