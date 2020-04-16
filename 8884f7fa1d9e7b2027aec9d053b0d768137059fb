@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4bf45387_bfcbe85c",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390XOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-04-16T17:12:54Z",
+      "side": 1,
+      "message": "We definitely could, but we\u0027d then need an extra Aux values, one for CC+uint8 and one for CC+int8. I thought this was better for now, even if it is inconsistent with values, but I\u0027m happy to change it if you\u0027d like.",
+      "parentUuid": "1cd47a03_e295a6f5",
+      "range": {
+        "startLine": 790,
+        "startChar": 29,
+        "endLine": 790,
+        "endChar": 63
+      },
+      "revId": "8884f7fa1d9e7b2027aec9d053b0d768137059fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79033211_e3d654d5",
         "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "8884f7fa1d9e7b2027aec9d053b0d768137059fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a7a379f_6dfaecd6",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-04-16T17:12:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "79033211_e3d654d5",
+      "revId": "8884f7fa1d9e7b2027aec9d053b0d768137059fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
