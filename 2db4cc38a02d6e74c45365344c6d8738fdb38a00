@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12b7fd03_0aedbc32",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2552,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-16T22:56:11Z",
+      "side": 1,
+      "message": "Josh and I found a bug here. Maybe not *the* bug, but *a* bug.\n\nWe\u0027re not being careful about what the bounded bit means.\n\nOn OINDEX it means the bounds won\u0027t fail.\nBut also on pointers it means it is not nil.\nBut then what about\nvar a []*int \u003d ...\n*a[i]\nThe bit we use for boundedness of the indexing and non-nilness of the pointer are at the same place.\n\nI think we need to have a separate non-nil bit. Turns out we already have one! I think we just need to use it consistently.",
+      "revId": "2db4cc38a02d6e74c45365344c6d8738fdb38a00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
