@@ -71,6 +71,7 @@ type opData struct {
 type blockData struct {
 	name     string // the suffix for this block ("EQ", "LT", etc.)
 	controls int    // the number of control values this type of block requires
+	aux      string // the type of the Aux value, if any
 	auxint   string // the type of the AuxInt value, if any
 }
 

@@ -28569,7 +28569,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "RXSBG",
-		auxType:      auxArchSpecific,
+		auxType:      auxS390XRotateParams,
 		argLen:       2,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -28655,7 +28655,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "LOCGR",
-		auxType:      auxArchSpecific,
+		auxType:      auxS390XCCMask,
 		argLen:       3,
 		resultInArg0: true,
 		asm:          s390x.ALOCGR,
