@@ -36,6 +36,19 @@ func BuildInit() {
 		cfg.BuildPkgdir = p
 	}
 
+	// Make sure CC and CXX are absolute paths
+	if cc := os.Getenv("CC"); cc != "" && !filepath.IsAbs(cc) {
+		fmt.Fprintf(os.Stderr, "go %s: CC environment variable is relative; must be absolute path: %s\n", flag.Args()[0], cc)
+		base.SetExitStatus(2)
+		base.Exit()
+	}
+
+	if cxx := os.Getenv("CXX"); cxx != "" && !filepath.IsAbs(cxx) {
+		fmt.Fprintf(os.Stderr, "go %s: CXX environment variable is relative; must be absolute path: %s\n", flag.Args()[0], cxx)
+		base.SetExitStatus(2)
+		base.Exit()
+	}
+
 	// For each experiment that has been enabled in the toolchain, define a
 	// build tag with the same name but prefixed by "goexperiment." which can be
 	// used for compiling alternative files for the experiment. This allows
