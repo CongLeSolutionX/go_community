@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7425b3bd_c230feb7",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-16T14:51:46Z",
+      "side": 1,
+      "message": "call?",
+      "range": {
+        "startLine": 413,
+        "startChar": 60,
+        "endLine": 413,
+        "endChar": 63
+      },
+      "revId": "f4787564c77499cdbea556f0be9ba26fecf15b71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdaed5cd_94c7b996",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-16T14:51:46Z",
+      "side": 1,
+      "message": "This line is unnecessary. Both branches will call s.setReachable.",
+      "revId": "f4787564c77499cdbea556f0be9ba26fecf15b71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
