@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cb98f5ed_628915bf",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-16T14:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cd002a2_05e05518",
+      "revId": "04d1666687d92d207eb0f6b2e61c8b36290385f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b802d1af_4455fee0",
         "filename": "src/cmd/link/internal/ld/outbuf.go",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "04d1666687d92d207eb0f6b2e61c8b36290385f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37faae61_845e6c22",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-16T14:58:22Z",
+      "side": 1,
+      "message": "I did you one better, and handle it here, and simplified main.go.",
+      "parentUuid": "b802d1af_4455fee0",
+      "revId": "04d1666687d92d207eb0f6b2e61c8b36290385f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
