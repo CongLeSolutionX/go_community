@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "914896d2_c4c97489",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-16T15:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7425b3bd_c230feb7",
+      "range": {
+        "startLine": 413,
+        "startChar": 60,
+        "endLine": 413,
+        "endChar": 63
+      },
+      "revId": "f4787564c77499cdbea556f0be9ba26fecf15b71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdaed5cd_94c7b996",
         "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "f4787564c77499cdbea556f0be9ba26fecf15b71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33f1ae4b_f1ce56a0",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-16T15:04:21Z",
+      "side": 1,
+      "message": "Good point. Removed.",
+      "parentUuid": "cdaed5cd_94c7b996",
+      "revId": "f4787564c77499cdbea556f0be9ba26fecf15b71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
