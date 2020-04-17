@@ -527,8 +527,7 @@ func rewriteValue386(v *Value) bool {
 	case OpNot:
 		return rewriteValue386_OpNot(v)
 	case OpOffPtr:
-		v.Op = Op386ADDLconst
-		return true
+		return rewriteValue386_OpOffPtr(v)
 	case OpOr16:
 		v.Op = Op386ORL
 		return true
@@ -8707,7 +8706,7 @@ func rewriteValue386_OpCtz16(v *Value) bool {
 		x := v_0
 		v.reset(Op386BSFL)
 		v0 := b.NewValue0(v.Pos, Op386ORLconst, typ.UInt32)
-		v0.AuxInt = 0x10000
+		v0.AuxInt = int32ToAuxInt(0x10000)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -9272,7 +9271,7 @@ func rewriteValue386_OpLsh16x16(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int16ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9314,7 +9313,7 @@ func rewriteValue386_OpLsh16x32(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int32ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9342,18 +9341,18 @@ func rewriteValue386_OpLsh16x64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Lsh16x64 x (Const64 [c]))
 	// cond: uint64(c) < 16
-	// result: (SHLLconst x [c])
+	// result: (SHLLconst x [int32(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 16) {
 			break
 		}
 		v.reset(Op386SHLLconst)
-		v.AuxInt = c
+		v.AuxInt = int32ToAuxInt(int32(c))
 		v.AddArg(x)
 		return true
 	}
@@ -9393,7 +9392,7 @@ func rewriteValue386_OpLsh16x8(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int8ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9435,7 +9434,7 @@ func rewriteValue386_OpLsh32x16(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int16ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9477,7 +9476,7 @@ func rewriteValue386_OpLsh32x32(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int32ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9505,18 +9504,18 @@ func rewriteValue386_OpLsh32x64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Lsh32x64 x (Const64 [c]))
 	// cond: uint64(c) < 32
-	// result: (SHLLconst x [c])
+	// result: (SHLLconst x [int32(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 32) {
 			break
 		}
 		v.reset(Op386SHLLconst)
-		v.AuxInt = c
+		v.AuxInt = int32ToAuxInt(int32(c))
 		v.AddArg(x)
 		return true
 	}
@@ -9556,7 +9555,7 @@ func rewriteValue386_OpLsh32x8(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int8ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9598,7 +9597,7 @@ func rewriteValue386_OpLsh8x16(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int16ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9640,7 +9639,7 @@ func rewriteValue386_OpLsh8x32(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int32ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -9668,18 +9667,18 @@ func rewriteValue386_OpLsh8x64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Lsh8x64 x (Const64 [c]))
 	// cond: uint64(c) < 8
-	// result: (SHLLconst x [c])
+	// result: (SHLLconst x [int32(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 8) {
 			break
 		}
 		v.reset(Op386SHLLconst)
-		v.AuxInt = c
+		v.AuxInt = int32ToAuxInt(int32(c))
 		v.AddArg(x)
 		return true
 	}
@@ -9719,7 +9718,7 @@ func rewriteValue386_OpLsh8x8(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int8ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -10015,7 +10014,7 @@ func rewriteValue386_OpNeg32F(v *Value) bool {
 	typ := &b.Func.Config.Types
 	// match: (Neg32F x)
 	// cond: !config.use387
-	// result: (PXOR x (MOVSSconst <typ.Float32> [auxFrom32F(float32(math.Copysign(0, -1)))]))
+	// result: (PXOR x (MOVSSconst <typ.Float32> [float32(math.Copysign(0, -1))]))
 	for {
 		x := v_0
 		if !(!config.use387) {
@@ -10023,7 +10022,7 @@ func rewriteValue386_OpNeg32F(v *Value) bool {
 		}
 		v.reset(Op386PXOR)
 		v0 := b.NewValue0(v.Pos, Op386MOVSSconst, typ.Float32)
-		v0.AuxInt = auxFrom32F(float32(math.Copysign(0, -1)))
+		v0.AuxInt = float32ToAuxInt(float32(math.Copysign(0, -1)))
 		v.AddArg2(x, v0)
 		return true
 	}
@@ -10048,7 +10047,7 @@ func rewriteValue386_OpNeg64F(v *Value) bool {
 	typ := &b.Func.Config.Types
 	// match: (Neg64F x)
 	// cond: !config.use387
-	// result: (PXOR x (MOVSDconst <typ.Float64> [auxFrom64F(math.Copysign(0, -1))]))
+	// result: (PXOR x (MOVSDconst <typ.Float64> [math.Copysign(0, -1)]))
 	for {
 		x := v_0
 		if !(!config.use387) {
@@ -10056,7 +10055,7 @@ func rewriteValue386_OpNeg64F(v *Value) bool {
 		}
 		v.reset(Op386PXOR)
 		v0 := b.NewValue0(v.Pos, Op386MOVSDconst, typ.Float64)
-		v0.AuxInt = auxFrom64F(math.Copysign(0, -1))
+		v0.AuxInt = float64ToAuxInt(math.Copysign(0, -1))
 		v.AddArg2(x, v0)
 		return true
 	}
@@ -10193,8 +10192,21 @@ func rewriteValue386_OpNot(v *Value) bool {
 	for {
 		x := v_0
 		v.reset(Op386XORLconst)
-		v.AuxInt = 1
+		v.AuxInt = int32ToAuxInt(1)
 		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValue386_OpOffPtr(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (OffPtr [off] ptr)
+	// result: (ADDLconst [int32(off)] ptr)
+	for {
+		off := auxIntToInt64(v.AuxInt)
+		ptr := v_0
+		v.reset(Op386ADDLconst)
+		v.AuxInt = int32ToAuxInt(int32(off))
+		v.AddArg(ptr)
 		return true
 	}
 }
@@ -10383,7 +10395,7 @@ func rewriteValue386_OpRsh16Ux16(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v2.AuxInt = 16
+		v2.AuxInt = int16ToAuxInt(16)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -10425,7 +10437,7 @@ func rewriteValue386_OpRsh16Ux32(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v2.AuxInt = 16
+		v2.AuxInt = int32ToAuxInt(16)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -10453,18 +10465,18 @@ func rewriteValue386_OpRsh16Ux64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Rsh16Ux64 x (Const64 [c]))
 	// cond: uint64(c) < 16
-	// result: (SHRWconst x [c])
+	// result: (SHRWconst x [int16(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 16) {
 			break
 		}
 		v.reset(Op386SHRWconst)
-		v.AuxInt = c
+		v.AuxInt = int16ToAuxInt(int16(c))
 		v.AddArg(x)
 		return true
 	}
@@ -10504,7 +10516,7 @@ func rewriteValue386_OpRsh16Ux8(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v2.AuxInt = 16
+		v2.AuxInt = int8ToAuxInt(16)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -10547,7 +10559,7 @@ func rewriteValue386_OpRsh16x16(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v3.AuxInt = 16
+		v3.AuxInt = int16ToAuxInt(16)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -10590,7 +10602,7 @@ func rewriteValue386_OpRsh16x32(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v3.AuxInt = 16
+		v3.AuxInt = int32ToAuxInt(16)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -10618,18 +10630,18 @@ func rewriteValue386_OpRsh16x64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Rsh16x64 x (Const64 [c]))
 	// cond: uint64(c) < 16
-	// result: (SARWconst x [c])
+	// result: (SARWconst x [int16(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 16) {
 			break
 		}
 		v.reset(Op386SARWconst)
-		v.AuxInt = c
+		v.AuxInt = int16ToAuxInt(int16(c))
 		v.AddArg(x)
 		return true
 	}
@@ -10672,7 +10684,7 @@ func rewriteValue386_OpRsh16x8(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v3.AuxInt = 16
+		v3.AuxInt = int8ToAuxInt(16)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -10714,7 +10726,7 @@ func rewriteValue386_OpRsh32Ux16(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int16ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -10756,7 +10768,7 @@ func rewriteValue386_OpRsh32Ux32(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int32ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -10784,18 +10796,18 @@ func rewriteValue386_OpRsh32Ux64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Rsh32Ux64 x (Const64 [c]))
 	// cond: uint64(c) < 32
-	// result: (SHRLconst x [c])
+	// result: (SHRLconst x [int32(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 32) {
 			break
 		}
 		v.reset(Op386SHRLconst)
-		v.AuxInt = c
+		v.AuxInt = int32ToAuxInt(int32(c))
 		v.AddArg(x)
 		return true
 	}
@@ -10835,7 +10847,7 @@ func rewriteValue386_OpRsh32Ux8(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v2.AuxInt = 32
+		v2.AuxInt = int8ToAuxInt(32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -10878,7 +10890,7 @@ func rewriteValue386_OpRsh32x16(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v3.AuxInt = 32
+		v3.AuxInt = int16ToAuxInt(32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -10921,7 +10933,7 @@ func rewriteValue386_OpRsh32x32(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v3.AuxInt = 32
+		v3.AuxInt = int32ToAuxInt(32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -10949,18 +10961,18 @@ func rewriteValue386_OpRsh32x64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Rsh32x64 x (Const64 [c]))
 	// cond: uint64(c) < 32
-	// result: (SARLconst x [c])
+	// result: (SARLconst x [int32(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 32) {
 			break
 		}
 		v.reset(Op386SARLconst)
-		v.AuxInt = c
+		v.AuxInt = int32ToAuxInt(int32(c))
 		v.AddArg(x)
 		return true
 	}
@@ -11003,7 +11015,7 @@ func rewriteValue386_OpRsh32x8(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v3.AuxInt = 32
+		v3.AuxInt = int8ToAuxInt(32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -11045,7 +11057,7 @@ func rewriteValue386_OpRsh8Ux16(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v2.AuxInt = 8
+		v2.AuxInt = int16ToAuxInt(8)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -11087,7 +11099,7 @@ func rewriteValue386_OpRsh8Ux32(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v2.AuxInt = 8
+		v2.AuxInt = int32ToAuxInt(8)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -11115,18 +11127,18 @@ func rewriteValue386_OpRsh8Ux64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Rsh8Ux64 x (Const64 [c]))
 	// cond: uint64(c) < 8
-	// result: (SHRBconst x [c])
+	// result: (SHRBconst x [int8(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 8) {
 			break
 		}
 		v.reset(Op386SHRBconst)
-		v.AuxInt = c
+		v.AuxInt = int8ToAuxInt(int8(c))
 		v.AddArg(x)
 		return true
 	}
@@ -11166,7 +11178,7 @@ func rewriteValue386_OpRsh8Ux8(v *Value) bool {
 		v0.AddArg2(x, y)
 		v1 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v2 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v2.AuxInt = 8
+		v2.AuxInt = int8ToAuxInt(8)
 		v2.AddArg(y)
 		v1.AddArg(v2)
 		v.AddArg2(v0, v1)
@@ -11209,7 +11221,7 @@ func rewriteValue386_OpRsh8x16(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPWconst, types.TypeFlags)
-		v3.AuxInt = 8
+		v3.AuxInt = int16ToAuxInt(8)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -11252,7 +11264,7 @@ func rewriteValue386_OpRsh8x32(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v3.AuxInt = 8
+		v3.AuxInt = int32ToAuxInt(8)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -11280,18 +11292,18 @@ func rewriteValue386_OpRsh8x64(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Rsh8x64 x (Const64 [c]))
 	// cond: uint64(c) < 8
-	// result: (SARBconst x [c])
+	// result: (SARBconst x [int8(c)])
 	for {
 		x := v_0
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := auxIntToInt64(v_1.AuxInt)
 		if !(uint64(c) < 8) {
 			break
 		}
 		v.reset(Op386SARBconst)
-		v.AuxInt = c
+		v.AuxInt = int8ToAuxInt(int8(c))
 		v.AddArg(x)
 		return true
 	}
@@ -11334,7 +11346,7 @@ func rewriteValue386_OpRsh8x8(v *Value) bool {
 		v1 := b.NewValue0(v.Pos, Op386NOTL, y.Type)
 		v2 := b.NewValue0(v.Pos, Op386SBBLcarrymask, y.Type)
 		v3 := b.NewValue0(v.Pos, Op386CMPBconst, types.TypeFlags)
-		v3.AuxInt = 8
+		v3.AuxInt = int8ToAuxInt(8)
 		v3.AddArg(y)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -11407,7 +11419,7 @@ func rewriteValue386_OpSignmask(v *Value) bool {
 	for {
 		x := v_0
 		v.reset(Op386SARLconst)
-		v.AuxInt = 31
+		v.AuxInt = int32ToAuxInt(31)
 		v.AddArg(x)
 		return true
 	}
@@ -11421,7 +11433,7 @@ func rewriteValue386_OpSlicemask(v *Value) bool {
 		t := v.Type
 		x := v_0
 		v.reset(Op386SARLconst)
-		v.AuxInt = 31
+		v.AuxInt = int32ToAuxInt(31)
 		v0 := b.NewValue0(v.Pos, Op386NEGL, t)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -11752,10 +11764,10 @@ func rewriteValue386_OpZeromask(v *Value) bool {
 		t := v.Type
 		x := v_0
 		v.reset(Op386XORLconst)
-		v.AuxInt = -1
+		v.AuxInt = int32ToAuxInt(-1)
 		v0 := b.NewValue0(v.Pos, Op386SBBLcarrymask, t)
 		v1 := b.NewValue0(v.Pos, Op386CMPLconst, types.TypeFlags)
-		v1.AuxInt = 1
+		v1.AuxInt = int32ToAuxInt(1)
 		v1.AddArg(x)
 		v0.AddArg(v1)
 		v.AddArg(v0)
