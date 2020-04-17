@@ -1319,6 +1319,10 @@ func gcStart(trigger gcTrigger) {
 		finishsweep_m()
 	})
 
+	if allocTraceEnabled {
+		getg().m.p.ptr().mcache.atState.sweepTerm()
+	}
+
 	// clearpools before we start the GC. If we wait they memory will not be
 	// reclaimed until the next GC cycle.
 	clearpools()
@@ -1748,6 +1752,10 @@ func gcMarkTermination(nextTriggerRatio float64) {
 	// heap profiling cycle. We do this before starting the world
 	// so events don't leak into the wrong cycle.
 	mProf_NextCycle()
+
+	if allocTraceEnabled {
+		getg().m.p.ptr().mcache.atState.markTerm()
+	}
 
 	systemstack(func() { startTheWorldWithSema(true) })
 
