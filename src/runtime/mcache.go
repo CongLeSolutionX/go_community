@@ -51,6 +51,8 @@ type mcache struct {
 	// in this mcache are stale and need to the flushed so they
 	// can be swept. This is done in acquirep.
 	flushGen uint32
+
+	atState allocTraceContext
 }
 
 // A gclink is a node in a linked list of blocks, like mlink,
@@ -132,6 +134,9 @@ func (c *mcache) refill(spc spanClass) {
 			throw("bad sweepgen in refill")
 		}
 		atomic.Store(&s.sweepgen, mheap_.sweepgen)
+		if allocTraceEnabled {
+			c.atState.spanRelease(s.base(), uint8(spc))
+		}
 	}
 
 	// Get a new cached span from the central lists.
@@ -148,6 +153,9 @@ func (c *mcache) refill(spc spanClass) {
 	// sweeping in the next sweep phase.
 	s.sweepgen = mheap_.sweepgen + 3
 
+	if allocTraceEnabled {
+		c.atState.spanAcquire(s.base(), uint8(spc))
+	}
 	c.alloc[spc] = s
 }
 
@@ -156,6 +164,9 @@ func (c *mcache) releaseAll() {
 		s := c.alloc[i]
 		if s != &emptymspan {
 			mheap_.central[i].mcentral.uncacheSpan(s)
+			if allocTraceEnabled {
+				c.atState.spanRelease(s.base(), uint8(i))
+			}
 			c.alloc[i] = &emptymspan
 		}
 	}
