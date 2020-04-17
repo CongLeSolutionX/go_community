@@ -547,6 +547,10 @@ func schedinit() {
 	lockInit(&cpuprof.lock, lockRankCpuprof)
 	lockInit(&trace.stackTab.lock, lockRankTraceStackTab)
 
+	// Initialize whether the allocation trace is turned on
+	// as early as possible.
+	allocTraceInit()
+
 	// raceinit must be the first call to race detector.
 	// In particular, it must be done before mallocinit below calls racemapshadow.
 	_g_ := getg()
@@ -4127,6 +4131,7 @@ func (pp *p) init(id int32) {
 		} else {
 			pp.mcache = allocmcache()
 		}
+		pp.mcache.atState.init(id)
 	}
 	if raceenabled && pp.raceprocctx == 0 {
 		if id == 0 {
