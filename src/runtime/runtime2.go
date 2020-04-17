@@ -686,6 +686,8 @@ type p struct {
 	// scheduler ASAP (regardless of what G is running on it).
 	preempt bool
 
+	allocTraceContext
+
 	pad cpu.CacheLinePad
 }
 
