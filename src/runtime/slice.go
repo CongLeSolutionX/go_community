@@ -52,6 +52,7 @@ func makeslicecopy(et *_type, tolen int, fromlen int, from unsafe.Pointer) unsaf
 
 	var to unsafe.Pointer
 	if et.ptrdata == 0 {
+		getg().setAllocSite(getcallerpc())
 		to = mallocgc(tomem, nil, false)
 		if copymem < tomem {
 			memclrNoHeapPointers(add(to, copymem), tomem-copymem)
@@ -81,6 +82,7 @@ func makeslicecopy(et *_type, tolen int, fromlen int, from unsafe.Pointer) unsaf
 }
 
 func makeslice(et *_type, len, cap int) unsafe.Pointer {
+	getg().setAllocSite(getcallerpc())
 	mem, overflow := math.MulUintptr(et.size, uintptr(cap))
 	if overflow || mem > maxAlloc || len < 0 || len > cap {
 		// NOTE: Produce a 'len out of range' error instead of a
@@ -90,8 +92,10 @@ func makeslice(et *_type, len, cap int) unsafe.Pointer {
 		// See golang.org/issue/4085.
 		mem, overflow := math.MulUintptr(et.size, uintptr(len))
 		if overflow || mem > maxAlloc || len < 0 {
+			getg().clearAllocSite()
 			panicmakeslicelen()
 		}
+		getg().clearAllocSite()
 		panicmakeslicecap()
 	}
 
@@ -99,17 +103,22 @@ func makeslice(et *_type, len, cap int) unsafe.Pointer {
 }
 
 func makeslice64(et *_type, len64, cap64 int64) unsafe.Pointer {
+	getg().setAllocSite(getcallerpc())
 	len := int(len64)
 	if int64(len) != len64 {
+		getg().clearAllocSite()
 		panicmakeslicelen()
 	}
 
 	cap := int(cap64)
 	if int64(cap) != cap64 {
+		getg().clearAllocSite()
 		panicmakeslicecap()
 	}
 
-	return makeslice(et, len, cap)
+	p := makeslice(et, len, cap)
+	getg().clearAllocSite()
+	return p
 }
 
 // growslice handles slice growth during append.
@@ -221,6 +230,7 @@ func growslice(et *_type, old slice, cap int) slice {
 
 	var p unsafe.Pointer
 	if et.ptrdata == 0 {
+		getg().setAllocSite(getcallerpc())
 		p = mallocgc(capmem, nil, false)
 		// The append() that calls growslice is going to overwrite from old.len to cap (which will be the new length).
 		// Only clear the part that will not be overwritten.

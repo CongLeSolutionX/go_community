@@ -415,6 +415,20 @@ func stackalloc(n uint32) stack {
 	if stackDebug >= 1 {
 		print("  allocated ", v, "\n")
 	}
+	if allocTraceEnabled {
+		if thisg.m.p == 0 {
+			lock(&globalATStateLock)
+			// Check allocTraceEnabled again, since it could have changed.
+			// We need to be very careful because we could wake up from a syscall
+			// during a STW and fall into this path.
+			if allocTraceEnabled {
+				globalATState.allocStack(uintptr(v), uint8(stacklog2(uintptr(n))))
+			}
+			unlock(&globalATStateLock)
+		} else {
+			thisg.m.p.ptr().mcache.atState.allocStack(uintptr(v), uint8(stacklog2(uintptr(n))))
+		}
+	}
 	return stack{uintptr(v), uintptr(v) + uintptr(n)}
 }
 
@@ -448,6 +462,20 @@ func stackfree(stk stack) {
 	}
 	if msanenabled {
 		msanfree(v, n)
+	}
+	if allocTraceEnabled {
+		if gp.m.p == 0 {
+			lock(&globalATStateLock)
+			// Check allocTraceEnabled again, since it could have changed.
+			// We need to be very careful because we could wake up from a syscall
+			// during a STW and fall into this path.
+			if allocTraceEnabled {
+				globalATState.freeStack(uintptr(v))
+			}
+			unlock(&globalATStateLock)
+		} else {
+			gp.m.p.ptr().mcache.atState.freeStack(uintptr(v))
+		}
 	}
 	if n < _FixedStack<<_NumStackOrders && n < _StackCacheSize {
 		order := uint8(0)

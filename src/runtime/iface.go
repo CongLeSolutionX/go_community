@@ -322,6 +322,7 @@ func convT2E(t *_type, elem unsafe.Pointer) (e eface) {
 	if msanenabled {
 		msanread(elem, t.size)
 	}
+	getg().setAllocSite(getcallerpc())
 	x := mallocgc(t.size, t, true)
 	// TODO: We allocate a zeroed object only to overwrite it with actual data.
 	// Figure out how to avoid zeroing. Also below in convT2Eslice, convT2I, convT2Islice.
@@ -338,6 +339,7 @@ func convT16(val uint16) (x unsafe.Pointer) {
 			x = add(x, 6)
 		}
 	} else {
+		getg().setAllocSite(getcallerpc())
 		x = mallocgc(2, uint16Type, false)
 		*(*uint16)(x) = val
 	}
@@ -351,6 +353,7 @@ func convT32(val uint32) (x unsafe.Pointer) {
 			x = add(x, 4)
 		}
 	} else {
+		getg().setAllocSite(getcallerpc())
 		x = mallocgc(4, uint32Type, false)
 		*(*uint32)(x) = val
 	}
@@ -361,6 +364,7 @@ func convT64(val uint64) (x unsafe.Pointer) {
 	if val < uint64(len(staticuint64s)) {
 		x = unsafe.Pointer(&staticuint64s[val])
 	} else {
+		getg().setAllocSite(getcallerpc())
 		x = mallocgc(8, uint64Type, false)
 		*(*uint64)(x) = val
 	}
@@ -371,6 +375,7 @@ func convTstring(val string) (x unsafe.Pointer) {
 	if val == "" {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
+		getg().setAllocSite(getcallerpc())
 		x = mallocgc(unsafe.Sizeof(val), stringType, true)
 		*(*string)(x) = val
 	}
@@ -382,6 +387,7 @@ func convTslice(val []byte) (x unsafe.Pointer) {
 	if (*slice)(unsafe.Pointer(&val)).array == nil {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
+		getg().setAllocSite(getcallerpc())
 		x = mallocgc(unsafe.Sizeof(val), sliceType, true)
 		*(*[]byte)(x) = val
 	}
@@ -395,6 +401,7 @@ func convT2Enoptr(t *_type, elem unsafe.Pointer) (e eface) {
 	if msanenabled {
 		msanread(elem, t.size)
 	}
+	getg().setAllocSite(getcallerpc())
 	x := mallocgc(t.size, t, false)
 	memmove(x, elem, t.size)
 	e._type = t
@@ -410,6 +417,7 @@ func convT2I(tab *itab, elem unsafe.Pointer) (i iface) {
 	if msanenabled {
 		msanread(elem, t.size)
 	}
+	getg().setAllocSite(getcallerpc())
 	x := mallocgc(t.size, t, true)
 	typedmemmove(t, x, elem)
 	i.tab = tab
@@ -425,6 +433,7 @@ func convT2Inoptr(tab *itab, elem unsafe.Pointer) (i iface) {
 	if msanenabled {
 		msanread(elem, t.size)
 	}
+	getg().setAllocSite(getcallerpc())
 	x := mallocgc(t.size, t, false)
 	memmove(x, elem, t.size)
 	i.tab = tab
@@ -442,8 +451,10 @@ func convI2I(inter *interfacetype, i iface) (r iface) {
 		r.data = i.data
 		return
 	}
+	getg().setAllocSite(getcallerpc())
 	r.tab = getitab(inter, tab._type, false)
 	r.data = i.data
+	getg().clearAllocSite()
 	return
 }
 

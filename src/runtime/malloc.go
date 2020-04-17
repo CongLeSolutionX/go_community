@@ -479,6 +479,7 @@ func mallocinit() {
 	// Initialize the heap.
 	mheap_.init()
 	mcache0 = allocmcache()
+	mcache0.atState.init(0) // This will belong to the 0th P.
 	lockInit(&gcBitsArenas.lock, lockRankGcBitsArenas)
 	lockInit(&proflock, lockRankProf)
 	lockInit(&globalAlloc.mutex, lockRankGlobalAlloc)
@@ -882,7 +883,6 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 		c.refill(spc)
 		shouldhelpgc = true
 		s = c.alloc[spc]
-
 		freeIndex = s.nextFreeIndex()
 	}
 
@@ -941,15 +941,18 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		}
 	}
 
+	// gp is the current user G.
+	gp := getg()
+	if gp.m.curg != nil {
+		gp = gp.m.curg
+	}
+
 	// assistG is the G to charge for this allocation, or nil if
 	// GC is not currently active.
 	var assistG *g
 	if gcBlackenEnabled != 0 {
 		// Charge the current user G for this allocation.
-		assistG = getg()
-		if assistG.m.curg != nil {
-			assistG = assistG.m.curg
-		}
+		assistG = gp
 		// Charge the allocation against the G. We'll account
 		// for internal fragmentation at the end of mallocgc.
 		assistG.gcAssistBytes -= int64(size)
@@ -980,6 +983,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	}
 	var span *mspan
 	var x unsafe.Pointer
+	var spc spanClass
 	noscan := typ == nil || typ.ptrdata == 0
 	if size <= maxSmallSize {
 		if noscan && size < maxTinySize {
@@ -1054,6 +1058,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				c.tinyoffset = size
 			}
 			size = maxTinySize
+			spc = tinySpanClass
 		} else {
 			var sizeclass uint8
 			if size <= smallSizeMax-8 {
@@ -1062,7 +1067,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				sizeclass = size_to_class128[divRoundUp(size-smallSizeMax, largeSizeDiv)]
 			}
 			size = uintptr(class_to_size[sizeclass])
-			spc := makeSpanClass(sizeclass, noscan)
+			spc = makeSpanClass(sizeclass, noscan)
 			span = c.alloc[spc]
 			v := nextFreeFast(span)
 			if v == 0 {
@@ -1080,6 +1085,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		span.allocCount = 1
 		x = unsafe.Pointer(span.base())
 		size = span.elemsize
+		spc = makeSpanClass(0, noscan)
 	}
 
 	var scanSize uintptr
@@ -1131,6 +1137,17 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		msanmalloc(x, size)
 	}
 
+	if allocTraceEnabled {
+		array := typ != nil && dataSize > typ.size
+		if dataSize <= maxSmallSize {
+			c.atState.allocSmall(uintptr(x), dataSize, size, gp.allocpc, uint8(spc), array)
+		} else {
+			c.atState.allocLarge(uintptr(x), dataSize, noscan, array)
+		}
+	}
+
+	gp.clearAllocSite()
+
 	mp.mallocing = 0
 	releasem(mp)
 
@@ -1174,6 +1191,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 // compiler (both frontend and SSA backend) knows the signature
 // of this function
 func newobject(typ *_type) unsafe.Pointer {
+	getg().setAllocSite(getcallerpc())
 	return mallocgc(typ.size, typ, true)
 }
 
@@ -1189,6 +1207,7 @@ func reflectlite_unsafe_New(typ *_type) unsafe.Pointer {
 
 // newarray allocates an array of n elements of type typ.
 func newarray(typ *_type, n int) unsafe.Pointer {
+	getg().setAllocSite(getcallerpc())
 	if n == 1 {
 		return mallocgc(typ.size, typ, true)
 	}

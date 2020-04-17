@@ -65,10 +65,14 @@ func makechan64(t *chantype, size int64) *hchan {
 		panic(plainError("makechan: size out of range"))
 	}
 
-	return makechan(t, int(size))
+	getg().setAllocSite(getcallerpc())
+	c := makechan(t, int(size))
+	getg().clearAllocSite()
+	return c
 }
 
 func makechan(t *chantype, size int) *hchan {
+	getg().setAllocSite(getcallerpc())
 	elem := t.elem
 
 	// compiler checks this but be safe.
@@ -81,6 +85,7 @@ func makechan(t *chantype, size int) *hchan {
 
 	mem, overflow := math.MulUintptr(elem.size, uintptr(size))
 	if overflow || mem > maxAlloc-hchanSize || size < 0 {
+		getg().clearAllocSite()
 		panic(plainError("makechan: size out of range"))
 	}
 
@@ -114,6 +119,7 @@ func makechan(t *chantype, size int) *hchan {
 	if debugChan {
 		print("makechan: chan=", c, "; elemsize=", elem.size, "; dataqsiz=", size, "\n")
 	}
+	getg().clearAllocSite()
 	return c
 }
 

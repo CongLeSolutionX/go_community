@@ -427,6 +427,7 @@ type g struct {
 	schedlink    guintptr
 	waitsince    int64      // approx time when the g become blocked
 	waitreason   waitReason // if status==Gwaiting
+	allocpc      uintptr    // allocation site pc
 
 	preempt       bool // preemption signal, duplicates stackguard0 = stackpreempt
 	preemptStop   bool // transition to _Gpreempted on preemption; otherwise, just deschedule
@@ -481,6 +482,19 @@ type g struct {
 	// and check for debt in the malloc hot path. The assist ratio
 	// determines how this corresponds to scan work debt.
 	gcAssistBytes int64
+}
+
+//go:nosplit
+func (gp *g) setAllocSite(pc uintptr) {
+	if gp.allocpc != 0 {
+		return
+	}
+	gp.allocpc = pc
+}
+
+//go:nosplit
+func (gp *g) clearAllocSite() {
+	gp.allocpc = 0
 }
 
 type m struct {

@@ -22,6 +22,7 @@ type tmpBuf [tmpStringBufSize]byte
 // escape the calling function, so the string data can be stored in buf
 // if small enough.
 func concatstrings(buf *tmpBuf, a []string) string {
+	getg().setAllocSite(getcallerpc())
 	idx := 0
 	l := 0
 	count := 0
@@ -38,6 +39,7 @@ func concatstrings(buf *tmpBuf, a []string) string {
 		idx = i
 	}
 	if count == 0 {
+		getg().clearAllocSite()
 		return ""
 	}
 
@@ -45,6 +47,7 @@ func concatstrings(buf *tmpBuf, a []string) string {
 	// or our result does not escape the calling frame (buf != nil),
 	// then we can return that string directly.
 	if count == 1 && (buf != nil || !stringDataOnStack(a[idx])) {
+		getg().clearAllocSite()
 		return a[idx]
 	}
 	s, b := rawstringtmp(buf, l)
@@ -52,23 +55,36 @@ func concatstrings(buf *tmpBuf, a []string) string {
 		copy(b, x)
 		b = b[len(x):]
 	}
+	getg().clearAllocSite()
 	return s
 }
 
 func concatstring2(buf *tmpBuf, a [2]string) string {
-	return concatstrings(buf, a[:])
+	getg().setAllocSite(getcallerpc())
+	s := concatstrings(buf, a[:])
+	getg().clearAllocSite()
+	return s
 }
 
 func concatstring3(buf *tmpBuf, a [3]string) string {
-	return concatstrings(buf, a[:])
+	getg().setAllocSite(getcallerpc())
+	s := concatstrings(buf, a[:])
+	getg().clearAllocSite()
+	return s
 }
 
 func concatstring4(buf *tmpBuf, a [4]string) string {
-	return concatstrings(buf, a[:])
+	getg().setAllocSite(getcallerpc())
+	s := concatstrings(buf, a[:])
+	getg().clearAllocSite()
+	return s
 }
 
 func concatstring5(buf *tmpBuf, a [5]string) string {
-	return concatstrings(buf, a[:])
+	getg().setAllocSite(getcallerpc())
+	s := concatstrings(buf, a[:])
+	getg().clearAllocSite()
+	return s
 }
 
 // slicebytetostring converts a byte slice to a string.
@@ -107,6 +123,7 @@ func slicebytetostring(buf *tmpBuf, ptr *byte, n int) (str string) {
 	if buf != nil && n <= len(buf) {
 		p = unsafe.Pointer(buf)
 	} else {
+		getg().setAllocSite(getcallerpc())
 		p = mallocgc(uintptr(n), nil, false)
 	}
 	stringStructOf(&str).str = p
@@ -163,6 +180,7 @@ func slicebytetostringtmp(ptr *byte, n int) (str string) {
 }
 
 func stringtoslicebyte(buf *tmpBuf, s string) []byte {
+	getg().setAllocSite(getcallerpc())
 	var b []byte
 	if buf != nil && len(s) <= len(buf) {
 		*buf = tmpBuf{}
@@ -171,10 +189,12 @@ func stringtoslicebyte(buf *tmpBuf, s string) []byte {
 		b = rawbyteslice(len(s))
 	}
 	copy(b, s)
+	getg().clearAllocSite()
 	return b
 }
 
 func stringtoslicerune(buf *[tmpStringBufSize]rune, s string) []rune {
+	getg().setAllocSite(getcallerpc())
 	// two passes.
 	// unlike slicerunetostring, no race because strings are immutable.
 	n := 0
@@ -195,6 +215,7 @@ func stringtoslicerune(buf *[tmpStringBufSize]rune, s string) []rune {
 		a[n] = r
 		n++
 	}
+	getg().clearAllocSite()
 	return a
 }
 
@@ -208,6 +229,7 @@ func slicerunetostring(buf *tmpBuf, a []rune) string {
 	if msanenabled && len(a) > 0 {
 		msanread(unsafe.Pointer(&a[0]), uintptr(len(a))*unsafe.Sizeof(a[0]))
 	}
+	getg().setAllocSite(getcallerpc())
 	var dum [4]byte
 	size1 := 0
 	for _, r := range a {
@@ -222,6 +244,7 @@ func slicerunetostring(buf *tmpBuf, a []rune) string {
 		}
 		size2 += encoderune(b[size2:], r)
 	}
+	getg().clearAllocSite()
 	return s[:size2]
 }
 
@@ -246,7 +269,9 @@ func intstring(buf *[4]byte, v int64) (s string) {
 		b = buf[:]
 		s = slicebytetostringtmp(&b[0], len(b))
 	} else {
+		getg().setAllocSite(getcallerpc())
 		s, b = rawstring(4)
+		getg().clearAllocSite()
 	}
 	if int64(rune(v)) != v {
 		v = runeError
