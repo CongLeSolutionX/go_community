@@ -870,7 +870,6 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 		c.refill(spc)
 		shouldhelpgc = true
 		s = c.alloc[spc]
-
 		freeIndex = s.nextFreeIndex()
 	}
 
@@ -969,6 +968,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		}
 	}
 	var x unsafe.Pointer
+	var spc spanClass
 	noscan := typ == nil || typ.ptrdata == 0
 	if size <= maxSmallSize {
 		if noscan && size < maxTinySize {
@@ -1043,7 +1043,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				sizeclass = size_to_class128[divRoundUp(size-smallSizeMax, largeSizeDiv)]
 			}
 			size = uintptr(class_to_size[sizeclass])
-			spc := makeSpanClass(sizeclass, noscan)
+			spc = makeSpanClass(sizeclass, noscan)
 			span := c.alloc[spc]
 			v := nextFreeFast(span)
 			if v == 0 {
@@ -1064,6 +1064,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		s.allocCount = 1
 		x = unsafe.Pointer(s.base())
 		size = s.elemsize
+		spc = makeSpanClass(0, noscan)
 	}
 
 	var scanSize uintptr
@@ -1113,6 +1114,14 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 
 	if msanenabled {
 		msanmalloc(x, size)
+	}
+
+	if allocTrace != 0 {
+		if typ != nil && dataSize > typ.size {
+			c.atState.allocArray(uintptr(x), dataSize, typ.size, uint8(spc))
+		} else {
+			c.atState.alloc(uintptr(x), dataSize, uint8(spc))
+		}
 	}
 
 	mp.mallocing = 0

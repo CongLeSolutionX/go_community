@@ -4127,6 +4127,9 @@ func (pp *p) init(id int32) {
 		} else {
 			pp.mcache = allocmcache()
 		}
+		if allocTrace != 0 {
+			pp.mcache.atState.init(id)
+		}
 	}
 	if raceenabled && pp.raceprocctx == 0 {
 		if id == 0 {
