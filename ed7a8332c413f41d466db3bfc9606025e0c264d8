@@ -16,6 +16,24 @@
       "revId": "ed7a8332c413f41d466db3bfc9606025e0c264d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36e935b4_931c90a5",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-17T20:15:10Z",
+      "side": 1,
+      "message": "This is a bit confusing.  The check in mkinlcall() for recursion was already useless because of the recursive check here (I think).  But, also, the mkinlcall() is also limited, since it only covers inlining f into f (where f is recursive).  But we want to disable inlining f into any m (where f is directly recursive).  So, we allow inlining a recursion cycle of functions a-b-c-d-a into m (up to d, if it makes sense), but we don\u0027t want to allow inlining f in m (where f is directly recursive).",
+      "parentUuid": "da46484d_42ea966c",
+      "revId": "ed7a8332c413f41d466db3bfc9606025e0c264d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
