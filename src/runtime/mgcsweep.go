@@ -329,6 +329,56 @@ func (s *mspan) sweep(preserve bool) bool {
 		throw("sweep increased allocation count")
 	}
 
+	if allocTraceEnabled && nfreed != 0 {
+		found := nfreed
+		c.atState.sweepStart(s.base())
+		addr := s.base()
+		for i := uintptr(0); i < (uintptr(s.nelems)+7)/8 && found > 0; i++ {
+			mbits := *s.gcmarkBits.bytep(i)
+			if mbits == ^uint8(0) {
+				addr += 8 * s.elemsize
+				continue
+			}
+			if (i+1)*8 <= s.freeindex {
+				addri := addr
+				for j := uintptr(0); j < 8 && found > 0; j++ {
+					if mbits&(1<<j) == 0 {
+						c.atState.free(addri)
+						found--
+					}
+					addri += s.elemsize
+				}
+			} else if i*8 < s.freeindex {
+				abits := *s.allocBits.bytep(i)
+				addri := addr
+				for j := uintptr(0); j < 8 && i*8+j < s.nelems && found > 0; j++ {
+					if mbits&(1<<j) == 0 && (i*8+j < s.freeindex || abits&(1<<j) != 0) {
+						c.atState.free(addri)
+						found--
+					}
+					addri += s.elemsize
+				}
+			} else {
+				abits := *s.allocBits.bytep(i)
+				addri := addr
+				for j := uintptr(0); j < 8 && i*8+j < s.nelems && found > 0; j++ {
+					if mbits&(1<<j) == 0 && abits&(1<<j) != 0 {
+						c.atState.free(addri)
+						found--
+					}
+					addri += s.elemsize
+				}
+			}
+			addr += 8 * s.elemsize
+		}
+		if found != 0 {
+			print("runtime: missed ", found, " of ", nfreed, " objects\n")
+			print("runtime: s.freeindex = ", s.freeindex, ", s.nelems = ", s.nelems, "\n")
+			throw("tracing failed to find all freed objects")
+		}
+		c.atState.sweepEnd()
+	}
+
 	s.allocCount = nalloc
 	wasempty := s.nextFreeIndex() == s.nelems
 	s.freeindex = 0 // reset allocation index to start of span.
