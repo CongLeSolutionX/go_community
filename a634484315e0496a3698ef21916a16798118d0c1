@@ -22,6 +22,30 @@
       "revId": "a634484315e0496a3698ef21916a16798118d0c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9894473_40629626",
+        "filename": "src/math/big/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-04-17T03:19:43Z",
+      "side": 1,
+      "message": "Done, but FWIW, the Go linker calls this \"deadcode\", implemented in func deadcode in deadcode.go and deadcode2.go (sometimes a file just gets too long and you need to go to file2.go)",
+      "parentUuid": "a7e79e39_f847312f",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "a634484315e0496a3698ef21916a16798118d0c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
