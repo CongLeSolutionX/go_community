@@ -867,9 +867,17 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 			println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
 			throw("s.allocCount != s.nelems && freeIndex == s.nelems")
 		}
+		if allocTrace != 0 {
+			atContext().spanRelease()
+		}
+
 		c.refill(spc)
 		shouldhelpgc = true
 		s = c.alloc[spc]
+
+		if allocTrace != 0 {
+			atContext().spanAcquire(s.base(), uint8(spc))
+		}
 
 		freeIndex = s.nextFreeIndex()
 	}
@@ -1120,6 +1128,14 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 
 	if debug.allocfreetrace != 0 {
 		tracealloc(x, size, typ)
+	}
+
+	if allocTrace != 0 {
+		origSize := dataSize
+		if typ != nil {
+			origSize = typ.size
+		}
+		atContext().alloc(uintptr(x), dataSize, origSize)
 	}
 
 	if rate := MemProfileRate; rate > 0 {

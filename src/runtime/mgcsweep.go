@@ -336,6 +336,28 @@ func (s *mspan) sweep(preserve bool) bool {
 		getg().m.p.ptr().traceReclaimed += uintptr(nfreed) * s.elemsize
 	}
 
+	if allocTrace != 0 && nfreed != 0 {
+		found := nfreed
+		atContext().sweepStart(s.base())
+		addr := s.base()
+		for i := uintptr(0); i < uintptr(s.nelems)/8 && found != 0; i++ {
+			abits := *s.allocBits.bytep(i)
+			mbits := *s.gcmarkBits.bytep(i)
+			if freed := abits ^ mbits; freed != 0 {
+				addri := addr
+				for i := uintptr(0); i < 8 && found != 0; i++ {
+					if freed&(1<<i) != 0 {
+						atContext().free(addri)
+						found -= 1
+					}
+					addri += s.elemsize
+				}
+			}
+			addr += 8 * s.elemsize
+		}
+		atContext().sweepEnd()
+	}
+
 	// gcmarkBits becomes the allocBits.
 	// get a fresh cleared gcmarkBits in preparation for next GC
 	s.allocBits = s.gcmarkBits
