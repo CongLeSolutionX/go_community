@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5d024932_28c0a3e4",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-17T19:45:24Z",
+      "side": 1,
+      "message": "Good point.\nDone.",
+      "parentUuid": "4286d9fa_aeec15c6",
+      "range": {
+        "startLine": 723,
+        "startChar": 0,
+        "endLine": 723,
+        "endChar": 35
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11ede782_3c439e2c",
         "filename": "src/runtime/mprof.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-16T23:45:48Z",
       "side": 1,
       "message": "Can we preserve the previous logic as much as possible\nto make review easier?\n\nr, lbl :\u003d p, labels\n...\nr, lbl \u003d r[1:], lbl[1:]\n\n...\nsaveg(..., \u0026r[0])\nr \u003d r[1:]\nif labels !\u003d nil { \n  lbl[0] \u003d gp1.labels\n  lbl \u003d lbl[1:] \n}",
+      "range": {
+        "startLine": 763,
+        "startChar": 0,
+        "endLine": 763,
+        "endChar": 4
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d5e0e8_f4e40683",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-17T19:45:24Z",
+      "side": 1,
+      "message": "Sorry, I was hoping that rewriting this a bit would clarify the logic.\nI\u0027ve rewritten it to reduce the diff and preserve more of the existing logic.",
+      "parentUuid": "11ede782_3c439e2c",
       "range": {
         "startLine": 763,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2996891c_5b7f30da",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-17T19:45:24Z",
+      "side": 1,
+      "message": "Yes, but I was figuring that making this a method reduced namespace pollution for the package, and gives it a convenient name.\nI can switch it to a free-function if that\u0027s preferable.\nHow\u0027s humanizeLabelMap for a name?",
+      "parentUuid": "9f90e972_cc2a085b",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cdfbcc43_c5525749",
         "filename": "src/runtime/pprof/label.go",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d195fb55_b2fd845b",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-17T19:45:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdfbcc43_c5525749",
+      "range": {
+        "startLine": 49,
+        "startChar": 44,
+        "endLine": 49,
+        "endChar": 45
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "90356f8e_58fd4ecb",
+        "filename": "src/runtime/pprof/label_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-17T19:45:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13b1e5ae_7e1a30d6",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd824fd_bbc56828",
         "filename": "src/runtime/pprof/pprof.go",
         "patchSetId": 2
@@ -137,6 +257,30 @@
       "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "025dbb4e_5fc9951c",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-17T19:45:24Z",
+      "side": 1,
+      "message": "Excellent point!\nDone.",
+      "parentUuid": "7dd824fd_bbc56828",
+      "range": {
+        "startLine": 421,
+        "startChar": 19,
+        "endLine": 421,
+        "endChar": 32
+      },
+      "revId": "4cf3a8a17125d748e3619a43fe8219aa3c7a1854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
