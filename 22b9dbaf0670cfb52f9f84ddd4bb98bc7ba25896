@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b592fa9_0186edde",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-04-18T22:30:35Z",
+      "side": 1,
+      "message": "why two 32-bit loads instead of 1 64-bit load? For 32-bit platforms?\n\nCan you update the comment to reference a codegen test in the tree to that verifies that the compiler does in fact do this optimization? And add one if none exists.",
+      "range": {
+        "startLine": 454,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 24
+      },
+      "revId": "22b9dbaf0670cfb52f9f84ddd4bb98bc7ba25896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
