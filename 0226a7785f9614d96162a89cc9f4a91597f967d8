@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "855928d3_b8a39924",
+        "filename": "src/cmd/compile/internal/ssa/gen/Wasm.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-18T21:53:24Z",
+      "side": 1,
+      "message": "I think it\u0027s ok. This is an explicit signal that the auxint of div64 should be ignored. The other direction is dangerous - I don\u0027t want an auxint that matters to be accidentally ignored, or transferred from machine-independent ops to machine-dependent ops incorrectly.\n\n(You might use [0] here instead of [a], to ensure the changes to prove remain.)",
+      "revId": "0226a7785f9614d96162a89cc9f4a91597f967d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
