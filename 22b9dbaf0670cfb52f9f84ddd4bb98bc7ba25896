@@ -22,6 +22,30 @@
       "revId": "22b9dbaf0670cfb52f9f84ddd4bb98bc7ba25896",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ebbc083_66946bf3",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-04-18T22:38:02Z",
+      "side": 1,
+      "message": "The commit message notes: \"Combining two 32bit loads into an uint allows the same code to be used for 32bit and 64bit platforms.\" I will clarify in the source code.\n\nWill add a reference to memcombine: https://github.com/golang/go/blob/de2318e3c68530cd3ff6d3a1d378239598301fb0/test/codegen/memcombine.go#L136",
+      "parentUuid": "8b592fa9_0186edde",
+      "range": {
+        "startLine": 454,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 24
+      },
+      "revId": "22b9dbaf0670cfb52f9f84ddd4bb98bc7ba25896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
