@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6c726f9_40cd06eb",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-04-18T23:06:07Z",
+      "side": 1,
+      "message": "This seems to be true for at least arm64, amd64, s390x, 386, ppc64le but may not be for e.g. arm (not tested). Should this code be conditional until all platforms have memcombine ssa rules (if this is even possible)?\n\nI plan to send more of these Cls e.g. for rune counting.",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 71
+      },
+      "revId": "1bb8820bf6d25c1785e2118038dd536d99c30a34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
