@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69adc3d9_65e86c59",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1501,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-18T19:31:47Z",
+      "side": 1,
+      "message": "The nesting here is impeding readability.\n\nHow about\n\nswitch c {\ncase \u0027(\u0027:\n  balance++\ncase \u0027)\u0027:\n  balance--\n  if balance \u003c 0 {\n    // don\u0027t ...\n    return balance\n  }\n}",
+      "revId": "2b511e7fb7a068242c339d3df9660f84decff572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
