@@ -94,6 +94,30 @@
       "revId": "1bb8820bf6d25c1785e2118038dd536d99c30a34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f41f92ba_7ecb0a55",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-04-19T22:45:27Z",
+      "side": 1,
+      "message": "Raspberry Pi 3: makes the ASCII case 33% faster and non-ASCII 6% slower.",
+      "parentUuid": "6cb2b8a6_16971987",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 71
+      },
+      "revId": "1bb8820bf6d25c1785e2118038dd536d99c30a34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
