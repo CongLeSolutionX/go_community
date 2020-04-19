@@ -272,8 +272,8 @@
 		(MOVLstoreconst [makeValAndOff32(0,0)] destptr mem))
 
 // Strip off any fractional word zeroing.
-(Zero [s] destptr mem) && s%4 != 0 && s > 4 ->
-	(Zero [s-s%4] (ADDLconst destptr [s%4])
+(Zero [s] destptr mem) && s%4 != 0 && s > 4 =>
+	(Zero [s-s%4] (ADDLconst destptr [int32(s%4)])
 		(MOVLstoreconst [0] destptr mem))
 
 // Zero small numbers of words directly.
@@ -370,113 +370,114 @@
 // TODO: Should the optimizations be a separate pass?
 
 // Fold boolean tests into blocks
-(NE (TESTB (SETL  cmp) (SETL  cmp)) yes no) -> (LT  cmp yes no)
-(NE (TESTB (SETLE cmp) (SETLE cmp)) yes no) -> (LE  cmp yes no)
-(NE (TESTB (SETG  cmp) (SETG  cmp)) yes no) -> (GT  cmp yes no)
-(NE (TESTB (SETGE cmp) (SETGE cmp)) yes no) -> (GE  cmp yes no)
-(NE (TESTB (SETEQ cmp) (SETEQ cmp)) yes no) -> (EQ  cmp yes no)
-(NE (TESTB (SETNE cmp) (SETNE cmp)) yes no) -> (NE  cmp yes no)
-(NE (TESTB (SETB  cmp) (SETB  cmp)) yes no) -> (ULT cmp yes no)
-(NE (TESTB (SETBE cmp) (SETBE cmp)) yes no) -> (ULE cmp yes no)
-(NE (TESTB (SETA  cmp) (SETA  cmp)) yes no) -> (UGT cmp yes no)
-(NE (TESTB (SETAE cmp) (SETAE cmp)) yes no) -> (UGE cmp yes no)
-(NE (TESTB (SETO cmp) (SETO cmp)) yes no) -> (OS cmp yes no)
+(NE (TESTB (SETL  cmp) (SETL  cmp)) yes no) => (LT  cmp yes no)
+(NE (TESTB (SETLE cmp) (SETLE cmp)) yes no) => (LE  cmp yes no)
+(NE (TESTB (SETG  cmp) (SETG  cmp)) yes no) => (GT  cmp yes no)
+(NE (TESTB (SETGE cmp) (SETGE cmp)) yes no) => (GE  cmp yes no)
+(NE (TESTB (SETEQ cmp) (SETEQ cmp)) yes no) => (EQ  cmp yes no)
+(NE (TESTB (SETNE cmp) (SETNE cmp)) yes no) => (NE  cmp yes no)
+(NE (TESTB (SETB  cmp) (SETB  cmp)) yes no) => (ULT cmp yes no)
+(NE (TESTB (SETBE cmp) (SETBE cmp)) yes no) => (ULE cmp yes no)
+(NE (TESTB (SETA  cmp) (SETA  cmp)) yes no) => (UGT cmp yes no)
+(NE (TESTB (SETAE cmp) (SETAE cmp)) yes no) => (UGE cmp yes no)
+(NE (TESTB (SETO cmp) (SETO cmp)) yes no) => (OS cmp yes no)
 
 // Special case for floating point - LF/LEF not generated
-(NE (TESTB (SETGF  cmp) (SETGF  cmp)) yes no) -> (UGT  cmp yes no)
-(NE (TESTB (SETGEF cmp) (SETGEF cmp)) yes no) -> (UGE  cmp yes no)
-(NE (TESTB (SETEQF cmp) (SETEQF cmp)) yes no) -> (EQF  cmp yes no)
-(NE (TESTB (SETNEF cmp) (SETNEF cmp)) yes no) -> (NEF  cmp yes no)
+(NE (TESTB (SETGF  cmp) (SETGF  cmp)) yes no) => (UGT  cmp yes no)
+(NE (TESTB (SETGEF cmp) (SETGEF cmp)) yes no) => (UGE  cmp yes no)
+(NE (TESTB (SETEQF cmp) (SETEQF cmp)) yes no) => (EQF  cmp yes no)
+(NE (TESTB (SETNEF cmp) (SETNEF cmp)) yes no) => (NEF  cmp yes no)
 
 // fold constants into instructions
-(ADDL x (MOVLconst [c])) -> (ADDLconst [c] x)
-(ADDLcarry x (MOVLconst [c])) -> (ADDLconstcarry [c] x)
-(ADCL x (MOVLconst [c]) f) -> (ADCLconst [c] x f)
+(ADDL x (MOVLconst [c])) => (ADDLconst [c] x)
+(ADDLcarry x (MOVLconst [c])) => (ADDLconstcarry [c] x)
+(ADCL x (MOVLconst [c]) f) => (ADCLconst [c] x f)
 
-(SUBL x (MOVLconst [c])) -> (SUBLconst x [c])
-(SUBL (MOVLconst [c]) x) -> (NEGL (SUBLconst <v.Type> x [c]))
-(SUBLcarry x (MOVLconst [c])) -> (SUBLconstcarry [c] x)
-(SBBL x (MOVLconst [c]) f) -> (SBBLconst [c] x f)
+(SUBL x (MOVLconst [c])) => (SUBLconst x [c])
+(SUBL (MOVLconst [c]) x) => (NEGL (SUBLconst <v.Type> x [c]))
+(SUBLcarry x (MOVLconst [c])) => (SUBLconstcarry [c] x)
+(SBBL x (MOVLconst [c]) f) => (SBBLconst [c] x f)
 
-(MULL x (MOVLconst [c])) -> (MULLconst [c] x)
+(MULL x (MOVLconst [c])) => (MULLconst [c] x)
+(ANDL x (MOVLconst [c])) => (ANDLconst [c] x)
 
-(ANDL x (MOVLconst [c])) -> (ANDLconst [c] x)
+(ANDLconst [c] (ANDLconst [d] x)) => (ANDLconst [c & d] x)
+(XORLconst [c] (XORLconst [d] x)) => (XORLconst [c ^ d] x)
+(MULLconst [c] (MULLconst [d] x)) => (MULLconst [c * d] x)
 
-(ANDLconst [c] (ANDLconst [d] x)) -> (ANDLconst [c & d] x)
+(ORL x (MOVLconst [c])) => (ORLconst [c] x)
+(XORL x (MOVLconst [c])) => (XORLconst [c] x)
 
-(XORLconst [c] (XORLconst [d] x)) -> (XORLconst [c ^ d] x)
+(SHLL x (MOVLconst [c])) => (SHLLconst [c&31] x)
+(SHRL x (MOVLconst [c])) => (SHRLconst [c&31] x)
+(SHRW x (MOVLconst [c])) && c&31 < 16 => (SHRWconst [int16(c&31)] x)
+(SHRW _ (MOVLconst [c])) && c&31 >= 16 => (MOVLconst [0])
+(SHRB x (MOVLconst [c])) && c&31 < 8 => (SHRBconst [int8(c&31)] x)
+(SHRB _ (MOVLconst [c])) && c&31 >= 8 => (MOVLconst [0])
 
-(MULLconst [c] (MULLconst [d] x)) -> (MULLconst [int64(int32(c * d))] x)
+(SARL x (MOVLconst [c])) => (SARLconst [c&31] x)
+(SARW x (MOVLconst [c])) => (SARWconst [int16(min(int64(c&31),15))] x)
+(SARB x (MOVLconst [c])) => (SARBconst [int8(min(int64(c&31),7))] x)
 
-(ORL x (MOVLconst [c])) -> (ORLconst [c] x)
-
-(XORL x (MOVLconst [c])) -> (XORLconst [c] x)
-
-(SHLL x (MOVLconst [c])) -> (SHLLconst [c&31] x)
-(SHRL x (MOVLconst [c])) -> (SHRLconst [c&31] x)
-(SHRW x (MOVLconst [c])) && c&31 < 16 -> (SHRWconst [c&31] x)
-(SHRW _ (MOVLconst [c])) && c&31 >= 16 -> (MOVLconst [0])
-(SHRB x (MOVLconst [c])) && c&31 < 8 -> (SHRBconst [c&31] x)
-(SHRB _ (MOVLconst [c])) && c&31 >= 8 -> (MOVLconst [0])
-
-(SARL x (MOVLconst [c])) -> (SARLconst [c&31] x)
-(SARW x (MOVLconst [c])) -> (SARWconst [min(c&31,15)] x)
-(SARB x (MOVLconst [c])) -> (SARBconst [min(c&31,7)] x)
-
-(SARL x (ANDLconst [31] y)) -> (SARL x y)
-
-(SHLL x (ANDLconst [31] y)) -> (SHLL x y)
-
-(SHRL x (ANDLconst [31] y)) -> (SHRL x y)
+(SARL x (ANDLconst [31] y)) => (SARL x y)
+(SHLL x (ANDLconst [31] y)) => (SHLL x y)
+(SHRL x (ANDLconst [31] y)) => (SHRL x y)
 
 // Rotate instructions
 
-(ADDL (SHLLconst [c] x) (SHRLconst [d] x)) && d == 32-c -> (ROLLconst [c] x)
-( ORL (SHLLconst [c] x) (SHRLconst [d] x)) && d == 32-c -> (ROLLconst [c] x)
-(XORL (SHLLconst [c] x) (SHRLconst [d] x)) && d == 32-c -> (ROLLconst [c] x)
+(ADDL (SHLLconst [c] x) (SHRLconst [d] x)) && d == 32-c => (ROLLconst [c] x)
+( ORL (SHLLconst [c] x) (SHRLconst [d] x)) && d == 32-c => (ROLLconst [c] x)
+(XORL (SHLLconst [c] x) (SHRLconst [d] x)) && d == 32-c => (ROLLconst [c] x)
 
-(ADDL <t> (SHLLconst x [c]) (SHRWconst x [d])) && c < 16 && d == 16-c && t.Size() == 2 -> (ROLWconst x [c])
-( ORL <t> (SHLLconst x [c]) (SHRWconst x [d])) && c < 16 && d == 16-c && t.Size() == 2 -> (ROLWconst x [c])
-(XORL <t> (SHLLconst x [c]) (SHRWconst x [d])) && c < 16 && d == 16-c && t.Size() == 2 -> (ROLWconst x [c])
+(ADDL <t> (SHLLconst x [c]) (SHRWconst x [d])) && c < 16 && d == int16(16-c) && t.Size() == 2
+  => (ROLWconst x [int16(c)])
+( ORL <t> (SHLLconst x [c]) (SHRWconst x [d])) && c < 16 && d == int16(16-c) && t.Size() == 2
+  => (ROLWconst x [int16(c)])
+(XORL <t> (SHLLconst x [c]) (SHRWconst x [d])) && c < 16 && d == int16(16-c) && t.Size() == 2
+  => (ROLWconst x [int16(c)])
 
-(ADDL <t> (SHLLconst x [c]) (SHRBconst x [d])) && c < 8 && d == 8-c && t.Size() == 1 -> (ROLBconst x [c])
-( ORL <t> (SHLLconst x [c]) (SHRBconst x [d])) && c < 8 && d == 8-c && t.Size() == 1 -> (ROLBconst x [c])
-(XORL <t> (SHLLconst x [c]) (SHRBconst x [d])) && c < 8 && d == 8-c && t.Size() == 1 -> (ROLBconst x [c])
+(ADDL <t> (SHLLconst x [c]) (SHRBconst x [d])) && c < 8 && d == int8(8-c) && t.Size() == 1
+  => (ROLBconst x [int8(c)])
+( ORL <t> (SHLLconst x [c]) (SHRBconst x [d])) && c < 8 && d == int8(8-c) && t.Size() == 1
+  => (ROLBconst x [int8(c)])
+(XORL <t> (SHLLconst x [c]) (SHRBconst x [d])) && c < 8 && d == int8(8-c) && t.Size() == 1
+  => (ROLBconst x [int8(c)])
 
-(ROLLconst [c] (ROLLconst [d] x)) -> (ROLLconst [(c+d)&31] x)
-(ROLWconst [c] (ROLWconst [d] x)) -> (ROLWconst [(c+d)&15] x)
-(ROLBconst [c] (ROLBconst [d] x)) -> (ROLBconst [(c+d)& 7] x)
+(ROLLconst [c] (ROLLconst [d] x)) => (ROLLconst [(c+d)&31] x)
+(ROLWconst [c] (ROLWconst [d] x)) => (ROLWconst [(c+d)&15] x)
+(ROLBconst [c] (ROLBconst [d] x)) => (ROLBconst [(c+d)& 7] x)
+
 
 // Constant shift simplifications
 
-(SHLLconst x [0]) -> x
-(SHRLconst x [0]) -> x
-(SARLconst x [0]) -> x
+(SHLLconst x [0]) => x
+(SHRLconst x [0]) => x
+(SARLconst x [0]) => x
 
-(SHRWconst x [0]) -> x
-(SARWconst x [0]) -> x
+(SHRWconst x [0]) => x
+(SARWconst x [0]) => x
 
-(SHRBconst x [0]) -> x
-(SARBconst x [0]) -> x
+(SHRBconst x [0]) => x
+(SARBconst x [0]) => x
 
-(ROLLconst [0] x) -> x
-(ROLWconst [0] x) -> x
-(ROLBconst [0] x) -> x
+(ROLLconst [0] x) => x
+(ROLWconst [0] x) => x
+(ROLBconst [0] x) => x
 
 // Note: the word and byte shifts keep the low 5 bits (not the low 4 or 3 bits)
 // because the x86 instructions are defined to use all 5 bits of the shift even
 // for the small shifts. I don't think we'll ever generate a weird shift (e.g.
 // (SHRW x (MOVLconst [24])), but just in case.
 
-(CMPL x (MOVLconst [c])) -> (CMPLconst x [c])
-(CMPL (MOVLconst [c]) x) -> (InvertFlags (CMPLconst x [c]))
-(CMPW x (MOVLconst [c])) -> (CMPWconst x [int64(int16(c))])
-(CMPW (MOVLconst [c]) x) -> (InvertFlags (CMPWconst x [int64(int16(c))]))
-(CMPB x (MOVLconst [c])) -> (CMPBconst x [int64(int8(c))])
-(CMPB (MOVLconst [c]) x) -> (InvertFlags (CMPBconst x [int64(int8(c))]))
+(CMPL x (MOVLconst [c])) => (CMPLconst x [c])
+(CMPL (MOVLconst [c]) x) => (InvertFlags (CMPLconst x [c]))
+(CMPW x (MOVLconst [c])) => (CMPWconst x [int16(c)])
+(CMPW (MOVLconst [c]) x) => (InvertFlags (CMPWconst x [int16(c)]))
+(CMPB x (MOVLconst [c])) => (CMPBconst x [int8(c)])
+(CMPB (MOVLconst [c]) x) => (InvertFlags (CMPBconst x [int8(c)]))
 
 // Canonicalize the order of arguments to comparisons - helps with CSE.
-(CMP(L|W|B) x y) && x.ID > y.ID -> (InvertFlags (CMP(L|W|B) y x))
+(CMP(L|W|B) x y) && x.ID > y.ID => (InvertFlags (CMP(L|W|B) y x))
 
 // strength reduction
 // Assumes that the following costs from https://gmplib.org/~tege/x86-timing.pdf:
@@ -487,66 +488,66 @@
 // which can require a register-register move
 // to preserve the original value,
 // so it must be used with care.
-(MULLconst [-9] x) -> (NEGL (LEAL8 <v.Type> x x))
-(MULLconst [-5] x) -> (NEGL (LEAL4 <v.Type> x x))
-(MULLconst [-3] x) -> (NEGL (LEAL2 <v.Type> x x))
-(MULLconst [-1] x) -> (NEGL x)
-(MULLconst [0] _) -> (MOVLconst [0])
-(MULLconst [1] x) -> x
-(MULLconst [3] x) -> (LEAL2 x x)
-(MULLconst [5] x) -> (LEAL4 x x)
-(MULLconst [7] x) -> (LEAL2 x (LEAL2 <v.Type> x x))
-(MULLconst [9] x) -> (LEAL8 x x)
-(MULLconst [11] x) -> (LEAL2 x (LEAL4 <v.Type> x x))
-(MULLconst [13] x) -> (LEAL4 x (LEAL2 <v.Type> x x))
-(MULLconst [19] x) -> (LEAL2 x (LEAL8 <v.Type> x x))
-(MULLconst [21] x) -> (LEAL4 x (LEAL4 <v.Type> x x))
-(MULLconst [25] x) -> (LEAL8 x (LEAL2 <v.Type> x x))
-(MULLconst [27] x) -> (LEAL8 (LEAL2 <v.Type> x x) (LEAL2 <v.Type> x x))
-(MULLconst [37] x) -> (LEAL4 x (LEAL8 <v.Type> x x))
-(MULLconst [41] x) -> (LEAL8 x (LEAL4 <v.Type> x x))
-(MULLconst [45] x) -> (LEAL8 (LEAL4 <v.Type> x x) (LEAL4 <v.Type> x x))
-(MULLconst [73] x) -> (LEAL8 x (LEAL8 <v.Type> x x))
-(MULLconst [81] x) -> (LEAL8 (LEAL8 <v.Type> x x) (LEAL8 <v.Type> x x))
+(MULLconst [-9] x) => (NEGL (LEAL8 <v.Type> x x))
+(MULLconst [-5] x) => (NEGL (LEAL4 <v.Type> x x))
+(MULLconst [-3] x) => (NEGL (LEAL2 <v.Type> x x))
+(MULLconst [-1] x) => (NEGL x)
+(MULLconst [0] _) => (MOVLconst [0])
+(MULLconst [1] x) => x
+(MULLconst [3] x) => (LEAL2 x x)
+(MULLconst [5] x) => (LEAL4 x x)
+(MULLconst [7] x) => (LEAL2 x (LEAL2 <v.Type> x x))
+(MULLconst [9] x) => (LEAL8 x x)
+(MULLconst [11] x) => (LEAL2 x (LEAL4 <v.Type> x x))
+(MULLconst [13] x) => (LEAL4 x (LEAL2 <v.Type> x x))
+(MULLconst [19] x) => (LEAL2 x (LEAL8 <v.Type> x x))
+(MULLconst [21] x) => (LEAL4 x (LEAL4 <v.Type> x x))
+(MULLconst [25] x) => (LEAL8 x (LEAL2 <v.Type> x x))
+(MULLconst [27] x) => (LEAL8 (LEAL2 <v.Type> x x) (LEAL2 <v.Type> x x))
+(MULLconst [37] x) => (LEAL4 x (LEAL8 <v.Type> x x))
+(MULLconst [41] x) => (LEAL8 x (LEAL4 <v.Type> x x))
+(MULLconst [45] x) => (LEAL8 (LEAL4 <v.Type> x x) (LEAL4 <v.Type> x x))
+(MULLconst [73] x) => (LEAL8 x (LEAL8 <v.Type> x x))
+(MULLconst [81] x) => (LEAL8 (LEAL8 <v.Type> x x) (LEAL8 <v.Type> x x))
 
-(MULLconst [c] x) && isPowerOfTwo(c+1) && c >= 15 -> (SUBL (SHLLconst <v.Type> [log2(c+1)] x) x)
-(MULLconst [c] x) && isPowerOfTwo(c-1) && c >= 17 -> (LEAL1 (SHLLconst <v.Type> [log2(c-1)] x) x)
-(MULLconst [c] x) && isPowerOfTwo(c-2) && c >= 34 -> (LEAL2 (SHLLconst <v.Type> [log2(c-2)] x) x)
-(MULLconst [c] x) && isPowerOfTwo(c-4) && c >= 68 -> (LEAL4 (SHLLconst <v.Type> [log2(c-4)] x) x)
-(MULLconst [c] x) && isPowerOfTwo(c-8) && c >= 136 -> (LEAL8 (SHLLconst <v.Type> [log2(c-8)] x) x)
-(MULLconst [c] x) && c%3 == 0 && isPowerOfTwo(c/3) -> (SHLLconst [log2(c/3)] (LEAL2 <v.Type> x x))
-(MULLconst [c] x) && c%5 == 0 && isPowerOfTwo(c/5) -> (SHLLconst [log2(c/5)] (LEAL4 <v.Type> x x))
-(MULLconst [c] x) && c%9 == 0 && isPowerOfTwo(c/9) -> (SHLLconst [log2(c/9)] (LEAL8 <v.Type> x x))
+(MULLconst [c] x) && isPowerOfTwo32(c+1) && c >= 15 => (SUBL (SHLLconst <v.Type> [int32(log32(c+1))] x) x)
+(MULLconst [c] x) && isPowerOfTwo32(c-1) && c >= 17 => (LEAL1 (SHLLconst <v.Type> [int32(log32(c-1))] x) x)
+(MULLconst [c] x) && isPowerOfTwo32(c-2) && c >= 34 => (LEAL2 (SHLLconst <v.Type> [int32(log32(c-2))] x) x)
+(MULLconst [c] x) && isPowerOfTwo32(c-4) && c >= 68 => (LEAL4 (SHLLconst <v.Type> [int32(log32(c-4))] x) x)
+(MULLconst [c] x) && isPowerOfTwo32(c-8) && c >= 136 => (LEAL8 (SHLLconst <v.Type> [int32(log32(c-8))] x) x)
+(MULLconst [c] x) && c%3 == 0 && isPowerOfTwo32(c/3) => (SHLLconst [int32(log32(c/3))] (LEAL2 <v.Type> x x))
+(MULLconst [c] x) && c%5 == 0 && isPowerOfTwo32(c/5) => (SHLLconst [int32(log32(c/5))] (LEAL4 <v.Type> x x))
+(MULLconst [c] x) && c%9 == 0 && isPowerOfTwo32(c/9) => (SHLLconst [int32(log32(c/9))] (LEAL8 <v.Type> x x))
 
 // combine add/shift into LEAL
-(ADDL x (SHLLconst [3] y)) -> (LEAL8 x y)
-(ADDL x (SHLLconst [2] y)) -> (LEAL4 x y)
-(ADDL x (SHLLconst [1] y)) -> (LEAL2 x y)
-(ADDL x (ADDL y y)) -> (LEAL2 x y)
-(ADDL x (ADDL x y)) -> (LEAL2 y x)
+(ADDL x (SHLLconst [3] y)) => (LEAL8 x y)
+(ADDL x (SHLLconst [2] y)) => (LEAL4 x y)
+(ADDL x (SHLLconst [1] y)) => (LEAL2 x y)
+(ADDL x (ADDL y y)) => (LEAL2 x y)
+(ADDL x (ADDL x y)) => (LEAL2 y x)
 
 // combine ADDL/ADDLconst into LEAL1
-(ADDLconst [c] (ADDL x y)) -> (LEAL1 [c] x y)
-(ADDL (ADDLconst [c] x) y) -> (LEAL1 [c] x y)
+(ADDLconst [c] (ADDL x y)) => (LEAL1 [c] x y)
+(ADDL (ADDLconst [c] x) y) => (LEAL1 [c] x y)
 
 // fold ADDL into LEAL
-(ADDLconst [c] (LEAL [d] {s} x)) && is32Bit(c+d) -> (LEAL [c+d] {s} x)
-(LEAL [c] {s} (ADDLconst [d] x)) && is32Bit(c+d) -> (LEAL [c+d] {s} x)
-(LEAL [c] {s} (ADDL x y)) && x.Op != OpSB && y.Op != OpSB -> (LEAL1 [c] {s} x y)
-(ADDL x (LEAL [c] {s} y)) && x.Op != OpSB && y.Op != OpSB -> (LEAL1 [c] {s} x y)
+(ADDLconst [c] (LEAL [d] {s} x)) && is32Bit(int64(c+d)) => (LEAL [c+d] {s} x)
+(LEAL [c] {s} (ADDLconst [d] x)) && is32Bit(int64(c+d)) => (LEAL [c+d] {s} x)
+(LEAL [c] {s} (ADDL x y)) && x.Op != OpSB && y.Op != OpSB => (LEAL1 [c] {s} x y)
+(ADDL x (LEAL [c] {s} y)) && x.Op != OpSB && y.Op != OpSB => (LEAL1 [c] {s} x y)
 
 // fold ADDLconst into LEALx
-(ADDLconst [c] (LEAL1 [d] {s} x y)) && is32Bit(c+d) -> (LEAL1 [c+d] {s} x y)
-(ADDLconst [c] (LEAL2 [d] {s} x y)) && is32Bit(c+d) -> (LEAL2 [c+d] {s} x y)
-(ADDLconst [c] (LEAL4 [d] {s} x y)) && is32Bit(c+d) -> (LEAL4 [c+d] {s} x y)
-(ADDLconst [c] (LEAL8 [d] {s} x y)) && is32Bit(c+d) -> (LEAL8 [c+d] {s} x y)
-(LEAL1 [c] {s} (ADDLconst [d] x) y) && is32Bit(c+d)   && x.Op != OpSB -> (LEAL1 [c+d] {s} x y)
-(LEAL2 [c] {s} (ADDLconst [d] x) y) && is32Bit(c+d)   && x.Op != OpSB -> (LEAL2 [c+d] {s} x y)
-(LEAL2 [c] {s} x (ADDLconst [d] y)) && is32Bit(c+2*d) && y.Op != OpSB -> (LEAL2 [c+2*d] {s} x y)
-(LEAL4 [c] {s} (ADDLconst [d] x) y) && is32Bit(c+d)   && x.Op != OpSB -> (LEAL4 [c+d] {s} x y)
-(LEAL4 [c] {s} x (ADDLconst [d] y)) && is32Bit(c+4*d) && y.Op != OpSB -> (LEAL4 [c+4*d] {s} x y)
-(LEAL8 [c] {s} (ADDLconst [d] x) y) && is32Bit(c+d)   && x.Op != OpSB -> (LEAL8 [c+d] {s} x y)
-(LEAL8 [c] {s} x (ADDLconst [d] y)) && is32Bit(c+8*d) && y.Op != OpSB -> (LEAL8 [c+8*d] {s} x y)
+(ADDLconst [c] (LEAL1 [d] {s} x y)) && is32Bit(int64(c+d)) -> (LEAL1 [c+d] {s} x y)
+(ADDLconst [c] (LEAL2 [d] {s} x y)) && is32Bit(int64(c+d)) -> (LEAL2 [c+d] {s} x y)
+(ADDLconst [c] (LEAL4 [d] {s} x y)) && is32Bit(int64(c+d)) -> (LEAL4 [c+d] {s} x y)
+(ADDLconst [c] (LEAL8 [d] {s} x y)) && is32Bit(int64(c+d)) -> (LEAL8 [c+d] {s} x y)
+(LEAL1 [c] {s} (ADDLconst [d] x) y) && is32Bit(int64(c+d))   && x.Op != OpSB -> (LEAL1 [c+d] {s} x y)
+(LEAL2 [c] {s} (ADDLconst [d] x) y) && is32Bit(int64(c+d))   && x.Op != OpSB -> (LEAL2 [c+d] {s} x y)
+(LEAL2 [c] {s} x (ADDLconst [d] y)) && is32Bit(int64(c+2*d)) && y.Op != OpSB -> (LEAL2 [c+2*d] {s} x y)
+(LEAL4 [c] {s} (ADDLconst [d] x) y) && is32Bit(int64(c+d))   && x.Op != OpSB -> (LEAL4 [c+d] {s} x y)
+(LEAL4 [c] {s} x (ADDLconst [d] y)) && is32Bit(int64(c+4*d)) && y.Op != OpSB -> (LEAL4 [c+4*d] {s} x y)
+(LEAL8 [c] {s} (ADDLconst [d] x) y) && is32Bit(int64(c+d))   && x.Op != OpSB -> (LEAL8 [c+d] {s} x y)
+(LEAL8 [c] {s} x (ADDLconst [d] y)) && is32Bit(int64(c+8*d)) && y.Op != OpSB -> (LEAL8 [c+8*d] {s} x y)
 
 // fold shifts into LEALx
 (LEAL1 [c] {s} x (SHLLconst [1] y)) -> (LEAL2 [c] {s} x y)
