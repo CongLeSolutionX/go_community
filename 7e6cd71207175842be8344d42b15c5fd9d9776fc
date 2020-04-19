@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf7ff762_c4169b23",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T20:15:46Z",
+      "side": 1,
+      "message": "Maybe worth adding min8/min16 to use here? Not sure.",
+      "range": {
+        "startLine": 419,
+        "startChar": 46,
+        "endLine": 419,
+        "endChar": 49
+      },
+      "revId": "7e6cd71207175842be8344d42b15c5fd9d9776fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01bcaa3f_11a5bf0b",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T20:15:46Z",
+      "side": 1,
+      "message": "This will always return true. I think this rule is trying to prevent overflow, in which case you need is32Bit(int64(c)+int64(d))\nSame in a bunch of places below.",
+      "range": {
+        "startLine": 534,
+        "startChar": 36,
+        "endLine": 534,
+        "endChar": 55
+      },
+      "revId": "7e6cd71207175842be8344d42b15c5fd9d9776fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e811c838_cd5fab35",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T20:15:46Z",
+      "side": 1,
+      "message": "This cast is unnecessary now.",
+      "range": {
+        "startLine": 632,
+        "startChar": 61,
+        "endLine": 632,
+        "endChar": 74
+      },
+      "revId": "7e6cd71207175842be8344d42b15c5fd9d9776fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4423a79a_d87664ce",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T20:15:46Z",
+      "side": 1,
+      "message": "Might be worth adding a canAdd32.",
+      "range": {
+        "startLine": 632,
+        "startChar": 75,
+        "endLine": 632,
+        "endChar": 81
+      },
+      "revId": "7e6cd71207175842be8344d42b15c5fd9d9776fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd2be82a_a8d850c6",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T20:15:46Z",
+      "side": 1,
+      "message": "I think we want new ops on ValAndOff that return a ValAndOff.\nMaybe addOffset32 and addOffset64?\nThen this would just be [sc.addOffset32(off)] here, and sc.canAddOffset32(off) above?",
+      "range": {
+        "startLine": 633,
+        "startChar": 24,
+        "endLine": 633,
+        "endChar": 64
+      },
+      "revId": "7e6cd71207175842be8344d42b15c5fd9d9776fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de5347de_b92d577d",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T20:15:46Z",
+      "side": 1,
+      "message": "Probably want a mergeSym2 for this.\nOr can we just change the return type of mergeSym to Sym? That might work for now.\n(And then when all the old rules are gone, change the args of mergeSym to Sym as well.)",
+      "range": {
+        "startLine": 684,
+        "startChar": 25,
+        "endLine": 684,
+        "endChar": 44
+      },
+      "revId": "7e6cd71207175842be8344d42b15c5fd9d9776fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d047c61_70ee7747",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T20:15:46Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right. CMPWconst should only consider the low 16 bits of its arguments.\nYou should use int16(x) \u003d\u003d y instead, and in the rest of this section.\n\nCMP{W,B} ops in 386Ops.go need a better comment about their behavior in this regard.",
+      "range": {
+        "startLine": 739,
+        "startChar": 35,
+        "endLine": 739,
+        "endChar": 46
+      },
+      "revId": "7e6cd71207175842be8344d42b15c5fd9d9776fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
