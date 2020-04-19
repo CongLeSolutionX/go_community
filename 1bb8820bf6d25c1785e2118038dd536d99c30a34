@@ -46,6 +46,30 @@
       "revId": "1bb8820bf6d25c1785e2118038dd536d99c30a34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9884785_d784ef16",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-04-19T20:29:35Z",
+      "side": 1,
+      "message": "Ack. Will look for a host to benchmark this on.\n\nAnother idea to avoid slow downs would be to only enable this on 64bit platforms. Most if not all are likely to support unaligned 64bit loads. If we have a platform that doesnt support load combining yet we may be able to add it to complete support for all 64bit archs.",
+      "parentUuid": "9284fe2a_0a7e5940",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 71
+      },
+      "revId": "1bb8820bf6d25c1785e2118038dd536d99c30a34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
