@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e47971f_fdfa73e3",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-19T23:14:47Z",
+      "side": 1,
+      "message": "// balance returns the number of unclosed \u0027(\u0027 characters in s.",
+      "revId": "a2280fdacf1ab2e89e49069e0abf75d1eaac383d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "462a6473_59c3bb73",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-19T23:14:47Z",
+      "side": 1,
+      "message": "// If a \u0027)\u0027 appears without a corresponding \u0027(\u0027, balance returns -1.\n\n(Added \"a\", rewrote to avoid passive voice.)",
+      "revId": "a2280fdacf1ab2e89e49069e0abf75d1eaac383d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7fdbf3b_1e0c4559",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1496,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-19T23:14:47Z",
+      "side": 1,
+      "message": "I still like a switch statement better. But this is ok now, too. :)",
+      "revId": "a2280fdacf1ab2e89e49069e0abf75d1eaac383d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
