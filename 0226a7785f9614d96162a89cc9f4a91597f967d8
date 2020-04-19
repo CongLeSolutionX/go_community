@@ -16,6 +16,24 @@
       "revId": "0226a7785f9614d96162a89cc9f4a91597f967d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6edf758_d8c1e673",
+        "filename": "src/cmd/compile/internal/ssa/gen/Wasm.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-04-19T22:55:15Z",
+      "side": 1,
+      "message": "I have replaced [a] with [false] and also added it to Div16/32 and Mod16/32 for consistency.",
+      "parentUuid": "855928d3_b8a39924",
+      "revId": "0226a7785f9614d96162a89cc9f4a91597f967d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
