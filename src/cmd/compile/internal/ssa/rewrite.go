@@ -198,12 +198,15 @@ func isSigned(t *types.Type) bool {
 
 // mergeSym merges two symbolic offsets. There is no real merging of
 // offsets, we just pick the non-nil one.
-func mergeSym(x, y interface{}) interface{} {
+func mergeSym(x, y interface{}) Sym {
+	if x == nil && y == nil {
+		return nil
+	}
 	if x == nil {
-		return y
+		return y.(Sym)
 	}
 	if y == nil {
-		return x
+		return x.(Sym)
 	}
 	panic(fmt.Sprintf("mergeSym with two non-nil syms %s %s", x, y))
 }
