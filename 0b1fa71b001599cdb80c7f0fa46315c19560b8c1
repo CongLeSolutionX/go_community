@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b5b8745_859688ac",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T19:48:16Z",
+      "side": 1,
+      "message": "This shouldn\u0027t work. Does it? You should need an int32() around this expression.\n(A uint32 value shouldn\u0027t be assignable to an auxint field with type int32.)",
+      "range": {
+        "startLine": 841,
+        "startChar": 46,
+        "endLine": 841,
+        "endChar": 66
+      },
+      "revId": "0b1fa71b001599cdb80c7f0fa46315c19560b8c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c6bcb45_2872a4da",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T19:48:16Z",
+      "side": 1,
+      "message": "I think these are wrong. They should sign extend as before.",
+      "revId": "0b1fa71b001599cdb80c7f0fa46315c19560b8c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f91142a_d4aa903c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-19T19:48:16Z",
+      "side": 1,
+      "message": "RL shifts need the uint32 cast so they shift in 0s.",
+      "revId": "0b1fa71b001599cdb80c7f0fa46315c19560b8c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
