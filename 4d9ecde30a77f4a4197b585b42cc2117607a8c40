@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5abd1a18_b9ac2f04",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-20T14:46:31Z",
+      "side": 0,
+      "message": "Would it make more sense to just add \"\u0026\u0026 !gp.throwsplit\" to this condition and eliminate the if above entirely?",
+      "revId": "4d9ecde30a77f4a4197b585b42cc2117607a8c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
