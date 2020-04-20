@@ -217,7 +217,7 @@ func mergeSymTyped(x, y Sym) Sym {
 	if y == nil {
 		return x
 	}
-	panic(fmt.Sprintf("mergeSym with two non-nil syms %s %s", x, y))
+	panic(fmt.Sprintf("mergeSym with two non-nil syms %v %v", x, y))
 }
 
 // canMergeLoadClobber reports whether the load can be merged into target without
