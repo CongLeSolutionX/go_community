@@ -766,8 +766,19 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 		c.verifiedChains = chains
 	}
 
+	c.peerCertificates = certs
+	c.ocspResponse = certificate.OCSPStaple
+	c.scts = certificate.SignedCertificateTimestamps
+
 	if c.config.VerifyPeerCertificate != nil {
 		if err := c.config.VerifyPeerCertificate(certificates, c.verifiedChains); err != nil {
+			c.sendAlert(alertBadCertificate)
+			return err
+		}
+	}
+
+	if c.config.VerifyConnection != nil {
+		if err := c.config.VerifyConnection(c.connectionStateLocked()); err != nil {
 			c.sendAlert(alertBadCertificate)
 			return err
 		}
@@ -783,10 +794,6 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 		c.sendAlert(alertUnsupportedCertificate)
 		return fmt.Errorf("tls: client certificate contains an unsupported public key of type %T", certs[0].PublicKey)
 	}
-
-	c.peerCertificates = certs
-	c.ocspResponse = certificate.OCSPStaple
-	c.scts = certificate.SignedCertificateTimestamps
 	return nil
 }
 
