@@ -1374,36 +1374,7 @@ func (c *Conn) Handshake() error {
 func (c *Conn) ConnectionState() ConnectionState {
 	c.handshakeMutex.Lock()
 	defer c.handshakeMutex.Unlock()
-
-	var state ConnectionState
-	state.HandshakeComplete = c.handshakeComplete()
-	state.ServerName = c.serverName
-
-	if state.HandshakeComplete {
-		state.Version = c.vers
-		state.NegotiatedProtocol = c.clientProtocol
-		state.DidResume = c.didResume
-		state.NegotiatedProtocolIsMutual = !c.clientProtocolFallback
-		state.CipherSuite = c.cipherSuite
-		state.PeerCertificates = c.peerCertificates
-		state.VerifiedChains = c.verifiedChains
-		state.SignedCertificateTimestamps = c.scts
-		state.OCSPResponse = c.ocspResponse
-		if !c.didResume && c.vers != VersionTLS13 {
-			if c.clientFinishedIsFirst {
-				state.TLSUnique = c.clientFinished[:]
-			} else {
-				state.TLSUnique = c.serverFinished[:]
-			}
-		}
-		if c.config.Renegotiation != RenegotiateNever {
-			state.ekm = noExportedKeyingMaterial
-		} else {
-			state.ekm = c.ekm
-		}
-	}
-
-	return state
+	return c.connectionStateLocked()
 }
 
 // OCSPResponse returns the stapled OCSP response from the TLS server, if
@@ -1435,4 +1406,32 @@ func (c *Conn) VerifyHostname(host string) error {
 
 func (c *Conn) handshakeComplete() bool {
 	return atomic.LoadUint32(&c.handshakeStatus) == 1
+}
+
+func (c *Conn) connectionStateLocked() ConnectionState {
+	var state ConnectionState
+	state.HandshakeComplete = c.handshakeComplete()
+	state.Version = c.vers
+	state.NegotiatedProtocol = c.clientProtocol
+	state.DidResume = c.didResume
+	state.NegotiatedProtocolIsMutual = !c.clientProtocolFallback
+	state.ServerName = c.serverName
+	state.CipherSuite = c.cipherSuite
+	state.PeerCertificates = c.peerCertificates
+	state.VerifiedChains = c.verifiedChains
+	state.SignedCertificateTimestamps = c.scts
+	state.OCSPResponse = c.ocspResponse
+	if !c.didResume && c.vers != VersionTLS13 {
+		if c.clientFinishedIsFirst {
+			state.TLSUnique = c.clientFinished[:]
+		} else {
+			state.TLSUnique = c.serverFinished[:]
+		}
+	}
+	if c.config.Renegotiation != RenegotiateNever {
+		state.ekm = noExportedKeyingMaterial
+	} else {
+		state.ekm = c.ekm
+	}
+	return state
 }

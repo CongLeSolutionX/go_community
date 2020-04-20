@@ -146,6 +146,7 @@ func (c *Conn) clientHandshake() (err error) {
 	if err != nil {
 		return err
 	}
+	c.serverName = hello.serverName
 
 	cacheKey, session, earlySecret, binderKey := c.loadSession(hello)
 	if cacheKey != "" && session != nil {
@@ -446,25 +447,6 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 	}
 	hs.finishedHash.Write(certMsg.marshal())
 
-	if c.handshakes == 0 {
-		// If this is the first handshake on a connection, process and
-		// (optionally) verify the server's certificates.
-		if err := c.verifyServerCertificate(certMsg.certificates); err != nil {
-			return err
-		}
-	} else {
-		// This is a renegotiation handshake. We require that the
-		// server's identity (i.e. leaf certificate) is unchanged and
-		// thus any previous trust decision is still valid.
-		//
-		// See https://mitls.org/pages/attacks/3SHAKE for the
-		// motivation behind this requirement.
-		if !bytes.Equal(c.peerCertificates[0].Raw, certMsg.certificates[0]) {
-			c.sendAlert(alertBadCertificate)
-			return errors.New("tls: server's identity changed during renegotiation")
-		}
-	}
-
 	msg, err = c.readHandshake()
 	if err != nil {
 		return err
@@ -490,6 +472,25 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 		msg, err = c.readHandshake()
 		if err != nil {
 			return err
+		}
+	}
+
+	if c.handshakes == 0 {
+		// If this is the first handshake on a connection, process and
+		// (optionally) verify the server's certificates.
+		if err := c.verifyServerCertificate(certMsg.certificates); err != nil {
+			return err
+		}
+	} else {
+		// This is a renegotiation handshake. We require that the
+		// server's identity (i.e. leaf certificate) is unchanged and
+		// thus any previous trust decision is still valid.
+		//
+		// See https://mitls.org/pages/attacks/3SHAKE for the
+		// motivation behind this requirement.
+		if !bytes.Equal(c.peerCertificates[0].Raw, certMsg.certificates[0]) {
+			c.sendAlert(alertBadCertificate)
+			return errors.New("tls: server's identity changed during renegotiation")
 		}
 	}
 
@@ -835,6 +836,13 @@ func (c *Conn) verifyServerCertificate(certificates [][]byte) error {
 	}
 
 	c.peerCertificates = certs
+
+	if c.config.VerifyConnection != nil {
+		if err := c.config.VerifyConnection(c.connectionStateLocked()); err != nil {
+			c.sendAlert(alertBadCertificate)
+			return err
+		}
+	}
 
 	return nil
 }
