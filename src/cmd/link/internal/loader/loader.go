@@ -1398,6 +1398,16 @@ func (l *Loader) SubSym(i Sym) Sym {
 	return l.sub[i]
 }
 
+// SetOuterSym sets the outer symbol of i to o (without setting
+// sub symbols).
+func (l *Loader) SetOuterSym(i Sym, o Sym) {
+	if o != 0 {
+		l.outer[i] = o
+	} else {
+		delete(l.outer, i)
+	}
+}
+
 // Initialize Reachable bitmap and its siblings for running deadcode pass.
 func (l *Loader) InitReachable() {
 	l.growAttrBitmaps(l.NSym() + 1)
@@ -2225,8 +2235,7 @@ func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) int {
 			continue
 		}
 
-		s := l.addNewSym(gi, name, ver, r.unit, t)
-		l.migrateAttributes(gi, s)
+		l.addNewSym(gi, name, ver, r.unit, t)
 		nr += r.NReloc(i)
 	}
 	return nr
@@ -2378,10 +2387,19 @@ func (l *Loader) migrateAttributes(src Sym, dst *sym.Symbol) {
 		dst.Sub = l.Syms[sub]
 	}
 
-	// Set sub-symbol attribute. FIXME: would be better to do away
-	// with this and just use l.OuterSymbol() != 0 elsewhere within
-	// the linker.
-	dst.Attr.Set(sym.AttrSubSymbol, dst.Outer != nil)
+	// Set sub-symbol attribute.
+	//
+	// In sym.Symbols world, it uses Outer to record container symbols.
+	// Currently there are two kinds
+	// - Outer symbol covers the address ranges of its sub-symbols.
+	//   Outer.Sub is set in this case.
+	// - Outer symbol doesn't conver the address ranges. It is zero-sized
+	//   and doesn't have sub-symbols. In the case, the inner symbol is
+	//   not actually a "SubSymbol". (Tricky!)
+	//
+	// FIXME: would be better to do away with this and have a better way
+	// to represent container symbols.
+	dst.Attr.Set(sym.AttrSubSymbol, l.outer[src] != 0 && l.sub[l.outer[src]] != 0)
 
 	// Copy over dynimplib, dynimpvers, extname.
 	if name, ok := l.extname[src]; ok {
@@ -2447,6 +2465,8 @@ func loadObjFull(l *Loader, r *oReader) {
 		if s == nil {
 			continue
 		}
+
+		l.migrateAttributes(gi, s)
 
 		osym := r.Sym(i)
 		dupok := osym.Dupok()
