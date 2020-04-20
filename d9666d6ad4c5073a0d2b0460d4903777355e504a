@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab5c86bf_8421de59",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-20T19:49:44Z",
+      "side": 1,
+      "message": "We need to ensure that malformed parenthesis throw out an error e.g.:\n* 30+10i)\n* (30+10i\n* (\n\nand now looking it, we don\u0027t need endCh anymore, so perhaps:\n\tif len(s) \u003e 1 \u0026\u0026 s[0] \u003d\u003d \u0027(\u0027 || s[len(s)-1] \u003d\u003d \u0027)\u0027 {\n                wellFormedParens :\u003d s[0] \u003d\u003d \u0027(\u0027 \u0026\u0026 s[len(s)-1] \u003d\u003d \u0027)\u0027\n                if !wellFormedParens {\n                     return 0, syntaxError(fnParseComplex, `\"`+s + `\" must have matching parentheses (N+Ni)`)\n                }\n\t\ts \u003d s[1 : len(s)-1]\n\t}\n\n        if s[len(s)-1] !\u003d \u0027i\u0027 {",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 2
+      },
+      "revId": "d9666d6ad4c5073a0d2b0460d4903777355e504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d233eeae_60d1db9a",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-20T19:49:44Z",
+      "side": 1,
+      "message": "Let\u0027s perhaps move this stripping of \u0027i\u0027 until after we\u0027ve checked signPos.\nThat\u0027s simplify in documenting and the logic for what we should expect.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "d9666d6ad4c5073a0d2b0460d4903777355e504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2b4d9be_9bfdcc3e",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-20T19:49:44Z",
+      "side": 1,
+      "message": "It would be nice if we declare upfront here what s should look like e.g.\n\n// At this point, s should look like any of the following:\n// * ±2±10i\n// * ±3e±10±3i\n// * ±3e10±5i\n// * ±3e±10±4e±10i",
+      "range": {
+        "startLine": 94,
+        "startChar": 1,
+        "endLine": 108,
+        "endChar": 2
+      },
+      "revId": "d9666d6ad4c5073a0d2b0460d4903777355e504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa6684f_0a0de231",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-20T19:49:44Z",
+      "side": 1,
+      "message": "// From here onwards, is either of the forms:\n// * Complex number with both a real and imaginary component: N+Ni\n// * Purely an imaginary number in exponential form: Ni",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 52
+      },
+      "revId": "d9666d6ad4c5073a0d2b0460d4903777355e504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0dde066_d442139b",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-20T19:49:44Z",
+      "side": 1,
+      "message": "This code isn\u0027t intuitive to me on what it does.\nWould be nice to explain the logic of how we figure out what\u0027s real what\u0027s imaginary.\n\nHowever, if we squint even closer and if we write down and observe every form of\nwhat s would look like at this point, you\u0027ll see that perhaps we can get the index\nthat separates the real from imaginary forms with these combinations:\n* ±Ni\n* N±Ni \n* ±N±Ni\n* ±NeR±NeIi\n* ±Ne±R±NeIi\n* NeR±Ne±Ii\n* ±Ne±R±Ne±Ii\n\nI think a pattern emerges that we use to successfully parse out the real and imaginary parts\nand we can remove the loop entirely. Perhaps this code would suffice:\n\n// Find the index that separates the real from the imaginary.\nvar splitIndex int\n\nswitch len(signPos) % 2 {\ncase 1: // Odd length\n   // Expected forms:\n   // * N±Ni\n   // * ±Ne±R±NeIi\n   // * Ne±R±Ne±Ii\n   if len(signPos) \u003d\u003d 1 { // Form: N±Ni\n       splitIndex \u003d signPos[0]\n   } else if signPos[0] \u003d\u003d 0 { // Form: ±Ne±R±NeIi\n       splitIndex \u003d signPos[len(signPos)-1]\n   } else { // Form: Ne±R±Ne±Ii, it is the middle index of signPos.\n       splitIndex \u003d len(signPos) \u003e\u003e 1\n   }\n   \ndefault: // Even length, absolute separation of ± at mid-way point.\n   // Expected forms:\n   // * Ne±R±NeIi\n   // * ±Ne±R±Ne±Ii\n   // * Ne±R±NeIi\n   splitIndex \u003d len(signPos) \u003e\u003e 1\n}\n\nrealStr, imagStr :\u003d s[:splitIndex], s[splitIndex:]\nreal, err :\u003d parseComplexComponent(realStr, orig, bitSize)\nif err !\u003d nil {\n      ...\n}\nimag, err :\u003d parseComplexComponent(imagStr, orig, bitsize)\nif err !\u003d nil {\n      ...\n}\n\nreturn complex(real, imag), nil",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 2
+      },
+      "revId": "d9666d6ad4c5073a0d2b0460d4903777355e504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5b620a7_72227143",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-20T19:49:44Z",
+      "side": 1,
+      "message": "We\u0027ll also need to test for malformed data and formats we don\u0027t yet accept like:\n* 30+3i)\n* (30+4i\n* (\n* )\n* \"foo\"\n* 10e+10+30i+\n* 10  + 5i  -- v1 we can stick to the tight restriction of N+Ni without spaces\n\nBut also we need to ensure we accept:\n* ±Inf\n* ±Nan\n* Hexadecimal values e.g. ±0x10.3p±8±0x3p3i\n\nand all their enumerations.",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 4
+      },
+      "revId": "d9666d6ad4c5073a0d2b0460d4903777355e504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "416a0f99_8e7f8082",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-20T19:49:44Z",
+      "side": 1,
+      "message": "We\u0027ll need to further explain why we are changing bitSize here.\nPerhaps please document in the doc for FormatComplex what the different\nranges of values for bitSize mean.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 2
+      },
+      "revId": "d9666d6ad4c5073a0d2b0460d4903777355e504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
