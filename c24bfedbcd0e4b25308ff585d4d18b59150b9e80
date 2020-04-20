@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90d77b04_945f429d",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-20T17:09:56Z",
+      "side": 1,
+      "message": "This needs to update, copy from the new code.",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 0
+      },
+      "revId": "c24bfedbcd0e4b25308ff585d4d18b59150b9e80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
