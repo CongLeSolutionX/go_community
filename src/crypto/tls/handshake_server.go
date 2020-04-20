@@ -71,6 +71,7 @@ func (hs *serverHandshakeState) handshake() error {
 	c.buffering = true
 	if hs.checkForResumption() {
 		// The client has included a session ticket and so we do an abbreviated handshake.
+		c.didResume = true
 		if err := hs.doResumeHandshake(); err != nil {
 			return err
 		}
@@ -95,7 +96,6 @@ func (hs *serverHandshakeState) handshake() error {
 		if err := hs.readFinished(nil); err != nil {
 			return err
 		}
-		c.didResume = true
 	} else {
 		// The client didn't include a session ticket, or it wasn't
 		// valid so we do a full handshake.
@@ -766,6 +766,19 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 		c.verifiedChains = chains
 	}
 
+	c.peerCertificates = certs
+	c.ocspResponse = certificate.OCSPStaple
+	c.scts = certificate.SignedCertificateTimestamps
+
+	if len(certs) > 0 {
+		switch certs[0].PublicKey.(type) {
+		case *ecdsa.PublicKey, *rsa.PublicKey, ed25519.PublicKey:
+		default:
+			c.sendAlert(alertUnsupportedCertificate)
+			return fmt.Errorf("tls: client certificate contains an unsupported public key of type %T", certs[0].PublicKey)
+		}
+	}
+
 	if c.config.VerifyPeerCertificate != nil {
 		if err := c.config.VerifyPeerCertificate(certificates, c.verifiedChains); err != nil {
 			c.sendAlert(alertBadCertificate)
@@ -773,20 +786,13 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 		}
 	}
 
-	if len(certs) == 0 {
-		return nil
+	if c.config.VerifyConnection != nil {
+		if err := c.config.VerifyConnection(c.connectionStateLocked()); err != nil {
+			c.sendAlert(alertBadCertificate)
+			return err
+		}
 	}
 
-	switch certs[0].PublicKey.(type) {
-	case *ecdsa.PublicKey, *rsa.PublicKey, ed25519.PublicKey:
-	default:
-		c.sendAlert(alertUnsupportedCertificate)
-		return fmt.Errorf("tls: client certificate contains an unsupported public key of type %T", certs[0].PublicKey)
-	}
-
-	c.peerCertificates = certs
-	c.ocspResponse = certificate.OCSPStaple
-	c.scts = certificate.SignedCertificateTimestamps
 	return nil
 }
 
