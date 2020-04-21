@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6756a3d2_69f406fc",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-21T13:47:23Z",
+      "side": 1,
+      "message": "It looks to me like the original intent was for it to be a ROLookup (there\u0027s error handling).\n\nhttps://go-review.googlesource.com/27790",
+      "parentUuid": "eb3e66f8_cd0ae9fa",
+      "revId": "3ca8a36ef3f93dacc81a24025ff4d2e7f484c972",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13bccb86_9f5e1faa",
         "filename": "src/cmd/link/internal/ld/symtab.go",
         "patchSetId": 2
