@@ -22,6 +22,30 @@
       "revId": "5848fc3e544b1ddaa80eef277cfcbc4ed259950a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377dacab_677891fe",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-04-21T08:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35c82e62_903cb229",
+      "range": {
+        "startLine": 740,
+        "startChar": 35,
+        "endLine": 740,
+        "endChar": 42
+      },
+      "revId": "5848fc3e544b1ddaa80eef277cfcbc4ed259950a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
