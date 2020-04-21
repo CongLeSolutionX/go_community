@@ -2051,6 +2051,37 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 			}
 		}
 	}
+
+	// Free some memory.
+	// At this point we still need basic index mapping, but not much else.
+	l.values = nil
+	l.symSects = nil
+	l.itablink = nil
+	l.attrOnList = nil
+	l.attrLocal = nil
+	l.attrNotInSymbolTable = nil
+	l.attrVisibilityHidden = nil
+	l.attrDuplicateOK = nil
+	l.attrShared = nil
+	l.attrExternal = nil
+	l.attrReadOnly = nil
+	l.attrTopFrame = nil
+	l.attrSpecial = nil
+	l.attrCgoExportDynamic = nil
+	l.attrCgoExportStatic = nil
+	l.outer = nil
+	l.sub = nil
+	l.align = nil
+	l.dynimplib = nil
+	l.dynimpvers = nil
+	l.localentry = nil
+	l.extname = nil
+	l.elfType = nil
+	l.symPkg = nil
+	l.plt = nil
+	l.got = nil
+	l.dynid = nil
+	l.relocVariant = nil
 }
 
 // ResolveABIAlias given a symbol returns the ABI alias target of that
