@@ -34,6 +34,24 @@
       "revId": "4d9ecde30a77f4a4197b585b42cc2117607a8c40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ef55114_ceceb673",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-21T23:28:08Z",
+      "side": 0,
+      "message": "Given that no signal is both _SigNotify and _SigPanic, I\u0027m pretty sure it is equivalent. But either way. I wonder if there\u0027s just a clearer way to write this whole thing...",
+      "parentUuid": "1772be58_63cd132c",
+      "revId": "4d9ecde30a77f4a4197b585b42cc2117607a8c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
