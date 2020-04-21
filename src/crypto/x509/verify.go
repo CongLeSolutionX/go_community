@@ -804,14 +804,11 @@ func (c *Certificate) Verify(opts VerifyOptions) (chains [][]*Certificate, err e
 }
 
 func appendToFreshChain(chain []*Certificate, cert *Certificate) []*Certificate {
-	n := make([]*Certificate, len(chain)+1)
-	copy(n, chain)
-	n[len(chain)] = cert
-	return n
+	return append(chain[:len(chain):len(chain)], cert)
 }
 
 // maxChainSignatureChecks is the maximum number of CheckSignatureFrom calls
-// that an invocation of buildChains will (tranistively) make. Most chains are
+// that an invocation of buildChains will (transitively) make. Most chains are
 // less than 15 certificates long, so this leaves space for multiple chains and
 // for failed checks due to different intermediates having the same Subject.
 const maxChainSignatureChecks = 100
