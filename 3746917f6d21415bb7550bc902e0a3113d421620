@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72e0c214_b047c80e",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-21T16:53:33Z",
+      "side": 1,
+      "message": "Maybe Val() and Off() should return int32? Not sure how invasive that might be.\n(Not in this CL.)",
+      "range": {
+        "startLine": 998,
+        "startChar": 44,
+        "endLine": 998,
+        "endChar": 51
+      },
+      "revId": "3746917f6d21415bb7550bc902e0a3113d421620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
