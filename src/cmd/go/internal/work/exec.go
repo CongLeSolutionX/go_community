@@ -2978,7 +2978,11 @@ func mkAbsFiles(dir string, files []string) []string {
 // argument starting with '@' means that the rest of the argument is
 // a filename of arguments to expand.
 //
-// See Issue 18468.
+// passLongArgsInResponseFiles does the same on Darwin. On Darwin,
+// the total argument length is limited. The spec says the limit is 256KB,
+// but we're seeing failures at lower byte counts, sometimes as little as 50KB.
+//
+// See issues 18468 (Windows) and 37768 (Darwin).
 func passLongArgsInResponseFiles(cmd *exec.Cmd) (cleanup func()) {
 	cleanup = func() {} // no cleanup by default
 
@@ -3016,8 +3020,8 @@ func passLongArgsInResponseFiles(cmd *exec.Cmd) (cleanup func()) {
 }
 
 func useResponseFile(path string, argLen int) bool {
-	// Unless we're on Windows, don't use response files.
-	if runtime.GOOS != "windows" {
+	// Unless we're on Windows or Darwin, don't use response files.
+	if runtime.GOOS != "windows" && runtime.GOOS != "darwin" {
 		return false
 	}
 
