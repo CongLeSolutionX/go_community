@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "290aaa0d_83463776",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-21T20:42:38Z",
+      "side": 1,
+      "message": "This isn\u0027t inherently simpler for me to understand when I read it, but maybe you can provide more context? Why `:len(chain):len(chain)` rather than `:len(chain)`?",
+      "range": {
+        "startLine": 807,
+        "startChar": 21,
+        "endLine": 807,
+        "endChar": 43
+      },
+      "revId": "ed29bef18f5ad240501fd4c35f9f30ff782c95ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
