@@ -284,9 +284,11 @@ func TestDisasmGoobj(t *testing.T) {
 	if err != nil {
 		t.Fatalf("go tool compile fmthello.go: %v\n%s", err, out)
 	}
-	need := []string{
-		"main(SB)",
-		"fmthello.go:6",
+
+	// TODO(go115newobj): drop old object file support.
+	need := [][]string{
+		{"main [#0](SB)", "main(SB)"}, // either new or old object file
+		{"fmthello.go:6"},
 	}
 
 	args = []string{
@@ -301,9 +303,16 @@ func TestDisasmGoobj(t *testing.T) {
 
 	text := string(out)
 	ok := true
-	for _, s := range need {
-		if !strings.Contains(text, s) {
-			t.Errorf("disassembly missing '%s'", s)
+	for _, ss := range need {
+		found := false
+		for _, s := range ss {
+			if strings.Contains(text, s) {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("disassembly missing any of %q", ss)
 			ok = false
 		}
 	}
