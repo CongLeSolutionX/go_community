@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ab1e89be_3261be48",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-21T14:27:31Z",
+      "side": 1,
+      "message": "Yeah, \"s \u003d\u003d nil\" makes me think it is supposed to be ROLookup (Lookup can never return nil). Also, I\u0027m pretty sure those symbols already exist: https://tip.golang.org/src/cmd/link/internal/ld/data.go#L2309",
+      "parentUuid": "93d1eeb0_e1fd4e1c",
+      "revId": "3ca8a36ef3f93dacc81a24025ff4d2e7f484c972",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13bccb86_9f5e1faa",
         "filename": "src/cmd/link/internal/ld/symtab.go",
         "patchSetId": 2
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c4672d39_86efad53",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-21T14:27:31Z",
+      "side": 1,
+      "message": "SGTM. Thanks.",
+      "parentUuid": "13bccb86_9f5e1faa",
+      "revId": "3ca8a36ef3f93dacc81a24025ff4d2e7f484c972",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b2e7ddc_dfa1232c",
         "filename": "src/cmd/link/internal/ld/symtab.go",
         "patchSetId": 2
@@ -83,6 +119,24 @@
       "writtenOn": "2020-04-21T12:57:50Z",
       "side": 1,
       "message": "This doesn\u0027t really have anything to do with your change, but I find it very confusing that runtime.egcdata gets created via xdefine (which among other things marks the symbol as \"Special\") whereas runtime.gcdata doesn\u0027t get created this way. Why?",
+      "revId": "3ca8a36ef3f93dacc81a24025ff4d2e7f484c972",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c31bc60a_0906ccc2",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-21T14:27:31Z",
+      "side": 1,
+      "message": "Good point. I don\u0027t know. It might not really matter. I can do some experiment later.",
+      "parentUuid": "9b2e7ddc_dfa1232c",
       "revId": "3ca8a36ef3f93dacc81a24025ff4d2e7f484c972",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
