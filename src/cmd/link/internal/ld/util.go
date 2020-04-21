@@ -140,6 +140,8 @@ func (ds *dumpSyms) dumpBeforeLoadlibfull() {
 		for i := 1; i < l.NSym(); i++ {
 			syms = append(syms, loader.Sym(i))
 		}
+	case "data":
+		syms = ds.ctxt.datap2
 	case "text":
 		syms = ds.ctxt.Textp2
 	}
