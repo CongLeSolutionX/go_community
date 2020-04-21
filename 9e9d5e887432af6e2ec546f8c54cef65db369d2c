@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "534f884e_f8131b18",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-21T01:49:08Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "f6ab95ab_4d796780",
+      "revId": "9e9d5e887432af6e2ec546f8c54cef65db369d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b16da34_3899e979",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "9e9d5e887432af6e2ec546f8c54cef65db369d2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfbdc462_5f39244a",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-21T01:49:08Z",
+      "side": 1,
+      "message": "We should have OS-dependent checks for whether the signal is coming via a function, but I think that is a separate CL.",
+      "parentUuid": "9b16da34_3899e979",
+      "revId": "9e9d5e887432af6e2ec546f8c54cef65db369d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "707e80e1_9b1abc27",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-21T01:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5be8bffc_a66aa22c",
+      "revId": "9e9d5e887432af6e2ec546f8c54cef65db369d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eccb4352_d18d607f",
         "filename": "src/runtime/testdata/testprogcgo/segv.go",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "9e9d5e887432af6e2ec546f8c54cef65db369d2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f08cde_9c62af1e",
+        "filename": "src/runtime/testdata/testprogcgo/segv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-21T01:49:08Z",
+      "side": 1,
+      "message": "It won\u0027t always deliver it to the cgo thread, but my testing on GNU/Linux shows that it does sometimes deliver it to the cgo thread.",
+      "parentUuid": "eccb4352_d18d607f",
+      "revId": "9e9d5e887432af6e2ec546f8c54cef65db369d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

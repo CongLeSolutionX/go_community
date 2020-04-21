@@ -16,6 +16,24 @@
       "revId": "4d9ecde30a77f4a4197b585b42cc2117607a8c40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1772be58_63cd132c",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-21T01:49:08Z",
+      "side": 0,
+      "message": "I started to do that, but looking at this further I think the current code is wrong and that change would be wrong.  If throwsplit is set, I think we have to reliably throw, and in particular we should not fall into sigsend.  So I think we do have to set flags.",
+      "parentUuid": "5abd1a18_b9ac2f04",
+      "revId": "4d9ecde30a77f4a4197b585b42cc2117607a8c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
