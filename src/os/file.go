@@ -143,6 +143,15 @@ func (f *File) ReadAt(b []byte, off int64) (n int, err error) {
 	return
 }
 
+// ReadFrom implements io.ReaderFrom.
+func (f *File) ReadFrom(r io.Reader) (n int64, err error) {
+	if err := f.checkValid("write"); err != nil {
+		return 0, err
+	}
+	n, e := f.readFrom(r)
+	return n, f.wrapErr("write", e)
+}
+
 // Write writes len(b) bytes to the File.
 // It returns the number of bytes written and an error, if any.
 // Write returns a non-nil error when n != len(b).
