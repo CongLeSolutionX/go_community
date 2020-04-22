@@ -128,6 +128,24 @@
       "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1740165a_2b7e5226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-04-22T13:43:13Z",
+      "side": 1,
+      "message": "Just to check: did you run the verification steps? :) I\u0027d rather in the commit message you said something like - \"Verified generated assembly is identical.\" rather than detailing all the steps someone else could take.",
+      "parentUuid": "f08cae71_119f2ba3",
+      "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
