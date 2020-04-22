@@ -16,6 +16,24 @@
       "revId": "f4a46b02a099b22af917d1f1d6d4995d447ca105",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81624d17_87d58072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 33876
+      },
+      "writtenOn": "2020-04-22T14:25:52Z",
+      "side": 1,
+      "message": "did not know that earlier. Thanks for mentioning this! Done",
+      "parentUuid": "c7f45826_9f4e0f0e",
+      "revId": "f4a46b02a099b22af917d1f1d6d4995d447ca105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
