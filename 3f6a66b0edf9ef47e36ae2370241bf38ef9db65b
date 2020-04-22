@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0a406264_2149df58",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2696,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-04-22T19:34:35Z",
+      "side": 1,
+      "message": "It helps if I use the version of go I just compiled to run mkalldocs!",
+      "parentUuid": "15c5ad4c_0a86a753",
+      "revId": "3f6a66b0edf9ef47e36ae2370241bf38ef9db65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5affa05c_0dcadf25",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "01980f09_4e13acec",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-04-22T19:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5affa05c_0dcadf25",
+      "revId": "3f6a66b0edf9ef47e36ae2370241bf38ef9db65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a07f58_f96f8186",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 1
@@ -86,6 +122,24 @@
       "revId": "3f6a66b0edf9ef47e36ae2370241bf38ef9db65b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6d21328_3281bd83",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-04-22T19:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a07f58_f96f8186",
+      "revId": "3f6a66b0edf9ef47e36ae2370241bf38ef9db65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
