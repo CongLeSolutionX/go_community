@@ -98,8 +98,8 @@ func WriteObjFile(ctxt *Link, bout *bio.Writer, pkgpath string) {
 	w.wr.WriteByte(1)
 
 	// Autolib
-	for _, pkg := range ctxt.Imports {
-		w.writeString(pkg)
+	for _, p := range ctxt.Imports {
+		w.writeString(p.Pkg)
 	}
 	w.writeString("")
 
