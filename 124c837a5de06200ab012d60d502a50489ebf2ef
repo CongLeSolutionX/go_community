@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0416d488_069aff08",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-22T14:43:33Z",
+      "side": 0,
+      "message": "Ooh, can we also stub out arm/asm.go:machoreloc1 to return false like on other non-macho arches?",
+      "revId": "124c837a5de06200ab012d60d502a50489ebf2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
