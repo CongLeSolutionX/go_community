@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1463a073_67fb788d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-04-22T09:07:02Z",
+      "side": 1,
+      "message": "s/adjusting spaces/clean up whitespace/",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d0d446_4856b5be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-04-22T09:07:02Z",
+      "side": 1,
+      "message": "Can you include a link to asmfmt here, since it isn\u0027t a standard tool.",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a296bc16_a6736155",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-04-22T09:07:02Z",
+      "side": 1,
+      "message": "One way to verify this is the same is to just run:\n\ngo test -c\nobjdump -d big.test \u003e big.asm\n\nand diff the big.asm file with one generated using the same process from the old version. If they are identical then there have been no changes to the generated code (which is what we want).",
+      "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
