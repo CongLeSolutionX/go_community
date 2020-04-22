@@ -22,6 +22,30 @@
       "revId": "c99f5b90c10a1d42fdf375f9d1ca8fd69f194911",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e21e0375_91bc1d05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-22T05:18:39Z",
+      "side": 1,
+      "message": "Ack, I shall abandon this CL then.",
+      "parentUuid": "a8b29a13_f8e72953",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "c99f5b90c10a1d42fdf375f9d1ca8fd69f194911",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
