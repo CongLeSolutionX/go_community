@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7e6145c3_ee46c5b8",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2696,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-22T17:14:42Z",
+      "side": 1,
+      "message": "Ah, I didn\u0027t read the diff for this file. It looks like parts of this may be copied from an old version.\n\nThis file should not be manually edited. It should only be updated by mkalldocs.sh. \u0027go test -short cmd/go\u0027 should catch inconsistencies.",
+      "parentUuid": "263bfa0a_6aa6e2a7",
+      "revId": "3f6a66b0edf9ef47e36ae2370241bf38ef9db65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5affa05c_0dcadf25",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
