@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9707ecb_cd09bd79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-22T01:20:32Z",
+      "side": 1,
+      "message": "Done\nThanks for the pointer.",
+      "parentUuid": "f9762970_9ac53031",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "828ad042d526d062086e5d653dda5ec0aa746dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c9298e6_575acb70",
         "filename": "src/runtime/pprof/pprof.go",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c8395937_fb7d73f9",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-22T01:20:32Z",
+      "side": 1,
+      "message": "tl;dr I decided to delete that TODO.\n\nTaking another look at what this type is used for, it looks like it\u0027s only used for user-created-profiles, and since the stackProfile type is actually [][]uintptr, it would be a very different type if it also tracked the lableMap for each stacktrace.\n\nI don\u0027t know how often the user-created profiles are used, as to whether it\u0027s worth replacing this datastructure. (but I\u0027d be open to it in another CL.",
+      "parentUuid": "5c9298e6_575acb70",
+      "range": {
+        "startLine": 361,
+        "startChar": 0,
+        "endLine": 361,
+        "endChar": 52
+      },
+      "revId": "828ad042d526d062086e5d653dda5ec0aa746dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c07674c8_8c1d213d",
         "filename": "src/runtime/pprof/pprof.go",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "828ad042d526d062086e5d653dda5ec0aa746dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac254fd0_a232bd79",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2020-04-22T01:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c07674c8_8c1d213d",
+      "range": {
+        "startLine": 665,
+        "startChar": 10,
+        "endLine": 665,
+        "endChar": 50
+      },
+      "revId": "828ad042d526d062086e5d653dda5ec0aa746dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
