@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "540e4243_d6e57f93",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-22T06:15:30Z",
+      "side": 1,
+      "message": "All these have been fixed after more reading.",
+      "parentUuid": "8b5b8745_859688ac",
+      "range": {
+        "startLine": 841,
+        "startChar": 46,
+        "endLine": 841,
+        "endChar": 66
+      },
+      "revId": "0b1fa71b001599cdb80c7f0fa46315c19560b8c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c6bcb45_2872a4da",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2cd7d60f_6e0c42cc",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-22T06:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c6bcb45_2872a4da",
+      "revId": "0b1fa71b001599cdb80c7f0fa46315c19560b8c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f91142a_d4aa903c",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "0b1fa71b001599cdb80c7f0fa46315c19560b8c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d3c1dc_3886c7f4",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-22T06:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f91142a_d4aa903c",
+      "revId": "0b1fa71b001599cdb80c7f0fa46315c19560b8c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
