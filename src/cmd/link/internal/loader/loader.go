@@ -1779,16 +1779,16 @@ func (l *Loader) preloadSyms(r *oReader, kind int) {
 
 // Add non-package symbols and references to external symbols (which are always
 // named).
-func (l *Loader) LoadNonpkgSyms(syms *sym.Symbols) {
+func (l *Loader) LoadNonpkgSyms() {
 	for _, o := range l.objs[1:] {
 		l.preloadSyms(o.r, nonPkgDef)
 	}
 	for _, o := range l.objs[1:] {
-		loadObjRefs(l, o.r, syms)
+		loadObjRefs(l, o.r)
 	}
 }
 
-func loadObjRefs(l *Loader, r *oReader, syms *sym.Symbols) {
+func loadObjRefs(l *Loader, r *oReader) {
 	ndef := r.NSym() + r.NNonpkgdef()
 	for i, n := 0, r.NNonpkgref(); i < n; i++ {
 		osym := r.Sym(ndef + i)
