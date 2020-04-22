@@ -16,6 +16,24 @@
       "revId": "edaf4187277ef312b60da27353bdee31cd9a98a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1303aef2_b900a79d",
+        "filename": "src/internal/syscall/unix/copy_file_range_linux_riscv64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-04-22T17:02:19Z",
+      "side": 1,
+      "message": "Done. I merged the getrandom(2) numbers with the copy_file_range(2) ones as you described.",
+      "parentUuid": "69a34cd8_d8d0a28e",
+      "revId": "edaf4187277ef312b60da27353bdee31cd9a98a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
