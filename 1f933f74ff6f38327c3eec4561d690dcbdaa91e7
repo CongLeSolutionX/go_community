@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c474a82a_fafa628b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-22T17:26:26Z",
+      "side": 1,
+      "message": "Add a \"[false]\" to the Div{64,32,16} rules, to indicate that we\u0027re explicitly ignoring the auxint field.",
+      "revId": "1f933f74ff6f38327c3eec4561d690dcbdaa91e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a5e0d63_dff09ffd",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-22T17:26:26Z",
+      "side": 1,
+      "message": "I think this int64 cast is unnecessary. Only the ones in inequalities that add d are necessary.",
+      "range": {
+        "startLine": 278,
+        "startChar": 42,
+        "endLine": 278,
+        "endChar": 50
+      },
+      "revId": "1f933f74ff6f38327c3eec4561d690dcbdaa91e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b88e3186_51ab2718",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-22T17:26:26Z",
+      "side": 1,
+      "message": "Could put an explicit [0] here.",
+      "range": {
+        "startLine": 286,
+        "startChar": 36,
+        "endLine": 286,
+        "endChar": 37
+      },
+      "revId": "1f933f74ff6f38327c3eec4561d690dcbdaa91e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc61d584_a9875191",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-22T17:26:26Z",
+      "side": 1,
+      "message": "This would be safer with a is32Bit(c+int64(d)) condition.",
+      "range": {
+        "startLine": 774,
+        "startChar": 37,
+        "endLine": 774,
+        "endChar": 38
+      },
+      "revId": "1f933f74ff6f38327c3eec4561d690dcbdaa91e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1773d804_1a9bd524",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-22T17:26:26Z",
+      "side": 1,
+      "message": "Is there a reason why this is is16Bit and not is32Bit?",
+      "range": {
+        "startLine": 864,
+        "startChar": 45,
+        "endLine": 864,
+        "endChar": 55
+      },
+      "revId": "1f933f74ff6f38327c3eec4561d690dcbdaa91e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d51cd88_c1cfb7c2",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-22T17:26:26Z",
+      "side": 1,
+      "message": "Same question here.\n(If there\u0027s something to fix here, probably worth doing in a separate CL.)",
+      "range": {
+        "startLine": 876,
+        "startChar": 56,
+        "endLine": 876,
+        "endChar": 63
+      },
+      "revId": "1f933f74ff6f38327c3eec4561d690dcbdaa91e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
