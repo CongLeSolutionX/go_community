@@ -164,6 +164,24 @@
       "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "318a9d9c_3d29acd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-04-22T14:06:35Z",
+      "side": 1,
+      "message": "Thanks, LGTM now :)",
+      "parentUuid": "89da4f25_c938f447",
+      "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
