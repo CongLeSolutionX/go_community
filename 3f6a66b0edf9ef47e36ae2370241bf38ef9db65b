@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "15c5ad4c_0a86a753",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2696,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-04-22T17:52:39Z",
+      "side": 1,
+      "message": "Hmm, I thought I had run mkalldocs.sh, but maybe I messed it up somehow... will try and run it again once I have addressed the other comments.",
+      "parentUuid": "7e6145c3_ee46c5b8",
+      "revId": "3f6a66b0edf9ef47e36ae2370241bf38ef9db65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5affa05c_0dcadf25",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
