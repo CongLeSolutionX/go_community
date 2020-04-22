@@ -146,6 +146,24 @@
       "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89da4f25_c938f447",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 33876
+      },
+      "writtenOn": "2020-04-22T13:53:51Z",
+      "side": 1,
+      "message": "Oh sorry, I thought you meant to change the commit message like that :p. So, yes. I have run the verification steps on my local environment. Sure, let me change the commit message.",
+      "parentUuid": "1740165a_2b7e5226",
+      "revId": "29413f1e8c93e30f0d056fe025f13525897de95a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
