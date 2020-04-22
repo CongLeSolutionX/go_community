@@ -183,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "3bb71ac0_95521717",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-22T19:39:19Z",
+      "side": 1,
+      "message": "So what happens to a MOVDload with an auxint \u003e 1\u003c\u003c16 ? Does it assemble into 2 instructions?",
+      "parentUuid": "782a3232_6741af1c",
+      "range": {
+        "startLine": 864,
+        "startChar": 45,
+        "endLine": 864,
+        "endChar": 55
+      },
+      "revId": "1f933f74ff6f38327c3eec4561d690dcbdaa91e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d51cd88_c1cfb7c2",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
