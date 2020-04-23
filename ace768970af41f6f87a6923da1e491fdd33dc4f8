@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "d234afa8_b1c4cc14",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-23T17:06:58Z",
+      "side": 1,
+      "message": "I don\u0027t think these rules are right either.\nSLL spec says shift amount is mod 32. So SLL with 33 should be the same as SLL with 1. Not the constant 0.",
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e738814e_dfee5058",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-23T17:06:58Z",
+      "side": 1,
+      "message": "The cast to uint32 and back isn\u0027t necessary for a left shift (can be like the SRAconst rule two rows down).",
+      "range": {
+        "startLine": 623,
+        "startChar": 47,
+        "endLine": 623,
+        "endChar": 74
+      },
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cbb444fb_654e3c6a",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 2
@@ -18,6 +58,53 @@
         "startChar": 0,
         "endLine": 628,
         "endChar": 98
+      },
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45691025_97be91d8",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-23T17:06:58Z",
+      "side": 1,
+      "message": "The original rule looks wrong to me. It needs int64(uint32(c))*int64(uint32(d)) in there.",
+      "parentUuid": "cbb444fb_654e3c6a",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 98
+      },
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a76cdf3f_bec5cfef",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-23T17:06:58Z",
+      "side": 1,
+      "message": "The four int32/uint32 casts here are not necessary. d is already int32, and for \u003d\u003d / !\u003d the cast doesn\u0027t matter.",
+      "range": {
+        "startLine": 652,
+        "startChar": 29,
+        "endLine": 652,
+        "endChar": 37
       },
       "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
