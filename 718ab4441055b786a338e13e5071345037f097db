@@ -16,6 +16,24 @@
       "revId": "718ab4441055b786a338e13e5071345037f097db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09bcb202_c4758af8",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-23T14:50:42Z",
+      "side": 1,
+      "message": "OK, I can go that route. I\u0027ll see about updating the patch.",
+      "parentUuid": "61b42dcf_a9ed7ae5",
+      "revId": "718ab4441055b786a338e13e5071345037f097db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
