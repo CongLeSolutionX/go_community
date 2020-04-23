@@ -423,6 +423,7 @@ func (l *Loader) newExtSym(name string, ver int) Sym {
 		l.extStart = i
 	}
 	l.growSyms(int(i))
+	l.growSects(int(i))
 	pi := l.newPayload(name, ver)
 	l.objSyms = append(l.objSyms, objSym{l.extReader, int(pi)})
 	l.extReader.syms = append(l.extReader.syms, i)
