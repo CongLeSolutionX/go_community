@@ -22,6 +22,30 @@
       "revId": "5dfcd41f9ac00c11e4db5a3de3a8f7838d504cfe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c3f0c9_37685dab",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-23T16:46:34Z",
+      "side": 1,
+      "message": "IIRC we don\u0027t do the TEST(B|W)const -\u003e BTL rewrite because it generates larger code.",
+      "parentUuid": "8d500522_5a0c1523",
+      "range": {
+        "startLine": 575,
+        "startChar": 16,
+        "endLine": 575,
+        "endChar": 17
+      },
+      "revId": "5dfcd41f9ac00c11e4db5a3de3a8f7838d504cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
