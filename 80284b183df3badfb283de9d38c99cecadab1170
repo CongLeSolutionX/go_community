@@ -49,6 +49,40 @@
     },
     {
       "key": {
+        "uuid": "875da05e_a01486af",
+        "filename": "src/cmd/internal/goobj/readnew.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-23T15:47:06Z",
+      "side": 1,
+      "message": "Maybe a comment mentioning that this object format ignores p.Fingerprint.",
+      "revId": "80284b183df3badfb283de9d38c99cecadab1170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "657184d0_a2878827",
+        "filename": "src/cmd/internal/goobj2/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-23T15:47:06Z",
+      "side": 1,
+      "message": "It\u0027s a little weird that it\u0027s an [8]byte in some places and a uint64 in others. Can we use a consistent type?",
+      "revId": "80284b183df3badfb283de9d38c99cecadab1170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8325cdce_c3e2621a",
         "filename": "src/cmd/internal/goobj2/objfile.go",
         "patchSetId": 1
