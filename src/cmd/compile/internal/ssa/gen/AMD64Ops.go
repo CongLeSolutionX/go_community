@@ -681,7 +681,7 @@ func init() {
 		// arg0 = destination pointer
 		// arg1 = source pointer
 		// arg2 = mem
-		// auxint = offset from duffcopy symbol to call
+		// auxint = # of 8-byte words to copy
 		// returns memory
 		{
 			name:      "DUFFCOPY",
