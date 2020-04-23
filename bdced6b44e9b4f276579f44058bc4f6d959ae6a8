@@ -16,6 +16,24 @@
       "revId": "bdced6b44e9b4f276579f44058bc4f6d959ae6a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ce326a5_0bce6678",
+        "filename": "src/cmd/compile/internal/ssa/flagalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-23T19:09:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bde28a66_eca94970",
+      "revId": "bdced6b44e9b4f276579f44058bc4f6d959ae6a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
