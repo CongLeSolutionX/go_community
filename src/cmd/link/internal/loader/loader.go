@@ -57,22 +57,33 @@ type Reloc2 struct {
 	l *Loader
 
 	// External reloc types may not fit into a uint8 which the Go object file uses.
-	// Store it here, instead of in the byte of goobj2.Reloc2.
-	// For Go symbols this will always be 0.
-	// goobj2.Reloc2.Type() + typ is always the right type, for both Go and external
+	// Store it here (by reference), instead of in the byte of goobj2.Reloc2.
+	// For Go symbols this will always be nil.
+	// goobj2.Reloc2.Type() + *typ is always the right type, for both Go and external
 	// symbols.
-	typ objabi.RelocType
+	typ *objabi.RelocType
 }
 
-func (rel Reloc2) Type() objabi.RelocType { return objabi.RelocType(rel.Reloc.Type()) + rel.typ }
-func (rel Reloc2) Sym() Sym               { return rel.l.resolve(rel.r, rel.Reloc.Sym()) }
-func (rel Reloc2) SetSym(s Sym)           { rel.Reloc.SetSym(goobj2.SymRef{PkgIdx: 0, SymIdx: uint32(s)}) }
+func (rel Reloc2) Type() objabi.RelocType {
+	var etyp objabi.RelocType
+	if rel.typ != nil {
+		etyp = *rel.typ
+	}
+	return objabi.RelocType(rel.Reloc.Type()) + etyp
+}
+func (rel Reloc2) Sym() Sym     { return rel.l.resolve(rel.r, rel.Reloc.Sym()) }
+func (rel Reloc2) SetSym(s Sym) { rel.Reloc.SetSym(goobj2.SymRef{PkgIdx: 0, SymIdx: uint32(s)}) }
 
 func (rel Reloc2) SetType(t objabi.RelocType) {
 	if t != objabi.RelocType(uint8(t)) {
 		panic("SetType: type doesn't fit into Reloc2")
 	}
 	rel.Reloc.SetType(uint8(t))
+	// Clear typ pointer if set (the assumption is that "t" will
+	// always be a non-external reloc type).
+	if rel.typ != nil {
+		(*rel.typ) = objabi.RelocType(0)
+	}
 }
 
 // Aux2 holds a "handle" to access an aux symbol record from an
@@ -1529,9 +1540,9 @@ func (relocs *Relocs) Count() int { return len(relocs.rs) }
 func (relocs *Relocs) At2(j int) Reloc2 {
 	if relocs.l.isExtReader(relocs.r) {
 		pp := relocs.l.payloads[relocs.li]
-		return Reloc2{&relocs.rs[j], relocs.r, relocs.l, pp.reltypes[j]}
+		return Reloc2{&relocs.rs[j], relocs.r, relocs.l, &pp.reltypes[j]}
 	}
-	return Reloc2{&relocs.rs[j], relocs.r, relocs.l, 0}
+	return Reloc2{&relocs.rs[j], relocs.r, relocs.l, nil}
 }
 
 // Relocs returns a Relocs object for the given global sym.
