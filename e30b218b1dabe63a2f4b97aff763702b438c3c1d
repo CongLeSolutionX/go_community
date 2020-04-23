@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df6d2549_9d5f34d4",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1998,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-23T15:51:12Z",
+      "side": 1,
+      "message": "Consider merging the two fingerprint checks, mostly so if we update the error message we only have to do it in one place (and they can\u0027t drift apart).",
+      "revId": "e30b218b1dabe63a2f4b97aff763702b438c3c1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
