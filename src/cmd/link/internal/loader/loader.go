@@ -732,6 +732,12 @@ func (l *Loader) SetAttrLocal(i Sym, v bool) {
 	}
 }
 
+// SymAddr sets a symbol as reachable, and returns its value.
+func (l *Loader) SymAddr(i Sym) int64 {
+	l.SetAttrReachable(i, true)
+	return l.values[i]
+}
+
 // AttrNotInSymbolTable returns true for symbols that should not be
 // added to the symbol table of the final generated load module.
 func (l *Loader) AttrNotInSymbolTable(i Sym) bool {
@@ -1024,6 +1030,11 @@ func (l *Loader) SymValue(i Sym) int64 {
 // SetSymValue sets the value of the i-th symbol. i is global index.
 func (l *Loader) SetSymValue(i Sym, val int64) {
 	l.values[i] = val
+}
+
+// AddToSymValue adds to the value of the i-th symbol. i is the global index.
+func (l *Loader) AddToSymValue(i Sym, val int64) {
+	l.values[i] += val
 }
 
 // Returns the symbol content of the i-th symbol. i is global index.
