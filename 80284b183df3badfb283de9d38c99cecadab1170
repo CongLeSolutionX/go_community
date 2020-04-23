@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8769f8b_4696b106",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-23T14:36:59Z",
+      "side": 1,
+      "message": "path.Base?",
+      "range": {
+        "startLine": 1318,
+        "startChar": 17,
+        "endLine": 1318,
+        "endChar": 21
+      },
+      "revId": "80284b183df3badfb283de9d38c99cecadab1170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8325cdce_c3e2621a",
+        "filename": "src/cmd/internal/goobj2/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-23T14:36:59Z",
+      "side": 1,
+      "message": "comment: why 8?",
+      "range": {
+        "startLine": 522,
+        "startChar": 36,
+        "endLine": 522,
+        "endChar": 37
+      },
+      "revId": "80284b183df3badfb283de9d38c99cecadab1170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
