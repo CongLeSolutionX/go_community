@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b46bc753_71f41a0c",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T16:45:56Z",
+      "side": 1,
+      "message": "Setting fields other than the type can still be done using Reloc2 methods. But it is fine if you want to add them.",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 1
+      },
+      "revId": "bba0a306b292bd05ccbbc09315e521f4e66bfe54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
