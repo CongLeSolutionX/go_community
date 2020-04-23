@@ -676,6 +676,7 @@ type Link struct {
 	InParallel           bool // parallel backend phase in effect
 	Framepointer_enabled bool
 	UseBASEntries        bool // Use Base Address Selection Entries in location lists and PC ranges
+	IsGo                 bool // is result of compiling Go -- if false, assumed to be assembly language.
 
 	// state for writing objects
 	Text []*LSym

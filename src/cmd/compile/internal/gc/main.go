@@ -154,6 +154,7 @@ func Main(archInit func(*Arch)) {
 	Ctxt.DiagFunc = yyerror
 	Ctxt.DiagFlush = flusherrors
 	Ctxt.Bso = bufio.NewWriter(os.Stdout)
+	Ctxt.IsGo = true
 
 	// UseBASEntries is preferred because it shaves about 2% off build time, but LLDB, dsymutil, and dwarfdump
 	// on Darwin don't support it properly, especially since macOS 10.14 (Mojave).  This is exposed as a flag
