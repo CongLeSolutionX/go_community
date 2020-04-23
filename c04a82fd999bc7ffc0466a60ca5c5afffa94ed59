@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "805d459d_33469611",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T19:26:08Z",
+      "side": 1,
+      "message": "Just say \"This symbol is local to the dynamic shared object.\"",
+      "revId": "c04a82fd999bc7ffc0466a60ca5c5afffa94ed59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3360f91_f9fa0994",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T19:26:08Z",
+      "side": 1,
+      "message": "I don\u0027t think it is necessarily a word. The size can be specified separately.\n\nI think this should simply say \"Put this data in thread local storage.\" like we say for read-only data. Others are implementation detail.",
+      "range": {
+        "startLine": 450,
+        "startChar": 9,
+        "endLine": 450,
+        "endChar": 15
+      },
+      "revId": "c04a82fd999bc7ffc0466a60ca5c5afffa94ed59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eddb0770_0b7cc2c9",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T19:26:08Z",
+      "side": 1,
+      "message": "Say \"traceback\".",
+      "range": {
+        "startLine": 465,
+        "startChar": 39,
+        "endLine": 465,
+        "endChar": 59
+      },
+      "revId": "c04a82fd999bc7ffc0466a60ca5c5afffa94ed59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71cb5dc8_ad90f740",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T19:26:08Z",
+      "side": 1,
+      "message": "Remove \"a\".",
+      "range": {
+        "startLine": 64,
+        "startChar": 53,
+        "endLine": 64,
+        "endChar": 55
+      },
+      "revId": "c04a82fd999bc7ffc0466a60ca5c5afffa94ed59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5d551e_1f4b3dd2",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T19:26:08Z",
+      "side": 1,
+      "message": "PCALIGN at the entry of the function will align its address to 2048 bytes.",
+      "range": {
+        "startLine": 79,
+        "startChar": 26,
+        "endLine": 79,
+        "endChar": 79
+      },
+      "revId": "c04a82fd999bc7ffc0466a60ca5c5afffa94ed59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
