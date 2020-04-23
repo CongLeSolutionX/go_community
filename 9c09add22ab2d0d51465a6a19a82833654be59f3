@@ -22,6 +22,30 @@
       "revId": "9c09add22ab2d0d51465a6a19a82833654be59f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f244108e_0afb6337",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-23T14:33:24Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll adjust the comment.",
+      "parentUuid": "ff6649f3_c3d491e3",
+      "range": {
+        "startLine": 61,
+        "startChar": 39,
+        "endLine": 61,
+        "endChar": 40
+      },
+      "revId": "9c09add22ab2d0d51465a6a19a82833654be59f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
