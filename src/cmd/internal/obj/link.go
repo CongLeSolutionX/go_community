@@ -33,6 +33,7 @@ package obj
 import (
 	"bufio"
 	"cmd/internal/dwarf"
+	"cmd/internal/goobj2"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"cmd/internal/sys"
@@ -601,10 +602,12 @@ func (a Attribute) TextAttrString() string {
 	return s
 }
 
-// The compiler needs LSym to satisfy fmt.Stringer, because it stores
-// an LSym in ssa.ExternSymbol.
 func (s *LSym) String() string {
 	return s.Name
+}
+
+// The compiler needs *LSym to be assignable to cmd/compile/internal/ssa.Sym.
+func (s *LSym) CanBeAnSSASym() {
 }
 
 type Pcln struct {
@@ -653,7 +656,7 @@ type Link struct {
 	Flag_linkshared    bool
 	Flag_optimize      bool
 	Flag_locationlists bool
-	Flag_newobj        bool // use new object file format
+	Flag_go115newobj   bool // use new object file format
 	Retpoline          bool // emit use of retpoline stubs for indirect jmp/call
 	Bso                *bufio.Writer
 	Pathname           string
@@ -664,7 +667,7 @@ type Link struct {
 	PosTable           src.PosTable
 	InlTree            InlTree // global inlining tree used by gc/inl.go
 	DwFixups           *DwarfFixupTable
-	Imports            []string
+	Imports            []goobj2.ImportedPkg
 	DiagFunc           func(string, ...interface{})
 	DiagFlush          func()
 	DebugInfo          func(fn *LSym, info *LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) // if non-nil, curfn is a *gc.Node
@@ -696,6 +699,8 @@ type Link struct {
 	defs       []*LSym // list of defined symbols in the current package
 	nonpkgdefs []*LSym // list of defined non-package symbols
 	nonpkgrefs []*LSym // list of referenced non-package symbols
+
+	Fingerprint uint64 // fingerprint of symbol indices, to catch index mismatch
 }
 
 func (ctxt *Link) Diag(format string, args ...interface{}) {

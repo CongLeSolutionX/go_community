@@ -95,7 +95,7 @@ func (r *intReader) uint64() uint64 {
 	return i
 }
 
-func iimport(pkg *types.Pkg, in *bio.Reader) {
+func iimport(pkg *types.Pkg, in *bio.Reader) (fingerprint uint64) {
 	ir := &intReader{in, pkg}
 
 	version := ir.uint64()
@@ -188,6 +188,16 @@ func iimport(pkg *types.Pkg, in *bio.Reader) {
 			inlineImporter[s] = iimporterAndOffset{p, off}
 		}
 	}
+
+	// Fingerprint
+	var b [8]byte
+	n, err := in.Read(b[:])
+	if err != nil || n != len(b) {
+		yyerror("import %s: error reading fingerprint", pkg.Path)
+		errorexit()
+	}
+	fingerprint = binary.LittleEndian.Uint64(b[:])
+	return fingerprint
 }
 
 type iimporter struct {
@@ -687,7 +697,7 @@ func (r *importReader) linkname(s *types.Sym) {
 }
 
 func (r *importReader) symIdx(s *types.Sym) {
-	if Ctxt.Flag_newobj {
+	if Ctxt.Flag_go115newobj {
 		lsym := s.Linksym()
 		idx := int32(r.int64())
 		if idx != -1 {
