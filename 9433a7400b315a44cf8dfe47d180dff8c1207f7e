@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79f196e1_b2783285",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-23T00:28:49Z",
+      "side": 1,
+      "message": "I suggest using 1 \u003c\u003c 30 here, which is what we use for maxRW in fd_unix.go.  I can imagine possible implementations that benefit from using a multiple of the page size.",
+      "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "387d649a_42e101fc",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-23T00:28:49Z",
+      "side": 1,
+      "message": "using the copy_file_range system call.",
+      "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bf8f792_e8ec4b9a",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-23T00:28:49Z",
+      "side": 1,
+      "message": "copyFileRange returns an error value, so call this err rather than errno.",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 10
+      },
+      "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea410bbe_5fc13887",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-23T00:28:49Z",
+      "side": 1,
+      "message": "s/NULL/nil/",
+      "range": {
+        "startLine": 78,
+        "startChar": 62,
+        "endLine": 78,
+        "endChar": 66
+      },
+      "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee6dffc7_4fbd990f",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-23T00:28:49Z",
+      "side": 1,
+      "message": "Minor, but it\u0027s clearer to use io.LimitReader here.",
+      "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa234ad9_f8edee7b",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-23T00:28:49Z",
+      "side": 1,
+      "message": "Instead of ioutil.TempDir, use the new t.TempDir.",
+      "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
