@@ -16,6 +16,24 @@
       "revId": "e30b218b1dabe63a2f4b97aff763702b438c3c1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b89c0f_dd8aed7b",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1998,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T18:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df6d2549_9d5f34d4",
+      "revId": "e30b218b1dabe63a2f4b97aff763702b438c3c1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
