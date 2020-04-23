@@ -1075,6 +1075,9 @@ func (l *Loader) SetSymAlign(i Sym, align int32) {
 
 // SymValue returns the section of the i-th symbol. i is global index.
 func (l *Loader) SymSect(i Sym) *sym.Section {
+	if int(i) >= len(l.symSects) {
+		l.symSects = append(l.symSects, make([]uint16, l.NSym()-len(l.symSects))...)
+	}
 	return l.sects[l.symSects[i]]
 }
 
