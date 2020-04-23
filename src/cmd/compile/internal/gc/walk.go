@@ -749,11 +749,9 @@ opswitch:
 			r = mkcall1(fn, fn.Type.Results(), init, typename(t), r.Left, key, z)
 		}
 
-		// mapaccess2* returns a typed bool, but due to spec changes,
-		// the boolean result of i.(T) is now untyped so we make it the
-		// same type as the variable on the lhs.
-		if ok := n.List.Second(); !ok.isBlank() && ok.Type.IsBoolean() {
-			r.Type.Field(1).Type = ok.Type
+		// order should have rewritten to make sure ok is always type bool, assert here.
+		if ok := n.List.Second(); !ok.isBlank() && !ok.Type.IsBoolean() {
+			Fatalf("expected type bool, but got: %s", ok.Type.String())
 		}
 		n.Right = r
 		n.Op = OAS2FUNC
