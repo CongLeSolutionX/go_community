@@ -221,12 +221,12 @@ func Main(arch *sys.Arch, theArch Arch) {
 			}
 			pkglistfornote = append(pkglistfornote, pkgpath...)
 			pkglistfornote = append(pkglistfornote, '\n')
-			addlibpath(ctxt, "command line", "command line", file, pkgpath, "")
+			addlibpath(ctxt, "command line", "command line", file, pkgpath, "", 0)
 		}
 	case BuildModePlugin:
-		addlibpath(ctxt, "command line", "command line", flag.Arg(0), *flagPluginPath, "")
+		addlibpath(ctxt, "command line", "command line", flag.Arg(0), *flagPluginPath, "", 0)
 	default:
-		addlibpath(ctxt, "command line", "command line", flag.Arg(0), "main", "")
+		addlibpath(ctxt, "command line", "command line", flag.Arg(0), "main", "", 0)
 	}
 	bench.Start("loadlib")
 	ctxt.loadlib()
