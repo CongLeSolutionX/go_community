@@ -9,7 +9,8 @@
 
 package codegen
 
+// amd64:"DUFFZERO"
 func retlarge() [256]byte {
-	// amd64:"DUFFZERO",-"DUFFCOPY"
+	// amd64:-"DUFFCOPY"
 	return [256]byte{}
 }
