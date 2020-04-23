@@ -70,6 +70,30 @@
       "revId": "5dfcd41f9ac00c11e4db5a3de3a8f7838d504cfe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5fbc297_46bab980",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-23T16:54:24Z",
+      "side": 1,
+      "message": "testw is probably really rare. Maybe I\u0027ll do them all, then, for consistency.",
+      "parentUuid": "3180ceca_3e47ccd9",
+      "range": {
+        "startLine": 575,
+        "startChar": 16,
+        "endLine": 575,
+        "endChar": 17
+      },
+      "revId": "5dfcd41f9ac00c11e4db5a3de3a8f7838d504cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
