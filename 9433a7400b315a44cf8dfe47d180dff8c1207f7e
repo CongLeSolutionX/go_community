@@ -113,6 +113,24 @@
       "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78fe2c14_534253cf",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-04-23T00:44:25Z",
+      "side": 1,
+      "message": "I am trying to do this and I get a bunch of \"pattern contains path separator\" errors in subtests. Looks like t.TempDir calls ioutil.TempDir with the test name as the pattern, and the pattern contains the path separator due to subtests, which ioutil.TempDir doesn\u0027t seem to like.\n\nAm I holding it wrong? Or is this perhaps a bug in the new testing t.TempDir?",
+      "parentUuid": "aa234ad9_f8edee7b",
+      "revId": "9433a7400b315a44cf8dfe47d180dff8c1207f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
