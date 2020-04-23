@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b3aa95_cdbdd44e",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T16:51:03Z",
+      "side": 1,
+      "message": "I keep this as [8]byte as uint64 in the export data typically means varint.",
+      "range": {
+        "startLine": 38,
+        "startChar": 19,
+        "endLine": 38,
+        "endChar": 26
+      },
+      "revId": "aa9e3d200037e0285d8555701a1ad23ce14d175b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
