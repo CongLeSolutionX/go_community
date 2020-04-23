@@ -571,6 +571,9 @@
 (SETB (TEST(Q|L|W|B) x x)) -> (ConstBool [0])
 (SETAE (TEST(Q|L|W|B) x x)) -> (ConstBool [1])
 
+// x & 1 != 0 -> x & 1
+(SETNE (TESTBconst [1] x)) => (ANDLconst [1] x)
+
 // Recognize bit tests: a&(1<<b) != 0 for b suitably bounded
 // Note that BTx instructions use the carry bit, so we need to convert tests for zero flag
 // into tests for carry flags.
