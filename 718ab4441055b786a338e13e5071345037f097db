@@ -52,6 +52,24 @@
       "revId": "718ab4441055b786a338e13e5071345037f097db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8dedca_38fd15ef",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-23T15:38:45Z",
+      "side": 1,
+      "message": "OK, PTAL. Latest patch switches to symbolbuilder methods.",
+      "parentUuid": "dc7fa5b0_973c7b01",
+      "revId": "718ab4441055b786a338e13e5071345037f097db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
