@@ -46,6 +46,30 @@
       "revId": "a6949aeb35b06d8350e1dda10dbc492a379cc874",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebbe0245_8e9b5980",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1994,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T15:45:52Z",
+      "side": 1,
+      "message": "Done, both. This is apparently a common typo of mine. I think I did that several times...",
+      "parentUuid": "028e8292_ae1a4cf7",
+      "range": {
+        "startLine": 1994,
+        "startChar": 5,
+        "endLine": 1994,
+        "endChar": 13
+      },
+      "revId": "a6949aeb35b06d8350e1dda10dbc492a379cc874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
