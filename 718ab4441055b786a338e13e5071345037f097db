@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61b42dcf_a9ed7ae5",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T14:43:24Z",
+      "side": 1,
+      "message": "The code was written to avoid the branch here, which has some impact for performance. I think I wrote a method in SymbolBuilder to do that, SetRelocType maybe, and use that in case it is needed. Maybe I didn\u0027t submit that piece of code...",
+      "revId": "718ab4441055b786a338e13e5071345037f097db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
