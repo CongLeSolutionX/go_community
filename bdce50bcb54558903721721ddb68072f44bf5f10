@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf56dc75_b0c3e507",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T18:39:12Z",
+      "side": 1,
+      "message": "Why? The old ld.Symaddr checks reachability, instead of setting it.",
+      "revId": "bdce50bcb54558903721721ddb68072f44bf5f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
