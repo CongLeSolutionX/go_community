@@ -34,6 +34,24 @@
       "revId": "718ab4441055b786a338e13e5071345037f097db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc7fa5b0_973c7b01",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-23T14:55:07Z",
+      "side": 1,
+      "message": "I initially wrote that in an early version of CL 227761. AddRel didn\u0027t take any argument, use SetRelocType to set the type. Then I changed to let AddRel take the type parameter. It looks like adding SetRelocType is still useful.\n\nWe could let Reloc2.SetType panic if typ is not 0.",
+      "parentUuid": "09bcb202_c4758af8",
+      "revId": "718ab4441055b786a338e13e5071345037f097db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
