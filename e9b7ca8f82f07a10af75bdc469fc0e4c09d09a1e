@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "505adf2d_b5674cf5",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T20:09:44Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f1743201_3c07f5c6",
+      "revId": "e9b7ca8f82f07a10af75bdc469fc0e4c09d09a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4f844e8_98b640df",
         "filename": "src/cmd/link/internal/ld/macho.go",
         "patchSetId": 1
@@ -51,6 +69,24 @@
       "revId": "e9b7ca8f82f07a10af75bdc469fc0e4c09d09a1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "550887ad_c1999ffd",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T20:09:44Z",
+      "side": 1,
+      "message": "Unnamed symbols are not added (shouldBeInSymbolTable above). So I think we\u0027re fine. Added a comment.",
+      "parentUuid": "e4f844e8_98b640df",
+      "revId": "e9b7ca8f82f07a10af75bdc469fc0e4c09d09a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
