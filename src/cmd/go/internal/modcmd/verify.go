@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"runtime"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
@@ -52,11 +53,23 @@ func runVerify(cmd *base.Command, args []string) {
 			base.Fatalf("go: cannot find main module; see 'go help modules'")
 		}
 	}
-	ok := true
-	for _, mod := range modload.LoadBuildList()[1:] {
-		ok = verifyMod(mod) && ok
+
+	sema := make(chan bool, runtime.GOMAXPROCS(0))
+	mods := modload.LoadBuildList()[1:]
+	chanOK := make(chan bool, 1)
+	for _, mod := range mods {
+		mod := mod // use a copy to avoid data races
+		go func() {
+			sema <- true
+			chanOK <- verifyMod(mod)
+			<-sema
+		}()
 	}
-	if ok {
+	allOK := true
+	for range mods {
+		allOK = allOK && <-chanOK
+	}
+	if allOK {
 		fmt.Printf("all modules verified\n")
 	}
 }
