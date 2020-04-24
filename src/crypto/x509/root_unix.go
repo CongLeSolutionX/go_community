@@ -77,7 +77,14 @@ func loadSystemRoots() (*CertPool, error) {
 			continue
 		}
 		for _, fi := range fis {
-			data, err := ioutil.ReadFile(directory + "/" + fi.Name())
+			file := directory + "/" + fi.Name()
+			if isSameDirSymlink(file) {
+				// If this is a symlink to the same directory, no need
+				// to do it twice. The target is already in the list
+				// of FileInfos from ReadDir.
+				continue
+			}
+			data, err := ioutil.ReadFile(file)
 			if err == nil {
 				roots.AppendCertsFromPEM(data)
 			}
@@ -89,4 +96,14 @@ func loadSystemRoots() (*CertPool, error) {
 	}
 
 	return nil, firstErr
+}
+
+// isSameDirSymlink reports whether path is a symlink with a target
+// not containing a slash.
+func isSameDirSymlink(path string) bool {
+	if fi, err := os.Lstat(path); err == nil && fi.Mode()&os.ModeSymlink != 0 {
+		target, err := os.Readlink(path)
+		return err == nil && !strings.Contains(target, "/")
+	}
+	return false
 }
