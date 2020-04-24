@@ -34,6 +34,24 @@
       "revId": "b1583230984e2f2d452379c5e218a8fff0061b97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c33c50c_8ee70573",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-04-24T14:58:31Z",
+      "side": 1,
+      "message": "Wow, it was indeed my interpretation of gerrit\u0027s diff. I changed my diff settings now and it shows fine. I could have sworn I saw two green \"func genResult0\" declarations before. Oh well.",
+      "parentUuid": "7d453f21_ad92648c",
+      "revId": "b1583230984e2f2d452379c5e218a8fff0061b97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
