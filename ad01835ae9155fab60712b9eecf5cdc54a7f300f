@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1eedcd3a_3cdbffe1",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "Agree, it does seem unfortunate. I\u0027ll add a fixme/todo, since your suggestion on lazily creating the symbol updater sounds good.",
+      "parentUuid": "a7fbef9f_8bc021a3",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "084f6ce5_02512f0d",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -60,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "c3358380_deb1e9bb",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "084f6ce5_02512f0d",
+      "range": {
+        "startLine": 695,
+        "startChar": 5,
+        "endLine": 695,
+        "endChar": 12
+      },
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "043168ac_4f23aad4",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -74,6 +116,24 @@
       "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c06eb091_bc26c073",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "Indeed, you are right. I\u0027ll get rid of this one.",
+      "parentUuid": "043168ac_4f23aad4",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "117dff8e_4911492a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "\u003e\u003ewe end up setting alignments for all symbols\n\nI wouldn\u0027t quite say all symbols -- this code is not processing text or dwarf symbols for example.  But yes, these are interesting things to consider.\n\nKeeping alignment in an array would have the advantage that we don\u0027t need to worry about data races or concurrent map read/write violations. However it does seem like it would be costly from a space perspective.\n\nThe linker symbol stats package that I wrote a while back (https://go-review.googlesource.com/c/go/+/206900/) has some hooks for gathering symbol alignment numbers.\n\nI dusted it off and got it rebased, then ran it on kubelet. Here are the numbers\nat asmb2 for sym alignment:\n\n  reachable symbols: 1012377\n  symbol breakdown by alignment:\n            Align:       Count\n                0:      771692\n               32:      104617\n                4:       86354\n               16:       28805\n                8:       18882\n                2:        1403\n                1:         624\n\nso if these numbers are to be believed, most symbols don\u0027t have their alignment set.\n\nWhether the map is still a good choice is hard to say-- I am not sure what the cutover point is for these things (e.g. how heavily populated an array needs to become to be more efficient than a map).",
+      "parentUuid": "10998b41_fb7556cd",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d15deb9a_74aebaad",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -105,6 +183,24 @@
       "writtenOn": "2020-04-24T01:10:51Z",
       "side": 1,
       "message": "Is there still code that consumes this attribute after here? Or this is just an internal sanity check? If the latter, maybe just use a local bitmap.",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50643880_87e2e49c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "You are right, when I look at the code, I don\u0027t see any obvious downstream uses of OnList.\n\nOn the other hand, I am not sure how much it would help to use a local bitmap. At the point that this code runs, the loader has already allocated space for OnList, so we might as well use it.",
+      "parentUuid": "d15deb9a_74aebaad",
       "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -169,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "ead5f2cb_07df63c4",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2273,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "Mmm, yes, I think you are right, the name is not great. \n\nI like \"TopLevelSym\", I will switch it up to that.",
+      "parentUuid": "23034898_ce39ef4b",
+      "range": {
+        "startLine": 2273,
+        "startChar": 17,
+        "endLine": 2273,
+        "endChar": 31
+      },
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b3fac6b_fe4ca495",
         "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
         "patchSetId": 4
@@ -183,6 +303,24 @@
       "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d38ee650_f1fdb05d",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "Right, of course. Fixed.",
+      "parentUuid": "9b3fac6b_fe4ca495",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

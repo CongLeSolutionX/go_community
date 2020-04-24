@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9e315cff_1e2bb08b",
+        "filename": "src/cmd/link/internal/amd64/asm2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "That\u0027s a good suggestion, I\u0027ll work on that.",
+      "parentUuid": "b7f86def_2a9cef22",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "c83fbeb40a7fea4b07843812aa028b1416adff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d796756c_c86352dd",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "c83fbeb40a7fea4b07843812aa028b1416adff94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fd869b_703b9e75",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T11:51:58Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "d796756c_c86352dd",
+      "range": {
+        "startLine": 161,
+        "startChar": 7,
+        "endLine": 161,
+        "endChar": 21
+      },
+      "revId": "c83fbeb40a7fea4b07843812aa028b1416adff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
