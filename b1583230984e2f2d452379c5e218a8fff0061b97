@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f81099d_8891464a",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-04-24T07:47:40Z",
+      "side": 1,
+      "message": "my mental typechecker is failing :) do we have two funcs called genResult0 now?\nI assume you only meant to leave the one with the map.\n\nAlso, I assume we always want to use a map.",
+      "revId": "b1583230984e2f2d452379c5e218a8fff0061b97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
