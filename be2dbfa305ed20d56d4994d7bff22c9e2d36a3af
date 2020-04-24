@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f4111959_cdc1486e",
+        "filename": "src/cmd/go/internal/modcmd/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-04-24T16:03:41Z",
+      "side": 1,
+      "message": "Sure. I\u0027m just lazy :)",
+      "parentUuid": "0251cd37_1fe1fec4",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35f0ecaf_b7f5c649",
         "filename": "src/cmd/go/internal/modcmd/verify.go",
         "patchSetId": 1
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "\u003e Channeling bcmills\n\n💯\n\n\u003e Do we simply use make(chan bool, len(mods))? Or do we just fall back to a waitgroup and a make([]bool, len(mods))?\n\nIdeally I think we should make the output deterministic, so I would be inclined to use a “future pattern”: a slice of `\u003c-chan error` that we can then iterate in order, regardless of the order of completion, and then move the `base.Errorf` call from `verifyMod` to the caller side.\n(https://play.golang.org/p/4asM7eU0W-M)",
       "parentUuid": "ae8abaa0_e9b1bb3f",
+      "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18258929_27206c01",
+        "filename": "src/cmd/go/internal/modcmd/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-04-24T16:03:41Z",
+      "side": 1,
+      "message": "I initially worried about determinism, but then convinced myself that it doesn\u0027t matter here. The output should generally be empty, and when there is an error, I struggle to think why anyone would care about its determinism. I don\u0027t think other mod commands like \u0027tidy\u0027 and \u0027download\u0027 are expected to be deterministic in their stdout/stderr.\n\nIf you feel strongly about this, happy to change it, though :) You\u0027ve clearly put more time in that playground link than I have in this entire CL, so I definitely don\u0027t mean to brush off your thoughts.\n\n\u003e a slice of chan...\n\nIt seems overkill to use a slice of channels than just a slice of boolean, though. Is that so that we can show errors as they appear, instead of all at the end? Is that really worth the effort given that the non-error case doesn\u0027t show any progress at all?\n\n(were \"effort\" here is both in code complexity, and in the overhead of more channels)",
+      "parentUuid": "8dc042ed_94571d07",
       "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
