@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "618384e9_c42f0ac4",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-04-24T15:50:05Z",
+      "side": 1,
+      "message": "no need to make this Replacer each time. It\u0027s meant to be used like a regexp: built once and reused repeatedly. Move it up to a package global?",
+      "revId": "c0195f045ad178c5edaf9eec7714ca9ff28e295c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2ae907b_95cd5488",
         "filename": "src/testing/testing_test.go",
         "patchSetId": 3
