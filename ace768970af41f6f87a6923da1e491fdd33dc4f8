@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f49a1d22_377d4a3a",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-04-24T07:10:49Z",
+      "side": 1,
+      "message": "I removed the MOVwconst [0] ones; they were never triggered anyway\n(at least when building std), because toolstash check still passes.",
+      "parentUuid": "d234afa8_b1c4cc14",
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e738814e_dfee5058",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab3d7db1_29bec9eb",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-04-24T07:10:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e738814e_dfee5058",
+      "range": {
+        "startLine": 623,
+        "startChar": 47,
+        "endLine": 623,
+        "endChar": 74
+      },
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -89,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "e9f81ce7_d15ad783",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-04-24T07:10:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45691025_97be91d8",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 98
+      },
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a76cdf3f_bec5cfef",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 2
@@ -109,6 +175,30 @@
       "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91295226_7d84e591",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-04-24T07:10:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a76cdf3f_bec5cfef",
+      "range": {
+        "startLine": 652,
+        "startChar": 29,
+        "endLine": 652,
+        "endChar": 37
+      },
+      "revId": "ace768970af41f6f87a6923da1e491fdd33dc4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
