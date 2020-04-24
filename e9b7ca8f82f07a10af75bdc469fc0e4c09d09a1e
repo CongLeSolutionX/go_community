@@ -16,6 +16,41 @@
       "revId": "e9b7ca8f82f07a10af75bdc469fc0e4c09d09a1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1743201_3c07f5c6",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T19:50:12Z",
+      "side": 1,
+      "message": "Thank you.  Very glad to see another use of genasmsym() eliminated.\n\nDoes it still need to be called machogenasmsym? Maybe \"collectmachosyms\"?",
+      "parentUuid": "221f3010_1130a03c",
+      "revId": "e9b7ca8f82f07a10af75bdc469fc0e4c09d09a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4f844e8_98b640df",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-24T19:50:12Z",
+      "side": 1,
+      "message": "Do we need to break ties based on loader.Sym in case we have anonymous syms?",
+      "revId": "e9b7ca8f82f07a10af75bdc469fc0e4c09d09a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
