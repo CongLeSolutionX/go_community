@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0251cd37_1fe1fec4",
+        "filename": "src/cmd/go/internal/modcmd/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-24T15:55:20Z",
+      "side": 1,
+      "message": "(nit)\n\ntype token struct{}\nsema :\u003d make(chan token, …)\n\n\n(to make clear that the tokens carry no information)",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35f0ecaf_b7f5c649",
         "filename": "src/cmd/go/internal/modcmd/verify.go",
         "patchSetId": 1
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "Good idea, though then that makes chanOK break, since its buffer is not big enough to hold all results.\n\nDo we simply use make(chan bool, len(mods))? Or do we just fall back to a waitgroup and a make([]bool, len(mods))?",
       "parentUuid": "35f0ecaf_b7f5c649",
+      "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dc042ed_94571d07",
+        "filename": "src/cmd/go/internal/modcmd/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-24T15:55:20Z",
+      "side": 1,
+      "message": "\u003e Channeling bcmills\n\n💯\n\n\u003e Do we simply use make(chan bool, len(mods))? Or do we just fall back to a waitgroup and a make([]bool, len(mods))?\n\nIdeally I think we should make the output deterministic, so I would be inclined to use a “future pattern”: a slice of `\u003c-chan error` that we can then iterate in order, regardless of the order of completion, and then move the `base.Errorf` call from `verifyMod` to the caller side.\n(https://play.golang.org/p/4asM7eU0W-M)",
+      "parentUuid": "ae8abaa0_e9b1bb3f",
       "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
