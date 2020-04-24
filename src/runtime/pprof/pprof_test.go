@@ -76,24 +76,15 @@ func cpuHog2(x int) int {
 	return foo
 }
 
-// Return a list of functions that we don't want to ever appear in CPU
-// profiles. For gccgo, that list includes the sigprof handler itself.
-func avoidFunctions() []string {
-	if runtime.Compiler == "gccgo" {
-		return []string{"runtime.sigprof"}
-	}
-	return nil
-}
-
 func TestCPUProfile(t *testing.T) {
-	testCPUProfile(t, stackContains, []string{"runtime/pprof.cpuHog1"}, avoidFunctions(), func(dur time.Duration) {
+	testCPUProfile(t, stackContains, []string{"runtime/pprof.cpuHog1"}, func(dur time.Duration) {
 		cpuHogger(cpuHog1, &salt1, dur)
 	})
 }
 
 func TestCPUProfileMultithreaded(t *testing.T) {
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(2))
-	testCPUProfile(t, stackContains, []string{"runtime/pprof.cpuHog1", "runtime/pprof.cpuHog2"}, avoidFunctions(), func(dur time.Duration) {
+	testCPUProfile(t, stackContains, []string{"runtime/pprof.cpuHog1", "runtime/pprof.cpuHog2"}, func(dur time.Duration) {
 		c := make(chan int)
 		go func() {
 			cpuHogger(cpuHog1, &salt1, dur)
@@ -146,7 +137,7 @@ func TestCPUProfileInlining(t *testing.T) {
 		t.Skip("Can't determine whether inlinedCallee was inlined into inlinedCaller.")
 	}
 
-	p := testCPUProfile(t, stackContains, []string{"runtime/pprof.inlinedCallee", "runtime/pprof.inlinedCaller"}, avoidFunctions(), func(dur time.Duration) {
+	p := testCPUProfile(t, stackContains, []string{"runtime/pprof.inlinedCallee", "runtime/pprof.inlinedCaller"}, func(dur time.Duration) {
 		cpuHogger(inlinedCaller, &salt1, dur)
 	})
 
@@ -196,7 +187,7 @@ func inlinedCalleeDump(pcs []uintptr) {
 }
 
 func TestCPUProfileRecursion(t *testing.T) {
-	p := testCPUProfile(t, stackContains, []string{"runtime/pprof.inlinedCallee", "runtime/pprof.recursionCallee", "runtime/pprof.recursionCaller"}, avoidFunctions(), func(dur time.Duration) {
+	p := testCPUProfile(t, stackContains, []string{"runtime/pprof.inlinedCallee", "runtime/pprof.recursionCallee", "runtime/pprof.recursionCaller"}, func(dur time.Duration) {
 		cpuHogger(recursionCaller, &salt1, dur)
 	})
 
@@ -260,7 +251,7 @@ func parseProfile(t *testing.T, valBytes []byte, f func(uintptr, []*profile.Loca
 
 // testCPUProfile runs f under the CPU profiler, checking for some conditions specified by need,
 // as interpreted by matches, and returns the parsed profile.
-func testCPUProfile(t *testing.T, matches matchFunc, need []string, avoid []string, f func(dur time.Duration)) *profile.Profile {
+func testCPUProfile(t *testing.T, matches matchFunc, need []string, f func(dur time.Duration)) *profile.Profile {
 	switch runtime.GOOS {
 	case "darwin":
 		switch runtime.GOARCH {
@@ -314,7 +305,7 @@ func testCPUProfile(t *testing.T, matches matchFunc, need []string, avoid []stri
 		f(duration)
 		StopCPUProfile()
 
-		if p, ok := profileOk(t, matches, need, avoid, prof, duration); ok {
+		if p, ok := profileOk(t, matches, need, prof, duration); ok {
 			return p
 		}
 
@@ -362,13 +353,11 @@ func stackContains(spec string, count uintptr, stk []*profile.Location, labels m
 
 type matchFunc func(spec string, count uintptr, stk []*profile.Location, labels map[string][]string) bool
 
-func profileOk(t *testing.T, matches matchFunc, need []string, avoid []string, prof bytes.Buffer, duration time.Duration) (_ *profile.Profile, ok bool) {
+func profileOk(t *testing.T, matches matchFunc, need []string, prof bytes.Buffer, duration time.Duration) (_ *profile.Profile, ok bool) {
 	ok = true
 
-	// Check that profile is well formed, contains 'need', and does not contain
-	// anything from 'avoid'.
+	// Check that profile is well formed and contains need.
 	have := make([]uintptr, len(need))
-	avoidSamples := make([]uintptr, len(avoid))
 	var samples uintptr
 	var buf bytes.Buffer
 	p := parseProfile(t, prof.Bytes(), func(count uintptr, stk []*profile.Location, labels map[string][]string) {
@@ -378,15 +367,6 @@ func profileOk(t *testing.T, matches matchFunc, need []string, avoid []string, p
 		for i, spec := range need {
 			if matches(spec, count, stk, labels) {
 				have[i] += count
-			}
-		}
-		for i, name := range avoid {
-			for _, loc := range stk {
-				for _, line := range loc.Line {
-					if strings.Contains(line.Function.Name, name) {
-						avoidSamples[i] += count
-					}
-				}
 			}
 		}
 		fmt.Fprintf(&buf, "\n")
@@ -409,14 +389,6 @@ func profileOk(t *testing.T, matches matchFunc, need []string, avoid []string, p
 	if ideal := uintptr(duration * 100 / time.Second); samples == 0 || (samples < ideal/4 && samples < 10) {
 		t.Logf("too few samples; got %d, want at least %d, ideally %d", samples, ideal/4, ideal)
 		ok = false
-	}
-
-	for i, name := range avoid {
-		bad := avoidSamples[i]
-		if bad != 0 {
-			t.Logf("found %d samples in avoid-function %s\n", bad, name)
-			ok = false
-		}
 	}
 
 	if len(need) == 0 {
@@ -552,7 +524,7 @@ func fprintStack(w io.Writer, stk []*profile.Location) {
 
 // Test that profiling of division operations is okay, especially on ARM. See issue 6681.
 func TestMathBigDivide(t *testing.T) {
-	testCPUProfile(t, nil, nil, nil, func(duration time.Duration) {
+	testCPUProfile(t, nil, nil, func(duration time.Duration) {
 		t := time.After(duration)
 		pi := new(big.Int)
 		for {
@@ -581,7 +553,7 @@ func stackContainsAll(spec string, count uintptr, stk []*profile.Location, label
 }
 
 func TestMorestack(t *testing.T) {
-	testCPUProfile(t, stackContainsAll, []string{"runtime.newstack,runtime/pprof.growstack"}, avoidFunctions(), func(duration time.Duration) {
+	testCPUProfile(t, stackContainsAll, []string{"runtime.newstack,runtime/pprof.growstack"}, func(duration time.Duration) {
 		t := time.After(duration)
 		c := make(chan bool)
 		for {
@@ -1142,7 +1114,7 @@ func stackContainsLabeled(spec string, count uintptr, stk []*profile.Location, l
 }
 
 func TestCPUProfileLabel(t *testing.T) {
-	testCPUProfile(t, stackContainsLabeled, []string{"runtime/pprof.cpuHogger;key=value"}, avoidFunctions(), func(dur time.Duration) {
+	testCPUProfile(t, stackContainsLabeled, []string{"runtime/pprof.cpuHogger;key=value"}, func(dur time.Duration) {
 		Do(context.Background(), Labels("key", "value"), func(context.Context) {
 			cpuHogger(cpuHog1, &salt1, dur)
 		})
@@ -1153,7 +1125,7 @@ func TestLabelRace(t *testing.T) {
 	// Test the race detector annotations for synchronization
 	// between settings labels and consuming them from the
 	// profile.
-	testCPUProfile(t, stackContainsLabeled, []string{"runtime/pprof.cpuHogger;key=value"}, nil, func(dur time.Duration) {
+	testCPUProfile(t, stackContainsLabeled, []string{"runtime/pprof.cpuHogger;key=value"}, func(dur time.Duration) {
 		start := time.Now()
 		var wg sync.WaitGroup
 		for time.Since(start) < dur {
