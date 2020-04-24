@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bf9ad36_55f8b22b",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-24T20:44:42Z",
+      "side": 1,
+      "message": "Check that v.AuxInt%16 \u003d\u003d 0",
+      "revId": "86374dcff0052579596182c03cd730e759bc94c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd3dc9e_f6767784",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-24T20:44:42Z",
+      "side": 1,
+      "message": "# of bytes to copy (must be a multiple of 16?)",
+      "range": {
+        "startLine": 684,
+        "startChar": 14,
+        "endLine": 684,
+        "endChar": 39
+      },
+      "revId": "86374dcff0052579596182c03cd730e759bc94c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
