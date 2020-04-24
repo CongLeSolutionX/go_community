@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7f86def_2a9cef22",
+        "filename": "src/cmd/link/internal/amd64/asm2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T02:03:34Z",
+      "side": 1,
+      "message": "If we can expand this CL to cover all ELF platforms, all these cases don\u0027t need to be copied.",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "c83fbeb40a7fea4b07843812aa028b1416adff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d796756c_c86352dd",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T02:03:34Z",
+      "side": 1,
+      "message": "Can we expand this to IsELF?",
+      "range": {
+        "startLine": 161,
+        "startChar": 7,
+        "endLine": 161,
+        "endChar": 21
+      },
+      "revId": "c83fbeb40a7fea4b07843812aa028b1416adff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
