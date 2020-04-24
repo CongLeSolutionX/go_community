@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "c429b28a_858a6092",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T13:33:51Z",
+      "side": 1,
+      "message": "Thanks for the data. I missed the part that it is only for data symbols. Sorry. I guess a map probably makes sense, then. Thanks.",
+      "parentUuid": "117dff8e_4911492a",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d15deb9a_74aebaad",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -201,6 +219,24 @@
       "side": 1,
       "message": "You are right, when I look at the code, I don\u0027t see any obvious downstream uses of OnList.\n\nOn the other hand, I am not sure how much it would help to use a local bitmap. At the point that this code runs, the loader has already allocated space for OnList, so we might as well use it.",
       "parentUuid": "d15deb9a_74aebaad",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7be6b319_21e97122",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T13:33:51Z",
+      "side": 1,
+      "message": "Using local bitmap could avoid some concurrency problems. You\u0027re right that it won\u0027t help much.\n\nSince nothing reads the bit after it, maybe here we could just check that all symbols\u0027 OnList attributes are false, but don\u0027t set it to true. (This is fine, you don\u0027t need to do it in this CL.)",
+      "parentUuid": "50643880_87e2e49c",
       "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
