@@ -287,6 +287,26 @@ func bgscavenge(c chan int) {
 			continue
 		}
 
+		if released < physPageSize {
+			// If this happens, it means that we may have attempted to release part
+			// of a physical page, but the likely effect of that is that it released
+			// the whole physical page, some of which may have still been in-use.
+			// This could lead to memory corruption. Throw.
+			throw("released less than one physical page of memory")
+		}
+
+		// It's extremely unlikely that we'll see a zero crit value here, unless
+		// something goes wrong with the monotonic clock (e.g. we scavenge faster
+		// than its minimum granularity). In this case, just pace scavenger according
+		// to the Go 1.13's pacing, which assumed that the scavenging cost of one
+		// physical page was 10µs in order to determine its pacing.
+		if crit <= 0 {
+			// Don't handle huge pages, since we don't know whether they were backed
+			// when we scavenged them. Assume the worst (which is that they weren't)
+			// so that we don't pace the scavenger too hard in unknown territory.
+			crit = 10e3 * float64(released/physPageSize)
+		}
+
 		// Multiply the critical time by 1 + the ratio of the costs of using
 		// scavenged memory vs. scavenging memory. This forces us to pay down
 		// the cost of reusing this memory eagerly by sleeping for a longer period
