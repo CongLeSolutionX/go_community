@@ -6,6 +6,8 @@ package issues
 
 import (
 	"fmt"
+	"net/http"
+	"net/http/httputil"
 	syn "cmd/compile/internal/syntax"
 	t1 "text/template"
 	t2 "html/template"
@@ -355,4 +357,9 @@ func issue35895() {
 	// Because both t1 and t2 have the same global package name (template),
 	// qualify packages with full path name in this case.
 	var _ t1.Template = t2 /* ERROR cannot use .* \(value of type "html/template".Template\) as "text/template".Template */ .Template{}
+}
+
+func _()  {
+	var x http.Handler = httputil/* ERROR cannot use .*: missing method ServeHTTP \(ServeHTTP has pointer receiver\) */.ReverseProxy {}
+	_ = x/* ERROR .* cannot have dynamic type httputil.ReverseProxy \(missing method ServeHTTP \(ServeHTTP has pointer receiver\)\) */.(httputil.ReverseProxy)
 }
