@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55837fe0_54cf1694",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "So we end up copying all symbols to external in internal linking PIE mode? That is so unfortunate. Could we create the symbol updater lazily in Adddynrel2, so at least leaf symbols don\u0027t need to be copied?\n\nWe should really revisit this...",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "084f6ce5_02512f0d",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "Put this in a local variable to avoid recompute.",
+      "range": {
+        "startLine": 695,
+        "startChar": 5,
+        "endLine": 695,
+        "endChar": 12
+      },
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "043168ac_4f23aad4",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "Doesn\u0027t SymbolBuilder.Addstring do this?",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10998b41_fb7556cd",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "Okay, we end up setting alignments for all symbols. Maybe we want to change the loader to store it in a dense array instead of a map. (Not necessarily in this CL)\n\nAlternatively, don\u0027t set it and recompute default alignment when needed. It shouldn\u0027t be needed in many places, right?",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d15deb9a_74aebaad",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "Is there still code that consumes this attribute after here? Or this is just an internal sanity check? If the latter, maybe just use a local bitmap.",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7467abe_afba86be",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1529,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "This whole thing is so mysterious... I guess I just didn\u0027t understand ELF ABI well enough...",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23034898_ce39ef4b",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2273,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "I think this name is not very clear. The name says AnonSym but this function can be called with named symbol. Also, include for what? It is not clear what the condition should be without knowing where it is included.\n\nMaybe IsRealSym? IsTopLevelSym?",
+      "range": {
+        "startLine": 2273,
+        "startChar": 17,
+        "endLine": 2273,
+        "endChar": 31
+      },
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b3fac6b_fe4ca495",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T01:10:51Z",
+      "side": 1,
+      "message": "Unset the ReadOnly bit?",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
