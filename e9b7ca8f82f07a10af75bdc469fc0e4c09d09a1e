@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "221f3010_1130a03c",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T19:31:17Z",
+      "side": 1,
+      "message": "I rewrote this code not using the generic genasmsym, which I think we are moving away from.",
+      "revId": "e9b7ca8f82f07a10af75bdc469fc0e4c09d09a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
