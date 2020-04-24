@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1e22339_cd0fce95",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-24T21:46:33Z",
+      "side": 1,
+      "message": "s/start to/now/\ns/the/a/ (?)",
+      "range": {
+        "startLine": 178,
+        "startChar": 28,
+        "endLine": 178,
+        "endChar": 33
+      },
+      "revId": "0c5906d43d1f534d03d5d1f336feae002f4fd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a610f5d_e6d9f467",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-24T21:46:33Z",
+      "side": 1,
+      "message": "s/semantic/semantics/ (or meaning)",
+      "range": {
+        "startLine": 180,
+        "startChar": 10,
+        "endLine": 180,
+        "endChar": 18
+      },
+      "revId": "0c5906d43d1f534d03d5d1f336feae002f4fd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9415808_20baa2dc",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-24T21:46:33Z",
+      "side": 1,
+      "message": "Remove trailing whitespace.",
+      "revId": "0c5906d43d1f534d03d5d1f336feae002f4fd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "774091dd_ca1ddfec",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-24T21:46:33Z",
+      "side": 1,
+      "message": "Move \"yet\" to between \"not\" and \"implemented\".",
+      "range": {
+        "startLine": 243,
+        "startChar": 41,
+        "endLine": 243,
+        "endChar": 44
+      },
+      "revId": "0c5906d43d1f534d03d5d1f336feae002f4fd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
