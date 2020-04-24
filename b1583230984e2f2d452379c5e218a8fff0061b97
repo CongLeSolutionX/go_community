@@ -16,6 +16,24 @@
       "revId": "b1583230984e2f2d452379c5e218a8fff0061b97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d453f21_ad92648c",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-24T14:35:59Z",
+      "side": 1,
+      "message": "You had me panicking for a moment about whether we had a horrible compiler bug. I think (?) that’s just the diff being visually misleading. Try the side by side diff and see whether it looks any better?",
+      "parentUuid": "2f81099d_8891464a",
+      "revId": "b1583230984e2f2d452379c5e218a8fff0061b97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
