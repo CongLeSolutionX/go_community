@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eb546e5_376bcd03",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T00:29:10Z",
+      "side": 1,
+      "message": "I\u0027m leaning towards the other way, call it IsAsm and set it in the assembler, because assembly is the special case. Up to you.",
+      "revId": "8a08d2582514d93d78cc72b23b5508b3c1566d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
