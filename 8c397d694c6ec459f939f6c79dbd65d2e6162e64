@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "54e45c2b_b24a9009",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-24T21:04:20Z",
+      "side": 1,
+      "message": "Just do ^c, not ^uint32(c)",
+      "parentUuid": "6fa343d4_d92c839a",
+      "range": {
+        "startLine": 815,
+        "startChar": 85,
+        "endLine": 815,
+        "endChar": 94
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "677b89de_28c48d78",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "3c33b5e2_2b232a5a",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-24T21:04:20Z",
+      "side": 1,
+      "message": "You don\u0027t need to cast to uint32 to do a left shift. For example, this should work:\n\n(SLLconst [c] (MOVWconst [d])) \u003d\u003e (MOVWconst [int32(uint32(d)\u003c\u003cuint64(c))])\n\nto \n\n(SLLconst [c] (MOVWconst [d])) \u003d\u003e (MOVWconst [d\u003c\u003cuint64(c)])\n\nOnly for SRL needs the uint32 cast, so it shifts in zeroes from the top. For SRA shifting in the sign bit is what we want, and for SLL we\u0027re shifting bits out so the sign doesn\u0027t matter.",
+      "parentUuid": "3f2abd89_0cc008a3",
+      "range": {
+        "startLine": 823,
+        "startChar": 46,
+        "endLine": 823,
+        "endChar": 56
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed0da34d_4e07b399",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 2
@@ -131,6 +179,30 @@
       "side": 1,
       "message": "The only change was the removal of the int64() cast which seems appropriate.",
       "parentUuid": "ed0da34d_4e07b399",
+      "range": {
+        "startLine": 847,
+        "startChar": 68,
+        "endLine": 847,
+        "endChar": 94
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9cd67b5_c2fa454c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-24T21:04:20Z",
+      "side": 1,
+      "message": "Right. (This was just a comment that you can\u0027t remove the int32 cast here, as we do need unsigned behavior in this rule.)",
+      "parentUuid": "8429d17d_45d20877",
       "range": {
         "startLine": 847,
         "startChar": 68,
@@ -219,6 +291,24 @@
       "side": 1,
       "message": "No luck with any shift.",
       "parentUuid": "98fd2cb6_1720b5fd",
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db47703d_8cccda1c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-24T21:04:20Z",
+      "side": 1,
+      "message": "They don\u0027t need int32(uint32(c)...) just c... should work, except for the RL ops.",
+      "parentUuid": "63a94e31_a45b5856",
       "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
