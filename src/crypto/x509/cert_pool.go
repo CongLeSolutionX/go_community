@@ -13,8 +13,31 @@ import (
 
 // CertPool is a set of certificates.
 type CertPool struct {
-	byName map[string][]int
-	certs  []*Certificate
+	byName map[string][]int // cert.RawSubject => index into lazyCerts
+
+	// lazyCerts contains funcs that return a certificate,
+	// lazily parsing/decompressing it as needed.
+	lazyCerts []lazyCert
+}
+
+// lazyCert is minimal metadata about a Cert and a func to retrieve it
+// in its normal expanded *Certificate form.
+type lazyCert struct {
+	// rawSubject is the Certificate.RawSubject value.
+	// It's the same as the CertPool.byName key, but in []byte
+	// form to make CertPool.Subjects (as used by crypto/tls) do
+	// fewer allocations.
+	rawSubject []byte
+
+	// getCert returns the certificate.
+	//
+	// It is not meant to do network operations or anything else
+	// where a failure is likely; the func is meant to lazily
+	// parse/decompress data that is already known to be good. The
+	// error in the signature primarily is meant for use in the
+	// case where a cert file existed on local disk when the program
+	// started up is deleted later before it's read.
+	getCert func() (*Certificate, error)
 }
 
 // NewCertPool returns a new, empty CertPool.
@@ -24,17 +47,31 @@ func NewCertPool() *CertPool {
 	}
 }
 
+// len returns the number of certs in the set.
+// A nil set is a valid empty set.
+func (s *CertPool) len() int {
+	if s == nil {
+		return 0
+	}
+	return len(s.lazyCerts)
+}
+
+// cert returns cert index n in s.
+func (s *CertPool) cert(n int) (*Certificate, error) {
+	return s.lazyCerts[n].getCert()
+}
+
 func (s *CertPool) copy() *CertPool {
 	p := &CertPool{
-		byName: make(map[string][]int, len(s.byName)),
-		certs:  make([]*Certificate, len(s.certs)),
+		byName:    make(map[string][]int, len(s.byName)),
+		lazyCerts: make([]lazyCert, len(s.lazyCerts)),
 	}
 	for k, v := range s.byName {
 		indexes := make([]int, len(v))
 		copy(indexes, v)
 		p.byName[k] = indexes
 	}
-	copy(p.certs, s.certs)
+	copy(p.lazyCerts, s.lazyCerts)
 	return p
 }
 
@@ -77,7 +114,10 @@ func (s *CertPool) findPotentialParents(cert *Certificate) []int {
 	//   AKID and SKID don't match
 	var matchingKeyID, oneKeyID, mismatchKeyID []int
 	for _, c := range s.byName[string(cert.RawIssuer)] {
-		candidate := s.certs[c]
+		candidate, err := s.lazyCerts[c].getCert()
+		if err != nil {
+			panic(err)
+		}
 		kidMatch := bytes.Equal(candidate.SubjectKeyId, cert.AuthorityKeyId)
 		switch {
 		case kidMatch:
@@ -103,18 +143,29 @@ func (s *CertPool) findPotentialParents(cert *Certificate) []int {
 }
 
 func (s *CertPool) contains(cert *Certificate) bool {
-	if s == nil {
-		return false
+	v, err := s.containsOrError(cert)
+	if err != nil {
+		panic(err)
 	}
+	return v
+}
 
+func (s *CertPool) containsOrError(cert *Certificate) (bool, error) {
+	if s == nil {
+		return false, nil
+	}
 	candidates := s.byName[string(cert.RawSubject)]
-	for _, c := range candidates {
-		if s.certs[c].Equal(cert) {
-			return true
+	for _, i := range candidates {
+		c, err := s.cert(i)
+		if err != nil {
+			return false, err
+		}
+		if c.Equal(cert) {
+			return true, nil
 		}
 	}
 
-	return false
+	return false, nil
 }
 
 // AddCert adds a certificate to a pool.
@@ -122,17 +173,37 @@ func (s *CertPool) AddCert(cert *Certificate) {
 	if cert == nil {
 		panic("adding nil Certificate to CertPool")
 	}
+	s.addCertFunc(string(cert.RawSubject), func() (*Certificate, error) {
+		return cert, nil
+	})
+}
 
-	// Check that the certificate isn't being added twice.
-	if s.contains(cert) {
-		return
+// addCertFunc adds metadata about a certificate to a pool, along with
+// a func to fetch that certificate later when needed.
+//
+// The rawSubject is Certificate.RawSubject and must be non-empty.
+// The getCert func may be called 0 or more times.
+func (s *CertPool) addCertFunc(rawSubject string, getCert func() (*Certificate, error)) {
+	if getCert == nil {
+		panic("getCert can't be nil")
 	}
 
-	n := len(s.certs)
-	s.certs = append(s.certs, cert)
+	// Check that the certificate isn't being added twice.
+	if len(s.byName[rawSubject]) > 0 {
+		c, err := getCert()
+		if err != nil {
+			panic(err)
+		}
+		if s.contains(c) {
+			return
+		}
+	}
 
-	name := string(cert.RawSubject)
-	s.byName[name] = append(s.byName[name], n)
+	s.lazyCerts = append(s.lazyCerts, lazyCert{
+		rawSubject: []byte(rawSubject),
+		getCert:    getCert,
+	})
+	s.byName[rawSubject] = append(s.byName[rawSubject], len(s.lazyCerts)-1)
 }
 
 // AppendCertsFromPEM attempts to parse a series of PEM encoded certificates.
@@ -167,9 +238,9 @@ func (s *CertPool) AppendCertsFromPEM(pemCerts []byte) (ok bool) {
 // Subjects returns a list of the DER-encoded subjects of
 // all of the certificates in the pool.
 func (s *CertPool) Subjects() [][]byte {
-	res := make([][]byte, len(s.certs))
-	for i, c := range s.certs {
-		res[i] = c.RawSubject
+	res := make([][]byte, s.len())
+	for i, lc := range s.lazyCerts {
+		res[i] = lc.rawSubject
 	}
 	return res
 }
