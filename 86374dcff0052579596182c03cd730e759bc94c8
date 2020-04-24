@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "22a8c32e_17a885c1",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-24T23:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bf9ad36_55f8b22b",
+      "revId": "86374dcff0052579596182c03cd730e759bc94c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbd3dc9e_f6767784",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "86374dcff0052579596182c03cd730e759bc94c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14ff5dd7_5d0f3d5c",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-24T23:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbd3dc9e_f6767784",
+      "range": {
+        "startLine": 684,
+        "startChar": 14,
+        "endLine": 684,
+        "endChar": 39
+      },
+      "revId": "86374dcff0052579596182c03cd730e759bc94c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
