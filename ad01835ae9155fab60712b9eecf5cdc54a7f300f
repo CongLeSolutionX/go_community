@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7fbef9f_8bc021a3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T02:38:52Z",
+      "side": 1,
+      "message": "(Revisit this in the future, not in this CL)",
+      "parentUuid": "55837fe0_54cf1694",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "084f6ce5_02512f0d",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -104,6 +122,24 @@
       "writtenOn": "2020-04-24T01:10:51Z",
       "side": 1,
       "message": "This whole thing is so mysterious... I guess I just didn\u0027t understand ELF ABI well enough...",
+      "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1ff632c_8c7fa4b1",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1529,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-24T02:38:52Z",
+      "side": 1,
+      "message": "(This is fine. I just want to make a comment. Nothing to address.)",
+      "parentUuid": "d7467abe_afba86be",
       "revId": "ad01835ae9155fab60712b9eecf5cdc54a7f300f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
