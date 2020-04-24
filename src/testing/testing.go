@@ -809,7 +809,7 @@ func (c *common) TempDir() string {
 
 		// ioutil.TempDir doesn't like path separators in its pattern,
 		// so mangle the name to accommodate subtests.
-		pattern := strings.ReplaceAll(c.Name(), "/", "_")
+		pattern := strings.ReplaceAll(c.Name(), string(os.PathSeparator), "_")
 
 		c.tempDir, c.tempDirErr = ioutil.TempDir("", pattern)
 		if c.tempDirErr == nil {

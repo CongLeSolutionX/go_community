@@ -21,6 +21,8 @@ func TestMain(m *testing.M) {
 func TestTempDir(t *testing.T) {
 	testTempDir(t)
 	t.Run("InSubtest", testTempDir)
+	t.Run("test/subtest", testTempDir)
+	t.Run("test\\subtest", testTempDir)
 }
 
 func testTempDir(t *testing.T) {
