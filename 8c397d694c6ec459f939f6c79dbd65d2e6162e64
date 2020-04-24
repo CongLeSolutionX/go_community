@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6fa343d4_d92c839a",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-24T05:34:27Z",
+      "side": 1,
+      "message": "Removed except for ^int32 where type check fails with:\nsrc/cmd/compile/internal/ssa/rewriteARM.go:2538:28: cannot use ^uint32(c) (type uint32) as type int32 in argument to int32ToAuxInt\nsrc/cmd/compile/internal/ssa/rewriteARM.go:2552:28: cannot use ^uint32(c) (type uint32) as type int32 in argument to int32ToAuxInt\nsrc/cmd/compile/internal/ssa/rewriteARM.go:3033:28: cannot use ^uint32(c) (type uint32) as type int32 in argument to int32ToAuxInt\nsrc/cmd/compile/internal/ssa/rewriteARM.go:3047:28: cannot use ^uint32(c) (type uint32) as type int32 in argument to int32ToAuxInt",
+      "parentUuid": "5515d352_b68070f2",
+      "range": {
+        "startLine": 815,
+        "startChar": 85,
+        "endLine": 815,
+        "endChar": 94
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "677b89de_28c48d78",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-22T17:42:38Z",
       "side": 1,
       "message": "Same in this group. The int32 cast is unnecessary for all the rules here, except the shifts. I think some of those can lose the int32 casts as well, except the right unsigned shifts.",
+      "range": {
+        "startLine": 823,
+        "startChar": 46,
+        "endLine": 823,
+        "endChar": 56
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f2abd89_0cc008a3",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-24T05:34:27Z",
+      "side": 1,
+      "message": "Operations on uint and shifts (left or right) don\u0027t succeed.",
+      "parentUuid": "677b89de_28c48d78",
       "range": {
         "startLine": 823,
         "startChar": 46,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8429d17d_45d20877",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-24T05:34:27Z",
+      "side": 1,
+      "message": "The only change was the removal of the int64() cast which seems appropriate.",
+      "parentUuid": "ed0da34d_4e07b399",
+      "range": {
+        "startLine": 847,
+        "startChar": 68,
+        "endLine": 847,
+        "endChar": 94
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b85dc3ff_7b9e0b79",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7cc615dc_2f38d918",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-24T05:34:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b85dc3ff_7b9e0b79",
+      "range": {
+        "startLine": 856,
+        "startChar": 46,
+        "endLine": 856,
+        "endChar": 56
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98fd2cb6_1720b5fd",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 2
@@ -105,6 +201,24 @@
       "writtenOn": "2020-04-22T17:42:38Z",
       "side": 1,
       "message": "I think the non-RL ones don\u0027t need int32s.",
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63a94e31_a45b5856",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-24T05:34:27Z",
+      "side": 1,
+      "message": "No luck with any shift.",
+      "parentUuid": "98fd2cb6_1720b5fd",
       "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
