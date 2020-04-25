@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6c5c223_eea4f60f",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-25T01:21:19Z",
+      "side": 1,
+      "message": "Keith, are you up for doing these ones?",
+      "revId": "cc50134c532871013eb9fce1503fcabd49546316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101d1ebd_1ea84535",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-25T01:21:19Z",
+      "side": 1,
+      "message": "This is theoretically a bug fix, too, although I suspect types with 64 bit sizes are vanishingly rare.",
+      "revId": "cc50134c532871013eb9fce1503fcabd49546316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad5d3a4d_107d275b",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-25T01:21:19Z",
+      "side": 1,
+      "message": "Keith, how do you feel about doing the magic division rules?",
+      "revId": "cc50134c532871013eb9fce1503fcabd49546316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
