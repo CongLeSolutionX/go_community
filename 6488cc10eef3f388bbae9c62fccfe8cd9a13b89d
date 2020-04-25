@@ -16,6 +16,24 @@
       "revId": "6488cc10eef3f388bbae9c62fccfe8cd9a13b89d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f24da55c_3b3ace76",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-04-25T18:01:32Z",
+      "side": 1,
+      "message": "On one hand I would agree, but on the other it makes things significantly more complex. Consider (If (Eq16 x y) yes no) which currently gets rewritten to (BNEZ (SEQZ (ZeroExt16to64 (SUB \u003cx.Type\u003e x y))) yes no), which in turn gets rewritten to:\n\n  (BNEZ (SEQZ (SRLI [48] (SLLI \u003ct\u003e [48] (SUB \u003cx.Type\u003e x y)))\n\nIn this case the SUB is buried below the SRLI/SLLI - I\u0027m not sure how we\u0027d handle this case. I suspect we\u0027d either need to change the Eq16 to remove the optimisation (zero extend each value before subtraction, rather than zero extend once after subtraction), or write a matching rule specifically for (BNEZ (SEQZ (SRLI (SLLI (SUB x y)))))... both of those seem worse than matching (BNEZ (Eq16 x y)) which is a case we know we can specifically optimise for.\n\nI can take a shot a this, however I suspect we\u0027re going to end up with far more rewrite rules to achieve the same result.",
+      "parentUuid": "483fae80_3136f1e7",
+      "revId": "6488cc10eef3f388bbae9c62fccfe8cd9a13b89d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
