@@ -50,6 +50,24 @@
       "revId": "cc50134c532871013eb9fce1503fcabd49546316",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee3133e5_8ad4fc14",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-25T02:08:41Z",
+      "side": 1,
+      "message": "Yes, I can do them.",
+      "parentUuid": "ad5d3a4d_107d275b",
+      "revId": "cc50134c532871013eb9fce1503fcabd49546316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
