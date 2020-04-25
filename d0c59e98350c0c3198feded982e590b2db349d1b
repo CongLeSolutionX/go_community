@@ -34,6 +34,24 @@
       "revId": "d0c59e98350c0c3198feded982e590b2db349d1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3907125e_a77db286",
+        "filename": "misc/cgo/test/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2200,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-25T23:00:42Z",
+      "side": 1,
+      "message": "Sorry for being unclear.\n\nYes, I meant that testing misc/cgo/test passes today.  If this test breaks go/internal/scrimporter today, that is fine.  A comment would help.\n\nFor godefs I mean something like add a test to testgodefs that works today with a #define of a type, and make sure it still works.  Thanks.",
+      "parentUuid": "825f2c7a_1bc30a7e",
+      "revId": "d0c59e98350c0c3198feded982e590b2db349d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
