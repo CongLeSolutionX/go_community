@@ -182,6 +182,9 @@ func (p *Package) Translate(f *File) {
 		numTypedefs = len(p.typedefs)
 		// Also ask about any typedefs we've seen so far.
 		for _, info := range p.typedefList {
+			if f.Name[info.typedef] != nil {
+				continue
+			}
 			n := &Name{
 				Go: info.typedef,
 				C:  info.typedef,
@@ -710,6 +713,9 @@ func (p *Package) prepareNames(f *File) {
 			}
 		}
 		p.mangleName(n)
+		if n.Kind == "type" && typedef[n.Mangle] == nil && (n.C != "_GoBytes_" && n.C != "_GoString_") {
+			typedef[n.Mangle] = n.Type
+		}
 	}
 }
 
@@ -1413,9 +1419,7 @@ func (p *Package) rewriteName(f *File, r *Ref) ast.Expr {
 				r.Context = ctxType
 				if r.Name.Type == nil {
 					error_(r.Pos(), "invalid conversion to C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
-					break
 				}
-				expr = r.Name.Type.Go
 				break
 			}
 			error_(r.Pos(), "call of non-function C.%s", fixGo(r.Name.Go))
@@ -1472,9 +1476,7 @@ func (p *Package) rewriteName(f *File, r *Ref) ast.Expr {
 			// Okay - might be new(T)
 			if r.Name.Type == nil {
 				error_(r.Pos(), "expression C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
-				break
 			}
-			expr = r.Name.Type.Go
 		case "var":
 			expr = &ast.StarExpr{Star: (*r.Expr).Pos(), X: expr}
 		case "macro":
@@ -1493,8 +1495,6 @@ func (p *Package) rewriteName(f *File, r *Ref) ast.Expr {
 			// Use of C.enum_x, C.struct_x or C.union_x without C definition.
 			// GCC won't raise an error when using pointers to such unknown types.
 			error_(r.Pos(), "type C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
-		} else {
-			expr = r.Name.Type.Go
 		}
 	default:
 		if r.Name.Kind == "func" {
