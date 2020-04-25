@@ -300,14 +300,14 @@ func Main(arch *sys.Arch, theArch Arch) {
 	symGroupType := ctxt.symtab()
 	bench.Start("dodata")
 	ctxt.dodata2(symGroupType)
-	bench.Start("loadlibfull")
-	ctxt.loadlibfull() // XXX do it here for now
 	bench.Start("address")
 	order := ctxt.address()
 	bench.Start("dwarfcompress")
 	dwarfcompress(ctxt)
 	bench.Start("layout")
 	filesize := ctxt.layout(order)
+	bench.Start("loadlibfull")
+	ctxt.loadlibfull() // XXX do it here for now
 
 	// Write out the output file.
 	// It is split into two parts (Asmb and Asmb2). The first
