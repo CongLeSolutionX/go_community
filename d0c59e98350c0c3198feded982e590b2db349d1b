@@ -16,6 +16,24 @@
       "revId": "d0c59e98350c0c3198feded982e590b2db349d1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "825f2c7a_1bc30a7e",
+        "filename": "misc/cgo/test/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2200,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-04-25T21:43:48Z",
+      "side": 1,
+      "message": "\u003e This test passes for me today. What are we testing here?\n\nDo you mean \"go test ./misc/cgo/test\" passes today? This test case is really for \"go test -run Cgo go/internal/srcimporter\", which checks that go/types and go/internal/srcimporter can successfully use cmd/cgo and UsesCgo mode to import and typecheck this directory too.\n\nI can add a comment explaining this.\n\n\u003e Can we also add a test to misc/testgodefs/testdata, something that tests that C type winds up with the expected name?\n\nDo you mind clarifying what you have in mind here? I\u0027m happy to add more tests, but I\u0027m afraid I\u0027m not sure I follow exactly what you think should be tested.\n\nDo you mean just add a similar #define test within testgodefs, and then check that we\u0027re able to use it in main.go as expected?",
+      "parentUuid": "76315b51_33038568",
+      "revId": "d0c59e98350c0c3198feded982e590b2db349d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
