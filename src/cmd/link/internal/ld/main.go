@@ -322,7 +322,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 		ctxt.dodata2(symGroupType)
 	}
 	bench.Start("loadlibfull")
-	ctxt.loadlibfull(symGroupType) // XXX do it here for now
+	ctxt.loadlibfull() // XXX do it here for now
 	if !*flagnewDoData {
 		bench.Start("dodata")
 		ctxt.dodata()
