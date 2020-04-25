@@ -10,6 +10,11 @@ import (
 	"fmt"
 )
 
+// Notes:
+//  - Boolean types use the low-order byte of a register. 0=false, 1=true.
+//    Memory loads are zero extended to 64 bits and constant loads are sign
+//    extended to 64 bits, resulting in the upper bytes always being zeroed.
+
 // Suffixes encode the bit width of various instructions:
 //
 // D (double word) = 64 bit int
