@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76315b51_33038568",
+        "filename": "misc/cgo/test/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2200,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-25T18:35:57Z",
+      "side": 1,
+      "message": "This test passes for me today.  What are we testing here?\n\nCan we also add a test to misc/testgodefs/testdata, something that tests that C type winds up with the expected name?",
+      "revId": "d0c59e98350c0c3198feded982e590b2db349d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
