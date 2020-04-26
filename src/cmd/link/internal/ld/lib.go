@@ -282,7 +282,7 @@ type Arch struct {
 	// This is possible when a TLS IE relocation refers to a local
 	// symbol in an executable, which is typical when internally
 	// linking PIE binaries.
-	TLSIEtoLE func(s *sym.Symbol, off, size int)
+	TLSIEtoLE func(P []byte, off, size int)
 
 	// optional override for assignAddress
 	AssignAddress func(ldr *loader.Loader, sect *sym.Section, n int, s loader.Sym, va uint64, isTramp bool) (*sym.Section, int, uint64)
