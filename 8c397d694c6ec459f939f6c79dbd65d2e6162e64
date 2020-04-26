@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "297be7e6_e9ac16b9",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-26T16:35:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d9cd67b5_c2fa454c",
+      "range": {
+        "startLine": 847,
+        "startChar": 68,
+        "endLine": 847,
+        "endChar": 94
+      },
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b85dc3ff_7b9e0b79",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 2
@@ -312,6 +336,24 @@
       "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea1632f3_62075ea0",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-26T16:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db47703d_8cccda1c",
+      "revId": "8c397d694c6ec459f939f6c79dbd65d2e6162e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
