@@ -1976,7 +1976,7 @@ func (l *Loader) preprocess(arch *sys.Arch, s Sym, name string) {
 }
 
 // Load full contents.
-func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
+func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols, needData bool) {
 	// create all Symbols first.
 	l.growSyms(l.NSym())
 	l.growSects(l.NSym())
@@ -2009,7 +2009,9 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 	}
 
 	// allocate a single large slab of relocations for all live symbols
-	l.relocBatch = make([]sym.Reloc, nr)
+	if needData {
+		l.relocBatch = make([]sym.Reloc, nr)
+	}
 
 	// convert payload-based external symbols into sym.Symbol-based
 	for _, i := range toConvert {
@@ -2029,15 +2031,17 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 			s.File = l.objs[pp.objidx].r.unit.Lib.Pkg
 		}
 
-		// Copy relocations
-		batch := l.relocBatch
-		s.R = batch[:len(pp.relocs):len(pp.relocs)]
-		l.relocBatch = batch[len(pp.relocs):]
-		relocs := l.Relocs(i)
-		l.convertRelocations(i, &relocs, s, false)
+		if needData {
+			// Copy relocations
+			batch := l.relocBatch
+			s.R = batch[:len(pp.relocs):len(pp.relocs)]
+			l.relocBatch = batch[len(pp.relocs):]
+			relocs := l.Relocs(i)
+			l.convertRelocations(i, &relocs, s, false)
+		}
 
 		// Copy data
-		s.P = pp.data
+		s.P = pp.data // XXX still needed for some special symbols, even needData is false
 
 		// Transfer over attributes.
 		l.migrateAttributes(i, s)
@@ -2045,7 +2049,7 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 
 	// load contents of defined symbols
 	for _, o := range l.objs[1:] {
-		loadObjFull(l, o.r)
+		loadObjFull(l, o.r, needData)
 	}
 
 	// Note: resolution of ABI aliases is now also handled in
@@ -2581,7 +2585,7 @@ func (l *Loader) CreateStaticSym(name string) Sym {
 	return l.newExtSym(name, l.anonVersion)
 }
 
-func loadObjFull(l *Loader, r *oReader) {
+func loadObjFull(l *Loader, r *oReader, needData bool) {
 	resolveSymRef := func(s goobj2.SymRef) *sym.Symbol {
 		i := l.resolve(r, s)
 		return l.Syms[i]
@@ -2607,15 +2611,17 @@ func loadObjFull(l *Loader, r *oReader) {
 		osym := r.Sym(i)
 		size := osym.Siz()
 
-		// Symbol data
-		s.P = l.OutData(gi)
+		if needData {
+			// Symbol data
+			s.P = l.OutData(gi)
 
-		// Relocs
-		relocs := l.relocs(r, i)
-		batch := l.relocBatch
-		s.R = batch[:relocs.Count():relocs.Count()]
-		l.relocBatch = batch[relocs.Count():]
-		l.convertRelocations(gi, &relocs, s, false)
+			// Relocs
+			relocs := l.relocs(r, i)
+			batch := l.relocBatch
+			s.R = batch[:relocs.Count():relocs.Count()]
+			l.relocBatch = batch[relocs.Count():]
+			l.convertRelocations(gi, &relocs, s, false)
+		}
 
 		// Aux symbol info
 		auxs := r.Auxs(i)
