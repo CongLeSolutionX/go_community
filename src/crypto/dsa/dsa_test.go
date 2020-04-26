@@ -141,3 +141,80 @@ func TestSigningWithDegenerateKeys(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkGenerateParameters(b *testing.B) {
+	b.ResetTimer()
+	param := Parameters{}
+
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if err := GenerateParameters(&param, rand.Reader, L1024N160); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkKeyGeneration(b *testing.B) {
+	var param Parameters
+	err := GenerateParameters(&param, rand.Reader, L1024N160)
+	if err != nil {
+		b.Fatal(err)
+	}
+	var priv PrivateKey
+	priv.Parameters = param
+
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if err = GenerateKey(&priv, rand.Reader); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkSigning(b *testing.B) {
+	var param Parameters
+	err := GenerateParameters(&param, rand.Reader, L1024N160)
+	if err != nil {
+		b.Fatal(err)
+	}
+	var priv PrivateKey
+	priv.Parameters = param
+	err = GenerateKey(&priv, rand.Reader)
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	message := []byte("Test Signing")
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if _, _, err = Sign(rand.Reader, &priv, message); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkVerification(b *testing.B) {
+	var param Parameters
+	err := GenerateParameters(&param, rand.Reader, L1024N160)
+	if err != nil {
+		b.Fatal(err)
+	}
+	var priv PrivateKey
+	priv.Parameters = param
+	err = GenerateKey(&priv, rand.Reader)
+	if err != nil {
+		b.Fatal(err)
+	}
+	pub := priv.PublicKey
+
+	message := []byte("Test Signing")
+	r, s, _ := Sign(rand.Reader, &priv, message)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Verify(&pub, message, r, s)
+	}
+}
