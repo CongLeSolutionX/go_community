@@ -209,7 +209,7 @@ func relocsym2(target *Target, ldr *loader.Loader, err *ErrorReporter, syms *Arc
 				if thearch.TLSIEtoLE == nil {
 					log.Fatalf("internal linking of TLS IE not supported on %v", target.Arch.Family)
 				}
-				thearch.TLSIEtoLE(s, int(off), int(r.Siz))
+				thearch.TLSIEtoLE(s.P, int(off), int(r.Siz))
 				o = int64(syms.Tlsoffset)
 				// TODO: o += r.Add when !target.IsAmd64()?
 				// Why do we treat r.Add differently on AMD64?
