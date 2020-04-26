@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eef3d34b_46a6a994",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-04-26T19:53:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e47971f_fdfa73e3",
+      "revId": "a2280fdacf1ab2e89e49069e0abf75d1eaac383d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "462a6473_59c3bb73",
         "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "340ef6e2_1309283b",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-04-26T19:53:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "462a6473_59c3bb73",
+      "revId": "a2280fdacf1ab2e89e49069e0abf75d1eaac383d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7fdbf3b_1e0c4559",
         "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "a2280fdacf1ab2e89e49069e0abf75d1eaac383d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a545e2b0_5a45ca87",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1496,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-04-26T19:53:33Z",
+      "side": 1,
+      "message": "I prefer a switch too, but an if/else for two cases also seems OK, and I tend to not touch code that\u0027s in such a grey zone :) changed.",
+      "parentUuid": "f7fdbf3b_1e0c4559",
+      "revId": "a2280fdacf1ab2e89e49069e0abf75d1eaac383d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
