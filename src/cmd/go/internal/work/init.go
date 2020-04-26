@@ -146,7 +146,7 @@ func buildModeInit() {
 		ldBuildmode = "c-shared"
 	case "default":
 		switch cfg.Goos {
-		case "android":
+		case "android", "windows":
 			codegenArg = "-shared"
 			ldBuildmode = "pie"
 		case "darwin":
