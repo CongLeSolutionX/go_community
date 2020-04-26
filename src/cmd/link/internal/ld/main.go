@@ -326,7 +326,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.loader.InitOutData()
 	thearch.Asmb(ctxt)
 
-	newreloc := ctxt.IsInternal() && ctxt.IsAMD64()
+	newreloc := ctxt.IsAMD64()
 	if newreloc {
 		bench.Start("reloc")
 		ctxt.reloc()
