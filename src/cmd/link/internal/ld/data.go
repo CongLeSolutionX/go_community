@@ -565,22 +565,22 @@ func (ctxt *Link) reloc() {
 	wg.Add(3)
 	go func() {
 		if !ctxt.IsWasm() { // On Wasm, text relocations are applied in Asmb2.
-			for _, s := range ctxt.Textp {
-				relocsym2(target, ldr, reporter, syms, s)
+			for _, s := range ctxt.Textp2 {
+				relocsym(target, ldr, reporter, syms, s, ldr.OutData(s))
 			}
 		}
 		wg.Done()
 	}()
 	go func() {
-		for _, s := range ctxt.datap {
-			relocsym2(target, ldr, reporter, syms, s)
+		for _, s := range ctxt.datap2 {
+			relocsym(target, ldr, reporter, syms, s, ldr.OutData(s))
 		}
 		wg.Done()
 	}()
 	go func() {
-		for _, si := range dwarfp {
+		for _, si := range dwarfp2 {
 			for _, s := range si.syms {
-				relocsym2(target, ldr, reporter, syms, s)
+				relocsym(target, ldr, reporter, syms, s, ldr.OutData(s))
 			}
 		}
 		wg.Done()
