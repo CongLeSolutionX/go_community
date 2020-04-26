@@ -6,6 +6,7 @@ package dsa
 
 import (
 	"crypto/rand"
+	"crypto/sha256"
 	"math/big"
 	"testing"
 )
@@ -139,5 +140,76 @@ func TestSigningWithDegenerateKeys(t *testing.T) {
 		if _, _, err := Sign(rand.Reader, &priv, hashed); err == nil {
 			t.Errorf("#%d: unexpected success", i)
 		}
+	}
+}
+
+func BenchmarkGenerateParameters(b *testing.B) {
+	var param Parameters
+
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if err := GenerateParameters(&param, rand.Reader, L1024N160); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkKeyGeneration(b *testing.B) {
+	var param Parameters
+	if err := GenerateParameters(&param, rand.Reader, L1024N160); err != nil {
+		b.Fatal(err)
+	}
+	var priv PrivateKey
+	priv.Parameters = param
+
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if err := GenerateKey(&priv, rand.Reader); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkSigning(b *testing.B) {
+	var param Parameters
+	if err := GenerateParameters(&param, rand.Reader, L1024N160); err != nil {
+		b.Fatal(err)
+	}
+	var priv PrivateKey
+	priv.Parameters = param
+	if err := GenerateKey(&priv, rand.Reader); err != nil {
+		b.Fatal(err)
+	}
+
+	hashed := sha256.Sum256([]byte("testing"))
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if _, _, err := Sign(rand.Reader, &priv, hashed[:]); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkVerification(b *testing.B) {
+	var param Parameters
+	if err := GenerateParameters(&param, rand.Reader, L1024N160); err != nil {
+		b.Fatal(err)
+	}
+	var priv PrivateKey
+	priv.Parameters = param
+	if err := GenerateKey(&priv, rand.Reader); err != nil {
+		b.Fatal(err)
+	}
+	pub := priv.PublicKey
+
+	hashed := sha256.Sum256([]byte("testing"))
+	r, s, _ := Sign(rand.Reader, &priv, hashed[:])
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Verify(&pub, hashed[:], r, s)
 	}
 }
