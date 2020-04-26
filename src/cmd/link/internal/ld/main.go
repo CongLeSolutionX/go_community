@@ -325,10 +325,19 @@ func Main(arch *sys.Arch, theArch Arch) {
 	bench.Start("Asmb")
 	ctxt.loader.InitOutData()
 	thearch.Asmb(ctxt)
-	bench.Start("loadlibfull")
-	ctxt.loadlibfull() // XXX do it here for now
-	bench.Start("reloc")
-	ctxt.reloc()
+
+	newreloc := ctxt.IsInternal() && ctxt.IsAMD64()
+	if newreloc {
+		bench.Start("reloc")
+		ctxt.reloc()
+		bench.Start("loadlibfull")
+		ctxt.loadlibfull(false) // XXX do it here for now
+	} else {
+		bench.Start("loadlibfull")
+		ctxt.loadlibfull(true) // XXX do it here for now
+		bench.Start("reloc")
+		ctxt.reloc2()
+	}
 	bench.Start("Asmb2")
 	thearch.Asmb2(ctxt)
 

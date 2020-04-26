@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"sync"
 )
 
 // Temporary dumping around for sym.Symbol version of helper
@@ -492,3 +493,34 @@ func relocsym2(target *Target, ldr *loader.Loader, err *ErrorReporter, syms *Arc
 	}
 }
 
+func (ctxt *Link) reloc2() {
+	var wg sync.WaitGroup
+	target := &ctxt.Target
+	ldr := ctxt.loader
+	reporter := &ctxt.ErrorReporter
+	syms := &ctxt.ArchSyms
+	wg.Add(3)
+	go func() {
+		if !ctxt.IsWasm() { // On Wasm, text relocations are applied in Asmb2.
+			for _, s := range ctxt.Textp {
+				relocsym2(target, ldr, reporter, syms, s)
+			}
+		}
+		wg.Done()
+	}()
+	go func() {
+		for _, s := range ctxt.datap {
+			relocsym2(target, ldr, reporter, syms, s)
+		}
+		wg.Done()
+	}()
+	go func() {
+		for _, si := range dwarfp {
+			for _, s := range si.syms {
+				relocsym2(target, ldr, reporter, syms, s)
+			}
+		}
+		wg.Done()
+	}()
+	wg.Wait()
+}

@@ -2824,10 +2824,10 @@ func addToTextp(ctxt *Link) {
 	ctxt.Textp = textp
 }
 
-func (ctxt *Link) loadlibfull() {
+func (ctxt *Link) loadlibfull(needData bool) {
 
 	// Load full symbol contents, resolve indexed references.
-	ctxt.loader.LoadFull(ctxt.Arch, ctxt.Syms)
+	ctxt.loader.LoadFull(ctxt.Arch, ctxt.Syms, needData)
 
 	// Convert ctxt.Moduledata2 to ctxt.Moduledata, etc
 	if ctxt.Moduledata2 != 0 {
