@@ -155,6 +155,8 @@ func buildModeInit() {
 				codegenArg = "-shared"
 			}
 			fallthrough
+		case "windows":
+			ldBuildmode = "pie"
 		default:
 			ldBuildmode = "exe"
 		}
