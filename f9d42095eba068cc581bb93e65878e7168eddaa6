@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "03e62c3d_67d2ed7f",
+        "filename": "src/cmd/link/internal/ld/data2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-27T21:03:20Z",
+      "side": 1,
+      "message": "Once the next pass is converted to using the loader, the old dodata no longer works. So I just deleted it.",
+      "parentUuid": "8b5c7e7c_4638167a",
+      "revId": "f9d42095eba068cc581bb93e65878e7168eddaa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0d8632c_a84a9a4e",
         "filename": "src/cmd/link/internal/ld/decodesym.go",
         "patchSetId": 3
