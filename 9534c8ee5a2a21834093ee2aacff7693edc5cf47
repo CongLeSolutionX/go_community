@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f44926e3_b10db3d0",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-27T23:44:26Z",
+      "side": 1,
+      "message": "I think I\u0027d rather try to be more precise than just say shallow copy.  Maybe we could say\n\nClone returns a copy of r with its context changed to ctx.\nThe provided ctx must be non-nil.\nThe Body, Response, and TLS fields of the returned Request will point to the same data structures as those fields of r.\nOther fields will be set to deep copies of r\u0027s field values.\n\nThis CL is more for Brad than for me, though.",
+      "revId": "9534c8ee5a2a21834093ee2aacff7693edc5cf47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
