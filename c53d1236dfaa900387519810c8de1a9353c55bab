@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be2b957a_dd338a18",
+        "filename": "src/cmd/compile/internal/ssa/rewriteARM64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2020-04-27T12:32:20Z",
+      "side": 1,
+      "message": "It looks like converting to typed aux breaks this optimization that was added to rulegen to speed up compilation. Is this regression worth tracking somewhere?",
+      "revId": "c53d1236dfaa900387519810c8de1a9353c55bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
