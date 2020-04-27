@@ -272,3 +272,55 @@ func Rect(x0, y0, x1, y1 int) Rectangle {
 	}
 	return Rectangle{Point{x0, y0}, Point{x1, y1}}
 }
+
+// mul64 is equivalent to math.Mul64, but is copy/pasted to avoid depending on
+// package math.
+func mul64(x, y uint64) (hi, lo uint64) {
+	const mask32 = 1<<32 - 1
+	x0 := x & mask32
+	x1 := x >> 32
+	y0 := y & mask32
+	y1 := y >> 32
+	w0 := x0 * y0
+	t := x1*y0 + w0>>32
+	w1 := t & mask32
+	w2 := t >> 32
+	w1 += x0 * y1
+	hi = x1*y1 + w2 + w1>>32
+	lo = x * y
+	return
+}
+
+// mul3NonNeg returns (x * y * z), unless at least one argument is negative or
+// if the computation overflows the int type, in which case it returns -1.
+func mul3NonNeg(x int, y int, z int) int {
+	if (x < 0) || (y < 0) || (z < 0) {
+		return -1
+	}
+	hi, lo := mul64(uint64(x), uint64(y))
+	if hi != 0 {
+		return -1
+	}
+	hi, lo = mul64(lo, uint64(z))
+	if hi != 0 {
+		return -1
+	}
+	a := int(lo)
+	if (a < 0) || (uint64(a) != lo) {
+		return -1
+	}
+	return a
+}
+
+// add2NonNeg returns (x + y), unless at least one argument is negative or if
+// the computation overflows the int type, in which case it returns -1.
+func add2NonNeg(x int, y int) int {
+	if (x < 0) || (y < 0) {
+		return -1
+	}
+	a := x + y
+	if a < 0 {
+		return -1
+	}
+	return a
+}

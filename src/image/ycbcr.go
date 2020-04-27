@@ -168,6 +168,16 @@ func yCbCrSize(r Rectangle, subsampleRatio YCbCrSubsampleRatio) (w, h, cw, ch in
 // ratio.
 func NewYCbCr(r Rectangle, subsampleRatio YCbCrSubsampleRatio) *YCbCr {
 	w, h, cw, ch := yCbCrSize(r, subsampleRatio)
+	if (w < 0) || (h < 0) {
+		panic("image: NewXxx Rectangle has negative dimension")
+	}
+	if add2NonNeg(
+		mul3NonNeg(1, w, h),
+		mul3NonNeg(2, cw, ch),
+	) < 0 {
+		panic("image: NewXxx Rectangle is too large")
+	}
+
 	i0 := w*h + 0*cw*ch
 	i1 := w*h + 1*cw*ch
 	i2 := w*h + 2*cw*ch
@@ -277,6 +287,16 @@ func (p *NYCbCrA) Opaque() bool {
 // ratio.
 func NewNYCbCrA(r Rectangle, subsampleRatio YCbCrSubsampleRatio) *NYCbCrA {
 	w, h, cw, ch := yCbCrSize(r, subsampleRatio)
+	if (w < 0) || (h < 0) {
+		panic("image: NewXxx Rectangle has negative dimension")
+	}
+	if add2NonNeg(
+		mul3NonNeg(2, w, h),
+		mul3NonNeg(2, cw, ch),
+	) < 0 {
+		panic("image: NewXxx Rectangle is too large")
+	}
+
 	i0 := 1*w*h + 0*cw*ch
 	i1 := 1*w*h + 1*cw*ch
 	i2 := 1*w*h + 2*cw*ch
