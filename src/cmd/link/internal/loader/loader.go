@@ -1979,14 +1979,6 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols) {
 		s.Version = int16(pp.ver)
 		s.Type = pp.kind
 		s.Size = pp.size
-		if pp.gotype != 0 {
-			s.Gotype = l.Syms[pp.gotype]
-		}
-		if f, ok := l.symPkg[i]; ok {
-			s.File = f
-		} else if pp.objidx != 0 {
-			s.File = l.objs[pp.objidx].r.unit.Lib.Pkg
-		}
 
 		// Copy relocations
 		batch := l.relocBatch
@@ -2148,22 +2140,7 @@ func (l *Loader) PropagateLoaderChangesToSymbols(toconvert []Sym, anonVerReplace
 			relfix = true
 		}
 
-		// For 'new' symbols, copy other content (such as Gotype,
-		// sym file, relocations, etc).
-		if isnew {
-			if gt := l.SymGoType(cand); gt != 0 {
-				s.Gotype = l.Syms[gt]
-			}
-			if f, ok := l.symPkg[cand]; ok {
-				s.File = f
-			} else {
-				r, _ := l.toLocal(cand)
-				if r != nil && r != l.extReader {
-					s.File = l.SymPkg(cand)
-				}
-			}
-		}
-
+		// For 'new' symbols, copy other content.
 		if relfix {
 			relocfixup = append(relocfixup, cand)
 		}
@@ -2263,6 +2240,7 @@ func (l *Loader) installSym(i Sym, s *sym.Symbol) {
 		panic("sym already present in installSym")
 	}
 	l.Syms[i] = s
+	s.SymIdx = sym.LoaderSym(i)
 }
 
 // addNewSym adds a new sym.Symbol to the i-th index in the list of symbols.
@@ -2541,11 +2519,6 @@ func (l *Loader) CreateStaticSym(name string) Sym {
 }
 
 func loadObjFull(l *Loader, r *oReader) {
-	resolveSymRef := func(s goobj2.SymRef) *sym.Symbol {
-		i := l.resolve(r, s)
-		return l.Syms[i]
-	}
-
 	for i, n := 0, r.NSym()+r.NNonpkgdef(); i < n; i++ {
 		// A symbol may be a dup or overwritten. In this case, its
 		// content will actually be provided by a different object
@@ -2582,12 +2555,7 @@ func loadObjFull(l *Loader, r *oReader) {
 		for j := range auxs {
 			a := &auxs[j]
 			switch a.Type() {
-			case goobj2.AuxGotype:
-				typ := resolveSymRef(a.Sym())
-				if typ != nil {
-					s.Gotype = typ
-				}
-			case goobj2.AuxFuncInfo, goobj2.AuxFuncdata:
+			case goobj2.AuxFuncInfo, goobj2.AuxFuncdata, goobj2.AuxGotype:
 				// already handled
 			case goobj2.AuxDwarfInfo, goobj2.AuxDwarfLoc, goobj2.AuxDwarfRanges, goobj2.AuxDwarfLines:
 				// ignored for now
@@ -2596,7 +2564,6 @@ func loadObjFull(l *Loader, r *oReader) {
 			}
 		}
 
-		s.File = r.pkgprefix[:len(r.pkgprefix)-1]
 		if s.Size < int64(size) {
 			s.Size = int64(size)
 		}
