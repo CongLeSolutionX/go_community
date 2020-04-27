@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15b939a7_c9deb039",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-27T18:50:53Z",
+      "side": 1,
+      "message": "Gotype is interesting. Besides relocations, this is the only thing we still need local-global index resolution. Maybe that is still fine.",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "f9d42095eba068cc581bb93e65878e7168eddaa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e41f63b2_4b718248",
+        "filename": "src/cmd/link/internal/ld/data2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-27T18:50:53Z",
+      "side": 1,
+      "message": "Can we just delete old dodata instead? I can do that if you prefer.",
+      "revId": "f9d42095eba068cc581bb93e65878e7168eddaa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0d8632c_a84a9a4e",
+        "filename": "src/cmd/link/internal/ld/decodesym.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-27T18:50:53Z",
+      "side": 1,
+      "message": "This function can go as well.",
+      "revId": "f9d42095eba068cc581bb93e65878e7168eddaa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
