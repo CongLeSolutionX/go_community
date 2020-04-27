@@ -234,6 +234,9 @@ func TestIssue24392(t *testing.T) {
 }
 
 func TestCgo(t *testing.T) {
+	if runtime.GOOS == "netbsd" {
+		t.Skip("skipping on netbsd, issue 38649")
+	}
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
 
