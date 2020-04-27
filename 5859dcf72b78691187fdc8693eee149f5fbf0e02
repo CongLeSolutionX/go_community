@@ -22,6 +22,30 @@
       "revId": "5859dcf72b78691187fdc8693eee149f5fbf0e02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65d1e071_d85a475b",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 33876
+      },
+      "writtenOn": "2020-04-27T13:22:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "53657a1e_f5153b0f",
+      "range": {
+        "startLine": 394,
+        "startChar": 30,
+        "endLine": 394,
+        "endChar": 81
+      },
+      "revId": "5859dcf72b78691187fdc8693eee149f5fbf0e02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
