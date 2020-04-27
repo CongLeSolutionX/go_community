@@ -107,7 +107,7 @@ func findShlibSection(ctxt *Link, path string, addr uint64) *elf.Section {
 func decodetypeGcprog(ctxt *Link, s *sym.Symbol) []byte {
 	if s.Type == sym.SDYNIMPORT {
 		addr := decodetypeGcprogShlib(ctxt, s.P)
-		sect := findShlibSection(ctxt, s.File, addr)
+		sect := findShlibSection(ctxt, symPkg(ctxt, s), addr)
 		if sect != nil {
 			// A gcprog is a 4-byte uint32 indicating length, followed by
 			// the actual program.
@@ -134,7 +134,7 @@ func decodetypeGcmask(ctxt *Link, s *sym.Symbol) []byte {
 	if s.Type == sym.SDYNIMPORT {
 		addr := decodetypeGcprogShlib(ctxt, s.P)
 		ptrdata := decodetypePtrdata(ctxt.Arch, s.P)
-		sect := findShlibSection(ctxt, s.File, addr)
+		sect := findShlibSection(ctxt, symPkg(ctxt, s), addr)
 		if sect != nil {
 			r := make([]byte, ptrdata/int64(ctxt.Arch.PtrSize))
 			sect.ReadAt(r, int64(addr-sect.Addr))

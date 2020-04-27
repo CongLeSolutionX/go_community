@@ -290,7 +290,7 @@ func (p *GCProg) End(size int64) {
 }
 
 func (p *GCProg) AddSym(s *sym.Symbol) {
-	typ := s.Gotype
+	typ := symGotype(p.ctxt, s)
 	// Things without pointers should be in sym.SNOPTRDATA or sym.SNOPTRBSS;
 	// everything we see should have pointers and should therefore have a type.
 	if typ == nil {
@@ -814,7 +814,7 @@ func (state *dodataState) allocateDwarfSections(ctxt *Link) {
 			if ctxt.HeadType == objabi.Haix && curType == sym.SDWARFLOC {
 				// Update the size of .debug_loc for this symbol's
 				// package.
-				addDwsectCUSize(".debug_loc", s.File, uint64(s.Size))
+				addDwsectCUSize(".debug_loc", symPkg(ctxt, s), uint64(s.Size))
 			}
 		}
 		sect.Length = uint64(state.datsize) - sect.Vaddr
