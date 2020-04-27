@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c29be666_9ba801a1",
+        "filename": "src/image/png/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2020-04-27T02:25:53Z",
+      "side": 1,
+      "message": "The three-line diff above looks like a no-op, in isolation, but the change in nPixels\u0027 type (from int64 to int) affects this computation on 32-bit.",
+      "revId": "6b42e5f6f278353f53edc3bcc84a37db7051099f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
