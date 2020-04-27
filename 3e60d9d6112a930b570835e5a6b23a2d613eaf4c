@@ -22,6 +22,30 @@
       "revId": "3e60d9d6112a930b570835e5a6b23a2d613eaf4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b261b23_bd4807b9",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-04-27T17:18:50Z",
+      "side": 1,
+      "message": "It fails in the default case. I don\u0027t understand why, but I\u0027ve lost far too many hours to the typechecker on this CL series to want to find out.",
+      "parentUuid": "f06c5a06_27366c5e",
+      "range": {
+        "startLine": 565,
+        "startChar": 4,
+        "endLine": 565,
+        "endChar": 31
+      },
+      "revId": "3e60d9d6112a930b570835e5a6b23a2d613eaf4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
