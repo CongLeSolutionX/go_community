@@ -153,6 +153,24 @@
       "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63683d3_176796d1",
+        "filename": "src/cmd/go/internal/modcmd/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-27T15:29:24Z",
+      "side": 1,
+      "message": "Returning `[]error` seems fine to me: that makes it clear that `verifyMod` can report multiple errors per module.\n\n(Besides, as long as we never return a non-nil zero-length slice, even callers that accidentally use `!\u003d nil` wouldn\u0027t actually be incorrect.)",
+      "parentUuid": "1ff25e6f_13acd512",
+      "revId": "be2dbfa305ed20d56d4994d7bff22c9e2d36a3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
