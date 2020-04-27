@@ -536,7 +536,16 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 				continue
 			}
 
-		case OARRAYLIT, OSTRUCTLIT:
+		case OARRAYLIT:
+			if a.Sym.IsBlank() {
+				blank := a
+				a = temp(value.Type)
+				init.Append(nod(OAS, blank, a))
+				kind = initKindDynamic
+			}
+			fallthrough
+
+		case OSTRUCTLIT:
 			fixedlit(ctxt, kind, value, a, init)
 			continue
 		}
