@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f134e05_e2ba8ffe",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-27T17:29:46Z",
+      "side": 1,
+      "message": "ErrBadConn",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "caea52a5f394a7a6f66aba35e2e92c77bfb597a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f0c521a_da16c8a9",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-27T17:29:46Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 19,
+        "startChar": 34,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "caea52a5f394a7a6f66aba35e2e92c77bfb597a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fb69923_85abebe0",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-27T17:29:46Z",
+      "side": 1,
+      "message": "s,",
+      "range": {
+        "startLine": 22,
+        "startChar": 30,
+        "endLine": 22,
+        "endChar": 31
+      },
+      "revId": "caea52a5f394a7a6f66aba35e2e92c77bfb597a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44e72936_85c4ebdc",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-04-27T17:29:46Z",
+      "side": 1,
+      "message": "per-query",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "caea52a5f394a7a6f66aba35e2e92c77bfb597a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
