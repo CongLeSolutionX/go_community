@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9a500d9_08b164b4",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-27T23:59:19Z",
+      "side": 1,
+      "message": "I\u0027m looking at this comment and it\u0027s making me wonder why we don\u0027t do the locks outside of the loop in CopyFileRange.  If we really need the loop in CopyFileRange, then doing the locks down here will permit possibly unexpected interleaving.  That isn\u0027t that serious, in that io.Copy doesn\u0027t prohibit interleaving in general, but it seems that it would be very easy to get it right so why not get it right.",
+      "revId": "f34dd0aab16856e490d6ddc9953263f735fd5b29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
