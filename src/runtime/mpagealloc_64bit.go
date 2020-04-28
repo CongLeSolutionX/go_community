@@ -92,13 +92,13 @@ func (s *pageAlloc) sysInit() {
 // s.summary.
 //
 // base is the base of the newly-added heap memory and limit is
-// the first address past the end of the newly-added heap memory.
-// Both must be aligned to pallocChunkBytes.
+// the address of the last byte of the newly-added heap memory.
+// base and limit+1 must be aligned to pallocChunkBytes.
 //
 // The caller must update s.start and s.end after calling sysGrow.
 func (s *pageAlloc) sysGrow(base, limit uintptr) {
-	if base%pallocChunkBytes != 0 || limit%pallocChunkBytes != 0 {
-		print("runtime: base = ", hex(base), ", limit = ", hex(limit), "\n")
+	if base%pallocChunkBytes != 0 || (limit+1)%pallocChunkBytes != 0 {
+		print("runtime: base = ", hex(base), ", limit = ", hex(limit+1), "\n")
 		throw("sysGrow bounds not aligned to pallocChunkBytes")
 	}
 
@@ -114,8 +114,10 @@ func (s *pageAlloc) sysGrow(base, limit uintptr) {
 	// level of s.summary into page-aligned addresses which cover that
 	// range of indices.
 	summaryRangeToSumAddrRange := func(level, sumIdxBase, sumIdxLimit int) addrRange {
+		// sumIdxLimit is an inclusive bound, so convert it to an exclusive bound to
+		// compute the offset, then subtract one to once again get an inclusive bound.
 		baseOffset := alignDown(uintptr(sumIdxBase)*pallocSumBytes, physPageSize)
-		limitOffset := alignUp(uintptr(sumIdxLimit)*pallocSumBytes, physPageSize)
+		limitOffset := alignUp(uintptr(sumIdxLimit)*pallocSumBytes, physPageSize) - 1
 		base := unsafe.Pointer(&s.summary[level][0])
 		return makeAddrRange(
 			uintptr(add(base, baseOffset)),
