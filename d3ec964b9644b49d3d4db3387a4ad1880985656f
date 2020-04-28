@@ -34,6 +34,24 @@
       "revId": "d3ec964b9644b49d3d4db3387a4ad1880985656f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49cb84b_7af22a5b",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2020-04-28T15:39:36Z",
+      "side": 1,
+      "message": "OK. I\u0027m not familiar with code now, so I couldn\u0027t make further comments here.",
+      "parentUuid": "e13f62f3_90de20ae",
+      "revId": "d3ec964b9644b49d3d4db3387a4ad1880985656f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
