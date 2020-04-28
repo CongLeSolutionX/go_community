@@ -245,6 +245,8 @@ func (a *addrRanges) removeLast(nBytes uintptr) addrRange {
 
 // removeAbove removes the ranges of a which are above addr, and additionally
 // splits any range containing addr.
+//
+// TODO(mknyszek): Consider making this take an offAddr.
 func (a *addrRanges) removeAbove(addr uintptr) {
 	pivot := a.findSucc(addr)
 	if pivot == 0 {

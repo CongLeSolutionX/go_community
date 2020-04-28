@@ -452,7 +452,7 @@ func (s *pageAlloc) scavengeStartGen() {
 	s.inUse.cloneInto(&s.scav.inUse)
 
 	// Pick the new starting address for the scavenger cycle.
-	var startAddr uintptr
+	var startAddr offAddr
 	if s.scav.scavLWM < s.scav.freeHWM {
 		// The "free" high watermark exceeds the "scavenged" low watermark,
 		// so there are free scavengable pages in parts of the address space
@@ -467,12 +467,12 @@ func (s *pageAlloc) scavengeStartGen() {
 		// scavenging from where we were.
 		startAddr = s.scav.scavLWM
 	}
-	s.scav.inUse.removeAbove(startAddr)
+	s.scav.inUse.removeAbove(startAddr.addr())
 	s.scav.reservationBytes = alignUp(s.inUse.totalBytes, pallocChunkBytes) / scavengeReservationShards
 	s.scav.gen++
 	s.scav.released = 0
 	s.scav.freeHWM = 0
-	s.scav.scavLWM = maxSearchAddr
+	s.scav.scavLWM = offsetAddress(maxSearchAddr)
 }
 
 // scavengeReserve reserves a contiguous range of the address space
@@ -684,8 +684,8 @@ func (s *pageAlloc) scavengeRangeLocked(ci chunkIdx, base, npages uint) uintptr 
 	addr := chunkBase(ci) + uintptr(base)*pageSize
 
 	// Update the scavenge low watermark.
-	if addr < s.scav.scavLWM {
-		s.scav.scavLWM = addr
+	if oAddr := offsetAddress(addr); oAddr < s.scav.scavLWM {
+		s.scav.scavLWM = oAddr
 	}
 
 	// Only perform the actual scavenging if we're not in a test.
