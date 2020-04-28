@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "875b9b97_e37078cb",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-04-28T20:01:28Z",
+      "side": 1,
+      "message": "This feels clumsy to me, but I can believe it\u0027s the best solution given the current state of sinit.go:\n\n- Minor: \"a.Sym\" might be nil depending on \"a.Op\" (e.g., if it\u0027s OINDEX). IsBlank() handles that, but generally it\u0027s best to avoid accessing Node fields unless you know it has the same meaning for all possible Ops. I think a safer test here would be \"a \u003d\u003d nblank\".\n\n- More generally: I suspsect \"candiscard(value)\" is too course-grained a check. For example, \"_ \u003d T{42, f()}\" should optimize to just \"f()\" (i.e., discard the \"_.1 \u003d 42\" assignment, but keep the \"_.2 \u003d f()\" assignment, just without any result destination).\n\nI\u0027ll take another look once I\u0027m done with the cmd/cgo CLs.",
+      "revId": "441fa5a9844a4fa92520dfc7df0b46962723bafc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
