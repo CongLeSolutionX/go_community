@@ -359,7 +359,7 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 			slow.BySize[i].Frees = bySize[i].Frees
 		}
 
-		for i := mheap_.pages.start; i < mheap_.pages.end; i++ {
+		for i := mheap_.pages.start; i <= mheap_.pages.end; i++ {
 			pg := mheap_.pages.chunkOf(i).scavenged.popcntRange(0, pallocChunkPages)
 			slow.HeapReleased += uint64(pg) * pageSize
 		}
@@ -764,7 +764,7 @@ func (p *PageAlloc) PallocData(i ChunkIdx) *PallocData {
 }
 
 // AddrRange represents a range over addresses.
-// Specifically, it represents the range [Base, Limit).
+// Specifically, it represents the range [Base, Limit].
 type AddrRange struct {
 	Base, Limit uintptr
 }
@@ -888,6 +888,12 @@ func PageBase(c ChunkIdx, pageIdx uint) uintptr {
 	return chunkBase(chunkIdx(c)) + uintptr(pageIdx)*pageSize
 }
 
+// ChunkIndex is a wrapper for the chunkIndex function in the
+// runtime.
+func ChunkIndex(addr uintptr) ChunkIdx {
+	return ChunkIdx(chunkIndex(addr))
+}
+
 type BitsMismatch struct {
 	Base      uintptr
 	Got, Want uint64
@@ -903,7 +909,7 @@ func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
 		// Lock so that we can safely access the bitmap.
 		lock(&mheap_.lock)
 	chunkLoop:
-		for i := mheap_.pages.start; i < mheap_.pages.end; i++ {
+		for i := mheap_.pages.start; i <= mheap_.pages.end; i++ {
 			chunk := mheap_.pages.chunkOf(i)
 			for j := 0; j < pallocChunkPages/64; j++ {
 				// Run over each 64-bit bitmap section and ensure

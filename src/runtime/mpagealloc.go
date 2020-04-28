@@ -140,16 +140,8 @@ func (i chunkIdx) l2() uint {
 // The returned range is inclusive on the lower bound and exclusive on
 // the upper bound.
 func addrsToSummaryRange(level int, base, limit uintptr) (lo int, hi int) {
-	// This is slightly more nuanced than just a shift for the exclusive
-	// upper-bound. Note that the exclusive upper bound may be within a
-	// summary at this level, meaning if we just do the obvious computation
-	// hi will end up being an inclusive upper bound. Unfortunately, just
-	// adding 1 to that is too broad since we might be on the very edge of
-	// of a summary's max page count boundary for this level
-	// (1 << levelLogPages[level]). So, make limit an inclusive upper bound
-	// then shift, then add 1, so we get an exclusive upper bound at the end.
 	lo = int(linAddr(base) >> levelShift[level])
-	hi = int(linAddr(limit-1)>>levelShift[level]) + 1
+	hi = int(linAddr(limit)>>levelShift[level]) + 1
 	return
 }
 
@@ -236,7 +228,7 @@ type pageAlloc struct {
 
 	// start and end represent the chunk indices
 	// which pageAlloc knows about. It assumes
-	// chunks in the range [start, end) are
+	// chunks in the range [start, end] are
 	// currently ready to use.
 	start, end chunkIdx
 
@@ -349,8 +341,9 @@ func (s *pageAlloc) chunkOf(ci chunkIdx) *pallocData {
 // s.mheapLock must be held.
 func (s *pageAlloc) grow(base, size uintptr) {
 	// Round up to chunks, since we can't deal with increments smaller
-	// than chunks. Also, sysGrow expects aligned values.
-	limit := alignUp(base+size, pallocChunkBytes)
+	// than chunks. Also, sysGrow expects an inclusive range, aligned
+	// to a chunk.
+	limit := alignUp(base+size, pallocChunkBytes) - 1
 	base = alignDown(base, pallocChunkBytes)
 
 	// Grow the summary levels in a system-dependent manner.
@@ -368,7 +361,7 @@ func (s *pageAlloc) grow(base, size uintptr) {
 	if end > s.end {
 		s.end = end
 	}
-	// Note that [base, limit) will never overlap with any existing
+	// Note that [base, limit] will never overlap with any existing
 	// range inUse because grow only ever adds never-used memory
 	// regions to the page allocator.
 	s.inUse.add(makeAddrRange(base, limit))
@@ -385,7 +378,7 @@ func (s *pageAlloc) grow(base, size uintptr) {
 	//
 	// Newly-grown memory is always considered scavenged.
 	// Set all the bits in the scavenged bitmaps high.
-	for c := chunkIndex(base); c < chunkIndex(limit); c++ {
+	for c := chunkIndex(base); c <= chunkIndex(limit); c++ {
 		if s.chunks[c.l1()] == nil {
 			// Create the necessary l2 entry.
 			//
@@ -474,7 +467,7 @@ func (s *pageAlloc) update(base, npages uintptr, contig, alloc bool) {
 		logMaxPages := levelLogPages[l+1]
 
 		// lo and hi describe all the parts of the level we need to look at.
-		lo, hi := addrsToSummaryRange(l, base, limit+1)
+		lo, hi := addrsToSummaryRange(l, base, limit)
 
 		// Iterate over each block, updating the corresponding summary in the less-granular level.
 		for i := lo; i < hi; i++ {
@@ -763,7 +756,7 @@ nextLevel:
 func (s *pageAlloc) alloc(npages uintptr) (addr uintptr, scav uintptr) {
 	// If the searchAddr refers to a region which has a higher address than
 	// any known chunk, then we know we're out of memory.
-	if chunkIndex(s.searchAddr) >= s.end {
+	if chunkIndex(s.searchAddr) > s.end {
 		return 0, 0
 	}
 
