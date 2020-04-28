@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e7118f2_989a7b89",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-28T05:21:50Z",
+      "side": 1,
+      "message": "The code here and below seems a bit cumbersome; it\u0027s certainly not very efficient to do this trial and error.\n\nWe really should just read the number directly from left to right and it would be much easier. The problem is that ParseFloat fails if there\u0027s extra stuff after it consumed a float. But we\u0027re inside the strconv package, so we can change that.\n\nIt seems much simpler to have an internal version\n\nfunc parseFloat(s, bitSize) (f float64, n int, err error)\n\nwhich returns also n which is the number of bytes consumed from s. The regular ParseFloat will simply call parseFloat, and if there\u0027s no error, also make sure n \u003d\u003d len(s) (or report an error).\n\nAnd then we can just use parseFloat here and consume the input from left to right.",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 10
+      },
+      "revId": "cb553bbad72215fe6f7fed74696e6be1742ffd93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da2a4369_bf70f823",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-28T05:21:50Z",
+      "side": 1,
+      "message": "you need to test 0, 0i, 0+0i, 0.0\n\nalso a few tests with decimals\n\n0.1, .0i, .123i, etc.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "cb553bbad72215fe6f7fed74696e6be1742ffd93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4bba9bb_bd9bc433",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-28T05:21:50Z",
+      "side": 1,
+      "message": "explain this\n\ntt :\u003d tt // for capture in Run closures below",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 10
+      },
+      "revId": "cb553bbad72215fe6f7fed74696e6be1742ffd93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdea090f_8664325c",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-28T05:21:50Z",
+      "side": 1,
+      "message": "... to a string of the form (a+bi) where a and b are the real and imaginary parts, formatted according to the format fmt and precision prec. It rounds ...\n\n(It seems important to specify the actual form of the result.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 52,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "cb553bbad72215fe6f7fed74696e6be1742ffd93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02a811c2_d342b11c",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-28T05:21:50Z",
+      "side": 1,
+      "message": "I would not repeat this here, it\u0027s prone to get out of sync. I would just say:\n\nThe format fmt and precision prec have the same meaning as in FormatFloat.\nIt rounds the result assuming that the original was obtained from a complex\nvalue of bitSize bits, which must be 64 for complex64 and 128 for complex128.",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "cb553bbad72215fe6f7fed74696e6be1742ffd93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2660d6c1_a42d8754",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-28T05:21:50Z",
+      "side": 1,
+      "message": "if bitSize !\u003d 64 \u0026\u0026 bitSize !\u003d 128 {\n   panic(\"invalid bitSize\")\n}\nbitSize \u003e\u003e\u003d 1",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 11
+      },
+      "revId": "cb553bbad72215fe6f7fed74696e6be1742ffd93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
