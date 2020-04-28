@@ -117,6 +117,30 @@
       "revId": "93faa84f64b10c7a9d10a2e10b3e9073f25044d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47366ef9_59cf9b82",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-04-28T17:37:31Z",
+      "side": 1,
+      "message": "I wonder if we should just promote GODEBUG to something \u0027go env\u0027 supports? We seem to be be using it more for experimental flags these days, and it might be good to include those in bug reports as well.",
+      "parentUuid": "a3fd0f17_4c2345cf",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 46
+      },
+      "revId": "93faa84f64b10c7a9d10a2e10b3e9073f25044d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
