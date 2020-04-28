@@ -34,6 +34,24 @@
       "revId": "f34dd0aab16856e490d6ddc9953263f735fd5b29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97fb5f1d_8ef6738a",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-28T00:59:21Z",
+      "side": 1,
+      "message": "Nah, I think you\u0027re right.  I can imagine horrible possibilities like NFS mounted files for which copy_file_range blocks for a while.  Since io.Copy doesn\u0027t prohibit interleaving, let\u0027s play it safe.  Thanks for the reminder.",
+      "parentUuid": "1dbaf777_3b9c178e",
+      "revId": "f34dd0aab16856e490d6ddc9953263f735fd5b29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
