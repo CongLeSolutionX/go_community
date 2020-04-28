@@ -106,7 +106,7 @@ func (s *pageAlloc) sysGrow(base, limit uintptr) {
 	// of summary indices which must be mapped to support those addresses
 	// in the summary range.
 	addrRangeToSummaryRange := func(level int, r addrRange) (int, int) {
-		sumIdxBase, sumIdxLimit := addrsToSummaryRange(level, r.base, r.limit)
+		sumIdxBase, sumIdxLimit := addrsToSummaryRange(level, r.start(), r.end())
 		return blockAlignSummaryRange(level, sumIdxBase, sumIdxLimit)
 	}
 
@@ -117,10 +117,10 @@ func (s *pageAlloc) sysGrow(base, limit uintptr) {
 		baseOffset := alignDown(uintptr(sumIdxBase)*pallocSumBytes, physPageSize)
 		limitOffset := alignUp(uintptr(sumIdxLimit)*pallocSumBytes, physPageSize)
 		base := unsafe.Pointer(&s.summary[level][0])
-		return addrRange{
+		return makeAddrRange(
 			uintptr(add(base, baseOffset)),
 			uintptr(add(base, limitOffset)),
-		}
+		)
 	}
 
 	// addrRangeToSumAddrRange is a convienience function that converts
@@ -145,7 +145,7 @@ func (s *pageAlloc) sysGrow(base, limit uintptr) {
 	// Walk up the radix tree and map summaries in as needed.
 	for l := range s.summary {
 		// Figure out what part of the summary array this new address space needs.
-		needIdxBase, needIdxLimit := addrRangeToSummaryRange(l, addrRange{base, limit})
+		needIdxBase, needIdxLimit := addrRangeToSummaryRange(l, makeAddrRange(base, limit))
 
 		// Update the summary slices with a new upper-bound. This ensures
 		// we get tight bounds checks on at least the top bound.
@@ -174,7 +174,7 @@ func (s *pageAlloc) sysGrow(base, limit uintptr) {
 		}
 
 		// Map and commit need.
-		sysMap(unsafe.Pointer(need.base), need.size(), s.sysStat)
-		sysUsed(unsafe.Pointer(need.base), need.size())
+		sysMap(unsafe.Pointer(need.start()), need.size(), s.sysStat)
+		sysUsed(unsafe.Pointer(need.start()), need.size())
 	}
 }
