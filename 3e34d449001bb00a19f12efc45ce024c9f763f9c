@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4efb888_94cf0878",
+        "filename": "src/image/geom.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T00:03:33Z",
+      "side": 1,
+      "message": "isn\u0027t this from math/bits? it\u0027s fine to depend on that package, it\u0027s tiny and there for just the purpose. moreover, the compiler knows about it, i think.",
+      "revId": "3e34d449001bb00a19f12efc45ce024c9f763f9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "180327a7_e9d9ffd9",
+        "filename": "src/image/image.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T00:03:33Z",
+      "side": 1,
+      "message": "is this used anywhere?",
+      "revId": "3e34d449001bb00a19f12efc45ce024c9f763f9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec72bf9_a0a0c1b7",
+        "filename": "src/image/ycbcr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T00:03:33Z",
+      "side": 1,
+      "message": "NewYCbCr\n\nalso you don\u0027t need this if you rephrase the message below:\n\nimage: NewYCbCr has huge or negative dimensions",
+      "revId": "3e34d449001bb00a19f12efc45ce024c9f763f9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db0284d5_a4d819ec",
+        "filename": "src/image/ycbcr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T00:03:33Z",
+      "side": 1,
+      "message": "this is confusing layout, really threw me.",
+      "revId": "3e34d449001bb00a19f12efc45ce024c9f763f9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b8155d_c97d3d43",
+        "filename": "src/image/ycbcr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T00:03:33Z",
+      "side": 1,
+      "message": "ditto.",
+      "revId": "3e34d449001bb00a19f12efc45ce024c9f763f9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c2753d_9198d1fb",
+        "filename": "src/image/ycbcr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T00:03:33Z",
+      "side": 1,
+      "message": "ditto to above.",
+      "revId": "3e34d449001bb00a19f12efc45ce024c9f763f9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
