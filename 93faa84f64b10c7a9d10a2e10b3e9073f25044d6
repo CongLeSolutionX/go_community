@@ -93,6 +93,30 @@
       "revId": "93faa84f64b10c7a9d10a2e10b3e9073f25044d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fd0f17_4c2345cf",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-28T17:30:12Z",
+      "side": 1,
+      "message": "\u003e go env -w can\u0027t be used. GODEBUG is not one of the variables it supports.\n\nHmm, I wonder if it\u0027s worth adding a one-off variable (instead of GODEBUG) so that we can suggest a `go env -w`? I expect a lot of Windows users will be using IDEs and might not know how to set environment variables for their subprocesses.",
+      "parentUuid": "02233738_d761a9b6",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 46
+      },
+      "revId": "93faa84f64b10c7a9d10a2e10b3e9073f25044d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
