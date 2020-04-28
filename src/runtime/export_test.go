@@ -359,7 +359,7 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 			slow.BySize[i].Frees = bySize[i].Frees
 		}
 
-		for i := mheap_.pages.start; i < mheap_.pages.end; i++ {
+		for i := mheap_.pages.start; i <= mheap_.pages.end; i++ {
 			pg := mheap_.pages.chunkOf(i).scavenged.popcntRange(0, pallocChunkPages)
 			slow.HeapReleased += uint64(pg) * pageSize
 		}
@@ -747,7 +747,7 @@ func (p *PageAlloc) InUse() []AddrRange {
 	for _, r := range p.inUse.ranges {
 		ranges = append(ranges, AddrRange{
 			Base:  r.start(),
-			Limit: r.end(),
+			Limit: r.end() + 1,
 		})
 	}
 	return ranges
@@ -903,7 +903,7 @@ func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
 		// Lock so that we can safely access the bitmap.
 		lock(&mheap_.lock)
 	chunkLoop:
-		for i := mheap_.pages.start; i < mheap_.pages.end; i++ {
+		for i := mheap_.pages.start; i <= mheap_.pages.end; i++ {
 			chunk := mheap_.pages.chunkOf(i)
 			for j := 0; j < pallocChunkPages/64; j++ {
 				// Run over each 64-bit bitmap section and ensure

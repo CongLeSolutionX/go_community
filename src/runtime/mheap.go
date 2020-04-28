@@ -215,7 +215,8 @@ type mheap struct {
 	markArenas []arenaIdx
 
 	// curArena is the arena that the heap is currently growing
-	// into. This should always be physPageSize-aligned.
+	// into. base and end+1 should always be physPageSize-aligned,
+	// making both inclusive bounds.
 	curArena struct {
 		base, end uintptr
 	}
@@ -739,6 +740,11 @@ func (h *mheap) init() {
 	for i := range h.central {
 		h.central[i].mcentral.init(spanClass(i))
 	}
+
+	// Make sure curArena, which has inclusive bounds,
+	// has a zero length.
+	h.curArena.base = 1
+	h.curArena.end = 0
 
 	h.pages.init(&h.lock, &memstats.gc_sys)
 }
@@ -1328,7 +1334,7 @@ func (h *mheap) grow(npage uintptr) bool {
 
 	totalGrowth := uintptr(0)
 	nBase := alignUp(h.curArena.base+ask, physPageSize)
-	if nBase > h.curArena.end {
+	if nBase > h.curArena.end+1 {
 		// Not enough room in the current arena. Allocate more
 		// arena space. This may not be contiguous with the
 		// current arena, so we have to request the full ask.
@@ -1338,21 +1344,21 @@ func (h *mheap) grow(npage uintptr) bool {
 			return false
 		}
 
-		if uintptr(av) == h.curArena.end {
+		if uintptr(av) == h.curArena.end+1 {
 			// The new space is contiguous with the old
 			// space, so just extend the current space.
-			h.curArena.end = uintptr(av) + asize
+			h.curArena.end = uintptr(av) + asize - 1
 		} else {
 			// The new space is discontiguous. Track what
 			// remains of the current space and switch to
 			// the new space. This should be rare.
-			if size := h.curArena.end - h.curArena.base; size != 0 {
+			if size := h.curArena.end - h.curArena.base + 1; size != 0 {
 				h.pages.grow(h.curArena.base, size)
 				totalGrowth += size
 			}
 			// Switch to the new space.
 			h.curArena.base = uintptr(av)
-			h.curArena.end = uintptr(av) + asize
+			h.curArena.end = uintptr(av) + asize - 1
 		}
 
 		// The memory just allocated counts as both released
