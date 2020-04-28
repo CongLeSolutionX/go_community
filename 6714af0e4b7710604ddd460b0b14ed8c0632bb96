@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "150c27d5_3c7dbc65",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-28T23:35:35Z",
+      "side": 1,
+      "message": "better variable name, please.",
+      "range": {
+        "startLine": 205,
+        "startChar": 2,
+        "endLine": 205,
+        "endChar": 6
+      },
+      "revId": "6714af0e4b7710604ddd460b0b14ed8c0632bb96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
