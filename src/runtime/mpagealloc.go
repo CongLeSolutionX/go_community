@@ -100,12 +100,12 @@ type chunkIdx uint
 // chunkIndex returns the global index of the palloc chunk containing the
 // pointer p.
 func chunkIndex(p uintptr) chunkIdx {
-	return chunkIdx((p + arenaBaseOffset) / pallocChunkBytes)
+	return chunkIdx(linAddr(p) / pallocChunkBytes)
 }
 
 // chunkIndex returns the base address of the palloc chunk at index ci.
 func chunkBase(ci chunkIdx) uintptr {
-	return uintptr(ci)*pallocChunkBytes - arenaBaseOffset
+	return linearAddress(uintptr(ci) * pallocChunkBytes).addr()
 }
 
 // chunkPageIndex computes the index of the page that contains p,
@@ -148,8 +148,8 @@ func addrsToSummaryRange(level int, base, limit uintptr) (lo int, hi int) {
 	// of a summary's max page count boundary for this level
 	// (1 << levelLogPages[level]). So, make limit an inclusive upper bound
 	// then shift, then add 1, so we get an exclusive upper bound at the end.
-	lo = int((base + arenaBaseOffset) >> levelShift[level])
-	hi = int(((limit-1)+arenaBaseOffset)>>levelShift[level]) + 1
+	lo = int(linAddr(base) >> levelShift[level])
+	hi = int(linAddr(limit-1)>>levelShift[level]) + 1
 	return
 }
 
@@ -328,8 +328,8 @@ func (s *pageAlloc) init(mheapLock *mutex, sysStat *uint64) {
 func (s *pageAlloc) compareSearchAddrTo(addr uintptr) int {
 	// Compare with arenaBaseOffset added because it gives us a linear, contiguous view
 	// of the heap on architectures with signed address spaces.
-	lAddr := addr + arenaBaseOffset
-	lSearchAddr := s.searchAddr + arenaBaseOffset
+	lAddr := linAddr(addr)
+	lSearchAddr := linAddr(s.searchAddr)
 	if lAddr < lSearchAddr {
 		return -1
 	} else if lAddr > lSearchAddr {
@@ -581,13 +581,13 @@ func (s *pageAlloc) find(npages uintptr) (uintptr, uintptr) {
 	// firstFree is updated by calling foundFree each time free space in the
 	// heap is discovered.
 	//
-	// At the end of the search, base-arenaBaseOffset is the best new
+	// At the end of the search, base.addr() is the best new
 	// searchAddr we could deduce in this search.
 	firstFree := struct {
-		base, bound uintptr
+		base, bound linearAddress
 	}{
-		base:  0,
-		bound: (1<<heapAddrBits - 1),
+		base:  linearAddress(0),
+		bound: linearAddress(1<<heapAddrBits - 1),
 	}
 	// foundFree takes the given address range [addr, addr+size) and
 	// updates firstFree if it is a narrower range. The input range must
@@ -598,13 +598,13 @@ func (s *pageAlloc) find(npages uintptr) (uintptr, uintptr) {
 	// pages on the root level and narrow that down if we descend into
 	// that summary. But as soon as we need to iterate beyond that summary
 	// in a level to find a large enough range, we'll stop narrowing.
-	foundFree := func(addr, size uintptr) {
-		if firstFree.base <= addr && addr+size-1 <= firstFree.bound {
+	foundFree := func(addr linearAddress, size uintptr) {
+		if firstFree.base <= addr && addr.add(size-1) <= firstFree.bound {
 			// This range fits within the current firstFree window, so narrow
 			// down the firstFree window to the base and bound of this range.
 			firstFree.base = addr
-			firstFree.bound = addr + size - 1
-		} else if !(addr+size-1 < firstFree.base || addr > firstFree.bound) {
+			firstFree.bound = addr.add(size - 1)
+		} else if !(addr.add(size-1) < firstFree.base || addr > firstFree.bound) {
 			// This range only partially overlaps with the firstFree range,
 			// so throw.
 			print("runtime: addr = ", hex(addr), ", size = ", size, "\n")
@@ -638,7 +638,7 @@ nextLevel:
 		// searchAddr on the previous level or we're on the root leve, in which
 		// case the searchAddr should be the same as i after levelShift.
 		j0 := 0
-		if searchIdx := int((s.searchAddr + arenaBaseOffset) >> levelShift[l]); searchIdx&^(entriesPerBlock-1) == i {
+		if searchIdx := int(linAddr(s.searchAddr) >> levelShift[l]); searchIdx&^(entriesPerBlock-1) == i {
 			j0 = searchIdx & (entriesPerBlock - 1)
 		}
 
@@ -664,7 +664,7 @@ nextLevel:
 
 			// We've encountered a non-zero summary which means
 			// free memory, so update firstFree.
-			foundFree(uintptr((i+j)<<levelShift[l]), (uintptr(1)<<logMaxPages)*pageSize)
+			foundFree(linearAddress((i+j)<<levelShift[l]), (uintptr(1)<<logMaxPages)*pageSize)
 
 			s := sum.start()
 			if size+s >= uint(npages) {
@@ -702,8 +702,8 @@ nextLevel:
 		if size >= uint(npages) {
 			// We found a sufficiently large run of free pages straddling
 			// some boundary, so compute the address and return it.
-			addr := uintptr(i<<levelShift[l]) - arenaBaseOffset + uintptr(base)*pageSize
-			return addr, firstFree.base - arenaBaseOffset
+			addr := linearAddress(uintptr(i<<levelShift[l]) + uintptr(base)*pageSize).addr()
+			return addr, firstFree.base.addr()
 		}
 		if l == 0 {
 			// We're at level zero, so that means we've exhausted our search.
@@ -748,8 +748,8 @@ nextLevel:
 	// Since we actually searched the chunk, we may have
 	// found an even narrower free window.
 	searchAddr := chunkBase(ci) + uintptr(searchIdx)*pageSize
-	foundFree(searchAddr+arenaBaseOffset, chunkBase(ci+1)-searchAddr)
-	return addr, firstFree.base - arenaBaseOffset
+	foundFree(linAddr(searchAddr), chunkBase(ci+1)-searchAddr)
+	return addr, firstFree.base.addr()
 }
 
 // alloc allocates npages worth of memory from the page heap, returning the base
