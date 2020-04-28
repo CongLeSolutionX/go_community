@@ -398,7 +398,7 @@ func bgscavenge(c chan int) {
 //go:systemstack
 func (s *pageAlloc) scavenge(nbytes uintptr, mayUnlock bool) uintptr {
 	var (
-		addrs addrRange
+		addrs addrRange = dummyAddrRange
 		gen   uint32
 	)
 	released := uintptr(0)
@@ -563,10 +563,7 @@ func (s *pageAlloc) scavengeOne(work addrRange, max uintptr, mayUnlock bool) (ui
 
 	// Fast path: check the chunk containing the top-most address in work,
 	// starting at that address's page index in the chunk.
-	//
-	// Note that work.end() is exclusive, so get the chunk we care about
-	// by subtracting 1.
-	maxAddr := work.end() - 1
+	maxAddr := work.end()
 	maxChunk := chunkIndex(maxAddr)
 	if s.summary[len(s.summary)-1][maxChunk].max() >= uint(minPages) {
 		// We only bother looking for a candidate if there at least
@@ -575,12 +572,12 @@ func (s *pageAlloc) scavengeOne(work addrRange, max uintptr, mayUnlock bool) (ui
 
 		// If we found something, scavenge it and return!
 		if npages != 0 {
-			work = makeAddrRange(work.start(), s.scavengeRangeLocked(maxChunk, base, npages))
+			work = makeAddrRange(work.start(), s.scavengeRangeLocked(maxChunk, base, npages)-1)
 			return uintptr(npages) * pageSize, work
 		}
 	}
 	// Update the limit to reflect the fact that we checked maxChunk already.
-	work = makeAddrRange(work.start(), chunkBase(maxChunk))
+	work = makeAddrRange(work.start(), chunkBase(maxChunk)-1)
 
 	// findCandidate finds the next scavenge candidate in work optimistically.
 	//
@@ -589,7 +586,7 @@ func (s *pageAlloc) scavengeOne(work addrRange, max uintptr, mayUnlock bool) (ui
 	// The heap need not be locked.
 	findCandidate := func(work addrRange) (chunkIdx, bool) {
 		// Iterate over this work's chunks.
-		for i := chunkIndex(work.end() - 1); i >= chunkIndex(work.start()); i-- {
+		for i := chunkIndex(work.end()); i >= chunkIndex(work.start()); i-- {
 			// If this chunk is totally in-use or has no unscavenged pages, don't bother
 			// doing a more sophisticated check.
 			//
@@ -631,7 +628,7 @@ func (s *pageAlloc) scavengeOne(work addrRange, max uintptr, mayUnlock bool) (ui
 
 		if !ok {
 			// We didn't find a candidate, so we're done.
-			work = makeAddrRange(work.start(), work.start())
+			work = makeAddrRange(work.start(), work.start()-1)
 			break
 		}
 
@@ -639,12 +636,12 @@ func (s *pageAlloc) scavengeOne(work addrRange, max uintptr, mayUnlock bool) (ui
 		chunk := s.chunkOf(candidateChunkIdx)
 		base, npages := chunk.findScavengeCandidate(pallocChunkPages-1, minPages, maxPages)
 		if npages > 0 {
-			work = makeAddrRange(work.start(), s.scavengeRangeLocked(candidateChunkIdx, base, npages))
+			work = makeAddrRange(work.start(), s.scavengeRangeLocked(candidateChunkIdx, base, npages)-1)
 			return uintptr(npages) * pageSize, work
 		}
 
 		// We were fooled, so let's continue from where we left off.
-		work = makeAddrRange(work.start(), chunkBase(candidateChunkIdx))
+		work = makeAddrRange(work.start(), chunkBase(candidateChunkIdx)-1)
 	}
 	return 0, work
 }
