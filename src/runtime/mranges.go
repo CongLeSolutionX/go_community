@@ -19,11 +19,17 @@ import (
 // An addrRange must never span a gap in the address space.
 type addrRange struct {
 	// base and limit together represent the region of address space
-	// [base, limit). That is, base is inclusive, limit is exclusive.
+	// [base, limit], i.e. an inclusive range.
+	//
 	// These are address over a linear view of the address space on
 	// platforms with a segmented address space, that is, on platforms
 	// where arenaBaseOffset != 0.
 	base, limit linearAddress
+}
+
+var dummyAddrRange = addrRange{
+	base:  1,
+	limit: 0,
 }
 
 // makeAddrRange creates an addrRange from two real addresses.
@@ -46,15 +52,15 @@ func (a addrRange) end() uintptr {
 
 // size returns the size of the range represented in bytes.
 func (a addrRange) size() uintptr {
-	if a.limit <= a.base {
+	if a.limit < a.base {
 		return 0
 	}
-	return uintptr(a.limit - a.base)
+	return uintptr(a.limit - a.base + 1)
 }
 
 // contains returns whether or not the range contains a given address.
 func (a addrRange) contains(addr uintptr) bool {
-	return linAddr(addr) >= a.base && linAddr(addr) < a.limit
+	return linAddr(addr) >= a.base && linAddr(addr) <= a.limit
 }
 
 // subtract takes the addrRange toPrune and cuts out any overlap with
@@ -63,7 +69,7 @@ func (a addrRange) contains(addr uintptr) bool {
 // If b is strictly contained in a, thus forcing a split, it will throw.
 func (a addrRange) subtract(b addrRange) addrRange {
 	if a.base >= b.base && a.limit <= b.limit {
-		return addrRange{}
+		return dummyAddrRange
 	} else if a.base < b.base && a.limit > b.limit {
 		throw("bad prune")
 	} else if a.limit > b.limit && a.base < b.limit {
@@ -175,8 +181,8 @@ func (a *addrRanges) add(r addrRange) {
 	// Because we assume r is not currently represented in a,
 	// findSucc gives us our insertion index.
 	i := a.findSucc(r.start())
-	coalescesDown := i > 0 && a.ranges[i-1].limit == r.base
-	coalescesUp := i < len(a.ranges) && r.limit == a.ranges[i].base
+	coalescesDown := i > 0 && a.ranges[i-1].limit+1 == r.base
+	coalescesUp := i < len(a.ranges) && r.limit+1 == a.ranges[i].base
 	if coalescesUp && coalescesDown {
 		// We have neighbors and they both border us.
 		// Merge a.ranges[i-1], r, and a.ranges[i] together into a.ranges[i-1].
@@ -224,7 +230,7 @@ func (a *addrRanges) add(r addrRange) {
 // empty, it returns an empty range.
 func (a *addrRanges) removeLast(nbytes uintptr) addrRange {
 	if len(a.ranges) == 0 {
-		return addrRange{}
+		return dummyAddrRange
 	}
 	r := a.ranges[len(a.ranges)-1]
 	size := r.size()
@@ -232,7 +238,7 @@ func (a *addrRanges) removeLast(nbytes uintptr) addrRange {
 		newLimit := r.limit.sub(nbytes)
 		a.ranges[len(a.ranges)-1].limit = newLimit
 		a.totalSpace -= nbytes
-		return addrRange{newLimit, r.limit}
+		return addrRange{newLimit + 1, r.limit}
 	}
 	a.ranges = a.ranges[:len(a.ranges)-1]
 	a.totalSpace -= size
