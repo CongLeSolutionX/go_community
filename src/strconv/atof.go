@@ -14,11 +14,11 @@ import "math"
 
 var optimize = true // set to false to force slow-path conversions for testing
 
-func equalIgnoreCase(s1, s2 string) bool {
-	if len(s1) != len(s2) {
-		return false
+func equalIgnoreCase(s1, s2 string) (i int, ok bool) {
+	if len(s1) < len(s2) {
+		return
 	}
-	for i := 0; i < len(s1); i++ {
+	for ; i < len(s2); i++ {
 		c1 := s1[i]
 		if 'A' <= c1 && c1 <= 'Z' {
 			c1 += 'a' - 'A'
@@ -28,13 +28,14 @@ func equalIgnoreCase(s1, s2 string) bool {
 			c2 += 'a' - 'A'
 		}
 		if c1 != c2 {
-			return false
+			return
 		}
 	}
-	return true
+	ok = true
+	return
 }
 
-func special(s string) (f float64, ok bool) {
+func special(s string) (f float64, n int, ok bool) {
 	if len(s) == 0 {
 		return
 	}
@@ -42,20 +43,36 @@ func special(s string) (f float64, ok bool) {
 	default:
 		return
 	case '+':
-		if equalIgnoreCase(s, "+inf") || equalIgnoreCase(s, "+infinity") {
-			return math.Inf(1), true
+		if n, ok = equalIgnoreCase(s, "+infinity"); ok {
+			f = math.Inf(1)
+			return
+		}
+		if n, ok = equalIgnoreCase(s, "+inf"); ok {
+			f = math.Inf(1)
+			return
 		}
 	case '-':
-		if equalIgnoreCase(s, "-inf") || equalIgnoreCase(s, "-infinity") {
-			return math.Inf(-1), true
+		if n, ok = equalIgnoreCase(s, "-infinity"); ok {
+			f = math.Inf(-1)
+			return
+		}
+		if n, ok = equalIgnoreCase(s, "-inf"); ok {
+			f = math.Inf(-1)
+			return
 		}
 	case 'n', 'N':
-		if equalIgnoreCase(s, "nan") {
-			return math.NaN(), true
+		if n, ok = equalIgnoreCase(s, "nan"); ok {
+			f = math.NaN()
+			return
 		}
 	case 'i', 'I':
-		if equalIgnoreCase(s, "inf") || equalIgnoreCase(s, "infinity") {
-			return math.Inf(1), true
+		if n, ok = equalIgnoreCase(s, "infinity"); ok {
+			f = math.Inf(1)
+			return
+		}
+		if n, ok = equalIgnoreCase(s, "inf"); ok {
+			f = math.Inf(1)
+			return
 		}
 	}
 	return
@@ -158,11 +175,11 @@ func (b *decimal) set(s string) (ok bool) {
 	return
 }
 
-// readFloat reads a decimal mantissa and exponent from a float
-// string representation. It returns ok==false if the number
-// is invalid.
-func readFloat(s string) (mantissa uint64, exp int, neg, trunc, hex, ok bool) {
-	i := 0
+// readFloat reads a decimal or hexadecimal mantissa and exponent from a float
+// string representation in s; the number may be followed by other characters.
+// readFloat reports the number of bytes consumed (i), and whether the number
+// is valid (ok).
+func readFloat(s string) (mantissa uint64, exp int, neg, trunc, hex bool, i int, ok bool) {
 	underscores := false
 
 	// optional sign
@@ -285,9 +302,9 @@ func readFloat(s string) (mantissa uint64, exp int, neg, trunc, hex, ok bool) {
 		return
 	}
 
-	if i != len(s) {
-		return
-	}
+	// if i != len(s) {
+	// 	return
+	// }
 
 	if mantissa != 0 {
 		exp = dp - ndMant
@@ -554,26 +571,26 @@ func atofHex(s string, flt *floatInfo, mantissa uint64, exp int, neg, trunc bool
 
 const fnParseFloat = "ParseFloat"
 
-func atof32(s string) (f float32, err error) {
-	if val, ok := special(s); ok {
-		return float32(val), nil
+func atof32(s string) (f float32, n int, err error) {
+	if val, n, ok := special(s); ok {
+		return float32(val), n, nil
 	}
 
-	mantissa, exp, neg, trunc, hex, ok := readFloat(s)
+	mantissa, exp, neg, trunc, hex, n, ok := readFloat(s)
 	if !ok {
-		return 0, syntaxError(fnParseFloat, s)
+		return 0, n, syntaxError(fnParseFloat, s)
 	}
 
 	if hex {
 		f, err := atofHex(s, &float32info, mantissa, exp, neg, trunc)
-		return float32(f), err
+		return float32(f), n, err
 	}
 
 	if optimize {
 		// Try pure floating-point arithmetic conversion.
 		if !trunc {
 			if f, ok := atof32exact(mantissa, exp, neg); ok {
-				return f, nil
+				return f, n, nil
 			}
 		}
 		// Try another fast path.
@@ -584,42 +601,43 @@ func atof32(s string) (f float32, err error) {
 			if ovf {
 				err = rangeError(fnParseFloat, s)
 			}
-			return f, err
+			return f, n, err
 		}
 	}
 
 	// Slow fallback.
 	var d decimal
 	if !d.set(s) {
-		return 0, syntaxError(fnParseFloat, s)
+		return 0, n, syntaxError(fnParseFloat, s)
 	}
 	b, ovf := d.floatBits(&float32info)
 	f = math.Float32frombits(uint32(b))
 	if ovf {
 		err = rangeError(fnParseFloat, s)
 	}
-	return f, err
+	return f, n, err
 }
 
-func atof64(s string) (f float64, err error) {
-	if val, ok := special(s); ok {
-		return val, nil
+func atof64(s string) (f float64, n int, err error) {
+	if val, n, ok := special(s); ok {
+		return val, n, nil
 	}
 
-	mantissa, exp, neg, trunc, hex, ok := readFloat(s)
+	mantissa, exp, neg, trunc, hex, n, ok := readFloat(s)
 	if !ok {
-		return 0, syntaxError(fnParseFloat, s)
+		return 0, n, syntaxError(fnParseFloat, s)
 	}
 
 	if hex {
-		return atofHex(s, &float64info, mantissa, exp, neg, trunc)
+		f, err := atofHex(s, &float64info, mantissa, exp, neg, trunc)
+		return f, n, err
 	}
 
 	if optimize {
 		// Try pure floating-point arithmetic conversion.
 		if !trunc {
 			if f, ok := atof64exact(mantissa, exp, neg); ok {
-				return f, nil
+				return f, n, nil
 			}
 		}
 		// Try another fast path.
@@ -630,21 +648,21 @@ func atof64(s string) (f float64, err error) {
 			if ovf {
 				err = rangeError(fnParseFloat, s)
 			}
-			return f, err
+			return f, n, err
 		}
 	}
 
 	// Slow fallback.
 	var d decimal
 	if !d.set(s) {
-		return 0, syntaxError(fnParseFloat, s)
+		return 0, n, syntaxError(fnParseFloat, s)
 	}
 	b, ovf := d.floatBits(&float64info)
 	f = math.Float64frombits(b)
 	if ovf {
 		err = rangeError(fnParseFloat, s)
 	}
-	return f, err
+	return f, n, err
 }
 
 // ParseFloat converts the string s to a floating-point number
@@ -672,9 +690,18 @@ func atof64(s string) (f float64, err error) {
 // ParseFloat recognizes the strings "NaN", "+Inf", and "-Inf" as their
 // respective special floating point values. It ignores case when matching.
 func ParseFloat(s string, bitSize int) (float64, error) {
+	f, n, err := parseFloat(s, bitSize)
+	if err == nil && n != len(s) {
+		f = 0
+		err = syntaxError(fnParseFloat, s)
+	}
+	return f, err
+}
+
+func parseFloat(s string, bitSize int) (float64, int, error) {
 	if bitSize == 32 {
-		f, err := atof32(s)
-		return float64(f), err
+		f, n, err := atof32(s)
+		return float64(f), n, err
 	}
 	return atof64(s)
 }
