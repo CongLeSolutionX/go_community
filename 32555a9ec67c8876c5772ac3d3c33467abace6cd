@@ -33,6 +33,29 @@
       "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f71353_d3406f36",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-28T00:52:30Z",
+      "side": 1,
+      "message": "I think we should just drop the \"; enable cgo by setting CGO_ENABLED\u003d1\" suffix for cross-compiles.\n\nWe should aim to give correct, helpful advice. I don\u0027t think we can summarize “how to cross-compile with cgo enabled” concisely enough for an error message, so we probably shouldn\u0027t even try. For a first step, we just shouldn\u0027t recommend setting CGO_ENABLED unless we\u0027re confident that it would actually work.\n\n(Later, we can consider building on that by perhaps adding a link to documentation on setting up a cross-compiled build.)",
+      "range": {
+        "startLine": 88,
+        "startChar": 5,
+        "endLine": 88,
+        "endChar": 61
+      },
+      "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
