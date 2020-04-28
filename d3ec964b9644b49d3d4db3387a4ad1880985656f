@@ -16,6 +16,24 @@
       "revId": "d3ec964b9644b49d3d4db3387a4ad1880985656f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e13f62f3_90de20ae",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-28T14:53:38Z",
+      "side": 1,
+      "message": "Struct literal is initialized via ODOT, something like x._\n\nWhile array literal is initialized using OINDEX, which currently is generated as _[0] \u003d 2. So in this case, we fix by introducing temporary variable.\n\nSee splitnode function above for details.",
+      "parentUuid": "ed7f423b_4110576d",
+      "revId": "d3ec964b9644b49d3d4db3387a4ad1880985656f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
