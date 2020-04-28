@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e81730d5_deb9ba68",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-28T18:18:32Z",
+      "side": 1,
+      "message": "Sounds reasonable 👍How about just check candiscard on \"value\" in the for loop and continue there?",
+      "parentUuid": "c5ea7ce4_78e62ead",
+      "revId": "0eacf03f07f4b321d150878a1d7d7c70bec39b0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e0b9286_20ee11c3",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2020-04-28T18:07:16Z",
       "side": 1,
       "message": "I don\u0027t think we need to mark this as readonly. Really, all we\u0027re doing is evaluating the RHS  for side-effects. Is there any way simpler way to express that? What happens if you only change the kind to  dynamic, but modify nothing else?",
+      "revId": "0eacf03f07f4b321d150878a1d7d7c70bec39b0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4507057_a29a6d40",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-28T18:18:32Z",
+      "side": 1,
+      "message": "Thanks, it passes.",
+      "parentUuid": "0e0b9286_20ee11c3",
       "revId": "0eacf03f07f4b321d150878a1d7d7c70bec39b0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
