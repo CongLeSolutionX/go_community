@@ -16,6 +16,24 @@
       "revId": "f34dd0aab16856e490d6ddc9953263f735fd5b29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dbaf777_3b9c178e",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-04-28T00:12:51Z",
+      "side": 1,
+      "message": "The reason is CL 120317 from the splice work we did a few years ago. But perhaps I ported some incorrect assumptions over. I think you\u0027re right: maybe we don\u0027t need to do permit interleaving here. The situation is pretty different, and I imagine that if copy_file_range blocks for a long time, then closing either of the file descriptors involved will unblock the entire call, and we cannot hang in a manner similar to #25985.\n\nWhat do you think? If you agree with this assessment, then I will move the locks outside the loop.",
+      "parentUuid": "d9a500d9_08b164b4",
+      "revId": "f34dd0aab16856e490d6ddc9953263f735fd5b29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
