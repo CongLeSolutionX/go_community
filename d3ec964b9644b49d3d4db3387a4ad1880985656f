@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7f423b_4110576d",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2020-04-28T14:03:48Z",
+      "side": 1,
+      "message": "Why not to also fix this for struct literals?",
+      "revId": "d3ec964b9644b49d3d4db3387a4ad1880985656f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
