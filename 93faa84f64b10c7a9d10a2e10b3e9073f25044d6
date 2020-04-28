@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db3a42d2_5ab2fd6b",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-28T16:27:23Z",
+      "side": 1,
+      "message": "(nit) Maybe drop the \"go-\" prefix here, since there is no other \"module-cache\" concept to confuse this with?",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 11
+      },
+      "revId": "93faa84f64b10c7a9d10a2e10b3e9073f25044d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3dc9df0_8dc0b492",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-28T16:27:23Z",
+      "side": 1,
+      "message": "To make this more skimming-friendly? (Perhaps lead with a more direct summary, and follow with a copy-and-pasteable `go env` command?)\n\n\u003cp\u003e\u003c⋯\u003e\n  A workaround is now available for Windows \"Access is denied\" errors\n  in \u003ccode\u003ego\u003c/code\u003e commands that access the module cache,\n  caused by external programs concurrently scanning the filesystem\n  (see (\u003ca href\u003d\"https://golang.org/issue/36568\"\u003eissue #36568\u003c/a\u003e).\n  The workaround is not enabled by default because it is not safe to use when\n  Go versions lower that 1.14.2 are running concurrently with the same\n  module cache. It can be enabled by explicitly setting the variable\n  \u003ccode\u003eGODEBUG\u003dmodcacheunzipinplace\u003d1\u003c/code\u003e:\n\n  \u003cpre\u003e\n  go env -w GODEBUG\u003dmodcacheunzipinplace\u003d1\n  \u003c/pre\u003e\n\u003c/p\u003e",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 46
+      },
+      "revId": "93faa84f64b10c7a9d10a2e10b3e9073f25044d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
