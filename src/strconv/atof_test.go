@@ -479,6 +479,26 @@ func initAtofOnce() {
 	}
 }
 
+func TestParseFloatPrefix(t *testing.T) {
+	for i := 0; i < len(atoftests); i++ {
+		test := &atoftests[i]
+		if test.err != nil {
+			continue
+		}
+		// adding these suffixes should not invalidate the number
+		for _, suffix := range []string{" ", "+", "-", "q", "(", ">"} {
+			in := test.in + suffix
+			_, n, err := ParseFloatPrefix(in, 64)
+			if err != nil {
+				t.Errorf("ParseFloatPrefix(%q, 64): err = %v; want no error", in, err)
+			}
+			if n != len(test.in) {
+				t.Errorf("ParseFloatPrefix(%q, 64): n = %d; want %d", in, n, len(test.in))
+			}
+		}
+	}
+}
+
 func testAtof(t *testing.T, opt bool) {
 	initAtof()
 	oldopt := SetOptimize(opt)
