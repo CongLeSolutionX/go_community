@@ -53,6 +53,7 @@ func TestIntendedInlining(t *testing.T) {
 			"getm",
 			"isDirectIface",
 			"itabHashFunc",
+			"linAddr",
 			"noescape",
 			"pcvalueCacheKey",
 			"readUnaligned32",
@@ -68,6 +69,7 @@ func TestIntendedInlining(t *testing.T) {
 			"(*bmap).keys",
 			"(*bmap).overflow",
 			"(*waitq).enqueue",
+			"(linearAddress).addr",
 
 			// GC-related ones
 			"cgoInRange",
