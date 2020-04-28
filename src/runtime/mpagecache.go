@@ -106,7 +106,7 @@ func (c *pageCache) flush(s *pageAlloc) {
 func (s *pageAlloc) allocToCache() pageCache {
 	// If the searchAddr refers to a region which has a higher address than
 	// any known chunk, then we know we're out of memory.
-	if chunkIndex(s.searchAddr) >= s.end {
+	if chunkIndex(s.searchAddr) > s.end {
 		return pageCache{}
 	}
 	c := pageCache{}

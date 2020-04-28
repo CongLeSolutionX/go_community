@@ -96,7 +96,9 @@ func (s *pageAlloc) sysInit() {
 
 // See mpagealloc_64bit.go for details.
 func (s *pageAlloc) sysGrow(base, limit uintptr) {
-	if base%pallocChunkBytes != 0 || limit%pallocChunkBytes != 0 {
+	// limit+1 may overflow, but that's OK. We're just checking to make sure
+	// that it's one minus a value aligned to pallocChunkBytes
+	if base%pallocChunkBytes != 0 || (limit+1)%pallocChunkBytes != 0 {
 		print("runtime: base = ", hex(base), ", limit = ", hex(limit), "\n")
 		throw("sysGrow bounds not aligned to pallocChunkBytes")
 	}

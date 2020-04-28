@@ -1424,12 +1424,12 @@ type linearAlloc struct {
 
 func (l *linearAlloc) init(base, size uintptr) {
 	l.next, l.mapped = base, base
-	l.end = base + size
+	l.end = base + size - 1
 }
 
 func (l *linearAlloc) alloc(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 	p := alignUp(l.next, align)
-	if p+size > l.end {
+	if p+size-1 > l.end {
 		return nil
 	}
 	l.next = p + size
