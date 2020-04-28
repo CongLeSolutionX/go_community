@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14a47d28_7677c902",
+        "filename": "src/image/image.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T14:07:20Z",
+      "side": 1,
+      "message": "please pass in the name so the message is right.",
+      "revId": "cff2a5704bca383b21a9aca76cfd63c7476e835d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dda4b421_40ab4718",
+        "filename": "src/image/image_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T14:07:20Z",
+      "side": 1,
+      "message": "s/returning/reporting/\nor better\n\n// call calls f(r) and reports whether it ran without panicking.",
+      "revId": "cff2a5704bca383b21a9aca76cfd63c7476e835d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6430615_5e948c46",
+        "filename": "src/image/image_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-04-28T14:07:20Z",
+      "side": 1,
+      "message": "s/i.e. //",
+      "revId": "cff2a5704bca383b21a9aca76cfd63c7476e835d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
