@@ -545,10 +545,7 @@ func (s *pageAlloc) scavengeOne(iter addrRange, max uintptr, mayUnlock bool) (ui
 
 	// Fast path: check the chunk containing the top-most address in iter,
 	// starting at that address's page index in the chunk.
-	//
-	// Note that iter.end() is exclusive, so get the chunk we care about
-	// by subtracting 1.
-	maxAddr := iter.end() - 1
+	maxAddr := iter.end()
 	maxChunk := chunkIndex(maxAddr)
 	if s.summary[len(s.summary)-1][maxChunk].max() >= uint(minPages) {
 		// We only bother looking for a candidate if there at least
@@ -557,12 +554,12 @@ func (s *pageAlloc) scavengeOne(iter addrRange, max uintptr, mayUnlock bool) (ui
 
 		// If we found something, scavenge it and return!
 		if npages != 0 {
-			iter = makeAddrRange(iter.start(), s.scavengeRangeLocked(maxChunk, base, npages))
+			iter = makeAddrRange(iter.start(), s.scavengeRangeLocked(maxChunk, base, npages)-1)
 			return uintptr(npages) * pageSize, iter
 		}
 	}
 	// Update the limit to reflect the fact that we checked maxChunk already.
-	iter = makeAddrRange(iter.start(), chunkBase(maxChunk))
+	iter = makeAddrRange(iter.start(), chunkBase(maxChunk)-1)
 	unlockHeap()
 
 	// Slow path: iterate optimistically over the in-use address space
@@ -570,7 +567,7 @@ func (s *pageAlloc) scavengeOne(iter addrRange, max uintptr, mayUnlock bool) (ui
 	// lock and verify it!
 	//
 	// Iterate over this iter's chunks.
-	for i := chunkIndex(iter.end() - 1); i >= chunkIndex(iter.start()); i-- {
+	for i := chunkIndex(iter.end()); i >= chunkIndex(iter.start()); i-- {
 		// If this chunk is totally in-use or has no unscavenged pages, don't bother
 		// doing a  more sophisticated check.
 		//
@@ -600,7 +597,7 @@ func (s *pageAlloc) scavengeOne(iter addrRange, max uintptr, mayUnlock bool) (ui
 		chunk := s.chunkOf(i)
 		base, npages := chunk.findScavengeCandidate(pallocChunkPages-1, minPages, maxPages)
 		if npages > 0 {
-			iter = makeAddrRange(iter.start(), s.scavengeRangeLocked(i, base, npages))
+			iter = makeAddrRange(iter.start(), s.scavengeRangeLocked(i, base, npages)-1)
 			return uintptr(npages) * pageSize, iter
 		}
 
@@ -608,7 +605,7 @@ func (s *pageAlloc) scavengeOne(iter addrRange, max uintptr, mayUnlock bool) (ui
 		unlockHeap()
 	}
 	lockHeap()
-	iter = makeAddrRange(iter.start(), iter.start())
+	iter = makeAddrRange(iter.start(), iter.start()-1)
 	return 0, iter
 }
 
