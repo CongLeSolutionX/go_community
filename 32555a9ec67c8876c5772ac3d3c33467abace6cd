@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "596d1d6b_85332eaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-28T00:25:00Z",
+      "side": 1,
+      "message": "s|work|cmd/go|",
+      "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fc67513_27369f1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-28T00:25:00Z",
+      "side": 1,
+      "message": "This isn\u0027t accurate: cross-compiled cgo builds are supported.  You do have to have a C cross-compiler installed.",
+      "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
