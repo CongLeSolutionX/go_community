@@ -34,6 +34,24 @@
       "revId": "ecf46a5bbac6f6c2d21383ba2dcb5ea2a7981805",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69e0a5e4_02e62b41",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-29T20:41:56Z",
+      "side": 1,
+      "message": "Ok, then we just need to document that booleans occupy entire registers, and are 0 or 1.\n\n(See the Notes section of, say, AMD64Ops.go, and copy+modify what it says about high-order parts of registers.)",
+      "parentUuid": "e0e32571_a1c7f268",
+      "revId": "ecf46a5bbac6f6c2d21383ba2dcb5ea2a7981805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
