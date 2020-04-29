@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a767b039_3becad5b",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2112,
+      "author": {
+        "id": 19185
+      },
+      "writtenOn": "2020-04-29T11:30:56Z",
+      "side": 1,
+      "message": "Is this line correct?  It looks as though the : is in the wrong place.  Shouldn\u0027t it be nops \u003d nops[:0] so that we discard any nopPads generated during the previous pass?",
+      "range": {
+        "startLine": 2112,
+        "startChar": 0,
+        "endLine": 2112,
+        "endChar": 1
+      },
+      "revId": "34e7b7df5e6c6f8dfdb79e6a1743c51976007455",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
