@@ -1,0 +1,351 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cb815b6_9844e2af",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "It\u0027s not clear from this phrasing that this is conditional. \"If p explicitly uses REGTMP, it\u0027s unsafe to preempt.\" It may also be worth saying why, since this basically repeats the code right now: \"... because the preemption sequence clobbers REGTMP.\"",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6df954d3_8cd7207c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Might as well follow Go style. \"isRestartable returns ...\"",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4255f197_36a285b1",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "restarted",
+      "range": {
+        "startLine": 1085,
+        "startChar": 10,
+        "endLine": 1085,
+        "endChar": 17
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f99fac7_0586c8a3",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Maybe call isUnsafePoint?",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9abed7f8_7603e209",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Same comment.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99395c45_e623973a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Similar thing about making this phrasing conditional. Though I\u0027m not sure I understand the condition, so I can\u0027t provide an example rewording. :) It\u0027s restartable if it\u0027s a multi-instruction sequence and does use REGTMP, but why is it not restartable if it *doesn\u0027t* use REGTMP? Is this because then it\u0027s *not* marked as an unsafe point, so there\u0027s no need to restart it?\n\nDoes it just happen to be the case that all REGTMP-using multi-instruction sequences are restartable? Or is there a deeper reason that this must be true?",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fabbfe1_fb3a05c2",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "In golang.org/cl/230541 I started putting these in src/cmd/internal/objabi/funcdata.go (golang.org/cl/230544 adds some more), which I think it a better spot for them.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ef08651_c075fd92",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "resuming",
+      "range": {
+        "startLine": 201,
+        "startChar": 38,
+        "endLine": 201,
+        "endChar": 44
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25afdece_106ec347",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Describe isRestartable.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a17274d1_27e9668b",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Could be \"isUnsafePoint, isRestartable ...\"",
+      "range": {
+        "startLine": 281,
+        "startChar": 63,
+        "endLine": 281,
+        "endChar": 125
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5807a44_761295c2",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Once the regmap code is deleted (for 1.16), I would love to instead mark Progs as unsafe/restartable and then generate the PCDATA stream from that late in obj. I think that would make this much, much simpler and also simplify some similar logic in the compiler that\u0027s trying to turn \"level\" information into \"edge\" information.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd956fb6_7bc0c3b6",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Should this accept nil for isRestartble to provide a default \"false\" implementation? That would simplify various callers.",
+      "range": {
+        "startLine": 281,
+        "startChar": 95,
+        "endLine": 281,
+        "endChar": 108
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4232d5c1_d6782717",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "I think it would be a little clearer to store PcdataRestart1/PcdataRestart2 in the state variable directly, rather than storing a bool that then determines which one to use.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3face7f_fb5431c9",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "I think there\u0027s something fundamental I\u0027m missing here. If a sequence of Progs is restartable, how does this logic capture that? It seems like this will always alternate between Restart1/Restart2 if isRestartable is true for more than one Prog in a row.\n\nOr is it that at the point when MarkUnsafePoints is called, all restartable sequences are actually encoded as a single Prog, and we only expand them to multiple instructions after MarkUnsafePoints? (If so, that should definitely be explained in the documentation for the isRestartable argument.)",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "759b5d2a_383dc057",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Would the isRestartable branch be any clearer if it did its own loop over p.Link like this does?\n\nIs it okay for isUnsafePoint and isRestartable to both return true? What does that mean?",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b5e73dd_dc28db61",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Consider using a switch on smi",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f07bf869_97d4e6ee",
+        "filename": "src/runtime/signal_386.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Update comment.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4527137_c26c9282",
+        "filename": "src/runtime/signal_amd64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "Update comment.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3549a56f_6ed9375b",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T02:54:47Z",
+      "side": 1,
+      "message": "I\u0027ve only skimmed this file, but it\u0027s time for bed. :) I\u0027ll revisit this later.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
