@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f33bfcf_eb692202",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Please follow Go doc style.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17285db8_8fde4e7c",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "I find these names rather confusing because it reads like the \"only\" applies to \"acquire\", but what else would it do besides acquiring? Maybe just \"lockRank\" and \"unlockRank\"? Runtime lock functions generally don\u0027t use \"acquire\" and \"release\", but just \"lock\" and \"unlock\". That\u0027s a little inconsistent with lockRankRelease, but maybe that function could be named better.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58c5a486_a44493ef",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Document this function, particularly since it now has a non-obvious argument and result.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "904a38bd_74fb2a76",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "We definitely need to document the reasoning behind the gscan/hchan lock handling somewhere, though I\u0027m not sure where. Maybe in the lock rank list?",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "067d68e5_05b404b1",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Maybe move this comment inside below the \"if\", since it\u0027s sort of the implicit \"else\" branch? Or it might even be clearer to add an explicit else:\n\nif prevRank \u003d\u003d lockRankGscan \u0026\u0026 rank \u003d\u003d lockRankHchan {\n  ...\n} else if prevRank \u003c\u003d rank {\n  ...\n} else {\n  // rank \u003c prevRank, so we definitely have a rank error.\n  rankOK \u003d false\n}\n\nClearly the rankOK \u003d false isn\u0027t actually necessary, but it makes the intent clear.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6686bbc2_fba7de2d",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Please follow Go doc style.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d63e95_a3c9d31b",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Same naming comment.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72a0daa1_1bad9483",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Why is it okay for this to not search locksHeld the way lockRankRelease does? Document the reasoning behind this.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c19d5d9_0ad45445",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Add a comment explaining this.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e2ccc51_3241a504",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T14:35:30Z",
+      "side": 1,
+      "message": "Document this field.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
