@@ -16,6 +16,24 @@
       "revId": "ecf46a5bbac6f6c2d21383ba2dcb5ea2a7981805",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0e32571_a1c7f268",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-04-29T20:30:26Z",
+      "side": 1,
+      "message": "I do not believe this an issue for booleans on riscv64 - boolean loads are handled via MOVBUload, which is an 8-bit load zero extended to 64 bits. Boolean constants are handled via MOVBconst which results in either 0 or 1 being added to the zero register and sign extended to 64 bits. Unless I\u0027m missing something I do not see how we could end up with garbage in the high bits without being able to mix types.",
+      "parentUuid": "9e66f5d1_7002f026",
+      "revId": "ecf46a5bbac6f6c2d21383ba2dcb5ea2a7981805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
