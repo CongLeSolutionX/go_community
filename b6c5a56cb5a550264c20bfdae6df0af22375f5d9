@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4c8bd331_6fee25fd",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f33bfcf_eb692202",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17285db8_8fde4e7c",
         "filename": "src/runtime/lockrank_on.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-04-29T14:35:30Z",
       "side": 1,
       "message": "I find these names rather confusing because it reads like the \"only\" applies to \"acquire\", but what else would it do besides acquiring? Maybe just \"lockRank\" and \"unlockRank\"? Runtime lock functions generally don\u0027t use \"acquire\" and \"release\", but just \"lock\" and \"unlock\". That\u0027s a little inconsistent with lockRankRelease, but maybe that function could be named better.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd432c72_5f7a69ff",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Here\u0027s my stab:  I change lockRankRelease() to unlockWithRank(), so it matches up with lockWith Rank().  And then for the new ones that don\u0027t actually get a lock, I changed\n\nlockRankAcquireOnly() to acquireLockRank()\nlockRankReleaseOnly() to releaseLockRank()\n\nI know that you said that runtime doesn\u0027t use acquire/Release in function names, but we\u0027re not actually getting locks in these functions, and just lockRank() seems too similar to lockWithRank().  But let me know what you think.",
+      "parentUuid": "17285db8_8fde4e7c",
       "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "56a43884_184dd172",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Done, though I am still thinking about ways to express the exception differently (as you suggested as well), so didn\u0027t totally fix this up yet.",
+      "parentUuid": "58c5a486_a44493ef",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "904a38bd_74fb2a76",
         "filename": "src/runtime/lockrank_on.go",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e416cad_fd1b4034",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "904a38bd_74fb2a76",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3080cbdf_fa3b7d23",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "067d68e5_05b404b1",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6686bbc2_fba7de2d",
         "filename": "src/runtime/lockrank_on.go",
         "patchSetId": 2
@@ -101,6 +191,24 @@
       "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f0fec8_1feb14dc",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6686bbc2_fba7de2d",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "11044934_7a96d68e",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9d63e95_a3c9d31b",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72a0daa1_1bad9483",
         "filename": "src/runtime/lockrank_on.go",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2020-04-29T14:35:30Z",
       "side": 1,
       "message": "Why is it okay for this to not search locksHeld the way lockRankRelease does? Document the reasoning behind this.",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ba7310_4f3ba044",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "That\u0027s a good thing to re-check.  I\u0027m not sure that I still need to search locksHeld, I\u0027ll verify that.",
+      "parentUuid": "72a0daa1_1bad9483",
       "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -169,6 +313,24 @@
       "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b2c18c7_ec0e4b2e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-04-29T17:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e2ccc51_3241a504",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
