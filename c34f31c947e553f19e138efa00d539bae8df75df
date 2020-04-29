@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee36a6e_e33b1a1b",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-29T20:07:25Z",
+      "side": 1,
+      "message": "Kind of an unfortunate name.  Oh well.",
+      "range": {
+        "startLine": 691,
+        "startChar": 5,
+        "endLine": 691,
+        "endChar": 14
+      },
+      "revId": "c34f31c947e553f19e138efa00d539bae8df75df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
