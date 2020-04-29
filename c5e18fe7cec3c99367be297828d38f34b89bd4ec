@@ -346,6 +346,58 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d489102_a30b233c",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T12:43:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3549a56f_6ed9375b",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70b3ddbc_c9bc3cfd",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T12:43:19Z",
+      "side": 1,
+      "message": "There are only a few callers of pcvalue and they\u0027re all in symtab.go. I suggest just changing pcvalue to also return the PC and updating the callers so we don\u0027t have such a proliferation of slightly different entry-points.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b6ed330_b628e061",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-29T12:43:19Z",
+      "side": 1,
+      "message": "That\u0027s probably fine. I\u0027d be weary of slowing down the fast path, since this is actually pretty hot in some GC paths, and we don\u0027t need the cache in the place where we need the PC. I would suggest just documenting this constraint on pcvalue2 and dropping the cache argument from pcdatavalue2.",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
