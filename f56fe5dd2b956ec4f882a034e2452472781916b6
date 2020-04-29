@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6e2368cd_7578ff78",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-04-29T19:02:29Z",
+      "side": 1,
+      "message": "This is right - it\u0027s a comment that is a directive.\nNot all of them will be for the compiler.",
+      "parentUuid": "b1fa8367_704e8a67",
+      "range": {
+        "startLine": 157,
+        "startChar": 38,
+        "endLine": 157,
+        "endChar": 45
+      },
+      "revId": "f56fe5dd2b956ec4f882a034e2452472781916b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "455e6539_fe63f4f2",
         "filename": "src/go/ast/ast_test.go",
         "patchSetId": 2
@@ -93,6 +117,30 @@
       "revId": "f56fe5dd2b956ec4f882a034e2452472781916b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4f88fd5_678c87dc",
+        "filename": "src/go/ast/ast_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-04-29T19:02:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46980e28_00dcaa80",
+      "range": {
+        "startLine": 67,
+        "startChar": 7,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "f56fe5dd2b956ec4f882a034e2452472781916b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
