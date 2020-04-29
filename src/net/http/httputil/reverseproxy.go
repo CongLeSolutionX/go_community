@@ -248,10 +248,14 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		// If we aren't the first proxy retain prior
 		// X-Forwarded-For information as a comma+space
 		// separated list and fold multiple headers into one.
-		if prior, ok := outreq.Header["X-Forwarded-For"]; ok {
+		prior, ok := outreq.Header["X-Forwarded-For"]
+		omit := ok && prior == nil // Issue 38079: nil now means don't populate the header
+		if len(prior) > 0 {
 			clientIP = strings.Join(prior, ", ") + ", " + clientIP
 		}
-		outreq.Header.Set("X-Forwarded-For", clientIP)
+		if !omit {
+			outreq.Header.Set("X-Forwarded-For", clientIP)
+		}
 	}
 
 	res, err := transport.RoundTrip(outreq)
