@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "acd80f69_22d779b0",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-29T15:10:25Z",
+      "side": 1,
+      "message": "extRelocApplied? needExtReloc? Just `done` doesn\u0027t seem helpful to me when I need to maintain context across ~350 lines.",
+      "parentUuid": "88a8eea0_d2321c84",
+      "range": {
+        "startLine": 205,
+        "startChar": 2,
+        "endLine": 205,
+        "endChar": 6
+      },
+      "revId": "6714af0e4b7710604ddd460b0b14ed8c0632bb96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7162a6b_9768823b",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 8
