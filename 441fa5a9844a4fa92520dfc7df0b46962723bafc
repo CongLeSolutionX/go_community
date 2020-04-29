@@ -34,6 +34,24 @@
       "revId": "441fa5a9844a4fa92520dfc7df0b46962723bafc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f30898c_841cc301",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-29T04:07:24Z",
+      "side": 1,
+      "message": "Ah wait, seems there\u0027s confused. The error in this CL is from generated code like:\n\n_.x \u003d 1\n\nnot assigning to blank. When facing blank field with struct/array type, we recursively call fixedlit, with \"var_\" is `_\", so splitnode return \"_.x\". And since when this is initKindLocal, the \"a \u003d typecheck(a, ctxStmt)\" raises the error.",
+      "parentUuid": "f7c49f2d_d0e89fdf",
+      "revId": "441fa5a9844a4fa92520dfc7df0b46962723bafc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
