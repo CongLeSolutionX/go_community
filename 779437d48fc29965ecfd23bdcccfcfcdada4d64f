@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "040eeda7_bc0bd23a",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-29T17:59:14Z",
+      "side": 1,
+      "message": "I don\u0027t understand the terminology here.\nWhat is a \"linearized view\"?\nIs a linearAddress the actual virtual address, or is it some offsetted thing?\n\nThe spec of linAddr makes me think this is an offsetted thing.\n\nI hate the \"linear\" name with a passion. It doesn\u0027t conjure up ideas of a contiguous address region. It makes me think of an approximation to a quadratic or something.",
+      "revId": "779437d48fc29965ecfd23bdcccfcfcdada4d64f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
