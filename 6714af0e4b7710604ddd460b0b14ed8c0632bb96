@@ -22,6 +22,29 @@
       "revId": "6714af0e4b7710604ddd460b0b14ed8c0632bb96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7162a6b_9768823b",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-29T12:09:00Z",
+      "side": 1,
+      "message": "It would be great if we could package this blob up into a new loader method -- there are a half dozen instances of the sym/Symbol version floating around the codebase.",
+      "range": {
+        "startLine": 311,
+        "startChar": 4,
+        "endLine": 317,
+        "endChar": 5
+      },
+      "revId": "6714af0e4b7710604ddd460b0b14ed8c0632bb96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
