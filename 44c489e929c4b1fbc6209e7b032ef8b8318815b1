@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06f91110_0383560b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-04-29T04:14:08Z",
+      "side": 1,
+      "message": "This should be \"n.Right.Op \u003d\u003d OLITERAL\". Only OLITERALs will ever have a Val associated with them.",
+      "range": {
+        "startLine": 1093,
+        "startChar": 29,
+        "endLine": 1093,
+        "endChar": 62
+      },
+      "revId": "44c489e929c4b1fbc6209e7b032ef8b8318815b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "831208b8_e1198e9a",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-04-29T04:14:08Z",
+      "side": 1,
+      "message": "yyerror is for reporting errors in user Go code (e.g., syntax mistake or type checking failures). Internal compiler errors like this (\"ICEs\") should be reported with Fatalf.\n\n(For historical reasons, there are still some yyerror calls in walk.go. They should all be moved to typecheck.go, or replaced with Fatalf.)",
+      "revId": "44c489e929c4b1fbc6209e7b032ef8b8318815b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
