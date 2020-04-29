@@ -372,8 +372,7 @@ func relocsym(target *Target, ldr *loader.Loader, err *ErrorReporter, syms *Arch
 				// symbol which isn't in .data. However, as .text has the
 				// same address once loaded, this is possible.
 				if ldr.SymSect(s).Seg == &Segdata {
-					panic("not implemented")
-					//Xcoffadddynrel(target, ldr, err, s, &r) // XXX
+					Xcoffadddynrel2(target, ldr, syms, s, &r, ri)
 				}
 			}
 
@@ -549,12 +548,12 @@ func relocsym(target *Target, ldr *loader.Loader, err *ErrorReporter, syms *Arch
 			o = ldr.SymValue(rs) + r.Add() - ldr.SymValue(syms.GOT2)
 		}
 
-		//if target.IsPPC64() || target.IsS390X() {
-		//	r.InitExt()
-		//	if r.Variant != sym.RV_NONE {
-		//		o = thearch.Archrelocvariant(ldr, target, syms, &r, s, o)
-		//	}
-		//}
+		if target.IsPPC64() { // || target.IsS390X() {
+			if ldr.RelocVariant(s, ri) != sym.RV_NONE {
+				panic("not implemented")
+				//o = thearch.Archrelocvariant(ldr, target, syms, &r, s, o)
+			}
+		}
 
 		switch siz {
 		default:
