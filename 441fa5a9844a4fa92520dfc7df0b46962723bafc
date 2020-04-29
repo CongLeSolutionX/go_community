@@ -16,6 +16,24 @@
       "revId": "441fa5a9844a4fa92520dfc7df0b46962723bafc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7c49f2d_d0e89fdf",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-04-29T03:37:46Z",
+      "side": 1,
+      "message": "\u003e I think a safer test here would be \"a \u003d\u003d nblank\".\n\nFixed 👍\n\n\u003e _ \u003d T{42, f()}\" should optimize to just \"f()\" (i.e., discard the \"_.1 \u003d 42\n\nHmm, if that\u0027s the case, seems it\u0027 back to the first fix, if a \u003d\u003d nblank { kind \u003d initKindDynamic }, as we want to initialize dynamic part, not static part in this case.",
+      "parentUuid": "875b9b97_e37078cb",
+      "revId": "441fa5a9844a4fa92520dfc7df0b46962723bafc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
