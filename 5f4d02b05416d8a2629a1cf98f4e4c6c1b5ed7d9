@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e0faba7_2fb54957",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-29T20:30:35Z",
+      "side": 1,
+      "message": "Typo: thread",
+      "range": {
+        "startLine": 449,
+        "startChar": 17,
+        "endLine": 449,
+        "endChar": 23
+      },
+      "revId": "5f4d02b05416d8a2629a1cf98f4e4c6c1b5ed7d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
