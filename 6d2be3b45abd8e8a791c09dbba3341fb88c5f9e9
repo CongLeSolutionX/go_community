@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5499ceb3_8ee3ca72",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-29T18:08:57Z",
+      "side": 1,
+      "message": "This still needs casts. MOV{B,H}reg need to sign extend the constant.",
+      "range": {
+        "startLine": 858,
+        "startChar": 41,
+        "endLine": 858,
+        "endChar": 42
+      },
+      "revId": "6d2be3b45abd8e8a791c09dbba3341fb88c5f9e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "963a3814_8362cdb9",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-04-29T18:08:57Z",
+      "side": 1,
+      "message": "The precedence here isn\u0027t right. You need ^(c\u003c\u003cuint64(d)).\n(At least, that\u0027s what the old rule did. I don\u0027t know if that\u0027s the right behavior for MVN or not.)",
+      "range": {
+        "startLine": 1138,
+        "startChar": 48,
+        "endLine": 1138,
+        "endChar": 61
+      },
+      "revId": "6d2be3b45abd8e8a791c09dbba3341fb88c5f9e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
