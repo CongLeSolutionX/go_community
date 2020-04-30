@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9603c2c8_fcc48fa9",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-30T20:11:51Z",
+      "side": 1,
+      "message": "I\u0027m sorry, but is still way too complicated. Some high-level comments:\n1) +i, -i , etc. are not valid Go complex numbers; they are written as 1i, -1i, etc.\n2) There is a bug in parseFloatPrefix, but it\u0027s not with NaN, but \"Inf\" (fix forthcoming)\n3) With 1) removed from the test cases and 2) fixed, this code can be much more direct, and simply parse from left to right. I\u0027ve taken the liberty to just write the code:\n\nfunc ParseComplex(s string, bitSize int) (complex128, error) {\n\tsize :\u003d 128\n\tif bitSize \u003d\u003d 64 {\n\t\tsize \u003d 32 // complex64 uses float32 parts\n\t}\n\n\t// Remove parentheses, if any.\n\torig :\u003d s\n\tif len(s) \u003e\u003d 2 \u0026\u0026 s[0] \u003d\u003d \u0027(\u0027 \u0026\u0026 s[len(s)-1] \u003d\u003d \u0027)\u0027 {\n\t\ts \u003d s[1 : len(s)-1]\n\t}\n\n\t// Read real part (possibly imaginary part if followed by \u0027i\u0027).\n\tre, n, err :\u003d parseFloatPrefix(s, size)\n\tif err !\u003d nil {\n\t\treturn 0, convErr(err, orig)\n\t}\n\ts \u003d s[n:]\n\n\t// If we have nothing left, we\u0027re done.\n\tif len(s) \u003d\u003d 0 {\n\t\treturn complex(re, 0), nil\n\t}\n\n\t// Otherwise, look at the next character.\n\tswitch s[0] {\n\tcase \u0027+\u0027:\n\t\t// Consume the \u0027+\u0027 to avoid an error if we have \"+NaNi\", but\n\t\t// do this only if we don\u0027t have a \"++\" (don\u0027t hide that error).\n\t\tif len(s) \u003e 1 \u0026\u0026 s[1] !\u003d \u0027+\u0027 {\n\t\t\ts \u003d s[1:]\n\t\t}\n\tcase \u0027-\u0027:\n\t\t// ok\n\tcase \u0027i\u0027:\n\t\t// If \u0027i\u0027 is the last character, we only have an imaginary part.\n\t\tif len(s) \u003d\u003d 1 {\n\t\t\treturn complex(0, re), nil\n\t\t}\n\t\tfallthrough\n\tdefault:\n\t\treturn 0, syntaxError(fnParseComplex, orig)\n\t}\n\n\t// Read imaginary part.\n\tim, n, err :\u003d parseFloatPrefix(s, size)\n\tif err !\u003d nil {\n\t\treturn 0, convErr(err, orig)\n\t}\n\ts \u003d s[n:]\n\n\tif s !\u003d \"i\" {\n\t\treturn 0, syntaxError(fnParseComplex, orig)\n\t}\n\n\treturn complex(re, im), nil\n}\n\nThis passes all you tests.",
+      "range": {
+        "startLine": 46,
+        "startChar": 5,
+        "endLine": 46,
+        "endChar": 17
+      },
+      "revId": "799890e563af3c4ec59438a1eebead8d405a0672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa0d7c5_f49f6c67",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-30T20:11:51Z",
+      "side": 1,
+      "message": "Please format these test cases the same way all the other tests are formatted in this package, one line per entry. So:\n\n{\"\", 0, ErrSyntax},\n{\" 0\", 0, ErrSyntax},\n{\"0 \", 0, ErrSyntax},\n{\"0\", 0, nil},\n{\"0i\", 0, nil},\n{\"0+0i\", 0, nil},\n{\"0+0\", 0, ErrSyntax},     \u003c\u003c\u003c\u003c put invalid variations next to valid ones so we can see them\n{\"0i+0\", 0, ErrSyntax},\n{\"0.1\", complex(0.1, 0, nil},\n...\netc.\n\nBy putting incorrect test cases next to valid ones if there\u0027s just a minor difference, it\u0027s much easier to see that we\u0027ve got all cases covered.\n\nAlso, there\u0027s no need for the field names - this is a local composite literal with only three fields, all of different type.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "799890e563af3c4ec59438a1eebead8d405a0672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0485e15f_0d46af8a",
+        "filename": "src/strconv/ctoa.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-30T20:11:51Z",
+      "side": 1,
+      "message": "Please call this \"im\" - there\u0027s no need to gratuitously shadow the built-in function.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 5
+      },
+      "revId": "799890e563af3c4ec59438a1eebead8d405a0672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
