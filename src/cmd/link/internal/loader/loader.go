@@ -2101,6 +2101,11 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols, needReloc bool) {
 
 		// Transfer over attributes.
 		l.migrateAttributes(i, s)
+
+		// Drop fields that are no longer needed.
+		pp.relocs = nil
+		pp.reltypes = nil
+		pp.auxs = nil
 	}
 
 	// load contents of defined symbols
