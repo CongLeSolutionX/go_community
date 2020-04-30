@@ -16,6 +16,24 @@
       "revId": "ccb4033139362fe0e84936a103f04c89cfedd5e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ae062f2_e9cc0ccf",
+        "filename": "src/internal/unsafeheader/unsafeheader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-04-30T21:40:58Z",
+      "side": 1,
+      "message": "We can if you want, but I don\u0027t think it\u0027s necessary: it will be covered by the `-race` builders either way, and this test seems unlikely to regress unexpectedly.",
+      "parentUuid": "c462efff_d595cc0b",
+      "revId": "ccb4033139362fe0e84936a103f04c89cfedd5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
