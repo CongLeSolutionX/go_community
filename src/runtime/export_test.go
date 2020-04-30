@@ -369,7 +369,7 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 		}
 
 		// Unused space in the current arena also counts as released space.
-		slow.HeapReleased += uint64(mheap_.curArena.end - mheap_.curArena.base)
+		slow.HeapReleased += uint64(mheap_.curArena.end - mheap_.curArena.start)
 
 		getg().m.mallocing--
 	})
