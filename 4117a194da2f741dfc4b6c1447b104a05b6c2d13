@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f3bb1cf_cb9932a0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-04-30T21:49:29Z",
+      "side": 1,
+      "message": "this could be reduced to a uint8 if we just store the power of two:\n\neg:\n\nstore: 31 - bits.LeadingZeros32(align)\n\nreturn: 1 \u003c\u003c align[symIdx]",
+      "range": {
+        "startLine": 230,
+        "startChar": 9,
+        "endLine": 230,
+        "endChar": 15
+      },
+      "revId": "4117a194da2f741dfc4b6c1447b104a05b6c2d13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
