@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2045ecf_7623563f",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-30T00:32:09Z",
+      "side": 1,
+      "message": "May as well use a convention doc comment here.\n\n// commonPrefixLenIgnoreCase returns \n\nThe name doesn\u0027t really tell me what this function does, at least not in combination with a parameter named \"prefix\".",
+      "revId": "4f029079f8a35cddd55dc5178b7e365c554eee59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af186493_01f620a1",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-04-30T00:32:09Z",
+      "side": 1,
+      "message": "It seems like this changes a return ok \u003d\u003d false to a return ok \u003d\u003d true.  Is that right?",
+      "revId": "4f029079f8a35cddd55dc5178b7e365c554eee59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
