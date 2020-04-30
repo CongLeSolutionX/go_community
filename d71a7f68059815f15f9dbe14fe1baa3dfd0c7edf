@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45ae72a7_3dd3f149",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-30T23:20:49Z",
+      "side": 1,
+      "message": "I think you can simply do\nlastSym :\u003d loader.Sym(ldr.NSym()-1)\nldr.SetSymAlign(lastSym, ldr.SymAlgin(lastSym))\n\nwithout computing maxSym in the previous loop.",
+      "revId": "d71a7f68059815f15f9dbe14fe1baa3dfd0c7edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
