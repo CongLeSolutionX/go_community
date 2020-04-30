@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8fcb40d7_58080b54",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-30T05:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5499ceb3_8ee3ca72",
+      "range": {
+        "startLine": 858,
+        "startChar": 41,
+        "endLine": 858,
+        "endChar": 42
+      },
+      "revId": "6d2be3b45abd8e8a791c09dbba3341fb88c5f9e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "963a3814_8362cdb9",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "6d2be3b45abd8e8a791c09dbba3341fb88c5f9e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1202aaa_dd22accb",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-04-30T05:55:59Z",
+      "side": 1,
+      "message": "Precedence is restored.",
+      "parentUuid": "963a3814_8362cdb9",
+      "range": {
+        "startLine": 1138,
+        "startChar": 48,
+        "endLine": 1138,
+        "endChar": 61
+      },
+      "revId": "6d2be3b45abd8e8a791c09dbba3341fb88c5f9e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
