@@ -22,6 +22,30 @@
       "revId": "19fcfc4e4d2cfb2bcb809e57add93034e4a3df7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56621759_f159b957",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2461,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-30T21:32:55Z",
+      "side": 1,
+      "message": "This is for relocBatch, not the initExt part. We should batch that part as well (but maybe not in this CL).\n\nThat said, this could be wrong. I wrote this CL in ~3 minutes, and haven\u0027t looked at it myself...",
+      "parentUuid": "0f6d1b82_7dbec146",
+      "range": {
+        "startLine": 2461,
+        "startChar": 3,
+        "endLine": 2461,
+        "endChar": 29
+      },
+      "revId": "19fcfc4e4d2cfb2bcb809e57add93034e4a3df7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
