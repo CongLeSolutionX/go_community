@@ -126,10 +126,9 @@ func trampoline(ctxt *Link, s loader.Sym) {
 func foldSubSymbolOffset(ldr *loader.Loader, s loader.Sym) (loader.Sym, int64) {
 	outer := ldr.OuterSym(s)
 	off := int64(0)
-	for outer != 0 {
+	if outer != 0 {
 		off += ldr.SymValue(s) - ldr.SymValue(outer)
 		s = outer
-		outer = ldr.OuterSym(s)
 	}
 	return s, off
 }
