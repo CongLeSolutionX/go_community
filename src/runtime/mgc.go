@@ -191,6 +191,9 @@ func gcinit() {
 
 	work.startSema = 1
 	work.markDoneSema = 1
+	lockInit(&work.sweepWaiters.lock, lockRankSweepWaiters)
+	lockInit(&work.assistQueue.lock, lockRankAssistQueue)
+	lockInit(&work.wbufSpans.lock, lockRankWbufSpans)
 }
 
 func readgogc() int32 {
@@ -1317,6 +1320,7 @@ func gcStart(trigger gcTrigger) {
 	systemstack(func() {
 		finishsweep_m()
 	})
+
 	// clearpools before we start the GC. If we wait they memory will not be
 	// reclaimed until the next GC cycle.
 	clearpools()
@@ -1370,6 +1374,10 @@ func gcStart(trigger gcTrigger) {
 	// the world.
 	gcController.markStartTime = now
 
+	// In STW mode, we could block the instant systemstack
+	// returns, so make sure we're not preemptible.
+	mp = acquirem()
+
 	// Concurrent mark.
 	systemstack(func() {
 		now = startTheWorldWithSema(trace.enabled)
@@ -1382,10 +1390,10 @@ func gcStart(trigger gcTrigger) {
 	// this goroutine becomes runnable again, and we could
 	// self-deadlock otherwise.
 	semrelease(&worldsema)
+	releasem(mp)
 
-	// In STW mode, we could block the instant systemstack
-	// returns, so don't do anything important here. Make sure we
-	// block rather than returning to user code.
+	// Make sure we block instead of returning to user code
+	// in STW mode.
 	if mode != gcBackgroundMode {
 		Gosched()
 	}
@@ -2134,6 +2142,9 @@ func gcMark(start_time int64) {
 
 // gcSweep must be called on the system stack because it acquires the heap
 // lock. See mheap for details.
+//
+// The world must be stopped.
+//
 //go:systemstack
 func gcSweep(mode gcMode) {
 	if gcphase != _GCoff {
@@ -2143,7 +2154,7 @@ func gcSweep(mode gcMode) {
 	lock(&mheap_.lock)
 	mheap_.sweepgen += 2
 	mheap_.sweepdone = 0
-	if mheap_.sweepSpans[mheap_.sweepgen/2%2].index != 0 {
+	if !go115NewMCentralImpl && mheap_.sweepSpans[mheap_.sweepgen/2%2].index != 0 {
 		// We should have drained this list during the last
 		// sweep phase. We certainly need to start this phase
 		// with an empty swept list.
@@ -2154,6 +2165,10 @@ func gcSweep(mode gcMode) {
 	mheap_.reclaimIndex = 0
 	mheap_.reclaimCredit = 0
 	unlock(&mheap_.lock)
+
+	if go115NewMCentralImpl {
+		sweep.centralIndex.clear()
+	}
 
 	if !_ConcurrentSweep || mode == gcForceBlockMode {
 		// Special case synchronous sweep.
