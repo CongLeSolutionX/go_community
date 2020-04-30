@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ba390bf_9e84cf59",
+        "filename": "src/crypto/tls/ticket.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-04-30T20:44:12Z",
+      "side": 1,
+      "message": "Note that previously it was marshaling the certs as 32 bytes, and this changes it to 24 bytes to be consistent with the TLS 1.13 sessionState certs. Everything else should be the same.",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 28
+      },
+      "revId": "875c8614f92dd2aff556d906e609a3816457ef77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
