@@ -70,6 +70,30 @@
       "revId": "4117a194da2f741dfc4b6c1447b104a05b6c2d13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c3b4d9f_17af20d8",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-30T22:53:58Z",
+      "side": 1,
+      "message": "I think it would be better to allow for large alignments for future proofing. It seems likely that someone will come up with some weird case that requires page alignment, or something.",
+      "parentUuid": "6bda600d_6b07e6ab",
+      "range": {
+        "startLine": 230,
+        "startChar": 9,
+        "endLine": 230,
+        "endChar": 15
+      },
+      "revId": "4117a194da2f741dfc4b6c1447b104a05b6c2d13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
