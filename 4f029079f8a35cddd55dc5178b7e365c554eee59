@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b5ade09b_1a3552e3",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-30T00:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2045ecf_7623563f",
+      "revId": "4f029079f8a35cddd55dc5178b7e365c554eee59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af186493_01f620a1",
         "filename": "src/strconv/atof.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2020-04-30T00:32:09Z",
       "side": 1,
       "message": "It seems like this changes a return ok \u003d\u003d false to a return ok \u003d\u003d true.  Is that right?",
+      "revId": "4f029079f8a35cddd55dc5178b7e365c554eee59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48047a16_b0a65015",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-30T00:41:43Z",
+      "side": 1,
+      "message": "That is correct. Before, if we saw a second \u0027.\u0027, it was an error. Now it is not an error anymore, it just means this second \u0027.\u0027 doesn\u0027t belong to the number anymore. Assuming nothing else is amiss, the result is ok, but the number of bytes consumed will be at least 1 smaller than the length of the string. This will lead to an error in case of ParseFloat (but it will be ok for parseFloatPrefix).",
+      "parentUuid": "af186493_01f620a1",
       "revId": "4f029079f8a35cddd55dc5178b7e365c554eee59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
