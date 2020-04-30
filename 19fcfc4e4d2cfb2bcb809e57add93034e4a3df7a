@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f6d1b82_7dbec146",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2461,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-04-30T21:13:51Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right --\"nr\" controls how many things we put into relocBatch, but not how many of the eventual sym.Relocs we call initExt on. What am I missing?",
+      "range": {
+        "startLine": 2461,
+        "startChar": 3,
+        "endLine": 2461,
+        "endChar": 29
+      },
+      "revId": "19fcfc4e4d2cfb2bcb809e57add93034e4a3df7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
