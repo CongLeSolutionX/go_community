@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0526463f_e7852c46",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "So this could still overflow, right?",
+      "range": {
+        "startLine": 750,
+        "startChar": 10,
+        "endLine": 750,
+        "endChar": 22
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f57a60d_cecbe2f7",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "p+size-1 \u003e l.end\nl.end+1 could overflow",
+      "range": {
+        "startLine": 1432,
+        "startChar": 4,
+        "endLine": 1432,
+        "endChar": 20
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d18ac0_50f6252b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "\"making both (base and end)\"\nthere\u0027s a minor ambiguity with is both base-and-end or base-and-end+1",
+      "range": {
+        "startLine": 219,
+        "startChar": 11,
+        "endLine": 219,
+        "endChar": 15
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84443fa5_67af294b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "+1 can overflow, make it nBase-1 \nit looks like nBase cannot be zero, so subtraction is okay.",
+      "range": {
+        "startLine": 1337,
+        "startChar": 4,
+        "endLine": 1337,
+        "endChar": 29
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b637adeb_c220639a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "Possible overflow, subtract one from LHS instead (it is not nil, that was just checked).",
+      "range": {
+        "startLine": 1347,
+        "startChar": 5,
+        "endLine": 1347,
+        "endChar": 37
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc6a1a4_de90a862",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "Are these integers for actual addresses?\nThis seems like a potential point of overflow failure.\nDid you want to check for that, maybe panic?\nShould we add an intrinsic for \"int\" addition so it would still be quick?",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 1
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "282ac3f2_f6be7962",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "Would this ever overflow to zero?",
+      "range": {
+        "startLine": 762,
+        "startChar": 4,
+        "endLine": 762,
+        "endChar": 28
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "345ac252_676599a1",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "overflow okay here.",
+      "range": {
+        "startLine": 99,
+        "startChar": 40,
+        "endLine": 99,
+        "endChar": 43
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3d94a07_31463b12",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "I don\u0027t see where this happens.",
+      "range": {
+        "startLine": 117,
+        "startChar": 43,
+        "endLine": 117,
+        "endChar": 75
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d6a184_d946180c",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "The +1 could overflow, better to subtract 1 from r.base? (equality would fail anyway, so maybe doesn\u0027t matter)",
+      "range": {
+        "startLine": 184,
+        "startChar": 41,
+        "endLine": 184,
+        "endChar": 58
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9342a31f_8e0d14e2",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 185,
+        "startChar": 42,
+        "endLine": 185,
+        "endChar": 47
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86445e9c_c02eec33",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-04-30T12:59:54Z",
+      "side": 1,
+      "message": "okay because it\u0027s smaller.",
+      "range": {
+        "startLine": 241,
+        "startChar": 19,
+        "endLine": 241,
+        "endChar": 31
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
