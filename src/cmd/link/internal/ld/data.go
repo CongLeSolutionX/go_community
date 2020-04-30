@@ -1400,6 +1400,7 @@ func (ctxt *Link) dodata2(symGroupType []sym.SymKind) {
 	fixZeroSizedSymbols2(ctxt)
 
 	// Collect data symbols by type into data.
+	maxSym := loader.Sym(0)
 	state := dodataState{ctxt: ctxt, symGroupType: symGroupType}
 	ldr := ctxt.loader
 	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
@@ -1420,6 +1421,9 @@ func (ctxt *Link) dodata2(symGroupType []sym.SymKind) {
 			log.Fatalf("symbol %s listed multiple times", ldr.SymName(s))
 		}
 		ldr.SetAttrOnList(s, true)
+		if maxSym < s {
+			maxSym = s
+		}
 	}
 
 	// Now that we have the data symbols, but before we start
@@ -1436,16 +1440,11 @@ func (ctxt *Link) dodata2(symGroupType []sym.SymKind) {
 	// Move any RO data with relocations to a separate section.
 	state.makeRelroForSharedLib2(ctxt)
 
-	// Set explicit alignment here, so as to avoid having to update
-	// symbol alignment in doDataSect2, which would cause a concurrent
-	// map read/write violation.
-	// NOTE: this needs to be done after dynreloc2, where symbol size
-	// may change.
-	for _, list := range state.data2 {
-		for _, s := range list {
-			state.symalign2(s)
-		}
-	}
+	// Request alignment for the largest symbol we saw in the loop
+	// above, so as to trigger allocation of the loader's internal
+	// alignment array. This will avoid data races in the parallel
+	// section below.
+	state.symalign2(maxSym)
 
 	// Sort symbols.
 	var wg sync.WaitGroup
@@ -2044,7 +2043,7 @@ func (state *dodataState) dodataSect2(ctxt *Link, symn sym.SymKind, syms []loade
 		return si < sj
 	})
 
-	// Reap alignment, construct result
+	// Set alignment, construct result
 	syms = syms[:0]
 	for k := range sl {
 		s := sl[k].sym
