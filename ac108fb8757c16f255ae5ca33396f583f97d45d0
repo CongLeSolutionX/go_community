@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2540f96d_952d78b2",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-30T00:25:54Z",
+      "side": 1,
+      "message": "\"offset\"?",
+      "range": {
+        "startLine": 23,
+        "startChar": 29,
+        "endLine": 23,
+        "endChar": 35
+      },
+      "revId": "ac108fb8757c16f255ae5ca33396f583f97d45d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be026d54_c12d539e",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-30T00:25:54Z",
+      "side": 1,
+      "message": "Perhaps \"// Subtraction is safe because limit and base must be in the same segment of the address space.\"?",
+      "revId": "ac108fb8757c16f255ae5ca33396f583f97d45d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f6b5c53_e61e39f7",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-04-30T00:25:54Z",
+      "side": 1,
+      "message": "This seems self-referential. Did you mean between two addresses?\n\nI\u0027m actually not sure what operators you mean. Normally the only thing you can do with two addresses is subtract them, but even that isn\u0027t necessarily well-defined here if the two addresses from from different non-contiguous segments.",
+      "range": {
+        "startLine": 81,
+        "startChar": 45,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "ac108fb8757c16f255ae5ca33396f583f97d45d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
