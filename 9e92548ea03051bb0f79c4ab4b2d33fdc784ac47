@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b84b7aa_30dc8d18",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "I had a TODO about this in a top-level comment, and it\u0027s fixed now (there are more tests, and there\u0027s no overflow here anymore).",
+      "parentUuid": "0526463f_e7852c46",
+      "range": {
+        "startLine": 750,
+        "startChar": 10,
+        "endLine": 750,
+        "endChar": 22
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f57a60d_cecbe2f7",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8b7d4eb_4893ffd0",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "ah yes, good point. fixed.",
+      "parentUuid": "4f57a60d_cecbe2f7",
+      "range": {
+        "startLine": 1432,
+        "startChar": 4,
+        "endLine": 1432,
+        "endChar": 20
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "184ca948_ff12b4da",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "I\u0027ve changed this to be base, start, and end, the latter two are offsets (inclusive and exclusive respectively). this makes the changed code a lot clearer and more sane, IMO.",
+      "parentUuid": "88d18ac0_50f6252b",
+      "range": {
+        "startLine": 219,
+        "startChar": 11,
+        "endLine": 219,
+        "endChar": 15
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84443fa5_67af294b",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0445461a_fb55b2ee",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "fixed at the latest patchset (I use offsets instead).",
+      "parentUuid": "84443fa5_67af294b",
+      "range": {
+        "startLine": 1337,
+        "startChar": 4,
+        "endLine": 1337,
+        "endChar": 29
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e8cef668_c913f73b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "fixed at the latest patchset.",
+      "parentUuid": "b637adeb_c220639a",
+      "range": {
+        "startLine": 1347,
+        "startChar": 5,
+        "endLine": 1347,
+        "endChar": 37
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cc6a1a4_de90a862",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2020-04-30T12:59:54Z",
       "side": 1,
       "message": "Are these integers for actual addresses?\nThis seems like a potential point of overflow failure.\nDid you want to check for that, maybe panic?\nShould we add an intrinsic for \"int\" addition so it would still be quick?",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 1
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91f378ec_e748dba8",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "these are indicies into slices. the current maximum size of such a slice is 1024*1024*1024 elements (48-bit address space; we don\u0027t support bigger ATM), so even if the int is only 32 bits wide (and signed) on a 64-bit platform I think it should be fine (the logic here is that we use ints for slice indices and lengths, so it should be safe here, too). maybe worth a comment, though?",
+      "parentUuid": "5cc6a1a4_de90a862",
       "range": {
         "startLine": 142,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "c843caeb_568b7167",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "chunkIndex strictly reduces searchAddr (it doesn\u0027t add anything to it (except arenaBaseOffset, which is fine if it overflows; that\u0027s the point), and otherwise only divides), so I think it should be OK.",
+      "parentUuid": "282ac3f2_f6be7962",
+      "range": {
+        "startLine": 762,
+        "startChar": 4,
+        "endLine": 762,
+        "endChar": 28
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "345ac252_676599a1",
         "filename": "src/runtime/mpagealloc_32bit.go",
         "patchSetId": 1
@@ -183,6 +351,30 @@
       "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c21d58b_63e1739b",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "yeah that probably deserves a comment.",
+      "parentUuid": "345ac252_676599a1",
+      "range": {
+        "startLine": 99,
+        "startChar": 40,
+        "endLine": 99,
+        "endChar": 43
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "df2ece42_4c82afaa",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "stale comment, fixed.",
+      "parentUuid": "d3d94a07_31463b12",
+      "range": {
+        "startLine": 117,
+        "startChar": 43,
+        "endLine": 117,
+        "endChar": 75
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01d6a184_d946180c",
         "filename": "src/runtime/mranges.go",
         "patchSetId": 1
@@ -229,6 +445,30 @@
       "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "683df69a_9bb26d95",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "good catch, fixed.",
+      "parentUuid": "01d6a184_d946180c",
+      "range": {
+        "startLine": 184,
+        "startChar": 41,
+        "endLine": 184,
+        "endChar": 58
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "e783bd25_56be7fc8",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9342a31f_8e0d14e2",
+      "range": {
+        "startLine": 185,
+        "startChar": 42,
+        "endLine": 185,
+        "endChar": 47
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86445e9c_c02eec33",
         "filename": "src/runtime/mranges.go",
         "patchSetId": 1
@@ -275,6 +539,30 @@
       "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c689afa2_80964d33",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-04-30T18:54:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86445e9c_c02eec33",
+      "range": {
+        "startLine": 241,
+        "startChar": 19,
+        "endLine": 241,
+        "endChar": 31
+      },
+      "revId": "9e92548ea03051bb0f79c4ab4b2d33fdc784ac47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
