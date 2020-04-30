@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "fc4b1858_c5d5e157",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-04-30T20:14:42Z",
+      "side": 1,
+      "message": "all cases on lines 92 to 143 are invalid - we don\u0027t permit a free-standing \u0027i\u0027 without a number in front",
+      "range": {
+        "startLine": 93,
+        "startChar": 11,
+        "endLine": 93,
+        "endChar": 12
+      },
+      "revId": "799890e563af3c4ec59438a1eebead8d405a0672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0485e15f_0d46af8a",
         "filename": "src/strconv/ctoa.go",
         "patchSetId": 30
