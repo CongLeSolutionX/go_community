@@ -215,12 +215,16 @@ type mheap struct {
 	markArenas []arenaIdx
 
 	// curArena is the arena that the heap is currently growing
-	// into. This should always be physPageSize-aligned.
+	// into. base is the base address of the arena, while start and
+	// end are byte-offsets into that arena, representing the range
+	// that we can grow into. start is inclusive and end is exclusive.
+	// start and end must both be physPageSize-aligned.
 	curArena struct {
-		base, end uintptr
+		base       uintptr
+		start, end uintptr
 	}
 
-	// _ uint32 // ensure 64-bit alignment of central
+	_ uint32 // ensure 64-bit alignment of central
 
 	// central free lists for small size classes.
 	// the padding makes sure that the mcentrals are
@@ -1327,8 +1331,8 @@ func (h *mheap) grow(npage uintptr) bool {
 	ask := alignUp(npage, pallocChunkPages) * pageSize
 
 	totalGrowth := uintptr(0)
-	nBase := alignUp(h.curArena.base+ask, physPageSize)
-	if nBase > h.curArena.end {
+	nStart := alignUp(h.curArena.start+ask, physPageSize)
+	if nStart > h.curArena.end {
 		// Not enough room in the current arena. Allocate more
 		// arena space. This may not be contiguous with the
 		// current arena, so we have to request the full ask.
@@ -1338,21 +1342,24 @@ func (h *mheap) grow(npage uintptr) bool {
 			return false
 		}
 
-		if uintptr(av) == h.curArena.end {
+		// base+end could overflow here, but then it is not contiguous
+		// so we'll fall into the correct codepath.
+		if uintptr(av) == h.curArena.base+h.curArena.end {
 			// The new space is contiguous with the old
 			// space, so just extend the current space.
-			h.curArena.end = uintptr(av) + asize
+			h.curArena.end += asize
 		} else {
 			// The new space is discontiguous. Track what
 			// remains of the current space and switch to
 			// the new space. This should be rare.
-			if size := h.curArena.end - h.curArena.base; size != 0 {
-				h.pages.grow(h.curArena.base, size)
+			if size := h.curArena.end - h.curArena.start; size != 0 {
+				h.pages.grow(h.curArena.base+h.curArena.start, size)
 				totalGrowth += size
 			}
 			// Switch to the new space.
 			h.curArena.base = uintptr(av)
-			h.curArena.end = uintptr(av) + asize
+			h.curArena.start = 0
+			h.curArena.end = asize
 		}
 
 		// The memory just allocated counts as both released
@@ -1364,15 +1371,15 @@ func (h *mheap) grow(npage uintptr) bool {
 		mSysStatInc(&memstats.heap_released, asize)
 		mSysStatInc(&memstats.heap_idle, asize)
 
-		// Recalculate nBase
-		nBase = alignUp(h.curArena.base+ask, physPageSize)
+		// Recalculate nStart.
+		nStart = alignUp(h.curArena.start+ask, physPageSize)
 	}
 
 	// Grow into the current arena.
-	v := h.curArena.base
-	h.curArena.base = nBase
-	h.pages.grow(v, nBase-v)
-	totalGrowth += nBase - v
+	v := h.curArena.start
+	h.curArena.start = nStart
+	h.pages.grow(h.curArena.base+v, nStart-v)
+	totalGrowth += nStart - v
 
 	// We just caused a heap growth, so scavenge down what will soon be used.
 	// By scavenging inline we deal with the failure to allocate out of
