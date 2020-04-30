@@ -46,6 +46,30 @@
       "revId": "19fcfc4e4d2cfb2bcb809e57add93034e4a3df7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02d50bcd_7d0a1ea8",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2461,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-04-30T23:38:43Z",
+      "side": 1,
+      "message": "Now it\u0027s batching relocExt as well.\n\nIn the case of external linking, we\u0027ll only convert external relocations. So nr is the one we need to convert.\n\nAdded a sanity check to make sure we allocate the right amount.",
+      "parentUuid": "56621759_f159b957",
+      "range": {
+        "startLine": 2461,
+        "startChar": 3,
+        "endLine": 2461,
+        "endChar": 29
+      },
+      "revId": "19fcfc4e4d2cfb2bcb809e57add93034e4a3df7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
