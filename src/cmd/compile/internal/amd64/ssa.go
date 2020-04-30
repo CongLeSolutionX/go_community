@@ -872,7 +872,16 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p := s.Prog(obj.ADUFFCOPY)
 		p.To.Type = obj.TYPE_ADDR
 		p.To.Sym = gc.Duffcopy
-		p.To.Offset = v.AuxInt
+		if v.AuxInt%16 != 0 {
+			v.Fatalf("bad DUFFCOPY AuxInt %v", v.AuxInt)
+		}
+		p.To.Offset = 14 * (64 - v.AuxInt/16)
+		// 14 and 64 are magic constants.  14 is the number of bytes to encode:
+		//	MOVUPS	(SI), X0
+		//	ADDQ	$16, SI
+		//	MOVUPS	X0, (DI)
+		//	ADDQ	$16, DI
+		// and 64 is the number of such blocks. See src/runtime/duff_amd64.s:duffcopy.
 
 	case ssa.OpCopy: // TODO: use MOVQreg for reg->reg copies instead of OpCopy?
 		if v.Type.IsMemory() {
@@ -902,6 +911,12 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[0].Reg()
 		gc.AddrAuto(&p.To, v)
+	case ssa.OpAMD64LoweredHasCPUFeature:
+		p := s.Prog(x86.AMOVBQZX)
+		p.From.Type = obj.TYPE_MEM
+		gc.AddAux(&p.From, v)
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg()
 	case ssa.OpAMD64LoweredGetClosurePtr:
 		// Closure pointer is DX.
 		gc.CheckLoweredGetClosurePtr(v)
@@ -1095,7 +1110,6 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Reg = x86.REG_AX
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
-		gc.AddAux(&p.To, v)
 		if logopt.Enabled() {
 			logopt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
 		}
