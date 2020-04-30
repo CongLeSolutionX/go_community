@@ -284,7 +284,8 @@ type Loader struct {
 	// the symbol that triggered the marking of symbol K as live.
 	Reachparent []Sym
 
-	relocBatch []sym.Reloc // for bulk allocation of relocations
+	relocBatch    []sym.Reloc    // for bulk allocation of relocations
+	relocExtBatch []sym.RelocExt // for bulk allocation of relocations
 
 	flags uint32
 
@@ -2041,7 +2042,7 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols, needReloc bool) {
 
 	nr := 0 // total number of sym.Reloc's we'll need
 	for _, o := range l.objs[1:] {
-		nr += loadObjSyms(l, syms, o.r)
+		nr += loadObjSyms(l, syms, o.r, needReloc)
 	}
 
 	// Make a first pass through the external symbols, making
@@ -2054,7 +2055,12 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols, needReloc bool) {
 			continue
 		}
 		pp := l.getPayload(i)
-		nr += len(pp.relocs)
+		if needReloc {
+			nr += len(pp.relocs)
+		}
+		if int(i) < len(l.extRelocs) {
+			nr += len(l.extRelocs[i])
+		}
 		// create and install the sym.Symbol here so that l.Syms will
 		// be fully populated when we do relocation processing and
 		// outer/sub processing below. Note that once we do this,
@@ -2066,8 +2072,11 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols, needReloc bool) {
 	}
 
 	// allocate a single large slab of relocations for all live symbols
-	if needReloc {
+	if nr != 0 {
 		l.relocBatch = make([]sym.Reloc, nr)
+		if len(l.extRelocs) != 0 {
+			l.relocExtBatch = make([]sym.RelocExt, nr)
+		}
 	}
 
 	// convert payload-based external symbols into sym.Symbol-based
@@ -2101,6 +2110,11 @@ func (l *Loader) LoadFull(arch *sys.Arch, syms *sym.Symbols, needReloc bool) {
 	// load contents of defined symbols
 	for _, o := range l.objs[1:] {
 		loadObjFull(l, o.r, needReloc)
+	}
+
+	// Sanity check: we should have consumed all batched allocations.
+	if len(l.relocBatch) != 0 || len(l.relocExtBatch) != 0 {
+		panic("batch allocation mismatch")
 	}
 
 	// Note: resolution of ABI aliases is now also handled in
@@ -2419,7 +2433,7 @@ func topLevelSym(sname string, skind sym.SymKind) bool {
 // loadObjSyms creates sym.Symbol objects for the live Syms in the
 // object corresponding to object reader "r". Return value is the
 // number of sym.Reloc entries required for all the new symbols.
-func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) int {
+func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader, needReloc bool) int {
 	nr := 0
 	for i, n := 0, r.NSym()+r.NNonpkgdef(); i < n; i++ {
 		gi := r.syms[i]
@@ -2449,7 +2463,12 @@ func loadObjSyms(l *Loader, syms *sym.Symbols, r *oReader) int {
 		}
 
 		l.addNewSym(gi, name, ver, r.unit, t)
-		nr += r.NReloc(i)
+		if needReloc {
+			nr += r.NReloc(i)
+		}
+		if int(gi) < len(l.extRelocs) {
+			nr += len(l.extRelocs[gi])
+		}
 	}
 	return nr
 }
@@ -2766,13 +2785,18 @@ func (l *Loader) convertExtRelocs(dst *sym.Symbol, src Sym) {
 	if len(dst.R) != 0 {
 		panic("bad")
 	}
-	dst.R = make([]sym.Reloc, len(extRelocs))
+
+	n := len(extRelocs)
+	batch := l.relocBatch
+	dst.R = batch[:n:n]
+	l.relocBatch = batch[n:]
 	relocs := l.Relocs(src)
 	for i := range dst.R {
 		er := &extRelocs[i]
 		sr := relocs.At2(er.Idx)
 		r := &dst.R[i]
-		r.InitExt()
+		r.RelocExt = &l.relocExtBatch[0]
+		l.relocExtBatch = l.relocExtBatch[1:]
 		r.Off = sr.Off()
 		r.Siz = sr.Siz()
 		r.Type = sr.Type()
