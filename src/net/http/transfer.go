@@ -618,7 +618,10 @@ func (t *transferReader) fixTransferEncoding() error {
 		return nil
 	}
 
-	encodings := strings.Split(raw[0], ",")
+	var encodings []string
+	for _, f := range raw {
+		encodings = append(encodings, strings.Split(f, ",")...)
+	}
 	te := make([]string, 0, len(encodings))
 	// TODO: Even though we only support "identity" and "chunked"
 	// encodings, the loop below is designed with foresight. One
