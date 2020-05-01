@@ -270,6 +270,7 @@ type Arch struct {
 	Asmb2 func(*Link)
 
 	Elfreloc1   func(*Link, *sym.Reloc, int64) bool
+	Elfreloc2   func(*Link, *loader.Loader, loader.Sym, *loader.ExtReloc, int64) bool
 	Elfsetupplt func(ctxt *Link, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym)
 	Gentext     func(*Link)
 	Gentext2    func(*Link, *loader.Loader)
