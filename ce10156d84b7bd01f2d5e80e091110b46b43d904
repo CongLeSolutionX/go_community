@@ -1,0 +1,291 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e87059db_31e6d5f5",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "This part (lines 22-24) is not accurate enough. Let\u0027s say:\n\n// The number represented by s must be of the form N, Ni, or N±Ni, where N stands\n// for a floating-point number as recognized by ParseFloat, and i is the imaginary\n// unit. If the second N is unsigned, a + sign is required between the two components\n// as indicated with the ±. The form may be parenthesized and cannot contain any spaces.\n// The resulting complex number consists of the two components converted by ParseFloat.",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb7f74a_c6a75d75",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "Now we can leave this paragraph away (lines 26-32). We already have said that the components must be acceptable by ParseFloat and they are converted by ParseFloat. No need to repeat the intricacies of ParseFloat here. This also avoids that the two documentations get out of sync.",
+      "range": {
+        "startLine": 26,
+        "startChar": 36,
+        "endLine": 26,
+        "endChar": 47
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "107342ef_adf5e2dd",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "s/but/but any component/",
+      "range": {
+        "startLine": 39,
+        "startChar": 30,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01830663_6c92cf48",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "s/given/respective/\n\n(because the given size is not the component size)",
+      "range": {
+        "startLine": 40,
+        "startChar": 54,
+        "endLine": 40,
+        "endChar": 59
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3abf5ab0_38097095",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "Leave away this paragraph (lines 43-45) as well. It\u0027s covered by ParseFloat. It\u0027s also not accurate for that matter (we also accept +Infinity, -Infinity, and the same without signs).",
+      "range": {
+        "startLine": 43,
+        "startChar": 40,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaba434e_fd9325e0",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "please follow the pattern established for the other tests in this package, see atof_test.go for example. So\n\nstruct {\n  in string\n  out complex128\n  err error\n}",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 10
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8890a290_eb40df51",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "Remove all these uses of complex. Most of them are not needed, we can just use Go constants:\n\ncomplex(0, 0) is simply 0\ncomplex(3, -1) is simply 3-1i\n\nremoves clutter.\n\nYou only need this for the Inf and Nan values; and possibly for cases where the compiler constants are not accurate enough such as for 0.1i (but try it first).",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "606bcf0b_868b962a",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "lines 47-59 should be gone - or marked as invalid. we cannot have free-standing i\u0027s",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 18
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769a0b7d_50a16ba1",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "I don\u0027t understand the reason for this. Just remove and remove the mustFormatComplex function. This test case doesn\u0027t add anything.",
+      "range": {
+        "startLine": 71,
+        "startChar": 20,
+        "endLine": 71,
+        "endChar": 21
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d705853_ab0904de",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "There should be test cases that check ErrRange.",
+      "range": {
+        "startLine": 90,
+        "startChar": 15,
+        "endLine": 90,
+        "endChar": 16
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc64a91a_5ae5f6d1",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "use convErr since you already have it",
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bcf63d9_d4faa603",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "These should all be Errorf not Fatalf - there\u0027s no reason why we cannot continue.\n\nAlso, please follow the style in the rest of this package. Error reports are typically of the form:\n\nt.Errorf(\"ParseComplex(%q, 128) \u003d %v, %v want %v %v\", test.in, out, err, test.out, test.err)",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 12
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4b76e6_a1bb1039",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-01T04:58:01Z",
+      "side": 1,
+      "message": "This is white-box testing: we know how the code is implemented. Testing every combination with parentheses is not making this test stronger, it only makes it longer and slower.\n\nLeave this part away and add a few test cases with parentheses. It is sufficient to have all combinations of parentheses, once for a valid inner part, and once for an invalid inner part.",
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
