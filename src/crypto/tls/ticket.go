@@ -22,10 +22,10 @@ import (
 type sessionState struct {
 	vers         uint16
 	cipherSuite  uint16
+	createdAt    uint64
 	masterSecret []byte // opaque master_secret<1..2^16-1>;
 	// uint16 num_certificates;
 	certificates [][]byte // opaque certificate<1..2^32-1>;
-
 	// usedOldKey is true if the ticket from which this session came from
 	// was encrypted with an older key and thus should be refreshed.
 	usedOldKey bool
@@ -35,9 +35,11 @@ func (m *sessionState) marshal() []byte {
 	var b cryptobyte.Builder
 	b.AddUint16(m.vers)
 	b.AddUint16(m.cipherSuite)
+	addUint64(&b, m.createdAt)
 	b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 		b.AddBytes(m.masterSecret)
 	})
+
 	b.AddUint16(uint16(len(m.certificates)))
 	for _, cert := range m.certificates {
 		b.AddUint32LengthPrefixed(func(b *cryptobyte.Builder) {
@@ -54,12 +56,12 @@ func (m *sessionState) unmarshal(data []byte) bool {
 	if ok := s.ReadUint16(&m.vers) &&
 		m.vers != VersionTLS13 &&
 		s.ReadUint16(&m.cipherSuite) &&
+		readUint64(&s, &m.createdAt) &&
 		readUint16LengthPrefixed(&s, &m.masterSecret) &&
 		len(m.masterSecret) != 0 &&
 		s.ReadUint16(&numCerts); !ok {
 		return false
 	}
-
 	for i := 0; i < int(numCerts); i++ {
 		var certLen uint32
 		s.ReadUint32(&certLen)
