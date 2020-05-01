@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4f3f22f_8fe86e14",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-01T01:56:42Z",
+      "side": 1,
+      "message": "As with the other CL, I think the name noComp doesn\u0027t convey much.",
+      "revId": "819cd0e8177b284aa77992d0c5e7c2b4e964af1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
