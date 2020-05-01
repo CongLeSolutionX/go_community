@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9faa47e4_dc29d5c8",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-05-01T16:55:33Z",
+      "side": 1,
+      "message": "The split between using uintptr and offAddr seems a bit arbitrary to me. Why should scavLWM and this return use uintptr instead of offAddr?",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 698,
+        "endChar": 2
+      },
+      "revId": "bc7bb0bad1e8ac8b2dbceba05afb15fa53ac0e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
