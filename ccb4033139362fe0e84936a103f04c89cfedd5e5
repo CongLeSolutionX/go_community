@@ -122,6 +122,24 @@
       "revId": "ccb4033139362fe0e84936a103f04c89cfedd5e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6886c821_09bc4b15",
+        "filename": "src/internal/unsafeheader/unsafeheader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-01T02:18:54Z",
+      "side": 1,
+      "message": "Declining for now, but I\u0027m happy to adjust this in a followup CL if desired.",
+      "parentUuid": "7ae062f2_e9cc0ccf",
+      "revId": "ccb4033139362fe0e84936a103f04c89cfedd5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
