@@ -22,8 +22,9 @@ import (
 type sessionState struct {
 	vers         uint16
 	cipherSuite  uint16
-	masterSecret []byte //opaque resumption master secret<1..2^16-1>
-	certificates [][]byte
+	createdAt    uint64
+	masterSecret []byte   // opaque resumption master secret<1..2^16-1>
+	certificates [][]byte // certificate_list<0..2^24-1>;
 	// usedOldKey is true if the ticket from which this session came from
 	// was encrypted with an older key and thus should be refreshed.
 	usedOldKey bool
@@ -33,12 +34,13 @@ func (m *sessionState) marshal() []byte {
 	var b cryptobyte.Builder
 	b.AddUint16(m.vers)
 	b.AddUint16(m.cipherSuite)
+	addUint64(&b, m.createdAt)
 	b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 		b.AddBytes(m.masterSecret)
 	})
-	b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
+	b.AddUint24LengthPrefixed(func(b *cryptobyte.Builder) {
 		for _, cert := range m.certificates {
-			b.AddUint32LengthPrefixed(func(b *cryptobyte.Builder) {
+			b.AddUint24LengthPrefixed(func(b *cryptobyte.Builder) {
 				b.AddBytes(cert)
 			})
 		}
@@ -52,20 +54,19 @@ func (m *sessionState) unmarshal(data []byte) bool {
 	if ok := s.ReadUint16(&m.vers) &&
 		m.vers != VersionTLS13 &&
 		s.ReadUint16(&m.cipherSuite) &&
+		readUint64(&s, &m.createdAt) &&
 		readUint16LengthPrefixed(&s, &m.masterSecret) &&
 		len(m.masterSecret) != 0; !ok {
 		return false
 	}
 	m.certificates = make([][]byte, 0)
 	var certList cryptobyte.String
-	if !s.ReadUint16LengthPrefixed(&certList) {
+	if !s.ReadUint24LengthPrefixed(&certList) {
 		return false
 	}
 	for !certList.Empty() {
-		var certLen uint32
-		certList.ReadUint32(&certLen)
 		var cert []byte
-		if certLen == 0 || !certList.ReadBytes(&cert, int(certLen)) {
+		if !readUint24LengthPrefixed(&certList, &cert) {
 			return false
 		}
 		m.certificates = append(m.certificates, cert)
