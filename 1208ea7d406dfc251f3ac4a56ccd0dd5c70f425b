@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65bbdb88_bd56be8e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-05-01T19:50:47Z",
+      "side": 1,
+      "message": "Same as chunkBase.",
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a87e36_66eb56e8",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-05-01T19:50:47Z",
+      "side": 1,
+      "message": "return offAddr(ci * pallocChunkBytes).addr()\n\nI think this is the same?\n\nNit: if we go by the spec, I don\u0027t think we can guarantee that a uint chunkIdx is big enough to hold a uintptr / N.",
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af26ba80_7ce27c02",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-05-01T19:50:47Z",
+      "side": 1,
+      "message": "Not related to this CL specifically, but the difference between offsetAddress (convert virtual address to offset address) and offAddr (this _is_ an offset address) is quite subtle. I worry that their use will get mixed up (particularly using offAddr when it should be offsetAddress).\n\nPerhaps the former should be called something like makeOffAddr, convertOffAddr, toOffAddr?\n\nThough the bright side is that using the wrong one will most like royally screw things up on amd64.",
+      "range": {
+        "startLine": 667,
+        "startChar": 13,
+        "endLine": 667,
+        "endChar": 20
+      },
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c9c01a_30fd9594",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-05-01T19:50:47Z",
+      "side": 1,
+      "message": "Cast directly to offAddr? IMO the cast through uintptr implies that the inner expression is a valid virtual address.",
+      "range": {
+        "startLine": 705,
+        "startChar": 19,
+        "endLine": 705,
+        "endChar": 26
+      },
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
