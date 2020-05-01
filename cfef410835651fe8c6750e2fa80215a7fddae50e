@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eb93fdd_755988cd",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-05-01T18:50:58Z",
+      "side": 1,
+      "message": "Change the comment to:\n\n    // Preserve flagRO instead of using v.flag.ro() so that\n    // v.Addr().Elem() is equivalent to v (#32772).",
+      "revId": "cfef410835651fe8c6750e2fa80215a7fddae50e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
