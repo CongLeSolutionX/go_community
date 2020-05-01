@@ -2204,23 +2204,24 @@ top:
 			if sched.gcwaiting != 0 {
 				goto top
 			}
-			stealRunNextG := i > 2 // first look for ready queues with more than 1 g
 			p2 := allp[enum.position()]
 			if _p_ == p2 {
 				continue
 			}
-			if gp := runqsteal(_p_, p2, stealRunNextG); gp != nil {
-				return gp, false
-			}
 
-			// Consider stealing timers from p2.
-			// This call to checkTimers is the only place where
-			// we hold a lock on a different P's timers.
-			// Lock contention can be a problem here, so avoid
-			// grabbing the lock if p2 is running and not marked
-			// for preemption. If p2 is running and not being
-			// preempted we assume it will handle its own timers.
-			if i > 2 && shouldStealTimers(p2) {
+			stealTimersOrRunNextG := i > 2 // only check timers or runnext on last pass of stealing
+
+			// Steal timers from p2. This call to checkTimers is the only place
+			// where we might hold a lock on a different P's timers. We do this
+			// once on the last pass before checking runnext because stealing
+			// from the other P's runnext should be the last resort, so if there
+			// are timers to steal do that first.
+			//
+			// We only check timers on one of the stealing iterations because
+			// the time stored in now doesn't change in this loop and checking
+			// the timers for each P more than once with the same value of now
+			// is probably a waste of time.
+			if stealTimersOrRunNextG {
 				tnow, w, ran := checkTimers(p2, now)
 				now = tnow
 				if w != 0 && (pollUntil == 0 || w < pollUntil) {
@@ -2240,6 +2241,10 @@ top:
 					}
 					ranTimer = true
 				}
+			}
+
+			if gp := runqsteal(_p_, p2, stealTimersOrRunNextG); gp != nil {
+				return gp, false
 			}
 		}
 	}
@@ -2305,7 +2310,7 @@ stop:
 	// drop nmspinning first and then check all per-P queues again (with
 	// #StoreLoad memory barrier in between). If we do it the other way around,
 	// another thread can submit a goroutine after we've checked all run queues
-	// but before we drop nmspinning; as the result nobody will unpark a thread
+	// but before we drop nmspinning; as a result nobody will unpark a thread
 	// to run the goroutine.
 	// If we discover new work below, we need to restore m.spinning as a signal
 	// for resetspinning to unpark a new worker thread (because there can be more
@@ -2336,6 +2341,35 @@ stop:
 				goto top
 			}
 			break
+		}
+	}
+
+	// Similar to above, check for timer creation or expiry concurrently with
+	// transitioning from spinning to non-spinning. Note that we cannot use
+	// checkTimers here because it calls adjusttimers because it may need to
+	// allocate memory, which isn't allowed when we don't have an active P.
+	for _, _p_ := range allpSnapshot {
+		// This is similar to nobarrierWakeTime, but minimizes calls to
+		// nanotime.
+		if atomic.Load(&_p_.adjustTimers) > 0 {
+			if now == 0 {
+				now = nanotime()
+			}
+			pollUntil = now
+		} else {
+			w := int64(atomic.Load64(&_p_.timer0When))
+			if w != 0 && (pollUntil == 0 || w < pollUntil) {
+				pollUntil = w
+			}
+		}
+	}
+	if pollUntil != 0 {
+		if now == 0 {
+			now = nanotime()
+		}
+		delta = pollUntil - now
+		if delta < 0 {
+			delta = 0
 		}
 	}
 
@@ -2447,6 +2481,10 @@ func wakeNetPoller(when int64) {
 		if pollerPollUntil == 0 || pollerPollUntil > when {
 			netpollBreak()
 		}
+	} else {
+		// There are no threads in the network poller, try to get
+		// one there so it can handle new timers.
+		wakep()
 	}
 }
 
@@ -2726,25 +2764,6 @@ func checkTimers(pp *p, now int64) (rnow, pollUntil int64, ran bool) {
 	unlock(&pp.timersLock)
 
 	return rnow, pollUntil, ran
-}
-
-// shouldStealTimers reports whether we should try stealing the timers from p2.
-// We don't steal timers from a running P that is not marked for preemption,
-// on the assumption that it will run its own timers. This reduces
-// contention on the timers lock.
-func shouldStealTimers(p2 *p) bool {
-	if p2.status != _Prunning {
-		return true
-	}
-	mp := p2.m.ptr()
-	if mp == nil || mp.locks > 0 {
-		return false
-	}
-	gp := mp.curg
-	if gp == nil || gp.atomicstatus != _Grunning || !gp.preempt {
-		return false
-	}
-	return true
 }
 
 func parkunlock_c(gp *g, lock unsafe.Pointer) bool {
@@ -4572,11 +4591,28 @@ func sysmon() {
 			delay = 10 * 1000
 		}
 		usleep(delay)
+
+		// sysmon should not enter deep sleep if schedtrace is enabled so that
+		// it can print that information at the right time.
+		//
+		// It should also not enter deep sleep if there are any active P's so
+		// that it can retake P's from syscalls, preempt long running G's, and
+		// poll the network if all P's are busy for long stretches.
+		//
+		// It should wakeup from deep sleep if any P's become active either due
+		// to exiting a syscall or waking up due to a timer expiring so that it
+		// can resume performing those duties. If it wakes from a syscall it
+		// resets idle and delay as a bet that since it had retaken a P from a
+		// syscall before, it may need to do it again shortly after the
+		// application starts work again. It does not reset idle when waking
+		// from a timer to avoid adding system load to applications that spend
+		// most of their time sleeping.
 		now := nanotime()
-		next, _ := timeSleepUntil()
 		if debug.schedtrace <= 0 && (sched.gcwaiting != 0 || atomic.Load(&sched.npidle) == uint32(gomaxprocs)) {
 			lock(&sched.lock)
 			if atomic.Load(&sched.gcwaiting) != 0 || atomic.Load(&sched.npidle) == uint32(gomaxprocs) {
+				syscallWake := false
+				next, _ := timeSleepUntil()
 				if next > now {
 					atomic.Store(&sched.sysmonwait, 1)
 					unlock(&sched.lock)
@@ -4590,18 +4626,19 @@ func sysmon() {
 					if shouldRelax {
 						osRelax(true)
 					}
-					notetsleep(&sched.sysmonnote, sleep)
+					syscallWake = notetsleep(&sched.sysmonnote, sleep)
 					if shouldRelax {
 						osRelax(false)
 					}
 					now = nanotime()
-					next, _ = timeSleepUntil()
 					lock(&sched.lock)
 					atomic.Store(&sched.sysmonwait, 0)
 					noteclear(&sched.sysmonnote)
 				}
-				idle = 0
-				delay = 20
+				if syscallWake {
+					idle = 0
+					delay = 20
+				}
 			}
 			unlock(&sched.lock)
 		}
@@ -4626,12 +4663,6 @@ func sysmon() {
 				injectglist(&list)
 				incidlelocked(1)
 			}
-		}
-		if next < now {
-			// There are timers that should have already run,
-			// perhaps because there is an unpreemptible P.
-			// Try to start an M to run them.
-			startm(nil, false)
 		}
 		if atomic.Load(&scavenge.sysmonWake) != 0 {
 			// Kick the scavenger awake if someone requested it.

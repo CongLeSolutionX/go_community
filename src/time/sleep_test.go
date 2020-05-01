@@ -12,6 +12,7 @@ import (
 	"sync"
 	"sync/atomic"
 	"testing"
+	"time"
 	. "time"
 )
 
@@ -500,4 +501,186 @@ func TestZeroTimerStopPanics(t *testing.T) {
 	defer checkZeroPanicString(t)
 	var tr Timer
 	tr.Stop()
+}
+
+func BenchmarkParallelTimerLatency(b *testing.B) {
+	gmp := runtime.GOMAXPROCS(0)
+	if gmp < 2 || runtime.NumCPU() < gmp {
+		b.Skip("skipping with GOMAXPROCS < 2 or NumCPU < GOMAXPROCS")
+	}
+
+	// allocate memory now to avoid GC interference later.
+	timerCount := gmp - 1
+	stats := make([]struct {
+		sum   float64
+		max   time.Duration
+		count int64
+		_     [5]int64 // cache line padding
+	}, timerCount)
+
+	var wg sync.WaitGroup
+
+	// Warm up the scheduler's thread pool. Without this step the time to start
+	// new threads to service timers can pollute the results.
+	var count int32
+	targetThreadCount := gmp
+	for i := 0; i < targetThreadCount; i++ {
+		wg.Add(1)
+		go func() {
+			atomic.AddInt32(&count, 1)
+			for atomic.LoadInt32(&count) < int32(targetThreadCount) {
+				// spin until all threads started
+			}
+			// spin a bit more to ensure they are all running on separate CPUs.
+			doWork(time.Millisecond)
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+
+	// Ensure sysmon is in deep sleep.
+	time.Sleep(30 * time.Millisecond)
+
+	const delay = time.Millisecond
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		wg.Add(timerCount)
+		atomic.StoreInt32(&count, 0)
+		for j := 0; j < timerCount; j++ {
+			j := j
+			expectedWakeup := time.Now().Add(delay)
+			time.AfterFunc(delay, func() {
+				late := time.Since(expectedWakeup)
+				if late < 0 {
+					late = 0
+				}
+				stats[j].count++
+				stats[j].sum += float64(late.Nanoseconds())
+				if late > stats[j].max {
+					stats[j].max = late
+				}
+				atomic.AddInt32(&count, 1)
+				for atomic.LoadInt32(&count) < int32(timerCount) {
+					// spin until all timers fired
+				}
+				wg.Done()
+			})
+		}
+
+		for atomic.LoadInt32(&count) < int32(timerCount) {
+			// spin until all timers fired
+		}
+		wg.Wait()
+		time.Sleep(time.Millisecond) // idle for a bit
+	}
+	var total float64
+	var samples float64
+	max := time.Duration(0)
+	for _, s := range stats {
+		if s.max > max {
+			max = s.max
+		}
+		total += s.sum
+		samples += float64(s.count)
+	}
+	b.ReportMetric(total/samples, "ns/op")
+	b.ReportMetric(float64(max.Nanoseconds()), "maxNS")
+}
+
+func BenchmarkStaggeredTickerLatency(b *testing.B) {
+	gmp := runtime.GOMAXPROCS(0)
+	if gmp < 2 || runtime.NumCPU() < gmp {
+		b.Skip("skipping with GOMAXPROCS < 2 or NumCPU < GOMAXPROCS")
+	}
+
+	const delay = 3 * time.Millisecond
+
+	for _, dur := range []time.Duration{300 * time.Microsecond, 2 * time.Millisecond} {
+		b.Run(fmt.Sprintf("workDur%s", dur), func(b *testing.B) {
+			for tickersPerP := 1; tickersPerP < int(delay/dur)+1; tickersPerP++ {
+				tickerCount := gmp * tickersPerP
+				b.Run(fmt.Sprintf("%d-tickers", tickerCount), func(b *testing.B) {
+					// allocate memory now to avoid GC interference later.
+					stats := make([]struct {
+						sum   float64
+						max   time.Duration
+						count int64
+						_     [5]int64 // cache line padding
+					}, tickerCount)
+
+					var wg sync.WaitGroup
+
+					// Warm up the scheduler's thread pool. Without this step the time to start
+					// new threads to service timers can pollute the results.
+					var count int32
+					targetThreadCount := gmp
+					for i := 0; i < targetThreadCount; i++ {
+						wg.Add(1)
+						go func() {
+							atomic.AddInt32(&count, 1)
+							for atomic.LoadInt32(&count) < int32(targetThreadCount) {
+								// spin until all threads started
+							}
+							// spin a bit more to ensure they are all running on separate CPUs.
+							doWork(time.Millisecond)
+							wg.Done()
+						}()
+					}
+					wg.Wait()
+
+					// Ensure sysmon is in deep sleep.
+					time.Sleep(30 * time.Millisecond)
+
+					b.ResetTimer()
+					wg.Add(tickerCount)
+					for j := 0; j < tickerCount; j++ {
+						j := j
+						doWork(delay / time.Duration(gmp))
+						expectedWakeup := time.Now().Add(delay)
+						ticker := time.NewTicker(delay)
+						go func(c int, ticker *time.Ticker, firstWake time.Time) {
+							defer ticker.Stop()
+
+							for ; c > 0; c-- {
+								<-ticker.C
+								late := time.Since(expectedWakeup)
+								if late < 0 {
+									late = 0
+								}
+								stats[j].count++
+								stats[j].sum += float64(late.Nanoseconds())
+								if late > stats[j].max {
+									stats[j].max = late
+								}
+								expectedWakeup = expectedWakeup.Add(delay)
+								doWork(dur)
+							}
+							wg.Done()
+						}(b.N, ticker, expectedWakeup)
+					}
+					wg.Wait()
+					time.Sleep(time.Millisecond) // idle for a bit
+
+					var total float64
+					var samples float64
+					max := time.Duration(0)
+					for _, s := range stats {
+						if s.max > max {
+							max = s.max
+						}
+						total += s.sum
+						samples += float64(s.count)
+					}
+					b.ReportMetric(total/samples, "ns/op")
+					b.ReportMetric(float64(max.Nanoseconds()), "maxNS")
+				})
+			}
+		})
+	}
+}
+
+func doWork(dur time.Duration) {
+	start := time.Now()
+	for time.Since(start) < dur {
+	}
 }
