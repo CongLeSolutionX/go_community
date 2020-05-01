@@ -16,6 +16,24 @@
       "revId": "d71a7f68059815f15f9dbe14fe1baa3dfd0c7edf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c05dc4d_75c88113",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-01T01:26:05Z",
+      "side": 1,
+      "message": "OK, you are right, that might be a better way to do it. \n\nOriginally my thinking was that by picking the maximum data symbol, I could avoid expanding the align slice only to that point, but in fact there are SGOFUNC data symbols that appear very late in the sym index space. I\u0027ll update the patch.",
+      "parentUuid": "45ae72a7_3dd3f149",
+      "revId": "d71a7f68059815f15f9dbe14fe1baa3dfd0c7edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
