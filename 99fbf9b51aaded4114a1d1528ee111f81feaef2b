@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70142ded_d885d00e",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1419,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-01T12:41:30Z",
+      "side": 1,
+      "message": "this is a little weird in that ElfSymForReloc is actually operating using the loader APIs (e.g. it uses SymIdx to get the elfsym/localelfsym), but that\u0027s fine. It will get converted eventually, no need to change this.",
+      "range": {
+        "startLine": 1419,
+        "startChar": 10,
+        "endLine": 1419,
+        "endChar": 24
+      },
+      "revId": "99fbf9b51aaded4114a1d1528ee111f81feaef2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
