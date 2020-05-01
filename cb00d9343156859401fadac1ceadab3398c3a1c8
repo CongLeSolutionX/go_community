@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c82cbbe7_cd3234f8",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-05-01T22:39:19Z",
+      "side": 1,
+      "message": "s/PCALING/PCALIGN/",
+      "revId": "cb00d9343156859401fadac1ceadab3398c3a1c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
