@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "889dda71_03206812",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-01T18:51:00Z",
+      "side": 1,
+      "message": "I think you just need to say\n\n- Boolean types occupy the entire register. 0\u003dfalse, 1\u003dtrue.",
+      "revId": "13a56396e94b91934b5011bc07ee3e46dbccf648",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
