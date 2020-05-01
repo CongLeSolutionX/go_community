@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a2cd3932_f31bbe71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 35863
+      },
+      "writtenOn": "2020-05-01T03:15:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "596d1d6b_85332eaf",
+      "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fc67513_27369f1f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -65,6 +83,24 @@
       "writtenOn": "2020-04-30T04:01:55Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "7fc67513_27369f1f",
+      "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d046020c_cfd3c462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 35863
+      },
+      "writtenOn": "2020-05-01T03:15:28Z",
+      "side": 1,
+      "message": "\u003e This isn\u0027t accurate: cross-compiled cgo builds are supported.  You do have to have a C cross-compiler installed.",
       "parentUuid": "7fc67513_27369f1f",
       "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -106,6 +142,30 @@
       "writtenOn": "2020-04-30T04:01:55Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "21f71353_d3406f36",
+      "range": {
+        "startLine": 88,
+        "startChar": 5,
+        "endLine": 88,
+        "endChar": 61
+      },
+      "revId": "32555a9ec67c8876c5772ac3d3c33467abace6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "335b6009_7c89a604",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 35863
+      },
+      "writtenOn": "2020-05-01T03:15:28Z",
+      "side": 1,
+      "message": "\u003e I think we should just drop the \"; enable cgo by setting CGO_ENABLED\u003d1\" suffix for cross-compiles.\n\u003e \n\u003e We should aim to give correct, helpful advice. I don\u0027t think we can summarize “how to cross-compile with cgo enabled” concisely enough for an error message, so we probably shouldn\u0027t even try. For a first step, we just shouldn\u0027t recommend setting CGO_ENABLED unless we\u0027re confident that it would actually work.\n\u003e \n\u003e (Later, we can consider building on that by perhaps adding a link to documentation on setting up a cross-compiled build.)",
       "parentUuid": "21f71353_d3406f36",
       "range": {
         "startLine": 88,
