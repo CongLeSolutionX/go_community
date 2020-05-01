@@ -36,16 +36,30 @@ var (
 )
 
 const (
-	ElfRelocOffset   = 256
-	MachoRelocOffset = 2048 // reserve enough space for ELF relocations
+	ElfRelocOffset         = 256
+	MachoRelocOffset       = 2048 // reserve enough space for ELF relocations
+	Go115AMD64disconnected = true // The logic remains, but the knob is not connected.
 )
 
+// TODO(1.16): assuming no issues in 1.15 release, remove this.
 func goamd64() string {
-	switch v := envOr("GOAMD64", defaultGOAMD64); v {
-	case "normaljumps", "alignedjumps":
-		return v
+	var msg string
+	if Go115AMD64disconnected {
+		msg = "Invalid GOAMD64 value. Must be alignedjumps."
+	} else {
+		msg = "Invalid GOAMD64 value. Must be alignedjumps or normaljumps."
 	}
-	log.Fatalf("Invalid GOAMD64 value. Must be normaljumps or alignedjumps.")
+	switch v := envOr("GOAMD64", defaultGOAMD64); v {
+	case "alignedjumps":
+		return v
+	case "normaljumps":
+		if Go115AMD64disconnected {
+			msg = "Invalid GOAMD64 value. Must be alignedjumps (normaljumps is disabled)."
+		} else {
+			return v
+		}
+	}
+	log.Fatalf(msg)
 	panic("unreachable")
 }
 

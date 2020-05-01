@@ -268,6 +268,9 @@ func GetArchEnv() (key, val string) {
 	case "386":
 		return "GO386", GO386
 	case "amd64":
+		if objabi.Go115AMD64disconnected {
+			return "", ""
+		}
 		return "GOAMD64", GOAMD64
 	case "mips", "mipsle":
 		return "GOMIPS", GOMIPS
