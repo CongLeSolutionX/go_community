@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3262e8d5_673d057c",
+        "filename": "src/internal/unsafeheader/unsafeheader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-01T02:12:49Z",
+      "side": 1,
+      "message": "Indeed. Apparently my fingers get too much momentum when I start typing “str…” in Go.",
+      "parentUuid": "1d961248_ed22d5b9",
+      "revId": "ccb4033139362fe0e84936a103f04c89cfedd5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f82e157_0d9d8e2e",
         "filename": "src/internal/unsafeheader/unsafeheader.go",
         "patchSetId": 3
@@ -51,6 +69,24 @@
       "revId": "ccb4033139362fe0e84936a103f04c89cfedd5e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eadf5fa1_3f62847e",
+        "filename": "src/internal/unsafeheader/unsafeheader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-01T02:12:49Z",
+      "side": 1,
+      "message": "Yep. Thanks for the catch!",
+      "parentUuid": "eaa8594c_a2247cdf",
+      "revId": "ccb4033139362fe0e84936a103f04c89cfedd5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
