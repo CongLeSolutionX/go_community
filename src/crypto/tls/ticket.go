@@ -22,6 +22,7 @@ import (
 type sessionState struct {
 	vers         uint16
 	cipherSuite  uint16
+	createdAt    uint64
 	masterSecret []byte //opaque resumption master secret<1..2^16-1>
 	certificates [][]byte
 	// usedOldKey is true if the ticket from which this session came from
@@ -33,6 +34,7 @@ func (m *sessionState) marshal() []byte {
 	var b cryptobyte.Builder
 	b.AddUint16(m.vers)
 	b.AddUint16(m.cipherSuite)
+	addUint64(&b, m.createdAt)
 	b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 		b.AddBytes(m.masterSecret)
 	})
@@ -52,6 +54,7 @@ func (m *sessionState) unmarshal(data []byte) bool {
 	if ok := s.ReadUint16(&m.vers) &&
 		m.vers != VersionTLS13 &&
 		s.ReadUint16(&m.cipherSuite) &&
+		readUint64(&s, &m.createdAt) &&
 		readUint16LengthPrefixed(&s, &m.masterSecret) &&
 		len(m.masterSecret) != 0; !ok {
 		return false
