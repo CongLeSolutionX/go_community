@@ -22,6 +22,30 @@
       "revId": "bc7bb0bad1e8ac8b2dbceba05afb15fa53ac0e4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99f595f4_f20a858c",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-05-02T02:44:33Z",
+      "side": 1,
+      "message": "ah good point, scavLWM and freeHWM should both be offAddrs, because the comparison needs to be ordered the right way. done in the change below this.\n\nI messed around tonight with a bunch of different ways and I can\u0027t find a way to make this not feel arbitrary as a whole, though. if you have any suggestions on what might be a solid criterion for which to use in what context, that\u0027d be very helpful.",
+      "parentUuid": "9faa47e4_dc29d5c8",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 698,
+        "endChar": 2
+      },
+      "revId": "bc7bb0bad1e8ac8b2dbceba05afb15fa53ac0e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
