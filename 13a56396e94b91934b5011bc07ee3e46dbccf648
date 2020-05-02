@@ -16,6 +16,24 @@
       "revId": "13a56396e94b91934b5011bc07ee3e46dbccf648",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101eaf9a_a68147d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-05-02T06:10:23Z",
+      "side": 1,
+      "message": "Sounds good to me - done.",
+      "parentUuid": "889dda71_03206812",
+      "revId": "13a56396e94b91934b5011bc07ee3e46dbccf648",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
