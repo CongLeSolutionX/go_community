@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ecf986cd_1d6a2030",
+        "filename": "test/fixedbugs/issue38690.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-05-02T01:49:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e3c5ede9_a221c503",
+      "revId": "d56c7f663387f0b789dd04906a0f98a9c75d356d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8b7e03e_c1d28da7",
         "filename": "test/fixedbugs/issue38690.go",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2020-05-01T18:57:29Z",
       "side": 1,
       "message": "If S\u0027s final field was \"_ [1]S4\" and this was \"[1]S4{func() S4 { panic(\"\") }()}\", would it still compile? I\u0027m assuming no, since it won\u0027t pass \"candiscard\"?",
+      "range": {
+        "startLine": 52,
+        "startChar": 63,
+        "endLine": 52,
+        "endChar": 88
+      },
+      "revId": "d56c7f663387f0b789dd04906a0f98a9c75d356d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8391e8c3_f1dcdc9d",
+        "filename": "test/fixedbugs/issue38690.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-05-02T01:49:10Z",
+      "side": 1,
+      "message": "I added this to the test and it passes.\n\nThe reason is that order.go will re-write this to something like:\n\ntmp \u003d func() S4 { panic(\"\") }()\n_ \u003d S{1, [0]int{}, [1]int{1}, A1{}, A2{1}, S1{}, S2{1}, S3{}, tmp}\n\nand \"candiscard\" is still ok for this.",
+      "parentUuid": "e8b7e03e_c1d28da7",
       "range": {
         "startLine": 52,
         "startChar": 63,
