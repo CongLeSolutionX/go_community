@@ -52,6 +52,24 @@
       "revId": "441fa5a9844a4fa92520dfc7df0b46962723bafc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60f84e82_e80fb78e",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-05-02T01:59:11Z",
+      "side": 1,
+      "message": "I think the proper way if we want to optimize:\n\n_ \u003d S{42, f2(), f2()}\n\ntis making order.go recognize and rewrite it to:\n\n_ \u003d f2()\n_ \u003d f3()\n\nthat will happen earlier in order.stmt, case OAS.\n\nBut I\u0027m not sure it\u0027s worth todo, as seems that the SSA can recognize this and optimize this anyway. As the assembly for f2 indicates that:\n\n\"\".f2.func1 STEXT size\u003d65 args\u003d0x8 locals\u003d0x18\n\t0x0000 00000 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tTEXT\t\"\".f2.func1(SB), ABIInternal, $24-8\n\t0x0000 00000 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tMOVQ\t(TLS), CX\n\t0x0009 00009 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tCMPQ\tSP, 16(CX)\n\t0x000d 00013 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tPCDATA\t$0, $-2\n\t0x000d 00013 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tJLS\t58\n\t0x000f 00015 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tPCDATA\t$0, $-1\n\t0x000f 00015 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tSUBQ\t$24, SP\n\t0x0013 00019 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tMOVQ\tBP, 16(SP)\n\t0x0018 00024 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tLEAQ\t16(SP), BP\n\t0x001d 00029 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tFUNCDATA\t$0, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x001d 00029 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tFUNCDATA\t$1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x001d 00029 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tLEAQ\ttype.string(SB), AX\n\t0x0024 00036 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tMOVQ\tAX, (SP)\n\t0x0028 00040 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tLEAQ\t\"\"..stmp_6(SB), AX\n\t0x002f 00047 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tMOVQ\tAX, 8(SP)\n\t0x0034 00052 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tPCDATA\t$1, $0\n\t0x0034 00052 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tCALL\truntime.gopanic(SB)\n\t0x0039 00057 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tXCHGL\tAX, AX\n\t0x003a 00058 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tNOP\n\t0x003a 00058 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tPCDATA\t$1, $-1\n\t0x003a 00058 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tPCDATA\t$0, $-2\n\t0x003a 00058 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tCALL\truntime.morestack_noctxt(SB)\n\t0x003f 00063 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tPCDATA\t$0, $-1\n\t0x003f 00063 (/Users/cuonglm/sources/go/test/fixedbugs/issue38690.go:51)\tJMP\t0",
+      "parentUuid": "8f30898c_841cc301",
+      "revId": "441fa5a9844a4fa92520dfc7df0b46962723bafc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
