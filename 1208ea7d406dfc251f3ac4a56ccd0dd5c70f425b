@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f03edaf2_1c2dd933",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-05-02T02:44:49Z",
+      "side": 1,
+      "message": "I worry about multiplication overflow, but going by your point down below if implying that it\u0027s a valid offAddr, I changed it to never cast to a uintptr.\n\nre: the nit, I think in this case we can be fairly sure, though you\u0027re technically correct. the range of values that the uintptr might have is restricted by the size of the address space on the platform. on platforms with 64-bit uintptrs and 32-bit uints, the address space is almost never going to be large, because we already use ints in the language as slice indices (and fundamentally, this uint is an index into a slice, hence why it\u0027s a uint).\n\nperhaps you\u0027re right and we should just be defensive about it. but that\u0027s definitely a different CL (arenaIdx, which chunkIdx is modeled after, is also a uint, and it\u0027s also an index into a slice whose size reflects the size of the address space).",
+      "parentUuid": "48a87e36_66eb56e8",
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af26ba80_7ce27c02",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 11
@@ -47,6 +65,30 @@
       "writtenOn": "2020-05-01T19:50:47Z",
       "side": 1,
       "message": "Not related to this CL specifically, but the difference between offsetAddress (convert virtual address to offset address) and offAddr (this _is_ an offset address) is quite subtle. I worry that their use will get mixed up (particularly using offAddr when it should be offsetAddress).\n\nPerhaps the former should be called something like makeOffAddr, convertOffAddr, toOffAddr?\n\nThough the bright side is that using the wrong one will most like royally screw things up on amd64.",
+      "range": {
+        "startLine": 667,
+        "startChar": 13,
+        "endLine": 667,
+        "endChar": 20
+      },
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f70710f_f496b02d",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-05-02T02:44:49Z",
+      "side": 1,
+      "message": "hm yeah. we do sort of have this pattern in the runtime of \"type is abbreviation\" and \"conversion function is the full thing\". I don\u0027t know what it is, but somehow chunkIdx vs. chunkIndex is more clear to me than offAddr vs. offsetAddress. maybe I\u0027ve just been staring at/thinking about this code for too long. luckily there aren\u0027t too many places where we\u0027re directly constructing an offAddr (mostly in the page allocator, since we must).",
+      "parentUuid": "af26ba80_7ce27c02",
       "range": {
         "startLine": 667,
         "startChar": 13,
@@ -79,6 +121,30 @@
       "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f647782_5ad0ad72",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-05-02T02:44:49Z",
+      "side": 1,
+      "message": "ah I see what you\u0027re saying, yeah that makes sense. fixed.",
+      "parentUuid": "60c9c01a_30fd9594",
+      "range": {
+        "startLine": 705,
+        "startChar": 19,
+        "endLine": 705,
+        "endChar": 26
+      },
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
