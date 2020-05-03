@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99090b4f_d2c8deb8",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "The comment at line 1071 explains why, so this comment was simple. But it\u0027s no bad to expand. Done.",
+      "parentUuid": "7cb815b6_9844e2af",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6df954d3_8cd7207c",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d116e541_82ed5406",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6df954d3_8cd7207c",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "258e03dc_920158b7",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4255f197_36a285b1",
+      "range": {
+        "startLine": 1085,
+        "startChar": 10,
+        "endLine": 1085,
+        "endChar": 17
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f99fac7_0586c8a3",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 4
@@ -73,6 +133,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "623d6365_8e0a8b3e",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f99fac7_0586c8a3",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "7cafabec_bca6eb0d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9abed7f8_7603e209",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99395c45_e623973a",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 4
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "60ff68d2_1ec672e5",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Yes, if it doesn\u0027t use REGTMP, we can simply preempt and resume it, without restarting.\n\nWhen the assembler expands a Prog to multiple instructions with REGTMP, it likely uses REGTMP to materialize large constants/offsets, so it can be restarted. I guess a \"deeper reason\" is the assembler never insert a REGTMP use where REGTMP is live-in.\n\nDone.",
+      "parentUuid": "99395c45_e623973a",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fabbfe1_fb3a05c2",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 4
@@ -124,6 +238,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cebac50b_093802e8",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fabbfe1_fb3a05c2",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "272cbdac_677d564e",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ef08651_c075fd92",
+      "range": {
+        "startLine": 201,
+        "startChar": 38,
+        "endLine": 201,
+        "endChar": 44
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25afdece_106ec347",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 4
@@ -164,6 +320,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9ab168_ed6b5118",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25afdece_106ec347",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -230,6 +404,72 @@
     },
     {
       "key": {
+        "uuid": "9f3675ad_902f4b7d",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a17274d1_27e9668b",
+      "range": {
+        "startLine": 281,
+        "startChar": 63,
+        "endLine": 281,
+        "endChar": 125
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b47c921_59828f91",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Pretty much like we do for Spadj? Yeah, that is probably better.",
+      "parentUuid": "d5807a44_761295c2",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55014fb6_8aecedb7",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Good idea. Done",
+      "parentUuid": "cd956fb6_7bc0c3b6",
+      "range": {
+        "startLine": 281,
+        "startChar": 95,
+        "endLine": 281,
+        "endChar": 108
+      },
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4232d5c1_d6782717",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 4
@@ -247,6 +487,24 @@
     },
     {
       "key": {
+        "uuid": "cfa1e987_38248c09",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4232d5c1_d6782717",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3face7f_fb5431c9",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 4
@@ -258,6 +516,24 @@
       "writtenOn": "2020-04-29T02:54:47Z",
       "side": 1,
       "message": "I think there\u0027s something fundamental I\u0027m missing here. If a sequence of Progs is restartable, how does this logic capture that? It seems like this will always alternate between Restart1/Restart2 if isRestartable is true for more than one Prog in a row.\n\nOr is it that at the point when MarkUnsafePoints is called, all restartable sequences are actually encoded as a single Prog, and we only expand them to multiple instructions after MarkUnsafePoints? (If so, that should definitely be explained in the documentation for the isRestartable argument.)",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9306c94_283f601e",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "You\u0027re right. Currently there is only one-Prog restartable sequence. In theory there could be multi-Prog restartable sequence, but currently there isn\u0027t, so I decided to leave that for later.\n\nExpanded the comment.",
+      "parentUuid": "b3face7f_fb5431c9",
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -281,6 +557,24 @@
     },
     {
       "key": {
+        "uuid": "e46076f7_c55e7d46",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Clarified that if both are true, it is treated as an unsafe point (the more conservative one). Changed the code accordingly.",
+      "parentUuid": "759b5d2a_383dc057",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b5e73dd_dc28db61",
         "filename": "src/runtime/preempt.go",
         "patchSetId": 4
@@ -298,6 +592,24 @@
     },
     {
       "key": {
+        "uuid": "9dedbf43_cffd4736",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b5e73dd_dc28db61",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f07bf869_97d4e6ee",
         "filename": "src/runtime/signal_386.go",
         "patchSetId": 4
@@ -312,6 +624,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1accb4_924a8b91",
+        "filename": "src/runtime/signal_386.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f07bf869_97d4e6ee",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -384,6 +714,24 @@
     },
     {
       "key": {
+        "uuid": "24ff5d1c_d5174926",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b3ddbc_c9bc3cfd",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b6ed330_b628e061",
         "filename": "src/runtime/symtab.go",
         "patchSetId": 4
@@ -398,6 +746,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b7a9855_c99d0335",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-03T20:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b6ed330_b628e061",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
