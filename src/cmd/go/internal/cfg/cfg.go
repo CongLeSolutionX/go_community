@@ -231,7 +231,7 @@ func CanGetenv(key string) bool {
 
 var (
 	GOROOT       = BuildContext.GOROOT
-	GOBIN        = Getenv("GOBIN")
+	GOBIN        = envOr("GOBIN", gobinDir())
 	GOROOTbin    = filepath.Join(GOROOT, "bin")
 	GOROOTpkg    = filepath.Join(GOROOT, "pkg")
 	GOROOTsrc    = filepath.Join(GOROOT, "src")
@@ -371,10 +371,29 @@ func isGOROOT(path string) bool {
 	return stat.IsDir()
 }
 
+// gopathDir returns a subdirectory of the first GOPATH directory. If the
+// GOPATH list is empty or the first path is empty, gopathDir returns "".
 func gopathDir(rel string) string {
 	list := filepath.SplitList(BuildContext.GOPATH)
 	if len(list) == 0 || list[0] == "" {
 		return ""
 	}
 	return filepath.Join(list[0], rel)
+}
+
+// gobinDir is like gopathDir("bin"), but it returns "" if there are multiple
+// GOPATH directories. This avoids overriding GOPATH behavior of installing
+// executables in the bin directory of the GOPATH root containing the main
+// package. If GOOS or GOARCH are different than their default values,
+// gobinDir also adds a goos_goarch path element.
+func gobinDir() string {
+	list := filepath.SplitList(BuildContext.GOPATH)
+	if len(list) != 1 || (len(list) == 1 && list[0] == "") {
+		return ""
+	}
+	gobin := filepath.Join(list[0], "bin")
+	if BuildContext.GOOS != runtime.GOOS || BuildContext.GOARCH != runtime.GOARCH {
+		gobin = filepath.Join(gobin, BuildContext.GOOS+"_"+BuildContext.GOARCH)
+	}
+	return gobin
 }

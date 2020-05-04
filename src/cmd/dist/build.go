@@ -121,11 +121,8 @@ func xinit() {
 	}
 	goroot_final = b
 
-	b = os.Getenv("GOBIN")
-	if b == "" {
-		b = pathf("%s/bin", goroot)
-	}
-	gobin = b
+	// Ignore GOBIN in the environment. It doesn't affect executables in GOROOT.
+	gobin = pathf("%s/bin", goroot)
 
 	b = os.Getenv("GOOS")
 	if b == "" {

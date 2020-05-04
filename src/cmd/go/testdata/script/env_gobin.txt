@@ -1,0 +1,17 @@
+# When unset, GOBIN should default to GOPATH[0]/bin
+go env GOBIN
+stdout $GOPATH'[/\\]bin$'
+
+# When GOPATH has multiple elements, GOBIN should have no default.
+env GOPATH=$WORK/gopath1:$WORK/gopath2
+go env GOBIN
+! stdout GOBIN=
+env GOPATH=$WORK/gopath
+
+# 'go tool dist' should have its own concept of GOBIN, even when it's set
+# explicitly in the environment.
+go tool dist env
+stdout '^GOBIN="'$GOROOT'[/\\]bin"$'
+env GOBIN=$WORK/bin
+go tool dist env
+stdout '^GOBIN="'$GOROOT'[/\\]bin"$'

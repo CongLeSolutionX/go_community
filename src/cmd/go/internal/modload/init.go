@@ -74,6 +74,12 @@ func ModFile() *modfile.File {
 	return modFile
 }
 
+// BinDir returns the directory where executables should be installed when
+// GOBIN is not set.
+//
+// BinDir is subtly different from the default value of cfg.GOBIN, which also
+// defaults to GOPATH[0]/bin, but only when GOPATH has exactly one path.
+// BinDir returns GOPATH[0]/bin even when GOPATH has multiple paths.
 func BinDir() string {
 	Init()
 	return filepath.Join(gopath, "bin")
