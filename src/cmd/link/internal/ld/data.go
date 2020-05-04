@@ -279,7 +279,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				extRelocs = append(extRelocs, rr)
 				rp = &extRelocs[len(extRelocs)-1]
 			}
-			out, needExtReloc1, ok := thearch.Archreloc2(target, ldr, syms, r, rp, s, o)
+			out, needExtReloc1, ok := thearch.Archreloc2(target, ldr, syms, r, ri, rp, s, o)
 			if target.IsExternal() && !needExtReloc1 {
 				// Speculation failed. Undo the append.
 				extRelocs = extRelocs[:len(extRelocs)-1]

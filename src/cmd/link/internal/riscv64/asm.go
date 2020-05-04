@@ -42,7 +42,7 @@ func machoreloc1(arch *sys.Arch, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, se
 	return false
 }
 
-func archreloc2(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc2, rr *loader.ExtReloc, s loader.Sym, val int64) (o int64, needExtReloc bool, ok bool) {
+func archreloc2(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc2, rIdx int, rr *loader.ExtReloc, s loader.Sym, val int64) (o int64, needExtReloc bool, ok bool) {
 	rs := r.Sym()
 	rs = ldr.ResolveABIAlias(rs)
 	switch r.Type() {
