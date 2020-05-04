@@ -22,6 +22,30 @@
       "revId": "318c9be27a209d7f42b5cb460fbef852b5e2873b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b40cf85f_bbd4e826",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-04T17:28:17Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0c2f2f95_91a85ce0",
+      "range": {
+        "startLine": 139,
+        "startChar": 51,
+        "endLine": 139,
+        "endChar": 62
+      },
+      "revId": "318c9be27a209d7f42b5cb460fbef852b5e2873b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
