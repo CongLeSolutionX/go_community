@@ -37,7 +37,6 @@ var (
 	ModInit func()
 
 	// module hooks; nil if module use is disabled
-	ModBinDir            func() string                                                                            // return effective bin directory
 	ModLookup            func(parentPath string, parentIsStd bool, path string) (dir, realPath string, err error) // lookup effective meaning of import
 	ModPackageModuleInfo func(path string) *modinfo.ModulePublic                                                  // return module info for Package struct
 	ModImportPaths       func(args []string) []*search.Match                                                      // expand import paths
@@ -806,10 +805,8 @@ func loadPackageData(path, parentPath, parentDir, parentRoot string, parentIsStd
 		// Set data.p.BinDir in cases where go/build.Context.Import
 		// may give us a path we don't want.
 		if !data.p.Goroot {
-			if cfg.GOBIN != "" {
+			if cfg.GOBIN != "" && (cfg.GOBINExplicit || cfg.ModulesEnabled) {
 				data.p.BinDir = cfg.GOBIN
-			} else if cfg.ModulesEnabled {
-				data.p.BinDir = ModBinDir()
 			}
 		}
 
@@ -1622,12 +1619,12 @@ func (p *Package) load(path string, stk *ImportStack, bp *build.Package, err err
 			elem = full
 		}
 		if p.Internal.Build.BinDir == "" && cfg.ModulesEnabled {
-			p.Internal.Build.BinDir = ModBinDir()
+			p.Internal.Build.BinDir = cfg.GOBIN
 		}
 		if p.Internal.Build.BinDir != "" {
 			// Install to GOBIN or bin of GOPATH entry.
 			p.Target = filepath.Join(p.Internal.Build.BinDir, elem)
-			if !p.Goroot && strings.Contains(elem, "/") && cfg.GOBIN != "" {
+			if !p.Goroot && strings.Contains(elem, "/") && cfg.GOBINExplicit {
 				// Do not create $GOBIN/goos_goarch/elem.
 				p.Target = ""
 				p.Internal.GobinSubdir = true
@@ -2321,8 +2318,6 @@ func GoFilesPackage(gofiles []string) *Package {
 
 		if cfg.GOBIN != "" {
 			pkg.Target = filepath.Join(cfg.GOBIN, exe)
-		} else if cfg.ModulesEnabled {
-			pkg.Target = filepath.Join(ModBinDir(), exe)
 		}
 	}
 
