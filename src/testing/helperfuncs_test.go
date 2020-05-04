@@ -54,6 +54,16 @@ func testHelper(t *T) {
 	// has no effect.
 	t.Helper()
 	t.Error("8")
+
+	t.Cleanup(func() {
+		t.Helper()
+		t.Error("10")
+	})
+
+	t.Cleanup(func() {
+		t.Helper()
+		t.Error("9")
+	})
 }
 
 func parallelTestHelper(t *T) {

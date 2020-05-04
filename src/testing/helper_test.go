@@ -33,6 +33,8 @@ helperfuncs_test.go:45: 5
 helperfuncs_test.go:21: 6
 helperfuncs_test.go:44: 7
 helperfuncs_test.go:56: 8
+helperfuncs_test.go:63: 9
+helperfuncs_test.go:58: 10
 `
 	lines := strings.Split(buf.String(), "\n")
 	durationRE := regexp.MustCompile(`\(.*\)$`)
