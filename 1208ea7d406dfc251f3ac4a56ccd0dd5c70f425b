@@ -125,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "05c413fd_7df3592f",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-05-04T16:06:57Z",
+      "side": 1,
+      "message": "the chunkIdx vs. chunkIndex started with arenaIdx and arenaIndex, I think (at least that\u0027s where I stole the convention from for the page allocator types).",
+      "parentUuid": "16040c63_e790883a",
+      "range": {
+        "startLine": 667,
+        "startChar": 13,
+        "endLine": 667,
+        "endChar": 20
+      },
+      "revId": "1208ea7d406dfc251f3ac4a56ccd0dd5c70f425b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60c9c01a_30fd9594",
         "filename": "src/runtime/mpagealloc.go",
         "patchSetId": 11
