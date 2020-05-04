@@ -91,6 +91,7 @@ var (
 	FlagRound       = flag.Int("R", -1, "set address rounding `quantum`")
 	FlagTextAddr    = flag.Int64("T", -1, "set text segment `address`")
 	flagEntrySymbol = flag.String("E", "", "set `entry` symbol name")
+	flagnewar2      = flag.Bool("newar2", true, "New arm64 archreloc.")
 
 	cpuprofile     = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	memprofile     = flag.String("memprofile", "", "write memory profile to `file`")
@@ -318,8 +319,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	bench.Start("Asmb")
 	ctxt.loader.InitOutData()
 	thearch.Asmb(ctxt, ctxt.loader)
-
-	newreloc := ctxt.Is386() || ctxt.IsAMD64() || ctxt.IsMIPS() || ctxt.IsMIPS64() || ctxt.IsRISCV64() || ctxt.IsS390X() || ctxt.IsWasm()
+	newreloc := ctxt.Is386() || ctxt.IsAMD64() || ctxt.IsMIPS() || ctxt.IsMIPS64() || ctxt.IsRISCV64() || ctxt.IsS390X() || ctxt.IsWasm() || (*flagnewar2 && ctxt.IsARM64())
 	if newreloc {
 		bench.Start("reloc")
 		ctxt.reloc()
