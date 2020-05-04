@@ -1,0 +1,23 @@
+# When unset, GOBIN should default to GOPATH[0]/bin
+# The default should not propagate to tools.
+go env GOBIN
+stdout $GOPATH'[/\\]bin$'
+go tool dist env
+stdout '^GOBIN="'$GOROOT'[/\\]bin"$'
+
+# When GOBIN is set explicitly in the environment, dist should see that.
+env GOBIN=$WORK/gobin
+go env GOBIN
+stdout $WORK'[/\\]gobin$'
+go tool dist env
+stdout '^GOBIN="'$WORK'[/\\]gobin"$'
+
+# If GOBIN is set with 'go env -w', dist should see that, too.
+env GOBIN=
+[!windows] env GOENV=$WORK/env
+[windows] env GOENV=$WORK\env
+go env -w GOBIN=$WORK/gobin
+go env GOBIN
+stdout $WORK'[/\\]gobin$'
+go tool dist env
+stdout '^GOBIN="'$WORK'[/\\]gobin"$'

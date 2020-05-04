@@ -231,12 +231,18 @@ func CanGetenv(key string) bool {
 
 var (
 	GOROOT       = BuildContext.GOROOT
-	GOBIN        = Getenv("GOBIN")
 	GOROOTbin    = filepath.Join(GOROOT, "bin")
 	GOROOTpkg    = filepath.Join(GOROOT, "pkg")
 	GOROOTsrc    = filepath.Join(GOROOT, "src")
 	GOROOT_FINAL = findGOROOT_FINAL()
 	GOMODCACHE   = envOr("GOMODCACHE", gopathDir("pkg/mod"))
+
+	// GOBIN defaults to GOPATH[0]/bin (if GOPATH is set).
+	// Unless GOBIN is set explicitly, binaries installed in GOPATH mode
+	// will still be written to their root bin directories (in a goos_goarch
+	// subdirectory when cross-compiling).
+	GOBIN         = envOr("GOBIN", gopathDir("bin"))
+	GOBINExplicit = Getenv("GOBIN") != ""
 
 	// Used in envcmd.MkEnv and build ID computations.
 	GOARM    = envOr("GOARM", fmt.Sprint(objabi.GOARM))

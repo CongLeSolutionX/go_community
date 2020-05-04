@@ -149,6 +149,12 @@ func main() {
 	cfg.OrigEnv = os.Environ()
 	cfg.CmdEnv = envcmd.MkEnv()
 	for _, env := range cfg.CmdEnv {
+		if env.Name == "GOBIN" && !cfg.GOBINExplicit {
+			// Don't pass GOBIN to tools unless it was set explicitly (either in
+			// the environment or by 'go env -w'. 'go tool dist' gets confused if
+			// GOBIN points to something other than $GOROOT/bin.
+			continue
+		}
 		if os.Getenv(env.Name) != env.Value {
 			os.Setenv(env.Name, env.Value)
 		}

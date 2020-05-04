@@ -74,11 +74,6 @@ func ModFile() *modfile.File {
 	return modFile
 }
 
-func BinDir() string {
-	Init()
-	return filepath.Join(gopath, "bin")
-}
-
 // Init determines whether module mode is enabled, locates the root of the
 // current module (if any), sets environment variables for Git subprocesses, and
 // configures the cfg, codehost, load, modfetch, and search packages for use
@@ -178,7 +173,6 @@ func Init() {
 	}
 
 	cfg.ModulesEnabled = true
-	load.ModBinDir = BinDir
 	load.ModLookup = Lookup
 	load.ModPackageModuleInfo = PackageModuleInfo
 	load.ModImportPaths = ImportPaths
