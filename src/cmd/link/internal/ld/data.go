@@ -392,7 +392,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				// same address once loaded, this is possible.
 				if ldr.SymSect(s).Seg == &Segdata {
 					panic("not implemented")
-					//Xcoffadddynrel(target, ldr, err, s, &r) // XXX
+					Xcoffadddynrel2(target, ldr, syms, s, r, ri) // XXX
 				}
 			}
 
