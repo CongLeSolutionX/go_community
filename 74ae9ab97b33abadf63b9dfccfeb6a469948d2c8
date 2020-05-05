@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74c52b94_ea40184d",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T23:43:32Z",
+      "side": 1,
+      "message": "I think there can be zero certificates.",
+      "range": {
+        "startLine": 312,
+        "startChar": 17,
+        "endLine": 312,
+        "endChar": 31
+      },
+      "revId": "74ae9ab97b33abadf63b9dfccfeb6a469948d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a335b233_d757ebf7",
+        "filename": "src/crypto/tls/ticket.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T23:43:32Z",
+      "side": 1,
+      "message": "Where is this from? TLS 1.2 doesn\u0027t have a \"resumption master secret\", just a master secret that gets reused from the previous connection.\n\nIf it\u0027s about documenting the wire format in TLS spec syntax:\n\n    type sessionState struct {\n\tvers         uint16\n\tcipherSuite  uint16\n\tmasterSecret []byte // opaque master_secret\u003c1..2^16-1\u003e;\n        // struct { opaque certificate\u003c1..2^32-1\u003e } Certificate;\n\tcertificates [][]byte // Certificate certificate_list\u003c0..2^16-1\u003e;\n\n\t// usedOldKey is true if the ticket from which this session came from\n\t// was encrypted with an older key and thus should be refreshed.\n\tusedOldKey bool\n    }",
+      "range": {
+        "startLine": 25,
+        "startChar": 21,
+        "endLine": 25,
+        "endChar": 65
+      },
+      "revId": "74ae9ab97b33abadf63b9dfccfeb6a469948d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6838ce4_3a288ce8",
+        "filename": "src/crypto/tls/ticket.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T23:43:32Z",
+      "side": 1,
+      "message": "This line is not needed.",
+      "revId": "74ae9ab97b33abadf63b9dfccfeb6a469948d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
