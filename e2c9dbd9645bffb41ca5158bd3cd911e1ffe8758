@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c762e4de_77f8cc1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-05-05T03:32:19Z",
+      "side": 1,
+      "message": "per https://golang.org/wiki/CommitMessage, this first word should be an imperative verb\n\nWithout reading the code or bug, maybe something like:\n\n    testing: fix reported caller name for funcs passed to Cleanup\n\nOr something like that. Look at the git history for examples of how commit messages are usually worded.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "e2c9dbd9645bffb41ca5158bd3cd911e1ffe8758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
