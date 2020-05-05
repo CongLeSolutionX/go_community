@@ -10,6 +10,7 @@ import (
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"encoding/binary"
+	"fmt"
 	"io/ioutil"
 	"math/bits"
 	"path/filepath"
@@ -1122,7 +1123,7 @@ func Xcoffadddynrel2(target *Target, ldr *loader.Loader, syms *ArchSyms, s loade
 		sym2: s,
 		roff: r.Off(),
 	}
-	targ := r.Sym()
+	targ := ldr.ResolveABIAlias(r.Sym())
 	var targType sym.SymKind
 	if targ != 0 {
 		targType = ldr.SymType(targ)
@@ -1142,6 +1143,9 @@ func Xcoffadddynrel2(target *Target, ldr *loader.Loader, syms *ArchSyms, s loade
 				}
 			}
 		} else if t := ldr.SymType(s); t == sym.SDATA || t == sym.SNOPTRDATA || t == sym.SBUILDINFO || t == sym.SXCOFFTOC {
+			if ldr.SymSect(targ) == nil {
+				panic(fmt.Sprintf("name %s", ldr.SymName(targ)))
+			}
 			switch ldr.SymSect(targ).Seg {
 			default:
 				ldr.Errorf(s, "unknown segment for .loader relocation with symbol %s", ldr.SymName(targ))
