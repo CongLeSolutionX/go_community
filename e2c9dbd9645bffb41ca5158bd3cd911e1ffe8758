@@ -22,6 +22,23 @@
       "revId": "e2c9dbd9645bffb41ca5158bd3cd911e1ffe8758",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0df111f1_897f1f94",
+        "filename": "src/testing/helperfuncs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-05-05T09:12:12Z",
+      "side": 1,
+      "message": "Maybe add an explanatory comment here as well, like for the other t.Helper() calls above? Namely, what property are we testing by calling t.Cleanup twice?",
+      "revId": "e2c9dbd9645bffb41ca5158bd3cd911e1ffe8758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
