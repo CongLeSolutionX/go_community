@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "01d2725b_bad8d747",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 29344
+      },
+      "writtenOn": "2020-05-05T16:59:23Z",
+      "side": 1,
+      "message": "https://golang.org/src/fmt/scan.go#L740 inspired my version. Should it be changed too?",
+      "parentUuid": "e87059db_31e6d5f5",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "ce10156d84b7bd01f2d5e80e091110b46b43d904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6cb7f74a_c6a75d75",
         "filename": "src/strconv/atoc.go",
         "patchSetId": 32
