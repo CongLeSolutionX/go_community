@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "79ab7b36_84a324ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "^^",
+      "parentUuid": "7f23be0c_e873a7b4",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c362c3b9_455faf5b",
         "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
         "patchSetId": 11
@@ -30,6 +48,30 @@
       "writtenOn": "2020-04-15T17:24:21Z",
       "side": 1,
       "message": "Any reason to tie to this particular version? There\u0027s an alias to the current version at\n\n/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+      "range": {
+        "startLine": 35,
+        "startChar": 78,
+        "endLine": 35,
+        "endChar": 155
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a74b92_9f562111",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "I think we are relying on ABI compatibility here not to break, and if a B version were introduced I expect we\u0027d not be compatible with it, even if it were still API compatible. Do I misunderstand what the versions represent?",
+      "parentUuid": "c362c3b9_455faf5b",
       "range": {
         "startLine": 35,
         "startChar": 78,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "8b856a34_7f9b1ca6",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "I don\u0027t see go:cgo_import_dynamic pragmas attached to a function anywhere else, and unfortunately they would leak into the godoc.",
+      "parentUuid": "bf7109d2_4017facc",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04f87fc2_2c3c5e4e",
         "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
         "patchSetId": 11
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "2e7cae5b_32c27b1b",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04f87fc2_2c3c5e4e",
+      "range": {
+        "startLine": 37,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 28
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe77b4d5_caaabc79",
         "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
         "patchSetId": 11
@@ -96,6 +180,24 @@
       "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b289ca4_651b22ff",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "This file is already visually noisy, I prefer to keep the trampoline definition attached to the caller function.",
+      "parentUuid": "fe77b4d5_caaabc79",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "804c8074_4ae7eb2e",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "I figured there was very little type safety to gain, as we mostly make up the types close to where we use them, and because the code is pretty straightforward in what comes out and what goes in.\n\nThis is a good spot to disambiguate though, with the two arguments, so I introduced type CFString.",
+      "parentUuid": "29ab0d95_8e678fe5",
+      "range": {
+        "startLine": 49,
+        "startChar": 35,
+        "endLine": 49,
+        "endChar": 50
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76a9cf8a_948aa900",
         "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
         "patchSetId": 11
@@ -136,6 +262,24 @@
       "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8cf88f9_49c5f146",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Same.",
+      "parentUuid": "76a9cf8a_948aa900",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "1e3e9c5b_ce24cb2b",
+        "filename": "src/crypto/x509/internal/macOS/corefoundation.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Copying funcPC is less likely to break. For syscall I copied the pattern of package syscall, which makes sense to me, as it allows controlling the name of the implementation on the package runtime side, instead of letting changes there silently break stuff here.",
+      "parentUuid": "43d76ce9_eb876400",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 1
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a70482b_e913572a",
         "filename": "src/crypto/x509/internal/macOS/security.go",
         "patchSetId": 11
@@ -176,6 +344,24 @@
       "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28df5a6b_9133314b",
+        "filename": "src/crypto/x509/internal/macOS/security.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Went back and forth on this, I feel like it would be redundant in a package called macOS that will not have files for any other GOOS/GOARCH.",
+      "parentUuid": "1a70482b_e913572a",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "febb8795_a52276a0",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "TestSystemRoots is the thing doing the testing, not the thing being tested.",
+      "parentUuid": "f3a1ec5c_8ffb1f5c",
+      "range": {
+        "startLine": 7,
+        "startChar": 71,
+        "endLine": 7,
+        "endChar": 73
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3757bae_cd1644a9",
         "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
         "patchSetId": 11
@@ -225,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "ad828473_42ff2bde",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Yes? The TryBots pass.",
+      "parentUuid": "d3757bae_cd1644a9",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 1
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0d34d9f_d1156442",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 11
@@ -239,6 +473,24 @@
       "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aa0e8f4_2d33ec5f",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Yeah, unless we find out it\u0027s something common and with a documented behavior: the user domain might have policies that distrust CAs in the system domain, and a transient error loading it should not make those suddenly trusted.",
+      "parentUuid": "b0d34d9f_d1156442",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -265,6 +517,30 @@
     },
     {
       "key": {
+        "uuid": "f5bad62f_2ee05931",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Yeah error tracking is a bit of a mess. I\u0027d rather stick to the current cgo behavior for now, and then refactor and improve the code in the next release.",
+      "parentUuid": "0802f81a_da5a32e5",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 17
+      },
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "193219b3_f57b3431",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 11
@@ -282,6 +558,24 @@
     },
     {
       "key": {
+        "uuid": "7d5b1878_8d054536",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "193219b3_f57b3431",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a89a5d_39a8b6b7",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 11
@@ -296,6 +590,24 @@
       "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b67ebd5_853a94db",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-05T22:08:10Z",
+      "side": 1,
+      "message": "The Raw fields can\u0027t possibly be empty, the certificate would not parse without a valid ASN.1 STRUCTURE in there. Also, returning false doesn\u0027t make the certificate any less trusted, just differently.",
+      "parentUuid": "84a89a5d_39a8b6b7",
+      "revId": "cf822e219bb537a1dc29b465fdf2f35b04a296dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
