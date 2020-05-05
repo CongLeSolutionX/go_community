@@ -63,6 +63,24 @@
       "revId": "e2c9dbd9645bffb41ca5158bd3cd911e1ffe8758",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa7ab49a_6996ab70",
+        "filename": "src/testing/helperfuncs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-05-05T10:13:42Z",
+      "side": 1,
+      "message": "Totally makes sense. Please take a look now.",
+      "parentUuid": "0df111f1_897f1f94",
+      "revId": "e2c9dbd9645bffb41ca5158bd3cd911e1ffe8758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
