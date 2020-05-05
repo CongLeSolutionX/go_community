@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6efb60a7_26c1e212",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-05T22:10:17Z",
+      "side": 1,
+      "message": "The old code has a problem. If go115RestartSeq is not enabled, we should treat it as an unsafe point and not preempt it.",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 477,
+        "endChar": 0
+      },
+      "revId": "9eea115081589f66c67f73bbaf8d0a63f4c63419",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

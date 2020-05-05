@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "904aee56_03a72712",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-05T22:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad61f94d_8cf305fb",
+      "range": {
+        "startLine": 1085,
+        "startChar": 17,
+        "endLine": 1085,
+        "endChar": 23
+      },
+      "revId": "aa3e06152d53621fe1f1ce7b78761d9040504cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f7b2b36_317f9404",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "63ab53fc_4b2f1163",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-05T22:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f7b2b36_317f9404",
+      "revId": "aa3e06152d53621fe1f1ce7b78761d9040504cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af438b5_0788f74e",
         "filename": "src/runtime/preempt.go",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "aa3e06152d53621fe1f1ce7b78761d9040504cb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87b567ba_b80e2cf9",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-05T22:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af438b5_0788f74e",
+      "revId": "aa3e06152d53621fe1f1ce7b78761d9040504cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
