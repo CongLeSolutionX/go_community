@@ -22,6 +22,30 @@
       "revId": "c75ba907058b7976a838b09e453148340a17b340",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce14ee74_5a90d3b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-05T00:41:19Z",
+      "side": 1,
+      "message": "Thanks. You have a point about the concurrency issues.\n\nThe modification is in the next patch; archreloc2 seems to want to convert R_ARM64_GOTPCREL into R_ADDRARM64 to work around a Darwin linker bug (circa 2015). \n\nI am not sure I can apply the same trick that you used in CL 231217 since elfreloc1 already seems to have a separate case for R_ARM64_GOTPCREL? Maybe that code is dead given what\u0027s happening in archreloc. \n\nI\u0027ll poke at this a bit in the next patch and see if I can remove the need for the udpate.",
+      "parentUuid": "176c6edf_6719ce35",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "c75ba907058b7976a838b09e453148340a17b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
