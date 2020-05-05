@@ -1,0 +1,463 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0526dd65_9a9ebe47",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "I think you should use this function to split errors into syntax errors and range errors:\n\nchange result type to: (syntax, range_ error)",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49787d12_85d3f989",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "Add comment:\n\n// convErr splits an error returned by parseFloatPrefix\n// into a syntax or range error for ParseComplex.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a8e0157_af0abcab",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "add here:\n\nif x.Err \u003d\u003d ErrRange {\n   return nil, x\n}",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97056f5a_80eff132",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "return err, nil\n\nAltogether the new function should be:\n\n// convErr splits an error returned by parseFloatPrefix\n// into a syntax or range error for ParseComplex.\nfunc convErr(err error, s string) (syntax, range_ error) {\n\tif x, ok :\u003d err.(*NumError); ok {\n\t\tx.Func \u003d fnParseComplex\n\t\tx.Num \u003d s\n\t\tif x.Err \u003d\u003d ErrRange {\n\t\t\treturn nil, x\n\t\t}\n\t}\n\treturn err, nil\n}",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95aedfcf_44895d3d",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "We either have a (pending) range error or we don\u0027t have one. We do not need to distinguish if it\u0027s a real or imag range error here. Keep it simple and replace this with:\n\nvar pending error // pending range error, or nil",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 28
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cafe377_65346069",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "replace with:\n\nerr, pending \u003d convErr(err, orig)\nif err !\u003d nil {\n   return 0, err\n}",
+      "range": {
+        "startLine": 55,
+        "startChar": 10,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0b2f537_da230319",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "Get rid of this if, we don\u0027t need it.",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 28
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eefa14e_028b0819",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "replace with:\n\nreturn complex(re, 0), pending",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 16
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a17baa9_7297d4b9",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "same here - get rid of \u0027if\u0027 and adjust the return as above",
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edf1fe8c_507ac987",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "range errors are returned too early here: elsewhere, a syntax error takes precedence over range errors; but here we can still have a syntax error at the end and we may return with a range error. Simpler, exactly like before:\n\nerr, pending \u003d convErr(err, orig)\nif err !\u003d nil {\n   return 0, err\n}\n\n(There\u0027s no need to figure out which specific component caused the range error. We don\u0027t make any promises with respect to the complex result value.)",
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16940c81_188ce189",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "same here - get rid of this if and adjust the return",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 27
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db57b067_6ca2e155",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "add a case with a capital I at the end",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 14
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d09f3602_10e57097",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "please add before:\n\n()\n(0)\n(i)\n(1i)",
+      "range": {
+        "startLine": 34,
+        "startChar": 9,
+        "endLine": 34,
+        "endChar": 13
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f34cf762_89111a99",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "I appreciate that there\u0027s a lot of test cases, but I think you can reduce the number quite a bit by combining various aspects. I mentioned before that we are doing \"white box\" testing, i.e., we actually know the implementation. We know that ()\u0027s are stripped first, so no need to check this anymore here (which you\u0027re not doing, so that\u0027s great). We know that case should be ignored, so there should be a test for that, but you can combine that with existing other cases. For example, here I would use the following list, just as an example:\n\nAll valid cases, with different capitalization:\nNaN\nNANi\nnan+nAni\n\nInvalid cases, no need to check capitalization again\n+NaN\n-NaNi\nNaN-NaNi\n\nThese 6 cases are testing the same as the 10 existing tests.",
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d4374a_ea929177",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "Apply the same here. Also, Infinity is missing. So:\n\nInf\n+inf\nInfinity\n+INFINITY\n-infinity\nInf+Infi\n+Inf-Infi\n-Infinity+Infi\ninf - inf\n\n(one test with blanks is good enough)",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaecc041_da1b410b",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "Same here. There\u0027s no need for this many 0 cases. Correct parsing of all forms of 0\u0027s is already tested by ParseFloat. We just need to have a few \"smoking guns\" and some combinations.\n\nPick one from each of your groups in this section, make sure that these are included:\n\n0\n0i\n-0.0i\n0+0.0i\n0e+0i\n0e-0+0i\n\nA dozen or so cases should be plenty.",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 10
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4319419_2955181b",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "already covered with the ( cases in the beginning",
+      "range": {
+        "startLine": 146,
+        "startChar": 7,
+        "endLine": 146,
+        "endChar": 8
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "855e2992_0bbb0e11",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "again: a dozen cases is sufficient - we do need to check errors inside a hex float",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 11
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3133f3a3_183d7172",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "no need to convert these values - if you use hex on the left, use hex as out value (apply everywhere)",
+      "range": {
+        "startLine": 161,
+        "startChar": 15,
+        "endLine": 161,
+        "endChar": 33
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a9f8e53_de4f0e6f",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "Same here: You have a gazillion tests which are not needed (they are already tested by the ParseFloat test).\n\nBut there\u0027s not a single test where the result is (math.Inf(1), math.Inf(-1)); and it\u0027s not easy to see.\n\nI\u0027d introduce 4 global variables\n\nvar (\n    infpp \u003d complex(math.Inf(+1), math.Inf(+1))\n    infpm \u003d complex(math.Inf(+1), math.Inf(-1))\n    infmp \u003d complex(math.Inf(-1), math.Inf(+1))\n    infmm \u003d complex(math.Inf(-1), math.Inf(-1))\n)\n\nand then use those here to declutter the tests and make it more readable and also ensure you actually get all cases (and you need only a dozen or so at the most).",
+      "range": {
+        "startLine": 202,
+        "startChar": 4,
+        "endLine": 202,
+        "endChar": 26
+      },
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d74b8e2_89e0ba83",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-05T22:42:06Z",
+      "side": 1,
+      "message": "Thanks for correcting this. Slightly nicer formulation:\n\n... the string \"NaN\", and the (possibly signed) strings \"Inf\" and \"Infinity\" as their ...",
+      "revId": "5aa895a91ac85ec87281f74f9e546502e6aa0475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
