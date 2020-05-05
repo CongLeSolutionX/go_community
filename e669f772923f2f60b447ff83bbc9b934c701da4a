@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a9af431_7aeb8252",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T20:48:28Z",
+      "side": 1,
+      "message": "I think we might need a race/msan detector call here also.",
+      "revId": "e669f772923f2f60b447ff83bbc9b934c701da4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85a037b5_aa5bfe63",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T20:48:28Z",
+      "side": 1,
+      "message": "Needs a comment about what it does.\n\n// makeslicecopy allocates a slice of \"tolen\" elements of type \"et\", then copies \"fromlen\" elements of type \"et\" into that new allocation from \"from\".",
+      "revId": "e669f772923f2f60b447ff83bbc9b934c701da4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e6a122b_7f11cb17",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T20:48:28Z",
+      "side": 1,
+      "message": "I think this function needs a raceenabled and msanenabled block somewhere (analagous to slicecopy).",
+      "revId": "e669f772923f2f60b447ff83bbc9b934c701da4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
