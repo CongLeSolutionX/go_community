@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1d3c5c2_1918a8d3",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-05-05T10:18:04Z",
+      "side": 1,
+      "message": "Why does this end with 3 instead of 2? Seems inconsistent with the other cases.",
+      "revId": "9aefc16c38771587ceb548b2a089c173cb3cfae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8be3d4f1_3997c2d7",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-05-05T10:18:04Z",
+      "side": 1,
+      "message": "Do we want to add some assertion here? E.g. hardcode the expected integer values?",
+      "revId": "9aefc16c38771587ceb548b2a089c173cb3cfae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
