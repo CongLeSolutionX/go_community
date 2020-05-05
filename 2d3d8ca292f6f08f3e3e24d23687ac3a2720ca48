@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33bd64f3_67e349db",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T20:03:38Z",
+      "side": 1,
+      "message": "These should be -0x80*00, -0x7f*ff, and -0x80*01, right?\n\nWe also need 3 tests around the negative trunc point.",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 20
+      },
+      "revId": "2d3d8ca292f6f08f3e3e24d23687ac3a2720ca48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0a3da27_fa58b246",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T20:03:38Z",
+      "side": 1,
+      "message": "dff?",
+      "range": {
+        "startLine": 57,
+        "startChar": 30,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "2d3d8ca292f6f08f3e3e24d23687ac3a2720ca48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
