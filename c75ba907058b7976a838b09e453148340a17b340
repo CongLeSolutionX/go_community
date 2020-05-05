@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "176c6edf_6719ce35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-05T00:20:27Z",
+      "side": 1,
+      "message": "I think we want to avoid modifying relocations, particularly at this late stage. What do you need to modify? In CL 231217 I changed the downstream code to avoid the modification. Could we do the same? Also, this may cause concurrency problems, e.g. cloning to external symbol changes global index mapping.",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "c75ba907058b7976a838b09e453148340a17b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
