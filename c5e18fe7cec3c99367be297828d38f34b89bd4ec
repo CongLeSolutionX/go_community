@@ -470,6 +470,24 @@
     },
     {
       "key": {
+        "uuid": "78f3a445_a87bd38f",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-05T21:52:22Z",
+      "side": 1,
+      "message": "Exactly. I\u0027ve added this to the list of clean-ups in golang.org/issue/36365.",
+      "parentUuid": "5b47c921_59828f91",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4232d5c1_d6782717",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 4
@@ -540,6 +558,24 @@
     },
     {
       "key": {
+        "uuid": "f7509132_7746f9e7",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-05T21:52:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c9306c94_283f601e",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "759b5d2a_383dc057",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 4
@@ -572,6 +608,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b53a4df_4b5a3656",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-05T21:52:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e46076f7_c55e7d46",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -659,6 +713,24 @@
       "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc7f795c_6dd96cf7",
+        "filename": "src/runtime/signal_amd64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-05T21:52:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b4527137_c26c9282",
+      "revId": "c5e18fe7cec3c99367be297828d38f34b89bd4ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {

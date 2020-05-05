@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad61f94d_8cf305fb",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-05T21:52:22Z",
+      "side": 1,
+      "message": "returns",
+      "range": {
+        "startLine": 1085,
+        "startChar": 17,
+        "endLine": 1085,
+        "endChar": 23
+      },
+      "revId": "aa3e06152d53621fe1f1ce7b78761d9040504cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f7b2b36_317f9404",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-05T21:52:22Z",
+      "side": 1,
+      "message": "Mention that isRestartable can be nil (and what this means)",
+      "revId": "aa3e06152d53621fe1f1ce7b78761d9040504cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7af438b5_0788f74e",
+        "filename": "src/runtime/preempt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-05T21:52:22Z",
+      "side": 1,
+      "message": "Since the go115RestartSeq code depends on go115ReduceLiveness, maybe write this as \"go115ReduceLiveness \u0026\u0026 true\"? We\u0027ve done this in other places where some features depend on others.",
+      "revId": "aa3e06152d53621fe1f1ce7b78761d9040504cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
