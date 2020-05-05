@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05929050_fffa0b68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-05T18:08:40Z",
+      "side": 1,
+      "message": "s/else/other\n\n(here and below)",
+      "range": {
+        "startLine": 19,
+        "startChar": 56,
+        "endLine": 19,
+        "endChar": 60
+      },
+      "revId": "eed5fdb32c44e6dd3d825363457816d78c3e46de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52b2d351_ad75e2d4",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-05T18:08:40Z",
+      "side": 1,
+      "message": "Noticed that you changed this from strings.TrimSpace to textproto.TrimString. That looks like the right call.\n\n(side note for a different CL) Also noticed textproto.TrimSpace looks identical to the trimSpace() function in net/parse.go. Should those usages be changed to use the textproto implementation as well?",
+      "range": {
+        "startLine": 629,
+        "startChar": 20,
+        "endLine": 629,
+        "endChar": 40
+      },
+      "revId": "eed5fdb32c44e6dd3d825363457816d78c3e46de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
