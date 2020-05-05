@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a362b404_789cf786",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-05-05T09:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c762e4de_77f8cc1c",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "e2c9dbd9645bffb41ca5158bd3cd911e1ffe8758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0df111f1_897f1f94",
         "filename": "src/testing/helperfuncs_test.go",
         "patchSetId": 1
