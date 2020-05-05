@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7768546_9e57a949",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T15:59:09Z",
+      "side": 1,
+      "message": "These constants would be a lot clearer if you wrote them in hex.",
+      "revId": "b07c198f0cc1032ff14ec791f1943227567571d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1a82473_63825cef",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T15:59:09Z",
+      "side": 1,
+      "message": "The language spec says that for out of bounds conversions, the result is implementation-depependent. You\u0027re comparing against the implementation-dependent behavior (-1\u003c\u003c63) here. That\u0027s ok, but deserves a comment that we\u0027re testing implementation-dependent behavior.",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "b07c198f0cc1032ff14ec791f1943227567571d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51775deb_565ecb3d",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T15:59:09Z",
+      "side": 1,
+      "message": "I\u0027m confused as to why you need this special case. Why is this different than the other two in this section?",
+      "revId": "b07c198f0cc1032ff14ec791f1943227567571d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7c3f7aa_af8fc01b",
+        "filename": "src/runtime/conv_wasm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T15:59:09Z",
+      "side": 1,
+      "message": "How about signed integer minimum as well?",
+      "revId": "b07c198f0cc1032ff14ec791f1943227567571d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ed992a2_d42395f2",
+        "filename": "src/runtime/sys_wasm.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-05T15:59:09Z",
+      "side": 1,
+      "message": "Same here, hex would help.",
+      "revId": "b07c198f0cc1032ff14ec791f1943227567571d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
