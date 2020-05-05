@@ -46,6 +46,30 @@
       "revId": "c75ba907058b7976a838b09e453148340a17b340",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed2b6671_297360d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-05T12:20:05Z",
+      "side": 1,
+      "message": "Correction, the workaround was for a bug in the BFD linker, not Darwin.\n\nI tested an alternate version of the next patch that no longer includes the workaround -- that seems to pass the shared tests on the builder. Given the age of the bug in question (this was binutils 2.6, and we\u0027re now on 2.34) I think it would be better to revamp the patch to remove the workaround, meaning that this signature change patch won\u0027t be needed. Will update shortly.",
+      "parentUuid": "ce14ee74_5a90d3b5",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "c75ba907058b7976a838b09e453148340a17b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
