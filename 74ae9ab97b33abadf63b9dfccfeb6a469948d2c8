@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b34cc49d_c42a357c",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T00:54:53Z",
+      "side": 1,
+      "message": "Yeah looking at the code I think you\u0027re right, fixed. (just went back to using rand.Intn(20) like before.",
+      "parentUuid": "74c52b94_ea40184d",
+      "range": {
+        "startLine": 312,
+        "startChar": 17,
+        "endLine": 312,
+        "endChar": 31
+      },
+      "revId": "74ae9ab97b33abadf63b9dfccfeb6a469948d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a335b233_d757ebf7",
         "filename": "src/crypto/tls/ticket.go",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ed5c7539_6a99c558",
+        "filename": "src/crypto/tls/ticket.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T00:54:53Z",
+      "side": 1,
+      "message": "Gotcha. Updated.",
+      "parentUuid": "a335b233_d757ebf7",
+      "range": {
+        "startLine": 25,
+        "startChar": 21,
+        "endLine": 25,
+        "endChar": 65
+      },
+      "revId": "74ae9ab97b33abadf63b9dfccfeb6a469948d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6838ce4_3a288ce8",
         "filename": "src/crypto/tls/ticket.go",
         "patchSetId": 7
@@ -62,6 +110,24 @@
       "revId": "74ae9ab97b33abadf63b9dfccfeb6a469948d2c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad357785_3e3f4631",
+        "filename": "src/crypto/tls/ticket.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T00:54:53Z",
+      "side": 1,
+      "message": "Yep you\u0027re right, this was added when I was debugging an issue and isn\u0027t necessary.",
+      "parentUuid": "f6838ce4_3a288ce8",
+      "revId": "74ae9ab97b33abadf63b9dfccfeb6a469948d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
