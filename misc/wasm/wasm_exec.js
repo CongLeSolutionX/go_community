@@ -494,7 +494,10 @@
 				this,
 			];
 			this._goRefCounts = []; // number of references that Go has to a JS value, indexed by reference id
-			this._ids = new Map();  // mapping from JS values to reference ids
+			this._ids = new Map([   // mapping from JS values to reference ids
+				[global, 5],
+				[this, 6],
+			]);
 			this._idPool = [];      // unused ids that have been garbage collected
 			this.exited = false;    // whether the Go program has exited
 
