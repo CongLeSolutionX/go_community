@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fb54ef5_00d29261",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "Where is this in the Go code?",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 86
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0d3ec38_0a845362",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "Where is this in the Go code?",
+      "range": {
+        "startLine": 214,
+        "startChar": 27,
+        "endLine": 214,
+        "endChar": 61
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e6ff952_2d672fca",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "I assume this is not in the Go code because this C code is just applying the append statements that we\u0027ve already done, right?",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 4
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68ada60b_396cf1ea",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "Can you add a comment before this loop to explain what\u0027s being done with each cert for the domain",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 53
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "263c04c3_68b2fb93",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "I don\u0027t see this continue in the C code (except when getting the ShortDescription fails within debugDarwinRoots). That expected?",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2e359a8_dfcd0cb2",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "Any reason to keep the `\u003e` bracket? (here and throughout)",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 8
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c61197ec_c8a56efe",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "are?",
+      "range": {
+        "startLine": 89,
+        "startChar": 31,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f98f3842_d4d0af7a",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "Can you clarify the comment above? Maybe just saying this, if I\u0027m parsing it correctly:\n\n\"Add this certificate to untrustedRoots so that we don\u0027t have to evaluate policies for every root in the system domain, but still apply user and admin policies that override system roots.\"\n\nI\u0027m still not 100% sure what that means, but maybe it\u0027ll make more sense once you reword it.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "820e40d8_309609eb",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "macOS.SecTrustSettingsResultUnspecified ?",
+      "range": {
+        "startLine": 156,
+        "startChar": 9,
+        "endLine": 156,
+        "endChar": 10
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac52daee_4f79bcfb",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "should this just be SecTrustSettingsResult to be consistent with the C code? The others also don\u0027t have \u0027Key\u0027 in the name.",
+      "range": {
+        "startLine": 190,
+        "startChar": 67,
+        "endLine": 190,
+        "endChar": 92
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8865d072_6c0f6409",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "macOS.SecTrustSettingsResultUnspecified",
+      "range": {
+        "startLine": 197,
+        "startChar": 10,
+        "endLine": 197,
+        "endChar": 11
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2c1ba74_7e439449",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "Should we make an issue to track this?",
+      "range": {
+        "startLine": 218,
+        "startChar": 42,
+        "endLine": 218,
+        "endChar": 47
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85cc5583_2cba01d4",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "The C code just returns result, whatever it may be, whereas this is returning macOS.SecTrustSettingsResultUnspecified. Is that an inconsistency we care about?",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 220,
+        "endChar": 47
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6aa7f98_41ed2e6c",
+        "filename": "src/crypto/x509/root_darwin_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "Are most of these tests deleted because it\u0027s testing old functionality that\u0027s no longer applicable? Is there anything new now that we should be testing that we aren\u0027t?",
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bfa2136_ba1eeca1",
+        "filename": "src/crypto/x509/root_darwin_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-06T18:18:40Z",
+      "side": 1,
+      "message": "How about moving this directly after line 16 so it\u0027s immediately following the line that gets the error?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
