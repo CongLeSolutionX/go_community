@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2c47e5e_145a2e2f",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-05-06T01:25:09Z",
+      "side": 1,
+      "message": "You could now use strings.EqualFold here to avoid the mandatory allocation in strings.ToLower.",
+      "revId": "b52ee17cd11037aa92b9ecb854cea473161bc5f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
