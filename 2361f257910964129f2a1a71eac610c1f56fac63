@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "035c5670_09740c58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-05-06T00:23:28Z",
+      "side": 1,
+      "message": "This is redundant since this is obviously a \"change\" and also one to the Go standard library.\n\nPerhaps something like:\n\n\u003e Modify the overflow detection logic to shuffle the contents of the table to a lower offset to avoid leaking the effects of a previous uses of compress.Writer past Reset calls.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "2361f257910964129f2a1a71eac610c1f56fac63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "439c3291_6e605b30",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-05-06T00:23:28Z",
+      "side": 1,
+      "message": "Please document more justification for this.\n\nAlso, perhaps group the (1\u003c\u003c31)-1 together since that\u0027s clearly equivalent to math.MaxInt32.",
+      "range": {
+        "startLine": 15,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 97
+      },
+      "revId": "2361f257910964129f2a1a71eac610c1f56fac63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "351cb047_3b24d709",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-05-06T00:23:28Z",
+      "side": 1,
+      "message": "Why \u003e\u003d here, but \u003e elsewhere? Let\u0027s be consistent.\n\nIf understand the choice of bufferReset correctly, this doesn\u0027t matter in practice since you ensure at least a distance of maxStoreBlockSize*2 before overflow, and we only increment e.cur with a value \u003c\u003d maxStoreBlockSize.",
+      "range": {
+        "startLine": 63,
+        "startChar": 10,
+        "endLine": 63,
+        "endChar": 12
+      },
+      "revId": "2361f257910964129f2a1a71eac610c1f56fac63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "004a1baf_eb3a2ef2",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-05-06T00:23:28Z",
+      "side": 1,
+      "message": "Might want to add the new issue here as well.",
+      "range": {
+        "startLine": 277,
+        "startChar": 7,
+        "endLine": 277,
+        "endChar": 37
+      },
+      "revId": "2361f257910964129f2a1a71eac610c1f56fac63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2185be09_4c78b8fa",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-05-06T00:23:28Z",
+      "side": 1,
+      "message": "We should rename this since it\u0027s not really a resetAll anymore. Perhaps shuffleAll or shiftAll or something?",
+      "range": {
+        "startLine": 278,
+        "startChar": 22,
+        "endLine": 278,
+        "endChar": 30
+      },
+      "revId": "2361f257910964129f2a1a71eac610c1f56fac63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
