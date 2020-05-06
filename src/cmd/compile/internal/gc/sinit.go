@@ -496,6 +496,7 @@ const (
 // TODO: expand documentation.
 func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes) {
 	var splitnode func(*Node) (a *Node, value *Node)
+	isBlank := var_ == nblank
 	switch n.Op {
 	case OARRAYLIT, OSLICELIT:
 		var k int64
@@ -509,6 +510,9 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 			}
 			a := nod(OINDEX, var_, nodintconst(k))
 			k++
+			if isBlank {
+				a = nblank
+			}
 			return a, r
 		}
 	case OSTRUCTLIT:
@@ -516,7 +520,7 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 			if r.Op != OSTRUCTKEY {
 				Fatalf("fixedlit: rhs not OSTRUCTKEY: %v", r)
 			}
-			if r.Sym.IsBlank() {
+			if r.Sym.IsBlank() || isBlank {
 				return nblank, r.Left
 			}
 			setlineno(r)
