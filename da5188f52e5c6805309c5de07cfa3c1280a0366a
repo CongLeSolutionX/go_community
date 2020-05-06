@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46ab5e10_8046273c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-05-06T23:05:43Z",
+      "side": 1,
+      "message": "I think \"syscall/js\" might be better than \"misc/wasm\", because it affects the behavior of the syscall/js package.",
+      "revId": "da5188f52e5c6805309c5de07cfa3c1280a0366a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
