@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "325479e6_da7ff45d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-06T20:22:34Z",
+      "side": 1,
+      "message": "Consider adding:\n\n    For #38126.\n\nSince it\u0027s also a part of this fix (mentioned above and in the test case).",
+      "revId": "3c4738f823b783bf96d9dc9276deca08a11fe33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf8d3bc3_cef3b7e6",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2445,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-06T20:22:34Z",
+      "side": 1,
+      "message": "Trivial nit, this is missing a period (unlike similar comments above).",
+      "revId": "3c4738f823b783bf96d9dc9276deca08a11fe33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
