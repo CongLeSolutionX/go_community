@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c874088_35137bda",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-06T23:14:35Z",
+      "side": 0,
+      "message": "Is it okay to keep this an empty array?",
+      "revId": "0f47c12a29e6277c8139e8d4f5a45272e437fe6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
