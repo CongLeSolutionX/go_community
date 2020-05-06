@@ -238,3 +238,14 @@ func ExampleModf() {
 	// 3.00, 0.14
 	// -2.00, -0.71
 }
+
+func ExampleHypot() {
+	hy := math.Hypot(1, 3)
+	fmt.Printf("%.2f\n", hy)
+
+	hy = math.Hypot(-3, 4)
+	fmt.Printf("%.2f\n", hy)
+	// Output:
+	// 3.16
+	// 5.00
+}
