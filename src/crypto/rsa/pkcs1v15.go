@@ -80,8 +80,13 @@ func EncryptPKCS1v15(random io.Reader, pub *PublicKey, msg []byte) ([]byte, erro
 
 	m := new(big.Int).SetBytes(em)
 	c := encrypt(new(big.Int), pub, m)
+<<<<<<< HEAD   (1d6716 [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 	copyWithLeftPad(em, c.Bytes())
 	return em, nil
+=======
+
+	return c.FillBytes(em), nil
+>>>>>>> BRANCH (c9d5f6 math/big: add (*Int).FillBytes)
 }
 
 // DecryptPKCS1v15 decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5.
@@ -196,6 +201,10 @@ func decryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []byte) (valid
 		em = leftPad(m.Bytes(), k)
 	}
 
+<<<<<<< HEAD   (1d6716 [dev.boringcrypto] misc/boring: add new releases to RELEASES)
+=======
+	em = m.FillBytes(make([]byte, k))
+>>>>>>> BRANCH (c9d5f6 math/big: add (*Int).FillBytes)
 	firstByteIsZero := subtle.ConstantTimeByteEq(em[0], 0)
 	secondByteIsTwo := subtle.ConstantTimeByteEq(em[1], 2)
 
@@ -309,8 +318,7 @@ func SignPKCS1v15(random io.Reader, priv *PrivateKey, hash crypto.Hash, hashed [
 		return nil, err
 	}
 
-	copyWithLeftPad(em, c.Bytes())
-	return em, nil
+	return c.FillBytes(em), nil
 }
 
 // VerifyPKCS1v15 verifies an RSA PKCS#1 v1.5 signature.
@@ -350,7 +358,7 @@ func VerifyPKCS1v15(pub *PublicKey, hash crypto.Hash, hashed []byte, sig []byte)
 
 	c := new(big.Int).SetBytes(sig)
 	m := encrypt(new(big.Int), pub, c)
-	em := leftPad(m.Bytes(), k)
+	em := m.FillBytes(make([]byte, k))
 	// EM = 0x00 || 0x01 || PS || 0x00 || T
 
 	ok := subtle.ConstantTimeByteEq(em[0], 0)
@@ -386,14 +394,4 @@ func pkcs1v15HashInfo(hash crypto.Hash, inLen int) (hashLen int, prefix []byte, 
 		return 0, nil, errors.New("crypto/rsa: unsupported hash function")
 	}
 	return
-}
-
-// copyWithLeftPad copies src to the end of dest, padding with zero bytes as
-// needed.
-func copyWithLeftPad(dest, src []byte) {
-	numPaddingBytes := len(dest) - len(src)
-	for i := 0; i < numPaddingBytes; i++ {
-		dest[i] = 0
-	}
-	copy(dest[numPaddingBytes:], src)
 }
