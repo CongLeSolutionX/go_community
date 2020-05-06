@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b936786_0ab0a742",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-06T15:38:19Z",
+      "side": 1,
+      "message": "if f :\u003d ...; f.valid()\n\njust in case? Presumably if this fails stack copying will fail, but maybe we\u0027ll at least get a nicer failure.",
+      "revId": "34875349d9e07b9b6b6e8a1658ed433c95100207",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
