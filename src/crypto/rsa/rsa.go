@@ -458,6 +458,7 @@ func EncryptOAEP(hash hash.Hash, random io.Reader, pub *PublicKey, msg []byte, l
 	mgf1XOR(db, hash, seed)
 	mgf1XOR(seed, hash, db)
 
+<<<<<<< HEAD   (1d6716 [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 	var out []byte
 	if boring.Enabled {
 		var bkey *boring.PublicKeyRSA
@@ -476,15 +477,14 @@ func EncryptOAEP(hash hash.Hash, random io.Reader, pub *PublicKey, msg []byte, l
 		c := encrypt(new(big.Int), pub, m)
 		out = c.Bytes()
 	}
+=======
+	m := new(big.Int)
+	m.SetBytes(em)
+	c := encrypt(new(big.Int), pub, m)
+>>>>>>> BRANCH (c9d5f6 math/big: add (*Int).FillBytes)
 
-	if len(out) < k {
-		// If the output is too small, we need to left-pad with zeros.
-		t := make([]byte, k)
-		copy(t[k-len(out):], out)
-		out = t
-	}
-
-	return out, nil
+	out := make([]byte, k)
+	return c.FillBytes(out), nil
 }
 
 // ErrDecryption represents a failure to decrypt a message.
@@ -670,12 +670,9 @@ func DecryptOAEP(hash hash.Hash, random io.Reader, priv *PrivateKey, ciphertext 
 	lHash := hash.Sum(nil)
 	hash.Reset()
 
-	// Converting the plaintext number to bytes will strip any
-	// leading zeros so we may have to left pad. We do this unconditionally
-	// to avoid leaking timing information. (Although we still probably
-	// leak the number of leading zeros. It's not clear that we can do
-	// anything about this.)
-	em := leftPad(m.Bytes(), k)
+	// We probably leak the number of leading zeros.
+	// It's not clear that we can do anything about this.
+	em := m.FillBytes(make([]byte, k))
 
 	firstByteIsZero := subtle.ConstantTimeByteEq(em[0], 0)
 
@@ -715,16 +712,4 @@ func DecryptOAEP(hash hash.Hash, random io.Reader, priv *PrivateKey, ciphertext 
 	}
 
 	return rest[index+1:], nil
-}
-
-// leftPad returns a new slice of length size. The contents of input are right
-// aligned in the new slice.
-func leftPad(input []byte, size int) (out []byte) {
-	n := len(input)
-	if n > size {
-		n = size
-	}
-	out = make([]byte, size)
-	copy(out[len(out)-n:], input)
-	return
 }
