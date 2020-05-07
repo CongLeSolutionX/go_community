@@ -22,6 +22,30 @@
       "revId": "214b449245628137269ff8119f82b30453ea9d2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3997de39_9b76bf1c",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-07T22:30:07Z",
+      "side": 1,
+      "message": "We have generated write barrier tests in test/writebarrier.go.\nI don\u0027t think we have any general ones, though. It\u0027s really hard to test, mostly because it\u0027s not under control of the test program when writeBarrier.enabled\u003d\u003dtrue.",
+      "parentUuid": "d602563b_60ce0b39",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 42
+      },
+      "revId": "214b449245628137269ff8119f82b30453ea9d2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
