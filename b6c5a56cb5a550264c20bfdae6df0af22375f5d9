@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "1c321ca4_02913b8f",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T13:41:42Z",
+      "side": 1,
+      "message": "This seems pretty reasonable to me. Thanks!",
+      "parentUuid": "bd432c72_5f7a69ff",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58c5a486_a44493ef",
         "filename": "src/runtime/lockrank_on.go",
         "patchSetId": 2
@@ -282,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "35744b74_1f89794f",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T13:41:42Z",
+      "side": 1,
+      "message": "Bump. I\u0027m still wondering about this in the latest PS. With mutexes, it\u0027s certainly necessary to search locksHeld because they may not be released in the reverse order of acquisition. I don\u0027t see why the same wouldn\u0027t be true in general for releasing ranks. For example, it would be fine have a hand-over-hand locking pattern like: cas _Gscan, acquire a lock, release _Gscan, release the lock.",
+      "parentUuid": "06ba7310_4f3ba044",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c19d5d9_0ad45445",
         "filename": "src/runtime/lockrank_on.go",
         "patchSetId": 2
@@ -296,6 +332,24 @@
       "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7811dd5e_17fcb4fa",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T13:41:42Z",
+      "side": 1,
+      "message": "Done. Gone in latest PS.",
+      "parentUuid": "2c19d5d9_0ad45445",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {

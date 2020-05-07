@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8852f9df_df4503a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T13:41:42Z",
+      "side": 1,
+      "message": "Please wrap the body of the commit message to 72 columns (git conventions; you can also see the odd wrapping right now in Gerrt)",
+      "revId": "f3be4c6d8cea1010e883ae3758694cd078f32054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc76407e_424734a7",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T13:41:42Z",
+      "side": 1,
+      "message": "Perhaps \"This is a genuine problem, but for now we don\u0027t do lock rank recording for paniclk either.\" to make it clear that this isn\u0027t just a problem with lock rank checking.",
+      "range": {
+        "startLine": 57,
+        "startChar": 36,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "f3be4c6d8cea1010e883ae3758694cd078f32054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c86c4a_928af79c",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T13:41:42Z",
+      "side": 1,
+      "message": "Now that this whole condition is much simpler, consider swapping the branches so the short case appears first, closest to the condition.\n\nif rank \u003c prevRank {\n  // We definitely have a rank error.\n  rankOK \u003d false\n} else {\n  ...\n}",
+      "revId": "f3be4c6d8cea1010e883ae3758694cd078f32054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
