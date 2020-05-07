@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db96d23e_40857c97",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-07T01:06:27Z",
+      "side": 1,
+      "message": "We should just set the gen field to nil here, rather than changing mkzbootstrap.  As is, this change will cause mkzbootstrap to be called more than once, which seems wrong.",
+      "revId": "0909f5581f2e23234c1e7ca7272f7a0e49084325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
