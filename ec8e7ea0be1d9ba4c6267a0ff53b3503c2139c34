@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "582e5379_bde60e20",
+        "filename": "src/crypto/elliptic/elliptic.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T07:05:08Z",
+      "side": 1,
+      "message": "Why is this hardcoded to p256? There should be tests for other curves as well.",
+      "range": {
+        "startLine": 326,
+        "startChar": 13,
+        "endLine": 326,
+        "endChar": 17
+      },
+      "revId": "ec8e7ea0be1d9ba4c6267a0ff53b3503c2139c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38a762d2_7a45b39c",
+        "filename": "src/crypto/elliptic/elliptic.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T07:05:08Z",
+      "side": 1,
+      "message": "You can use the new math/big.FillBytes here.",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 32
+      },
+      "revId": "ec8e7ea0be1d9ba4c6267a0ff53b3503c2139c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dca335e_c4295f8c",
+        "filename": "src/crypto/elliptic/elliptic.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T07:05:08Z",
+      "side": 1,
+      "message": "No need for this else after a return.",
+      "range": {
+        "startLine": 377,
+        "startChar": 3,
+        "endLine": 377,
+        "endChar": 7
+      },
+      "revId": "ec8e7ea0be1d9ba4c6267a0ff53b3503c2139c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bcfaadc_69e04c0b",
+        "filename": "src/crypto/elliptic/elliptic.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T07:05:08Z",
+      "side": 1,
+      "message": "Looks like we are not checking IsOnCurve if we had to do the negation. Should be enough to drop this else as well.",
+      "range": {
+        "startLine": 380,
+        "startChar": 3,
+        "endLine": 380,
+        "endChar": 7
+      },
+      "revId": "ec8e7ea0be1d9ba4c6267a0ff53b3503c2139c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5f4c4ea_f381b41d",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T07:05:08Z",
+      "side": 1,
+      "message": "Need at least two test vectors: one with the negation and one without.",
+      "revId": "ec8e7ea0be1d9ba4c6267a0ff53b3503c2139c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "913984aa_1808ed23",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T07:05:08Z",
+      "side": 1,
+      "message": "Is there some spec we could take a test vector from?",
+      "revId": "ec8e7ea0be1d9ba4c6267a0ff53b3503c2139c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8352165_eb6f74ff",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T07:05:08Z",
+      "side": 1,
+      "message": "These tests could be merged, to show that marshaling and unmarshaling return the same result.",
+      "revId": "ec8e7ea0be1d9ba4c6267a0ff53b3503c2139c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
