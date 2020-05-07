@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5bdc316_e70aa105",
+        "filename": "src/crypto/tls/testdata/Server-TLSv10-ExportKeyingMaterial",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T06:20:13Z",
+      "side": 0,
+      "message": "NewSessionTicket message, makes sense this test changed.\n\n(We should have disabled them in non-ticket tests, but whatever.)",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "fdb8a3e63846f07a10f44b0f26b839817e336db5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
