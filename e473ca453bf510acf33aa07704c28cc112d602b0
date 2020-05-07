@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1942aef5_c72a24e2",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1411,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-07T23:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e92ae225_e19a0bd7",
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf43758e_a28b26f3",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2020-05-07T05:25:56Z",
       "side": 1,
       "message": "This function is not called on resumed connections (see the first condition in readServerCertificate for TLS 1.3, and note it\u0027s only called by doFullHandshake for TLS 1.2).\n\nThis is https://github.com/golang/go/issues/31641 where we reverify the certificates on the server side but not on the client side. VerifyConnection should run on all connections, so we don\u0027t need to decide that now.",
+      "range": {
+        "startLine": 794,
+        "startChar": 15,
+        "endLine": 794,
+        "endChar": 38
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a244da_dbb8d916",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-07T23:56:10Z",
+      "side": 1,
+      "message": "Just to clarify this comment, are you suggesting that I need to explicitly add a call to VerifyConnection in TLS1.3 readServerCertificate() and (*clientHandshakeState).handshake() since they would otherwise not be called in resumed connections?",
+      "parentUuid": "bf43758e_a28b26f3",
       "range": {
         "startLine": 794,
         "startChar": 15,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "b2ccbb7a_836bedd3",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-07T23:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3705939b_dc7600bc",
+      "range": {
+        "startLine": 830,
+        "startChar": 0,
+        "endLine": 838,
+        "endChar": 27
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df015c13_a98decfd",
         "filename": "src/crypto/tls/handshake_server.go",
         "patchSetId": 4
@@ -76,6 +142,30 @@
       "writtenOn": "2020-05-07T05:25:56Z",
       "side": 1,
       "message": "This function is not called if the server didn\u0027t request client certificates, so VerifyConnection wouldn\u0027t run on those connections.",
+      "range": {
+        "startLine": 732,
+        "startChar": 15,
+        "endLine": 732,
+        "endChar": 37
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c807efb_16e4cf27",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-07T23:56:10Z",
+      "side": 1,
+      "message": "Same question here as your other comment, are you saying that we *should* be calling VerifyConnection in that case, so I should add an explicit call to VerifyConnection in (*serverHandshakeState).doFullHandshake() in the case of the server not requesting client certificates?",
+      "parentUuid": "df015c13_a98decfd",
       "range": {
         "startLine": 732,
         "startChar": 15,
@@ -108,6 +198,30 @@
       "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02f6dfe1_d3521083",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-07T23:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b6afeaf_cd8db2a9",
+      "range": {
+        "startLine": 790,
+        "startChar": 0,
+        "endLine": 796,
+        "endChar": 2
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
