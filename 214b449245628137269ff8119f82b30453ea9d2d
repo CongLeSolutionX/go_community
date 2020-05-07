@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d602563b_60ce0b39",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-05-07T21:54:55Z",
+      "side": 1,
+      "message": "Im not sure how to test this best as writeBarrier needs to be enabled for a gc. Do we already have similar tests for issues?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 42
+      },
+      "revId": "214b449245628137269ff8119f82b30453ea9d2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
