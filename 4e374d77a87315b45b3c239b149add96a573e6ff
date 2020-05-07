@@ -51,6 +51,24 @@
       "revId": "4e374d77a87315b45b3c239b149add96a573e6ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411b5064_ed859377",
+        "filename": "src/os/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-07T01:11:09Z",
+      "side": 1,
+      "message": "The lines are exact duplicates.  That doesn\u0027t seem necessary.",
+      "parentUuid": "46535005_6a411e7a",
+      "revId": "4e374d77a87315b45b3c239b149add96a573e6ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
