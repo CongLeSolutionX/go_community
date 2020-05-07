@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b93c468_f61a5da8",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "These are just an expedient to get certificates out of C-land. In Go there are trustedRoots and untrustedRoots.",
+      "parentUuid": "4fb54ef5_00d29261",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 86
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0d3ec38_0a845362",
         "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
         "patchSetId": 12
@@ -45,6 +69,30 @@
       "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96ab481d_4357ac3c",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "As easy as cert.Subject.String \u003d)",
+      "parentUuid": "a0d3ec38_0a845362",
+      "range": {
+        "startLine": 214,
+        "startChar": 27,
+        "endLine": 214,
+        "endChar": 61
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ec9c4a83_93ee52ec",
+        "filename": "src/crypto/x509/root_cgo_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "Yeah in Go we have exportCertificate that calls SecItemExport, and then we just append directly to trustedRoots or untrustedRoots.",
+      "parentUuid": "1e6ff952_2d672fca",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 4
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68ada60b_396cf1ea",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 12
@@ -82,6 +154,30 @@
       "writtenOn": "2020-05-06T18:18:40Z",
       "side": 1,
       "message": "Can you add a comment before this loop to explain what\u0027s being done with each cert for the domain",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 53
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a383b615_b144534e",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "I tried writing this comment in a few ways and it was either too generic or too long basically repeating the comments in the loop.\n\nWhat information would have been useful to have upfront?",
+      "parentUuid": "68ada60b_396cf1ea",
       "range": {
         "startLine": 45,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a0e73127_7d17b484",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "The C sslTrustSettingsResult doesn\u0027t return an error and instead just returns kSecTrustSettingsResultUnspecified which leads to a continue on line 260.",
+      "parentUuid": "263c04c3_68b2fb93",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2e359a8_dfcd0cb2",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 12
@@ -137,6 +257,30 @@
       "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b580d37a_608a0e6d",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "These are quotes from the Apple docs. Switched to quotes.",
+      "parentUuid": "c2e359a8_dfcd0cb2",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 8
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "6c229c2d_2d30e2ac",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61197ec_c8a56efe",
+      "range": {
+        "startLine": 89,
+        "startChar": 31,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f98f3842_d4d0af7a",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 12
@@ -183,6 +351,30 @@
       "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af4cd690_0695f3b9",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "Correct. Done.",
+      "parentUuid": "f98f3842_d4d0af7a",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "78790297_08d2420e",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "This is just returning \u003czero value\u003e and an error, not an actual value.",
+      "parentUuid": "820e40d8_309609eb",
+      "range": {
+        "startLine": 156,
+        "startChar": 9,
+        "endLine": 156,
+        "endChar": 10
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac52daee_4f79bcfb",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 12
@@ -229,6 +445,30 @@
       "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ded5a98_13d2504a",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "The C names for the constants are like kSecTrustSettingsPolicy. That looked ugly as a Go exported identifier (KSecTrustSettingsPolicy) so I just dropped the k. That got me a collision with type SecTrustSettingsResult for one of the keys, so I called it SecTrustSettingsResultKey.\n\nNo strong opinion, if you have preferences for a different naming scheme let me know.",
+      "parentUuid": "ac52daee_4f79bcfb",
+      "range": {
+        "startLine": 190,
+        "startChar": 67,
+        "endLine": 190,
+        "endChar": 92
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "f0a34f75_6fdb78a9",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "8865d072_6c0f6409",
+      "range": {
+        "startLine": 197,
+        "startChar": 10,
+        "endLine": 197,
+        "endChar": 11
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2c1ba74_7e439449",
         "filename": "src/crypto/x509/root_darwin_amd64.go",
         "patchSetId": 12
@@ -275,6 +539,30 @@
       "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad8c445_5d216740",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "Added to golang.org/issue/38888",
+      "parentUuid": "a2c1ba74_7e439449",
+      "range": {
+        "startLine": 218,
+        "startChar": 42,
+        "endLine": 218,
+        "endChar": 47
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "75e4d4cf_c747b108",
+        "filename": "src/crypto/x509/root_darwin_amd64.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "Lines 126-128 set result to Unspecified if it was not set by the loop (which breaks while in Go we return, but the break leads directly to the return).\n\n\tif (result \u003d\u003d 0) {\n\t\tresult \u003d kSecTrustSettingsResultUnspecified;\n\t}\n\nI think the logic is identical. If it\u0027s not it\u0027s not intentional.",
+      "parentUuid": "85cc5583_2cba01d4",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 220,
+        "endChar": 47
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6aa7f98_41ed2e6c",
         "filename": "src/crypto/x509/root_darwin_test.go",
         "patchSetId": 12
@@ -315,6 +627,24 @@
       "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05d2ca8e_9cbb7232",
+        "filename": "src/crypto/x509/root_darwin_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "All removed lines should not be functionality but exceptions in the comparison between no-cgo and cgo to account for discrepancies that are not there anymore. Progress! If I removed anything that was making the test stricter rather than weaker it\u0027s not intentional.",
+      "parentUuid": "f6aa7f98_41ed2e6c",
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -338,6 +668,30 @@
       "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "255c6faf_b7e39b8a",
+        "filename": "src/crypto/x509/root_darwin_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-07T01:58:26Z",
+      "side": 1,
+      "message": "It\u0027s good practice when measuring how long an operation takes not to include anything else in the measured span. In this case the if would be so much faster than loadSystemRoots that it doesn\u0027t matter, but this makes it clearer we don\u0027t want other operations between time.Now and time.Since.",
+      "parentUuid": "2bfa2136_ba1eeca1",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "449347785d69314a4eb03c765fc5fe947f41dd2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
