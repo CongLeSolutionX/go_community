@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbcc8690_5b2a38f7",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T14:25:46Z",
+      "side": 1,
+      "message": "Consider introducing a constructor function for addrRange that takes uintptrs so there\u0027s less stutter. This appears in several places. It could even check that they\u0027re in the same segment.",
+      "revId": "a0ecf66562e16d95d223db498386186e6b3c52a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5e1201d_410029e4",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T14:25:46Z",
+      "side": 1,
+      "message": "Oof.\n\nMaybe also have a lessEqual? a.base.lessEqual(offAddr{addr}) \u0026\u0026 offAddr{addr}.less(a.limit)",
+      "revId": "a0ecf66562e16d95d223db498386186e6b3c52a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3a5c534_fc4fd15a",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T14:25:46Z",
+      "side": 1,
+      "message": "lessEqual would also clarify this.",
+      "revId": "a0ecf66562e16d95d223db498386186e6b3c52a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e29d8d3_2333fec7",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T14:25:46Z",
+      "side": 1,
+      "message": "This is always called \"equal\" in std.",
+      "revId": "a0ecf66562e16d95d223db498386186e6b3c52a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "725d38f7_83f1d70a",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-07T14:25:46Z",
+      "side": 1,
+      "message": "\"real\"?",
+      "range": {
+        "startLine": 108,
+        "startChar": 20,
+        "endLine": 108,
+        "endChar": 24
+      },
+      "revId": "a0ecf66562e16d95d223db498386186e6b3c52a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
