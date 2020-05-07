@@ -318,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "1c3e72fe_b5939b5f",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-05-07T20:25:56Z",
+      "side": 1,
+      "message": "OK, now fixed, I added a loop in the rank-only case as well.  As you said, it is possible, though  hopefully lock/rank releases are almost always in proper reverse (LIFO) order.  The only reason that I need the loop (currently) for normal locks are because the hchan locks are apparently not always released in exact reverse order.\n\nThanks for pushing on this.",
+      "parentUuid": "35744b74_1f89794f",
+      "revId": "b6c5a56cb5a550264c20bfdae6df0af22375f5d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c19d5d9_0ad45445",
         "filename": "src/runtime/lockrank_on.go",
         "patchSetId": 2
