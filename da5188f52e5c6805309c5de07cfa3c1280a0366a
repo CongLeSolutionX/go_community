@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "68481d8d_23e293a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2020-05-07T06:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46ab5e10_8046273c",
+      "revId": "da5188f52e5c6805309c5de07cfa3c1280a0366a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b72f90b7_1c43051e",
         "filename": "misc/wasm/wasm_exec.js",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "c6685fd3_379875d0",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2020-05-07T06:56:54Z",
+      "side": 1,
+      "message": "Great idea. Done",
+      "parentUuid": "df242d7f_316e983e",
+      "revId": "da5188f52e5c6805309c5de07cfa3c1280a0366a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0246dbdb_9203557a",
         "filename": "misc/wasm/wasm_exec.js",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2020-05-06T23:14:35Z",
       "side": 1,
       "message": "Is it worth adding a test case for \"this\" as well, or does the test for \"global\" offer sufficient coverage?",
+      "revId": "da5188f52e5c6805309c5de07cfa3c1280a0366a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36cb7513_ed0160ca",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2020-05-07T06:56:54Z",
+      "side": 1,
+      "message": "I could not find the way to get `this` (Go object) via syscall/js.",
+      "parentUuid": "0246dbdb_9203557a",
       "revId": "da5188f52e5c6805309c5de07cfa3c1280a0366a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
