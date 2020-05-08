@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d886ce3e_e0d55530",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-08T20:00:22Z",
+      "side": 1,
+      "message": "The || n !\u003d len(fingerprint) condition can be removed, because io.ReadFull is guaranteed to return non-nil error if the number of bytes read isn\u0027t equal to len(fingerprint[:]) per its documented behavior (https://pkg.go.dev/io#ReadFull).",
+      "range": {
+        "startLine": 196,
+        "startChar": 15,
+        "endLine": 196,
+        "endChar": 39
+      },
+      "revId": "8627b4c9b50138c75cc7730af7f8db692d33451e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
