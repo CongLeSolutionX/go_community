@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1304db7e_36ac399a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:25:36Z",
+      "side": 1,
+      "message": "This seems to be no longer true?",
+      "revId": "575f1fbfed301e6526cba5644179a6cece56ab48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9775378_928b8e38",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:25:36Z",
+      "side": 1,
+      "message": "Bind oAddr in the if maybe?",
+      "revId": "575f1fbfed301e6526cba5644179a6cece56ab48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c595ed_f87f9184",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:25:36Z",
+      "side": 1,
+      "message": "Update this comment.",
+      "revId": "575f1fbfed301e6526cba5644179a6cece56ab48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20b6c295_a2ea146e",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:25:36Z",
+      "side": 1,
+      "message": "firstFree.base.lessEqual(addr) \u0026\u0026 addr.add(size-1).lessEqual(firstFree)",
+      "revId": "575f1fbfed301e6526cba5644179a6cece56ab48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6954ac42_d56e54b8",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:25:36Z",
+      "side": 1,
+      "message": "\"offset\"?",
+      "range": {
+        "startLine": 800,
+        "startChar": 38,
+        "endLine": 800,
+        "endChar": 48
+      },
+      "revId": "575f1fbfed301e6526cba5644179a6cece56ab48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6761dfbf_ad53d5ea",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:25:36Z",
+      "side": 1,
+      "message": "Hmm. These names could be better. The nouns should match, and both \"raw\" and \"value\" are unfortunately pretty vague.\n\nThat said, these are only used when going to and from level indexes. I think it would make a lot more sense to capture that higher-level operation instead.",
+      "revId": "575f1fbfed301e6526cba5644179a6cece56ab48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
