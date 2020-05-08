@@ -10,13 +10,18 @@ import (
 	"syscall"
 )
 
-func (out *OutBuf) Mmap(filesize uint64) error {
-	err := out.fallocate(filesize)
+func (out *OutBuf) Mmap(filesize uint64) (err error) {
+	for {
+		if err = out.fallocate(filesize); err != syscall.EINTR {
+			break
+		}
+	}
 	if err != nil {
 		// Some file systems do not support fallocate. We ignore that error as linking
 		// can still take place, but you might SIGBUS when you write to the mmapped
 		// area.
-		if err.Error() != fallocateNotSupportedErr {
+		errno, ok := err.(syscall.Errno)
+		if !ok || (errno != syscall.ENOTSUP && errno != syscall.EOPNOTSUPP) {
 			return err
 		}
 	}
