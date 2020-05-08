@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "eb3265be_bea4ac9e",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T16:24:43Z",
+      "side": 1,
+      "message": "Okay, thanks.",
+      "parentUuid": "bd7e0f1d_6478d85c",
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e7d7902_975c28d8",
         "filename": "src/cmd/link/internal/ppc64/asm2.go",
         "patchSetId": 24
