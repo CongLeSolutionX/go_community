@@ -156,6 +156,30 @@
     },
     {
       "key": {
+        "uuid": "629da4a5_d5a7cb42",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-08T02:02:47Z",
+      "side": 1,
+      "message": "Right, my bad for missing the other comment.\n\nWe talked offline and this should be good now.",
+      "parentUuid": "1dc12dfb_61b9a7e8",
+      "range": {
+        "startLine": 794,
+        "startChar": 15,
+        "endLine": 794,
+        "endChar": 38
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3705939b_dc7600bc",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 4
@@ -319,6 +343,30 @@
       "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db89fe98_43099344",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-08T02:02:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75e2d4c8_b912abc9",
+      "range": {
+        "startLine": 732,
+        "startChar": 15,
+        "endLine": 732,
+        "endChar": 37
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
