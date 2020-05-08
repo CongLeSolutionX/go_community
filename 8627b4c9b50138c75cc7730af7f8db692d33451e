@@ -22,6 +22,30 @@
       "revId": "8627b4c9b50138c75cc7730af7f8db692d33451e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "995dc525_d715cd23",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T21:45:01Z",
+      "side": 1,
+      "message": "Done, CL 232988. Thanks.",
+      "parentUuid": "d886ce3e_e0d55530",
+      "range": {
+        "startLine": 196,
+        "startChar": 15,
+        "endLine": 196,
+        "endChar": 39
+      },
+      "revId": "8627b4c9b50138c75cc7730af7f8db692d33451e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
