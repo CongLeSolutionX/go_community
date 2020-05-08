@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f845ef_6d9d62b8",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T15:46:39Z",
+      "side": 1,
+      "message": "Can remove this now :)",
+      "range": {
+        "startLine": 394,
+        "startChar": 50,
+        "endLine": 394,
+        "endChar": 56
+      },
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cfd5351_2711cf33",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T15:46:39Z",
+      "side": 1,
+      "message": "Do we need this? Do we use ABI alias on SDYNIMPORT symbols? This is fine if it is necessary. I just try to understand it a little bit.",
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38b5c9d1_50b40aaf",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T15:46:39Z",
+      "side": 1,
+      "message": "Same question here: I thought we only do ABI alias on TEXT symbols. But the target here seems not TEXT symbol.",
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e7d7902_975c28d8",
+        "filename": "src/cmd/link/internal/ppc64/asm2.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T15:46:39Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this. Just delete the old code.",
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
