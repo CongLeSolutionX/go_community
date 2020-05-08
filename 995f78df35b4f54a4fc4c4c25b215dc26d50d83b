@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8648e75_4403bdfa",
+        "filename": "src/cmd/link/internal/ld/outbuf_mmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T15:04:51Z",
+      "side": 1,
+      "message": "I think we want to retry on EINTR. I guess fallocate is one of the \"slow\" syscalls that could return EINTR even SA_RESTART is set.",
+      "range": {
+        "startLine": 19,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "995f78df35b4f54a4fc4c4c25b215dc26d50d83b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9746a1c_06b11367",
+        "filename": "src/cmd/link/internal/ld/outbuf_nofallocate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-08T15:04:51Z",
+      "side": 1,
+      "message": "I don\u0027t think syscall.ENOTSUP is defined on all platforms.",
+      "revId": "995f78df35b4f54a4fc4c4c25b215dc26d50d83b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
