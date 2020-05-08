@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a8a6ba0_87ba7aa5",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-08T14:56:08Z",
+      "side": 1,
+      "message": "Let\u0027s delete this from the message. It\u0027s printing the module path, not the root directory. However, the root directory is already printed as part of the go.mod path, so it seems too verbose to print it again.",
+      "range": {
+        "startLine": 1023,
+        "startChar": 58,
+        "endLine": 1023,
+        "endChar": 62
+      },
+      "revId": "1a9c18762732760e33551028e7a4c3e4ec86736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c36d3368_6f967a7e",
+        "filename": "src/cmd/go/testdata/script/mod_replace_main.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-08T14:56:08Z",
+      "side": 1,
+      "message": "This test should complete quickly. No need to skip it in short mode.",
+      "revId": "1a9c18762732760e33551028e7a4c3e4ec86736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24e8f20d_ae7c16ba",
+        "filename": "src/cmd/go/testdata/script/mod_replace_main.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-08T14:56:08Z",
+      "side": 1,
+      "message": "This could be sped up by changing the command to \u0027go list -m\u0027. No need to list everything. Any command that parses go.mod should report this error.",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 13
+      },
+      "revId": "1a9c18762732760e33551028e7a4c3e4ec86736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d9b084_4ee7afc6",
+        "filename": "src/cmd/go/testdata/script/mod_replace_main.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-08T14:56:08Z",
+      "side": 1,
+      "message": "I don\u0027t think this will match on Windows; the paths will have backslashes. Should be something like:\n\nstderr \u0027^go: \u0027$GOPATH\u0027[/\\\\]fail1[/\\\\]go.mod:3: the main module root directory cannot be a replacement for another module$\u0027",
+      "revId": "1a9c18762732760e33551028e7a4c3e4ec86736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d75a6d6_13fc6552",
+        "filename": "src/cmd/go/testdata/script/mod_replace_main.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-08T14:56:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be used anywhere.",
+      "revId": "1a9c18762732760e33551028e7a4c3e4ec86736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd3a30d3_117350a6",
+        "filename": "src/cmd/go/testdata/script/mod_replace_main.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-08T14:56:08Z",
+      "side": 1,
+      "message": "Files in success should be grouped together for easier reading.",
+      "revId": "1a9c18762732760e33551028e7a4c3e4ec86736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
