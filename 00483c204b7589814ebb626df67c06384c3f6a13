@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62d9d6d1_9c99e634",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:10:25Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this doesn\u0027t do what you want. This is equivalent to \"a.limit.lessEqual(a.base)\" because if it gets to the \"diff\" case of r.size, diff will just return limit-base. You may just have to do this the hard way:\n\n  (base + arenaBaseOffset \u003e\u003d arenaBaseOffset) !\u003d (limit + arenaBaseOffset \u003e\u003d arenaBaseOffset)\n\nEach half evaluates to which segment base or limit are in (\u003c would also work).",
+      "range": {
+        "startLine": 34,
+        "startChar": 44,
+        "endLine": 34,
+        "endChar": 66
+      },
+      "revId": "00483c204b7589814ebb626df67c06384c3f6a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c24c703_18878664",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-08T01:10:25Z",
+      "side": 1,
+      "message": "This is equivalent to just l1.a - l2.a. I\u0027m not sure that\u0027s a problem, but writing it this way makes it seem like there\u0027s a lot more going on here.",
+      "revId": "00483c204b7589814ebb626df67c06384c3f6a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
