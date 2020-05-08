@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c2b92664_473e853c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-05-08T16:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f845ef_6d9d62b8",
+      "range": {
+        "startLine": 394,
+        "startChar": 50,
+        "endLine": 394,
+        "endChar": 56
+      },
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cfd5351_2711cf33",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 24
@@ -39,6 +63,24 @@
       "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6910222b_94465908",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-05-08T16:17:31Z",
+      "side": 1,
+      "message": "This was cargoculted. removed.",
+      "parentUuid": "8cfd5351_2711cf33",
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "bd7e0f1d_6478d85c",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-05-08T16:17:31Z",
+      "side": 1,
+      "message": "yes, this is needed. Following the segment on line 1145 won\u0027t work w/o it.",
+      "parentUuid": "38b5c9d1_50b40aaf",
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e7d7902_975c28d8",
         "filename": "src/cmd/link/internal/ppc64/asm2.go",
         "patchSetId": 24
@@ -73,6 +133,24 @@
       "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa45b938_edf98625",
+        "filename": "src/cmd/link/internal/ppc64/asm2.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-05-08T16:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e7d7902_975c28d8",
+      "revId": "4415fe7e9736a4d9f518f81d553554d9ae8c69af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
