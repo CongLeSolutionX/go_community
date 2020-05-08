@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5043e552_7abf489e",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-05-08T14:51:07Z",
+      "side": 1,
+      "message": "ah oops, sorry, you\u0027re right. fixed.",
+      "parentUuid": "62d9d6d1_9c99e634",
+      "range": {
+        "startLine": 34,
+        "startChar": 44,
+        "endLine": 34,
+        "endChar": 66
+      },
+      "revId": "00483c204b7589814ebb626df67c06384c3f6a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c24c703_18878664",
         "filename": "src/runtime/mranges.go",
         "patchSetId": 14
@@ -39,6 +63,24 @@
       "revId": "00483c204b7589814ebb626df67c06384c3f6a13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a953a1a5_2c5d14c2",
+        "filename": "src/runtime/mranges.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-05-08T14:51:07Z",
+      "side": 1,
+      "message": "yeah now that the addrRange is checked there\u0027s no reason at all to do this. fixed.",
+      "parentUuid": "9c24c703_18878664",
+      "revId": "00483c204b7589814ebb626df67c06384c3f6a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
