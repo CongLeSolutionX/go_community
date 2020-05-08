@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "a68d5c13_2c905b8b",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-08T00:13:31Z",
+      "side": 1,
+      "message": "Yes, haven\u0027t thought through where the call should be, but there should be one for every connection, including resumed connections.",
+      "parentUuid": "81a244da_dbb8d916",
+      "range": {
+        "startLine": 794,
+        "startChar": 15,
+        "endLine": 794,
+        "endChar": 38
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3705939b_dc7600bc",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 4
@@ -166,6 +190,30 @@
       "side": 1,
       "message": "Same question here as your other comment, are you saying that we *should* be calling VerifyConnection in that case, so I should add an explicit call to VerifyConnection in (*serverHandshakeState).doFullHandshake() in the case of the server not requesting client certificates?",
       "parentUuid": "df015c13_a98decfd",
+      "range": {
+        "startLine": 732,
+        "startChar": 15,
+        "endLine": 732,
+        "endChar": 37
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0411b904_66362cdb",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-08T00:13:31Z",
+      "side": 1,
+      "message": "Yes, same, not sure where but there should be one.",
+      "parentUuid": "9c807efb_16e4cf27",
       "range": {
         "startLine": 732,
         "startChar": 15,
