@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "1dc12dfb_61b9a7e8",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-08T01:19:40Z",
+      "side": 1,
+      "message": "Still needs fixing for resumed TLS 1.3 connections. (And see my other comment for the TLS 1.2 part being in the wrong spot.)",
+      "parentUuid": "1c23ab62_e364c40a",
+      "range": {
+        "startLine": 794,
+        "startChar": 15,
+        "endLine": 794,
+        "endChar": 38
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3705939b_dc7600bc",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 4
@@ -271,6 +295,30 @@
       "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75e2d4c8_b912abc9",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-08T01:19:40Z",
+      "side": 1,
+      "message": "That does it for TLS 1.2 but not for TLS 1.3.\n\n(also, huh, found a bug because I was surprised processCertsFromClient always runs for resumed handshakes: https://github.com/golang/go/issues/31641#issuecomment-625575938)",
+      "parentUuid": "2b76b940_a2f6aaa5",
+      "range": {
+        "startLine": 732,
+        "startChar": 15,
+        "endLine": 732,
+        "endChar": 37
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {

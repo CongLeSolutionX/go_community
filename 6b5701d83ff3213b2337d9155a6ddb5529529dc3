@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5778b125_f736b4c6",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-05-08T01:19:40Z",
+      "side": 1,
+      "message": "This else is about renegotiation, not resumption. We are in doFullHandshake which is never entered for a resumption handshake. (You don\u0027t want to ask about what renegotiation is, trust me.)",
+      "revId": "6b5701d83ff3213b2337d9155a6ddb5529529dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
