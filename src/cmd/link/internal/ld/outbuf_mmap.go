@@ -16,7 +16,10 @@ func (out *OutBuf) Mmap(filesize uint64) error {
 		// Some file systems do not support fallocate. We ignore that error as linking
 		// can still take place, but you might SIGBUS when you write to the mmapped
 		// area.
-		if err.Error() != fallocateNotSupportedErr {
+		// On other systems fallocate EINTRs frequently, as we're going to call Truncate
+		// anyway it's safe to ignore and just take the slow path.
+		errno, ok := err.(syscall.Errno)
+		if !ok || (errno != syscall.ENOTSUP && errno != syscall.EINTR) {
 			return err
 		}
 	}

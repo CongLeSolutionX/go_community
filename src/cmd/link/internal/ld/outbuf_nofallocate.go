@@ -6,8 +6,8 @@
 
 package ld
 
-import "errors"
+import "syscall"
 
 func (out *OutBuf) fallocate(size uint64) error {
-	return errors.New(fallocateNotSupportedErr)
+	return syscall.ENOTSUP
 }
