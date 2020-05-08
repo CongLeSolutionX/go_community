@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57e7b2b7_b164a8bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 48
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-08T15:42:04Z",
+      "side": 1,
+      "message": "This should be lower-case \"add\" to follow conventions documented at https://golang.org/wiki/CommitMessage.\n\n(The commit subject is determined from the title of the golang/go#36815 PR, so the rename needs to happen there.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "9ee4381787d8de3116604d6f738ef457693ca442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6517cd17_c1be9344",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 48
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-08T15:42:04Z",
+      "side": 1,
+      "message": "Nit, this can be a single space.",
+      "range": {
+        "startLine": 13,
+        "startChar": 52,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "9ee4381787d8de3116604d6f738ef457693ca442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
