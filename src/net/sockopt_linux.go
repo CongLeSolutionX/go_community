@@ -10,11 +10,17 @@ import (
 )
 
 func setDefaultSockopts(s, family, sotype int, ipv6only bool) error {
-	if family == syscall.AF_INET6 && sotype != syscall.SOCK_RAW {
-		// Allow both IP versions even if the OS default
-		// is otherwise. Note that some operating systems
-		// never admit this option.
-		syscall.SetsockoptInt(s, syscall.IPPROTO_IPV6, syscall.IPV6_V6ONLY, boolint(ipv6only))
+	switch family {
+	case syscall.AF_INET6:
+		if sotype != syscall.SOCK_RAW {
+			// Allow both IP versions even if the OS default
+			// is otherwise. Note that some operating systems
+			// never admit this option.
+			syscall.SetsockoptInt(s, syscall.IPPROTO_IPV6, syscall.IPV6_V6ONLY, boolint(ipv6only))
+		}
+	case syscall.AF_UNIX:
+		// Doesn't support broadcast.
+		return nil
 	}
 	// Allow broadcast.
 	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_BROADCAST, 1))
