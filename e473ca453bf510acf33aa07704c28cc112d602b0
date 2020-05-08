@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "1c23ab62_e364c40a",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-08T00:52:18Z",
+      "side": 1,
+      "message": "Added it in the renegotiation handshake section of (*clientHandshakeState).handshake(). It will at the very least contain the ocspResponse from what I can see. LMK if you think that\u0027s the wrong spot.",
+      "parentUuid": "a68d5c13_2c905b8b",
+      "range": {
+        "startLine": 794,
+        "startChar": 15,
+        "endLine": 794,
+        "endChar": 38
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3705939b_dc7600bc",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 4
@@ -223,6 +247,30 @@
       "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b76b940_a2f6aaa5",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-08T00:52:18Z",
+      "side": 1,
+      "message": "Put it (*serverHandshakeState).doFullHandshake() as an else. That should work but LMK if you think there\u0027s a better spot for it.",
+      "parentUuid": "0411b904_66362cdb",
+      "range": {
+        "startLine": 732,
+        "startChar": 15,
+        "endLine": 732,
+        "endChar": 37
+      },
+      "revId": "e473ca453bf510acf33aa07704c28cc112d602b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
