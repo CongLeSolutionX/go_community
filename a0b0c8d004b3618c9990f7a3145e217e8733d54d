@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7b47e37_c8f38455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-09T23:18:40Z",
+      "side": 1,
+      "message": "encoding/xml: only initialize nil struct fields when decoding",
+      "revId": "a0b0c8d004b3618c9990f7a3145e217e8733d54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e634f03_97b721b3",
+        "filename": "src/encoding/xml/typeinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-09T23:18:40Z",
+      "side": 1,
+      "message": "Perhaps let’s call this field: shouldInitNilFields\nand that is less ambiguous than initialize which could signify\nthat this is the first time that v is being initialized.\n\n\nLet’s also create 2 consts for the positive and negative of that field,\nbecause currently the false and true in all the call sites require a double take.\nconst (\n    initNilFields \u003d true\n    dontInitNilFields \u003d false\n)\nand then use them in all the call sites.",
+      "revId": "a0b0c8d004b3618c9990f7a3145e217e8733d54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
