@@ -16,6 +16,24 @@
       "revId": "618997cc87a04be43d45e8c8bd8de46f1bf2827e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b01ec8f2_9ba813bc",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-05-10T14:43:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ae1b1ec_be4b3277",
+      "revId": "618997cc87a04be43d45e8c8bd8de46f1bf2827e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
