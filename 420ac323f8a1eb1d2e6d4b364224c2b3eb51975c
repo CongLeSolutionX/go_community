@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4baf526a_d279240e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-10T09:44:19Z",
+      "side": 1,
+      "message": "Minor nit, please lowercase the “Add” to “add”",
+      "revId": "420ac323f8a1eb1d2e6d4b364224c2b3eb51975c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
