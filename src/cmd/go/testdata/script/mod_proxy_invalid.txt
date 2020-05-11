@@ -1,0 +1,8 @@
+env GO111MODULE=on
+env GOPROXY=$GOPROXY/invalid
+
+! go get rsc.io/quote
+stderr '^go get rsc.io/quote: module rsc.io/quote: invalid json response for latest version: invalid character ''i'' looking for beginning of value$'
+
+-- go.mod --
+module x
