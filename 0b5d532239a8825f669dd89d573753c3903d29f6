@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9483551c_65da30d8",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-11T19:43:43Z",
+      "side": 1,
+      "message": "Interesting. Maybe from the code in cmd/internal/objfile/plan9obj.go? That whole file looks dead now.",
+      "parentUuid": "764db995_15721b50",
+      "revId": "0b5d532239a8825f669dd89d573753c3903d29f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1b1df6e_a1ddc75d",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
