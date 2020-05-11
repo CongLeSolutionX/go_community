@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b566fad_d488d329",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-05-11T19:11:08Z",
+      "side": 1,
+      "message": "Would it be safer to just set this to the empty string in cmd.Env on the next line, rather than affecting the current process?",
+      "revId": "de8ac516f6741ec45699af87c68a846043c8e2e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
