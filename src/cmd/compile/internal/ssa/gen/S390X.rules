@@ -697,6 +697,14 @@
 ( ORW (SLWconst x [c]) (SRWconst x [d])) && d == 32-c => (RLLconst [c] x)
 (XORW (SLWconst x [c]) (SRWconst x [d])) && d == 32-c => (RLLconst [c] x)
 
+// Match (x >> c) << d to 'rotate then insert selected bits [into zero]'.
+(SLDconst (SRDconst x [c]) [d]) => (RISBGZ  x {s390x.NewRotateParams(max8(0, c-d), 63-d, (d-c)&63)})
+(SLWconst (SRWconst x [c]) [d]) => (RISBLGZ x {s390x.NewRotateParams(max8(0, c-d), 31-d, (d-c)&63)})
+
+// Match (x << c) >> d to 'rotate then insert selected bits [into zero]'.
+(SRDconst (SLDconst x [c]) [d]) => (RISBGZ  x {s390x.NewRotateParams(d, min8(63, 63-c+d), (c-d)&63)})
+(SRWconst (SLWconst x [c]) [d]) => (RISBLGZ x {s390x.NewRotateParams(d, min8(31, 31-c+d), (c-d)&63)})
+
 (CMP x (MOVDconst [c])) && is32Bit(c) -> (CMPconst x [c])
 (CMP (MOVDconst [c]) x) && is32Bit(c) -> (InvertFlags (CMPconst x [c]))
 (CMPW x (MOVDconst [c])) -> (CMPWconst x [int64(int32(c))])

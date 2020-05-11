@@ -371,6 +371,8 @@ func init() {
 		// +-------------+-------+-----+--------+-----------------------+-----------------------+-----------------------+
 		//
 		{name: "RXSBG", argLength: 2, reg: gp21, asm: "RXSBG", resultInArg0: true, aux: "S390XRotateParams", clobberFlags: true}, // rotate then xor selected bits
+		{name: "RISBGZ", argLength: 1, reg: gp11, asm: "RISBGZ", aux: "S390XRotateParams", clobberFlags: true},                   // rotate then insert selected bits [into zero]
+		{name: "RISBLGZ", argLength: 1, reg: gp11, asm: "RISBLGZ", aux: "S390XRotateParams"},                                     // rotate then insert selected bits low [into zero]
 
 		// unary ops
 		{name: "NEG", argLength: 1, reg: gp11, asm: "NEG", clobberFlags: true},   // -arg0

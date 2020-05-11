@@ -732,8 +732,12 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XRLLG(v)
 	case OpS390XSLD:
 		return rewriteValueS390X_OpS390XSLD(v)
+	case OpS390XSLDconst:
+		return rewriteValueS390X_OpS390XSLDconst(v)
 	case OpS390XSLW:
 		return rewriteValueS390X_OpS390XSLW(v)
+	case OpS390XSLWconst:
+		return rewriteValueS390X_OpS390XSLWconst(v)
 	case OpS390XSRAD:
 		return rewriteValueS390X_OpS390XSRAD(v)
 	case OpS390XSRADconst:
@@ -748,6 +752,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XSRDconst(v)
 	case OpS390XSRW:
 		return rewriteValueS390X_OpS390XSRW(v)
+	case OpS390XSRWconst:
+		return rewriteValueS390X_OpS390XSRWconst(v)
 	case OpS390XSTM2:
 		return rewriteValueS390X_OpS390XSTM2(v)
 	case OpS390XSTMG2:
@@ -16826,6 +16832,24 @@ func rewriteValueS390X_OpS390XSLD(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XSLDconst(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SLDconst (SRDconst x [c]) [d])
+	// result: (RISBGZ x {s390x.NewRotateParams(max8(0, c-d), 63-d, (d-c)&63)})
+	for {
+		d := auxIntToInt8(v.AuxInt)
+		if v_0.Op != OpS390XSRDconst {
+			break
+		}
+		c := auxIntToInt8(v_0.AuxInt)
+		x := v_0.Args[0]
+		v.reset(OpS390XRISBGZ)
+		v.Aux = s390xRotateParamsToAux(s390x.NewRotateParams(max8(0, c-d), 63-d, (d-c)&63))
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XSLW(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
@@ -16956,6 +16980,24 @@ func rewriteValueS390X_OpS390XSLW(v *Value) bool {
 		y := v_1.Args[0]
 		v.reset(OpS390XSLW)
 		v.AddArg2(x, y)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XSLWconst(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SLWconst (SRWconst x [c]) [d])
+	// result: (RISBLGZ x {s390x.NewRotateParams(max8(0, c-d), 31-d, (d-c)&63)})
+	for {
+		d := auxIntToInt8(v.AuxInt)
+		if v_0.Op != OpS390XSRWconst {
+			break
+		}
+		c := auxIntToInt8(v_0.AuxInt)
+		x := v_0.Args[0]
+		v.reset(OpS390XRISBLGZ)
+		v.Aux = s390xRotateParamsToAux(s390x.NewRotateParams(max8(0, c-d), 31-d, (d-c)&63))
+		v.AddArg(x)
 		return true
 	}
 	return false
@@ -17397,6 +17439,20 @@ func rewriteValueS390X_OpS390XSRD(v *Value) bool {
 func rewriteValueS390X_OpS390XSRDconst(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
+	// match: (SRDconst (SLDconst x [c]) [d])
+	// result: (RISBGZ x {s390x.NewRotateParams(d, min8(63, 63-c+d), (c-d)&63)})
+	for {
+		d := auxIntToInt8(v.AuxInt)
+		if v_0.Op != OpS390XSLDconst {
+			break
+		}
+		c := auxIntToInt8(v_0.AuxInt)
+		x := v_0.Args[0]
+		v.reset(OpS390XRISBGZ)
+		v.Aux = s390xRotateParamsToAux(s390x.NewRotateParams(d, min8(63, 63-c+d), (c-d)&63))
+		v.AddArg(x)
+		return true
+	}
 	// match: (SRDconst [1] (SLDconst [1] (LGDR <t> x)))
 	// result: (LGDR <t> (LPDFR <x.Type> x))
 	for {
@@ -17548,6 +17604,24 @@ func rewriteValueS390X_OpS390XSRW(v *Value) bool {
 		y := v_1.Args[0]
 		v.reset(OpS390XSRW)
 		v.AddArg2(x, y)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XSRWconst(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SRWconst (SLWconst x [c]) [d])
+	// result: (RISBLGZ x {s390x.NewRotateParams(d, min8(31, 31-c+d), (c-d)&63)})
+	for {
+		d := auxIntToInt8(v.AuxInt)
+		if v_0.Op != OpS390XSLWconst {
+			break
+		}
+		c := auxIntToInt8(v_0.AuxInt)
+		x := v_0.Args[0]
+		v.reset(OpS390XRISBLGZ)
+		v.Aux = s390xRotateParamsToAux(s390x.NewRotateParams(d, min8(31, 31-c+d), (c-d)&63))
+		v.AddArg(x)
 		return true
 	}
 	return false

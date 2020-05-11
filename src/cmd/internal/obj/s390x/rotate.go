@@ -29,7 +29,7 @@ type RotateParams struct {
 	Amount uint8 // amount to rotate left
 }
 
-func NewRotateParams(start, end, amount int64) RotateParams {
+func NewRotateParams(start, end, amount int8) RotateParams {
 	if start&^63 != 0 {
 		panic("start out of bounds")
 	}

@@ -149,11 +149,13 @@ func ubfiz5(x uint8) uint64 {
 
 func ubfiz6(x uint64) uint64 {
 	// arm64:"UBFIZ\t[$]1, R[0-9]+, [$]60",-"LSL",-"LSR"
+	// s390x:"RISBGZ\t[$]3, [$]62, [$]1, ",-"SLD\t",-"SRD\t"
 	return (x << 4) >> 3
 }
 
 func ubfiz7(x uint32) uint32 {
 	// arm64:"UBFIZ\t[$]1, R[0-9]+, [$]28",-"LSL",-"LSR"
+	// s390x:"RISBLGZ\t[$]3, [$]30, [$]1, ",-"SLD\t",-"SRD\t"
 	return (x << 4) >> 3
 }
 
@@ -196,11 +198,15 @@ func ubfx5(x uint8) uint64 {
 }
 
 func ubfx6(x uint64) uint64 {
-	return (x << 1) >> 2 // arm64:"UBFX\t[$]1, R[0-9]+, [$]62",-"LSL",-"LSR"
+	// arm64:"UBFX\t[$]1, R[0-9]+, [$]62",-"LSL",-"LSR"
+	// s390x:"RISBGZ\t[$]2, [$]63, [$]63,",-"SLD\t",-"SRD\t"
+	return (x << 1) >> 2
 }
 
 func ubfx7(x uint32) uint32 {
-	return (x << 1) >> 2 // arm64:"UBFX\t[$]1, R[0-9]+, [$]30",-"LSL",-"LSR"
+	// arm64:"UBFX\t[$]1, R[0-9]+, [$]30",-"LSL",-"LSR"
+	// s390x:"RISBLGZ\t[$]2, [$]31, [$]63,",-"SLW\t",-"SRW\t"
+	return (x << 1) >> 2
 }
 
 func ubfx8(x uint64) uint64 {
