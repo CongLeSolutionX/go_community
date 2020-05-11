@@ -929,6 +929,17 @@ func TestLockOSThreadAvoidsStatePropagation(t *testing.T) {
 	}
 }
 
+func TestLockOSThreadTrace(t *testing.T) {
+	// In the bad case, this test is expected to fail ~50% of the time.
+	//
+	// In the good case, it should never flake.
+	want := "OK\n"
+	output := runTestProg(t, "testprog", "LockOSThreadTrace")
+	if output != want {
+		t.Errorf("want %q, got %q", want, output)
+	}
+}
+
 // fakeSyscall emulates a system call.
 //go:nosplit
 func fakeSyscall(duration time.Duration) {

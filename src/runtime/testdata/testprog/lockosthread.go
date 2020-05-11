@@ -5,8 +5,10 @@
 package main
 
 import (
+	"bytes"
 	"os"
 	"runtime"
+	"runtime/trace"
 	"time"
 )
 
@@ -30,6 +32,7 @@ func init() {
 		runtime.LockOSThread()
 	})
 	register("LockOSThreadAvoidsStatePropagation", LockOSThreadAvoidsStatePropagation)
+	register("LockOSThreadTrace", LockOSThreadTrace)
 }
 
 func LockOSThreadMain() {
@@ -193,5 +196,27 @@ func LockOSThreadAvoidsStatePropagation() {
 	}()
 	done <- true
 	runtime.UnlockOSThread()
+	println("OK")
+}
+
+// LockOSThreadTrace is a regression test for #39004. If trace.Stop is called
+// on a locked M, it should wake the readers before sleeping,otherwise we could
+// deadlock.
+func LockOSThreadTrace() {
+	runtime.LockOSThread()
+	defer runtime.UnlockOSThread()
+
+	var b bytes.Buffer
+	trace.Start(&b)
+
+	// Add a trace event that needs flush.
+	//
+	// A sleep produces more consistent failures than Gosched, as it gives
+	// more time for spinning Ms to sleep.
+	time.Sleep(10*time.Millisecond)
+
+	trace.Stop()
+
+	// Didn't deadlock.
 	println("OK")
 }

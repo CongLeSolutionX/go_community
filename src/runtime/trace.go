@@ -320,6 +320,13 @@ func StopTrace() {
 	trace.shutdown = true
 	unlock(&trace.bufLock)
 
+	// This can't race with blocking in ReadTrace because STW excludes the
+	// locked portion. A call that hasn't yet locked will never block.
+	gp := traceReader()
+	if gp != nil {
+		goready(gp, 0)
+	}
+
 	startTheWorldGC()
 
 	// The world is started but we've set trace.shutdown, so new tracing can't start.

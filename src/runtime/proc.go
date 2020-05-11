@@ -2583,18 +2583,9 @@ top:
 	var gp *g
 	var inheritTime bool
 
-	// Normal goroutines will check for need to wakeP in ready,
-	// but GCworkers and tracereaders will not, so the check must
-	// be done here instead.
+	// Normal goroutines will check for need to wakeP in ready, but
+	// GCworkers will not, so the check must be done here instead.
 	tryWakeP := false
-	if trace.enabled || trace.shutdown {
-		gp = traceReader()
-		if gp != nil {
-			casgstatus(gp, _Gwaiting, _Grunnable)
-			traceGoUnpark(gp, 0)
-			tryWakeP = true
-		}
-	}
 	if gp == nil && gcBlackenEnabled != 0 {
 		gp = gcController.findRunnableGCWorker(_g_.m.p.ptr())
 		tryWakeP = tryWakeP || gp != nil
