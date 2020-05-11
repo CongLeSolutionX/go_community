@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "798343f3_82e6cbff",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 12
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-05-11T06:29:48Z",
+      "side": 1,
+      "message": "Hi,\nSorry for commenting on a 2-year old change, curious to know why PopCount8 was left without intrinsifying? Was there any perf. regression with intrinsifying PopCount8? Thanks.",
+      "revId": "fcba05148f50449eb4c2d97ef69519f69707da61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
