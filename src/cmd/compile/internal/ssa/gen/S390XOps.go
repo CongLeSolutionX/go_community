@@ -346,10 +346,11 @@ func init() {
 		{name: "SRADconst", argLength: 1, reg: gp11, asm: "SRAD", aux: "Int8", clobberFlags: true}, // signed arg0 >> auxint, shift amount 0-63
 		{name: "SRAWconst", argLength: 1, reg: gp11, asm: "SRAW", aux: "Int8", clobberFlags: true}, // signed int32(arg0) >> auxint, shift amount 0-31
 
-		{name: "RLLG", argLength: 2, reg: sh21, asm: "RLLG"},                   // arg0 rotate left arg1, rotate amount 0-63
-		{name: "RLL", argLength: 2, reg: sh21, asm: "RLL"},                     // arg0 rotate left arg1, rotate amount 0-31
-		{name: "RLLGconst", argLength: 1, reg: gp11, asm: "RLLG", aux: "Int8"}, // arg0 rotate left auxint, rotate amount 0-63
-		{name: "RLLconst", argLength: 1, reg: gp11, asm: "RLL", aux: "Int8"},   // arg0 rotate left auxint, rotate amount 0-31
+		// Rotate instructions.
+		// Note: no RLLGconst - use RISBGZ instead.
+		{name: "RLLG", argLength: 2, reg: sh21, asm: "RLLG"},                 // arg0 rotate left arg1, rotate amount 0-63
+		{name: "RLL", argLength: 2, reg: sh21, asm: "RLL"},                   // arg0 rotate left arg1, rotate amount 0-31
+		{name: "RLLconst", argLength: 1, reg: gp11, asm: "RLL", aux: "Int8"}, // arg0 rotate left auxint, rotate amount 0-31
 
 		// Rotate then (and|or|xor|insert) selected bits instructions.
 		//
@@ -371,6 +372,7 @@ func init() {
 		// +-------------+-------+-----+--------+-----------------------+-----------------------+-----------------------+
 		//
 		{name: "RXSBG", argLength: 2, reg: gp21, asm: "RXSBG", resultInArg0: true, aux: "S390XRotateParams", clobberFlags: true}, // rotate then xor selected bits
+		{name: "RISBGZ", argLength: 1, reg: gp11, asm: "RISBGZ", aux: "S390XRotateParams", clobberFlags: true},                   // rotate then insert selected bits [into zero]
 
 		// unary ops
 		{name: "NEG", argLength: 1, reg: gp11, asm: "NEG", clobberFlags: true},   // -arg0
