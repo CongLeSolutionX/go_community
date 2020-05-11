@@ -401,7 +401,7 @@ func (p *proxyRepo) Stat(rev string) (*RevInfo, error) {
 	}
 	info := new(RevInfo)
 	if err := json.Unmarshal(data, info); err != nil {
-		return nil, p.versionError(rev, err)
+		return nil, p.versionError(rev, fmt.Errorf("invalid response from proxy %q: %w", p.url.String(), err))
 	}
 	if info.Version != rev && rev == module.CanonicalVersion(rev) && module.Check(p.path, rev) == nil {
 		// If we request a correct, appropriate version for the module path, the
@@ -422,7 +422,7 @@ func (p *proxyRepo) Latest() (*RevInfo, error) {
 	}
 	info := new(RevInfo)
 	if err := json.Unmarshal(data, info); err != nil {
-		return nil, p.versionError("", err)
+		return nil, p.versionError("", fmt.Errorf("invalid response from proxy %q: %w", p.url.String(), err))
 	}
 	return info, nil
 }
