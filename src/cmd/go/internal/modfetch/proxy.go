@@ -422,7 +422,7 @@ func (p *proxyRepo) Latest() (*RevInfo, error) {
 	}
 	info := new(RevInfo)
 	if err := json.Unmarshal(data, info); err != nil {
-		return nil, p.versionError("", err)
+		return nil, p.versionError("", fmt.Errorf("invalid json response for latest version: %w", err))
 	}
 	return info, nil
 }
