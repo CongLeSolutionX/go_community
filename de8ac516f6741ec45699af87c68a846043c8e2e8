@@ -16,6 +16,24 @@
       "revId": "de8ac516f6741ec45699af87c68a846043c8e2e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827fd424_38aad373",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-11T20:14:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b566fad_d488d329",
+      "revId": "de8ac516f6741ec45699af87c68a846043c8e2e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
