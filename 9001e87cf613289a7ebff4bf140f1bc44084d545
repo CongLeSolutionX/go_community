@@ -16,6 +16,24 @@
       "revId": "9001e87cf613289a7ebff4bf140f1bc44084d545",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf22a747_046d9a7a",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-05-11T19:31:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "706868a7_5d975a2f",
+      "revId": "9001e87cf613289a7ebff4bf140f1bc44084d545",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
