@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bbc8b5f_7a7ad69f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-12T18:33:29Z",
+      "side": 1,
+      "message": "\"Specifically, this change documents the behavior of Unmarshal when a SEQUENCE contains trailing elements.\"\n\n\u003cblank line\u003e\n\n\"For context...\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "45c8e6e07fd11d1855c29606995d8a1c1fb65be0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8df9e1f5_bc340816",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-12T18:33:29Z",
+      "side": 1,
+      "message": "append",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "45c8e6e07fd11d1855c29606995d8a1c1fb65be0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8184ac88_e209a62d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-12T18:33:29Z",
+      "side": 1,
+      "message": "Do you feel that these issues are different enough that they were reflected separately in this change? Otherwise, they seem close enough to me that I\u0027d prefer we close https://github.com/golang/go/issues/38545 as a dupe of https://github.com/golang/go/issues/35680 and just mark this as \"Fixes #35680\"",
+      "range": {
+        "startLine": 18,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "45c8e6e07fd11d1855c29606995d8a1c1fb65be0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5506b3b3_73947dae",
+        "filename": "src/encoding/asn1/asn1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-05-12T18:33:29Z",
+      "side": 1,
+      "message": "After parsing b, any bytes that were leftover and not used to fill val will be returned in rest.",
+      "range": {
+        "startLine": 1040,
+        "startChar": 3,
+        "endLine": 1041,
+        "endChar": 19
+      },
+      "revId": "45c8e6e07fd11d1855c29606995d8a1c1fb65be0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
