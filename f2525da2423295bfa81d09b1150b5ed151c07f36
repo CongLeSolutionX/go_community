@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74d3492b_6eb67745",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2020-05-12T09:42:10Z",
+      "side": 1,
+      "message": ".. or I failed to capture important aspects in comments :)\n\nThe motivation for the current design was potential imbalance between production and consumption rates which will lead to steady memory consumption increase and OOM. The scheduler schedules goroutines in a weak round-robin order. Consider there are _lots_ of runnable goroutines each generating some events and only 1 goroutine reading that is scheduled at arbitrary low rate. Multiple GOMAXPROCs will make it even worse. First, the rate of production will be proportionally higher, but rate of consumption is the same. Then the reader goroutine may be stalled in a local runq by some slow goroutine.\nWe don\u0027t have any mechanism to drop excessive unconsumed events and the current design pretty much assumes that we don\u0027t (the trace will be unparsable).\n\nI did not actually try to create the worst case test as far as I remember. But it should be easy enough, just lots of goroutines doing some blocking/unblocking. It should show if this problem is real or not.",
+      "revId": "f2525da2423295bfa81d09b1150b5ed151c07f36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
