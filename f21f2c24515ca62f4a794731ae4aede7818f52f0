@@ -16,6 +16,24 @@
       "revId": "f21f2c24515ca62f4a794731ae4aede7818f52f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "970a29f8_38a359b7",
+        "filename": "src/cmd/go/testdata/script/mod_proxy_invalid.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 25366
+      },
+      "writtenOn": "2020-05-12T15:07:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f72e1a92_8bb45bb9",
+      "revId": "f21f2c24515ca62f4a794731ae4aede7818f52f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
