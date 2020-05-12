@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9616bb9f_1dc543ea",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-12T14:31:50Z",
+      "side": 1,
+      "message": "Nit: if this were a .go file, gofmt would remove this space (and the one on the line above).",
+      "range": {
+        "startLine": 493,
+        "startChar": 24,
+        "endLine": 493,
+        "endChar": 25
+      },
+      "revId": "922c9a5fdcb671be99a46d0f94c9df18fdb874fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
