@@ -4,6 +4,7 @@ stdout 'pkg1	\[no test files\]'
 stdout 'pkg2	\S+	coverage: 0.0% of statements \[no tests to run\]'
 stdout 'pkg3	\S+	coverage: 100.0% of statements'
 stdout 'pkg4	\S+	coverage: \[no statements\]'
+stdout 'pkg5	\S+	coverage: 100.0% of statements'
 
 -- pkg1/a.go --
 package pkg1
@@ -54,4 +55,20 @@ import (
 
 func TestT(t *testing.T) {
 	_ = T{}
+}
+-- pkg5/a.go --
+package pkg5
+
+func F() bool {
+	return false
+}
+-- pkg5/a_test.go --
+package pkg5
+
+import "testing"
+
+func TestF(t *testing.T) {
+	if F() {
+		t.Error("test failed")
+	}
 }

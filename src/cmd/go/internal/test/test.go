@@ -1247,7 +1247,7 @@ func (c *runCache) builderRunTest(b *work.Builder, a *work.Action) error {
 		// not a pipe.
 		// TODO(golang.org/issue/29062): tests that exit with status 0 without
 		// printing a final result should fail.
-		fmt.Fprintf(cmd.Stdout, "FAIL\t%s\t%s\n", a.Package.ImportPath, t)
+		fmt.Fprintf(cmd.Stdout, "FAIL\t%s\t%s%s\n", a.Package.ImportPath, t, coveragePercentage(out))
 	}
 
 	if cmd.Stdout != &buf {
