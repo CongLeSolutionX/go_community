@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e793300_6f616af6",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-13T20:29:11Z",
+      "side": 1,
+      "message": "A similar error should be returned here.",
+      "revId": "2d5418052f93d7f41f4eeaee0e3d19925f6a1d78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d16700c_3fffc81d",
+        "filename": "src/cmd/go/testdata/script/mod_proxy_invalid.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-13T20:29:11Z",
+      "side": 1,
+      "message": "You could probably drop the go.mod file if you use \u0027go list -m rsc.io/quote@latest\u0027 instead of \u0027go get\u0027.\n\nAlso check a specific version: \u0027go list -m rsc.io/quote@v1.5.2\u0027",
+      "revId": "2d5418052f93d7f41f4eeaee0e3d19925f6a1d78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
