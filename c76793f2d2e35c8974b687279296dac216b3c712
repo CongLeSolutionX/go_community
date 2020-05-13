@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23abca8b_f2bf036c",
+        "filename": "src/os/dir_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-13T19:11:26Z",
+      "side": 1,
+      "message": "As a bonus you can remove this call to runtime.KeepAlive.",
+      "revId": "c76793f2d2e35c8974b687279296dac216b3c712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
