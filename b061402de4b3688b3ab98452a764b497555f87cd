@@ -16,6 +16,24 @@
       "revId": "b061402de4b3688b3ab98452a764b497555f87cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1a821f9_f3a75f36",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 35059
+      },
+      "writtenOn": "2020-05-13T09:53:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7e0da63_c0e62430",
+      "revId": "b061402de4b3688b3ab98452a764b497555f87cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
