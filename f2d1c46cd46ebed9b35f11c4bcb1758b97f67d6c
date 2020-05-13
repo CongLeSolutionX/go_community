@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fadb62a5_16c59df8",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-13T18:05:12Z",
+      "side": 1,
+      "message": "please add a space after the //:\n\n// 0 \u003c |mant| \u003c +Inf",
+      "range": {
+        "startLine": 325,
+        "startChar": 6,
+        "endLine": 325,
+        "endChar": 7
+      },
+      "revId": "f2d1c46cd46ebed9b35f11c4bcb1758b97f67d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
