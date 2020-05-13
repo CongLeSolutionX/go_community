@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3494b322_6af19068",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-13T19:46:34Z",
+      "side": 1,
+      "message": "Nit: waitOrStop",
+      "range": {
+        "startLine": 1092,
+        "startChar": 46,
+        "endLine": 1092,
+        "endChar": 56
+      },
+      "revId": "94ded76125803e1ee787c76016d314164c5368a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa3e2f21_d166e1ca",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-13T19:46:34Z",
+      "side": 1,
+      "message": "Consider renaming to interruptErr so this matches up with the variable of the same name below.",
+      "range": {
+        "startLine": 1113,
+        "startChar": 2,
+        "endLine": 1113,
+        "endChar": 5
+      },
+      "revId": "94ded76125803e1ee787c76016d314164c5368a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b776255c_39163208",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-13T19:46:34Z",
+      "side": 1,
+      "message": "It\u0027s unfortunate this error is not exported from os. It doesn\u0027t seem like there\u0027s another way to get it though.\n\nJust to confirm: this case would happen if the context was cancelled, but the process terminated before we could signal it, correct?",
+      "range": {
+        "startLine": 1116,
+        "startChar": 27,
+        "endLine": 1116,
+        "endChar": 58
+      },
+      "revId": "94ded76125803e1ee787c76016d314164c5368a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2f8d0cb_140b95b5",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-13T19:46:34Z",
+      "side": 1,
+      "message": "😂",
+      "range": {
+        "startLine": 1133,
+        "startChar": 6,
+        "endLine": 1133,
+        "endChar": 29
+      },
+      "revId": "94ded76125803e1ee787c76016d314164c5368a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
