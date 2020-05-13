@@ -322,10 +322,10 @@ func (z *Float) SetMantExp(mant *Float, exp int) *Float {
 		mant.validate()
 	}
 	z.Copy(mant)
-	if z.form != finite {
-		return z
+	// 0 < |mant| < +Inf
+	if z.form == finite {
+		z.setExpAndRound(int64(z.exp)+int64(exp), 0)
 	}
-	z.setExpAndRound(int64(z.exp)+int64(exp), 0)
 	return z
 }
 
