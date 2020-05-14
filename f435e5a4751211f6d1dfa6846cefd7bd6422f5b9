@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cef66fbd_70ee884a",
+        "filename": "src/cmd/go/internal/modload/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2020-05-14T21:41:08Z",
+      "side": 1,
+      "message": "Should some of this be on the Reqs interface instead/too? It already has notes there about handling \"none\" specially.",
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab625634_36798dcf",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2020-05-14T21:41:08Z",
+      "side": 1,
+      "message": "\"module\"",
+      "range": {
+        "startLine": 224,
+        "startChar": 25,
+        "endLine": 224,
+        "endChar": 31
+      },
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
