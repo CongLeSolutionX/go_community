@@ -46,6 +46,23 @@
       "revId": "715385d1761743fb6d119d30204dfcc21166826c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "887073f0_1944c777",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-05-14T22:26:47Z",
+      "side": 1,
+      "message": "Nice list!  Maybe point out that this one could also be a compiler bug that generates an improper pointer as an intermediate calculation?\n\nAnd this list could be useful to include somewhere even if you don\u0027t end up leaving the extra zombie detection code in.",
+      "revId": "715385d1761743fb6d119d30204dfcc21166826c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
