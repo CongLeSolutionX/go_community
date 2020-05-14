@@ -220,10 +220,9 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (m
 	// The final list is the minimum version of each module found in the graph.
 
 	if v := min[target.Path]; v != target.Version {
-		// TODO(jayconrod): there is a special case in modload.mvsReqs.Max
-		// that prevents us from selecting a newer version of a module
-		// when the module has no version. This may only be the case for target.
-		// Should we always panic when target has a version?
+		// target.Version will be "" for modload, the main client of MVS.
+		// "" denotes the main mdoule, which has no version. However, MVS treats
+		// version strings as opaque, so "" is not a special value here.
 		// See golang.org/issue/31491, golang.org/issue/29773.
 		panic(fmt.Sprintf("mistake: chose version %q instead of target %+v", v, target)) // TODO: Don't panic.
 	}
