@@ -34,6 +34,24 @@
       "revId": "c8a52fe1f9d1b54b31758abb657a330e36016b78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc2097b3_203bb023",
+        "filename": "src/cmd/go.sum",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-14T22:07:36Z",
+      "side": 1,
+      "message": "For reference: https://go.googlesource.com/mod/+/refs/tags/v0.3.0/sumdb/dirhash/hash.go#112",
+      "parentUuid": "f23c0fa1_7f51253c",
+      "revId": "c8a52fe1f9d1b54b31758abb657a330e36016b78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
