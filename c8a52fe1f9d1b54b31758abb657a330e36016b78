@@ -16,6 +16,24 @@
       "revId": "c8a52fe1f9d1b54b31758abb657a330e36016b78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23c0fa1_7f51253c",
+        "filename": "src/cmd/go.sum",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-14T22:06:24Z",
+      "side": 1,
+      "message": "Exactly that.\n\nEvery file name in the zip has the prefix \"golang.org/x/mod@v0.3.0/\". The file name is included in the hash, including the prefix.",
+      "parentUuid": "c02f2206_e6281756",
+      "revId": "c8a52fe1f9d1b54b31758abb657a330e36016b78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
