@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e812faf_fd70b29a",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-14T13:55:11Z",
+      "side": 1,
+      "message": "Thinking on this more, I\u0027d suggest changing the message to:\n\n    fmt.Errorf(\"invalid response from proxy %q: %w\", p.url.String(), err)\n\nThe fact that this is JSON may not be important to the user. It\u0027s more important to say this came from a particular proxy.",
+      "range": {
+        "startLine": 404,
+        "startChar": 54,
+        "endLine": 404,
+        "endChar": 58
+      },
+      "revId": "1e56b2c55299999fc0e16a64dac31611587efc3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
