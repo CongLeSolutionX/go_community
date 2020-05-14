@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcadd060_ddb01ed9",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-14T15:29:56Z",
+      "side": 1,
+      "message": "Hmm, I thought p.url.String() would return something like \"https://proxy.golang.org\", not \"https://proxy.golang.org/rsc.io/quote\". This is somewhat redundant, since the module path is mentioned earlier in the error message.\n\nLet\u0027s save the baseURL string in the newProxyRepo constructor so we can print that here instead.",
+      "revId": "df397330a17592982825715857088d1975c5009c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
