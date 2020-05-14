@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3596d276_226484bd",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-14T20:41:44Z",
+      "side": 1,
+      "message": "Please use `base.Redacted()` here (https://tip.golang.org/pkg/net/url/#URL.Redacted), and rename the field to redactedURL.\n\n(It is possible — if inadvisable — for the base URL for the proxy to contain inline credentials.)",
+      "range": {
+        "startLine": 263,
+        "startChar": 31,
+        "endLine": 263,
+        "endChar": 38
+      },
+      "revId": "bffde4c1043a56e7e63c69a44e9470a34f9096fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
