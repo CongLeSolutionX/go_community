@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b986388d_da220e38",
+        "filename": "src/math/acosh.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-14T17:27:19Z",
+      "side": 1,
+      "message": "Since you\u0027re simplifying, remove the parentheses as well:\n\nconst Large \u003d ...",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 7
+      },
+      "revId": "26aa7d91bda384059fb688b1675a05806093b9f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
