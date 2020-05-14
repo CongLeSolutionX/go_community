@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "34b5819e_3e9367d9",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-14T02:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3494b322_6af19068",
+      "range": {
+        "startLine": 1092,
+        "startChar": 46,
+        "endLine": 1092,
+        "endChar": 56
+      },
+      "revId": "94ded76125803e1ee787c76016d314164c5368a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa3e2f21_d166e1ca",
         "filename": "src/cmd/go/script_test.go",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "026a6efc_bf073fb8",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-14T02:15:22Z",
+      "side": 1,
+      "message": "Acknowledged. I prefer keeping distinct names, since the `interruptErr` variable might not actually end up identical to this variable under certain paths.\n\n(For example, `interruptErr` may instead be `nil` if we take line 1117, or `ctx.Err()` if we take line 1125.)",
+      "parentUuid": "fa3e2f21_d166e1ca",
+      "range": {
+        "startLine": 1113,
+        "startChar": 2,
+        "endLine": 1113,
+        "endChar": 5
+      },
+      "revId": "94ded76125803e1ee787c76016d314164c5368a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b776255c_39163208",
         "filename": "src/cmd/go/script_test.go",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "94ded76125803e1ee787c76016d314164c5368a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5eaadb3_20573bf8",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-14T02:15:22Z",
+      "side": 1,
+      "message": "\u003e It\u0027s unfortunate this error is not exported from os. It doesn\u0027t seem like there\u0027s another way to get it though.\n\nAgreed. In theory we could pull it out into an `internal` package, but that doesn\u0027t seem worthwhile at this point. Perhaps at some point we can export it properly from `os`.\n\n\u003e Just to confirm: this case would happen if the context was cancelled, but the process terminated before we could signal it, correct?\n\nCorrect. If this path is taken, the process ran to completion before we even realized that we wanted to interrupt it.",
+      "parentUuid": "b776255c_39163208",
+      "range": {
+        "startLine": 1116,
+        "startChar": 27,
+        "endLine": 1116,
+        "endChar": 58
+      },
+      "revId": "94ded76125803e1ee787c76016d314164c5368a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
