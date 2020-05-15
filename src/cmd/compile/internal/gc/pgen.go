@@ -14,6 +14,7 @@ import (
 	"cmd/internal/sys"
 	"internal/race"
 	"math/rand"
+	"os"
 	"sort"
 	"sync"
 	"time"
@@ -192,6 +193,37 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 	s.stkptrsize = Rnd(s.stkptrsize, int64(Widthreg))
 }
 
+func funcgenwrappers(fn *Node) {
+	if fn.Nbody.Len() == 0 {
+		return
+	}
+
+	// Set up the function's LSym early to avoid data races with the assemblers.
+	fn.Func.initLSym(true)
+
+	// PROBLEM: the call do dsymtype() below looks at n.Name.Addrtaken(),
+	// which might be updated in the "order" phase (which hasn't run yet).
+
+	// Make sure type syms are declared for all types that might
+	// be types of stack objects. We need to do this here
+	// because symbols must be allocated before the parallel
+	// phase of the compiler, and so as to trigger any remaining
+	// inlining prior to any backend compilation (see issue 38068).
+	for _, n := range fn.Func.Dcl {
+		switch n.Class() {
+		case PPARAM, PPARAMOUT, PAUTO:
+			if livenessShouldTrack(n) && n.Name.Addrtaken() {
+				dtypesym(n.Type)
+				// Also make sure we allocate a linker symbol
+				// for the stack object data, for the same reason.
+				if fn.Func.lsym.Func.StackObjects == nil {
+					fn.Func.lsym.Func.StackObjects = Ctxt.Lookup(fn.Func.lsym.Name + ".stkobj")
+				}
+			}
+		}
+	}
+}
+
 func funccompile(fn *Node) {
 	if Curfn != nil {
 		Fatalf("funccompile %v inside %v", fn.Func.Nname.Sym, Curfn.Func.Nname.Sym)
@@ -250,22 +282,30 @@ func compile(fn *Node) {
 		return
 	}
 
-	// Set up the function's LSym early to avoid data races with the assemblers.
-	fn.Func.initLSym(true)
+	if os.Getenv("THANM_NEW") != "" {
+		// Set up the function's LSym early to avoid data races with
+		// the assemblers, if not previously set in funcgenwrappers.
+		if fn.Func.lsym == nil {
+			fn.Func.initLSym(true)
+		}
+	} else {
+		// Set up the function's LSym early to avoid data races with the assemblers.
+		fn.Func.initLSym(true)
 
-	// Make sure type syms are declared for all types that might
-	// be types of stack objects. We need to do this here
-	// because symbols must be allocated before the parallel
-	// phase of the compiler.
-	for _, n := range fn.Func.Dcl {
-		switch n.Class() {
-		case PPARAM, PPARAMOUT, PAUTO:
-			if livenessShouldTrack(n) && n.Name.Addrtaken() {
-				dtypesym(n.Type)
-				// Also make sure we allocate a linker symbol
-				// for the stack object data, for the same reason.
-				if fn.Func.lsym.Func.StackObjects == nil {
-					fn.Func.lsym.Func.StackObjects = Ctxt.Lookup(fn.Func.lsym.Name + ".stkobj")
+		// Make sure type syms are declared for all types that might
+		// be types of stack objects. We need to do this here
+		// because symbols must be allocated before the parallel
+		// phase of the compiler.
+		for _, n := range fn.Func.Dcl {
+			switch n.Class() {
+			case PPARAM, PPARAMOUT, PAUTO:
+				if livenessShouldTrack(n) && n.Name.Addrtaken() {
+					dtypesym(n.Type)
+					// Also make sure we allocate a linker symbol
+					// for the stack object data, for the same reason.
+					if fn.Func.lsym.Func.StackObjects == nil {
+						fn.Func.lsym.Func.StackObjects = Ctxt.Lookup(fn.Func.lsym.Name + ".stkobj")
+					}
 				}
 			}
 		}

@@ -737,6 +737,19 @@ func Main(archInit func(*Arch)) {
 	Curfn = nil
 	peekitabs()
 
+	if os.Getenv("THANM_NEW") != "" {
+		// Make a pass through the functions in xtop and
+		// call a helper that will trigger wrapper generation.
+		// See issue 38068 for more on why this is needed.
+		for i := 0; i < len(xtop); i++ {
+			n := xtop[i]
+			if n.Op == ODCLFUNC {
+				funcgenwrappers(n)
+			}
+		}
+		Ctxt.InliningDone = true
+	}
+
 	// Phase 8: Compile top level functions.
 	// Don't use range--walk can add functions to xtop.
 	timings.Start("be", "compilefuncs")

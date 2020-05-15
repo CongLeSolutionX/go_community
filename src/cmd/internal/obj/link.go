@@ -675,6 +675,7 @@ type Link struct {
 	Errors             int
 
 	InParallel           bool // parallel backend phase in effect
+	InliningDone         bool // all inlining completed
 	Framepointer_enabled bool
 	UseBASEntries        bool // use Base Address Selection Entries in location lists and PC ranges
 	IsAsm                bool // is the source assembly language, which may contain surprising idioms (e.g., call tables)

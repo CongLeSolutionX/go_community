@@ -1530,6 +1530,15 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 		fmt.Printf("genwrapper rcvrtype=%v method=%v newnam=%v\n", rcvr, method, newnam)
 	}
 
+	if os.Getenv("THANM_NEW") != "" {
+		// Issue 38068: wrapper generation can trigger the inliner, and
+		// we want inlining to be completely done before we do any back
+		// end invocation.
+		if Ctxt.InliningDone {
+			panic("unexpected late call to genwrapper")
+		}
+	}
+
 	// Only generate (*T).M wrappers for T.M in T's own package.
 	if rcvr.IsPtr() && rcvr.Elem() == method.Type.Recv().Type &&
 		rcvr.Elem().Sym != nil && rcvr.Elem().Sym.Pkg != localpkg {
@@ -1623,7 +1632,11 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	escapeFuncs([]*Node{fn}, false)
 
 	Curfn = nil
-	funccompile(fn)
+	if os.Getenv("THANM_NEW") != "" {
+		xtop = append(xtop, fn)
+	} else {
+		funccompile(fn)
+	}
 }
 
 func paramNnames(ft *types.Type) []*Node {
