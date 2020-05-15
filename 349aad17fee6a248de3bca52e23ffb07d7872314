@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d160275_8ae63ab9",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-15T19:05:05Z",
+      "side": 1,
+      "message": "Nit: remove this condition. Only f.Module \u003d\u003d nil matters here.",
+      "range": {
+        "startLine": 374,
+        "startChar": 4,
+        "endLine": 374,
+        "endChar": 31
+      },
+      "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57e7d19a_6a5be4ff",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-15T19:05:05Z",
+      "side": 1,
+      "message": "The module flag should have an argument: \u0027go mod edit -module\u003dexample.com/mod\u0027 would be clearer.\n\nWe could also try findModulePath; if it doesn\u0027t hit an error, we could use that path in the hint.",
+      "range": {
+        "startLine": 376,
+        "startChar": 57,
+        "endLine": 376,
+        "endChar": 76
+      },
+      "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7801cfc_e2eeb3b3",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-15T19:05:05Z",
+      "side": 1,
+      "message": "Consider breaking the line with \\n\\t here. There are a couple other multi-line messages like that.",
+      "range": {
+        "startLine": 376,
+        "startChar": 51,
+        "endLine": 376,
+        "endChar": 52
+      },
+      "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ccaf75d_3807e201",
+        "filename": "src/cmd/go/testdata/script/mod_invalid_path.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-15T19:05:05Z",
+      "side": 1,
+      "message": "Let\u0027s test the full error message here.",
+      "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
