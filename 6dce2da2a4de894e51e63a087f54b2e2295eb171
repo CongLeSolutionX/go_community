@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d268f977_fbcfc3b3",
+        "filename": "src/cmd/link/internal/arm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-05-15T05:18:53Z",
+      "side": 1,
+      "message": "oName (or origName)?",
+      "range": {
+        "startLine": 386,
+        "startChar": 4,
+        "endLine": 386,
+        "endChar": 9
+      },
+      "revId": "6dce2da2a4de894e51e63a087f54b2e2295eb171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a48e9756_35e372ec",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
@@ -31,6 +54,47 @@
       "side": 1,
       "message": "It will only be set for functions that are not laid out within N bytes from the runtime package (where N is the range of a direct CALL instruction, something like 1\u003c\u003c26). It can still be many for a gigantic program. But I think this map will still be rather small compared to other data for such programs.",
       "parentUuid": "a48e9756_35e372ec",
+      "revId": "6dce2da2a4de894e51e63a087f54b2e2295eb171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "904580b4_78c10146",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-05-15T05:18:53Z",
+      "side": 1,
+      "message": "For context, a modified repro case on ppc64le builds a 292MB binary with 134,000 defer calls, which results in 5 entries in the deferReturnTramp map. Obviously if the maximum call distance for an architecture is shorter then the number will increase, but I do not see this being a problem in general",
+      "parentUuid": "324fbc82_0c8457f3",
+      "revId": "6dce2da2a4de894e51e63a087f54b2e2295eb171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2efec06f_b471ce37",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-05-15T05:18:53Z",
+      "side": 1,
+      "message": "Same oName (or origName) question here.",
+      "range": {
+        "startLine": 689,
+        "startChar": 4,
+        "endLine": 689,
+        "endChar": 9
+      },
       "revId": "6dce2da2a4de894e51e63a087f54b2e2295eb171",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
