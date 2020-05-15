@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b05bd089_5ee538cd",
+        "filename": "src/math/atanh.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-15T17:20:40Z",
+      "side": 1,
+      "message": "I don\u0027t see why we need this extra case. If x \u003d\u003d 0, we will hit the case x \u003c NearZero below, and then the result is going to be 0 anyway.\n\nAdding the extra case here adds an extra test that makes this code slower. It would only make sense if most arguments would be 0 (as an optimization), but that is not likely.",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "14786170ec4c7619de3556c22f0c6c6e902b9041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff6b3e39_859ec6a6",
+        "filename": "src/math/tanh.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-15T17:20:40Z",
+      "side": 1,
+      "message": "Same here. I don\u0027t know that we need this extra case. Have you verified that the code is incorrect for x \u003d\u003d NaN?",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 21
+      },
+      "revId": "14786170ec4c7619de3556c22f0c6c6e902b9041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
