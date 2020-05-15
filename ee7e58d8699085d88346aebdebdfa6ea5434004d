@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88d24d56_bf0c9e45",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-15T19:58:08Z",
+      "side": 1,
+      "message": "I\u0027m not sure why this code is here. How does this generate the wrapper function?\nIs it inside dtypesym somewhere?",
+      "revId": "ee7e58d8699085d88346aebdebdfa6ea5434004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
