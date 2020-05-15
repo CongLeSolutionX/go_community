@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "56c865c7_38e08f10",
+        "filename": "src/cmd/go/internal/modload/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-15T19:32:20Z",
+      "side": 1,
+      "message": "How should it change?\n\nI thought this too, at first, but bcmills pointed out to me that Reqs treats version strings as opaque. Semver ordering (or any other ordering) is left up to the implementation. Because of that, \"\" is a special value for modload.mvsReqs, but it shouldn\u0027t mean anything within the mvs package.",
+      "parentUuid": "cef66fbd_70ee884a",
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1db2621f_8da3144e",
         "filename": "src/cmd/go/internal/mvs/mvs.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-05-15T00:01:30Z",
       "side": 1,
       "message": "Shouldn\u0027t this documentation be updated? That\u0027s what I expected when I saw this CL. (It was in writing my own implementation of this interface that this issue was discovered in the first place.)",
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3ab17a1_0b5108e6",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-15T19:32:20Z",
+      "side": 1,
+      "message": "How should it change?\n\nbcmills pointed out to me that this interface treats version strings as opaque. The string \"\" is only special to the modload.mvsReqs implementation. Other implementations might use an ordering other than semver and might have their own special values.",
+      "parentUuid": "1db2621f_8da3144e",
       "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -56,6 +92,30 @@
       "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83eaa06b_c22b0392",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-15T19:32:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab625634_36798dcf",
+      "range": {
+        "startLine": 224,
+        "startChar": 25,
+        "endLine": 224,
+        "endChar": 31
+      },
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
