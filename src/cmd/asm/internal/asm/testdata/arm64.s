@@ -740,6 +740,10 @@ again:
 	LDADDALH	R5, (RSP), R7                // e703e578
 	LDADDALB	R5, (R6), R7                 // c700e538
 	LDADDALB	R5, (RSP), R7                // e703e538
+	CASALD	R5, (R6), R7                         // c8e5fcc7
+	CASALD	R5, (RSP), R7                        // c8e5ffe7
+	CASALW	R5, (R6), R7                         // 88e5fcc7
+	CASALW	R5, (RSP), R7                        // 88e5ffe7
 	LDADDD	R5, (R6), R7                         // c70025f8
 	LDADDD	R5, (RSP), R7                        // e70325f8
 	LDADDW	R5, (R6), R7                         // c70025b8
