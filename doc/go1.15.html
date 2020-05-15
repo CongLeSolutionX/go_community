@@ -192,6 +192,12 @@ TODO
       <a href="/pkg/crypto/tls/#Dialer.DialContext"><code>DialContext</code></a>
       method permits using a context to both connect and handshake with a TLS server.
     </p>
+
+    <p><!-- CL 236737 -->
+      The <a href="/pkg/crypto/tls/#ConnectionState"><code>ConnectionState</code></a>
+      fields <code>OCSPResponse</code> and <code>SignedCertificateTimestamps</code>
+      are now repopulated on client-side resumed connections.
+    </p>
   </dd>
 </dl>
 
