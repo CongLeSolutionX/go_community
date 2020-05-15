@@ -728,10 +728,17 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 		return false, errors.New("tls: server resumed a session with a different cipher suite")
 	}
 
-	// Restore masterSecret and peerCerts from previous state
+	// Restore masterSecret, peerCerts, and ocspResponse from previous state
 	hs.masterSecret = hs.session.masterSecret
 	c.peerCertificates = hs.session.serverCertificates
 	c.verifiedChains = hs.session.verifiedChains
+	c.ocspResponse = hs.session.ocspResponse
+	// if hs.serverHello.scts didn't contain any SCTs, but we do have some SCTs
+	// in the saved session, then populate them
+	if len(c.scts) == 0 && len(hs.session.scts) != 0 {
+		c.scts = hs.session.scts
+	}
+
 	return true, nil
 }
 
@@ -788,6 +795,8 @@ func (hs *clientHandshakeState) readSessionTicket() error {
 		serverCertificates: c.peerCertificates,
 		verifiedChains:     c.verifiedChains,
 		receivedAt:         c.config.time(),
+		ocspResponse:       c.ocspResponse,
+		scts:               c.scts,
 	}
 
 	return nil
