@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "1db2621f_8da3144e",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2020-05-15T00:01:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this documentation be updated? That\u0027s what I expected when I saw this CL. (It was in writing my own implementation of this interface that this issue was discovered in the first place.)",
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab625634_36798dcf",
         "filename": "src/cmd/go/internal/mvs/mvs.go",
         "patchSetId": 1
