@@ -77,6 +77,8 @@ func tanh(x float64) float64 {
 	const MAXLOG = 8.8029691931113054295988e+01 // log(2**127)
 	z := Abs(x)
 	switch {
+	case x == 0 || IsNaN(x):
+		return x // return ±0 || NaN()
 	case z > 0.5*MAXLOG:
 		if x < 0 {
 			return -1
@@ -89,9 +91,6 @@ func tanh(x float64) float64 {
 			z = -z
 		}
 	default:
-		if x == 0 {
-			return x
-		}
 		s := x * x
 		z = x + x*s*((tanhP[0]*s+tanhP[1])*s+tanhP[2])/(((s+tanhQ[0])*s+tanhQ[1])*s+tanhQ[2])
 	}

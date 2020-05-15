@@ -56,6 +56,8 @@ func atanh(x float64) float64 {
 		return Inf(1)
 	case x == -1:
 		return Inf(-1)
+	case x == 0:
+		return x
 	}
 	sign := false
 	if x < 0 {
