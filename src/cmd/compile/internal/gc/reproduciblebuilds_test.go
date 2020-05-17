@@ -60,3 +60,62 @@ func TestReproducibleBuilds(t *testing.T) {
 		})
 	}
 }
+
+func TestIssue38068(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	t.Parallel()
+
+	// Compile a small test case using two scenarios. In the first scenario,
+	// set "-d compilelater" so as to force the same behavior you get with
+	// the concurrent back end (delaying backend compilation until all
+	// functions have been added to a list).  In the second scenario, turn
+	// off concurrent compilation completely, meaning that each function
+	// will be sent through the backend right away. Dwarf compression is
+	// turned off for the link just out of paranoia (in case we're on a
+	// platform where external linking is the default, and the external
+	// linker's dwarf compression is non-deterministic).
+	scenarios := []struct {
+		tag     string
+		env     string
+		args    string
+		exepath string
+	}{
+		{tag: "concurrent", env: "GO19CONCURRENTCOMPILATION=0", args: "-d=compilelater"},
+		{tag: "serial", env: "GO19CONCURRENTCOMPILATION=0", args: ""}}
+
+	tmpdir, err := ioutil.TempDir("", "TestIssue38068")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(tmpdir)
+
+	src := filepath.Join("testdata", "reproducible", "issue38068.go")
+	for i := range scenarios {
+		s := &scenarios[i]
+		s.exepath = filepath.Join(tmpdir, s.tag+".exe")
+		cache := filepath.Join(tmpdir, "cache."+s.tag)
+		cmd := exec.Command(testenv.GoToolPath(t), "build", "-trimpath", "-ldflags=-compressdwarf=0 -buildid=", "-gcflags="+s.args, "-o", s.exepath, src)
+		cmd.Env = append(os.Environ(), "GOCACHE="+cache)
+		if s.env != "" {
+			cmd.Env = append(cmd.Env, s.env)
+		}
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
+		}
+	}
+
+	readBytes := func(fn string) []byte {
+		payload, err := ioutil.ReadFile(fn)
+		if err != nil {
+			t.Fatalf("failed to read executable '%s': %v", fn, err)
+		}
+		return payload
+	}
+
+	b1 := readBytes(scenarios[0].exepath)
+	b2 := readBytes(scenarios[1].exepath)
+	if !bytes.Equal(b1, b2) {
+		t.Fatalf("concurrent and serial builds produced different output")
+	}
+}
