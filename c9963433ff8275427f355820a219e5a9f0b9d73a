@@ -16,6 +16,24 @@
       "revId": "c9963433ff8275427f355820a219e5a9f0b9d73a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af58c910_a67d9c17",
+        "filename": "src/encoding/asn1/asn1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-05-18T03:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53f346b4_c471817d",
+      "revId": "c9963433ff8275427f355820a219e5a9f0b9d73a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
