@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "cf474bb3_b443c396",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-18T17:21:32Z",
+      "side": 1,
+      "message": "mvs.BuildList does seem like a good place to point that behavior out. Updated. PTAL.",
+      "parentUuid": "b3188174_9a425b93",
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab625634_36798dcf",
         "filename": "src/cmd/go/internal/mvs/mvs.go",
         "patchSetId": 1
