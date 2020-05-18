@@ -321,3 +321,23 @@ func TestDisasmGoobj(t *testing.T) {
 		t.Logf("full disassembly:\n%s", text)
 	}
 }
+
+func TestStats(t *testing.T) {
+	hello := filepath.Join(tmp, "hello")
+	args := []string{"build", "-o", hello}
+	args = append(args, "testdata/fmthello.go")
+	out, err := exec.Command(testenv.GoToolPath(t), args...).CombinedOutput()
+	if err != nil {
+		t.Fatalf("go tool compile fmthello.go: %v\n%s", err, out)
+	}
+	args = []string{"-stats", hello}
+
+	out, err = exec.Command(exe, args...).CombinedOutput()
+	if err != nil {
+		t.Fatalf("objdump fmthello.o: %v\n%s", err, out)
+	}
+	text := string(out)
+	if !strings.Contains(text, "PCLN") {
+		t.Fatalf("expected PCLN in stats output")
+	}
+}

@@ -112,6 +112,10 @@ func (f *elfFile) goarch() string {
 	return ""
 }
 
+func (f *elfFile) encoding() binary.ByteOrder {
+	return f.elf.ByteOrder
+}
+
 func (f *elfFile) loadAddress() (uint64, error) {
 	for _, p := range f.elf.Progs {
 		if p.Type == elf.PT_LOAD && p.Flags&elf.PF_X != 0 {

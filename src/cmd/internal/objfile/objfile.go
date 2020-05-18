@@ -8,6 +8,7 @@ package objfile
 import (
 	"debug/dwarf"
 	"debug/gosym"
+	"encoding/binary"
 	"fmt"
 	"io"
 	"os"
@@ -15,6 +16,7 @@ import (
 )
 
 type rawFile interface {
+	encoding() binary.ByteOrder
 	symbols() (syms []Sym, err error)
 	pcln() (textStart uint64, symtab, pclntab []byte, err error)
 	text() (textStart uint64, text []byte, err error)
@@ -152,12 +154,21 @@ func (e *Entry) PCLineTable() (Liner, error) {
 	return gosym.NewTable(symtab, gosym.NewLineTable(pclntab, textStart))
 }
 
+func (e *Entry) PCLNData() ([]byte, error) {
+	_, _, data, err := e.raw.pcln()
+	return data, err
+}
+
 func (e *Entry) Text() (uint64, []byte, error) {
 	return e.raw.text()
 }
 
 func (e *Entry) GOARCH() string {
 	return e.raw.goarch()
+}
+
+func (e *Entry) Encoding() binary.ByteOrder {
+	return e.raw.encoding()
 }
 
 // LoadAddress returns the expected load address of the file.

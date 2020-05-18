@@ -12,6 +12,7 @@ import (
 	"cmd/internal/sys"
 	"debug/dwarf"
 	"debug/gosym"
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"os"
@@ -107,10 +108,7 @@ func (f *goobjFile) pcln() (textStart uint64, symtab, pclntab []byte, err error)
 	return 0, nil, nil, fmt.Errorf("pcln not available in go object file")
 }
 
-// Find returns the file name, line, and function data for the given pc.
-// Returns "",0,nil if unknown.
-// This function implements the Liner interface in preference to pcln() above.
-func (f *goobjFile) PCToLine(pc uint64) (string, int, *gosym.Func) {
+func (f *goobjFile) arch() *sys.Arch {
 	// TODO: this is really inefficient. Binary search? Memoize last result?
 	var arch *sys.Arch
 	for _, a := range sys.Archs {
@@ -119,6 +117,14 @@ func (f *goobjFile) PCToLine(pc uint64) (string, int, *gosym.Func) {
 			break
 		}
 	}
+	return arch
+}
+
+// Find returns the file name, line, and function data for the given pc.
+// Returns "",0,nil if unknown.
+// This function implements the Liner interface in preference to pcln() above.
+func (f *goobjFile) PCToLine(pc uint64) (string, int, *gosym.Func) {
+	arch := f.arch()
 	if arch == nil {
 		return "", 0, nil
 	}
@@ -210,6 +216,10 @@ func (f *goobjFile) text() (textStart uint64, text []byte, err error) {
 
 func (f *goobjFile) goarch() string {
 	return f.goobj.Arch
+}
+
+func (f *goobjFile) encoding() binary.ByteOrder {
+	return f.arch().ByteOrder
 }
 
 func (f *goobjFile) loadAddress() (uint64, error) {

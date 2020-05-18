@@ -8,6 +8,7 @@ package objfile
 
 import (
 	"debug/dwarf"
+	"encoding/binary"
 	"fmt"
 	"internal/xcoff"
 	"io"
@@ -154,6 +155,10 @@ func (f *xcoffFile) goarch() string {
 		return "ppc64"
 	}
 	return ""
+}
+
+func (f *xcoffFile) encoding() binary.ByteOrder {
+	return binary.BigEndian
 }
 
 func (f *xcoffFile) loadAddress() (uint64, error) {
