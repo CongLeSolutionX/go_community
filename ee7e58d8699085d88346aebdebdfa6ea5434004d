@@ -34,6 +34,24 @@
       "revId": "ee7e58d8699085d88346aebdebdfa6ea5434004d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adb24996_806c9611",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-18T15:43:36Z",
+      "side": 1,
+      "message": "I wonder in this approach if we want to make dtypesym not call genwrapper after all wrappers are generated.\n\nThe fact that generating stack objects triggers wrapper generation looks like a bug to me.",
+      "parentUuid": "30f44268_dcf568c8",
+      "revId": "ee7e58d8699085d88346aebdebdfa6ea5434004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
