@@ -187,6 +187,9 @@ func StartTrace() error {
 	// paired with an end).
 	stopTheWorldGC("start tracing")
 
+	// Prevent sysmon from running any code that could generate events.
+	lock(&sched.sysmonlock)
+
 	// We are in stop-the-world, but syscalls can finish and write to trace concurrently.
 	// Exitsyscall could check trace.enabled long before and then suddenly wake up
 	// and decide to write to trace at a random point in time.
@@ -267,6 +270,8 @@ func StartTrace() error {
 
 	unlock(&trace.bufLock)
 
+	unlock(&sched.sysmonlock)
+
 	startTheWorldGC()
 	return nil
 }
@@ -277,6 +282,9 @@ func StopTrace() {
 	// Stop the world so that we can collect the trace buffers from all p's below,
 	// and also to avoid races with traceEvent.
 	stopTheWorldGC("stop tracing")
+
+	// See the comment in StartTrace.
+	lock(&sched.sysmonlock)
 
 	// See the comment in StartTrace.
 	lock(&trace.bufLock)
@@ -319,6 +327,8 @@ func StopTrace() {
 	trace.enabled = false
 	trace.shutdown = true
 	unlock(&trace.bufLock)
+
+	unlock(&sched.sysmonlock)
 
 	startTheWorldGC()
 
