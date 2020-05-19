@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94b9dc60_344b17fc",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-19T02:37:14Z",
+      "side": 1,
+      "message": "This sentence seems a little misleading. Since the Reqs interface requires that “Max(target, v) must be target”, no “higher version” is possible, and thus no higher version will be visited.",
+      "range": {
+        "startLine": 128,
+        "startChar": 18,
+        "endLine": 129,
+        "endChar": 48
+      },
+      "revId": "7ef44e7fa97793d7d5a115223dcd3613f94f2396",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
