@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c34ec44f_788e9d07",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-05-19T15:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d160275_8ae63ab9",
+      "range": {
+        "startLine": 374,
+        "startChar": 4,
+        "endLine": 374,
+        "endChar": 31
+      },
+      "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57e7d19a_6a5be4ff",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 1
@@ -68,6 +92,54 @@
       "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b333d50f_55dac2bd",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-05-19T15:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7801cfc_e2eeb3b3",
+      "range": {
+        "startLine": 376,
+        "startChar": 51,
+        "endLine": 376,
+        "endChar": 52
+      },
+      "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c16232ee_b60bd1f6",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-05-19T15:30:00Z",
+      "side": 1,
+      "message": "Done. Will go with the example.com/mod example.",
+      "parentUuid": "57e7d19a_6a5be4ff",
+      "range": {
+        "startLine": 376,
+        "startChar": 57,
+        "endLine": 376,
+        "endChar": 76
+      },
+      "revId": "349aad17fee6a248de3bca52e23ffb07d7872314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
