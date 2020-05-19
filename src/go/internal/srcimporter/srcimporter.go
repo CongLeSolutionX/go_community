@@ -127,22 +127,23 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 		Importer: p,
 		Sizes:    p.sizes,
 	}
+
+	var cgo *ast.File
 	if len(bp.CgoFiles) > 0 {
 		if p.ctxt.OpenFile != nil {
 			// cgo, gcc, pkg-config, etc. do not support
 			// build.Context's VFS.
 			conf.FakeImportC = true
 		} else {
-			conf.UsesCgo = true
-			file, err := p.cgo(bp)
+			cgo, err = p.cgo(bp)
 			if err != nil {
 				return nil, err
 			}
-			files = append(files, file)
 		}
 	}
 
-	pkg, err = conf.Check(bp.ImportPath, p.fset, files, nil)
+	pkg = types.NewPackage(bp.ImportPath, "")
+	err = types.NewChecker(&conf, p.fset, pkg, nil).CgoFiles(files, cgo)
 	if err != nil {
 		// If there was a hard error it is possibly unsafe
 		// to use the package as it may not be fully populated.

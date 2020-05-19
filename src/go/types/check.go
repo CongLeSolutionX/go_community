@@ -7,7 +7,6 @@
 package types
 
 import (
-	"errors"
 	"go/ast"
 	"go/constant"
 	"go/token"
@@ -87,6 +86,7 @@ type Checker struct {
 	// maps and lists are allocated on demand)
 	files            []*ast.File                       // package files
 	unusedDotImports map[*Scope]map[*Package]token.Pos // positions of unused dot-imported packages for each file scope
+	cgo              bool                              // files includes _cgo_gotypes.go
 
 	firstErr error                 // first error encountered
 	methods  map[*TypeName][]*Func // maps package scope type names to associated non-blank (non-interface) methods
@@ -198,7 +198,7 @@ func NewChecker(conf *Config, fset *token.FileSet, pkg *Package, info *Info) *Ch
 
 // initFiles initializes the files-specific portion of checker.
 // The provided files must all belong to the same package.
-func (check *Checker) initFiles(files []*ast.File) {
+func (check *Checker) initFiles(files []*ast.File, cgo *ast.File) {
 	// start with a clean slate (check.Files may be called multiple times)
 	check.files = nil
 	check.unusedDotImports = nil
@@ -211,7 +211,7 @@ func (check *Checker) initFiles(files []*ast.File) {
 
 	// determine package name and collect valid files
 	pkg := check.pkg
-	for _, file := range files {
+	addFile := func(file *ast.File) {
 		switch name := file.Name.Name; pkg.name {
 		case "":
 			if name != "_" {
@@ -228,6 +228,22 @@ func (check *Checker) initFiles(files []*ast.File) {
 			check.errorf(file.Package, "package %s; expected %s", name, pkg.name)
 			// ignore this file
 		}
+	}
+
+	for _, file := range files {
+		addFile(file)
+	}
+	if cgo != nil {
+		if check.conf.FakeImportC {
+			check.errorf(cgo.Package, "cannot provide _cgo_gotypes.go if FakeImportC is true")
+		}
+		check.cgo = true
+
+		// TODO(mdempsky): Instead of simply adding
+		// _cgo_gotypes.go to check.files, we should
+		// type-check it separately and use the results to
+		// populate the C pseudo-package. See #39072.
+		addFile(cgo)
 	}
 }
 
@@ -246,18 +262,18 @@ func (check *Checker) handleBailout(err *error) {
 }
 
 // Files checks the provided files as part of the checker's package.
-func (check *Checker) Files(files []*ast.File) error { return check.checkFiles(files) }
+func (check *Checker) Files(files []*ast.File) error { return check.CgoFiles(files, nil) }
 
-var errBadCgo = errors.New("cannot use FakeImportC and UsesCgo together")
-
-func (check *Checker) checkFiles(files []*ast.File) (err error) {
-	if check.conf.FakeImportC && check.conf.UsesCgo {
-		return errBadCgo
-	}
-
+// CgoFiles checks the provided files as part of the checker's package.
+//
+// If cgo is provided, it must be the _cgo_gotypes.go file generated
+// by running cmd/cgo on the provided files. Qualified identifiers
+// referring to package C within files will be resolved to
+// cgo-provided declarations within _cgo_gotypes.go.
+func (check *Checker) CgoFiles(files []*ast.File, cgo *ast.File) (err error) {
 	defer check.handleBailout(&err)
 
-	check.initFiles(files)
+	check.initFiles(files, cgo)
 
 	check.collectObjects()
 
