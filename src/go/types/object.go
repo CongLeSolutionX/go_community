@@ -138,7 +138,9 @@ func (obj *object) Type() Type { return obj.typ }
 // Exported reports whether the object is exported (starts with a capital letter).
 // It doesn't take into account whether the object is in a local (function) scope
 // or not.
-func (obj *object) Exported() bool { return token.IsExported(obj.name) }
+func (obj *object) Exported() bool {
+	return token.IsExported(obj.name) || obj.pkg != nil && obj.pkg.cgo
+}
 
 // Id is a wrapper for Id(obj.Pkg(), obj.Name()).
 func (obj *object) Id() string { return Id(obj.pkg, obj.name) }

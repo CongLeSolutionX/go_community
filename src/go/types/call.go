@@ -9,7 +9,6 @@ package types
 import (
 	"go/ast"
 	"go/token"
-	"strings"
 	"unicode"
 )
 
@@ -345,42 +344,16 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 			pname.used = true
 			pkg := pname.imported
 
-			var exp Object
-			funcMode := value
-			if pkg.cgo {
-				// cgo special cases C.malloc: it's
-				// rewritten to _CMalloc and does not
-				// support two-result calls.
-				if sel == "malloc" {
-					sel = "_CMalloc"
-				} else {
-					funcMode = cgofunc
+			exp := pkg.scope.Lookup(sel)
+			if exp == nil {
+				if !pkg.fake {
+					check.errorf(e.Sel.Pos(), "%s not declared by package %s", sel, pkg.name)
 				}
-				for _, prefix := range cgoPrefixes {
-					// cgo objects are part of the current package (in file
-					// _cgo_gotypes.go). Use regular lookup.
-					_, exp = check.scope.LookupParent(prefix+sel, check.pos)
-					if exp != nil {
-						break
-					}
-				}
-				if exp == nil {
-					check.errorf(e.Sel.Pos(), "%s not declared by package C", sel)
-					goto Error
-				}
-				check.objDecl(exp, nil)
-			} else {
-				exp = pkg.scope.Lookup(sel)
-				if exp == nil {
-					if !pkg.fake {
-						check.errorf(e.Sel.Pos(), "%s not declared by package %s", sel, pkg.name)
-					}
-					goto Error
-				}
-				if !exp.Exported() {
-					check.errorf(e.Sel.Pos(), "%s not exported by package %s", sel, pkg.name)
-					// ok to continue
-				}
+				goto Error
+			}
+			if !exp.Exported() {
+				check.errorf(e.Sel.Pos(), "%s not exported by package %s", sel, pkg.name)
+				// ok to continue
 			}
 			check.recordUse(e.Sel, exp)
 
@@ -398,15 +371,24 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 			case *Var:
 				x.mode = variable
 				x.typ = exp.typ
-				if pkg.cgo && strings.HasPrefix(exp.name, "_Cvar_") {
+				if pkg.cgo && pkg.scope.Lookup("_Cvar_"+exp.name) != nil {
+					// If there's a _Cvar_ declaration, then it's a
+					// pointer to the actual variable.
 					x.typ = x.typ.(*Pointer).base
 				}
 			case *Func:
-				x.mode = funcMode
+				x.mode = value
 				x.typ = exp.typ
-				if pkg.cgo && strings.HasPrefix(exp.name, "_Cmacro_") {
-					x.mode = value
-					x.typ = x.typ.(*Signature).results.vars[0].typ
+				if pkg.cgo {
+					if pkg.scope.Lookup("_Cmacro_"+exp.name) != nil {
+						// If there's a _Cmacro_ declaration, then we
+						// actually need the return value from
+						x.typ = x.typ.(*Signature).results.vars[0].typ
+					} else if exp.name != "_CMalloc" {
+						// Functions other than C.malloc allow two-result
+						// calls.
+						x.mode = cgofunc
+					}
 				}
 			case *Builtin:
 				x.mode = builtin

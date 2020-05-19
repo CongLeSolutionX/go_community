@@ -76,6 +76,7 @@ type Checker struct {
 	conf *Config
 	fset *token.FileSet
 	pkg  *Package
+	cgo  *Package
 	*Info
 	objMap map[Object]*declInfo       // maps package-level objects and (non-interface) methods to declaration info
 	impMap map[importKey]*Package     // maps (import path, source directory) to (complete or fake) package
@@ -229,6 +230,11 @@ func (check *Checker) initFiles(files []*ast.File) {
 			// ignore this file
 		}
 	}
+
+	if check.conf.forCgo {
+		pkg.name = "C"
+		pkg.cgo = true
+	}
 }
 
 // A bailout panic is used for early termination.
@@ -250,12 +256,36 @@ func (check *Checker) Files(files []*ast.File) error { return check.checkFiles(f
 
 var errBadCgo = errors.New("cannot use FakeImportC and go115UsesCgo together")
 
+func findCgoTypes(files []*ast.File) int {
+	for i, file := range files {
+		for _, decl := range file.Decls {
+			decl, ok := decl.(*ast.FuncDecl)
+			if !ok {
+				continue
+			}
+			if decl.Recv == nil && decl.Name.Name == "_Cgo_ptr" {
+				return i
+			}
+		}
+	}
+	return -1
+}
+
 func (check *Checker) checkFiles(files []*ast.File) (err error) {
 	if check.conf.FakeImportC && check.conf.go115UsesCgo {
 		return errBadCgo
 	}
-
 	defer check.handleBailout(&err)
+
+	// TODO(mdempsky): Change API to have user provide the cgo AST separately?
+	var cgo *ast.File
+	if check.conf.go115UsesCgo {
+		if i := findCgoTypes(files); i >= 0 {
+			cgo = files[i]
+			files = append(files[:i:i], files[i+1:]...)
+		}
+	}
+	check.cgo = check.initCgo(cgo)
 
 	check.initFiles(files)
 
@@ -276,6 +306,45 @@ func (check *Checker) checkFiles(files []*ast.File) (err error) {
 
 	check.pkg.complete = true
 	return
+}
+
+// initCgo returns the Package to be used for resolving qualified
+// identifiers associated with `import "C"` declarations.
+func (check *Checker) initCgo(cgo *ast.File) *Package {
+	// If FakeImportC is set, then we just need to return a dummy
+	// package so we know to short-circuit type checking later
+	// without error messages.
+	if check.conf.FakeImportC {
+		if cgo != nil {
+			check.errorf(cgo.Package, "cannot use FakeImportC and UsesCgo together")
+		}
+
+		pkg := NewPackage("C", "C")
+		pkg.fake = true
+		return pkg
+	}
+
+	// No _cgo_gotypes.go file.
+	if cgo == nil {
+		return nil
+	}
+
+	// Recursively invoke type checker on _cgo_gotypes.go file.
+	// Just want identifiers and types; we can trust cmd/cgo to
+	// generate valid code.
+
+	conf := Config{
+		IgnoreFuncBodies: true,
+		Error: func(err error) {
+			check.errorf(cgo.Package, "invalid _cgo_gotypes.go file")
+		},
+		Importer: check.conf.Importer,
+		Sizes:    check.conf.Sizes,
+		forCgo:   true,
+	}
+
+	orig, _ := conf.Check("C", check.fset, []*ast.File{cgo}, check.Info)
+	return orig
 }
 
 // processDelayed processes all delayed actions pushed after top.
