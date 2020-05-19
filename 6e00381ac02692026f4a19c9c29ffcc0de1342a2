@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2173090c_8810b2da",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-05-19T16:56:33Z",
+      "side": 1,
+      "message": "The unlock is missing here.",
+      "revId": "6e00381ac02692026f4a19c9c29ffcc0de1342a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
