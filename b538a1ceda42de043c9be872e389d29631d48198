@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e786f2f9_134a1271",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-19T02:54:39Z",
+      "side": 1,
+      "message": "This looks good.",
+      "revId": "b538a1ceda42de043c9be872e389d29631d48198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "667fa29d_e55bc108",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-19T02:54:39Z",
+      "side": 1,
+      "message": "I think we should remove mention of version on this page, this can be just \"macOS/iOS\" as it is on line 80.\n\nFirst, the exact macOS version required depends on the version of Go being installed from source (e.g., 1.15 or 1.14). Second, this page doesn\u0027t talk about OS versions for any other OS, so this seems out of place.\n\nWe still need a better solution for letting people know the system requirements for individual major Go versions, but I think that\u0027s out of scope for this CL.",
+      "range": {
+        "startLine": 504,
+        "startChar": 49,
+        "endLine": 504,
+        "endChar": 64
+      },
+      "revId": "b538a1ceda42de043c9be872e389d29631d48198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef2537cb_1f1ed5b7",
+        "filename": "doc/install.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-19T02:54:39Z",
+      "side": 1,
+      "message": "At the time 1.15 will be released, 1.14 will still be supported, and so we will still be offering binary distributions for macOS 10.11.\n\nI believe we should make the change on this line once 1.16 is released, and 1.15 is the oldest support version, and not sooner.\n\nSee CL 213878 for a past instance of this.",
+      "revId": "b538a1ceda42de043c9be872e389d29631d48198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "554d6d0c_cacd64f5",
+        "filename": "doc/install.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-05-19T02:54:39Z",
+      "side": 1,
+      "message": "Similarly here, this should still be macOS 10.11 or later until 1.14 stops being supported.",
+      "revId": "b538a1ceda42de043c9be872e389d29631d48198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
