@@ -33,6 +33,7 @@ const (
 	lockRankDummy lockRank = iota
 
 	// Locks held above sched
+	lockRankSysmon
 	lockRankScavenge
 	lockRankForcegc
 	lockRankSweepWaiters
@@ -113,6 +114,7 @@ const lockRankLeafRank lockRank = 1000
 var lockNames = []string{
 	lockRankDummy: "",
 
+	lockRankSysmon:       "sysmon",
 	lockRankScavenge:     "scavenge",
 	lockRankForcegc:      "forcegc",
 	lockRankSweepWaiters: "sweepWaiters",
@@ -194,19 +196,20 @@ func (rank lockRank) String() string {
 // hchan lock can be held immediately above it when it is acquired.
 var lockPartialOrder [][]lockRank = [][]lockRank{
 	lockRankDummy:         {},
-	lockRankScavenge:      {},
-	lockRankForcegc:       {},
+	lockRankSysmon:        {},
+	lockRankScavenge:      {lockRankSysmon},
+	lockRankForcegc:       {lockRankSysmon},
 	lockRankSweepWaiters:  {},
 	lockRankAssistQueue:   {},
 	lockRankCpuprof:       {},
 	lockRankSweep:         {},
-	lockRankSched:         {lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep},
+	lockRankSched:         {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep},
 	lockRankDeadlock:      {lockRankDeadlock},
 	lockRankPanic:         {lockRankDeadlock},
-	lockRankAllg:          {lockRankSched, lockRankPanic},
-	lockRankAllp:          {lockRankSched},
+	lockRankAllg:          {lockRankSysmon, lockRankSched, lockRankPanic},
+	lockRankAllp:          {lockRankSysmon, lockRankSched},
 	lockRankPollDesc:      {},
-	lockRankTimers:        {lockRankScavenge, lockRankSched, lockRankAllp, lockRankPollDesc, lockRankTimers},
+	lockRankTimers:        {lockRankSysmon, lockRankScavenge, lockRankSched, lockRankAllp, lockRankPollDesc, lockRankTimers},
 	lockRankItab:          {},
 	lockRankReflectOffs:   {lockRankItab},
 	lockRankHchan:         {lockRankScavenge, lockRankSweep, lockRankHchan},
@@ -229,7 +232,7 @@ var lockPartialOrder [][]lockRank = [][]lockRank{
 	lockRankSpine:        {lockRankScavenge, lockRankAssistQueue, lockRankCpuprof, lockRankSched, lockRankAllg, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankHchan},
 	lockRankSpanSetSpine: {lockRankScavenge, lockRankForcegc, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankAllg, lockRankAllp, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankHchan},
 	lockRankGscan:        {lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankFin, lockRankTraceBuf, lockRankTraceStrings, lockRankRoot, lockRankNotifyList, lockRankProf, lockRankGcBitsArenas, lockRankTrace, lockRankTraceStackTab, lockRankNetpollInit, lockRankMcentral, lockRankSpine, lockRankSpanSetSpine},
-	lockRankStackpool:    {lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankFin, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankTrace, lockRankTraceStackTab, lockRankNetpollInit, lockRankRwmutexR, lockRankMcentral, lockRankSpine, lockRankSpanSetSpine, lockRankGscan},
+	lockRankStackpool:    {lockRankSysmon, lockRankScavenge, lockRankSweepWaiters, lockRankAssistQueue, lockRankCpuprof, lockRankSweep, lockRankSched, lockRankPollDesc, lockRankTimers, lockRankItab, lockRankReflectOffs, lockRankHchan, lockRankFin, lockRankNotifyList, lockRankTraceBuf, lockRankTraceStrings, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankTrace, lockRankTraceStackTab, lockRankNetpollInit, lockRankRwmutexR, lockRankMcentral, lockRankSpine, lockRankSpanSetSpine, lockRankGscan},
 	lockRankStackLarge:   {lockRankAssistQueue, lockRankSched, lockRankItab, lockRankHchan, lockRankProf, lockRankGcBitsArenas, lockRankRoot, lockRankMcentral, lockRankSpanSetSpine, lockRankGscan},
 	lockRankDefer:        {},
 	lockRankSudog:        {lockRankNotifyList, lockRankHchan},
