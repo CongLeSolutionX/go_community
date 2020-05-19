@@ -98,7 +98,19 @@ func validatedImportPath(path string) (string, error) {
 // declarePkgObj declares obj in the package scope, records its ident -> obj mapping,
 // and updates check.objMap. The object must not be a function or method.
 func (check *Checker) declarePkgObj(ident *ast.Ident, obj Object, d *declInfo) {
-	assert(ident.Name == obj.Name())
+	if check.conf.forCgo && ident.Name != obj.Name() {
+		name := ident.Name
+		s := check.pkg.scope
+
+		if alt := s.elems[name]; alt == nil {
+			if s.elems == nil {
+				s.elems = make(map[string]Object)
+			}
+			s.elems[name] = obj
+		}
+	} else {
+		assert(ident.Name == obj.Name())
+	}
 
 	// spec: "A package-scope or file-scope identifier with name init
 	// may only be declared to be a function with this (func()) signature."
@@ -129,6 +141,10 @@ func (check *Checker) filename(fileNo int) string {
 }
 
 func (check *Checker) importPackage(pos token.Pos, path, dir string) *Package {
+	if path == "C" && check.cgo != nil {
+		return check.cgo
+	}
+
 	// If we already have a package for the given (path, dir)
 	// pair, use it instead of doing a full import.
 	// Checker.impMap only caches packages that are marked Complete
@@ -141,49 +157,43 @@ func (check *Checker) importPackage(pos token.Pos, path, dir string) *Package {
 	}
 
 	// no package yet => import it
-	if path == "C" && (check.conf.FakeImportC || check.conf.go115UsesCgo) {
-		imp = NewPackage("C", "C")
-		imp.fake = true // package scope is not populated
-		imp.cgo = check.conf.go115UsesCgo
+	// ordinary import
+	var err error
+	if importer := check.conf.Importer; importer == nil {
+		err = fmt.Errorf("Config.Importer not installed")
+	} else if importerFrom, ok := importer.(ImporterFrom); ok {
+		imp, err = importerFrom.ImportFrom(path, dir, 0)
+		if imp == nil && err == nil {
+			err = fmt.Errorf("Config.Importer.ImportFrom(%s, %s, 0) returned nil but no error", path, dir)
+		}
 	} else {
-		// ordinary import
-		var err error
-		if importer := check.conf.Importer; importer == nil {
-			err = fmt.Errorf("Config.Importer not installed")
-		} else if importerFrom, ok := importer.(ImporterFrom); ok {
-			imp, err = importerFrom.ImportFrom(path, dir, 0)
-			if imp == nil && err == nil {
-				err = fmt.Errorf("Config.Importer.ImportFrom(%s, %s, 0) returned nil but no error", path, dir)
-			}
-		} else {
-			imp, err = importer.Import(path)
-			if imp == nil && err == nil {
-				err = fmt.Errorf("Config.Importer.Import(%s) returned nil but no error", path)
-			}
+		imp, err = importer.Import(path)
+		if imp == nil && err == nil {
+			err = fmt.Errorf("Config.Importer.Import(%s) returned nil but no error", path)
 		}
-		// make sure we have a valid package name
-		// (errors here can only happen through manipulation of packages after creation)
-		if err == nil && imp != nil && (imp.name == "_" || imp.name == "") {
-			err = fmt.Errorf("invalid package name: %q", imp.name)
-			imp = nil // create fake package below
-		}
-		if err != nil {
-			check.errorf(pos, "could not import %s (%s)", path, err)
-			if imp == nil {
-				// create a new fake package
-				// come up with a sensible package name (heuristic)
-				name := path
-				if i := len(name); i > 0 && name[i-1] == '/' {
-					name = name[:i-1]
-				}
-				if i := strings.LastIndex(name, "/"); i >= 0 {
-					name = name[i+1:]
-				}
-				imp = NewPackage(path, name)
+	}
+	// make sure we have a valid package name
+	// (errors here can only happen through manipulation of packages after creation)
+	if err == nil && imp != nil && (imp.name == "_" || imp.name == "") {
+		err = fmt.Errorf("invalid package name: %q", imp.name)
+		imp = nil // create fake package below
+	}
+	if err != nil {
+		check.errorf(pos, "could not import %s (%s)", path, err)
+		if imp == nil {
+			// create a new fake package
+			// come up with a sensible package name (heuristic)
+			name := path
+			if i := len(name); i > 0 && name[i-1] == '/' {
+				name = name[:i-1]
 			}
-			// continue to use the package as best as we can
-			imp.fake = true // avoid follow-up lookup failures
+			if i := strings.LastIndex(name, "/"); i >= 0 {
+				name = name[i+1:]
+			}
+			imp = NewPackage(path, name)
 		}
+		// continue to use the package as best as we can
+		imp.fake = true // avoid follow-up lookup failures
 	}
 
 	// package should be complete or marked fake, but be cautious
@@ -202,6 +212,17 @@ func (check *Checker) importPackage(pos token.Pos, path, dir string) *Package {
 // methods with receiver base type names.
 func (check *Checker) collectObjects() {
 	pkg := check.pkg
+
+	trimCgo := func(name string) string {
+		if check.conf.forCgo {
+			for _, prefix := range &cgoPrefixes {
+				if strings.HasPrefix(name, prefix) {
+					return strings.TrimPrefix(name, prefix)
+				}
+			}
+		}
+		return name
+	}
 
 	// pkgImports is the set of packages already imported by any package file seen
 	// so far. Used to avoid duplicate entries in pkg.imports. Allocate and populate
@@ -315,7 +336,7 @@ func (check *Checker) collectObjects() {
 			case constDecl:
 				// declare all constants
 				for i, name := range d.spec.Names {
-					obj := NewConst(name.Pos(), pkg, name.Name, nil, constant.MakeInt64(int64(d.iota)))
+					obj := NewConst(name.Pos(), pkg, trimCgo(name.Name), nil, constant.MakeInt64(int64(d.iota)))
 
 					var init ast.Expr
 					if i < len(d.init) {
@@ -342,7 +363,7 @@ func (check *Checker) collectObjects() {
 
 				// declare all variables
 				for i, name := range d.spec.Names {
-					obj := NewVar(name.Pos(), pkg, name.Name, nil)
+					obj := NewVar(name.Pos(), pkg, trimCgo(name.Name), nil)
 					lhs[i] = obj
 
 					di := d1
@@ -358,12 +379,12 @@ func (check *Checker) collectObjects() {
 					check.declarePkgObj(name, obj, di)
 				}
 			case typeDecl:
-				obj := NewTypeName(d.spec.Name.Pos(), pkg, d.spec.Name.Name, nil)
+				obj := NewTypeName(d.spec.Name.Pos(), pkg, trimCgo(d.spec.Name.Name), nil)
 				check.declarePkgObj(d.spec.Name, obj, &declInfo{file: fileScope, typ: d.spec.Type, alias: d.spec.Assign.IsValid()})
 			case funcDecl:
 				info := &declInfo{file: fileScope, fdecl: d.decl}
 				name := d.decl.Name.Name
-				obj := NewFunc(d.decl.Name.Pos(), pkg, name, nil)
+				obj := NewFunc(d.decl.Name.Pos(), pkg, trimCgo(name), nil)
 				if d.decl.Recv == nil {
 					// regular function
 					if name == "init" {

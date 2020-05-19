@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"go/constant"
 	"go/token"
+	"strings"
 )
 
 // An Object describes a named language entity such as a package,
@@ -138,7 +139,12 @@ func (obj *object) Type() Type { return obj.typ }
 // Exported reports whether the object is exported (starts with a capital letter).
 // It doesn't take into account whether the object is in a local (function) scope
 // or not.
-func (obj *object) Exported() bool { return token.IsExported(obj.name) }
+func (obj *object) Exported() bool {
+	if obj.pkg != nil && obj.pkg.cgo {
+		return !strings.HasPrefix(obj.name, "_C")
+	}
+	return token.IsExported(obj.name)
+}
 
 // Id is a wrapper for Id(obj.Pkg(), obj.Name()).
 func (obj *object) Id() string { return Id(obj.pkg, obj.name) }
