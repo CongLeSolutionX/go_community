@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e2e2209_b6ec786e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-05-19T02:03:40Z",
+      "side": 1,
+      "message": "Hi Jonathan,\n\nI wonder if you could help profile BenchmarkFloatAdd of the expvar package and share the data, the case underperforms counterparts a lot on arm64. Thanks.",
+      "revId": "f36a6d0e9aa4019a58d260692005a4520246d38a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
