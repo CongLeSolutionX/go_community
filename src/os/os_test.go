@@ -894,6 +894,65 @@ func TestLongSymlink(t *testing.T) {
 	}
 }
 
+func TestSymlinkBeforeTargetFileExists(t *testing.T) {
+	testenv.MustHaveSymlink(t)
+
+	defer chtmpdir(t)()
+	from, to := "earlysymlinktestfrom", "earlysymlinktestto"
+	err := Symlink(to, from)
+	if err != nil {
+		// Couldn't create a symlink to a nonexistent target.
+		// That's an acceptable outcome: the failure is detectable.
+		return
+	}
+
+	err = Mkdir(to, 0755)
+	if err != nil {
+		t.Fatalf("Mkdir(%q) failed: %v", to, err)
+	}
+
+	tostat, err := Lstat(to)
+	if err != nil {
+		t.Fatalf("Lstat(%q) failed: %v", to, err)
+	}
+	if tostat.Mode()&ModeSymlink != 0 {
+		t.Fatalf("Lstat(%q).Mode()&ModeSymlink = %v, want 0", to, tostat.Mode()&ModeSymlink)
+	}
+	fromstat, err := Stat(from)
+	if err != nil {
+		t.Fatalf("Stat(%q) failed: %v", from, err)
+	}
+	if !SameFile(tostat, fromstat) {
+		t.Errorf("Symlink(%q, %q) did not create symlink", to, from)
+	}
+	if fromstat.Name() != from {
+		t.Errorf("Stat(%q).Name() = %q, want %q", from, fromstat.Name(), from)
+	}
+	if fromstat.Mode()&ModeSymlink != 0 {
+		t.Errorf("Stat(%q).Mode()&ModeSymlink = %v, want 0", from, fromstat.Mode()&ModeSymlink)
+	}
+	if !fromstat.Mode().IsDir() {
+		t.Errorf("Stat(%q).Mode().IsDir() = false, want true", from)
+	}
+
+	s, err := Readlink(from)
+	if err != nil {
+		t.Errorf("Readlink(%q) failed: %v", from, err)
+	} else if s != to {
+		t.Errorf("Readlink(%q) = %q, want %q", from, s, to)
+	}
+
+	file, err := Open(from)
+	if err != nil {
+		t.Fatalf("Open(%q) failed: %v", from, err)
+	}
+	_, err = file.Readdirnames(-1)
+	if err != nil {
+		t.Errorf("Open(%q).Readdirnames(-1) = _, %v", from, err)
+	}
+	file.Close()
+}
+
 func TestRename(t *testing.T) {
 	defer chtmpdir(t)()
 	from, to := "renamefrom", "renameto"
