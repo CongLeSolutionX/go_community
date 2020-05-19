@@ -7,10 +7,10 @@
 package types
 
 import (
-	"errors"
 	"go/ast"
 	"go/constant"
 	"go/token"
+	"strings"
 )
 
 // debugging/development support
@@ -76,6 +76,7 @@ type Checker struct {
 	conf *Config
 	fset *token.FileSet
 	pkg  *Package
+	cgo  *Package
 	*Info
 	objMap map[Object]*declInfo       // maps package-level objects and (non-interface) methods to declaration info
 	impMap map[importKey]*Package     // maps (import path, source directory) to (complete or fake) package
@@ -248,15 +249,34 @@ func (check *Checker) handleBailout(err *error) {
 // Files checks the provided files as part of the checker's package.
 func (check *Checker) Files(files []*ast.File) error { return check.checkFiles(files) }
 
-var errBadCgo = errors.New("cannot use FakeImportC and UsesCgo together")
+func findCgoTypes(files []*ast.File) int {
+	for i, file := range files {
+		for _, decl := range file.Decls {
+			decl, ok := decl.(*ast.FuncDecl)
+			if !ok {
+				continue
+			}
+			if decl.Recv == nil && decl.Name.Name == "_Cgo_ptr" {
+				return i
+			}
+		}
+	}
+	return -1
+}
 
 func (check *Checker) checkFiles(files []*ast.File) (err error) {
-	if check.conf.FakeImportC && check.conf.UsesCgo {
-		return errBadCgo
+	// TODO(mdempsky): Change API to have user provide the cgo AST separately?
+	var cgo *ast.File
+	if check.conf.UsesCgo {
+		if i := findCgoTypes(files); i >= 0 {
+			cgo = files[i]
+			files = append(files[:i:i], files[i+1:]...)
+		}
 	}
 
 	defer check.handleBailout(&err)
 
+	check.cgo = check.initCgo(cgo)
 	check.initFiles(files)
 
 	check.collectObjects()
@@ -276,6 +296,62 @@ func (check *Checker) checkFiles(files []*ast.File) (err error) {
 
 	check.pkg.complete = true
 	return
+}
+
+func (check *Checker) initCgo(cgo *ast.File) *Package {
+	if check.conf.FakeImportC {
+		if cgo != nil {
+			check.errorf(cgo.Package, "cannot use FakeImportC and UsesCgo together")
+		}
+
+		pkg := NewPackage("C", "C")
+		pkg.fake = true
+		return pkg
+	}
+
+	if cgo == nil {
+		return nil
+	}
+
+	conf := Config{
+		IgnoreFuncBodies: true,
+		Error: func(err error) {
+			check.errorf(cgo.Package, "invalid _cgo_gotypes.go file")
+		},
+		Importer: check.conf.Importer,
+		Sizes:    check.conf.Sizes,
+	}
+
+	orig, _ := conf.Check("C", check.fset, []*ast.File{cgo}, check.Info)
+	orig.cgo = true
+
+	pkg := NewPackage("C", "C")
+	pkg.cgo = true
+	pkg.scope.elems = make(map[string]Object)
+
+	for name0, elem := range orig.scope.elems {
+		name := name0
+		if name == "_Cfunc__CMalloc" {
+			name = "malloc"
+		} else {
+			for _, prefix := range cgoPrefixes[:] {
+				if strings.HasPrefix(name, prefix) {
+					name = strings.TrimPrefix(name, prefix)
+					goto next
+				}
+			}
+			continue
+		}
+
+	next:
+		if strings.HasPrefix(name0, "_Cvar_") {
+			obj := *elem.(*Var)
+			obj.typ = obj.typ.(*Pointer).base
+			elem = &obj
+		}
+		pkg.scope.elems[name] = elem
+	}
+	return pkg
 }
 
 // processDelayed processes all delayed actions pushed after top.
