@@ -129,6 +129,10 @@ func (check *Checker) filename(fileNo int) string {
 }
 
 func (check *Checker) importPackage(pos token.Pos, path, dir string) *Package {
+	if path == "C" && check.cgo != nil {
+		return check.cgo
+	}
+
 	// If we already have a package for the given (path, dir)
 	// pair, use it instead of doing a full import.
 	// Checker.impMap only caches packages that are marked Complete
@@ -141,49 +145,43 @@ func (check *Checker) importPackage(pos token.Pos, path, dir string) *Package {
 	}
 
 	// no package yet => import it
-	if path == "C" && (check.conf.FakeImportC || check.conf.UsesCgo) {
-		imp = NewPackage("C", "C")
-		imp.fake = true // package scope is not populated
-		imp.cgo = check.conf.UsesCgo
+	// ordinary import
+	var err error
+	if importer := check.conf.Importer; importer == nil {
+		err = fmt.Errorf("Config.Importer not installed")
+	} else if importerFrom, ok := importer.(ImporterFrom); ok {
+		imp, err = importerFrom.ImportFrom(path, dir, 0)
+		if imp == nil && err == nil {
+			err = fmt.Errorf("Config.Importer.ImportFrom(%s, %s, 0) returned nil but no error", path, dir)
+		}
 	} else {
-		// ordinary import
-		var err error
-		if importer := check.conf.Importer; importer == nil {
-			err = fmt.Errorf("Config.Importer not installed")
-		} else if importerFrom, ok := importer.(ImporterFrom); ok {
-			imp, err = importerFrom.ImportFrom(path, dir, 0)
-			if imp == nil && err == nil {
-				err = fmt.Errorf("Config.Importer.ImportFrom(%s, %s, 0) returned nil but no error", path, dir)
-			}
-		} else {
-			imp, err = importer.Import(path)
-			if imp == nil && err == nil {
-				err = fmt.Errorf("Config.Importer.Import(%s) returned nil but no error", path)
-			}
+		imp, err = importer.Import(path)
+		if imp == nil && err == nil {
+			err = fmt.Errorf("Config.Importer.Import(%s) returned nil but no error", path)
 		}
-		// make sure we have a valid package name
-		// (errors here can only happen through manipulation of packages after creation)
-		if err == nil && imp != nil && (imp.name == "_" || imp.name == "") {
-			err = fmt.Errorf("invalid package name: %q", imp.name)
-			imp = nil // create fake package below
-		}
-		if err != nil {
-			check.errorf(pos, "could not import %s (%s)", path, err)
-			if imp == nil {
-				// create a new fake package
-				// come up with a sensible package name (heuristic)
-				name := path
-				if i := len(name); i > 0 && name[i-1] == '/' {
-					name = name[:i-1]
-				}
-				if i := strings.LastIndex(name, "/"); i >= 0 {
-					name = name[i+1:]
-				}
-				imp = NewPackage(path, name)
+	}
+	// make sure we have a valid package name
+	// (errors here can only happen through manipulation of packages after creation)
+	if err == nil && imp != nil && (imp.name == "_" || imp.name == "") {
+		err = fmt.Errorf("invalid package name: %q", imp.name)
+		imp = nil // create fake package below
+	}
+	if err != nil {
+		check.errorf(pos, "could not import %s (%s)", path, err)
+		if imp == nil {
+			// create a new fake package
+			// come up with a sensible package name (heuristic)
+			name := path
+			if i := len(name); i > 0 && name[i-1] == '/' {
+				name = name[:i-1]
 			}
-			// continue to use the package as best as we can
-			imp.fake = true // avoid follow-up lookup failures
+			if i := strings.LastIndex(name, "/"); i >= 0 {
+				name = name[i+1:]
+			}
+			imp = NewPackage(path, name)
 		}
+		// continue to use the package as best as we can
+		imp.fake = true // avoid follow-up lookup failures
 	}
 
 	// package should be complete or marked fake, but be cautious
