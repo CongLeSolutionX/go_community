@@ -287,7 +287,11 @@ func (d *dwctxt) newdie(parent *dwarf.DWDie, abbrev int, name string, version in
 			}
 			ds := d.ldr.LookupOrCreateSym(dwarf.InfoPrefix+name, version)
 			dsu := d.ldr.MakeSymbolUpdater(ds)
-			dsu.SetType(sym.SDWARFINFO)
+			if abbrev == dwarf.DW_ABRV_COMPUNIT {
+				dsu.SetType(sym.SDWARFCUINFO)
+			} else {
+				dsu.SetType(sym.SDWARFTYPE)
+			}
 			d.ldr.SetAttrNotInSymbolTable(ds, true)
 			d.ldr.SetAttrReachable(ds, true)
 			die.Sym = dwSym(ds)
@@ -480,7 +484,7 @@ func (d *dwctxt) dotypedef(parent *dwarf.DWDie, gotype loader.Sym, name string, 
 	// to be an anonymous symbol (we want this for perf reasons).
 	tds := d.ldr.CreateExtSym("", 0)
 	tdsu := d.ldr.MakeSymbolUpdater(tds)
-	tdsu.SetType(sym.SDWARFINFO)
+	tdsu.SetType(sym.SDWARFTYPE)
 	def.Sym = dwSym(tds)
 	d.ldr.SetAttrNotInSymbolTable(tds, true)
 	d.ldr.SetAttrReachable(tds, true)
@@ -850,7 +854,7 @@ func (d *dwctxt) mkinternaltype(ctxt *Link, abbrev int, typename, keyname, valna
 	name := mkinternaltypename(typename, keyname, valname)
 	symname := dwarf.InfoPrefix + name
 	s := d.ldr.Lookup(symname, 0)
-	if s != 0 && d.ldr.SymType(s) == sym.SDWARFINFO {
+	if s != 0 && d.ldr.SymType(s) == sym.SDWARFTYPE {
 		return s
 	}
 	die := d.newdie(&dwtypes, abbrev, name, 0)
@@ -1122,7 +1126,8 @@ func getCompilationDir() string {
 func (d *dwctxt) importInfoSymbol(ctxt *Link, dsym loader.Sym) {
 	d.ldr.SetAttrReachable(dsym, true)
 	d.ldr.SetAttrNotInSymbolTable(dsym, true)
-	if d.ldr.SymType(dsym) != sym.SDWARFINFO {
+	dst := d.ldr.SymType(dsym)
+	if dst != sym.SDWARFCONST && dst != sym.SDWARFABSFCN {
 		log.Fatalf("error: DWARF info sym %d/%s with incorrect type %s", dsym, d.ldr.SymName(dsym), d.ldr.SymType(dsym).String())
 	}
 	relocs := d.ldr.Relocs(dsym)
@@ -1492,7 +1497,7 @@ func (d *dwctxt) writeinfo(units []*sym.CompilationUnit, abbrevsym loader.Sym, p
 
 	infosec := d.ldr.LookupOrCreateSym(".debug_info", 0)
 	disu := d.ldr.MakeSymbolUpdater(infosec)
-	disu.SetType(sym.SDWARFINFO)
+	disu.SetType(sym.SDWARFCUINFO)
 	d.ldr.SetAttrReachable(infosec, true)
 	syms := []loader.Sym{infosec}
 

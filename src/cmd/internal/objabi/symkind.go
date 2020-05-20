@@ -56,7 +56,11 @@ const (
 	// Thread-local data that is initially all 0s
 	STLSBSS
 	// Debugging data
-	SDWARFINFO
+	SDWARFCUINFO
+	SDWARFCONST
+	SDWARFFCN
+	SDWARFABSFCN
+	SDWARFTYPE
 	SDWARFRANGE
 	SDWARFLOC
 	SDWARFLINES
