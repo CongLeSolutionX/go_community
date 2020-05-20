@@ -39,6 +39,24 @@
       "revId": "7ef44e7fa97793d7d5a115223dcd3613f94f2396",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3430a712_c1c67be4",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-20T01:43:20Z",
+      "side": 1,
+      "message": "The special handling for the empty string is specific to the modload implementation of mvs.Reqs — nothing in the `mvs` package should know or care about it as a distinguished value.\n\n(Ideally \"none\" should behave the same way, but I think that would take a little bit of refactoring.)\n\nMVS requires that the versions of each module form a totally-ordered set. It currently requires the least element to be \"none\", and requires the greatest element of the set for the target path to be the target version, but it does not care how that greatest element is encoded as a string.",
+      "parentUuid": "b2656139_b39f38a3",
+      "revId": "7ef44e7fa97793d7d5a115223dcd3613f94f2396",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
