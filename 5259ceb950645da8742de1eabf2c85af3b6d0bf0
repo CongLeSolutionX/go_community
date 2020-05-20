@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8e2881e_9cd3d988",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-05-20T13:57:34Z",
+      "side": 1,
+      "message": "(optional) I wonder if wrapper functions for these locks/unlocks and possibly stop/startTheWorldGC will help ensuring all necessary locks are locked/unlocked together in the right order.",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 21
+      },
+      "revId": "5259ceb950645da8742de1eabf2c85af3b6d0bf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
