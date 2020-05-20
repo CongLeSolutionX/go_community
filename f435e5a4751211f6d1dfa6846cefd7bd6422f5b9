@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5841d286_731c8616",
+        "filename": "src/cmd/go/internal/modload/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-20T17:06:02Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "56c865c7_38e08f10",
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db2621f_8da3144e",
         "filename": "src/cmd/go/internal/mvs/mvs.go",
         "patchSetId": 1
@@ -105,6 +123,24 @@
       "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15e46bcf_e9f4cae9",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-20T17:06:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf474bb3_b443c396",
+      "revId": "f435e5a4751211f6d1dfa6846cefd7bd6422f5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {

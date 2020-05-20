@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ba9169e_3026e82c",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-20T17:06:02Z",
+      "side": 1,
+      "message": "How\u0027s this?\n\nreqs.Max requires target.Version to compare higher than all\nother versions, so no other version can be selected.",
+      "parentUuid": "94b9dc60_344b17fc",
+      "range": {
+        "startLine": 128,
+        "startChar": 18,
+        "endLine": 129,
+        "endChar": 48
+      },
+      "revId": "7ef44e7fa97793d7d5a115223dcd3613f94f2396",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2656139_b39f38a3",
         "filename": "src/cmd/go/internal/mvs/mvs.go",
         "patchSetId": 3
@@ -57,6 +81,24 @@
       "revId": "7ef44e7fa97793d7d5a115223dcd3613f94f2396",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ad70fd_4b1c78ce",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-05-20T17:06:02Z",
+      "side": 1,
+      "message": "I think the goal of this package is to keep the MVS graph algorithm separate from the Go-specific details specified through the modload.mvsReqs implementation of Reqs.\n\nThe empty version string is a Go-specific detail. It could have been \"__target_version__\" or anything else.\n\nWe should say here that BuildList won\u0027t pick a different version of target because reqs.Max(target.Version, v) must return target.Version for all v.",
+      "parentUuid": "3430a712_c1c67be4",
+      "revId": "7ef44e7fa97793d7d5a115223dcd3613f94f2396",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
