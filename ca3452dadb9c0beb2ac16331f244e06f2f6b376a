@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c34019e_60c90cea",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-05-20T07:34:41Z",
+      "side": 1,
+      "message": "s/attrs/FILE_ATTRIBUTE_NORMAL/\n\nIt appears (I tested), that FILE_ATTRIBUTE_READONLY is ignored when it is used with TRUNCATE_EXISTING. Lets not pretend that FILE_ATTRIBUTE_READONLY makes a difference here.",
+      "range": {
+        "startLine": 351,
+        "startChar": 71,
+        "endLine": 351,
+        "endChar": 76
+      },
+      "revId": "ca3452dadb9c0beb2ac16331f244e06f2f6b376a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b0eb7cc_d1d7ce40",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-05-20T07:34:41Z",
+      "side": 1,
+      "message": "I suspect there could be different errors here, not just ERROR_FILE_NOT_FOUND. Maybe copy correspondent code from Windows version of Errno.Is ?",
+      "range": {
+        "startLine": 352,
+        "startChar": 11,
+        "endLine": 352,
+        "endChar": 32
+      },
+      "revId": "ca3452dadb9c0beb2ac16331f244e06f2f6b376a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
