@@ -39,6 +39,48 @@
       "revId": "c2d4fe09de2bc426ff32ea76a0b3ce6b986aa8d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "887119ba_ea1464b7",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-05-20T19:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28cb085f_34418eaf",
+      "revId": "c2d4fe09de2bc426ff32ea76a0b3ce6b986aa8d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2d7ce6_98360cb3",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-05-20T19:21:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "254cbb04_59a97b74",
+      "range": {
+        "startLine": 41,
+        "startChar": 38,
+        "endLine": 41,
+        "endChar": 76
+      },
+      "revId": "c2d4fe09de2bc426ff32ea76a0b3ce6b986aa8d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
