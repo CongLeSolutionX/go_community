@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28cb085f_34418eaf",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-20T14:23:17Z",
+      "side": 1,
+      "message": "What values can this take on? Is it just \"normaljumps\" or \"alignedjumps\" or is there a third value? If it\u0027s just \"the way it used to be\" or \"the new way\", make this a boolean so it\u0027s clear the revert strategy is just to set it to false. Right not it\u0027s not obvious what the revert strategy or commit strategy for this is.",
+      "revId": "c2d4fe09de2bc426ff32ea76a0b3ce6b986aa8d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "254cbb04_59a97b74",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-20T14:23:17Z",
+      "side": 1,
+      "message": "This comment in the source doesn\u0027t help much since it\u0027s about something that doesn\u0027t exist any more.",
+      "range": {
+        "startLine": 41,
+        "startChar": 38,
+        "endLine": 41,
+        "endChar": 76
+      },
+      "revId": "c2d4fe09de2bc426ff32ea76a0b3ce6b986aa8d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
