@@ -780,6 +780,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64FCVTDS,
 		ssa.OpARM64REV,
 		ssa.OpARM64REVW,
+		ssa.OpARM64REV16,
 		ssa.OpARM64REV16W,
 		ssa.OpARM64RBIT,
 		ssa.OpARM64RBITW,
