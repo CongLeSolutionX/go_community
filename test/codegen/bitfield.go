@@ -230,3 +230,17 @@ func shift_no_cmp(x int) int {
 	// mips64:`SLLV\t[$]17`,-`SGT`
 	return x << 17
 }
+
+func gen_rev16_8byte(c uint64) uint64 {
+	var b uint64
+	// arm64:`REV16\t`,-`AND`,-`LSR`,-`AND`,-`ORR`
+	b = ((c & 0xff00ff00ff00ff00) >> 8) | ((c & 0x00ff00ff00ff00ff) << 8)
+	return b
+}
+
+func gen_rev16_4byte(c uint32) uint32 {
+	var b uint32
+	// arm64:`REV16W\t`,-`AND`,-`UBFX`,-`AND`,-`ORR`
+	b = ((c & 0xff00ff00) >> 8) | ((c & 0x00ff00ff) << 8)
+	return b
+}

@@ -553,6 +553,42 @@ func store_le_byte_4_idx4_inv(b []byte, idx int, val uint32) {
 	b[(idx<<2)+3], b[(idx<<2)+2], b[(idx<<2)+1], b[(idx<<2)+0] = byte(val>>24), byte(val>>16), byte(val>>8), byte(val)
 }
 
+func store_rev16_byte_8_1(b []byte, val uint64) {
+	_ = b[7]
+	// arm64:`REV16`,`MOVD\sR[0-9]+,\s\(R[0-9]+\)`,-`MOVB`,-`MOVH`,-`REV16W`
+	b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7] = byte(val>>8), byte(val), byte(val>>24), byte(val>>16), byte(val>>40), byte(val>>32), byte(val>>56), byte(val>>48)
+}
+
+func store_rev16_byte_8_2(b []byte, val uint64) {
+	_ = b[16]
+	// arm64:`REV16`,`MOVD\sR[0-9]+,\s8\(R[0-9]+\)`,-`MOVB`,-`MOVH`,-`REV16W`
+	b[8], b[9], b[10], b[11], b[12], b[13], b[14], b[15] = byte(val>>8), byte(val), byte(val>>24), byte(val>>16), byte(val>>40), byte(val>>32), byte(val>>56), byte(val>>48)
+}
+
+func store_rev16_byte_8_idx_1(p []byte, idx int, val uint64) {
+	b := p[idx : idx+8 : idx+8]
+	// arm64:`REV16`,`MOVD\sR[0-9]+,\s\(R[0-9]+\)\(R[0-9]+\)`,-`MOVB`,-`MOVH`,-`REV16W`
+	b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7] = byte(val>>8), byte(val), byte(val>>24), byte(val>>16), byte(val>>40), byte(val>>32), byte(val>>56), byte(val>>48)
+}
+
+func store_rev16_byte_8_idx_2(p []byte, idx int, val uint64) {
+	b := p[idx : idx+16 : idx+16]
+	// arm64:`REV16`,`MOVD\sR[0-9]+,\s1\(R[0-9]+\)`,-`MOVB`,-`MOVH`,-`REV16W`
+	b[1], b[2], b[3], b[4], b[5], b[6], b[7], b[8] = byte(val>>8), byte(val), byte(val>>24), byte(val>>16), byte(val>>40), byte(val>>32), byte(val>>56), byte(val>>48)
+}
+
+func store_rev16_byte_8_idx_3(b []byte, idx int, val uint64) {
+	_, _, _, _, _, _, _, _ = b[(idx<<3)+0], b[(idx<<3)+1], b[(idx<<3)+2], b[(idx<<3)+3], b[(idx<<3)+4], b[(idx<<3)+5], b[(idx<<3)+6], b[(idx<<3)+7]
+	// arm64:`REV16`,`MOVD\sR[0-9]+,\s\(R[0-9]+\)\(R[0-9]+<<3\)`,-`MOVB`
+	b[(idx<<3)+0], b[(idx<<3)+1], b[(idx<<3)+2], b[(idx<<3)+3], b[(idx<<3)+4], b[(idx<<3)+5], b[(idx<<3)+6], b[(idx<<3)+7] = byte(val>>8), byte(val), byte(val>>24), byte(val>>16), byte(val>>40), byte(val>>32), byte(val>>56), byte(val>>48)
+}
+
+func store_rev16_byte_8_idx_4(b []byte, idx int, val uint64) {
+	_, _, _, _, _, _, _, _, _ = b[(idx<<4)+0], b[(idx<<4)+1], b[(idx<<4)+2], b[(idx<<4)+3], b[(idx<<4)+4], b[(idx<<4)+5], b[(idx<<4)+6], b[(idx<<4)+7], b[(idx<<4)+8]
+	// arm64:`REV16`,`MOVD\sR[0-9]+,\s\(R[0-9]+\)\(R[0-9]\)`
+	b[(idx<<4)+1], b[(idx<<4)+2], b[(idx<<4)+3], b[(idx<<4)+4], b[(idx<<4)+5], b[(idx<<4)+6], b[(idx<<4)+7], b[(idx<<4)+8] = byte(val>>8), byte(val), byte(val>>24), byte(val>>16), byte(val>>40), byte(val>>32), byte(val>>56), byte(val>>48)
+}
+
 // ------------- //
 //    Zeroing    //
 // ------------- //

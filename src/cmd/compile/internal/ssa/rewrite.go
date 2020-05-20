@@ -1327,6 +1327,16 @@ func arm64BFWidth(mask, rshift int64) int64 {
 	return nto(shiftedMask)
 }
 
+func arm64REV16WConstMask(a, b int64) bool {
+	// a==0xff00ff00
+	return (a==-16711936) && (b==0x00ff00ff)
+}
+
+func arm64REV16DConstMask(a, b int64) bool {
+	// a == 0xff00ff00ff00ff00
+	return (a==-71777214294589696) && (b==0x00ff00ff00ff00ff)
+}
+
 // sizeof returns the size of t in bytes.
 // It will panic if t is not a *types.Type.
 func sizeof(t interface{}) int64 {
