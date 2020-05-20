@@ -1838,6 +1838,18 @@
 (ORshiftRL [rc] (ANDconst [ac] y) (SLLconst [lc] x)) && lc < rc && ac == ^((1<<uint(64-rc)-1))
 	=> (BFXIL [armBFAuxInt(rc-lc, 64-rc)] y x)
 
+// rev16w
+// ((w & 0xff00ff00)>>8) | ((w & 0x00ff00ff)<<8)
+(ORshiftLL <typ.UInt32> [8] (UBFX <typ.UInt32> [armBFAuxInt(8, 24)] (ANDconst <typ.UInt32> [a] w)) (ANDconst <typ.UInt32> [b] w))
+	&& uint32(a) == 0xff00ff00 && uint32(b) == 0x00ff00ff
+	=>(REV16W <typ.UInt32> w)
+
+// rev16
+// ((w & 0xff00ff00ff00ff00)>>8) | ((w & 0x00ff00ff00ff00ff)<<8)
+(ORshiftLL <t> [8] (SRLconst [8] (ANDconst [a] w)) (ANDconst [b] w))
+	&& uint64(a) == 0xff00ff00ff00ff00 && uint64(b) == 0x00ff00ff00ff00ff
+	=> (REV16 <w.Type> w)
+
 // do combined loads
 // little endian loads
 // b[0] | b[1]<<8 => load 16-bit
@@ -2620,6 +2632,91 @@
 	&& isSamePtr(p1, p)
 	&& clobber(x0, x1, x2, x3, x4, x5, x6)
 	=> (MOVDstoreidx ptr0 idx0 (REV <w.Type> w) mem)
+// b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7] = w>>8, w, w>>24, w>>16, w>>40, w>>32, w>>56, w>>48
+(MOVBstore [7] {s} ptr (SRLconst [48] w)
+	x0:(MOVBstore [6] {s} ptr (SRLconst [56] w)
+	x1:(MOVBstore [5] {s} prt (SRLconst [32] w)
+	x2:(MOVBstore [4] {s} ptr (SRLconst [40] w)
+	x3:(MOVBstore [3] {s} ptr (SRLconst [16] w)
+	x4:(MOVBstore [2] {s} ptr (SRLconst [24] w)
+	x5:(MOVHstore {s} ptr (REV16W <w.Type> w) mem)))))))
+	&& x0.Uses == 1
+	&& x1.Uses == 1
+	&& x2.Uses == 1
+	&& x3.Uses == 1
+	&& x4.Uses == 1
+	&& x5.Uses == 1
+	&& s == nil
+	&& clobber(x0, x1, x2, x3, x4, x5)
+	=> (MOVDstore {s} ptr (REV16 <w.Type> w) mem)
+(MOVBstore [i] {s} ptr (SRLconst [48] w)
+	x0:(MOVBstore [i-1] {s} ptr (SRLconst [56] w)
+	x1:(MOVBstore [i-2] {s} ptr (SRLconst [32] w)
+	x2:(MOVBstore [i-3] {s} ptr (SRLconst [40] w)
+	x3:(MOVBstore [i-4] {s} ptr (SRLconst [16] w)
+	x4:(MOVBstore [i-5] {s} ptr (SRLconst [24] w)
+	x5:(MOVHstore [i-7] {s} ptr (REV16W <w.Type> w) mem)))))))
+	&& x0.Uses == 1
+	&& x1.Uses == 1
+	&& x2.Uses == 1
+	&& x3.Uses == 1
+	&& x4.Uses == 1
+	&& x5.Uses == 1
+	&& s == nil
+	&& clobber(x0, x1, x2, x3, x4, x5)
+	=> (MOVDstore [i-7] {s} ptr (REV16 <w.Type> w) mem)
+(MOVBstore [7] {s} p (SRLconst [48] w)
+	x0:(MOVBstore [6] {s} p (SRLconst [56] w)
+	x1:(MOVBstore [5] {s} p (SRLconst [32] w)
+	x2:(MOVBstore [4] {s} p (SRLconst [40] w)
+	x3:(MOVBstore [3] {s} p (SRLconst [16] w)
+	x4:(MOVBstore [2] {s} p1:(ADD ptr0 idx0) (SRLconst [24] w)
+	x5:(MOVHstoreidx ptr1 idx1 (REV16W <w.Type> w) mem)))))))
+	&& x0.Uses == 1
+	&& x1.Uses == 1
+	&& x2.Uses == 1
+	&& x3.Uses == 1
+	&& x4.Uses == 1
+	&& x5.Uses == 1
+	&& s == nil
+	&& (isSamePtr(ptr0, ptr1) && isSamePtr(idx0, idx1) || isSamePtr(ptr0, idx1) && isSamePtr(idx0, ptr1))
+	&& isSamePtr(p1, p)
+	&& clobber(x0, x1, x2, x3, x4, x5)
+	=> (MOVDstoreidx ptr0 idx0 (REV16 <w.Type> w) mem)
+(MOVBstoreidx ptr (ADDconst [7] idx) (SRLconst [48] w)
+	x0:(MOVBstoreidx ptr (ADDconst [6] idx) (SRLconst [56] w)
+	x1:(MOVBstoreidx ptr (ADDconst [5] idx) (SRLconst [32] w)
+	x2:(MOVBstoreidx ptr (ADDconst [4] idx) (SRLconst [40] w)
+	x3:(MOVBstoreidx ptr (ADDconst [3] idx) (SRLconst [16] w)
+	x4:(MOVBstoreidx ptr (ADDconst [2] idx) (SRLconst [24] w)
+	x5:(MOVBstoreidx ptr (ADDconst [1] idx) w
+	x6:(MOVBstoreidx ptr idx (SRLconst [8] w) mem))))))))
+	&& x0.Uses == 1
+	&& x1.Uses == 1
+	&& x2.Uses == 1
+	&& x3.Uses == 1
+	&& x4.Uses == 1
+	&& x5.Uses == 1
+	&& x6.Uses == 1
+	&& clobber(x0, x1, x2, x3, x4, x5, x6)
+	=>(MOVDstoreidx ptr idx (REV16 <w.Type> w) mem)
+(MOVBstoreidx ptr (ADDconst [i] idx) (SRLconst [48] w)
+	x0:(MOVBstoreidx ptr (ADDconst [i-1] idx) (SRLconst [56] w)
+	x1:(MOVBstoreidx ptr (ADDconst [i-2] idx) (SRLconst [32] w)
+	x2:(MOVBstoreidx ptr (ADDconst [i-3] idx) (SRLconst [40] w)
+	x3:(MOVBstoreidx ptr (ADDconst [i-4] idx) (SRLconst [16] w)
+	x4:(MOVBstoreidx ptr (ADDconst [i-5] idx) (SRLconst [24] w)
+	x5:(MOVBstoreidx ptr (ADDconst [i-6] idx) w
+	x6:(MOVBstoreidx ptr idx1:(ADDconst [i-7] idx) (SRLconst [8] w) mem))))))))
+	&& x0.Uses == 1
+	&& x1.Uses == 1
+	&& x2.Uses == 1
+	&& x3.Uses == 1
+	&& x4.Uses == 1
+	&& x5.Uses == 1
+	&& x6.Uses == 1
+	&& clobber(x0, x1, x2, x3, x4, x5, x6)
+	=>(MOVDstoreidx ptr idx1 (REV16 <w.Type> w) mem)
 (MOVBstore [i] {s} ptr w
 	x0:(MOVBstore [i-1] {s} ptr (UBFX [armBFAuxInt(8, 24)] w)
 	x1:(MOVBstore [i-2] {s} ptr (UBFX [armBFAuxInt(16, 16)] w)

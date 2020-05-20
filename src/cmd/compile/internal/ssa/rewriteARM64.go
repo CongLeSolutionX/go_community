@@ -7542,6 +7542,285 @@ func rewriteValueARM64_OpARM64MOVBstore(v *Value) bool {
 		}
 		break
 	}
+	// match: (MOVBstore [7] {s} ptr (SRLconst [48] w) x0:(MOVBstore [6] {s} ptr (SRLconst [56] w) x1:(MOVBstore [5] {s} prt (SRLconst [32] w) x2:(MOVBstore [4] {s} ptr (SRLconst [40] w) x3:(MOVBstore [3] {s} ptr (SRLconst [16] w) x4:(MOVBstore [2] {s} ptr (SRLconst [24] w) x5:(MOVHstore {s} ptr (REV16W <w.Type> w) mem)))))))
+	// cond: x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && s == nil && clobber(x0, x1, x2, x3, x4, x5)
+	// result: (MOVDstore {s} ptr (REV16 <w.Type> w) mem)
+	for {
+		if auxIntToInt32(v.AuxInt) != 7 {
+			break
+		}
+		s := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpARM64SRLconst || auxIntToInt64(v_1.AuxInt) != 48 {
+			break
+		}
+		w := v_1.Args[0]
+		x0 := v_2
+		if x0.Op != OpARM64MOVBstore || auxIntToInt32(x0.AuxInt) != 6 || auxToSym(x0.Aux) != s {
+			break
+		}
+		_ = x0.Args[2]
+		if ptr != x0.Args[0] {
+			break
+		}
+		x0_1 := x0.Args[1]
+		if x0_1.Op != OpARM64SRLconst || auxIntToInt64(x0_1.AuxInt) != 56 || w != x0_1.Args[0] {
+			break
+		}
+		x1 := x0.Args[2]
+		if x1.Op != OpARM64MOVBstore || auxIntToInt32(x1.AuxInt) != 5 || auxToSym(x1.Aux) != s {
+			break
+		}
+		_ = x1.Args[2]
+		x1_1 := x1.Args[1]
+		if x1_1.Op != OpARM64SRLconst || auxIntToInt64(x1_1.AuxInt) != 32 || w != x1_1.Args[0] {
+			break
+		}
+		x2 := x1.Args[2]
+		if x2.Op != OpARM64MOVBstore || auxIntToInt32(x2.AuxInt) != 4 || auxToSym(x2.Aux) != s {
+			break
+		}
+		_ = x2.Args[2]
+		if ptr != x2.Args[0] {
+			break
+		}
+		x2_1 := x2.Args[1]
+		if x2_1.Op != OpARM64SRLconst || auxIntToInt64(x2_1.AuxInt) != 40 || w != x2_1.Args[0] {
+			break
+		}
+		x3 := x2.Args[2]
+		if x3.Op != OpARM64MOVBstore || auxIntToInt32(x3.AuxInt) != 3 || auxToSym(x3.Aux) != s {
+			break
+		}
+		_ = x3.Args[2]
+		if ptr != x3.Args[0] {
+			break
+		}
+		x3_1 := x3.Args[1]
+		if x3_1.Op != OpARM64SRLconst || auxIntToInt64(x3_1.AuxInt) != 16 || w != x3_1.Args[0] {
+			break
+		}
+		x4 := x3.Args[2]
+		if x4.Op != OpARM64MOVBstore || auxIntToInt32(x4.AuxInt) != 2 || auxToSym(x4.Aux) != s {
+			break
+		}
+		_ = x4.Args[2]
+		if ptr != x4.Args[0] {
+			break
+		}
+		x4_1 := x4.Args[1]
+		if x4_1.Op != OpARM64SRLconst || auxIntToInt64(x4_1.AuxInt) != 24 || w != x4_1.Args[0] {
+			break
+		}
+		x5 := x4.Args[2]
+		if x5.Op != OpARM64MOVHstore || auxToSym(x5.Aux) != s {
+			break
+		}
+		mem := x5.Args[2]
+		if ptr != x5.Args[0] {
+			break
+		}
+		x5_1 := x5.Args[1]
+		if x5_1.Op != OpARM64REV16W || x5_1.Type != w.Type || w != x5_1.Args[0] || !(x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && s == nil && clobber(x0, x1, x2, x3, x4, x5)) {
+			break
+		}
+		v.reset(OpARM64MOVDstore)
+		v.Aux = symToAux(s)
+		v0 := b.NewValue0(x5.Pos, OpARM64REV16, w.Type)
+		v0.AddArg(w)
+		v.AddArg3(ptr, v0, mem)
+		return true
+	}
+	// match: (MOVBstore [i] {s} ptr (SRLconst [48] w) x0:(MOVBstore [i-1] {s} ptr (SRLconst [56] w) x1:(MOVBstore [i-2] {s} ptr (SRLconst [32] w) x2:(MOVBstore [i-3] {s} ptr (SRLconst [40] w) x3:(MOVBstore [i-4] {s} ptr (SRLconst [16] w) x4:(MOVBstore [i-5] {s} ptr (SRLconst [24] w) x5:(MOVHstore [i-7] {s} ptr (REV16W <w.Type> w) mem)))))))
+	// cond: x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && s == nil && clobber(x0, x1, x2, x3, x4, x5)
+	// result: (MOVDstore [i-7] {s} ptr (REV16 <w.Type> w) mem)
+	for {
+		i := auxIntToInt32(v.AuxInt)
+		s := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpARM64SRLconst || auxIntToInt64(v_1.AuxInt) != 48 {
+			break
+		}
+		w := v_1.Args[0]
+		x0 := v_2
+		if x0.Op != OpARM64MOVBstore || auxIntToInt32(x0.AuxInt) != i-1 || auxToSym(x0.Aux) != s {
+			break
+		}
+		_ = x0.Args[2]
+		if ptr != x0.Args[0] {
+			break
+		}
+		x0_1 := x0.Args[1]
+		if x0_1.Op != OpARM64SRLconst || auxIntToInt64(x0_1.AuxInt) != 56 || w != x0_1.Args[0] {
+			break
+		}
+		x1 := x0.Args[2]
+		if x1.Op != OpARM64MOVBstore || auxIntToInt32(x1.AuxInt) != i-2 || auxToSym(x1.Aux) != s {
+			break
+		}
+		_ = x1.Args[2]
+		if ptr != x1.Args[0] {
+			break
+		}
+		x1_1 := x1.Args[1]
+		if x1_1.Op != OpARM64SRLconst || auxIntToInt64(x1_1.AuxInt) != 32 || w != x1_1.Args[0] {
+			break
+		}
+		x2 := x1.Args[2]
+		if x2.Op != OpARM64MOVBstore || auxIntToInt32(x2.AuxInt) != i-3 || auxToSym(x2.Aux) != s {
+			break
+		}
+		_ = x2.Args[2]
+		if ptr != x2.Args[0] {
+			break
+		}
+		x2_1 := x2.Args[1]
+		if x2_1.Op != OpARM64SRLconst || auxIntToInt64(x2_1.AuxInt) != 40 || w != x2_1.Args[0] {
+			break
+		}
+		x3 := x2.Args[2]
+		if x3.Op != OpARM64MOVBstore || auxIntToInt32(x3.AuxInt) != i-4 || auxToSym(x3.Aux) != s {
+			break
+		}
+		_ = x3.Args[2]
+		if ptr != x3.Args[0] {
+			break
+		}
+		x3_1 := x3.Args[1]
+		if x3_1.Op != OpARM64SRLconst || auxIntToInt64(x3_1.AuxInt) != 16 || w != x3_1.Args[0] {
+			break
+		}
+		x4 := x3.Args[2]
+		if x4.Op != OpARM64MOVBstore || auxIntToInt32(x4.AuxInt) != i-5 || auxToSym(x4.Aux) != s {
+			break
+		}
+		_ = x4.Args[2]
+		if ptr != x4.Args[0] {
+			break
+		}
+		x4_1 := x4.Args[1]
+		if x4_1.Op != OpARM64SRLconst || auxIntToInt64(x4_1.AuxInt) != 24 || w != x4_1.Args[0] {
+			break
+		}
+		x5 := x4.Args[2]
+		if x5.Op != OpARM64MOVHstore || auxIntToInt32(x5.AuxInt) != i-7 || auxToSym(x5.Aux) != s {
+			break
+		}
+		mem := x5.Args[2]
+		if ptr != x5.Args[0] {
+			break
+		}
+		x5_1 := x5.Args[1]
+		if x5_1.Op != OpARM64REV16W || x5_1.Type != w.Type || w != x5_1.Args[0] || !(x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && s == nil && clobber(x0, x1, x2, x3, x4, x5)) {
+			break
+		}
+		v.reset(OpARM64MOVDstore)
+		v.AuxInt = int32ToAuxInt(i - 7)
+		v.Aux = symToAux(s)
+		v0 := b.NewValue0(x5.Pos, OpARM64REV16, w.Type)
+		v0.AddArg(w)
+		v.AddArg3(ptr, v0, mem)
+		return true
+	}
+	// match: (MOVBstore [7] {s} p (SRLconst [48] w) x0:(MOVBstore [6] {s} p (SRLconst [56] w) x1:(MOVBstore [5] {s} p (SRLconst [32] w) x2:(MOVBstore [4] {s} p (SRLconst [40] w) x3:(MOVBstore [3] {s} p (SRLconst [16] w) x4:(MOVBstore [2] {s} p1:(ADD ptr0 idx0) (SRLconst [24] w) x5:(MOVHstoreidx ptr1 idx1 (REV16W <w.Type> w) mem)))))))
+	// cond: x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && s == nil && (isSamePtr(ptr0, ptr1) && isSamePtr(idx0, idx1) || isSamePtr(ptr0, idx1) && isSamePtr(idx0, ptr1)) && isSamePtr(p1, p) && clobber(x0, x1, x2, x3, x4, x5)
+	// result: (MOVDstoreidx ptr0 idx0 (REV16 <w.Type> w) mem)
+	for {
+		if auxIntToInt32(v.AuxInt) != 7 {
+			break
+		}
+		s := auxToSym(v.Aux)
+		p := v_0
+		if v_1.Op != OpARM64SRLconst || auxIntToInt64(v_1.AuxInt) != 48 {
+			break
+		}
+		w := v_1.Args[0]
+		x0 := v_2
+		if x0.Op != OpARM64MOVBstore || auxIntToInt32(x0.AuxInt) != 6 || auxToSym(x0.Aux) != s {
+			break
+		}
+		_ = x0.Args[2]
+		if p != x0.Args[0] {
+			break
+		}
+		x0_1 := x0.Args[1]
+		if x0_1.Op != OpARM64SRLconst || auxIntToInt64(x0_1.AuxInt) != 56 || w != x0_1.Args[0] {
+			break
+		}
+		x1 := x0.Args[2]
+		if x1.Op != OpARM64MOVBstore || auxIntToInt32(x1.AuxInt) != 5 || auxToSym(x1.Aux) != s {
+			break
+		}
+		_ = x1.Args[2]
+		if p != x1.Args[0] {
+			break
+		}
+		x1_1 := x1.Args[1]
+		if x1_1.Op != OpARM64SRLconst || auxIntToInt64(x1_1.AuxInt) != 32 || w != x1_1.Args[0] {
+			break
+		}
+		x2 := x1.Args[2]
+		if x2.Op != OpARM64MOVBstore || auxIntToInt32(x2.AuxInt) != 4 || auxToSym(x2.Aux) != s {
+			break
+		}
+		_ = x2.Args[2]
+		if p != x2.Args[0] {
+			break
+		}
+		x2_1 := x2.Args[1]
+		if x2_1.Op != OpARM64SRLconst || auxIntToInt64(x2_1.AuxInt) != 40 || w != x2_1.Args[0] {
+			break
+		}
+		x3 := x2.Args[2]
+		if x3.Op != OpARM64MOVBstore || auxIntToInt32(x3.AuxInt) != 3 || auxToSym(x3.Aux) != s {
+			break
+		}
+		_ = x3.Args[2]
+		if p != x3.Args[0] {
+			break
+		}
+		x3_1 := x3.Args[1]
+		if x3_1.Op != OpARM64SRLconst || auxIntToInt64(x3_1.AuxInt) != 16 || w != x3_1.Args[0] {
+			break
+		}
+		x4 := x3.Args[2]
+		if x4.Op != OpARM64MOVBstore || auxIntToInt32(x4.AuxInt) != 2 || auxToSym(x4.Aux) != s {
+			break
+		}
+		_ = x4.Args[2]
+		p1 := x4.Args[0]
+		if p1.Op != OpARM64ADD {
+			break
+		}
+		_ = p1.Args[1]
+		p1_0 := p1.Args[0]
+		p1_1 := p1.Args[1]
+		for _i0 := 0; _i0 <= 1; _i0, p1_0, p1_1 = _i0+1, p1_1, p1_0 {
+			ptr0 := p1_0
+			idx0 := p1_1
+			x4_1 := x4.Args[1]
+			if x4_1.Op != OpARM64SRLconst || auxIntToInt64(x4_1.AuxInt) != 24 || w != x4_1.Args[0] {
+				continue
+			}
+			x5 := x4.Args[2]
+			if x5.Op != OpARM64MOVHstoreidx {
+				continue
+			}
+			mem := x5.Args[3]
+			ptr1 := x5.Args[0]
+			idx1 := x5.Args[1]
+			x5_2 := x5.Args[2]
+			if x5_2.Op != OpARM64REV16W || x5_2.Type != w.Type || w != x5_2.Args[0] || !(x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && s == nil && (isSamePtr(ptr0, ptr1) && isSamePtr(idx0, idx1) || isSamePtr(ptr0, idx1) && isSamePtr(idx0, ptr1)) && isSamePtr(p1, p) && clobber(x0, x1, x2, x3, x4, x5)) {
+				continue
+			}
+			v.reset(OpARM64MOVDstoreidx)
+			v0 := b.NewValue0(x4.Pos, OpARM64REV16, w.Type)
+			v0.AddArg(w)
+			v.AddArg4(ptr0, idx0, v0, mem)
+			return true
+		}
+		break
+	}
 	// match: (MOVBstore [i] {s} ptr w x0:(MOVBstore [i-1] {s} ptr (UBFX [armBFAuxInt(8, 24)] w) x1:(MOVBstore [i-2] {s} ptr (UBFX [armBFAuxInt(16, 16)] w) x2:(MOVBstore [i-3] {s} ptr (UBFX [armBFAuxInt(24, 8)] w) mem))))
 	// cond: x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && clobber(x0, x1, x2)
 	// result: (MOVWstore [i-3] {s} ptr (REVW <w.Type> w) mem)
@@ -8336,6 +8615,257 @@ func rewriteValueARM64_OpARM64MOVBstoreidx(v *Value) bool {
 		}
 		v.reset(OpARM64MOVHstoreidx)
 		v.AddArg4(ptr, idx, w, mem)
+		return true
+	}
+	// match: (MOVBstoreidx ptr (ADDconst [7] idx) (SRLconst [48] w) x0:(MOVBstoreidx ptr (ADDconst [6] idx) (SRLconst [56] w) x1:(MOVBstoreidx ptr (ADDconst [5] idx) (SRLconst [32] w) x2:(MOVBstoreidx ptr (ADDconst [4] idx) (SRLconst [40] w) x3:(MOVBstoreidx ptr (ADDconst [3] idx) (SRLconst [16] w) x4:(MOVBstoreidx ptr (ADDconst [2] idx) (SRLconst [24] w) x5:(MOVBstoreidx ptr (ADDconst [1] idx) w x6:(MOVBstoreidx ptr idx (SRLconst [8] w) mem))))))))
+	// cond: x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && x6.Uses == 1 && clobber(x0, x1, x2, x3, x4, x5, x6)
+	// result: (MOVDstoreidx ptr idx (REV16 <w.Type> w) mem)
+	for {
+		ptr := v_0
+		if v_1.Op != OpARM64ADDconst || auxIntToInt64(v_1.AuxInt) != 7 {
+			break
+		}
+		idx := v_1.Args[0]
+		if v_2.Op != OpARM64SRLconst || auxIntToInt64(v_2.AuxInt) != 48 {
+			break
+		}
+		w := v_2.Args[0]
+		x0 := v_3
+		if x0.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x0.Args[3]
+		if ptr != x0.Args[0] {
+			break
+		}
+		x0_1 := x0.Args[1]
+		if x0_1.Op != OpARM64ADDconst || auxIntToInt64(x0_1.AuxInt) != 6 || idx != x0_1.Args[0] {
+			break
+		}
+		x0_2 := x0.Args[2]
+		if x0_2.Op != OpARM64SRLconst || auxIntToInt64(x0_2.AuxInt) != 56 || w != x0_2.Args[0] {
+			break
+		}
+		x1 := x0.Args[3]
+		if x1.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x1.Args[3]
+		if ptr != x1.Args[0] {
+			break
+		}
+		x1_1 := x1.Args[1]
+		if x1_1.Op != OpARM64ADDconst || auxIntToInt64(x1_1.AuxInt) != 5 || idx != x1_1.Args[0] {
+			break
+		}
+		x1_2 := x1.Args[2]
+		if x1_2.Op != OpARM64SRLconst || auxIntToInt64(x1_2.AuxInt) != 32 || w != x1_2.Args[0] {
+			break
+		}
+		x2 := x1.Args[3]
+		if x2.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x2.Args[3]
+		if ptr != x2.Args[0] {
+			break
+		}
+		x2_1 := x2.Args[1]
+		if x2_1.Op != OpARM64ADDconst || auxIntToInt64(x2_1.AuxInt) != 4 || idx != x2_1.Args[0] {
+			break
+		}
+		x2_2 := x2.Args[2]
+		if x2_2.Op != OpARM64SRLconst || auxIntToInt64(x2_2.AuxInt) != 40 || w != x2_2.Args[0] {
+			break
+		}
+		x3 := x2.Args[3]
+		if x3.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x3.Args[3]
+		if ptr != x3.Args[0] {
+			break
+		}
+		x3_1 := x3.Args[1]
+		if x3_1.Op != OpARM64ADDconst || auxIntToInt64(x3_1.AuxInt) != 3 || idx != x3_1.Args[0] {
+			break
+		}
+		x3_2 := x3.Args[2]
+		if x3_2.Op != OpARM64SRLconst || auxIntToInt64(x3_2.AuxInt) != 16 || w != x3_2.Args[0] {
+			break
+		}
+		x4 := x3.Args[3]
+		if x4.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x4.Args[3]
+		if ptr != x4.Args[0] {
+			break
+		}
+		x4_1 := x4.Args[1]
+		if x4_1.Op != OpARM64ADDconst || auxIntToInt64(x4_1.AuxInt) != 2 || idx != x4_1.Args[0] {
+			break
+		}
+		x4_2 := x4.Args[2]
+		if x4_2.Op != OpARM64SRLconst || auxIntToInt64(x4_2.AuxInt) != 24 || w != x4_2.Args[0] {
+			break
+		}
+		x5 := x4.Args[3]
+		if x5.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x5.Args[3]
+		if ptr != x5.Args[0] {
+			break
+		}
+		x5_1 := x5.Args[1]
+		if x5_1.Op != OpARM64ADDconst || auxIntToInt64(x5_1.AuxInt) != 1 || idx != x5_1.Args[0] || w != x5.Args[2] {
+			break
+		}
+		x6 := x5.Args[3]
+		if x6.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		mem := x6.Args[3]
+		if ptr != x6.Args[0] || idx != x6.Args[1] {
+			break
+		}
+		x6_2 := x6.Args[2]
+		if x6_2.Op != OpARM64SRLconst || auxIntToInt64(x6_2.AuxInt) != 8 || w != x6_2.Args[0] || !(x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && x6.Uses == 1 && clobber(x0, x1, x2, x3, x4, x5, x6)) {
+			break
+		}
+		v.reset(OpARM64MOVDstoreidx)
+		v0 := b.NewValue0(v.Pos, OpARM64REV16, w.Type)
+		v0.AddArg(w)
+		v.AddArg4(ptr, idx, v0, mem)
+		return true
+	}
+	// match: (MOVBstoreidx ptr (ADDconst [i] idx) (SRLconst [48] w) x0:(MOVBstoreidx ptr (ADDconst [i-1] idx) (SRLconst [56] w) x1:(MOVBstoreidx ptr (ADDconst [i-2] idx) (SRLconst [32] w) x2:(MOVBstoreidx ptr (ADDconst [i-3] idx) (SRLconst [40] w) x3:(MOVBstoreidx ptr (ADDconst [i-4] idx) (SRLconst [16] w) x4:(MOVBstoreidx ptr (ADDconst [i-5] idx) (SRLconst [24] w) x5:(MOVBstoreidx ptr (ADDconst [i-6] idx) w x6:(MOVBstoreidx ptr idx1:(ADDconst [i-7] idx) (SRLconst [8] w) mem))))))))
+	// cond: x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && x6.Uses == 1 && clobber(x0, x1, x2, x3, x4, x5, x6)
+	// result: (MOVDstoreidx ptr idx1 (REV16 <w.Type> w) mem)
+	for {
+		ptr := v_0
+		if v_1.Op != OpARM64ADDconst {
+			break
+		}
+		i := auxIntToInt64(v_1.AuxInt)
+		idx := v_1.Args[0]
+		if v_2.Op != OpARM64SRLconst || auxIntToInt64(v_2.AuxInt) != 48 {
+			break
+		}
+		w := v_2.Args[0]
+		x0 := v_3
+		if x0.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x0.Args[3]
+		if ptr != x0.Args[0] {
+			break
+		}
+		x0_1 := x0.Args[1]
+		if x0_1.Op != OpARM64ADDconst || auxIntToInt64(x0_1.AuxInt) != i-1 || idx != x0_1.Args[0] {
+			break
+		}
+		x0_2 := x0.Args[2]
+		if x0_2.Op != OpARM64SRLconst || auxIntToInt64(x0_2.AuxInt) != 56 || w != x0_2.Args[0] {
+			break
+		}
+		x1 := x0.Args[3]
+		if x1.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x1.Args[3]
+		if ptr != x1.Args[0] {
+			break
+		}
+		x1_1 := x1.Args[1]
+		if x1_1.Op != OpARM64ADDconst || auxIntToInt64(x1_1.AuxInt) != i-2 || idx != x1_1.Args[0] {
+			break
+		}
+		x1_2 := x1.Args[2]
+		if x1_2.Op != OpARM64SRLconst || auxIntToInt64(x1_2.AuxInt) != 32 || w != x1_2.Args[0] {
+			break
+		}
+		x2 := x1.Args[3]
+		if x2.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x2.Args[3]
+		if ptr != x2.Args[0] {
+			break
+		}
+		x2_1 := x2.Args[1]
+		if x2_1.Op != OpARM64ADDconst || auxIntToInt64(x2_1.AuxInt) != i-3 || idx != x2_1.Args[0] {
+			break
+		}
+		x2_2 := x2.Args[2]
+		if x2_2.Op != OpARM64SRLconst || auxIntToInt64(x2_2.AuxInt) != 40 || w != x2_2.Args[0] {
+			break
+		}
+		x3 := x2.Args[3]
+		if x3.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x3.Args[3]
+		if ptr != x3.Args[0] {
+			break
+		}
+		x3_1 := x3.Args[1]
+		if x3_1.Op != OpARM64ADDconst || auxIntToInt64(x3_1.AuxInt) != i-4 || idx != x3_1.Args[0] {
+			break
+		}
+		x3_2 := x3.Args[2]
+		if x3_2.Op != OpARM64SRLconst || auxIntToInt64(x3_2.AuxInt) != 16 || w != x3_2.Args[0] {
+			break
+		}
+		x4 := x3.Args[3]
+		if x4.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x4.Args[3]
+		if ptr != x4.Args[0] {
+			break
+		}
+		x4_1 := x4.Args[1]
+		if x4_1.Op != OpARM64ADDconst || auxIntToInt64(x4_1.AuxInt) != i-5 || idx != x4_1.Args[0] {
+			break
+		}
+		x4_2 := x4.Args[2]
+		if x4_2.Op != OpARM64SRLconst || auxIntToInt64(x4_2.AuxInt) != 24 || w != x4_2.Args[0] {
+			break
+		}
+		x5 := x4.Args[3]
+		if x5.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		_ = x5.Args[3]
+		if ptr != x5.Args[0] {
+			break
+		}
+		x5_1 := x5.Args[1]
+		if x5_1.Op != OpARM64ADDconst || auxIntToInt64(x5_1.AuxInt) != i-6 || idx != x5_1.Args[0] || w != x5.Args[2] {
+			break
+		}
+		x6 := x5.Args[3]
+		if x6.Op != OpARM64MOVBstoreidx {
+			break
+		}
+		mem := x6.Args[3]
+		if ptr != x6.Args[0] {
+			break
+		}
+		idx1 := x6.Args[1]
+		if idx1.Op != OpARM64ADDconst || auxIntToInt64(idx1.AuxInt) != i-7 || idx != idx1.Args[0] {
+			break
+		}
+		x6_2 := x6.Args[2]
+		if x6_2.Op != OpARM64SRLconst || auxIntToInt64(x6_2.AuxInt) != 8 || w != x6_2.Args[0] || !(x0.Uses == 1 && x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && x4.Uses == 1 && x5.Uses == 1 && x6.Uses == 1 && clobber(x0, x1, x2, x3, x4, x5, x6)) {
+			break
+		}
+		v.reset(OpARM64MOVDstoreidx)
+		v0 := b.NewValue0(v.Pos, OpARM64REV16, w.Type)
+		v0.AddArg(w)
+		v.AddArg4(ptr, idx1, v0, mem)
 		return true
 	}
 	// match: (MOVBstoreidx ptr (ADDconst [3] idx) w x0:(MOVBstoreidx ptr (ADDconst [2] idx) (UBFX [armBFAuxInt(8, 24)] w) x1:(MOVBstoreidx ptr (ADDconst [1] idx) (UBFX [armBFAuxInt(16, 16)] w) x2:(MOVBstoreidx ptr idx (UBFX [armBFAuxInt(24, 8)] w) mem))))
@@ -17346,6 +17876,56 @@ func rewriteValueARM64_OpARM64ORshiftLL(v *Value) bool {
 		v.reset(OpARM64BFXIL)
 		v.AuxInt = arm64BitFieldToAuxInt(bfc)
 		v.AddArg2(y, x)
+		return true
+	}
+	// match: (ORshiftLL <typ.UInt32> [8] (UBFX <typ.UInt32> [armBFAuxInt(8, 24)] (ANDconst <typ.UInt32> [a] w)) (ANDconst <typ.UInt32> [b] w))
+	// cond: uint32(a) == 0xff00ff00 && uint32(b) == 0x00ff00ff
+	// result: (REV16W <typ.UInt32> w)
+	for {
+		if v.Type != typ.UInt32 || auxIntToInt64(v.AuxInt) != 8 || v_0.Op != OpARM64UBFX || v_0.Type != typ.UInt32 || auxIntToArm64BitField(v_0.AuxInt) != armBFAuxInt(8, 24) {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpARM64ANDconst || v_0_0.Type != typ.UInt32 {
+			break
+		}
+		a := auxIntToInt64(v_0_0.AuxInt)
+		w := v_0_0.Args[0]
+		if v_1.Op != OpARM64ANDconst || v_1.Type != typ.UInt32 {
+			break
+		}
+		b := auxIntToInt64(v_1.AuxInt)
+		if w != v_1.Args[0] || !(uint32(a) == 0xff00ff00 && uint32(b) == 0x00ff00ff) {
+			break
+		}
+		v.reset(OpARM64REV16W)
+		v.Type = typ.UInt32
+		v.AddArg(w)
+		return true
+	}
+	// match: (ORshiftLL <t> [8] (SRLconst [8] (ANDconst [a] w)) (ANDconst [b] w))
+	// cond: uint64(a) == 0xff00ff00ff00ff00 && uint64(b) == 0x00ff00ff00ff00ff
+	// result: (REV16 <w.Type> w)
+	for {
+		if auxIntToInt64(v.AuxInt) != 8 || v_0.Op != OpARM64SRLconst || auxIntToInt64(v_0.AuxInt) != 8 {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpARM64ANDconst {
+			break
+		}
+		a := auxIntToInt64(v_0_0.AuxInt)
+		w := v_0_0.Args[0]
+		if v_1.Op != OpARM64ANDconst {
+			break
+		}
+		b := auxIntToInt64(v_1.AuxInt)
+		if w != v_1.Args[0] || !(uint64(a) == 0xff00ff00ff00ff00 && uint64(b) == 0x00ff00ff00ff00ff) {
+			break
+		}
+		v.reset(OpARM64REV16)
+		v.Type = w.Type
+		v.AddArg(w)
 		return true
 	}
 	// match: (ORshiftLL <t> [8] y0:(MOVDnop x0:(MOVBUload [i0] {s} p mem)) y1:(MOVDnop x1:(MOVBUload [i1] {s} p mem)))
