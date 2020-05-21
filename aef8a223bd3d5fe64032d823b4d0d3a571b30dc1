@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41dd756e_864f2386",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-21T19:06:08Z",
+      "side": 1,
+      "message": "Should check that `err` is a `*LinkError` here.",
+      "revId": "aef8a223bd3d5fe64032d823b4d0d3a571b30dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
