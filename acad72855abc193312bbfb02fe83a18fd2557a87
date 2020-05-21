@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aa75aba1_3ea05dbb",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T20:19:05Z",
+      "side": 1,
+      "message": "Yeah, the first partial word is tricky. I guess we could do byte by byte up to 8-byte boundary, then 64-bit a time. Bit it is probably not worth the complexity.",
+      "parentUuid": "22032bdd_fb8edcf9",
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f988d2a_cec0ec0d",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 3
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "Ah, that\u0027s a good idea. gcDumpObject is a little verbose for this purpose. I\u0027ve added a hexdumpWords call.",
       "parentUuid": "3d4a0124_155e3277",
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4afe0b4b_f4da1987",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T20:19:05Z",
+      "side": 1,
+      "message": "LGTM. Thanks.",
+      "parentUuid": "9503037d_baca9bc5",
       "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
