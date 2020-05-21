@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b996437_e361f21b",
+        "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T15:34:40Z",
+      "side": 1,
+      "message": "What about just comparing -c\u003d1 and -c\u003dN builds (without setting debug flags)?",
+      "revId": "bdbb0b3305be5d946c36307683c716cac511704b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ad5593_36dd8052",
+        "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T15:34:40Z",
+      "side": 1,
+      "message": "What does this do?",
+      "range": {
+        "startLine": 83,
+        "startChar": 28,
+        "endLine": 83,
+        "endChar": 55
+      },
+      "revId": "bdbb0b3305be5d946c36307683c716cac511704b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8492fdfa_462c8599",
+        "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T15:34:40Z",
+      "side": 1,
+      "message": "Would it suffice to just run the compiler, not the linker, and compare the object files?",
+      "revId": "bdbb0b3305be5d946c36307683c716cac511704b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
