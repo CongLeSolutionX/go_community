@@ -668,17 +668,38 @@ func TestStatSymlinkLoop(t *testing.T) {
 
 	defer chtmpdir(t)()
 
-	err := os.Symlink("x", "y")
+	// Actually create the destination file so that Windows can
+	// know whether to create a file or directory symlink.
+	file, err := os.Create("x")
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = file.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove("x")
+
+	// Create the cycle as z→y→x, then rename z to x to close the loop.
+	err = os.Symlink("x", "y")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.Remove("y")
 
-	err = os.Symlink("y", "x")
+	err = os.Symlink("y", "z")
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.Remove("x")
+	err = os.Remove("x")
+	if err != nil {
+		os.Remove("z")
+		t.Fatal(err)
+	}
+	err = os.Rename("z", "x")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	_, err = os.Stat("x")
 	if _, ok := err.(*os.PathError); !ok {
@@ -965,9 +986,7 @@ func TestWindowsDevNullFile(t *testing.T) {
 // works on Windows when developer mode is active.
 // This is supported starting Windows 10 (1703, v10.0.14972).
 func TestSymlinkCreation(t *testing.T) {
-	if !isWindowsDeveloperModeActive() {
-		t.Skip("Windows developer mode is not active")
-	}
+	testenv.MustHaveSymlink(t)
 
 	temp, err := ioutil.TempDir("", "TestSymlinkCreation")
 	if err != nil {
@@ -988,21 +1007,42 @@ func TestSymlinkCreation(t *testing.T) {
 	}
 }
 
-// isWindowsDeveloperModeActive checks whether or not the developer mode is active on Windows 10.
-// Returns false for prior Windows versions.
-// see https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development
-func isWindowsDeveloperModeActive() bool {
-	key, err := registry.OpenKey(registry.LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AppModelUnlock", registry.READ)
+// TestDriveRelativeDirSymlink verifies that symlinks to drive-relative paths
+// (beginning with "\" but no volume name) are created with the correct symlink
+// type. (See https://golang.org/issue/39183#issuecomment-632175728.)
+func TestDriveRelativeDirSymlink(t *testing.T) {
+	testenv.MustHaveSymlink(t)
+
+	temp, err := ioutil.TempDir("", "TestSymlinkCreation")
 	if err != nil {
-		return false
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(temp)
+
+	dir := filepath.Join(temp, "dir")
+	if err := os.Mkdir(dir, 0755); err != nil {
+		t.Fatal(err)
 	}
 
-	val, _, err := key.GetIntegerValue("AllowDevelopmentWithoutDevLicense")
-	if err != nil {
-		return false
-	}
+	volumeRelDir := strings.TrimPrefix(dir, filepath.VolumeName(dir)) // leaves leading backslash
 
-	return val != 0
+	link := filepath.Join(temp, "link")
+	err = os.Symlink(volumeRelDir, link)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("Symlink(%q, %q)", volumeRelDir, link)
+
+	f, err := os.Open(link)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	if fi, err := f.Stat(); err != nil {
+		t.Fatal(err)
+	} else if !fi.IsDir() {
+		t.Fatalf("%s.Stat().IsDir() = false; want true", f.Name())
+	}
 }
 
 // TestStatOfInvalidName is regression test for issue #24999.
