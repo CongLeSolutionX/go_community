@@ -330,12 +330,24 @@ func Symlink(oldname, newname string) error {
 
 	// need the exact location of the oldname when it's relative to determine if it's a directory
 	destpath := oldname
-	if !isAbs(oldname) {
-		destpath = dirname(newname) + `\` + oldname
+	if v := volumeName(oldname); v == "" {
+		if len(oldname) > 0 && IsPathSeparator(oldname[0]) {
+			// oldname is relative to the volume containing newname.
+			if v = volumeName(newname); v != "" {
+				// Prepend the volume explicitly, because it may be different from the
+				// volume of the current working directory.
+				destpath = v + oldname
+			}
+		} else {
+			// oldname is relative to newname.
+			destpath = dirname(newname) + `\` + oldname
+		}
 	}
 
 	fi, err := Stat(destpath)
-	isdir := err == nil && fi.IsDir()
+	if err != nil {
+		return &LinkError{"symlink", oldname, newname, err}
+	}
 
 	n, err := syscall.UTF16PtrFromString(fixLongPath(newname))
 	if err != nil {
@@ -347,7 +359,7 @@ func Symlink(oldname, newname string) error {
 	}
 
 	var flags uint32 = windows.SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-	if isdir {
+	if fi.IsDir() {
 		flags |= syscall.SYMBOLIC_LINK_FLAG_DIRECTORY
 	}
 	err = syscall.CreateSymbolicLink(n, o, flags)

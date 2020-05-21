@@ -663,29 +663,6 @@ func TestDeleteReadOnly(t *testing.T) {
 	}
 }
 
-func TestStatSymlinkLoop(t *testing.T) {
-	testenv.MustHaveSymlink(t)
-
-	defer chtmpdir(t)()
-
-	err := os.Symlink("x", "y")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.Remove("y")
-
-	err = os.Symlink("y", "x")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.Remove("x")
-
-	_, err = os.Stat("x")
-	if _, ok := err.(*os.PathError); !ok {
-		t.Errorf("expected *PathError, got %T: %v\n", err, err)
-	}
-}
-
 func TestReadStdin(t *testing.T) {
 	old := poll.ReadConsole
 	defer func() {
@@ -1003,6 +980,44 @@ func isWindowsDeveloperModeActive() bool {
 	}
 
 	return val != 0
+}
+
+// TestDriveRelativeDirSymlink verifies that symlinks to drive-relative paths
+// (beginning with "\" but no volume name) are created with the correct symlink
+// type. (See https://golang.org/issue/39183#issuecomment-632175728.)
+func TestDriveRelativeDirSymlink(t *testing.T) {
+	testenv.MustHaveSymlink(t)
+
+	temp, err := ioutil.TempDir("", "TestSymlinkCreation")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(temp)
+
+	dir := filepath.Join(temp, "dir")
+	if err := os.Mkdir(dir, 0755); err != nil {
+		t.Fatal(err)
+	}
+
+	volumeRelDir := strings.TrimPrefix(dir, filepath.VolumeName(dir)) // leaves leading backslash
+
+	link := filepath.Join(temp, "link")
+	err = os.Symlink(volumeRelDir, link)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("Symlink(%q, %q)", volumeRelDir, link)
+
+	f, err := os.Open(link)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	if fi, err := f.Stat(); err != nil {
+		t.Fatal(err)
+	} else if !fi.IsDir() {
+		t.Fatalf("%s.Stat().IsDir() = false; want true", f.Name())
+	}
 }
 
 // TestStatOfInvalidName is regression test for issue #24999.

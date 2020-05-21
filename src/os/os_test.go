@@ -190,7 +190,7 @@ func TestStat(t *testing.T) {
 func TestStatError(t *testing.T) {
 	defer chtmpdir(t)()
 
-	path := "no-such-file"
+	path := "no-such-file-staterror"
 
 	fi, err := Stat(path)
 	if err == nil {
@@ -205,8 +205,25 @@ func TestStatError(t *testing.T) {
 
 	testenv.MustHaveSymlink(t)
 
+	// Temporarily create the destination file so that Windows can
+	// know whether to create a file or directory symlink.
+	file, err := Create(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = file.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	link := "symlink"
 	err = Symlink(path, link)
+	if err != nil {
+		Remove(path)
+		t.Fatal(err)
+	}
+
+	err = Remove(path)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -220,6 +237,50 @@ func TestStatError(t *testing.T) {
 	}
 	if perr, ok := err.(*PathError); !ok {
 		t.Errorf("got %T, want %T", err, perr)
+	}
+}
+
+func TestStatSymlinkLoop(t *testing.T) {
+	testenv.MustHaveSymlink(t)
+
+	defer chtmpdir(t)()
+
+	// Actually create the destination file so that Windows can
+	// know whether to create a file or directory symlink.
+	file, err := Create("x")
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = file.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer Remove("x")
+
+	// Create the cycle as z→y→x, then rename z to x to close the loop.
+	err = Symlink("x", "y")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer Remove("y")
+
+	err = Symlink("y", "z")
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = Remove("x")
+	if err != nil {
+		Remove("z")
+		t.Fatal(err)
+	}
+	err = Rename("z", "x")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = Stat("x")
+	if _, ok := err.(*PathError); !ok {
+		t.Errorf("expected *PathError, got %T: %v\n", err, err)
 	}
 }
 
@@ -841,6 +902,28 @@ func TestLongSymlink(t *testing.T) {
 	s := "0123456789abcdef"
 	// Long, but not too long: a common limit is 255.
 	s = s + s + s + s + s + s + s + s + s + s + s + s + s + s + s
+
+	// Actually create the destination file so that Windows can
+	// know whether to create a file or directory symlink.
+	for {
+		file, err := Create(s)
+		if err != nil {
+			if len(s) <= 16 {
+				t.Fatal(err)
+			}
+			// Maybe too long for a file at all? Try a shorter name.
+			s = s[:len(s)/2]
+			continue
+		}
+
+		err = file.Close()
+		if err != nil {
+			t.Fatal(err)
+		}
+		break
+	}
+	defer Remove(s)
+
 	from := "longsymlinktestfrom"
 	err := Symlink(s, from)
 	if err != nil {
