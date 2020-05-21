@@ -1725,8 +1725,13 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.end", 0), sect)
 
 	// Coverage instrumentation counters for libfuzzer.
+<<<<<<< HEAD   (8e4ab9 [dev.link] cmd/link: remove some x86/Darwin code)
 	if len(state.data[sym.SLIBFUZZER_EXTRA_COUNTER]) > 0 {
 		state.allocateNamedSectionAndAssignSyms(&Segdata, "__libfuzzer_extra_counters", sym.SLIBFUZZER_EXTRA_COUNTER, sym.Sxxx, 06)
+=======
+	if len(state.data2[sym.SLIBFUZZER_EXTRA_COUNTER]) > 0 {
+		state.allocateNamedSectionAndAssignSyms2(&Segdata, "__libfuzzer_extra_counters", sym.SLIBFUZZER_EXTRA_COUNTER, sym.Sxxx, 06)
+>>>>>>> BRANCH (c84758 runtime: synchronize StartTrace and StopTrace with sysmon)
 	}
 
 	if len(state.data[sym.STLSBSS]) > 0 {
