@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "22032bdd_fb8edcf9",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-21T19:25:37Z",
+      "side": 1,
+      "message": "I tried doing this, but it\u0027s actually quite tricky for the word containing freeindex. Since the really fast approach of using an unsafe cast doesn\u0027t preserve endianness, the shift by obj%64 isn\u0027t safe. I could paste the bytes together and let the compiler optimize it on little endian, but I\u0027m not sure that\u0027s worth the trouble. The sweet benchmarks didn\u0027t show any observable change.",
+      "parentUuid": "79c1c338_21838b32",
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f988d2a_cec0ec0d",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 3
@@ -140,6 +158,24 @@
       "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9503037d_baca9bc5",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-21T19:25:37Z",
+      "side": 1,
+      "message": "Ah, that\u0027s a good idea. gcDumpObject is a little verbose for this purpose. I\u0027ve added a hexdumpWords call.",
+      "parentUuid": "3d4a0124_155e3277",
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
