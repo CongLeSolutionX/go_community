@@ -767,6 +767,12 @@ type EvalSymlinksTest struct {
 	path, dest string
 }
 
+// EvalSymlinksTestDirs is a list of directory symlinks for testing the
+// EvalSymlinks functions.
+//
+// The list must be sorted topologically: Windows needs to know whether the link
+// target is a file or a directory, so each target must exist before any
+// symlinks to it can be created.
 var EvalSymlinksTestDirs = []EvalSymlinksTest{
 	{"test", ""},
 	{"test/dir", ""},
@@ -774,18 +780,18 @@ var EvalSymlinksTestDirs = []EvalSymlinksTest{
 	{"test/link1", "../test"},
 	{"test/link2", "dir"},
 	{"test/linkabs", "/"},
-	{"test/link4", "../test2"},
 	{"test2", "test/dir"},
+	{"test/link4", "../test2"},
 	// Issue 23444.
 	{"src", ""},
 	{"src/pool", ""},
 	{"src/pool/test", ""},
 	{"src/versions", ""},
-	{"src/versions/current", "../../version"},
 	{"src/versions/v1", ""},
 	{"src/versions/v1/modules", ""},
 	{"src/versions/v1/modules/test", "../../../pool/test"},
 	{"version", "src/versions/v1"},
+	{"src/versions/current", "../../version"},
 }
 
 var EvalSymlinksTests = []EvalSymlinksTest{
@@ -916,16 +922,33 @@ func TestEvalSymlinksIsNotExist(t *testing.T) {
 
 	defer chtmpdir(t)()
 
-	_, err := filepath.EvalSymlinks("notexist")
+	_, err := filepath.EvalSymlinks("notexist_evalsymlinks")
 	if !os.IsNotExist(err) {
 		t.Errorf("expected the file is not found, got %v\n", err)
 	}
 
-	err = os.Symlink("notexist", "link")
+	// Temporarily create the destination file so that Windows can
+	// know whether to create a file or directory symlink.
+	file, err := os.Create("notexist_evalsymlinks")
 	if err != nil {
 		t.Fatal(err)
 	}
+	err = file.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = os.Symlink("notexist_evalsymlinks", "link")
+	if err != nil {
+		os.Remove("notexist_evalsymlinks")
+		t.Fatal(err)
+	}
 	defer os.Remove("link")
+
+	err = os.Remove("notexist_evalsymlinks")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	_, err = filepath.EvalSymlinks("link")
 	if !os.IsNotExist(err) {

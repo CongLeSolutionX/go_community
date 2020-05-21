@@ -345,7 +345,9 @@ func Symlink(oldname, newname string) error {
 	}
 
 	fi, err := Stat(destpath)
-	isdir := err == nil && fi.IsDir()
+	if err != nil {
+		return &LinkError{"symlink", oldname, newname, err}
+	}
 
 	n, err := syscall.UTF16PtrFromString(fixLongPath(newname))
 	if err != nil {
@@ -357,7 +359,7 @@ func Symlink(oldname, newname string) error {
 	}
 
 	var flags uint32 = windows.SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-	if isdir {
+	if fi.IsDir() {
 		flags |= syscall.SYMBOLIC_LINK_FLAG_DIRECTORY
 	}
 	err = syscall.CreateSymbolicLink(n, o, flags)
