@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f89ab550_b6a28fb2",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T18:35:26Z",
+      "side": 1,
+      "message": "Okay, thanks.",
+      "parentUuid": "be265c8c_260f72b6",
+      "range": {
+        "startLine": 465,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e527b328_737763bb",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 3
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "That\u0027s a really interesting idea... Maybe the beginning of the object, since it might be really big?",
       "parentUuid": "e527b328_737763bb",
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d4a0124_155e3277",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T18:35:26Z",
+      "side": 1,
+      "message": "Could be. Or maybe only print the bad one, in gcDumpObject format?",
+      "parentUuid": "392fb1d1_fb8ee93f",
       "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
