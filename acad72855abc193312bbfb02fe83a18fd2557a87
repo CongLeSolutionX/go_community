@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f988d2a_cec0ec0d",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T18:20:48Z",
+      "side": 1,
+      "message": "It should throw, then we shouldn\u0027t get here anymore, right?",
+      "range": {
+        "startLine": 465,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e527b328_737763bb",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T18:20:48Z",
+      "side": 1,
+      "message": "Is it useful to print the content of the object? Or it will be too verbose?",
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66aff5bc_2d79f430",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-21T18:20:48Z",
+      "side": 1,
+      "message": "Minor: round up?",
+      "range": {
+        "startLine": 276,
+        "startChar": 26,
+        "endLine": 276,
+        "endChar": 33
+      },
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
