@@ -407,11 +407,23 @@ func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.S
 
 	decls, dwarfVars := createDwarfVars(fnsym, fn.Func, apdecls)
 
-	// For each type referenced by the functions auto vars, attach a
-	// dummy relocation to the function symbol to insure that the type
-	// included in DWARF processing during linking.
+	// For each type referenced by the functions auto vars but not
+	// already referenced by a dwarf var, attach a dummy relocation to
+	// the function symbol to insure that the type included in DWARF
+	// processing during linking.
+	dwvSymTypes := make(map[*obj.LSym]struct{})
+	for _, v := range dwarfVars {
+		ts := v.Type.(*obj.LSym)
+		dwvSymTypes[ts] = struct{}{}
+	}
 	typesyms := []*obj.LSym{}
 	for t, _ := range fnsym.Func.Autot {
+		goinfotyp := dwarf.InfoPrefix + t.Name[len("type."):]
+		goinfosym := Ctxt.Lookup(goinfotyp)
+		if _, ok := dwvSymTypes[goinfosym]; ok {
+			// no need for reloc, this type is explicitly referenced by a var
+			continue
+		}
 		typesyms = append(typesyms, t)
 	}
 	sort.Sort(obj.BySymName(typesyms))
