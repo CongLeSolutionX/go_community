@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be265c8c_260f72b6",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-21T18:30:24Z",
+      "side": 1,
+      "message": "I left this in because the zombie slot check doesn\u0027t 100% obviously imply nalloc \u003c\u003d s.allocCount. It certainly should, but this fallback check seems free to me.",
+      "parentUuid": "9f988d2a_cec0ec0d",
+      "range": {
+        "startLine": 465,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e527b328_737763bb",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2020-05-21T18:20:48Z",
       "side": 1,
       "message": "Is it useful to print the content of the object? Or it will be too verbose?",
+      "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "392fb1d1_fb8ee93f",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-05-21T18:30:24Z",
+      "side": 1,
+      "message": "That\u0027s a really interesting idea... Maybe the beginning of the object, since it might be really big?",
+      "parentUuid": "e527b328_737763bb",
       "revId": "acad72855abc193312bbfb02fe83a18fd2557a87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
