@@ -326,3 +326,41 @@ func TestParseTransferEncoding(t *testing.T) {
 		}
 	}
 }
+
+// issue 39017 - disallow Content-Length values such as "+3"
+func TestParseContentLength(t *testing.T) {
+	tests := []struct {
+		hdr     Header
+		wantErr error
+	}{
+		{
+			hdr:     Header{"Content-Length": {"3"}},
+			wantErr: nil,
+		},
+		{
+			hdr:     Header{"Content-Length": {"+3"}},
+			wantErr: badStringError("bad Content-Length", "+3"),
+		},
+		{
+			hdr:     Header{"Content-Length": {"-3"}},
+			wantErr: badStringError("bad Content-Length", "-3"),
+		},
+		{
+			// max int64, for safe conversion before returning
+			hdr:     Header{"Content-Length": {"9223372036854775807"}},
+			wantErr: nil,
+		},
+		{
+			hdr:     Header{"Content-Length": {"9223372036854775808"}},
+			wantErr: badStringError("bad Content-Length", "9223372036854775808"),
+		},
+	}
+
+	for i, tt := range tests {
+		_, gotErr := parseContentLength(tt.hdr["Content-Length"][0])
+		if !reflect.DeepEqual(gotErr, tt.wantErr) {
+			t.Errorf("%d.\ngot error:\n%v\nwant error:\n%v\n\n", i, gotErr, tt.wantErr)
+		}
+	}
+
+}
