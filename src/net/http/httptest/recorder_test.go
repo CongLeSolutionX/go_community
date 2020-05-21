@@ -310,3 +310,32 @@ func TestRecorder(t *testing.T) {
 		})
 	}
 }
+
+// issue 39017 - disallow Content-Length values such as "+3"
+func TestParseContentLength(t *testing.T) {
+	tests := []struct {
+		cl   string
+		want int64
+	}{
+		{
+			cl:   "3",
+			want: 3,
+		},
+		{
+			cl:   "+3",
+			want: -1,
+		},
+		{
+			cl:   "-3",
+			want: -1,
+		},
+	}
+
+	for i, tt := range tests {
+		got := parseContentLength(tt.cl)
+		if got != tt.want {
+			t.Errorf("%d.\ngot:\n%v\nwantß:\n%v\n\n", i, got, tt.want)
+		}
+	}
+
+}
