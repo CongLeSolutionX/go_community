@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6aa934f0_1bb65521",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-05-22T21:05:51Z",
+      "side": 1,
+      "message": "Thank you, but please leave this code alone:\n\n1) The TODO(agl) is not referring to the fact that we have an extra q value here, it refers to the fact that (ideally) divWVW doesn\u0027t even have to store (record) the q value at all. But that would be a more significant change, quite possibly requiring a different divWVW implementation. In short, this comment is relevant, so don\u0027t remove it.\n\n2) As your benchmarks show, not calling q.make doesn\u0027t make a difference. But with your change you have duplicated an implementation detail of nat.make to this code (the + 4). Now, if somebody is improving nat.make, this code won\u0027t benefit unless we keep track of it separately. Let\u0027s not do that.",
+      "range": {
+        "startLine": 1179,
+        "startChar": 33,
+        "endLine": 1179,
+        "endChar": 36
+      },
+      "revId": "e24841ab8a3d6c3598e67e43dccb6c111b3ceb52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
