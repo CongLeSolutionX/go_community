@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9d64e616_d4fa2bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2020-05-23T12:31:28Z",
+      "side": 1,
+      "message": "This explains the change in a much better way, thanks!",
+      "parentUuid": "42e2b2a9_3ddd7203",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df38f7a8_82d5f261",
         "filename": "src/net/http/httptest/recorder_test.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ce101f63_6c835bd9",
+        "filename": "src/net/http/httptest/recorder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2020-05-23T12:31:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df38f7a8_82d5f261",
+      "range": {
+        "startLine": 346,
+        "startChar": 3,
+        "endLine": 346,
+        "endChar": 61
+      },
+      "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e262f4d_b96f53be",
         "filename": "src/net/http/transfer_test.go",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85cbd0e9_b0fcfa91",
+        "filename": "src/net/http/transfer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2020-05-23T12:31:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by the same suggestions, do you mean inlining the `_, gotErr :\u003d` part? If that\u0027s what you meant, it\u0027s done, otherwise please let me know!",
+      "parentUuid": "9e262f4d_b96f53be",
+      "range": {
+        "startLine": 330,
+        "startChar": 0,
+        "endLine": 366,
+        "endChar": 1
+      },
+      "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
