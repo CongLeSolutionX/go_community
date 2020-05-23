@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1be6469_32d85235",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-23T18:26:29Z",
+      "side": 1,
+      "message": "Actually, could you please make this “Updates”, instead of “Fixes”?\nReason being that we shall also need to examine HTTP/2, but the surface area for it is larger and perhaps could wait until another release.",
+      "revId": "6f8fcb9491a2b0863e26ef57532395d98b99c508",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
