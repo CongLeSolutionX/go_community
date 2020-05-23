@@ -1477,6 +1477,25 @@ func (ctxt *Link) hostlink() {
 		// from the beginning of the section (like sym.STYPE).
 		argv = append(argv, "-Wl,-znocopyreloc")
 
+		if objabi.GOOS == "android" {
+			// Use lld if available, otherwise gold (issue #38838)
+			lldver := exec.Command(*flagExtld, "-fuse-ld=lld", "-Wl,--version")
+			out, err := lldver.CombinedOutput()
+			if err == nil && bytes.Contains(out, []byte("LLD")) {
+				argv = append(argv, "-fuse-ld=lld")
+			} else {
+				// Check gold before switching to it
+				goldver := exec.Command(*flagExtld, "-fuse-ld=gold", "-Wl,--version")
+				if out, err := goldver.CombinedOutput(); err == nil {
+					if !bytes.Contains(out, []byte("GNU gold")) {
+						log.Fatalf("ARM external linker must be lld or gold (issue #38838), but is not: %s", out)
+					} else {
+						argv = append(argv, "-fuse-ld=gold")
+					}
+				}
+			}
+		}
+
 		if ctxt.Arch.InFamily(sys.ARM, sys.ARM64) && objabi.GOOS == "linux" {
 			// On ARM, the GNU linker will generate COPY relocations
 			// even with -znocopyreloc set.
