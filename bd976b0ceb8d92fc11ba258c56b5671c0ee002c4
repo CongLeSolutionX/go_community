@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42e2b2a9_3ddd7203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-23T07:22:29Z",
+      "side": 1,
+      "message": "net/http: reject HTTP/1.1 Content-Length with sign in response\n\nEnforces section 14.14 of RFC 2616 so that Content-Length header\nvalues with a sign such as \"+5\" will be rejected.\n\nFixes #39017.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df38f7a8_82d5f261",
+        "filename": "src/net/http/httptest/recorder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-23T07:22:29Z",
+      "side": 1,
+      "message": "the Beta is stray, please remove it.\nAlso we can fix this by:\n\nif got :\u003d parseContentLength(tt.cl); got !\u003d tt.want {\n    t.Errorf(\"%q:\\n\\tgot \u003d%d\\n\\twant\u003d%d\", tt.cl, got, tt.want)\n}",
+      "range": {
+        "startLine": 346,
+        "startChar": 3,
+        "endLine": 346,
+        "endChar": 61
+      },
+      "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e262f4d_b96f53be",
+        "filename": "src/net/http/transfer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-23T07:22:29Z",
+      "side": 1,
+      "message": "Please apply the same test suggestions that I made for net/http/httputil/*",
+      "range": {
+        "startLine": 330,
+        "startChar": 0,
+        "endLine": 366,
+        "endChar": 1
+      },
+      "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
