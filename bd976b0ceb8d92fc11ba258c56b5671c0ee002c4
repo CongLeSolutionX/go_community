@@ -140,6 +140,30 @@
       "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c3700ed_e369b0c3",
+        "filename": "src/net/http/transfer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-23T17:59:47Z",
+      "side": 1,
+      "message": "it also included the error string, please update this string in the 2 places that\nwe’ve added t.Error*  for contentLength:\n\n     t.Errorf(\"%q:\\n\\tgot \u003d%d\\n\\twant\u003d%d\", tt.cl, got, tt.want)",
+      "parentUuid": "85cbd0e9_b0fcfa91",
+      "range": {
+        "startLine": 330,
+        "startChar": 0,
+        "endLine": 366,
+        "endChar": 1
+      },
+      "revId": "bd976b0ceb8d92fc11ba258c56b5671c0ee002c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
