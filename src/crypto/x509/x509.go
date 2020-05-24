@@ -138,10 +138,19 @@ func MarshalPKIXPublicKey(pub interface{}) ([]byte, error) {
 
 // These structures reflect the ASN.1 structure of X.509 certificates.:
 
+// rawAlgorithmIdentifier matches pkix.AlgorithmIdentifier, but also
+// includes an asn1.RawContent field which is used to do byte-for-byte
+// equality checking of signature algorithm identifiers.
+type rawAlgorithmIdentifier struct {
+	Raw        asn1.RawContent
+	Algorithm  asn1.ObjectIdentifier
+	Parameters asn1.RawValue `asn1:"optional"`
+}
+
 type certificate struct {
 	Raw                asn1.RawContent
 	TBSCertificate     tbsCertificate
-	SignatureAlgorithm pkix.AlgorithmIdentifier
+	SignatureAlgorithm rawAlgorithmIdentifier
 	SignatureValue     asn1.BitString
 }
 
@@ -149,7 +158,7 @@ type tbsCertificate struct {
 	Raw                asn1.RawContent
 	Version            int `asn1:"optional,explicit,default:0,tag:0"`
 	SerialNumber       *big.Int
-	SignatureAlgorithm pkix.AlgorithmIdentifier
+	SignatureAlgorithm rawAlgorithmIdentifier
 	Issuer             asn1.RawValue
 	Validity           validity
 	Subject            asn1.RawValue
@@ -326,30 +335,43 @@ var (
 	oidISOSignatureSHA1WithRSA = asn1.ObjectIdentifier{1, 3, 14, 3, 2, 29}
 )
 
+func paramsNull(params asn1.RawValue) bool {
+	return bytes.Equal(params.FullBytes, asn1.NullBytes)
+}
+
+func paramsEmpty(params asn1.RawValue) bool {
+	return len(params.FullBytes) == 0
+}
+
+func paramsNotEmpty(params asn1.RawValue) bool {
+	return len(params.FullBytes) != 0
+}
+
 var signatureAlgorithmDetails = []struct {
-	algo       SignatureAlgorithm
-	name       string
-	oid        asn1.ObjectIdentifier
-	pubKeyAlgo PublicKeyAlgorithm
-	hash       crypto.Hash
+	algo           SignatureAlgorithm
+	name           string
+	oid            asn1.ObjectIdentifier
+	pubKeyAlgo     PublicKeyAlgorithm
+	hash           crypto.Hash
+	expectedParams []byte
 }{
-	{MD2WithRSA, "MD2-RSA", oidSignatureMD2WithRSA, RSA, crypto.Hash(0) /* no value for MD2 */},
-	{MD5WithRSA, "MD5-RSA", oidSignatureMD5WithRSA, RSA, crypto.MD5},
-	{SHA1WithRSA, "SHA1-RSA", oidSignatureSHA1WithRSA, RSA, crypto.SHA1},
-	{SHA1WithRSA, "SHA1-RSA", oidISOSignatureSHA1WithRSA, RSA, crypto.SHA1},
-	{SHA256WithRSA, "SHA256-RSA", oidSignatureSHA256WithRSA, RSA, crypto.SHA256},
-	{SHA384WithRSA, "SHA384-RSA", oidSignatureSHA384WithRSA, RSA, crypto.SHA384},
-	{SHA512WithRSA, "SHA512-RSA", oidSignatureSHA512WithRSA, RSA, crypto.SHA512},
-	{SHA256WithRSAPSS, "SHA256-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA256},
-	{SHA384WithRSAPSS, "SHA384-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA384},
-	{SHA512WithRSAPSS, "SHA512-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA512},
-	{DSAWithSHA1, "DSA-SHA1", oidSignatureDSAWithSHA1, DSA, crypto.SHA1},
-	{DSAWithSHA256, "DSA-SHA256", oidSignatureDSAWithSHA256, DSA, crypto.SHA256},
-	{ECDSAWithSHA1, "ECDSA-SHA1", oidSignatureECDSAWithSHA1, ECDSA, crypto.SHA1},
-	{ECDSAWithSHA256, "ECDSA-SHA256", oidSignatureECDSAWithSHA256, ECDSA, crypto.SHA256},
-	{ECDSAWithSHA384, "ECDSA-SHA384", oidSignatureECDSAWithSHA384, ECDSA, crypto.SHA384},
-	{ECDSAWithSHA512, "ECDSA-SHA512", oidSignatureECDSAWithSHA512, ECDSA, crypto.SHA512},
-	{PureEd25519, "Ed25519", oidSignatureEd25519, Ed25519, crypto.Hash(0) /* no pre-hashing */},
+	{MD2WithRSA, "MD2-RSA", oidSignatureMD2WithRSA, RSA, crypto.Hash(0) /* no value for MD2 */, asn1.NullBytes},
+	{MD5WithRSA, "MD5-RSA", oidSignatureMD5WithRSA, RSA, crypto.MD5, asn1.NullBytes},
+	{SHA1WithRSA, "SHA1-RSA", oidSignatureSHA1WithRSA, RSA, crypto.SHA1, asn1.NullBytes},
+	{SHA1WithRSA, "SHA1-RSA", oidISOSignatureSHA1WithRSA, RSA, crypto.SHA1, asn1.NullBytes},
+	{SHA256WithRSA, "SHA256-RSA", oidSignatureSHA256WithRSA, RSA, crypto.SHA256, asn1.NullBytes},
+	{SHA384WithRSA, "SHA384-RSA", oidSignatureSHA384WithRSA, RSA, crypto.SHA384, asn1.NullBytes},
+	{SHA512WithRSA, "SHA512-RSA", oidSignatureSHA512WithRSA, RSA, crypto.SHA512, asn1.NullBytes},
+	{SHA256WithRSAPSS, "SHA256-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA256, hashToPSSParameters[crypto.SHA256].FullBytes},
+	{SHA384WithRSAPSS, "SHA384-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA384, hashToPSSParameters[crypto.SHA384].FullBytes},
+	{SHA512WithRSAPSS, "SHA512-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA512, hashToPSSParameters[crypto.SHA512].FullBytes},
+	{DSAWithSHA1, "DSA-SHA1", oidSignatureDSAWithSHA1, DSA, crypto.SHA1, nil},
+	{DSAWithSHA256, "DSA-SHA256", oidSignatureDSAWithSHA256, DSA, crypto.SHA256, nil},
+	{ECDSAWithSHA1, "ECDSA-SHA1", oidSignatureECDSAWithSHA1, ECDSA, crypto.SHA1, nil},
+	{ECDSAWithSHA256, "ECDSA-SHA256", oidSignatureECDSAWithSHA256, ECDSA, crypto.SHA256, nil},
+	{ECDSAWithSHA384, "ECDSA-SHA384", oidSignatureECDSAWithSHA384, ECDSA, crypto.SHA384, nil},
+	{ECDSAWithSHA512, "ECDSA-SHA512", oidSignatureECDSAWithSHA512, ECDSA, crypto.SHA512, nil},
+	{PureEd25519, "Ed25519", oidSignatureEd25519, Ed25519, crypto.Hash(0) /* no pre-hashing */, nil},
 }
 
 // hashToPSSParameters contains the DER encoded RSA PSS parameters for the
@@ -377,15 +399,44 @@ type pssParameters struct {
 	TrailerField int                      `asn1:"optional,explicit,tag:3,default:1"`
 }
 
-func getSignatureAlgorithmFromAI(ai pkix.AlgorithmIdentifier) SignatureAlgorithm {
-	if ai.Algorithm.Equal(oidSignatureEd25519) {
-		// RFC 8410, Section 3
-		// > For all of the OIDs, the parameters MUST be absent.
-		if len(ai.Parameters.FullBytes) != 0 {
-			return UnknownSignatureAlgorithm
+func verifySignatureAlgorithm(ai rawAlgorithmIdentifier) error {
+	if !ai.Algorithm.Equal(oidSignatureRSAPSS) {
+		for _, details := range signatureAlgorithmDetails {
+			if ai.Algorithm.Equal(details.oid) {
+				if len(details.expectedParams) == 0 && len(ai.Parameters.FullBytes) != 0 || !bytes.Equal(details.expectedParams, ai.Parameters.FullBytes) {
+					return errors.New("x509: signature algorithm identifier contains invalid parameters")
+				}
+				return nil
+			}
 		}
+		return errors.New("x509: algorithm unimplemented")
 	}
 
+	var params pssParameters
+	if _, err := asn1.Unmarshal(ai.Parameters.FullBytes, &params); err != nil {
+		return errors.New("x509: algorithm unimplemented")
+	}
+	switch {
+	case params.Hash.Algorithm.Equal(oidSHA256):
+		if !bytes.Equal(hashToPSSParameters[crypto.SHA256].FullBytes, ai.Parameters.FullBytes) {
+			return errors.New("x509: signature algorithm identifier contains invalid parameters")
+		}
+		return nil
+	case params.Hash.Algorithm.Equal(oidSHA384):
+		if !bytes.Equal(hashToPSSParameters[crypto.SHA384].FullBytes, ai.Parameters.FullBytes) {
+			return errors.New("x509: signature algorithm identifier contains invalid parameters")
+		}
+		return nil
+	case params.Hash.Algorithm.Equal(oidSHA512):
+		if !bytes.Equal(hashToPSSParameters[crypto.SHA512].FullBytes, ai.Parameters.FullBytes) {
+			return errors.New("x509: signature algorithm identifier contains invalid parameters")
+		}
+		return nil
+	}
+	return errors.New("x509: algorithm unimplemented")
+}
+
+func getSignatureAlgorithmFromAI(ai pkix.AlgorithmIdentifier) SignatureAlgorithm {
 	if !ai.Algorithm.Equal(oidSignatureRSAPSS) {
 		for _, details := range signatureAlgorithmDetails {
 			if ai.Algorithm.Equal(details.oid) {
@@ -397,27 +448,8 @@ func getSignatureAlgorithmFromAI(ai pkix.AlgorithmIdentifier) SignatureAlgorithm
 
 	// RSA PSS is special because it encodes important parameters
 	// in the Parameters.
-
 	var params pssParameters
 	if _, err := asn1.Unmarshal(ai.Parameters.FullBytes, &params); err != nil {
-		return UnknownSignatureAlgorithm
-	}
-
-	var mgf1HashFunc pkix.AlgorithmIdentifier
-	if _, err := asn1.Unmarshal(params.MGF.Parameters.FullBytes, &mgf1HashFunc); err != nil {
-		return UnknownSignatureAlgorithm
-	}
-
-	// PSS is greatly overburdened with options. This code forces them into
-	// three buckets by requiring that the MGF1 hash function always match the
-	// message hash function (as recommended in RFC 3447, Section 8.1), that the
-	// salt length matches the hash length, and that the trailer field has the
-	// default value.
-	if (len(params.Hash.Parameters.FullBytes) != 0 && !bytes.Equal(params.Hash.Parameters.FullBytes, asn1.NullBytes)) ||
-		!params.MGF.Algorithm.Equal(oidMGF1) ||
-		!mgf1HashFunc.Algorithm.Equal(params.Hash.Algorithm) ||
-		(len(mgf1HashFunc.Parameters.FullBytes) != 0 && !bytes.Equal(mgf1HashFunc.Parameters.FullBytes, asn1.NullBytes)) ||
-		params.TrailerField != 1 {
 		return UnknownSignatureAlgorithm
 	}
 
@@ -1298,9 +1330,22 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 	out.RawSubject = in.TBSCertificate.Subject.FullBytes
 	out.RawIssuer = in.TBSCertificate.Issuer.FullBytes
 
+	// RFC 5280 Section 4.1.1.2: "[the signatureAlgorithm field] MUST
+	// contain the same algorithm identifier as the signature field in
+	// the sequence tbsCertificate"
+	if !bytes.Equal(in.TBSCertificate.SignatureAlgorithm.Raw, in.SignatureAlgorithm.Raw) {
+		return nil, errors.New("x509: certificate contains mismatching signature algorithms")
+	}
+
 	out.Signature = in.SignatureValue.RightAlign()
-	out.SignatureAlgorithm =
-		getSignatureAlgorithmFromAI(in.TBSCertificate.SignatureAlgorithm)
+	if err := verifySignatureAlgorithm(in.TBSCertificate.SignatureAlgorithm); err != nil {
+		return nil, err
+	}
+	sigAlgAI := pkix.AlgorithmIdentifier{
+		Algorithm:  in.TBSCertificate.SignatureAlgorithm.Algorithm,
+		Parameters: in.TBSCertificate.SignatureAlgorithm.Parameters,
+	}
+	out.SignatureAlgorithm = getSignatureAlgorithmFromAI(sigAlgAI)
 
 	out.PublicKeyAlgorithm =
 		getPublicKeyAlgorithmFromOID(in.TBSCertificate.PublicKey.Algorithm.Algorithm)
@@ -2164,6 +2209,10 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 	if err != nil {
 		return nil, err
 	}
+	rawSignatureAlgorithm := rawAlgorithmIdentifier{
+		Algorithm:  signatureAlgorithm.Algorithm,
+		Parameters: signatureAlgorithm.Parameters,
+	}
 
 	publicKeyBytes, publicKeyAlgorithm, err := marshalPublicKey(pub)
 	if err != nil {
@@ -2204,7 +2253,7 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 	c := tbsCertificate{
 		Version:            2,
 		SerialNumber:       template.SerialNumber,
-		SignatureAlgorithm: signatureAlgorithm,
+		SignatureAlgorithm: rawSignatureAlgorithm,
 		Issuer:             asn1.RawValue{FullBytes: asn1Issuer},
 		Validity:           validity{template.NotBefore.UTC(), template.NotAfter.UTC()},
 		Subject:            asn1.RawValue{FullBytes: asn1Subject},
@@ -2242,7 +2291,7 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 	signedCert, err := asn1.Marshal(certificate{
 		nil,
 		c,
-		signatureAlgorithm,
+		rawSignatureAlgorithm,
 		asn1.BitString{Bytes: signature, BitLength: len(signature) * 8},
 	})
 	if err != nil {
