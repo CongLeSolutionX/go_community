@@ -52,6 +52,24 @@
       "revId": "2bb40e359b04bdeaa114091c3914719ed1a9a7f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b8f431_4cf29748",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1488,
+      "author": {
+        "id": 36323
+      },
+      "writtenOn": "2020-05-24T11:22:01Z",
+      "side": 1,
+      "message": "Current Gradle default NDK is r20b IIRC, so supporting only the most recent NDK has a lot of breakage potential.\n\nI\u0027ll simplify the CL to unchecked lld. Cutting off non-lld builds should warrant a mention in the changelog though.",
+      "parentUuid": "a88b51ea_bed5a024",
+      "revId": "2bb40e359b04bdeaa114091c3914719ed1a9a7f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
