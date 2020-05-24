@@ -70,6 +70,24 @@
       "revId": "2bb40e359b04bdeaa114091c3914719ed1a9a7f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97ea3819_b043a442",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1488,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2020-05-24T12:02:57Z",
+      "side": 1,
+      "message": "What influence does Gradle\u0027s choice of NDK have on building Go programs with the latest NDK?\n\nNote that by \"support\" I mean what version(s) of the NDK we\u0027re willing to debug and fix issues for. Go may (and likely will) work with earlier NDKs.\n\nRELNOTE\u003dGo now uses and requires lld when building for Android. The Android NDK has included lld since version r18b.",
+      "parentUuid": "50b8f431_4cf29748",
+      "revId": "2bb40e359b04bdeaa114091c3914719ed1a9a7f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
