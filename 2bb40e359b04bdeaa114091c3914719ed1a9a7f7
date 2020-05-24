@@ -16,6 +16,24 @@
       "revId": "2bb40e359b04bdeaa114091c3914719ed1a9a7f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33ee5622_13d3dff0",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1488,
+      "author": {
+        "id": 36323
+      },
+      "writtenOn": "2020-05-24T10:02:32Z",
+      "side": 1,
+      "message": "The idea was that NDK 17, which is not even 2 years old, would otherwise error out with lld only. \n\nI guess we could instead error out if lld is not found and force the user to chose gold manually. Is there a good reason to break builds for those users when they upgrade their golang version?\n\nI mean, I don\u0027t think that golang should keep old compatibility cruft forever, but dropping support before NDK 16 and 17 are obsoleted seems rash.",
+      "parentUuid": "1aab102b_38aadead",
+      "revId": "2bb40e359b04bdeaa114091c3914719ed1a9a7f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
