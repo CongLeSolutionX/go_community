@@ -330,30 +330,43 @@ var (
 	oidISOSignatureSHA1WithRSA = asn1.ObjectIdentifier{1, 3, 14, 3, 2, 29}
 )
 
+func paramsNull(params asn1.RawValue) bool {
+	return bytes.Equal(params.FullBytes, asn1.NullBytes)
+}
+
+func paramsEmpty(params asn1.RawValue) bool {
+	return len(params.FullBytes) == 0
+}
+
+func paramsNotEmpty(params asn1.RawValue) bool {
+	return len(params.FullBytes) != 0
+}
+
 var signatureAlgorithmDetails = []struct {
-	algo       SignatureAlgorithm
-	name       string
-	oid        asn1.ObjectIdentifier
-	pubKeyAlgo PublicKeyAlgorithm
-	hash       crypto.Hash
+	algo             SignatureAlgorithm
+	name             string
+	oid              asn1.ObjectIdentifier
+	pubKeyAlgo       PublicKeyAlgorithm
+	hash             crypto.Hash
+	paramsAcceptable func(asn1.RawValue) bool
 }{
-	{MD2WithRSA, "MD2-RSA", oidSignatureMD2WithRSA, RSA, crypto.Hash(0) /* no value for MD2 */},
-	{MD5WithRSA, "MD5-RSA", oidSignatureMD5WithRSA, RSA, crypto.MD5},
-	{SHA1WithRSA, "SHA1-RSA", oidSignatureSHA1WithRSA, RSA, crypto.SHA1},
-	{SHA1WithRSA, "SHA1-RSA", oidISOSignatureSHA1WithRSA, RSA, crypto.SHA1},
-	{SHA256WithRSA, "SHA256-RSA", oidSignatureSHA256WithRSA, RSA, crypto.SHA256},
-	{SHA384WithRSA, "SHA384-RSA", oidSignatureSHA384WithRSA, RSA, crypto.SHA384},
-	{SHA512WithRSA, "SHA512-RSA", oidSignatureSHA512WithRSA, RSA, crypto.SHA512},
-	{SHA256WithRSAPSS, "SHA256-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA256},
-	{SHA384WithRSAPSS, "SHA384-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA384},
-	{SHA512WithRSAPSS, "SHA512-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA512},
-	{DSAWithSHA1, "DSA-SHA1", oidSignatureDSAWithSHA1, DSA, crypto.SHA1},
-	{DSAWithSHA256, "DSA-SHA256", oidSignatureDSAWithSHA256, DSA, crypto.SHA256},
-	{ECDSAWithSHA1, "ECDSA-SHA1", oidSignatureECDSAWithSHA1, ECDSA, crypto.SHA1},
-	{ECDSAWithSHA256, "ECDSA-SHA256", oidSignatureECDSAWithSHA256, ECDSA, crypto.SHA256},
-	{ECDSAWithSHA384, "ECDSA-SHA384", oidSignatureECDSAWithSHA384, ECDSA, crypto.SHA384},
-	{ECDSAWithSHA512, "ECDSA-SHA512", oidSignatureECDSAWithSHA512, ECDSA, crypto.SHA512},
-	{PureEd25519, "Ed25519", oidSignatureEd25519, Ed25519, crypto.Hash(0) /* no pre-hashing */},
+	{MD2WithRSA, "MD2-RSA", oidSignatureMD2WithRSA, RSA, crypto.Hash(0) /* no value for MD2 */, paramsNull},
+	{MD5WithRSA, "MD5-RSA", oidSignatureMD5WithRSA, RSA, crypto.MD5, paramsNull},
+	{SHA1WithRSA, "SHA1-RSA", oidSignatureSHA1WithRSA, RSA, crypto.SHA1, paramsNull},
+	{SHA1WithRSA, "SHA1-RSA", oidISOSignatureSHA1WithRSA, RSA, crypto.SHA1, paramsNull},
+	{SHA256WithRSA, "SHA256-RSA", oidSignatureSHA256WithRSA, RSA, crypto.SHA256, paramsNull},
+	{SHA384WithRSA, "SHA384-RSA", oidSignatureSHA384WithRSA, RSA, crypto.SHA384, paramsNull},
+	{SHA512WithRSA, "SHA512-RSA", oidSignatureSHA512WithRSA, RSA, crypto.SHA512, paramsNull},
+	{SHA256WithRSAPSS, "SHA256-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA256, paramsNotEmpty},
+	{SHA384WithRSAPSS, "SHA384-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA384, paramsNotEmpty},
+	{SHA512WithRSAPSS, "SHA512-RSAPSS", oidSignatureRSAPSS, RSA, crypto.SHA512, paramsNotEmpty},
+	{DSAWithSHA1, "DSA-SHA1", oidSignatureDSAWithSHA1, DSA, crypto.SHA1, paramsEmpty},
+	{DSAWithSHA256, "DSA-SHA256", oidSignatureDSAWithSHA256, DSA, crypto.SHA256, paramsEmpty},
+	{ECDSAWithSHA1, "ECDSA-SHA1", oidSignatureECDSAWithSHA1, ECDSA, crypto.SHA1, paramsEmpty},
+	{ECDSAWithSHA256, "ECDSA-SHA256", oidSignatureECDSAWithSHA256, ECDSA, crypto.SHA256, paramsEmpty},
+	{ECDSAWithSHA384, "ECDSA-SHA384", oidSignatureECDSAWithSHA384, ECDSA, crypto.SHA384, paramsEmpty},
+	{ECDSAWithSHA512, "ECDSA-SHA512", oidSignatureECDSAWithSHA512, ECDSA, crypto.SHA512, paramsEmpty},
+	{PureEd25519, "Ed25519", oidSignatureEd25519, Ed25519, crypto.Hash(0) /* no pre-hashing */, paramsEmpty},
 }
 
 // pssParameters reflects the parameters in an AlgorithmIdentifier that
@@ -414,17 +427,15 @@ func rsaPSSParameters(hashFunc crypto.Hash) asn1.RawValue {
 }
 
 func getSignatureAlgorithmFromAI(ai pkix.AlgorithmIdentifier) SignatureAlgorithm {
-	if ai.Algorithm.Equal(oidSignatureEd25519) {
-		// RFC 8410, Section 3
-		// > For all of the OIDs, the parameters MUST be absent.
-		if len(ai.Parameters.FullBytes) != 0 {
-			return UnknownSignatureAlgorithm
-		}
-	}
-
 	if !ai.Algorithm.Equal(oidSignatureRSAPSS) {
 		for _, details := range signatureAlgorithmDetails {
-			if ai.Algorithm.Equal(details.oid) {
+			// TODO: we check that the parameters are as expected for each
+			// identifier, but if we find unexpected parameters we don't
+			// fail out, but return UnknownSignatureAlgorithm. Probably
+			// since the certificate cannot actually be used at this point
+			// it would make sense to just fail out of parsing with an
+			// error instead.
+			if ai.Algorithm.Equal(details.oid) && details.paramsAcceptable(ai.Parameters) {
 				return details.algo
 			}
 		}
@@ -1343,6 +1354,14 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 	out.RawSubjectPublicKeyInfo = in.TBSCertificate.PublicKey.Raw
 	out.RawSubject = in.TBSCertificate.Subject.FullBytes
 	out.RawIssuer = in.TBSCertificate.Issuer.FullBytes
+
+	// RFC 5280 Section 4.1.1.2: "[the signatureAlgorithm field] MUST
+	// contain the same algorithm identifier as the signature field in
+	// the sequence tbsCertificate"
+	if !in.TBSCertificate.SignatureAlgorithm.Algorithm.Equal(in.SignatureAlgorithm.Algorithm) ||
+		!bytes.Equal(in.TBSCertificate.SignatureAlgorithm.Parameters.FullBytes, in.SignatureAlgorithm.Parameters.FullBytes) {
+		return nil, errors.New("x509: certificate contains mismatching signature algorithms")
+	}
 
 	out.Signature = in.SignatureValue.RightAlign()
 	out.SignatureAlgorithm =

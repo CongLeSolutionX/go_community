@@ -2660,3 +2660,44 @@ func TestCreateRevocationList(t *testing.T) {
 		})
 	}
 }
+
+// mismatchingSigAlgsPEM contains a certificate where the Certificate
+// signatureAlgorithm and the TBSCertificate signature contain
+// mismatching OIDs
+const mismatchingSigAlgIDPEM = `-----BEGIN CERTIFICATE-----
+MIIBBzCBrqADAgECAgEAMAoGCCqGSM49BAMCMAAwIhgPMDAwMTAxMDEwMDAwMDBa
+GA8wMDAxMDEwMTAwMDAwMFowADBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOqV
+EDuVXxwZgIU3+dOwv1SsMu0xuV48hf7xmK8n7sAMYgllB+96DnPqBeboJj4snYnx
+0AcE0PDVQ1l4Z3YXsQWjFTATMBEGA1UdEQEB/wQHMAWCA2FzZDAKBggqhkjOPQQD
+AwNIADBFAiBi1jz/T2HT5nAfrD7zsgR+68qh7Erc6Q4qlxYBOgKG4QIhAOtjIn+Q
+tA+bq+55P3ntxTOVRq0nv1mwnkjwt9cQR9Fn
+-----END CERTIFICATE-----`
+
+// mismatchingSigAlgsPEM contains a certificate where the Certificate
+// signatureAlgorithm and the TBSCertificate signature contain
+// mismatching parameters
+const mismatchingSigAlgParamPEM = `-----BEGIN CERTIFICATE-----
+MIIBCTCBrqADAgECAgEAMAoGCCqGSM49BAMCMAAwIhgPMDAwMTAxMDEwMDAwMDBa
+GA8wMDAxMDEwMTAwMDAwMFowADBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOqV
+EDuVXxwZgIU3+dOwv1SsMu0xuV48hf7xmK8n7sAMYgllB+96DnPqBeboJj4snYnx
+0AcE0PDVQ1l4Z3YXsQWjFTATMBEGA1UdEQEB/wQHMAWCA2FzZDAMBggqhkjOPQQD
+AgUAA0gAMEUCIGLWPP9PYdPmcB+sPvOyBH7ryqHsStzpDiqXFgE6AobhAiEA62Mi
+f5C0D5ur7nk/ee3FM5VGrSe/WbCeSPC31xBH0Wc=
+-----END CERTIFICATE-----`
+
+func TestSigAlgMismatch(t *testing.T) {
+	for _, certPEM := range []string{mismatchingSigAlgIDPEM, mismatchingSigAlgParamPEM} {
+		b, _ := pem.Decode([]byte(certPEM))
+		if b == nil {
+			t.Fatalf("couldn't decode test certificate")
+		}
+		_, err := ParseCertificate(b.Bytes)
+		if err == nil {
+			t.Fatalf("expected ParseCertificate to fail")
+		}
+		expected := "x509: certificate contains mismatching signature algorithms"
+		if err.Error() != expected {
+			t.Errorf("unexpected error from ParseCertificate: got %q, want %q", err.Error(), expected)
+		}
+	}
+}
