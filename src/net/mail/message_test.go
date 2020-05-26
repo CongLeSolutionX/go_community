@@ -244,6 +244,28 @@ func TestDateParsingCFWS(t *testing.T) {
 			time.Date(1997, 11, 21, 9, 55, 6, 0, time.FixedZone("", -6*60*60)),
 			false,
 		},
+		// From down below. Ensure that the presence of "T" in the date
+		// doesn't trip out ParseDate, as per issue 39260.
+		{
+			"Tue, 26 May 2020 14:04:40 GMT",
+			time.Date(2020, 05, 26, 14, 04, 40, 0, time.UTC),
+			true,
+		},
+		{
+			"Tue, 26 May 2020 14:04:40 GT",
+			time.Date(2020, 05, 26, 14, 04, 40, 0, time.UTC),
+			false,
+		},
+		{
+			"Thu, 19 May 2020 14:04:40 GT",
+			time.Date(2020, 05, 19, 14, 04, 40, 0, time.UTC),
+			false,
+		},
+		{
+			"Thu, 19 May 2020 14:04:40 GMT",
+			time.Date(2020, 05, 19, 14, 04, 40, 0, time.UTC),
+			true,
+		},
 	}
 	for _, test := range tests {
 		hdr := Header{
