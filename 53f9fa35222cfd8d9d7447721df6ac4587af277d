@@ -16,6 +16,24 @@
       "revId": "53f9fa35222cfd8d9d7447721df6ac4587af277d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e5cea07_c3d4b67c",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-26T14:00:21Z",
+      "side": 1,
+      "message": "OK, I\u0027ve fixed it up to delete entries from the map, as suggested.",
+      "parentUuid": "bb4096ad_19a693b9",
+      "revId": "53f9fa35222cfd8d9d7447721df6ac4587af277d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
