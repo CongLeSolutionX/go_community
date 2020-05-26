@@ -229,6 +229,22 @@ func TestStatSymlinkLoop(t *testing.T) {
 
 	defer chtmpdir(t)()
 
+<<<<<<< PATCH SET (b63c6a os: move TestStatSymlinkLoop out of the Windows-only test fi)
+	err := Symlink("x", "y")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer Remove("y")
+
+	err = Symlink("y", "x")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer Remove("x")
+
+	_, err = Stat("x")
+	if _, ok := err.(*PathError); !ok {
+=======
 	err := os.Symlink("x", "y")
 	if err != nil {
 		t.Fatal(err)
@@ -243,6 +259,7 @@ func TestStatSymlinkLoop(t *testing.T) {
 
 	_, err = os.Stat("x")
 	if _, ok := err.(*fs.PathError); !ok {
+>>>>>>> BASE      (bb4ea8 os: allow $HOME to not exist in TestUserHomeDir)
 		t.Errorf("expected *PathError, got %T: %v\n", err, err)
 	}
 }
