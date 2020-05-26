@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5646add2_d5962e7b",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-26T22:12:07Z",
+      "side": 1,
+      "message": "This is a simple change but I\u0027m not sure it\u0027s quite right either.  Dates can have trailing CFWS, which means that I can write\n\nFri, 21 Nov 1997 09:55:06 MDT (MDT)\n\nDoes the right thing happen?",
+      "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e6be415_a1be07ed",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-26T22:12:07Z",
+      "side": 1,
+      "message": "Not sure what \"From down below\" means",
+      "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7336704_105b5b77",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-26T22:12:07Z",
+      "side": 1,
+      "message": "Should this test be in TestDateParsing?",
+      "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85cca441_79f2de18",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-26T22:12:07Z",
+      "side": 1,
+      "message": "Looks odd, since May 19, 2020, was not a Thursday.",
+      "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
