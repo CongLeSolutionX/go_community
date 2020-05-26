@@ -45,9 +45,6 @@ TEXT ·Expm1(SB), NOSPLIT, $0
 TEXT ·Frexp(SB), NOSPLIT, $0
 	B ·frexp(SB)
 
-TEXT ·Hypot(SB), NOSPLIT, $0
-	B ·hypot(SB)
-
 TEXT ·Ldexp(SB), NOSPLIT, $0
 	B ·ldexp(SB)
 
