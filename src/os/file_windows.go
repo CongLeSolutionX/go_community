@@ -322,9 +322,7 @@ func Link(oldname, newname string) error {
 	return nil
 }
 
-// Symlink creates newname as a symbolic link to oldname.
-// If there is an error, it will be of type *LinkError.
-func Symlink(oldname, newname string) error {
+func symlink(oldname, newname string) error {
 	// '/' does not work in link's content
 	oldname = fromSlash(oldname)
 
@@ -345,6 +343,9 @@ func Symlink(oldname, newname string) error {
 	}
 
 	fi, err := Stat(destpath)
+	if err != nil && !IsNotExist(err) && !errors.Is(err, windows.ERROR_INVALID_NAME) {
+		return &LinkError{"symlink", oldname, newname, err}
+	}
 	isdir := err == nil && fi.IsDir()
 
 	n, err := syscall.UTF16PtrFromString(fixLongPath(newname))

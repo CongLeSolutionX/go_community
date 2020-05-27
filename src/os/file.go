@@ -344,6 +344,16 @@ func Rename(oldpath, newpath string) error {
 	return rename(oldpath, newpath)
 }
 
+// Symlink creates newname as a symbolic link to oldname.
+// If there is an error, it will be of type *LinkError.
+//
+// On Windows, if the target at oldname does not yet exist or oldname is
+// syntactically invalid, newname will be created as a symbolic link to a file
+// target (not a directory).
+func Symlink(oldname, newname string) error {
+	return symlink(oldname, newname)
+}
+
 // Many functions in package syscall return a count of -1 instead of 0.
 // Using fixCount(call()) instead of call() corrects the count.
 func fixCount(n int, err error) (int, error) {

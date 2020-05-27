@@ -444,9 +444,7 @@ func Link(oldname, newname string) error {
 	return &LinkError{"link", oldname, newname, syscall.EPLAN9}
 }
 
-// Symlink creates newname as a symbolic link to oldname.
-// If there is an error, it will be of type *LinkError.
-func Symlink(oldname, newname string) error {
+func symlink(oldname, newname string) error {
 	return &LinkError{"symlink", oldname, newname, syscall.EPLAN9}
 }
 
