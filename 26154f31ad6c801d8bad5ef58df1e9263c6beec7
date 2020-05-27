@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12811a18_63035acc",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 34093
+      },
+      "writtenOn": "2020-05-27T08:04:47Z",
+      "side": 0,
+      "message": "This has been disabled in line 1581",
+      "revId": "26154f31ad6c801d8bad5ef58df1e9263c6beec7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
