@@ -16,6 +16,47 @@
       "revId": "5b045e09e49194626a71f88cb1cac3637e451ac2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39149407_79323eb1",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-27T16:46:30Z",
+      "side": 1,
+      "message": "It is set to 0 at line 1252. Maybe we should fix that instead.",
+      "parentUuid": "56b7c673_ea7922b2",
+      "revId": "5b045e09e49194626a71f88cb1cac3637e451ac2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c7a3610_8a9fec78",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-27T16:46:30Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 1252,
+        "startChar": 42,
+        "endLine": 1252,
+        "endChar": 43
+      },
+      "revId": "5b045e09e49194626a71f88cb1cac3637e451ac2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
