@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4fa685f1_82f11c73",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-27T16:28:11Z",
+      "side": 1,
+      "message": "\u003e I agree with Ian, we should have a test for \"c:dir\\sub\" too. Mind you, it is complicated to write proper test for it, because you really need another drive letter (not c:). And our builders, probably, have only single drive c:\n\nSince we don\u0027t have builders with more than one drive, I added a test using the same volume name as the original and used a gomote instance to verify that it fails before this CL and passes afterward.\n\nPer https://docs.microsoft.com/en-us/windows/win32/fileio/creating-symbolic-links, a current-working-directory-relative symlink is created as an absolute link, so it should suffice to show that creating the link succeeds and that the link refers to the correct absolute path when the working directory is changed.",
+      "parentUuid": "17ca8da7_0c340ba0",
+      "revId": "761d4c5e036b4a76542da4e3a1a4fa799110859c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1ffa17a_d35d3910",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 1
@@ -57,6 +75,30 @@
       "revId": "761d4c5e036b4a76542da4e3a1a4fa799110859c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "428e2d54_0d76ac10",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-27T16:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1ffa17a_d35d3910",
+      "range": {
+        "startLine": 1014,
+        "startChar": 35,
+        "endLine": 1014,
+        "endChar": 53
+      },
+      "revId": "761d4c5e036b4a76542da4e3a1a4fa799110859c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
