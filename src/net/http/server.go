@@ -945,14 +945,14 @@ func (c *conn) readRequest(ctx context.Context) (w *response, err error) {
 		hdrDeadline      time.Time // or zero if none
 	)
 	t0 := time.Now()
-	if d := c.server.readHeaderTimeout(); d != 0 {
+	if d := c.server.readHeaderTimeout(); d > 0 {
 		hdrDeadline = t0.Add(d)
 	}
-	if d := c.server.ReadTimeout; d != 0 {
+	if d := c.server.ReadTimeout; d > 0 {
 		wholeReqDeadline = t0.Add(d)
 	}
 	c.rwc.SetReadDeadline(hdrDeadline)
-	if d := c.server.WriteTimeout; d != 0 {
+	if d := c.server.WriteTimeout; d > 0 {
 		defer func() {
 			c.rwc.SetWriteDeadline(time.Now().Add(d))
 		}()
@@ -1780,10 +1780,10 @@ func (c *conn) serve(ctx context.Context) {
 	}()
 
 	if tlsConn, ok := c.rwc.(*tls.Conn); ok {
-		if d := c.server.ReadTimeout; d != 0 {
+		if d := c.server.ReadTimeout; d > 0 {
 			c.rwc.SetReadDeadline(time.Now().Add(d))
 		}
-		if d := c.server.WriteTimeout; d != 0 {
+		if d := c.server.WriteTimeout; d > 0 {
 			c.rwc.SetWriteDeadline(time.Now().Add(d))
 		}
 		if err := tlsConn.Handshake(); err != nil {
@@ -2507,7 +2507,7 @@ type Server struct {
 	TLSConfig *tls.Config
 
 	// ReadTimeout is the maximum duration for reading the entire
-	// request, including the body.
+	// request, including the body. Value cannot be negative.
 	//
 	// Because ReadTimeout does not let Handlers make per-request
 	// decisions on each request body's acceptable deadline or
@@ -2520,13 +2520,14 @@ type Server struct {
 	// after reading the headers and the Handler can decide what
 	// is considered too slow for the body. If ReadHeaderTimeout
 	// is zero, the value of ReadTimeout is used. If both are
-	// zero, there is no timeout.
+	// zero, there is no timeout. Value cannot be negative.
 	ReadHeaderTimeout time.Duration
 
 	// WriteTimeout is the maximum duration before timing out
 	// writes of the response. It is reset whenever a new
 	// request's header is read. Like ReadTimeout, it does not
 	// let Handlers make decisions on a per-request basis.
+	// Value cannot be negative.
 	WriteTimeout time.Duration
 
 	// IdleTimeout is the maximum amount of time to wait for the
