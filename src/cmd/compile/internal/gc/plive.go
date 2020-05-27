@@ -222,7 +222,7 @@ func (idx LivenessIndex) StackMapValid() bool {
 }
 
 func (idx LivenessIndex) RegMapValid() bool {
-	return idx.regMapIndex != StackMapDontCare
+	return !go115ReduceLiveness && idx.regMapIndex != StackMapDontCare
 }
 
 type progeffectscache struct {
