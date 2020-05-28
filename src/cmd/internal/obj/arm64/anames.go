@@ -33,6 +33,8 @@ var Anames = []string{
 	"BICSW",
 	"BICW",
 	"BRK",
+	"CASALD",
+	"CASALW",
 	"CBNZ",
 	"CBNZW",
 	"CBZ",
