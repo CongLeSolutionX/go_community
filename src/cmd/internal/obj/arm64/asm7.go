@@ -166,6 +166,8 @@ var atomicInstructions = map[obj.As]uint32{
 	ASWPLW:    2<<30 | 0x1c3<<21 | 0x20<<10,
 	ASWPLH:    1<<30 | 0x1c3<<21 | 0x20<<10,
 	ASWPLB:    0<<30 | 0x1c3<<21 | 0x20<<10,
+	ACASALD:   3<<30 | 0x047<<21 | 0x3f<<10,
+	ACASALW:   2<<30 | 0x047<<21 | 0x3f<<10,
 }
 
 var oprange [ALAST & obj.AMask][]Optab
