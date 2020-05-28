@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "526159ef_d24f1d33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-05-28T22:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7b47e37_c8f38455",
+      "revId": "a0b0c8d004b3618c9990f7a3145e217e8733d54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e634f03_97b721b3",
         "filename": "src/encoding/xml/typeinfo.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "a0b0c8d004b3618c9990f7a3145e217e8733d54d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "356f978f_864adb2a",
+        "filename": "src/encoding/xml/typeinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-05-28T22:35:24Z",
+      "side": 1,
+      "message": "Done. I switched Fields for Pointers, because that seems clearer to me. The proper term would be struct pointers, but that feels too wordy for the consts.\n\nI also considered a proper named type for the parameter, but that felt overkill.",
+      "parentUuid": "8e634f03_97b721b3",
+      "revId": "a0b0c8d004b3618c9990f7a3145e217e8733d54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
