@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a062d8e_8b2ee026",
+        "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-05-29T16:26:06Z",
+      "side": 1,
+      "message": "Seems reversed?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
