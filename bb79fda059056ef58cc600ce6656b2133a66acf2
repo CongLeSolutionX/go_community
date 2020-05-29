@@ -46,6 +46,30 @@
       "revId": "bb79fda059056ef58cc600ce6656b2133a66acf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a852ae0b_efda5c45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-29T21:36:58Z",
+      "side": 1,
+      "message": "It is alright to change it to that. Clarity is very important. Also please don’t forget to remove the body, because the documentation was wrong but just confusing :)",
+      "parentUuid": "629fc826_f3e3cf4d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "bb79fda059056ef58cc600ce6656b2133a66acf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
