@@ -58,6 +58,25 @@ func (e *ImportMissingError) ImportPath() string {
 	return e.Path
 }
 
+func (e *ImportMissingError) ParentError() error {
+	return errors.New(e.Error())
+}
+
+type ParentImportMissingError struct {
+	path string
+	msg  string
+}
+
+var _ load.ImportPathError = (*ImportMissingError)(nil)
+
+func (e *ParentImportMissingError) Error() string {
+	return e.msg
+}
+
+func (e *ParentImportMissingError) ImportPath() string {
+	return e.path
+}
+
 // An AmbiguousImportError indicates an import of a package found in multiple
 // modules in the build list, or found in both the main module and its vendor
 // directory.
