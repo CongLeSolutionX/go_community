@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e753fea_221ee0d3",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-29T21:03:13Z",
+      "side": 1,
+      "message": "Ah, I see. Something like this?\nhttps://play.golang.org/p/KJouGqSS0oD\n\nThat would also allow a parent test to accidentally misattribute output to one of its subtests.\n(It might be interesting to add a test case along these lines.)",
+      "range": {
+        "startLine": 220,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 73
+      },
+      "revId": "4df68982558aab30578488308ed3e2afbb5a0572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
