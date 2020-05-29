@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a1f3495_d1721ff1",
+        "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-29T17:10:41Z",
+      "side": 1,
+      "message": "Indeed. Fixed.",
+      "parentUuid": "569e59b9_218c0ea1",
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a062d8e_8b2ee026",
         "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c7e52a6c_25070b83",
+        "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-29T17:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a062d8e_8b2ee026",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b055eaf_fb656eff",
         "filename": "src/cmd/compile/internal/gc/testdata/reproducible/issue38068.go",
         "patchSetId": 3
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "339f1232_9cfc38a7",
+        "filename": "src/cmd/compile/internal/gc/testdata/reproducible/issue38068.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-29T17:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b055eaf_fb656eff",
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "212a8f12_f9ce74db",
         "filename": "src/cmd/compile/internal/gc/testdata/reproducible/issue38068.go",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2020-05-29T16:27:54Z",
       "side": 1,
       "message": "Some of the code here (like this line) looks like it would only matter at runtime, and this is a compile-time test. I have a hard time figuring out what parts of this test actually matter.",
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d61ade_3466d522",
+        "filename": "src/cmd/compile/internal/gc/testdata/reproducible/issue38068.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-05-29T17:10:41Z",
+      "side": 1,
+      "message": "Sorry about this test. It is hard to tell what the motivation is for each part.\n\nA lot of things have to line up exactly to trigger this bug. I had to hack for a while until I found something that would actually work.\n\nFor the bug to happen, you have to have:\n- method M with value (not pointer) receiver\n- M is inlinable\n- M has both local variables and parameters\n- pointer-receiver wrapper method for M generated late\n\nI don\u0027t have the kind of depth of experience with the main Go compiler that you or Cherry does, so I had to kind of feel my way around to find something that worked. \n\nYou\u0027re right that it\u0027s also a compile-only test, so what\u0027s the point in making it runnable -- I don\u0027t have a good response to that other than to say that it was handy to run the test just to make sure the code was sane while I was iterating on the test.\n\nIt\u0027s also almost certainly not the smallest it could be.\n\nI will spend some time adding comments to the code and moving bits that don\u0027t matter.",
+      "parentUuid": "212a8f12_f9ce74db",
       "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
