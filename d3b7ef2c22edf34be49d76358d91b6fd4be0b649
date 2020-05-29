@@ -16,6 +16,24 @@
       "revId": "d3b7ef2c22edf34be49d76358d91b6fd4be0b649",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91e1054a_99635556",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-05-29T16:00:45Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we should be returning any Stat errors. I don\u0027t see how it is helpful for anyone.\n\u003e \n\u003e Unless you are prepared to make similar change for other GOOS.\n\nThis part of the change establishes the following property:\nIf the link target exists or may exist, and os.Symlink reports a nil error, then the symlink may be used to access the link target whenever the link target is available.\n\nThe implementations for every other GOOS already have that property.\nOn POSIX systems, the symlink may be used to access the link target regardless of the type of the target.\nOn Plan 9, os.Symlink always reports a non-nil error.\nSo those implementations trivially satisfy this property, and no “similar change” is needed to establish it.",
+      "parentUuid": "4c4d6835_675a7f82",
+      "revId": "d3b7ef2c22edf34be49d76358d91b6fd4be0b649",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
