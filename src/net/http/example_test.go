@@ -6,6 +6,7 @@ package http_test
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -190,4 +191,77 @@ func ExampleNotFoundHandler() {
 	mux.Handle("/resources/people/", newPeopleHandler())
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
+}
+
+func ExampleTransport_hTTP1() {
+	client := &http.Client{
+		Transport: &http.Transport{
+			// To disable default support for HTTP/2, set TLSNextProto to a non-nil map.
+			// You can alternatively set GODEBUG=http2client=0 in your environment.
+			TLSNextProto: make(map[string]func(authority string, c *tls.Conn) http.RoundTripper),
+		},
+	}
+	h1Res, err := client.Get("https://golang.org/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	blob, err := ioutil.ReadAll(h1Res.Body)
+	h1Res.Body.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", blob)
+}
+
+func ExampleTransport_hTTP2() {
+	client := &http.Client{
+		// By default, a blank or nil Transport will use HTTP/2.
+		// Ensure that GODEBUG=http2client is not set to 0 in your environment.
+		Transport: &http.Transport{},
+	}
+	h2Res, err := client.Get("https://golang.org/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	blob, err := ioutil.ReadAll(h2Res.Body)
+	h2Res.Body.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", blob)
+}
+
+func ExampleTransport_defaultTransportHTTP1() {
+	// You can alternatively set GODEBUG=http2client=0 in your environment.
+	tr := http.DefaultTransport.(*http.Transport).Clone()
+	tr.ForceAttemptHTTP2 = false
+	tr.TLSClientConfig = new(tls.Config) // Or alternatively set your custom TLS configuration.
+	tr.TLSNextProto = make(map[string]func(authority string, c *tls.Conn) http.RoundTripper)
+	client := &http.Client{
+		Transport: tr,
+	}
+	h1Res, err := client.Get("https://golang.org/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	blob, err := ioutil.ReadAll(h1Res.Body)
+	h1Res.Body.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", blob)
+}
+
+func ExampleTransport_defaultTransportHTTP2() {
+	// Ensure that GODEBUG=http2client is not set to 0 in your environment.
+	h2Res, err := http.DefaultClient.Get("https://golang.org/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	blob, err := ioutil.ReadAll(h2Res.Body)
+	h2Res.Body.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", blob)
 }
