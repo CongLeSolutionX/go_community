@@ -1802,6 +1802,22 @@ func (p *Package) load(ctx context.Context, path string, stk *ImportStack, impor
 		}
 		p1 := LoadImport(ctx, path, p.Dir, p, stk, p.Internal.Build.ImportPos[path], ResolveImport)
 
+		// Set import pos to pos of import we're examining, to report errors on import
+		parentImportPos := importPos
+		importPos = p.Internal.Build.ImportPos[path]
+		// Check p1's error here because it should be reported on the importing package.
+		if p1.Error != nil {
+			if err, ok := p1.Error.Err.(interface {
+				ParentError() error
+				error
+			}); ok {
+				stk.Push(path) // Push the imported package onto the stack, so it shows on the error stack.
+				setError(err)
+				stk.Pop()
+			}
+		}
+		importPos = parentImportPos
+
 		path = p1.ImportPath
 		importPaths[i] = path
 		if i < len(p.Imports) {

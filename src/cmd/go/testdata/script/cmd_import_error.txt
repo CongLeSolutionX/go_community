@@ -7,8 +7,8 @@ env GO111MODULE=on
 ! go list cmd/unknown
 stderr '^package cmd/unknown is not in GOROOT \('$GOROOT'[/\\]src[/\\]cmd[/\\]unknown\)$'
 
-go list -f '{{range .DepsErrors}}{{.Err}}{{end}}' x.go
-stdout '^package cmd/unknown is not in GOROOT \('$GOROOT'[/\\]src[/\\]cmd[/\\]unknown\)$'
+! go list x.go
+stderr '^x.go:3:8: package cmd/unknown is not in GOROOT \('$GOROOT'[/\\]src[/\\]cmd[/\\]unknown\)$'
 
 -- x.go --
 package x
