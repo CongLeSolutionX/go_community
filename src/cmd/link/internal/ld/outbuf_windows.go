@@ -2,6 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build ignore
+
+// Disabled mmap for now as it causes sporadic ACCESS_DENIED failures
+// (see issue 38440).
+// TODO: reenable.
+
 package ld
 
 import (
