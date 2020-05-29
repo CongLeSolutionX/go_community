@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c4d6835_675a7f82",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-05-29T10:00:39Z",
+      "side": 1,
+      "message": "I don\u0027t think we should be returning any Stat errors. I don\u0027t see how it is helpful for anyone.\n\nUnless you are prepared to make similar change for other GOOS.",
+      "revId": "d3b7ef2c22edf34be49d76358d91b6fd4be0b649",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
