@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65adc520_5296bb4d",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-05-29T19:38:59Z",
+      "side": 1,
+      "message": "It isn\u0027t immediately obvious what the following code is doing; the critical line (setting TLSNextProto) is fairly obscure. Add a comment explaining it and the example as a whole:\n\n// To disable default support for HTTP/2, set TLSNextProto to a non-nil map.\n// You can alternatively set GODEBUG\u003dhttp2client\u003d0 in your environment.",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e58bbd3b_d3c95b19",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-05-29T19:38:59Z",
+      "side": 1,
+      "message": "This example isn\u0027t symmetric with the _hTTP1 example--while the one above uses a non-default Transport, this just uses DefaultTransport.\n\nGiven that HTTP/2 support is the default, is this example necessary?",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8220e85_51952c4f",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-05-29T19:38:59Z",
+      "side": 1,
+      "message": "I wonder if this should be the only example.\n\nMost users probably want to inherit DefaultTransport\u0027s default settings, so providing a single example which does so will gently push them in right direction. Users that do want to create a fully custom transport can still easily see the fields that need setting.",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d903e48a_e98fec79",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-05-29T19:38:59Z",
+      "side": 1,
+      "message": "I\u0027m confused as to why setting TLSClientConfig is necessary.",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
