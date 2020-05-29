@@ -59,6 +59,29 @@ func (e *ImportMissingError) ImportPath() string {
 	return e.Path
 }
 
+func (e *ImportMissingError) ParentError() error {
+	return errors.New(e.Error())
+}
+
+// A HasMissingImportError signifies that the package that it's reported
+// on is missing an import. It's different from an ImportMissingErorr because
+// that error means that the package it's reported on actually doesn't exist
+// and is a stand-in for a missing import.
+type HasMissingImportError struct {
+	path string
+	msg  string
+}
+
+var _ load.ImportPathError = (*ImportMissingError)(nil)
+
+func (e *HasMissingImportError) Error() string {
+	return e.msg
+}
+
+func (e *HasMissingImportError) ImportPath() string {
+	return e.path
+}
+
 // An AmbiguousImportError indicates an import of a package found in multiple
 // modules in the build list, or found in both the main module and its vendor
 // directory.
