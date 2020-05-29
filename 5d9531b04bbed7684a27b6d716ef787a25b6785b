@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "569e59b9_218c0ea1",
+        "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-29T16:27:54Z",
+      "side": 1,
+      "message": "Aren\u0027t these names backwards?",
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a062d8e_8b2ee026",
         "filename": "src/cmd/compile/internal/gc/reproduciblebuilds_test.go",
         "patchSetId": 3
@@ -19,6 +36,40 @@
         "endLine": 79,
         "endChar": 32
       },
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b055eaf_fb656eff",
+        "filename": "src/cmd/compile/internal/gc/testdata/reproducible/issue38068.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-29T16:27:54Z",
+      "side": 1,
+      "message": "Might as well use nonempty strings so we don\u0027t optimize this away.",
+      "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "212a8f12_f9ce74db",
+        "filename": "src/cmd/compile/internal/gc/testdata/reproducible/issue38068.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-05-29T16:27:54Z",
+      "side": 1,
+      "message": "Some of the code here (like this line) looks like it would only matter at runtime, and this is a compile-time test. I have a hard time figuring out what parts of this test actually matter.",
       "revId": "5d9531b04bbed7684a27b6d716ef787a25b6785b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
