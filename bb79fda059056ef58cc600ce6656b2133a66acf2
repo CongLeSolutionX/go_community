@@ -22,6 +22,30 @@
       "revId": "bb79fda059056ef58cc600ce6656b2133a66acf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "629fc826_f3e3cf4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36513
+      },
+      "writtenOn": "2020-05-29T18:16:53Z",
+      "side": 1,
+      "message": "The suggested commit title is 76 characters which is too long to format correctly for many UIs such as Github. I\u0027m happy to change it for clarity, but does this meet the project style requirements?",
+      "parentUuid": "d24dc2d9_1c20157e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "bb79fda059056ef58cc600ce6656b2133a66acf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
