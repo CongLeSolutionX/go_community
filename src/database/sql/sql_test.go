@@ -2890,7 +2890,7 @@ func TestConnExpiresFreshOutOfPool(t *testing.T) {
 			go func() {
 				conn, err := db.conn(ctx, alwaysNewConn)
 				if err != nil {
-					t.Fatal(err)
+					panic(err)
 				}
 				db.putConn(conn, err, false)
 				close(afterPutConn)

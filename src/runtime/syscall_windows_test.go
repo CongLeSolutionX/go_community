@@ -1143,15 +1143,13 @@ func BenchmarkSyscallToSyscallPing(b *testing.B) {
 	go func() {
 		for i := 0; i < n; i++ {
 			syscall.WaitForSingleObject(event1, syscall.INFINITE)
-			err := setEvent(event2)
-			if err != nil {
-				b.Fatal(err)
+			if err := setEvent(event2); err != nil {
+				panic(err)
 			}
 		}
 	}()
 	for i := 0; i < n; i++ {
-		err := setEvent(event1)
-		if err != nil {
+		if err := setEvent(event1); err != nil {
 			b.Fatal(err)
 		}
 		syscall.WaitForSingleObject(event2, syscall.INFINITE)
