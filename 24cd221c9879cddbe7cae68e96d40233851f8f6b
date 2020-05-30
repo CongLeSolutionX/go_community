@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5fe4767c_c32f5ef0",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2890,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-30T01:49:48Z",
+      "side": 1,
+      "message": "Line 2884 closes waitingForConn.\n\n\u003eAlso it seems to me that we only want an early return here if the other goroutine sees an error.\n\nIf the other goroutine terminates with an error, we\u0027ll keep spinning in this goroutine forever,\nbecause db.connRequests is only populated after db.conn in the other goroutine encounters db.maxOpen \u003e 0 \u0026\u0026 db.numOpen \u003e\u003d db.maxOpen, which in this case will be 1, and the case of successfully grabbing a connection.\n\nAnyways, down below I am going to be selecting on errCh (I had forgotten to mail it up), thus by the time that the other goroutine terminates this one should also get the memo to terminate.",
+      "parentUuid": "f04babf6_f00cfc90",
+      "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e76b6e95_effee033",
         "filename": "src/runtime/syscall_windows_test.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7afab08_b5776a5a",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-30T01:49:48Z",
+      "side": 1,
+      "message": "Doh! My bad, I thought about this too while eating dinner. Thank you for the correction!",
+      "parentUuid": "e76b6e95_effee033",
+      "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
