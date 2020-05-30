@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "600a6f8c_b1ab2772",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-30T03:17:45Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "65adc520_5296bb4d",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e58bbd3b_d3c95b19",
         "filename": "src/net/http/example_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-05-29T19:38:59Z",
       "side": 1,
       "message": "This example isn\u0027t symmetric with the _hTTP1 example--while the one above uses a non-default Transport, this just uses DefaultTransport.\n\nGiven that HTTP/2 support is the default, is this example necessary?",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45e98eae_48632466",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-30T03:17:45Z",
+      "side": 1,
+      "message": "Ack, it is non-symmetric but it shows the important difference that if one just wants\nto use HTTP2, they can use the default Transport. I have added symmetric examples,\nand yes I believe they are all necessary. Folks should be able to trivially figure\nout how to enable or disable HTTP/2 on both the defaults and on a fresh Transport.",
+      "parentUuid": "e58bbd3b_d3c95b19",
       "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2199ee20_25f6222f",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-30T03:17:45Z",
+      "side": 1,
+      "message": "They perhaps do but I\u0027d err on the side of caution of them being able to construct enable or disable HTTP/2 dynamically. I have encountered many bugs where folks fiddle around to try\nto disable HTTP/2. It is important to have all 4 perhaps.",
+      "parentUuid": "c8220e85_51952c4f",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d903e48a_e98fec79",
         "filename": "src/net/http/example_test.go",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7220e3d1_6010451d",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-05-30T03:17:45Z",
+      "side": 1,
+      "message": "a) inside Transport.onceSetNextProtoDefaults, if TLSClientConfig is not set, (which it isn\u0027t set for the DefaultTransport) then http2configureTransport(t)\nwill be invoked on it, unless GODEBUG\u003dhttp2client\u003d0 is set, per https://github.com/golang/go/blob/0aed2a4133d4a6cbefa9f86096500009bacc8e4c/src/net/http/transport.go#L369-L381",
+      "parentUuid": "d903e48a_e98fec79",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
