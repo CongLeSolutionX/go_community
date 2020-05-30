@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f04babf6_f00cfc90",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2890,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-30T00:28:55Z",
+      "side": 1,
+      "message": "As far as I can see, this case won\u0027t work.  Nothing closes waitingForConn.\n\nAlso it seems to me that we only want an early return here if the other goroutine sees an error.",
+      "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e76b6e95_effee033",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-30T00:28:55Z",
+      "side": 1,
+      "message": "I think this has to be something like\n    case err, ok :\u003d \u003c-errCH\n        if ok {\n            b.Fatal(err)\n        }\n        errCh \u003d nil\nOtherwise we can get caught selecting this case every time after errCh is closed.",
+      "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
