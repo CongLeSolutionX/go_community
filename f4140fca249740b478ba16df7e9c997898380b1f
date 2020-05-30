@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b544d361_11f31452",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-05-30T19:52:40Z",
+      "side": 1,
+      "message": "s/were/was/\n\nSimilarly a few lines up.",
+      "range": {
+        "startLine": 437,
+        "startChar": 19,
+        "endLine": 437,
+        "endChar": 23
+      },
+      "revId": "f4140fca249740b478ba16df7e9c997898380b1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
