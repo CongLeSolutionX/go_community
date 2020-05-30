@@ -2858,11 +2858,19 @@ func TestConnExpiresFreshOutOfPool(t *testing.T) {
 
 			afterPutConn := make(chan struct{})
 			waitingForConn := make(chan struct{})
+			errCh := make(chan error, 1)
+			connDialDoneCh := make(chan struct{})
 
 			go func() {
+				defer func() {
+					close(errCh)
+					close(connDialDoneCh)
+				}()
+
 				conn, err := db.conn(ctx, alwaysNewConn)
 				if err != nil {
-					t.Fatal(err)
+					errCh <- err
+					return
 				}
 				db.putConn(conn, err, false)
 				close(afterPutConn)
@@ -2876,11 +2884,22 @@ func TestConnExpiresFreshOutOfPool(t *testing.T) {
 						close(waitingForConn)
 						return
 					}
-					time.Sleep(10 * time.Millisecond)
+
+					select {
+					case <-connDialDoneCh:
+						return
+					case <-time.After(10 * time.Millisecond):
+					}
 				}
 			}()
 
-			<-waitingForConn
+			select {
+			case err := <-errCh:
+				if err != nil {
+					t.Fatal(err)
+				}
+			case <-waitingForConn:
+			}
 
 			offsetMu.Lock()
 			if ec.expired {
