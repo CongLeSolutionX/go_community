@@ -34,6 +34,24 @@
       "revId": "d3b7ef2c22edf34be49d76358d91b6fd4be0b649",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5daa682_df58960a",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-05-31T03:01:10Z",
+      "side": 1,
+      "message": "\u003e This part of the change establishes the following property:\n\u003e If the link target exists or may exist, and os.Symlink reports a nil error, then the symlink may be used to access the link target whenever the link target is available.\n\u003e \n\nThis is too vague / general for my simple mind. Anything can happen to the target, regardless to symlink.\n\n\u003e The implementations for every other GOOS already have that property.\n\u003e On POSIX systems, the symlink may be used to access the link target regardless of the type of the target.\n\nWhat about symlink to the file you have no access right to Stat?",
+      "parentUuid": "91e1054a_99635556",
+      "revId": "d3b7ef2c22edf34be49d76358d91b6fd4be0b649",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
