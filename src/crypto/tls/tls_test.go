@@ -786,7 +786,8 @@ func TestCloneNonFuncFields(t *testing.T) {
 	for i := 0; i < typ.NumField(); i++ {
 		f := v.Field(i)
 		if !f.CanSet() {
-			// unexported field; not cloned.
+			// Some unexported fields aren't cloned, so deal with
+			// those separately.
 			continue
 		}
 
@@ -834,6 +835,9 @@ func TestCloneNonFuncFields(t *testing.T) {
 			t.Errorf("all fields must be accounted for, but saw unknown field %q", fn)
 		}
 	}
+	// Set the unexported fields related to session ticket keys, which are copied with Clone().
+	c1.autoSessionTicketKeys = []ticketKey{c1.ticketKeyFromBytes(c1.SessionTicketKey)}
+	c1.sessionTicketKeys = []ticketKey{c1.ticketKeyFromBytes(c1.SessionTicketKey)}
 
 	c2 := c1.Clone()
 	// DeepEqual also compares unexported fields, thus c2 needs to have run
