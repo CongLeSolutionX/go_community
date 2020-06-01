@@ -19,12 +19,6 @@ import (
 	"testing"
 )
 
-// NOTE: In some configurations, GDB will segfault when sent a SIGWINCH signal.
-// Some runtime tests send SIGWINCH to the entire process group, so those tests
-// must never run in parallel with GDB tests.
-//
-// See issue 39021 and https://sourceware.org/bugzilla/show_bug.cgi?id=26056.
-
 func checkGdbEnvironment(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	switch runtime.GOOS {
@@ -55,6 +49,8 @@ func checkGdbEnvironment(t *testing.T) {
 	}
 }
 
+var gdbMajor int
+
 func checkGdbVersion(t *testing.T) {
 	// Issue 11214 reports various failures with older versions of gdb.
 	out, err := exec.Command("gdb", "--version").CombinedOutput()
@@ -74,6 +70,7 @@ func checkGdbVersion(t *testing.T) {
 	if major < 7 || (major == 7 && minor < 7) {
 		t.Skipf("skipping: gdb version %d.%d too old", major, minor)
 	}
+	gdbMajor = major
 	t.Logf("gdb version %d.%d", major, minor)
 }
 
@@ -115,8 +112,17 @@ import "runtime"
 var gslice []string
 func main() {
 	mapvar := make(map[string]string, 13)
+	slicemap := make(map[string][]string,11)
+    chanint := make(chan int, 10)
+    chanstr := make(chan string, 10)
+    chanint <- 99
+	chanint <- 11
+    chanstr <- "spongepants"
+    chanstr <- "squarebob"
 	mapvar["abc"] = "def"
 	mapvar["ghi"] = "jkl"
+	slicemap["a"] = []string{"b","c","d"}
+    slicemap["e"] = []string{"f","g","h"}
 	strvar := "abc"
 	ptrvar := &strvar
 	slicevar := make([]string, 0, 16)
@@ -125,6 +131,7 @@ func main() {
 	runtime.KeepAlive(ptrvar)
 	_ = ptrvar // set breakpoint here
 	gslice = slicevar
+	fmt.Printf("%v, %v, %v\n", slicemap, <-chanint, <-chanstr)
 	runtime.KeepAlive(mapvar)
 }  // END_OF_PROGRAM
 `
@@ -227,8 +234,17 @@ func testGdbPython(t *testing.T, cgo bool) {
 		"-ex", "echo BEGIN print mapvar\n",
 		"-ex", "print mapvar",
 		"-ex", "echo END\n",
+		"-ex", "echo BEGIN print slicemap\n",
+		"-ex", "print slicemap",
+		"-ex", "echo END\n",
 		"-ex", "echo BEGIN print strvar\n",
 		"-ex", "print strvar",
+		"-ex", "echo END\n",
+		"-ex", "echo BEGIN print chanint\n",
+		"-ex", "print chanint",
+		"-ex", "echo END\n",
+		"-ex", "echo BEGIN print chanstr\n",
+		"-ex", "print chanstr",
 		"-ex", "echo END\n",
 		"-ex", "echo BEGIN info locals\n",
 		"-ex", "info locals",
@@ -288,6 +304,25 @@ func testGdbPython(t *testing.T, cgo bool) {
 	if bl := blocks["print mapvar"]; !printMapvarRe1.MatchString(bl) &&
 		!printMapvarRe2.MatchString(bl) {
 		t.Fatalf("print mapvar failed: %s", bl)
+	}
+
+	// 2 orders, and possible differences in spacing.
+	sliceMapSfx1 := `map[string][]string = {["e"] = []string = {"f", "g", "h"}, ["a"] = []string = {"b", "c", "d"}}`
+	sliceMapSfx2 := `map[string][]string = {["a"] = []string = {"b", "c", "d"}, ["e"] = []string = {"f", "g", "h"}}`
+	if bl := strings.ReplaceAll(blocks["print slicemap"], "  ", " "); !strings.HasSuffix(bl, sliceMapSfx1) && !strings.HasSuffix(bl, sliceMapSfx2) {
+		t.Fatalf("print slicemap failed: %s", bl)
+	}
+
+	if gdbMajor > 7 {
+		chanIntSfx := `chan int = {99, 11}`
+		if bl := strings.ReplaceAll(blocks["print chanint"], "  ", " "); !strings.HasSuffix(bl, chanIntSfx) {
+			t.Fatalf("print chanint failed: %s", bl)
+		}
+
+		chanStrSfx := `chan string = {"spongepants", "squarebob"}`
+		if bl := strings.ReplaceAll(blocks["print chanstr"], "  ", " "); !strings.HasSuffix(bl, chanStrSfx) {
+			t.Fatalf("print chanstr failed: %s", bl)
+		}
 	}
 
 	strVarRe := regexp.MustCompile(`^\$[0-9]+ = (0x[0-9a-f]+\s+)?"abc"$`)
