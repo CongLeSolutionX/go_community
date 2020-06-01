@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6b3ce21_d64a09fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-01T15:48:52Z",
+      "side": 1,
+      "message": "Replace this with golang.org/cl/113177, it\u0027s shorter and more future proof.\n\nReference: https://golang.org/wiki/CommitMessage.",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 13,
+        "endChar": 85
+      },
+      "revId": "4eed6fa00c765a782de8babdd1a9355fd1b57d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
