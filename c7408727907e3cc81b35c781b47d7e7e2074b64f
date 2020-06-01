@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7fb9ea0_3d20c3c7",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-06-01T22:10:07Z",
+      "side": 1,
+      "message": "What should we do here?",
+      "range": {
+        "startLine": 209,
+        "startChar": 6,
+        "endLine": 209,
+        "endChar": 7
+      },
+      "revId": "c7408727907e3cc81b35c781b47d7e7e2074b64f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
