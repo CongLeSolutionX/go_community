@@ -16,6 +16,24 @@
       "revId": "8be0de1e7e1f1c3f0d2b4b1ab2b4bc96377a3772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46d474d3_6ac25ac3",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-06-02T19:56:57Z",
+      "side": 0,
+      "message": "It was not.  Did this perhaps collide with some other CL?  I will sync and recheck.\nNope, looks like a finger-fumble, fixed in next patchset.",
+      "parentUuid": "dc61f79a_ad324c0a",
+      "revId": "8be0de1e7e1f1c3f0d2b4b1ab2b4bc96377a3772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

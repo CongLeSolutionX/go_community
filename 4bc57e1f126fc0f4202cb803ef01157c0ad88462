@@ -22,6 +22,30 @@
       "revId": "4bc57e1f126fc0f4202cb803ef01157c0ad88462",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46d1b35c_eda46925",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-06-02T19:56:57Z",
+      "side": 1,
+      "message": "The DWARF we generate for that slice is some combination of missing or incorrect.  I don\u0027t know exactly what\u0027s wrong, but the slice localvar doesn\u0027t print properly.  I added a little more to make it clear this is a compiler problem, not some other problem.",
+      "parentUuid": "8b3b69b3_e023e374",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "4bc57e1f126fc0f4202cb803ef01157c0ad88462",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
