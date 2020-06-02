@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b3b69b3_e023e374",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-06-02T19:04:47Z",
+      "side": 1,
+      "message": "can you please refresh my memory on what the issue is here?",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "4bc57e1f126fc0f4202cb803ef01157c0ad88462",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
