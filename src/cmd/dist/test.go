@@ -980,7 +980,7 @@ func (t *tester) supportedBuildmode(mode string) bool {
 		switch pair {
 		case "aix-ppc64",
 			"darwin-amd64", "darwin-arm64", "ios-arm64",
-			"linux-amd64", "linux-386", "linux-ppc64le", "linux-s390x",
+			"linux-amd64", "linux-386", "linux-ppc64le", "linux-riscv64", "linux-s390x",
 			"freebsd-amd64",
 			"windows-amd64", "windows-386":
 			return true
@@ -988,7 +988,7 @@ func (t *tester) supportedBuildmode(mode string) bool {
 		return false
 	case "c-shared":
 		switch pair {
-		case "linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-s390x",
+		case "linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-riscv64", "linux-s390x",
 			"darwin-amd64", "darwin-arm64",
 			"freebsd-amd64",
 			"android-arm", "android-arm64", "android-386",
@@ -998,7 +998,7 @@ func (t *tester) supportedBuildmode(mode string) bool {
 		return false
 	case "shared":
 		switch pair {
-		case "linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-s390x":
+		case "linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-riscv64", "linux-s390x":
 			return true
 		}
 		return false
@@ -1006,7 +1006,7 @@ func (t *tester) supportedBuildmode(mode string) bool {
 		// linux-arm64 is missing because it causes the external linker
 		// to crash, see https://golang.org/issue/17138
 		switch pair {
-		case "linux-386", "linux-amd64", "linux-arm", "linux-s390x", "linux-ppc64le":
+		case "linux-386", "linux-amd64", "linux-arm", "linux-ppc64le", "linux-riscv64", "linux-s390x":
 			return true
 		case "darwin-amd64", "darwin-arm64":
 			return true
@@ -1017,7 +1017,7 @@ func (t *tester) supportedBuildmode(mode string) bool {
 	case "pie":
 		switch pair {
 		case "aix/ppc64",
-			"linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-s390x",
+			"linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-riscv64", "linux-s390x",
 			"android-amd64", "android-arm", "android-arm64", "android-386":
 			return true
 		case "darwin-amd64", "darwin-arm64":
