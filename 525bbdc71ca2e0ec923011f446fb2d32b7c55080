@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "697314f8_5fec6ccb",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-02T18:58:04Z",
+      "side": 1,
+      "message": "Looks like the test will still not catch the next unexported field we add though, right? Could we drop this blanket exception?",
+      "revId": "525bbdc71ca2e0ec923011f446fb2d32b7c55080",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fc14f06_8eaca067",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-02T18:58:04Z",
+      "side": 1,
+      "message": "This is not necessary anymore, as serverInit is not a thing anymore.",
+      "range": {
+        "startLine": 843,
+        "startChar": 0,
+        "endLine": 846,
+        "endChar": 11
+      },
+      "revId": "525bbdc71ca2e0ec923011f446fb2d32b7c55080",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
