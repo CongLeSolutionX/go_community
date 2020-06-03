@@ -16,6 +16,24 @@
       "revId": "71025471572049f0428995b4a4e1ead10130830a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b651f028_df5bba7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-06-03T17:33:50Z",
+      "side": 1,
+      "message": "I guess so. I heard that Bitbucket will (or already did) drop Mercurial support.",
+      "parentUuid": "13f867dc_1c8865e1",
+      "revId": "71025471572049f0428995b4a4e1ead10130830a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
