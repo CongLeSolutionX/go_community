@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "47159079_8c82ab90",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-06-03T17:40:05Z",
+      "side": 1,
+      "message": "Whoops, that\u0027s left over from my cut-and-paste. Removed...",
+      "parentUuid": "dbdc4ec0_a514eea6",
+      "revId": "72e4cf308f72b4e1c406cfc9332f7748cc08b710",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff78f373_361b589f",
         "filename": "src/cmd/link/internal/ld/dwarf_test.go",
         "patchSetId": 3
@@ -56,6 +74,30 @@
       "revId": "72e4cf308f72b4e1c406cfc9332f7748cc08b710",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64678296_21a0139f",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-06-03T17:40:05Z",
+      "side": 1,
+      "message": "I\u0027ll use t.Logf.\n\nI\u0027m not a big fan of tests that unconditionally dump output (counting on the harness to suppress it when test passes).",
+      "parentUuid": "ff78f373_361b589f",
+      "range": {
+        "startLine": 1479,
+        "startChar": 3,
+        "endLine": 1479,
+        "endChar": 14
+      },
+      "revId": "72e4cf308f72b4e1c406cfc9332f7748cc08b710",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
