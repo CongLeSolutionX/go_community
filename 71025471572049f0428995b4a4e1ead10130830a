@@ -34,6 +34,24 @@
       "revId": "71025471572049f0428995b4a4e1ead10130830a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1edb8fa1_43e8006e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-06-03T17:37:48Z",
+      "side": 1,
+      "message": "I think this is due to Mercurial deprecating Mercurial support as you suspected, see https://bitbucket.org/blog/sunsetting-mercurial-support-in-bitbucket\n\nThe default branch in Mercurial is named \"default\" which would explain the old URL.",
+      "parentUuid": "b651f028_df5bba7d",
+      "revId": "71025471572049f0428995b4a4e1ead10130830a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
