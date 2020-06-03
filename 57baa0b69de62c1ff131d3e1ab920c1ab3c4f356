@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b37d70a8_d6d90278",
+        "filename": "src/cmd/go/testdata/script/mod_bad_domain.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-03T19:13:31Z",
+      "side": 1,
+      "message": "There are no packages in the standard library containing dots, and I do not expect that there ever will be. So I think the previous failure mode is probably clearer.\n\nShould we maybe simplify the implementation of the existing behavior, rather than correcting it to what was originally intended?\n\nAre there other cases where this difference is more likely to matter?\n(For example, what happens if the main module\u0027s `go.mod` file includes `replace a/b.c \u003d\u003e ./abc` and then attempts to `go get a/b.c/d`?)",
+      "revId": "57baa0b69de62c1ff131d3e1ab920c1ab3c4f356",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
