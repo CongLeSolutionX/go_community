@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eeb966d_a43861b7",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1388,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-06-03T17:23:07Z",
+      "side": 1,
+      "message": "Haha",
+      "revId": "72e4cf308f72b4e1c406cfc9332f7748cc08b710",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbdc4ec0_a514eea6",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-06-03T17:23:07Z",
+      "side": 1,
+      "message": "What\u0027s the reason for this check?",
+      "revId": "72e4cf308f72b4e1c406cfc9332f7748cc08b710",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff78f373_361b589f",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-06-03T17:23:07Z",
+      "side": 1,
+      "message": "t.Logf?\n\nAnother option is to unconditionally Logf this and drop the \"failed\" flag. The effects would the same unless run in verbose mode, and in verbose mode perhaps its useful to see this output even if there isn\u0027t a failure.",
+      "range": {
+        "startLine": 1479,
+        "startChar": 3,
+        "endLine": 1479,
+        "endChar": 14
+      },
+      "revId": "72e4cf308f72b4e1c406cfc9332f7748cc08b710",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
