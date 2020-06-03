@@ -57,6 +57,24 @@
       "revId": "64cdaea511e4e0accc597ededd7f067f66f0121d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da4063da_a3e0b32f",
+        "filename": "src/io/ioutil/ioutil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-06-03T21:49:24Z",
+      "side": 1,
+      "message": "Sorry, no, it means replace the \u0026 with the text on the left, so all it says is to put a comma after \"writing\".",
+      "parentUuid": "7fc276c7_0adec5ba",
+      "revId": "64cdaea511e4e0accc597ededd7f067f66f0121d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
