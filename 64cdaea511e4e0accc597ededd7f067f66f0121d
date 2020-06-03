@@ -39,6 +39,24 @@
       "revId": "64cdaea511e4e0accc597ededd7f067f66f0121d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fc276c7_0adec5ba",
+        "filename": "src/io/ioutil/ioutil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 34989
+      },
+      "writtenOn": "2020-06-03T15:49:34Z",
+      "side": 1,
+      "message": "Hi Rob,\nI am truly very sorry that I just realized that I missed this.\nIf that it would be okay with you, I would like to ask since I am not familiar with the syntax that you mentioned at the previous comment, which I assume it is a \"sed\" command. \n\nDoes it mean that I should just replace \"writing\" with \"\u0026,\", meaning from the original sentence of \"otherwise WriteFile truncates it before writing without changing permissions.\" to \"otherwise WriteFile truncates it before \u0026, without changing permissions.\"? Because I find it a bit odd.\n\nThank you very much in advance. Hope you have a nice day ahead! 😊",
+      "parentUuid": "b63a4392_b5369020",
+      "revId": "64cdaea511e4e0accc597ededd7f067f66f0121d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
