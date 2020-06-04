@@ -45,6 +45,29 @@
       "revId": "20eec2fed3a1233c04552cf705bc807f1d542641",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b596f31d_d4e7cbea",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-04T01:40:28Z",
+      "side": 1,
+      "message": "Optionally, consider alternative phrasing \"now preserve\", since that puts more focus on the new behavior rather than the change.",
+      "range": {
+        "startLine": 374,
+        "startChar": 37,
+        "endLine": 374,
+        "endChar": 53
+      },
+      "revId": "20eec2fed3a1233c04552cf705bc807f1d542641",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
