@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60aaecd5_894e7431",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-06-04T09:10:53Z",
+      "side": 1,
+      "message": "Please change line 7 to read\n\nio/ioutil: update  WriteFile to clarify it does not change permissions if the file exists\n\n\nand delete line 9\n\nThe existing line 7 is not complete.",
+      "revId": "37fefc9f952be133fddee9881fdc4ae3b092928f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
