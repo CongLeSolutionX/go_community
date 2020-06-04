@@ -4,8 +4,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Check that batch files are maintained as CRLF files (consistent behaviour
-// on all operating systems). See https://github.com/golang/go/issues/37791
+// Check that batch files are maintained as CRLF files (consistent
+// behavior on all operating systems). See golang.org/issue/37791.
 
 package main
 
@@ -23,7 +23,7 @@ func main() {
 	for _, bat := range batches {
 		body, _ := ioutil.ReadFile(bat)
 		if !bytes.Contains(body, []byte("\r\n")) {
-			fmt.Printf("Windows batch file %s does not contain CRLF line termination.\nTry running git checkout src/*.bat to fix this.\n", bat)
+			fmt.Printf("Windows batch file %s does not contain CRLF line termination.\n", bat)
 			os.Exit(1)
 		}
 	}
