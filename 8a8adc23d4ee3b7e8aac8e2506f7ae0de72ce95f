@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c96649c5_fe8437cc",
+        "filename": "src/cmd/internal/moddeps/moddeps_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-04T21:55:16Z",
+      "side": 1,
+      "message": "My understanding of the behavior implemented here is that if a regular file (not a directory) named \"vendor\" or \"testdata\" is encountered by Walk, this will cause it to skip that file and all other subdirectories that have not been visited yet.\n\nIs that behavior okay for the purposes of this function, or should the check above be modified to also check that info.IsDir() reports positively before returning SkipDir?\n\nThe relevant part from filepath.Walk documentation is:\n\n\u003e If the function returns SkipDir when invoked on a non-directory file, Walk skips the remaining files in the containing directory.",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "8a8adc23d4ee3b7e8aac8e2506f7ae0de72ce95f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
