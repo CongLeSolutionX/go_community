@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c12e1a0_611ba515",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-06-04T22:44:33Z",
+      "side": 1,
+      "message": "Not sure we need to mention this explicitly, as these are all the architectures we support disassembling. Also, there are two trailing periods.",
+      "range": {
+        "startLine": 313,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 26
+      },
+      "revId": "57f68dfe3c11c07cbc3d06283c04f70b4a2c588b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
