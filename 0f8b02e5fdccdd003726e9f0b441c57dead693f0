@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b765175_075e6d49",
+        "filename": "test/winbatch.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-04T20:51:20Z",
+      "side": 1,
+      "message": "(optional)\n\nYou might also want to skip GOROOT/pkg, which contains generated files and can be quite large.\n\n(See https://github.com/golang/go/blob/fb86c70bdad8aaa9756d6740885714c5aeff5989/src/cmd/internal/moddeps/moddeps_test.go#L42 for a function that does a similar walk of GOROOT.)",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 83
+      },
+      "revId": "0f8b02e5fdccdd003726e9f0b441c57dead693f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
