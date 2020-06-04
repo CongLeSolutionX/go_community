@@ -16,6 +16,24 @@
       "revId": "37fefc9f952be133fddee9881fdc4ae3b092928f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a64db21_f9690c3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34989
+      },
+      "writtenOn": "2020-06-04T09:38:53Z",
+      "side": 1,
+      "message": "Very sorry since it is my first time using Gerrit. Thank you so much for being really patient to first-timers, Rob 😊. People like you and other maintainers with kind gestures like this is what makes many people including me really love Go community.\n\nHopefully that should be good by now.\n\nSorry if this might not be the place to say it but I really love your talk on \"Concurrency Is Not Parallelism\".",
+      "parentUuid": "60aaecd5_894e7431",
+      "revId": "37fefc9f952be133fddee9881fdc4ae3b092928f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
