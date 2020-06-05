@@ -130,6 +130,7 @@ func (ts *testScript) setup() {
 		"GOPROXY=" + proxyURL,
 		"GOPRIVATE=",
 		"GOROOT=" + testGOROOT,
+		"GOROOT_FINAL=" + os.Getenv("GOROOT_FINAL"),
 		"TESTGO_GOROOT=" + testGOROOT,
 		"GOSUMDB=" + testSumDBVerifierKey,
 		"GONOPROXY=",
