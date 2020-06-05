@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a05ffe41_c3832a95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-05T23:36:25Z",
+      "side": 1,
+      "message": "Nit: add a reference to #37419 for tracking purposes.",
+      "revId": "79775c8070cd676548f42ca65514f89fbc20a760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4995fbd_40d465d7",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -16,6 +33,46 @@
       "revId": "79775c8070cd676548f42ca65514f89fbc20a760",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "391cbd18_4a10f4ef",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-05T23:36:25Z",
+      "side": 1,
+      "message": "Unless you think it would be better to keep it as is, s/UNIX/Unix/ since we\u0027ve used \"Unix systems\" in the past (e.g., two other instances in this file below, and in 1.14, 1.13, 1.12 release notes).",
+      "range": {
+        "startLine": 407,
+        "startChar": 9,
+        "endLine": 407,
+        "endChar": 13
+      },
+      "revId": "79775c8070cd676548f42ca65514f89fbc20a760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63e75035_67bb680e",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-05T23:36:25Z",
+      "side": 1,
+      "message": "😊",
+      "revId": "79775c8070cd676548f42ca65514f89fbc20a760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
