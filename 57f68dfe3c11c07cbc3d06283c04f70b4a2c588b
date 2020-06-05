@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "9009ad4e_bee108db",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-06-05T05:04:32Z",
+      "side": 1,
+      "message": "\"now always enable\" To clarify that no OS is excempt currently?",
+      "range": {
+        "startLine": 59,
+        "startChar": 54,
+        "endLine": 60,
+        "endChar": 8
+      },
+      "revId": "57f68dfe3c11c07cbc3d06283c04f70b4a2c588b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c95b8d_1a90d62e",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-06-05T05:04:32Z",
+      "side": 1,
+      "message": "Would be nice to have a bit more detail: \"aligns functions on 32 byte boundaries\"",
+      "range": {
+        "startLine": 253,
+        "startChar": 39,
+        "endLine": 253,
+        "endChar": 56
+      },
+      "revId": "57f68dfe3c11c07cbc3d06283c04f70b4a2c588b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c12e1a0_611ba515",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
