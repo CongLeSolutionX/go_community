@@ -2,6 +2,9 @@
 
 [!race] skip
 
+env GOROOT
+env GOROOT_FINAL
+
 [!darwin] ! stale cmd/cgo  # The darwin builders are spuriously stale; see #33598.
 
 env GOBIN=$WORK/bin

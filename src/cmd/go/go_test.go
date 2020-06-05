@@ -124,7 +124,6 @@ func TestMain(m *testing.M) {
 		fmt.Printf("SKIP\n")
 		return
 	}
-	os.Unsetenv("GOROOT_FINAL")
 
 	flag.Parse()
 
@@ -179,7 +178,9 @@ func TestMain(m *testing.M) {
 			return strings.TrimSpace(string(out))
 		}
 		testGOROOT = goEnv("GOROOT")
+		fmt.Fprintln(os.Stderr, "GOROOT", testGOROOT)
 		os.Setenv("TESTGO_GOROOT", testGOROOT)
+		os.Setenv("GOROOT", testGOROOT)
 
 		// The whole GOROOT/pkg tree was installed using the GOHOSTOS/GOHOSTARCH
 		// toolchain (installed in GOROOT/pkg/tool/GOHOSTOS_GOHOSTARCH).
@@ -216,8 +217,10 @@ func TestMain(m *testing.M) {
 		}
 		testCC = strings.TrimSpace(string(out))
 
-		if out, err := exec.Command(testGo, "env", "CGO_ENABLED").Output(); err != nil {
-			fmt.Fprintf(os.Stderr, "running testgo failed: %v\n", err)
+		cmd := exec.Command(testGo, "env", "CGO_ENABLED")
+		cmd.Stderr = new(strings.Builder)
+		if out, err := cmd.Output(); err != nil {
+			fmt.Fprintf(os.Stderr, "running testgo failed: %v\n%s", err, cmd.Stderr)
 			canRun = false
 		} else {
 			canCgo, err = strconv.ParseBool(strings.TrimSpace(string(out)))
