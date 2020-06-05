@@ -435,7 +435,10 @@ TODO
 <dl id="encoding/xml"><dt><a href="/pkg/encoding/xml/">encoding/xml</a></dt>
   <dd>
     <p><!-- CL 203417 -->
-      TODO: <a href="https://golang.org/cl/203417">https://golang.org/cl/203417</a>: fix reserved namespace check to be case-insensitive
+      The encoder has always taken care to avoid using namespace prefixes beginning with
+      `xml`.
+      Now, following the spec, that check is case-insensitive, so that prefixes beginning with
+      `XML`, `XmL`, and so on are also avoided.
     </p>
   </dd>
 </dl><!-- encoding/xml -->
