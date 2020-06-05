@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "83706dab_61086737",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-05T15:28:46Z",
+      "side": 1,
+      "message": "Never mind, it\u0027s being done in CL 236599.",
+      "parentUuid": "cb692ed1_df862e74",
+      "range": {
+        "startLine": 305,
+        "startChar": 43,
+        "endLine": 305,
+        "endChar": 44
+      },
+      "revId": "41f93513f11b103bc14baf3aea244a97dcdf3072",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa5cc14a_e2fccea1",
         "filename": "doc/go1.15.html",
         "patchSetId": 3
