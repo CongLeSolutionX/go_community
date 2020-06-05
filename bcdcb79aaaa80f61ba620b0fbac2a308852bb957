@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e9a4838a_0e1272dc",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-06-05T06:50:38Z",
+      "side": 1,
+      "message": "According to the A57, which is the only machine supporting A32 instructions I have access to, software optimization guide, 32-bit MULA/MULS takes one more cycle than MUL, and considering MULA/MULS may need one more register sometimes, my gut feelings say MUL+CMN/CMP would be a little faster, generally.\n\nRegarding to the combination jumps, I did some benchmarking similar to what we\u0027ve done for 64bit, the data is kinda interesting:\n\n                            w.o. opt                  w. opt\nCondRewrite/SoloJump32-8  15.300000ns +- 0%        15.500000ns +- 0%\nCondRewrite/CombJump32-8  15.300000ns +- 0%        15.000000ns +- 0%\n\nCombJump witnesses ~2% improvement even all branches of it have two \u0027B.cond\u0027 instructions, while SoloJump gets a little regression.\n\nWe may have a reasonable interpret to CombJump\u0027s data considering the add/sub and mla/mls being optimized out offset the potential overhead of the consecutive jumps, but indeed I have no clue to the regression of SoloJump, the optimized version has about 4% less instructions than the non-optimized version, and they both have only one jump instruction for each if-condition. Since it\u0027s from one dedicated machine whose benchmarking history over Go already showed some variance, I chose to ignore it.\n\ncase is available in https://play.golang.org/p/kYCA7fAJOVo",
+      "parentUuid": "3ddcbb79_3d2fe33b",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fad61a1_0781e317",
         "filename": "src/cmd/compile/internal/ssa/rewriteCond_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-06-05T05:36:44Z",
       "side": 1,
       "message": "This isn\u0027t the right use of GOARM. For one, this variable isn\u0027t supposed to be modified. But more importantly, it only affects the compiler. This is setting GOARM at test time, which won\u0027t affect the already-compiled test at all. (You can tell because it is imported from cmd/... - that code only lives in the compiler/linker/..., not in the test executable.)\n\nWhy do we need this at all? TestCondRewrite already runs this test unconditionally. Do we not have GOARM\u003d7 builders?",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73ab8e6a_f80ee6ab",
+        "filename": "src/cmd/compile/internal/ssa/rewriteCond_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-06-05T06:50:38Z",
+      "side": 1,
+      "message": "Thanks Keith, I overlooked the difference between compile-time and test-time.\n\n\u003e\u003e Why do we need this at all? TestCondRewrite already runs this test unconditionally.\n\nThe MULS instruction is generated only when GOARM\u003d7 (ARM7.rules, around #1296), without it the rewriting rules having MULS never get a chance to be tested.\n\n\u003e\u003e Do we not have GOARM\u003d7 builders?\nI once searched on the dashboard page and seems to me there is no GOARM\u003d7 builders. \n\nPerhaps we can drop this test? Per my local testing, code of testMSubVar32 does covers the rewritings relevant to MULS with GOARM\u003d7 and demonstrate the original rewritings deliver wrong branching on overflow.",
+      "parentUuid": "7fad61a1_0781e317",
       "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
