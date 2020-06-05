@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4995fbd_40d465d7",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-06-05T21:04:57Z",
+      "side": 1,
+      "message": "Looks like you\u0027ve swapped 227098 and 217298 below.",
+      "revId": "79775c8070cd676548f42ca65514f89fbc20a760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
