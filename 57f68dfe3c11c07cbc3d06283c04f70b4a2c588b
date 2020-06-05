@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "82804fd4_9d1c667e",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-06-05T13:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9009ad4e_bee108db",
+      "range": {
+        "startLine": 59,
+        "startChar": 54,
+        "endLine": 60,
+        "endChar": 8
+      },
+      "revId": "57f68dfe3c11c07cbc3d06283c04f70b4a2c588b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64c95b8d_1a90d62e",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "165c500f_64a660b7",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-06-05T13:27:27Z",
+      "side": 1,
+      "message": "Done. I also rewrote this to put the erratum mention at the beginning of the sentence, since that\u0027s the important user-facing effect of this.",
+      "parentUuid": "64c95b8d_1a90d62e",
+      "range": {
+        "startLine": 253,
+        "startChar": 39,
+        "endLine": 253,
+        "endChar": 56
+      },
+      "revId": "57f68dfe3c11c07cbc3d06283c04f70b4a2c588b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c12e1a0_611ba515",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "57f68dfe3c11c07cbc3d06283c04f70b4a2c588b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c28e8a1b_85ded847",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-06-05T13:27:27Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "1c12e1a0_611ba515",
+      "range": {
+        "startLine": 313,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 26
+      },
+      "revId": "57f68dfe3c11c07cbc3d06283c04f70b4a2c588b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
