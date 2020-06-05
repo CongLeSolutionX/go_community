@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ddcbb79_3d2fe33b",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-05T05:36:44Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me whether it is better to do:\n  t :\u003d x*y+a ;; with MULA\n  t \u003e 0      ;; with CMPconst [0]\nor\n  t :\u003d x*y.  ;; with MUL\n  t+a \u003e 0    ;; with CMN\n\nI guess the old rule picked the latter, so it\u0027s fine to keep it. Just curious whether you think it\u0027s actually the right strategy. (The latter could require 2 branch instructions. The former needs MULA, which might be slower because it needs to read 3 registers.)",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fad61a1_0781e317",
+        "filename": "src/cmd/compile/internal/ssa/rewriteCond_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-05T05:36:44Z",
+      "side": 1,
+      "message": "This isn\u0027t the right use of GOARM. For one, this variable isn\u0027t supposed to be modified. But more importantly, it only affects the compiler. This is setting GOARM at test time, which won\u0027t affect the already-compiled test at all. (You can tell because it is imported from cmd/... - that code only lives in the compiler/linker/..., not in the test executable.)\n\nWhy do we need this at all? TestCondRewrite already runs this test unconditionally. Do we not have GOARM\u003d7 builders?",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
