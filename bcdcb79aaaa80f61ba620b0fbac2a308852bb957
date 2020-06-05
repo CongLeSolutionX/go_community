@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d111f180_a434ac14",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-05T07:25:48Z",
+      "side": 1,
+      "message": "Ok, thanks.",
+      "parentUuid": "e9a4838a_0e1272dc",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fad61a1_0781e317",
         "filename": "src/cmd/compile/internal/ssa/rewriteCond_test.go",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Thanks Keith, I overlooked the difference between compile-time and test-time.\n\n\u003e\u003e Why do we need this at all? TestCondRewrite already runs this test unconditionally.\n\nThe MULS instruction is generated only when GOARM\u003d7 (ARM7.rules, around #1296), without it the rewriting rules having MULS never get a chance to be tested.\n\n\u003e\u003e Do we not have GOARM\u003d7 builders?\nI once searched on the dashboard page and seems to me there is no GOARM\u003d7 builders. \n\nPerhaps we can drop this test? Per my local testing, code of testMSubVar32 does covers the rewritings relevant to MULS with GOARM\u003d7 and demonstrate the original rewritings deliver wrong branching on overflow.",
       "parentUuid": "7fad61a1_0781e317",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a19a2c3a_3fba5995",
+        "filename": "src/cmd/compile/internal/ssa/rewriteCond_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-05T07:25:48Z",
+      "side": 1,
+      "message": "Sure, go ahead and drop it. I think this is covered by TestCondRewrite sufficiently. If we don\u0027t have a builder, then it is on the maintainer of that port to ensure it keeps working, at the very least to try all.bash on every release candidate.",
+      "parentUuid": "73ab8e6a_f80ee6ab",
       "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
