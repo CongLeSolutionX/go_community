@@ -105,6 +105,24 @@
       "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ddf2740_7ad40ee8",
+        "filename": "src/cmd/compile/internal/ssa/rewriteCond_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-06-05T15:09:54Z",
+      "side": 1,
+      "message": "We do have GOARM\u003d7 builders. In fact, most of ARM builders are GOARM\u003d7.",
+      "parentUuid": "a19a2c3a_3fba5995",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
