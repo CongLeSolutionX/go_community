@@ -315,7 +315,7 @@ func testGoLib(t *testing.T, iscgo bool) {
 		}
 		for i := range syms {
 			sym := &syms[i]
-			if sym.Type == typ && matchSymName(name, sym.Name) && sym.CSym == csym {
+			if sym.Type == typ && sym.Name == name && sym.CSym == csym {
 				if sym.Found {
 					t.Fatalf("duplicate symbol %s %s", sym.Type, sym.Name)
 				}
@@ -334,6 +334,7 @@ func TestGoLib(t *testing.T) {
 	testGoLib(t, false)
 }
 
+<<<<<<< HEAD   (78b96d [dev.link] cmd/link: reuse slice memory in deadcode pass)
 // Check that a symbol has a given name, accepting both
 // with (for packaged symbols) and without index (for
 // non-package symbols).
@@ -342,6 +343,8 @@ func matchSymName(symname, want string) bool {
 		strings.HasPrefix(symname, want+"#")
 }
 
+=======
+>>>>>>> BRANCH (d282b0 doc/go1.15: add release notes for regexp)
 const testexec = `
 package main
 

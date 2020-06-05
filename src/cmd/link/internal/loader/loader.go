@@ -1911,8 +1911,13 @@ func (l *Loader) FuncInfo(i Sym) FuncInfo {
 // Does not add non-package symbols yet, which will be done in LoadNonpkgSyms.
 // Does not read symbol data.
 // Returns the fingerprint of the object.
+<<<<<<< HEAD   (78b96d [dev.link] cmd/link: reuse slice memory in deadcode pass)
 func (l *Loader) Preload(localSymVersion int, f *bio.Reader, lib *sym.Library, unit *sym.CompilationUnit, length int64) goobj2.FingerprintType {
 	roObject, readonly, err := f.Slice(uint64(length))
+=======
+func (l *Loader) Preload(syms *sym.Symbols, f *bio.Reader, lib *sym.Library, unit *sym.CompilationUnit, length int64) goobj2.FingerprintType {
+	roObject, readonly, err := f.Slice(uint64(length)) // TODO: no need to map blocks that are for tools only (e.g. RefName)
+>>>>>>> BRANCH (d282b0 doc/go1.15: add release notes for regexp)
 	if err != nil {
 		log.Fatal("cannot read object file:", err)
 	}
