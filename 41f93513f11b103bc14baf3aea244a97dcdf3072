@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "601109cb_84205056",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-06-05T16:32:41Z",
+      "side": 1,
+      "message": "Nit: \"rejects\" is fairly vague.   Is this a fatal error or a warning?",
+      "revId": "41f93513f11b103bc14baf3aea244a97dcdf3072",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e6abb7d_a22cf36a",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-06-05T16:32:41Z",
+      "side": 1,
+      "message": "Nit:  \"Such directives were broken before...\" - strange phrasing.  Maybe change to:\n\nSuch mis-applied directives were ignored before, but no warning was given by the compiler.",
+      "revId": "41f93513f11b103bc14baf3aea244a97dcdf3072",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb692ed1_df862e74",
         "filename": "doc/go1.15.html",
         "patchSetId": 3
