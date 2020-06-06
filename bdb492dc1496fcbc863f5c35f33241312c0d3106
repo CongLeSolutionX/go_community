@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d2d9220_ae8f0ee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-06-06T08:55:28Z",
+      "side": 1,
+      "message": "This is how it looks in Windows cmd.exe window\n\n...now uses Git.\u003cC2\u003e\u003cB9\u003e Reducing its re...\n\nif you care.",
+      "range": {
+        "startLine": 29,
+        "startChar": 17,
+        "endLine": 29,
+        "endChar": 18
+      },
+      "revId": "bdb492dc1496fcbc863f5c35f33241312c0d3106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
