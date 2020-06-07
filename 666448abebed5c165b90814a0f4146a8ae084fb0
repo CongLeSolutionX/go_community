@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4878639a_4558239c",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-06-07T20:22:21Z",
+      "side": 1,
+      "message": "this could clarify what \"small\" means.",
+      "range": {
+        "startLine": 247,
+        "startChar": 15,
+        "endLine": 247,
+        "endChar": 34
+      },
+      "revId": "666448abebed5c165b90814a0f4146a8ae084fb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
