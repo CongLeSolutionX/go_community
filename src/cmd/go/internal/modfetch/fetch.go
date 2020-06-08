@@ -375,12 +375,20 @@ type modSum struct {
 var goSum struct {
 	mu        sync.Mutex
 	m         map[module.Version][]string // content of go.sum file (+ go.modverify if present)
-	checked   map[modSum]bool             // sums actually checked during execution
-	dirty     bool                        // whether we added any new sums to m
+	status    map[modSum]modSumStatus     // state of sums in m
 	overwrite bool                        // if true, overwrite go.sum without incorporating its contents
 	enabled   bool                        // whether to use go.sum at all
 	modverify string                      // path to go.modverify, to be deleted
 }
+
+type modSumStatus int8
+
+const (
+	notCheckedSumStatus modSumStatus = iota
+	checkedSumStatus
+	addedSumStatus
+	trimmedSumStatus
+)
 
 // initGoSum initializes the go.sum data.
 // The boolean it returns reports whether the
@@ -395,7 +403,7 @@ func initGoSum() (bool, error) {
 	}
 
 	goSum.m = make(map[module.Version][]string)
-	goSum.checked = make(map[modSum]bool)
+	goSum.status = make(map[modSum]modSumStatus)
 	data, err := lockedfile.Read(GoSumFile)
 	if err != nil && !os.IsNotExist(err) {
 		return false, err
@@ -518,6 +526,9 @@ func checkModSum(mod module.Version, h string) error {
 		return err
 	}
 	done := inited && haveModSumLocked(mod, h)
+	if inited && goSum.status[modSum{mod, h}] == notCheckedSumStatus {
+		goSum.status[modSum{mod, h}] = checkedSumStatus
+	}
 	goSum.mu.Unlock()
 
 	if done {
@@ -537,6 +548,7 @@ func checkModSum(mod module.Version, h string) error {
 	if inited {
 		goSum.mu.Lock()
 		addModSumLocked(mod, h)
+		goSum.status[modSum{mod, h}] = addedSumStatus
 		goSum.mu.Unlock()
 	}
 	return nil
@@ -546,7 +558,6 @@ func checkModSum(mod module.Version, h string) error {
 // If it finds a conflicting pair instead, it calls base.Fatalf.
 // goSum.mu must be locked.
 func haveModSumLocked(mod module.Version, h string) bool {
-	goSum.checked[modSum{mod, h}] = true
 	for _, vh := range goSum.m[mod] {
 		if h == vh {
 			return true
@@ -568,7 +579,6 @@ func addModSumLocked(mod module.Version, h string) {
 		fmt.Fprintf(os.Stderr, "warning: verifying %s@%s: unknown hashes in go.sum: %v; adding %v"+hashVersionMismatch, mod.Path, mod.Version, strings.Join(goSum.m[mod], ", "), h)
 	}
 	goSum.m[mod] = append(goSum.m[mod], h)
-	goSum.dirty = true
 }
 
 // checkSumDB checks the mod, h pair against the Go checksum database.
@@ -612,18 +622,35 @@ func Sum(mod module.Version) string {
 }
 
 // WriteGoSum writes the go.sum file if it needs to be updated.
-func WriteGoSum() {
+//
+// keep is used to check whether a newly added sum should be saved in go.sum.
+// It should have entries for both module content sums and go.mod sums
+// (version ends with "/go.mod"). Existing sums will be preserved unless they
+// have been marked for deletion with TrimGoSum.
+func WriteGoSum(keep map[module.Version]bool) {
 	goSum.mu.Lock()
 	defer goSum.mu.Unlock()
 
+	// If we haven't read the go.sum file yet, don't bother writing it: at best,
+	// we could rename the go.modverify file if it isn't empty, but we haven't
+	// needed to touch it so far — how important could it be?
 	if !goSum.enabled {
-		// If we haven't read the go.sum file yet, don't bother writing it: at best,
-		// we could rename the go.modverify file if it isn't empty, but we haven't
-		// needed to touch it so far — how important could it be?
 		return
 	}
-	if !goSum.dirty {
-		// Don't bother opening the go.sum file if we don't have anything to add.
+
+	// Check whether we need to make any changes. If not, just return.
+	dirty := false
+Outer:
+	for m, hs := range goSum.m {
+		for _, h := range hs {
+			st := goSum.status[modSum{m, h}]
+			if st == addedSumStatus && keep[m] || st == trimmedSumStatus {
+				dirty = true
+				break Outer
+			}
+		}
+	}
+	if !dirty {
 		return
 	}
 	if cfg.BuildMod == "readonly" {
@@ -644,9 +671,10 @@ func WriteGoSum() {
 			// them without good reason.
 			goSum.m = make(map[module.Version][]string, len(goSum.m))
 			readGoSum(goSum.m, GoSumFile, data)
-			for ms := range goSum.checked {
-				addModSumLocked(ms.mod, ms.sum)
-				goSum.dirty = true
+			for ms, st := range goSum.status {
+				if st == checkedSumStatus || st == addedSumStatus {
+					addModSumLocked(ms.mod, ms.sum)
+				}
 			}
 		}
 
@@ -661,7 +689,10 @@ func WriteGoSum() {
 			list := goSum.m[m]
 			sort.Strings(list)
 			for _, h := range list {
-				fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
+				st := goSum.status[modSum{m, h}]
+				if st != trimmedSumStatus && (st != addedSumStatus || keep[m]) {
+					fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
+				}
 			}
 		}
 		return buf.Bytes(), nil
@@ -671,8 +702,7 @@ func WriteGoSum() {
 		base.Fatalf("go: updating go.sum: %v", err)
 	}
 
-	goSum.checked = make(map[modSum]bool)
-	goSum.dirty = false
+	goSum.status = make(map[modSum]modSumStatus)
 	goSum.overwrite = false
 
 	if goSum.modverify != "" {
@@ -680,7 +710,12 @@ func WriteGoSum() {
 	}
 }
 
-// TrimGoSum trims go.sum to contain only the modules for which keep[m] is true.
+// TrimGoSum trims go.sum to contain only the modules needed for reproducible
+// builds.
+//
+// keep is used to check whether a sum should be retained in go.mod. It should
+// have entries for both module content sums and go.mod sums (version ends
+// with "/go.mod").
 func TrimGoSum(keep map[module.Version]bool) {
 	goSum.mu.Lock()
 	defer goSum.mu.Unlock()
@@ -692,13 +727,11 @@ func TrimGoSum(keep map[module.Version]bool) {
 		return
 	}
 
-	for m := range goSum.m {
-		// If we're keeping x@v we also keep x@v/go.mod.
-		// Map x@v/go.mod back to x@v for the keep lookup.
-		noGoMod := module.Version{Path: m.Path, Version: strings.TrimSuffix(m.Version, "/go.mod")}
-		if !keep[m] && !keep[noGoMod] {
-			delete(goSum.m, m)
-			goSum.dirty = true
+	for m, hs := range goSum.m {
+		if !keep[m] {
+			for _, h := range hs {
+				goSum.status[modSum{m, h}] = trimmedSumStatus
+			}
 			goSum.overwrite = true
 		}
 	}
