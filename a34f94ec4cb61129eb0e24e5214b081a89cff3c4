@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf3433a_af73e8cd",
+        "filename": "src/cmd/addr2line/addr2line_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-08T20:40:40Z",
+      "side": 1,
+      "message": "s/88/96/",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 18
+      },
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98068a4c_538b026f",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-08T20:40:40Z",
+      "side": 1,
+      "message": "This is a question, I don\u0027t think changes are needed.\n\nI wanted to ask if there was a reason you opted to set cmd.Stderr explicitly, instead of extracting the error from https://pkg.go.dev/os/exec#ExitError.Stderr instead. Was it to guarantee the entire stderr would be printed, even if it\u0027s large? (If no specific reason, that\u0027s fine too, I think both approaches are viable.)",
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdaa03ca_1c9feddb",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-08T20:40:40Z",
+      "side": 1,
+      "message": "I understand cmd/go tests that do not provide a custom GOROOT_FINAL value themselves will be influenced by the external GOROOT_FINAL env var (in the same way they\u0027re influenced by the external PATH env var) regardless of whether this line is added or not.\n\nIs the motivation to add it here just so that -v or -testwork flags include the value of GOROOT_FINAL that was used, and it becomes easier to see the complete environment for debugging needs?",
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a8540b9_37053529",
+        "filename": "src/cmd/objdump/objdump_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-08T20:40:40Z",
+      "side": 1,
+      "message": "Trivial nitpick: this sentence lacks a period, which is not the same as the sentence in the comment below.",
+      "range": {
+        "startLine": 141,
+        "startChar": 74,
+        "endLine": 141,
+        "endChar": 75
+      },
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

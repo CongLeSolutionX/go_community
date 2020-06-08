@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d2188bb_a392ca69",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-08T20:40:40Z",
+      "side": 0,
+      "message": "I think this is great because it simplifies the context during testing.\n\nPreviously, GOROOT_FINAL had one meaning/effect normally (as documented) and a completely different meaning/effect during tests run by dist test.\n\nNow, only the tests that need to concern with GOROOT_FINAL do so (where it\u0027s more clear why from the context of the test), instead of each test executed by dist test potentially implicitly depending on GOROOT_FINAL being unset and it being unclear if that\u0027s the case.\n\nIt\u0027s also great that it removes the need for GOROOT_FINAL_OLD env var. (One test was already relying on it!)\n\nI\u0027m happy to see it was feasible to pull off this change. Thank you Bryan. 👏\n\nI was torn on whether to suggest leaving some sort of comment here to reduce the chance of this being reverted, but I don\u0027t think such a comment could be effective, so I\u0027ll just hope it doesn\u0027t come back (without a really good reason).",
+      "revId": "8891b82332de4afa23f935b58263d08a3a5c6d95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
