@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d4825cf2_b116fe0c",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-06-08T12:10:07Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "1e8a43c8_131019be",
+      "range": {
+        "startLine": 367,
+        "startChar": 65,
+        "endLine": 367,
+        "endChar": 68
+      },
+      "revId": "fab596e48823b3be935d3c9ddfe0ef61f27af683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c053524_39a264cf",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -68,6 +92,30 @@
       "revId": "fab596e48823b3be935d3c9ddfe0ef61f27af683",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ee846a4_793ff998",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-06-08T12:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c053524_39a264cf",
+      "range": {
+        "startLine": 370,
+        "startChar": 12,
+        "endLine": 370,
+        "endChar": 21
+      },
+      "revId": "fab596e48823b3be935d3c9ddfe0ef61f27af683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "f8390699_15ac8bc6",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-06-08T12:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32f6f10e_6ca55a0f",
+      "range": {
+        "startLine": 371,
+        "startChar": 17,
+        "endLine": 371,
+        "endChar": 18
+      },
+      "revId": "fab596e48823b3be935d3c9ddfe0ef61f27af683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d22e7c9f_73f5b543",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -114,6 +186,30 @@
       "revId": "fab596e48823b3be935d3c9ddfe0ef61f27af683",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a56327f0_e91f12af",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-06-08T12:10:07Z",
+      "side": 1,
+      "message": "I thought about it, but I prefer not to. If we want to document what the limit is, or why it was chosen, that should go in the permanent godoc and not here. If anyone raises any issues or concerns, we can expand what the godoc says.",
+      "parentUuid": "d22e7c9f_73f5b543",
+      "range": {
+        "startLine": 373,
+        "startChar": 59,
+        "endLine": 373,
+        "endChar": 60
+      },
+      "revId": "fab596e48823b3be935d3c9ddfe0ef61f27af683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
