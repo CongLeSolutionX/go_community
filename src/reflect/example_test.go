@@ -166,3 +166,17 @@ func ExampleStructOf() {
 	// json:  {"height":0.4,"age":2}
 	// value: &{Height:1.5 Age:10}
 }
+
+func ExampleValue_FieldByIndex() {
+	t := struct {
+		FirstName string
+		LastName  string
+	}{
+		"John", "Doe",
+	}
+
+	s := reflect.ValueOf(t).FieldByIndex([]int{0})
+	fmt.Println(s)
+	// Output:
+	// John
+}
