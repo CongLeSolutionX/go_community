@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abe9de17_7e15ab15",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-06-08T20:21:28Z",
+      "side": 1,
+      "message": "connections",
+      "range": {
+        "startLine": 469,
+        "startChar": 29,
+        "endLine": 469,
+        "endChar": 39
+      },
+      "revId": "6b1df5c7b8ea8b51a469ffd210c1d085afa0d0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
