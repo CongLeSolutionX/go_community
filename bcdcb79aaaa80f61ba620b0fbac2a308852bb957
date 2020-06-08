@@ -123,6 +123,24 @@
       "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fcd0be0_a7fcf803",
+        "filename": "src/cmd/compile/internal/ssa/rewriteCond_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-06-08T04:44:05Z",
+      "side": 1,
+      "message": "Thanks Cherry, I removed the test.",
+      "parentUuid": "4ddf2740_7ad40ee8",
+      "revId": "bcdcb79aaaa80f61ba620b0fbac2a308852bb957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
