@@ -16,6 +16,24 @@
       "revId": "8891b82332de4afa23f935b58263d08a3a5c6d95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a3c9a40_569e0fd2",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-08T21:13:46Z",
+      "side": 0,
+      "message": "\u003e I was torn on whether to suggest leaving some sort of comment here to reduce the chance of this being reverted, but I don\u0027t think such a comment could be effective, so I\u0027ll just hope it doesn\u0027t come back (without a really good reason).\n\nAgreed. Someone would have to be pretty motivated to bring this back (other than by a clean revert), and that would break at least one test in cmd/go (so it would at least explain why we\u0027re no longer doing that when they go to run the tests).",
+      "parentUuid": "7d2188bb_a392ca69",
+      "revId": "8891b82332de4afa23f935b58263d08a3a5c6d95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

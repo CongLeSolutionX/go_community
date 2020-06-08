@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8bc9d5a0_628a4609",
+        "filename": "src/cmd/addr2line/addr2line_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-08T21:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bf3433a_af73e8cd",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 18
+      },
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98068a4c_538b026f",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa6dd0b3_1365aab8",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-08T21:13:46Z",
+      "side": 1,
+      "message": "I tend to prefer setting cmd.Stderr rather than checking an ExitError.Stderr mainly because the code ends up more concise.\n\n(I can pass `cmd.Stderr` directly to a `fmt.Fprintf` or `t.Logf` just like any other `fmt.Stringer`, but unpacking the `Stderr` field of a `*Exec.ExitError` requires an extra type-assertion and conditional. That can allow for more precise error messages, but in my experience it\u0027s generally not worth the more complicated code.)",
+      "parentUuid": "98068a4c_538b026f",
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1e827937_d84b30ee",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-08T21:13:46Z",
+      "side": 1,
+      "message": "\u003e I understand cmd/go tests that do not provide a custom GOROOT_FINAL value themselves will be influenced by the external GOROOT_FINAL env var (in the same way they\u0027re influenced by the external PATH env var) regardless of whether this line is added or not.\n\nNot precisely. The environment for the test process includes only the subset of variables that are explicitly set (either here or in the extraEnvKeys loop below).\n\n\u003e Is the motivation to add it here just so that -v or -testwork flags include the value of GOROOT_FINAL that was used, and it becomes easier to see the complete environment for debugging needs?\n\nThe motivation is to ensure that the `stale` built-in condition is consistent with both the user\u0027s idea of staleness and the behavior of the `go` command within the script.\n(This is part of what fixes test_race_install_cgo.)\n\nI\u0027ve added a comment.",
+      "parentUuid": "cdaa03ca_1c9feddb",
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a8540b9_37053529",
         "filename": "src/cmd/objdump/objdump_test.go",
         "patchSetId": 3
@@ -70,6 +130,30 @@
       "writtenOn": "2020-06-08T20:40:40Z",
       "side": 1,
       "message": "Trivial nitpick: this sentence lacks a period, which is not the same as the sentence in the comment below.",
+      "range": {
+        "startLine": 141,
+        "startChar": 74,
+        "endLine": 141,
+        "endChar": 75
+      },
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eadb65e4_0490c5ab",
+        "filename": "src/cmd/objdump/objdump_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-08T21:13:46Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "3a8540b9_37053529",
       "range": {
         "startLine": 141,
         "startChar": 74,
