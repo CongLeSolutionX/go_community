@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1962d0d0_4c9925cc",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-06-08T13:23:28Z",
+      "side": 1,
+      "message": "yes, because we are branching to large if N \u003e 128 in the beginning this should be fine. I will document more once the code reached its final form. My Ice Lake CPU for testing arrived today so there will likely be some updates this week.",
+      "parentUuid": "d818dad5_2b3e2e05",
+      "revId": "d537ac57d8dcc34690338232a8d935c7b0119ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09fe97ec_6913dd51",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 4
@@ -30,6 +48,47 @@
       "writtenOn": "2020-06-08T08:34:01Z",
       "side": 1,
       "message": "Not sure if it makes a practical difference, but unless I am mistaking this CMP can be combined with the previous, so\n\n\tCMPQ CX, $3\n\tJB move_1or2\n\tJE move_3",
+      "revId": "d537ac57d8dcc34690338232a8d935c7b0119ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f38dc8_5b455030",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-06-08T13:23:28Z",
+      "side": 1,
+      "message": "Neat thanks. I have a few other bytes we can shave off in other places.",
+      "parentUuid": "09fe97ec_6913dd51",
+      "revId": "d537ac57d8dcc34690338232a8d935c7b0119ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e540ec7_f2bf1377",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-06-08T13:23:28Z",
+      "side": 1,
+      "message": "need to align dst for backwards copy loop too and test with movoa.",
+      "range": {
+        "startLine": 74,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 24
+      },
       "revId": "d537ac57d8dcc34690338232a8d935c7b0119ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
