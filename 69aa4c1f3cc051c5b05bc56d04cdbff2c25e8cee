@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c00255f1_50267ec6",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2862,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-08T17:46:38Z",
+      "side": 1,
+      "message": "Since this is a close-only channel, `chan struct{}` would be typical. (`chan bool` usually indicates a channel that receives explicit `true` tokens.)",
+      "range": {
+        "startLine": 2862,
+        "startChar": 26,
+        "endLine": 2862,
+        "endChar": 35
+      },
+      "revId": "69aa4c1f3cc051c5b05bc56d04cdbff2c25e8cee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71e73e41_8ad6ed9c",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-08T17:46:38Z",
+      "side": 1,
+      "message": "This looks racy — will the test deadlock if it checks `errCh` before the error from `setEvent(event2)` is sent?\n\nSince the calls here should never fail, perhaps it would be better to panic if they do.\nThat would shut down the benchmark more reliably, and could also make the source of any problem easier to diagnose (since it would show what the other corresponding goroutine is blocked on).",
+      "revId": "69aa4c1f3cc051c5b05bc56d04cdbff2c25e8cee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
