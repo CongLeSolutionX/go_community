@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d818dad5_2b3e2e05",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2020-06-08T08:34:01Z",
+      "side": 1,
+      "message": "Doesn\u0027t this and following compares assume that n \u003c math.MaxUint32?",
+      "revId": "d537ac57d8dcc34690338232a8d935c7b0119ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09fe97ec_6913dd51",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2020-06-08T08:34:01Z",
+      "side": 1,
+      "message": "Not sure if it makes a practical difference, but unless I am mistaking this CMP can be combined with the previous, so\n\n\tCMPQ CX, $3\n\tJB move_1or2\n\tJE move_3",
+      "revId": "d537ac57d8dcc34690338232a8d935c7b0119ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
