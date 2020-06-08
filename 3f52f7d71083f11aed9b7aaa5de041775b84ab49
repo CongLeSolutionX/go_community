@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a13a303_c6a9ebe7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-08T19:48:17Z",
+      "side": 1,
+      "message": "\"example\"",
+      "revId": "3f52f7d71083f11aed9b7aaa5de041775b84ab49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fcf0c20_78cf0da6",
+        "filename": "src/reflect/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-08T19:48:17Z",
+      "side": 1,
+      "message": "Since one of the main points of FieldByIndex is that it takes a slice, I think it would be helpful to show an example where we actually have to pass a sequence of values.\n\nIt would be even more useful if it were a case where FieldByName does not work, due to embedding two different fields with the same name.\n\nThanks.",
+      "revId": "3f52f7d71083f11aed9b7aaa5de041775b84ab49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
