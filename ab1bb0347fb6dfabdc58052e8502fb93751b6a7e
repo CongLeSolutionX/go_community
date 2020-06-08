@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e4bd9ef_a6c1600d",
+        "filename": "src/runtime/cgo_sigaction.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-08T19:39:55Z",
+      "side": 1,
+      "message": "Perhaps\n\nracewalk.go does not add sanitizer instrumentation to the runtime package, but....",
+      "revId": "ab1bb0347fb6dfabdc58052e8502fb93751b6a7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
