@@ -141,7 +141,6 @@ func ExampleStructOf() {
 			Tag:  `json:"age"`,
 		},
 	})
-
 	v := reflect.New(typ).Elem()
 	v.Field(0).SetFloat(0.4)
 	v.Field(1).SetInt(2)
@@ -165,4 +164,33 @@ func ExampleStructOf() {
 	// value: &{Height:0.4 Age:2}
 	// json:  {"height":0.4,"age":2}
 	// value: &{Height:1.5 Age:10}
+}
+
+func ExampleValue_FieldByIndex() {
+	// This example shows a use case that FindByName is not effective
+	// In these cases we have to address the field by its index
+	// You can address embedded struct hence the parameter is a slice
+
+	type user struct {
+		firstName string
+		lastName  string
+	}
+
+	type data struct {
+		user
+		firstName string
+		lastName  string
+	}
+
+	u := data{
+		user:      user{"Embedded John", "Embedded Doe"},
+		firstName: "John",
+		lastName:  "Doe",
+	}
+
+	s := reflect.ValueOf(u).FieldByIndex([]int{0, 1})
+	fmt.Println("embedded last name:", s)
+
+	// Output:
+	// embedded last name: Embedded Doe
 }
