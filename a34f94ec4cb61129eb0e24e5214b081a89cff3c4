@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "eb481b39_647a6c61",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-08T21:52:46Z",
+      "side": 1,
+      "message": "Ack, thanks.\n\n\u003e and conditional\n\nI see now that I missed the word \"usually\" in Output\u0027s \"Any returned error will _usually_ be of type *ExitError.\" documentation. That indeed makes its usage more verbose than I thought.",
+      "parentUuid": "fa6dd0b3_1365aab8",
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdaa03ca_1c9feddb",
         "filename": "src/cmd/go/script_test.go",
         "patchSetId": 3
@@ -113,6 +131,24 @@
       "side": 1,
       "message": "\u003e I understand cmd/go tests that do not provide a custom GOROOT_FINAL value themselves will be influenced by the external GOROOT_FINAL env var (in the same way they\u0027re influenced by the external PATH env var) regardless of whether this line is added or not.\n\nNot precisely. The environment for the test process includes only the subset of variables that are explicitly set (either here or in the extraEnvKeys loop below).\n\n\u003e Is the motivation to add it here just so that -v or -testwork flags include the value of GOROOT_FINAL that was used, and it becomes easier to see the complete environment for debugging needs?\n\nThe motivation is to ensure that the `stale` built-in condition is consistent with both the user\u0027s idea of staleness and the behavior of the `go` command within the script.\n(This is part of what fixes test_race_install_cgo.)\n\nI\u0027ve added a comment.",
       "parentUuid": "cdaa03ca_1c9feddb",
+      "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d3b05f1_0605b0e0",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-08T21:52:46Z",
+      "side": 1,
+      "message": "\u003e The environment for the test process includes only the subset of variables that are explicitly set (either here or in the extraEnvKeys loop below).\n\nI see, thanks. This makes sense.",
+      "parentUuid": "1e827937_d84b30ee",
       "revId": "a34f94ec4cb61129eb0e24e5214b081a89cff3c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
