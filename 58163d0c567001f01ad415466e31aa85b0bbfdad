@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7bcd9c48_c0b71e03",
+        "filename": "src/cmd/go/testdata/script/test_race_install_cgo.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-09T02:48:54Z",
+      "side": 1,
+      "message": "Yes, I removed these because I\u0027m done with debugging. (We can always re-add them to run TryBots for #33598, since that issue seems to be 100% reproducible at CL 223755.)",
+      "parentUuid": "9c7099a6_26ed98c7",
+      "revId": "58163d0c567001f01ad415466e31aa85b0bbfdad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94418dd3_9095a630",
         "filename": "src/cmd/objdump/objdump_test.go",
         "patchSetId": 4
