@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "e33282ed_ce68bf0c",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-09T16:23:09Z",
+      "side": 1,
+      "message": "I tried to add qualifications, but some of the changes affect both request and response parsing, and \"HTTP request and response parsing\" felt like a mouthful.",
+      "parentUuid": "bc32a078_ffdce242",
+      "range": {
+        "startLine": 647,
+        "startChar": 6,
+        "endLine": 647,
+        "endChar": 13
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d07403_6d52dde1",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-09T16:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f3cd3e_bd4d976f",
+      "range": {
+        "startLine": 647,
+        "startChar": 33,
+        "endLine": 647,
+        "endChar": 42
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "889a8852_cf6979dd",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42f613d6_d24dabef",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-09T16:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "889a8852_cf6979dd",
+      "range": {
+        "startLine": 648,
+        "startChar": 6,
+        "endLine": 648,
+        "endChar": 59
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8639fe5c_85a53a13",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-09T16:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32d5e493_1b7d7f8e",
+      "range": {
+        "startLine": 664,
+        "startChar": 33,
+        "endLine": 664,
+        "endChar": 48
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a288c760_b469c6b5",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f41c3926_e5993f19",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-09T16:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a288c760_b469c6b5",
+      "range": {
+        "startLine": 666,
+        "startChar": 9,
+        "endLine": 666,
+        "endChar": 18
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
