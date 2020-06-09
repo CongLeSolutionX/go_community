@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f3cd3e_bd4d976f",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-09T02:16:58Z",
+      "side": 1,
+      "message": "Optional.\n\nThis might be okay as is, but it might be easier to read if replaced with \"a hardening measure\".",
+      "range": {
+        "startLine": 647,
+        "startChar": 33,
+        "endLine": 647,
+        "endChar": 42
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc32a078_ffdce242",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-09T02:16:58Z",
+      "side": 1,
+      "message": "Optional.\n\nMaybe say \"HTTP request parsing ...\" to make it clear what parsing is stricter.",
+      "range": {
+        "startLine": 647,
+        "startChar": 6,
+        "endLine": 647,
+        "endChar": 13
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "889a8852_cf6979dd",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-09T02:16:58Z",
+      "side": 1,
+      "message": "Optional.\n\nMaybe rearrange/reword as:\n\n    non-ASCII white space is no longer trimmed like SP and HTAB\n\nI found the original wording hard to parse because \"other\" is connected to \"SP and HTAB\", yet they\u0027re far away. But I\u0027m not sure if the new version is much better; this is hard to communicate succinctly.",
+      "range": {
+        "startLine": 648,
+        "startChar": 6,
+        "endLine": 648,
+        "endChar": 59
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32d5e493_1b7d7f8e",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-09T02:16:58Z",
+      "side": 1,
+      "message": "Some searching shows that the name is spelled \"WebSocket\" with a capital \u0027S\u0027.\n\nAlso, this document avoids abbreviations, so s/e.g./for example, /.",
+      "range": {
+        "startLine": 664,
+        "startChar": 33,
+        "endLine": 664,
+        "endChar": 48
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a288c760_b469c6b5",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-09T02:16:58Z",
+      "side": 1,
+      "message": "s/cancelled/canceled/ per past spelling decisions (now documented at https://golang.org/wiki/Spelling).",
+      "range": {
+        "startLine": 666,
+        "startChar": 9,
+        "endLine": 666,
+        "endChar": 18
+      },
+      "revId": "2369af63a1d9c28b021a2e21d7701ebe21a47a92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
