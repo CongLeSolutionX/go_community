@@ -450,6 +450,7 @@ var passes = [...]pass{
 	{name: "addressing modes", fn: addressingModes, required: false},
 	{name: "lowered deadcode for cse", fn: deadcode}, // deadcode immediately before CSE avoids CSE making dead values live again
 	{name: "lowered cse", fn: cse},
+	{name: "tighten tuple selectors", fn: tightenTupleSelectors, required: true},
 	{name: "elim unread autos", fn: elimUnreadAutos},
 	{name: "lowered deadcode", fn: deadcode, required: true},
 	{name: "checkLower", fn: checkLower, required: true},
@@ -509,6 +510,8 @@ var passOrder = [...]constraint{
 	{"decompose builtin", "late opt"},
 	// decompose builtin is the last pass that may introduce new float ops, so run softfloat after it
 	{"decompose builtin", "softfloat"},
+	// tuple selectors must be tightened to generators and de-duplicated before scheduling
+	{"tighten tuple selectors", "schedule"},
 	// remove critical edges before phi tighten, so that phi args get better placement
 	{"critical", "phi tighten"},
 	// don't layout blocks until critical edges have been removed
