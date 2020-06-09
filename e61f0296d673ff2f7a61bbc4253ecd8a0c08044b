@@ -16,6 +16,24 @@
       "revId": "e61f0296d673ff2f7a61bbc4253ecd8a0c08044b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dc47c69_e2e15407",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-06-09T23:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd3c2afb_b6e9e065",
+      "revId": "e61f0296d673ff2f7a61bbc4253ecd8a0c08044b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
