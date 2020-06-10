@@ -83,6 +83,7 @@ var (
 	flagN           = flag.Bool("n", false, "dump symbol table")
 	FlagS           = flag.Bool("s", false, "disable symbol table")
 	FlagW           = flag.Bool("w", false, "disable DWARF generation")
+	FlagNewLT       = flag.Bool("newlt", true, "new LT scheme")
 	flag8           bool // use 64-bit addresses in symbol table
 	flagInterpreter = flag.String("I", "", "use `linker` as ELF dynamic linker")
 	FlagDebugTramp  = flag.Int("debugtramp", 0, "debug trampolines")

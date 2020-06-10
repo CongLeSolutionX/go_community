@@ -29,7 +29,7 @@ const (
 // linker.  Also, we use the file numbers from the full package (not just the
 // function in question) when generating the state machine. We do this so we
 // don't have to do a fixup on the indices when writing the full section.
-func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
+func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym, newLT bool) {
 	dctxt := dwCtxt{ctxt}
 
 	// The Pcfile table is used to generate the debug_lines section, and the file
@@ -42,6 +42,13 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 		} else {
 			panic(fmt.Sprintf("First time we've seen filename: %q", filename))
 		}
+	}
+
+	if newLT {
+		dctxt.AddUint8(lines, 0)
+		dwarf.Uleb128put(dctxt, lines, 1+int64(ctxt.Arch.PtrSize))
+		dctxt.AddUint8(lines, dwarf.DW_LNE_set_address)
+		dctxt.AddAddress(lines, s, 0)
 	}
 
 	// Set up the debug_lines state machine.

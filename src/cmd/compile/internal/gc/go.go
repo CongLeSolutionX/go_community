@@ -228,6 +228,8 @@ var flag_msan bool
 
 var flagDWARF bool
 
+var flagNEWLT bool
+
 // Whether we are adding any sort of code instrumentation, such as
 // when the race detector is enabled.
 var instrumenting bool
