@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0887776d_77c8cbf0",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 10205
+      },
+      "writtenOn": "2020-06-10T08:18:10Z",
+      "side": 1,
+      "message": "Done, sorry was just removing the unnecessary assignments and I thought it made it clearer too.",
+      "parentUuid": "1915ccad_a265531e",
+      "range": {
+        "startLine": 872,
+        "startChar": 0,
+        "endLine": 875,
+        "endChar": 22
+      },
+      "revId": "36d5f8a89fbbb1755ae783218b280550c9b848ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bca5255_e7684311",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "36d5f8a89fbbb1755ae783218b280550c9b848ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b58782ce_945254ad",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 10205
+      },
+      "writtenOn": "2020-06-10T08:18:10Z",
+      "side": 1,
+      "message": "From the docs: \"Reset should be invoked only on stopped or expired timers with drained channels\" given the timer may not have expired if db.cleanerCh received an event this is needed.\nhttps://golang.org/pkg/time/#Timer.Reset",
+      "parentUuid": "2bca5255_e7684311",
+      "range": {
+        "startLine": 1021,
+        "startChar": 0,
+        "endLine": 1026,
+        "endChar": 3
+      },
+      "revId": "36d5f8a89fbbb1755ae783218b280550c9b848ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
