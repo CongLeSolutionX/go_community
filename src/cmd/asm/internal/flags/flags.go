@@ -24,6 +24,7 @@ var (
 	AllErrors  = flag.Bool("e", false, "no limit on number of errors reported")
 	SymABIs    = flag.Bool("gensymabis", false, "write symbol ABI information to output file, don't assemble")
 	Importpath = flag.String("p", "", "set expected package import to path")
+	NewLT      = flag.Bool("newlt", true, "new LT gen scheme")
 	Spectre    = flag.String("spectre", "", "enable spectre mitigations in `list` (all, ret)")
 )
 
