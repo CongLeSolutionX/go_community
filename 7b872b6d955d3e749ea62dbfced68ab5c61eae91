@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff4c692_d36923cd",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-06-10T04:40:14Z",
+      "side": 1,
+      "message": "Was this meant to be CL 234237 (this CL) instead?\n\nNo biggie if so, we can fix it up as part of #37419, just want to confirm.",
+      "range": {
+        "startLine": 482,
+        "startChar": 15,
+        "endLine": 482,
+        "endChar": 21
+      },
+      "revId": "7b872b6d955d3e749ea62dbfced68ab5c61eae91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
