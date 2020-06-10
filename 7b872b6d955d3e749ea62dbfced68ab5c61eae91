@@ -22,6 +22,30 @@
       "revId": "7b872b6d955d3e749ea62dbfced68ab5c61eae91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0413b18_ae8c87a9",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-06-10T04:43:06Z",
+      "side": 1,
+      "message": "Oh whoops, yup, sorry about that.",
+      "parentUuid": "6ff4c692_d36923cd",
+      "range": {
+        "startLine": 482,
+        "startChar": 15,
+        "endLine": 482,
+        "endChar": 21
+      },
+      "revId": "7b872b6d955d3e749ea62dbfced68ab5c61eae91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
