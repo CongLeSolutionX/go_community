@@ -16,6 +16,24 @@
       "revId": "f9411443aee4abc0e7ef521833c83b2422e19933",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c192fb58_0fa085de",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-06-10T12:10:39Z",
+      "side": 1,
+      "message": "Yeah I think it needs to run before \u0027lowered deadcode\u0027 as that is the last -N pass that eliminates copies. Any later and the pass needs to be a little bit more complex - but we could do it.\n\nThe pass could be moved after \u0027elim unread autos\u0027 though. I\u0027ll do that anyway.",
+      "parentUuid": "51defe25_c28f98b3",
+      "revId": "f9411443aee4abc0e7ef521833c83b2422e19933",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
