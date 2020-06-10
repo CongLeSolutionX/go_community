@@ -44,6 +44,11 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 		}
 	}
 
+	dctxt.AddUint8(lines, 0)
+	dwarf.Uleb128put(dctxt, lines, 1+int64(ctxt.Arch.PtrSize))
+	dctxt.AddUint8(lines, dwarf.DW_LNE_set_address)
+	dctxt.AddAddress(lines, s, 0)
+
 	// Set up the debug_lines state machine.
 	// NB: This state machine is reset to this state when we've finished
 	// generating the line table. See below.
