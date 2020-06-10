@@ -455,20 +455,21 @@ func TestStableBM(t *testing.T) {
 // This is based on the "antiquicksort" implementation by M. Douglas McIlroy.
 // See https://www.cs.dartmouth.edu/~doug/mdmspe.pdf for more info.
 type adversaryTestingData struct {
-	t         *testing.T
+	tb        testing.TB
 	data      []int // item values, initialized to special gas value and changed by Less
 	maxcmp    int   // number of comparisons allowed
 	ncmp      int   // number of comparisons (calls to Less)
 	nsolid    int   // number of elements that have been set to non-gas values
 	candidate int   // guess at current pivot
 	gas       int   // special value for unset elements, higher than everything else
+	indices   []int // indices[i] has the original index of the element in data[i]
 }
 
 func (d *adversaryTestingData) Len() int { return len(d.data) }
 
 func (d *adversaryTestingData) Less(i, j int) bool {
 	if d.ncmp >= d.maxcmp {
-		d.t.Fatalf("used %d comparisons sorting adversary data with size %d", d.ncmp, len(d.data))
+		d.tb.Fatalf("used %d comparisons sorting adversary data with size %d", d.ncmp, len(d.data))
 	}
 	d.ncmp++
 
@@ -495,15 +496,33 @@ func (d *adversaryTestingData) Less(i, j int) bool {
 
 func (d *adversaryTestingData) Swap(i, j int) {
 	d.data[i], d.data[j] = d.data[j], d.data[i]
+	d.indices[i], d.indices[j] = d.indices[j], d.indices[i]
 }
 
-func newAdversaryTestingData(t *testing.T, size int, maxcmp int) *adversaryTestingData {
+func newAdversaryTestingData(tb testing.TB, size int, maxcmp int) *adversaryTestingData {
 	gas := size - 1
 	data := make([]int, size)
+	indices := make([]int, size)
 	for i := 0; i < size; i++ {
 		data[i] = gas
+		indices[i] = i
 	}
-	return &adversaryTestingData{t: t, data: data, maxcmp: maxcmp, gas: gas}
+	return &adversaryTestingData{tb: tb, data: data, maxcmp: maxcmp, gas: gas, indices: indices}
+}
+
+func createAdversarialInts(d *adversaryTestingData) []int {
+	size := len(d.data)
+	adversaryInts := make([]int, size)
+	curSolid := d.nsolid
+	for i := 0; i < size; i++ {
+		if d.data[i] == d.gas {
+			adversaryInts[d.indices[i]] = curSolid
+			curSolid++
+		} else {
+			adversaryInts[d.indices[i]] = d.data[i]
+		}
+	}
+	return adversaryInts
 }
 
 func TestAdversary(t *testing.T) {
@@ -517,6 +536,33 @@ func TestAdversary(t *testing.T) {
 			t.Fatalf("adversary data not fully sorted")
 		}
 	}
+}
+
+func BenchmarkAdversary(b *testing.B) {
+	const size = 100000
+	maxcmp := size * lg(size) * 4
+	b.Run("Using complex Less", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			b.StopTimer()
+			d := newAdversaryTestingData(b, size, maxcmp)
+			b.StartTimer()
+			Sort(d)
+		}
+	})
+
+	// Now we will benchmark sort.Ints, but with the same adversarial input.
+	// This will give a somewhat more typical use of sort.
+	d := newAdversaryTestingData(b, size, maxcmp)
+	Sort(d)
+
+	b.Run("Using Ints", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			b.StopTimer()
+			intData := createAdversarialInts(d)
+			b.StartTimer()
+			Ints(intData)
+		}
+	})
 }
 
 func TestStableInts(t *testing.T) {

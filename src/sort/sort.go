@@ -50,6 +50,55 @@ func siftDown(data Interface, lo, hi, first int) {
 	}
 }
 
+// siftDownLikelyLow implements the heap property on data[lo, hi).
+// It has the same type signature as siftDown, but contains optimizations for the case when
+// first+lo will likely be in the lower part of the tree (close to the leaves)
+// This is the case during a "pop" operation, since a former leaf is put at the root.
+//
+// If the final position of lo is K levels below its current position, then:
+// * Both siftDown and siftDownLikelyLow perform K Swaps
+// * siftDown performs 2*(K+1) comparisons, while siftDownLikelyLow performs 2*L-K+1,
+//   where L is the number of levels in [lo, hi) (~ log(hi-lo)). When K is expected to be similar
+//   closer to L, siftDownLikelyLow outperforms siftDown.
+func siftDownLikelyLow(data Interface, lo, hi, first int) {
+	// position gives the final position where "lo" should be.
+	// To minimize the number of Swaps, we first find the position, and only then sift first+lo down to its position.
+	position := lo
+	// nswaps is the number of swaps we should do to insert first+lo in its position
+	nswaps := 0
+
+	// First go all the way to a leaf. Note that each iteration of this loop calls data.Less a single time.
+	for {
+		child := 2*position + 1
+		if child >= hi {
+			break
+		}
+		if child+1 < hi && data.Less(first+child, first+child+1) {
+			child++
+		}
+		nswaps++
+		position = child
+	}
+
+	// Then go up until we find the final position
+	for position > lo {
+		if !data.Less(first+position, first+lo) {
+			break
+		}
+		nswaps--
+		position = (position - 1) / 2
+	}
+
+	// Finally perform all the swaps. Note that the last nswaps bits of position+1 give us the direction of descent.
+	directions := position + 1
+	root := lo
+	for nswaps--; nswaps >= 0; nswaps-- {
+		child := 2*root + 1 + ((directions >> nswaps) & 1)
+		data.Swap(first+root, first+child)
+		root = child
+	}
+}
+
 func heapSort(data Interface, a, b int) {
 	first := a
 	lo := 0
@@ -63,7 +112,7 @@ func heapSort(data Interface, a, b int) {
 	// Pop elements, largest first, into end of data.
 	for i := hi - 1; i >= 0; i-- {
 		data.Swap(first, first+i)
-		siftDown(data, lo, i, first)
+		siftDownLikelyLow(data, lo, i, first)
 	}
 }
 
