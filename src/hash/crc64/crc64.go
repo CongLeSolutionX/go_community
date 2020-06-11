@@ -8,6 +8,7 @@
 package crc64
 
 import (
+	"encoding/binary"
 	"errors"
 	"hash"
 	"sync"
@@ -125,31 +126,17 @@ func (d *digest) UnmarshalBinary(b []byte) error {
 	if len(b) != marshaledSize {
 		return errors.New("hash/crc64: invalid hash state size")
 	}
-	if tableSum(d.tab) != readUint64(b[4:]) {
+	if tableSum(d.tab) != binary.BigEndian.Uint64(b[4:]) {
 		return errors.New("hash/crc64: tables do not match")
 	}
-	d.crc = readUint64(b[12:])
+	d.crc = binary.BigEndian.Uint64(b[12:])
 	return nil
 }
 
 func appendUint64(b []byte, x uint64) []byte {
-	a := [8]byte{
-		byte(x >> 56),
-		byte(x >> 48),
-		byte(x >> 40),
-		byte(x >> 32),
-		byte(x >> 24),
-		byte(x >> 16),
-		byte(x >> 8),
-		byte(x),
-	}
+	a := [8]byte{}
+	binary.BigEndian.PutUint64(a[:], x)
 	return append(b, a[:]...)
-}
-
-func readUint64(b []byte) uint64 {
-	_ = b[7]
-	return uint64(b[7]) | uint64(b[6])<<8 | uint64(b[5])<<16 | uint64(b[4])<<24 |
-		uint64(b[3])<<32 | uint64(b[2])<<40 | uint64(b[1])<<48 | uint64(b[0])<<56
 }
 
 func update(crc uint64, tab *Table, p []byte) uint64 {
@@ -170,8 +157,7 @@ func update(crc uint64, tab *Table, p []byte) uint64 {
 		}
 		// Update using slicing-by-8
 		for len(p) > 8 {
-			crc ^= uint64(p[0]) | uint64(p[1])<<8 | uint64(p[2])<<16 | uint64(p[3])<<24 |
-				uint64(p[4])<<32 | uint64(p[5])<<40 | uint64(p[6])<<48 | uint64(p[7])<<56
+			crc ^= binary.LittleEndian.Uint64(p)
 			crc = helperTable[7][crc&0xff] ^
 				helperTable[6][(crc>>8)&0xff] ^
 				helperTable[5][(crc>>16)&0xff] ^
@@ -203,8 +189,7 @@ func (d *digest) Write(p []byte) (n int, err error) {
 func (d *digest) Sum64() uint64 { return d.crc }
 
 func (d *digest) Sum(in []byte) []byte {
-	s := d.Sum64()
-	return append(in, byte(s>>56), byte(s>>48), byte(s>>40), byte(s>>32), byte(s>>24), byte(s>>16), byte(s>>8), byte(s))
+	return appendUint64(in, d.Sum64())
 }
 
 // Checksum returns the CRC-64 checksum of data
