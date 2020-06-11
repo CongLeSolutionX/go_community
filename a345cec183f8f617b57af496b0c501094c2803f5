@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac12b093_03f8d3b6",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 36795
+      },
+      "writtenOn": "2020-06-11T18:21:45Z",
+      "side": 1,
+      "message": "This line can be replaced with `if data.Less(first+lo, first+position) {` and still be correct.\n\nIn case all elements are different, the two lines are obviously equivalent, but if there are equal elements, then this line represents a trade-off between calls to `Less` and calls to `Swap`.\n\nThe current proposed implementation minimizes the number of `Less` calls. If we change it to the alternative, then we will do a little more calls to `Less` and a little fewer calls to `Swap`.\n\nThe sum of the number of calls to `Less` and `Swap` is constant, so it really depends if in most applications `Less`\u0027s are more expensive than `Swap`\u0027s or not.\n\nMy intuition is that this will likely not make a difference, since this code will only be called for very non-typical inputs, where I expect most elements to be different from one another.",
+      "revId": "a345cec183f8f617b57af496b0c501094c2803f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
