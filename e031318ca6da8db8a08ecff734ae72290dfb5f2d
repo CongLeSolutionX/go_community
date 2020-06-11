@@ -70,6 +70,24 @@
       "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b5cea6_a546d8df",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-11T18:17:36Z",
+      "side": 1,
+      "message": "I think adding the 4 additional comparison constants is the best option.\nThere\u0027s nothing tricky about it, it is just kind of verbose.",
+      "parentUuid": "15c3384d_9fcfa31d",
+      "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
