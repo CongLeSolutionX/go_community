@@ -52,6 +52,24 @@
       "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c3384d_9fcfa31d",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-06-11T14:58:27Z",
+      "side": 1,
+      "message": "To be specific, an example demonstrating the inequality in transformation:\n\nx \u003d math.MinInt64\ny \u003d 2\n\nif x \u003c y        \u003d\u003e true\nif x - y \u003c0     \u003d\u003e false\n\nFurthermore, if the constant flags are specific to expressions whose both operands are const, we may just drop the optimizations to x +/- const but remain others like x +/- y, x*y +/- z, etc.",
+      "parentUuid": "31ce0b4d_172b7f43",
+      "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
