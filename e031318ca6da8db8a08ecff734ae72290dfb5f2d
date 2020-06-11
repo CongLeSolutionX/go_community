@@ -34,6 +34,24 @@
       "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ce0b4d_172b7f43",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-06-11T12:33:54Z",
+      "side": 1,
+      "message": "Hi Keith, Cherry,\n\nSeems that the current Flag\u003csigned\u003e_\u003cunsigned\u003e could not be applied to \u0027noov\u0027 codes directly, as the condition expression of \u0027noov\u0027 codes is a transformed expression, take FlatLT_ULT as an example:\n\nGo code rewriting:\n#1: if x \u003c y     \u003d\u003e  LT (CMPconst ...)\n#2: if x - y \u003c 0 \u003d\u003e  LTnoov (CMPconst ...)\n\nAnd we have:\n(CMPconst  (MOVDconst [x]) [y]) \u0026\u0026 x\u003cy \u0026\u0026 uint64(x)\u003cuint64(y) -\u003e (FlagLT_ULT)\n\nhere we set the \u0027LT\u0027 flag by \"x \u003c y\" which matches #1 but doesn\u0027t match #2.\nFor #2 we may have to introduce the third flag, then the rule might become:\n\n(CMPconst  (MOVDconst [x]) [y]) \u0026\u0026 x\u003cy \u0026\u0026 uint64(x)\u003cuint64(y) \u0026\u0026 x-y\u003c0 -\u003e (FlagLT_ULT_LTnoov)\n(CMPconst  (MOVDconst [x]) [y]) \u0026\u0026 x\u003cy \u0026\u0026 uint64(x)\u003cuint64(y) \u0026\u0026 x-y\u003e0 -\u003e (FlagLT_ULT_GTnoov)\n...\n\nFortunately we only need to take care \u0027signed\u0027 comparing, unfortunately that doubles the complexity of constant flags handling. Wondering if any better solution is avaiable.\n\nMoving all \u0027noov\u0027 rules towards the bottom is an alternative, but since the rewriting utilizing TBZ and TBNZ for comparing to zero is conducted early, \"\u003c\" and \"\u003e\u003d\" expressions will not benefit from the \u0027noov\u0027 rewritings.\n\nThe last resort would be removing these rules, at a cost that multiply-add/-sub remain un-optimized, they usually stall the multiplier pipeline for two extra cycles.",
+      "parentUuid": "bb582e0d_3f78e1ce",
+      "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
