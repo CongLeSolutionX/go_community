@@ -22,6 +22,30 @@
       "revId": "8d6bac339d9c284352d17ac68bebac23466d6790",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "350f3544_d9962494",
+        "filename": "src/hash/crc64/crc64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-06-11T11:45:48Z",
+      "side": 1,
+      "message": "Good call, thanks.",
+      "parentUuid": "15f72b96_97a45398",
+      "range": {
+        "startLine": 191,
+        "startChar": 40,
+        "endLine": 196,
+        "endChar": 1
+      },
+      "revId": "8d6bac339d9c284352d17ac68bebac23466d6790",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
