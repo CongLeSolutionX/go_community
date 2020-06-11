@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15f72b96_97a45398",
+        "filename": "src/hash/crc64/crc64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-06-11T10:33:47Z",
+      "side": 1,
+      "message": "I think you could probably simplify this to just:\n\n    func (d *digest) Sum(in []byte) []byte {\n        return appendUint64(in, d.Sum64())\n    }\n\nWhat do you think?",
+      "range": {
+        "startLine": 191,
+        "startChar": 40,
+        "endLine": 196,
+        "endChar": 1
+      },
+      "revId": "8d6bac339d9c284352d17ac68bebac23466d6790",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
