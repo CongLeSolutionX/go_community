@@ -16,6 +16,24 @@
       "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb582e0d_3f78e1ce",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-06-11T01:26:35Z",
+      "side": 1,
+      "message": "Thanks Cherry, I\u0027m double checking for arm and arm64.",
+      "parentUuid": "bb739d27_73342b01",
+      "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
