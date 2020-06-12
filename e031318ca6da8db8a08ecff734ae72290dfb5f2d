@@ -106,6 +106,24 @@
       "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "329ced6e_8d48a296",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2020-06-12T05:28:34Z",
+      "side": 1,
+      "message": "Think we may encode the result of x-y\u003c0, etc. in the target value\u0027s aux filed for later use by \u0027noov\u0027 Ops, thus not breaking the designed semantics of Flag_* and save dozens of new rules, I\u0027ll see if a prototype could be worked out soon, please kindly let me know if such way is absurd. thanks.",
+      "parentUuid": "fecd61d8_0c773eed",
+      "revId": "e031318ca6da8db8a08ecff734ae72290dfb5f2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
