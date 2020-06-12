@@ -394,14 +394,13 @@ func canMergeLoad(target, load *Value) bool {
 }
 
 // symNamed reports whether sym's name is name.
-func symNamed(sym Sym, name string) bool {
-	return sym.String() == name
+func symNamed(call *AuxCall, name string) bool {
+	return call.Fn.String() == name
 }
 
-// isSameSym reports whether sym is the same as the given named symbol
-func isSameSym(sym interface{}, name string) bool {
-	s, ok := sym.(fmt.Stringer)
-	return ok && s.String() == name
+// isSameCall reports whether sym is the same as the given named symbol
+func isSameCall(sym interface{}, name string) bool {
+	return sym.(*AuxCall).Fn.String() == name
 }
 
 // nlz returns the number of leading zeros.
@@ -713,6 +712,9 @@ func auxToSym(i interface{}) Sym {
 func auxToType(i interface{}) *types.Type {
 	return i.(*types.Type)
 }
+func auxToCall(i interface{}) *AuxCall {
+	return i.(*AuxCall)
+}
 func auxToS390xCCMask(i interface{}) s390x.CCMask {
 	return i.(s390x.CCMask)
 }
@@ -724,6 +726,9 @@ func stringToAux(s string) interface{} {
 	return s
 }
 func symToAux(s Sym) interface{} {
+	return s
+}
+func callToAux(s *AuxCall) interface{} {
 	return s
 }
 func typeToAux(t *types.Type) interface{} {
@@ -743,7 +748,7 @@ func uaddOvf(a, b int64) bool {
 
 // de-virtualize an InterCall
 // 'sym' is the symbol for the itab
-func devirt(v *Value, sym Sym, offset int64) *obj.LSym {
+func devirt(v *Value, sym Sym, offset int64) *AuxCall {
 	f := v.Block.Func
 	n, ok := sym.(*obj.LSym)
 	if !ok {
@@ -757,7 +762,10 @@ func devirt(v *Value, sym Sym, offset int64) *obj.LSym {
 			f.Warnl(v.Pos, "couldn't de-virtualize call")
 		}
 	}
-	return lsym
+	if lsym == nil {
+		return nil
+	}
+	return &AuxCall{Fn: lsym}
 }
 
 // isSamePtr reports whether p1 and p2 point to the same address.
@@ -1377,7 +1385,7 @@ func registerizable(b *Block, typ *types.Type) bool {
 }
 
 // needRaceCleanup reports whether this call to racefuncenter/exit isn't needed.
-func needRaceCleanup(sym Sym, v *Value) bool {
+func needRaceCleanup(sym *AuxCall, v *Value) bool {
 	f := v.Block.Func
 	if !f.Config.Race {
 		return false
@@ -1391,7 +1399,7 @@ func needRaceCleanup(sym Sym, v *Value) bool {
 			case OpStaticCall:
 				// Check for racefuncenter will encounter racefuncexit and vice versa.
 				// Allow calls to panic*
-				s := v.Aux.(fmt.Stringer).String()
+				s := v.Aux.(*AuxCall).Fn.String()
 				switch s {
 				case "runtime.racefuncenter", "runtime.racefuncexit",
 					"runtime.panicdivide", "runtime.panicwrap",
