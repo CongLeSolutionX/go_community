@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1ee93b57_119e996f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-06-12T22:29:01Z",
+      "side": 1,
+      "message": "I think you really mean fixing #599 (changing default alignment rules for int64 on 32-bit architectures).  #19057 is about a new syntax/method for explicit control over alignment of structs (and maybe fields).",
+      "parentUuid": "eea564be_0ad5000f",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "6c1a6952c674e4a8704d6b1f9f4377869c54f9d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f5d887a_719a140c",
         "filename": "src/syscall/syscall_unix.go",
         "patchSetId": 1
