@@ -325,12 +325,12 @@ func (s *Stat_t) convertFrom(old *stat_freebsd11_t) {
 		Mtimespec:     old.Mtimespec,
 		Ctimespec:     old.Ctimespec,
 		Birthtimespec: old.Birthtimespec,
-		Size:          old.Size,
 		Blocks:        old.Blocks,
 		Blksize:       old.Blksize,
 		Flags:         old.Flags,
 		Gen:           uint64(old.Gen),
 	}
+	s.SetSize(old.GetSize())
 }
 
 func (s *Statfs_t) convertFrom(old *statfs_freebsd11_t) {

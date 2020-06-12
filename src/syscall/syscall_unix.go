@@ -365,3 +365,33 @@ func Sendfile(outfd int, infd int, offset *int64, count int) (written int, err e
 }
 
 var ioSync int64
+
+// GetSize returns the Size field of s.
+func (s *Stat_t) GetSize() int64 {
+	return s.Size_
+}
+
+// SetSize sets the Size field of s to size.
+func (s *Stat_t) SetSize(size int64) {
+	s.Size_ = size
+}
+
+// GetStart returns the Start field of f.
+func (f *Flock_t) GetStart() int64 {
+	return f.Start_
+}
+
+// SetStart sets the Start field of f to start.
+func (f *Flock_t) SetStart(start int64) {
+	f.Start_ = start
+}
+
+// GetLen returns the Len field of f.
+func (f *Flock_t) GetLen() int64 {
+	return f.Len_
+}
+
+// SetLen sets the Len field of f to len.
+func (f *Flock_t) SetLen(len int64) {
+	f.Len_ = len
+}

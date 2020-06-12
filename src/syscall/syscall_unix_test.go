@@ -45,15 +45,13 @@ func _() {
 	)
 
 	// fcntl file locking structure and constants
-	var (
-		_ = syscall.Flock_t{
-			Type:   int16(0),
-			Whence: int16(0),
-			Start:  int64(0),
-			Len:    int64(0),
-			Pid:    int32(0),
-		}
-	)
+	x := syscall.Flock_t{
+		Type:   int16(0),
+		Whence: int16(0),
+		Pid:    int32(0),
+	}
+	x.SetStart(0)
+	x.SetLen(0)
 	const (
 		_ = syscall.F_GETLK
 		_ = syscall.F_SETLK
@@ -74,9 +72,11 @@ func TestFcntlFlock(t *testing.T) {
 		t.Skip("skipping; no child processes allowed on iOS")
 	}
 	flock := syscall.Flock_t{
-		Type:  syscall.F_WRLCK,
-		Start: 31415, Len: 271828, Whence: 1,
+		Type:   syscall.F_WRLCK,
+		Whence: 1,
 	}
+	flock.SetStart(31415)
+	flock.SetLen(271828)
 	if os.Getenv("GO_WANT_HELPER_PROCESS") == "" {
 		// parent
 		tempDir, err := ioutil.TempDir("", "TestFcntlFlock")
@@ -107,15 +107,15 @@ func TestFcntlFlock(t *testing.T) {
 		// child
 		got := flock
 		// make sure the child lock is conflicting with the parent lock
-		got.Start--
-		got.Len++
+		got.SetStart(got.GetStart() - 1)
+		got.SetLen(got.GetLen() + 1)
 		if err := syscall.FcntlFlock(3, syscall.F_GETLK, &got); err != nil {
 			t.Fatalf("FcntlFlock(F_GETLK) failed: %v", err)
 		}
 		flock.Pid = int32(syscall.Getppid())
 		// Linux kernel always set Whence to 0
 		flock.Whence = 0
-		if got.Type == flock.Type && got.Start == flock.Start && got.Len == flock.Len && got.Pid == flock.Pid && got.Whence == flock.Whence {
+		if got.Type == flock.Type && got.GetStart() == flock.GetStart() && got.GetLen() == flock.GetLen() && got.Pid == flock.Pid && got.Whence == flock.Whence {
 			os.Exit(0)
 		}
 		t.Fatalf("FcntlFlock got %v, want %v", got, flock)
