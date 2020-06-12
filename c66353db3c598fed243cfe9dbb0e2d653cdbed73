@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b10b244_906ca49e",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-12T15:46:09Z",
+      "side": 1,
+      "message": "I think this might be easier for me to follow as a struct with two booleans, rather than an enum with four states. (With the enum, I start wondering about the allowed transitions between enum values and the different meanings of each value: I like enums for strict, ratcheting progressions, but I don\u0027t think that\u0027s the case here.)\n\nThe two booleans would be “used” and “dirty” (or similar), and these states (if I understand correctly) correspond to:\n\n      | !dirty     | dirty\n------+------------+---------\n!used | notChecked | trimmed\n------+------------+---------\nused  | checked    | added",
+      "range": {
+        "startLine": 386,
+        "startChar": 0,
+        "endLine": 391,
+        "endChar": 1
+      },
+      "revId": "c66353db3c598fed243cfe9dbb0e2d653cdbed73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd39feac_8119753f",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-12T15:46:09Z",
+      "side": 1,
+      "message": "(nit) Parentheses would help me parse this more easily.\n\n(I can figure out the precedence, but it takes a bit of brainpower that distracts from understanding the rest of the code.)",
+      "range": {
+        "startLine": 647,
+        "startChar": 5,
+        "endLine": 647,
+        "endChar": 37
+      },
+      "revId": "c66353db3c598fed243cfe9dbb0e2d653cdbed73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
