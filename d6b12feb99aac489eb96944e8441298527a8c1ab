@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5308b0e0_ebe9e39a",
+        "filename": "src/runtime/hash_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-12T19:25:07Z",
+      "side": 1,
+      "message": "Is this t.Logf still useful?",
+      "revId": "d6b12feb99aac489eb96944e8441298527a8c1ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
