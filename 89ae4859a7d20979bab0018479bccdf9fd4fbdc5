@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af1c685_91267598",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-06-12T19:34:25Z",
+      "side": 1,
+      "message": "The API change should be documented, and maybe this function should be renamed?",
+      "revId": "89ae4859a7d20979bab0018479bccdf9fd4fbdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9189cb43_a6e74775",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-06-12T19:34:25Z",
+      "side": 1,
+      "message": "If we kill line 1196, I think it\u0027s a little cleaner.",
+      "range": {
+        "startLine": 1250,
+        "startChar": 11,
+        "endLine": 1250,
+        "endChar": 12
+      },
+      "revId": "89ae4859a7d20979bab0018479bccdf9fd4fbdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
