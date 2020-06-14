@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30d17407_6f15b2db",
+        "filename": "src/reflect/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-06-14T07:06:10Z",
+      "side": 1,
+      "message": "Spurious newline, please remove it.",
+      "revId": "b5da93fdb386f6ca3561c83e8cb4726b53e7274f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

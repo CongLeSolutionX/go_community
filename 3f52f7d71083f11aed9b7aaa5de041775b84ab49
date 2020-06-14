@@ -69,6 +69,24 @@
       "revId": "3f52f7d71083f11aed9b7aaa5de041775b84ab49",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b0cbaf8_554e986b",
+        "filename": "src/reflect/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-06-14T07:06:10Z",
+      "side": 1,
+      "message": "Hey Mostafa, as Ian requested it would be even better for an example, for which there could be conflicts/impossible when using FieldByName, as in embeddding.\nPlease update your example to the following to cover this case:\n\ttype User struct {\n\t\tFirstname, Lastname string\n\t\tId                  string\n\t}\n\ttype Customer struct {\n\t\tUser\n\t\tId string\n\t}\n\n\tcu :\u003d Customer{\n\t\tUser: User{\n\t\t\tId: \"user-id-1\",\n\t\t},\n\t\tId: \"customer-id-1\",\n\t}\n\tuserId :\u003d reflect.ValueOf(cu).FieldByIndex([]int{0, 2})\n\n\tfmt.Printf(\"CustomerId: %q\\nUserId: %q\\n\", cu.Id, userId)",
+      "parentUuid": "585740e4_0357c95b",
+      "revId": "3f52f7d71083f11aed9b7aaa5de041775b84ab49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
