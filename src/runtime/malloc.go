@@ -1126,8 +1126,15 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	mp.mallocing = 0
 	releasem(mp)
 
-	if debug.allocfreetrace != 0 {
-		tracealloc(x, size, typ)
+	if debug.malloc {
+		if debug.allocfreetrace != 0 {
+			tracealloc(x, size, typ)
+		}
+
+		if traceinit.active && traceinit.id == getg().goid {
+			atomic.Xadd64(&traceinit.allocs, +1)
+			atomic.Xadd64(&traceinit.bytes, int64(size))
+		}
 	}
 
 	if rate := MemProfileRate; rate > 0 {

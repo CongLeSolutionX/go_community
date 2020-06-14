@@ -299,7 +299,6 @@ type dbgVar struct {
 // existing int var for that value, which may
 // already have an initial value.
 var debug struct {
-	allocfreetrace     int32
 	cgocheck           int32
 	clobberfree        int32
 	efence             int32
@@ -317,6 +316,16 @@ var debug struct {
 	schedtrace         int32
 	tracebackancestors int32
 	asyncpreemptoff    int32
+
+	// debug.malloc is used as a combined debug check
+	// in the malloc function and should be set
+	// if any of the below debug options is != 0.
+	malloc         bool
+	allocfreetrace int32
+	traceinit      int32
+
+	// Options that change debug output formats.
+	json bool
 }
 
 var dbgvars = []dbgVar{
@@ -338,6 +347,7 @@ var dbgvars = []dbgVar{
 	{"schedtrace", &debug.schedtrace},
 	{"tracebackancestors", &debug.tracebackancestors},
 	{"asyncpreemptoff", &debug.asyncpreemptoff},
+	{"traceinit", &debug.traceinit},
 }
 
 func parsedebugvars() {
@@ -359,14 +369,19 @@ func parsedebugvars() {
 		}
 		key, value := field[:i], field[i+1:]
 
-		// Update MemProfileRate directly here since it
-		// is int, not int32, and should only be updated
-		// if specified in GODEBUG.
-		if key == "memprofilerate" {
+		switch key {
+		case "memprofilerate":
+			// Update MemProfileRate directly here since it
+			// is int, not int32, and should only be updated
+			// if specified in GODEBUG.
 			if n, ok := atoi(value); ok {
 				MemProfileRate = n
 			}
-		} else {
+
+		case "format":
+			debug.json = (value == "json")
+
+		default:
 			for _, v := range dbgvars {
 				if v.name == key {
 					if n, ok := atoi32(value); ok {
@@ -376,6 +391,8 @@ func parsedebugvars() {
 			}
 		}
 	}
+
+	debug.malloc = (debug.allocfreetrace != 0) || (debug.traceinit != 0)
 
 	setTraceback(gogetenv("GOTRACEBACK"))
 	traceback_env = traceback_cache
