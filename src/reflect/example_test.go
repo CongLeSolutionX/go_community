@@ -168,6 +168,9 @@ func ExampleStructOf() {
 }
 
 func ExampleValue_FieldByIndex() {
+	// This example shows a use case that FindByName is not effective.
+	// In these cases we have to address the field by its index.
+	// You can address embedded struct hence the parameter is a slice.
 
 	type user struct {
 		firstName string
@@ -175,15 +178,20 @@ func ExampleValue_FieldByIndex() {
 	}
 
 	type data struct {
-		user user
+		user
+		firstName string
+		lastName  string
 	}
 
 	u := data{
-		user{"John", "Doe"},
+		user:      user{"Embedded John", "Embedded Doe"},
+		firstName: "John",
+		lastName:  "Doe",
 	}
 
 	s := reflect.ValueOf(u).FieldByIndex([]int{0, 1})
-	fmt.Println("last name:", s)
+	fmt.Println("embedded last name:", s)
+
 	// Output:
-	// last name: Doe
+	// embedded last name: Embedded Doe
 }
