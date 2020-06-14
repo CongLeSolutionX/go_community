@@ -317,6 +317,7 @@ var debug struct {
 	schedtrace         int32
 	tracebackancestors int32
 	asyncpreemptoff    int32
+	traceinit          int32
 }
 
 var dbgvars = []dbgVar{
@@ -338,6 +339,7 @@ var dbgvars = []dbgVar{
 	{"schedtrace", &debug.schedtrace},
 	{"tracebackancestors", &debug.tracebackancestors},
 	{"asyncpreemptoff", &debug.asyncpreemptoff},
+	{"traceinit", &debug.traceinit},
 }
 
 func parsedebugvars() {

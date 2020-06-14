@@ -148,10 +148,17 @@ func main() {
 		throw("runtime.main not on m0")
 	}
 
-	doInit(&runtime_inittask) // must be before defer
 	if nanotime() == 0 {
 		throw("nanotime returning zero")
 	}
+
+	// Record when the world started.
+	// Must be before doInit for tracing init.
+	runtimeInitTime = nanotime()
+
+	traceinit.active = debug.traceinit != 0
+
+	doInit(&runtime_inittask) // Must be before defer.
 
 	// Defer unlock so that runtime.Goexit during init does the unlock too.
 	needUnlock := true
@@ -160,9 +167,6 @@ func main() {
 			unlockOSThread()
 		}
 	}()
-
-	// Record when the world started.
-	runtimeInitTime = nanotime()
 
 	gcenable()
 
@@ -189,6 +193,10 @@ func main() {
 	}
 
 	doInit(&main_inittask)
+
+	// Disable init tracing after main init done to avoid overhead
+	// of collecting statistics in malloc and newproc
+	traceinit.active = false
 
 	close(main_init_done)
 
@@ -3605,9 +3613,14 @@ func newproc1(fn *funcval, argp unsafe.Pointer, narg int32, callergp *g, callerp
 	if raceenabled {
 		newg.racectx = racegostart(callerpc)
 	}
+
 	if trace.enabled {
 		traceGoCreate(newg, newg.startpc)
 	}
+	if traceinit.active {
+		atomic.Xadd64(&traceinit.goroutines, +1)
+	}
+
 	releasem(_g_.m)
 
 	return newg
@@ -5571,6 +5584,17 @@ type initTask struct {
 	// followed by nfns pcs, one per init function to run
 }
 
+// traceinit stores statistics for init functions which are
+// updated by malloc and newproc when active is true.
+var traceinit tracestat
+
+type tracestat struct {
+	active     bool   // tracing init active
+	allocs     uint64 // heap allocations
+	bytes      uint64 // heap allocated bytes
+	goroutines uint64 // created go routines
+}
+
 func doInit(t *initTask) {
 	switch t.state {
 	case 2: // fully initialized
@@ -5579,16 +5603,59 @@ func doInit(t *initTask) {
 		throw("recursive call during initialization - linker skew")
 	default: // not initialized yet
 		t.state = 1 // initialization in progress
+
 		for i := uintptr(0); i < t.ndeps; i++ {
 			p := add(unsafe.Pointer(t), (3+i)*sys.PtrSize)
 			t2 := *(**initTask)(p)
 			doInit(t2)
 		}
+
+		if t.nfns == 0 {
+			t.state = 2 // initialization done
+			return
+		}
+
+		var start, end int64
+		var before, after tracestat
+
+		if traceinit.active {
+			start = nanotime()
+			// Load stats non-atomically since init is done in a single goroutine.
+			before = traceinit
+		}
+
+		firstFunc := add(unsafe.Pointer(t), (3+t.ndeps)*sys.PtrSize)
 		for i := uintptr(0); i < t.nfns; i++ {
-			p := add(unsafe.Pointer(t), (3+t.ndeps+i)*sys.PtrSize)
+			p := add(firstFunc, i*sys.PtrSize)
 			f := *(*func())(unsafe.Pointer(&p))
 			f()
 		}
+
+		if traceinit.active {
+			end = nanotime()
+			// Load stats non-atomically since init is done in a single goroutine.
+			after = traceinit
+
+			pkg := funcpkgname(findfunc(funcPC(firstFunc)))
+
+			var sbuf [24]byte
+			printlock()
+			print(`init:{`)
+			//print(`"start":"`, string(fmtNSAsMS(sbuf[:], uint64(end-runtimeInitTime))), `ms", `)
+			print(`"start":`, string(itoa(sbuf[:], uint64(end-runtimeInitTime))), `, `)
+			//print(`"binary":"`, argslice[0], `", `)
+			print(`"pkg":"`, pkg, `", `)
+			//print(`"duration":"`, string(fmtNSAsMS(sbuf[:], uint64(end-start))), `ms", `)
+			print(`"duration":`, string(itoa(sbuf[:], uint64(end-start))), `, `)
+			print(`"allocs":`, string(itoa(sbuf[:], uint64(after.allocs-before.allocs))), `, `)
+			print(`"bytes":`, string(itoa(sbuf[:], uint64(after.bytes-before.bytes))), `, `)
+			print(`"Gs":`, string(itoa(sbuf[:], uint64(after.goroutines-before.goroutines))), `, `)
+			print(`"funcs":`, string(itoa(sbuf[:], uint64(t.nfns))), `, `)
+			print(`"deps":`, string(itoa(sbuf[:], uint64(t.ndeps))))
+			print("}\n")
+			printunlock()
+		}
+
 		t.state = 2 // initialization done
 	}
 }

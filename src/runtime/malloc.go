@@ -1130,6 +1130,11 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		tracealloc(x, size, typ)
 	}
 
+	if traceinit.active {
+		atomic.Xadd64(&traceinit.allocs, +1)
+		atomic.Xadd64(&traceinit.bytes, int64(size))
+	}
+
 	if rate := MemProfileRate; rate > 0 {
 		if rate != 1 && size < c.next_sample {
 			c.next_sample -= size
