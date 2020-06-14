@@ -25,6 +25,7 @@ func TestRead(t *testing.T) {
 		UseFieldsPerRecord bool // false (default) means FieldsPerRecord is -1
 		FieldsPerRecord    int
 		LazyQuotes         bool
+		SkipEscapedQuotes  bool
 		TrimLeadingSpace   bool
 		ReuseRecord        bool
 	}{{
@@ -337,6 +338,26 @@ x,,,
 		Input:  "\"foo\"\"bar\"\r\n",
 		Output: [][]string{{`foo"bar`}},
 	}, {
+		Name:              "StringifiedJsonNoSkip",
+		Input:             "a,b,42,\"{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"}\",c,d",
+		Error:             &ParseError{StartLine: 1, Line: 1, Column: 10, Err: ErrQuote},
+		SkipEscapedQuotes: false,
+	}, {
+		Name:              "StringifiedJson",
+		Input:             "a,b,42,\"{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"}\",c,d",
+		Output:            [][]string{{"a", "b", "42", "{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"}", "c", "d"}},
+		SkipEscapedQuotes: true,
+	}, {
+		Name:              "StringifiedJsonMissingQuote",
+		Input:             "a,b,42,\"{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"},c,d",
+		Error:             &ParseError{StartLine: 1, Line: 1, Column: 46, Err: ErrQuote},
+		SkipEscapedQuotes: true,
+	}, {
+		Name:              "StringifiedJsonExtraQuote",
+		Input:             "a,b,42,\"{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"\"}\",c,d",
+		Error:             &ParseError{StartLine: 1, Line: 1, Column: 47, Err: ErrQuote},
+		SkipEscapedQuotes: true,
+	}, {
 		Name:   "EvenQuotes",
 		Input:  `""""""""`,
 		Output: [][]string{{`"""`}},
@@ -398,6 +419,7 @@ x,,,
 				r.FieldsPerRecord = -1
 			}
 			r.LazyQuotes = tt.LazyQuotes
+			r.SkipEscapedQuotes = tt.SkipEscapedQuotes
 			r.TrimLeadingSpace = tt.TrimLeadingSpace
 			r.ReuseRecord = tt.ReuseRecord
 
