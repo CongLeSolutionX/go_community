@@ -337,6 +337,18 @@ x,,,
 		Input:  "\"foo\"\"bar\"\r\n",
 		Output: [][]string{{`foo"bar`}},
 	}, {
+		Name:   "StringifiedJson",
+		Input:  "a,b,42,\"{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"}\",c,d",
+		Output: [][]string{{"a", "b", "42", "{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"}", "c", "d"}},
+	}, {
+		Name:  "StringifiedJsonMissingQuote",
+		Input: "a,b,42,\"{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"},c,d",
+		Error: &ParseError{StartLine: 1, Line: 1, Column: 46, Err: ErrQuote},
+	}, {
+		Name:  "StringifiedJsonExtraQuote",
+		Input: "a,b,42,\"{\\\"name\\\":\\\"Al\\\",\\\"eyeColor\\\":\\\"hazel\\\"\"}\",c,d",
+		Error: &ParseError{StartLine: 1, Line: 1, Column: 47, Err: ErrQuote},
+	}, {
 		Name:   "EvenQuotes",
 		Input:  `""""""""`,
 		Output: [][]string{{`"""`}},

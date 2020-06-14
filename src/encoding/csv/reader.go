@@ -318,8 +318,23 @@ parseField:
 		} else {
 			// Quoted string field
 			line = line[quoteLen:]
+			lineLen := len(line)
 			for {
 				i := bytes.IndexByte(line, '"')
+				for i > 0 && line[i-1] == '\\' { // advance the end index past all escaped quotes.
+
+					nextQuotePos := bytes.IndexByte(line[i+quoteLen:], '"')
+
+					if nextQuotePos > -1 { // If another quote is found, move the end index to its position.
+						i += nextQuotePos + quoteLen
+					} else {
+						// DANGER: no closing quote - CSV parsing will panic
+						break
+					}
+					if i > lineLen {
+						break
+					}
+				}
 				if i >= 0 {
 					// Hit next quote.
 					r.recordBuffer = append(r.recordBuffer, line[:i]...)
