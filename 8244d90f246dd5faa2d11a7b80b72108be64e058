@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d99f8ba2_af2cf083",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-06-15T21:40:48Z",
+      "side": 1,
+      "message": "Maybe add some comment.",
+      "revId": "8244d90f246dd5faa2d11a7b80b72108be64e058",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88096188_5e20b8c8",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-06-15T21:40:48Z",
+      "side": 1,
+      "message": "compiler",
+      "range": {
+        "startLine": 1180,
+        "startChar": 3,
+        "endLine": 1180,
+        "endChar": 11
+      },
+      "revId": "8244d90f246dd5faa2d11a7b80b72108be64e058",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
