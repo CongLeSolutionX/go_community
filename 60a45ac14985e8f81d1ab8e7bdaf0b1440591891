@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bbc39662_d75f91b5",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-15T17:58:06Z",
+      "side": 1,
+      "message": "Josh, the reason why 230207 didn\u0027t cause failures is that the eqdata value that eqinterface returns uses OCALLFUNC, not OCALL. We build the call using OCALL, but typecheck rewrites the op to OCALLFUNC.\nSame thing for eqstring. eqmem doesn\u0027t call typecheck on the call node, so it is still OCALL.\n\nWe probably want to clean this optimization up, and add a test that it triggers somehow.",
+      "range": {
+        "startLine": 720,
+        "startChar": 18,
+        "endLine": 720,
+        "endChar": 23
+      },
+      "revId": "60a45ac14985e8f81d1ab8e7bdaf0b1440591891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5df2f390_f4d5e2a2",
         "filename": "src/cmd/compile/internal/gc/alg.go",
         "patchSetId": 1
