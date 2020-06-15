@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2a7e1d2_178a2578",
+        "filename": "test/fixedbugs/issue8606.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-15T17:05:32Z",
+      "side": 1,
+      "message": "This is the test case that breaks without the changes in alg.go.\nThe memequal of the three fields a,b,c gets reordered with the interface comparison.",
+      "revId": "60a45ac14985e8f81d1ab8e7bdaf0b1440591891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
