@@ -5829,7 +5829,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -5843,7 +5843,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -13164,7 +13164,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -13178,7 +13178,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -16933,7 +16933,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -16947,7 +16947,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -20566,7 +20566,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -20580,7 +20580,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -22266,7 +22266,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -22280,7 +22280,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -23812,7 +23812,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -23826,7 +23826,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -26519,7 +26519,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -26533,7 +26533,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -27811,7 +27811,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "CALLclosure",
-		auxType: auxInt64,
+		auxType: auxCallOff,
 		argLen:  3,
 		call:    true,
 		reg: regInfo{
@@ -27824,7 +27824,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "CALLinter",
-		auxType: auxInt64,
+		auxType: auxCallOff,
 		argLen:  2,
 		call:    true,
 		reg: regInfo{
@@ -31409,7 +31409,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -31423,7 +31423,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxInt64,
+		auxType:      auxCallOff,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -32053,7 +32053,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "LoweredClosureCall",
-		auxType: auxInt64,
+		auxType: auxCallOff,
 		argLen:  3,
 		call:    true,
 		reg: regInfo{
@@ -32066,7 +32066,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "LoweredInterCall",
-		auxType: auxInt64,
+		auxType: auxCallOff,
 		argLen:  2,
 		call:    true,
 		reg: regInfo{
@@ -34784,7 +34784,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "ClosureCall",
-		auxType: auxInt64,
+		auxType: auxCallOff,
 		argLen:  3,
 		call:    true,
 		generic: true,
@@ -34798,7 +34798,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "InterCall",
-		auxType: auxInt64,
+		auxType: auxCallOff,
 		argLen:  2,
 		call:    true,
 		generic: true,
