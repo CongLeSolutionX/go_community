@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5df2f390_f4d5e2a2",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-06-15T17:16:40Z",
+      "side": 1,
+      "message": "aside: Do we really need both SliceStable and the idx comparison? Shouldn\u0027t just one of the other be sufficient here? That is, either switch to just Slice, or remove the idx field.\n\nDoesn\u0027t seem worth messing with right now, but caught my eye while looking at this.",
+      "revId": "60a45ac14985e8f81d1ab8e7bdaf0b1440591891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2a7e1d2_178a2578",
         "filename": "test/fixedbugs/issue8606.go",
         "patchSetId": 1
