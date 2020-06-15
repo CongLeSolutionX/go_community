@@ -130,7 +130,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 			getValue64(s, v.Args[1])
 			setReg(s, wasm.REG_CTXT)
 		}
-		if call, ok := v.Aux.(*ssa.AuxCall); ok {
+		if call, ok := v.Aux.(*ssa.AuxCall); ok && call.Fn != nil {
 			sym := call.Fn
 			p := s.Prog(obj.ACALL)
 			p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: sym}
