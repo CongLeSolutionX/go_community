@@ -16,6 +16,24 @@
       "revId": "61f9ead3e6e047437eb0b1652374caf412deda5e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796d173e_ffa79539",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2156,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-06-15T12:45:34Z",
+      "side": 1,
+      "message": "I actually put it here intentionally to put the function order back closer to what it was before we started all this work (in retrospect I should have been a little more careful about moving things around).",
+      "parentUuid": "31a55402_b221bbaa",
+      "revId": "61f9ead3e6e047437eb0b1652374caf412deda5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
