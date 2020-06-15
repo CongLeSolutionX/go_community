@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ccc449d8_6b7749d5",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-06-15T12:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af1c685_91267598",
+      "revId": "89ae4859a7d20979bab0018479bccdf9fd4fbdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9189cb43_a6e74775",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
@@ -39,6 +57,30 @@
       "revId": "89ae4859a7d20979bab0018479bccdf9fd4fbdc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b75ec809_a9aa1d46",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-06-15T12:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9189cb43_a6e74775",
+      "range": {
+        "startLine": 1250,
+        "startChar": 11,
+        "endLine": 1250,
+        "endChar": 12
+      },
+      "revId": "89ae4859a7d20979bab0018479bccdf9fd4fbdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
