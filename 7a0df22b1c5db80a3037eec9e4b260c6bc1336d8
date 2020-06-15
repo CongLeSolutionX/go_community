@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cc4c07d_6dba7072",
+        "filename": "src/cmd/go/testdata/script/list_case_collision.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-15T14:49:17Z",
+      "side": 1,
+      "message": "I would still prefer to avoid script tests that aren\u0027t guaranteed to unpack completely.\n(`cp example/b/file.go example/b/FILE.go # no-op if case-insensitive` seems more portable.)\n\nI would also prefer to have an explicit run-time condition for case-sensitivity, rather than relying on platform assertions: it is possible for macOS¹ and Windows² to have case-sensitive filesystems, and possible (though rare) to have case-insensitive filesystems on other platforms.³\n\nIt should be straightforward to implement a [case-sensitive] condition using a `sync.Once` and `ioutil.WriteFile`.\n\n\n¹https://support.apple.com/guide/disk-utility/file-system-formats-available-in-disk-utility-dsku19ed921c/mac\n²https://www.windowscentral.com/how-enable-ntfs-treat-folders-case-sensitive-windows-10\n³https://linux.die.net/man/8/mount.cifs (search for \"nocase\")",
+      "revId": "7a0df22b1c5db80a3037eec9e4b260c6bc1336d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
