@@ -2372,7 +2372,7 @@ func (ctxt *Link) address() []*sym.Segment {
 	// simply because right now we know where the BSS starts.
 	Segdata.Filelen = bss.Vaddr - Segdata.Vaddr
 
-	va = uint64(Rnd(int64(va), int64(*FlagRound)))
+	va = uint64(Rnd(int64(va), int64(ctxt.Arch.PtrSize)))
 	order = append(order, &Segdwarf)
 	Segdwarf.Rwx = 06
 	Segdwarf.Vaddr = va
@@ -2518,15 +2518,19 @@ func (ctxt *Link) layout(order []*sym.Segment) uint64 {
 		if prev == nil {
 			seg.Fileoff = uint64(HEADR)
 		} else {
+			roundAmount := *FlagRound
+			if seg == &Segdwarf {
+				roundAmount = ctxt.Arch.PtrSize
+			}
 			switch ctxt.HeadType {
 			default:
 				// Assuming the previous segment was
 				// aligned, the following rounding
 				// should ensure that this segment's
 				// VA ≡ Fileoff mod FlagRound.
-				seg.Fileoff = uint64(Rnd(int64(prev.Fileoff+prev.Filelen), int64(*FlagRound)))
-				if seg.Vaddr%uint64(*FlagRound) != seg.Fileoff%uint64(*FlagRound) {
-					Exitf("bad segment rounding (Vaddr=%#x Fileoff=%#x FlagRound=%#x)", seg.Vaddr, seg.Fileoff, *FlagRound)
+				seg.Fileoff = uint64(Rnd(int64(prev.Fileoff+prev.Filelen), int64(roundAmount)))
+				if seg.Vaddr%uint64(roundAmount) != seg.Fileoff%uint64(roundAmount) {
+					Exitf("bad segment rounding (Vaddr=%#x Fileoff=%#x roundAmount=%#x)", seg.Vaddr, seg.Fileoff, roundAmount)
 				}
 			case objabi.Hwindows:
 				seg.Fileoff = prev.Fileoff + uint64(Rnd(int64(prev.Filelen), PEFILEALIGN))
