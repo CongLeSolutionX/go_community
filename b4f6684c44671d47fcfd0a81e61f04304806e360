@@ -22,6 +22,30 @@
       "revId": "b4f6684c44671d47fcfd0a81e61f04304806e360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5513188_15887416",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-15T17:16:23Z",
+      "side": 1,
+      "message": "I think we\u0027ve emitted pubnames/pubtypes since DWARF support was added to the linker.  And I think Luuk wrote it that way because the DWARF docs make it seem like pubnames and pubtypes are cool and everyone should use them.  But the reality is nobody reads them, so in practice they are useless.  At least, I don\u0027t know of any use for them.",
+      "parentUuid": "b846325b_e7a933f5",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "b4f6684c44671d47fcfd0a81e61f04304806e360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
