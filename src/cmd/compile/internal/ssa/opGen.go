@@ -2714,6 +2714,7 @@ const (
 	OpSP
 	OpSB
 	OpLoad
+	OpDereference
 	OpStore
 	OpMove
 	OpZero
@@ -2727,6 +2728,7 @@ const (
 	OpClosureCall
 	OpStaticCall
 	OpInterCall
+	OpStaticLECall
 	OpSignExt8to16
 	OpSignExt8to32
 	OpSignExt8to64
@@ -2823,6 +2825,8 @@ const (
 	OpCvt64Fto64U
 	OpSelect0
 	OpSelect1
+	OpSelectN
+	OpSelectNAddr
 	OpAtomicLoad8
 	OpAtomicLoad32
 	OpAtomicLoad64
@@ -34698,6 +34702,11 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
+		name:    "Dereference",
+		argLen:  2,
+		generic: true,
+	},
+	{
 		name:    "Store",
 		auxType: auxTyp,
 		argLen:  3,
@@ -34779,6 +34788,13 @@ var opcodeTable = [...]opInfo{
 		name:    "InterCall",
 		auxType: auxCallOff,
 		argLen:  2,
+		call:    true,
+		generic: true,
+	},
+	{
+		name:    "StaticLECall",
+		auxType: auxCallOff,
+		argLen:  -1,
 		call:    true,
 		generic: true,
 	},
@@ -35282,6 +35298,18 @@ var opcodeTable = [...]opInfo{
 		argLen:    1,
 		zeroWidth: true,
 		generic:   true,
+	},
+	{
+		name:    "SelectN",
+		auxType: auxInt64,
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "SelectNAddr",
+		auxType: auxInt64,
+		argLen:  1,
+		generic: true,
 	},
 	{
 		name:    "AtomicLoad8",
