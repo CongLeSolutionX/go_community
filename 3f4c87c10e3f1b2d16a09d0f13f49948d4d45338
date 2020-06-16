@@ -52,6 +52,24 @@
       "revId": "3f4c87c10e3f1b2d16a09d0f13f49948d4d45338",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c40360_1bedf15a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2523,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-06-16T16:56:00Z",
+      "side": 1,
+      "message": "I can take a look. I\u0027ll also take a careful look at what external linkers do.",
+      "parentUuid": "edf88a49_1e0f0e11",
+      "revId": "3f4c87c10e3f1b2d16a09d0f13f49948d4d45338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
