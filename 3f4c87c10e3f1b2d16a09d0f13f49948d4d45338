@@ -16,6 +16,24 @@
       "revId": "3f4c87c10e3f1b2d16a09d0f13f49948d4d45338",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b75c3b94_67c733cf",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2523,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-06-16T16:38:31Z",
+      "side": 1,
+      "message": "\u003e we would wind up starting the DWARF segment on a paged shared by the loadable segment.\n\nNot sure why that matters. Maybe I missed something. It\u0027s fine to think that later. If we cannot eliminate the rounding, at some point we may need to take this into account for the size calculation in TestPIESize.",
+      "parentUuid": "dced61c8_77af9028",
+      "revId": "3f4c87c10e3f1b2d16a09d0f13f49948d4d45338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
