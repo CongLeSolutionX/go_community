@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee65e88f_f84e3e6f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5643,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2020-06-16T10:39:23Z",
+      "side": 1,
+      "message": "Since this format is so close to JSON, should we just make it JSON?",
+      "range": {
+        "startLine": 5643,
+        "startChar": 3,
+        "endLine": 5643,
+        "endChar": 18
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
