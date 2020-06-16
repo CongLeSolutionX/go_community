@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "d994396a_e9133154",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-06-16T18:46:46Z",
+      "side": 1,
+      "message": "instead of having another branch here, couldn\u0027t we just use memstats?\n\nunfortunately counting goroutines created is still required.",
+      "range": {
+        "startLine": 1133,
+        "startChar": 1,
+        "endLine": 1136,
+        "endChar": 2
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6d8161e_1716a12b",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5623,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-06-16T18:46:46Z",
+      "side": 1,
+      "message": "that\u0027s not quite true. goroutines could get spawned by the init goroutine and if they allocate, could modify the stats concurrently.",
+      "range": {
+        "startLine": 5623,
+        "startChar": 3,
+        "endLine": 5623,
+        "endChar": 73
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee65e88f_f84e3e6f",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -18,6 +64,53 @@
         "startChar": 3,
         "endLine": 5643,
         "endChar": 18
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "140b01ec_4d5e2298",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5643,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-06-16T18:46:46Z",
+      "side": 1,
+      "message": "I agree with this.",
+      "parentUuid": "ee65e88f_f84e3e6f",
+      "range": {
+        "startLine": 5643,
+        "startChar": 3,
+        "endLine": 5643,
+        "endChar": 18
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f903e5b_b1bbd8c5",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5650,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-06-16T18:46:46Z",
+      "side": 1,
+      "message": "this is sort of misleading, because it includes allocations that could\u0027ve been performed by a goroutine spawned by an init function. it could end up attributing a large number of allocations to the wrong source.\n\nI think we should track these statistics _only_ for the init goroutine, and nothing else, if we track them at all. the rest should be apparent through memstats (unless there\u0027s a use-case here I\u0027m missing).",
+      "range": {
+        "startLine": 5650,
+        "startChar": 49,
+        "endLine": 5650,
+        "endChar": 76
       },
       "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
