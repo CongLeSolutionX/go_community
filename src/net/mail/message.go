@@ -14,6 +14,8 @@ Notable divergences:
 	  such as breaking addresses across lines.
 	* No unicode normalization is performed.
 	* The special characters ()[]:;@\, are allowed to appear unquoted in names.
+
+The syntax permitted by this package is less strict than any of RFC 1034, 1035, 1123 and 5321.
 */
 package mail
 
@@ -171,7 +173,7 @@ type Address struct {
 	Address string // user@domain
 }
 
-// ParseAddress parses a single RFC 5322 address, e.g. "Barry Gibbs <bg@example.com>"
+// ParseAddress parses a single RFC 5322 address, e.g. "Barry Gibbs <bg@example.com>".
 func ParseAddress(address string) (*Address, error) {
 	return (&addrParser{s: address}).parseSingleAddress()
 }
