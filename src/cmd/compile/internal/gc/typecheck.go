@@ -341,7 +341,7 @@ func typecheck1(n *Node, top int) (res *Node) {
 			return n
 		}
 
-		typecheckdef(n)
+		typecheckdef(n, top)
 		if n.Op == ONONAME {
 			n.Type = nil
 			return n
@@ -385,6 +385,9 @@ func typecheck1(n *Node, top int) (res *Node) {
 			}
 
 			n.Name.SetUsed(true)
+			if outermost := n.Name.Defn; outermost != nil && outermost.Op == ONAME {
+				outermost.Name.SetUsed(true)
+			}
 		}
 
 		ok |= ctxExpr
@@ -3528,7 +3531,7 @@ func typecheckdeftype(n *Node) {
 	}
 }
 
-func typecheckdef(n *Node) {
+func typecheckdef(n *Node, top int) {
 	if enableTrace && trace {
 		defer tracePrint("typecheckdef", n)(nil)
 	}
@@ -3862,6 +3865,34 @@ func checkreturn(fn *Node) {
 		markbreaklist(fn.Nbody, nil)
 		if !fn.Nbody.isterminating() {
 			yyerrorl(fn.Func.Endlineno, "missing return at end of function")
+		}
+	}
+}
+
+func checkunused(fn *Node) {
+	// Prevent other errors from cascading into "not used" errors.
+	if nsavederrors+nerrors != 0 {
+		return
+	}
+
+	// Propagate the used flag for typeswitch variables up to the NONAME in its definition.
+	for _, ln := range fn.Func.Dcl {
+		if ln.Op == ONAME && ln.Class() == PAUTO && ln.Name.Used() && ln.Name.Defn != nil && ln.Name.Defn.Op == OTYPESW {
+			ln.Name.Defn.Left.Name.SetUsed(true)
+		}
+	}
+
+	for _, ln := range fn.Func.Dcl {
+		if ln.Op != ONAME || ln.Class() != PAUTO || ln.Name.Used() {
+			continue
+		}
+		if defn := ln.Name.Defn; defn != nil && defn.Op == OTYPESW {
+			if !defn.Left.Name.Used() {
+				yyerrorl(defn.Left.Pos, "%v declared but not used", ln.Sym)
+				defn.Left.Name.SetUsed(true) // suppress repeats
+			}
+		} else {
+			yyerrorl(ln.Pos, "%v declared but not used", ln.Sym)
 		}
 	}
 }

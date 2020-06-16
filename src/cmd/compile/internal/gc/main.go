@@ -622,6 +622,7 @@ func Main(archInit func(*Arch)) {
 			saveerrors()
 			typecheckslice(Curfn.Nbody.Slice(), ctxStmt)
 			checkreturn(Curfn)
+			checkunused(Curfn)
 			if nerrors != 0 {
 				Curfn.Nbody.Set(nil) // type errors; do not compile
 			}
