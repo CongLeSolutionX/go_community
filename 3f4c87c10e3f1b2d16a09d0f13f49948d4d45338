@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dced61c8_77af9028",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2523,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-06-16T16:09:57Z",
+      "side": 1,
+      "message": "I don\u0027t think this second change is going to be viable, based on what I am seeing from the trybots... I think it makes sense now that I think about it, given that if the last loadable segment isn\u0027t a multiple of the FlagRound value (page size or equivalent) we would wind up starting the DWARF segment on a paged shared by the loadable segment.\n\nI will back this part out.",
+      "revId": "3f4c87c10e3f1b2d16a09d0f13f49948d4d45338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
