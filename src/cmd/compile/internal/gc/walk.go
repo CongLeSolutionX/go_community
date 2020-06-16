@@ -25,42 +25,6 @@ func walk(fn *Node) {
 		dumplist(s, Curfn.Nbody)
 	}
 
-	lno := lineno
-
-	// Final typecheck for any unused variables.
-	for i, ln := range fn.Func.Dcl {
-		if ln.Op == ONAME && (ln.Class() == PAUTO || ln.Class() == PAUTOHEAP) {
-			ln = typecheck(ln, ctxExpr|ctxAssign)
-			fn.Func.Dcl[i] = ln
-		}
-	}
-
-	// Propagate the used flag for typeswitch variables up to the NONAME in its definition.
-	for _, ln := range fn.Func.Dcl {
-		if ln.Op == ONAME && (ln.Class() == PAUTO || ln.Class() == PAUTOHEAP) && ln.Name.Defn != nil && ln.Name.Defn.Op == OTYPESW && ln.Name.Used() {
-			ln.Name.Defn.Left.Name.SetUsed(true)
-		}
-	}
-
-	for _, ln := range fn.Func.Dcl {
-		if ln.Op != ONAME || (ln.Class() != PAUTO && ln.Class() != PAUTOHEAP) || ln.Sym.Name[0] == '&' || ln.Name.Used() {
-			continue
-		}
-		if defn := ln.Name.Defn; defn != nil && defn.Op == OTYPESW {
-			if defn.Left.Name.Used() {
-				continue
-			}
-			yyerrorl(defn.Left.Pos, "%v declared but not used", ln.Sym)
-			defn.Left.Name.SetUsed(true) // suppress repeats
-		} else {
-			yyerrorl(ln.Pos, "%v declared but not used", ln.Sym)
-		}
-	}
-
-	lineno = lno
-	if nerrors != 0 {
-		return
-	}
 	walkstmtlist(Curfn.Nbody.Slice())
 	if Debug['W'] != 0 {
 		s := fmt.Sprintf("after walk %v", Curfn.Func.Nname.Sym)
