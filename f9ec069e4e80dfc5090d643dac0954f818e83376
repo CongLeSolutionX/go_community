@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b0d4b67_ec4c2f0c",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2020-06-16T19:39:35Z",
+      "side": 1,
+      "message": "memstats doesnt differentiate goroutines. I reducing branching by creating a debug.malloc check that guards multiple checks including the existing debug.allocfreetrace.",
+      "parentUuid": "d994396a_e9133154",
+      "range": {
+        "startLine": 1133,
+        "startChar": 1,
+        "endLine": 1136,
+        "endChar": 2
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6d8161e_1716a12b",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b788a7d_69421934",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5623,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2020-06-16T19:39:35Z",
+      "side": 1,
+      "message": "reworded and made sure newproc and malloc only update these if its the init goroutine.",
+      "parentUuid": "f6d8161e_1716a12b",
+      "range": {
+        "startLine": 5623,
+        "startChar": 3,
+        "endLine": 5623,
+        "endChar": 73
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "1f928dc1_f7c9f0e4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5643,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2020-06-16T19:39:35Z",
+      "side": 1,
+      "message": "added [] to make it json. String escaping is also needed. will add that later.",
+      "parentUuid": "140b01ec_4d5e2298",
+      "range": {
+        "startLine": 5643,
+        "startChar": 3,
+        "endLine": 5643,
+        "endChar": 18
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f903e5b_b1bbd8c5",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -115,6 +187,30 @@
       "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a1f79ef_c5abf5df",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5650,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2020-06-16T19:39:35Z",
+      "side": 1,
+      "message": "Yes idea was to only track the init go routine. I had thought the other goroutines would not shedule already. I added a check that only allocations of the init go routine are counted in malloc and newproc.",
+      "parentUuid": "9f903e5b_b1bbd8c5",
+      "range": {
+        "startLine": 5650,
+        "startChar": 49,
+        "endLine": 5650,
+        "endChar": 76
+      },
+      "revId": "f9ec069e4e80dfc5090d643dac0954f818e83376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
