@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a8ceaa0_0b970ae5",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5647,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Do you have a specific JSON parser in mind that doesnt handle arrays on the top-level. It seems arrays on top-level are allowed by https://tools.ietf.org/html/rfc4627 and https://tools.ietf.org/html/rfc7159.",
+      "parentUuid": "89787d56_dea8aad5",
+      "revId": "7189d8b8a6801ed19852f9622caf68402b0b1988",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "853a3bc1_3d305646",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-06-17T07:11:54Z",
       "side": 1,
       "message": "This is definitely helpful since when you run `go test ./...` it\u0027s difficult to understand which test package is being run. It also could be pid.",
+      "revId": "7189d8b8a6801ed19852f9622caf68402b0b1988",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e5fad1b_eef01278",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5650,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-06-17T09:27:10Z",
+      "side": 1,
+      "message": "yes thats why I have the comment there. I was not yet sure what best to put there thats low overhead. maybe both. could even get the module. But for human readable output I might just skip the to much information version.",
+      "parentUuid": "853a3bc1_3d305646",
       "revId": "7189d8b8a6801ed19852f9622caf68402b0b1988",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
