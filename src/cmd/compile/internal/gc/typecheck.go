@@ -3658,7 +3658,7 @@ func typecheckdef(n *Node, top int) {
 		}
 
 		if n.Name.Defn.Op == ONAME {
-			n.Name.Defn = typecheck(n.Name.Defn, ctxExpr)
+			n.Name.Defn = typecheck(n.Name.Defn, top)
 			n.Type = n.Name.Defn.Type
 			break
 		}
