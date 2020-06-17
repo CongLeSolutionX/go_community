@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7be99b57_af262e5a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5647,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-06-17T09:35:10Z",
+      "side": 1,
+      "message": "Sure, but \"init:{\" is not valid object. For valid json it would need to be one of:\n\n    { \"init\": { \"start\": 123, \n    [ { \"init\" : { \"start\": 123, \n    [ { \"start\": 123,",
+      "parentUuid": "3a8ceaa0_0b970ae5",
+      "revId": "7189d8b8a6801ed19852f9622caf68402b0b1988",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "853a3bc1_3d305646",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
