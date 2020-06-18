@@ -55,6 +55,32 @@ func Goroutine(ctx context.Context) context.Context {
 	return context.WithValue(ctx, traceKey{}, traceContext{tc.t, tc.t.getNextTID()})
 }
 
+func Flow(ctx context.Context, from *Span, to *Span) {
+	tc, ok := getTraceContext(ctx)
+	if !ok || from == nil || to == nil {
+		return
+	}
+
+	id := tc.t.getNextFlowID()
+	tc.t.writeEvent(&traceviewer.Event{
+		Name:     from.name + " -> " + to.name,
+		Category: "flow",
+		ID:       id,
+		Time:     float64(from.end.UnixNano() / int64(time.Microsecond)),
+		Phase:    "s",
+		TID:      from.tid,
+	})
+	tc.t.writeEvent(&traceviewer.Event{
+		Name:      from.name + " -> " + to.name,
+		Category:  "flow", // TODO(matloob): Add Category to FlowFrom?
+		ID:        id,
+		Time:      float64(to.start.UnixNano() / int64(time.Microsecond)),
+		Phase:     "f",
+		TID:       to.tid,
+		BindPoint: "e",
+	})
+}
+
 type Span struct {
 	t *tracer
 
@@ -80,7 +106,8 @@ func (s *Span) Done() {
 type tracer struct {
 	evch chan *traceviewer.Event
 
-	nextTID uint64
+	nextTID    uint64
+	nextFlowID uint64
 }
 
 func (t *tracer) writeEvent(ev *traceviewer.Event) {
@@ -90,6 +117,10 @@ func (t *tracer) writeEvent(ev *traceviewer.Event) {
 func (t *tracer) getNextTID() uint64 {
 	// Subtract 1 to start numbering from zero.
 	return atomic.AddUint64(&t.nextTID, 1) - 1
+}
+
+func (t *tracer) getNextFlowID() uint64 {
+	return atomic.AddUint64(&t.nextFlowID, 1)
 }
 
 // traceKey is the context key for tracing information. It is unexported to prevent collisions with context keys defined in
