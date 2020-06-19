@@ -5,6 +5,7 @@
 package ssa
 
 import (
+	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"fmt"
 )
@@ -67,25 +68,60 @@ type regInfo struct {
 
 type auxType int8
 
+type ArgOrResult struct {
+	T      *types.Type
+	Offset int32 // TODO someday this will be a register
+}
+
 type AuxCall struct {
-	Fn *obj.LSym
+	Fn      *obj.LSym
+	args    []ArgOrResult
+	results []ArgOrResult // Normal calls return a struct for multiple args, RT calls return multiple args, 🙄.
 }
 
 func (a *AuxCall) String() string {
+	var fn string
 	if a.Fn == nil {
-		return "AuxCall(nil)"
+		fn = "AuxCall{nil" // could be interface/closure etc.
+	} else {
+		fn = fmt.Sprintf("AuxCall{%v", a.Fn)
 	}
-	return fmt.Sprintf("AuxCall(%v)", a.Fn)
+
+	if len(a.args) == 0 {
+		fn += "()"
+	} else {
+		s := "("
+		for _, arg := range a.args {
+			fn += fmt.Sprintf("%s[%v,%v]", s, arg.T, arg.Offset)
+			s = ","
+		}
+		fn += ")"
+	}
+
+	if len(a.results) > 0 { // usual is zero or one; only some RT calls have more than one.
+		if len(a.results) == 1 {
+			fn += fmt.Sprintf("[%v,%v]", a.results[0].T, a.results[0].Offset)
+		} else {
+			s := "("
+			for _, result := range a.results {
+				fn += fmt.Sprintf("%s[%v,%v]", s, result.T, result.Offset)
+				s = ","
+			}
+			fn += ")"
+		}
+	}
+
+	return fn + "}"
 }
 
 // StaticAuxCall returns an AuxCall for a static call.
-func StaticAuxCall(sym *obj.LSym) *AuxCall {
-	return &AuxCall{Fn: sym}
+func StaticAuxCall(sym *obj.LSym, args []ArgOrResult, results []ArgOrResult) *AuxCall {
+	return &AuxCall{Fn: sym, args: args, results: results}
 }
 
 // InterfaceAuxCall returns an AuxCall for an interface call.
-func InterfaceAuxCall() *AuxCall {
-	return &AuxCall{}
+func InterfaceAuxCall(args []ArgOrResult, results []ArgOrResult) *AuxCall {
+	return &AuxCall{Fn: nil, args: args, results: results}
 }
 
 // ClosureAuxCall returns an AuxCall for a closure call.
