@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78c41a43_fdc63eb1",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-19T04:58:38Z",
+      "side": 1,
+      "message": "I think this comment needs to be completely rewritten.  It doesn\u0027t make sense any more now that the err !\u003d nil check has been removed.",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad30d76_6f76d60f",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-19T04:58:38Z",
+      "side": 1,
+      "message": "Unfortunately I don\u0027t think this change can be made.  Existing code expects to be able to intercept this error in walkFn.  Here that no longer happens.  This seems likely to break existing programs.",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
