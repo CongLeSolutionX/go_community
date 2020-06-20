@@ -2026,7 +2026,10 @@ func checkFingerprint(lib *sym.Library, libfp goobj2.FingerprintType, src string
 func readelfsymboldata(ctxt *Link, f *elf.File, sym *elf.Symbol) []byte {
 	data := make([]byte, sym.Size)
 	sect := f.Sections[sym.Section]
-	if sect.Type != elf.SHT_PROGBITS && sect.Type != elf.SHT_NOTE {
+	if sect.Type != elf.SHT_PROGBITS &&
+		sect.Type != elf.SHT_NOTE &&
+		sect.Type != elf.SHT_MIPS_ABIFLAGS &&
+		sect.Type != elf.SHT_GNU_ATTRIBUTES {
 		Errorf(nil, "reading %s from non-data section", sym.Name)
 	}
 	n, err := sect.ReadAt(data, int64(sym.Value-sect.Addr))

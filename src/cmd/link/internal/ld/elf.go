@@ -5,6 +5,7 @@
 package ld
 
 import (
+	"bytes"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
@@ -207,11 +208,13 @@ const (
 	SHT_SYMTAB_SHNDX     = 18
 	SHT_LOOS             = 0x60000000
 	SHT_HIOS             = 0x6fffffff
+	SHT_GNU_ATTRIBUTES   = 0x6ffffff5
 	SHT_GNU_VERDEF       = 0x6ffffffd
 	SHT_GNU_VERNEED      = 0x6ffffffe
 	SHT_GNU_VERSYM       = 0x6fffffff
 	SHT_LOPROC           = 0x70000000
 	SHT_ARM_ATTRIBUTES   = 0x70000003
+	SHT_MIPS_ABIFLAGS    = 0x7000002a
 	SHT_HIPROC           = 0x7fffffff
 	SHT_LOUSER           = 0x80000000
 	SHT_HIUSER           = 0xffffffff
@@ -238,6 +241,7 @@ const (
 	PT_LOOS              = 0x60000000
 	PT_HIOS              = 0x6fffffff
 	PT_LOPROC            = 0x70000000
+	PT_MIPS_ABIFLAGS     = 0x70000003
 	PT_HIPROC            = 0x7fffffff
 	PT_GNU_STACK         = 0x6474e551
 	PT_GNU_RELRO         = 0x6474e552
@@ -467,6 +471,8 @@ var (
 	shdr [NSECT]*ElfShdr
 
 	interp string
+
+	ByteOrder binary.ByteOrder
 )
 
 type Elfstring struct {
@@ -491,6 +497,12 @@ func Elfinit(ctxt *Link) {
 		elfRelType = ".rela"
 	} else {
 		elfRelType = ".rel"
+	}
+
+	if ctxt.IsBigEndian() {
+		ByteOrder = binary.BigEndian
+	} else {
+		ByteOrder = binary.LittleEndian
 	}
 
 	switch ctxt.Arch.Family {
@@ -823,6 +835,86 @@ func elfwriteinterp(out *OutBuf) int {
 	out.SeekSet(int64(sh.off))
 	out.WriteString(interp)
 	out.Write8(0)
+	return int(sh.size)
+}
+
+/* member of .gnu.attributes of MIPS for fp_abi */
+type mips_gnuattributes struct {
+	version uint8   // 'A'
+	length  uint32  // 15 include itself
+	gnu     [4]byte // gnu\0
+	tag     uint8   // 1:file, 2: section, 3: symbol, 1 here
+	taglen  uint32  // tag length, include tag, 7 here
+	tagfp   uint8   // 4
+	fp_abi  uint8   // see .MIPS.abiflags
+}
+
+func elfgnuattributescontent() []byte {
+	ret := mips_gnuattributes{
+		version: 'A', length: 15,
+		gnu: [4]byte{'g', 'n', 'u', 0},
+		tag: 1, taglen: 7, tagfp: 4, fp_abi: 1,
+	}
+	if objabi.GOMIPS == "softfloat" {
+		ret.fp_abi = 3
+	}
+	buf := &bytes.Buffer{}
+	binary.Write(buf, ByteOrder, ret)
+	return buf.Bytes()
+}
+
+type Elf_Internal_ABIFlags_v0 struct {
+	// Version of flags structure.
+	version uint16
+	// The level of the ISA: 1-5, 32, 64.
+	isa_level uint8
+	// The revision of ISA: 0 for MIPS V and below, 1-n otherwise.
+	isa_rev uint8
+	// The size of general purpose registers.
+	gpr_size uint8
+	// The size of co-processor 1 registers.
+	cpr1_size uint8
+	// The size of co-processor 2 registers.
+	cpr2_size uint8
+	// The floating-point ABI.
+	fp_abi uint8
+	// Processor-specific extension.
+	isa_ext uint32
+	// Mask of ASEs used.
+	ases uint32
+	// Mask of general flags.
+	flags1 uint32
+	flags2 uint32
+}
+
+func elfmipsabiflags(sh *ElfShdr, startva uint64, resoff uint64) int {
+	n := 24
+	sh.addr = startva + resoff - uint64(n)
+	sh.off = resoff - uint64(n)
+	sh.size = uint64(n)
+	sh.type_ = SHT_MIPS_ABIFLAGS
+	sh.flags = SHF_ALLOC
+
+	return n
+}
+func elfmipsabiflagscontent() []byte {
+	ret := Elf_Internal_ABIFlags_v0{
+		version: 0, isa_level: 32, isa_rev: 1,
+		gpr_size: 1, cpr1_size: 1, cpr2_size: 0,
+		fp_abi: 1, isa_ext: 0, ases: 0, flags1: 0, flags2: 0,
+	}
+	if objabi.GOMIPS == "softfloat" {
+		ret.cpr1_size = 0
+		ret.fp_abi = 3
+	}
+	buf := &bytes.Buffer{}
+	binary.Write(buf, ByteOrder, ret)
+	return buf.Bytes()
+}
+func elfwritemipsabiflags(out *OutBuf) int {
+	sh := elfshname(".MIPS.abiflags")
+	out.SeekSet(int64(sh.off))
+	out.Write(elfmipsabiflagscontent())
 	return int(sh.size)
 }
 
@@ -1280,8 +1372,8 @@ func elfshbits(linkmode LinkMode, sect *sym.Section) *ElfShdr {
 
 	// If this section has already been set up as a note, we assume type_ and
 	// flags are already correct, but the other fields still need filling in.
-	if sh.type_ == SHT_NOTE {
-		if linkmode != LinkExternal {
+	if sh.type_ == SHT_NOTE || sh.type_ == SHT_MIPS_ABIFLAGS || sh.type_ == SHT_GNU_ATTRIBUTES {
+		if linkmode != LinkExternal && sh.type_ == SHT_NOTE {
 			// TODO(mwhudson): the approach here will work OK when
 			// linking internally for notes that we want to be included
 			// in a loadable segment (e.g. the abihash note) but not for
@@ -1344,6 +1436,12 @@ func elfshreloc(arch *sys.Arch, sect *sym.Section) *ElfShdr {
 	if sect.Elfsect.(*ElfShdr).type_ == SHT_NOTE {
 		return nil
 	}
+	if sect.Elfsect.(*ElfShdr).type_ == SHT_MIPS_ABIFLAGS {
+		return nil
+	}
+	if sect.Elfsect.(*ElfShdr).type_ == SHT_GNU_ATTRIBUTES {
+		return nil
+	}
 
 	typ := SHT_REL
 	if elfRelType == ".rela" {
@@ -1385,6 +1483,9 @@ func elfrelocsect(ctxt *Link, sect *sym.Section, syms []*sym.Symbol) {
 		return
 	}
 	if sect.Name == ".shstrtab" {
+		return
+	}
+	if sect.Name == ".gnu.attributes" {
 		return
 	}
 
@@ -1507,6 +1608,10 @@ func (ctxt *Link) doelf() {
 	shstrtab.Addstring(".noptrbss")
 	shstrtab.Addstring("__libfuzzer_extra_counters")
 	shstrtab.Addstring(".go.buildinfo")
+	if ctxt.IsMIPS() {
+		shstrtab.Addstring(".MIPS.abiflags")
+		shstrtab.Addstring(".gnu.attributes")
+	}
 
 	// generate .tbss section for dynamic internal linker or external
 	// linking, so that various binutils could correctly calculate
@@ -1557,6 +1662,10 @@ func (ctxt *Link) doelf() {
 			shstrtab.Addstring(elfRelType + ".data.rel.ro")
 		}
 		shstrtab.Addstring(elfRelType + ".go.buildinfo")
+		if ctxt.IsMIPS() {
+			shstrtab.Addstring(elfRelType + ".MIPS.abiflags")
+			shstrtab.Addstring(elfRelType + ".gnu.attributes")
+		}
 
 		// add a .note.GNU-stack section to mark the stack as non-executable
 		shstrtab.Addstring(".note.GNU-stack")
@@ -1760,6 +1869,13 @@ func (ctxt *Link) doelf() {
 	if ctxt.LinkMode == LinkExternal && *flagBuildid != "" {
 		addgonote(ctxt, ".note.go.buildid", ELF_NOTE_GOBUILDID_TAG, []byte(*flagBuildid))
 	}
+
+	if ctxt.IsMIPS() {
+		gnuattributes := ldr.CreateSymForUpdate(".gnu.attributes", 0)
+		gnuattributes.SetType(sym.SELFROSECT)
+		gnuattributes.SetReachable(true)
+		gnuattributes.AddBytes(elfgnuattributescontent())
+	}
 }
 
 // Do not write DT_NULL.  elfdynhash will finish it.
@@ -1856,6 +1972,7 @@ func Asmbelf(ctxt *Link, symo int64) {
 
 	var pph *ElfPhdr
 	var pnote *ElfPhdr
+
 	if *flagRace && ctxt.IsNetbsd() {
 		sh := elfshname(".note.netbsd.pax")
 		resoff -= int64(elfnetbsdpax(sh, uint64(startva), uint64(resoff)))
@@ -1864,6 +1981,7 @@ func Asmbelf(ctxt *Link, symo int64) {
 		pnote.flags = PF_R
 		phsh(pnote, sh)
 	}
+
 	if ctxt.LinkMode == LinkExternal {
 		/* skip program headers */
 		eh.phoff = 0
@@ -2208,6 +2326,24 @@ elfobj:
 	shsym(sh, ctxt.Syms.Lookup(".shstrtab", 0))
 	eh.shstrndx = uint16(sh.shnum)
 
+	if ctxt.IsMIPS() {
+		sh = elfshname(".MIPS.abiflags")
+		sh.type_ = SHT_MIPS_ABIFLAGS
+		sh.flags = SHF_ALLOC
+		sh.addralign = 8
+		resoff -= int64(elfmipsabiflags(sh, uint64(startva), uint64(resoff)))
+
+		ph := newElfPhdr()
+		ph.type_ = PT_MIPS_ABIFLAGS
+		ph.flags = PF_R
+		phsh(ph, sh)
+
+		sh = elfshname(".gnu.attributes")
+		sh.type_ = SHT_GNU_ATTRIBUTES
+		sh.addralign = 1
+		shsym(sh, ctxt.Syms.Lookup(".gnu.attributes", 0))
+	}
+
 	// put these sections early in the list
 	if !*FlagS {
 		elfshname(".symtab")
@@ -2326,6 +2462,10 @@ elfobj:
 	if !*FlagD {
 		a += int64(elfwriteinterp(ctxt.Out))
 	}
+	if ctxt.IsMIPS() {
+		a += int64(elfwritemipsabiflags(ctxt.Out))
+	}
+
 	if ctxt.LinkMode != LinkExternal {
 		if ctxt.HeadType == objabi.Hnetbsd {
 			a += int64(elfwritenetbsdsig(ctxt.Out))
