@@ -5,6 +5,7 @@
 package ld
 
 import (
+	"bytes"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
@@ -516,6 +517,119 @@ func elfwriteinterp(out *OutBuf) int {
 	out.SeekSet(int64(sh.Off))
 	out.WriteString(interp)
 	out.Write8(0)
+	return int(sh.Size)
+}
+
+// member of .gnu.attributes of MIPS for fpAbi
+//| .gnu_attribute 4,0 | No floating point is present in the module (default)          |
+//| .gnu_attribute 4,1 | FP code in the module uses the FP32 ABI for a 32-bit ABI      |
+//| .gnu_attribute 4,1 | FP code in the module uses 64-bit registers for a 64-bit ABI  |
+//| .gnu_attribute 4,2 | FP code in the module only uses single precision ABI          |
+//| .gnu_attribute 4,3 | FP code in the module uses soft-float ABI                     |
+//| .gnu_attribute 4,4 | FP code in the module assumes an FPU with FR=1 and has 12     |
+//|                    | callee-saved doubles. Historic, no longer supported.          |
+//| .gnu_attribute 4,5 | FP code in the module uses the FPXX ABI                       |
+//| .gnu_attribute 4,6 | FP code in the module uses the FP64 ABI                       |
+//| .gnu_attribute 4,7 | FP code in the module uses the FP64A ABI		       |
+const (
+	MIPS_FPABI_NONE    = 0
+	MIPS_FPABI_ANY     = 1
+	MIPS_FPABI_SINGLE  = 2
+	MIPS_FPABI_SOFT    = 3
+	MIPS_FPABI_HIST    = 4
+	MIPS_FPABI_FPXX    = 5
+	MIPS_FPABI_FP64    = 6
+	MIPS_FPABI_FP64A   = 7
+)
+type mipsGnuAttributes struct {
+	version uint8   // 'A'
+	length  uint32  // 15 including itself
+	gnu     [4]byte // "gnu\0"
+	tag     uint8   // 1:file, 2: section, 3: symbol, 1 here
+	taglen  uint32  // tag length, including tag, 7 here
+	tagfp   uint8   // 4
+	fpAbi  uint8    // see .MIPS.abiflags
+}
+
+func elfGnuAttributesContent(ByteOrder binary.ByteOrder) []byte {
+	ret := mipsGnuAttributes{
+		version: 'A',
+		length: 15,
+		gnu: [4]byte{'g', 'n', 'u', 0},
+		tag: 1,
+		taglen: 7,
+		tagfp: 4,
+		fpAbi: MIPS_FPABI_ANY,
+	}
+	if objabi.GOMIPS == "softfloat" {
+		ret.fpAbi = MIPS_FPABI_SOFT
+	}
+	buf := &bytes.Buffer{}
+	binary.Write(buf, ByteOrder, ret)
+	return buf.Bytes()
+}
+
+type ElfInternalABIFlagsV0 struct {
+	// Version of flags structure.
+	version uint16
+	// The level of the ISA: 1-5, 32, 64.
+	isaLevel uint8
+	// The revision of ISA: 0 for MIPS V and below, 1-n otherwise.
+	isaRev uint8
+	// The size of general purpose registers.
+	gprSize uint8
+	// The size of co-processor 1 registers.
+	cpr1Size uint8
+	// The size of co-processor 2 registers.
+	cpr2Size uint8
+	// The floating-point ABI.
+	fpAbi uint8
+	// Processor-specific extension.
+	isaExt uint32
+	// Mask of ASEs used.
+	ases uint32
+	// Mask of general flags.
+	flags1 uint32
+	flags2 uint32
+}
+
+func elfMipsAbiFlags(sh *ElfShdr, startva uint64, resoff uint64) int {
+	n := 24
+	sh.Addr = startva + resoff - uint64(n)
+	sh.Off = resoff - uint64(n)
+	sh.Size = uint64(n)
+	sh.Type = uint32(elf.SHT_MIPS_ABIFLAGS)
+	sh.Flags = uint64(elf.SHF_ALLOC)
+
+	return n
+}
+
+func elfMipsAbiFlagsContent(ByteOrder binary.ByteOrder) []byte {
+	ret := ElfInternalABIFlagsV0{
+		version: 0,
+		isaLevel: 32,
+		isaRev: 1,
+		gprSize: 1,
+		cpr1Size: 1,
+		cpr2Size: 0,
+		fpAbi: MIPS_FPABI_ANY,
+		isaExt: 0,
+		ases: 0,
+		flags1: 0,
+		flags2: 0,
+	}
+	if objabi.GOMIPS == "softfloat" {
+		ret.cpr1Size = 0
+		ret.fpAbi = MIPS_FPABI_SOFT
+	}
+	buf := &bytes.Buffer{}
+	binary.Write(buf, ByteOrder, ret)
+	return buf.Bytes()
+}
+func elfWriteMipsAbiFlags(ctxt *Link) int {
+	sh := elfshname(".MIPS.abiflags")
+	ctxt.Out.SeekSet(int64(sh.Off))
+	ctxt.Out.Write(elfMipsAbiFlagsContent(ctxt.Arch.ByteOrder))
 	return int(sh.Size)
 }
 
@@ -1204,6 +1318,10 @@ func (ctxt *Link) doelf() {
 	shstrtab.Addstring(".noptrbss")
 	shstrtab.Addstring("__libfuzzer_extra_counters")
 	shstrtab.Addstring(".go.buildinfo")
+	if ctxt.IsMIPS() {
+		shstrtab.Addstring(".MIPS.abiflags")
+		shstrtab.Addstring(".gnu.attributes")
+	}
 
 	// generate .tbss section for dynamic internal linker or external
 	// linking, so that various binutils could correctly calculate
@@ -1254,6 +1372,10 @@ func (ctxt *Link) doelf() {
 			shstrtab.Addstring(elfRelType + ".data.rel.ro")
 		}
 		shstrtab.Addstring(elfRelType + ".go.buildinfo")
+		if ctxt.IsMIPS() {
+			shstrtab.Addstring(elfRelType + ".MIPS.abiflags")
+			shstrtab.Addstring(elfRelType + ".gnu.attributes")
+		}
 
 		// add a .note.GNU-stack section to mark the stack as non-executable
 		shstrtab.Addstring(".note.GNU-stack")
@@ -1444,6 +1566,13 @@ func (ctxt *Link) doelf() {
 
 	if ctxt.LinkMode == LinkExternal && *flagBuildid != "" {
 		addgonote(ctxt, ".note.go.buildid", ELF_NOTE_GOBUILDID_TAG, []byte(*flagBuildid))
+	}
+
+	if ctxt.IsMIPS() {
+		gnuattributes := ldr.CreateSymForUpdate(".gnu.attributes", 0)
+		gnuattributes.SetType(sym.SELFROSECT)
+		gnuattributes.SetReachable(true)
+		gnuattributes.AddBytes(elfGnuAttributesContent(ctxt.Arch.ByteOrder))
 	}
 }
 
@@ -1910,6 +2039,25 @@ elfobj:
 	shsym(sh, ldr, ldr.Lookup(".shstrtab", 0))
 	eh.Shstrndx = uint16(sh.shnum)
 
+	if ctxt.IsMIPS() {
+		sh = elfshname(".MIPS.abiflags")
+		sh.Type = uint32(elf.SHT_MIPS_ABIFLAGS)
+		sh.Flags = uint64(elf.SHF_ALLOC)
+		sh.Addralign = 8
+		resoff -= int64(elfMipsAbiFlags(sh, uint64(startva), uint64(resoff)))
+
+		ph := newElfPhdr()
+		ph.Type = elf.PT_MIPS_ABIFLAGS
+		ph.Flags = elf.PF_R
+		phsh(ph, sh)
+
+		sh = elfshname(".gnu.attributes")
+		sh.Type = uint32(elf.SHT_GNU_ATTRIBUTES)
+		sh.Addralign = 1
+		ldr := ctxt.loader
+		shsym(sh, ldr, ldr.Lookup(".gnu.attributes", 0))
+	}
+
 	// put these sections early in the list
 	if !*FlagS {
 		elfshname(".symtab")
@@ -2029,6 +2177,10 @@ elfobj:
 	if !*FlagD {
 		a += int64(elfwriteinterp(ctxt.Out))
 	}
+	if ctxt.IsMIPS() {
+		a += int64(elfWriteMipsAbiFlags(ctxt))
+	}
+
 	if ctxt.LinkMode != LinkExternal {
 		if ctxt.HeadType == objabi.Hnetbsd {
 			a += int64(elfwritenetbsdsig(ctxt.Out))
