@@ -274,6 +274,9 @@ var depsRules = `
 	container/heap, go/constant, go/parser
 	< go/types;
 
+	FMT
+	< go/build/constraint;
+
 	go/doc, go/parser, internal/goroot, internal/goversion
 	< go/build;
 
