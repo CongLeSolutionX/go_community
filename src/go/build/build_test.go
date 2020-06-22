@@ -156,6 +156,13 @@ var shouldBuildTests = []struct {
 		shouldBuild: true,
 	},
 	{
+		name: "Yes2",
+		content: "//go:build yes\n" +
+			"package main\n",
+		tags:        map[string]bool{"yes": true},
+		shouldBuild: true,
+	},
+	{
 		name: "Or",
 		content: "// +build no yes\n\n" +
 			"package main\n",
@@ -163,8 +170,22 @@ var shouldBuildTests = []struct {
 		shouldBuild: true,
 	},
 	{
+		name: "Or2",
+		content: "//go:build no || yes\n" +
+			"package main\n",
+		tags:        map[string]bool{"yes": true, "no": true},
+		shouldBuild: true,
+	},
+	{
 		name: "And",
 		content: "// +build no,yes\n\n" +
+			"package main\n",
+		tags:        map[string]bool{"yes": true, "no": true},
+		shouldBuild: false,
+	},
+	{
+		name: "And2",
+		content: "//go:build no && yes\n" +
 			"package main\n",
 		tags:        map[string]bool{"yes": true, "no": true},
 		shouldBuild: false,
@@ -180,11 +201,22 @@ var shouldBuildTests = []struct {
 		shouldBuild: false,
 	},
 	{
+		name: "Cgo2",
+		content: "//go:build cgo\n" +
+			"// Copyright The Go Authors.\n\n" +
+			"// This package implements parsing of tags like\n" +
+			"// +build tag1\n" +
+			"package build",
+		tags:        map[string]bool{"cgo": true},
+		shouldBuild: false,
+	},
+	{
 		name: "AfterPackage",
 		content: "// Copyright The Go Authors.\n\n" +
 			"package build\n\n" +
 			"// shouldBuild checks tags given by lines of the form\n" +
 			"// +build tag\n" +
+			"//go:build tag\n" +
 			"func shouldBuild(content []byte)\n",
 		tags:        map[string]bool{},
 		shouldBuild: true,
@@ -197,11 +229,25 @@ var shouldBuildTests = []struct {
 		shouldBuild: true,
 	},
 	{
+		name: "TooClose2",
+		content: "//go:build yes\n" +
+			"package main\n",
+		tags:        map[string]bool{"yes": true},
+		shouldBuild: true,
+	},
+	{
 		name: "TooCloseNo",
 		content: "// +build no\n" +
 			"package main\n",
 		tags:        map[string]bool{},
 		shouldBuild: true,
+	},
+	{
+		name: "TooCloseNo2",
+		content: "//go:build no\n" +
+			"package main\n",
+		tags:        map[string]bool{"no": true},
+		shouldBuild: false,
 	},
 	{
 		name: "BinaryOnly",
@@ -213,20 +259,21 @@ var shouldBuildTests = []struct {
 		shouldBuild: true,
 	},
 	{
+		name: "BinaryOnly2",
+		content: "//go:binary-only-package\n" +
+			"//go:build no\n" +
+			"package main\n",
+		tags:        map[string]bool{"no": true},
+		binaryOnly:  true,
+		shouldBuild: false,
+	},
+	{
 		name: "ValidGoBuild",
 		content: "// +build yes\n\n" +
 			"//go:build no\n" +
 			"package main\n",
-		tags:        map[string]bool{"yes": true},
-		shouldBuild: true,
-	},
-	{
-		name: "MissingBuild",
-		content: "//go:build no\n" +
-			"package main\n",
-		tags:        map[string]bool{},
+		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
-		err:         errGoBuildWithoutBuild,
 	},
 	{
 		name: "MissingBuild2",
@@ -234,20 +281,8 @@ var shouldBuildTests = []struct {
 			"// +build yes\n\n" +
 			"//go:build no\n" +
 			"package main\n",
-		tags:        map[string]bool{},
+		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
-		err:         errGoBuildWithoutBuild,
-	},
-	{
-		name: "MissingBuild2",
-		content: "/*\n" +
-			"// +build yes\n\n" +
-			"*/\n" +
-			"//go:build no\n" +
-			"package main\n",
-		tags:        map[string]bool{},
-		shouldBuild: false,
-		err:         errGoBuildWithoutBuild,
 	},
 	{
 		name: "Comment1",
@@ -265,9 +300,8 @@ var shouldBuildTests = []struct {
 			"*/\n\n" +
 			"//go:build no\n" +
 			"package main\n",
-		tags:        map[string]bool{},
+		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
-		err:         errGoBuildWithoutBuild,
 	},
 	{
 		name: "Comment3",
@@ -276,9 +310,8 @@ var shouldBuildTests = []struct {
 			"*/\n\n" +
 			"//go:build no\n" +
 			"package main\n",
-		tags:        map[string]bool{},
+		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
-		err:         errGoBuildWithoutBuild,
 	},
 	{
 		name: "Comment4",
@@ -292,9 +325,8 @@ var shouldBuildTests = []struct {
 		content: "/**/\n" +
 			"//go:build no\n" +
 			"package main\n",
-		tags:        map[string]bool{},
+		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
-		err:         errGoBuildWithoutBuild,
 	},
 }
 
