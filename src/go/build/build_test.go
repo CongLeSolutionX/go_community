@@ -29,6 +29,7 @@ func TestMatch(t *testing.T) {
 	ctxt := Default
 	what := "default"
 	match := func(tag string, want map[string]bool) {
+		t.Helper()
 		m := make(map[string]bool)
 		if !ctxt.match(tag, m) {
 			t.Errorf("%s context should match %s, does not", what, tag)
@@ -38,6 +39,7 @@ func TestMatch(t *testing.T) {
 		}
 	}
 	nomatch := func(tag string, want map[string]bool) {
+		t.Helper()
 		m := make(map[string]bool)
 		if ctxt.match(tag, m) {
 			t.Errorf("%s context should NOT match %s, does", what, tag)
@@ -58,7 +60,6 @@ func TestMatch(t *testing.T) {
 	nomatch(runtime.GOOS+","+runtime.GOARCH+",!foo", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "foo": true})
 	match(runtime.GOOS+","+runtime.GOARCH+",!bar", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "bar": true})
 	nomatch(runtime.GOOS+","+runtime.GOARCH+",bar", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "bar": true})
-	nomatch("!", map[string]bool{})
 }
 
 func TestDotSlashImport(t *testing.T) {
