@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2d0970f_c7ca377b",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-06-22T06:12:57Z",
+      "side": 1,
+      "message": "It seems not necessary define a global variable for MIPS only which elfmipsabiflagscontent can take ctxt as argument.",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd69d60e_50f47a5e",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-06-22T06:12:57Z",
+      "side": 1,
+      "message": "I think \"mipsgnuattributes\" seems more consistent with others.",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62c65d50_0940faaa",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-06-22T06:12:57Z",
+      "side": 1,
+      "message": "same as mipsgnuattributes.\n\nELFInternalABIFlags\n\nBy the way, what is v0?",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "507c6eff_f11e4f34",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-06-22T06:12:57Z",
+      "side": 1,
+      "message": "Maybe we can rewrite this into \n\n\nfunc writeelfmipsabiflags(out *OutBuf, ctxt *Link) (err error){\n    // ....\n    err \u003d binary.Write(*OutBuf, ctxt.IsBinary(), ret)\n    return\n}",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
