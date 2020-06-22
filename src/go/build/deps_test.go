@@ -210,6 +210,9 @@ var pkgDeps = map[string][]string{
 	"internal/lazyregexp":      {"L2", "OS", "regexp"},
 	"internal/lazytemplate":    {"L2", "OS", "text/template"},
 
+	// go/build/constraint is used by go/printer and cmd/go; keep deps small.
+	"go/build/constraint": {"L2"},
+
 	// L4 is defined as L3+fmt+log+time, because in general once
 	// you're using L3 packages, use of fmt, log, or time is not a big deal.
 	"L4": {
