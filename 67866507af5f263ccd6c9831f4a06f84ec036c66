@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8dd347e4_6aeba099",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-06-22T07:38:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2d0970f_c7ca377b",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd69d60e_50f47a5e",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381537c6_a22572ea",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-06-22T07:38:50Z",
+      "side": 1,
+      "message": "In the code of binutils, mips and powerpc use this section. Though currently, I only work on MIPS, I think that we can keep this function name as gnuattributes",
+      "parentUuid": "cd69d60e_50f47a5e",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "41b2832f_1cc6e142",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-06-22T07:38:50Z",
+      "side": 1,
+      "message": "The type name is copy from binutils. I think that keep them same a good idea.\nSince the first member of this struct is `version\u0027, and currently it is set 0.\n\nI guess the people design it may expect that there may be some revisions in future.",
+      "parentUuid": "62c65d50_0940faaa",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "507c6eff_f11e4f34",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d7e3ae_e34f27dd",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-06-22T07:38:50Z",
+      "side": 1,
+      "message": "the function fellows the style: elfwritenotehdr etc. I think that we should keep them the same style.",
+      "parentUuid": "507c6eff_f11e4f34",
+      "revId": "67866507af5f263ccd6c9831f4a06f84ec036c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
