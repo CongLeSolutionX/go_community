@@ -201,3 +201,71 @@ func TestExprEval(t *testing.T) {
 		})
 	}
 }
+
+var parsePlusBuildExprTests = []struct {
+	in string
+	x  Expr
+}{
+	{"x", tag("x")},
+	{"x,y", and(tag("x"), tag("y"))},
+	{"x y", or(tag("x"), tag("y"))},
+	{"x y,z", or(tag("x"), and(tag("y"), tag("z")))},
+	{"x,y z", or(and(tag("x"), tag("y")), tag("z"))},
+	{"x,!y !z", or(and(tag("x"), not(tag("y"))), not(tag("z")))},
+	{"!! x", or(tag("ignore"), tag("x"))},
+	{"!!x", tag("ignore")},
+	{"!x", not(tag("x"))},
+	{"!", tag("ignore")},
+}
+
+func TestParsePlusBuildExpr(t *testing.T) {
+	for i, tt := range parsePlusBuildExprTests {
+		t.Run(fmt.Sprint(i), func(t *testing.T) {
+			x := parsePlusBuildExpr(tt.in)
+			if x.String() != tt.x.String() {
+				t.Errorf("parsePlusBuildExpr(%q):\nhave %v\nwant %v", tt.in, x, tt.x)
+			}
+		})
+	}
+}
+
+var constraintTests = []struct {
+	in  string
+	x   Expr
+	err error
+}{
+	{"//+build x y", or(tag("x"), tag("y")), nil},
+	{"// +build x y \n", or(tag("x"), tag("y")), nil},
+	{"// +build x y \n ", nil, errNotConstraint},
+	{"// +build x y \nmore", nil, errNotConstraint},
+	{" //+build x y", nil, errNotConstraint},
+
+	{"//go:build x && y", and(tag("x"), tag("y")), nil},
+	{"//go:build x && y\n", and(tag("x"), tag("y")), nil},
+	{"//go:build x && y\n ", nil, errNotConstraint},
+	{"//go:build x && y\nmore", nil, errNotConstraint},
+	{" //go:build x && y", nil, errNotConstraint},
+}
+
+func TestParse(t *testing.T) {
+	for i, tt := range constraintTests {
+		t.Run(fmt.Sprint(i), func(t *testing.T) {
+			x, err := Parse(tt.in)
+			if err != nil {
+				if tt.err == nil {
+					t.Errorf("Constraint(%q): unexpected error: %v", tt.in, err)
+				} else if tt.err != err {
+					t.Errorf("Constraint(%q): error %v, want %v", tt.in, err, tt.err)
+				}
+				return
+			}
+			if tt.err != nil {
+				t.Errorf("Constraint(%q) = %v, want error %v", tt.in, x, tt.err)
+				return
+			}
+			if x.String() != tt.x.String() {
+				t.Errorf("Constraint(%q):\nhave %v\nwant %v", tt.in, x, tt.x)
+			}
+		})
+	}
+}

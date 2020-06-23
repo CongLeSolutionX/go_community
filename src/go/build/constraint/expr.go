@@ -7,6 +7,8 @@
 package constraint
 
 import (
+	"errors"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 )
@@ -269,4 +271,145 @@ func (p *exprParser) atom() Expr {
 	tok := p.tok
 	p.lex()
 	return tag(tok)
+}
+
+var errNotConstraint = errors.New("not a build constraint")
+
+// Parse parses a single build constraint line of the form "//go:build ..." or "// +build ..."
+// and returns the corresponding boolean expression.
+func Parse(line string) (Expr, error) {
+	if text, ok := splitGoBuild(line); ok {
+		return parseExpr(text)
+	}
+	if text, ok := splitPlusBuild(line); ok {
+		return parsePlusBuildExpr(text), nil
+	}
+	return nil, errNotConstraint
+}
+
+// IsGoBuild reports whether the line of text is a "//go:build" constraint.
+// It only checks the prefix of the text, not that the expression itself parses.
+func IsGoBuild(line string) bool {
+	_, ok := splitGoBuild(line)
+	return ok
+}
+
+func splitGoBuild(line string) (expr string, ok bool) {
+	// A single trailing newline is OK; otherwise multiple lines are not.
+	if len(line) > 0 && line[len(line)-1] == '\n' {
+		line = line[:len(line)-1]
+	}
+	if strings.Contains(line, "\n") {
+		return "", false
+	}
+
+	if !strings.HasPrefix(line, "//go:build") {
+		return "", false
+	}
+
+	line = strings.TrimSpace(line)
+	line = line[len("//go:build"):]
+
+	// If strings.TrimSpace finds more to trim after removing the //go:build prefix,
+	// it means that the prefix was followed by a space, making this a //go:build line
+	// (as opposed to a //go:buildsomethingelse line).
+	// If line is empty, we had "//go:build" by itself, which also counts.
+	trim := strings.TrimSpace(line)
+	if len(line) == len(trim) && line != "" {
+		return "", false
+	}
+
+	return trim, true
+}
+
+// IsPlusBuild reports whether the line of text is a "// +build" constraint.
+// It only checks the prefix of the text, not that the expression itself parses.
+func IsPlusBuild(line string) bool {
+	_, ok := splitPlusBuild(line)
+	return ok
+}
+
+func splitPlusBuild(line string) (expr string, ok bool) {
+	// A single trailing newline is OK; otherwise multiple lines are not.
+	if len(line) > 0 && line[len(line)-1] == '\n' {
+		line = line[:len(line)-1]
+	}
+	if strings.Contains(line, "\n") {
+		return "", false
+	}
+
+	if !strings.HasPrefix(line, "//") {
+		return "", false
+	}
+	line = line[len("//"):]
+	// Note the space is optional; "//+build" is recognized too.
+	line = strings.TrimSpace(line)
+
+	if !strings.HasPrefix(line, "+build") {
+		return "", false
+	}
+	line = line[len("+build"):]
+
+	// If strings.TrimSpace finds more to trim after removing the +build prefix,
+	// it means that the prefix was followed by a space, making this a +build line
+	// (as opposed to a +buildsomethingelse line).
+	// If line is empty, we had "// +build" by itself, which also counts.
+	trim := strings.TrimSpace(line)
+	if len(line) == len(trim) && line != "" {
+		return "", false
+	}
+
+	return trim, true
+}
+
+func parsePlusBuildExpr(text string) Expr {
+	var x Expr
+	for _, clause := range strings.Fields(text) {
+		var y Expr
+		for _, lit := range strings.Split(clause, ",") {
+			var z Expr
+			var neg bool
+			if strings.HasPrefix(lit, "!!") || lit == "!" {
+				z = tag("ignore")
+			} else {
+				if strings.HasPrefix(lit, "!") {
+					neg = true
+					lit = lit[len("!"):]
+				}
+				if isValidTag(lit) {
+					z = tag(lit)
+				} else {
+					z = tag("ignore")
+				}
+				if neg {
+					z = not(z)
+				}
+			}
+			if y == nil {
+				y = z
+			} else {
+				y = and(y, z)
+			}
+		}
+		if x == nil {
+			x = y
+		} else {
+			x = or(x, y)
+		}
+	}
+	return x
+}
+
+// Tags must be letters, digits, underscores or dots.
+// Unlike in Go identifiers, all digits are fine (e.g., "386").
+func isValidTag(name string) bool {
+	if name == "" {
+		return false
+	}
+	for _, c := range name {
+		if !unicode.IsLetter(c) && !unicode.IsDigit(c) && c != '_' && c != '.' {
+			return false
+		}
+	}
+	return true
 }
