@@ -30,7 +30,7 @@ func TestMatch(t *testing.T) {
 	what := "default"
 	match := func(tag string, want map[string]bool) {
 		m := make(map[string]bool)
-		if !ctxt.match(tag, m) {
+		if !ctxt.matchAuto(tag, m) {
 			t.Errorf("%s context should match %s, does not", what, tag)
 		}
 		if !reflect.DeepEqual(m, want) {
@@ -39,7 +39,7 @@ func TestMatch(t *testing.T) {
 	}
 	nomatch := func(tag string, want map[string]bool) {
 		m := make(map[string]bool)
-		if ctxt.match(tag, m) {
+		if ctxt.matchAuto(tag, m) {
 			t.Errorf("%s context should NOT match %s, does", what, tag)
 		}
 		if !reflect.DeepEqual(m, want) {
@@ -51,6 +51,8 @@ func TestMatch(t *testing.T) {
 	match(runtime.GOOS+","+runtime.GOARCH+",!foo", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "foo": true})
 	nomatch(runtime.GOOS+","+runtime.GOARCH+",foo", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "foo": true})
 
+	match(runtime.GOOS+" && "+runtime.GOARCH+" && !foo", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "foo": true})
+
 	what = "modified"
 	ctxt.BuildTags = []string{"foo"}
 	match(runtime.GOOS+","+runtime.GOARCH, map[string]bool{runtime.GOOS: true, runtime.GOARCH: true})
@@ -58,7 +60,7 @@ func TestMatch(t *testing.T) {
 	nomatch(runtime.GOOS+","+runtime.GOARCH+",!foo", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "foo": true})
 	match(runtime.GOOS+","+runtime.GOARCH+",!bar", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "bar": true})
 	nomatch(runtime.GOOS+","+runtime.GOARCH+",bar", map[string]bool{runtime.GOOS: true, runtime.GOARCH: true, "bar": true})
-	nomatch("!", map[string]bool{})
+	nomatch("!", map[string]bool{"ignore": true})
 }
 
 func TestDotSlashImport(t *testing.T) {

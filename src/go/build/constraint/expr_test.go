@@ -269,3 +269,49 @@ func TestParse(t *testing.T) {
 		})
 	}
 }
+
+var plusBuildLinesTests = []struct {
+	in  string
+	out []string
+	err error
+}{
+	{"x", []string{"x"}, nil},
+	{"x && !y", []string{"x,!y"}, nil},
+	{"x || y", []string{"x y"}, nil},
+	{"x && (y || z)", []string{"x", "y z"}, nil},
+	{"!(x && y)", []string{"!x !y"}, nil},
+	{"x || (y && z)", []string{"x y,z"}, nil},
+	{"w && (x || (y && z))", []string{"w", "x y,z"}, nil},
+	{"v || (w && (x || (y && z)))", nil, errComplex},
+}
+
+func TestPlusBuildLines(t *testing.T) {
+	for i, tt := range plusBuildLinesTests {
+		t.Run(fmt.Sprint(i), func(t *testing.T) {
+			x, err := parseExpr(tt.in)
+			if err != nil {
+				t.Fatal(err)
+			}
+			lines, err := PlusBuildLines(x)
+			if err != nil {
+				if tt.err == nil {
+					t.Errorf("PlusBuildLines(%q): unexpected error: %v", tt.in, err)
+				} else if tt.err != err {
+					t.Errorf("PlusBuildLines(%q): error %v, want %v", tt.in, err, tt.err)
+				}
+				return
+			}
+			if tt.err != nil {
+				t.Errorf("PlusBuildLines(%q) = %v, want error %v", tt.in, lines, tt.err)
+				return
+			}
+			var want []string
+			for _, line := range tt.out {
+				want = append(want, "// +build "+line)
+			}
+			if !reflect.DeepEqual(lines, want) {
+				t.Errorf("PlusBuildLines(%q):\nhave %q\nwant %q", tt.in, lines, want)
+			}
+		})
+	}
+}

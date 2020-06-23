@@ -413,3 +413,123 @@ func isValidTag(name string) bool {
 	}
 	return true
 }
+
+var errComplex = errors.New("expression too complex for // +build lines")
+
+func PlusBuildLines(x Expr) ([]string, error) {
+	// Push all NOTs to the expression leaves, so that //go:build !(x && y) can be treated as !x || !y.
+	// This rewrite is both efficient and commonly needed, so it's worth doing.
+	// Essentially all other possible rewrites are too expensive and too rarely needed.
+	x = pushNot(x, false)
+
+	// Split into AND of ORs of ANDs of literals (tag or NOT tag).
+	var split [][][]Expr
+	for _, or := range splitAnd(x, nil) {
+		var ands [][]Expr
+		for _, and := range splitOr(or, nil) {
+			var lits []Expr
+			for _, lit := range splitAnd(and, nil) {
+				switch lit.(type) {
+				case *TagExpr, *NotExpr:
+					lits = append(lits, lit)
+				default:
+					return nil, errComplex
+				}
+			}
+			ands = append(ands, lits)
+		}
+		split = append(split, ands)
+	}
+
+	// If all the ORs have length 1 (no actual OR'ing going on),
+	// push the top-level ANDs to the bottom level, so that we get
+	// one // +build line instead of many.
+	maxOr := 0
+	for _, or := range split {
+		if maxOr < len(or) {
+			maxOr = len(or)
+		}
+	}
+	if maxOr == 1 {
+		var lits []Expr
+		for _, or := range split {
+			lits = append(lits, or[0]...)
+		}
+		split = [][][]Expr{{lits}}
+	}
+
+	// Prepare the +build lines.
+	var lines []string
+	for _, or := range split {
+		line := "// +build"
+		for _, and := range or {
+			clause := ""
+			for i, lit := range and {
+				if i > 0 {
+					clause += ","
+				}
+				clause += lit.String()
+			}
+			line += " " + clause
+		}
+		lines = append(lines, line)
+	}
+
+	return lines, nil
+}
+
+func pushNot(x Expr, not bool) Expr {
+	switch x := x.(type) {
+	default:
+		// unreachable
+		return x
+	case *NotExpr:
+		if _, ok := x.X.(*TagExpr); ok && !not {
+			return x
+		}
+		return pushNot(x.X, !not)
+	case *TagExpr:
+		if not {
+			return &NotExpr{X: x}
+		}
+		return x
+	case *AndExpr:
+		x1 := pushNot(x.X, not)
+		y1 := pushNot(x.Y, not)
+		if not {
+			return or(x1, y1)
+		}
+		if x1 == x.X && y1 == x.Y {
+			return x
+		}
+		return and(x1, y1)
+	case *OrExpr:
+		x1 := pushNot(x.X, not)
+		y1 := pushNot(x.Y, not)
+		if not {
+			return and(x1, y1)
+		}
+		if x1 == x.X && y1 == x.Y {
+			return x
+		}
+		return or(x1, y1)
+	}
+}
+
+func splitAnd(x Expr, list []Expr) []Expr {
+	if x, ok := x.(*AndExpr); ok {
+		list = splitAnd(x.X, list)
+		list = splitAnd(x.Y, list)
+		return list
+	}
+	return append(list, x)
+}
+
+func splitOr(x Expr, list []Expr) []Expr {
+	if x, ok := x.(*OrExpr); ok {
+		list = splitOr(x.X, list)
+		list = splitOr(x.Y, list)
+		return list
+	}
+	return append(list, x)
+}
