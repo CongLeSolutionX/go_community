@@ -6,14 +6,8 @@ package modload
 
 import (
 	"bytes"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/mvs"
-	"cmd/go/internal/par"
-	"cmd/go/internal/search"
-	"cmd/go/internal/str"
+
+	"context"
 	"errors"
 	"fmt"
 	"go/build"
@@ -23,6 +17,16 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/imports"
+	"cmd/go/internal/modfetch"
+	"cmd/go/internal/mvs"
+	"cmd/go/internal/par"
+	"cmd/go/internal/search"
+	"cmd/go/internal/str"
+	"cmd/go/internal/trace"
 
 	"golang.org/x/mod/module"
 )
@@ -385,7 +389,9 @@ func DirImportPath(dir string) string {
 // LoadBuildList need only be called if ImportPaths is not
 // (typically in commands that care about the module but
 // no particular package).
-func LoadBuildList() []module.Version {
+func LoadBuildList(ctx context.Context) []module.Version {
+	ctx, span := trace.StartSpan(ctx, "LoadBuildList")
+	defer span.Done()
 	InitMod()
 	ReloadBuildList()
 	WriteGoMod()
