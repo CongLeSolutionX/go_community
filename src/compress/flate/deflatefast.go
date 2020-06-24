@@ -279,7 +279,9 @@ func (e *deflateFast) resetAll() {
 	//	*e = deflateFast{cur: maxStoreBlockSize, prev: e.prev[:0]}
 	e.cur = maxStoreBlockSize
 	e.prev = e.prev[:0]
-	for i := range e.table {
-		e.table[i] = tableEntry{}
+	table := e.table
+	for i := range table {
+		table[i] = tableEntry{}
 	}
+	e.table = table
 }
