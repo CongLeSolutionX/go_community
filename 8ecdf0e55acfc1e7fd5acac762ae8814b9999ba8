@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "139141a3_feb602d3",
+        "filename": "src/cmd/compile/internal/ssa/deadstore.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-25T15:45:42Z",
+      "side": 1,
+      "message": "I updated this paragraph. Hopefully that addresses your concern about describing the shadowed map.",
+      "revId": "8ecdf0e55acfc1e7fd5acac762ae8814b9999ba8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00a726f1_f6540c26",
         "filename": "src/cmd/compile/internal/ssa/deadstore.go",
         "patchSetId": 3
@@ -48,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "c0980b7c_673763d9",
+        "filename": "src/cmd/compile/internal/ssa/deadstore.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-25T15:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a726f1_f6540c26",
+      "range": {
+        "startLine": 96,
+        "startChar": 27,
+        "endLine": 96,
+        "endChar": 31
+      },
+      "revId": "8ecdf0e55acfc1e7fd5acac762ae8814b9999ba8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a0eb95_0ba43832",
         "filename": "test/fixedbugs/issue39459.go",
         "patchSetId": 3
@@ -68,6 +109,30 @@
       "revId": "8ecdf0e55acfc1e7fd5acac762ae8814b9999ba8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dec3e010_57c3e19c",
+        "filename": "test/fixedbugs/issue39459.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-06-25T15:45:42Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t know any easy way to guard against SSAable changes here.",
+      "parentUuid": "f2a0eb95_0ba43832",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "8ecdf0e55acfc1e7fd5acac762ae8814b9999ba8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
