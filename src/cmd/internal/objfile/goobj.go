@@ -20,6 +20,7 @@ import (
 type goobjFile struct {
 	goobj *goobj.Package
 	f     *os.File // the underlying .o or .a file
+	arch  *sys.Arch
 }
 
 func openGoFile(r *os.File) (*File, error) {
@@ -27,7 +28,14 @@ func openGoFile(r *os.File) (*File, error) {
 	if err != nil {
 		return nil, err
 	}
-	rf := &goobjFile{goobj: f, f: r}
+	var arch *sys.Arch
+	for _, a := range sys.Archs {
+		if a.Name == f.Arch {
+			arch = a
+			break
+		}
+	}
+	rf := &goobjFile{goobj: f, f: r, arch: arch}
 	if len(f.Native) == 0 {
 		return &File{r, []*Entry{{raw: rf}}}, nil
 	}
@@ -111,15 +119,7 @@ func (f *goobjFile) pcln() (textStart uint64, symtab, pclntab []byte, err error)
 // Returns "",0,nil if unknown.
 // This function implements the Liner interface in preference to pcln() above.
 func (f *goobjFile) PCToLine(pc uint64) (string, int, *gosym.Func) {
-	// TODO: this is really inefficient. Binary search? Memoize last result?
-	var arch *sys.Arch
-	for _, a := range sys.Archs {
-		if a.Name == f.goobj.Arch {
-			arch = a
-			break
-		}
-	}
-	if arch == nil {
+	if f.arch == nil {
 		return "", 0, nil
 	}
 	for _, s := range f.goobj.Syms {
@@ -134,14 +134,14 @@ func (f *goobjFile) PCToLine(pc uint64) (string, int, *gosym.Func) {
 		if err != nil {
 			return "", 0, nil
 		}
-		fileID := int(pcValue(pcfile, pc-uint64(s.Data.Offset), arch))
+		fileID := int(pcValue(pcfile, pc-uint64(s.Data.Offset), f.arch))
 		fileName := s.Func.File[fileID]
 		pcline := make([]byte, s.Func.PCLine.Size)
 		_, err = f.f.ReadAt(pcline, s.Func.PCLine.Offset)
 		if err != nil {
 			return "", 0, nil
 		}
-		line := int(pcValue(pcline, pc-uint64(s.Data.Offset), arch))
+		line := int(pcValue(pcline, pc-uint64(s.Data.Offset), f.arch))
 		// Note: we provide only the name in the Func structure.
 		// We could provide more if needed.
 		return fileName, line, &gosym.Func{Sym: &gosym.Sym{Name: s.Name}}
