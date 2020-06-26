@@ -1043,3 +1043,21 @@ func (f *FlagSet) Init(name string, errorHandling ErrorHandling) {
 	f.name = name
 	f.errorHandling = errorHandling
 }
+
+// Func defines a flag with the specified name and usage string.
+// TODO: more here
+func (f *FlagSet) Func(name, usage string, cb func(string) error) {
+	f.Var(cbfunc(cb), name, usage)
+}
+
+// Func defines a flag with specified name, default value, and usage string.
+// TODO: more here
+func Func(name, usage string, f func(string) error) {
+	CommandLine.Func(name, usage, f)
+}
+
+type cbfunc func(string) error
+
+func (f cbfunc) Set(s string) error { return f(s) }
+
+func (f cbfunc) String() string { return "" }
