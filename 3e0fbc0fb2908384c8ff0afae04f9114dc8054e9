@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1924356_c43a04b7",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-26T21:37:52Z",
+      "side": 1,
+      "message": "Should we mark these sums as dirty, since they were found in go.modverify rather than go.sum?\n\n(Or perhaps it\u0027s time to delete the `go.modverify` conversion code altogether.)",
+      "revId": "3e0fbc0fb2908384c8ff0afae04f9114dc8054e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "262bc4bf_20781613",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-26T21:37:52Z",
+      "side": 1,
+      "message": "I had expected a somewhat simpler condition here. Something like:\n\n\tif !st.dirty || (st.used \u0026\u0026 keep[m]) {\n\nTo me that expresses the condition more clearly: we should keep a sum if we don\u0027t know why it\u0027s there (important in the context of lazy loading), or if we added it (in order to use it) and decided to keep it.\n\nThat should also be equivalent to:\n\n\tif !st.dirty || (added \u0026\u0026 keep[m]) {\n\n(because used \u0026\u0026 !added implies !st.dirty).\n\nI just ran a quick truth table and all three variations appear to be equivalent for all values of `st.used`, `st.dirty`, and `keep[m]`, but please do double-check my reasoning.\n\n―\n\nThat also implies that the condition in the loop at 648 could be simplified to:\n\n\tif st.dirty \u0026\u0026 (!st.used || keep[m]) {",
+      "revId": "3e0fbc0fb2908384c8ff0afae04f9114dc8054e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
