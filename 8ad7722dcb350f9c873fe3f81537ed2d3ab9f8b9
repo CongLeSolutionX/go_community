@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "1d8e2638_23f67240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-26T21:05:09Z",
+      "side": 1,
+      "message": "You can write Fixes instead of Updates, I think.",
+      "revId": "8ad7722dcb350f9c873fe3f81537ed2d3ab9f8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95ff7f73_57f45a60",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-26T21:05:09Z",
+      "side": 1,
+      "message": "Let\u0027s define this type up with the other flag.Value types.  Define cbfunc after durationValue, and for that matter rename cbfunc to funcValue.  Define the Func function and method after the Duration function.",
+      "revId": "8ad7722dcb350f9c873fe3f81537ed2d3ab9f8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a0a469d_feac11f8",
         "filename": "src/flag/flag.go",
         "patchSetId": 1
@@ -19,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "6032ce2f_1b5ec278",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-26T21:05:09Z",
+      "side": 1,
+      "message": "cb is fine.  Don\u0027t change the receiver name, style is for all methods of a type to use the same receiver name.",
+      "parentUuid": "2a0a469d_feac11f8",
+      "revId": "8ad7722dcb350f9c873fe3f81537ed2d3ab9f8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea97b96a_c13f4ac1",
         "filename": "src/flag/flag.go",
         "patchSetId": 1
@@ -30,6 +82,24 @@
       "writtenOn": "2020-06-26T20:06:01Z",
       "side": 1,
       "message": "I don\u0027t understand the purpose of the flag.Getter interface. Do I need to implement it? Can I?",
+      "revId": "8ad7722dcb350f9c873fe3f81537ed2d3ab9f8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be50b00f_bda7d98b",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-06-26T21:05:09Z",
+      "side": 1,
+      "message": "I don\u0027t see any way to implement Get for this type.  So I guess the comment for Getter should be tweaked.",
+      "parentUuid": "ea97b96a_c13f4ac1",
       "revId": "8ad7722dcb350f9c873fe3f81537ed2d3ab9f8b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
