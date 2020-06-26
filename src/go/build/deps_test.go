@@ -226,7 +226,7 @@ var pkgDeps = map[string][]string{
 	"go/ast":     {"L4", "OS", "go/scanner", "go/token"},
 	"go/doc":     {"L4", "OS", "go/ast", "go/token", "regexp", "internal/lazyregexp", "text/template"},
 	"go/parser":  {"L4", "OS", "go/ast", "go/scanner", "go/token"},
-	"go/printer": {"L4", "OS", "go/ast", "go/scanner", "go/token", "text/tabwriter"},
+	"go/printer": {"L4", "OS", "go/ast", "go/build/constraint", "go/scanner", "go/token", "text/tabwriter"},
 	"go/scanner": {"L4", "OS", "go/token"},
 	"go/token":   {"L4"},
 
