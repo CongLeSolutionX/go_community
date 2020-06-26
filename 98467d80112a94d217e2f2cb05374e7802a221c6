@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50546a76_7ca90eb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-06-26T22:00:50Z",
+      "side": 1,
+      "message": "By convention, we refer to commits using CL numbers, so this should be \"CL 152537\". (Go has been through several source control systems and every transition makes commit hashes lose all meaning.) Also, please say in what way this other commit is related. For example, \"CL 152537 changed the way inlined frames are represented in tracebacks to no longer use skipPC.\"",
+      "revId": "98467d80112a94d217e2f2cb05374e7802a221c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
