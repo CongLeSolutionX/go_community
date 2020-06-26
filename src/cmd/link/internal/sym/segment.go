@@ -45,16 +45,17 @@ type Segment struct {
 }
 
 type Section struct {
-	Rwx     uint8
-	Extnum  int16
-	Align   int32
-	Name    string
-	Vaddr   uint64
-	Length  uint64
-	Seg     *Segment
-	Elfsect interface{} // an *ld.ElfShdr
-	Reloff  uint64
-	Rellen  uint64
-	Sym     LoaderSym // symbol for the section, if any
-	Index   uint16    // each section has a unique index, used internally
+	Rwx      uint8
+	Extnum   int16
+	Align    int32
+	Name     string
+	Vaddr    uint64
+	Length   uint64
+	Seg      *Segment
+	Elfsect  interface{} // an *ld.ElfShdr
+	Reloff   uint64
+	Rellen   uint64
+	Relcount uint32    // number of *host* relocations applied to this section (when external linking). Note: this may differ from number of Go relocations, as one Go relocation may turn into multiple host relocations.
+	Sym      LoaderSym // symbol for the section, if any
+	Index    uint16    // each section has a unique index, used internally
 }
