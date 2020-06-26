@@ -8,7 +8,9 @@ package ld
 
 func (out *OutBuf) Mmap(filesize uint64) error {
 	// We need space to put all the symbols before we apply relocations.
+	oldheap := out.heap
 	out.heap = make([]byte, filesize)
+	copy(out.heap, oldheap)
 	return nil
 }
 
