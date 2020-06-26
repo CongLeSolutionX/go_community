@@ -1072,7 +1072,7 @@ func (s *state) stmt(n *Node) {
 		fallthrough
 
 	case OCALLMETH, OCALLINTER:
-		s.call(n, callNormal)
+		s.callAddr(n, callNormal)
 		if n.Op == OCALLFUNC && n.Left.Op == ONAME && n.Left.Class() == PFUNC {
 			if fn := n.Left.Sym.Name; compiling_runtime && fn == "throw" ||
 				n.Left.Sym.Pkg == Runtimepkg && (fn == "throwinit" || fn == "gopanic" || fn == "panicwrap" || fn == "block" || fn == "panicmakeslicelen" || fn == "panicmakeslicecap") {
@@ -1104,10 +1104,10 @@ func (s *state) stmt(n *Node) {
 			if n.Esc == EscNever {
 				d = callDeferStack
 			}
-			s.call(n.Left, d)
+			s.callAddr(n.Left, d)
 		}
 	case OGO:
-		s.call(n.Left, callGo)
+		s.callAddr(n.Left, callGo)
 
 	case OAS2DOTTYPE:
 		res, resok := s.dottype(n.Right, true)
@@ -2711,8 +2711,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		fallthrough
 
 	case OCALLINTER, OCALLMETH:
-		a := s.call(n, callNormal)
-		return s.load(n.Type, a)
+		return s.callResult(n, callNormal)
 
 	case OGETG:
 		return s.newValue1(ssa.OpGetG, n.Type, s.mem())
@@ -3585,8 +3584,7 @@ func init() {
 	addF("math", "FMA",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			if !s.config.UseFMA {
-				a := s.call(n, callNormal)
-				s.vars[n] = s.load(types.Types[TFLOAT64], a)
+				s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 				return s.variable(n, types.Types[TFLOAT64])
 			}
 			v := s.entryNewValue0A(ssa.OpHasCPUFeature, types.Types[TBOOL], x86HasFMA)
@@ -3607,8 +3605,7 @@ func init() {
 
 			// Call the pure Go version.
 			s.startBlock(bFalse)
-			a := s.call(n, callNormal)
-			s.vars[n] = s.load(types.Types[TFLOAT64], a)
+			s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 			s.endBlock().AddEdgeTo(bEnd)
 
 			// Merge results.
@@ -3619,8 +3616,7 @@ func init() {
 	addF("math", "FMA",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			if !s.config.UseFMA {
-				a := s.call(n, callNormal)
-				s.vars[n] = s.load(types.Types[TFLOAT64], a)
+				s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 				return s.variable(n, types.Types[TFLOAT64])
 			}
 			addr := s.entryNewValue1A(ssa.OpAddr, types.Types[TBOOL].PtrTo(), armHasVFPv4, s.sb)
@@ -3642,8 +3638,7 @@ func init() {
 
 			// Call the pure Go version.
 			s.startBlock(bFalse)
-			a := s.call(n, callNormal)
-			s.vars[n] = s.load(types.Types[TFLOAT64], a)
+			s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 			s.endBlock().AddEdgeTo(bEnd)
 
 			// Merge results.
@@ -3672,8 +3667,7 @@ func init() {
 
 			// Call the pure Go version.
 			s.startBlock(bFalse)
-			a := s.call(n, callNormal)
-			s.vars[n] = s.load(types.Types[TFLOAT64], a)
+			s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 			s.endBlock().AddEdgeTo(bEnd)
 
 			// Merge results.
@@ -3883,8 +3877,7 @@ func init() {
 
 			// Call the pure Go version.
 			s.startBlock(bFalse)
-			a := s.call(n, callNormal)
-			s.vars[n] = s.load(types.Types[TINT], a)
+			s.vars[n] = s.callResult(n, callNormal) // types.Types[TINT]
 			s.endBlock().AddEdgeTo(bEnd)
 
 			// Merge results.
@@ -4332,9 +4325,17 @@ func (s *state) openDeferExit() {
 	}
 }
 
+func (s *state) callResult(n *Node, k callKind) *ssa.Value {
+	return s.call(n, k, false)
+}
+
+func (s *state) callAddr(n *Node, k callKind) *ssa.Value {
+	return s.call(n, k, true)
+}
+
 // Calls the function n using the specified call type.
 // Returns the address of the return value (or nil if none).
-func (s *state) call(n *Node, k callKind) *ssa.Value {
+func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	var sym *types.Sym     // target symbol (if static)
 	var closure *ssa.Value // ptr to closure to run (if dynamic)
 	var codeptr *ssa.Value // ptr to target code (if dynamic)
@@ -4541,7 +4542,10 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 		return nil
 	}
 	fp := res.Field(0)
-	return s.constOffPtrSP(types.NewPtr(fp.Type), fp.Offset+Ctxt.FixedFrameSize())
+	if returnResultAddr {
+		return s.constOffPtrSP(types.NewPtr(fp.Type), fp.Offset+Ctxt.FixedFrameSize())
+	}
+	return s.load(n.Type, s.constOffPtrSP(types.NewPtr(fp.Type), fp.Offset+Ctxt.FixedFrameSize()))
 }
 
 // maybeNilCheckClosure checks if a nil check of a closure is needed in some
@@ -4670,7 +4674,7 @@ func (s *state) addr(n *Node) *ssa.Value {
 		addr := s.addr(n.Left)
 		return s.newValue1(ssa.OpCopy, t, addr) // ensure that addr has the right type
 	case OCALLFUNC, OCALLINTER, OCALLMETH:
-		return s.call(n, callNormal)
+		return s.callAddr(n, callNormal)
 	case ODOTTYPE:
 		v, _ := s.dottype(n, false)
 		if v.Op != ssa.OpLoad {
