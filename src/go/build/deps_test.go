@@ -261,7 +261,10 @@ var depsRules = `
 	< go/ast
 	< go/parser;
 
-	go/parser, text/tabwriter
+	FMT
+	< go/build/constraint;
+
+	go/build/constraint, go/parser, text/tabwriter
 	< go/printer
 	< go/format;
 
@@ -273,9 +276,6 @@ var depsRules = `
 
 	container/heap, go/constant, go/parser
 	< go/types;
-
-	FMT
-	< go/build/constraint;
 
 	go/doc, go/parser, internal/goroot, internal/goversion, go/build/constraint
 	< go/build;
