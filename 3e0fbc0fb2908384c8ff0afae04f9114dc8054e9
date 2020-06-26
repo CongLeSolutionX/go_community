@@ -33,6 +33,24 @@
       "revId": "3e0fbc0fb2908384c8ff0afae04f9114dc8054e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efb0e0c5_37422658",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-06-26T22:47:42Z",
+      "side": 1,
+      "message": "Actually, why does dirty \u0026\u0026 keep not imply used?",
+      "parentUuid": "262bc4bf_20781613",
+      "revId": "3e0fbc0fb2908384c8ff0afae04f9114dc8054e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
