@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9759a833_c2e5c575",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-06-26T10:33:09Z",
+      "side": 1,
+      "message": "Adding some words about this is a good thing, although this version misses some detail, and the style of this sentence doesn\u0027t fit well. Also it doesn\u0027t really belong here; it belongs on the Formatter documentation, in parallel with the docs for the Stringer and Error interfaces. There is already something there, but it needs more information. I suggest:\n\nFormatter is implemented by any value that implements the Format method. The State argument contains information about the flags and verb of the format specifier, but how they are interpreted is entirely up to the implementation of Format.\n\nThe implementation of Format may call Sprint(f) or Fprint(f) etc. to generate its output.",
+      "revId": "85e91521eedc48ad3bfbbb04ec3120c0445e52b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
