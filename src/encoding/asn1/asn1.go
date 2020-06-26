@@ -127,7 +127,12 @@ func parseInt32(bytes []byte) (int32, error) {
 	return int32(ret64), nil
 }
 
-var bigOne = big.NewInt(1)
+var (
+	bigOne    = big.NewInt(1)
+	bigTwo    = big.NewInt(2)
+	bigForty  = big.NewInt(40)
+	bigEighty = big.NewInt(80)
+)
 
 // parseBigInt treats the given bytes as a big-endian, signed integer and returns
 // the result.
@@ -221,6 +226,14 @@ var NullBytes = []byte{TagNull, 0}
 // An ObjectIdentifier represents an ASN.1 OBJECT IDENTIFIER.
 type ObjectIdentifier []int
 
+// A SubOid represents a single INTEGER value in a ASN.1 OBJECT IDENTIFIER.
+// The type may be int, int64 or *big.Int.
+type SubOid interface{}
+
+// An ObjectIdentifierExt represents an ASN.1 OBJECT IDENTIFIER
+// with sub-oids that can be int, int64 or *big.Int.
+type ObjectIdentifierExt []SubOid
+
 // Equal reports whether oi and other represent the same identifier.
 func (oi ObjectIdentifier) Equal(other ObjectIdentifier) bool {
 	if len(oi) != len(other) {
@@ -251,7 +264,7 @@ func (oi ObjectIdentifier) String() string {
 // parseObjectIdentifier parses an OBJECT IDENTIFIER from the given bytes and
 // returns it. An object identifier is a sequence of variable length integers
 // that are assigned in a hierarchy.
-func parseObjectIdentifier(bytes []byte) (s ObjectIdentifier, err error) {
+func parseObjectIdentifier(bytes []byte) (s ObjectIdentifierExt, err error) {
 	if len(bytes) == 0 {
 		err = SyntaxError{"zero length OBJECT IDENTIFIER"}
 		return
@@ -259,34 +272,175 @@ func parseObjectIdentifier(bytes []byte) (s ObjectIdentifier, err error) {
 
 	// In the worst case, we get two elements from the first byte (which is
 	// encoded differently) and then every varint is a single byte long.
-	s = make([]int, len(bytes)+1)
+	s = ObjectIdentifierExt(make([]SubOid, len(bytes)+1))
 
 	// The first varint is 40*value1 + value2:
 	// According to this packing, value1 can take the values 0, 1 and 2 only.
 	// When value1 = 0 or value1 = 1, then value2 is <= 39. When value1 = 2,
 	// then there are no restrictions on value2.
-	v, offset, err := parseBase128Int(bytes, 0)
+	val, offset, err := parseBase128Int(bytes, 0)
 	if err != nil {
 		return
 	}
-	if v < 80 {
-		s[0] = v / 40
-		s[1] = v % 40
-	} else {
-		s[0] = 2
-		s[1] = v - 80
+	switch v := val.(type) {
+	case int:
+		if v < 80 {
+			s[0] = v / 40
+			s[1] = v % 40
+		} else {
+			s[0] = 2
+			s[1] = v - 80
+		}
+	case int64:
+		if v < 80 {
+			s[0] = v / 40
+			s[1] = v % 40
+		} else {
+			s[0] = 2
+			s[1] = v - 80
+		}
+	case *big.Int:
+		if v.Cmp(bigEighty) == -1 {
+			s[0] = new(big.Int).Div(v, bigForty)
+			s[1] = new(big.Int).Mod(v, bigForty)
+		} else {
+			s[0] = bigTwo
+			s[1] = new(big.Int).Sub(v, bigEighty)
+		}
 	}
 
 	i := 2
 	for ; offset < len(bytes); i++ {
-		v, offset, err = parseBase128Int(bytes, offset)
+		val, offset, err = parseBase128Int(bytes, offset)
 		if err != nil {
 			return
 		}
-		s[i] = v
+		s[i] = val
 	}
 	s = s[0:i]
 	return
+}
+
+// GetObjectIdentifier returns the object identifier as a slice of int.
+// An error is returned if at least one of the sub oid is greater than math.MaxInt32.
+func (oi ObjectIdentifierExt) GetObjectIdentifier() (s ObjectIdentifier, err error) {
+	s = make(ObjectIdentifier, len(oi), len(oi))
+	for i, sub := range oi {
+		switch v := sub.(type) {
+		case int:
+			s[i] = v
+		case int64:
+			if v > math.MaxInt32 {
+				err = StructuralError{"base 128 integer too large"}
+				return
+			}
+			s[i] = int(v)
+		case *big.Int:
+			if !v.IsInt64() || v.Int64() > math.MaxInt32 {
+				err = StructuralError{"base 128 integer too large"}
+				return
+			}
+			s[i] = int(v.Int64())
+		}
+	}
+	return
+}
+
+// Equal reports whether oi and other represent the same identifier.
+func (oi ObjectIdentifierExt) Equal(other interface{}) bool {
+	comp := func(i int, suboid interface{}) bool {
+		switch v1 := oi[i].(type) {
+		case int:
+			switch v2 := suboid.(type) {
+			case int:
+				if v1 != v2 {
+					return false
+				}
+			case int64:
+				if int64(v1) != v2 {
+					return false
+				}
+			case *big.Int:
+				if big.NewInt(int64(v1)).Cmp(v2) != 0 {
+					return false
+				}
+			}
+		case int64:
+			switch v2 := suboid.(type) {
+			case int:
+				if v1 != int64(v2) {
+					return false
+				}
+			case int64:
+				if v1 != v2 {
+					return false
+				}
+			case *big.Int:
+				if big.NewInt(v1).Cmp(v2) != 0 {
+					return false
+				}
+			}
+		case *big.Int:
+			switch v2 := suboid.(type) {
+			case int:
+				if v1.Cmp(big.NewInt(int64(v2))) != 0 {
+					return false
+				}
+			case int64:
+				if v1.Cmp(big.NewInt(v2)) != 0 {
+					return false
+				}
+			case *big.Int:
+				if v1.Cmp(v2) != 0 {
+					return false
+				}
+			}
+		}
+		return true
+	}
+	switch v := other.(type) {
+	case ObjectIdentifier:
+		if len(oi) != len(v) {
+			return false
+		}
+		for i := 0; i < len(oi); i++ {
+			if !comp(i, v[i]) {
+				return false
+			}
+		}
+	case ObjectIdentifierExt:
+		if len(oi) != len(v) {
+			return false
+		}
+		for i := 0; i < len(oi); i++ {
+			if !comp(i, v[i]) {
+				return false
+			}
+		}
+	default:
+		return false
+	}
+	return true
+}
+
+func (oi ObjectIdentifierExt) String() string {
+	var s string
+
+	for i, v := range oi {
+		if i > 0 {
+			s += "."
+		}
+		switch val := v.(type) {
+		case int:
+			s += strconv.FormatInt(int64(val), 10)
+		case int64:
+			s += strconv.FormatInt(val, 10)
+		case *big.Int:
+			s += val.String()
+		}
+	}
+
+	return s
 }
 
 // ENUMERATED
@@ -301,17 +455,22 @@ type Flag bool
 
 // parseBase128Int parses a base-128 encoded int from the given offset in the
 // given byte slice. It returns the value and the new offset.
-func parseBase128Int(bytes []byte, initOffset int) (ret, offset int, err error) {
+// The return value may be a int, int64 or big.Int depending on the size of the input data.
+func parseBase128Int(bytes []byte, initOffset int) (ret SubOid, offset int, err error) {
 	offset = initOffset
 	var ret64 int64
+	var retBigInt *big.Int
 	for shifted := 0; offset < len(bytes); shifted++ {
-		// 5 * 7 bits per byte == 35 bits of data
-		// Thus the representation is either non-minimal or too large for an int32
-		if shifted == 5 {
-			err = StructuralError{"base 128 integer too large"}
-			return
+		// 9 * 7 bits per byte == 63 bits of data
+		// Thus the representation is either non-minimal or too large for an int64. Use big.Int
+		if shifted >= 9 {
+			if shifted == 9 {
+				retBigInt = big.NewInt(ret64)
+			}
+			retBigInt.Lsh(retBigInt, 7)
+		} else {
+			ret64 <<= 7
 		}
-		ret64 <<= 7
 		b := bytes[offset]
 		// integers should be minimally encoded, so the leading octet should
 		// never be 0x80
@@ -319,13 +478,19 @@ func parseBase128Int(bytes []byte, initOffset int) (ret, offset int, err error) 
 			err = SyntaxError{"integer is not minimally encoded"}
 			return
 		}
-		ret64 |= int64(b & 0x7f)
+		if shifted >= 9 {
+			retBigInt.Or(retBigInt, big.NewInt(int64(b&0x7f)))
+		} else {
+			ret64 |= int64(b & 0x7f)
+		}
 		offset++
 		if b&0x80 == 0 {
-			ret = int(ret64)
-			// Ensure that the returned value fits in an int on all platforms
-			if ret64 > math.MaxInt32 {
-				err = StructuralError{"base 128 integer too large"}
+			if ret64 <= math.MaxInt32 {
+				ret = int(ret64)
+			} else if shifted >= 9 {
+				ret = retBigInt
+			} else {
+				ret = ret64
 			}
 			return
 		}
@@ -541,8 +706,14 @@ func parseTagAndLength(bytes []byte, initOffset int) (ret tagAndLength, offset i
 	// If the bottom five bits are set, then the tag number is actually base 128
 	// encoded afterwards
 	if ret.tag == 0x1f {
-		ret.tag, offset, err = parseBase128Int(bytes, offset)
+		var v interface{}
+		v, offset, err = parseBase128Int(bytes, offset)
 		if err != nil {
+			return
+		}
+		var ok bool
+		if ret.tag, ok = v.(int); !ok {
+			err = StructuralError{"base 128 integer too large"}
 			return
 		}
 		// Tags should be encoded in minimal form.
@@ -653,14 +824,15 @@ func parseSequenceOf(bytes []byte, sliceType reflect.Type, elemType reflect.Type
 }
 
 var (
-	bitStringType        = reflect.TypeOf(BitString{})
-	objectIdentifierType = reflect.TypeOf(ObjectIdentifier{})
-	enumeratedType       = reflect.TypeOf(Enumerated(0))
-	flagType             = reflect.TypeOf(Flag(false))
-	timeType             = reflect.TypeOf(time.Time{})
-	rawValueType         = reflect.TypeOf(RawValue{})
-	rawContentsType      = reflect.TypeOf(RawContent(nil))
-	bigIntType           = reflect.TypeOf(new(big.Int))
+	bitStringType           = reflect.TypeOf(BitString{})
+	objectIdentifierType    = reflect.TypeOf(ObjectIdentifier{})
+	objectIdentifierExtType = reflect.TypeOf(ObjectIdentifierExt{})
+	enumeratedType          = reflect.TypeOf(Enumerated(0))
+	flagType                = reflect.TypeOf(Flag(false))
+	timeType                = reflect.TypeOf(time.Time{})
+	rawValueType            = reflect.TypeOf(RawValue{})
+	rawContentsType         = reflect.TypeOf(RawContent(nil))
+	bigIntType              = reflect.TypeOf(new(big.Int))
 )
 
 // invalidLength reports whether offset + length > sliceLength, or if the
@@ -715,6 +887,13 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 				result, err = parseBitString(innerBytes)
 			case TagOID:
 				result, err = parseObjectIdentifier(innerBytes)
+				if err == nil {
+					var r ObjectIdentifier
+					r, err = result.(ObjectIdentifierExt).GetObjectIdentifier()
+					if err == nil {
+						result = r
+					}
+				}
 			case TagUTCTime:
 				result, err = parseUTCTime(innerBytes)
 			case TagGeneralizedTime:
@@ -857,6 +1036,18 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 		v.Set(reflect.ValueOf(result))
 		return
 	case objectIdentifierType:
+		newSlice, err1 := parseObjectIdentifier(innerBytes)
+		v.Set(reflect.MakeSlice(v.Type(), len(newSlice), len(newSlice)))
+		if err1 == nil {
+			var intSlice []int
+			intSlice, err1 = newSlice.GetObjectIdentifier()
+			if err1 == nil {
+				reflect.Copy(v, reflect.ValueOf(intSlice))
+			}
+		}
+		err = err1
+		return
+	case objectIdentifierExtType:
 		newSlice, err1 := parseObjectIdentifier(innerBytes)
 		v.Set(reflect.MakeSlice(v.Type(), len(newSlice), len(newSlice)))
 		if err1 == nil {
@@ -1006,9 +1197,12 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 
 // canHaveDefaultValue reports whether k is a Kind that we will set a default
 // value for. (A signed integer, essentially.)
-func canHaveDefaultValue(k reflect.Kind) bool {
-	switch k {
+func canHaveDefaultValue(v reflect.Value) bool {
+	switch v.Kind() {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return true
+	}
+	if v.IsValid() && v.Type() == reflect.TypeOf((*big.Int)(nil)) {
 		return true
 	}
 
@@ -1026,7 +1220,7 @@ func setDefaultValue(v reflect.Value, params fieldParameters) (ok bool) {
 	if params.defaultValue == nil {
 		return
 	}
-	if canHaveDefaultValue(v.Kind()) {
+	if canHaveDefaultValue(v) {
 		v.SetInt(*params.defaultValue)
 	}
 	return

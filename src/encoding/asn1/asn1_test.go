@@ -225,19 +225,50 @@ func TestBitStringRightAlign(t *testing.T) {
 	}
 }
 
+type defaultValueTest struct {
+	v  interface{}
+	ok bool
+}
+
+var defaultValueTestData = []defaultValueTest{
+	{int8(4), true},
+	{int16(4), true},
+	{int(4), true},
+	{int32(4), true},
+	{int64(4), true},
+	{big.NewInt(4), true},
+	{byte(4), false},
+	{"abc", false},
+	{nil, false},
+}
+
+func TestCanHaveDefaultValue(t *testing.T) {
+	for _, test := range defaultValueTestData {
+		if canHaveDefaultValue(reflect.ValueOf(test.v)) != test.ok {
+			t.Errorf("Bad result. Type '%v' can have default value: %v", reflect.ValueOf(test.v).Type(), test.ok)
+		}
+	}
+}
+
 type objectIdentifierTest struct {
-	in  []byte
-	ok  bool
-	out ObjectIdentifier // has base type[]int
+	in         []byte
+	ok         bool
+	downcastOk bool                // True if the ObjectIdentifierExt can be downcast to ObjectIdentifier
+	out        ObjectIdentifierExt // has base type []int, []int64 or []*big.Int
 }
 
 var objectIdentifierTestData = []objectIdentifierTest{
-	{[]byte{}, false, []int{}},
-	{[]byte{85}, true, []int{2, 5}},
-	{[]byte{85, 0x02}, true, []int{2, 5, 2}},
-	{[]byte{85, 0x02, 0xc0, 0x00}, true, []int{2, 5, 2, 0x2000}},
-	{[]byte{0x81, 0x34, 0x03}, true, []int{2, 100, 3}},
-	{[]byte{85, 0x02, 0xc0, 0x80, 0x80, 0x80, 0x80}, false, []int{}},
+	{[]byte{}, false, true, ObjectIdentifierExt{}},
+	{[]byte{85}, true, true, ObjectIdentifierExt{2, 5}},
+	{[]byte{85, 0x02}, true, true, ObjectIdentifierExt{2, 5, 2}},
+	{[]byte{85, 0x02, 0xc0, 0x00}, true, true, ObjectIdentifierExt{2, 5, 2, 0x2000}},
+	{[]byte{0x81, 0x34, 0x03}, true, true, ObjectIdentifierExt{2, 100, 3}},
+	{[]byte{85, 0x02, 0xc0, 0x80, 0x80, 0x80, 0x80}, false, true, ObjectIdentifierExt{}},
+	// At least one sub-oid has a value higher than max int32 value, but less than max int64 value
+	{[]byte{0x2a, 0x24, 0x81, 0xf9, 0xcf, 0x99, 0xf2, 0x60, 0x85, 0x1a, 0x42, 0x01, 0x01}, true, false, ObjectIdentifierExt{1, 2, 36, int64(67006527840), 666, 66, 1, 1}},
+	{[]byte{0x2a, 0xc0, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x01}, true, false, ObjectIdentifierExt{1, 2, int64(1 << 62), 1}},
+	// At least one sub-oid has a value higher than max int64 value
+	{[]byte{0x2a, 0x84, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x01}, true, false, ObjectIdentifierExt{1, 2, new(big.Int).Lsh(big.NewInt(1), 65), 1}},
 }
 
 func TestObjectIdentifier(t *testing.T) {
@@ -251,10 +282,31 @@ func TestObjectIdentifier(t *testing.T) {
 				t.Errorf("#%d: Bad result: %v (expected %v)", i, ret, test.out)
 			}
 		}
+		oid, err1 := ret.GetObjectIdentifier()
+		if test.downcastOk {
+			if err1 != nil {
+				t.Errorf("#%d: Bad result: %v should have been converted to []int", i, ret)
+			}
+			if !ret.Equal(oid) {
+				t.Errorf("#%d: Bad result: %v (expected %v)", i, ret, test.out)
+			}
+		}
+		if !test.downcastOk && err1 == nil {
+			t.Errorf("#%d: Bad result: %v should not be converted to []int", i, ret)
+		}
 	}
 
 	if s := ObjectIdentifier([]int{1, 2, 3, 4}).String(); s != "1.2.3.4" {
 		t.Errorf("bad ObjectIdentifier.String(). Got %s, want 1.2.3.4", s)
+	}
+	if s := (ObjectIdentifierExt{1, 2, 3, 4}).String(); s != "1.2.3.4" {
+		t.Errorf("bad ObjectIdentifierExt.String(). Got %s, want 1.2.3.4", s)
+	}
+	if (ObjectIdentifierExt{1, 2, 3, 4}).Equal(nil) {
+		t.Errorf("bad ObjectIdentifierExt.Equal().")
+	}
+	if (ObjectIdentifierExt{1, 2, 3, 4}).Equal("abc") {
+		t.Errorf("bad ObjectIdentifierExt.Equal().")
 	}
 }
 

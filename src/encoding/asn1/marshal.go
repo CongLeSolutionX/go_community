@@ -136,6 +136,7 @@ func (t *taggedEncoder) Len() int {
 
 func (t *taggedEncoder) Encode(dst []byte) {
 	t.tag.Encode(dst)
+
 	t.body.Encode(dst[t.tag.Len():])
 }
 
@@ -178,11 +179,46 @@ func base128IntLength(n int64) int {
 	return l
 }
 
+func base128BigIntLength(n *big.Int) int {
+	if n.Sign() == 0 {
+		return 1
+	}
+
+	l := 0
+	for i := new(big.Int).Set(n); i.Sign() > 0; i.Rsh(i, 7) {
+		l++
+	}
+
+	return l
+}
+
 func appendBase128Int(dst []byte, n int64) []byte {
 	l := base128IntLength(n)
 
 	for i := l - 1; i >= 0; i-- {
 		o := byte(n >> uint(i*7))
+		o &= 0x7f
+		if i != 0 {
+			o |= 0x80
+		}
+
+		dst = append(dst, o)
+	}
+
+	return dst
+}
+
+func appendBase128BigInt(dst []byte, n *big.Int) []byte {
+	l := base128BigIntLength(n)
+
+	for i := l - 1; i >= 0; i-- {
+		b := new(big.Int).Rsh(n, uint(i*7))
+		var o byte
+		if b.Sign() == 0 {
+			o = 0
+		} else {
+			o = b.Bytes()[len(b.Bytes())-1]
+		}
 		o &= 0x7f
 		if i != 0 {
 			o |= 0x80
@@ -302,12 +338,107 @@ func (oid oidEncoder) Encode(dst []byte) {
 	}
 }
 
+type oidEncoderExt ObjectIdentifierExt
+
+func (oid oidEncoderExt) s() int64 {
+	var s int64
+	switch v := oid[0].(type) {
+	case int:
+		s = int64(v) * 40
+	case int64:
+		s = v * 40
+	case *big.Int:
+		s = new(big.Int).Mul(v, bigForty).Int64()
+	}
+	switch v := oid[1].(type) {
+	case int:
+		s += int64(v)
+	case int64:
+		s += v
+	case *big.Int:
+		s += v.Int64()
+	}
+	return s
+}
+
+func (oid oidEncoderExt) Len() int {
+	l := base128IntLength(oid.s())
+	for i := 2; i < len(oid); i++ {
+		switch v := oid[i].(type) {
+		case int:
+			l += base128IntLength(int64(v))
+		case int64:
+			l += base128IntLength(v)
+		case *big.Int:
+			l += base128BigIntLength(v)
+		}
+	}
+	return l
+}
+
+func (oid oidEncoderExt) Encode(dst []byte) {
+	dst = appendBase128Int(dst[:0], oid.s())
+	for i := 2; i < len(oid); i++ {
+		switch v := oid[i].(type) {
+		case int:
+			dst = appendBase128Int(dst, int64(v))
+		case int64:
+			dst = appendBase128Int(dst, v)
+		case *big.Int:
+			dst = appendBase128BigInt(dst, v)
+		}
+	}
+}
+
 func makeObjectIdentifier(oid []int) (e encoder, err error) {
 	if len(oid) < 2 || oid[0] > 2 || (oid[0] < 2 && oid[1] >= 40) {
 		return nil, StructuralError{"invalid object identifier"}
 	}
 
 	return oidEncoder(oid), nil
+}
+
+func makeObjectIdentifierExt(oid ObjectIdentifierExt) (e encoder, err error) {
+	isValid := true
+	if len(oid) < 2 {
+		isValid = false
+	} else {
+		switch v := oid[0].(type) {
+		case int:
+			if v > 2 {
+				isValid = false
+			}
+		case int64:
+			if v > 2 {
+				isValid = false
+			}
+		case *big.Int:
+			if v.Cmp(bigTwo) > 0 {
+				isValid = false
+			}
+		}
+		if isValid {
+			switch v := oid[1].(type) {
+			case int:
+				if v >= 40 {
+					isValid = false
+				}
+			case int64:
+				if v >= 40 {
+					isValid = false
+				}
+			case *big.Int:
+				if v.Cmp(bigForty) >= 0 {
+					isValid = false
+				}
+			}
+		}
+	}
+	if !isValid {
+		return nil, StructuralError{"invalid object identifier"}
+	}
+
+	return oidEncoderExt(oid), nil
 }
 
 func makePrintableString(s string) (e encoder, err error) {
@@ -472,6 +603,8 @@ func makeBody(value reflect.Value, params fieldParameters) (e encoder, err error
 		return bitStringEncoder(value.Interface().(BitString)), nil
 	case objectIdentifierType:
 		return makeObjectIdentifier(value.Interface().(ObjectIdentifier))
+	case objectIdentifierExtType:
+		return makeObjectIdentifierExt(value.Interface().(ObjectIdentifierExt))
 	case bigIntType:
 		return makeBigInt(value.Interface().(*big.Int))
 	}
@@ -584,12 +717,11 @@ func makeField(v reflect.Value, params fieldParameters) (e encoder, err error) {
 	if v.Kind() == reflect.Interface && v.Type().NumMethod() == 0 {
 		return makeField(v.Elem(), params)
 	}
-
 	if v.Kind() == reflect.Slice && v.Len() == 0 && params.omitEmpty {
 		return bytesEncoder(nil), nil
 	}
 
-	if params.optional && params.defaultValue != nil && canHaveDefaultValue(v.Kind()) {
+	if params.optional && params.defaultValue != nil && canHaveDefaultValue(v) {
 		defaultValue := reflect.New(v.Type()).Elem()
 		defaultValue.SetInt(*params.defaultValue)
 
