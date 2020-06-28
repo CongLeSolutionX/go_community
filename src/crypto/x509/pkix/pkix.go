@@ -248,6 +248,7 @@ func (n Name) ToRDNSequence() (ret RDNSequence) {
 // the RFC 2253 Distinguished Names syntax.
 func (n Name) String() string {
 	if len(n.ExtraNames) == 0 {
+		n.ExtraNames = nil
 		for _, atv := range n.Names {
 			t := atv.Type
 			if len(t) == 4 && t[0] == 2 && t[1] == 5 && t[2] == 4 {
