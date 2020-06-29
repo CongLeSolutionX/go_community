@@ -11,6 +11,7 @@ import (
 	"cmd/go/internal/load"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/str"
+	"cmd/go/internal/work"
 	"context"
 	"fmt"
 	"os"
@@ -30,6 +31,10 @@ To run fix with specific options, run 'go tool fix'.
 
 See also: go fmt, go vet.
 	`,
+}
+
+func init() {
+	work.AddBuildFlags(CmdFix, work.DefaultBuildFlags)
 }
 
 func runFix(ctx context.Context, cmd *base.Command, args []string) {
@@ -58,6 +63,10 @@ func runFix(ctx context.Context, cmd *base.Command, args []string) {
 		// the command only applies to this package,
 		// not to packages in subdirectories.
 		files := base.RelPaths(pkg.InternalAllGoFiles())
-		base.Run(str.StringList(cfg.BuildToolexec, base.Tool("fix"), files))
+		goVersion := ""
+		if pkg.Module != nil {
+			goVersion = "go" + pkg.Module.GoVersion
+		}
+		base.Run(str.StringList(cfg.BuildToolexec, base.Tool("fix"), "-go="+goVersion, files))
 	}
 }
