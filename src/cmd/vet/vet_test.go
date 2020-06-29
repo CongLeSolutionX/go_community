@@ -335,8 +335,8 @@ type wantedError struct {
 }
 
 var (
-	errRx       = regexp.MustCompile(`// (?:GC_)?ERROR (.*)`)
-	errAutoRx   = regexp.MustCompile(`// (?:GC_)?ERRORAUTO (.*)`)
+	errRx       = regexp.MustCompile(`// (?:GC_)?ERROR(NEXT)? (.*)`)
+	errAutoRx   = regexp.MustCompile(`// (?:GC_)?ERRORAUTO(NEXT)? (.*)`)
 	errQuotesRx = regexp.MustCompile(`"([^"]*)"`)
 	lineRx      = regexp.MustCompile(`LINE(([+-])([0-9]+))?`)
 )
@@ -365,7 +365,10 @@ func wantedErrors(file, short string) (errs []wantedError) {
 		if m == nil {
 			continue
 		}
-		all := m[1]
+		if m[1] == "NEXT" {
+			lineNum++
+		}
+		all := m[2]
 		mm := errQuotesRx.FindAllStringSubmatch(all, -1)
 		if mm == nil {
 			log.Fatalf("%s:%d: invalid errchk line: %s", file, lineNum, line)
