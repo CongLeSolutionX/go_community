@@ -257,6 +257,26 @@ func TestUserDefined(t *testing.T) {
 	}
 }
 
+func TestUserDefinedFunc(t *testing.T) {
+	var flags FlagSet
+	flags.Init("test", ContinueOnError)
+	var ss []string
+	flags.Func("v", "usage", func(s string) error {
+		ss = append(ss, s)
+		return nil
+	})
+	if err := flags.Parse([]string{"-v", "1", "-v", "2", "-v=3"}); err != nil {
+		t.Error(err)
+	}
+	if len(ss) != 3 {
+		t.Fatal("expected 3 args; got ", len(ss))
+	}
+	expect := "[1 2 3]"
+	if got := fmt.Sprint(ss); got != expect {
+		t.Errorf("expected value %q got %q", expect, got)
+	}
+}
+
 func TestUserDefinedForCommandLine(t *testing.T) {
 	const help = "HELP"
 	var result string
