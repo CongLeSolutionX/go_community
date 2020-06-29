@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b65c910_bb1df61d",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-06-29T17:03:35Z",
+      "side": 1,
+      "message": "X.690 DER",
+      "range": {
+        "startLine": 602,
+        "startChar": 29,
+        "endLine": 602,
+        "endChar": 34
+      },
+      "revId": "93dadaff9f0ba4a6c44f3dac499ee10372520b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
