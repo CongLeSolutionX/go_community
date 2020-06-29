@@ -11,6 +11,7 @@ import (
 	"cmd/go/internal/load"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/str"
+	"cmd/go/internal/work"
 	"fmt"
 	"os"
 )
@@ -31,6 +32,10 @@ See also: go fmt, go vet.
 	`,
 }
 
+func init() {
+	work.AddBuildFlags(CmdFix, work.DefaultBuildFlags)
+}
+
 func runFix(cmd *base.Command, args []string) {
 	printed := false
 	for _, pkg := range load.Packages(args) {
@@ -45,6 +50,10 @@ func runFix(cmd *base.Command, args []string) {
 		// the command only applies to this package,
 		// not to packages in subdirectories.
 		files := base.RelPaths(pkg.InternalAllGoFiles())
-		base.Run(str.StringList(cfg.BuildToolexec, base.Tool("fix"), files))
+		goVersion := ""
+		if pkg.Module != nil {
+			goVersion = "go" + pkg.Module.GoVersion
+		}
+		base.Run(str.StringList(cfg.BuildToolexec, base.Tool("fix"), "-go="+goVersion, files))
 	}
 }
