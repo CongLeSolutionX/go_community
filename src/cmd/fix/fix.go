@@ -125,6 +125,9 @@ func walkBeforeAfter(x interface{}, before, after func(interface{})) {
 	case *ast.IndexExpr:
 		walkBeforeAfter(&n.X, before, after)
 		walkBeforeAfter(&n.Index, before, after)
+	case *ast.IndexListExpr:
+		walkBeforeAfter(&n.X, before, after)
+		walkBeforeAfter(&n.Indices, before, after)
 	case *ast.SliceExpr:
 		walkBeforeAfter(&n.X, before, after)
 		if n.Low != nil {
