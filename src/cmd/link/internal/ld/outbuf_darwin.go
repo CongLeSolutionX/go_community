@@ -14,7 +14,7 @@ func (out *OutBuf) fallocate(size uint64) error {
 	if err != nil {
 		return err
 	}
-	cursize := uint64(stat.Size())
+	cursize := uint64(stat.Sys().(*syscall.Stat_t).Blocks * 512)
 	if size <= cursize {
 		return nil
 	}
