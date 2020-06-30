@@ -1060,8 +1060,8 @@ func (l *Loader) AttrSubSymbol(i Sym) bool {
 }
 
 // Note that we don't have a 'SetAttrSubSymbol' method in the loader;
-// clients should instead use the PrependSub method to establish
-// outer/sub relationships for host object symbols.
+// clients should instead use the AddInteriorSym method to establish
+// containment relationships for host object symbols.
 
 // Returns whether the i-th symbol has ReflectMethod attribute set.
 func (l *Loader) IsReflectMethod(i Sym) bool {
@@ -1601,10 +1601,38 @@ func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, a
 	return
 }
 
-// PrependSub prepends 'sub' onto the sub list for outer symbol 'outer'.
+// AddInteriorSym sets up 'interior' as an interiod symbol of carrier
+// symbol 'carrier'. This method is intended primarily for use in the
+// host object loaders, to capture the semantics of symbols and
+// sections in an object file. When reading a host object file, we'll
+// typically encounter a static section symbol (ex: ".text")
+// containing content for a collection of functions, then a series of
+// ELF (or macho, etc) symbol table entries each of which points into
+// a sub-section (offset and length) of its corresponding carrier
+// symbol. Within the go linker we create a loader.Sym for the carrier
+// (which is expected to have the actual content or payload of
+// interest) and then a set of interiod loader.Sym's that point into a
+// portion of the carrier.
+func (l *Loader) AddInteriorSym(carrier Sym, interior Sym) {
+	// Carrier symbols are normally expected to have content/data,
+	// however on windows it appears that some carriers are empty.
+	//
+	//	if l.SymSize(carrier) == 0 && len(l.Data(carrier)) == 0 {
+	//    panic("unexpected empty carrier symbol")
+	//  }
+
+	// The interior symbols for a carrier are not expected to have
+	// content/data.
+	if len(l.Data(interior)) != 0 {
+		panic("unexpected non-empty interior symbol")
+	}
+	l.prependSub(carrier, interior)
+}
+
+// prependSub prepends 'sub' onto the sub list for outer symbol 'outer'.
 // Will panic if 'sub' already has an outer sym or sub sym.
 // FIXME: should this be instead a method on SymbolBuilder?
-func (l *Loader) PrependSub(outer Sym, sub Sym) {
+func (l *Loader) prependSub(outer Sym, sub Sym) {
 	// NB: this presupposes that an outer sym can't be a sub symbol of
 	// some other outer-outer sym (I'm assuming this is true, but I
 	// haven't tested exhaustively).
