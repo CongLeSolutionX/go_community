@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c36bd04_8524aae2",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "Nit: would it make sense to instead have \u0027done chan struct{}\u0027 which is signaled by a worker when it decrements to 0? That way, we don\u0027t need to maintain a separate count of workers in wg, and it feels more consistent with using chan for synchronization.",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe64da2d_93743a97",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "Maybe a brief comment; \u0027allLevel determines which packages are matched by \"all\".\u0027",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38f30c50_24e9455e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "This could use a comment; this process is pretty gnarly.\n\nThe meaning of addedModuleFor and modAddedBy isn\u0027t really clear without the context in loadFromRoots.",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b2d29b5_54a2abdd",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "Can this TODO be dropped? Import handles replacements.",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a7a1c5_a91417f0",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "Confused by this comment. I think some of the names are outdated. Is this really tied with \"all\"? It\u0027s called regardless of whether \"all\" was one of the arguments. Is this related to computePatternAll?",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef75e86e_8a4fd09e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "Is there a way we can expand all in one pass instead of loading packages in waves? Ideally, loader.wait would only be called by loadFromRoots between iterations.",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5fc80ef_c7bf9860",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "Could this be simplified? I think this would be equivalent:\n\n    if pkg.testOf \u003d\u003d nil \u0026\u0026\n      (ld.allLevel \u003e\u003d importedByTransitiveTest ||\n       (ld.allLevel \u003e\u003d importedByTarget \u0026\u0026 pkg.mod \u003d\u003d Target)) {\n      ld.loadTestOf(pkg)\n    }",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a47cdd8_c719d2d7",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-01T16:35:01Z",
+      "side": 1,
+      "message": "Why is expandTest a separate pass? Previously, loader.doPkg recursed into test packages, and it seems like loader.load would have the same information. All other things being equal, it would be better to do fewer passes to increase available parallelism.",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
