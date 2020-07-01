@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "92cf3b6b_639656de",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "If we used the channel as a close-only channel (which is what `chan struct{}`, as opposed to `chan token` or `chan bool`, implies to me), then we would also need to reallocate the channel whenever the active count transitions from zero to nonzero.\n\nOn the other hand, if we sent on the channel instead of closing it, then either `wait()` would need to re-send after receiving, or would not be idempotent.\n\nPlus, a sync.WaitGroup is somewhat more efficient than a channel.\n\nTaking all that into account, I find the WaitGroup significantly simpler.",
+      "parentUuid": "4c36bd04_8524aae2",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe64da2d_93743a97",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75d68667_cf8734b2",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe64da2d_93743a97",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "032594da_8d9fd7b3",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f30c50_24e9455e",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b2d29b5_54a2abdd",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30efd375_91131b86",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b2d29b5_54a2abdd",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "8d84e00c_7f03d48d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "\u003e Confused by this comment. I think some of the names are outdated.\n\nIndeed, the name was left over from when loadAll did not include the initial “load the roots” phase.\n\n\u003e Is this really tied with \"all\"?\n\nThe main purpose of the for-loop from 989–1006 is to expand the \"all\" pattern if present, but in the next CL it will also have the secondary effect of marking the set of packages relevant to the main module.\n\n\u003e It\u0027s called regardless of whether \"all\" was one of the arguments. Is this related to computePatternAll?\n\nThey are closely related, in that they require a consistent meaning of the word \"all\".\n(The set of targets expanded in loadAll must include the set walked in computePatternAll.)",
+      "parentUuid": "c1a7a1c5_a91417f0",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef75e86e_8a4fd09e",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 2
@@ -101,6 +191,24 @@
       "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88f758c7_54ca6ae7",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "There is a way to do it, but to make it work for lazy loading the synchronization would end up _really_ subtle.\n\nThe problem is that we need to mark the set of packages needed to build the packages and tests in the main module (so that we can record their modules explicitly in the go.mod file). When we discover that a package is imported by the main module, we also need to load its tests and their transitive dependencies, and if we\u0027re doing everything intermixed it is possible for two goroutines to make that discovery via independent paths at the same time — so then we would need per-loadPkg locking and all of the potential lock-ordering bugs that would ensue, or perhaps lots of atomic locks (and similar risks).\n\nSo it could be done, but given that the set of transitive packages should close pretty quickly in practice anyway — and given that allLevel will be noAll for most operations anyway — I think the efficiency loss will be negligible.\n\nThat said, we could improve the efficiency by a (probably marginal) constant factor by dropping newPkgs for the cases where it isn\u0027t strictly needed (go ≤ 1.15, no `all` pattern, no `-test` flag), but even that doesn\u0027t seem worth the complexity to me.",
+      "parentUuid": "ef75e86e_8a4fd09e",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "f8839483_c1f98f11",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "It could be simplified in this CL, but needs the more complex structure for lazy loading anyway. (We need to trace the “imported by the main module” bits for lazy loading, and those apply only to `pkg.mod \u003d\u003d Target` regardless of allLevel.)\n\nSo I would prefer to keep this structure to minimize future churn.",
+      "parentUuid": "d5fc80ef_c7bf9860",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a47cdd8_c719d2d7",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 2
@@ -135,6 +261,24 @@
       "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32c75a55_4a60d650",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-01T19:40:32Z",
+      "side": 1,
+      "message": "Mostly this is to support \"go list -test all\" with lazy loading.\n\nFor that query, we need to compute \"all\" without following test dependencies, and then expand by exactly one layer (but not more). In order to do that as part of the main pass we would have to have an explicit per-loadPkg bit tracking whether a given package is in “all”, and then some (correctly-synchronized) logic for re-tracing subgraphs whenever a root of the subgraph is added to \"all\".\n\nI don\u0027t think these limitations will be a big deal in practice: the \"-test\" flag is pretty rare, and one pause in loading is unlikely to pull us out of saturation for long.",
+      "parentUuid": "2a47cdd8_c719d2d7",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
