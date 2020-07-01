@@ -1659,9 +1659,24 @@ func (l *Loader) SubSym(i Sym) Sym {
 	return l.sub[i]
 }
 
+// SetCarrierSym declares that 'c' is the carrier or container symbol
+// for 's'. This establishes a link from 's' to 'c' (via
+// ldr.OuterSym()) but not the reverse. The normal model is that the
+// carrier symbol is empty (no data/content) and that the sub-symbols
+// that point to it hold the content of interest. This method is used
+// primarily for partitioning/bucketing symbols according to some
+// criteria, such as what happens in the symtab phase.
+func (l *Loader) SetCarrierSym(s Sym, c Sym) {
+	// Carrier symbols are not expected to have content/data.
+	if l.SymSize(c) != 0 || len(l.Data(c)) != 0 {
+		panic("unexpected non-empty carrier symbol")
+	}
+	l.setOuterSym(s, c)
+}
+
 // SetOuterSym sets the outer symbol of i to o (without setting
 // sub symbols).
-func (l *Loader) SetOuterSym(i Sym, o Sym) {
+func (l *Loader) setOuterSym(i Sym, o Sym) {
 	if o != 0 {
 		l.outer[i] = o
 		// relocsym's foldSubSymbolOffset requires that we only
