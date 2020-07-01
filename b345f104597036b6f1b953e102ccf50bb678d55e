@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f27f50bb_8383abef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-01T14:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dd848b1_3658cab0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "b345f104597036b6f1b953e102ccf50bb678d55e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4dce99a_8f6fad9b",
         "filename": "src/cmd/link/internal/ld/outbuf_darwin.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2020-07-01T11:46:09Z",
       "side": 1,
       "message": "This LGTM, but would it make sense to add a comment here, and/or refer to any related Apple docs? Seems like a fairly subtle difference between linux + darwin.",
+      "revId": "b345f104597036b6f1b953e102ccf50bb678d55e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882b63ee_f63539cb",
+        "filename": "src/cmd/link/internal/ld/outbuf_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-01T14:53:22Z",
+      "side": 1,
+      "message": "The problem is that the doc is very vague. Added a comment.",
+      "parentUuid": "f4dce99a_8f6fad9b",
       "revId": "b345f104597036b6f1b953e102ccf50bb678d55e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
