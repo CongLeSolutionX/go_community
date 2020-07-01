@@ -1657,18 +1657,33 @@ func (l *Loader) SubSym(i Sym) Sym {
 	return l.sub[i]
 }
 
-// SetOuterSym sets the outer symbol of i to o (without setting
-// sub symbols).
-func (l *Loader) SetOuterSym(i Sym, o Sym) {
-	if o != 0 {
-		l.outer[i] = o
-		// relocsym's foldSubSymbolOffset requires that we only
-		// have a single level of containment-- enforce here.
-		if l.outer[o] != 0 {
-			panic("multiply nested outer sym")
-		}
-	} else {
-		delete(l.outer, i)
+// SetCarrierSym declares that 'c' is the carrier or container symbol
+// for 's'. This establishes a link from 's' to 'c' but not the
+// reverse. The normal model is that the carrier symbol is named and
+// does appear in the final symbol table, but is also empty (no
+// data/content itself). The sub-symbols (those which are assigned a
+// carrier using this method) do have content, but their names are
+// unimportant and are not put into the symbol table. This method is
+// used primarily for partitioning/bucketing symbols according to some
+// criteria, such as what happens in the symtab phase.
+func (l *Loader) SetCarrierSym(s Sym, c Sym) {
+	if c == 0 {
+		panic("invalid carrier in SetCarrierSym")
+	}
+	if s == 0 {
+		panic("invalid sub-symbol in SetCarrierSym")
+	}
+	// Carrier symbols are not expected to have content/data. It is
+	// ok for them to have non-zero size (to allow for use of generator
+	// symbols).
+	if len(l.Data(c)) != 0 {
+		panic("unexpected non-empty carrier symbol")
+	}
+	l.outer[s] = c
+	// relocsym's foldSubSymbolOffset requires that we only
+	// have a single level of containment-- enforce here.
+	if l.outer[c] != 0 {
+		panic("invalid nested carrier sym")
 	}
 }
 
