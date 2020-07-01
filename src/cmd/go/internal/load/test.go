@@ -185,6 +185,7 @@ func TestPackagesAndErrors(p *Package, cover *TestCover) (pmain, ptest, pxtest *
 				GoFiles:    p.XTestGoFiles,
 				Imports:    p.XTestImports,
 				ForTest:    p.ImportPath,
+				Module:     p.Module,
 				Error:      pxtestErr,
 			},
 			Internal: PackageInternal{
@@ -216,6 +217,7 @@ func TestPackagesAndErrors(p *Package, cover *TestCover) (pmain, ptest, pxtest *
 			ImportPath: p.ImportPath + ".test",
 			Root:       p.Root,
 			Imports:    str.StringList(TestMainDeps),
+			Module:     p.Module,
 		},
 		Internal: PackageInternal{
 			Build:      &build.Package{Name: "main"},
