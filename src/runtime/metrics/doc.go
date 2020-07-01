@@ -44,6 +44,58 @@ the documentation of the Name field of the Description struct.
 
 Supported metrics
 
-TODO(mknyszek): List them here as they're added.
+	/memory/heap/free:bytes
+		Memory that is available for allocation, and may be returned
+		to the underlying system.
+
+	/memory/heap/released:bytes
+		Memory that has been returned to the underlying system.
+
+	/memory/heap/objects:bytes
+		Memory occupied by live objects and dead objects that have
+		not yet been collected.
+
+	/memory/heap/unused:bytes
+		Memory that is unavailable for allocation, but cannot be
+		returned to the underlying system.
+
+	/memory/heap/stacks:bytes
+		Memory allocated from the heap that is occupied by stacks,
+		both for native threads and goroutines.
+
+	/memory/metadata/mspan/inuse:bytes
+		Memory that is occupied by runtime mspan structures that are
+		currently being used.
+
+	/memory/metadata/mspan/free:bytes
+		Memory that is reserved for runtime mspan structures, but
+		not in-use.
+
+	/memory/metadata/mcache/inuse:bytes
+		Memory that is occupied by runtime mcache structures that
+		are currently being used.
+
+	/memory/metadata/mcache/free:bytes
+		Memory that is reserved for runtime mcache structures, but
+		not in-use.
+
+	/memory/metadata/other:bytes
+		Memory that is reserved for or used to hold runtime
+		metadata.
+
+	/memory/profiling/buckets:bytes
+		Memory that is used by the stack trace hash map used for
+		profiling.
+
+	/memory/other:bytes
+		Memory used by execution trace buffers, structures for
+		debugging the runtime, finalizer and profiler specials, and
+		more.
+
+	/memory/os-stacks:bytes
+		Stack memory allocated by the underlying operating system.
+
+	/aggregates/total-virtual-memory:bytes
+		Virtual memory footprint of the process.
 */
 package metrics
