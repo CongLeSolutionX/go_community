@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8286da0a_47dfdb53",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1668,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:13:08Z",
+      "side": 1,
+      "message": "If the point is to hide these representation details, this shouldn\u0027t go in the doc comment.",
+      "range": {
+        "startLine": 1667,
+        "startChar": 12,
+        "endLine": 1668,
+        "endChar": 39
+      },
+      "revId": "ef3a787b83c65e53f3587122efe16a1159639920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5bcc5e1_a5774b35",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:13:08Z",
+      "side": 1,
+      "message": "I think which symbols are in the symbol table is also important here, since otherwise this relationship makes no sense. This is also what distinguishes carrier and interior symbols: on one the name is on the outer symbol and the contents are on the inner symbol, and on the other the name is on the inner symbol and the contents are on the outer symbol. The relationship is about separating the name and the contents.",
+      "revId": "ef3a787b83c65e53f3587122efe16a1159639920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea84edad_9747401a",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1678,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:13:08Z",
+      "side": 1,
+      "message": "Fold setOuterSym in here?",
+      "revId": "ef3a787b83c65e53f3587122efe16a1159639920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
