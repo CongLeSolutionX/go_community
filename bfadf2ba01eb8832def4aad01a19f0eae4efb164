@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1596bc0d_6f439a7e",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "Obviously not related to this CL, but I just noticed this. I think we can delete this FIXME now?",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fae84cc_0a114424",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1604,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 1604,
+        "startChar": 43,
+        "endLine": 1604,
+        "endChar": 51
+      },
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e11bafe7_d03b5442",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "Given that we\u0027re using \"carrier\" for the other subsymbol relationship, I think we should avoid it here.",
+      "range": {
+        "startLine": 1605,
+        "startChar": 11,
+        "endLine": 1605,
+        "endChar": 18
+      },
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2df4cf0_0fa33455",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "The rest of this comment explains what this is used for and how it\u0027s implemented, but doesn\u0027t explain what a carrier symbol or an interior symbol is or what this relationship means. Maybe add something like\n\nAn interior symbol does not itself have data, but gives a name to a subrange of the data in its carrier symbol. The carrier itself may or may not have a name.",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f04f0b9a_c4f0956e",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "Interesting. Is it just that the interior symbols are also empty, so this is sort of a degenerate carrier, or is there something deeper going on?",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9dffee8_a09bd8fc",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "Is an interior symbol allowed to have relocations? I\u0027m guessing not.",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e77bdbdc_5c233ba7",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "Maybe check that the interior symbol is in the symbol table?",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b8fa355_6e2c2681",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1629,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "I think this is the only use of prependSub now. Fold it in here?",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b54e2126_091b4736",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1634,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-01T19:12:18Z",
+      "side": 1,
+      "message": "Remove FIXME?",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
