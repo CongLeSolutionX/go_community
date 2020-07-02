@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "06a4ad75_7b038e4f",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-02T02:30:46Z",
+      "side": 1,
+      "message": "On further consideration, a 1-buffered `chan bool`, with the sends guarded by the workqueue channel, might allow us to better parallelize the loadAll phase per your other comment.",
+      "parentUuid": "92cf3b6b_639656de",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe64da2d_93743a97",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 2
@@ -209,6 +227,24 @@
       "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3009f58e_c2aa6d6a",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-02T02:30:46Z",
+      "side": 1,
+      "message": "On further consideration, I think you\u0027re right. As long as there is only one goroutine updating the \"imported\" bits and adding tests, it should be safe to allow the import-flooding goroutines to continue without synchronization, since they will not race on writes to the test fields or read from or write to the imported bit.\n\nIt will be tricky to document the invariants on the fields, but I think it is safe.",
+      "parentUuid": "88f758c7_54ca6ae7",
+      "revId": "5018dbadd3c38f461aa3d81e55f6389030546c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
