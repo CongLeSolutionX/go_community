@@ -64,7 +64,7 @@ func (file *File) readdir(n int) ([]FileInfo, error) {
 }
 
 func (file *File) readdirnames(n int) (names []string, err error) {
-	fi, err := file.Readdir(n)
+	fi, err := file.ReadDir(n)
 	names = make([]string, len(fi))
 	for i := range fi {
 		names[i] = fi[i].Name()

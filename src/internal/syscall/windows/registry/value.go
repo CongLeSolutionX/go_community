@@ -342,7 +342,7 @@ func (k Key) DeleteValue(name string) error {
 
 // ReadValueNames returns the value names of key k.
 // The parameter n controls the number of returned names,
-// analogous to the way os.File.Readdirnames works.
+// analogous to the way os.File.ReadDirNames works.
 func (k Key) ReadValueNames(n int) ([]string, error) {
 	ki, err := k.Stat()
 	if err != nil {

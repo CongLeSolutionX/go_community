@@ -463,7 +463,7 @@ func TestRemoveAllWithMoreErrorThanReqSize(t *testing.T) {
 	}
 	defer dir.Close()
 
-	names, _ := dir.Readdirnames(1025)
+	names, _ := dir.ReadDirNames(1025)
 	if len(names) < 1025 {
 		t.Fatalf("RemoveAll(<read-only directory>) unexpectedly removed %d read-only files from that directory", 1025-len(names))
 	}

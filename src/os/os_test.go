@@ -301,13 +301,13 @@ func TestReadClosed(t *testing.T) {
 	}
 }
 
-func testReaddirnames(dir string, contents []string, t *testing.T) {
+func testReadDirNames(readDirNames func(*File, int) ([]string, error), dir string, contents []string, t *testing.T) {
 	file, err := Open(dir)
 	if err != nil {
 		t.Fatalf("open %q failed: %v", dir, err)
 	}
 	defer file.Close()
-	s, err2 := file.Readdirnames(-1)
+	s, err2 := readDirNames(file, -1)
 	if err2 != nil {
 		t.Fatalf("readdirnames %q failed: %v", dir, err2)
 	}
@@ -330,13 +330,13 @@ func testReaddirnames(dir string, contents []string, t *testing.T) {
 	}
 }
 
-func testReaddir(dir string, contents []string, t *testing.T) {
+func testReadDir(readDir func(*File, int) ([]FileInfo, error), dir string, contents []string, t *testing.T) {
 	file, err := Open(dir)
 	if err != nil {
 		t.Fatalf("open %q failed: %v", dir, err)
 	}
 	defer file.Close()
-	s, err2 := file.Readdir(-1)
+	s, err2 := readDir(file, -1)
 	if err2 != nil {
 		t.Fatalf("readdir %q failed: %v", dir, err2)
 	}
@@ -356,56 +356,60 @@ func testReaddir(dir string, contents []string, t *testing.T) {
 	}
 }
 
-func TestReaddirnames(t *testing.T) {
-	testReaddirnames(".", dot, t)
-	testReaddirnames(sysdir.name, sysdir.files, t)
+func TestReadDirNames(t *testing.T) {
+	testReadDirNames((*File).ReadDirNames, ".", dot, t)
+	testReadDirNames((*File).ReadDirNames, sysdir.name, sysdir.files, t)
+
+	testReadDirNames((*File).Readdirnames, ".", dot, t)
 }
 
-func TestReaddir(t *testing.T) {
-	testReaddir(".", dot, t)
-	testReaddir(sysdir.name, sysdir.files, t)
+func TestReadDir(t *testing.T) {
+	testReadDir((*File).ReadDir, ".", dot, t)
+	testReadDir((*File).ReadDir, sysdir.name, sysdir.files, t)
+
+	testReadDir((*File).Readdir, ".", dot, t)
 }
 
-func benchmarkReaddirname(path string, b *testing.B) {
+func benchmarkReadDirname(path string, b *testing.B) {
 	var nentries int
 	for i := 0; i < b.N; i++ {
 		f, err := Open(path)
 		if err != nil {
 			b.Fatalf("open %q failed: %v", path, err)
 		}
-		ns, err := f.Readdirnames(-1)
+		ns, err := f.ReadDirNames(-1)
 		f.Close()
 		if err != nil {
 			b.Fatalf("readdirnames %q failed: %v", path, err)
 		}
 		nentries = len(ns)
 	}
-	b.Logf("benchmarkReaddirname %q: %d entries", path, nentries)
+	b.Logf("benchmarkReadDirname %q: %d entries", path, nentries)
 }
 
-func benchmarkReaddir(path string, b *testing.B) {
+func benchmarkReadDir(path string, b *testing.B) {
 	var nentries int
 	for i := 0; i < b.N; i++ {
 		f, err := Open(path)
 		if err != nil {
 			b.Fatalf("open %q failed: %v", path, err)
 		}
-		fs, err := f.Readdir(-1)
+		fs, err := f.ReadDir(-1)
 		f.Close()
 		if err != nil {
 			b.Fatalf("readdir %q failed: %v", path, err)
 		}
 		nentries = len(fs)
 	}
-	b.Logf("benchmarkReaddir %q: %d entries", path, nentries)
+	b.Logf("benchmarkReadDir %q: %d entries", path, nentries)
 }
 
-func BenchmarkReaddirname(b *testing.B) {
-	benchmarkReaddirname(".", b)
+func BenchmarkReadDirname(b *testing.B) {
+	benchmarkReadDirname(".", b)
 }
 
-func BenchmarkReaddir(b *testing.B) {
-	benchmarkReaddir(".", b)
+func BenchmarkReadDir(b *testing.B) {
+	benchmarkReadDir(".", b)
 }
 
 func benchmarkStat(b *testing.B, path string) {
@@ -453,11 +457,11 @@ func BenchmarkLstatDir(b *testing.B) {
 }
 
 // Read the directory one entry at a time.
-func smallReaddirnames(file *File, length int, t *testing.T) []string {
+func smallReadDirNames(file *File, length int, t *testing.T) []string {
 	names := make([]string, length)
 	count := 0
 	for {
-		d, err := file.Readdirnames(1)
+		d, err := file.ReadDirNames(1)
 		if err == io.EOF {
 			break
 		}
@@ -475,7 +479,7 @@ func smallReaddirnames(file *File, length int, t *testing.T) []string {
 
 // Check that reading a directory one entry at a time gives the same result
 // as reading it all at once.
-func TestReaddirnamesOneAtATime(t *testing.T) {
+func TestReadDirNamesOneAtATime(t *testing.T) {
 	// big directory that doesn't change often.
 	dir := "/usr/bin"
 	switch runtime.GOOS {
@@ -500,7 +504,7 @@ func TestReaddirnamesOneAtATime(t *testing.T) {
 		t.Fatalf("open %q failed: %v", dir, err)
 	}
 	defer file.Close()
-	all, err1 := file.Readdirnames(-1)
+	all, err1 := file.ReadDirNames(-1)
 	if err1 != nil {
 		t.Fatalf("readdirnames %q failed: %v", dir, err1)
 	}
@@ -509,7 +513,7 @@ func TestReaddirnamesOneAtATime(t *testing.T) {
 		t.Fatalf("open %q failed: %v", dir, err2)
 	}
 	defer file1.Close()
-	small := smallReaddirnames(file1, len(all)+100, t) // +100 in case we screw up
+	small := smallReadDirNames(file1, len(all)+100, t) // +100 in case we screw up
 	if len(small) < len(all) {
 		t.Fatalf("len(small) is %d, less than %d", len(small), len(all))
 	}
@@ -520,7 +524,7 @@ func TestReaddirnamesOneAtATime(t *testing.T) {
 	}
 }
 
-func TestReaddirNValues(t *testing.T) {
+func TestReadDirNValues(t *testing.T) {
 	if testing.Short() {
 		t.Skip("test.short; skipping")
 	}
@@ -548,22 +552,22 @@ func TestReaddirNValues(t *testing.T) {
 	}
 
 	readDirExpect := func(n, want int, wantErr error) {
-		fi, err := d.Readdir(n)
+		fi, err := d.ReadDir(n)
 		if err != wantErr {
-			t.Fatalf("Readdir of %d got error %v, want %v", n, err, wantErr)
+			t.Fatalf("ReadDir of %d got error %v, want %v", n, err, wantErr)
 		}
 		if g, e := len(fi), want; g != e {
-			t.Errorf("Readdir of %d got %d files, want %d", n, g, e)
+			t.Errorf("ReadDir of %d got %d files, want %d", n, g, e)
 		}
 	}
 
 	readDirNamesExpect := func(n, want int, wantErr error) {
-		fi, err := d.Readdirnames(n)
+		fi, err := d.ReadDirNames(n)
 		if err != wantErr {
-			t.Fatalf("Readdirnames of %d got error %v, want %v", n, err, wantErr)
+			t.Fatalf("ReadDirNames of %d got error %v, want %v", n, err, wantErr)
 		}
 		if g, e := len(fi), want; g != e {
-			t.Errorf("Readdirnames of %d got %d files, want %d", n, g, e)
+			t.Errorf("ReadDirNames of %d got %d files, want %d", n, g, e)
 		}
 	}
 
@@ -601,7 +605,7 @@ func touch(t *testing.T, name string) {
 	}
 }
 
-func TestReaddirStatFailures(t *testing.T) {
+func TestReadDirStatFailures(t *testing.T) {
 	switch runtime.GOOS {
 	case "windows", "plan9":
 		// Windows and Plan 9 already do this correctly,
@@ -634,12 +638,12 @@ func TestReaddirStatFailures(t *testing.T) {
 			t.Fatal(err)
 		}
 		defer d.Close()
-		return d.Readdir(-1)
+		return d.ReadDir(-1)
 	}
 	mustReadDir := func(testName string) []FileInfo {
 		fis, err := readDir()
 		if err != nil {
-			t.Fatalf("%s: Readdir: %v", testName, err)
+			t.Fatalf("%s: ReadDir: %v", testName, err)
 		}
 		return fis
 	}
@@ -669,9 +673,9 @@ func TestReaddirStatFailures(t *testing.T) {
 	}
 }
 
-// Readdir on a regular file should fail.
-func TestReaddirOfFile(t *testing.T) {
-	f, err := ioutil.TempFile("", "_Go_ReaddirOfFile")
+// ReadDir on a regular file should fail.
+func TestReadDirOfFile(t *testing.T) {
+	f, err := ioutil.TempFile("", "_Go_ReadDirOfFile")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -684,9 +688,9 @@ func TestReaddirOfFile(t *testing.T) {
 	}
 	defer reg.Close()
 
-	names, err := reg.Readdirnames(-1)
+	names, err := reg.ReadDirNames(-1)
 	if err == nil {
-		t.Error("Readdirnames succeeded; want non-nil error")
+		t.Error("ReadDirNames succeeded; want non-nil error")
 	}
 	var pe *PathError
 	if !errors.As(err, &pe) || pe.Path != f.Name() {
@@ -1022,7 +1026,7 @@ func TestRenameCaseDifference(pt *testing.T) {
 
 			// Stat does not return the real case of the file (it returns what the called asked for)
 			// So we have to use readdir to get the real name of the file.
-			dirNames, err := fd.Readdirnames(-1)
+			dirNames, err := fd.ReadDirNames(-1)
 			if err != nil {
 				t.Fatalf("readdirnames: %s", err)
 			}
@@ -2279,8 +2283,8 @@ var nilFileMethodTests = []struct {
 	{"Chown", func(f *File) error { return f.Chown(0, 0) }},
 	{"Read", func(f *File) error { _, err := f.Read(make([]byte, 0)); return err }},
 	{"ReadAt", func(f *File) error { _, err := f.ReadAt(make([]byte, 0), 0); return err }},
-	{"Readdir", func(f *File) error { _, err := f.Readdir(1); return err }},
-	{"Readdirnames", func(f *File) error { _, err := f.Readdirnames(1); return err }},
+	{"ReadDir", func(f *File) error { _, err := f.ReadDir(1); return err }},
+	{"ReadDirNames", func(f *File) error { _, err := f.ReadDirNames(1); return err }},
 	{"Seek", func(f *File) error { _, err := f.Seek(0, io.SeekStart); return err }},
 	{"Stat", func(f *File) error { _, err := f.Stat(); return err }},
 	{"Sync", func(f *File) error { return f.Sync() }},
@@ -2476,7 +2480,7 @@ func TestDirSeek(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	dirnames1, err := f.Readdirnames(0)
+	dirnames1, err := f.ReadDirNames(0)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2489,7 +2493,7 @@ func TestDirSeek(t *testing.T) {
 		t.Fatalf("seek result not zero: %d", ret)
 	}
 
-	dirnames2, err := f.Readdirnames(0)
+	dirnames2, err := f.ReadDirNames(0)
 	if err != nil {
 		t.Fatal(err)
 		return
@@ -2506,7 +2510,7 @@ func TestDirSeek(t *testing.T) {
 	}
 }
 
-func TestReaddirSmallSeek(t *testing.T) {
+func TestReadDirSmallSeek(t *testing.T) {
 	// See issue 37161. Read only one entry from a directory,
 	// seek to the beginning, and read again. We should not see
 	// duplicate entries.
@@ -2521,14 +2525,14 @@ func TestReaddirSmallSeek(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	names1, err := df.Readdirnames(1)
+	names1, err := df.ReadDirNames(1)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if _, err = df.Seek(0, 0); err != nil {
 		t.Fatal(err)
 	}
-	names2, err := df.Readdirnames(0)
+	names2, err := df.ReadDirNames(0)
 	if err != nil {
 		t.Fatal(err)
 	}

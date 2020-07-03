@@ -177,8 +177,8 @@ func TestLchown(t *testing.T) {
 	}
 }
 
-// Issue 16919: Readdir must return a non-empty slice or an error.
-func TestReaddirRemoveRace(t *testing.T) {
+// Issue 16919: ReadDir must return a non-empty slice or an error.
+func TestReadDirRemoveRace(t *testing.T) {
 	oldStat := *LstatP
 	defer func() { *LstatP = oldStat }()
 	*LstatP = func(name string) (FileInfo, error) {
@@ -188,7 +188,7 @@ func TestReaddirRemoveRace(t *testing.T) {
 		}
 		return oldStat(name)
 	}
-	dir := newDir("TestReaddirRemoveRace", t)
+	dir := newDir("TestReadDirRemoveRace", t)
 	defer RemoveAll(dir)
 	if err := ioutil.WriteFile(filepath.Join(dir, "some-file"), []byte("hello"), 0644); err != nil {
 		t.Fatal(err)
@@ -198,13 +198,13 @@ func TestReaddirRemoveRace(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer d.Close()
-	fis, err := d.Readdir(2) // notably, greater than zero
+	fis, err := d.ReadDir(2) // notably, greater than zero
 	if len(fis) == 0 && err == nil {
 		// This is what used to happen (Issue 16919)
-		t.Fatal("Readdir = empty slice & err == nil")
+		t.Fatal("ReadDir = empty slice & err == nil")
 	}
 	if len(fis) != 0 || err != io.EOF {
-		t.Errorf("Readdir = %d entries: %v; want 0, io.EOF", len(fis), err)
+		t.Errorf("ReadDir = %d entries: %v; want 0, io.EOF", len(fis), err)
 		for i, fi := range fis {
 			t.Errorf("  entry[%d]: %q, %v", i, fi.Name(), fi.Mode())
 		}

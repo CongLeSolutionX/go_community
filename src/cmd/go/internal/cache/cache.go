@@ -318,14 +318,14 @@ func (c *Cache) Trim() {
 func (c *Cache) trimSubdir(subdir string, cutoff time.Time) {
 	// Read all directory entries from subdir before removing
 	// any files, in case removing files invalidates the file offset
-	// in the directory scan. Also, ignore error from f.Readdirnames,
+	// in the directory scan. Also, ignore error from f.ReadDirNames,
 	// because we don't care about reporting the error and we still
 	// want to process any entries found before the error.
 	f, err := os.Open(subdir)
 	if err != nil {
 		return
 	}
-	names, _ := f.Readdirnames(-1)
+	names, _ := f.ReadDirNames(-1)
 	f.Close()
 
 	for _, name := range names {

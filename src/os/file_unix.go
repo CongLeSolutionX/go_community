@@ -353,7 +353,7 @@ func (f *File) readdir(n int) (fi []FileInfo, err error) {
 	if dirname == "" {
 		dirname = "."
 	}
-	names, err := f.Readdirnames(n)
+	names, err := f.ReadDirNames(n)
 	fi = make([]FileInfo, 0, len(names))
 	for _, filename := range names {
 		fip, lerr := lstat(dirname + "/" + filename)
@@ -368,7 +368,7 @@ func (f *File) readdir(n int) (fi []FileInfo, err error) {
 		fi = append(fi, fip)
 	}
 	if len(fi) == 0 && err == nil && n > 0 {
-		// Per File.Readdir, the slice must be non-empty or err
+		// Per File.ReadDir, the slice must be non-empty or err
 		// must be non-nil if n > 0.
 		err = io.EOF
 	}

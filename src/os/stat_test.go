@@ -13,7 +13,7 @@ import (
 	"testing"
 )
 
-// testStatAndLstat verifies that all os.Stat, os.Lstat os.File.Stat and os.Readdir work.
+// testStatAndLstat verifies that all os.Stat, os.Lstat os.File.Stat and os.ReadDir work.
 func testStatAndLstat(t *testing.T, path string, isLink bool, statCheck, lstatCheck func(*testing.T, string, os.FileInfo)) {
 	// test os.Stat
 	sfi, err := os.Stat(path)
@@ -70,9 +70,9 @@ func testStatAndLstat(t *testing.T, path string, isLink bool, statCheck, lstatCh
 		}
 	}
 
-	// test os.FileInfo returned by os.Readdir
+	// test os.FileInfo returned by os.ReadDir
 	if len(path) > 0 && os.IsPathSeparator(path[len(path)-1]) {
-		// skip os.Readdir test of directories with slash at the end
+		// skip os.ReadDir test of directories with slash at the end
 		return
 	}
 	parentdir := filepath.Dir(path)
@@ -83,7 +83,7 @@ func testStatAndLstat(t *testing.T, path string, isLink bool, statCheck, lstatCh
 	}
 	defer parent.Close()
 
-	fis, err := parent.Readdir(-1)
+	fis, err := parent.ReadDir(-1)
 	if err != nil {
 		t.Error(err)
 		return

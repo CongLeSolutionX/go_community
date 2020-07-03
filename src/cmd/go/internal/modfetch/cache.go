@@ -477,7 +477,7 @@ func readDiskStatByHash(path, rev string) (file string, info *RevInfo, err error
 	if err != nil {
 		return "", nil, errNotCached
 	}
-	names, err := dir.Readdirnames(-1)
+	names, err := dir.ReadDirNames(-1)
 	dir.Close()
 	if err != nil {
 		return "", nil, errNotCached

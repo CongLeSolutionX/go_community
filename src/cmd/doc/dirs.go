@@ -95,7 +95,7 @@ func (d *Dirs) bfsWalkRoot(root Dir) {
 				log.Print(err)
 				continue
 			}
-			entries, err := fd.Readdir(0)
+			entries, err := fd.ReadDir(0)
 			fd.Close()
 			if err != nil {
 				log.Print(err)

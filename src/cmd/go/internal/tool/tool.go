@@ -109,7 +109,7 @@ func listTools() {
 		return
 	}
 	defer f.Close()
-	names, err := f.Readdirnames(-1)
+	names, err := f.ReadDirNames(-1)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "go tool: can't read directory: %s\n", err)
 		base.SetExitStatus(2)

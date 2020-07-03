@@ -455,7 +455,7 @@ func isDirWithGoFiles(dir string) (bool, error) {
 	}
 	defer f.Close()
 
-	names, firstErr := f.Readdirnames(-1)
+	names, firstErr := f.ReadDirNames(-1)
 	if firstErr != nil {
 		if fi, err := f.Stat(); err == nil && !fi.IsDir() {
 			return false, nil

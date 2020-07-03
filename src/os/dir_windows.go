@@ -15,7 +15,7 @@ func (file *File) readdir(n int) (fi []FileInfo, err error) {
 		return nil, syscall.EINVAL
 	}
 	if !file.isdir() {
-		return nil, &PathError{Op: "Readdir", Path: file.name, Err: syscall.ENOTDIR}
+		return nil, &PathError{Op: "ReadDir", Path: file.name, Err: syscall.ENOTDIR}
 	}
 	wantAll := n <= 0
 	size := n
@@ -60,7 +60,7 @@ func (file *File) readdir(n int) (fi []FileInfo, err error) {
 }
 
 func (file *File) readdirnames(n int) (names []string, err error) {
-	fis, err := file.Readdir(n)
+	fis, err := file.ReadDir(n)
 	names = make([]string, len(fis))
 	for i, fi := range fis {
 		names[i] = fi.Name()

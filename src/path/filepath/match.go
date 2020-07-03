@@ -321,7 +321,7 @@ func glob(dir, pattern string, matches []string) (m []string, e error) {
 	}
 	defer d.Close()
 
-	names, _ := d.Readdirnames(-1)
+	names, _ := d.ReadDirNames(-1)
 	sort.Strings(names)
 
 	for _, n := range names {

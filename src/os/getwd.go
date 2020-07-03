@@ -96,7 +96,7 @@ func Getwd() (dir string, err error) {
 		}
 
 		for {
-			names, err := fd.Readdirnames(100)
+			names, err := fd.ReadDirNames(100)
 			if err != nil {
 				fd.Close()
 				return "", err

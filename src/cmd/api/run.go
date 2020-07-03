@@ -58,7 +58,7 @@ func findAPIDirFiles(apiDir string) string {
 		log.Fatal(err)
 	}
 	defer dir.Close()
-	fs, err := dir.Readdirnames(-1)
+	fs, err := dir.ReadDirNames(-1)
 	if err != nil {
 		log.Fatal(err)
 	}
