@@ -630,7 +630,7 @@ func TestOpenVolumeName(t *testing.T) {
 	}
 	defer f.Close()
 
-	have, err := f.Readdirnames(-1)
+	have, err := f.ReadDirNames(-1)
 	if err != nil {
 		t.Fatal(err)
 	}

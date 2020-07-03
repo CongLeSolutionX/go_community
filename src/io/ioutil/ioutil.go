@@ -95,7 +95,7 @@ func ReadDir(dirname string) ([]os.FileInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	list, err := f.Readdir(-1)
+	list, err := f.ReadDir(-1)
 	f.Close()
 	if err != nil {
 		return nil, err

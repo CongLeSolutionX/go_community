@@ -63,7 +63,7 @@ func removeAll(path string) error {
 
 		for {
 			numErr := 0
-			names, readErr = fd.Readdirnames(reqSize)
+			names, readErr = fd.ReadDirNames(reqSize)
 
 			for _, name := range names {
 				err1 := RemoveAll(path + string(PathSeparator) + name)
@@ -83,7 +83,7 @@ func removeAll(path string) error {
 		}
 
 		// Removing files from the directory may have caused
-		// the OS to reshuffle it. Simply calling Readdirnames
+		// the OS to reshuffle it. Simply calling ReadDirNames
 		// again may skip some entries. The only reliable way
 		// to avoid this is to close and re-open the
 		// directory. See issue 20841.
@@ -92,7 +92,7 @@ func removeAll(path string) error {
 		if readErr == io.EOF {
 			break
 		}
-		// If Readdirnames returned an error, use it.
+		// If ReadDirNames returned an error, use it.
 		if err == nil {
 			err = readErr
 		}
@@ -101,7 +101,7 @@ func removeAll(path string) error {
 		}
 
 		// We don't want to re-open unnecessarily, so if we
-		// got fewer than request names from Readdirnames, try
+		// got fewer than request names from ReadDirNames, try
 		// simply removing the directory now. If that
 		// succeeds, we are done.
 		if len(names) < reqSize {

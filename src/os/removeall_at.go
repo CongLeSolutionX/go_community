@@ -106,7 +106,7 @@ func removeAllFrom(parent *File, base string) error {
 		for {
 			numErr := 0
 
-			names, readErr := file.Readdirnames(reqSize)
+			names, readErr := file.ReadDirNames(reqSize)
 			// Errors other than EOF should stop us from continuing.
 			if readErr != nil && readErr != io.EOF {
 				file.Close()
@@ -138,7 +138,7 @@ func removeAllFrom(parent *File, base string) error {
 		}
 
 		// Removing files from the directory may have caused
-		// the OS to reshuffle it. Simply calling Readdirnames
+		// the OS to reshuffle it. Simply calling ReadDirNames
 		// again may skip some entries. The only reliable way
 		// to avoid this is to close and re-open the
 		// directory. See issue 20841.

@@ -91,7 +91,7 @@ func OpenKey(k Key, path string, access uint32) (Key, error) {
 
 // ReadSubKeyNames returns the names of subkeys of key k.
 // The parameter n controls the number of returned names,
-// analogous to the way os.File.Readdirnames works.
+// analogous to the way os.File.ReadDirNames works.
 func (k Key) ReadSubKeyNames(n int) ([]string, error) {
 	names := make([]string, 0)
 	// Registry key size limit is 255 bytes and described there:

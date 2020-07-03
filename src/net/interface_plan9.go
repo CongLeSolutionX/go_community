@@ -109,7 +109,7 @@ func interfaceCount() (int, error) {
 	}
 	defer d.Close()
 
-	names, err := d.Readdirnames(0)
+	names, err := d.ReadDirNames(0)
 	if err != nil {
 		return -1, err
 	}

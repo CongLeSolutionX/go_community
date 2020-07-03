@@ -198,7 +198,7 @@ func TestDirList(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	f.Readdirnames(-1)
+	f.ReadDirNames(-1)
 	f.Close()
 }
 

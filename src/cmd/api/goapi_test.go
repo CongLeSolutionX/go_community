@@ -48,7 +48,7 @@ func TestGolden(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	fis, err := td.Readdir(0)
+	fis, err := td.ReadDir(0)
 	if err != nil {
 		t.Fatal(err)
 	}

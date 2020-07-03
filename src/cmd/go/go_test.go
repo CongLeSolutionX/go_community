@@ -273,7 +273,7 @@ func TestMain(m *testing.M) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		names, err := dirf.Readdirnames(0)
+		names, err := dirf.ReadDirNames(0)
 		if err != nil {
 			log.Fatal(err)
 		}
