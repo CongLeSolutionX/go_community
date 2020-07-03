@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcac483d_8da83842",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-07-03T21:35:44Z",
+      "side": 1,
+      "message": "Took a break from generics stuff to do some random bit hacking.\n",
+      "revId": "21ff3f231a3f3973c0bd48ac4a3f2f8ec00f803c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
