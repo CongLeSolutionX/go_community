@@ -15,7 +15,7 @@ func (file *File) readdir(n int) (fi []FileInfo, err error) {
 		return nil, syscall.EINVAL
 	}
 	if !file.isdir() {
-		return nil, &PathError{"Readdir", file.name, syscall.ENOTDIR}
+		return nil, &PathError{Op: "Readdir", Path: file.name, Err: syscall.ENOTDIR}
 	}
 	wantAll := n <= 0
 	size := n
@@ -33,7 +33,7 @@ func (file *File) readdir(n int) (fi []FileInfo, err error) {
 				if e == syscall.ERROR_NO_MORE_FILES {
 					break
 				} else {
-					err = &PathError{"FindNextFile", file.name, e}
+					err = &PathError{Op: "FindNextFile", Path: file.name, Err: e}
 					if !wantAll {
 						fi = nil
 					}

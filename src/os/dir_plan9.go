@@ -33,10 +33,10 @@ func (file *File) readdir(n int) ([]FileInfo, error) {
 				if err == io.EOF {
 					break
 				}
-				return fi, &PathError{"readdir", file.name, err}
+				return fi, &PathError{Op: "readdir", Path: file.name, Err: err}
 			}
 			if nb < syscall.STATFIXLEN {
-				return fi, &PathError{"readdir", file.name, syscall.ErrShortStat}
+				return fi, &PathError{Op: "readdir", Path: file.name, Err: syscall.ErrShortStat}
 			}
 		}
 
@@ -44,12 +44,12 @@ func (file *File) readdir(n int) ([]FileInfo, error) {
 		b := d.buf[d.bufp:]
 		m := int(uint16(b[0])|uint16(b[1])<<8) + 2
 		if m < syscall.STATFIXLEN {
-			return fi, &PathError{"readdir", file.name, syscall.ErrShortStat}
+			return fi, &PathError{Op: "readdir", Path: file.name, Err: syscall.ErrShortStat}
 		}
 
 		dir, err := syscall.UnmarshalDir(b[:m])
 		if err != nil {
-			return fi, &PathError{"readdir", file.name, err}
+			return fi, &PathError{Op: "readdir", Path: file.name, Err: err}
 		}
 		fi = append(fi, fileInfoFromStat(dir))
 
