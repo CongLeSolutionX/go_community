@@ -25,10 +25,7 @@
 //
 package registry
 
-import (
-	"io"
-	"syscall"
-)
+import "syscall"
 
 const (
 	// Registry key security and access rights.
@@ -122,9 +119,6 @@ loopItems:
 			return names, err
 		}
 		names = append(names, syscall.UTF16ToString(buf[:l]))
-	}
-	if n > len(names) {
-		return names, io.EOF
 	}
 	return names, nil
 }
