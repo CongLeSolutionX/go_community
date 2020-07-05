@@ -8,7 +8,6 @@ package registry
 
 import (
 	"errors"
-	"io"
 	"syscall"
 	"unicode/utf16"
 	"unsafe"
@@ -375,9 +374,6 @@ loopItems:
 			return names, err
 		}
 		names = append(names, syscall.UTF16ToString(buf[:l]))
-	}
-	if n > len(names) {
-		return names, io.EOF
 	}
 	return names, nil
 }
