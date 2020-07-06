@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc1036ce_886920bc",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1614,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-06T21:07:28Z",
+      "side": 1,
+      "message": "Close parenthesis missing.",
+      "range": {
+        "startLine": 1613,
+        "startChar": 58,
+        "endLine": 1614,
+        "endChar": 47
+      },
+      "revId": "ec99e365f7bbbc135a2c1243a3ea435ad146318b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
