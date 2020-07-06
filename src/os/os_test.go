@@ -24,6 +24,7 @@ import (
 	"sync"
 	"syscall"
 	"testing"
+	"testing/fstest"
 	"time"
 )
 
@@ -2684,5 +2685,11 @@ func TestStdoutWriteDoesNotHeapAllocate(t *testing.T) {
 	})
 	if n != 0 {
 		t.Errorf("AllocsPerRun = %v, want 0", n)
+	}
+}
+
+func TestDirFS(t *testing.T) {
+	if err := fstest.TestFS(DirFS("./signal"), "signal.go", "internal/pty/pty.go"); err != nil {
+		t.Fatal(err)
 	}
 }
