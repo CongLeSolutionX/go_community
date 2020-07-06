@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "157bdd95_684696a2",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-06T17:30:36Z",
+      "side": 1,
+      "message": "I\u0027m still a little skeptical of this check. The interior symbol definitely has to be data-less, but there\u0027s nothing strictly wrong with a zero-length container with a zero-length interior.\n\n(Unless you disagree) maybe add a comment here so that if someone bumps up against this panic in the future there\u0027s more context to indicate that it\u0027s no so fundamental?",
+      "revId": "a3e2a43dd5cef748a60dc244254c4c00e268865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33e8bb9c_8532a2aa",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-06T17:30:36Z",
+      "side": 1,
+      "message": "\"interior symbol must be in symtab\"? (fewer negatives)",
+      "range": {
+        "startLine": 1628,
+        "startChar": 9,
+        "endLine": 1628,
+        "endChar": 49
+      },
+      "revId": "a3e2a43dd5cef748a60dc244254c4c00e268865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
