@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "03f08d78_c753c5e2",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Deleted. That fixme was indeed stale.",
+      "parentUuid": "1596bc0d_6f439a7e",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fae84cc_0a114424",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7f8f23_aa149c12",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1604,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fae84cc_0a114424",
+      "range": {
+        "startLine": 1604,
+        "startChar": 43,
+        "endLine": 1604,
+        "endChar": 51
+      },
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +124,48 @@
     },
     {
       "key": {
+        "uuid": "c66e4386_bae7e4b1",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e11bafe7_d03b5442",
+      "range": {
+        "startLine": 1605,
+        "startChar": 11,
+        "endLine": 1605,
+        "endChar": 18
+      },
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4fcd862_d1fc7518",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2df4cf0_0fa33455",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f04f0b9a_c4f0956e",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -96,6 +180,24 @@
       "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ea73fd6_1f5261ce",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Looks like the degenerate container is cropping up because of how things are ordered in pe.go:initdynimport. I\u0027ve rearranged things there and re-enabled the assert.",
+      "parentUuid": "f04f0b9a_c4f0956e",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "aab37219_b85079ee",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Correct. I\u0027ve updated the comment.",
+      "parentUuid": "c9dffee8_a09bd8fc",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e77bdbdc_5c233ba7",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -130,6 +250,24 @@
       "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8689b31c_fba27c27",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "OK, I\u0027ve added code to this effect.",
+      "parentUuid": "e77bdbdc_5c233ba7",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "4d57f9c2_42d27f6d",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1629,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b8fa355_6e2c2681",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b54e2126_091b4736",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -164,6 +320,24 @@
       "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769ab314_043ddee4",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1634,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T12:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b54e2126_091b4736",
+      "revId": "bfadf2ba01eb8832def4aad01a19f0eae4efb164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
