@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "52ee96fb_4bc1962c",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1662,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T19:56:37Z",
+      "side": 1,
+      "message": "OK, i\u0027ll revise.",
+      "parentUuid": "b3dd7d42_c9c71f14",
+      "range": {
+        "startLine": 1661,
+        "startChar": 12,
+        "endLine": 1662,
+        "endChar": 11
+      },
+      "revId": "93ec039805792b69fbd1cb894ec2bd68464b31b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed982ddf_7f19556d",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "93ec039805792b69fbd1cb894ec2bd68464b31b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89064ac_0c7b191d",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1668,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T19:56:37Z",
+      "side": 1,
+      "message": "True. I\u0027ll replace with a more concrete example.",
+      "parentUuid": "ed982ddf_7f19556d",
+      "range": {
+        "startLine": 1666,
+        "startChar": 54,
+        "endLine": 1668,
+        "endChar": 54
+      },
+      "revId": "93ec039805792b69fbd1cb894ec2bd68464b31b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
