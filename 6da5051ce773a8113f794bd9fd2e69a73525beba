@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "2725d944_73fd703c",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T22:53:21Z",
+      "side": 1,
+      "message": "Yup, it was a surprise to me too.",
+      "parentUuid": "7cd2a5cd_0964b0c4",
+      "revId": "6da5051ce773a8113f794bd9fd2e69a73525beba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40a50c9a_0b5e7d54",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 6
@@ -50,6 +68,24 @@
       "revId": "6da5051ce773a8113f794bd9fd2e69a73525beba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ee09b40_0a2d96ac",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1675,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T22:53:21Z",
+      "side": 1,
+      "message": "Correct. We can always change this back if needed, however.",
+      "parentUuid": "40a50c9a_0b5e7d54",
+      "revId": "6da5051ce773a8113f794bd9fd2e69a73525beba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
