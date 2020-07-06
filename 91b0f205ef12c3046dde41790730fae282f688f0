@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cb53632_6878b522",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-07-06T17:01:03Z",
+      "side": 1,
+      "message": "Yes, I am shocked that I missed this when reviewing CL 208600. So in your case require(\"fs\") is really returning an empty object?",
+      "revId": "91b0f205ef12c3046dde41790730fae282f688f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
