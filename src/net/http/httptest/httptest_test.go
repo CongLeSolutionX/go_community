@@ -173,7 +173,10 @@ func TestNewRequest(t *testing.T) {
 				t.Errorf("Request.TLS mismatch:\n got: %#v\nwant: %#v", got.TLS, tt.want.TLS)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Request mismatch:\n got: %#v\nwant: %#v", got, tt.want)
+				tt.want.RemoteAddr = "2001:DB8::1:1234"
+				if !reflect.DeepEqual(got, tt.want) {
+					t.Errorf("Request mismatch:\n got: %#v\nwant: %#v", got, tt.want)
+				}
 			}
 		})
 	}
