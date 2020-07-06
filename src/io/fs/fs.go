@@ -12,6 +12,94 @@ import (
 	"time"
 )
 
+// An FS provides access to a hierarchical file system.
+//
+// The FS interface is the minimum implementation required of the file system.
+// A file system may implement additional interfaces,
+// such as fsutil.ReadFileFS, to provide additional or optimized functionality.
+// See io/fsutil for details.
+type FS interface {
+	// Open opens the named file.
+	//
+	// When Open returns an error, it should be of type *PathError
+	// with the Op field set to "open", the Path field set to name,
+	// and the Err field describing the problem.
+	//
+	// Open should reject attempts to open names that do not satisfy
+	// ValidPath(name), returning a *PathError with Err set to
+	// ErrInvalid or ErrNotExist.
+	Open(name string) (File, error)
+}
+
+// ValidPath reports whether the given path name
+// is valid for use in a call to Open.
+// Path names passed to open are unrooted, slash-separated
+// sequences of path elements, like “x/y/z”.
+// Path names must not contain a “.” or “..” or empty element,
+// except for the special case that the root directory is named “.”.
+//
+// Paths are slash-separated on all systems, even Windows.
+// Backslashes must not appear in path names.
+func ValidPath(name string) bool {
+	if name == "." {
+		// special case
+		return true
+	}
+
+	// Iterate over elements in name, checking each.
+	for {
+		i := 0
+		for i < len(name) && name[i] != '/' {
+			if name[i] == '\\' {
+				return false
+			}
+			i++
+		}
+		elem := name[:i]
+		if elem == "" || elem == "." || elem == ".." {
+			return false
+		}
+		if i == len(name) {
+			return true // reached clean ending
+		}
+		name = name[i+1:]
+	}
+}
+
+// A File provides access to a single file.
+// The File interface is the minimum implementation required of the file.
+// A file may implement additional interfaces, such as
+// ReadDirFile, ReaderAt, or Seeker, to provide additional or optimized functionality.
+type File interface {
+	Stat() (FileInfo, error)
+	Read([]byte) (int, error)
+	Close() error
+}
+
+// A ReadDirFile is a directory file whose entries can be read with the ReadDir method.
+// Every directory file should implement this interface.
+// (It is permissible for any file to implement this interface,
+// but if so ReadDir should return an error for non-directories.)
+type ReadDirFile interface {
+	File
+
+	// ReadDir reads the contents of the directory and returns
+	// a slice of up to n FileInfo values in directory order.
+	// Subsequent calls on the same file will yield further FileInfos.
+	//
+	// If n > 0, ReadDir returns at most n FileInfo structures.
+	// In this case, if ReadDir returns an empty slice, it will return
+	// a non-nil error explaining why.
+	// At the end of a directory, the error is io.EOF.
+	//
+	// If n <= 0, ReadDir returns all the FileInfo from the directory
+	// in a single slice. In this case, if ReadDir succeeds (reads all the way
+	// to the end of the directory), it returns the slice and a nil error.
+	// If it encounters an error before the end of the directory,
+	// ReadDir returns the FileInfos read until that point and a non-nil error.go
+	ReadDir(n int) ([]FileInfo, error)
+}
+
 // Generic file system errors.
 // Errors returned by file systems can be tested against these errors
 // using errors.Is.
