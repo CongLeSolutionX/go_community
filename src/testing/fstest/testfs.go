@@ -188,6 +188,36 @@ func (t *fsTester) checkDir(dir string) {
 		}
 	}
 	t.checkDirList(dir, "first Open+ReadDir(-1) vs third Open+ReadDir(1,2) loop", list, list2)
+
+	// If fsys has ReadDir, check that it matches and is sorted.
+	if fsys, ok := t.fsys.(fs.ReadDirFS); ok {
+		list2, err := fsys.ReadDir(dir)
+		if err != nil {
+			t.errorf("%s: fsys.ReadDir: %v", dir, err)
+			return
+		}
+		t.checkDirList(dir, "first Open+ReadDir(-1) vs fsys.ReadDir", list, list2)
+
+		for i := 0; i+1 < len(list2); i++ {
+			if list2[i].Name() >= list2[i+1].Name() {
+				t.errorf("%s: fsys.ReadDir: list not sorted: %s before %s", dir, list2[i].Name(), list2[i+1].Name())
+			}
+		}
+	}
+
+	// Check fs.ReadDir as well.
+	list2, err = fs.ReadDir(t.fsys, dir)
+	if err != nil {
+		t.errorf("%s: fs.ReadDir: %v", dir, err)
+		return
+	}
+	t.checkDirList(dir, "first Open+ReadDir(-1) vs fs.ReadDir", list, list2)
+
+	for i := 0; i+1 < len(list2); i++ {
+		if list2[i].Name() >= list2[i+1].Name() {
+			t.errorf("%s: fs.ReadDir: list not sorted: %s before %s", dir, list2[i].Name(), list2[i+1].Name())
+		}
+	}
 }
 
 // formatInfo formats an fs.FileInfo into a string for error messages and comparison.
