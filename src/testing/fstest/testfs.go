@@ -214,6 +214,17 @@ func (t *fsTester) checkStat(path string, info fs.FileInfo) {
 	if finfo2 != finfo {
 		t.errorf("%s: file.Stat() = %v\n\twant %v", path, finfo2, finfo)
 	}
+
+	info2, err = fs.Stat(t.fsys, path)
+	if err != nil {
+		t.errorf("%s: fs.Stat: %v", path, err)
+		return
+	}
+	finfo = formatInfo(info)
+	finfo2 = formatInfo(info2)
+	if finfo2 != finfo {
+		t.errorf("%s: fs.Stat(...) = %v\n\twant %v", path, finfo2, finfo)
+	}
 }
 
 // checkDirList checks that two directory lists contain the same files and file info.
