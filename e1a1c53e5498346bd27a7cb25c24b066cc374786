@@ -16,6 +16,92 @@
       "revId": "e1a1c53e5498346bd27a7cb25c24b066cc374786",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10371ddd_07e5ae3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-07-06T14:35:25Z",
+      "side": 1,
+      "message": "LGTM!",
+      "revId": "e1a1c53e5498346bd27a7cb25c24b066cc374786",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb7fc4f4_53a30ac2",
+        "filename": "src/runtime/mpallocbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-07-06T14:35:25Z",
+      "side": 1,
+      "message": "nit: maybe \"shrinks\"? looking below this is the only variable that I think is non-local enough that it may be worth giving it a longer name.",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "e1a1c53e5498346bd27a7cb25c24b066cc374786",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ab948fd_50cf0228",
+        "filename": "src/runtime/mpallocbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-07-06T14:35:25Z",
+      "side": 1,
+      "message": "could you document how you determined this cut-off point on the number of runs worth iterating over directly? (maybe make it a constant?)",
+      "range": {
+        "startLine": 195,
+        "startChar": 9,
+        "endLine": 195,
+        "endChar": 10
+      },
+      "revId": "e1a1c53e5498346bd27a7cb25c24b066cc374786",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "261d800c_025fb478",
+        "filename": "src/runtime/mpallocbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-07-06T14:35:25Z",
+      "side": 1,
+      "message": "maybe \"max run, including shrinks, at least that long\"? my concern here is that the reader could get confused about z since this comment doesn\u0027t mention it.",
+      "range": {
+        "startLine": 211,
+        "startChar": 28,
+        "endLine": 211,
+        "endChar": 54
+      },
+      "revId": "e1a1c53e5498346bd27a7cb25c24b066cc374786",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
