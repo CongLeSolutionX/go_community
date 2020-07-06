@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e6893c75_de4392c8",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T17:42:34Z",
+      "side": 1,
+      "message": "OK, comment seems reasonable.  I\u0027ll put something in.",
+      "parentUuid": "157bdd95_684696a2",
+      "revId": "a3e2a43dd5cef748a60dc244254c4c00e268865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33e8bb9c_8532a2aa",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "a3e2a43dd5cef748a60dc244254c4c00e268865e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e37c2a44_cd1a01b2",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-07-06T17:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33e8bb9c_8532a2aa",
+      "range": {
+        "startLine": 1628,
+        "startChar": 9,
+        "endLine": 1628,
+        "endChar": 49
+      },
+      "revId": "a3e2a43dd5cef748a60dc244254c4c00e268865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
