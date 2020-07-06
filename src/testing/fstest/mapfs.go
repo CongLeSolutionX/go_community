@@ -99,6 +99,12 @@ func (fsys MapFS) Open(name string) (fs.File, error) {
 	return &mapDir{name, mapFileInfo{elem, f}, list, 0}, nil
 }
 
+type fsOnly struct{ fs.FS }
+
+func (fsys MapFS) ReadFile(name string) ([]byte, error) {
+	return fs.ReadFile(fsOnly{fsys}, name)
+}
+
 type mapFileInfo struct {
 	name string
 	f    *MapFile
