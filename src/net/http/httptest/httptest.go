@@ -11,6 +11,7 @@ import (
 	"crypto/tls"
 	"io"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"strings"
 )
@@ -73,7 +74,11 @@ func NewRequest(method, target string, body io.Reader) *http.Request {
 	// 192.0.2.0/24 is "TEST-NET" in RFC 5737 for use solely in
 	// documentation and example source code and should not be
 	// used publicly.
+
 	req.RemoteAddr = "192.0.2.1:1234"
+	if !isIP4Available() {
+		req.RemoteAddr = "2001:DB8::1/32" // RFC 3849 reserves 2001:DB8::/32 for IPv6
+	}
 
 	if req.Host == "" {
 		req.Host = "example.com"
@@ -88,4 +93,26 @@ func NewRequest(method, target string, body io.Reader) *http.Request {
 	}
 
 	return req
+}
+
+// isIP4Available returns true when an IPv4 address is returned by an interface
+func isIP4Available() bool {
+	interfaces, err := net.Interfaces()
+	if err != nil {
+		return false
+	}
+	var ipa net.IP
+	for i := 0; i < len(interfaces); i++ {
+		addrs, err := interfaces[i].Addrs()
+		if err != nil {
+			continue
+		}
+		for j := 0; j < len(addrs); j++ {
+			ipa = net.ParseIP(strings.Split(addrs[j].String(), "/")[0])
+			if ipa.To4() != nil {
+				return true
+			}
+		}
+	}
+	return false
 }
