@@ -2,7 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package x509 parses X.509-encoded keys and certificates.
+// Package x509 parses X.509-encoded keys and certificates. This package targets
+// a profile of X.509 compatible with the WebPKI and other PKIs that follow the
+// current CA/Browser Forum Baseline Requirements.
 package x509
 
 import (
