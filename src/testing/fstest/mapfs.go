@@ -105,6 +105,10 @@ func (fsys MapFS) ReadFile(name string) ([]byte, error) {
 	return fs.ReadFile(fsOnly{fsys}, name)
 }
 
+func (fsys MapFS) Stat(name string) (fs.FileInfo, error) {
+	return fs.Stat(fsOnly{fsys}, name)
+}
+
 type mapFileInfo struct {
 	name string
 	f    *MapFile
