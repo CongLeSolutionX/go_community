@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3dd7d42_c9c71f14",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1662,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-06T17:34:01Z",
+      "side": 1,
+      "message": "From an API perspective, it\u0027s not clear what this means.",
+      "range": {
+        "startLine": 1661,
+        "startChar": 12,
+        "endLine": 1662,
+        "endChar": 11
+      },
+      "revId": "93ec039805792b69fbd1cb894ec2bd68464b31b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed982ddf_7f19556d",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1668,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-06T17:34:01Z",
+      "side": 1,
+      "message": "I realize this is just giving an example, but it seems like the important example is *concatenating* the content of symbols, rather than partitioning/bucketing them. Also, for someone who doesn\u0027t already know the linker inside and out \"such as what happens in the symtab phase\" isn\u0027t very helpful API documentation.",
+      "range": {
+        "startLine": 1666,
+        "startChar": 54,
+        "endLine": 1668,
+        "endChar": 54
+      },
+      "revId": "93ec039805792b69fbd1cb894ec2bd68464b31b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
