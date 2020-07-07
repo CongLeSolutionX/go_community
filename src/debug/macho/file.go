@@ -487,6 +487,7 @@ func (f *File) parseSymtab(symdat, strtab, cmddat []byte, hdr *SymtabCmd, offset
 	st := new(Symtab)
 	st.LoadBytes = LoadBytes(cmddat)
 	st.Syms = symtab
+	st.SymtabCmd = *hdr
 	return st, nil
 }
 
