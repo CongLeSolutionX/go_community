@@ -17,7 +17,7 @@ func checkDistribution(t *testing.T, data []*SRV, margin float64) {
 
 	results := make(map[string]int)
 
-	count := 1000
+	count := 10000
 	for j := 0; j < count; j++ {
 		d := make([]*SRV, len(data))
 		copy(d, data)
