@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -204,7 +205,7 @@ type Entry struct {
 	mtime int64
 	uid   int
 	gid   int
-	mode  os.FileMode
+	mode  fs.FileMode
 	size  int64
 }
 
@@ -248,7 +249,7 @@ func (ar *Archive) readMetadata() *Entry {
 	entry.mtime = get(12, 10, 64)
 	entry.uid = int(get(6, 10, 32))
 	entry.gid = int(get(6, 10, 32))
-	entry.mode = os.FileMode(get(8, 8, 32))
+	entry.mode = fs.FileMode(get(8, 8, 32))
 	entry.size = get(10, 10, 64)
 	return entry
 }
@@ -357,7 +358,7 @@ func (ar *Archive) addFiles() {
 // FileLike abstracts the few methods we need, so we can test without needing real files.
 type FileLike interface {
 	Name() string
-	Stat() (os.FileInfo, error)
+	Stat() (fs.FileInfo, error)
 	Read([]byte) (int, error)
 	Close() error
 }
@@ -387,7 +388,7 @@ func (ar *Archive) addFile(fd FileLike) {
 }
 
 // startFile writes the archive entry header.
-func (ar *Archive) startFile(name string, mtime int64, uid, gid int, mode os.FileMode, size int64) {
+func (ar *Archive) startFile(name string, mtime int64, uid, gid int, mode fs.FileMode, size int64) {
 	n, err := fmt.Fprintf(ar.fd, entryHeader, exactly16Bytes(name), mtime, uid, gid, mode, size)
 	if err != nil || n != entryLen {
 		log.Fatal("writing entry header: ", err)

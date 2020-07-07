@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -79,8 +80,8 @@ func runVersion(cmd *base.Command, args []string) {
 
 // scanDir scans a directory for executables to run scanFile on.
 func scanDir(dir string) {
-	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		if info.Mode().IsRegular() || info.Mode()&os.ModeSymlink != 0 {
+	filepath.Walk(dir, func(path string, info fs.FileInfo, err error) error {
+		if info.Mode().IsRegular() || info.Mode()&fs.ModeSymlink != 0 {
 			scanFile(path, info, *versionV)
 		}
 		return nil
@@ -88,7 +89,7 @@ func scanDir(dir string) {
 }
 
 // isExe reports whether the file should be considered executable.
-func isExe(file string, info os.FileInfo) bool {
+func isExe(file string, info fs.FileInfo) bool {
 	if runtime.GOOS == "windows" {
 		return strings.HasSuffix(strings.ToLower(file), ".exe")
 	}
@@ -99,8 +100,8 @@ func isExe(file string, info os.FileInfo) bool {
 // If mustPrint is true, scanFile will report any error reading file.
 // Otherwise (mustPrint is false, because scanFile is being called
 // by scanDir) scanFile prints nothing for non-Go executables.
-func scanFile(file string, info os.FileInfo, mustPrint bool) {
-	if info.Mode()&os.ModeSymlink != 0 {
+func scanFile(file string, info fs.FileInfo, mustPrint bool) {
+	if info.Mode()&fs.ModeSymlink != 0 {
 		// Accept file symlinks only.
 		i, err := os.Stat(file)
 		if err != nil || !i.Mode().IsRegular() {

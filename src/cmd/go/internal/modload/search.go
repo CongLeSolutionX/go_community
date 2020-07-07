@@ -6,6 +6,7 @@ package modload
 
 import (
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -52,7 +53,7 @@ func matchPackages(m *search.Match, tags map[string]bool, filter stdFilter, modu
 
 	walkPkgs := func(root, importPathRoot string, prune pruning) {
 		root = filepath.Clean(root)
-		err := filepath.Walk(root, func(path string, fi os.FileInfo, err error) error {
+		err := filepath.Walk(root, func(path string, fi fs.FileInfo, err error) error {
 			if err != nil {
 				m.AddError(err)
 				return nil
@@ -83,7 +84,7 @@ func matchPackages(m *search.Match, tags map[string]bool, filter stdFilter, modu
 			}
 
 			if !fi.IsDir() {
-				if fi.Mode()&os.ModeSymlink != 0 && want {
+				if fi.Mode()&fs.ModeSymlink != 0 && want {
 					if target, err := os.Stat(path); err == nil && target.IsDir() {
 						fmt.Fprintf(os.Stderr, "warning: ignoring symlink %s\n", path)
 					}

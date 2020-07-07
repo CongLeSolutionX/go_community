@@ -14,6 +14,7 @@ import (
 	"debug/gosym"
 	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 )
 
@@ -198,7 +199,7 @@ func readvarint(p *[]byte) uint32 {
 
 // We treat the whole object file as the text section.
 func (f *goobjFile) text() (textStart uint64, text []byte, err error) {
-	var info os.FileInfo
+	var info fs.FileInfo
 	info, err = f.f.Stat()
 	if err != nil {
 		return

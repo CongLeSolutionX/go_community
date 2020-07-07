@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"go/build"
 	"internal/testenv"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -462,7 +463,7 @@ func (ts *testScript) cmdChmod(want simpleStatus, args []string) {
 		ts.fatalf("usage: chmod perm paths...")
 	}
 	perm, err := strconv.ParseUint(args[0], 0, 32)
-	if err != nil || perm&uint64(os.ModePerm) != perm {
+	if err != nil || perm&uint64(fs.ModePerm) != perm {
 		ts.fatalf("invalid mode: %s", args[0])
 	}
 	for _, arg := range args[1:] {
@@ -470,7 +471,7 @@ func (ts *testScript) cmdChmod(want simpleStatus, args []string) {
 		if !filepath.IsAbs(path) {
 			path = filepath.Join(ts.cd, arg)
 		}
-		err := os.Chmod(path, os.FileMode(perm))
+		err := os.Chmod(path, fs.FileMode(perm))
 		ts.check(err)
 	}
 }
@@ -557,7 +558,7 @@ func (ts *testScript) cmdCp(want simpleStatus, args []string) {
 		var (
 			src  string
 			data []byte
-			mode os.FileMode
+			mode fs.FileMode
 		)
 		switch arg {
 		case "stdout":

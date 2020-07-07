@@ -7,6 +7,7 @@ package modload
 import (
 	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	pathpkg "path"
 	"path/filepath"
@@ -206,7 +207,7 @@ func queryProxy(proxy, path, query, current string, allowed func(module.Version)
 			// semantic versioning defines them to be equivalent.
 			if vers := module.CanonicalVersion(query); vers != "" && vers != query {
 				info, err = modfetch.Stat(proxy, path, vers)
-				if !errors.Is(err, os.ErrNotExist) {
+				if !errors.Is(err, fs.ErrNotExist) {
 					return info, err
 				}
 			}
@@ -290,7 +291,7 @@ func queryProxy(proxy, path, query, current string, allowed func(module.Version)
 			if allowed(module.Version{Path: path, Version: latest.Version}) {
 				return lookup(latest.Version)
 			}
-		} else if !errors.Is(err, os.ErrNotExist) {
+		} else if !errors.Is(err, fs.ErrNotExist) {
 			return nil, err
 		}
 	}
@@ -585,7 +586,7 @@ func queryPrefixModules(candidateModules []string, queryModule func(path string)
 				noVersion = rErr
 			}
 		default:
-			if errors.Is(rErr, os.ErrNotExist) {
+			if errors.Is(rErr, fs.ErrNotExist) {
 				if notExistErr == nil {
 					notExistErr = rErr
 				}
@@ -628,7 +629,7 @@ func queryPrefixModules(candidateModules []string, queryModule func(path string)
 // A NoMatchingVersionError indicates that Query found a module at the requested
 // path, but not at any versions satisfying the query string and allow-function.
 //
-// NOTE: NoMatchingVersionError MUST NOT implement Is(os.ErrNotExist).
+// NOTE: NoMatchingVersionError MUST NOT implement Is(fs.ErrNotExist).
 //
 // If the module came from a proxy, that proxy had to return a successful status
 // code for the versions it knows about, and thus did not have the opportunity
@@ -649,7 +650,7 @@ func (e *NoMatchingVersionError) Error() string {
 // module at the requested version, but that module did not contain any packages
 // matching the requested pattern.
 //
-// NOTE: PackageNotInModuleError MUST NOT implement Is(os.ErrNotExist).
+// NOTE: PackageNotInModuleError MUST NOT implement Is(fs.ErrNotExist).
 //
 // If the module came from a proxy, that proxy had to return a successful status
 // code for the versions it knows about, and thus did not have the opportunity

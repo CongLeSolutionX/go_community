@@ -11,6 +11,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -106,7 +107,7 @@ type FileRev struct {
 	Err  error  // error if any; os.IsNotExist(Err)==true if rev exists but file does not exist in that rev
 }
 
-// UnknownRevisionError is an error equivalent to os.ErrNotExist, but for a
+// UnknownRevisionError is an error equivalent to fs.ErrNotExist, but for a
 // revision rather than a file.
 type UnknownRevisionError struct {
 	Rev string
@@ -116,10 +117,10 @@ func (e *UnknownRevisionError) Error() string {
 	return "unknown revision " + e.Rev
 }
 func (UnknownRevisionError) Is(err error) bool {
-	return err == os.ErrNotExist
+	return err == fs.ErrNotExist
 }
 
-// ErrNoCommits is an error equivalent to os.ErrNotExist indicating that a given
+// ErrNoCommits is an error equivalent to fs.ErrNotExist indicating that a given
 // repository or module contains no commits.
 var ErrNoCommits error = noCommitsError{}
 
@@ -129,7 +130,7 @@ func (noCommitsError) Error() string {
 	return "no commits"
 }
 func (noCommitsError) Is(err error) bool {
-	return err == os.ErrNotExist
+	return err == fs.ErrNotExist
 }
 
 // AllHex reports whether the revision rev is entirely lower-case hexadecimal digits.

@@ -13,6 +13,7 @@ import (
 	"go/build"
 	"go/scanner"
 	"go/token"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	pathpkg "path"
@@ -2297,7 +2298,7 @@ func GoFilesPackage(gofiles []string) *Package {
 	// to make it look like this is a standard package or
 	// command directory. So that local imports resolve
 	// consistently, the files must all be in the same directory.
-	var dirent []os.FileInfo
+	var dirent []fs.FileInfo
 	var dir string
 	for _, file := range gofiles {
 		fi, err := os.Stat(file)
@@ -2318,7 +2319,7 @@ func GoFilesPackage(gofiles []string) *Package {
 		}
 		dirent = append(dirent, fi)
 	}
-	ctxt.ReadDir = func(string) ([]os.FileInfo, error) { return dirent, nil }
+	ctxt.ReadDir = func(string) ([]fs.FileInfo, error) { return dirent, nil }
 
 	if cfg.ModulesEnabled {
 		ModImportFromFiles(gofiles)

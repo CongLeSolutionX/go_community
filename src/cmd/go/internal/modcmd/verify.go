@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"runtime"
@@ -95,8 +96,8 @@ func verifyMod(mod module.Version) []error {
 	dir, dirErr := modfetch.DownloadDir(mod)
 	data, err := ioutil.ReadFile(zip + "hash")
 	if err != nil {
-		if zipErr != nil && errors.Is(zipErr, os.ErrNotExist) &&
-			dirErr != nil && errors.Is(dirErr, os.ErrNotExist) {
+		if zipErr != nil && errors.Is(zipErr, fs.ErrNotExist) &&
+			dirErr != nil && errors.Is(dirErr, fs.ErrNotExist) {
 			// Nothing downloaded yet. Nothing to verify.
 			return nil
 		}
@@ -105,7 +106,7 @@ func verifyMod(mod module.Version) []error {
 	}
 	h := string(bytes.TrimSpace(data))
 
-	if zipErr != nil && errors.Is(zipErr, os.ErrNotExist) {
+	if zipErr != nil && errors.Is(zipErr, fs.ErrNotExist) {
 		// ok
 	} else {
 		hZ, err := dirhash.HashZip(zip, dirhash.DefaultHash)
@@ -116,7 +117,7 @@ func verifyMod(mod module.Version) []error {
 			errs = append(errs, fmt.Errorf("%s %s: zip has been modified (%v)", mod.Path, mod.Version, zip))
 		}
 	}
-	if dirErr != nil && errors.Is(dirErr, os.ErrNotExist) {
+	if dirErr != nil && errors.Is(dirErr, fs.ErrNotExist) {
 		// ok
 	} else {
 		hD, err := dirhash.HashDir(dir, mod.Path+"@"+mod.Version, dirhash.DefaultHash)
