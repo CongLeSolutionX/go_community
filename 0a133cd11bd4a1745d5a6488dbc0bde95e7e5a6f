@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02927d5e_b7830ae7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-07-07T20:47:50Z",
+      "side": 1,
+      "message": "Thanks. I agree that this fixes this specific example and minor variations of it. But I think we need a more comprehensive approach to all these endless recursions due to cycles. The right approach can\u0027t be to solve this example by example.\n\nLeaving open for now.",
+      "revId": "0a133cd11bd4a1745d5a6488dbc0bde95e7e5a6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
