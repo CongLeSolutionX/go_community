@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"internal/lazyregexp"
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -1545,7 +1546,7 @@ func BuildInstallFunc(b *Builder, ctx context.Context, a *Action) (err error) {
 		return err
 	}
 
-	perm := os.FileMode(0666)
+	perm := fs.FileMode(0666)
 	if a1.Mode == "link" {
 		switch cfg.BuildBuildmode {
 		case "c-archive", "c-shared", "plugin":
@@ -1594,7 +1595,7 @@ func (b *Builder) cleanup(a *Action) {
 }
 
 // moveOrCopyFile is like 'mv src dst' or 'cp src dst'.
-func (b *Builder) moveOrCopyFile(dst, src string, perm os.FileMode, force bool) error {
+func (b *Builder) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) error {
 	if cfg.BuildN {
 		b.Showcmd("", "mv %s %s", src, dst)
 		return nil
@@ -1620,7 +1621,7 @@ func (b *Builder) moveOrCopyFile(dst, src string, perm os.FileMode, force bool) 
 	// we have to copy the file to retain the correct permissions.
 	// https://golang.org/issue/18878
 	if fi, err := os.Stat(filepath.Dir(dst)); err == nil {
-		if fi.IsDir() && (fi.Mode()&os.ModeSetgid) != 0 {
+		if fi.IsDir() && (fi.Mode()&fs.ModeSetgid) != 0 {
 			return b.copyFile(dst, src, perm, force)
 		}
 	}
@@ -1655,7 +1656,7 @@ func (b *Builder) moveOrCopyFile(dst, src string, perm os.FileMode, force bool) 
 }
 
 // copyFile is like 'cp src dst'.
-func (b *Builder) copyFile(dst, src string, perm os.FileMode, force bool) error {
+func (b *Builder) copyFile(dst, src string, perm fs.FileMode, force bool) error {
 	if cfg.BuildN || cfg.BuildX {
 		b.Showcmd("", "cp %s %s", src, dst)
 		if cfg.BuildN {

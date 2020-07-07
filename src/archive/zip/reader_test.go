@@ -30,7 +30,7 @@ type ZipTest struct {
 
 type ZipTestFile struct {
 	Name     string
-	Mode     os.FileMode
+	Mode     fs.FileMode
 	NonUTF8  bool
 	ModTime  time.Time
 	Modified time.Time
@@ -107,7 +107,7 @@ var tests = []ZipTest{
 				Name:     "symlink",
 				Content:  []byte("../target"),
 				Modified: time.Date(2012, 2, 3, 19, 56, 48, 0, timeZone(-2*time.Hour)),
-				Mode:     0777 | os.ModeSymlink,
+				Mode:     0777 | fs.ModeSymlink,
 			},
 		},
 	},
@@ -149,7 +149,7 @@ var tests = []ZipTest{
 				Name:     "dir/empty/",
 				Content:  []byte{},
 				Modified: time.Date(2011, 12, 8, 10, 8, 6, 0, time.UTC),
-				Mode:     os.ModeDir | 0777,
+				Mode:     fs.ModeDir | 0777,
 			},
 			{
 				Name:     "readonly",
@@ -179,7 +179,7 @@ var tests = []ZipTest{
 				Name:     "dir/empty/",
 				Content:  []byte{},
 				Modified: time.Date(2011, 12, 8, 10, 8, 6, 0, timeZone(0)),
-				Mode:     os.ModeDir | 0777,
+				Mode:     fs.ModeDir | 0777,
 			},
 			{
 				Name:     "readonly",
@@ -645,7 +645,7 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
 	}
 }
 
-func testFileMode(t *testing.T, f *File, want os.FileMode) {
+func testFileMode(t *testing.T, f *File, want fs.FileMode) {
 	mode := f.Mode()
 	if want == 0 {
 		t.Errorf("%s mode: got %v, want none", f.Name, mode)
@@ -986,8 +986,8 @@ func TestIssue10957(t *testing.T) {
 		}
 		if f.UncompressedSize64 < 1e6 {
 			n, err := io.Copy(ioutil.Discard, r)
-			if i == 3 && err != io.ErrUnexpectedEOF {
-				t.Errorf("File[3] error = %v; want io.ErrUnexpectedEOF", err)
+			if i == 3 && err != fs.ErrUnexpectedEOF {
+				t.Errorf("File[3] error = %v; want fs.ErrUnexpectedEOF", err)
 			}
 			if err == nil && uint64(n) != f.UncompressedSize64 {
 				t.Errorf("file %d: bad size: copied=%d; want=%d", i, n, f.UncompressedSize64)
@@ -1028,8 +1028,8 @@ func TestIssue11146(t *testing.T) {
 		t.Fatal(err)
 	}
 	_, err = ioutil.ReadAll(r)
-	if err != io.ErrUnexpectedEOF {
-		t.Errorf("File[0] error = %v; want io.ErrUnexpectedEOF", err)
+	if err != fs.ErrUnexpectedEOF {
+		t.Errorf("File[0] error = %v; want fs.ErrUnexpectedEOF", err)
 	}
 	r.Close()
 }

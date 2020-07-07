@@ -6,7 +6,7 @@
 // See issue 5397.
 package blank
 
-import "os"
+import "io/fs"
 
 type T int
 
@@ -31,7 +31,7 @@ const (
 
 // Constants with a single type that is not propagated.
 const (
-	zero     os.FileMode = 0
+	zero     fs.FileMode = 0
 	Default              = 0644
 	Useless              = 0312
 	WideOpen             = 0777
@@ -39,7 +39,7 @@ const (
 
 // Constants with an imported type that is propagated.
 const (
-	zero os.FileMode = 0
+	zero fs.FileMode = 0
 	M1
 	M2
 	M3

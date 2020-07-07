@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"go/build"
 	"internal/goroot"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"sort"
@@ -323,7 +324,7 @@ func queryImport(ctx context.Context, path string) (module.Version, error) {
 
 	candidates, err := QueryPackage(ctx, path, "latest", CheckAllowed)
 	if err != nil {
-		if errors.Is(err, os.ErrNotExist) {
+		if errors.Is(err, fs.ErrNotExist) {
 			// Return "cannot find module providing package […]" instead of whatever
 			// low-level error QueryPackage produced.
 			return module.Version{}, &ImportMissingError{Path: path, QueryErr: err}
@@ -463,9 +464,9 @@ func isDirWithGoFiles(dir string) (bool, error) {
 
 		// Rewrite the error from ReadDirNames to include the path if not present.
 		// See https://golang.org/issue/38923.
-		var pe *os.PathError
+		var pe *fs.PathError
 		if !errors.As(firstErr, &pe) {
-			firstErr = &os.PathError{Op: "readdir", Path: dir, Err: firstErr}
+			firstErr = &fs.PathError{Op: "readdir", Path: dir, Err: firstErr}
 		}
 	}
 
