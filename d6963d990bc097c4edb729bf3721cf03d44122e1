@@ -34,6 +34,24 @@
       "revId": "d6963d990bc097c4edb729bf3721cf03d44122e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c75ff4a_1f3f9e00",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-08T17:53:54Z",
+      "side": 1,
+      "message": "Fair point, but I\u0027d still rather call checkValid than introduce a nil check here.  I agree that it must return handled \u003d\u003d false.  We can skip returning the error from checkValid.",
+      "parentUuid": "37e9b6be_3bd17bf4",
+      "revId": "d6963d990bc097c4edb729bf3721cf03d44122e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
