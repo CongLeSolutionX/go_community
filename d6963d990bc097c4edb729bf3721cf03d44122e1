@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db4abfb2_c8035afc",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-08T16:58:07Z",
+      "side": 1,
+      "message": "I think it would be better to keep the original code and instead add, after the type assertion,\n    if err !\u003d src.checkValid(\"ReadFrom\"); err !\u003d nil {\n        return err\n    }\nThat\u0027s how the other *File methods work.",
+      "revId": "d6963d990bc097c4edb729bf3721cf03d44122e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
