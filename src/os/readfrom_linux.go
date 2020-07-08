@@ -28,8 +28,8 @@ func (f *File) readFrom(r io.Reader) (written int64, handled bool, err error) {
 		}
 	}
 
-	src, ok := r.(*File)
-	if !ok {
+	src, _ := r.(*File)
+	if src == nil {
 		return 0, false, nil
 	}
 
