@@ -16,6 +16,24 @@
       "revId": "d6963d990bc097c4edb729bf3721cf03d44122e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37e9b6be_3bd17bf4",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2020-07-08T17:10:00Z",
+      "side": 1,
+      "message": "If we do this, we have to decide whether to set \"handled\" to true or false.\n\n* If false, the returned error is ignored anyways, since the logic (in file.go) then goes through genericReadFrom. While this still results in ErrInvalid, it\u0027s for a different reason. This is somewhat confusing since we construct an error that doesn\u0027t get used.\n\n* If true, the returned error is now wrapped as a PathError by the wrapErr function. This changes the semantics of the returned error relative to previous versions of Go.\n\nAs written, this function is self-reporting that it doesn\u0027t have a copy_file_range optimization available (i.e., handle\u003dfalse) and letting the generic implementation of ReadFrom perform error handling.",
+      "parentUuid": "db4abfb2_c8035afc",
+      "revId": "d6963d990bc097c4edb729bf3721cf03d44122e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
