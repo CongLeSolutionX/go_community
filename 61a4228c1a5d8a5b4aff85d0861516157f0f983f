@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27016f7f_64532327",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-09T21:13:39Z",
+      "side": 1,
+      "message": "Adding new API like this should normally go through the proposal process.  See https://golang.org/s/proposal.\n\nI don\u0027t think we should return the internal map to user code.  If user code modified the map bad things would happen.  And that is a strange API anyhow.",
+      "revId": "61a4228c1a5d8a5b4aff85d0861516157f0f983f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
