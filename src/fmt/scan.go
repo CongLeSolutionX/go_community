@@ -10,6 +10,7 @@ import (
 	"math"
 	"os"
 	"reflect"
+	"sizeof"
 	"strconv"
 	"sync"
 	"unicode/utf8"
@@ -935,9 +936,6 @@ const (
 	floatVerbs = "beEfFgGv"
 
 	hugeWid = 1 << 30
-
-	intBits     = 32 << (^uint(0) >> 63)
-	uintptrBits = 32 << (^uintptr(0) >> 63)
 )
 
 // scanPercent scans a literal percent character.
@@ -973,7 +971,7 @@ func (s *ss) scanOne(verb rune, arg interface{}) {
 	case *complex128:
 		*v = s.scanComplex(verb, 128)
 	case *int:
-		*v = int(s.scanInt(verb, intBits))
+		*v = int(s.scanInt(verb, sizeof.Int*8))
 	case *int8:
 		*v = int8(s.scanInt(verb, 8))
 	case *int16:
@@ -983,7 +981,7 @@ func (s *ss) scanOne(verb rune, arg interface{}) {
 	case *int64:
 		*v = s.scanInt(verb, 64)
 	case *uint:
-		*v = uint(s.scanUint(verb, intBits))
+		*v = uint(s.scanUint(verb, sizeof.Uint*8))
 	case *uint8:
 		*v = uint8(s.scanUint(verb, 8))
 	case *uint16:
@@ -993,7 +991,7 @@ func (s *ss) scanOne(verb rune, arg interface{}) {
 	case *uint64:
 		*v = s.scanUint(verb, 64)
 	case *uintptr:
-		*v = uintptr(s.scanUint(verb, uintptrBits))
+		*v = uintptr(s.scanUint(verb, sizeof.Uintptr*8))
 	// Floats are tricky because you want to scan in the precision of the result, not
 	// scan in high precision and convert, in order to preserve the correct error condition.
 	case *float32:
