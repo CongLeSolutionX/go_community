@@ -79,6 +79,39 @@ type AuxCall struct {
 	results []ArgOrResult // Normal calls return a struct for multiple args, RT calls return multiple args, 🙄.
 }
 
+// OffsetOfResult returns the SP offset of result which (indexed 0, 1, etc).
+func (a *AuxCall) OffsetOfResult(which int64) int64 {
+	return int64(a.results[which].Offset)
+}
+// OffsetOfArg returns the SP offset of argument which (indexed 0, 1, etc).
+func (a *AuxCall) OffsetOfArg(which int64) int64 {
+	return int64(a.args[which].Offset)
+}
+// TypeOfResult returns the type of result which (indexed 0, 1, etc).
+func (a *AuxCall) TypeOfResult(which int64) *types.Type {
+	return a.results[which].T
+}
+// TypeOfArg returns the type of argument which (indexed 0, 1, etc).
+func (a *AuxCall) TypeOfArg(which int64) *types.Type {
+	return a.args[which].T
+}
+// SizeOfResult returns the size of result which (indexed 0, 1, etc).
+func (a *AuxCall) SizeOfResult(which int64) int64 {
+	return a.TypeOfResult(which).Width
+}
+// SizeOfArg returns the size of argument which (indexed 0, 1, etc).
+func (a *AuxCall) SizeOfArg(which int64) int64 {
+	return a.TypeOfArg(which).Width
+}
+// ResultsLen returns the number of results
+func (a *AuxCall) ResultsLen() int64 {
+	return int64(len(a.results))
+}
+// ArgsLen returns the number of argumente
+func (a *AuxCall) ArgsLen() int64 {
+	return int64(len(a.args))
+}
+
 // String returns
 // "AuxCall{<fn>(<args>)}"             if len(results) == 0;
 // "AuxCall{<fn>(<args>)<results[0]>}" if len(results) == 1;
