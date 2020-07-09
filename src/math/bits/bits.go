@@ -8,10 +8,10 @@
 // functions for the predeclared unsigned integer types.
 package bits
 
-const uintSize = 32 << (^uint(0) >> 32 & 1) // 32 or 64
+import "sizeof"
 
 // UintSize is the size of a uint in bits.
-const UintSize = uintSize
+const UintSize = sizeof.Uint * 8
 
 // --- LeadingZeros ---
 
