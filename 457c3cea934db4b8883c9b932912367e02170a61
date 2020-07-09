@@ -16,6 +16,23 @@
       "revId": "457c3cea934db4b8883c9b932912367e02170a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cc26d1f_118c29a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2020-07-09T13:35:28Z",
+      "side": 1,
+      "message": "Trampolines were supposed to work on aix/ppc64 after CL 164009. We used to compile Kubernetes with Go 1.13. There were already some deferreturn at that time no ? \nAnyway, I\u0027ll check if it\u0027s working correctly on AIX too. ",
+      "revId": "457c3cea934db4b8883c9b932912367e02170a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
