@@ -11,6 +11,8 @@
 
 package strconv
 
+import "sizeof"
+
 type decimal struct {
 	d     [800]byte // digits, big-endian representation
 	nd    int       // number of digits used
@@ -103,8 +105,7 @@ func (a *decimal) Assign(v uint64) {
 
 // Maximum shift that we can do in one pass without overflow.
 // A uint has 32 or 64 bits, and we have to be able to accommodate 9<<k.
-const uintSize = 32 << (^uint(0) >> 63)
-const maxShift = uintSize - 4
+const maxShift = sizeof.Uint*8 - 4
 
 // Binary shift right (/ 2) by k bits.  k <= maxShift to avoid overflow.
 func rightShift(a *decimal, k uint) {

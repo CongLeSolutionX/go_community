@@ -4,12 +4,11 @@
 
 package png
 
-// intSize is either 32 or 64.
-const intSize = 32 << (^uint(0) >> 63)
+import "sizeof"
 
 func abs(x int) int {
 	// m := -1 if x < 0. m := 0 otherwise.
-	m := x >> (intSize - 1)
+	m := x >> (sizeof.Int*8 - 1)
 
 	// In two's complement representation, the negative number
 	// of any number (except the smallest one) can be computed

@@ -6,6 +6,11 @@ package main_test
 
 import (
 	"bytes"
+	"cmd/go/internal/cache"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/robustio"
+	"cmd/go/internal/work"
+	"cmd/internal/sys"
 	"debug/elf"
 	"debug/macho"
 	"debug/pe"
@@ -27,12 +32,6 @@ import (
 	"strings"
 	"testing"
 	"time"
-
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/robustio"
-	"cmd/go/internal/work"
-	"cmd/internal/sys"
 )
 
 func init() {
@@ -72,12 +71,16 @@ func tooSlow(t *testing.T) {
 // (temp) directory.
 var testGOROOT string
 
-var testCC string
-var testGOCACHE string
+var (
+	testCC      string
+	testGOCACHE string
+)
 
-var testGo string
-var testTmpDir string
-var testBin string
+var (
+	testGo     string
+	testTmpDir string
+	testBin    string
+)
 
 // The TestMain function creates a go command for testing purposes and
 // deletes it after the tests have been run.
@@ -121,7 +124,7 @@ func TestMain(m *testing.M) {
 	testGOCACHE = cache.DefaultDir()
 	if testenv.HasGoBuild() {
 		testBin = filepath.Join(testTmpDir, "testbin")
-		if err := os.Mkdir(testBin, 0777); err != nil {
+		if err := os.Mkdir(testBin, 0o777); err != nil {
 			log.Fatal(err)
 		}
 		testGo = filepath.Join(testBin, "go"+exeSuffix)
@@ -626,7 +629,7 @@ func (tg *testgoData) makeTempdir() {
 func (tg *testgoData) tempFile(path, contents string) {
 	tg.t.Helper()
 	tg.makeTempdir()
-	tg.must(os.MkdirAll(filepath.Join(tg.tempdir, filepath.Dir(path)), 0755))
+	tg.must(os.MkdirAll(filepath.Join(tg.tempdir, filepath.Dir(path)), 0o755))
 	bytes := []byte(contents)
 	if strings.HasSuffix(path, ".go") {
 		formatted, err := format.Source(bytes)
@@ -634,14 +637,14 @@ func (tg *testgoData) tempFile(path, contents string) {
 			bytes = formatted
 		}
 	}
-	tg.must(os.WriteFile(filepath.Join(tg.tempdir, path), bytes, 0644))
+	tg.must(os.WriteFile(filepath.Join(tg.tempdir, path), bytes, 0o644))
 }
 
 // tempDir adds a temporary directory for a run of testgo.
 func (tg *testgoData) tempDir(path string) {
 	tg.t.Helper()
 	tg.makeTempdir()
-	if err := os.MkdirAll(filepath.Join(tg.tempdir, path), 0755); err != nil && !os.IsExist(err) {
+	if err := os.MkdirAll(filepath.Join(tg.tempdir, path), 0o755); err != nil && !os.IsExist(err) {
 		tg.t.Fatal(err)
 	}
 }
@@ -700,7 +703,7 @@ func (tg *testgoData) wantExecutable(path, msg string) {
 		}
 		tg.t.Fatal(msg)
 	} else {
-		if runtime.GOOS != "windows" && st.Mode()&0111 == 0 {
+		if runtime.GOOS != "windows" && st.Mode()&0o111 == 0 {
 			tg.t.Fatalf("binary %s exists but is not executable", path)
 		}
 	}
@@ -779,7 +782,7 @@ func removeAll(dir string) error {
 		// chmod not only directories, but also things that we couldn't even stat
 		// due to permission errors: they may also be unreadable directories.
 		if err != nil || info.IsDir() {
-			os.Chmod(path, 0777)
+			os.Chmod(path, 0o777)
 		}
 		return nil
 	})
@@ -815,6 +818,7 @@ func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
 		"src/internal/bytealg",
 		"src/internal/cpu",
 		"src/internal/goexperiment",
+		"src/sizeof",
 		"src/math/bits",
 		"src/unsafe",
 		filepath.Join("pkg", runtime.GOOS+"_"+runtime.GOARCH),
@@ -842,7 +846,7 @@ func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
 				}
 				tg.tempFile(dest, string(data))
 				if strings.Contains(copydir, filepath.Join("pkg", "tool")) {
-					os.Chmod(tg.path(dest), 0777)
+					os.Chmod(tg.path(dest), 0o777)
 				}
 				return nil
 			})
@@ -859,12 +863,12 @@ func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
 		}
 		old := data
 		data = append(data, fmt.Sprintf("var DummyUnusedVar%d bool\n", idx)...)
-		if err := os.WriteFile(name, append(data, '\n'), 0666); err != nil {
+		if err := os.WriteFile(name, append(data, '\n'), 0o666); err != nil {
 			t.Fatal(err)
 		}
 		tg.sleep()
 		return func() {
-			if err := os.WriteFile(name, old, 0666); err != nil {
+			if err := os.WriteFile(name, old, 0o666); err != nil {
 				t.Fatal(err)
 			}
 		}
@@ -932,7 +936,7 @@ func TestIssue16471(t *testing.T) {
 	tg.parallel()
 	tg.tempDir("src")
 	tg.setenv("GOPATH", tg.path("."))
-	tg.must(os.MkdirAll(tg.path("src/rsc.io/go-get-issue-10952"), 0755))
+	tg.must(os.MkdirAll(tg.path("src/rsc.io/go-get-issue-10952"), 0o755))
 	tg.runGit(tg.path("src/rsc.io"), "clone", "https://github.com/zombiezen/go-get-issue-10952")
 	tg.runFail("get", "-u", "rsc.io/go-get-issue-10952")
 	tg.grepStderr("rsc.io/go-get-issue-10952 is a custom import path for https://github.com/rsc/go-get-issue-10952, but .* is checked out from https://github.com/zombiezen/go-get-issue-10952", "did not detect updated import path")
@@ -1094,11 +1098,11 @@ func TestGoListDeps(t *testing.T) {
 	if runtime.Compiler != "gccgo" {
 		// Check the list is in dependency order.
 		tg.run("list", "-deps", "math")
-		want := "internal/cpu\nunsafe\nmath/bits\nmath\n"
+		want := "internal/cpu\nsizeof\nunsafe\nmath/bits\nmath\n"
 		out := tg.stdout.String()
 		if !strings.Contains(out, "internal/cpu") {
 			// Some systems don't use internal/cpu.
-			want = "unsafe\nmath/bits\nmath\n"
+			want = "sizeof\nunsafe\nmath/bits\nmath\n"
 		}
 		if tg.stdout.String() != want {
 			t.Fatalf("list -deps math: wrong order\nhave %q\nwant %q", tg.stdout.String(), want)
@@ -2386,8 +2390,8 @@ func TestIssue22596(t *testing.T) {
 	tg.setenv("GOPATH", tg.path("gopath2"))
 	tg.run("list", "-f={{.Target}}", "p")
 	target2 := strings.TrimSpace(tg.getStdout())
-	tg.must(os.MkdirAll(filepath.Dir(target2), 0777))
-	tg.must(copyFile(target1, target2, 0666))
+	tg.must(os.MkdirAll(filepath.Dir(target2), 0o777))
+	tg.must(copyFile(target1, target2, 0o666))
 	tg.wantStale("p", "build ID mismatch", "p not stale after copy from gopath1")
 	tg.run("install", "p")
 	tg.wantNotStale("p", "", "p stale after install2")
@@ -2697,7 +2701,7 @@ func TestTwoPkgConfigs(t *testing.T) {
 	`)
 	tg.tempFile("pkg-config.sh", `#!/bin/sh
 echo $* >>`+tg.path("pkg-config.out"))
-	tg.must(os.Chmod(tg.path("pkg-config.sh"), 0755))
+	tg.must(os.Chmod(tg.path("pkg-config.sh"), 0o755))
 	tg.setenv("GOPATH", tg.path("."))
 	tg.setenv("PKG_CONFIG", tg.path("pkg-config.sh"))
 	tg.run("build", "x")

@@ -8,10 +8,10 @@
 // functions for the predeclared unsigned integer types.
 package bits
 
-const uintSize = 32 << (^uint(0) >> 63) // 32 or 64
+import "sizeof"
 
 // UintSize is the size of a uint in bits.
-const UintSize = uintSize
+const UintSize = sizeof.Uint * 8
 
 // --- LeadingZeros ---
 
@@ -101,11 +101,13 @@ func TrailingZeros64(x uint64) int {
 
 // --- OnesCount ---
 
-const m0 = 0x5555555555555555 // 01010101 ...
-const m1 = 0x3333333333333333 // 00110011 ...
-const m2 = 0x0f0f0f0f0f0f0f0f // 00001111 ...
-const m3 = 0x00ff00ff00ff00ff // etc.
-const m4 = 0x0000ffff0000ffff
+const (
+	m0 = 0x5555555555555555 // 01010101 ...
+	m1 = 0x3333333333333333 // 00110011 ...
+	m2 = 0x0f0f0f0f0f0f0f0f // 00001111 ...
+	m3 = 0x00ff00ff00ff00ff // etc.
+	m4 = 0x0000ffff0000ffff
+)
 
 // OnesCount returns the number of one bits ("population count") in x.
 func OnesCount(x uint) int {

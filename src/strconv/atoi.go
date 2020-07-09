@@ -4,7 +4,10 @@
 
 package strconv
 
-import "errors"
+import (
+	"errors"
+	"sizeof"
+)
 
 // lower(c) is a lower-case letter if and only if
 // c is either that lower-case letter or the equivalent upper-case letter.
@@ -49,10 +52,8 @@ func bitSizeError(fn, str string, bitSize int) *NumError {
 	return &NumError{fn, str, errors.New("invalid bit size " + Itoa(bitSize))}
 }
 
-const intSize = 32 << (^uint(0) >> 63)
-
 // IntSize is the size in bits of an int or uint value.
-const IntSize = intSize
+const IntSize = sizeof.Int * 8
 
 const maxUint64 = 1<<64 - 1
 
@@ -225,8 +226,8 @@ func Atoi(s string) (int, error) {
 	const fnAtoi = "Atoi"
 
 	sLen := len(s)
-	if intSize == 32 && (0 < sLen && sLen < 10) ||
-		intSize == 64 && (0 < sLen && sLen < 19) {
+	if IntSize == 32 && (0 < sLen && sLen < 10) ||
+		IntSize == 64 && (0 < sLen && sLen < 19) {
 		// Fast path for small integers that fit int type.
 		s0 := s
 		if s[0] == '-' || s[0] == '+' {
