@@ -51,6 +51,24 @@
       "revId": "457c3cea934db4b8883c9b932912367e02170a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad15b2e0_3a1255fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2020-07-09T15:06:38Z",
+      "side": 1,
+      "message": "Ok, thanks for the precision. \nAnyway, 1.15 (master) is working fine. \nFor 1.14, trampolines are indeed broken, but CL 228479 is enough to fix them (both with and without deferreturn). So I guess we should backport it too.",
+      "parentUuid": "6a1b84c4_c141be87",
+      "revId": "457c3cea934db4b8883c9b932912367e02170a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
