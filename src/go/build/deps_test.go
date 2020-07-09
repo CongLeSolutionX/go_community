@@ -89,6 +89,7 @@ var depsRules = `
 	< sync
 	< internal/reflectlite
 	< errors
+	< sizeof
 	< internal/oserror, math/bits
 	< RUNTIME;
 
