@@ -40,6 +40,13 @@ func (p *Plugin) Lookup(symName string) (Symbol, error) {
 	return lookup(p, symName)
 }
 
+// Symbols returns symbols in plugin p.
+// A symbol is any exported variable or function.
+// It is safe for concurrent use by multiple goroutines.
+func (p *Plugin) Symbols() (map[string]interface{}, error) {
+	return symbols(p)
+}
+
 // A Symbol is a pointer to a variable or function.
 //
 // For example, a plugin defined as
