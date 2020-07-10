@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "366fb24f_f51ae675",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-07-10T19:58:36Z",
+      "side": 1,
+      "message": "Just wanted to check if this is a reasonable way to fix the mentioned bug, as I keep working on the ABI stuff.\n",
+      "revId": "7adb4eb971bead1e829ffd89af678f0a87747100",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
