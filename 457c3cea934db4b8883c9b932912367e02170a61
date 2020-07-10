@@ -69,6 +69,23 @@
       "revId": "457c3cea934db4b8883c9b932912367e02170a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fea54b8_2cea90c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-10T18:13:13Z",
+      "side": 1,
+      "message": "Cherry, I have a question about this 1.14 backport CL. Its parent is currently \"[release-branch.go1.14] cmd/link: fix GC data reading from shared library (attempt 2)\", which means trybots tested this change on top of that one.\n\nDoes this change (which is fixing a 1.14-only regression) depend on the parent CL? Or are they independent and safe to apply without the parent (which is a fix for an issue for both 1.14 and 1.13, also see https://github.com/golang/go/issues/39956#issuecomment-656811090), and you just happened to arrange them one after another for convenience when developing both backport CLs?\n\nThanks.",
+      "revId": "457c3cea934db4b8883c9b932912367e02170a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
