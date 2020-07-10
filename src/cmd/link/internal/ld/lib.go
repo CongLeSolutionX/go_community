@@ -120,15 +120,41 @@ type ArchSyms struct {
 	DynStr  loader.Sym
 }
 
+<<<<<<< HEAD   (076dc2 [dev.link] cmd/compile: make compiler-generated ppc64 TOC sy)
 // mkArchSym is a helper for setArchSyms, to set up a special symbol.
 func (ctxt *Link) mkArchSym(name string, ver int, ls *loader.Sym) {
 	*ls = ctxt.loader.LookupOrCreateSym(name, ver)
+=======
+const BeforeLoadlibFull = 1
+const AfterLoadlibFull = 2
+
+// mkArchSym is a helper for setArchSyms, invoked once before loadlibfull
+// and once after. On the first call it creates a loader.Sym with the
+// specified name, and on the second call a corresponding sym.Symbol.
+func (ctxt *Link) mkArchSym(which int, name string, ver int, ls *loader.Sym, ss **sym.Symbol) {
+	if which == BeforeLoadlibFull {
+		*ls = ctxt.loader.LookupOrCreateSym(name, ver)
+		ctxt.loader.SetAttrReachable(*ls, true)
+	} else {
+		*ss = ctxt.loader.Syms[*ls]
+	}
+>>>>>>> BRANCH (3a4322 net: hangup TCP connection after Dial timeout in Plan 9)
 }
 
 // mkArchVecSym is similar to  setArchSyms, but operates on elements within
 // a slice, where each element corresponds to some symbol version.
+<<<<<<< HEAD   (076dc2 [dev.link] cmd/compile: make compiler-generated ppc64 TOC sy)
 func (ctxt *Link) mkArchSymVec(name string, ver int, ls []loader.Sym) {
 	ls[ver] = ctxt.loader.LookupOrCreateSym(name, ver)
+=======
+func (ctxt *Link) mkArchSymVec(which int, name string, ver int, ls []loader.Sym, ss []*sym.Symbol) {
+	if which == BeforeLoadlibFull {
+		ls[ver] = ctxt.loader.LookupOrCreateSym(name, ver)
+		ctxt.loader.SetAttrReachable(ls[ver], true)
+	} else if ls[ver] != 0 {
+		ss[ver] = ctxt.loader.Syms[ls[ver]]
+	}
+>>>>>>> BRANCH (3a4322 net: hangup TCP connection after Dial timeout in Plan 9)
 }
 
 // setArchSyms sets up the ArchSyms structure, and must be called before
@@ -1999,7 +2025,9 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 		Errorf(nil, "cannot open shared library: %s", libpath)
 		return
 	}
-	defer f.Close()
+	// Keep the file open as decodetypeGcprog needs to read from it.
+	// TODO: fix. Maybe mmap the file.
+	//defer f.Close()
 
 	hash, err := readnote(f, ELF_NOTE_GO_NAME, ELF_NOTE_GOABIHASH_TAG)
 	if err != nil {
