@@ -346,6 +346,14 @@ func TestNewClient2(t *testing.T) {
 		t.Fatalf("NewClient: %v", err)
 	}
 	defer c.Close()
+
+	err = c.SetLocalName("hostinjection>\n\rDATA\r\nInjected message body\r\n.\r\nQUIT\r\n")
+	if err == nil {
+		t.Fatalf("Expected to return an error, due to injection attempt")
+	}
+
+	c.SetLocalName("mta.example.com")
+
 	if ok, _ := c.Extension("DSN"); ok {
 		t.Fatalf("Shouldn't support DSN")
 	}
@@ -369,8 +377,8 @@ var newClient2Server = `220 hello world
 221 OK
 `
 
-var newClient2Client = `EHLO localhost
-HELO localhost
+var newClient2Client = `EHLO mta.example.com
+HELO mta.example.com
 QUIT
 `
 
@@ -583,23 +591,24 @@ func TestSendMail(t *testing.T) {
 		}
 	}(strings.Split(server, "\r\n"))
 
-	err = SendMail(l.Addr().String(), nil, "test@example.com", []string{"other@example.com>\n\rDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"}, []byte(strings.Replace(`From: test@example.com
+	msg := []byte(strings.Replace(`From: test@example.com
 To: other@example.com
 Subject: SendMail test
 
 SendMail is working for me.
-`, "\n", "\r\n", -1)))
+`, "\n", "\r\n", -1))
+
+	err = SendMail(l.Addr().String(), nil, "test@example.com", []string{"other@example.com>\n\rDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"}, msg)
 	if err == nil {
 		t.Errorf("Expected SendMail to be rejected due to a message injection attempt")
 	}
 
-	err = SendMail(l.Addr().String(), nil, "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
-To: other@example.com
-Subject: SendMail test
+	err = SendMail(l.Addr().String(), nil, "test@example.com>\n\nDATA\nInjected message body\n.\nQUIT\n", []string{"other@example.com"}, msg)
+	if err == nil {
+		t.Errorf("Expected SendMail to be rejected due to a message injection attempt")
+	}
 
-SendMail is working for me.
-`, "\n", "\r\n", -1)))
-
+	err = SendMail(l.Addr().String(), nil, "test@example.com", []string{"other@example.com"}, msg)
 	if err != nil {
 		t.Errorf("%v", err)
 	}
