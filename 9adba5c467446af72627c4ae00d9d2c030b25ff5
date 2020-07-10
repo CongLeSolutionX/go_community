@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a544352f_e1ff3667",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-10T21:20:00Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-ppc64,linux-ppc64le",
+      "revId": "9adba5c467446af72627c4ae00d9d2c030b25ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
