@@ -16,6 +16,23 @@
       "revId": "61a4228c1a5d8a5b4aff85d0861516157f0f983f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb23936_c81263ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37513
+      },
+      "writtenOn": "2020-07-10T21:11:42Z",
+      "side": 1,
+      "message": "Thanks for your time. I agree with your comments. For my purposes a function that returns the names of the symbols contained in the plugin would be enough. I will rethink it again. Thank you.",
+      "revId": "61a4228c1a5d8a5b4aff85d0861516157f0f983f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
