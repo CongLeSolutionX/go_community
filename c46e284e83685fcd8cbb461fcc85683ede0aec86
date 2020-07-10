@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "101e4039_8408122a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-10T20:33:56Z",
+      "side": 1,
+      "message": "Temporary -2 until proposal is accepted.",
+      "revId": "c46e284e83685fcd8cbb461fcc85683ede0aec86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
