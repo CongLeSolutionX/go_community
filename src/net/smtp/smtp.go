@@ -43,37 +43,43 @@ type Client struct {
 	auth       []string
 	localName  string // the name to use in HELO/EHLO
 	didHello   bool   // whether we've said HELO/EHLO
+	didClose   bool   // whether Close has been invoked
 	helloError error  // the error from the hello
 }
 
 // Dial returns a new Client connected to an SMTP server at addr.
 // The addr must include a port, as in "mail.example.com:smtp".
 func Dial(addr string) (*Client, error) {
-	conn, err := net.Dial("tcp", addr)
-	if err != nil {
+	c := &Client{localName: "localhost"}
+
+	if err := c.Dial(addr, ""); err != nil {
 		return nil, err
 	}
-	host, _, _ := net.SplitHostPort(addr)
-	return NewClient(conn, host)
+
+	return c, nil
 }
 
 // NewClient returns a new Client using an existing connection and host as a
 // server name to be used when authenticating.
 func NewClient(conn net.Conn, host string) (*Client, error) {
-	text := textproto.NewConn(conn)
-	_, _, err := text.ReadResponse(220)
-	if err != nil {
-		text.Close()
+	c := &Client{conn: conn, serverName: host, localName: "localhost"}
+	if err := c.initText(); err != nil {
 		return nil, err
 	}
-	c := &Client{Text: text, conn: conn, serverName: host, localName: "localhost"}
+
 	_, c.tls = conn.(*tls.Conn)
+
 	return c, nil
 }
 
 // Close closes the connection.
 func (c *Client) Close() error {
-	return c.Text.Close()
+	if c.Text != nil {
+		c.didClose = true
+		return c.Text.Close()
+	}
+
+	return nil
 }
 
 // hello runs a hello exchange if needed.
@@ -149,6 +155,134 @@ func (c *Client) ehlo() error {
 	}
 	c.ext = ext
 	return err
+}
+
+// initText initiates c.Text from c.conn
+func (c *Client) initText() error {
+	text := textproto.NewConn(c.conn)
+	_, _, err := text.ReadResponse(220)
+	if err != nil {
+		text.Close()
+		return err
+	}
+
+	c.Text = text
+
+	return nil
+}
+
+// DialAndSend calls Dial with addr and then calls SendMail with a, from, to  and msg
+func (c *Client) DialAndSend(addr string, a Auth, from string, to []string, msg []byte) error {
+	err := c.Dial(addr, "")
+	if err != nil {
+		return err
+	}
+
+	return c.SendMail(a, from, to, msg)
+}
+
+// Dial connects to the server at addr. If serverName is empty
+// the addr host part will be used instead.
+//
+// The addr must include a port, as in "mail.example.com:smtp".
+func (c *Client) Dial(addr string, serverName string) error {
+	if c.didHello && !c.didClose {
+		return errors.New("smtp: a previous connection needs to be closed")
+	}
+	c.Close()
+
+	conn, err := net.Dial("tcp", addr)
+	if err != nil {
+		return err
+	}
+
+	if serverName == "" {
+		serverName, _, _ = net.SplitHostPort(addr)
+	}
+
+	c.didClose = false
+	c.didHello = false
+	c.serverName = serverName
+	c.conn = conn
+
+	if err := c.initText(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// SendMail uses the already established connection, switches to TLS if
+// possible, authenticates with the optional mechanism a if possible,
+// and then sends an email from address from, to addresses to, with
+// message msg.
+// The addr must include a port, as in "mail.example.com:smtp".
+//
+// The addresses in the to parameter are the SMTP RCPT addresses.
+//
+// The msg parameter should be an RFC 822-style email with headers
+// first, a blank line, and then the message body. The lines of msg
+// should be CRLF terminated. The msg headers should usually include
+// fields such as "From", "To", "Subject", and "Cc".  Sending "Bcc"
+// messages is accomplished by including an email address in the to
+// parameter but not including it in the msg headers.
+func (c *Client) SendMail(a Auth, from string, to []string, msg []byte) error {
+	defer c.Close()
+	err := c.hello()
+	if err != nil {
+		return err
+	}
+	if ok, _ := c.Extension("STARTTLS"); ok {
+		config := &tls.Config{ServerName: c.serverName}
+		if testHookStartTLS != nil {
+			testHookStartTLS(config)
+		}
+		if err = c.StartTLS(config); err != nil {
+			return err
+		}
+	}
+	if a != nil && c.ext != nil {
+		if _, ok := c.ext["AUTH"]; !ok {
+			return errors.New("smtp: server doesn't support AUTH")
+		}
+		if err = c.Auth(a); err != nil {
+			return err
+		}
+	}
+	if err = c.Mail(from); err != nil {
+		return err
+	}
+	for _, addr := range to {
+		if err = c.Rcpt(addr); err != nil {
+			return err
+		}
+	}
+	w, err := c.Data()
+	if err != nil {
+		return err
+	}
+	_, err = w.Write(msg)
+	if err != nil {
+		return err
+	}
+	err = w.Close()
+	if err != nil {
+		return err
+	}
+	return c.Quit()
+}
+
+// SetLocalName sets the host name to be used in further HELLO/EHLO commands.
+// The client will introduce itself as "localhost" automatically otherwise.
+//
+// You may want to set the value to the FQDN of your sending server
+func (c *Client) SetLocalName(host string) error {
+	if err := validateLine(host); err != nil {
+		return err
+	}
+
+	c.localName = host
+	return nil
 }
 
 // StartTLS sends the STARTTLS command and encrypts all further communication.
@@ -296,22 +430,10 @@ func (c *Client) Data() (io.WriteCloser, error) {
 
 var testHookStartTLS func(*tls.Config) // nil, except for tests
 
-// SendMail connects to the server at addr, switches to TLS if
-// possible, authenticates with the optional mechanism a if possible,
-// and then sends an email from address from, to addresses to, with
-// message msg.
-// The addr must include a port, as in "mail.example.com:smtp".
+// SendMail creates a Client that is connected to addr and calls
+// Client.SendMail with a, from, to and msg.
 //
-// The addresses in the to parameter are the SMTP RCPT addresses.
-//
-// The msg parameter should be an RFC 822-style email with headers
-// first, a blank line, and then the message body. The lines of msg
-// should be CRLF terminated. The msg headers should usually include
-// fields such as "From", "To", "Subject", and "Cc".  Sending "Bcc"
-// messages is accomplished by including an email address in the to
-// parameter but not including it in the msg headers.
-//
-// The SendMail function and the net/smtp package are low-level
+// The Client.SendMail function and the net/smtp package are low-level
 // mechanisms and provide no support for DKIM signing, MIME
 // attachments (see the mime/multipart package), or other mail
 // functionality. Higher-level packages exist outside of the standard
@@ -325,52 +447,10 @@ func SendMail(addr string, a Auth, from string, to []string, msg []byte) error {
 			return err
 		}
 	}
-	c, err := Dial(addr)
-	if err != nil {
-		return err
-	}
-	defer c.Close()
-	if err = c.hello(); err != nil {
-		return err
-	}
-	if ok, _ := c.Extension("STARTTLS"); ok {
-		config := &tls.Config{ServerName: c.serverName}
-		if testHookStartTLS != nil {
-			testHookStartTLS(config)
-		}
-		if err = c.StartTLS(config); err != nil {
-			return err
-		}
-	}
-	if a != nil && c.ext != nil {
-		if _, ok := c.ext["AUTH"]; !ok {
-			return errors.New("smtp: server doesn't support AUTH")
-		}
-		if err = c.Auth(a); err != nil {
-			return err
-		}
-	}
-	if err = c.Mail(from); err != nil {
-		return err
-	}
-	for _, addr := range to {
-		if err = c.Rcpt(addr); err != nil {
-			return err
-		}
-	}
-	w, err := c.Data()
-	if err != nil {
-		return err
-	}
-	_, err = w.Write(msg)
-	if err != nil {
-		return err
-	}
-	err = w.Close()
-	if err != nil {
-		return err
-	}
-	return c.Quit()
+
+	c := &Client{localName: "localhost"}
+
+	return c.DialAndSend(addr, a, from, to, msg)
 }
 
 // Extension reports whether an extension is support by the server.
