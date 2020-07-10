@@ -33,6 +33,24 @@
       "revId": "7adb4eb971bead1e829ffd89af678f0a87747100",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b66941f_0c124a1c",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-07-10T20:30:12Z",
+      "side": 1,
+      "message": "OK, thanks, will move the code around so we figure out the ABI before creating the symbol.",
+      "parentUuid": "75baaaa3_de190b2e",
+      "revId": "7adb4eb971bead1e829ffd89af678f0a87747100",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
