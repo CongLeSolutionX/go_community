@@ -219,9 +219,6 @@ func (f *Func) initLSym(hasBody bool) {
 
 	if nam := f.Nname; !nam.isBlank() {
 		f.lsym = nam.Sym.Linksym()
-		if f.Pragma&Systemstack != 0 {
-			f.lsym.Set(obj.AttrCFunc, true)
-		}
 
 		var aliasABI obj.ABI
 		needABIAlias := false
@@ -229,7 +226,7 @@ func (f *Func) initLSym(hasBody bool) {
 		if hasDefABI && defABI == obj.ABI0 {
 			// Symbol is defined as ABI0. Create an
 			// Internal -> ABI0 wrapper.
-			f.lsym.SetABI(obj.ABI0)
+			f.lsym = nam.Sym.LinksymABI(obj.ABI0)
 			needABIAlias, aliasABI = true, obj.ABIInternal
 		} else {
 			// No ABI override. Check that the symbol is
@@ -238,6 +235,9 @@ func (f *Func) initLSym(hasBody bool) {
 			if f.lsym.ABI() != want {
 				Fatalf("function symbol %s has the wrong ABI %v, expected %v", f.lsym.Name, f.lsym.ABI(), want)
 			}
+		}
+		if f.Pragma&Systemstack != 0 {
+			f.lsym.Set(obj.AttrCFunc, true)
 		}
 
 		isLinknameExported := nam.Sym.Linkname != "" && (hasBody || hasDefABI)
