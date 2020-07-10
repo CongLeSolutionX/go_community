@@ -517,6 +517,9 @@ func TestNewClient(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewClient: %v\n(after %v)", err, out())
 	}
+	if c.TLSConfig == nil || c.TLSConfig.ServerName != "fake.host" {
+		t.Fatalf("NewClient: expected *tls.Config with ServerName = %s, got %+v", "fake.host", c.TLSConfig)
+	}
 	defer c.Close()
 	if ok, args := c.Extension("aUtH"); !ok || args != "LOGIN PLAIN" {
 		t.Fatalf("Expected AUTH supported")
@@ -631,6 +634,13 @@ func TestNewClientWithTLS(t *testing.T) {
 	}
 	if !client.tls {
 		t.Errorf("client.tls Got: %t Expected: %t", client.tls, true)
+	}
+	if client.TLSConfig != nil {
+		t.Errorf("client.TLSConfig Got: %+v Expected nil", client.TLSConfig)
+	}
+	err = client.StartTLS(nil)
+	if err == nil || err == io.EOF {
+		t.Error("StartTLS: expected not to process when already in TLS")
 	}
 }
 
@@ -749,52 +759,11 @@ var helloClient = []string{
 func TestSendMail(t *testing.T) {
 	server := strings.Join(strings.Split(sendMailServer, "\n"), "\r\n")
 	client := strings.Join(strings.Split(sendMailClient, "\n"), "\r\n")
-	var cmdbuf bytes.Buffer
-	bcmdbuf := bufio.NewWriter(&cmdbuf)
-	l, err := net.Listen("tcp", "127.0.0.1:0")
+	l, bufch, err := makeSMTPServer(t, "127.0.0.1:0", server)
 	if err != nil {
 		t.Fatalf("Unable to create listener: %v", err)
 	}
 	defer l.Close()
-
-	// prevent data race on bcmdbuf
-	var done = make(chan struct{})
-	go func(data []string) {
-
-		defer close(done)
-
-		conn, err := l.Accept()
-		if err != nil {
-			t.Errorf("Accept error: %v", err)
-			return
-		}
-		defer conn.Close()
-
-		tc := textproto.NewConn(conn)
-		for i := 0; i < len(data) && data[i] != ""; i++ {
-			tc.PrintfLine(data[i])
-			for len(data[i]) >= 4 && data[i][3] == '-' {
-				i++
-				tc.PrintfLine(data[i])
-			}
-			if data[i] == "221 Goodbye" {
-				return
-			}
-			read := false
-			for !read || data[i] == "354 Go ahead" {
-				msg, err := tc.ReadLine()
-				bcmdbuf.Write([]byte(msg + "\r\n"))
-				read = true
-				if err != nil {
-					t.Errorf("Read error: %v", err)
-					return
-				}
-				if data[i] == "354 Go ahead" && msg == "." {
-					break
-				}
-			}
-		}
-	}(strings.Split(server, "\r\n"))
 
 	err = SendMail(l.Addr().String(), nil, "test@example.com", []string{"other@example.com>\n\rDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"}, []byte(strings.Replace(`From: test@example.com
 To: other@example.com
@@ -817,9 +786,7 @@ SendMail is working for me.
 		t.Errorf("%v", err)
 	}
 
-	<-done
-	bcmdbuf.Flush()
-	actualcmds := cmdbuf.String()
+	actualcmds := <-bufch
 	if client != actualcmds {
 		t.Errorf("Got:\n%s\nExpected:\n%s", actualcmds, client)
 	}
@@ -850,6 +817,17 @@ QUIT
 `
 
 func TestSendMailWithAuth(t *testing.T) {
+	testSendWithAuth(t, func(addr string) error {
+		return SendMail(addr, PlainAuth("", "user", "pass", "smtp.google.com"), "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
+To: other@example.com
+Subject: SendMail test
+
+SendMail is working for me.
+`, "\n", "\r\n", -1)))
+	})
+}
+
+func testSendWithAuth(t *testing.T, cb func(addr string) error) {
 	l, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
 		t.Fatalf("Unable to create listener: %v", err)
@@ -885,12 +863,7 @@ func TestSendMailWithAuth(t *testing.T) {
 		}
 	}()
 
-	err = SendMail(l.Addr().String(), PlainAuth("", "user", "pass", "smtp.google.com"), "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
-To: other@example.com
-Subject: SendMail test
-
-SendMail is working for me.
-`, "\n", "\r\n", -1)))
+	err = cb(l.Addr().String())
 	if err == nil {
 		t.Error("SendMail: Server doesn't support AUTH, expected to get an error, but got none ")
 	}
@@ -901,6 +874,137 @@ SendMail is working for me.
 	if err != nil {
 		t.Fatalf("server error: %v", err)
 	}
+}
+
+func makeSMTPServer(t *testing.T, addr string, cmds string) (net.Listener, chan string, error) {
+	var cmdbuf bytes.Buffer
+	bcmdbuf := bufio.NewWriter(&cmdbuf)
+	l, err := net.Listen("tcp", addr)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// prevent data race on bcmdbuf
+	var ret = make(chan string)
+	go func(data []string) {
+		defer func() {
+			bcmdbuf.Flush()
+			ret <- cmdbuf.String()
+			close(ret)
+			l.Close()
+		}()
+
+		conn, err := l.Accept()
+		if err != nil {
+			t.Errorf("Accept error: %v", err)
+			return
+		}
+		defer conn.Close()
+
+		tc := textproto.NewConn(conn)
+		for i := 0; i < len(data) && data[i] != ""; i++ {
+			tc.PrintfLine(data[i])
+			for len(data[i]) >= 4 && data[i][3] == '-' {
+				i++
+				tc.PrintfLine(data[i])
+			}
+			if data[i] == "221 Goodbye" {
+				return
+			}
+			read := false
+			for !read || data[i] == "354 Go ahead" {
+				msg, err := tc.ReadLine()
+				bcmdbuf.Write([]byte(msg + "\r\n"))
+				read = true
+				if err != nil {
+					t.Errorf("Read error: %v", err)
+					return
+				}
+				if data[i] == "354 Go ahead" && msg == "." {
+					break
+				}
+			}
+		}
+	}(strings.Split(cmds, "\r\n"))
+
+	return l, ret, nil
+}
+
+func TestClientSendMail(t *testing.T) {
+	t.Run("injection", func(t *testing.T) {
+		server := "220 hello world\r\n502 EH?\r\n250 mx.google.com at your service\r\n221 Goodbye"
+		client := "EHLO localhost\r\nHELO localhost\r\nQUIT\r\n"
+		l, bufch, err := makeSMTPServer(t, "127.0.0.1:0", server)
+		if err != nil {
+			t.Fatalf("Unable to create listener: %v", err)
+		}
+		defer l.Close()
+		c, err := Dial(l.Addr().String())
+		if err != nil {
+			t.Errorf("Unable to dial: %s", err)
+		}
+		err = c.SendMail(nil, "test@example.com", []string{"other@example.com>\n\rDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"}, []byte(strings.Replace(`From: test@example.com
+	To: other@example.com
+	Subject: SendMail test
+	
+	SendMail is working for me.
+	`, "\n", "\r\n", -1)))
+		if err == nil || err.Error() != "smtp: A line must not contain CR or LF" {
+			t.Errorf("Expected SendMail to be rejected due to a message injection attempt, %q returned", err)
+		}
+		c.Quit()
+		actualcmds := <-bufch
+		if client != actualcmds {
+			t.Errorf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+		}
+	})
+
+	t.Run("no error", func(t *testing.T) {
+		server := strings.Join(strings.Split(sendMailServer, "\n"), "\r\n")
+		client := strings.Join(strings.Split(sendMailClient, "\n"), "\r\n")
+		l, bufch, err := makeSMTPServer(t, "127.0.0.1:0", server)
+		if err != nil {
+			t.Fatalf("Unable to create listener: %v", err)
+		}
+		defer l.Close()
+		c, err := Dial(l.Addr().String())
+		if err != nil {
+			t.Errorf("Unable to dial: %s", err)
+		}
+		err = c.SendMail(nil, "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
+To: other@example.com
+Subject: SendMail test
+
+SendMail is working for me.
+`, "\n", "\r\n", -1)))
+
+		if err != nil {
+			t.Errorf("%v", err)
+		}
+		if err := c.Quit(); err != nil {
+			t.Errorf("Unexpected error when sending QUIT command: %s", err)
+		}
+		actualcmds := <-bufch
+		if client != actualcmds {
+			t.Errorf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+		}
+	})
+
+	t.Run("with auth", func(t *testing.T) {
+		testSendWithAuth(t, func(addr string) error {
+			c, err := Dial(addr)
+			if err != nil {
+				t.Errorf("Unable to dial: %s", err)
+			}
+
+			return c.SendMail(PlainAuth("", "user", "pass", "smtp.google.com"), "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
+To: other@example.com
+Subject: SendMail test
+
+SendMail is working for me.
+`, "\n", "\r\n", -1)))
+		})
+	})
 }
 
 func TestAuthFailed(t *testing.T) {
@@ -1001,6 +1105,10 @@ func TestTLSConnState(t *testing.T) {
 			t.Errorf("StartTLS: %v", err)
 			return
 		}
+		if c.TLSConfig != cfg {
+			t.Errorf("StartTLS: should override TLSConfig: got %v expected %v", cfg, c.TLSConfig)
+		}
+
 		cs, ok := c.TLSConnectionState()
 		if !ok {
 			t.Errorf("TLSConnectionState returned ok == false; want true")
