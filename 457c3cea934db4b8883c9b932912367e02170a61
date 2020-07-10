@@ -104,6 +104,24 @@
       "revId": "457c3cea934db4b8883c9b932912367e02170a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "459a44fe_748013e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-10T18:25:54Z",
+      "side": 1,
+      "message": "Thanks for confirming. If we rebase this CL on top of release-branch.go1.14 branch and re-run trybots, then we can submit this, since the backport issue is approved.\n\n(I think it should be possible to do it trivially via Gerrit UI, if you\u0027d like to use that.)\n\nI saw your reply at https://github.com/golang/go/issues/39956#issuecomment-656817550, so if the parent CL can be submitted soon, then no need to worry about this.",
+      "parentUuid": "810858d2_03712da3",
+      "revId": "457c3cea934db4b8883c9b932912367e02170a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
