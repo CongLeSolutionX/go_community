@@ -517,6 +517,9 @@ func TestNewClient(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewClient: %v\n(after %v)", err, out())
 	}
+	if c.TLSConfig == nil || c.TLSConfig.ServerName != "fake.host" {
+		t.Fatalf("NewClient: expected *tls.Config with ServerName = %s, got %+v", "fake.host", c.TLSConfig)
+	}
 	defer c.Close()
 	if ok, args := c.Extension("aUtH"); !ok || args != "LOGIN PLAIN" {
 		t.Fatalf("Expected AUTH supported")
@@ -631,6 +634,13 @@ func TestNewClientWithTLS(t *testing.T) {
 	}
 	if !client.tls {
 		t.Errorf("client.tls Got: %t Expected: %t", client.tls, true)
+	}
+	if client.TLSConfig != nil {
+		t.Errorf("client.TLSConfig, Expected: nil, Got: %+v", client.TLSConfig)
+	}
+	err = client.StartTLS(nil)
+	if err == nil || err.Error() == "EOF" {
+		t.Error("StartTLS: expected not to process when already in TLS")
 	}
 }
 
@@ -1001,6 +1011,10 @@ func TestTLSConnState(t *testing.T) {
 			t.Errorf("StartTLS: %v", err)
 			return
 		}
+		if c.TLSConfig != cfg {
+			t.Errorf("StartTLS: should override TLSConfig: expected %v, got %v ", cfg, c.TLSConfig)
+		}
+
 		cs, ok := c.TLSConnectionState()
 		if !ok {
 			t.Errorf("TLSConnectionState returned ok == false; want true")
