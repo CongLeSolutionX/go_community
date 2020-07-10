@@ -94,6 +94,22 @@ func (sym *Sym) Linksym() *obj.LSym {
 	return Ctxt.LookupInit(sym.LinksymName(), initPkg)
 }
 
+// LinksymABI0 looks up or creates a symbol with the specified ABI. It is for
+// function symbols only
+func (sym *Sym) LinksymABI(abi obj.ABI) *obj.LSym {
+	if sym == nil {
+		return nil
+	}
+	initPkg := func(r *obj.LSym) {
+		if sym.Linkname != "" {
+			r.Pkg = "_"
+		} else {
+			r.Pkg = sym.Pkg.Prefix
+		}
+	}
+	return Ctxt.LookupABIInit(sym.LinksymName(), abi, initPkg)
+}
+
 // Less reports whether symbol a is ordered before symbol b.
 //
 // Symbols are ordered exported before non-exported, then by name, and

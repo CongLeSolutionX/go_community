@@ -229,7 +229,7 @@ func (f *Func) initLSym(hasBody bool) {
 		if hasDefABI && defABI == obj.ABI0 {
 			// Symbol is defined as ABI0. Create an
 			// Internal -> ABI0 wrapper.
-			f.lsym.SetABI(obj.ABI0)
+			f.lsym = nam.Sym.LinksymABI(obj.ABI0)
 			needABIAlias, aliasABI = true, obj.ABIInternal
 		} else {
 			// No ABI override. Check that the symbol is
