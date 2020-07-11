@@ -16,6 +16,41 @@
       "revId": "e87ddd3c82be17051c44312669b4ebfe1ba02119",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a6ba02d_9d0b76f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-11T02:36:49Z",
+      "side": 1,
+      "message": "\u003e Oddly git-codereview complained about gofmt for some runtime files and the only\nway to get this change up was to submit to its complaint and then make this commit.\n\nIt\u0027s possible to disable its gofmt hook by setting this environment variable:\n\n    export GIT_GOFMT_HOOK\u003doff\n\nI\u0027m also surprised it would be modifying a .go file in a testdata directory. Can you please check if the same behavior persists with the latest version of git-codereview (https://github.com/golang/review/commit/a2b90d2f6e29477343826a7b79798b588394f4aa)?\n\nIt\u0027s possible the wrong gofmt binary was in your PATH and selected. Did you try using ./make.bash and then adding the built $GOROOT/bin to PATH?",
+      "parentUuid": "0b82f8e9_6a00fa45",
+      "revId": "e87ddd3c82be17051c44312669b4ebfe1ba02119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52f15111_b79fc690",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-11T02:36:49Z",
+      "side": 1,
+      "message": "Thanks for working on this!",
+      "revId": "e87ddd3c82be17051c44312669b4ebfe1ba02119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
