@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "698ad944_2adf113e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-11T12:57:58Z",
+      "side": 1,
+      "message": "This statement seems out of date.",
+      "revId": "03648ae24ccd3181adc2ba13d37d007649edaf57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcd1cb3f_49ddee81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-11T12:57:58Z",
+      "side": 1,
+      "message": "This list includes 6 CLs, the subject and list below includes only 5.",
+      "revId": "03648ae24ccd3181adc2ba13d37d007649edaf57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "215351ec_63498e41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-11T12:57:58Z",
+      "side": 1,
+      "message": "It’s hard to see that this note applies to the entire back port CL and is not a part of description of CL 223963 quoted above.\n\nPerhaps move it on top, where the note about api/go1.14 currently is.",
+      "revId": "03648ae24ccd3181adc2ba13d37d007649edaf57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2149e983_f3e697fe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -13,6 +64,23 @@
       "writtenOn": "2020-07-11T08:12:42Z",
       "side": 1,
       "message": "Thank you for the reviews Dmitri and Daniel. I\u0027ve made an edit, given that we can\u0027t retroactively\nintroduce new APIs for Go1.14.5, that weren\u0027t available in other Go1.14.X point releases:\nInstead of exposing\n\ndriver.Validator aka:\ntype Validator interface {\n    IsValid() bool\n}\n\nthat interface is still asserted on, but privately, thus we don\u0027t need to modify api/go1.14.txt nor the release notes.",
+      "revId": "03648ae24ccd3181adc2ba13d37d007649edaf57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a803aad6_1839de2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-11T12:57:58Z",
+      "side": 1,
+      "message": "Thanks for working on this.",
       "revId": "03648ae24ccd3181adc2ba13d37d007649edaf57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
