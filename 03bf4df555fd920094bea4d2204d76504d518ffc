@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db167c6c_188c7c68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2020-07-11T14:30:40Z",
+      "side": 1,
+      "message": "As mentioned on the github PR, the original URL is also archived on the Wayback Machine:\nhttps://web.archive.org/web/20040719170906/https://www.nada.kth.se/kurser/kth/2D1441/semteo03/lecturenotes/assump.pdf\n\nThis is longer, but probably more reliable. Should I change it?",
+      "revId": "03bf4df555fd920094bea4d2204d76504d518ffc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
