@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b82f8e9_6a00fa45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-11T02:30:38Z",
+      "side": 1,
+      "message": "This was quite an interesting effort given that the CLs are in a relation chain\nand have conflicts on normal cherry pick, but I also lack the \"forge-author\" permission\nso I had to manually do some git magic on my own and then squash the CLs into one,\nthen mail for a targeted branch the second time. Please take a look and thank you!\n\nOddly git-codereview complained about gofmt for some runtime files and the only\nway to get this change up was to submit to its complaint and then make this commit. ",
+      "revId": "e87ddd3c82be17051c44312669b4ebfe1ba02119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
