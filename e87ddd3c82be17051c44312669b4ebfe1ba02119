@@ -51,6 +51,24 @@
       "revId": "e87ddd3c82be17051c44312669b4ebfe1ba02119",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd8b9c74_b47c1e92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-11T02:57:52Z",
+      "side": 1,
+      "message": "TIL about GIT_GOFMT_HOOK\u003doff, thank you Dmitri!\nYeah the pickup in the testdata folder was strange, but after that update (I was only 9 commits behind) it went away. I manually instead undid the prior change and then commited it.",
+      "parentUuid": "4a6ba02d_9d0b76f4",
+      "revId": "e87ddd3c82be17051c44312669b4ebfe1ba02119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
