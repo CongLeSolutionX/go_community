@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2149e983_f3e697fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-11T08:12:42Z",
+      "side": 1,
+      "message": "Thank you for the reviews Dmitri and Daniel. I\u0027ve made an edit, given that we can\u0027t retroactively\nintroduce new APIs for Go1.14.5, that weren\u0027t available in other Go1.14.X point releases:\nInstead of exposing\n\ndriver.Validator aka:\ntype Validator interface {\n    IsValid() bool\n}\n\nthat interface is still asserted on, but privately, thus we don\u0027t need to modify api/go1.14.txt nor the release notes.",
+      "revId": "03648ae24ccd3181adc2ba13d37d007649edaf57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
