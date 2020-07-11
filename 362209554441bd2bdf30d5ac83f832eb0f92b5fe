@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47e8d187_bb364935",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-11T03:12:53Z",
+      "side": 1,
+      "message": "I had to update api/go1.14 as well as doc/go1.14.html.",
+      "revId": "362209554441bd2bdf30d5ac83f832eb0f92b5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
