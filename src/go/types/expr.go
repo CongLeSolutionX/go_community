@@ -331,6 +331,13 @@ func representableConst(x constant.Value, check *Checker, typ *Basic, rounded *c
 
 // representable checks that a constant operand is representable in the given basic type.
 func (check *Checker) representable(x *operand, typ *Basic) {
+	if err := check.representableErr(x, typ); err != nil {
+		x.mode = invalid
+		check.handleErr(err)
+	}
+}
+
+func (check *Checker) representableErr(x *operand, typ *Basic) error {
 	assert(x.mode == constant_)
 	if !representableConst(x.val, check, typ, &x.val) {
 		var msg string
@@ -350,9 +357,9 @@ func (check *Checker) representable(x *operand, typ *Basic) {
 		} else {
 			msg = "cannot convert %s to %s"
 		}
-		check.errorf(x.pos(), msg, x, typ)
-		x.mode = invalid
+		return check.newErrorf(x.pos(), msg, x, typ)
 	}
+	return nil
 }
 
 // updateExprType updates the type of x to typ and invokes itself
@@ -488,10 +495,16 @@ func (check *Checker) updateExprVal(x ast.Expr, val constant.Value) {
 
 // convertUntyped attempts to set the type of an untyped value to the target type.
 func (check *Checker) convertUntyped(x *operand, target Type) {
-	if x.mode == invalid || isTyped(x.typ) || target == Typ[Invalid] {
-		return
+	if err := check.canConvertUntyped(x, target); err != nil {
+		x.mode = invalid
+		check.handleErr(err)
 	}
+}
 
+func (check *Checker) canConvertUntyped(x *operand, target Type) error {
+	if x.mode == invalid || isTyped(x.typ) || target == Typ[Invalid] {
+		return nil
+	}
 	// TODO(gri) Sloppy code - clean up. This function is central
 	//           to assignment and expression checking.
 
@@ -507,16 +520,15 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 		} else if xkind != tkind {
 			goto Error
 		}
-		return
+		return nil
 	}
 
 	// typed target
 	switch t := target.Underlying().(type) {
 	case *Basic:
 		if x.mode == constant_ {
-			check.representable(x, t)
-			if x.mode == invalid {
-				return
+			if err := check.representableErr(x, t); err != nil {
+				return err
 			}
 			// expression value may have been rounded - update if needed
 			check.updateExprVal(x.expr, x.val)
@@ -576,11 +588,10 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 
 	x.typ = target
 	check.updateExprType(x.expr, target, true) // UntypedNils are final
-	return
+	return nil
 
 Error:
-	check.errorf(x.pos(), "cannot convert %s to %s", x, target)
-	x.mode = invalid
+	return check.newErrorf(x.pos(), "cannot convert %s to %s", x, target)
 }
 
 func (check *Checker) comparison(x, y *operand, op token.Token) {
