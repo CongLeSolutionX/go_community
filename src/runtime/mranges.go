@@ -214,6 +214,26 @@ func (a *addrRanges) findSucc(addr uintptr) int {
 	return top
 }
 
+// roundUpAddr takes virtual address addr and 'rounds' it up to
+// the base address of the next region if it does not refer to
+// a region represented in a. If it does, then it simply returns
+// addr. The second return value indicates whether a valid
+// 'successor' exists for addr in a. Thus, if addr is larger than
+// any address known to a, the second return value will be false.
+func (a *addrRanges) roundUpAddr(addr uintptr) (uintptr, bool) {
+	i := a.findSucc(addr)
+	if i == 0 {
+		return a.ranges[0].base.addr(), true
+	}
+	if a.ranges[i-1].contains(addr) {
+		return addr, true
+	}
+	if i < len(a.ranges) {
+		return a.ranges[i].base.addr(), true
+	}
+	return 0, false
+}
+
 // contains returns true if a covers the address addr.
 func (a *addrRanges) contains(addr uintptr) bool {
 	i := a.findSucc(addr)
