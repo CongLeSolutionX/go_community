@@ -23,6 +23,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/mvs"
 	"cmd/go/internal/search"
+	"cmd/go/internal/trace"
 	"cmd/go/internal/work"
 
 	"golang.org/x/mod/module"
@@ -467,7 +468,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 			upgrade[path] = q
 		}
 	}
-	buildList, err := mvs.UpgradeAll(modload.Target, newUpgrader(upgrade, nil))
+	buildList, err := mvs.UpgradeAll(ctx, modload.Target, newUpgrader(upgrade, nil))
 	if err != nil {
 		base.Fatalf("go get: %v", err)
 	}
@@ -591,7 +592,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 		// Handle upgrades. This is needed for arguments that didn't match
 		// modules or matched different modules from a previous iteration. It
 		// also upgrades modules providing package dependencies if -u is set.
-		buildList, err := mvs.UpgradeAll(modload.Target, newUpgrader(byPath, seenPkgs))
+		buildList, err := mvs.UpgradeAll(ctx, modload.Target, newUpgrader(byPath, seenPkgs))
 		if err != nil {
 			base.Fatalf("go get: %v", err)
 		}
@@ -725,6 +726,8 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 // reported. A map from module paths to queries is returned, which includes
 // queries and modOnly.
 func runQueries(ctx context.Context, cache map[querySpec]*query, queries []*query, modOnly map[string]*query) map[string]*query {
+	ctx, span := trace.StartSpan(ctx, "modget.runQueries")
+	defer span.Done()
 
 	runQuery := func(q *query) {
 		if q.vers == "none" {

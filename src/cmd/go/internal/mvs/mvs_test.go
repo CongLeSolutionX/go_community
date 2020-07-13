@@ -5,6 +5,7 @@
 package mvs
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 	"strings"
@@ -393,7 +394,7 @@ func Test(t *testing.T) {
 				t.Fatalf("upgrade* takes one argument: %q", line)
 			}
 			fns = append(fns, func(t *testing.T) {
-				list, err := UpgradeAll(m(kf[1]), reqs)
+				list, err := UpgradeAll(context.Background(), m(kf[1]), reqs)
 				checkList(t, key, list, err, val)
 			})
 			continue

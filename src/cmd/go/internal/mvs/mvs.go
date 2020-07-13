@@ -7,6 +7,7 @@
 package mvs
 
 import (
+	"context"
 	"fmt"
 	"sort"
 	"strings"
@@ -353,7 +354,10 @@ func Req(target module.Version, base []string, reqs Reqs) ([]module.Version, err
 
 // UpgradeAll returns a build list for the target module
 // in which every module is upgraded to its latest version.
-func UpgradeAll(target module.Version, reqs Reqs) ([]module.Version, error) {
+func UpgradeAll(ctx context.Context, target module.Version, reqs Reqs) ([]module.Version, error) {
+	ctx, span := trace.StartSpan(ctx, "mvs.UpgradeAll")
+	defer span.Done()
+
 	return buildList(target, reqs, func(m module.Version) (module.Version, error) {
 		if m.Path == target.Path {
 			return target, nil
