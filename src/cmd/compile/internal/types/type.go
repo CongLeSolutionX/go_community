@@ -66,8 +66,9 @@ const (
 	TCHANARGS
 
 	// SSA backend types
-	TSSA   // internal types used by SSA backend (flags, memory, etc.)
-	TTUPLE // a pair of types, used by SSA backend
+	TSSA     // internal types used by SSA backend (flags, memory, etc.)
+	TTUPLE   // a pair of types, used by SSA backend
+	TRESULTS // multiuple types; the resulting of calling a function or method, plus a memory at the end.
 
 	NTYPE
 )
@@ -329,6 +330,11 @@ type Tuple struct {
 	// Any tuple with a memory type must put that memory type second.
 }
 
+type Results struct {
+	Types []*Type
+	// Any Results with a memory type must put that memory type last.
+}
+
 // Array contains Type fields specific to array types.
 type Array struct {
 	Elem  *Type // element type
@@ -465,6 +471,8 @@ func New(et EType) *Type {
 		t.Extra = new(Chan)
 	case TTUPLE:
 		t.Extra = new(Tuple)
+	case TRESULTS:
+		t.Extra = new(Results)
 	}
 	return t
 }
@@ -508,6 +516,12 @@ func NewTuple(t1, t2 *Type) *Type {
 	t := New(TTUPLE)
 	t.Extra.(*Tuple).first = t1
 	t.Extra.(*Tuple).second = t2
+	return t
+}
+
+func NewResults(types []*Type) *Type {
+	t := New(TRESULTS)
+	t.Extra.(*Results).Types = types
 	return t
 }
 
@@ -687,7 +701,7 @@ func (t *Type) copy() *Type {
 	case TARRAY:
 		x := *t.Extra.(*Array)
 		nt.Extra = &x
-	case TTUPLE, TSSA:
+	case TTUPLE, TSSA, TRESULTS:
 		Fatalf("ssa types cannot be copied")
 	}
 	// TODO(mdempsky): Find out why this is necessary and explain.
@@ -1050,6 +1064,23 @@ func (t *Type) cmp(x *Type) Cmp {
 		}
 		return ttup.second.Compare(xtup.second)
 
+	case TRESULTS:
+		xResults := x.Extra.(*Results)
+		tResults := t.Extra.(*Results)
+		xl, tl := len(xResults.Types), len(tResults.Types)
+		if tl != xl {
+			if tl < xl {
+				return CMPlt
+			}
+			return CMPgt
+		}
+		for i := 0; i < tl; i++ {
+			if c := tResults.Types[i].Compare(xResults.Types[i]); c != CMPeq {
+				return c
+			}
+		}
+		return CMPeq
+
 	case TMAP:
 		if c := t.Key().cmp(x.Key()); c != CMPeq {
 			return c
@@ -1299,6 +1330,9 @@ func (t *Type) FieldType(i int) *Type {
 			panic("bad tuple index")
 		}
 	}
+	if t.Etype == TRESULTS {
+		return t.Extra.(*Results).Types[i]
+	}
 	return t.Field(i).Type
 }
 func (t *Type) FieldOff(i int) int64 {
@@ -1376,11 +1410,20 @@ func (t *Type) ChanDir() ChanDir {
 }
 
 func (t *Type) IsMemory() bool {
-	return t == TypeMem || t.Etype == TTUPLE && t.Extra.(*Tuple).second == TypeMem
+	if t == TypeMem || t.Etype == TTUPLE && t.Extra.(*Tuple).second == TypeMem {
+		return true
+	}
+	if t.Etype == TRESULTS {
+		if types := t.Extra.(*Results).Types; len(types) > 0 && types[len(types)-1] == TypeMem {
+			return true
+		}
+	}
+	return false
 }
-func (t *Type) IsFlags() bool { return t == TypeFlags }
-func (t *Type) IsVoid() bool  { return t == TypeVoid }
-func (t *Type) IsTuple() bool { return t.Etype == TTUPLE }
+func (t *Type) IsFlags() bool   { return t == TypeFlags }
+func (t *Type) IsVoid() bool    { return t == TypeVoid }
+func (t *Type) IsTuple() bool   { return t.Etype == TTUPLE }
+func (t *Type) IsResults() bool { return t.Etype == TRESULTS }
 
 // IsUntyped reports whether t is an untyped type.
 func (t *Type) IsUntyped() bool {
@@ -1430,6 +1473,15 @@ func Haspointers1(t *Type, ignoreNotInHeap bool) bool {
 	case TTUPLE:
 		ttup := t.Extra.(*Tuple)
 		return Haspointers1(ttup.first, ignoreNotInHeap) || Haspointers1(ttup.second, ignoreNotInHeap)
+
+	case TRESULTS:
+		types := t.Extra.(*Results).Types
+		for _, et := range types {
+			if Haspointers1(et, ignoreNotInHeap) {
+				return true
+			}
+		}
+		return false
 	}
 
 	return true
