@@ -526,6 +526,8 @@ func (s *pageAlloc) allocRange(base, npages uintptr) uintptr {
 //
 // find also computes and returns a candidate s.searchAddr, which may or
 // may not prune more of the address space than s.searchAddr already does.
+// Note that this candidate may not point to mapped memory. The caller must
+// ensure that it does before updating s.searchAddr with it.
 //
 // find represents the slow path and the full radix tree search.
 //
@@ -762,6 +764,7 @@ func (s *pageAlloc) alloc(npages uintptr) (addr uintptr, scav uintptr) {
 	// If npages has a chance of fitting in the chunk where the searchAddr is,
 	// search it directly.
 	searchAddr := minOffAddr
+	checkSearchAddr := false
 	if pallocChunkPages-chunkPageIndex(s.searchAddr.addr()) >= uint(npages) {
 		// npages is guaranteed to be no greater than pallocChunkPages here.
 		i := chunkIndex(s.searchAddr.addr())
@@ -791,6 +794,7 @@ func (s *pageAlloc) alloc(npages uintptr) (addr uintptr, scav uintptr) {
 		}
 		return 0, 0
 	}
+	checkSearchAddr = true
 Found:
 	// Go ahead and actually mark the bits now that we have an address.
 	scav = s.allocRange(addr, npages)
@@ -799,6 +803,24 @@ Found:
 	// heap memory before that searchAddr in an offset address space is
 	// allocated, so bump s.searchAddr up to the new one.
 	if s.searchAddr.lessThan(searchAddr) {
+		if checkSearchAddr {
+			// The candidate searchAddr may not point to mapped memory.
+			// Validate that and update it here.
+			// If we're not in a test, validate first by checking mheap_.arenas.
+			// This is a fast path which is only safe to use outside of testing.
+			ai := arenaIndex(searchAddr.addr())
+			if s.test || mheap_.arenas[ai.l1()] == nil || mheap_.arenas[ai.l1()][ai.l2()] == nil {
+				addr, ok := s.inUse.roundUpAddr(searchAddr.addr())
+				if ok {
+					searchAddr = offAddr{addr}
+				} else {
+					// The candidate search address is greater than any
+					// known address, which means we definitely have no
+					// free memory left.
+					searchAddr = maxOffAddr
+				}
+			}
+		}
 		s.searchAddr = searchAddr
 	}
 	return addr, scav
