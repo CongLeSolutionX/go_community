@@ -616,17 +616,17 @@ func (ctxt *Link) symtab() []sym.SymKind {
 	moduledata.AddUint(ctxt.Arch, uint64(ldr.SymSize(pclntab)))
 	// The ftab slice
 	moduledata.AddAddr(ctxt.Arch, pclntab)
-	moduledata.AddUint(ctxt.Arch, uint64(pclntabNfunc+1))
-	moduledata.AddUint(ctxt.Arch, uint64(pclntabNfunc+1))
+	moduledata.AddUint(ctxt.Arch, uint64(ctxt.pclnState.nfunc+1))
+	moduledata.AddUint(ctxt.Arch, uint64(ctxt.pclnState.nfunc+1))
 	// The filetab slice
-	moduledata.AddAddrPlus(ctxt.Arch, pclntab, int64(pclntabFiletabOffset))
+	moduledata.AddAddrPlus(ctxt.Arch, pclntab, int64(ctxt.pclnState.filetabOffset))
 	moduledata.AddUint(ctxt.Arch, uint64(ctxt.NumFilesyms)+1)
 	moduledata.AddUint(ctxt.Arch, uint64(ctxt.NumFilesyms)+1)
 	// findfunctab
 	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("runtime.findfunctab", 0))
 	// minpc, maxpc
-	moduledata.AddAddr(ctxt.Arch, pclntabFirstFunc)
-	moduledata.AddAddrPlus(ctxt.Arch, pclntabLastFunc, ldr.SymSize(pclntabLastFunc))
+	moduledata.AddAddr(ctxt.Arch, ctxt.pclnState.firstFunc)
+	moduledata.AddAddrPlus(ctxt.Arch, ctxt.pclnState.lastFunc, ldr.SymSize(ctxt.pclnState.lastFunc))
 	// pointers to specific parts of the module
 	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("runtime.text", 0))
 	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("runtime.etext", 0))
