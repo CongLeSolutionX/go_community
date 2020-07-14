@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c0b305d0_6dfd2ea7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-14T23:43:34Z",
+      "side": 1,
+      "message": "We forgot the fully qualified issue reference in CL 242643, so the issue didn\u0027t get closed yet.\n\nIf you\u0027d like, change this to Fixes as there\u0027s nothing more to do there after this is submitted. Alternatively, we can close that issue manually after this is submitted.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "7ccefed67787b7149afdfd7c7bb0f4b5e1c90740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1662fde9_19f8787c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
