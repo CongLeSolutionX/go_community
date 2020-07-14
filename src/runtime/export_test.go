@@ -785,6 +785,33 @@ func (a AddrRange) Equals(b AddrRange) bool {
 	return a == b
 }
 
+// AddrRanges is a wrapper around addrRanges for testing.
+type AddrRanges struct {
+	addrRanges
+}
+
+// DummyAddrRanges creates a new addrRanges populated with
+// the ranges in a. It does not initialize the addrRanges
+// the same way the runtime does, so use it carefully.
+// In particular, methods that manipulate the backing store
+// of addrRanges.ranges should not be used (e.g. add) since
+// they may trigger reallocation.
+// It is safe to make many of these as they will be garbage
+// collected.
+func DummyAddrRanges(a ...AddrRange) AddrRanges {
+	ranges := make([]addrRange, 0, len(a))
+	for _, r := range a {
+		ranges = append(ranges, r.addrRange)
+	}
+	return AddrRanges{addrRanges{ranges: ranges, sysStat: new(uint64)}}
+}
+
+// FindSucc returns the successor to base. See addrRanges.findSucc
+// for more details.
+func (a *AddrRanges) FindSucc(base uintptr) int {
+	return a.findSucc(base)
+}
+
 // BitRange represents a range over a bitmap.
 type BitRange struct {
 	I, N uint // bit index and length in bits
