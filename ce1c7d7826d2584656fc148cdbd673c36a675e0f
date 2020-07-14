@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f05cc301_9870c48e",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-14T19:28:54Z",
+      "side": 1,
+      "message": "This is essentially a copy of relocsym\u0027s all \"External\" cases. We\u0027ll remove the part in relocsym once we converted all platforms.",
+      "revId": "ce1c7d7826d2584656fc148cdbd673c36a675e0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
