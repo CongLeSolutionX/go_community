@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1662fde9_19f8787c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-14T23:36:50Z",
+      "side": 1,
+      "message": "Minor optional comments.",
+      "revId": "7ccefed67787b7149afdfd7c7bb0f4b5e1c90740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba56cc9_28508137",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-14T23:36:50Z",
+      "side": 1,
+      "message": "Could mention the issue with more context with something like \"; see issue 39509\".",
+      "range": {
+        "startLine": 544,
+        "startChar": 38,
+        "endLine": 544,
+        "endChar": 73
+      },
+      "revId": "7ccefed67787b7149afdfd7c7bb0f4b5e1c90740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1222c818_f2ab1f5a",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-14T23:36:50Z",
+      "side": 1,
+      "message": "Since the output isn\u0027t used, can simplify this to just Run().",
+      "range": {
+        "startLine": 546,
+        "startChar": 18,
+        "endLine": 546,
+        "endChar": 32
+      },
+      "revId": "7ccefed67787b7149afdfd7c7bb0f4b5e1c90740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f48e928_33dd46c2",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-14T23:36:50Z",
+      "side": 1,
+      "message": "Optionally, consider adding more detail to clarify that it\u0027s the binary (not source code) that doesn\u0027t exist. Perhaps \"skipping because cannot find installed cmd/oldlink binary\".",
+      "range": {
+        "startLine": 547,
+        "startChar": 10,
+        "endLine": 547,
+        "endChar": 39
+      },
+      "revId": "7ccefed67787b7149afdfd7c7bb0f4b5e1c90740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
