@@ -77,6 +77,9 @@ type Link struct {
 	PackageFile  map[string]string
 	PackageShlib map[string]string
 
+	// State for pclntab generation.
+	pclnState *pclnState
+
 	tramps []loader.Sym // trampolines
 
 	compUnits []*sym.CompilationUnit // DWARF compilation units
