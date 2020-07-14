@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2820668f_0b5965b7",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-14T23:15:24Z",
+      "side": 1,
+      "message": "s/generix/generic/",
+      "range": {
+        "startLine": 471,
+        "startChar": 22,
+        "endLine": 471,
+        "endChar": 29
+      },
+      "revId": "42dc84b23677d4bff383491371adc3a9778b9ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
