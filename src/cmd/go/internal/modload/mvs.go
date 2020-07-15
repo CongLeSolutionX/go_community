@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"sync"
 
@@ -25,25 +26,37 @@ import (
 	"golang.org/x/mod/semver"
 )
 
+// semToken is a semaphore token, used by mvsReqs's semaphore.
+type semToken struct{}
+
 // mvsReqs implements mvs.Reqs for module semantic versions,
 // with any exclusions or replacements applied internally.
 type mvsReqs struct {
 	buildList []module.Version
 	cache     par.Cache
 	versions  sync.Map
+	sem       chan semToken
 }
 
 // Reqs returns the current module requirement graph.
 // Future calls to SetBuildList do not affect the operation
 // of the returned Reqs.
 func Reqs() mvs.Reqs {
+	return newReqs(buildList)
+}
+
+func newReqs(buildList []module.Version) mvs.Reqs {
 	r := &mvsReqs{
 		buildList: buildList,
+		sem: make(chan semToken, runtime.GOMAXPROCS(0)),
 	}
 	return r
 }
 
 func (r *mvsReqs) Required(mod module.Version) ([]module.Version, error) {
+	r.sem <- semToken{}
+	defer func() { <-r.sem }()
+
 	type cached struct {
 		list []module.Version
 		err  error

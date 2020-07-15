@@ -13,8 +13,6 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"cmd/go/internal/par"
-
 	"golang.org/x/mod/module"
 )
 
@@ -154,41 +152,56 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (m
 		atomic.StoreInt32(&haveErr, 1)
 	}
 
-	var work par.Work
-	work.Add(target)
-	work.Do(10, func(item interface{}) {
-		m := item.(module.Version)
-
+	var wg sync.WaitGroup
+	var visit func(module.Version)
+	visit = func(m module.Version) {
 		node := &modGraphNode{m: m}
 		mu.Lock()
+		if _, seen := modGraph[m]; seen {
+			mu.Unlock()
+			return
+		}
 		modGraph[m] = node
 		if v, ok := min[m.Path]; !ok || reqs.Max(v, m.Version) != v {
 			min[m.Path] = m.Version
 		}
 		mu.Unlock()
 
-		required, err := reqs.Required(m)
-		if err != nil {
-			setErr(node, err)
-			return
-		}
-		node.required = required
-		for _, r := range node.required {
-			work.Add(r)
-		}
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
 
-		if upgrade != nil {
-			u, err := upgrade(m)
+			// We can't use a semaphore to limit the number of goroutines started because
+			// that could lead to a deadlock: if a package has GOMAXPROCS number of dependencies,
+			// and we try to send that many tokens on to the channel, we'll block on the last send.
+			// If there are no other concurrent tasks that could finish, there will be a deadlock.
+
+			required, err := reqs.Required(m)
 			if err != nil {
 				setErr(node, err)
 				return
 			}
-			if u != m {
-				node.upgrade = u
-				work.Add(u)
+			node.required = required
+			for _, r := range node.required {
+				visit(r)
 			}
-		}
-	})
+
+			if upgrade != nil {
+				u, err := upgrade(m)
+				if err != nil {
+					setErr(node, err)
+					return
+				}
+				if u != m {
+					node.upgrade = u
+					visit(u)
+				}
+			}
+		}()
+	}
+
+	visit(target)
+	wg.Wait()
 
 	// If there was an error, find the shortest path from the target to the
 	// node where the error occurred so we can report a useful error message.
