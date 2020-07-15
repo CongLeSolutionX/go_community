@@ -108,6 +108,23 @@
       "revId": "7ccefed67787b7149afdfd7c7bb0f4b5e1c90740",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3dea811_240b2662",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-07-15T00:05:56Z",
+      "side": 1,
+      "message": "While reviewing this CL, I (re)discovered there is an API to get the directory where tools are installed: https://golang.org/pkg/go/build/#ToolDir.\n\nHowever, to use it with os.Stat, you\u0027d have to have the logic to append \".exe\" on Windows, etc. That makes it not as good as the current solution of using go tool -n oldlink (which is already good, I was just curious if it was possible to do the same without relying on the go command).\n\nJust wanted to share this observation; nothing to do here.",
+      "revId": "7ccefed67787b7149afdfd7c7bb0f4b5e1c90740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
