@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b502d588_1a73bb04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-15T01:24:32Z",
+      "side": 1,
+      "message": "I\u0027ve made the backport for Go1.13 as well, please take a look.",
+      "revId": "eb8aa02c4a7ef3ca51c90dc023cf4396fb8c4a0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
