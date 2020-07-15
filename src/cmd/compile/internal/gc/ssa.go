@@ -10,6 +10,7 @@ import (
 	"html"
 	"os"
 	"sort"
+	"strings"
 
 	"bufio"
 	"bytes"
@@ -647,6 +648,8 @@ type state struct {
 	lastDeferExit       *ssa.Block // Entry block of last defer exit code we generated
 	lastDeferFinalBlock *ssa.Block // Final block of last defer exit code we generated
 	lastDeferCount      int        // Number of defers encountered at that point
+
+	prevCall *ssa.Value // the previous call; use this to tie results to the call op.
 }
 
 type funcLine struct {
@@ -1072,7 +1075,7 @@ func (s *state) stmt(n *Node) {
 		fallthrough
 
 	case OCALLMETH, OCALLINTER:
-		s.callAddr(n, callNormal)
+		s.callResult(n, callNormal)
 		if n.Op == OCALLFUNC && n.Left.Op == ONAME && n.Left.Class() == PFUNC {
 			if fn := n.Left.Sym.Name; compiling_runtime && fn == "throw" ||
 				n.Left.Sym.Pkg == Runtimepkg && (fn == "throwinit" || fn == "gopanic" || fn == "panicwrap" || fn == "block" || fn == "panicmakeslicelen" || fn == "panicmakeslicecap") {
@@ -1104,10 +1107,10 @@ func (s *state) stmt(n *Node) {
 			if n.Esc == EscNever {
 				d = callDeferStack
 			}
-			s.callAddr(n.Left, d)
+			s.callResult(n.Left, d)
 		}
 	case OGO:
-		s.callAddr(n.Left, callGo)
+		s.callResult(n.Left, callGo)
 
 	case OAS2DOTTYPE:
 		res, resok := s.dottype(n.Right, true)
@@ -4336,6 +4339,7 @@ func (s *state) callAddr(n *Node, k callKind) *ssa.Value {
 // Calls the function n using the specified call type.
 // Returns the address of the return value (or nil if none).
 func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
+	s.prevCall = nil
 	var sym *types.Sym     // target symbol (if static)
 	var closure *ssa.Value // ptr to closure to run (if dynamic)
 	var codeptr *ssa.Value // ptr to target code (if dynamic)
@@ -4343,6 +4347,7 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	fn := n.Left
 	var ACArgs []ssa.ArgOrResult
 	var ACResults []ssa.ArgOrResult
+	var callArgs []*ssa.Value
 	res := n.Left.Type.Results()
 	if k == callNormal {
 		nf := res.NumFields()
@@ -4352,10 +4357,15 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		}
 	}
 
+	testLateExpansion := false
+
 	switch n.Op {
 	case OCALLFUNC:
 		if k == callNormal && fn.Op == ONAME && fn.Class() == PFUNC {
 			sym = fn.Sym
+			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+				testLateExpansion = true
+			}
 			break
 		}
 		closure = s.expr(fn)
@@ -4370,6 +4380,9 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		}
 		if k == callNormal {
 			sym = fn.Sym
+			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+				testLateExpansion = true
+			}
 			break
 		}
 		closure = s.getMethodClosure(fn)
@@ -4468,10 +4481,18 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 			argsize := s.constInt32(types.Types[TUINT32], int32(stksize))
 			addr := s.constOffPtrSP(s.f.Config.Types.UInt32Ptr, argStart)
 			ACArgs = append(ACArgs, ssa.ArgOrResult{T: types.Types[TUINT32], Offset: int32(argStart)})
-			s.store(types.Types[TUINT32], addr, argsize)
+			if testLateExpansion {
+				callArgs = append(callArgs, argsize)
+			} else {
+				s.store(types.Types[TUINT32], addr, argsize)
+			}
 			addr = s.constOffPtrSP(s.f.Config.Types.UintptrPtr, argStart+int64(Widthptr))
 			ACArgs = append(ACArgs, ssa.ArgOrResult{T: types.Types[TUINTPTR], Offset: int32(argStart) + int32(Widthptr)})
-			s.store(types.Types[TUINTPTR], addr, closure)
+			if testLateExpansion {
+				callArgs = append(callArgs, closure)
+			} else {
+				s.store(types.Types[TUINTPTR], addr, closure)
+			}
 			stksize += 2 * int64(Widthptr)
 			argStart += 2 * int64(Widthptr)
 		}
@@ -4480,7 +4501,11 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		if rcvr != nil {
 			addr := s.constOffPtrSP(s.f.Config.Types.UintptrPtr, argStart)
 			ACArgs = append(ACArgs, ssa.ArgOrResult{T: types.Types[TUINTPTR], Offset: int32(argStart)})
-			s.store(types.Types[TUINTPTR], addr, rcvr)
+			if testLateExpansion {
+				callArgs = append(callArgs, rcvr)
+			} else {
+				s.store(types.Types[TUINTPTR], addr, rcvr)
+			}
 		}
 
 		// Write args.
@@ -4488,13 +4513,19 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		args := n.Rlist.Slice()
 		if n.Op == OCALLMETH {
 			f := t.Recv()
-			ACArgs = append(ACArgs, s.storeArg(args[0], f.Type, argStart+f.Offset))
+			ACArg, arg := s.storeArg(args[0], f.Type, argStart+f.Offset, testLateExpansion)
+			ACArgs = append(ACArgs, ACArg)
+			callArgs = append(callArgs, arg)
 			args = args[1:]
 		}
 		for i, n := range args {
 			f := t.Params().Field(i)
-			ACArgs = append(ACArgs, s.storeArg(n, f.Type, argStart+f.Offset))
+			ACArg, arg := s.storeArg(n, f.Type, argStart+f.Offset, testLateExpansion)
+			ACArgs = append(ACArgs, ACArg)
+			callArgs = append(callArgs, arg)
 		}
+
+		callArgs = append(callArgs, s.mem())
 
 		// call target
 		switch {
@@ -4513,13 +4544,29 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		case codeptr != nil:
 			call = s.newValue2A(ssa.OpInterCall, types.TypeMem, ssa.InterfaceAuxCall(ACArgs, ACResults), codeptr, s.mem())
 		case sym != nil:
-			call = s.newValue1A(ssa.OpStaticCall, types.TypeMem, ssa.StaticAuxCall(sym.Linksym(), ACArgs, ACResults), s.mem())
+			if testLateExpansion {
+				var tys []*types.Type
+				aux := ssa.StaticAuxCall(sym.Linksym(), ACArgs, ACResults)
+				for i := int64(0); i < aux.ResultsLen(); i++ {
+					tys = append(tys, aux.TypeOfResult(i))
+				}
+				tys = append(tys, types.TypeMem)
+				call = s.newValue0A(ssa.OpStaticLECall, types.NewResults(tys), aux)
+				call.AddArgs(callArgs...)
+			} else {
+				call = s.newValue1A(ssa.OpStaticCall, types.TypeMem, ssa.StaticAuxCall(sym.Linksym(), ACArgs, ACResults), s.mem())
+			}
 		default:
 			s.Fatalf("bad call type %v %v", n.Op, n)
 		}
 		call.AuxInt = stksize // Call operations carry the argsize of the callee along with them
 	}
-	s.vars[&memVar] = call
+	if testLateExpansion {
+		s.prevCall = call
+		s.vars[&memVar] = s.newValue1I(ssa.OpSelectN, types.TypeMem, int64(len(ACResults)), call)
+	} else {
+		s.vars[&memVar] = call
+	}
 
 	// Finish block for defers
 	if k == callDefer || k == callDeferStack {
@@ -4544,6 +4591,10 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	fp := res.Field(0)
 	if returnResultAddr {
 		return s.constOffPtrSP(types.NewPtr(fp.Type), fp.Offset+Ctxt.FixedFrameSize())
+	}
+
+	if testLateExpansion {
+		return s.newValue1I(ssa.OpSelectN, fp.Type, 0, call)
 	}
 	return s.load(n.Type, s.constOffPtrSP(types.NewPtr(fp.Type), fp.Offset+Ctxt.FixedFrameSize()))
 }
@@ -4933,6 +4984,7 @@ func (s *state) intDivide(n *Node, a, b *ssa.Value) *ssa.Value {
 // The call is added to the end of the current block.
 // If returns is false, the block is marked as an exit block.
 func (s *state) rtcall(fn *obj.LSym, returns bool, results []*types.Type, args ...*ssa.Value) []*ssa.Value {
+	s.prevCall = nil
 	// Write args to the stack
 	off := Ctxt.FixedFrameSize()
 	var ACArgs []ssa.ArgOrResult
@@ -5092,9 +5144,18 @@ func (s *state) storeTypePtrs(t *types.Type, left, right *ssa.Value) {
 	}
 }
 
-func (s *state) storeArg(n *Node, t *types.Type, off int64) ssa.ArgOrResult {
-	s.storeArgWithBase(n, t, s.sp, off)
-	return ssa.ArgOrResult{T: t, Offset: int32(off)}
+func (s *state) storeArg(n *Node, t *types.Type, off int64, testLateExpansion bool) (ssa.ArgOrResult, *ssa.Value) {
+	var a *ssa.Value
+	if testLateExpansion {
+		if !canSSAType(t) {
+			a = s.newValue2(ssa.OpDereference, t, s.addr(n), s.mem())
+		} else {
+			a = s.expr(n)
+		}
+	} else {
+		s.storeArgWithBase(n, t, s.sp, off)
+	}
+	return ssa.ArgOrResult{T: t, Offset: int32(off)}, a
 }
 
 func (s *state) storeArgWithBase(n *Node, t *types.Type, base *ssa.Value, off int64) {
