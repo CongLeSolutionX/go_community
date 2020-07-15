@@ -255,6 +255,11 @@ func (a *addrRanges) add(r addrRange) {
 	// of 16) and Go heaps are usually mostly contiguous, so the chance that
 	// an addrRanges even grows to that size is extremely low.
 
+	// An empty range has no effect on the set of addresses represented
+	// by a, so just ignore it.
+	if r.size() == 0 {
+		return
+	}
 	// Because we assume r is not currently represented in a,
 	// findSucc gives us our insertion index.
 	i := a.findSucc(r.base.addr())
