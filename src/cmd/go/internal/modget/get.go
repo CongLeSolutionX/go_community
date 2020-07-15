@@ -864,6 +864,9 @@ func getQuery(ctx context.Context, path, vers string, prevM module.Version, forc
 	return m, nil
 }
 
+// semToken is a semaphore token, used by upgrader's semaphore.
+type semToken struct{}
+
 // An upgrader adapts an underlying mvs.Reqs to apply an
 // upgrade policy to a list of targets and their dependencies.
 type upgrader struct {
@@ -878,6 +881,10 @@ type upgrader struct {
 	// matched by command line arguments. If -u or -u=patch is set,
 	// these modules are upgraded accordingly.
 	upgrade map[string]bool
+
+	// sem is a semaphore to control the concurrency of the actions of
+	// the upgrader.
+	sem chan semToken
 }
 
 // newUpgrader creates an upgrader. cmdline contains queries made at
@@ -888,6 +895,7 @@ func newUpgrader(cmdline map[string]*query, pkgs map[string]bool) *upgrader {
 	u := &upgrader{
 		Reqs:    modload.Reqs(),
 		cmdline: cmdline,
+		sem:     make(chan semToken, runtime.GOMAXPROCS(0)),
 	}
 	if getU != "" {
 		u.upgrade = make(map[string]bool)
@@ -969,6 +977,9 @@ func (u *upgrader) Required(m module.Version) ([]module.Version, error) {
 //
 // If none of the above cases apply, then Upgrade returns m.
 func (u *upgrader) Upgrade(m module.Version) (module.Version, error) {
+	u.sem <- semToken{}
+	defer func() { <-u.sem }()
+
 	// Allow pkg@vers on the command line to override the upgrade choice v.
 	// If q's version is < m.Version, then we're going to downgrade anyway,
 	// and it's cleaner to avoid moving back and forth and picking up
