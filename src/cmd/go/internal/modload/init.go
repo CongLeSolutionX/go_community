@@ -743,7 +743,7 @@ func MinReqs() mvs.Reqs {
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
-	return &mvsReqs{buildList: append([]module.Version{Target}, min...)}
+	return newReqs(append([]module.Version{Target}, min...))
 }
 
 // WriteGoMod writes the current build list back to go.mod.

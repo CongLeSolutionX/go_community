@@ -505,7 +505,7 @@ func TidyBuildList() {
 		}
 	}
 
-	min, err := mvs.Req(Target, direct, &mvsReqs{buildList: keep})
+	min, err := mvs.Req(Target, direct, newReqs(keep))
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
