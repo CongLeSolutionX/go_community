@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a35bdf4b_73549be5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-16T03:11:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right. It only matters if we take the address of the loop variable (s in the code you modified), which we don\u0027t. We only take the address of s.R[ri], which is not part of s (in the sense of memory layout).",
+      "revId": "6a488dfc43c90e59bdaa237c7431f9dabc1b3270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
