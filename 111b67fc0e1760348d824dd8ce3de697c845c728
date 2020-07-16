@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a2525fa_4903b726",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-16T13:25:03Z",
+      "side": 1,
+      "message": "Thank you for this change Brian, and great to catch you here. I’ve added a suggestion and I am also tagging Robert to take a look; good morning Robert!",
+      "revId": "111b67fc0e1760348d824dd8ce3de697c845c728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7caf63e_62ad2a24",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-16T13:25:03Z",
+      "side": 1,
+      "message": "while this is the description of the change, perhaps we could make the terms more familiar and less technical for folks who might not be versed in that standard but need the conformed result.\nPerhaps, how about something like:\nWe now correctly compute results for hyperbolic functions Cosh, Sinh, Tanh when given Inf.\nThis conforms our special case handling with the C99 standard Annex G IEC",
+      "revId": "111b67fc0e1760348d824dd8ce3de697c845c728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
