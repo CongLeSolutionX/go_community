@@ -33,6 +33,24 @@
       "revId": "111b67fc0e1760348d824dd8ce3de697c845c728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a40f147d_98f91ce3",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-07-16T18:08:48Z",
+      "side": 1,
+      "message": "I agree that Emmanuel\u0027s phrasing is a bit more approachable. Let me try to combine the two:\n\nThe hyperbolic functions Cosh, Sinh, and Tanh now conform to the C99 standard (Annex G IEC 60559-compatible complex arithmetic) with respect to handling of special arguments such as infinity.",
+      "parentUuid": "f7caf63e_62ad2a24",
+      "revId": "111b67fc0e1760348d824dd8ce3de697c845c728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
