@@ -2011,6 +2011,7 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	sect = state.allocateNamedSectionAndAssignSyms(seg, genrelrosecname(".gopclntab"), sym.SPCLNTAB, sym.SRODATA, relroSecPerm)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pclntab", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pcheader", 0), sect)
+	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.funcnametab", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pclntab_old", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.epclntab", 0), sect)
 
@@ -2067,6 +2068,7 @@ func (state *dodataState) allocateDwarfSections(ctxt *Link) {
 type symNameSize struct {
 	name string
 	sz   int64
+	val  int64
 	sym  loader.Sym
 }
 
@@ -2076,7 +2078,7 @@ func (state *dodataState) dodataSect(ctxt *Link, symn sym.SymKind, syms []loader
 	sl := make([]symNameSize, len(syms))
 	for k, s := range syms {
 		ss := ldr.SymSize(s)
-		sl[k] = symNameSize{name: ldr.SymName(s), sz: ss, sym: s}
+		sl[k] = symNameSize{name: ldr.SymName(s), sz: ss, val: ldr.SymValue(s), sym: s}
 		ds := int64(len(ldr.Data(s)))
 		switch {
 		case ss < ds:
@@ -2109,28 +2111,34 @@ func (state *dodataState) dodataSect(ctxt *Link, symn sym.SymKind, syms []loader
 	checkSize := symn != sym.SELFGOT
 
 	// Perform the sort.
-	sort.Slice(sl, func(i, j int) bool {
-		si, sj := sl[i].sym, sl[j].sym
-		switch {
-		case si == head, sj == tail:
-			return true
-		case sj == head, si == tail:
-			return false
-		}
-		if checkSize {
-			isz := sl[i].sz
-			jsz := sl[j].sz
-			if isz != jsz {
-				return isz < jsz
+	if symn != sym.SPCLNTAB {
+		sort.Slice(sl, func(i, j int) bool {
+			si, sj := sl[i].sym, sl[j].sym
+			switch {
+			case si == head, sj == tail:
+				return true
+			case sj == head, si == tail:
+				return false
 			}
-		}
-		iname := sl[i].name
-		jname := sl[j].name
-		if iname != jname {
-			return iname < jname
-		}
-		return si < sj
-	})
+			if checkSize {
+				isz := sl[i].sz
+				jsz := sl[j].sz
+				if isz != jsz {
+					return isz < jsz
+				}
+			}
+			iname := sl[i].name
+			jname := sl[j].name
+			if iname != jname {
+				return iname < jname
+			}
+			return si < sj
+		})
+	} else {
+		// PCLNTAB was built internally, and has the proper order based on value.
+		// Sort the symbols as such.
+		sort.Slice(sl, func(i, j int) bool { return sl[i].val < sl[j].val })
+	}
 
 	// Set alignment, construct result
 	syms = syms[:0]
@@ -2568,8 +2576,9 @@ func (ctxt *Link) address() []*sym.Segment {
 	ctxt.xdefine("runtime.symtab", sym.SRODATA, int64(symtab.Vaddr))
 	ctxt.xdefine("runtime.esymtab", sym.SRODATA, int64(symtab.Vaddr+symtab.Length))
 	ctxt.xdefine("runtime.pclntab", sym.SRODATA, int64(pclntab.Vaddr))
-	pcvar := ctxt.xdefine("runtime.pcheader", sym.SRODATA, int64(pclntab.Vaddr))
-	ctxt.xdefine("runtime.pclntab_old", sym.SRODATA, int64(pclntab.Vaddr)+ldr.SymSize(pcvar))
+	ctxt.defineInternal("runtime.pcheader", sym.SRODATA)
+	ctxt.defineInternal("runtime.funcnametab", sym.SRODATA)
+	ctxt.defineInternal("runtime.pclntab_old", sym.SRODATA)
 	ctxt.xdefine("runtime.epclntab", sym.SRODATA, int64(pclntab.Vaddr+pclntab.Length))
 	ctxt.xdefine("runtime.noptrdata", sym.SNOPTRDATA, int64(noptr.Vaddr))
 	ctxt.xdefine("runtime.enoptrdata", sym.SNOPTRDATA, int64(noptr.Vaddr+noptr.Length))
