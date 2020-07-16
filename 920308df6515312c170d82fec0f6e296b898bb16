@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63b929db_fdcd9242",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-16T13:38:09Z",
+      "side": 1,
+      "message": "sync: fix goroutine leak for when TestMutexFairness times out",
+      "revId": "920308df6515312c170d82fec0f6e296b898bb16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833adbec_63b66911",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-16T13:38:09Z",
+      "side": 1,
+      "message": "We don’t include these in Go commit messages. Please remove this.",
+      "revId": "920308df6515312c170d82fec0f6e296b898bb16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "551ceaca_0e7c96ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-16T13:38:09Z",
+      "side": 1,
+      "message": "If the timeout triggers before writing to the done channel, the\ngoroutine will be blocked waiting for a corresponding read that’s\nno longer exist, thus a goroutine leak. This change fixes that by\nusing a buffered channel instead.",
+      "revId": "920308df6515312c170d82fec0f6e296b898bb16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "389fe629_4d785528",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-16T13:38:09Z",
+      "side": 1,
+      "message": "Please delete the content from this line until down below, as that’s the template.",
+      "revId": "920308df6515312c170d82fec0f6e296b898bb16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "792e6ba0_e3f829a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-16T13:38:09Z",
+      "side": 1,
+      "message": "Thank you for this change Guarav. I’ve added some suggestions, please a look.\nPlease note that for the commit message changes to be mirrored here, you’ll have to\nmanually edit the Github PR title and description.",
+      "revId": "920308df6515312c170d82fec0f6e296b898bb16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
