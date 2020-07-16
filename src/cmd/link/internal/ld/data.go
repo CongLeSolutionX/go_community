@@ -1887,6 +1887,7 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	sect = state.allocateNamedSectionAndAssignSyms(seg, genrelrosecname(".gopclntab"), sym.SPCLNTAB, sym.SRODATA, relroSecPerm)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pclntab", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pcheader", 0), sect)
+	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.funcnametab", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pclntab_old", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.epclntab", 0), sect)
 
@@ -2445,6 +2446,7 @@ func (ctxt *Link) address() []*sym.Segment {
 	ctxt.xdefine("runtime.esymtab", sym.SRODATA, int64(symtab.Vaddr+symtab.Length))
 	ctxt.defineInternal("runtime.pclntab", sym.SRODATA)
 	ctxt.defineInternal("runtime.pcheader", sym.SRODATA)
+	ctxt.defineInternal("runtime.funcnametab", sym.SRODATA)
 	ctxt.defineInternal("runtime.pclntab_old", sym.SRODATA)
 	ctxt.xdefine("runtime.epclntab", sym.SRODATA, int64(pclntab.Vaddr+pclntab.Length))
 	ctxt.xdefine("runtime.noptrdata", sym.SNOPTRDATA, int64(noptr.Vaddr))
