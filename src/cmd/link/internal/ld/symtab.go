@@ -609,6 +609,11 @@ func (ctxt *Link) symtab(state *pclnState) []sym.SymKind {
 	moduledata := ldr.MakeSymbolUpdater(ctxt.Moduledata)
 	// The pcHeader
 	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("runtime.pcheader", 0))
+	// The function name slice
+	funcnametab := ldr.Lookup("runtime.funcnametab", 0)
+	moduledata.AddAddr(ctxt.Arch, funcnametab)
+	moduledata.AddUint(ctxt.Arch, uint64(ldr.SymSize(funcnametab)))
+	moduledata.AddUint(ctxt.Arch, uint64(ldr.SymSize(funcnametab)))
 	// The pclntab slice
 	pclntab := ldr.Lookup("runtime.pclntab_old", 0)
 	moduledata.AddAddr(ctxt.Arch, pclntab)
