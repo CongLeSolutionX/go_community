@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e4c8d69_90d7d671",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-07-16T11:24:49Z",
+      "side": 1,
+      "message": "The patch is introducing a new API and not referencing a GitHub proposal. If not done please follow the proposal process to get this dicsussed and approved first by starting creating a GitHub starting with title \"proposal: \". See https://github.com/golang/proposal for details of the process.\n\nAdding -2 so it does not get submitted before proposal approval.",
+      "revId": "995e45d26b8eee4cebddfaf9e13fa1bc901e02ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
