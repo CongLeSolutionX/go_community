@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78b7248c_56154df6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-07-17T18:31:41Z",
+      "side": 1,
+      "message": "LGTM, put please spell nan as NaN.",
+      "revId": "c76522a12da979261ca68a5dc8c56dc68f2bba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6f25ff_b90b0966",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-07-17T18:31:41Z",
+      "side": 1,
+      "message": "s/nan/NaN/",
+      "range": {
+        "startLine": 708,
+        "startChar": 45,
+        "endLine": 708,
+        "endChar": 48
+      },
+      "revId": "c76522a12da979261ca68a5dc8c56dc68f2bba04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
