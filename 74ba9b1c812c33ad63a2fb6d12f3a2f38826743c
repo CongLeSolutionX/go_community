@@ -16,6 +16,40 @@
       "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebf9a7fa_a7b27071",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2020-07-17T15:42:42Z",
+      "side": 1,
+      "message": "Should this be one word \"CommonName\" instead of two?",
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bf2a169_b072f4d9",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2020-07-17T15:42:42Z",
+      "side": 1,
+      "message": "Maybe a sentence about how to fix it? \"Create a new X.509 certificate with the old CommonName field value in the Subject Alternative Name field,\" or similar.\n\nI don\u0027t feel strongly about it.",
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
