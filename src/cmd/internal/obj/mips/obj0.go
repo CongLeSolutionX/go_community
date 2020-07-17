@@ -236,11 +236,11 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				p.Mark |= BRANCH
 			}
 			q = p
-			q1 = p.Pcond
+			q1 = p.To.Target()
 			if q1 != nil {
 				for q1.As == obj.ANOP {
 					q1 = q1.Link
-					p.Pcond = q1
+					p.To.SetTarget(q1)
 				}
 
 				if q1.Mark&LEAF == 0 {
@@ -444,8 +444,8 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q = obj.Appendp(q, newprog)
 
 				q.As = obj.ANOP
-				p1.Pcond = q
-				p2.Pcond = q
+				p1.To.SetTarget(q)
+				p2.To.SetTarget(q)
 			}
 
 		case ARET:
@@ -798,7 +798,7 @@ func (c *ctxt0) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	p.To.Type = obj.TYPE_REG
 	p.To.Reg = REG_R3
 	if q != nil {
-		q.Pcond = p
+		q.To.SetTarget(p)
 		p.Mark |= LABEL
 	}
 
@@ -825,14 +825,14 @@ func (c *ctxt0) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 
 	p.As = AJMP
 	p.To.Type = obj.TYPE_BRANCH
-	p.Pcond = c.cursym.Func.Text.Link
+	p.To.SetTarget(c.cursym.Func.Text.Link)
 	p.Mark |= BRANCH
 
 	// placeholder for q1's jump target
 	p = obj.Appendp(p, c.newprog)
 
 	p.As = obj.ANOP // zero-width place holder
-	q1.Pcond = p
+	q1.To.SetTarget(p)
 
 	return p
 }

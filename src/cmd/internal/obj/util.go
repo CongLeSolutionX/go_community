@@ -251,8 +251,6 @@ func WriteDconv(w io.Writer, p *Prog, a *Addr) {
 	case TYPE_BRANCH:
 		if a.Sym != nil {
 			fmt.Fprintf(w, "%s(SB)", a.Sym.Name)
-		} else if p != nil && p.Pcond != nil {
-			fmt.Fprint(w, p.Pcond.Pc)
 		} else if a.Val != nil {
 			fmt.Fprint(w, a.Val.(*Prog).Pc)
 		} else {

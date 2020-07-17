@@ -555,11 +555,11 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			ABVS:
 			p.Mark |= BRANCH
 			q = p
-			q1 = p.Pcond
+			q1 = p.To.Target()
 			if q1 != nil {
 				for q1.As == obj.ANOP {
 					q1 = q1.Link
-					p.Pcond = q1
+					p.To.SetTarget(q1)
 				}
 
 				if q1.Mark&LEAF == 0 {
@@ -844,8 +844,8 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q = obj.Appendp(q, c.newprog)
 
 				q.As = obj.ANOP
-				p1.Pcond = q
-				p2.Pcond = q
+				p1.To.SetTarget(q)
+				p2.To.SetTarget(q)
 			}
 
 		case obj.ARET:
@@ -1156,7 +1156,7 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	p.To.Type = obj.TYPE_REG
 	p.To.Reg = REG_R5
 	if q != nil {
-		q.Pcond = p
+		q.To.SetTarget(p)
 	}
 
 	p = c.ctxt.EmitEntryStackMap(c.cursym, p, c.newprog)
@@ -1251,13 +1251,13 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	p = obj.Appendp(p, c.newprog)
 	p.As = ABR
 	p.To.Type = obj.TYPE_BRANCH
-	p.Pcond = p0.Link
+	p.To.SetTarget(p0.Link)
 
 	// placeholder for q1's jump target
 	p = obj.Appendp(p, c.newprog)
 
 	p.As = obj.ANOP // zero-width place holder
-	q1.Pcond = p
+	q1.To.SetTarget(p)
 
 	return p
 }
