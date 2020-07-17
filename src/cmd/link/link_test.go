@@ -549,6 +549,40 @@ func TestStrictDup(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD   (88382a [dev.link] cmd/link: stream out external relocations on AMD6)
+=======
+func TestOldLink(t *testing.T) {
+	// Test that old object file format still works.
+	// TODO(go115newobj): delete.
+
+	testenv.MustHaveGoBuild(t)
+
+	// Check that the old linker exists (we don't ship it in binary releases,
+	// see issue 39509).
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "-n", "oldlink")
+	if err := cmd.Run(); err != nil {
+		t.Skip("skipping because cannot find installed cmd/oldlink binary")
+	}
+
+	tmpdir, err := ioutil.TempDir("", "TestOldLink")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(tmpdir)
+
+	src := filepath.Join(tmpdir, "main.go")
+	err = ioutil.WriteFile(src, []byte("package main; func main(){}\n"), 0666)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	cmd = exec.Command(testenv.GoToolPath(t), "run", "-gcflags=all=-go115newobj=false", "-asmflags=all=-go115newobj=false", "-ldflags=-go115newobj=false", src)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Errorf("%v: %v:\n%s", cmd.Args, err, out)
+	}
+}
+
+>>>>>>> BRANCH (6f2648 go/printer: remove exported StdFormat flag)
 const testFuncAlignSrc = `
 package main
 import (
