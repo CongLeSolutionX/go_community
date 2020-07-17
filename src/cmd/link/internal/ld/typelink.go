@@ -5,7 +5,6 @@
 package ld
 
 import (
-	"cmd/internal/objabi"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"sort"
@@ -33,19 +32,21 @@ func (ctxt *Link) typelink() {
 			typelinks = append(typelinks, typelinkSortKey{decodetypeStr(ldr, ctxt.Arch, s), s})
 		}
 	}
+	if len(typelinks) == 0 {
+		return
+	}
 	sort.Sort(typelinks)
 
-	tl := ldr.CreateSymForUpdate("runtime.typelink", 0)
-	tl.SetType(sym.STYPELINK)
-	ldr.SetAttrLocal(tl.Sym(), true)
-	tl.SetSize(int64(4 * len(typelinks)))
-	tl.Grow(tl.Size())
-	relocs := tl.AddRelocs(len(typelinks))
-	for i, s := range typelinks {
-		r := relocs.At2(i)
-		r.SetSym(s.Type)
-		r.SetOff(int32(i * 4))
-		r.SetSiz(4)
-		r.SetType(objabi.R_ADDROFF)
+	genTypelink := func(ctxt *Link, tl loader.Sym) {
+		ldr := ctxt.loader
+		sb := ldr.MakeSymbolUpdater(tl)
+		// We record the offsets for each type symbol from the section.
+		// All type symbols are in the same section.
+		base := int64(ldr.SymSect(typelinks[0].Type).Vaddr)
+		for i, s := range typelinks {
+			sb.SetUint32(ctxt.Arch, int64(i*4), uint32(ldr.SymValue(s.Type)-base))
+		}
 	}
+	tl := ctxt.createGeneratorSymbol("runtime.typelink", 0, sym.STYPELINK, int64(4*len(typelinks)), genTypelink)
+	ldr.SetAttrLocal(tl, true)
 }

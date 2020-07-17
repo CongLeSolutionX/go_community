@@ -169,6 +169,7 @@ func (ctxt *Link) createGeneratorSymbol(name string, version int, t sym.SymKind,
 	ldr := ctxt.loader
 	s := ldr.LookupOrCreateSym(name, version)
 	ldr.SetIsGeneratedSym(s, true)
+	ldr.SetAttrReachable(s, true)
 	sb := ldr.MakeSymbolUpdater(s)
 	sb.SetType(t)
 	sb.SetSize(size)
