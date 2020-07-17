@@ -51,6 +51,24 @@
       "revId": "111b67fc0e1760348d824dd8ce3de697c845c728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbf1f58b_79b38576",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-07-17T18:19:12Z",
+      "side": 1,
+      "message": "That is better, but not just the hyperbolic functions were updated.  The trigonometric, inverse trigonometric, hyperbolic, inverse hyperbolic, Sqrt, Exp and Log10 were all updated, which is most of the functions in the package.  Maybe just something general like:\n\nThe functions in this package were updated to conform to the C99 standard (Annex G IEC 60559-compatible complex arithmetic) with respect to handling of special arguments such as infinity, nan and signed zero.",
+      "parentUuid": "a40f147d_98f91ce3",
+      "revId": "111b67fc0e1760348d824dd8ce3de697c845c728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
