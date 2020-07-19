@@ -7,6 +7,7 @@ package iotest
 import (
 	"bytes"
 	"io"
+	"strings"
 	"testing"
 )
 
@@ -222,5 +223,14 @@ func TestDataErrReader_emptyReader(t *testing.T) {
 	}
 	if g, w := n, 0; g != w {
 		t.Errorf("Unexpectedly read %d bytes, wanted %d", g, w)
+	}
+}
+
+func TestStringsReader(t *testing.T) {
+	const msg = "Now is the time for all good gophers."
+
+	r := strings.NewReader(msg)
+	if err := TestReader(r, []byte(msg)); err != nil {
+		t.Fatal(err)
 	}
 }
