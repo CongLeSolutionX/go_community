@@ -141,6 +141,9 @@ func emitPcln(ctxt *Link, s loader.Sym, container loader.Bitmap) bool {
 	if ctxt.BuildMode == BuildModePlugin && ctxt.HeadType == objabi.Hdarwin && onlycsymbol(ctxt.loader.SymName(s)) {
 		return false
 	}
+	if ctxt.Target.IsRISCV64() && ctxt.loader.SymName(s) == ".L0 " {
+		return false
+	}
 	// We want to generate func table entries only for the "lowest
 	// level" symbols, not containers of subsymbols.
 	return !container.Has(s)

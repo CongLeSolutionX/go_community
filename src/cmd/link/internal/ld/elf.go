@@ -12,6 +12,7 @@ import (
 	"crypto/sha1"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -504,6 +505,9 @@ func Elfinit(ctxt *Link) {
 	case sys.AMD64, sys.ARM64, sys.MIPS64, sys.RISCV64:
 		if ctxt.Arch.Family == sys.MIPS64 {
 			ehdr.flags = 0x20000004 /* MIPS 3 CPIC */
+		}
+		if ctxt.Arch.Family == sys.RISCV64 {
+			ehdr.flags = 0x4 /* RISCV Float ABI Double */
 		}
 		elf64 = true
 
@@ -1422,7 +1426,7 @@ func elfrelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []loader.Sym)
 
 	// sanity check
 	if uint64(out.Offset()) != sect.Reloff+sect.Rellen {
-		panic("elfrelocsect: size mismatch")
+		panic(fmt.Sprintf("elfrelocsect: size mismatch %d != %d + %d", out.Offset(), sect.Reloff, sect.Rellen))
 	}
 }
 

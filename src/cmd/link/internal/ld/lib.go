@@ -243,6 +243,7 @@ type Arch struct {
 	ElfrelocSize   uint32 // size of an ELF relocation record, must match Elfreloc1.
 	Elfsetupplt    func(ctxt *Link, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym)
 	Gentext        func(*Link, *loader.Loader)
+	Gentext2       func(*Link, *loader.Loader)
 	Machoreloc1    func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtRelocView, int64) bool
 	MachorelocSize uint32 // size of an Mach-O relocation record, must match Machoreloc1.
 	PEreloc1       func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtRelocView, int64) bool
@@ -812,6 +813,12 @@ func (ctxt *Link) linksetup() {
 		intlibs = append(intlibs, isRuntimeDepPkg(lib.Pkg))
 	}
 	ctxt.Textp = ctxt.loader.AssignTextSymbolOrder(ctxt.Library, intlibs, ctxt.Textp)
+
+	sbv := make(map[int64]loader.Sym, len(ctxt.Textp))
+	for _, s := range ctxt.Textp {
+		sbv[ctxt.loader.SymValue(s)] = s
+	}
+	ctxt.TextpByValue = sbv
 }
 
 // mangleTypeSym shortens the names of symbols that represent Go types

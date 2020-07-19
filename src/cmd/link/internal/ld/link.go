@@ -71,6 +71,7 @@ type Link struct {
 	LibraryByPkg map[string]*sym.Library
 	Shlibs       []Shlib
 	Textp        []loader.Sym
+	TextpByValue map[int64]loader.Sym
 	NumFilesyms  int
 	Moduledata   loader.Sym
 
