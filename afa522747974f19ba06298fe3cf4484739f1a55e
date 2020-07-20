@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd685e0f_c0ec90e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2020-07-20T22:47:03Z",
+      "side": 1,
+      "message": "Looking at the build dashboard (https://build.golang.org/?repo\u003d\u0026branch\u003ddev.go2go), it doesn\u0027t seem like this CL broke the failing test. Just want to confirm that it\u0027s OK to submit?",
+      "revId": "afa522747974f19ba06298fe3cf4484739f1a55e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
