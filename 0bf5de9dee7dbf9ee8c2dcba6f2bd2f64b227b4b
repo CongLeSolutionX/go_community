@@ -22,6 +22,30 @@
       "revId": "0bf5de9dee7dbf9ee8c2dcba6f2bd2f64b227b4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6f51b31_ddfc4ee5",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-07-20T15:49:20Z",
+      "side": 1,
+      "message": "Because there are instructions that have both Pool entries and targets.",
+      "parentUuid": "3aa48d47_dd6dcf84",
+      "range": {
+        "startLine": 1249,
+        "startChar": 5,
+        "endLine": 1249,
+        "endChar": 9
+      },
+      "revId": "0bf5de9dee7dbf9ee8c2dcba6f2bd2f64b227b4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
