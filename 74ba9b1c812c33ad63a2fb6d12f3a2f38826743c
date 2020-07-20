@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "fcd693dd_04f96e0b",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-07-20T13:53:48Z",
+      "side": 1,
+      "message": "s/hostname/host name ? (here and below)",
+      "range": {
+        "startLine": 383,
+        "startChar": 35,
+        "endLine": 383,
+        "endChar": 43
+      },
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3bf2a169_b072f4d9",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -47,6 +70,52 @@
       "writtenOn": "2020-07-17T15:42:42Z",
       "side": 1,
       "message": "Maybe a sentence about how to fix it? \"Create a new X.509 certificate with the old CommonName field value in the Subject Alternative Name field,\" or similar.\n\nI don\u0027t feel strongly about it.",
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e112c8ce_6aee62f0",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-07-20T13:53:48Z",
+      "side": 1,
+      "message": "Do we have a full list somewhere that we can link here?",
+      "range": {
+        "startLine": 391,
+        "startChar": 11,
+        "endLine": 391,
+        "endChar": 18
+      },
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63ccd94_a3731647",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-07-20T13:53:48Z",
+      "side": 1,
+      "message": "\"it\u0027s always ignored, and cannot be temporarily re-enabled\" ?",
+      "range": {
+        "startLine": 391,
+        "startChar": 2,
+        "endLine": 391,
+        "endChar": 9
+      },
       "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
