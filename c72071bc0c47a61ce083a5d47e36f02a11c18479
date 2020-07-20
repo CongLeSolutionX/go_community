@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a5efce0_815e4d91",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-20T22:49:20Z",
+      "side": 1,
+      "message": "I\u0027m not too keen on the amount of duplication between the hashed64Def and hashedDef cases. Can we merge those better?",
+      "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09c776f7_50a48312",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-20T22:49:20Z",
+      "side": 1,
+      "message": "Can the size and alignment conflict? E.g., once symbol is bigger but the other has a higher alignment?",
+      "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74cbf58e_694655b5",
+        "filename": "src/cmd/link/testdata/testHashedSyms/p.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-20T22:49:20Z",
+      "side": 1,
+      "message": "Mention what the test is testing (e.g., the expected/buggy behavior)",
+      "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
