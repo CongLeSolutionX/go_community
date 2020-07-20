@@ -447,7 +447,7 @@ func (l *Loader) addSym(name string, ver int, r *oReader, li uint32, kind int, o
 			// 8 bytes, and trailing zeros doesn't change the hash value, e.g.
 			// hash("A") == hash("A\0\0\0").
 			// So when two symbols have the same hash, we need to use the one with
-			// larget size.
+			// larger size.
 			if siz <= s.size {
 				if align > s.align { // we need to use the biggest alignment
 					l.SetSymAlign(s.sym, int32(align))
@@ -473,21 +473,32 @@ func (l *Loader) addSym(name string, ver int, r *oReader, li uint32, kind int, o
 		// referenced by name. Also no need to do overwriting
 		// check, as same hash indicates same content.
 		hash := r.Hash(li - uint32(r.ndef+r.nhashed64def))
+		siz := osym.Siz()
+		align := osym.Align()
 		if s, existed := l.hashedSyms[*hash]; existed {
-			if s.size != osym.Siz() {
-				fmt.Printf("hash collision: %v (size %d) and %v (size %d), hash %x\n", l.SymName(s.sym), s.size, osym.Name(r.Reader), osym.Siz(), *hash)
-				panic("hash collision")
-			}
-			if l.flags&FlagStrictDups != 0 {
-				l.checkdup(name, r, li, s.sym)
-			}
-			if a := osym.Align(); a > s.align { // we need to use the biggest alignment
-				l.SetSymAlign(s.sym, int32(a))
-				l.hashedSyms[*hash] = symSizeAlign{s.sym, s.size, a}
+			// The content hash is built from symbol data and relocations. In the
+			// object file, the symbol data may not always contain trailing zeros,
+			// e.g. for [5]int{1,2,3} and [100]int{1,2,3}, the data is same
+			// (although the size is different).
+			// So when two symbols have the same hash, we need to use the one with
+			// larger size.
+			if siz <= s.size {
+				if align > s.align { // we need to use the biggest alignment
+					l.SetSymAlign(s.sym, int32(align))
+					l.hashedSyms[*hash] = symSizeAlign{s.sym, s.size, align}
+				}
+			} else {
+				// New symbol has larger size, use the new one. Rewrite the index mapping.
+				l.objSyms[s.sym] = objSym{r.objidx, li}
+				if align < s.align {
+					align = s.align // keep the biggest alignment
+					l.SetSymAlign(s.sym, int32(align))
+				}
+				l.hashedSyms[*hash] = symSizeAlign{s.sym, siz, align}
 			}
 			return s.sym, false
 		}
-		l.hashedSyms[*hash] = symSizeAlign{i, osym.Siz(), osym.Align()}
+		l.hashedSyms[*hash] = symSizeAlign{i, siz, align}
 		addToGlobal()
 		return i, true
 	}
