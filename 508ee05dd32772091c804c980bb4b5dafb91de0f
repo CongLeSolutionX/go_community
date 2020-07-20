@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c5e2646_f66eeea8",
+        "filename": "src/go/ast/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-07-20T22:13:40Z",
+      "side": 1,
+      "message": "This also needs:\n\nwalkExprList(v, n.TArgs)\n\nIt basically should do the same as a Call (the only difference really is that this node uses []\u0027s while calls use ()\u0027s when printing. At some point this needs to be simplified. (This is a prototype.)",
+      "revId": "508ee05dd32772091c804c980bb4b5dafb91de0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
