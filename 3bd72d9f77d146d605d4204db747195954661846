@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f87b1e79_b8328deb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-20T18:01:26Z",
+      "side": 1,
+      "message": "Thanks.\n\nR\u003dgo1.16\n",
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a87f5db_15cc43f7",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-20T18:01:26Z",
+      "side": 1,
+      "message": "If we only need this for RISCV64, only do it there (for performance reasons).\n\nAnother option is not introducing this map but do binary search on Textp (as it is sorted) when necessary.",
+      "range": {
+        "startLine": 817,
+        "startChar": 0,
+        "endLine": 821,
+        "endChar": 24
+      },
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b1c611_7d746768",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-20T18:01:26Z",
+      "side": 1,
+      "message": "I wonder if we need to do it this early. Could we do it right before asmb? Then you probably don\u0027t need the change in pcln.go.",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 2
+      },
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e75104b2_756deb54",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-20T18:01:26Z",
+      "side": 1,
+      "message": "I think the code in this file is used only for internal linking with cgo, not external linking. Move it to a separate CL.",
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16b9678a_d0a1c78a",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-20T18:01:26Z",
+      "side": 1,
+      "message": "Do you need to sort textp?",
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
