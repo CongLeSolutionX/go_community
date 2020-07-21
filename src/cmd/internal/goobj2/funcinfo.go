@@ -16,6 +16,7 @@ import (
 type FuncInfo struct {
 	Args   uint32
 	Locals uint32
+	FuncID uint32
 
 	Pcsp        uint32
 	Pcfile      uint32
@@ -38,6 +39,7 @@ func (a *FuncInfo) Write(w *bytes.Buffer) {
 
 	writeUint32(a.Args)
 	writeUint32(a.Locals)
+	writeUint32(a.FuncID)
 
 	writeUint32(a.Pcsp)
 	writeUint32(a.Pcfile)
@@ -72,6 +74,7 @@ func (a *FuncInfo) Read(b []byte) {
 
 	a.Args = readUint32()
 	a.Locals = readUint32()
+	a.FuncID = readUint32()
 
 	a.Pcsp = readUint32()
 	a.Pcfile = readUint32()
@@ -120,7 +123,7 @@ type FuncInfoLengths struct {
 func (*FuncInfo) ReadFuncInfoLengths(b []byte) FuncInfoLengths {
 	var result FuncInfoLengths
 
-	const numpcdataOff = 24
+	const numpcdataOff = 28
 	result.NumPcdata = binary.LittleEndian.Uint32(b[numpcdataOff:])
 	result.PcdataOff = numpcdataOff + 4
 
@@ -146,24 +149,26 @@ func (*FuncInfo) ReadArgs(b []byte) uint32 { return binary.LittleEndian.Uint32(b
 
 func (*FuncInfo) ReadLocals(b []byte) uint32 { return binary.LittleEndian.Uint32(b[4:]) }
 
-// return start and end offsets.
-func (*FuncInfo) ReadPcsp(b []byte) (uint32, uint32) {
-	return binary.LittleEndian.Uint32(b[8:]), binary.LittleEndian.Uint32(b[12:])
-}
+func (*FuncInfo) ReadFuncID(b []byte) uint32 { return binary.LittleEndian.Uint32(b[8:]) }
 
 // return start and end offsets.
-func (*FuncInfo) ReadPcfile(b []byte) (uint32, uint32) {
+func (*FuncInfo) ReadPcsp(b []byte) (uint32, uint32) {
 	return binary.LittleEndian.Uint32(b[12:]), binary.LittleEndian.Uint32(b[16:])
 }
 
 // return start and end offsets.
-func (*FuncInfo) ReadPcline(b []byte) (uint32, uint32) {
+func (*FuncInfo) ReadPcfile(b []byte) (uint32, uint32) {
 	return binary.LittleEndian.Uint32(b[16:]), binary.LittleEndian.Uint32(b[20:])
 }
 
 // return start and end offsets.
+func (*FuncInfo) ReadPcline(b []byte) (uint32, uint32) {
+	return binary.LittleEndian.Uint32(b[20:]), binary.LittleEndian.Uint32(b[24:])
+}
+
+// return start and end offsets.
 func (*FuncInfo) ReadPcinline(b []byte, pcdataoffset uint32) (uint32, uint32) {
-	return binary.LittleEndian.Uint32(b[20:]), binary.LittleEndian.Uint32(b[pcdataoffset:])
+	return binary.LittleEndian.Uint32(b[24:]), binary.LittleEndian.Uint32(b[pcdataoffset:])
 }
 
 // return start and end offsets.
