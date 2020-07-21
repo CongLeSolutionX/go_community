@@ -157,6 +157,7 @@ func (r *objReader) readNew() {
 		f := &Func{
 			Args:     int64(info.Args),
 			Frame:    int64(info.Locals),
+			FuncID:   objabi.FuncID(info.FuncID),
 			NoSplit:  osym.NoSplit(),
 			Leaf:     osym.Leaf(),
 			TopFrame: osym.TopFrame(),

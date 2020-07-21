@@ -94,20 +94,21 @@ type Var struct {
 
 // Func contains additional per-symbol information specific to functions.
 type Func struct {
-	Args     int64      // size in bytes of argument frame: inputs and outputs
-	Frame    int64      // size in bytes of local variable frame
-	Align    uint32     // alignment requirement in bytes for the address of the function
-	Leaf     bool       // function omits save of link register (ARM)
-	NoSplit  bool       // function omits stack split prologue
-	TopFrame bool       // function is the top of the call stack
-	Var      []Var      // detail about local variables
-	PCSP     Data       // PC → SP offset map
-	PCFile   Data       // PC → file number map (index into File)
-	PCLine   Data       // PC → line number map
-	PCInline Data       // PC → inline tree index map
-	PCData   []Data     // PC → runtime support data map
-	FuncData []FuncData // non-PC-specific runtime support data
-	File     []string   // paths indexed by PCFile
+	Args     int64         // size in bytes of argument frame: inputs and outputs
+	FuncID   objabi.FuncID // signifies functions that need to be treated specially by GC
+	Frame    int64         // size in bytes of local variable frame
+	Align    uint32        // alignment requirement in bytes for the address of the function
+	Leaf     bool          // function omits save of link register (ARM)
+	NoSplit  bool          // function omits stack split prologue
+	TopFrame bool          // function is the top of the call stack
+	Var      []Var         // detail about local variables
+	PCSP     Data          // PC → SP offset map
+	PCFile   Data          // PC → file number map (index into File)
+	PCLine   Data          // PC → line number map
+	PCInline Data          // PC → inline tree index map
+	PCData   []Data        // PC → runtime support data map
+	FuncData []FuncData    // non-PC-specific runtime support data
+	File     []string      // paths indexed by PCFile
 	InlTree  []InlinedCall
 }
 
@@ -591,6 +592,7 @@ func (r *objReader) parseObject(prefix []byte) error {
 			f := new(Func)
 			s.Func = f
 			f.Args = r.readInt()
+			f.FuncID = objabi.FuncID(r.readInt())
 			f.Frame = r.readInt()
 			f.Align = uint32(r.readInt())
 			flags := r.readInt()
