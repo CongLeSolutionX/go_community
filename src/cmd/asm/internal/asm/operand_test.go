@@ -28,7 +28,7 @@ func setArch(goarch string) (*arch.Arch, *obj.Link) {
 
 func newParser(goarch string) *Parser {
 	architecture, ctxt := setArch(goarch)
-	return NewParser(ctxt, architecture, nil)
+	return NewParser(ctxt, architecture, nil, "")
 }
 
 // tryParse executes parse func in panicOnError=true context.

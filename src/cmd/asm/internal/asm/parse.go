@@ -43,6 +43,7 @@ type Parser struct {
 	dataAddr      map[string]int64 // Most recent address for DATA for this symbol.
 	isJump        bool             // Instruction being assembled is a jump.
 	errorWriter   io.Writer
+	pkgName       string
 }
 
 type Patch struct {
@@ -50,7 +51,7 @@ type Patch struct {
 	label string
 }
 
-func NewParser(ctxt *obj.Link, ar *arch.Arch, lexer lex.TokenReader) *Parser {
+func NewParser(ctxt *obj.Link, ar *arch.Arch, lexer lex.TokenReader, pkgName string) *Parser {
 	return &Parser{
 		ctxt:        ctxt,
 		arch:        ar,
@@ -58,6 +59,7 @@ func NewParser(ctxt *obj.Link, ar *arch.Arch, lexer lex.TokenReader) *Parser {
 		labels:      make(map[string]*obj.Prog),
 		dataAddr:    make(map[string]int64),
 		errorWriter: os.Stderr,
+		pkgName:     pkgName,
 	}
 }
 
