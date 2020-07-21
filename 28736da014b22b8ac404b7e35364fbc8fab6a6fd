@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a1718b8_0d6946e9",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-21T21:57:03Z",
+      "side": 1,
+      "message": "In CL 243142 I added PkgPath to ctxt. It may be simpler to use that instead of threading the argument.",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f80ef33_5d36bc22",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-21T21:57:03Z",
+      "side": 1,
+      "message": "This seems weird. I don\u0027t think we want to treat an unknown package as the runtime package. Why do we need this?",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 2
+      },
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0af3620f_ae84aba3",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-21T21:57:03Z",
+      "side": 1,
+      "message": "I wonder if it is simpler to use LSym.Attribute instead of a textflag. (Probably fine either way)",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
