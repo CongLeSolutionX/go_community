@@ -5,6 +5,7 @@
 package par
 
 import (
+	"context"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -16,7 +17,7 @@ func TestWork(t *testing.T) {
 	const N = 10000
 	n := int32(0)
 	w.Add(N)
-	w.Do(100, func(x interface{}) {
+	w.Do(context.Background(), 100, func(ctx context.Context, x interface{}) {
 		atomic.AddInt32(&n, 1)
 		i := x.(int)
 		if i >= 2 {
@@ -40,7 +41,7 @@ func TestWorkParallel(t *testing.T) {
 		}
 		start := time.Now()
 		var n int32
-		w.Do(N, func(x interface{}) {
+		w.Do(context.Background(), N, func(ctx context.Context, x interface{}) {
 			time.Sleep(1 * time.Millisecond)
 			atomic.AddInt32(&n, +1)
 		})

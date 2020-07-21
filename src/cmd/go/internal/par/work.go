@@ -6,16 +6,19 @@
 package par
 
 import (
+	"context"
 	"math/rand"
 	"sync"
 	"sync/atomic"
+
+	"cmd/go/internal/trace"
 )
 
 // Work manages a set of work items to be executed in parallel, at most once each.
 // The items in the set must all be valid map keys.
 type Work struct {
-	f       func(interface{}) // function to run for each item
-	running int               // total number of runners
+	f       func(context.Context, interface{}) // function to run for each item
+	running int                                // total number of runners
 
 	mu      sync.Mutex
 	added   map[interface{}]bool // items added to set
@@ -51,7 +54,7 @@ func (w *Work) Add(item interface{}) {
 // before calling Do (or else Do returns immediately),
 // but it is allowed for f(item) to add new items to the set.
 // Do should only be used once on a given Work.
-func (w *Work) Do(n int, f func(item interface{})) {
+func (w *Work) Do(ctx context.Context, n int, f func(ctx context.Context, item interface{})) {
 	if n < 1 {
 		panic("par.Work.Do: n < 1")
 	}
@@ -64,15 +67,16 @@ func (w *Work) Do(n int, f func(item interface{})) {
 	w.wait.L = &w.mu
 
 	for i := 0; i < n-1; i++ {
-		go w.runner()
+		ctx := trace.StartGoroutine(ctx)
+		go w.runner(ctx)
 	}
-	w.runner()
+	w.runner(ctx)
 }
 
 // runner executes work in w until both nothing is left to do
 // and all the runners are waiting for work.
 // (Then all the runners return.)
-func (w *Work) runner() {
+func (w *Work) runner(ctx context.Context) {
 	for {
 		// Wait for something to do.
 		w.mu.Lock()
@@ -98,7 +102,7 @@ func (w *Work) runner() {
 		w.todo = w.todo[:len(w.todo)-1]
 		w.mu.Unlock()
 
-		w.f(item)
+		w.f(ctx, item)
 	}
 }
 

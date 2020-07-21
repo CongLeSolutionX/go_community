@@ -2232,7 +2232,7 @@ func ImportPaths(ctx context.Context, args []string) []*search.Match {
 	if ModInit(); cfg.ModulesEnabled {
 		return ModImportPaths(ctx, args)
 	}
-	return search.ImportPaths(args)
+	return search.ImportPaths(ctx, args)
 }
 
 // PackagesForBuild is like Packages but exits

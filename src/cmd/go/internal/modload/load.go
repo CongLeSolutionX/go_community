@@ -63,6 +63,9 @@ func ImportPaths(ctx context.Context, patterns []string) []*search.Match {
 // packages. The build tags should typically be imports.Tags() or
 // imports.AnyTags(); a nil map has no special meaning.
 func ImportPathsQuiet(ctx context.Context, patterns []string, tags map[string]bool) []*search.Match {
+	ctx, span := trace.StartSpan(ctx, "modload.ImportPathsQuiet "+strings.Join(patterns, ","))
+	defer span.Done()
+
 	updateMatches := func(matches []*search.Match, iterating bool) {
 		for _, m := range matches {
 			switch {
@@ -137,7 +140,7 @@ func ImportPathsQuiet(ctx context.Context, patterns []string, tags map[string]bo
 	}
 
 	loaded = newLoader(tags)
-	loaded.load(func() []string {
+	loaded.load(ctx, func() []string {
 		var roots []string
 		updateMatches(matches, true)
 		for _, m := range matches {
@@ -348,7 +351,7 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 	}
 
 	loaded = newLoader(tags)
-	loaded.load(func() []string {
+	loaded.load(ctx, func() []string {
 		var roots []string
 		roots = append(roots, imports...)
 		roots = append(roots, testImports...)
@@ -399,7 +402,7 @@ func LoadBuildList(ctx context.Context) []module.Version {
 
 func ReloadBuildList() []module.Version {
 	loaded = newLoader(imports.Tags())
-	loaded.load(func() []string { return nil })
+	loaded.load(context.TODO(), func() []string { return nil })
 	return buildList
 }
 
@@ -431,7 +434,7 @@ func loadAll(ctx context.Context, testAll bool) []string {
 		loaded.testRoots = true
 	}
 	all := TargetPackages(ctx, "...")
-	loaded.load(func() []string { return all.Pkgs })
+	loaded.load(context.TODO(), func() []string { return all.Pkgs })
 	checkMultiplePaths()
 	WriteGoMod()
 
@@ -673,7 +676,7 @@ var errMissing = errors.New("cannot find package")
 // load attempts to load the build graph needed to process a set of root packages.
 // The set of root packages is defined by the addRoots function,
 // which must call add(path) with the import path of each root package.
-func (ld *loader) load(roots func() []string) {
+func (ld *loader) load(ctx context.Context, roots func() []string) {
 	var err error
 	reqs := Reqs()
 	buildList, err = mvs.BuildList(Target, reqs)
@@ -692,7 +695,7 @@ func (ld *loader) load(roots func() []string) {
 				ld.work.Add(ld.pkg(path, true))
 			}
 		}
-		ld.work.Do(10, ld.doPkg)
+		ld.work.Do(ctx, 10, ld.doPkg)
 		ld.buildStacks()
 		numAdded := 0
 		haveMod := make(map[module.Version]bool)
@@ -798,9 +801,13 @@ func (ld *loader) pkg(path string, isRoot bool) *loadPkg {
 }
 
 // doPkg processes a package on the work queue.
-func (ld *loader) doPkg(item interface{}) {
+func (ld *loader) doPkg(ctx context.Context, item interface{}) {
 	// TODO: what about replacements?
 	pkg := item.(*loadPkg)
+
+	ctx, span := trace.StartSpan(ctx, "modload.doPkg "+pkg.path)
+	defer span.Done()
+
 	var imports []string
 	if pkg.testOf != nil {
 		pkg.dir = pkg.testOf.dir

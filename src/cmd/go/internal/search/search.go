@@ -5,8 +5,7 @@
 package search
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
+	"context"
 	"fmt"
 	"go/build"
 	"os"
@@ -14,6 +13,10 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/trace"
 )
 
 // A Match represents the result of matching a single package pattern.
@@ -422,14 +425,17 @@ func WarnUnmatched(matches []*Match) {
 
 // ImportPaths returns the matching paths to use for the given command line.
 // It calls ImportPathsQuiet and then WarnUnmatched.
-func ImportPaths(patterns []string) []*Match {
-	matches := ImportPathsQuiet(patterns)
+func ImportPaths(ctx context.Context, patterns []string) []*Match {
+	matches := ImportPathsQuiet(ctx, patterns)
 	WarnUnmatched(matches)
 	return matches
 }
 
 // ImportPathsQuiet is like ImportPaths but does not warn about patterns with no matches.
-func ImportPathsQuiet(patterns []string) []*Match {
+func ImportPathsQuiet(ctx context.Context, patterns []string) []*Match {
+	ctx, span := trace.StartSpan(ctx, "search.ImportPathsQuiet "+strings.Join(patterns, ","))
+	defer span.Done()
+
 	var out []*Match
 	for _, a := range CleanPatterns(patterns) {
 		m := NewMatch(a)
