@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "157f4105_22f9a405",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-21T00:40:13Z",
+      "side": 1,
+      "message": "I also don\u0027t like it, but was unsure what is the best way to write this in an efficient way. Tried to dedup some. Do you think this is better?",
+      "parentUuid": "3a5efce0_815e4d91",
+      "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09c776f7_50a48312",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-07-20T22:49:20Z",
       "side": 1,
       "message": "Can the size and alignment conflict? E.g., once symbol is bigger but the other has a higher alignment?",
+      "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1352843d_5107db0e",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-21T00:40:13Z",
+      "side": 1,
+      "message": "I think they can, and this is what this code is for: we want the global index to point to the larger symbol, and set the alignment to the larger alignment (SetSymAlign).",
+      "parentUuid": "09c776f7_50a48312",
       "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "340a2c1d_74d30eac",
+        "filename": "src/cmd/link/testdata/testHashedSyms/p.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-21T00:40:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74cbf58e_694655b5",
+      "revId": "c72071bc0c47a61ce083a5d47e36f02a11c18479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
