@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e2cee5_b043712e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-21T14:28:53Z",
+      "side": 1,
+      "message": "This LGTM.\n\nJust quickly, without the patch, does the testcase catch the error?",
+      "revId": "613efedfede08e5227fea7f123d1467f5b46e21d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
