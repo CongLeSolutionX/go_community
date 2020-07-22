@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e09a5811_806f5e12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 31404
+      },
+      "writtenOn": "2020-07-22T23:15:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69800e13_773f37e9",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "dad55c7fda2160e2e61b397074b397ca3ae9bd34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "583d2668_f8e80984",
         "filename": "src/strconv/decimal.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "dad55c7fda2160e2e61b397074b397ca3ae9bd34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "424033f0_6a34c76d",
+        "filename": "src/strconv/decimal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 31404
+      },
+      "writtenOn": "2020-07-22T23:15:47Z",
+      "side": 1,
+      "message": "I agree it reads better, but dislike the magical conversion to bits, but that is the purview of #40168, and we can fix that up later.",
+      "parentUuid": "583d2668_f8e80984",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "dad55c7fda2160e2e61b397074b397ca3ae9bd34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
