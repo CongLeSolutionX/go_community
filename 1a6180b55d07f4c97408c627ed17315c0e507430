@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bae0b2a_8711b6c8",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-07-22T18:00:58Z",
+      "side": 1,
+      "message": "Happy to leave this for another time, but what would you think about extracting and generalizing this into internal/par? Rather than queueing *loadPkg, it could queue a func(), and we could pass in a bound pkg.load. That would let us remove loader.startLoad from this package. Given its name, it feels strange that method starts a goroutine that loads other packages on the queue.\n\nMaybe this is just reinventing par.Work though? Is it better for the concurrency logic to be inlined more directly so it\u0027s clear what\u0027s happening?",
+      "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
