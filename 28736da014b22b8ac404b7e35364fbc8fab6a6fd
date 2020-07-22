@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "45f2cfb3_33cb2efc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T19:26:57Z",
+      "side": 1,
+      "message": "Maybe also mention that this is a step toward creating func metadata objects in the compiler?",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "664e232d_dc890421",
+        "filename": "src/cmd/internal/goobj/read.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T19:26:57Z",
+      "side": 1,
+      "message": "Since this is a format change, it technically requires bumping the object version header. However! I don\u0027t think anything that uses the goobj package is consuming this field. Can we just leave it out of the old format?",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e57323b5_9202218e",
+        "filename": "src/cmd/internal/goobj2/funcinfo.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T19:26:57Z",
+      "side": 1,
+      "message": "objabi.FuncID?",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b42726_bd80b6e9",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T19:26:57Z",
+      "side": 1,
+      "message": "Since this is an enumeration, it would be nice to use its real enumeration type (objabi.FuncID)",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a1718b8_0d6946e9",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 3
@@ -36,6 +104,23 @@
         "endLine": 132,
         "endChar": 2
       },
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1165305_2b6f143f",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T19:26:57Z",
+      "side": 1,
+      "message": "Do we need a new flag other than the existing WRAPPER flag? I thought we\u0027d concluded the important case was wrappers.",
       "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
