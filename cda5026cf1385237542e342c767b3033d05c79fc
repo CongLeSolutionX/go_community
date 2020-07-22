@@ -1,0 +1,512 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c5702df_ce13d032",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Does it make more sense to do the funcID CL first?",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ab7f8f1_eae2ca32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Add a sentence explaining why the size changes?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb434a18_f6c1e456",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1957,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Does this slow down dodata? Maybe only do this if symn \u003d\u003d sym.SPCLNTAB?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ba09b89_ecee3225",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2014,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "This feels weird. How can this only be a problem for pclntab? There are other places where we use carrier symbols (like DWARF) where the order of the symbols definitely has to be preserved exactly as created. Maybe we shouldn\u0027t be calling dodataSect at all on the pclntab section?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4779c014_90b1642e",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2365,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to parse this sentence. Who/what is assuming it\u0027s okay to not set the value?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "915e7514_fa284e9c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Maybe mark this a TODO(jfaller)?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7faf65bc_1d47e9c7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Consider using a different name to avoid shadowing the s argument in writeHeader. Otherwise it\u0027s easy to think that \"s\" in this block refers to runtime.pcheader.",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 31
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82126452_c2dbae07",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "writeSymOff?",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 293,
+        "endChar": 10
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d234ba_577fd109",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "If you don\u0027t shadow \"s\" in the writeSym arguments, isn\u0027t this \"s\" from writeHeader? Maybe the writeHeader argument should be named something more descriptive.",
+      "range": {
+        "startLine": 294,
+        "startChar": 42,
+        "endLine": 294,
+        "endChar": 56
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f1fb943_06e2f31d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Since this is solely for the error message, can we ask the loader for the name of s rather than passing it as an argument?",
+      "range": {
+        "startLine": 296,
+        "startChar": 73,
+        "endLine": 296,
+        "endChar": 83
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51588797_d3c195e4",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "walkFuncs would be more idiomatic.",
+      "range": {
+        "startLine": 317,
+        "startChar": 3,
+        "endLine": 317,
+        "endChar": 15
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193de074_824b496d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure how to parse this.",
+      "range": {
+        "startLine": 318,
+        "startChar": 10,
+        "endLine": 318,
+        "endChar": 31
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92d3f69d_ec48b9be",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Rather than having iterateFuncs sum up the results, maybe f should return nothing and just do whatever it needs to to closed-over variables? You already do exactly that in generateFuncnametab, though right now just as a sanity check against iterateFuncs. I think that\u0027s actually the better way to do it.",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fdbf7c2_a3b0525e",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "It looks like you don\u0027t use the value in this map. struct{} to save space?",
+      "range": {
+        "startLine": 323,
+        "startChar": 29,
+        "endLine": 323,
+        "endChar": 32
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97090d72_20dc1602",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "It\u0027s worth mentioning this filter in the doc comment.",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ed99ba4_2b1ed61d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Do we need to check emitPcln for these?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed66e1e5_5aa2d18f",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "I read this as \"the table to map function names to functions\". Maybe just \"function name table\"?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cad16e3_fa906279",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Debugging code?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca4f5f9b_aa4b63e3",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "I know this is a standard pattern, but every time I see it my eyes bug out for a sec. Use Rnd.",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "711d44a1_0b19d7cc",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "This is going to get weird as you break this into more pieces. Maybe keep the current \"offset\" in state? E.g., generatePCHeader would set it to SymSize(state.pcheader), then generateFuncnametab would consume it and add the size of the funcnametab to it, then the next generator would do the same. That way the generators don\u0027t need to know where they are in the order, and the \"ftab.SetValue(ldr.SymValue(state.funcnametab) + ldr.SymSize(state.funcnametab))\" line in pclntab that adds the offset to pclntab_old can be changed to something that automatically stays correct.",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e219b4_f0ad2bfb",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 400,
+        "startChar": 23,
+        "endLine": 400,
+        "endChar": 30
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da918c14_bc21e786",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Delete?",
+      "range": {
+        "startLine": 410,
+        "startChar": 28,
+        "endLine": 410,
+        "endChar": 42
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9157aae8_05a9b85d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "(This is the line I referenced above.)",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720bdfdd_9be490e3",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Maybe panic if s isn\u0027t in the map, just as a sanity check?",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9edae2e0_7b1c230c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "Darn, still one use of ftabaddstring. :)",
+      "range": {
+        "startLine": 660,
+        "startChar": 55,
+        "endLine": 660,
+        "endChar": 74
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c06a7c4c_cfcaea7e",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-22T18:15:48Z",
+      "side": 1,
+      "message": "If you\u0027re doing this, why does dodataSect also need to sort the pclntab? (I may just not understand what\u0027s going on here.)",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
