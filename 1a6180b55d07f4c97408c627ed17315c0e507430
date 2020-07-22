@@ -16,6 +16,24 @@
       "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92f933e2_ae020ba0",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-22T19:31:16Z",
+      "side": 1,
+      "message": "Hmm, that\u0027s an interesting point. There are two major distinctions between this workqueue and par.Work:\n\n1. This workqueue allows work to complete and resume arbitrarily many times on demand, whereas par.Work requires a separate Do call for each idle-to-active transition. (That is: this workqueue allows the caller to poll its idle/active state as an effect, whereas par.Work requires the caller to instead push that state transition explicitly.)\n\n2. par.Work requires comparable work items and implicitly deduplicates them, whereas this workqueue leaves deduplication up to the caller.\n\nI\u0027m open to extracting this as a standalone API (and may in fact _need_ to do so in a followup CL), but I\u0027d like to have more than one call site before I do that (to help ensure that it\u0027s really the right abstraction).",
+      "parentUuid": "5bae0b2a_8711b6c8",
+      "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
