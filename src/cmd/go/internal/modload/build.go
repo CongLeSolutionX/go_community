@@ -131,6 +131,8 @@ func moduleInfo(m module.Version, fromBuildList bool) *modinfo.ModulePublic {
 
 	// completeFromModCache fills in the extra fields in m using the module cache.
 	completeFromModCache := func(m *modinfo.ModulePublic) {
+		mod := module.Version{Path: m.Path, Version: m.Version}
+
 		if m.Version != "" {
 			if q, err := Query(m.Path, m.Version, "", nil); err != nil {
 				m.Error = &modinfo.ModuleError{Err: err.Error()}
@@ -139,7 +141,6 @@ func moduleInfo(m module.Version, fromBuildList bool) *modinfo.ModulePublic {
 				m.Time = &q.Time
 			}
 
-			mod := module.Version{Path: m.Path, Version: m.Version}
 			gomod, err := modfetch.CachePath(mod, "mod")
 			if err == nil {
 				if info, err := os.Stat(gomod); err == nil && info.Mode().IsRegular() {
@@ -149,6 +150,12 @@ func moduleInfo(m module.Version, fromBuildList bool) *modinfo.ModulePublic {
 			dir, err := modfetch.DownloadDir(mod)
 			if err == nil {
 				m.Dir = dir
+			}
+		}
+
+		if m.GoVersion == "" {
+			if summary, err := rawGoModSummary(mod); err == nil && summary.goVersionV != "" {
+				m.GoVersion = summary.goVersionV[1:]
 			}
 		}
 	}
@@ -182,9 +189,8 @@ func moduleInfo(m module.Version, fromBuildList bool) *modinfo.ModulePublic {
 		Path:    r.Path,
 		Version: r.Version,
 	}
-	if goV, ok := rawGoVersion.Load(r); ok {
-		info.Replace.GoVersion = goV.(string)
-		info.GoVersion = info.Replace.GoVersion
+	if v, ok := rawGoVersion.Load(m); ok {
+		info.Replace.GoVersion = v.(string)
 	}
 	if r.Version == "" {
 		if filepath.IsAbs(r.Path) {
@@ -199,6 +205,7 @@ func moduleInfo(m module.Version, fromBuildList bool) *modinfo.ModulePublic {
 		info.Dir = info.Replace.Dir
 		info.GoMod = info.Replace.GoMod
 	}
+	info.GoVersion = info.Replace.GoVersion
 	return info
 }
 
