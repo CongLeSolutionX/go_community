@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47fe9829_9936cf48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-07-23T23:29:19Z",
+      "side": 1,
+      "message": "LGTM. I\u0027ll wait until the Go tree opens up in a few weeks then submit. We appreciate your contributions to the Go project, thank you, Gurav!",
+      "revId": "3b77b31985b3ab64c959271b24197784c2c91d20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
