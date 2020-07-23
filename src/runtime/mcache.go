@@ -152,6 +152,8 @@ func (c *mcache) donate(d *mcache) {
 		d.local_nsmallfree[i] += c.local_nsmallfree[i]
 		c.local_nsmallfree[i] = 0
 	}
+	d.local_tinyallocs += c.local_tinyallocs
+	c.local_tinyallocs = 0
 }
 
 // refill acquires a new span of span class spc for c. This span will

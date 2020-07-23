@@ -546,6 +546,7 @@ func updatememstats() {
 	memstats.total_alloc = 0
 	memstats.nmalloc = 0
 	memstats.nfree = 0
+	memstats.tinyallocs = 0
 	for i := 0; i < len(memstats.by_size); i++ {
 		memstats.by_size[i].nmalloc = 0
 		memstats.by_size[i].nfree = 0
@@ -567,6 +568,9 @@ func updatememstats() {
 		totalAlloc += uint64(c.local_largealloc)
 		totalFree += uint64(c.local_largefree)
 		memstats.nfree += uint64(c.local_nlargefree)
+
+		// Collect tiny allocation stats.
+		memstats.tinyallocs += uint64(c.local_tinyallocs)
 
 		// Collect per-sizeclass stats.
 		for i := 0; i < _NumSizeClasses; i++ {
@@ -640,8 +644,6 @@ func purgecachedstats(c *mcache) {
 	// Protected by heap lock.
 	atomic.Xadd64(&memstats.heap_scan, int64(c.local_scan))
 	c.local_scan = 0
-	memstats.tinyallocs += uint64(c.local_tinyallocs)
-	c.local_tinyallocs = 0
 }
 
 // Atomically increases a given *system* memory stat. We are counting on this
