@@ -1817,6 +1817,18 @@ func (l *Loader) SortSub(s Sym) Sym {
 	return sl[0].s
 }
 
+// SortSyms sorts a list of symbols by their value.
+func (l *Loader) SortSyms(ss []Sym) {
+	svs := make([]symWithVal, len(ss))
+	for i, s := range ss {
+		svs[i].s, svs[i].v = s, l.SymValue(s)
+	}
+	sort.Stable(bySymValue(svs))
+	for i := range svs {
+		ss[i] = svs[i].s
+	}
+}
+
 // Insure that reachable bitmap and its siblings have enough size.
 func (l *Loader) growAttrBitmaps(reqLen int) {
 	if reqLen > l.attrReachable.Len() {
