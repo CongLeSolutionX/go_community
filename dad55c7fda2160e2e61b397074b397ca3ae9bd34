@@ -117,6 +117,30 @@
       "revId": "dad55c7fda2160e2e61b397074b397ca3ae9bd34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb697a7b_17882946",
+        "filename": "src/strconv/decimal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 31404
+      },
+      "writtenOn": "2020-07-23T05:25:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bdd2c5b3_9abb56fe",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "dad55c7fda2160e2e61b397074b397ca3ae9bd34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
