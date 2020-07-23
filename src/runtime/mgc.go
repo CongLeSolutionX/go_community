@@ -388,10 +388,20 @@ type gcControllerState struct {
 	// bytes that should be performed by mutator assists. This is
 	// computed at the beginning of each cycle and updated every
 	// time heap_scan is updated.
-	assistWorkPerByte float64
+	//
+	// Stored as a uint64, but it's actually a float64. Use
+	// float64frombits to get the value.
+	//
+	// Read and written atomically.
+	assistWorkPerByte uint64
 
 	// assistBytesPerWork is 1/assistWorkPerByte.
-	assistBytesPerWork float64
+	//
+	// Stored as a uint64, but it's actually a float64. Use
+	// float64frombits to get the value.
+	//
+	// Read and written atomically.
+	assistBytesPerWork uint64
 
 	// fractionalUtilizationGoal is the fraction of wall clock
 	// time that should be spent in the fractional mark worker on
@@ -479,9 +489,9 @@ func (c *gcControllerState) startCycle() {
 }
 
 // revise updates the assist ratio during the GC cycle to account for
-// improved estimates. This should be called either under STW or
-// whenever memstats.heap_scan, memstats.heap_live, or
-// memstats.next_gc is updated (with mheap_.lock held).
+// improved estimates. This should be called whenever memstats.heap_scan,
+// memstats.heap_live, or memstats.next_gc is updated. It is safe to
+// call concurrently and a small degree of raciness is tolerated.
 //
 // It should only be called when gcBlackenEnabled != 0 (because this
 // is when assists are enabled and the necessary statistics are
@@ -554,8 +564,15 @@ func (c *gcControllerState) revise() {
 	// Compute the mutator assist ratio so by the time the mutator
 	// allocates the remaining heap bytes up to next_gc, it will
 	// have done (or stolen) the remaining amount of scan work.
-	c.assistWorkPerByte = float64(scanWorkRemaining) / float64(heapRemaining)
-	c.assistBytesPerWork = float64(heapRemaining) / float64(scanWorkRemaining)
+	// Note that the assist ratio values are updated atomically
+	// but not together. This means there may be some degree of
+	// skew between the two values. This is generally OK as the
+	// values shift relatively slowly over the course of a GC
+	// cycle.
+	assistWorkPerByte := float64(scanWorkRemaining) / float64(heapRemaining)
+	assistBytesPerWork := float64(heapRemaining) / float64(scanWorkRemaining)
+	atomic.Store64(&c.assistWorkPerByte, float64bits(assistWorkPerByte))
+	atomic.Store64(&c.assistBytesPerWork, float64bits(assistBytesPerWork))
 }
 
 // endCycle computes the trigger ratio for the next cycle.
