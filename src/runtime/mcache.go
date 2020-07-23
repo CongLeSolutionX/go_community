@@ -125,7 +125,6 @@ func freemcache(c *mcache, recipient *mcache) {
 		// gcworkbuffree(c.gcworkbuf)
 
 		lock(&mheap_.lock)
-		purgecachedstats(c)
 		// Donate anything else that's left.
 		c.donate(recipient)
 		mheap_.cachealloc.free(unsafe.Pointer(c))
@@ -136,6 +135,8 @@ func freemcache(c *mcache, recipient *mcache) {
 // donate flushes data and resources which have no global
 // pool to another mcache.
 func (c *mcache) donate(d *mcache) {
+	// local_scan is handled separately because it's not
+	// like these stats -- it's used for GC pacing.
 	d.local_largealloc += c.local_largealloc
 	c.local_largealloc = 0
 	d.local_nlargealloc += c.local_nlargealloc
@@ -197,14 +198,22 @@ func (c *mcache) refill(spc spanClass) {
 	// Assume all objects from this span will be allocated in the
 	// mcache. If it gets uncached, we'll adjust this.
 	c.local_nsmallalloc[spc.sizeclass()] += uintptr(s.nelems) - uintptr(s.allocCount)
+
+	// Update heap_live with the same assumption.
 	usedBytes := uintptr(s.allocCount) * s.elemsize
 	atomic.Xadd64(&memstats.heap_live, int64(s.npages*pageSize)-int64(usedBytes))
+
+	// While we're here, flush local_scan, since we have to call
+	// revise anyway.
+	atomic.Xadd64(&memstats.heap_scan, int64(c.local_scan))
+	c.local_scan = 0
+
 	if trace.enabled {
 		// heap_live changed.
 		traceHeapAlloc()
 	}
 	if gcBlackenEnabled != 0 {
-		// heap_live changed.
+		// heap_live and heap_scan changed.
 		gcController.revise()
 	}
 
@@ -261,6 +270,10 @@ func (c *mcache) largeAlloc(size uintptr, needzero bool, noscan bool) *mspan {
 }
 
 func (c *mcache) releaseAll() {
+	// Take this opportunity to flush local_scan.
+	atomic.Xadd64(&memstats.heap_scan, int64(c.local_scan))
+	c.local_scan = 0
+
 	sg := mheap_.sweepgen
 	for i := range c.alloc {
 		s := c.alloc[i]
