@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "740305ec_8e3e5342",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45f2cfb3_33cb2efc",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "664e232d_dc890421",
         "filename": "src/cmd/internal/goobj/read.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6a2bbf7_69ba58d4",
+        "filename": "src/cmd/internal/goobj/read.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "664e232d_dc890421",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1f014fe9_15cc289a",
+        "filename": "src/cmd/internal/goobj2/funcinfo.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e57323b5_9202218e",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95b42726_bd80b6e9",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e3930a9_016bc6a7",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95b42726_bd80b6e9",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "250434fc_734d3157",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "Forgotten, changed.",
+      "parentUuid": "2a1718b8_0d6946e9",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f80ef33_5d36bc22",
         "filename": "src/cmd/internal/obj/plist.go",
         "patchSetId": 3
@@ -98,6 +188,30 @@
       "writtenOn": "2020-07-21T21:57:03Z",
       "side": 1,
       "message": "This seems weird. I don\u0027t think we want to treat an unknown package as the runtime package. Why do we need this?",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 2
+      },
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a1a5e0b_c420c0fd",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "Lots of runtime symbols have nil Pkgpath/localpkg.Name when built. Defaulting to \"runtime\" package, and therefore possibly assigning the wrong FuncID, seemed safer than otherwise.\n\nI don\u0027t know of a reliable way to get the package name otherwise, and as the linker (in DWARF) will just assign reachable symbols it doesn\u0027t know the package to to \"runtime\" I assumed it was safe to do here.\n\nSuggestions?",
+      "parentUuid": "0f80ef33_5d36bc22",
       "range": {
         "startLine": 130,
         "startChar": 0,
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "8161f847_4136603d",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "I was trying to recreate previous functionality. I\u0027ll move to just the wrappers.",
+      "parentUuid": "a1165305_2b6f143f",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0af3620f_ae84aba3",
         "filename": "src/cmd/internal/obj/textflag.go",
         "patchSetId": 3
@@ -138,6 +270,24 @@
       "writtenOn": "2020-07-21T21:57:03Z",
       "side": 1,
       "message": "I wonder if it is simpler to use LSym.Attribute instead of a textflag. (Probably fine either way)",
+      "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56cac879_577a0c8b",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:24Z",
+      "side": 1,
+      "message": "Something I\u0027m missing here. Don\u0027t I need both?",
+      "parentUuid": "0af3620f_ae84aba3",
       "revId": "28736da014b22b8ac404b7e35364fbc8fab6a6fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
