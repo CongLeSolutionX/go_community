@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "da8d17d1_14dc2992",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-07-23T18:07:48Z",
+      "side": 1,
+      "message": "Due to the design change, I\u0027ve dropped ctxt.TextpByValue and we now binary search on ctxt.AddTextp.",
+      "parentUuid": "8a87f5db_15cc43f7",
+      "range": {
+        "startLine": 817,
+        "startChar": 0,
+        "endLine": 821,
+        "endChar": 24
+      },
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9b1c611_7d746768",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 1
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "25150a84_bac8c926",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-07-23T18:07:48Z",
+      "side": 1,
+      "message": "I think it makes sense to do it here and now that we\u0027re adding to a different slice, the pcln.go changes are not necessary.",
+      "parentUuid": "b9b1c611_7d746768",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 2
+      },
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e75104b2_756deb54",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 1
@@ -82,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "fb6f3b73_659119e9",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-07-23T18:07:48Z",
+      "side": 1,
+      "message": "Ah, indeed. Dropped.",
+      "parentUuid": "e75104b2_756deb54",
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16b9678a_d0a1c78a",
         "filename": "src/cmd/link/internal/riscv64/asm.go",
         "patchSetId": 1
@@ -96,6 +162,24 @@
       "revId": "3bd72d9f77d146d605d4204db747195954661846",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "501734c4_fc410018",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-07-23T18:07:48Z",
+      "side": 1,
+      "message": "Yes, we did need to (which created various other fun in writeBlocks and findfunctab :) \n\nWe\u0027re now sorting but ctxt.AddTextp instead.",
+      "parentUuid": "16b9678a_d0a1c78a",
+      "revId": "3bd72d9f77d146d605d4204db747195954661846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
