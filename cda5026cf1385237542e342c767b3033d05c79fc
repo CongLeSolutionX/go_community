@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "92a2463a_9bf09b3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "It does, but I\u0027m hesitant to move them around now. There\u0027s lots of churn already. If you feel passionately, I\u0027ll move \u0027em.",
+      "parentUuid": "6c5702df_ce13d032",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ab7f8f1_eae2ca32",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3a8f13_8f07a657",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Sure. It\u0027s innocuous. It\u0027s because of aligning in pclntab throughout.",
+      "parentUuid": "3ab7f8f1_eae2ca32",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c7975b37_644c9584",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1957,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb434a18_f6c1e456",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ba09b89_ecee3225",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 5
@@ -73,6 +133,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4ce511a_db961543",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2014,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Mostly, it\u0027s a side effect of how pclntab lives. It\u0027s generated in the linker, starting it\u0027s life as data symbols (but not really because they\u0027re SPCLNTAB), that eventually move to being ROData, but can\u0027t be lumped with other ROData (because it needs its own section to work correctly). I believe DWARF never has this problem because it lives separately from data (those symbols are kept in Segdwarf and live a happy life over there).\n\n\nI HATE how this all works, and will likely eventually change it.\n\nIf you feel this is the time to address it, I\u0027ll make it my next highest priority.",
+      "parentUuid": "9ba09b89_ecee3225",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "c5f0e9d8_5fb5ac65",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2365,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Oh, these two functions have been a PITA. I\u0027ll just delete the sentence as it\u0027s really only needed for the context of the churn that\u0027s existed on this function.\n\n(Aside: all this churn is related to figuring out the sorting problem on dodataSect.)",
+      "parentUuid": "4779c014_90b1642e",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "915e7514_fa284e9c",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -107,6 +203,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d3f3af7_cc86f4a1",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "915e7514_fa284e9c",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +270,54 @@
     },
     {
       "key": {
+        "uuid": "36006e05_08286a9e",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7faf65bc_1d47e9c7",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 31
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801aa898_e5744c55",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "writeSymOffset.\n\nDone.",
+      "parentUuid": "82126452_c2dbae07",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 293,
+        "endChar": 10
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d234ba_577fd109",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -176,6 +338,30 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a32369c_3d26c850",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d234ba_577fd109",
+      "range": {
+        "startLine": 294,
+        "startChar": 42,
+        "endLine": 294,
+        "endChar": 56
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "0a2f569d_a7c235f0",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f1fb943_06e2f31d",
+      "range": {
+        "startLine": 296,
+        "startChar": 73,
+        "endLine": 296,
+        "endChar": 83
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51588797_d3c195e4",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -222,6 +432,30 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "094b0867_2d8c0150",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51588797_d3c195e4",
+      "range": {
+        "startLine": 317,
+        "startChar": 3,
+        "endLine": 317,
+        "endChar": 15
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -248,6 +482,30 @@
     },
     {
       "key": {
+        "uuid": "9b5dabb5_967518eb",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "I hope that comment\u0027s better.",
+      "parentUuid": "193de074_824b496d",
+      "range": {
+        "startLine": 318,
+        "startChar": 10,
+        "endLine": 318,
+        "endChar": 31
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92d3f69d_ec48b9be",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -262,6 +520,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e186f2_78e4945d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d3f69d_ec48b9be",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -288,6 +564,30 @@
     },
     {
       "key": {
+        "uuid": "ae3a6db0_e7812538",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fdbf7c2_a3b0525e",
+      "range": {
+        "startLine": 323,
+        "startChar": 29,
+        "endLine": 323,
+        "endChar": 32
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97090d72_20dc1602",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -302,6 +602,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6167564c_3e369e27",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97090d72_20dc1602",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -322,6 +640,24 @@
     },
     {
       "key": {
+        "uuid": "960d5cdf_a809e499",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Good question, and NO. If the function\u0027s being emitted (emit call on 326), obviously the inltrees are too. (Or at least that\u0027s what genInlTreeSym does, and it makes sense to me.)",
+      "parentUuid": "5ed99ba4_2b1ed61d",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed66e1e5_5aa2d18f",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -336,6 +672,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15240aa7_1c979d46",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed66e1e5_5aa2d18f",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -356,6 +710,24 @@
     },
     {
       "key": {
+        "uuid": "cb52158c_7cf2134d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Yeah, caught a few errors. I\u0027ll remove it.",
+      "parentUuid": "2cad16e3_fa906279",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4f5f9b_aa4b63e3",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -373,6 +745,24 @@
     },
     {
       "key": {
+        "uuid": "822b3a2e_1db3dd28",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4f5f9b_aa4b63e3",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "711d44a1_0b19d7cc",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -387,6 +777,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa772d70_c7692c9a",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "I\u0027ve added a member to pclnState that does all this.",
+      "parentUuid": "711d44a1_0b19d7cc",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -413,6 +821,30 @@
     },
     {
       "key": {
+        "uuid": "f8857b6e_10d5f2e7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42e219b4_f0ad2bfb",
+      "range": {
+        "startLine": 400,
+        "startChar": 23,
+        "endLine": 400,
+        "endChar": 30
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da918c14_bc21e786",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -433,6 +865,30 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f62dc07a_cdb6ce48",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da918c14_bc21e786",
+      "range": {
+        "startLine": 410,
+        "startChar": 28,
+        "endLine": 410,
+        "endChar": 42
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -470,6 +926,24 @@
     },
     {
       "key": {
+        "uuid": "2e821bd7_1a3dd02d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "720bdfdd_9be490e3",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9edae2e0_7b1c230c",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -481,6 +955,30 @@
       "writtenOn": "2020-07-22T18:15:48Z",
       "side": 1,
       "message": "Darn, still one use of ftabaddstring. :)",
+      "range": {
+        "startLine": 660,
+        "startChar": 55,
+        "endLine": 660,
+        "endChar": 74
+      },
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1af1562_43fae85c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "one at a time. I\u0027ll get \u0027em.",
+      "parentUuid": "9edae2e0_7b1c230c",
       "range": {
         "startLine": 660,
         "startChar": 55,
@@ -507,6 +1005,24 @@
       "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "935b3f95_ce735832",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-23T14:43:17Z",
+      "side": 1,
+      "message": "This is all related to sorting out WTF was going on with sorting the symbols. This is cargo-culting at its finest. I\u0027ll remove it.",
+      "parentUuid": "c06a7c4c_cfcaea7e",
+      "revId": "cda5026cf1385237542e342c767b3033d05c79fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
