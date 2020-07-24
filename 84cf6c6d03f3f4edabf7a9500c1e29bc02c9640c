@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f95b5e0_47b3994e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-24T15:40:28Z",
+      "side": 1,
+      "message": "Turns out this value isn\u0027t needed anyway.\n\n(We can get the same set of packages by calling LoadALL with modload.LoadTests \u003d true, and then we only need to consider definitions of \"all\" proper.)",
+      "parentUuid": "3c7f83e6_dea71118",
+      "range": {
+        "startLine": 668,
+        "startChar": 47,
+        "endLine": 668,
+        "endChar": 71
+      },
+      "revId": "84cf6c6d03f3f4edabf7a9500c1e29bc02c9640c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9863737e_7a1f800c",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "84cf6c6d03f3f4edabf7a9500c1e29bc02c9640c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b15201a6_83b0f603",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-24T15:40:28Z",
+      "side": 1,
+      "message": "Just 1.16+.",
+      "parentUuid": "9863737e_7a1f800c",
+      "revId": "84cf6c6d03f3f4edabf7a9500c1e29bc02c9640c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

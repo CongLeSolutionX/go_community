@@ -16,6 +16,24 @@
       "revId": "91a9280c18e34797c1c136ba96ebf961dbe4790b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55854647_c18a0d06",
+        "filename": "src/cmd/go/testdata/script/mod_all.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-07-24T15:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a192e55_4cb12986",
+      "revId": "91a9280c18e34797c1c136ba96ebf961dbe4790b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
