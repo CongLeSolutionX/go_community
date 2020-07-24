@@ -512,7 +512,7 @@ func (s *mspan) sweep(preserve bool) bool {
 			// wasn't totally filled, but then swept, still has all of its
 			// free slots zeroed.
 			s.needzero = 1
-			c.local_nsmallfree[spc.sizeclass()] += uintptr(nfreed)
+			c.localSmallFreeN[spc.sizeclass()] += uintptr(nfreed)
 		}
 		if !preserve {
 			// The caller may not have removed this span from whatever
@@ -557,8 +557,8 @@ func (s *mspan) sweep(preserve bool) bool {
 			} else {
 				mheap_.freeSpan(s)
 			}
-			c.local_nlargefree++
-			c.local_largefree += size
+			c.localLargeFreeN++
+			c.localLargeFree += size
 			return true
 		}
 
@@ -738,7 +738,7 @@ func (s *mspan) oldSweep(preserve bool) bool {
 	}
 
 	if nfreed > 0 && spc.sizeclass() != 0 {
-		c.local_nsmallfree[spc.sizeclass()] += uintptr(nfreed)
+		c.localSmallFreeN[spc.sizeclass()] += uintptr(nfreed)
 		res = mheap_.central[spc].mcentral.freeSpan(s, preserve, wasempty)
 		// mcentral.freeSpan updates sweepgen
 	} else if freeToHeap {
@@ -764,8 +764,8 @@ func (s *mspan) oldSweep(preserve bool) bool {
 		} else {
 			mheap_.freeSpan(s)
 		}
-		c.local_nlargefree++
-		c.local_largefree += size
+		c.localLargeFreeN++
+		c.localLargeFree += size
 		res = true
 	}
 	if !res {

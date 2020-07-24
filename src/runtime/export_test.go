@@ -348,18 +348,18 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 				continue
 			}
 			// Collect large allocation stats.
-			largeFree += uint64(c.local_largefree)
-			slow.Frees += uint64(c.local_nlargefree)
+			largeFree += uint64(c.localLargeFree)
+			slow.Frees += uint64(c.localLargeFreeN)
 
 			// Collect tiny allocation stats.
-			tinyAllocs += uint64(c.local_tinyallocs)
+			tinyAllocs += uint64(c.localTinyAllocs)
 
 			// Collect per-sizeclass stats.
 			for i := 0; i < _NumSizeClasses; i++ {
-				slow.Frees += uint64(c.local_nsmallfree[i])
-				bySize[i].Frees += uint64(c.local_nsmallfree[i])
-				bySize[i].Mallocs += uint64(c.local_nsmallfree[i])
-				smallFree += uint64(c.local_nsmallfree[i]) * uint64(class_to_size[i])
+				slow.Frees += uint64(c.localSmallFreeN[i])
+				bySize[i].Frees += uint64(c.localSmallFreeN[i])
+				bySize[i].Mallocs += uint64(c.localSmallFreeN[i])
+				smallFree += uint64(c.localSmallFreeN[i]) * uint64(class_to_size[i])
 			}
 		}
 		slow.Frees += tinyAllocs

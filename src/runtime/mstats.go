@@ -561,25 +561,25 @@ func updatememstats() {
 			continue
 		}
 		// Collect large allocation stats.
-		memstats.nmalloc += uint64(c.local_nlargealloc)
-		totalAlloc += uint64(c.local_largealloc)
-		totalFree += uint64(c.local_largefree)
-		memstats.nfree += uint64(c.local_nlargefree)
+		memstats.nmalloc += uint64(c.localLargeAllocN)
+		totalAlloc += uint64(c.localLargeAlloc)
+		totalFree += uint64(c.localLargeFree)
+		memstats.nfree += uint64(c.localLargeFreeN)
 
 		// Collect tiny allocation stats.
-		memstats.tinyallocs += uint64(c.local_tinyallocs)
+		memstats.tinyallocs += uint64(c.localTinyAllocs)
 
 		// Collect per-sizeclass stats.
 		for i := 0; i < _NumSizeClasses; i++ {
 			// Malloc stats.
-			memstats.nmalloc += uint64(c.local_nsmallalloc[i])
-			memstats.by_size[i].nmalloc += uint64(c.local_nsmallalloc[i])
-			totalAlloc += uint64(c.local_nsmallalloc[i]) * uint64(class_to_size[i])
+			memstats.nmalloc += uint64(c.localSmallAllocN[i])
+			memstats.by_size[i].nmalloc += uint64(c.localSmallAllocN[i])
+			totalAlloc += uint64(c.localSmallAllocN[i]) * uint64(class_to_size[i])
 
 			// Free stats.
-			memstats.nfree += uint64(c.local_nsmallfree[i])
-			memstats.by_size[i].nfree += uint64(c.local_nsmallfree[i])
-			smallFree += uint64(c.local_nsmallfree[i]) * uint64(class_to_size[i])
+			memstats.nfree += uint64(c.localSmallFreeN[i])
+			memstats.by_size[i].nfree += uint64(c.localSmallFreeN[i])
+			smallFree += uint64(c.localSmallFreeN[i]) * uint64(class_to_size[i])
 		}
 	}
 
