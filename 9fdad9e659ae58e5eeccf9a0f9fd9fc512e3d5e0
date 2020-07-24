@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13a44225_70031ffc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-24T18:38:03Z",
+      "side": 1,
+      "message": "Just write\n\nFor #40329\n\nSee https://golang.org/wiki/CommitMessage",
+      "revId": "9fdad9e659ae58e5eeccf9a0f9fd9fc512e3d5e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fc4d65a_7eeb0323",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-24T18:38:03Z",
+      "side": 1,
+      "message": "Don\u0027t say \"IMPORTANT\" here, and make the comment much shorter.  Consider this comment from the perspective of someone reading it five years from now.  It seems important to you today because it caught you by surprise.  If we document it clearly, it won\u0027t be a surprise, and it won\u0027t deserve comments like \"IMPORTANT\" and \"this is not what you expect.\"",
+      "revId": "9fdad9e659ae58e5eeccf9a0f9fd9fc512e3d5e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f10b6c_e5fbbdb4",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-24T18:38:03Z",
+      "side": 1,
+      "message": "Let\u0027s use the same example as Expand, and more similar language:\n\nso for instance $1 represents the text of the first submatch,\nand \"$1x\" is equivalent to \"${1x}\", not \"${1}x\".",
+      "revId": "9fdad9e659ae58e5eeccf9a0f9fd9fc512e3d5e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
