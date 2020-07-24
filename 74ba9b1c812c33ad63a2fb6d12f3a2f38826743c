@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "13ccf126_2753115a",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-07-24T17:08:37Z",
+      "side": 1,
+      "message": "In the spec it\u0027s commonName, in pkix.Name it\u0027s CommonName. Yeah, let\u0027s go with CommonName.",
+      "parentUuid": "ebf9a7fa_a7b27071",
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcd693dd_04f96e0b",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "b98a5921_9fa59a27",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-07-24T17:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcd693dd_04f96e0b",
+      "range": {
+        "startLine": 383,
+        "startChar": 35,
+        "endLine": 383,
+        "endChar": 43
+      },
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bf2a169_b072f4d9",
         "filename": "doc/go1.15.html",
         "patchSetId": 1
@@ -73,6 +115,24 @@
       "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c053b84_8448bf19",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-07-24T17:08:37Z",
+      "side": 1,
+      "message": "I tried a few wordings and they were all either too long or too terse. The resolution changes based on the environment.",
+      "parentUuid": "3bf2a169_b072f4d9",
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +179,54 @@
       "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6433df2c_4fb5c9e9",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-07-24T17:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b63ccd94_a3731647",
+      "range": {
+        "startLine": 391,
+        "startChar": 2,
+        "endLine": 391,
+        "endChar": 9
+      },
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47a083e6_083d2add",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-07-24T17:08:37Z",
+      "side": 1,
+      "message": "This is a full list but I don\u0027t want to promise it will not grow.",
+      "parentUuid": "e112c8ce_6aee62f0",
+      "range": {
+        "startLine": 391,
+        "startChar": 11,
+        "endLine": 391,
+        "endChar": 18
+      },
+      "revId": "74ba9b1c812c33ad63a2fb6d12f3a2f38826743c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
