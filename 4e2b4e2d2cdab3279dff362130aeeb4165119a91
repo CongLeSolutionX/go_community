@@ -33,6 +33,52 @@
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fd0858b_f06ddc50",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-07-24T08:02:13Z",
+      "side": 1,
+      "message": "This may not be a good name. If there is a more professional name, please let me know, thank you.",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b187568e_7ece6a5b",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-07-24T08:02:13Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure if this is correct, I referred to function shortcircuitBlock. Please pay more attention to this snippet.",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
