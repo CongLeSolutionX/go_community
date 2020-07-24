@@ -226,13 +226,22 @@ func ExampleRegexp_ReplaceAll() {
 	re := regexp.MustCompile(`a(x*)b`)
 	fmt.Printf("%s\n", re.ReplaceAll([]byte("-ab-axxb-"), []byte("T")))
 	fmt.Printf("%s\n", re.ReplaceAll([]byte("-ab-axxb-"), []byte("$1")))
-	fmt.Printf("%s\n", re.ReplaceAll([]byte("-ab-axxb-"), []byte("$1W")))
 	fmt.Printf("%s\n", re.ReplaceAll([]byte("-ab-axxb-"), []byte("${1}W")))
+
+	// IMPORTANT
+	// $1W considered as ${1W}, NOT ${1}W. As a result you will receive ---
+	// Chances are this is not what you expect. Take a look of how Expand works.
+	fmt.Printf("%s\n", re.ReplaceAll([]byte("-ab-axxb-"), []byte("$1W")))
+
+	re2 := regexp.MustCompile(`a(?P<1W>x*)b`)
+	fmt.Printf("%s\n", re2.ReplaceAll([]byte("-ab-axxb-"), []byte("$1W")))
+
 	// Output:
 	// -T-T-
 	// --xx-
-	// ---
 	// -W-xxW-
+	// ---
+	// --xx-
 }
 
 func ExampleRegexp_ReplaceAllLiteralString() {
