@@ -910,3 +910,7 @@ TEXT runtime·panicExtendSlice3CU(SB),NOSPLIT,$0-12
 	MOVW	R1, lo+4(FP)
 	MOVW	R2, y+8(FP)
 	JMP	runtime·goPanicExtendSlice3CU(SB)
+
+TEXT runtime·getcallerfp(SB),NOSPLIT,$0-0
+	MOVW	R0, ret+0(FP)
+	RET

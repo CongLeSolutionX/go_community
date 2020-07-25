@@ -472,3 +472,7 @@ TEXT runtime·gcWriteBarrier(SB), NOSPLIT, $16
 	MOVD R1, (R0)
 
 	RET
+
+TEXT runtime·getcallerfp(SB),NOSPLIT,$0-0
+	MOVD	$0, ret+0(FP)
+	RET
