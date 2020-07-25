@@ -820,3 +820,7 @@ TEXT runtime·panicSlice3CU(SB),NOSPLIT,$0-16
 	MOVV	R1, x+0(FP)
 	MOVV	R2, y+8(FP)
 	JMP	runtime·goPanicSlice3CU(SB)
+
+TEXT runtime·getcallerfp(SB),NOSPLIT,$0-0
+	MOVV	R0, ret+0(FP)
+	RET

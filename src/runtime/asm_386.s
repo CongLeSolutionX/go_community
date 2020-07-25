@@ -1574,6 +1574,11 @@ TEXT runtime·panicExtendSlice3CU(SB),NOSPLIT,$0-12
 	MOVL	CX, y+8(FP)
 	JMP	runtime·goPanicExtendSlice3CU(SB)
 
+TEXT runtime·getcallerfp(SB),NOSPLIT,$0-0
+	MOVL    0(BP), AX
+	MOVL	AX, ret+0(FP)
+	RET
+
 #ifdef GOOS_android
 // Use the free TLS_SLOT_APP slot #2 on Android Q.
 // Earlier androids are set up in gcc_android.c.
