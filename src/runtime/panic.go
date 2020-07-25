@@ -868,7 +868,7 @@ func runOpenDeferFrame(gp *g, d *_defer) bool {
 	return done
 }
 
-// reflectcallSave calls reflectcall after saving the caller's pc and sp in the
+// reflectcallSave calls reflectcall after saving the caller's pc, sp, and fp in the
 // panic record. This allows the runtime to return to the Goexit defer processing
 // loop, in the unusual case where the Goexit may be bypassed by a successful
 // recover.
@@ -877,11 +877,13 @@ func reflectcallSave(p *_panic, fn, arg unsafe.Pointer, argsize uint32) {
 		p.argp = unsafe.Pointer(getargp(0))
 		p.pc = getcallerpc()
 		p.sp = unsafe.Pointer(getcallersp())
+		p.fp = unsafe.Pointer(getcallerfp())
 	}
 	reflectcall(nil, fn, arg, argsize, argsize)
 	if p != nil {
 		p.pc = 0
 		p.sp = unsafe.Pointer(nil)
+		p.fp = unsafe.Pointer(nil)
 	}
 }
 
@@ -987,6 +989,7 @@ func gopanic(e interface{}) {
 
 		pc := d.pc
 		sp := unsafe.Pointer(d.sp) // must be pointer so it gets adjusted during stack copy
+		fp := d.varp
 		if done {
 			d.fn = nil
 			gp._defer = d.link
@@ -999,6 +1002,7 @@ func gopanic(e interface{}) {
 				// we return to the processing loop of the Goexit.
 				gp.sigcode0 = uintptr(gp._panic.sp)
 				gp.sigcode1 = uintptr(gp._panic.pc)
+				gp.sigcode2 = uintptr(gp._panic.fp)
 				mcall(recovery)
 				throw("bypassed recovery failed") // mcall should not return
 			}
@@ -1050,6 +1054,7 @@ func gopanic(e interface{}) {
 			// Pass information about recovering frame to recovery.
 			gp.sigcode0 = uintptr(sp)
 			gp.sigcode1 = pc
+			gp.sigcode2 = fp
 			mcall(recovery)
 			throw("recovery failed") // mcall should not return
 		}
@@ -1137,6 +1142,7 @@ func recovery(gp *g) {
 	// Info about defer passed in G struct.
 	sp := gp.sigcode0
 	pc := gp.sigcode1
+	fp := gp.sigcode2
 
 	// d's arguments need to be in the stack.
 	if sp != 0 && (sp < gp.stack.lo || gp.stack.hi < sp) {
@@ -1149,6 +1155,7 @@ func recovery(gp *g) {
 	// jump to the standard return epilogue.
 	gp.sched.sp = sp
 	gp.sched.pc = pc
+	gp.sched.bp = fp
 	gp.sched.lr = 0
 	gp.sched.ret = 1
 	gogo(&gp.sched)
@@ -1409,4 +1416,30 @@ func shouldPushSigpanic(gp *g, pc, lr uintptr) bool {
 //go:nosplit
 func isAbortPC(pc uintptr) bool {
 	return pc == funcPC(abort) || ((GOARCH == "arm" || GOARCH == "arm64") && pc == funcPC(abort)+sys.PCQuantum)
+}
+
+func PrintStack(s string) {
+	println(s)
+	pc := getcallerpc()
+	sp := getcallersp()
+	fp := getcallerfp()
+	for {
+		f := findfunc(pc)
+		if !f.valid() {
+			println("bad pc", hex(pc))
+			break
+		}
+		print("  ", funcname(f), " pc=", hex(pc), " sp=", hex(sp), " fp=", hex(fp))
+		parentsp := sp + uintptr(funcspdelta(f, pc, nil)) + 8
+		if fp != parentsp-16 {
+			print("  ***")
+		}
+		println()
+		if funcname(f) == "runtime.goexit" {
+			break
+		}
+		sp = parentsp
+		pc = *(*uintptr)(unsafe.Pointer(sp - 8))
+		fp = *(*uintptr)(unsafe.Pointer(fp))
+	}
 }
