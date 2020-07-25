@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "9bd8b3dc_05217dac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-07-25T15:30:46Z",
+      "side": 1,
+      "message": "Ah, I see. That kind of inference usually happens in the prove pass. Perhaps an alternative approach would be to teach the prove pass to reason about situations like this. I don’t know the prove pass well enough to say offhand whether this can be conveniently slotted in. If not, I’d recommend starting with just the easy case—identical control values—and then subsequently add support for inferences between different control values. Incremental improvements are easier to code, easier to code review, easier to test, and easier to preserve when bugs get found later.",
+      "parentUuid": "578572a1_a4d4f604",
+      "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fd0858b_f06ddc50",
         "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
         "patchSetId": 1
