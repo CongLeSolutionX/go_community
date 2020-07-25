@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "578572a1_a4d4f604",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-07-25T06:23:16Z",
+      "side": 1,
+      "message": "Thanks, I did not expect thi, I will see if it is easier to do this after cse. A cursory look at cse, it seems that it only deals with the case where the ops of the two values are the same. But this optimization is suitable for more situations, such as if \"OpLess v1 v2\" is true, then \"OpLeq v1 v2\" is also true.",
+      "parentUuid": "24932f7d_d68fc311",
+      "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fd0858b_f06ddc50",
         "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
         "patchSetId": 1
