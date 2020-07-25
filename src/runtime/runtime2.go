@@ -458,6 +458,7 @@ type g struct {
 	writebuf       []byte
 	sigcode0       uintptr
 	sigcode1       uintptr
+	sigcode2       uintptr
 	sigpc          uintptr
 	gopc           uintptr         // pc of go statement that created this goroutine
 	ancestors      *[]ancestorInfo // ancestor information goroutine(s) that created this goroutine (only used if debug.tracebackancestors)
@@ -922,6 +923,7 @@ type _panic struct {
 	link      *_panic        // link to earlier panic
 	pc        uintptr        // where to return to in runtime if this panic is bypassed
 	sp        unsafe.Pointer // where to return to in runtime if this panic is bypassed
+	fp        unsafe.Pointer // where to return to in runtime if this panic is bypassed
 	recovered bool           // whether this panic is over
 	aborted   bool           // the panic was aborted
 	goexit    bool
