@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e081de_e47caaf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-07-26T14:08:52Z",
+      "side": 1,
+      "message": "Thank you. We can merge this when the tree re-opens\nafter the 1.15 release.",
+      "revId": "a7a8094f95276ca9e2a6787c2ba0b5f1c481b259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
