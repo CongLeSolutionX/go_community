@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8cfc759_ec8901a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-27T20:24:36Z",
+      "side": 1,
+      "message": "nit (typo): generated",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc83f8f8_ba85aa4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-27T20:24:36Z",
+      "side": 1,
+      "message": "nit: This should be T.M.\n\nI\u0027m guessing you copied this from the comment in closure.go. We should fix that too.",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "580d82a4_311380dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-27T20:24:36Z",
+      "side": 1,
+      "message": "Thanks for following up on this.",
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62d3a01_4d14ada5",
+        "filename": "test/fixedbugs/issue39292.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-27T20:24:36Z",
+      "side": 1,
+      "message": "I think it would be good to change this to an errorcheck build where we explicitly test that t{} is heap allocated.",
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cd7571e_5ddf64d4",
+        "filename": "test/fixedbugs/issue39292.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-27T20:24:36Z",
+      "side": 1,
+      "message": "I\u0027m worried that pointers that flow to t{} need to be marked as escaping too. Can you change t to:\n\n    type t [10000]*int\n\nand then change main to:\n\n    var i int\n    x :\u003d t{\u0026i}.f\n    f()\n\nWe need to make sure that if the closure for \"t{\u0026i}.f\" is heap allocated, then \"i\" is heap allocated too.",
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
