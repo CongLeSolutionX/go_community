@@ -9,6 +9,8 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"os"
+	"regexp"
 )
 
 // A Config holds readonly compilation information.
@@ -193,8 +195,23 @@ const (
 	ClassParamOut                     // return value
 )
 
+var tle string
+var tleRegexp *regexp.Regexp
+
+func TleMatch(s string) bool {
+	if tleRegexp == nil {
+		return true
+	}
+	return tleRegexp.MatchString(s)
+}
+
 // NewConfig returns a new configuration object for the given architecture.
 func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config {
+	tle = os.Getenv("GO_TLE")
+	if tle != "" {
+		tleRegexp = regexp.MustCompile(tle)
+	}
+
 	c := &Config{arch: arch, Types: types}
 	c.useAvg = true
 	c.useHmul = true
