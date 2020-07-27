@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbaa01fc_4217b4ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-07-27T14:48:23Z",
+      "side": 1,
+      "message": "Should this be backported to release-branch-go1.15 given that it\u0027s a regression introduced in the 1.15 cycle?",
+      "revId": "8696ae82c94f0a7707cbbbdf2cec44e93edf5b23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
