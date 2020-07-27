@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"html"
 	"os"
+	"regexp"
 	"sort"
-	"strings"
 
 	"bufio"
 	"bytes"
@@ -31,6 +31,16 @@ var ssaDumpStdout bool // whether to dump to stdout
 var ssaDumpCFG string  // generate CFGs for these phases
 const ssaDumpFile = "ssa.html"
 
+var tle string
+var tleRegexp *regexp.Regexp
+
+func tleMatch(s string) bool {
+	if tleRegexp == nil {
+		return false
+	}
+	return tleRegexp.MatchString(s)
+}
+
 // The max number of defers in a function using open-coded defers. We enforce this
 // limit because the deferBits bitmask is currently a single byte (to minimize code size)
 const maxOpenDefers = 8
@@ -39,6 +49,10 @@ const maxOpenDefers = 8
 var ssaDumpInlined []*Node
 
 func initssaconfig() {
+	tle = os.Getenv("GO_TLE")
+	if tle != "" {
+		tleRegexp = regexp.MustCompile(tle)
+	}
 	types_ := ssa.NewTypes()
 
 	if thearch.SoftFloat {
@@ -4384,7 +4398,8 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	case OCALLFUNC:
 		if k == callNormal && fn.Op == ONAME && fn.Class() == PFUNC {
 			sym = fn.Sym
-			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+			if !returnResultAddr && tleMatch(s.f.Name) {
+				fmt.Printf("TLE match %s in %s\n", sym.Name, s.f.Name)
 				testLateExpansion = true
 			}
 			break
@@ -4401,7 +4416,8 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		}
 		if k == callNormal {
 			sym = fn.Sym
-			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+			if !returnResultAddr && tleMatch(s.f.Name) {
+				fmt.Printf("TLE match %s in %s\n", sym.Name, s.f.Name)
 				testLateExpansion = true
 			}
 			break
