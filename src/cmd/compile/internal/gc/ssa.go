@@ -10,7 +10,6 @@ import (
 	"html"
 	"os"
 	"sort"
-	"strings"
 
 	"bufio"
 	"bytes"
@@ -4384,7 +4383,7 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	case OCALLFUNC:
 		if k == callNormal && fn.Op == ONAME && fn.Class() == PFUNC {
 			sym = fn.Sym
-			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+			if !returnResultAddr && ssa.TleMatch(s.f.Name) {
 				testLateExpansion = true
 			}
 			break
@@ -4401,7 +4400,7 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		}
 		if k == callNormal {
 			sym = fn.Sym
-			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+			if !returnResultAddr && ssa.TleMatch(s.f.Name) {
 				testLateExpansion = true
 			}
 			break
