@@ -593,7 +593,7 @@ func IsSanitizerSafeAddr(v *Value) bool {
 		v = v.Args[0]
 	}
 	switch v.Op {
-	case OpSP, OpLocalAddr:
+	case OpSP, OpLocalAddr, OpSelectNAddr:
 		// Stack addresses are always safe.
 		return true
 	case OpITab, OpStringPtr, OpGetClosurePtr:
