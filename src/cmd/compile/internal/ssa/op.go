@@ -79,6 +79,18 @@ type AuxCall struct {
 	results []ArgOrResult // Normal calls return a struct for multiple args, RT calls return multiple args, 🙄.
 }
 
+// ResultForOffset returns the index of the result at a particular offset among the results
+func (a *AuxCall) ResultForOffset(offset int64) int64 {
+	which := int64(-1)
+	for i := int64(0); i < a.ResultsLen(); i++ { // note aux ResultsLen does not include mem result.
+		if a.OffsetOfResult(i) == offset {
+			which = i
+			break
+		}
+	}
+	return which
+}
+
 // OffsetOfResult returns the SP offset of result which (indexed 0, 1, etc).
 func (a *AuxCall) OffsetOfResult(which int64) int64 {
 	return int64(a.results[which].Offset)
