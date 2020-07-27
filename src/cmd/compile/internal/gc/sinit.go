@@ -875,6 +875,9 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 			r.SetTypecheck(1)
 			r.Type = t
 			r.Esc = n.Esc
+			if mustHeapAlloc(n) {
+				r.Esc = EscHeap
+			}
 		}
 
 		r = walkexpr(r, init)
