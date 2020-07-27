@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f233a050_38f14e6b",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-07-27T17:38:58Z",
+      "side": 1,
+      "message": "Could you squeeze the field in here? That way it wouldn\u0027t take any extra space.",
+      "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
