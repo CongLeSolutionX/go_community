@@ -82,7 +82,7 @@ type AuxCall struct {
 // ResultForOffset returns the index of the result at a particular offset among the results
 func (a *AuxCall) ResultForOffset(offset int64) int64 {
 	which := int64(-1)
-	for i := int64(0); i < a.ResultsLen(); i++ { // note aux ResultsLen does not include mem result.
+	for i := int64(0); i < a.NResults(); i++ { // note aux ResultsLen does not include mem result.
 		if a.OffsetOfResult(i) == offset {
 			which = i
 			break
