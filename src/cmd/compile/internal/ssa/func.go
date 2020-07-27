@@ -81,6 +81,8 @@ type Func struct {
 
 	auxmap    auxmap             // map from aux values to opaque ids used by CSE
 	constants map[int64][]*Value // constants cache, keyed by constant value; users must check value's Op and Type
+
+	dumpFileSeq uint8 // the sequence numbers of dump file. (%s_%02d__%s.dump", funcname, dumpFileSeq, phaseName)
 }
 
 // NewFunc returns a new, empty function object.
