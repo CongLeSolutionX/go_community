@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c645c3a_28af97a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-07-27T20:11:41Z",
+      "side": 1,
+      "message": "I started this off a bit as Ian suggested, with a sched counter of \u0027pending\u0027 M\u0027s in the process of creation, which checkdead would consider running. However, it quickly gets ugly with many callsites needing to say they are starting an M even though it doesn\u0027t matter.\n\nExplicitly pre-allocating the ID like this to increase mcount() earlier ended up feeling much cleaner. Let me know what you think.\n\nIdeally, I think this would be cleanest with a refactor to allow newm() while holding sched.lock, but that would be a much bigger change, plus it brings a lot more stuff inside the critical section.",
+      "revId": "299a009c0486516fed357ba4b74ba9a125f6e1f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
