@@ -10,7 +10,6 @@ import (
 	"html"
 	"os"
 	"sort"
-	"strings"
 
 	"bufio"
 	"bytes"
@@ -2560,19 +2559,19 @@ func (s *state) expr(n *Node) *ssa.Value {
 		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall {
 			// Do the old thing
 			addr := s.constOffPtrSP(types.NewPtr(n.Type), n.Xoffset)
-			return s.load(n.Type, addr)
+			return s.rawLoad(n.Type, addr)
 		}
 		which := s.prevCall.Aux.(*ssa.AuxCall).ResultForOffset(n.Xoffset)
 		if which == -1 {
 			// Do the old thing // TODO: Panic instead.
 			addr := s.constOffPtrSP(types.NewPtr(n.Type), n.Xoffset)
-			return s.load(n.Type, addr)
+			return s.rawLoad(n.Type, addr)
 		}
 		if canSSAType(n.Type) {
 			return s.newValue1I(ssa.OpSelectN, n.Type, which, s.prevCall)
 		} else {
 			addr := s.newValue1I(ssa.OpSelectNAddr, types.NewPtr(n.Type), which, s.prevCall)
-			return s.load(n.Type, addr)
+			return s.rawLoad(n.Type, addr)
 		}
 
 	case ODEREF:
@@ -4382,7 +4381,7 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	case OCALLFUNC:
 		if k == callNormal && fn.Op == ONAME && fn.Class() == PFUNC {
 			sym = fn.Sym
-			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+			if !returnResultAddr && ssa.LateCallExpansionEnabledWithin(s.f) {
 				testLateExpansion = true
 			}
 			break
@@ -4399,7 +4398,7 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		}
 		if k == callNormal {
 			sym = fn.Sym
-			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
+			if !returnResultAddr && ssa.LateCallExpansionEnabledWithin(s.f) {
 				testLateExpansion = true
 			}
 			break
@@ -5013,6 +5012,7 @@ func (s *state) intDivide(n *Node, a, b *ssa.Value) *ssa.Value {
 // The call is added to the end of the current block.
 // If returns is false, the block is marked as an exit block.
 func (s *state) rtcall(fn *obj.LSym, returns bool, results []*types.Type, args ...*ssa.Value) []*ssa.Value {
+	savedPrevCall := s.prevCall
 	s.prevCall = nil
 	// Write args to the stack
 	off := Ctxt.FixedFrameSize()
@@ -5065,7 +5065,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*types.Type, args .
 
 	// Remember how much callee stack space we needed.
 	call.AuxInt = off
-
+	s.prevCall = savedPrevCall
 	return res
 }
 
