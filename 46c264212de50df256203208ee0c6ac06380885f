@@ -132,6 +132,24 @@
       "revId": "46c264212de50df256203208ee0c6ac06380885f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60fca729_0556206b",
+        "filename": "test/fixedbugs/issue39292.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-07-28T06:12:38Z",
+      "side": 1,
+      "message": "Ah ok, never mind, I think it\u0027s not this CL, but your CL https://go-review.googlesource.com/c/go/+/228263 make i not moved to heap anymore.",
+      "parentUuid": "463aaaaf_28c4b3e3",
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
