@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78e53ae5_85d0f747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-07-28T01:44:58Z",
+      "side": 1,
+      "message": "To be honest, I don\u0027t really understand. Could you tell me the specific ideas and methods? I have time now and look forward to contributing.",
+      "parentUuid": "52fff199_130a5e0d",
+      "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f233a050_38f14e6b",
         "filename": "src/cmd/compile/internal/ssa/func.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7191ab29_07f12335",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-07-28T01:44:58Z",
+      "side": 1,
+      "message": "Thank you very much, I have moved the variable to line 57. I am not sure if I really understand your review opinion, could you please tell me why it wouldn\u0027t take any extra space.",
+      "parentUuid": "f233a050_38f14e6b",
+      "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
