@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "201932ff_29be59ec",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-07-28T15:05:09Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure we are OK here. If there is 1 P, we must already have an M (since we\u0027re running on it!). If there are \u003e1 P\u0027s, then the spinning dance at the end of findrunnable should ensure that checkdead is never in the bad state (the P that does have an M will steal all the work before sleeping).",
+      "parentUuid": "d0267848_3ebd4a9e",
+      "revId": "299a009c0486516fed357ba4b74ba9a125f6e1f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c18c96b8_3759637e",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -68,6 +86,24 @@
       "revId": "299a009c0486516fed357ba4b74ba9a125f6e1f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "074e3050_f4b87c05",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1944,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-07-28T15:05:09Z",
+      "side": 1,
+      "message": "Marking resolved.",
+      "parentUuid": "0f1a6d17_12c9af3a",
+      "revId": "299a009c0486516fed357ba4b74ba9a125f6e1f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
