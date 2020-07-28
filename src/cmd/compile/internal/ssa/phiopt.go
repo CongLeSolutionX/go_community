@@ -46,7 +46,6 @@ func phiopt(f *Func) {
 			continue
 		}
 		// b0 is the if block giving the boolean value.
-
 		// reverse is the predecessor from which the truth value comes.
 		var reverse int
 		if b0.Succs[0].b == pb0 && b0.Succs[1].b == pb1 {
@@ -120,6 +119,141 @@ func phiopt(f *Func) {
 			}
 		}
 	}
+	// strengthen phi optimization.
+	// Main use case is to transform:
+	//   x := false
+	//   if c {
+	//     x = true
+	//     ...
+	//   }
+	// into
+	//   x := c
+	//   if x { ... }
+	//
+	// For example, in SSA code a case appears as
+	// b0
+	//   If c -> b, sb0
+	// sb0
+	//   If d -> sd0, sd1
+	// sd1
+	//   ...
+	// sd0
+	//   Plain -> b
+	// b
+	//   x = (OpPhi (ConstBool [true]) (ConstBool [false]))
+	//
+	// In this case we can also replace x with a copy of c.
+	//
+	// The optimization idea:
+	// 1. block b has a phi value x, x = OpPhi (ConstBool [true]) (ConstBool [false]),
+	//    and len(b.Preds) is equal to 2.
+	// 2. find the common dominator(b0) of the predecessors(pb0, pb1) of block b,
+	//    except when pb0 or pb1 is the dominator(b0), and the dominator(b0) is a If block.
+	// 3. the successors(sb0, sb1) of the dominator need to dominate the predecessors(pb0, pb1)
+	//    of block b respectively.
+	// 4. replace this boolean Phi based on dominator block.
+	//
+	//     b0  ...       ...   b0              b0
+	//    |  \ /           \  / |             /  \
+	//    |  sb1           sb0  |           sb0  sb1
+	//    |  ...           ...  |           ...   ...
+	//    |  pb1           pb0  |           pb0  pb1
+	//    |  /               \  |            \   /
+	//     b                   b               b
+
+	for _, b := range f.Blocks {
+		if len(b.Preds) != 2 || len(b.Values) == 0 {
+			// TODO: handle more than 2 predecessors, e.g. a || b || c.
+			continue
+		}
+		find := false
+		var v *Value
+		for _, v = range b.Values {
+			// find a phi value v = OpPhi (ConstBool [true]) (ConstBool [false]).
+			// TODO: v = OpPhi (ConstBool [true]) (Arg <bool> {value})
+			if v.Op == OpPhi && v.Args[0].Op == OpConstBool && v.Args[1].Op == OpConstBool {
+				find = true
+				break
+			}
+		}
+		if !find {
+			continue
+		}
+		pb0 := b.Preds[0].b
+		pb1 := b.Preds[1].b
+		if pb0.Kind == BlockIf && pb0 == sdom.Parent(b) {
+			// special case: pb0 is the dominator block b0.
+			//     b0  ...
+			//    |  \ /
+			//    |  sb1
+			//    |  ...
+			//    |  pb1
+			//    |  /
+			//     b
+			b0 := pb0
+			pb0 := b
+			p := sdom.Parent(pb1)
+			for ; p != nil; p = sdom.Parent(pb1) {
+				if p == b0 {
+					replace(b0, pb0, pb1, b, v)
+					break
+				}
+				pb1 = p
+			}
+		} else if pb1.Kind == BlockIf && pb1 == sdom.Parent(b) {
+			// special case: pb1 is the dominator block b0.
+			//  ...   b0
+			//    \ /  |
+			//    sb0  |
+			//    ...  |
+			//    pb0  |
+			//      \  |
+			//        b
+			b0 := pb1
+			pb1 := b
+			p := sdom.Parent(pb0)
+			for ; p != nil; p = sdom.Parent(pb0) {
+				if p == b0 {
+					replace(b0, pb0, pb1, b, v)
+					break
+				}
+				pb0 = p
+			}
+		} else {
+			//      b0
+			//     /   \
+			//    sb0  sb1
+			//    ...  ...
+			//    pb0  pb1
+			//      \   /
+			//        b
+			p0 := sdom.Parent(pb0)
+			b1 := pb1
+		outer:
+			for ; p0 != nil; p0 = sdom.Parent(pb0) {
+				if p0.Kind == BlockIf {
+					p1 := sdom.Parent(pb1)
+					for ; p1 != nil; p1 = sdom.Parent(pb1) {
+						if p0 == p1 {
+							sb0 := p0.Succs[0].b
+							sb1 := p0.Succs[1].b
+							// we can not replace phi value x in the following case.
+							//   if gp == nil || sp < lo { x = true}
+							//   if a || b { x = true }
+							// so the if statement can only have one condition.
+							if len(sb0.Preds) == 1 && len(sb1.Preds) == 1 {
+								replace(p0, pb0, pb1, b, v)
+								break outer
+							}
+						}
+						pb1 = p1
+					}
+					pb1 = b1
+				}
+				pb0 = p0
+			}
+		}
+	}
 }
 
 func phioptint(v *Value, b0 *Block, reverse int) {
@@ -172,5 +306,28 @@ func phioptint(v *Value, b0 *Block, reverse int) {
 	f := b0.Func
 	if f.pass.debug > 0 {
 		f.Warnl(v.Block.Pos, "converted OpPhi bool -> int%d", v.Type.Size()*8)
+	}
+}
+
+func replace(b0, pb0, pb1, b *Block, v *Value) {
+	// b0 is the if block giving the boolean value.
+	// b has the phi value v = (OpPhi (ConstBool [true]) (ConstBool [false])).
+	// reverse is the predecessor from which the truth value comes.
+	var reverse int
+	f := b.Func
+	if b0.Succs[0].b == pb0 && b0.Succs[1].b == pb1 {
+		reverse = 0
+	} else if b0.Succs[0].b == pb1 && b0.Succs[1].b == pb0 {
+		reverse = 1
+	} else {
+		return
+	}
+	if v.Args[reverse].AuxInt != v.Args[1-reverse].AuxInt {
+		ops := [2]Op{OpNot, OpCopy}
+		v.reset(ops[v.Args[reverse].AuxInt])
+		v.AddArg(b0.Controls[0])
+		if f.pass.debug > 0 {
+			f.Warnl(b.Pos, "converted OpPhi to %v", v.Op)
+		}
 	}
 }
