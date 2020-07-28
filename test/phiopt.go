@@ -104,5 +104,29 @@ func f7and(a bool, b bool) bool {
 	return a && b // ERROR "converted OpPhi to AndB$"
 }
 
+//go:noinline
+func f8(s string) (string, bool) {
+	neg := false
+	if s[0] == '-' {
+		neg = true
+		s = s[1:]
+	}
+	return s, neg // ERROR "converted OpPhi to Copy$"
+}
+
+var d int
+
+//go:noinline
+func f9(a, b int) bool {
+	c := false
+	if a < 0 {
+		if b < 0 {
+			d = d + 1
+		}
+		c = true
+	}
+	return c // ERROR "converted OpPhi to Copy$"
+}
+
 func main() {
 }
