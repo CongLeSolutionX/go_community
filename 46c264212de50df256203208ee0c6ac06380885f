@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b235e92_990a6d4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-07-28T07:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8cfc759_ec8901a5",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc83f8f8_ba85aa4f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "46c264212de50df256203208ee0c6ac06380885f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63398be8_cdd9109d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-07-28T07:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc83f8f8_ba85aa4f",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +127,24 @@
       "revId": "46c264212de50df256203208ee0c6ac06380885f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54ab4c82_96fb2ed6",
+        "filename": "test/fixedbugs/issue39292.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-07-28T07:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62d3a01_4d14ada5",
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +216,24 @@
       "revId": "46c264212de50df256203208ee0c6ac06380885f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d03bd400_7a9ca931",
+        "filename": "test/fixedbugs/issue39292.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-07-28T07:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60fca729_0556206b",
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
