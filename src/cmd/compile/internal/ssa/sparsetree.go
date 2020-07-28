@@ -178,6 +178,12 @@ func (t SparseTree) Child(x *Block) *Block {
 	return t[x.ID].child
 }
 
+// Parent returns the parent of x in the dominator tree, or
+// nil if x is the function's entry.
+func (t SparseTree) Parent(x *Block) *Block {
+	return t[x.ID].parent
+}
+
 // isAncestorEq reports whether x is an ancestor of or equal to y.
 func (t SparseTree) IsAncestorEq(x, y *Block) bool {
 	if x == y {
@@ -232,4 +238,22 @@ func (t SparseTree) domorder(x *Block) int32 {
 	// y-then-z requires exit(y) < entry(z), but we have entry(z) < exit(y).
 	// We have a contradiction, so x does not dominate z, as required.
 	return t[x.ID].entry
+}
+
+// lca returns lowest commmon acestor of two blocks x and y.
+func (t SparseTree) lca(x, y *Block) *Block {
+	visited := make(map[ID]bool)
+	p := x
+	for p != nil {
+		visited[p.ID] = true
+		p = t[p.ID].parent
+	}
+	q := y
+	for q != nil {
+		if visited[q.ID] {
+			return q
+		}
+		q = t[q.ID].parent
+	}
+	return nil
 }
