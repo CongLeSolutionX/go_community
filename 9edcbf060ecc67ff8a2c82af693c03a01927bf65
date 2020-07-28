@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1afdd4d_d15d38ca",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-28T23:14:14Z",
+      "side": 1,
+      "message": "As we now use the field from ctxt, do we still need this change? And the tests?",
+      "revId": "9edcbf060ecc67ff8a2c82af693c03a01927bf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c018fbda_a80990ec",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-28T23:14:14Z",
+      "side": 1,
+      "message": "I think we don\u0027t actually need Preload to access FuncID. Preload are needed only for variable-length fields.",
+      "revId": "9edcbf060ecc67ff8a2c82af693c03a01927bf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
