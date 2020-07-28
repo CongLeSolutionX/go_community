@@ -39,6 +39,30 @@
       "revId": "098008fe3ce5bcbad5a637967949c1890f929ec7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69fcacd_13adedae",
+        "filename": "src/cmd/internal/objabi/funcid.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-28T17:55:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69e103f1_6bd75843",
+      "range": {
+        "startLine": 47,
+        "startChar": 28,
+        "endLine": 47,
+        "endChar": 39
+      },
+      "revId": "098008fe3ce5bcbad5a637967949c1890f929ec7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
