@@ -234,6 +234,24 @@
       "revId": "46c264212de50df256203208ee0c6ac06380885f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f653195_c77925d5",
+        "filename": "test/fixedbugs/issue39292.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-28T18:55:07Z",
+      "side": 1,
+      "message": "I think the correct takeaway here is that CL 228263 didn\u0027t handle this case correctly. \"t{\u0026i}.f\" should force \"i\" to be heap allocated, and we should correctly report that \"t{\u0026i}.f\" is heap allocated if that\u0027s what the code is doing.\n\nI think the right fix is in mustHeapAlloc. After the code for ONEW/OPTRLIT, probably need something like:\n\n```\nif n.Op \u003d\u003d OCLOSURE \u0026\u0026 closureType(n).Size() \u003e\u003d maxImplicitStackVarSize {\n    return true\n}\nif n.Op \u003d\u003d OCALLPART \u0026\u0026 partialCallType(n).Size() \u003e\u003d maxImplicitStackVarSize {\n    return true\n}\n```\n\nThen the change in sinit.go shouldn\u0027t be needed.",
+      "parentUuid": "d03bd400_7a9ca931",
+      "revId": "46c264212de50df256203208ee0c6ac06380885f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

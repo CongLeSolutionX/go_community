@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d03a5cea_223c3e68",
+        "filename": "test/fixedbugs/issue39292.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-28T18:55:07Z",
+      "side": 1,
+      "message": "In general, for escape analysis tests it\u0027s good practice to write each test as a separate function. For example, here we want to make sure that both \"(\u0026t{\u0026i}).f\" and \"t{\u0026i}.f\" force i to the heap. However, because they\u0027re referencing the same variable, the test will still pass as long as at least one of them forces it to the heap.",
+      "revId": "fbc8e448082d04dbe5995021b510c444b20f75e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
