@@ -69,6 +69,24 @@
       "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fe5839c_82f89c6e",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-07-28T02:58:51Z",
+      "side": 1,
+      "message": "Well, it will take more space as an int, instead of a uint8.\nBut in general, fields are allocated in text order, but aligned to their natural alignment. Because the next field is a slice, its alignment is 8 (at least on 64-bit platforms). So there\u0027s currently 5 bytes of alignment padding here, which you could use for a uint8 field without increasing memory use.",
+      "parentUuid": "7191ab29_07f12335",
+      "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
