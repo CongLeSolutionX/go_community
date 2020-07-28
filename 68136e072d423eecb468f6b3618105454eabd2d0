@@ -87,6 +87,24 @@
       "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "528e6b90_1598be2e",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-07-28T06:31:41Z",
+      "side": 1,
+      "message": "I see. Thank you very much.",
+      "parentUuid": "9fe5839c_82f89c6e",
+      "revId": "68136e072d423eecb468f6b3618105454eabd2d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
