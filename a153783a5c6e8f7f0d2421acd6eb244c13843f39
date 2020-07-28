@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b8fc7f4_329f8806",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-28T13:01:19Z",
+      "side": 1,
+      "message": "Perhaps mention that there\u0027s no test because it\u0027s extremely hard to trigger the right interleaving in the runtime.",
+      "revId": "a153783a5c6e8f7f0d2421acd6eb244c13843f39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "707b6e10_e130be0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-28T13:01:19Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "a153783a5c6e8f7f0d2421acd6eb244c13843f39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb601c39_0118ebcc",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-28T13:01:19Z",
+      "side": 1,
+      "message": "We usually spell this \"sched.lock must be held\". One day maybe we\u0027ll have a way to check these conditions...",
+      "range": {
+        "startLine": 629,
+        "startChar": 3,
+        "endLine": 629,
+        "endChar": 27
+      },
+      "revId": "a153783a5c6e8f7f0d2421acd6eb244c13843f39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
