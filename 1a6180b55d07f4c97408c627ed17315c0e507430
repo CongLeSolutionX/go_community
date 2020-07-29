@@ -34,6 +34,75 @@
       "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "033aa557_2ac49650",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-07-29T22:35:38Z",
+      "side": 1,
+      "message": "I\u0027ve found myself getting confused when talking about what all level we\u0027re on and which edges we\u0027re transitively following. This means that we transitively close over all \"test of\" and \"import of\" edges right?",
+      "range": {
+        "startLine": 652,
+        "startChar": 0,
+        "endLine": 656,
+        "endChar": 52
+      },
+      "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd8ea6ee_582e79bf",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-07-29T22:35:38Z",
+      "side": 1,
+      "message": "Should we change this comment? Before, the test was queued at the end of (*loader).pkg, after queueing all the imports, but now the test is queued in (*loader).loadAll, the caller of this function.",
+      "range": {
+        "startLine": 848,
+        "startChar": 3,
+        "endLine": 848,
+        "endChar": 45
+      },
+      "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7688669_a118b6de",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-07-29T22:35:38Z",
+      "side": 1,
+      "message": "It wasn\u0027t clear to me on first reading what was happening here: that ld.pkg above marks the loader as non-idle by grabbing the token and ld.startLoad\u0027s goroutine returns the token once the queue is empty (or the package was in ld.pkgCache, so that the loader stays idle).\n\nI\u0027m wondering if there could be a comment here clarifying the contract between loadAll and ld.pkg w.r.t ld.idle and ld.pkgLoaded?",
+      "range": {
+        "startLine": 1001,
+        "startChar": 2,
+        "endLine": 1003,
+        "endChar": 9
+      },
+      "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
