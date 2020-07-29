@@ -285,7 +285,8 @@ type Loader struct {
 
 	errorReporter *ErrorReporter
 
-	npkgsyms int // number of package symbols, for accounting
+	npkgsyms    int // number of package symbols, for accounting
+	nhashedsyms int // number of hashed symbols, for accounting
 }
 
 const (
@@ -2138,6 +2139,11 @@ func (l *Loader) LoadNonpkgSyms(arch *sys.Arch) {
 		loadObjRefs(l, o.r, arch)
 	}
 	l.values = make([]int64, l.NSym(), l.NSym()+1000) // +1000 make some room for external symbols
+	l.nhashedsyms = len(l.hashed64Syms) + len(l.hashedSyms)
+
+	// Loading is done. We no longer need the hash maps.
+	l.hashed64Syms = nil
+	l.hashedSyms = nil
 }
 
 func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch) {
@@ -2552,7 +2558,7 @@ func (l *Loader) Errorf(s Sym, format string, args ...interface{}) {
 func (l *Loader) Stat() string {
 	s := fmt.Sprintf("%d symbols, %d reachable\n", l.NSym(), l.NReachableSym())
 	s += fmt.Sprintf("\t%d package symbols, %d hashed symbols, %d non-package symbols, %d external symbols\n",
-		l.npkgsyms, len(l.hashed64Syms)+len(l.hashedSyms), int(l.extStart)-l.npkgsyms-len(l.hashed64Syms)-len(l.hashedSyms), l.NSym()-int(l.extStart))
+		l.npkgsyms, l.nhashedsyms, int(l.extStart)-l.npkgsyms-l.nhashedsyms, l.NSym()-int(l.extStart))
 	return s
 }
 
