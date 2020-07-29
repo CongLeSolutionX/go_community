@@ -1291,7 +1291,7 @@ var persistentChunks *notInHeap
 // The returned memory will be zeroed.
 //
 // Consider marking persistentalloc'd types go:notinheap.
-func persistentalloc(size, align uintptr, sysStat *uint64) unsafe.Pointer {
+func persistentalloc(size, align uintptr, sysStat *sysMemStat) unsafe.Pointer {
 	var p *notInHeap
 	systemstack(func() {
 		p = persistentalloc1(size, align, sysStat)
@@ -1302,7 +1302,7 @@ func persistentalloc(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 // Must run on system stack because stack growth can (re)invoke it.
 // See issue 9174.
 //go:systemstack
-func persistentalloc1(size, align uintptr, sysStat *uint64) *notInHeap {
+func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 	const (
 		maxBlock = 64 << 10 // VM reservation granularity is 64K on windows
 	)
@@ -1361,8 +1361,8 @@ func persistentalloc1(size, align uintptr, sysStat *uint64) *notInHeap {
 	}
 
 	if sysStat != &memstats.other_sys {
-		mSysStatInc(sysStat, size)
-		mSysStatDec(&memstats.other_sys, size)
+		sysStat.add(int64(size))
+		memstats.other_sys.add(-int64(size))
 	}
 	return p
 }
@@ -1403,7 +1403,7 @@ func (l *linearAlloc) init(base, size uintptr) {
 	l.end = base + size
 }
 
-func (l *linearAlloc) alloc(size, align uintptr, sysStat *uint64) unsafe.Pointer {
+func (l *linearAlloc) alloc(size, align uintptr, sysStat *sysMemStat) unsafe.Pointer {
 	p := alignUp(l.next, align)
 	if p+size > l.end {
 		return nil
