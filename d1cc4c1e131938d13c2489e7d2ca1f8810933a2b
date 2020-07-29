@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b196898_fb12dfdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-07-29T03:04:05Z",
+      "side": 1,
+      "message": "Nice, glad to hear that fixed it. Thanks for following through on this.\n\nCL looks good, so I\u0027m approving it. Please wait until the tree re-opens for Go 1.16 before submitting though.",
+      "revId": "d1cc4c1e131938d13c2489e7d2ca1f8810933a2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
