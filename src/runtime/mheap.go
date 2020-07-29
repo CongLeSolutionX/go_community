@@ -881,6 +881,22 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 	return nFreed
 }
 
+// spanAllocType represents the type of allocation to make, or
+// the type of allocation to be freed.
+type spanAllocType uint8
+
+const (
+	spanAllocHeap          spanAllocType = iota // heap span
+	spanAllocStack                              // stack span
+	spanAllocPtrScalarBits                      // unrolled GC prog bitmap span
+	spanAllocWorkBuf                            // work buf span
+)
+
+// manual returns true if the span allocation is manually managed.
+func (s spanAllocType) manual() bool {
+	return s != spanAllocHeap
+}
+
 // alloc allocates a new span of npage pages from the GC'd heap.
 //
 // spanclass indicates the span's size class and scannability.
@@ -897,7 +913,7 @@ func (h *mheap) alloc(npages uintptr, spanclass spanClass, needzero bool) *mspan
 		if h.sweepdone == 0 {
 			h.reclaim(npages)
 		}
-		s = h.allocSpan(npages, false, spanclass, &memstats.heap_inuse)
+		s = h.allocSpan(npages, spanAllocHeap, spanclass)
 	})
 
 	if s != nil {
@@ -922,9 +938,15 @@ func (h *mheap) alloc(npages uintptr, spanclass spanClass, needzero bool) *mspan
 // allocManual must be called on the system stack because it may
 // acquire the heap lock via allocSpan. See mheap for details.
 //
+// If new code is written to call allocManual, do NOT use an
+// existing spanAllocType value and instead declare a new one.
+//
 //go:systemstack
-func (h *mheap) allocManual(npages uintptr, stat *uint64) *mspan {
-	return h.allocSpan(npages, true, 0, stat)
+func (h *mheap) allocManual(npages uintptr, typ spanAllocType) *mspan {
+	if !typ.manual() {
+		throw("manual span allocation called with non-manually-managed type")
+	}
+	return h.allocSpan(npages, typ, 0)
 }
 
 // setSpans modifies the span map so [spanOf(base), spanOf(base+npage*pageSize))
@@ -1101,7 +1123,7 @@ func (h *mheap) freeMSpanLocked(s *mspan) {
 // the heap lock and because it must block GC transitions.
 //
 //go:systemstack
-func (h *mheap) allocSpan(npages uintptr, manual bool, spanclass spanClass, sysStat *uint64) (s *mspan) {
+func (h *mheap) allocSpan(npages uintptr, typ spanAllocType, spanclass spanClass) (s *mspan) {
 	// Function-global state.
 	gp := getg()
 	base, scav := uintptr(0), uintptr(0)
@@ -1163,12 +1185,10 @@ HaveSpan:
 		s.needzero = 1
 	}
 	nbytes := npages * pageSize
-	if manual {
+	if typ.manual() {
 		s.manualFreeList = 0
 		s.nelems = 0
 		s.limit = s.base() + s.npages*pageSize
-		// Manually managed memory doesn't count toward heap_sys.
-		mSysStatDec(&memstats.heap_sys, s.npages*pageSize)
 		s.state.set(mSpanManual)
 	} else {
 		// We must set span properties before the span is published anywhere
@@ -1225,7 +1245,18 @@ HaveSpan:
 		mSysStatDec(&memstats.heap_released, scav)
 	}
 	// Update stats.
-	mSysStatInc(sysStat, nbytes)
+	switch typ {
+	case spanAllocHeap:
+		mSysStatInc(&memstats.heap_inuse, nbytes)
+	case spanAllocStack:
+		mSysStatInc(&memstats.stacks_inuse, nbytes)
+	case spanAllocPtrScalarBits, spanAllocWorkBuf:
+		mSysStatInc(&memstats.gc_sys, nbytes)
+	}
+	if typ.manual() {
+		// Manually managed memory doesn't count toward heap_sys.
+		mSysStatDec(&memstats.heap_sys, nbytes)
+	}
 	mSysStatDec(&memstats.heap_idle, nbytes)
 
 	// Publish the span in various locations.
@@ -1237,7 +1268,7 @@ HaveSpan:
 	// before that happens) or pageInUse is updated.
 	h.setSpans(s.base(), npages, s)
 
-	if !manual {
+	if !typ.manual() {
 		if !go115NewMCentralImpl {
 			// Add to swept in-use list.
 			//
@@ -1353,13 +1384,13 @@ func (h *mheap) freeSpan(s *mspan) {
 			bytes := s.npages << _PageShift
 			msanfree(base, bytes)
 		}
-		h.freeSpanLocked(s, true, true)
+		h.freeSpanLocked(s, spanAllocHeap)
 		unlock(&h.lock)
 	})
 }
 
 // freeManual frees a manually-managed span returned by allocManual.
-// stat must be the same as the stat passed to the allocManual that
+// typ must be the same as the spanAllocType passed to the allocManual that
 // allocated s.
 //
 // This must only be called when gcphase == _GCoff. See mSpanState for
@@ -1369,16 +1400,14 @@ func (h *mheap) freeSpan(s *mspan) {
 // the heap lock. See mheap for details.
 //
 //go:systemstack
-func (h *mheap) freeManual(s *mspan, stat *uint64) {
+func (h *mheap) freeManual(s *mspan, typ spanAllocType) {
 	s.needzero = 1
 	lock(&h.lock)
-	mSysStatDec(stat, s.npages*pageSize)
-	mSysStatInc(&memstats.heap_sys, s.npages*pageSize)
-	h.freeSpanLocked(s, false, true)
+	h.freeSpanLocked(s, typ)
 	unlock(&h.lock)
 }
 
-func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool) {
+func (h *mheap) freeSpanLocked(s *mspan, typ spanAllocType) {
 	switch s.state.get() {
 	case mSpanManual:
 		if s.allocCount != 0 {
@@ -1398,12 +1427,21 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool) {
 		throw("mheap.freeSpanLocked - invalid span state")
 	}
 
-	if acctinuse {
+	// Update stats.
+	//
+	// Mirrors the code in allocSpan.
+	switch typ {
+	case spanAllocHeap:
 		mSysStatDec(&memstats.heap_inuse, s.npages*pageSize)
+	case spanAllocStack:
+		mSysStatDec(&memstats.stacks_inuse, s.npages*pageSize)
+	case spanAllocPtrScalarBits, spanAllocWorkBuf:
+		mSysStatDec(&memstats.gc_sys, s.npages*pageSize)
 	}
-	if acctidle {
-		mSysStatInc(&memstats.heap_idle, s.npages*pageSize)
+	if typ.manual() {
+		mSysStatInc(&memstats.heap_sys, s.npages*pageSize)
 	}
+	mSysStatInc(&memstats.heap_idle, s.npages*pageSize)
 
 	// Mark the space as free.
 	h.pages.free(s.base(), s.npages)
