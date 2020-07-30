@@ -34,6 +34,24 @@
       "revId": "85afa2eb190d5d1a06584803bde4b4ee9b0e79b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29784348_685d22f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-07-30T15:03:18Z",
+      "side": 1,
+      "message": "According to Dmitri: \"We on the release team will be merging the master branch into release-branch.go1.15. So, no need for backport requests—everything on master will end up on release-branch.go1.15.\"",
+      "parentUuid": "84868e13_4739cb3c",
+      "revId": "85afa2eb190d5d1a06584803bde4b4ee9b0e79b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
