@@ -16,6 +16,24 @@
       "revId": "85afa2eb190d5d1a06584803bde4b4ee9b0e79b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84868e13_4739cb3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-07-30T03:54:11Z",
+      "side": 1,
+      "message": "Or maybe that will happen automatically, I\u0027m not sure.",
+      "parentUuid": "96a159ff_b691da52",
+      "revId": "85afa2eb190d5d1a06584803bde4b4ee9b0e79b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
