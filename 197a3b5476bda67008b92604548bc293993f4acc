@@ -22,6 +22,30 @@
       "revId": "197a3b5476bda67008b92604548bc293993f4acc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dac51105_2ee8e53c",
+        "filename": "src/cmd/internal/objabi/funcid.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-30T21:46:08Z",
+      "side": 1,
+      "message": "Just a thought: try turning these into a panic and making sure all.bash doesn\u0027t hit them? (Then eliminate)",
+      "parentUuid": "591c6f51_d776eddd",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 2
+      },
+      "revId": "197a3b5476bda67008b92604548bc293993f4acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
