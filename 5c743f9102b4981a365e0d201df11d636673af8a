@@ -16,6 +16,24 @@
       "revId": "5c743f9102b4981a365e0d201df11d636673af8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00eec270_2bfc923e",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2144,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-30T15:05:52Z",
+      "side": 1,
+      "message": "No problem :) This is a good point.\n\nI think this is actually possible. The lifetime of the maps is bounded by this function (actually could be even shorter). I\u0027d have to pass the argument through, but it probably doesn\u0027t sound too bad. Will give it a try.",
+      "parentUuid": "016ebe49_2e43c9a0",
+      "revId": "5c743f9102b4981a365e0d201df11d636673af8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
