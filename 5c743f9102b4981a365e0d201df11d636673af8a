@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "016ebe49_2e43c9a0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2144,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-30T14:39:32Z",
+      "side": 1,
+      "message": "The answer to this is probably no, but is it possible to arrange things such that these naturally become unreachable when the loader is done?\n\nAs a big fan of \"locally imperative, globally functional\" style, I\u0027m always weary of these sorts of \"set these fields to nil because we\u0027re done with them\" solutions. It makes their lifetimes much less obvious, which reduces maintainability. This is another example where I worry we have too much mutability in the linker. The fields are going to continue being accessible, but whether they\u0027re meaningful depends on where you are in execution. On the other hand, if we could, for example, bundle up the state that\u0027s only needed while the loader is actually loading in its own object, and simply drop that object on the floor when we\u0027re done loading, then the lifetimes are obvious: if you can access the field, it\u0027s meaningful.\n\nI apologize for going all philosophical over two lines. :)",
+      "revId": "5c743f9102b4981a365e0d201df11d636673af8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
