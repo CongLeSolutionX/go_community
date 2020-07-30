@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56365fc3_5ac3d440",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-07-30T21:37:53Z",
+      "side": 1,
+      "message": "Could you expand the comment to say why it matters?\n\nHere\u0027s my understanding: It\u0027s because in 1.16+ the Go command doesn\u0027t load tests and their dependencies for all now unless -test is supplied, while in 1.15 and earlier all without \"-test\" would result in everything that \"all -test\" would load being loaded, and the tests being filtered out afterwards?",
+      "range": {
+        "startLine": 48,
+        "startChar": 18,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7475d3b_8d62620e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-07-30T21:37:53Z",
+      "side": 1,
+      "message": "required",
+      "range": {
+        "startLine": 672,
+        "startChar": 44,
+        "endLine": 672,
+        "endChar": 51
+      },
+      "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dd9f7b1_f55d08ef",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-07-30T21:37:53Z",
+      "side": 1,
+      "message": "Comments here would be very useful. I think we could add a comment for each of the four if statement explaining what part of the behavior of the definitions of what\u0027s in all and what packages get loaded we\u0027re implementing.",
+      "range": {
+        "startLine": 1031,
+        "startChar": 1,
+        "endLine": 1038,
+        "endChar": 3
+      },
+      "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
