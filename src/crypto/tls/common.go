@@ -924,13 +924,9 @@ var supportedVersions = []uint16{
 func (c *Config) supportedVersions() []uint16 {
 	versions := make([]uint16, 0, len(supportedVersions))
 	for _, v := range supportedVersions {
-		if c != nil && c.MinVersion != 0 && v < c.MinVersion {
-			continue
+		if c != nil && v >= c.MinVersion && (c.MaxVersion == 0 || v <= c.MaxVersion) {
+			versions = append(versions, v)
 		}
-		if c != nil && c.MaxVersion != 0 && v > c.MaxVersion {
-			continue
-		}
-		versions = append(versions, v)
 	}
 	return versions
 }
