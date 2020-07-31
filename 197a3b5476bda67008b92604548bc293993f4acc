@@ -46,6 +46,30 @@
       "revId": "197a3b5476bda67008b92604548bc293993f4acc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3ebf16c_3e7eccb5",
+        "filename": "src/cmd/internal/objabi/funcid.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-31T14:33:24Z",
+      "side": 1,
+      "message": "Wrappers from closures were covered differently. I\u0027ve added that to gc/compile.go, and deleted this code.",
+      "parentUuid": "dac51105_2ee8e53c",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 2
+      },
+      "revId": "197a3b5476bda67008b92604548bc293993f4acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
