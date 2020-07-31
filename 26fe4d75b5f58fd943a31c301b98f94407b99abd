@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fb77b941_6bc0d46d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-07-31T20:52:49Z",
+      "side": 1,
+      "message": "Done. Yeah, this is the reason. It also removes a special case in the deadcode pass.",
+      "parentUuid": "192c893a_14970913",
+      "revId": "26fe4d75b5f58fd943a31c301b98f94407b99abd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8506b8b7_6926184f",
         "filename": "src/cmd/link/internal/ld/typelink.go",
         "patchSetId": 1
