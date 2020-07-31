@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c276564_8a7c4afd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-31T15:27:54Z",
+      "side": 1,
+      "message": "This mostly looks ok, but I think when I see it with the few changes I\u0027ve asked for, it\u0027ll congeal for me. If not, I might as Austin to review.",
+      "revId": "863996358e019d4334744d1af2e658f767a6b089",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a9972fd_a4ce8266",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-31T15:27:54Z",
+      "side": 1,
+      "message": "Admittedly, it\u0027s not entirely clear to me, but there doesn\u0027t seem to be any overlap in the side effects between this call, and the one on line 500. Can we just unconditionally, set this above the if? Similarly in the next file.",
+      "revId": "863996358e019d4334744d1af2e658f767a6b089",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "475894f9_f8b3eb15",
+        "filename": "src/cmd/internal/goobj2/objfile.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-31T15:27:54Z",
+      "side": 1,
+      "message": "It doesn\u0027t really make sense to me why this isn\u0027t:\n\n  Flag uint16\n\nBoth here and in SymbolDefs.",
+      "revId": "863996358e019d4334744d1af2e658f767a6b089",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c23250bd_475d5da0",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-31T15:27:54Z",
+      "side": 1,
+      "message": "invert this logic:\n\n  if !rs.UsedIface() {\n    return // no need to write zero flags\n  }\n  // etc..\n\nYou might be able to drop out on line 485 as well?",
+      "revId": "863996358e019d4334744d1af2e658f767a6b089",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
