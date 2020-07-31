@@ -11,6 +11,7 @@
 	// - Node.js
 	// - Electron
 	// - Parcel
+	// - Webpack
 
 	if (typeof global !== "undefined") {
 		// global already exists
@@ -28,7 +29,7 @@
 
 	if (!global.fs && global.require) {
 		const fs = require("fs");
-		if (Object.keys(fs) !== 0) {
+		if (Object.keys(fs).length !== 0) {
 			global.fs = fs;
 		}
 	}
