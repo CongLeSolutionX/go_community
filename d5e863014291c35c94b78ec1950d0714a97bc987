@@ -16,6 +16,24 @@
       "revId": "d5e863014291c35c94b78ec1950d0714a97bc987",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67c079a2_d32bd764",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2051,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-07-31T01:59:41Z",
+      "side": 1,
+      "message": "I think this is reasonable. They\u0027re at least always nil in this case.",
+      "parentUuid": "8ce3473f_59205e03",
+      "revId": "d5e863014291c35c94b78ec1950d0714a97bc987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
