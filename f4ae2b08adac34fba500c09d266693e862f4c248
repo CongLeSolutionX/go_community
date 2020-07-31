@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60f8a606_6308ba25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-31T15:41:39Z",
+      "side": 1,
+      "message": "2 birds with one stone. Ty.",
+      "revId": "f4ae2b08adac34fba500c09d266693e862f4c248",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5edffa3_7e7a6b75",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-07-31T15:41:39Z",
+      "side": 1,
+      "message": "yeah!",
+      "revId": "f4ae2b08adac34fba500c09d266693e862f4c248",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
