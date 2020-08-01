@@ -98,6 +98,7 @@ func (hs *clientHandshakeStateTLS13) handshake() error {
 		return err
 	}
 
+	c.tls13Transcript = hs.transcript
 	atomic.StoreUint32(&c.handshakeStatus, 1)
 
 	return nil
@@ -539,82 +540,17 @@ func (hs *clientHandshakeStateTLS13) readServerFinished() error {
 }
 
 func (hs *clientHandshakeStateTLS13) sendClientCertificate() error {
-	c := hs.c
-
 	if hs.certReq == nil {
 		return nil
 	}
 
-	cert, err := c.getClientCertificate(&CertificateRequestInfo{
-		AcceptableCAs:    hs.certReq.certificateAuthorities,
-		SignatureSchemes: hs.certReq.supportedSignatureAlgorithms,
-		Version:          c.vers,
-	})
-	if err != nil {
-		return err
-	}
-
-	certMsg := new(certificateMsgTLS13)
-
-	certMsg.certificate = *cert
-	certMsg.scts = hs.certReq.scts && len(cert.SignedCertificateTimestamps) > 0
-	certMsg.ocspStapling = hs.certReq.ocspStapling && len(cert.OCSPStaple) > 0
-
-	hs.transcript.Write(certMsg.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, certMsg.marshal()); err != nil {
-		return err
-	}
-
-	// If we sent an empty certificate message, skip the CertificateVerify.
-	if len(cert.Certificate) == 0 {
-		return nil
-	}
-
-	certVerifyMsg := new(certificateVerifyMsg)
-	certVerifyMsg.hasSignatureAlgorithm = true
-
-	certVerifyMsg.signatureAlgorithm, err = selectSignatureScheme(c.vers, cert, hs.certReq.supportedSignatureAlgorithms)
-	if err != nil {
-		// getClientCertificate returned a certificate incompatible with the
-		// CertificateRequestInfo supported signature algorithms.
-		c.sendAlert(alertHandshakeFailure)
-		return err
-	}
-
-	sigType, sigHash, err := typeAndHashFromSignatureScheme(certVerifyMsg.signatureAlgorithm)
-	if err != nil {
-		return c.sendAlert(alertInternalError)
-	}
-
-	signed := signedMessage(sigHash, clientSignatureContext, hs.transcript)
-	signOpts := crypto.SignerOpts(sigHash)
-	if sigType == signatureRSAPSS {
-		signOpts = &rsa.PSSOptions{SaltLength: rsa.PSSSaltLengthEqualsHash, Hash: sigHash}
-	}
-	sig, err := cert.PrivateKey.(crypto.Signer).Sign(c.config.rand(), signed, signOpts)
-	if err != nil {
-		c.sendAlert(alertInternalError)
-		return errors.New("tls: failed to sign handshake: " + err.Error())
-	}
-	certVerifyMsg.signature = sig
-
-	hs.transcript.Write(certVerifyMsg.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, certVerifyMsg.marshal()); err != nil {
-		return err
-	}
-
-	return nil
+	return hs.c.handleCertificateRequest(hs.certReq, hs.transcript)
 }
 
 func (hs *clientHandshakeStateTLS13) sendClientFinished() error {
 	c := hs.c
 
-	finished := &finishedMsg{
-		verifyData: hs.suite.finishedHash(c.out.trafficSecret, hs.transcript),
-	}
-
-	hs.transcript.Write(finished.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, finished.marshal()); err != nil {
+	if err := c.sendClientFinished(hs.transcript); err != nil {
 		return err
 	}
 
@@ -674,6 +610,84 @@ func (c *Conn) handleNewSessionTicket(msg *newSessionTicketMsgTLS13) error {
 
 	cacheKey := clientSessionCacheKey(c.conn.RemoteAddr(), c.config)
 	c.config.ClientSessionCache.Put(cacheKey, session)
+
+	return nil
+}
+
+func (c *Conn) handleCertificateRequest(certReq *certificateRequestMsgTLS13, transcript hash.Hash) error {
+	cert, err := c.getClientCertificate(&CertificateRequestInfo{
+		AcceptableCAs:    certReq.certificateAuthorities,
+		SignatureSchemes: certReq.supportedSignatureAlgorithms,
+		Version:          c.vers,
+	})
+	if err != nil {
+		return err
+	}
+
+	certMsg := new(certificateMsgTLS13)
+
+	certMsg.certificate = *cert
+	certMsg.context = certReq.context
+	certMsg.scts = certReq.scts && len(cert.SignedCertificateTimestamps) > 0
+	certMsg.ocspStapling = certReq.ocspStapling && len(cert.OCSPStaple) > 0
+
+	transcript.Write(certMsg.marshal())
+	if _, err := c.writeRecord(recordTypeHandshake, certMsg.marshal()); err != nil {
+		return err
+	}
+
+	// If we sent an empty certificate message, skip the CertificateVerify.
+	if len(cert.Certificate) == 0 {
+		return nil
+	}
+
+	certVerifyMsg := new(certificateVerifyMsg)
+	certVerifyMsg.hasSignatureAlgorithm = true
+
+	certVerifyMsg.signatureAlgorithm, err = selectSignatureScheme(c.vers, cert, certReq.supportedSignatureAlgorithms)
+	if err != nil {
+		// getClientCertificate returned a certificate incompatible with the
+		// CertificateRequestInfo supported signature algorithms.
+		c.sendAlert(alertHandshakeFailure)
+		return err
+	}
+
+	sigType, sigHash, err := typeAndHashFromSignatureScheme(certVerifyMsg.signatureAlgorithm)
+	if err != nil {
+		return c.sendAlert(alertInternalError)
+	}
+
+	signed := signedMessage(sigHash, clientSignatureContext, transcript)
+	signOpts := crypto.SignerOpts(sigHash)
+	if sigType == signatureRSAPSS {
+		signOpts = &rsa.PSSOptions{SaltLength: rsa.PSSSaltLengthEqualsHash, Hash: sigHash}
+	}
+	sig, err := cert.PrivateKey.(crypto.Signer).Sign(c.config.rand(), signed, signOpts)
+	if err != nil {
+		c.sendAlert(alertInternalError)
+		return errors.New("tls: failed to sign handshake: " + err.Error())
+	}
+	certVerifyMsg.signature = sig
+
+	transcript.Write(certVerifyMsg.marshal())
+	if _, err := c.writeRecord(recordTypeHandshake, certVerifyMsg.marshal()); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *Conn) sendClientFinished(transcript hash.Hash) error {
+	suite := cipherSuiteTLS13ByID(c.cipherSuite)
+
+	finished := &finishedMsg{
+		verifyData: suite.finishedHash(c.out.trafficSecret, transcript),
+	}
+
+	transcript.Write(finished.marshal())
+	if _, err := c.writeRecord(recordTypeHandshake, finished.marshal()); err != nil {
+		return err
+	}
 
 	return nil
 }

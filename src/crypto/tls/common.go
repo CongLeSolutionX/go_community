@@ -97,6 +97,7 @@ const (
 	extensionCookie                  uint16 = 44
 	extensionPSKModes                uint16 = 45
 	extensionCertificateAuthorities  uint16 = 47
+	extensionPostHandshakeAuth       uint16 = 49
 	extensionSignatureAlgorithmsCert uint16 = 50
 	extensionKeyShare                uint16 = 51
 	extensionRenegotiationInfo       uint16 = 0xff01

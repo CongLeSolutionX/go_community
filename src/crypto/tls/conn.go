@@ -13,6 +13,7 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
+	"hash"
 	"io"
 	"net"
 	"sync"
@@ -114,6 +115,8 @@ type Conn struct {
 	activeCall int32
 
 	tmp [16]byte
+
+	tls13Transcript hash.Hash
 }
 
 // Access to net.Conn methods.
@@ -1199,6 +1202,20 @@ func (c *Conn) handlePostHandshakeMessage() error {
 		return c.handleNewSessionTicket(msg)
 	case *keyUpdateMsg:
 		return c.handleKeyUpdate(msg)
+	case *certificateRequestMsgTLS13:
+		c.tls13Transcript.Write(msg.marshal())
+		c.buffering = true
+		defer c.flush()
+		if err := c.handleCertificateRequest(msg, c.tls13Transcript); err != nil {
+			return err
+		}
+		if err := c.sendClientFinished(c.tls13Transcript); err != nil {
+			return err
+		}
+		if _, err := c.flush(); err != nil {
+			return err
+		}
+		return nil
 	default:
 		c.sendAlert(alertUnexpectedMessage)
 		return fmt.Errorf("tls: received unexpected handshake message of type %T", msg)

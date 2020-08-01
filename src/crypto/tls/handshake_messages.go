@@ -92,6 +92,7 @@ type clientHelloMsg struct {
 	pskModes                         []uint8
 	pskIdentities                    []pskIdentity
 	pskBinders                       [][]byte
+	postHandshakeAuth                bool
 }
 
 func (m *clientHelloMsg) marshal() []byte {
@@ -286,6 +287,10 @@ func (m *clientHelloMsg) marshal() []byte {
 						}
 					})
 				})
+			}
+			if m.postHandshakeAuth {
+				b.AddUint16(extensionPostHandshakeAuth)
+				b.AddUint16(0) // empty extension_data
 			}
 
 			extensionsPresent = len(b.BytesOrPanic()) > 2
@@ -1057,6 +1062,7 @@ type certificateRequestMsgTLS13 struct {
 	supportedSignatureAlgorithms     []SignatureScheme
 	supportedSignatureAlgorithmsCert []SignatureScheme
 	certificateAuthorities           [][]byte
+	context                          []byte
 }
 
 func (m *certificateRequestMsgTLS13) marshal() []byte {
@@ -1067,9 +1073,10 @@ func (m *certificateRequestMsgTLS13) marshal() []byte {
 	var b cryptobyte.Builder
 	b.AddUint8(typeCertificateRequest)
 	b.AddUint24LengthPrefixed(func(b *cryptobyte.Builder) {
-		// certificate_request_context (SHALL be zero length unless used for
-		// post-handshake authentication)
-		b.AddUint8(0)
+		// certificate_request_context
+		b.AddUint8LengthPrefixed(func(b *cryptobyte.Builder) {
+			b.AddBytes(m.context)
+		})
 
 		b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 			if m.ocspStapling {
@@ -1130,11 +1137,13 @@ func (m *certificateRequestMsgTLS13) unmarshal(data []byte) bool {
 
 	var context, extensions cryptobyte.String
 	if !s.Skip(4) || // message type and uint24 length field
-		!s.ReadUint8LengthPrefixed(&context) || !context.Empty() ||
+		!s.ReadUint8LengthPrefixed(&context) ||
 		!s.ReadUint16LengthPrefixed(&extensions) ||
 		!s.Empty() {
 		return false
 	}
+
+	m.context = context
 
 	for !extensions.Empty() {
 		var extension uint16
@@ -1282,6 +1291,7 @@ type certificateMsgTLS13 struct {
 	certificate  Certificate
 	ocspStapling bool
 	scts         bool
+	context      []byte
 }
 
 func (m *certificateMsgTLS13) marshal() []byte {
@@ -1292,7 +1302,10 @@ func (m *certificateMsgTLS13) marshal() []byte {
 	var b cryptobyte.Builder
 	b.AddUint8(typeCertificate)
 	b.AddUint24LengthPrefixed(func(b *cryptobyte.Builder) {
-		b.AddUint8(0) // certificate_request_context
+		// certificate_request_context
+		b.AddUint8LengthPrefixed(func(b *cryptobyte.Builder) {
+			b.AddBytes(m.context)
+		})
 
 		certificate := m.certificate
 		if !m.ocspStapling {
