@@ -1239,6 +1239,24 @@ HaveSpan:
 		// Manually managed memory doesn't count toward heap_sys.
 		memstats.heap_sys.add(-int64(nbytes))
 	}
+	{
+		// Update consistent stats.
+		c := getMCache()
+		s := memstats.heapStats.acquire(c)
+		atomic.Xaddint64(&s.committed, int64(scav))
+		atomic.Xaddint64(&s.released, -int64(scav))
+		switch typ {
+		case spanAllocHeap:
+			atomic.Xaddint64(&s.inHeap, int64(nbytes))
+		case spanAllocStack:
+			atomic.Xaddint64(&s.inStacks, int64(nbytes))
+		case spanAllocPtrScalarBits:
+			atomic.Xaddint64(&s.inPtrScalarBits, int64(nbytes))
+		case spanAllocWorkBuf:
+			atomic.Xaddint64(&s.inWorkBufs, int64(nbytes))
+		}
+		memstats.heapStats.release(c)
+	}
 
 	// Publish the span in various locations.
 
@@ -1316,6 +1334,10 @@ func (h *mheap) grow(npage uintptr) bool {
 		// size which is always > physPageSize, so its safe to
 		// just add directly to heap_released.
 		atomic.Xadd64(&memstats.heap_released, int64(asize))
+		c := getMCache()
+		stats := memstats.heapStats.acquire(c)
+		atomic.Xaddint64(&stats.released, int64(asize))
+		memstats.heapStats.release(c)
 
 		// Recalculate nBase.
 		// We know this won't overflow, because sysAlloc returned
@@ -1414,6 +1436,23 @@ func (h *mheap) freeSpanLocked(s *mspan, typ spanAllocType) {
 	if typ.manual() {
 		// Manually managed memory doesn't count toward heap_sys, so add it back.
 		memstats.heap_sys.add(int64(nbytes))
+	}
+	{
+		// Update consistent stats.
+		nbytes := s.npages * pageSize
+		c := getMCache()
+		s := memstats.heapStats.acquire(c)
+		switch typ {
+		case spanAllocHeap:
+			atomic.Xaddint64(&s.inHeap, -int64(nbytes))
+		case spanAllocStack:
+			atomic.Xaddint64(&s.inStacks, -int64(nbytes))
+		case spanAllocPtrScalarBits:
+			atomic.Xaddint64(&s.inPtrScalarBits, -int64(nbytes))
+		case spanAllocWorkBuf:
+			atomic.Xaddint64(&s.inWorkBufs, -int64(nbytes))
+		}
+		memstats.heapStats.release(c)
 	}
 
 	// Mark the space as free.
