@@ -965,19 +965,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 
 	shouldhelpgc := false
 	dataSize := size
-	var c *mcache
-	if mp.p != 0 {
-		c = mp.p.ptr().mcache
-	} else {
-		// We will be called without a P while bootstrapping,
-		// in which case we use mcache0, which is set in mallocinit.
-		// mcache0 is cleared when bootstrapping is complete,
-		// by procresize.
-		c = mcache0
-		if c == nil {
-			throw("malloc called with no P")
-		}
-	}
+	c := getMCache()
 	var span *mspan
 	var x unsafe.Pointer
 	noscan := typ == nil || typ.ptrdata == 0
