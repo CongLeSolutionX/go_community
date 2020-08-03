@@ -57,6 +57,30 @@
       "revId": "d5e863014291c35c94b78ec1950d0714a97bc987",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e2ad496_8fdca5b8",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2141,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-03T14:48:27Z",
+      "side": 1,
+      "message": "These numbers essentially derived from the old linker, which allocates 1 or 2 MB for the symbols slice. Later we add more kinds of symbols.\n\nI checked that for linking cmd/compile, there are 8152 hashed64 symbols, so 10000 doesn\u0027t seem too bad. And it only takes a few hundreds KB.\n\nWhat do you suggest?",
+      "parentUuid": "c20ae556_51fc5c30",
+      "range": {
+        "startLine": 2141,
+        "startChar": 44,
+        "endLine": 2141,
+        "endChar": 49
+      },
+      "revId": "d5e863014291c35c94b78ec1950d0714a97bc987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
