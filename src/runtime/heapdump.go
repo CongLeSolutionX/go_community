@@ -560,7 +560,7 @@ func dumpmemstats() {
 	dumpint(memstats.mcache_inuse)
 	dumpint(memstats.mcache_sys.load())
 	dumpint(memstats.buckhash_sys.load())
-	dumpint(memstats.gc_sys.load())
+	dumpint(memstats.gcMiscSys.load() + memstats.gcWorkBufInUse + memstats.gcProgPtrScalarBitsInUse)
 	dumpint(memstats.other_sys.load())
 	dumpint(memstats.next_gc)
 	dumpint(memstats.last_gc_unix)

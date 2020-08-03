@@ -84,7 +84,7 @@ retry:
 			if newCap == 0 {
 				newCap = gcSweepBufInitSpineCap
 			}
-			newSpine := persistentalloc(newCap*sys.PtrSize, cpu.CacheLineSize, &memstats.gc_sys)
+			newSpine := persistentalloc(newCap*sys.PtrSize, cpu.CacheLineSize, &memstats.gcMiscSys)
 			if b.spineCap != 0 {
 				// Blocks are allocated off-heap, so
 				// no write barriers.
@@ -103,7 +103,7 @@ retry:
 		}
 
 		// Allocate a new block and add it to the spine.
-		block = (*gcSweepBlock)(persistentalloc(unsafe.Sizeof(gcSweepBlock{}), cpu.CacheLineSize, &memstats.gc_sys))
+		block = (*gcSweepBlock)(persistentalloc(unsafe.Sizeof(gcSweepBlock{}), cpu.CacheLineSize, &memstats.gcMiscSys))
 		blockp := add(b.spine, sys.PtrSize*top)
 		// Blocks are allocated off-heap, so no write barrier.
 		atomic.StorepNoWB(blockp, unsafe.Pointer(block))
