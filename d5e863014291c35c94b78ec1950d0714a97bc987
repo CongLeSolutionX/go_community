@@ -81,6 +81,30 @@
       "revId": "d5e863014291c35c94b78ec1950d0714a97bc987",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc98f771_46e1a986",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2141,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-03T20:26:59Z",
+      "side": 1,
+      "message": "I don\u0027t have a real preference. If you\u0027re comfortable with the sizes, let\u0027s document why they are what they are, delete the TODO, and let\u0027s move on.",
+      "parentUuid": "6e2ad496_8fdca5b8",
+      "range": {
+        "startLine": 2141,
+        "startChar": 44,
+        "endLine": 2141,
+        "endChar": 49
+      },
+      "revId": "d5e863014291c35c94b78ec1950d0714a97bc987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
