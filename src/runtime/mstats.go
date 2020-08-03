@@ -36,7 +36,6 @@ type mstats struct {
 	// in manually-managed spans.
 	heap_alloc    uint64     // bytes allocated and not yet freed (same as alloc above)
 	heap_sys      sysMemStat // virtual address space obtained from system for GC'd heap
-	heap_idle     uint64     // bytes in idle spans
 	heap_inuse    uint64     // bytes in mSpanInUse spans
 	heap_released uint64     // bytes released to the os
 
@@ -459,7 +458,7 @@ func readmemstats_m(stats *MemStats) {
 	stats.Frees = memstats.nfree
 	stats.HeapAlloc = memstats.heap_alloc
 	stats.HeapSys = memstats.heap_sys.load()
-	stats.HeapIdle = memstats.heap_idle
+	stats.HeapIdle = memstats.heap_sys.load() - memstats.heap_inuse
 	stats.HeapInuse = memstats.heap_inuse
 	stats.HeapReleased = memstats.heap_released
 	stats.HeapObjects = memstats.heap_objects
