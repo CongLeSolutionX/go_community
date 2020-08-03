@@ -57,6 +57,9 @@ type mcache struct {
 	localLargeFreeN  uintptr                  // number of frees for large objects (>maxSmallSize)
 	localSmallFreeN  [_NumSizeClasses]uintptr // number of frees for small objects (<=maxSmallSize)
 
+	// Sharded memory stats (source-of-truth).
+	localMemStats memStatsShard
+
 	// flushGen indicates the sweepgen during which this mcache
 	// was last flushed. If flushGen != mheap_.sweepgen, the spans
 	// in this mcache are stale and need to the flushed so they
@@ -178,6 +181,18 @@ func (c *mcache) donate(d *mcache) {
 	}
 	d.localTinyAllocs += c.localTinyAllocs
 	c.localTinyAllocs = 0
+
+	// Flush c's local mem stats to cmsd
+	// and clear it.
+	var cmsd memStatsDelta
+	c.localMemStats.unsafeRead(&cmsd)
+	c.localMemStats.unsafeClear()
+
+	// Write cmsd to d's local mem stats
+	// the usual way.
+	dmsd := d.localMemStats.acquire()
+	dmsd.merge(&cmsd)
+	d.localMemStats.release()
 }
 
 // refill acquires a new span of span class spc for c. This span will
