@@ -711,7 +711,16 @@ func (s *pageAlloc) scavengeRangeLocked(ci chunkIdx, base, npages uint) uintptr 
 
 	// Update global accounting only when not in test, otherwise
 	// the runtime's accounting will be wrong.
-	atomic.Xadd64(&memstats.heap_released, int64(npages)*pageSize)
+	nbytes := int64(npages) * pageSize
+	atomic.Xadd64(&memstats.heap_released, nbytes)
+
+	// Update local accounting too.
+	m := &getMCache().localMemStats
+	stats := m.acquire()
+	stats.committed -= nbytes
+	stats.released += nbytes
+	m.release()
+
 	return addr
 }
 
