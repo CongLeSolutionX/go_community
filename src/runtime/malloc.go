@@ -1013,7 +1013,9 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				// The object fits into existing tiny block.
 				x = unsafe.Pointer(c.tiny + off)
 				c.tinyoffset = off + size
-				c.tinyAllocCount++
+				stats := memstats.heapStats.acquire(c)
+				atomic.Xadduintptr(&stats.tinyAllocCount, 1)
+				memstats.heapStats.release(c)
 				mp.mallocing = 0
 				releasem(mp)
 				return x
