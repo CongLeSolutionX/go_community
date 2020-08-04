@@ -606,43 +606,33 @@ func updatememstats() {
 		memstats.by_size[i].nmalloc = 0
 		memstats.by_size[i].nfree = 0
 	}
-
-	// Collect allocation stats. This is safe and consistent
-	// because the world is stopped.
-	var smallFree, totalAlloc, totalFree uint64
-	for _, p := range allp {
-		c := p.mcache
-		if c == nil {
-			continue
-		}
-		// Collect large allocation stats.
-		memstats.nmalloc += uint64(c.largeAllocCount)
-		totalAlloc += uint64(c.largeAlloc)
-		totalFree += uint64(c.largeFree)
-		memstats.nfree += uint64(c.largeFreeCount)
-
-		// Collect tiny allocation stats.
-		memstats.tinyallocs += uint64(c.tinyAllocCount)
-
-		// Collect per-sizeclass stats.
-		for i := 0; i < _NumSizeClasses; i++ {
-			// Malloc stats.
-			memstats.nmalloc += uint64(c.smallAllocCount[i])
-			memstats.by_size[i].nmalloc += uint64(c.smallAllocCount[i])
-			totalAlloc += uint64(c.smallAllocCount[i]) * uint64(class_to_size[i])
-
-			// Free stats.
-			memstats.nfree += uint64(c.smallFreeCount[i])
-			memstats.by_size[i].nfree += uint64(c.smallFreeCount[i])
-			smallFree += uint64(c.smallFreeCount[i]) * uint64(class_to_size[i])
-		}
-	}
 	// Collect consistent stats, which are the source-of-truth in the some cases.
 	var consStats heapStatsDelta
 	memstats.heapStats.unsafeRead(&consStats)
 
-	totalFree += smallFree
+	// Collect large allocation stats.
+	totalAlloc := uint64(consStats.largeAlloc)
+	memstats.nmalloc += uint64(consStats.largeAllocCount)
+	totalFree := uint64(consStats.largeFree)
+	memstats.nfree += uint64(consStats.largeFreeCount)
 
+	// Collect per-sizeclass stats.
+	for i := 0; i < _NumSizeClasses; i++ {
+		// Malloc stats.
+		a := uint64(consStats.smallAllocCount[i])
+		totalAlloc += a * uint64(class_to_size[i])
+		memstats.nmalloc += a
+		memstats.by_size[i].nmalloc = a
+
+		// Free stats.
+		f := uint64(consStats.smallFreeCount[i])
+		totalFree += f * uint64(class_to_size[i])
+		memstats.nfree += f
+		memstats.by_size[i].nfree = f
+	}
+
+	// Account for tiny allocations.
+	memstats.tinyallocs = uint64(consStats.tinyAllocCount)
 	memstats.nfree += memstats.tinyallocs
 	memstats.nmalloc += memstats.tinyallocs
 
@@ -741,12 +731,22 @@ func (s *sysMemStat) add(n int64) {
 // that need to be updated together in order for them to be kept
 // consistent with one another.
 type heapStatsDelta struct {
+	// Memory stats.
 	committed       int64 // byte delta of memory committed
 	released        int64 // byte delta of released memory generated
 	inHeap          int64 // byte delta of memory placed in the heap
 	inStacks        int64 // byte delta of memory reserved for stacks
 	inWorkBufs      int64 // byte delta of memory reserved for work bufs
 	inPtrScalarBits int64 // byte delta of memory reserved for unrolled GC prog bits
+
+	// Allocator stats.
+	tinyAllocCount  uintptr                  // number of tiny object allocations
+	largeAlloc      uintptr                  // bytes allocated for large objects
+	largeAllocCount uintptr                  // number of large object allocations
+	smallAllocCount [_NumSizeClasses]uintptr // number of allocs for small objects
+	largeFree       uintptr                  // bytes freed for large objects (>maxSmallSize)
+	largeFreeCount  uintptr                  // number of frees for large objects (>maxSmallSize)
+	smallFreeCount  [_NumSizeClasses]uintptr // number of frees for small objects (<=maxSmallSize)
 }
 
 // merge adds in the deltas from b into a.
@@ -757,6 +757,18 @@ func (a *heapStatsDelta) merge(b *heapStatsDelta) {
 	a.inStacks += b.inStacks
 	a.inWorkBufs += b.inWorkBufs
 	a.inPtrScalarBits += b.inPtrScalarBits
+
+	a.tinyAllocCount += b.tinyAllocCount
+	a.largeAlloc += b.largeAlloc
+	a.largeAllocCount += b.largeAllocCount
+	for i := range b.smallAllocCount {
+		a.smallAllocCount[i] += b.smallAllocCount[i]
+	}
+	a.largeFree += b.largeFree
+	a.largeFreeCount += b.largeFreeCount
+	for i := range b.smallFreeCount {
+		a.smallFreeCount[i] += b.smallFreeCount[i]
+	}
 }
 
 // consistentHeapStats represents a set of various memory statistics
