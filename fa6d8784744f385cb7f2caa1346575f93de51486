@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b428eae9_a7463811",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-08-04T09:15:22Z",
+      "side": 1,
+      "message": "Thank you for working on this but I don\u0027t think this is the correct fix. The underlying problem appears to be the undefined nature of package level variable initialisation. I think you should address the problem by avoiding global initialisation. \n\nIf you feeling strongly that this is a bug then you should include a test to ensure your change does not get reverted in the future.",
+      "revId": "fa6d8784744f385cb7f2caa1346575f93de51486",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
