@@ -41,21 +41,6 @@ type mcache struct {
 
 	stackcache [_NumStackOrders]stackfreelist
 
-	// Allocator stats (source-of-truth).
-	// Only the P that owns this mcache may write to these
-	// variables, so it's safe for that P to read non-atomically.
-	//
-	// When read with stats from other mcaches and with the world
-	// stopped, the result will accurately reflect the state of the
-	// application.
-	tinyAllocCount  uintptr                  // number of tiny allocs not counted in other stats
-	largeAlloc      uintptr                  // bytes allocated for large objects
-	largeAllocCount uintptr                  // number of large object allocations
-	smallAllocCount [_NumSizeClasses]uintptr // number of allocs for small objects
-	largeFree       uintptr                  // bytes freed for large objects (>maxSmallSize)
-	largeFreeCount  uintptr                  // number of frees for large objects (>maxSmallSize)
-	smallFreeCount  [_NumSizeClasses]uintptr // number of frees for small objects (<=maxSmallSize)
-
 	// flushGen indicates the sweepgen during which this mcache
 	// was last flushed. If flushGen != mheap_.sweepgen, the spans
 	// in this mcache are stale and need to the flushed so they
@@ -117,7 +102,7 @@ func allocmcache() *mcache {
 // In some cases there is no way to simply release
 // resources, such as statistics, so donate them to
 // a different mcache (the recipient).
-func freemcache(c *mcache, recipient *mcache) {
+func freemcache(c *mcache) {
 	systemstack(func() {
 		c.releaseAll()
 		stackcache_clear(c)
@@ -128,8 +113,6 @@ func freemcache(c *mcache, recipient *mcache) {
 		// gcworkbuffree(c.gcworkbuf)
 
 		lock(&mheap_.lock)
-		// Donate anything else that's left.
-		c.donate(recipient)
 		mheap_.cachealloc.free(unsafe.Pointer(c))
 		unlock(&mheap_.lock)
 	})
@@ -156,31 +139,6 @@ func getMCache() *mcache {
 		c = pp.mcache
 	}
 	return c
-}
-
-// donate flushes data and resources which have no global
-// pool to another mcache.
-func (c *mcache) donate(d *mcache) {
-	// scanAlloc is handled separately because it's not
-	// like these stats -- it's used for GC pacing.
-	d.largeAlloc += c.largeAlloc
-	c.largeAlloc = 0
-	d.largeAllocCount += c.largeAllocCount
-	c.largeAllocCount = 0
-	for i := range c.smallAllocCount {
-		d.smallAllocCount[i] += c.smallAllocCount[i]
-		c.smallAllocCount[i] = 0
-	}
-	d.largeFree += c.largeFree
-	c.largeFree = 0
-	d.largeFreeCount += c.largeFreeCount
-	c.largeFreeCount = 0
-	for i := range c.smallFreeCount {
-		d.smallFreeCount[i] += c.smallFreeCount[i]
-		c.smallFreeCount[i] = 0
-	}
-	d.tinyAllocCount += c.tinyAllocCount
-	c.tinyAllocCount = 0
 }
 
 // refill acquires a new span of span class spc for c. This span will
@@ -219,7 +177,9 @@ func (c *mcache) refill(spc spanClass) {
 
 	// Assume all objects from this span will be allocated in the
 	// mcache. If it gets uncached, we'll adjust this.
-	c.smallAllocCount[spc.sizeclass()] += uintptr(s.nelems) - uintptr(s.allocCount)
+	stats := memstats.heapStats.acquire(c)
+	atomic.Xadduintptr(&stats.smallAllocCount[spc.sizeclass()], uintptr(s.nelems)-uintptr(s.allocCount))
+	memstats.heapStats.release(c)
 
 	// Update heap_live with the same assumption.
 	usedBytes := uintptr(s.allocCount) * s.elemsize
@@ -262,8 +222,10 @@ func (c *mcache) allocLarge(size uintptr, needzero bool, noscan bool) *mspan {
 	if s == nil {
 		throw("out of memory")
 	}
-	c.largeAlloc += npages * pageSize
-	c.largeAllocCount++
+	stats := memstats.heapStats.acquire(c)
+	atomic.Xadduintptr(&stats.largeAlloc, npages*pageSize)
+	atomic.Xadduintptr(&stats.largeAllocCount, 1)
+	memstats.heapStats.release(c)
 
 	// Update heap_live and revise pacing if needed.
 	atomic.Xadd64(&memstats.heap_live, int64(npages*pageSize))
@@ -294,7 +256,9 @@ func (c *mcache) releaseAll() {
 		if s != &emptymspan {
 			// Adjust nsmallalloc in case the span wasn't fully allocated.
 			n := uintptr(s.nelems) - uintptr(s.allocCount)
-			c.smallAllocCount[spanClass(i).sizeclass()] -= n
+			stats := memstats.heapStats.acquire(c)
+			atomic.Xadduintptr(&stats.smallAllocCount[spanClass(i).sizeclass()], -n)
+			memstats.heapStats.release(c)
 			if s.sweepgen != sg+1 {
 				// refill conservatively counted unallocated slots in heap_live.
 				// Undo this.
