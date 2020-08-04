@@ -68,6 +68,30 @@
       "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23444dc_861eb00f",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-04T03:49:10Z",
+      "side": 1,
+      "message": "Done. Also eliminated the `importedByTarget` field (which turns out to be redundant with `inAll`) and moved the version-independent changes to the prior refactoring CL.",
+      "parentUuid": "9dd9f7b1_f55d08ef",
+      "range": {
+        "startLine": 1031,
+        "startChar": 1,
+        "endLine": 1038,
+        "endChar": 3
+      },
+      "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
