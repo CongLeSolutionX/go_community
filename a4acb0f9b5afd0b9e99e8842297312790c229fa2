@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c247c6fc_6575237f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-08-05T07:48:38Z",
+      "side": 1,
+      "message": "suggestion: please wrap lines",
+      "revId": "a4acb0f9b5afd0b9e99e8842297312790c229fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e8d6b24_205a6b0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-08-05T07:48:38Z",
+      "side": 1,
+      "message": "Allocations do not appear to be reduced after this change. Is the description above accurate?",
+      "revId": "a4acb0f9b5afd0b9e99e8842297312790c229fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3b21b46_d6a69261",
+        "filename": "src/encoding/binary/binary.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-08-05T07:48:38Z",
+      "side": 1,
+      "message": "is correct? why are []int8 and []uint8 different?",
+      "revId": "a4acb0f9b5afd0b9e99e8842297312790c229fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
