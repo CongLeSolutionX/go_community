@@ -198,7 +198,7 @@ func Read(r io.Reader, order ByteOrder, data interface{}) error {
 				data[i] = int8(x)
 			}
 		case []uint8:
-			copy(data, bs)
+			data = bs
 		case []int16:
 			for i := range data {
 				data[i] = int16(order.Uint16(bs[2*i:]))
@@ -705,7 +705,7 @@ func intDataSize(data interface{}) int {
 	case []int8:
 		return len(data)
 	case []uint8:
-		return len(data)
+		return 1
 	case int16, uint16, *int16, *uint16:
 		return 2
 	case []int16:
