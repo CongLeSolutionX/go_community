@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "4323c4ee_af235640",
+        "filename": "src/encoding/binary/binary.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-05T08:23:12Z",
+      "side": 1,
+      "message": "I dont think this is in line with the semantics as documented:\n\nBytes read from r are decoded using the specified byte order\nand written to successive fields of the data.\n\nTests fail:\n\n go test\n--- FAIL: TestSliceRoundTrip (0.00s)\n    binary_test.go:219: [0 33 66 99 132 165 198 231 8 41 74 107 140 173 206 239 16 49 82 115 148 181 214 247 24 57 90 123 156 189 222 255 32 65 98 131 164 197 230 7 40 73 106 139 172 205 238 15 48 81 114 147 180 213 246 23 56 89 122 155 188 221 254 31 64 97 130 163 196 229 6 39 72 105 138 171 204 237 14 47 80 113 146 179 212 245 22 55 88 121 154 187 220 253 30 63 96 129 162 195]\nFAIL\nexit status 1\nFAIL\tencoding/binary\t0.632s",
+      "range": {
+        "startLine": 201,
+        "startChar": 3,
+        "endLine": 201,
+        "endChar": 12
+      },
+      "revId": "a4acb0f9b5afd0b9e99e8842297312790c229fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3b21b46_d6a69261",
         "filename": "src/encoding/binary/binary.go",
         "patchSetId": 1
