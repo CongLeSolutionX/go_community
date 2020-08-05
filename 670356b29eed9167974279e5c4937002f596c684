@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88c7123d_f6794cba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38348
+      },
+      "writtenOn": "2020-08-05T08:50:21Z",
+      "side": 1,
+      "message": "While working on #21339, I also find some redundant checking on unsigned integers as https://go-review.googlesource.com/c/go/+/37455 did. Although this CL can optimize these cases, there may be potential bugs. I submit a CL at https://go-review.googlesource.com/c/go/+/246858. Please take a look, thanks.",
+      "revId": "670356b29eed9167974279e5c4937002f596c684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
