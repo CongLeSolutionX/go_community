@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6a096f8_84abdc46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-08-06T13:32:17Z",
+      "side": 1,
+      "message": "The syscall package is frozen and no new functionality should be added to it as per the package level comment, see https://golang.org/pkg/syscall\n\nHowever, the function may be added to the golang.org/x/sys/unix package. Please send a CL against that repository.",
+      "revId": "68b7857209a58f9462e3565f0c9ee72ee0ea0c12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
