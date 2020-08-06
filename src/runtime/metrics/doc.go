@@ -109,5 +109,11 @@ Supported metrics
 
 	/gc/cycles-forced:gc-cycles
 		Count of completed forced GC cycles.
+
+	/gc/heap/allocs-by-size:objects
+		Distribution of all objects allocated by approximate size.
+
+	/gc/heap/frees-by-size:objects
+		Distribution of all objects freed by approximate size.
 */
 package metrics

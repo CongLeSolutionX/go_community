@@ -140,6 +140,16 @@ var allDesc = []Description{
 		Description: "Count of completed forced GC cycles.",
 		Kind:        KindUint64,
 	},
+	{
+		Name:        "/gc/heap/allocs-by-size:objects",
+		Description: "Distribution of all objects allocated by approximate size.",
+		Kind:        KindFloat64Histogram,
+	},
+	{
+		Name:        "/gc/heap/frees-by-size:objects",
+		Description: "Distribution of all objects freed by approximate size.",
+		Kind:        KindFloat64Histogram,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.
