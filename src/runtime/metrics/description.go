@@ -150,6 +150,11 @@ var allDesc = []Description{
 		Description: "Distribution of all objects freed by approximate size.",
 		Kind:        KindFloat64Histogram,
 	},
+	{
+		Name:        "/gc/pauses:seconds",
+		Description: "Distribution individual GC-related stop-the-world pause latencies.",
+		Kind:        KindFloat64Histogram,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.

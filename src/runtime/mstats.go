@@ -157,6 +157,12 @@ type mstats struct {
 
 	// heapStats is a set of statistics
 	heapStats consistentHeapStats
+
+	// gcPauseDist represents the distribution of all GC-related
+	// application pauses in the runtime.
+	//
+	// Each individual pause is counted separately, unlike pause_ns.
+	gcPauseDist timeHistogram
 }
 
 var memstats mstats

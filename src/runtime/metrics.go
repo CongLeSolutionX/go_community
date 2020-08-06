@@ -20,6 +20,7 @@ var (
 	metrics     map[string]metricData
 
 	sizeClassBuckets []float64
+	timeHistBuckets  []float64
 )
 
 type metricData struct {
@@ -43,6 +44,20 @@ func initMetrics() {
 	sizeClassBuckets = make([]float64, _NumSizeClasses)
 	for i := range sizeClassBuckets {
 		sizeClassBuckets[i] = float64(class_to_size[i])
+	}
+	timeHistBuckets = make([]float64, timeHistTotalBuckets-1)
+	for i := 0; i < timeHistNumBuckets; i++ {
+		buckVal := uint64(0)
+		if i > 0 {
+			buckVal = uint64(1) << uint(i-1+timeHistSubBucketBits)
+		}
+		subShift := uint(0)
+		if i > 1 {
+			subShift = uint(i - 2)
+		}
+		for j := 0; j < timeHistNumSubBuckets; j++ {
+			timeHistBuckets[i*timeHistNumSubBuckets+j] = float64((buckVal + uint64(j)<<subShift) / 1e9)
+		}
 	}
 	metrics = map[string]metricData{
 		"/memory/heap/free:bytes": {
@@ -193,6 +208,15 @@ func initMetrics() {
 				hist.counts[len(hist.counts)-1] = uint64(in.heapStats.largeFreeCount)
 				for i := range hist.buckets {
 					hist.counts[i] = uint64(in.heapStats.smallFreeCount[i])
+				}
+			},
+		},
+		"/gc/pauses:seconds": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				hist := out.float64HistOrInit(timeHistBuckets)
+				hist.counts[len(hist.counts)-1] = atomic.Load64(&memstats.gcPauseDist.overflow)
+				for i := range hist.buckets {
+					hist.counts[i] = atomic.Load64(&memstats.gcPauseDist.counts[i])
 				}
 			},
 		},

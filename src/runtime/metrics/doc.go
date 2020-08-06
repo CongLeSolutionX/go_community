@@ -115,5 +115,8 @@ Supported metrics
 
 	/gc/heap/frees-by-size:objects
 		Distribution of all objects freed by approximate size.
+
+	/gc/pauses:seconds
+		Distribution individual GC-related stop-the-world pause latencies.
 */
 package metrics
