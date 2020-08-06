@@ -69,6 +69,8 @@ func TestReadMetrics(t *testing.T) {
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.StackSys-mstats.StackInuse)
 		case "/aggregates/total-virtual-memory:bytes":
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.Sys)
+		case "/gc/heap/objects:objects":
+			checkUint64(t, name, samples[i].Value.Uint64(), mstats.HeapObjects)
 		}
 	}
 }

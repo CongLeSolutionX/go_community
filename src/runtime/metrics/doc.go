@@ -97,5 +97,8 @@ Supported metrics
 
 	/aggregates/total-virtual-memory:bytes
 		Virtual memory footprint of the process.
+
+	/gc/heap/objects:objects
+		Number of objects, live or unswept, occupying heap memory.
 */
 package metrics

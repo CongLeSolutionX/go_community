@@ -120,6 +120,11 @@ var allDesc = []Description{
 		Description: "Virtual memory footprint of the process.",
 		Kind:        KindUint64,
 	},
+	{
+		Name:        "/gc/heap/objects:objects",
+		Description: "Number of objects, live or unswept, occupying heap memory.",
+		Kind:        KindUint64,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.

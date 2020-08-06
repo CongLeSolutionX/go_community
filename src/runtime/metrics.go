@@ -141,6 +141,13 @@ func initMetrics() {
 					in.sysStats.gcMiscSys + in.sysStats.otherSys
 			},
 		},
+		"/gc/heap/objects:objects": {
+			deps: makeStatDepSet(heapStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindUint64
+				out.scalar = in.heapStats.numObjects
+			},
+		},
 	}
 	metricsInit = true
 }
@@ -210,8 +217,9 @@ func (s *statDepSet) has(d statDep) bool {
 type heapStatsAggregate struct {
 	heapStatsDelta
 
-	// inObjects is derived from values in heapStats.
-	inObjects uint64
+	// Derived from values in heapStatsDelta.
+	inObjects  uint64 // bytes of memory used for objects
+	numObjects uint64 // number of objects
 }
 
 // compute populates the heapStatsAggregate with values from the runtime.
@@ -220,8 +228,11 @@ func (a *heapStatsAggregate) compute() {
 
 	// Calculate derived stats.
 	a.inObjects = uint64(a.largeAlloc - a.largeFree)
+	a.numObjects = uint64(a.largeAllocCount - a.largeFreeCount)
 	for i := range a.smallAllocCount {
-		a.inObjects += uint64(a.smallAllocCount[i]-a.smallFreeCount[i]) * uint64(class_to_size[i])
+		n := uint64(a.smallAllocCount[i] - a.smallFreeCount[i])
+		a.inObjects += n * uint64(class_to_size[i])
+		a.numObjects += n
 	}
 }
 
