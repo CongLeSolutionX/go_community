@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "604477e6_90b5ad07",
+        "filename": "src/encoding/binary/varint.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2020-08-06T23:27:58Z",
+      "side": 1,
+      "message": "isn\u0027t this now incorrect? this is a valid varint:\n  ff ff ff ff ff ff ff ff ff 07\n\nI think these three lines just shouldn\u0027t exist.",
+      "revId": "027d7241ce050d197e7fabea3d541ffbe3487258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
