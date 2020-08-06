@@ -16,6 +16,23 @@
       "revId": "fa6d8784744f385cb7f2caa1346575f93de51486",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad208191_2812a96f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38353
+      },
+      "writtenOn": "2020-08-06T11:07:35Z",
+      "side": 1,
+      "message": "As mentioned in issue https://github.com/golang/go/issues/40565 ，the ProxyConnectHeader.Clone() has a nil check and return nil if h is nil\n\n```\n// Clone returns a copy of h or nil if h is nil.\nfunc (h Header) Clone() Header {\n\tif h \u003d\u003d nil {\n\t\treturn nil\n\t}\n\n\t// Find total number of values.\n\tnv :\u003d 0\n\tfor _, vv :\u003d range h {\n\t\tnv +\u003d len(vv)\n\t}\n\tsv :\u003d make([]string, nv) // shared backing array for headers\u0027 values\n\th2 :\u003d make(Header, len(h))\n\tfor k, vv :\u003d range h {\n\t\tn :\u003d copy(sv, vv)\n\t\th2[k] \u003d sv[:n:n]\n\t\tsv \u003d sv[n:]\n\t}\n\treturn h2\n}\n```\n\nI think it\u0027s a better idea to check before clone to avoid nil panic.",
+      "revId": "fa6d8784744f385cb7f2caa1346575f93de51486",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
