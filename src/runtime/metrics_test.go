@@ -71,6 +71,12 @@ func TestReadMetrics(t *testing.T) {
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.Sys)
 		case "/gc/heap/objects:objects":
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.HeapObjects)
+		case "/gc/heap/goal:bytes":
+			checkUint64(t, name, samples[i].Value.Uint64(), mstats.NextGC)
+		case "/gc/cycles:gc-cycles":
+			checkUint64(t, name, samples[i].Value.Uint64(), uint64(mstats.NumGC))
+		case "/gc/cycles-forced:gc-cycles":
+			checkUint64(t, name, samples[i].Value.Uint64(), uint64(mstats.NumForcedGC))
 		}
 	}
 }

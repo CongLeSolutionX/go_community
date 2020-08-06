@@ -100,5 +100,14 @@ Supported metrics
 
 	/gc/heap/objects:objects
 		Number of objects, live or unswept, occupying heap memory.
+
+	/gc/heap/goal:bytes
+		Heap size target for the end of the GC cycle.
+
+	/gc/cycles:gc-cycles
+		Count of all completed GC cycles.
+
+	/gc/cycles-forced:gc-cycles
+		Count of completed forced GC cycles.
 */
 package metrics

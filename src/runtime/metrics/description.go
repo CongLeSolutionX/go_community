@@ -125,6 +125,21 @@ var allDesc = []Description{
 		Description: "Number of objects, live or unswept, occupying heap memory.",
 		Kind:        KindUint64,
 	},
+	{
+		Name:        "/gc/heap/goal:bytes",
+		Description: "Heap size target for the end of the GC cycle.",
+		Kind:        KindUint64,
+	},
+	{
+		Name:        "/gc/cycles:gc-cycles",
+		Description: "Count of all completed GC cycles.",
+		Kind:        KindUint64,
+	},
+	{
+		Name:        "/gc/cycles-forced:gc-cycles",
+		Description: "Count of completed forced GC cycles.",
+		Kind:        KindUint64,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.
