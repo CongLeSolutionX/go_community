@@ -245,9 +245,7 @@ var verifyTests = []verifyTest{
 		roots:         []string{addTrustRoot},
 		currentTime:   1397502195,
 		dnsName:       "api.moip.com.br",
-
-		// CryptoAPI can find alternative validation paths.
-		systemLax: true,
+		systemSkip:    true, // does not chain to a system root
 
 		expectedChains: [][]string{
 			{
