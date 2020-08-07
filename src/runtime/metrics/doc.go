@@ -124,6 +124,9 @@ Supported metrics
 		by code called via cgo or via the syscall package.
 		Sum of all metrics in /memory/classes.
 
+	/sched/goroutines:goroutines
+		Count of live goroutines.
+
 	/sched/latencies:seconds
 		Distribution of the time goroutines have spent in the scheduler before running again.
 */
