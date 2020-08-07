@@ -223,6 +223,12 @@ func initMetrics() {
 				}
 			},
 		},
+		"/sched/goroutines:goroutines": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				out.kind = metricKindUint64
+				out.scalar = uint64(gcount())
+			},
+		},
 	}
 	metricsInit = true
 }
