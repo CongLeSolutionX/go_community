@@ -214,6 +214,15 @@ func initMetrics() {
 					in.sysStats.gcMiscSys + in.sysStats.otherSys
 			},
 		},
+		"/sched/latencies:seconds": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				hist := out.float64HistOrInit(timeHistBuckets)
+				hist.counts[len(hist.counts)-1] = atomic.Load64(&sched.timeToRun.overflow)
+				for i := range hist.buckets {
+					hist.counts[i] = atomic.Load64(&sched.timeToRun.counts[i])
+				}
+			},
+		},
 	}
 	metricsInit = true
 }
