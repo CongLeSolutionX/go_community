@@ -164,6 +164,11 @@ var allDesc = []Description{
 		Kind:        KindUint64,
 	},
 	{
+		Name:        "/sched/goroutines:goroutines",
+		Description: "Count of live goroutines.",
+		Kind:        KindUint64,
+	},
+	{
 		Name:        "/sched/latencies:seconds",
 		Description: "Distribution of the time goroutines have spent in the scheduler before running again.",
 		Kind:        KindFloat64Histogram,
