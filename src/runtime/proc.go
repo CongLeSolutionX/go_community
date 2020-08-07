@@ -586,6 +586,11 @@ func schedinit() {
 	msigsave(_g_.m)
 	initSigmask = _g_.m.sigmask
 
+	if offset := unsafe.Offsetof(sched.timeToRun); offset%8 != 0 {
+		println(offset)
+		throw("sched.timeToRun not aligned to 8 bytes")
+	}
+
 	goargs()
 	goenvs()
 	parsedebugvars()
@@ -857,6 +862,39 @@ func casgstatus(gp *g, oldval, newval uint32) {
 		} else {
 			osyield()
 			nextYield = nanotime() + yieldDelay/2
+		}
+	}
+
+	// Handle tracking for scheduling latencies.
+	switch oldval {
+	case _Grunning:
+		// Track every 8th time a goroutine transitions
+		// out of running.
+		if gp.trackingDec%8 == 0 {
+			gp.tracking = true
+		}
+		gp.trackingDec++
+	}
+	if gp.tracking {
+		now := nanotime()
+		if oldval == _Grunnable {
+			// We transitioned out of runnable,
+			// so measure how much time we spent in
+			// this state and add it to runnableTime.
+			gp.runnableTime += now - gp.runnableStamp
+			gp.runnableStamp = 0
+		}
+		if newval == _Grunnable {
+			// We just transitioned into runnable,
+			// so record what time that happened.
+			gp.runnableStamp = now
+		} else if newval == _Grunning {
+			// We're transitioning into running,
+			// so turn off tracking and record how much
+			// time we spent in runnable.
+			gp.tracking = false
+			sched.timeToRun.record(gp.runnableTime)
+			gp.runnableTime = 0
 		}
 	}
 }
