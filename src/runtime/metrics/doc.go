@@ -121,5 +121,8 @@ Supported metrics
 
 	/sched/latencies:seconds
 		Distribution of the time goroutines have spent in the scheduler before running again.
+
+	/sched/goroutines:goroutines
+		Count of live goroutines.
 */
 package metrics
