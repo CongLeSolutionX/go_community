@@ -168,6 +168,11 @@ var allDesc = []Description{
 		Description: "Count of live goroutines.",
 		Kind:        KindUint64,
 	},
+	{
+		Name:        "/sched/latencies:seconds",
+		Description: "Distribution of the time goroutines have spent in the scheduler before running again.",
+		Kind:        KindFloat64Histogram,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.
