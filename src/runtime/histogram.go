@@ -44,6 +44,10 @@ type timeHistogram struct {
 //
 // Although the duration is an int64 to facilitate ease-of-use
 // with e.g. nanotime, the duration must be non-negative.
+//
+// Disallow preemptions and stack growths because this function
+// may run in sensitive locations.
+//go:nosplit
 func (h *timeHistogram) record(duration int64) {
 	if duration < 0 {
 		throw("timeHistogram encountered negative duration")

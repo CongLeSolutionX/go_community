@@ -118,5 +118,8 @@ Supported metrics
 
 	/gc/pauses:seconds
 		Distribution individual GC-related stop-the-world pause latencies.
+
+	/sched/latencies:seconds
+		Distribution of the time goroutines have spent in the scheduler before running again.
 */
 package metrics
