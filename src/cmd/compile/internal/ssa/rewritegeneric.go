@@ -124,6 +124,8 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpIMake(v)
 	case OpInterCall:
 		return rewriteValuegeneric_OpInterCall(v)
+	case OpInterLECall:
+		return rewriteValuegeneric_OpInterLECall(v)
 	case OpIsInBounds:
 		return rewriteValuegeneric_OpIsInBounds(v)
 	case OpIsNonNil:
@@ -8734,6 +8736,43 @@ func rewriteValuegeneric_OpInterCall(v *Value) bool {
 		v.AuxInt = int32ToAuxInt(int32(argsize))
 		v.Aux = callToAux(devirt(v, auxCall, itab, off))
 		v.AddArg(mem)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpInterLECall(v *Value) bool {
+	// match: (InterLECall [argsize] {auxCall} (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) ___)
+	// cond: devirtLeSym(v, auxCall, itab, off) != nil
+	// result: devirtLeCall(v, devirtLeSym(v, auxCall, itab, off))
+	for {
+		auxCall := auxToCall(v.Aux)
+		v_0 := v.Args[0]
+		if v_0.Op != OpLoad {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpOffPtr {
+			break
+		}
+		off := auxIntToInt64(v_0_0.AuxInt)
+		v_0_0_0 := v_0_0.Args[0]
+		if v_0_0_0.Op != OpITab {
+			break
+		}
+		v_0_0_0_0 := v_0_0_0.Args[0]
+		if v_0_0_0_0.Op != OpIMake {
+			break
+		}
+		v_0_0_0_0_0 := v_0_0_0_0.Args[0]
+		if v_0_0_0_0_0.Op != OpAddr {
+			break
+		}
+		itab := auxToSym(v_0_0_0_0_0.Aux)
+		v_0_0_0_0_0_0 := v_0_0_0_0_0.Args[0]
+		if v_0_0_0_0_0_0.Op != OpSB || len(v.Args) < 1 || !(devirtLeSym(v, auxCall, itab, off) != nil) {
+			break
+		}
+		v.copyOf(devirtLeCall(v, devirtLeSym(v, auxCall, itab, off)))
 		return true
 	}
 	return false
