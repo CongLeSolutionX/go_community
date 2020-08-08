@@ -4416,6 +4416,9 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		iclosure, rcvr = s.getClosureAndRcvr(fn)
 		if k == callNormal {
 			codeptr = s.load(types.Types[TUINTPTR], iclosure)
+			if ssa.TleMatch(s.f) {
+				testLateExpansion = true
+			}
 		} else {
 			closure = iclosure
 		}
@@ -4562,16 +4565,17 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 			codeptr = s.rawLoad(types.Types[TUINTPTR], closure)
 			call = s.newValue3A(ssa.OpClosureCall, types.TypeMem, ssa.ClosureAuxCall(ACArgs, ACResults), codeptr, closure, s.mem())
 		case codeptr != nil:
-			call = s.newValue2A(ssa.OpInterCall, types.TypeMem, ssa.InterfaceAuxCall(ACArgs, ACResults), codeptr, s.mem())
+			if testLateExpansion {
+				aux := ssa.InterfaceAuxCall(ACArgs, ACResults)
+				call = s.newValue1A(ssa.OpInterLECall, aux.LateExpansionResultType(), aux, codeptr)
+				call.AddArgs(callArgs...)
+			} else {
+				call = s.newValue2A(ssa.OpInterCall, types.TypeMem, ssa.InterfaceAuxCall(ACArgs, ACResults), codeptr, s.mem())
+			}
 		case sym != nil:
 			if testLateExpansion {
-				var tys []*types.Type
 				aux := ssa.StaticAuxCall(sym.Linksym(), ACArgs, ACResults)
-				for i := int64(0); i < aux.ResultsLen(); i++ {
-					tys = append(tys, aux.TypeOfResult(i))
-				}
-				tys = append(tys, types.TypeMem)
-				call = s.newValue0A(ssa.OpStaticLECall, types.NewResults(tys), aux)
+				call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 				call.AddArgs(callArgs...)
 			} else {
 				call = s.newValue1A(ssa.OpStaticCall, types.TypeMem, ssa.StaticAuxCall(sym.Linksym(), ACArgs, ACResults), s.mem())
