@@ -126,6 +126,17 @@ func (a *AuxCall) ResultsLen() int64 {
 	return int64(len(a.results))
 }
 
+// LateExpansionResultType returns the result type (including trailing mem)
+// for a call that will be expanded later in the SSA phase.
+func (a *AuxCall) LateExpansionResultType() *types.Type {
+	var tys []*types.Type
+	for i := int64(0); i < a.ResultsLen(); i++ {
+		tys = append(tys, a.TypeOfResult(i))
+	}
+	tys = append(tys, types.TypeMem)
+	return types.NewResults(tys)
+}
+
 // ArgsLen returns the number of argumente
 func (a *AuxCall) ArgsLen() int64 {
 	return int64(len(a.args))
