@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cff013a_22a6d7e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-08T17:34:55Z",
+      "side": 1,
+      "message": "The intent of these lines is to nil out the pointers before shrinking the slice, so that the garbage collector can collect the referents.\n\nIt\u0027s not super important as we batch allocate most Blocks, but it can\u0027t hurt. I\u0027d rather keep it.\n",
+      "revId": "65953becf211b8b646cd581da76bb123f40f3cf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
