@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "743a2a81_35d365a5",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-08-09T21:00:56Z",
+      "side": 1,
+      "message": "perhaps we should rename c to v for verb while we\u0027re here.",
+      "revId": "0e40d7b2257203b5b91114b1146f92f8d059aaa9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
