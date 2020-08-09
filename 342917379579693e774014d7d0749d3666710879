@@ -16,6 +16,23 @@
       "revId": "342917379579693e774014d7d0749d3666710879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18d05fce_a1e1b2dc",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-08-09T05:24:44Z",
+      "side": 1,
+      "message": "Can we avoid zeroing here if the defer arg has no pointers (hence not relevant for GC)?  That\u0027s what we currently do in openDeferSave() in ssa.go?  We won\u0027t actually access the slot in the defer exit code unless the corresponding defer has been activated.",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
