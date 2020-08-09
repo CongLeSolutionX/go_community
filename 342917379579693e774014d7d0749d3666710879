@@ -33,6 +33,24 @@
       "revId": "342917379579693e774014d7d0749d3666710879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb2ef54b_d167d9bb",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-09T19:18:30Z",
+      "side": 1,
+      "message": "Sure, I can add that.",
+      "parentUuid": "18d05fce_a1e1b2dc",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
