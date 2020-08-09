@@ -51,6 +51,24 @@
       "revId": "342917379579693e774014d7d0749d3666710879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5116eb7f_513d004c",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-09T19:37:11Z",
+      "side": 1,
+      "message": "Actually, I think this is already handled. The only variables in the lv.vars list are those that have pointers.",
+      "parentUuid": "cb2ef54b_d167d9bb",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
