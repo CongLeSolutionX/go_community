@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cec39be4_b579bd38",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-10T19:35:54Z",
+      "side": 1,
+      "message": "Done (as CL 247766).",
+      "parentUuid": "92f933e2_ae020ba0",
+      "revId": "1a6180b55d07f4c97408c627ed17315c0e507430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "033aa557_2ac49650",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 9
