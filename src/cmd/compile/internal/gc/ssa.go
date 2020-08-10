@@ -4397,6 +4397,9 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 			// Deferred nil function needs to panic when the function is invoked,
 			// not the point of defer statement.
 			s.maybeNilCheckClosure(closure, k)
+			if k == callNormal && ssa.LateCallExpansionEnabledWithin(s.f) {
+				testLateExpansion = true
+			}
 		}
 	case OCALLMETH:
 		if fn.Op != ODOTMETH {
@@ -4567,7 +4570,13 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 			// critical that we not clobber any arguments already
 			// stored onto the stack.
 			codeptr = s.rawLoad(types.Types[TUINTPTR], closure)
-			call = s.newValue3A(ssa.OpClosureCall, types.TypeMem, ssa.ClosureAuxCall(ACArgs, ACResults), codeptr, closure, s.mem())
+			if testLateExpansion {
+				aux := ssa.ClosureAuxCall(ACArgs, ACResults)
+				call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, closure)
+				call.AddArgs(callArgs...)
+			} else {
+				call = s.newValue3A(ssa.OpClosureCall, types.TypeMem, ssa.ClosureAuxCall(ACArgs, ACResults), codeptr, closure, s.mem())
+			}
 		case codeptr != nil:
 			if testLateExpansion {
 				aux := ssa.InterfaceAuxCall(ACArgs, ACResults)
