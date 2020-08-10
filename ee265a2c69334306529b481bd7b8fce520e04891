@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad3202a_9fd60714",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-08-10T21:23:41Z",
+      "side": 1,
+      "message": "Please add an \"Updates #37419.\" line (or equivalent).",
+      "revId": "ee265a2c69334306529b481bd7b8fce520e04891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
