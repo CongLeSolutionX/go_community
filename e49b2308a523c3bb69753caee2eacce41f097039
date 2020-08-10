@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3a664e4_e1694e3d",
+        "filename": "doc/go1.15.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-08-10T21:30:54Z",
+      "side": 0,
+      "message": "Optionally, you could opt to keep this HTML comment and modify it to say \"CL 191783 was reverted\". This can help anyone looking at the source trying to understand why a relnote\u003dyes-worthy CL wasn\u0027t included.\n\nNot a big deal either way.",
+      "range": {
+        "startLine": 641,
+        "startChar": 7,
+        "endLine": 641,
+        "endChar": 25
+      },
+      "revId": "e49b2308a523c3bb69753caee2eacce41f097039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
