@@ -104,6 +104,23 @@
       "revId": "342917379579693e774014d7d0749d3666710879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "596bc2a4_df9303dc",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-10T18:32:57Z",
+      "side": 1,
+      "message": "I think you want to set this to 0 to indicate there are no live registers. If go115ReduceLiveness is true, regMapIndex is ignored. If go115ReduceLiveness is false, then you want to indicate there are no live registers, and register map 0 always has no live registers. Setting this to StackMapDontCare will instead cause it to inherit whatever register map was active before the deferreturn.\n\n(Luckily this should be going away soon!)",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
