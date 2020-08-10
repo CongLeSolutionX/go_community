@@ -86,6 +86,24 @@
       "revId": "342917379579693e774014d7d0749d3666710879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5726d9_934f51e8",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-08-10T15:24:37Z",
+      "side": 1,
+      "message": "OK, yes, see that now.  Is this SetNeedzero(true) needed here, as compared to the fact that I called SetNeedzero(true) in openDeferSave() when I created the slot?",
+      "parentUuid": "5116eb7f_513d004c",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
