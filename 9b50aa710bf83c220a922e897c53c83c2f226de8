@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8bfb5af_3f19f6cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-08-10T17:07:53Z",
+      "side": 1,
+      "message": "Hi Andy, please take a look at this before the 1.15 release. I spotted that we forgot to undo this changelog item when we reverted the feature a few days ago, but wasn\u0027t reminded to send a CL until just now after seeing https://github.com/golang/go/issues/40668.",
+      "revId": "9b50aa710bf83c220a922e897c53c83c2f226de8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
