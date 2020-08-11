@@ -20,7 +20,7 @@ import (
 //
 // TODO: when it comes time to use registers, might want to include builtin selectors as well, but currently that happens in lower.
 func expandCalls(f *Func) {
-	if !TleMatch(f) {
+	if !LateCallExpansionEnabledWithin(f) {
 		return
 	}
 	canSSAType := f.fe.CanSSA
