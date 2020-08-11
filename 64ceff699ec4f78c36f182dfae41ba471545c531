@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50f9177f_a99a0388",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-11T17:13:28Z",
+      "side": 1,
+      "message": "In the linker we no longer need to track the size and keep the longest one. This can be done later, though (and I can do it).",
+      "revId": "64ceff699ec4f78c36f182dfae41ba471545c531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f19b47db_fc1f6dcf",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-11T17:13:28Z",
+      "side": 1,
+      "message": "Maybe mention that we won\u0027t retain the longer symbol when only the shorter symbol is live.",
+      "revId": "64ceff699ec4f78c36f182dfae41ba471545c531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
