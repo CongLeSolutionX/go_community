@@ -9,8 +9,6 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
-	"os"
-	"regexp"
 )
 
 // A Config holds readonly compilation information.
@@ -198,27 +196,16 @@ const (
 	ClassParamOut                     // return value
 )
 
-var tle string
-var tleRegexp *regexp.Regexp
+const go116lateCallExpansion = true
 
-// TleMatch returns true if late call expansion should be tested within compilation of a function/method
-// whose name matches the regexp in environment variable "GO_TLE".  If GO_TLE is "", late call expansion
-// tested within all functions.
-func TleMatch(f *Func) bool {
-	return f.DebugTest // Currently set up for GOSSAHASH bug searches
-	//if tleRegexp == nil {
-	//	return true
-	//}
-	//return tleRegexp.MatchString(f.Name)
+// LateCallExpansionEnabledWithin returns true if late call expansion should be tested
+// within compilation of a function/method triggered by GOSSAHASH (defaults to "yes").
+func LateCallExpansionEnabledWithin(f *Func) bool {
+	return go116lateCallExpansion && f.DebugTest // Currently set up for GOSSAHASH bug searches
 }
 
 // NewConfig returns a new configuration object for the given architecture.
 func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config {
-	tle = os.Getenv("GO_TLE")
-	if tle != "" {
-		tleRegexp = regexp.MustCompile(tle)
-	}
-
 	c := &Config{arch: arch, Types: types}
 	c.useAvg = true
 	c.useHmul = true
