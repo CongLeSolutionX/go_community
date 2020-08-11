@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "903794f8_06aed4e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-11T19:04:36Z",
+      "side": 1,
+      "message": "I\u0027ll defer on that for now. One of us will pick it up.",
+      "parentUuid": "50f9177f_a99a0388",
+      "revId": "64ceff699ec4f78c36f182dfae41ba471545c531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f19b47db_fc1f6dcf",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "64ceff699ec4f78c36f182dfae41ba471545c531",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20c792ef_80675bd1",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-11T19:04:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f19b47db_fc1f6dcf",
+      "revId": "64ceff699ec4f78c36f182dfae41ba471545c531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
