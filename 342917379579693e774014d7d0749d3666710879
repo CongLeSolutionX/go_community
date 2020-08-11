@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "fc5cbd8e_9cdbd8ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-08-11T16:20:15Z",
+      "side": 1,
+      "message": "Keith, thanks for doing this!",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e0515bc_06731a2a",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-08-11T16:20:15Z",
+      "side": 1,
+      "message": "Maybe just add a comment that the set of live variables that we will compute/force is the set of defer arg slots that have pointers ?",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18d05fce_a1e1b2dc",
         "filename": "src/cmd/compile/internal/gc/plive.go",
         "patchSetId": 1
