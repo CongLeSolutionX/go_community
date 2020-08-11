@@ -141,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "703c7c38_02599f57",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-11T17:03:04Z",
+      "side": 1,
+      "message": "You\u0027re right, this is redundant. I will add an assertion.",
+      "parentUuid": "7f5726d9_934f51e8",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "596bc2a4_df9303dc",
         "filename": "src/cmd/compile/internal/gc/plive.go",
         "patchSetId": 1
@@ -155,6 +173,24 @@
       "revId": "342917379579693e774014d7d0749d3666710879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc1005f2_e65f110f",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-11T17:03:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "596bc2a4_df9303dc",
+      "revId": "342917379579693e774014d7d0749d3666710879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
