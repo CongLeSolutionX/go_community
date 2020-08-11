@@ -93,11 +93,12 @@ type oReader struct {
 	version      int    // version of static symbol
 	flags        uint32 // read from object file
 	pkgprefix    string
-	syms         []Sym  // Sym's global index, indexed by local index
-	ndef         int    // cache goobj.Reader.NSym()
-	nhashed64def int    // cache goobj.Reader.NHashed64Def()
-	nhasheddef   int    // cache goobj.Reader.NHashedDef()
-	objidx       uint32 // index of this reader in the objs slice
+	syms         []Sym      // Sym's global index, indexed by local index
+	pkg          []*oReader // referenced package by PkgIdx
+	ndef         int        // cache goobj.Reader.NSym()
+	nhashed64def int        // cache goobj.Reader.NHashed64Def()
+	nhasheddef   int        // cache goobj.Reader.NHashedDef()
+	objidx       uint32     // index of this reader in the objs slice
 }
 
 // Total number of defined symbols (package symbols, hashed symbols, and
@@ -635,12 +636,7 @@ func (l *Loader) resolve(r *oReader, s goobj.SymRef) Sym {
 	case goobj.PkgIdxSelf:
 		rr = r
 	default:
-		pkg := r.Pkg(int(p))
-		var ok bool
-		rr, ok = l.objByPkg[pkg]
-		if !ok {
-			log.Fatalf("reference of nonexisted package %s, from %v", pkg, r.unit.Lib)
-		}
+		rr = r.pkg[p]
 	}
 	return l.toGlobal(rr, s.SymIdx)
 }
@@ -2193,6 +2189,18 @@ func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch) {
 		if osym.UsedInIface() {
 			l.SetAttrUsedInIface(gi, true)
 		}
+	}
+
+	// referenced packages
+	npkg := r.NPkg()
+	r.pkg = make([]*oReader, npkg)
+	for i := 1; i < npkg; i++ { // PkgIdx 0 is a dummy invalid package
+		pkg := r.Pkg(i)
+		rr, ok := l.objByPkg[pkg]
+		if !ok {
+			log.Fatalf("reference of nonexisted package %s, from %v", pkg, r.unit.Lib)
+		}
+		r.pkg[i] = rr
 	}
 
 	// load flags of package refs
