@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20f37e48_8d69524e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-08-11T16:54:09Z",
+      "side": 1,
+      "message": "Hi Robert, this is ported from your code, but I did review and LGTM.",
+      "revId": "56c851254810b7416b5f5010c46b047ad4ec6e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
