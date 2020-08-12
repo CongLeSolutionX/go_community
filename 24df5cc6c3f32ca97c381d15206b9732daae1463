@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d95398f2_ebd7766d",
+        "filename": "test/escape5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-12T17:25:07Z",
+      "side": 1,
+      "message": "If you change these to:\n\n```\nfunc (*U) M(*U) {}\nfunc (_ *U) N(_ *U) {}\n```\n\nand then update the callers below to pass additional \u0026u arguments, does this still pass? I\u0027m expecting it doesn\u0027t.\n\n--\n\nAlso, assuming it doesn\u0027t pass, I\u0027m somewhat inclined to say we should punt on this CL for now. No one actually writes \"T.M(x)\" instead of \"x.M()\", so I don\u0027t think it\u0027s worth adding extra compiler complexity to optimize it.\n\nIn the future, I hope we\u0027re able to run escape analysis on SSA form instead, and in SSA we rewrite \"x.M()\" into \"T.M(x)\" anyway. Hopefully that means we\u0027ll be able to get this optimization for free.\n\nI\u0027m inclined to say, for now, let\u0027s just add the failing test cases with \"BAD\" annotations.",
+      "revId": "24df5cc6c3f32ca97c381d15206b9732daae1463",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
