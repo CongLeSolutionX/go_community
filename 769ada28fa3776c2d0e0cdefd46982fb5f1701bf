@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a5d4160_66e437c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-12T17:41:00Z",
+      "side": 1,
+      "message": "Since 1.16 is now open for early-in-release, please review. Thanks!",
+      "revId": "769ada28fa3776c2d0e0cdefd46982fb5f1701bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
