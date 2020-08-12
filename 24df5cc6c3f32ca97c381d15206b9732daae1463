@@ -16,6 +16,24 @@
       "revId": "24df5cc6c3f32ca97c381d15206b9732daae1463",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b4ba6f9_4aa72322",
+        "filename": "test/escape5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-08-12T18:12:54Z",
+      "side": 1,
+      "message": "\u003e and then update the callers below to pass additional \u0026u arguments, does this still pass? I\u0027m expecting it doesn\u0027t.\n\nYay, it does fail.",
+      "parentUuid": "d95398f2_ebd7766d",
+      "revId": "24df5cc6c3f32ca97c381d15206b9732daae1463",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
