@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e635781_ce1ad3b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-12T16:42:40Z",
+      "side": 1,
+      "message": "LGTM w/ nit. OK to submit on Friday.",
+      "revId": "23c665d3f55021bd5cf1b567ac9a5a69d0c4c45a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a88b4f_55f07010",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-12T16:42:40Z",
+      "side": 1,
+      "message": "nit: move this above splitnode\u0027s declaration.\n\nWhen declaring a variable and then initializing it separately like we\u0027re doing here for \"splitnode\", I think it\u0027s best to keep as little distance between the declaration and initializations as possible.",
+      "revId": "23c665d3f55021bd5cf1b567ac9a5a69d0c4c45a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
