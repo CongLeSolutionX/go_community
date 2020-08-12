@@ -791,15 +791,22 @@ func (e *Escape) call(ks []EscHole, call, where *Node) {
 			}
 		}
 
+		args := call.List.Slice()
+		params := fntype.Params().FieldSlice()
 		if r := fntype.Recv(); r != nil {
 			argument(e.tagHole(ks, fn, r), call.Left.Left)
 		} else {
+			// Method called as function, tag the first argument (the receiver)
+			if nn := asNode(call.Left.Type.FuncType().Nname); nn != nil && nn.Type.Recv() != nil {
+				argument(e.tagHole(ks, nn, nn.Type.Recv()), args[0])
+				args = args[1:]
+				params = params[1:]
+			}
 			// Evaluate callee function expression.
 			argument(e.discardHole(), call.Left)
 		}
 
-		args := call.List.Slice()
-		for i, param := range fntype.Params().FieldSlice() {
+		for i, param := range params {
 			argument(e.tagHole(ks, fn, param), args[i])
 		}
 

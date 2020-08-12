@@ -167,7 +167,9 @@ func f13() {
 	runtime.KeepAlive(&x)
 }
 
-// Test for issue 24305 (passing to unnamed receivers does not escape).
+// Test for issue 24305
+//  - passing to unnamed receivers does not escape.
+//  - methods call as functions does not escape.
 type U int
 
 func (*U) M()   {}
@@ -177,6 +179,8 @@ func _() {
 	var u U
 	u.M()
 	u.N()
+	(*U).M(&u)
+	(*U).N(&u)
 }
 
 // Issue 24730: taking address in a loop causes unnecessary escape
