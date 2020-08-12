@@ -177,6 +177,15 @@ func _() {
 	var u U
 	u.M()
 	u.N()
+	(*U).M(&u)
+	(*U).N(&u)
+}
+
+func fbad24305() {
+	// BAD u should not be heap allocated
+	var u U // ERROR "move to heap: u"
+	(*U).M(&u)
+	(*U).N(&u)
 }
 
 // Issue 24730: taking address in a loop causes unnecessary escape
