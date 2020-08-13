@@ -34,6 +34,23 @@
       "revId": "00898d5481e7221603e2c6298b8bb16487c72e99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f272090c_67745fc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-08-13T12:08:15Z",
+      "side": 1,
+      "message": "Linker change LGTM.\n\nIn theory the go:cgo_import_dynamic is \"only\" used by cgo, but from what I can see there are folks who write the directive into their code by hand (e.g. https://github.com/golang/go/issues/39257). Should there be any sort of documentation change with this? Or maybe release notes?",
+      "revId": "00898d5481e7221603e2c6298b8bb16487c72e99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
