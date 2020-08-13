@@ -200,7 +200,12 @@ func genelfsym(ctxt *Link, elfbind int) {
 	}
 
 	// Text symbols.
-	for _, s := range ctxt.Textp {
+	text := ctxt.Textp
+	if ctxt.AddTextp != nil {
+		text = append(text, ctxt.AddTextp...)
+		ldr.SortSyms(text)
+	}
+	for _, s := range text {
 		putelfsym(ctxt, s, STT_FUNC, elfbind)
 	}
 
