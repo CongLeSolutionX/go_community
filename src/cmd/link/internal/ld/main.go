@@ -292,6 +292,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	bench.Start("textaddress")
 	ctxt.textaddress()
+
 	bench.Start("typelink")
 	ctxt.typelink()
 	bench.Start("buildinfo")
@@ -341,6 +342,13 @@ func Main(arch *sys.Arch, theArch Arch) {
 		}(f, s)
 	}
 	wg.Wait()
+
+	// Generate additional text symbols just prior to code generation.
+	bench.Start("GentextLate")
+	if thearch.GentextLate != nil {
+		thearch.GentextLate(ctxt, ctxt.loader)
+	}
+
 	bench.Start("Asmb2")
 	asmb2(ctxt)
 
