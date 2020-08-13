@@ -4149,6 +4149,40 @@ func TestQueryExecContextOnly(t *testing.T) {
 	}
 }
 
+// badScanner implements the Scanner interface.
+// It's Scan method always returns an error.
+type badScanner struct{}
+
+var errBadScanner = errors.New("errBadScanner")
+
+func (badScanner) Scan(interface{}) error {
+	return errBadScanner
+}
+
+func TestScanError(t *testing.T) {
+	db := newTestDB(t, "people")
+	defer closeDB(t, db)
+
+	rows, err := db.Query("SELECT|people|age|")
+	if err != nil {
+		t.Fatalf("Query: %v", err)
+	}
+
+	var res badScanner
+
+	for rows.Next() {
+		err = rows.Scan(&res)
+		switch {
+		case err == nil:
+			t.Fatalf("Expected error, got %v", err)
+		case !strings.Contains(err.Error(), errBadScanner.Error()): // String level backwards-compatability check
+			t.Fatalf("Error %v does not contain %v", err, errBadScanner)
+		case !errors.Is(err, errBadScanner):
+			t.Fatalf("Error %v is not %v", err, errBadScanner)
+		}
+	}
+}
+
 // badConn implements a bad driver.Conn, for TestBadDriver.
 // The Exec method panics.
 type badConn struct{}
