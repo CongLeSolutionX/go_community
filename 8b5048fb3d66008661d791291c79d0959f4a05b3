@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "643988cf_165ca933",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34724
+      },
+      "writtenOn": "2020-08-13T17:34:13Z",
+      "side": 1,
+      "message": "I believe I have resolved the comments, with two additional small changes:\n\n1. On the related Github issue someone suggested updating the documentation on error wrapping. So I have added this.\n2. The test error name was `errBadScan` which did not sense now that the type was renamed. Now I\u0027ve called it `errTestScanWrap`.\n\nI apologize if this gives more work in the review.",
+      "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
