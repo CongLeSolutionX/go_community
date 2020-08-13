@@ -16,6 +16,23 @@
       "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46ec7938_9ff41811",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-13T17:41:35Z",
+      "side": 1,
+      "message": "Thank you for the update, Tim! Almost there, just some minor updates:\na) In the commit message, please replace “An unit test” with “A unit test”\nb) The doc update is a bit confusing and imprecise, I’d remove it altogether or perhaps make it, “If any of the first arguments implementing Scanner returns an error, that error will be wrapped in the returned error.”\nc) In the commit message, it is no longer “the existing”. How about let’s make it entirely:\n\nThe prior implementation used the format verb %v which unfortunately\nimproperly wrapped any underlying scanner errors, and we couldn’t use\nerrors.Is not errors.As. This change fixes that by using the %w verb.\n\nAdded a unit to ensure that both error sub string matching works, but\nalso that errors.Is works as expected.\n\nFixes #38099",
+      "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
