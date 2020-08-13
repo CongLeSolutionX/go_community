@@ -33,6 +33,75 @@
       "revId": "6dfc98462581a1642019f004b589d453a31b0fea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31f76723_f2b05747",
+        "filename": "src/debug/gosym/pclntab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-13T16:19:29Z",
+      "side": 1,
+      "message": "\"it maps\" (and below)",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "6dfc98462581a1642019f004b589d453a31b0fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6138c058_fef101d3",
+        "filename": "src/debug/gosym/pclntab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-13T16:19:29Z",
+      "side": 1,
+      "message": "Is this a problem?",
+      "range": {
+        "startLine": 395,
+        "startChar": 4,
+        "endLine": 395,
+        "endChar": 16
+      },
+      "revId": "6dfc98462581a1642019f004b589d453a31b0fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91211440_115b5266",
+        "filename": "src/debug/gosym/pclntab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-13T16:19:29Z",
+      "side": 1,
+      "message": "\"Go 1.2/1.16\" maybe?",
+      "range": {
+        "startLine": 484,
+        "startChar": 70,
+        "endLine": 484,
+        "endChar": 76
+      },
+      "revId": "6dfc98462581a1642019f004b589d453a31b0fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
