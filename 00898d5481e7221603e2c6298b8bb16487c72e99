@@ -51,6 +51,41 @@
       "revId": "00898d5481e7221603e2c6298b8bb16487c72e99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54101f8e_7369a440",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-13T15:32:46Z",
+      "side": 1,
+      "message": "I don\u0027t think cgo_import_dynamic is user-facing. It is used by cgo, and by runtime and syscall package to make syscalls using libc (darwin, aix, solaris, etc.). It should not be written by hand outside of the standard library.",
+      "parentUuid": "f272090c_67745fc9",
+      "revId": "00898d5481e7221603e2c6298b8bb16487c72e99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f308d0b5_66f2c0ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-13T15:32:46Z",
+      "side": 1,
+      "message": "Thanks for review.",
+      "revId": "00898d5481e7221603e2c6298b8bb16487c72e99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
