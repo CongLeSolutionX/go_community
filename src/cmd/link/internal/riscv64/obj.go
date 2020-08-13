@@ -20,13 +20,16 @@ func Init() (*sys.Arch, ld.Arch) {
 		Dwarfregsp: dwarfRegSP,
 		Dwarfreglr: dwarfRegLR,
 
-		Archinit:         archinit,
-		Archreloc:        archreloc,
-		Archrelocvariant: archrelocvariant,
-		Elfreloc1:        elfreloc1,
-		Elfsetupplt:      elfsetupplt,
-		Gentext:          gentext,
-		Machoreloc1:      machoreloc1,
+		Archinit:               archinit,
+		Archreloc:              archreloc,
+		Archrelocvariant:       archrelocvariant,
+		Extreloc:               extreloc,
+		Elfreloc1:              elfreloc1,
+		ElfrelocSize:           24,
+		Elfsetupplt:            elfsetupplt,
+		Gentext:                gentext,
+		GentextAfterAddressing: gentextAfterAddressing,
+		Machoreloc1:            machoreloc1,
 
 		Linuxdynld: "/lib/ld.so.1",
 

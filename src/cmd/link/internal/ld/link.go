@@ -94,6 +94,11 @@ type Link struct {
 	// Elf symtab variables.
 	numelfsym int // starts at 0, 1 is reserved
 
+	// Additional symbols that are used to generate ELF symbols, but are
+	// not included in any other processing. This is used by the RISC-V
+	// linker to generate the ELF symbols needed for HI20 relocations.
+	AdditionalELFSymbols []loader.Sym
+
 	// These are symbols that created and written by the linker.
 	// Rather than creating a symbol, and writing all its data into the heap,
 	// you can create a symbol, and just a generation function will be called
