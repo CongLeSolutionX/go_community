@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c49c7d_c1e9d36b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-13T02:25:26Z",
+      "side": 1,
+      "message": "Standard syntax is \"cmd/{compile,link}\"",
+      "revId": "1ffcdeabdfa32978a62fe8749a1b41e1ffc78fdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
