@@ -3110,6 +3110,11 @@ func rowsColumnInfoSetupConnLocked(rowsi driver.Rows) []*ColumnType {
 // "select cursor(select * from my_table) from dual", into a
 // *Rows value that can itself be scanned from. The parent
 // select query will close any cursor *Rows if the parent *Rows is closed.
+//
+// If an argument has type a type implementing the Scanner interface,
+// any error returned from its Scan method will be wrapped in the
+// returned error.
+// This behavior is implemented in Go 1.16.
 func (rs *Rows) Scan(dest ...interface{}) error {
 	rs.closemu.RLock()
 
@@ -3133,7 +3138,7 @@ func (rs *Rows) Scan(dest ...interface{}) error {
 	for i, sv := range rs.lastcols {
 		err := convertAssignRows(dest[i], sv, rs)
 		if err != nil {
-			return fmt.Errorf(`sql: Scan error on column index %d, name %q: %v`, i, rs.rowsi.Columns()[i], err)
+			return fmt.Errorf(`sql: Scan error on column index %d, name %q: %w`, i, rs.rowsi.Columns()[i], err)
 		}
 	}
 	return nil
