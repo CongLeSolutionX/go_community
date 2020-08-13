@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ef26c3a_80c87ad4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34724
+      },
+      "writtenOn": "2020-08-13T20:51:12Z",
+      "side": 1,
+      "message": "Updates (a) and (c) are implemented. A question about (b)",
+      "revId": "96de4b58c509c41c9638d65ee1faa40907d75d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
