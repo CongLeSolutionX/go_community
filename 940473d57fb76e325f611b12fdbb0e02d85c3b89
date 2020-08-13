@@ -34,6 +34,24 @@
       "revId": "940473d57fb76e325f611b12fdbb0e02d85c3b89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0db3ba22_24711bad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2020-08-13T00:53:03Z",
+      "side": 1,
+      "message": "when we say August 14, what time zone are we using? I am in GMT+8, August 14 will arrive in 13 hour, tomorrow! Are you in GMT-8, or GMT-6, August 14 in your time could be August 15 in my time zone.",
+      "parentUuid": "3adf5420_39f56aff",
+      "revId": "940473d57fb76e325f611b12fdbb0e02d85c3b89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
