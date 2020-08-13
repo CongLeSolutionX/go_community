@@ -205,6 +205,9 @@ func setCgoAttr(ctxt *Link, lookup func(string, int) *sym.Symbol, file string, p
 					s.Type = sym.SDYNIMPORT
 				}
 				havedynamic = 1
+				if lib != "" && ctxt.HeadType == objabi.Hdarwin {
+					machoadddynlib(lib, ctxt.LinkMode)
+				}
 			}
 
 			continue
