@@ -1978,6 +1978,15 @@
 	&& warnRule(fe.Debug_checknil(), v, "removed nil check")
 	=> (Invalid)
 
+(SelectN [0] (MakeResult a ___)) => a
+(SelectN [1] (MakeResult a b ___)) => b
+(SelectN [2] (MakeResult a b c ___)) => c
+
+(StaticLECall {callAux} sptr (Addr {scon} (SB)) (Const64 [1]) mem)
+  && isSameCall(callAux, "runtime.memequal")
+  && symHasPrefix(scon, "go.string.")
+  => (MakeResult (Eq8 (Load <typ.Int8> sptr mem) (Const8 <typ.Int8> [int8(read8(scon,0))])) mem)
+
 // Evaluate constant address comparisons.
 (EqPtr  x x) => (ConstBool [true])
 (NeqPtr x x) => (ConstBool [false])

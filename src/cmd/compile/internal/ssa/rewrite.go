@@ -18,6 +18,7 @@ import (
 	"math/bits"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
@@ -1435,6 +1436,12 @@ func needRaceCleanup(sym *AuxCall, v *Value) bool {
 func symIsRO(sym interface{}) bool {
 	lsym := sym.(*obj.LSym)
 	return lsym.Type == objabi.SRODATA && len(lsym.R) == 0
+}
+
+// symHasPrefix reports whether sym's name begins with prefix
+func symHasPrefix(sym interface{}, prefix string) bool {
+	lsym := sym.(*obj.LSym)
+	return strings.HasPrefix(lsym.Name, prefix)
 }
 
 // symIsROZero reports whether sym is a read-only global whose data contains all zeros.
