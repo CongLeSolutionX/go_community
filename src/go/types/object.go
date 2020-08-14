@@ -49,10 +49,10 @@ type Object interface {
 	sameId(pkg *Package, name string) bool
 
 	// scopePos returns the start position of the scope of this Object
-	scopePos() token.Pos
+	scopePos() astPosition
 
 	// setScopePos sets the start position of the scope for this Object.
-	setScopePos(pos token.Pos)
+	setScopePos(pos astPosition)
 }
 
 // Id returns name if it is exported, otherwise it
@@ -77,14 +77,15 @@ func Id(pkg *Package, name string) string {
 
 // An object implements the common parts of an Object.
 type object struct {
-	parent    *Scope
-	pos       token.Pos
+	parent *Scope
+	// pos       token.Pos
+	pos       astPosition
 	pkg       *Package
 	name      string
 	typ       Type
 	order_    uint32
 	color_    color
-	scopePos_ token.Pos
+	scopePos_ astPosition
 }
 
 // color encodes the color of an object (see Checker.objDecl for details).
@@ -123,7 +124,12 @@ func colorFor(t Type) color {
 func (obj *object) Parent() *Scope { return obj.parent }
 
 // Pos returns the declaration position of the object's identifier.
-func (obj *object) Pos() token.Pos { return obj.pos }
+func (obj *object) Pos() token.Pos {
+	if obj.pos == nil {
+		return token.NoPos
+	}
+	return obj.pos.(token.Pos)
+}
 
 // Pkg returns the package to which the object belongs.
 // The result is nil for labels and objects in the Universe scope.
@@ -143,15 +149,20 @@ func (obj *object) Exported() bool { return token.IsExported(obj.name) }
 // Id is a wrapper for Id(obj.Pkg(), obj.Name()).
 func (obj *object) Id() string { return Id(obj.pkg, obj.name) }
 
-func (obj *object) String() string      { panic("abstract") }
-func (obj *object) order() uint32       { return obj.order_ }
-func (obj *object) color() color        { return obj.color_ }
-func (obj *object) scopePos() token.Pos { return obj.scopePos_ }
+func (obj *object) String() string { panic("abstract") }
+func (obj *object) order() uint32  { return obj.order_ }
+func (obj *object) color() color   { return obj.color_ }
+func (obj *object) scopePos() astPosition {
+	if obj.scopePos_ == nil {
+		return token.NoPos
+	}
+	return obj.scopePos_
+}
 
-func (obj *object) setParent(parent *Scope)   { obj.parent = parent }
-func (obj *object) setOrder(order uint32)     { assert(order > 0); obj.order_ = order }
-func (obj *object) setColor(color color)      { assert(color != white); obj.color_ = color }
-func (obj *object) setScopePos(pos token.Pos) { obj.scopePos_ = pos }
+func (obj *object) setParent(parent *Scope)     { obj.parent = parent }
+func (obj *object) setOrder(order uint32)       { assert(order > 0); obj.order_ = order }
+func (obj *object) setColor(color color)        { assert(color != white); obj.color_ = color }
+func (obj *object) setScopePos(pos astPosition) { obj.scopePos_ = pos }
 
 func (obj *object) sameId(pkg *Package, name string) bool {
 	// spec:
@@ -186,6 +197,10 @@ type PkgName struct {
 // NewPkgName returns a new PkgName object representing an imported package.
 // The remaining arguments set the attributes found with all Objects.
 func NewPkgName(pos token.Pos, pkg *Package, name string, imported *Package) *PkgName {
+	return newPkgName(pos, pkg, name, imported)
+}
+
+func newPkgName(pos astPosition, pkg *Package, name string, imported *Package) *PkgName {
 	return &PkgName{object{nil, pos, pkg, name, Typ[Invalid], 0, black, token.NoPos}, imported, false}
 }
 
@@ -202,6 +217,10 @@ type Const struct {
 // NewConst returns a new constant with value val.
 // The remaining arguments set the attributes found with all Objects.
 func NewConst(pos token.Pos, pkg *Package, name string, typ Type, val constant.Value) *Const {
+	return newConst(pos, pkg, name, typ, val)
+}
+
+func newConst(pos astPosition, pkg *Package, name string, typ Type, val constant.Value) *Const {
 	return &Const{object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}, val}
 }
 
@@ -223,6 +242,10 @@ type TypeName struct {
 // argument for NewNamed, which will set the TypeName's type as a side-
 // effect.
 func NewTypeName(pos token.Pos, pkg *Package, name string, typ Type) *TypeName {
+	return newTypeName(pos, pkg, name, typ)
+}
+
+func newTypeName(pos astPosition, pkg *Package, name string, typ Type) *TypeName {
 	return &TypeName{object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}}
 }
 
@@ -261,11 +284,19 @@ type Var struct {
 // NewVar returns a new variable.
 // The arguments set the attributes found with all Objects.
 func NewVar(pos token.Pos, pkg *Package, name string, typ Type) *Var {
+	return newVar(pos, pkg, name, typ)
+}
+
+func newVar(pos astPosition, pkg *Package, name string, typ Type) *Var {
 	return &Var{object: object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}}
 }
 
 // NewParam returns a new variable representing a function parameter.
 func NewParam(pos token.Pos, pkg *Package, name string, typ Type) *Var {
+	return newParam(pos, pkg, name, typ)
+}
+
+func newParam(pos astPosition, pkg *Package, name string, typ Type) *Var {
 	return &Var{object: object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}, used: true} // parameters are always 'used'
 }
 
@@ -273,6 +304,10 @@ func NewParam(pos token.Pos, pkg *Package, name string, typ Type) *Var {
 // For embedded fields, the name is the unqualified type name
 /// under which the field is accessible.
 func NewField(pos token.Pos, pkg *Package, name string, typ Type, embedded bool) *Var {
+	return newField(pos, pkg, name, typ, embedded)
+}
+
+func newField(pos astPosition, pkg *Package, name string, typ Type, embedded bool) *Var {
 	return &Var{object: object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}, embedded: embedded, isField: true}
 }
 
@@ -299,6 +334,10 @@ type Func struct {
 // NewFunc returns a new function with the given signature, representing
 // the function's type.
 func NewFunc(pos token.Pos, pkg *Package, name string, sig *Signature) *Func {
+	return newFunc(pos, pkg, name, sig)
+}
+
+func newFunc(pos astPosition, pkg *Package, name string, sig *Signature) *Func {
 	// don't store a nil signature
 	var typ Type
 	if sig != nil {
@@ -329,6 +368,10 @@ type Label struct {
 
 // NewLabel returns a new label.
 func NewLabel(pos token.Pos, pkg *Package, name string) *Label {
+	return newLabel(pos, pkg, name)
+}
+
+func newLabel(pos astPosition, pkg *Package, name string) *Label {
 	return &Label{object{pos: pos, pkg: pkg, name: name, typ: Typ[Invalid], color_: black}, false}
 }
 

@@ -7,6 +7,7 @@ package types
 import (
 	"container/heap"
 	"fmt"
+	"go/ast"
 )
 
 // initOrder computes the Info.InitOrder for package variables.
@@ -113,7 +114,7 @@ func (check *Checker) initOrder() {
 		if infoLhs == nil {
 			infoLhs = []*Var{v}
 		}
-		init := &Initializer{infoLhs, info.init}
+		init := &Initializer{infoLhs, info.init.Unwrap().(ast.Expr)}
 		check.Info.InitOrder = append(check.Info.InitOrder, init)
 	}
 

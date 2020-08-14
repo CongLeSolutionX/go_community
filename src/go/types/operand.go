@@ -9,7 +9,6 @@ package types
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
 	"go/constant"
 	"go/token"
 )
@@ -53,7 +52,7 @@ var operandModeString = [...]string{
 //
 type operand struct {
 	mode operandMode
-	expr ast.Expr
+	expr astExpr
 	typ  Type
 	val  constant.Value
 	id   builtinId
@@ -62,7 +61,7 @@ type operand struct {
 // pos returns the position of the expression corresponding to x.
 // If x is invalid the position is token.NoPos.
 //
-func (x *operand) pos() token.Pos {
+func (x *operand) pos() astPosition {
 	// x.expr may not be set if x is invalid
 	if x.expr == nil {
 		return token.NoPos
@@ -109,7 +108,7 @@ func operandString(x *operand, qf Qualifier) string {
 
 	var expr string
 	if x.expr != nil {
-		expr = ExprString(x.expr)
+		expr = exprString(x.expr)
 	} else {
 		switch x.mode {
 		case builtin:
