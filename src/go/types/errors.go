@@ -9,8 +9,8 @@ package types
 import (
 	"errors"
 	"fmt"
-	"go/ast"
 	"go/token"
+	itypes "internal/types"
 	"strconv"
 	"strings"
 )
@@ -48,8 +48,10 @@ func (check *Checker) sprintf(format string, args ...interface{}) string {
 			arg = operandString(a, check.qualifier)
 		case token.Pos:
 			arg = check.fset.Position(a).String()
-		case ast.Expr:
-			arg = ExprString(a)
+		case itypes.Expr:
+			arg = exprString(a)
+		case itypes.Node:
+			arg = a.(unwrapper).Unwrap()
 		case Object:
 			arg = ObjectString(a, check.qualifier)
 		case Type:
@@ -60,9 +62,9 @@ func (check *Checker) sprintf(format string, args ...interface{}) string {
 	return fmt.Sprintf(format, args...)
 }
 
-func (check *Checker) trace(pos token.Pos, format string, args ...interface{}) {
+func (check *Checker) trace(pos itypes.Pos, format string, args ...interface{}) {
 	fmt.Printf("%s:\t%s%s\n",
-		check.fset.Position(pos),
+		check.fset.Position(pos.(token.Pos)),
 		strings.Repeat(".  ", check.indent),
 		check.sprintf(format, args...),
 	)
@@ -110,41 +112,41 @@ func (check *Checker) err(err error) {
 	f(err)
 }
 
-func (check *Checker) error(pos token.Pos, msg string) {
-	check.err(Error{Fset: check.fset, Pos: pos, Msg: msg})
+func (check *Checker) error(pos itypes.Pos, msg string) {
+	check.err(Error{Fset: check.fset, Pos: pos.(token.Pos), Msg: msg})
 }
 
 // newErrorf creates a new Error, but does not handle it.
-func (check *Checker) newErrorf(pos token.Pos, format string, args ...interface{}) error {
+func (check *Checker) newErrorf(pos itypes.Pos, format string, args ...interface{}) error {
 	return Error{
 		Fset: check.fset,
-		Pos:  pos,
+		Pos:  pos.(token.Pos),
 		Msg:  check.sprintf(format, args...),
 		Soft: false,
 	}
 }
 
-func (check *Checker) errorf(pos token.Pos, format string, args ...interface{}) {
-	check.error(pos, check.sprintf(format, args...))
+func (check *Checker) errorf(pos itypes.Pos, format string, args ...interface{}) {
+	check.error(pos.(token.Pos), check.sprintf(format, args...))
 }
 
-func (check *Checker) softErrorf(pos token.Pos, format string, args ...interface{}) {
+func (check *Checker) softErrorf(pos itypes.Pos, format string, args ...interface{}) {
 	check.err(Error{
 		Fset: check.fset,
-		Pos:  pos,
+		Pos:  pos.(token.Pos),
 		Msg:  check.sprintf(format, args...),
 		Soft: true,
 	})
 }
 
-func (check *Checker) invalidAST(pos token.Pos, format string, args ...interface{}) {
+func (check *Checker) invalidAST(pos itypes.Pos, format string, args ...interface{}) {
 	check.errorf(pos, "invalid AST: "+format, args...)
 }
 
-func (check *Checker) invalidArg(pos token.Pos, format string, args ...interface{}) {
+func (check *Checker) invalidArg(pos itypes.Pos, format string, args ...interface{}) {
 	check.errorf(pos, "invalid argument: "+format, args...)
 }
 
-func (check *Checker) invalidOp(pos token.Pos, format string, args ...interface{}) {
+func (check *Checker) invalidOp(pos itypes.Pos, format string, args ...interface{}) {
 	check.errorf(pos, "invalid operation: "+format, args...)
 }
