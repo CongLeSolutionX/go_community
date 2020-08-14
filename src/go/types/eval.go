@@ -91,7 +91,7 @@ func CheckExpr(fset *token.FileSet, pkg *Package, pos token.Pos, expr ast.Expr, 
 
 	// evaluate node
 	var x operand
-	check.rawExpr(&x, expr, nil)
+	check.rawExpr(&x, wrapExpr(expr), nil)
 	check.processDelayed(0) // incl. all functions
 	check.recordUntyped()
 

@@ -358,6 +358,7 @@ func (init *Initializer) String() string {
 // The clean path must not be empty or dot (".").
 func (conf *Config) Check(path string, fset *token.FileSet, files []*ast.File, info *Info) (*Package, error) {
 	pkg := NewPackage(path, "")
+
 	return pkg, NewChecker(conf, fset, pkg, info).Files(files)
 }
 
