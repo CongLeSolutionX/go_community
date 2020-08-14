@@ -108,7 +108,13 @@ func typecheckclosure(clo *Node, top int) {
 
 	xfunc.Func.Nname.Sym = closurename(Curfn)
 	disableExport(xfunc.Func.Nname.Sym)
-	declare(xfunc.Func.Nname, PFUNC)
+	if xfunc.Func.Nname != nil && xfunc.Func.Nname.Sym.Func() {
+		// The only case we can reach here is when the outer function was redeclared.
+		// In that case, don't bother to redeclare the closure. Otherwise, we will get
+		// a spurious error message, see #17758.
+	} else {
+		declare(xfunc.Func.Nname, PFUNC)
+	}
 	xfunc = typecheck(xfunc, ctxStmt)
 
 	// Type check the body now, but only if we're inside a function.
