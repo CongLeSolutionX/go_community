@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9cb34f7_377aa2f2",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-14T19:05:53Z",
+      "side": 1,
+      "message": "I suggest checking whether \"xfunc.Func.Nname.Sym.Def\" is nil. That\u0027s the field used for identifying whether a symbol has an associated definition.\n\nAlso, in the !nil code path, please include a check for:\n\n    if nsavederrors+nerrors \u003d\u003d 0 {\n        Fatalf(\"unexpected symbol collision %v\", xfunc.Func.Nname.Sym)\n    }\n\n(This makes sure that we already reported some other error, that way we know the overall compilation is going to fail.)",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 58
+      },
+      "revId": "6dd3483bd9502abcadd3e2e692b0ce1e8383ab50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
