@@ -6,9 +6,9 @@ package types
 
 import (
 	"fmt"
-	"go/ast"
 	"go/constant"
 	"go/token"
+	itypes "internal/types"
 	"sort"
 	"strconv"
 	"strings"
@@ -17,12 +17,12 @@ import (
 
 // A declInfo describes a package-level const, type, var, or func declaration.
 type declInfo struct {
-	file  *Scope        // scope of file containing this declaration
-	lhs   []*Var        // lhs of n:1 variable declarations, or nil
-	typ   ast.Expr      // type, or nil
-	init  ast.Expr      // init/orig expression, or nil
-	fdecl *ast.FuncDecl // func declaration, or nil
-	alias bool          // type alias declaration
+	file  *Scope          // scope of file containing this declaration
+	lhs   []*Var          // lhs of n:1 variable declarations, or nil
+	typ   itypes.Expr     // type, or nil
+	init  itypes.Expr     // init/orig expression, or nil
+	fdecl itypes.FuncDecl // func declaration, or nil
+	alias bool            // type alias declaration
 
 	// The deps field tracks initialization expression dependencies.
 	deps map[Object]bool // lazily initialized
@@ -31,7 +31,7 @@ type declInfo struct {
 // hasInitializer reports whether the declared object has an initialization
 // expression or function body.
 func (d *declInfo) hasInitializer() bool {
-	return d.init != nil || d.fdecl != nil && d.fdecl.Body != nil
+	return d.init != nil || d.fdecl != nil && d.fdecl.Body() != nil
 }
 
 // addDep adds obj to the set of objects d's init expression depends on.
@@ -48,32 +48,33 @@ func (d *declInfo) addDep(obj Object) {
 // have the appropriate number of names and init exprs. For const
 // decls, init is the value spec providing the init exprs; for
 // var decls, init is nil (the init exprs are in s in this case).
-func (check *Checker) arityMatch(s, init *ast.ValueSpec) {
-	l := len(s.Names)
-	r := len(s.Values)
+func (check *Checker) arityMatch(s, init itypes.ValueSpec) {
+	l := s.NamesLen()
+	r := s.ValuesLen()
 	if init != nil {
-		r = len(init.Values)
+		r = init.ValuesLen()
 	}
 
 	switch {
 	case init == nil && r == 0:
 		// var decl w/o init expr
-		if s.Type == nil {
+		if s.Type() == nil {
 			check.errorf(s.Pos(), "missing type or init expr")
 		}
 	case l < r:
-		if l < len(s.Values) {
+		if l < s.ValuesLen() {
 			// init exprs from s
-			n := s.Values[l]
+			n := s.Value(l)
 			check.errorf(n.Pos(), "extra init expr %s", n)
 			// TODO(gri) avoid declared but not used error here
 		} else {
 			// init exprs "inherited"
-			check.errorf(s.Pos(), "extra init expr at %s", check.fset.Position(init.Pos()))
+			// TODO: eliminate this type assertion
+			check.errorf(s.Pos(), "extra init expr at %s", check.fset.Position(init.Pos().(token.Pos)))
 			// TODO(gri) avoid declared but not used error here
 		}
 	case l > r && (init != nil || r != 1):
-		n := s.Names[r]
+		n := s.Name(r)
 		check.errorf(n.Pos(), "missing init expr for %s", n)
 	}
 }
@@ -97,19 +98,19 @@ func validatedImportPath(path string) (string, error) {
 
 // declarePkgObj declares obj in the package scope, records its ident -> obj mapping,
 // and updates check.objMap. The object must not be a function or method.
-func (check *Checker) declarePkgObj(ident *ast.Ident, obj Object, d *declInfo) {
-	assert(ident.Name == obj.Name())
+func (check *Checker) declarePkgObj(ident itypes.Ident, obj Object, d *declInfo) {
+	assert(ident.Name() == obj.Name())
 
 	// spec: "A package-scope or file-scope identifier with name init
 	// may only be declared to be a function with this (func()) signature."
-	if ident.Name == "init" {
+	if ident.Name() == "init" {
 		check.errorf(ident.Pos(), "cannot declare init - must be func")
 		return
 	}
 
 	// spec: "The main package must have package name main and declare
 	// a function main that takes no arguments and returns no value."
-	if ident.Name == "main" && check.pkg.name == "main" {
+	if ident.Name() == "main" && check.pkg.name == "main" {
 		check.errorf(ident.Pos(), "cannot declare main - must be func")
 		return
 	}
@@ -123,12 +124,13 @@ func (check *Checker) declarePkgObj(ident *ast.Ident, obj Object, d *declInfo) {
 func (check *Checker) filename(fileNo int) string {
 	file := check.files[fileNo]
 	if pos := file.Pos(); pos.IsValid() {
-		return check.fset.File(pos).Name()
+		// TODO: eliminate this type assertion
+		return check.fset.File(pos.(token.Pos)).Name()
 	}
 	return fmt.Sprintf("file[%d]", fileNo)
 }
 
-func (check *Checker) importPackage(pos token.Pos, path, dir string) *Package {
+func (check *Checker) importPackage(pos itypes.Pos, path, dir string) *Package {
 	// If we already have a package for the given (path, dir)
 	// pair, use it instead of doing a full import.
 	// Checker.impMap only caches packages that are marked Complete
@@ -218,41 +220,47 @@ func (check *Checker) collectObjects() {
 	for fileNo, file := range check.files {
 		// The package identifier denotes the current package,
 		// but there is no corresponding package object.
-		check.recordDef(file.Name, nil)
+		check.recordDef(file.Name(), nil)
 
-		// Use the actual source file extent rather than *ast.File extent since the
+		// Use the actual source file extent rather than itypes.File extent since the
 		// latter doesn't include comments which appear at the start or end of the file.
-		// Be conservative and use the *ast.File extent if we don't have a *token.File.
+		// Be conservative and use the itypes.File extent if we don't have a *token.File.
 		pos, end := file.Pos(), file.End()
-		if f := check.fset.File(file.Pos()); f != nil {
+		// TODO: eliminate this type assertion
+		if f := check.fset.File(file.Pos().(token.Pos)); f != nil {
 			pos, end = token.Pos(f.Base()), token.Pos(f.Base()+f.Size())
 		}
-		fileScope := NewScope(check.pkg.scope, pos, end, check.filename(fileNo))
+		fileScope := newScope(check.pkg.scope, pos, end, check.filename(fileNo))
 		check.recordScope(file, fileScope)
 
 		// determine file directory, necessary to resolve imports
 		// FileName may be "" (typically for tests) in which case
 		// we get "." as the directory which is what we would want.
-		fileDir := dir(check.fset.Position(file.Name.Pos()).Filename)
+		// TODO: eliminate this type assertion
+		fileDir := dir(check.fset.Position(file.Name().Pos().(token.Pos)).Filename)
 
-		for _, decl := range file.Decls {
+		for decli := 0; decli < file.DeclsLen(); decli++ {
+			decl := file.Decl(decli)
 			switch d := decl.(type) {
-			case *ast.BadDecl:
+			case itypes.BadDecl:
 				// ignore
 
-			case *ast.GenDecl:
-				var last *ast.ValueSpec // last ValueSpec with type or init exprs seen
-				for iota, spec := range d.Specs {
+			case itypes.GenDecl:
+				var last itypes.ValueSpec // last ValueSpec with type or init exprs seen
+				// for iota, spec := range d.Specs() {
+				for iota := 0; iota < d.SpecsLen(); iota++ {
+					spec := d.Spec(iota)
 					switch s := spec.(type) {
-					case *ast.ImportSpec:
+					case itypes.ImportSpec:
 						// import package
-						path, err := validatedImportPath(s.Path.Value)
+						sPath := s.Path()
+						path, err := validatedImportPath(sPath.Value())
 						if err != nil {
-							check.errorf(s.Path.Pos(), "invalid import path (%s)", err)
+							check.errorf(sPath.Pos(), "invalid import path (%s)", err)
 							continue
 						}
 
-						imp := check.importPackage(s.Path.Pos(), path, fileDir)
+						imp := check.importPackage(sPath.Pos(), path, fileDir)
 						if imp == nil {
 							continue
 						}
@@ -267,23 +275,23 @@ func (check *Checker) collectObjects() {
 
 						// local name overrides imported package name
 						name := imp.name
-						if s.Name != nil {
-							name = s.Name.Name
+						if sName := s.Name(); sName != nil {
+							name = sName.Name()
 							if path == "C" {
 								// match cmd/compile (not prescribed by spec)
-								check.errorf(s.Name.Pos(), `cannot rename import "C"`)
+								check.errorf(s.Name().Pos(), `cannot rename import "C"`)
 								continue
 							}
 							if name == "init" {
-								check.errorf(s.Name.Pos(), "cannot declare init - must be func")
+								check.errorf(s.Name().Pos(), "cannot declare init - must be func")
 								continue
 							}
 						}
 
-						obj := NewPkgName(s.Pos(), pkg, name, imp)
-						if s.Name != nil {
+						obj := newPkgName(s.Pos(), pkg, name, imp)
+						if s.Name() != nil {
 							// in a dot-import, the dot represents the package
-							check.recordDef(s.Name, obj)
+							check.recordDef(s.Name(), obj)
 						} else {
 							check.recordImplicit(s, obj)
 						}
@@ -306,7 +314,7 @@ func (check *Checker) collectObjects() {
 									// the object may be imported into more than one file scope
 									// concurrently. See issue #32154.)
 									if alt := fileScope.Insert(obj); alt != nil {
-										check.errorf(s.Name.Pos(), "%s redeclared in this block", obj.Name())
+										check.errorf(s.Name().Pos(), "%s redeclared in this block", obj.Name())
 										check.reportAltDecl(alt)
 									}
 								}
@@ -320,59 +328,62 @@ func (check *Checker) collectObjects() {
 							check.declare(fileScope, nil, obj, token.NoPos)
 						}
 
-					case *ast.ValueSpec:
-						switch d.Tok {
+					case (itypes.ValueSpec):
+						switch d.Tok() {
 						case token.CONST:
 							// determine which initialization expressions to use
 							switch {
-							case s.Type != nil || len(s.Values) > 0:
+							case s.Type() != nil || s.ValuesLen() > 0:
 								last = s
 							case last == nil:
-								last = new(ast.ValueSpec) // make sure last exists
+								last = astNewValueSpec() // make sure last exists
 							}
 
 							// declare all constants
-							for i, name := range s.Names {
-								obj := NewConst(name.Pos(), pkg, name.Name, nil, constant.MakeInt64(int64(iota)))
+							for i := 0; i < s.NamesLen(); i++ {
+								name := s.Name(i)
+								obj := newConst(name.Pos(), pkg, name.Name(), nil, constant.MakeInt64(int64(iota)))
 
-								var init ast.Expr
-								if i < len(last.Values) {
-									init = last.Values[i]
+								var init itypes.Expr
+								if i < last.ValuesLen() {
+									init = last.Value(i)
 								}
 
-								d := &declInfo{file: fileScope, typ: last.Type, init: init}
+								d := &declInfo{file: fileScope, typ: last.Type(), init: init}
 								check.declarePkgObj(name, obj, d)
 							}
 
 							check.arityMatch(s, last)
 
 						case token.VAR:
-							lhs := make([]*Var, len(s.Names))
+							lhs := make([]*Var, s.NamesLen())
 							// If there's exactly one rhs initializer, use
 							// the same declInfo d1 for all lhs variables
 							// so that each lhs variable depends on the same
 							// rhs initializer (n:1 var declaration).
 							var d1 *declInfo
-							if len(s.Values) == 1 {
+							sType := s.Type()
+							if s.ValuesLen() == 1 {
 								// The lhs elements are only set up after the for loop below,
 								// but that's ok because declareVar only collects the declInfo
 								// for a later phase.
-								d1 = &declInfo{file: fileScope, lhs: lhs, typ: s.Type, init: s.Values[0]}
+								d1 = &declInfo{file: fileScope, lhs: lhs, typ: sType, init: s.Value(0)}
 							}
 
 							// declare all variables
-							for i, name := range s.Names {
-								obj := NewVar(name.Pos(), pkg, name.Name, nil)
+							for i := 0; i < s.NamesLen(); i++ {
+								name := s.Name(i)
+								obj := newVar(name.Pos(), pkg, name.Name(), nil)
 								lhs[i] = obj
 
 								d := d1
 								if d == nil {
 									// individual assignments
-									var init ast.Expr
-									if i < len(s.Values) {
-										init = s.Values[i]
+									var init itypes.Expr
+									if i < s.ValuesLen() {
+										init = s.Value(i)
 									}
-									d = &declInfo{file: fileScope, typ: s.Type, init: init}
+									d = &declInfo{file: fileScope, typ: sType, init: init}
 								}
 
 								check.declarePkgObj(name, obj, d)
@@ -384,40 +395,41 @@ func (check *Checker) collectObjects() {
 							check.invalidAST(s.Pos(), "invalid token %s", d.Tok)
 						}
 
-					case *ast.TypeSpec:
-						obj := NewTypeName(s.Name.Pos(), pkg, s.Name.Name, nil)
-						check.declarePkgObj(s.Name, obj, &declInfo{file: fileScope, typ: s.Type, alias: s.Assign.IsValid()})
+					case (itypes.TypeSpec):
+						obj := newTypeName(s.Name().Pos(), pkg, s.Name().Name(), nil)
+						check.declarePkgObj(s.Name(), obj, &declInfo{file: fileScope, typ: s.Type(), alias: s.Assign().IsValid()})
 
 					default:
-						check.invalidAST(s.Pos(), "unknown ast.Spec node %T", s)
+						// TODO: confirm this error message is fixed.
+						check.invalidAST(spec.Pos(), "unknown ast.Spec node %T", spec)
 					}
 				}
 
-			case *ast.FuncDecl:
-				name := d.Name.Name
-				obj := NewFunc(d.Name.Pos(), pkg, name, nil)
-				if d.Recv == nil {
+			case itypes.FuncDecl:
+				name := d.Name()
+				obj := newFunc(name.Pos(), pkg, name.Name(), nil)
+				if d.Recv() == nil {
 					// regular function
-					if name == "init" {
+					if name.Name() == "init" {
 						// don't declare init functions in the package scope - they are invisible
 						obj.parent = pkg.scope
-						check.recordDef(d.Name, obj)
+						check.recordDef(name, obj)
 						// init functions must have a body
-						if d.Body == nil {
+						if d.Body() == nil {
 							check.softErrorf(obj.pos, "missing function body")
 						}
 					} else {
-						check.declare(pkg.scope, d.Name, obj, token.NoPos)
+						check.declare(pkg.scope, name, obj, token.NoPos)
 					}
 				} else {
 					// method
 					// (Methods with blank _ names are never found; no need to collect
 					// them for later type association. They will still be type-checked
 					// with all the other functions.)
-					if name != "_" {
+					if name.Name() != "_" {
 						methods = append(methods, obj)
 					}
-					check.recordDef(d.Name, obj)
+					check.recordDef(name, obj)
 				}
 				info := &declInfo{file: fileScope, fdecl: d}
 				// Methods are not package-level objects but we still track them in the
@@ -428,7 +440,8 @@ func (check *Checker) collectObjects() {
 				obj.setOrder(uint32(len(check.objMap)))
 
 			default:
-				check.invalidAST(d.Pos(), "unknown ast.Decl node %T", d)
+				// TODO: confirm this error message is fixed.
+				check.invalidAST(decl.Pos(), "unknown ast.Decl node %T", decl)
 			}
 		}
 	}
@@ -459,10 +472,10 @@ func (check *Checker) collectObjects() {
 	check.methods = make(map[*TypeName][]*Func)
 	for _, f := range methods {
 		fdecl := check.objMap[f].fdecl
-		if list := fdecl.Recv.List; len(list) > 0 {
+		if list := fdecl.Recv(); list.Len() > 0 {
 			// f is a method.
 			// Determine the receiver base type and associate f with it.
-			ptr, base := check.resolveBaseTypeName(list[0].Type)
+			ptr, base := check.resolveBaseTypeName(list.Field(0).Type())
 			if base != nil {
 				f.hasPtrRecv = ptr
 				check.methods[base] = append(check.methods[base], f)
@@ -475,7 +488,7 @@ func (check *Checker) collectObjects() {
 // there was a pointer indirection to get to it. The base type name must be declared
 // in package scope, and there can be at most one pointer indirection. If no such type
 // name exists, the returned base is nil.
-func (check *Checker) resolveBaseTypeName(typ ast.Expr) (ptr bool, base *TypeName) {
+func (check *Checker) resolveBaseTypeName(typ itypes.Expr) (ptr bool, base *TypeName) {
 	// Algorithm: Starting from a type expression, which may be a name,
 	// we follow that type through alias declarations until we reach a
 	// non-alias type name. If we encounter anything but pointer types or
@@ -486,24 +499,24 @@ func (check *Checker) resolveBaseTypeName(typ ast.Expr) (ptr bool, base *TypeNam
 		typ = unparen(typ)
 
 		// check if we have a pointer type
-		if pexpr, _ := typ.(*ast.StarExpr); pexpr != nil {
+		if pexpr, _ := typ.(itypes.StarExpr); pexpr != nil {
 			// if we've already seen a pointer, we're done
 			if ptr {
 				return false, nil
 			}
 			ptr = true
-			typ = unparen(pexpr.X) // continue with pointer base type
+			typ = unparen(pexpr.X()) // continue with pointer base type
 		}
 
 		// typ must be a name
-		name, _ := typ.(*ast.Ident)
+		name, _ := typ.(itypes.Ident)
 		if name == nil {
 			return false, nil
 		}
 
 		// name must denote an object found in the current package scope
 		// (note that dot-imported objects are not in the package scope!)
-		obj := check.pkg.scope.Lookup(name.Name)
+		obj := check.pkg.scope.Lookup(name.Name())
 		if obj == nil {
 			return false, nil
 		}

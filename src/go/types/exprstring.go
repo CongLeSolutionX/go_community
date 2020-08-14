@@ -9,6 +9,7 @@ package types
 import (
 	"bytes"
 	"go/ast"
+	itypes "internal/types"
 )
 
 // ExprString returns the (possibly shortened) string representation for x.
@@ -18,6 +19,10 @@ func ExprString(x ast.Expr) string {
 	var buf bytes.Buffer
 	WriteExpr(&buf, x)
 	return buf.String()
+}
+
+func exprString(x itypes.Expr) string {
+	return ExprString(x.(unwrapper).Unwrap().(ast.Expr))
 }
 
 // WriteExpr writes the (possibly shortened) string representation for x to buf.

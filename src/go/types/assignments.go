@@ -8,8 +8,8 @@ package types
 
 import (
 	"errors"
-	"go/ast"
 	"go/token"
+	itypes "internal/types"
 )
 
 // assignment reports whether x can be assigned to a variable of type T,
@@ -138,16 +138,16 @@ func (check *Checker) initVar(lhs *Var, x *operand, context string) Type {
 	return x.typ
 }
 
-func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
+func (check *Checker) assignVar(lhs itypes.Expr, x *operand) Type {
 	if x.mode == invalid || x.typ == Typ[Invalid] {
 		return nil
 	}
 
 	// Determine if the lhs is a (possibly parenthesized) identifier.
-	ident, _ := unparen(lhs).(*ast.Ident)
+	ident, _ := unparen(lhs).(itypes.Ident)
 
 	// Don't evaluate lhs if it is the blank identifier.
-	if ident != nil && ident.Name == "_" {
+	if ident != nil && ident.Name() == "_" {
 		check.recordDef(ident, nil)
 		check.assignment(x, nil, "assignment to _ identifier")
 		if x.mode == invalid {
@@ -160,15 +160,15 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 	// is not a 'use' of v. Remember current value of v.used and restore
 	// after evaluating the lhs via check.expr.
 	var v *Var
-	var v_used bool
+	var vUsed bool
 	if ident != nil {
-		if obj := check.lookup(ident.Name); obj != nil {
+		if obj := check.lookup(ident.Name()); obj != nil {
 			// It's ok to mark non-local variables, but ignore variables
 			// from other packages to avoid potential race conditions with
 			// dot-imported variables.
 			if w, _ := obj.(*Var); w != nil && w.pkg == check.pkg {
 				v = w
-				v_used = v.used
+				vUsed = v.used
 			}
 		}
 	}
@@ -176,7 +176,7 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 	var z operand
 	check.expr(&z, lhs)
 	if v != nil {
-		v.used = v_used // restore v.used
+		v.used = vUsed // restore v.used
 	}
 
 	if z.mode == invalid || z.typ == Typ[Invalid] {
@@ -191,11 +191,11 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 	case variable, mapindex:
 		// ok
 	default:
-		if sel, ok := z.expr.(*ast.SelectorExpr); ok {
+		if sel, _ := z.expr.(itypes.SelectorExpr); sel != nil {
 			var op operand
-			check.expr(&op, sel.X)
+			check.expr(&op, sel.X())
 			if op.mode == mapindex {
-				check.errorf(z.pos(), "cannot assign to struct field %s in map", ExprString(z.expr))
+				check.errorf(z.pos(), "cannot assign to struct field %s in map", exprString(z.expr))
 				return nil
 			}
 		}
@@ -213,9 +213,9 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 
 // If returnPos is valid, initVars is called to type-check the assignment of
 // return expressions, and returnPos is the position of the return statement.
-func (check *Checker) initVars(lhs []*Var, rhs []ast.Expr, returnPos token.Pos) {
+func (check *Checker) initVars(lhs []*Var, rhs itypes.ExprList, returnPos itypes.Pos) {
 	l := len(lhs)
-	get, r, commaOk := unpack(func(x *operand, i int) { check.multiExpr(x, rhs[i]) }, len(rhs), l == 2 && !returnPos.IsValid())
+	get, r, commaOk := unpack(func(x *operand, i int) { check.multiExpr(x, rhs.Expr(i)) }, rhs.Len(), l == 2 && !returnPos.IsValid())
 	if get == nil || l != r {
 		// invalidate lhs and use rhs
 		for _, obj := range lhs {
@@ -231,7 +231,7 @@ func (check *Checker) initVars(lhs []*Var, rhs []ast.Expr, returnPos token.Pos) 
 			check.errorf(returnPos, "wrong number of return values (want %d, got %d)", l, r)
 			return
 		}
-		check.errorf(rhs[0].Pos(), "cannot initialize %d variables with %d values", l, r)
+		check.errorf(rhs.Expr(0).Pos(), "cannot initialize %d variables with %d values", l, r)
 		return
 	}
 
@@ -240,95 +240,102 @@ func (check *Checker) initVars(lhs []*Var, rhs []ast.Expr, returnPos token.Pos) 
 		context = "return statement"
 	}
 
-	var x operand
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
 	if commaOk {
 		var a [2]Type
 		for i := range a {
-			get(&x, i)
-			a[i] = check.initVar(lhs[i], &x, context)
+			get(x, i)
+			a[i] = check.initVar(lhs[i], x, context)
 		}
-		check.recordCommaOkTypes(rhs[0], a)
+		check.recordCommaOkTypes(rhs.Expr(0), a)
 		return
 	}
 
 	for i, lhs := range lhs {
-		get(&x, i)
-		check.initVar(lhs, &x, context)
+		get(x, i)
+		check.initVar(lhs, x, context)
 	}
 }
 
-func (check *Checker) assignVars(lhs, rhs []ast.Expr) {
-	l := len(lhs)
-	get, r, commaOk := unpack(func(x *operand, i int) { check.multiExpr(x, rhs[i]) }, len(rhs), l == 2)
+func (check *Checker) assignVars(stmt itypes.AssignStmt) {
+	l := stmt.LhsLen()
+	get, r, commaOk := unpack(func(x *operand, i int) { check.multiExpr(x, stmt.RhsExpr(i)) }, stmt.RhsLen(), l == 2)
 	if get == nil {
-		check.useLHS(lhs...)
+		check.useLHS(stmt.Lhs())
 		return // error reported by unpack
 	}
 	if l != r {
 		check.useGetter(get, r)
-		check.errorf(rhs[0].Pos(), "cannot assign %d values to %d variables", r, l)
+		check.errorf(stmt.RhsExpr(0).Pos(), "cannot assign %d values to %d variables", r, l)
 		return
 	}
 
-	var x operand
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
 	if commaOk {
 		var a [2]Type
 		for i := range a {
-			get(&x, i)
-			a[i] = check.assignVar(lhs[i], &x)
+			get(x, i)
+			a[i] = check.assignVar(stmt.LhsExpr(i), x)
 		}
-		check.recordCommaOkTypes(rhs[0], a)
+		check.recordCommaOkTypes(stmt.RhsExpr(0), a)
 		return
 	}
 
-	for i, lhs := range lhs {
-		get(&x, i)
-		check.assignVar(lhs, &x)
+	for i := 0; i < stmt.LhsLen(); i++ {
+		lhsx := stmt.LhsExpr(i)
+		get(x, i)
+		check.assignVar(lhsx, x)
 	}
 }
 
-func (check *Checker) shortVarDecl(pos token.Pos, lhs, rhs []ast.Expr) {
+func (check *Checker) shortVarDecl(pos itypes.Pos, stmt itypes.AssignStmt) {
 	top := len(check.delayed)
 	scope := check.scope
 
 	// collect lhs variables
 	var newVars []*Var
-	var lhsVars = make([]*Var, len(lhs))
-	for i, lhs := range lhs {
+	var lhsVars = make([]*Var, stmt.LhsLen())
+	for i := 0; i < stmt.LhsLen(); i++ {
+		lhsx := stmt.LhsExpr(i)
 		var obj *Var
-		if ident, _ := lhs.(*ast.Ident); ident != nil {
+		if ident, _ := lhsx.(itypes.Ident); ident != nil {
 			// Use the correct obj if the ident is redeclared. The
 			// variable's scope starts after the declaration; so we
 			// must use Scope.Lookup here and call Scope.Insert
 			// (via check.declare) later.
-			name := ident.Name
+			name := ident.Name()
 			if alt := scope.Lookup(name); alt != nil {
 				// redeclared object must be a variable
 				if alt, _ := alt.(*Var); alt != nil {
 					obj = alt
 				} else {
-					check.errorf(lhs.Pos(), "cannot assign to %s", lhs)
+					// TODO: confirm this error message is fixed.
+					check.errorf(lhsx.Pos(), "cannot assign to %s", lhsx)
 				}
 				check.recordUse(ident, alt)
 			} else {
 				// declare new variable, possibly a blank (_) variable
-				obj = NewVar(ident.Pos(), check.pkg, name, nil)
+				obj = newVar(ident.Pos(), check.pkg, name, nil)
 				if name != "_" {
 					newVars = append(newVars, obj)
 				}
 				check.recordDef(ident, obj)
 			}
 		} else {
-			check.useLHS(lhs)
-			check.errorf(lhs.Pos(), "cannot declare %s", lhs)
+			// TODO: this is leaky; we can't call the expr list wrapper here.
+			check.useLHS(internalExprList{lhsx})
+			// TODO: confirm this error message is fixed.
+			check.errorf(lhsx.Pos(), "cannot declare %s", lhsx)
 		}
 		if obj == nil {
-			obj = NewVar(lhs.Pos(), check.pkg, "_", nil) // dummy variable
+			obj = newVar(lhsx.Pos(), check.pkg, "_", nil) // dummy variable
 		}
 		lhsVars[i] = obj
 	}
 
-	check.initVars(lhsVars, rhs, token.NoPos)
+	check.initVars(lhsVars, stmt.Rhs(), token.NoPos)
 
 	// process function literals in rhs expressions before scope changes
 	check.processDelayed(top)
@@ -339,7 +346,7 @@ func (check *Checker) shortVarDecl(pos token.Pos, lhs, rhs []ast.Expr) {
 		// a function begins at the end of the ConstSpec or VarSpec (ShortVarDecl
 		// for short variable declarations) and ends at the end of the innermost
 		// containing block."
-		scopePos := rhs[len(rhs)-1].End()
+		scopePos := stmt.RhsExpr(stmt.RhsLen() - 1).End()
 		for _, obj := range newVars {
 			check.declare(scope, nil, obj, scopePos) // recordObject already called
 		}

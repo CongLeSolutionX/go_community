@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"fmt"
 	"go/token"
+	itypes "internal/types"
 	"io"
 	"sort"
 	"strings"
@@ -23,7 +24,7 @@ type Scope struct {
 	parent   *Scope
 	children []*Scope
 	elems    map[string]Object // lazily allocated
-	pos, end token.Pos         // scope extent; may be invalid
+	pos, end itypes.Pos        // scope extent; may be invalid
 	comment  string            // for debugging only
 	isFunc   bool              // set if this is a function scope (internal use only)
 }
@@ -31,6 +32,10 @@ type Scope struct {
 // NewScope returns a new, empty scope contained in the given parent
 // scope, if any. The comment is for debugging only.
 func NewScope(parent *Scope, pos, end token.Pos, comment string) *Scope {
+	return newScope(parent, pos, end, comment)
+}
+
+func newScope(parent *Scope, pos, end itypes.Pos, comment string) *Scope {
 	s := &Scope{parent, nil, nil, pos, end, comment, false}
 	// don't add children to Universe scope!
 	if parent != nil && parent != Universe {
@@ -81,7 +86,7 @@ func (s *Scope) Lookup(name string) Object {
 // whose scope is the scope of the package that exported them.
 func (s *Scope) LookupParent(name string, pos token.Pos) (*Scope, Object) {
 	for ; s != nil; s = s.parent {
-		if obj := s.elems[name]; obj != nil && (!pos.IsValid() || obj.scopePos() <= pos) {
+		if obj := s.elems[name]; obj != nil && (!pos.IsValid() || obj.scopePos().(token.Pos) <= pos) {
 			return s, obj
 		}
 	}
@@ -112,14 +117,14 @@ func (s *Scope) Insert(obj Object) Object {
 // The results are guaranteed to be valid only if the type-checked
 // AST has complete position information. The extent is undefined
 // for Universe and package scopes.
-func (s *Scope) Pos() token.Pos { return s.pos }
-func (s *Scope) End() token.Pos { return s.end }
+func (s *Scope) Pos() token.Pos { return s.pos.(token.Pos) }
+func (s *Scope) End() token.Pos { return s.end.(token.Pos) }
 
 // Contains reports whether pos is within the scope's extent.
 // The result is guaranteed to be valid only if the type-checked
 // AST has complete position information.
 func (s *Scope) Contains(pos token.Pos) bool {
-	return s.pos <= pos && pos < s.end
+	return s.pos.(token.Pos) <= pos && pos < s.end.(token.Pos)
 }
 
 // Innermost returns the innermost (child) scope containing
