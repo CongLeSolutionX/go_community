@@ -628,6 +628,14 @@ func TestRoundTrip32(t *testing.T) {
 	t.Logf("tested %d float32's", count)
 }
 
+func TestParseFloatInvalidBitSize(t *testing.T) {
+	_, err := ParseFloat("3.14", 100)
+	want := `strconv.ParseFloat: parsing "3.14": invalid bit size 100`
+	if err.Error() != want {
+		t.Errorf("got error %q, want %q", err.Error(), want)
+	}
+}
+
 func BenchmarkAtof64Decimal(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		ParseFloat("33909", 64)

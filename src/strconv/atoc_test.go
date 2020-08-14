@@ -193,10 +193,29 @@ func TestParseComplex(t *testing.T) {
 		}
 		got, err := ParseComplex(test.in, 128)
 		if !reflect.DeepEqual(err, test.err) {
-			t.Fatalf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+			t.Errorf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
 		}
 		if !(cmplx.IsNaN(test.out) && cmplx.IsNaN(got)) && got != test.out {
-			t.Fatalf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+			t.Errorf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
 		}
+
+		if complex128(complex64(test.out)) == test.out {
+			got, err := ParseComplex(test.in, 64)
+			if !reflect.DeepEqual(err, test.err) {
+				t.Errorf("ParseComplex(%q, 64) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+			}
+			got64 := complex64(got)
+			if complex128(got64) != test.out {
+				t.Errorf("ParseComplex(%q, 64) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+			}
+		}
+	}
+}
+
+func TestParseComplexInvalidBitSize(t *testing.T) {
+	_, err := ParseComplex("1+2i", 100)
+	want := `strconv.ParseComplex: parsing "1+2i": invalid bit size 100`
+	if err.Error() != want {
+		t.Errorf("got error %q, want %q", err.Error(), want)
 	}
 }
