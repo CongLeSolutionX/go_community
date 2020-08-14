@@ -5,9 +5,9 @@
 package types
 
 import (
-	"go/ast"
 	"go/constant"
 	"go/token"
+	itypes "internal/types"
 )
 
 func (check *Checker) reportAltDecl(obj Object) {
@@ -15,18 +15,18 @@ func (check *Checker) reportAltDecl(obj Object) {
 		// We use "other" rather than "previous" here because
 		// the first declaration seen may not be textually
 		// earlier in the source.
-		check.errorf(pos, "\tother declaration of %s", obj.Name()) // secondary error, \t indented
+		check.errorf(wrapPos(pos), "\tother declaration of %s", obj.Name()) // secondary error, \t indented
 	}
 }
 
-func (check *Checker) declare(scope *Scope, id *ast.Ident, obj Object, pos token.Pos) {
+func (check *Checker) declare(scope *Scope, id itypes.Ident, obj Object, pos itypes.Pos) {
 	// spec: "The blank identifier, represented by the underscore
 	// character _, may be used in a declaration like any other
 	// identifier but the declaration does not introduce a new
 	// binding."
 	if obj.Name() != "_" {
 		if alt := scope.Insert(obj); alt != nil {
-			check.errorf(obj.Pos(), "%s redeclared in this block", obj.Name())
+			check.errorf(wrapPos(obj.Pos()), "%s redeclared in this block", obj.Name())
 			check.reportAltDecl(alt)
 			return
 		}
@@ -53,11 +53,11 @@ func pathString(path []Object) string {
 // For the meaning of def, see Checker.definedType, in typexpr.go.
 func (check *Checker) objDecl(obj Object, def *Named) {
 	if trace {
-		check.trace(obj.Pos(), "-- checking %s (%s, objPath = %s)", obj, obj.color(), pathString(check.objPath))
+		check.trace(wrapPos(obj.Pos()), "-- checking %s (%s, objPath = %s)", obj, obj.color(), pathString(check.objPath))
 		check.indent++
 		defer func() {
 			check.indent--
-			check.trace(obj.Pos(), "=> %s (%s)", obj, obj.color())
+			check.trace(wrapPos(obj.Pos()), "=> %s (%s)", obj, obj.color())
 		}()
 	}
 
@@ -204,7 +204,7 @@ func (check *Checker) cycle(obj Object) (isCycle bool) {
 	// The object map contains the package scope objects and the non-interface methods.
 	if debug {
 		info := check.objMap[obj]
-		inObjMap := info != nil && (info.fdecl == nil || info.fdecl.Recv == nil) // exclude methods
+		inObjMap := info != nil && (info.fdecl == nil || info.fdecl.Recv() == nil) // exclude methods
 		isPkgObj := obj.Parent() == check.pkg.scope
 		if isPkgObj != inObjMap {
 			check.dump("%v: inconsistent object map for %s (isPkgObj = %v, inObjMap = %v)", obj.Pos(), obj, isPkgObj, inObjMap)
@@ -249,11 +249,11 @@ func (check *Checker) cycle(obj Object) (isCycle bool) {
 	}
 
 	if trace {
-		check.trace(obj.Pos(), "## cycle detected: objPath = %s->%s (len = %d)", pathString(cycle), obj.Name(), len(cycle))
-		check.trace(obj.Pos(), "## cycle contains: %d values, %d type definitions", nval, ndef)
+		check.trace(wrapPos(obj.Pos()), "## cycle detected: objPath = %s->%s (len = %d)", pathString(cycle), obj.Name(), len(cycle))
+		check.trace(wrapPos(obj.Pos()), "## cycle contains: %d values, %d type definitions", nval, ndef)
 		defer func() {
 			if isCycle {
-				check.trace(obj.Pos(), "=> error: cycle is invalid")
+				check.trace(wrapPos(obj.Pos()), "=> error: cycle is invalid")
 			}
 		}()
 	}
@@ -357,16 +357,16 @@ func (check *Checker) cycleError(cycle []Object) {
 	//           cycle? That would be more consistent with other error messages.
 	i := firstInSrc(cycle)
 	obj := cycle[i]
-	check.errorf(obj.Pos(), "illegal cycle in declaration of %s", obj.Name())
+	check.errorf(wrapPos(obj.Pos()), "illegal cycle in declaration of %s", obj.Name())
 	for range cycle {
-		check.errorf(obj.Pos(), "\t%s refers to", obj.Name()) // secondary error, \t indented
+		check.errorf(wrapPos(obj.Pos()), "\t%s refers to", obj.Name()) // secondary error, \t indented
 		i++
 		if i >= len(cycle) {
 			i = 0
 		}
 		obj = cycle[i]
 	}
-	check.errorf(obj.Pos(), "\t%s", obj.Name())
+	check.errorf(wrapPos(obj.Pos()), "\t%s", obj.Name())
 }
 
 // firstInSrc reports the index of the object with the "smallest"
@@ -381,7 +381,7 @@ func firstInSrc(path []Object) int {
 	return fst
 }
 
-func (check *Checker) constDecl(obj *Const, typ, init ast.Expr) {
+func (check *Checker) constDecl(obj *Const, typ, init itypes.Expr) {
 	assert(obj.typ == nil)
 
 	// use the correct value of iota
@@ -407,14 +407,17 @@ func (check *Checker) constDecl(obj *Const, typ, init ast.Expr) {
 	}
 
 	// check initialization
-	var x operand
+	x := operandPool.Get().(*operand)
+	*x = operand{}
+	defer operandPool.Put(x)
+	// x := &operand{}
 	if init != nil {
-		check.expr(&x, init)
+		check.expr(x, init)
 	}
-	check.initConst(obj, &x)
+	check.initConst(obj, x)
 }
 
-func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
+func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init itypes.Expr) {
 	assert(obj.typ == nil)
 
 	// determine type, if any
@@ -441,9 +444,10 @@ func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
 
 	if lhs == nil || len(lhs) == 1 {
 		assert(lhs == nil || lhs[0] == obj)
-		var x operand
-		check.expr(&x, init)
-		check.initVar(obj, &x, "variable declaration")
+		x := operandPool.Get().(*operand)
+		check.expr(x, init)
+		check.initVar(obj, x, "variable declaration")
+		operandPool.Put(x)
 		return
 	}
 
@@ -471,7 +475,7 @@ func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
 		}
 	}
 
-	check.initVars(lhs, []ast.Expr{init}, token.NoPos)
+	check.initVars(lhs, internalExprList{init}, noPos)
 }
 
 // underlying returns the underlying type of typ; possibly by following
@@ -539,7 +543,7 @@ func (n *Named) setUnderlying(typ Type) {
 	}
 }
 
-func (check *Checker) typeDecl(obj *TypeName, typ ast.Expr, def *Named, alias bool) {
+func (check *Checker) typeDecl(obj *TypeName, typ itypes.Expr, def *Named, alias bool) {
 	assert(obj.typ == nil)
 
 	check.later(func() {
@@ -649,7 +653,7 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 	sig := new(Signature)
 	obj.typ = sig // guard against cycles
 	fdecl := decl.fdecl
-	check.funcType(sig, fdecl.Recv, fdecl.Type)
+	check.funcType(sig, fdecl.Recv(), fdecl.Type())
 	if sig.recv == nil && obj.name == "init" && (sig.params.Len() > 0 || sig.results.Len() > 0) {
 		check.errorf(fdecl.Pos(), "func init must have no arguments and no return values")
 		// ok to continue
@@ -657,49 +661,52 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 
 	// function body must be type-checked after global declarations
 	// (functions implemented elsewhere have no body)
-	if !check.conf.IgnoreFuncBodies && fdecl.Body != nil {
+	if !check.conf.IgnoreFuncBodies && fdecl.Body() != nil {
 		check.later(func() {
-			check.funcBody(decl, obj.name, sig, fdecl.Body, nil)
+			check.funcBody(decl, obj.name, sig, fdecl.Body(), nil)
 		})
 	}
 }
 
-func (check *Checker) declStmt(decl ast.Decl) {
+func (check *Checker) declStmt(decl itypes.Decl) {
 	pkg := check.pkg
 
 	switch d := decl.(type) {
-	case *ast.BadDecl:
+	case itypes.BadDecl:
 		// ignore
 
-	case *ast.GenDecl:
-		var last *ast.ValueSpec // last ValueSpec with type or init exprs seen
-		for iota, spec := range d.Specs {
+	case itypes.GenDecl:
+		var last itypes.ValueSpec // last ValueSpec with type or init exprs seen
+		for iota := 0; iota < d.SpecsLen(); iota++ {
+			spec := d.Spec(iota)
 			switch s := spec.(type) {
-			case *ast.ValueSpec:
-				switch d.Tok {
+			case itypes.ValueSpec:
+				switch d.Tok() {
 				case token.CONST:
 					top := len(check.delayed)
 
 					// determine which init exprs to use
 					switch {
-					case s.Type != nil || len(s.Values) > 0:
+					case s.Type() != nil || s.ValuesLen() > 0:
 						last = s
 					case last == nil:
-						last = new(ast.ValueSpec) // make sure last exists
+						// last = new(ast.ValueSpec) // make sure last exists
+						last = astNewValueSpec()
 					}
 
 					// declare all constants
-					lhs := make([]*Const, len(s.Names))
-					for i, name := range s.Names {
-						obj := NewConst(name.Pos(), pkg, name.Name, nil, constant.MakeInt64(int64(iota)))
+					lhs := make([]*Const, s.NamesLen())
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
+						name := s.Name(i)
+						obj := newConst(name.Pos(), pkg, name.Name(), nil, constant.MakeInt64(int64(iota)))
 						lhs[i] = obj
 
-						var init ast.Expr
-						if i < len(last.Values) {
-							init = last.Values[i]
+						var init itypes.Expr
+						if i < last.ValuesLen() {
+							init = last.Value(i)
 						}
 
-						check.constDecl(obj, last.Type, init)
+						check.constDecl(obj, last.Type(), init)
 					}
 
 					check.arityMatch(s, last)
@@ -712,37 +719,39 @@ func (check *Checker) declStmt(decl ast.Decl) {
 					// (ShortVarDecl for short variable declarations) and ends at the
 					// end of the innermost containing block."
 					scopePos := s.End()
-					for i, name := range s.Names {
-						check.declare(check.scope, name, lhs[i], scopePos)
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
+						check.declare(check.scope, s.Name(i), lhs[i], scopePos)
 					}
 
 				case token.VAR:
+
 					top := len(check.delayed)
 
-					lhs0 := make([]*Var, len(s.Names))
-					for i, name := range s.Names {
-						lhs0[i] = NewVar(name.Pos(), pkg, name.Name, nil)
+					lhs0 := make([]*Var, s.NamesLen())
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
+						name := s.Name(i)
+						lhs0[i] = newVar(name.Pos(), pkg, name.Name(), nil)
 					}
 
 					// initialize all variables
 					for i, obj := range lhs0 {
 						var lhs []*Var
-						var init ast.Expr
-						switch len(s.Values) {
-						case len(s.Names):
+						var init itypes.Expr
+						switch s.ValuesLen() {
+						case s.NamesLen():
 							// lhs and rhs match
-							init = s.Values[i]
+							init = s.Value(i)
 						case 1:
 							// rhs is expected to be a multi-valued expression
 							lhs = lhs0
-							init = s.Values[0]
+							init = s.Value(0)
 						default:
-							if i < len(s.Values) {
-								init = s.Values[i]
+							if i < s.ValuesLen() {
+								init = s.Value(i)
 							}
 						}
-						check.varDecl(obj, lhs, s.Type, init)
-						if len(s.Values) == 1 {
+						check.varDecl(obj, lhs, s.Type(), init)
+						if s.ValuesLen() == 1 {
 							// If we have a single lhs variable we are done either way.
 							// If we have a single rhs expression, it must be a multi-
 							// valued expression, in which case handling the first lhs
@@ -765,32 +774,33 @@ func (check *Checker) declStmt(decl ast.Decl) {
 					// declare all variables
 					// (only at this point are the variable scopes (parents) set)
 					scopePos := s.End() // see constant declarations
-					for i, name := range s.Names {
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
 						// see constant declarations
-						check.declare(check.scope, name, lhs0[i], scopePos)
+						check.declare(check.scope, s.Name(i), lhs0[i], scopePos)
 					}
 
 				default:
 					check.invalidAST(s.Pos(), "invalid token %s", d.Tok)
 				}
 
-			case *ast.TypeSpec:
-				obj := NewTypeName(s.Name.Pos(), pkg, s.Name.Name, nil)
+			case itypes.TypeSpec:
+				obj := newTypeName(s.Name().Pos(), pkg, s.Name().Name(), nil)
 				// spec: "The scope of a type identifier declared inside a function
 				// begins at the identifier in the TypeSpec and ends at the end of
 				// the innermost containing block."
-				scopePos := s.Name.Pos()
-				check.declare(check.scope, s.Name, obj, scopePos)
+				scopePos := s.Name().Pos()
+				check.declare(check.scope, s.Name(), obj, scopePos)
 				// mark and unmark type before calling typeDecl; its type is still nil (see Checker.objDecl)
 				obj.setColor(grey + color(check.push(obj)))
-				check.typeDecl(obj, s.Type, nil, s.Assign.IsValid())
+				check.typeDecl(obj, s.Type(), nil, s.Assign().IsKnown())
 				check.pop().setColor(black)
 			default:
-				check.invalidAST(s.Pos(), "const, type, or var declaration expected")
+				check.invalidAST(spec.Pos(), "const, type, or var declaration expected")
 			}
 		}
 
 	default:
-		check.invalidAST(d.Pos(), "unknown ast.Decl node %T", d)
+		// TODO: confirm this error message is fixed
+		check.invalidAST(decl.Pos(), "unknown ast.Decl node %T", decl)
 	}
 }

@@ -7,68 +7,69 @@
 package types
 
 import (
-	"go/ast"
 	"go/token"
+	itypes "internal/types"
 )
 
 // isTerminating reports if s is a terminating statement.
 // If s is labeled, label is the label name; otherwise s
 // is "".
-func (check *Checker) isTerminating(s ast.Stmt, label string) bool {
-	switch s := s.(type) {
+func (check *Checker) isTerminating(stmt itypes.Stmt, label string) bool {
+	switch s := stmt.(type) {
 	default:
 		unreachable()
 
-	case *ast.BadStmt, *ast.DeclStmt, *ast.EmptyStmt, *ast.SendStmt,
-		*ast.IncDecStmt, *ast.AssignStmt, *ast.GoStmt, *ast.DeferStmt,
-		*ast.RangeStmt:
+	case itypes.BadStmt, itypes.DeclStmt, itypes.EmptyStmt, itypes.SendStmt,
+		itypes.IncDecStmt, itypes.AssignStmt, itypes.GoStmt, itypes.DeferStmt,
+		itypes.RangeStmt:
 		// no chance
 
-	case *ast.LabeledStmt:
-		return check.isTerminating(s.Stmt, s.Label.Name)
+	case itypes.LabeledStmt:
+		return check.isTerminating(s.Stmt(), s.Label().Name())
 
-	case *ast.ExprStmt:
+	case itypes.ExprStmt:
 		// calling the predeclared (possibly parenthesized) panic() function is terminating
-		if call, ok := unparen(s.X).(*ast.CallExpr); ok && check.isPanic[call] {
+		if call, _ := unparen(s.X()).(itypes.CallExpr); call != nil && check.isPanic[call] {
 			return true
 		}
 
-	case *ast.ReturnStmt:
+	case itypes.ReturnStmt:
 		return true
 
-	case *ast.BranchStmt:
-		if s.Tok == token.GOTO || s.Tok == token.FALLTHROUGH {
+	case itypes.BranchStmt:
+		if s.Tok() == token.GOTO || s.Tok() == token.FALLTHROUGH {
 			return true
 		}
 
-	case *ast.BlockStmt:
-		return check.isTerminatingList(s.List, "")
+	case itypes.BlockStmt:
+		return check.isTerminatingList(s.List(), "")
 
-	case *ast.IfStmt:
-		if s.Else != nil &&
-			check.isTerminating(s.Body, "") &&
-			check.isTerminating(s.Else, "") {
+	case itypes.IfStmt:
+		if s.Else() != nil &&
+			check.isTerminating(s.Body(), "") &&
+			check.isTerminating(s.Else(), "") {
 			return true
 		}
 
-	case *ast.SwitchStmt:
-		return check.isTerminatingSwitch(s.Body, label)
+	case itypes.SwitchStmt:
+		return check.isTerminatingSwitch(s.Body(), label)
 
-	case *ast.TypeSwitchStmt:
-		return check.isTerminatingSwitch(s.Body, label)
+	case itypes.TypeSwitchStmt:
+		return check.isTerminatingSwitch(s.Body(), label)
 
-	case *ast.SelectStmt:
-		for _, s := range s.Body.List {
-			cc := s.(*ast.CommClause)
-			if !check.isTerminatingList(cc.Body, "") || hasBreakList(cc.Body, label, true) {
+	case itypes.SelectStmt:
+		for si := 0; si < s.Body().List().Len(); si++ {
+			s := s.Body().List().Stmt(si)
+			cc := s.(itypes.CommClause)
+			if !check.isTerminatingList(cc.Body(), "") || hasBreakList(cc.Body(), label, true) {
 				return false
 			}
 
 		}
 		return true
 
-	case *ast.ForStmt:
-		if s.Cond == nil && !hasBreak(s.Body, label, true) {
+	case itypes.ForStmt:
+		if s.Cond() == nil && !hasBreak(s.Body(), label, true) {
 			return true
 		}
 	}
@@ -76,24 +77,25 @@ func (check *Checker) isTerminating(s ast.Stmt, label string) bool {
 	return false
 }
 
-func (check *Checker) isTerminatingList(list []ast.Stmt, label string) bool {
+func (check *Checker) isTerminatingList(list itypes.StmtList, label string) bool {
 	// trailing empty statements are permitted - skip them
-	for i := len(list) - 1; i >= 0; i-- {
-		if _, ok := list[i].(*ast.EmptyStmt); !ok {
-			return check.isTerminating(list[i], label)
+	for i := list.Len() - 1; i >= 0; i-- {
+		if empty, _ := list.Stmt(i).(itypes.EmptyStmt); empty == nil {
+			return check.isTerminating(list.Stmt(i), label)
 		}
 	}
 	return false // all statements are empty
 }
 
-func (check *Checker) isTerminatingSwitch(body *ast.BlockStmt, label string) bool {
+func (check *Checker) isTerminatingSwitch(body itypes.BlockStmt, label string) bool {
 	hasDefault := false
-	for _, s := range body.List {
-		cc := s.(*ast.CaseClause)
-		if cc.List == nil {
+	for si := 0; si < body.List().Len(); si++ {
+		cc := body.List().Stmt(si).(itypes.CaseClause)
+		// TODO: check for more nilness checks against lists
+		if cc.ListLen() == 0 {
 			hasDefault = true
 		}
-		if !check.isTerminatingList(cc.Body, "") || hasBreakList(cc.Body, label, true) {
+		if !check.isTerminatingList(cc.Body(), "") || hasBreakList(cc.Body(), label, true) {
 			return false
 		}
 	}
@@ -107,66 +109,66 @@ func (check *Checker) isTerminatingSwitch(body *ast.BlockStmt, label string) boo
 // hasBreak reports if s is or contains a break statement
 // referring to the label-ed statement or implicit-ly the
 // closest outer breakable statement.
-func hasBreak(s ast.Stmt, label string, implicit bool) bool {
-	switch s := s.(type) {
+func hasBreak(stmt itypes.Stmt, label string, implicit bool) bool {
+	switch s := stmt.(type) {
 	default:
 		unreachable()
 
-	case *ast.BadStmt, *ast.DeclStmt, *ast.EmptyStmt, *ast.ExprStmt,
-		*ast.SendStmt, *ast.IncDecStmt, *ast.AssignStmt, *ast.GoStmt,
-		*ast.DeferStmt, *ast.ReturnStmt:
+	case itypes.BadStmt, itypes.DeclStmt, itypes.EmptyStmt, itypes.ExprStmt,
+		itypes.SendStmt, itypes.IncDecStmt, itypes.AssignStmt, itypes.GoStmt,
+		itypes.DeferStmt, itypes.ReturnStmt:
 		// no chance
 
-	case *ast.LabeledStmt:
-		return hasBreak(s.Stmt, label, implicit)
+	case itypes.LabeledStmt:
+		return hasBreak(s.Stmt(), label, implicit)
 
-	case *ast.BranchStmt:
-		if s.Tok == token.BREAK {
-			if s.Label == nil {
+	case itypes.BranchStmt:
+		if s.Tok() == token.BREAK {
+			if s.Label() == nil {
 				return implicit
 			}
-			if s.Label.Name == label {
+			if s.Label().Name() == label {
 				return true
 			}
 		}
 
-	case *ast.BlockStmt:
-		return hasBreakList(s.List, label, implicit)
+	case itypes.BlockStmt:
+		return hasBreakList(s.List(), label, implicit)
 
-	case *ast.IfStmt:
-		if hasBreak(s.Body, label, implicit) ||
-			s.Else != nil && hasBreak(s.Else, label, implicit) {
+	case itypes.IfStmt:
+		if hasBreak(s.Body(), label, implicit) ||
+			s.Else() != nil && hasBreak(s.Else(), label, implicit) {
 			return true
 		}
 
-	case *ast.CaseClause:
-		return hasBreakList(s.Body, label, implicit)
+	case itypes.CaseClause:
+		return hasBreakList(s.Body(), label, implicit)
 
-	case *ast.SwitchStmt:
-		if label != "" && hasBreak(s.Body, label, false) {
+	case itypes.SwitchStmt:
+		if label != "" && hasBreak(s.Body(), label, false) {
 			return true
 		}
 
-	case *ast.TypeSwitchStmt:
-		if label != "" && hasBreak(s.Body, label, false) {
+	case itypes.TypeSwitchStmt:
+		if label != "" && hasBreak(s.Body(), label, false) {
 			return true
 		}
 
-	case *ast.CommClause:
-		return hasBreakList(s.Body, label, implicit)
+	case itypes.CommClause:
+		return hasBreakList(s.Body(), label, implicit)
 
-	case *ast.SelectStmt:
-		if label != "" && hasBreak(s.Body, label, false) {
+	case itypes.SelectStmt:
+		if label != "" && hasBreak(s.Body(), label, false) {
 			return true
 		}
 
-	case *ast.ForStmt:
-		if label != "" && hasBreak(s.Body, label, false) {
+	case itypes.ForStmt:
+		if label != "" && hasBreak(s.Body(), label, false) {
 			return true
 		}
 
-	case *ast.RangeStmt:
-		if label != "" && hasBreak(s.Body, label, false) {
+	case itypes.RangeStmt:
+		if label != "" && hasBreak(s.Body(), label, false) {
 			return true
 		}
 	}
@@ -174,8 +176,9 @@ func hasBreak(s ast.Stmt, label string, implicit bool) bool {
 	return false
 }
 
-func hasBreakList(list []ast.Stmt, label string, implicit bool) bool {
-	for _, s := range list {
+func hasBreakList(list itypes.StmtList, label string, implicit bool) bool {
+	for si := 0; si < list.Len(); si++ {
+		s := list.Stmt(si)
 		if hasBreak(s, label, implicit) {
 			return true
 		}

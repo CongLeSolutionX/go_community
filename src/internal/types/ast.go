@@ -22,6 +22,7 @@ type Pos interface {
 type (
 	Node interface {
 		Pos() Pos
+		End() Pos
 	}
 
 	File interface {
