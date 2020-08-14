@@ -8,7 +8,6 @@ package types
 
 import (
 	"fmt"
-	"go/ast"
 	"go/constant"
 	"go/token"
 	"math"
@@ -20,7 +19,7 @@ Basic algorithm:
 Expressions are checked recursively, top down. Expression checker functions
 are generally of the form:
 
-  func f(x *operand, e *ast.Expr, ...)
+  func f(x *operand, e astExpr, ...)
 
 where e is the expression to be checked, and x is the result of the check.
 The check performed by f may fail in which case x.mode == invalid, and
@@ -79,12 +78,13 @@ func (check *Checker) op(m opPredicates, x *operand, op token.Token) bool {
 }
 
 // The unary expression e may be nil. It's passed in for better error messages only.
-func (check *Checker) unary(x *operand, e *ast.UnaryExpr, op token.Token) {
+func (check *Checker) unary(x *operand, e astUnaryExpr, op token.Token) {
 	switch op {
 	case token.AND:
 		// spec: "As an exception to the addressability
 		// requirement x may also be a composite literal."
-		if _, ok := unparen(x.expr).(*ast.CompositeLit); !ok && x.mode != variable {
+		// if _, ok := unparen(x.expr).(astCompositeLit); !ok && x.mode != variable {
+		if compLit := unparen(x.expr).CompositeLit(); compLit == nil && x.mode != variable {
 			check.invalidOp(x.pos(), "cannot take address of %s", x)
 			x.mode = invalid
 			return
@@ -372,28 +372,32 @@ func (check *Checker) representableErr(x *operand, typ *Basic) error {
 // and if x is the (formerly untyped) lhs operand of a non-constant
 // shift, it must be an integer value.
 //
-func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
-	old, found := check.untyped[x]
+func (check *Checker) updateExprType(x astExpr, typ Type, final bool) {
+	// Ensure that we're dealing with a concrete implementation, not a lazy
+	// wrapper. Subsequent calls also call Reify for readability (so that it's
+	// clear we're dealing with a concrete wrapper).
+	x = x.Reify()
+	old, found := check.untyped[x.Reify()]
 	if !found {
 		return // nothing to do
 	}
 
 	// update operands of x if necessary
-	switch x := x.(type) {
-	case *ast.BadExpr,
-		*ast.FuncLit,
-		*ast.CompositeLit,
-		*ast.IndexExpr,
-		*ast.SliceExpr,
-		*ast.TypeAssertExpr,
-		*ast.StarExpr,
-		*ast.KeyValueExpr,
-		*ast.ArrayType,
-		*ast.StructType,
-		*ast.FuncType,
-		*ast.InterfaceType,
-		*ast.MapType,
-		*ast.ChanType:
+	switch x.Kind() {
+	case badExprKind,
+		funcLitKind,
+		compositeLitKind,
+		indexExprKind,
+		sliceExprKind,
+		typeAssertExprKind,
+		starExprKind,
+		keyValueExprKind,
+		arrayTypeKind,
+		structTypeKind,
+		funcTypeKind,
+		interfaceTypeKind,
+		mapTypeKind,
+		chanTypeKind:
 		// These expression are never untyped - nothing to do.
 		// The respective sub-expressions got their final types
 		// upon assignment or use.
@@ -403,20 +407,20 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 		}
 		return
 
-	case *ast.CallExpr:
+	case callExprKind:
 		// Resulting in an untyped constant (e.g., built-in complex).
 		// The respective calls take care of calling updateExprType
 		// for the arguments if necessary.
 
-	case *ast.Ident, *ast.BasicLit, *ast.SelectorExpr:
+	case identKind, basicLitKind, selectorExprKind:
 		// An identifier denoting a constant, a constant literal,
 		// or a qualified identifier (imported untyped constant).
 		// No operands to take care of.
 
-	case *ast.ParenExpr:
-		check.updateExprType(x.X, typ, final)
+	case parenExprKind:
+		check.updateExprType(x.ParenExpr().X(), typ, final)
 
-	case *ast.UnaryExpr:
+	case unaryExprKind:
 		// If x is a constant, the operands were constants.
 		// The operands don't need to be updated since they
 		// never get "materialized" into a typed value. If
@@ -425,23 +429,24 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 		if old.val != nil {
 			break
 		}
-		check.updateExprType(x.X, typ, final)
+		check.updateExprType(x.UnaryExpr().X(), typ, final)
 
-	case *ast.BinaryExpr:
+	case binaryExprKind:
+		binx := x.BinaryExpr()
 		if old.val != nil {
 			break // see comment for unary expressions
 		}
-		if isComparison(x.Op) {
+		if isComparison(binx.Op()) {
 			// The result type is independent of operand types
 			// and the operand types must have final types.
-		} else if isShift(x.Op) {
+		} else if isShift(binx.Op()) {
 			// The result type depends only on lhs operand.
 			// The rhs type was updated when checking the shift.
-			check.updateExprType(x.X, typ, final)
+			check.updateExprType(binx.X(), typ, final)
 		} else {
 			// The operand types match the result type.
-			check.updateExprType(x.X, typ, final)
-			check.updateExprType(x.Y, typ, final)
+			check.updateExprType(binx.X(), typ, final)
+			check.updateExprType(binx.Y(), typ, final)
 		}
 
 	default:
@@ -452,13 +457,13 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 	// update the recorded type.
 	if !final && isUntyped(typ) {
 		old.typ = typ.Underlying().(*Basic)
-		check.untyped[x] = old
+		check.untyped[x.Reify()] = old
 		return
 	}
 
 	// Otherwise we have the final (typed or untyped type).
 	// Remove it from the map of yet untyped expressions.
-	delete(check.untyped, x)
+	delete(check.untyped, x.Reify())
 
 	if old.isLhs {
 		// If x is the lhs of a shift, its final type must be integer.
@@ -486,10 +491,10 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 }
 
 // updateExprVal updates the value of x to val.
-func (check *Checker) updateExprVal(x ast.Expr, val constant.Value) {
-	if info, ok := check.untyped[x]; ok {
+func (check *Checker) updateExprVal(x astExpr, val constant.Value) {
+	if info, ok := check.untyped[x.Reify()]; ok {
 		info.val = val
-		check.untyped[x] = info
+		check.untyped[x.Reify()] = info
 	}
 }
 
@@ -651,7 +656,7 @@ func (check *Checker) comparison(x, y *operand, op token.Token) {
 	x.typ = Typ[UntypedBool]
 }
 
-func (check *Checker) shift(x, y *operand, e *ast.BinaryExpr, op token.Token) {
+func (check *Checker) shift(x, y *operand, e astBinaryExpr, op token.Token) {
 	untypedx := isUntyped(x.typ)
 
 	var xval constant.Value
@@ -751,9 +756,10 @@ func (check *Checker) shift(x, y *operand, e *ast.BinaryExpr, op token.Token) {
 			// that node, and it can only be deleted once).
 			// Be cautious and check for presence of entry.
 			// Example: var e, f = int(1<<""[f]) // issue 11347
-			if info, found := check.untyped[x.expr]; found {
+			reified := x.expr.Reify()
+			if info, found := check.untyped[reified]; found {
 				info.isLhs = true
-				check.untyped[x.expr] = info
+				check.untyped[reified] = info
 			}
 			// keep x's type
 			x.mode = value
@@ -788,7 +794,7 @@ var binaryOpPredicates = opPredicates{
 }
 
 // The binary expression e may be nil. It's passed in for better error messages only.
-func (check *Checker) binary(x *operand, e *ast.BinaryExpr, lhs, rhs ast.Expr, op token.Token) {
+func (check *Checker) binary(x *operand, e astBinaryExpr, lhs, rhs astExpr, op token.Token) {
 	var y operand
 
 	check.expr(x, lhs)
@@ -886,7 +892,7 @@ func (check *Checker) binary(x *operand, e *ast.BinaryExpr, lhs, rhs ast.Expr, o
 // If max >= 0, it is the upper bound for index.
 // If the result typ is != Typ[Invalid], index is valid and typ is its (possibly named) integer type.
 // If the result val >= 0, index is valid and val is its constant int value.
-func (check *Checker) index(index ast.Expr, max int64) (typ Type, val int64) {
+func (check *Checker) index(index astExpr, max int64) (typ Type, val int64) {
 	typ = Typ[Invalid]
 	val = -1
 
@@ -933,23 +939,24 @@ func (check *Checker) index(index ast.Expr, max int64) (typ Type, val int64) {
 // the literal length if known (length >= 0). It returns the length of the
 // literal (maximum index value + 1).
 //
-func (check *Checker) indexedElts(elts []ast.Expr, typ Type, length int64) int64 {
-	visited := make(map[int64]bool, len(elts))
+func (check *Checker) indexedElts(elts astExprList, typ Type, length int64) int64 {
+	visited := make(map[int64]bool, elts.Len())
 	var index, max int64
-	for _, e := range elts {
+	for ei := 0; ei < elts.Len(); ei++ {
+		e := elts.Expr(ei)
 		// determine and check index
 		validIndex := false
 		eval := e
-		if kv, _ := e.(*ast.KeyValueExpr); kv != nil {
-			if typ, i := check.index(kv.Key, length); typ != Typ[Invalid] {
+		if kv := e.KeyValueExpr(); kv != nil {
+			if typ, i := check.index(kv.Key(), length); typ != Typ[Invalid] {
 				if i >= 0 {
 					index = i
 					validIndex = true
 				} else {
-					check.errorf(e.Pos(), "index %s must be integer constant", kv.Key)
+					check.errorf(e.Pos(), "index %v must be integer constant", kv.Key())
 				}
 			}
-			eval = kv.Value
+			eval = kv.Value()
 		} else if length >= 0 && index >= length {
 			check.errorf(e.Pos(), "index %d is out of bounds (>= %d)", index, length)
 		} else {
@@ -990,13 +997,13 @@ const (
 // value or type. If an error occurred, x.mode is set to invalid.
 // If hint != nil, it is the type of a composite literal element.
 //
-func (check *Checker) rawExpr(x *operand, e ast.Expr, hint Type) exprKind {
+func (check *Checker) rawExpr(x *operand, e astExpr, hint Type) exprKind {
 	if trace {
-		check.trace(e.Pos(), "%s", e)
+		check.trace(e.Pos(), "expr %s", e)
 		check.indent++
 		defer func() {
 			check.indent--
-			check.trace(e.Pos(), "=> %s", x)
+			check.trace(e.Pos(), "=> expr %s", x)
 		}()
 	}
 
@@ -1033,34 +1040,36 @@ func (check *Checker) rawExpr(x *operand, e ast.Expr, hint Type) exprKind {
 // exprInternal contains the core of type checking of expressions.
 // Must only be called by rawExpr.
 //
-func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
+func (check *Checker) exprInternal(x *operand, inExpr astExpr, hint Type) exprKind {
 	// make sure x has a valid state in case of bailout
 	// (was issue 5770)
 	x.mode = invalid
 	x.typ = Typ[Invalid]
 
-	switch e := e.(type) {
-	case *ast.BadExpr:
+	switch inExpr.Kind() {
+	case badExprKind:
 		goto Error // error was reported before
 
-	case *ast.Ident:
-		check.ident(x, e, nil, false)
+	case identKind:
+		check.ident(x, inExpr.Ident(), nil, false)
 
-	case *ast.Ellipsis:
+	case ellipsisKind:
 		// ellipses are handled explicitly where they are legal
 		// (array composite literals and parameter lists)
-		check.error(e.Pos(), "invalid use of '...'")
+		check.error(inExpr.Pos(), "invalid use of '...'")
 		goto Error
 
-	case *ast.BasicLit:
-		x.setConst(e.Kind, e.Value)
+	case basicLitKind:
+		e := inExpr.BasicLit()
+		x.setConst(e.LitKind(), e.Value())
 		if x.mode == invalid {
-			check.invalidAST(e.Pos(), "invalid literal %v", e.Value)
+			check.invalidAST(e.Pos(), "invalid literal %v", e.Value())
 			goto Error
 		}
 
-	case *ast.FuncLit:
-		if sig, ok := check.typ(e.Type).(*Signature); ok {
+	case funcLitKind:
+		e := inExpr.FuncLit()
+		if sig, ok := check.typ(e.Type()).(*Signature); ok {
 			// Anonymous functions are considered part of the
 			// init expression/func declaration which contains
 			// them: use existing package-level declaration info.
@@ -1071,7 +1080,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			// body refers. Instead, type-check as soon as possible,
 			// but before the enclosing scope contents changes (#22992).
 			check.later(func() {
-				check.funcBody(decl, "<function literal>", sig, e.Body, iota)
+				check.funcBody(decl, "<function literal>", sig, e.Body(), iota)
 			})
 			x.mode = value
 			x.typ = sig
@@ -1080,25 +1089,26 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			goto Error
 		}
 
-	case *ast.CompositeLit:
+	case compositeLitKind:
+		e := inExpr.CompositeLit()
 		var typ, base Type
 
 		switch {
-		case e.Type != nil:
+		case e.Type() != nil:
 			// composite literal type present - use it
 			// [...]T array types may only appear with composite literals.
 			// Check for them here so we don't have to handle ... in general.
-			if atyp, _ := e.Type.(*ast.ArrayType); atyp != nil && atyp.Len != nil {
-				if ellip, _ := atyp.Len.(*ast.Ellipsis); ellip != nil && ellip.Elt == nil {
+			if atyp := e.Type().ArrayType(); atyp != nil && atyp.Len() != nil {
+				if ellip := atyp.Len().Ellipsis(); ellip != nil && ellip.Elt() == nil {
 					// We have an "open" [...]T array type.
 					// Create a new ArrayType with unknown length (-1)
 					// and finish setting it up after analyzing the literal.
-					typ = &Array{len: -1, elem: check.typ(atyp.Elt)}
+					typ = &Array{len: -1, elem: check.typ(atyp.Elt())}
 					base = typ
 					break
 				}
 			}
-			typ = check.typ(e.Type)
+			typ = check.typ(e.Type())
 			base = typ
 
 		case hint != nil:
@@ -1114,30 +1124,31 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 
 		switch utyp := base.Underlying().(type) {
 		case *Struct:
-			if len(e.Elts) == 0 {
+			if e.Elts().Len() == 0 {
 				break
 			}
 			fields := utyp.fields
-			if _, ok := e.Elts[0].(*ast.KeyValueExpr); ok {
+			if kve := e.Elts().Expr(0).KeyValueExpr(); kve != nil {
 				// all elements must have keys
 				visited := make([]bool, len(fields))
-				for _, e := range e.Elts {
-					kv, _ := e.(*ast.KeyValueExpr)
+				for ei := 0; ei < e.Elts().Len(); ei++ {
+					e := e.Elts().Expr(ei)
+					kv := e.KeyValueExpr()
 					if kv == nil {
 						check.error(e.Pos(), "mixture of field:value and value elements in struct literal")
 						continue
 					}
-					key, _ := kv.Key.(*ast.Ident)
+					key := kv.Key().Ident()
 					// do all possible checks early (before exiting due to errors)
 					// so we don't drop information on the floor
-					check.expr(x, kv.Value)
+					check.expr(x, kv.Value())
 					if key == nil {
-						check.errorf(kv.Pos(), "invalid field name %s in struct literal", kv.Key)
+						check.errorf(kv.Pos(), "invalid field name %v in struct literal", kv.Key())
 						continue
 					}
-					i := fieldIndex(utyp.fields, check.pkg, key.Name)
+					i := fieldIndex(utyp.fields, check.pkg, key.Name())
 					if i < 0 {
-						check.errorf(kv.Pos(), "unknown field %s in struct literal", key.Name)
+						check.errorf(kv.Pos(), "unknown field %v in struct literal", key.Name())
 						continue
 					}
 					fld := fields[i]
@@ -1146,15 +1157,16 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 					check.assignment(x, etyp, "struct literal")
 					// 0 <= i < len(fields)
 					if visited[i] {
-						check.errorf(kv.Pos(), "duplicate field name %s in struct literal", key.Name)
+						check.errorf(kv.Pos(), "duplicate field name %v in struct literal", key.Name())
 						continue
 					}
 					visited[i] = true
 				}
 			} else {
 				// no element must have a key
-				for i, e := range e.Elts {
-					if kv, _ := e.(*ast.KeyValueExpr); kv != nil {
+				for i := 0; i < e.Elts().Len(); i++ {
+					e := e.Elts().Expr(i)
+					if kv := e.KeyValueExpr(); kv != nil {
 						check.error(kv.Pos(), "mixture of field:value and value elements in struct literal")
 						continue
 					}
@@ -1172,8 +1184,8 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 					etyp := fld.typ
 					check.assignment(x, etyp, "struct literal")
 				}
-				if len(e.Elts) < len(fields) {
-					check.error(e.Rbrace, "too few values in struct literal")
+				if e.Elts().Len() < len(fields) {
+					check.error(e.Rbrace(), "too few values in struct literal")
 					// ok to continue
 				}
 			}
@@ -1186,7 +1198,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 				check.error(e.Pos(), "illegal cycle in type declaration")
 				goto Error
 			}
-			n := check.indexedElts(e.Elts, utyp.elem, utyp.len)
+			n := check.indexedElts(e.Elts(), utyp.elem, utyp.len)
 			// If we have an array of unknown length (usually [...]T arrays, but also
 			// arrays [n]T where n is invalid) set the length now that we know it and
 			// record the type for the array (usually done by check.typ which is not
@@ -1201,8 +1213,8 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 				// that is itself a composite literal with omitted type. In
 				// that case there is nothing to record (there is no type in
 				// the source at that point).
-				if e.Type != nil {
-					check.recordTypeAndValue(e.Type, typexpr, utyp, nil)
+				if e.Type() != nil {
+					check.recordTypeAndValue(e.Type(), typexpr, utyp, nil)
 				}
 			}
 
@@ -1213,7 +1225,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 				check.error(e.Pos(), "illegal cycle in type declaration")
 				goto Error
 			}
-			check.indexedElts(e.Elts, utyp.elem, -1)
+			check.indexedElts(e.Elts(), utyp.elem, -1)
 
 		case *Map:
 			// Prevent crash if the map referred to is not yet set up.
@@ -1222,14 +1234,15 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 				check.error(e.Pos(), "illegal cycle in type declaration")
 				goto Error
 			}
-			visited := make(map[interface{}][]Type, len(e.Elts))
-			for _, e := range e.Elts {
-				kv, _ := e.(*ast.KeyValueExpr)
+			visited := make(map[interface{}][]Type, e.Elts().Len())
+			for elti := 0; elti < e.Elts().Len(); elti++ {
+				e := e.Elts().Expr(elti)
+				kv := e.KeyValueExpr()
 				if kv == nil {
 					check.error(e.Pos(), "missing key in map literal")
 					continue
 				}
-				check.exprWithHint(x, kv.Key, utyp.key)
+				check.exprWithHint(x, kv.Key(), utyp.key)
 				check.assignment(x, utyp.key, "map literal")
 				if x.mode == invalid {
 					continue
@@ -1255,19 +1268,20 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 						continue
 					}
 				}
-				check.exprWithHint(x, kv.Value, utyp.elem)
+				check.exprWithHint(x, kv.Value(), utyp.elem)
 				check.assignment(x, utyp.elem, "map literal")
 			}
 
 		default:
 			// when "using" all elements unpack KeyValueExpr
 			// explicitly because check.use doesn't accept them
-			for _, e := range e.Elts {
-				if kv, _ := e.(*ast.KeyValueExpr); kv != nil {
+			for elti := 0; elti < e.Elts().Len(); elti++ {
+				e := e.Elts().Expr(elti)
+				if kv := e.KeyValueExpr(); kv != nil {
 					// Ideally, we should also "use" kv.Key but we can't know
 					// if it's an externally defined struct key or not. Going
 					// forward anyway can lead to other errors. Give up instead.
-					e = kv.Value
+					e = kv.Value()
 				}
 				check.use(e)
 			}
@@ -1281,18 +1295,20 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		x.mode = value
 		x.typ = typ
 
-	case *ast.ParenExpr:
-		kind := check.rawExpr(x, e.X, nil)
+	case parenExprKind:
+		e := inExpr.ParenExpr()
+		kind := check.rawExpr(x, e.X(), nil)
 		x.expr = e
 		return kind
 
-	case *ast.SelectorExpr:
-		check.selector(x, e)
+	case selectorExprKind:
+		check.selector(x, inExpr.SelectorExpr())
 
-	case *ast.IndexExpr:
-		check.expr(x, e.X)
+	case indexExprKind:
+		e := inExpr.IndexExpr()
+		check.expr(x, e.X())
 		if x.mode == invalid {
-			check.use(e.Index)
+			check.use(e.Index())
 			goto Error
 		}
 
@@ -1335,7 +1351,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 
 		case *Map:
 			var key operand
-			check.expr(&key, e.Index)
+			check.expr(&key, e.Index())
 			check.assignment(&key, typ.key, "map index")
 			if x.mode == invalid {
 				goto Error
@@ -1351,18 +1367,19 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			goto Error
 		}
 
-		if e.Index == nil {
+		if e.Index() == nil {
 			check.invalidAST(e.Pos(), "missing index for %s", x)
 			goto Error
 		}
 
-		check.index(e.Index, length)
+		check.index(e.Index(), length)
 		// ok to continue
 
-	case *ast.SliceExpr:
-		check.expr(x, e.X)
+	case sliceExprKind:
+		e := inExpr.SliceExpr()
+		check.expr(x, e.X())
 		if x.mode == invalid {
-			check.use(e.Low, e.High, e.Max)
+			check.use(e.Low(), e.High(), e.Max())
 			goto Error
 		}
 
@@ -1371,7 +1388,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		switch typ := x.typ.Underlying().(type) {
 		case *Basic:
 			if isString(typ) {
-				if e.Slice3 {
+				if e.Slice3() {
 					check.invalidOp(x.pos(), "3-index slice of string")
 					goto Error
 				}
@@ -1415,14 +1432,14 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		x.mode = value
 
 		// spec: "Only the first index may be omitted; it defaults to 0."
-		if e.Slice3 && (e.High == nil || e.Max == nil) {
-			check.error(e.Rbrack, "2nd and 3rd index required in 3-index slice")
+		if e.Slice3() && (e.High() == nil || e.Max() == nil) {
+			check.error(e.Rbrack(), "2nd and 3rd index required in 3-index slice")
 			goto Error
 		}
 
 		// check indices
 		var ind [3]int64
-		for i, expr := range []ast.Expr{e.Low, e.High, e.Max} {
+		for i, expr := range []astExpr{e.Low(), e.High(), e.Max()} {
 			x := int64(-1)
 			switch {
 			case expr != nil:
@@ -1453,15 +1470,16 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			if x > 0 {
 				for _, y := range ind[i+1:] {
 					if y >= 0 && x > y {
-						check.errorf(e.Rbrack, "invalid slice indices: %d > %d", x, y)
+						check.errorf(e.Rbrack(), "invalid slice indices: %d > %d", x, y)
 						break L // only report one error, ok to continue
 					}
 				}
 			}
 		}
 
-	case *ast.TypeAssertExpr:
-		check.expr(x, e.X)
+	case typeAssertExprKind:
+		e := inExpr.TypeAssertExpr()
+		check.expr(x, e.X())
 		if x.mode == invalid {
 			goto Error
 		}
@@ -1471,11 +1489,11 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			goto Error
 		}
 		// x.(type) expressions are handled explicitly in type switches
-		if e.Type == nil {
+		if e.Type() == nil {
 			check.invalidAST(e.Pos(), "use of .(type) outside type switch")
 			goto Error
 		}
-		T := check.typ(e.Type)
+		T := check.typ(e.Type())
 		if T == Typ[Invalid] {
 			goto Error
 		}
@@ -1483,11 +1501,12 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		x.mode = commaok
 		x.typ = T
 
-	case *ast.CallExpr:
-		return check.call(x, e)
+	case callExprKind:
+		return check.call(x, inExpr.CallExpr())
 
-	case *ast.StarExpr:
-		check.exprOrType(x, e.X)
+	case starExprKind:
+		e := inExpr.StarExpr()
+		check.exprOrType(x, e.X())
 		switch x.mode {
 		case invalid:
 			goto Error
@@ -1503,35 +1522,37 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			}
 		}
 
-	case *ast.UnaryExpr:
-		check.expr(x, e.X)
+	case unaryExprKind:
+		e := inExpr.UnaryExpr()
+		check.expr(x, e.X())
 		if x.mode == invalid {
 			goto Error
 		}
-		check.unary(x, e, e.Op)
+		check.unary(x, e, e.Op())
 		if x.mode == invalid {
 			goto Error
 		}
-		if e.Op == token.ARROW {
+		if e.Op() == token.ARROW {
 			x.expr = e
 			return statement // receive operations may appear in statement context
 		}
 
-	case *ast.BinaryExpr:
-		check.binary(x, e, e.X, e.Y, e.Op)
+	case binaryExprKind:
+		e := inExpr.BinaryExpr()
+		check.binary(x, e, e.X(), e.Y(), e.Op())
 		if x.mode == invalid {
 			goto Error
 		}
 
-	case *ast.KeyValueExpr:
+	case keyValueExprKind:
 		// key:value expressions are handled in composite literals
-		check.invalidAST(e.Pos(), "no key:value expected")
+		check.invalidAST(inExpr.Pos(), "no key:value expected")
 		goto Error
 
-	case *ast.ArrayType, *ast.StructType, *ast.FuncType,
-		*ast.InterfaceType, *ast.MapType, *ast.ChanType:
+	case arrayTypeKind, structTypeKind, funcTypeKind,
+		interfaceTypeKind, mapTypeKind, chanTypeKind:
 		x.mode = typexpr
-		x.typ = check.typ(e)
+		x.typ = check.typ(inExpr)
 		// Note: rawExpr (caller of exprInternal) will call check.recordTypeAndValue
 		// even though check.typ has already called it. This is fine as both
 		// times the same expression and type are recorded. It is also not a
@@ -1539,16 +1560,18 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		// types, which are comparatively rare.
 
 	default:
-		panic(fmt.Sprintf("%s: unknown expression type %T", check.fset.Position(e.Pos()), e))
+		// panic(fmt.Sprintf("%s: unknown expression type %T", check.fset.Position(e.Pos()), e))
+		// TODO:confirm this message is correct.
+		panic(fmt.Sprintf("%s: unknown expression type %T", inExpr.Pos(), inExpr))
 	}
 
 	// everything went well
-	x.expr = e
+	x.expr = inExpr
 	return expression
 
 Error:
 	x.mode = invalid
-	x.expr = e
+	x.expr = inExpr
 	return statement // avoid follow-up errors
 }
 
@@ -1577,7 +1600,7 @@ func keyVal(x constant.Value) interface{} {
 }
 
 // typeAssertion checks that x.(T) is legal; xtyp must be the type of x.
-func (check *Checker) typeAssertion(pos token.Pos, x *operand, xtyp *Interface, T Type) {
+func (check *Checker) typeAssertion(pos astPosition, x *operand, xtyp *Interface, T Type) {
 	method, wrongType := check.assertableTo(xtyp, T)
 	if method == nil {
 		return
@@ -1610,13 +1633,13 @@ func (check *Checker) singleValue(x *operand) {
 // The result must be a single value.
 // If an error occurred, x.mode is set to invalid.
 //
-func (check *Checker) expr(x *operand, e ast.Expr) {
+func (check *Checker) expr(x *operand, e astExpr) {
 	check.multiExpr(x, e)
 	check.singleValue(x)
 }
 
 // multiExpr is like expr but the result may be a multi-value.
-func (check *Checker) multiExpr(x *operand, e ast.Expr) {
+func (check *Checker) multiExpr(x *operand, e astExpr) {
 	check.rawExpr(x, e, nil)
 	var msg string
 	switch x.mode {
@@ -1637,7 +1660,7 @@ func (check *Checker) multiExpr(x *operand, e ast.Expr) {
 // hint is the type of a composite literal element.
 // If an error occurred, x.mode is set to invalid.
 //
-func (check *Checker) exprWithHint(x *operand, e ast.Expr, hint Type) {
+func (check *Checker) exprWithHint(x *operand, e astExpr, hint Type) {
 	assert(hint != nil)
 	check.rawExpr(x, e, hint)
 	check.singleValue(x)
@@ -1659,7 +1682,7 @@ func (check *Checker) exprWithHint(x *operand, e ast.Expr, hint Type) {
 // exprOrType typechecks expression or type e and initializes x with the expression value or type.
 // If an error occurred, x.mode is set to invalid.
 //
-func (check *Checker) exprOrType(x *operand, e ast.Expr) {
+func (check *Checker) exprOrType(x *operand, e astExpr) {
 	check.rawExpr(x, e, nil)
 	check.singleValue(x)
 	if x.mode == novalue {

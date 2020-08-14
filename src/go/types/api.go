@@ -329,7 +329,7 @@ func (tv TypeAndValue) HasOk() bool {
 // expression.
 type Initializer struct {
 	Lhs []*Var // var Lhs = Rhs
-	Rhs ast.Expr
+	Rhs astExpr
 }
 
 func (init *Initializer) String() string {
@@ -341,7 +341,7 @@ func (init *Initializer) String() string {
 		buf.WriteString(lhs.Name())
 	}
 	buf.WriteString(" = ")
-	WriteExpr(&buf, init.Rhs)
+	WriteExpr(&buf, init.Rhs.Unwrap().(ast.Expr))
 	return buf.String()
 }
 
@@ -358,6 +358,7 @@ func (init *Initializer) String() string {
 // The clean path must not be empty or dot (".").
 func (conf *Config) Check(path string, fset *token.FileSet, files []*ast.File, info *Info) (*Package, error) {
 	pkg := NewPackage(path, "")
+
 	return pkg, NewChecker(conf, fset, pkg, info).Files(files)
 }
 

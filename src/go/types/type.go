@@ -286,7 +286,7 @@ func NewInterfaceType(methods []*Func, embeddeds []Type) *Interface {
 	typ := new(Interface)
 	for _, m := range methods {
 		if sig := m.typ.(*Signature); sig.recv == nil {
-			sig.recv = NewVar(m.pos, m.pkg, "", typ)
+			sig.recv = newVar(m.pos, m.pkg, "", typ)
 		}
 	}
 

@@ -20,6 +20,10 @@ func ExprString(x ast.Expr) string {
 	return buf.String()
 }
 
+func exprString(x astExpr) string {
+	return ExprString(x.Unwrap().(ast.Expr))
+}
+
 // WriteExpr writes the (possibly shortened) string representation for x to buf.
 // Shortened representations are suitable for user interfaces but may not
 // necessarily follow Go syntax.

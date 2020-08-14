@@ -5,7 +5,6 @@
 package types
 
 import (
-	"go/ast"
 	"go/constant"
 	"go/token"
 )
@@ -19,7 +18,7 @@ func (check *Checker) reportAltDecl(obj Object) {
 	}
 }
 
-func (check *Checker) declare(scope *Scope, id *ast.Ident, obj Object, pos token.Pos) {
+func (check *Checker) declare(scope *Scope, id astIdent, obj Object, pos astPosition) {
 	// spec: "The blank identifier, represented by the underscore
 	// character _, may be used in a declaration like any other
 	// identifier but the declaration does not introduce a new
@@ -204,7 +203,7 @@ func (check *Checker) cycle(obj Object) (isCycle bool) {
 	// The object map contains the package scope objects and the non-interface methods.
 	if debug {
 		info := check.objMap[obj]
-		inObjMap := info != nil && (info.fdecl == nil || info.fdecl.Recv == nil) // exclude methods
+		inObjMap := info != nil && (info.fdecl == nil || info.fdecl.Recv() == nil) // exclude methods
 		isPkgObj := obj.Parent() == check.pkg.scope
 		if isPkgObj != inObjMap {
 			check.dump("%v: inconsistent object map for %s (isPkgObj = %v, inObjMap = %v)", obj.Pos(), obj, isPkgObj, inObjMap)
@@ -381,7 +380,7 @@ func firstInSrc(path []Object) int {
 	return fst
 }
 
-func (check *Checker) constDecl(obj *Const, typ, init ast.Expr) {
+func (check *Checker) constDecl(obj *Const, typ, init astExpr) {
 	assert(obj.typ == nil)
 
 	// use the correct value of iota
@@ -414,7 +413,7 @@ func (check *Checker) constDecl(obj *Const, typ, init ast.Expr) {
 	check.initConst(obj, &x)
 }
 
-func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
+func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init astExpr) {
 	assert(obj.typ == nil)
 
 	// determine type, if any
@@ -471,7 +470,7 @@ func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
 		}
 	}
 
-	check.initVars(lhs, []ast.Expr{init}, token.NoPos)
+	check.initVars(lhs, internalExprList{init}, token.NoPos)
 }
 
 // underlying returns the underlying type of typ; possibly by following
@@ -539,7 +538,7 @@ func (n *Named) setUnderlying(typ Type) {
 	}
 }
 
-func (check *Checker) typeDecl(obj *TypeName, typ ast.Expr, def *Named, alias bool) {
+func (check *Checker) typeDecl(obj *TypeName, typ astExpr, def *Named, alias bool) {
 	assert(obj.typ == nil)
 
 	check.later(func() {
@@ -649,7 +648,7 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 	sig := new(Signature)
 	obj.typ = sig // guard against cycles
 	fdecl := decl.fdecl
-	check.funcType(sig, fdecl.Recv, fdecl.Type)
+	check.funcType(sig, fdecl.Recv(), fdecl.Type())
 	if sig.recv == nil && obj.name == "init" && (sig.params.Len() > 0 || sig.results.Len() > 0) {
 		check.errorf(fdecl.Pos(), "func init must have no arguments and no return values")
 		// ok to continue
@@ -657,49 +656,54 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 
 	// function body must be type-checked after global declarations
 	// (functions implemented elsewhere have no body)
-	if !check.conf.IgnoreFuncBodies && fdecl.Body != nil {
+	if !check.conf.IgnoreFuncBodies && fdecl.Body() != nil {
 		check.later(func() {
-			check.funcBody(decl, obj.name, sig, fdecl.Body, nil)
+			check.funcBody(decl, obj.name, sig, fdecl.Body(), nil)
 		})
 	}
 }
 
-func (check *Checker) declStmt(decl ast.Decl) {
+func (check *Checker) declStmt(decl astDecl) {
 	pkg := check.pkg
 
-	switch d := decl.(type) {
-	case *ast.BadDecl:
+	switch decl.Kind() {
+	case badDeclKind:
 		// ignore
 
-	case *ast.GenDecl:
-		var last *ast.ValueSpec // last ValueSpec with type or init exprs seen
-		for iota, spec := range d.Specs {
-			switch s := spec.(type) {
-			case *ast.ValueSpec:
-				switch d.Tok {
+	case genDeclKind:
+		d := decl.GenDecl()
+		var last astValueSpec // last ValueSpec with type or init exprs seen
+		for iota := 0; iota < d.Specs().Len(); iota++ {
+			spec := d.Specs().Spec(iota)
+			switch spec.Kind() {
+			case ValueSpecKind:
+				s := spec.ValueSpec()
+				switch d.Tok() {
 				case token.CONST:
 					top := len(check.delayed)
 
 					// determine which init exprs to use
 					switch {
-					case s.Type != nil || len(s.Values) > 0:
+					case s.Type() != nil || s.Values().Len() > 0:
 						last = s
 					case last == nil:
-						last = new(ast.ValueSpec) // make sure last exists
+						// last = new(ast.ValueSpec) // make sure last exists
+						last = astNewValueSpec()
 					}
 
 					// declare all constants
-					lhs := make([]*Const, len(s.Names))
-					for i, name := range s.Names {
-						obj := NewConst(name.Pos(), pkg, name.Name, nil, constant.MakeInt64(int64(iota)))
+					lhs := make([]*Const, s.Names().Len())
+					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
+						name := s.Names().Ident(i)
+						obj := newConst(name.Pos(), pkg, name.Name(), nil, constant.MakeInt64(int64(iota)))
 						lhs[i] = obj
 
-						var init ast.Expr
-						if i < len(last.Values) {
-							init = last.Values[i]
+						var init astExpr
+						if i < last.Values().Len() {
+							init = last.Values().Expr(i)
 						}
 
-						check.constDecl(obj, last.Type, init)
+						check.constDecl(obj, last.Type(), init)
 					}
 
 					check.arityMatch(s, last)
@@ -712,37 +716,39 @@ func (check *Checker) declStmt(decl ast.Decl) {
 					// (ShortVarDecl for short variable declarations) and ends at the
 					// end of the innermost containing block."
 					scopePos := s.End()
-					for i, name := range s.Names {
-						check.declare(check.scope, name, lhs[i], scopePos)
+					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
+						check.declare(check.scope, s.Names().Ident(i), lhs[i], scopePos)
 					}
 
 				case token.VAR:
+
 					top := len(check.delayed)
 
-					lhs0 := make([]*Var, len(s.Names))
-					for i, name := range s.Names {
-						lhs0[i] = NewVar(name.Pos(), pkg, name.Name, nil)
+					lhs0 := make([]*Var, s.Names().Len())
+					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
+						name := s.Names().Ident(i)
+						lhs0[i] = newVar(name.Pos(), pkg, name.Name(), nil)
 					}
 
 					// initialize all variables
 					for i, obj := range lhs0 {
 						var lhs []*Var
-						var init ast.Expr
-						switch len(s.Values) {
-						case len(s.Names):
+						var init astExpr
+						switch s.Values().Len() {
+						case s.Names().Len():
 							// lhs and rhs match
-							init = s.Values[i]
+							init = s.Values().Expr(i)
 						case 1:
 							// rhs is expected to be a multi-valued expression
 							lhs = lhs0
-							init = s.Values[0]
+							init = s.Values().Expr(0)
 						default:
-							if i < len(s.Values) {
-								init = s.Values[i]
+							if i < s.Values().Len() {
+								init = s.Values().Expr(i)
 							}
 						}
-						check.varDecl(obj, lhs, s.Type, init)
-						if len(s.Values) == 1 {
+						check.varDecl(obj, lhs, s.Type(), init)
+						if s.Values().Len() == 1 {
 							// If we have a single lhs variable we are done either way.
 							// If we have a single rhs expression, it must be a multi-
 							// valued expression, in which case handling the first lhs
@@ -765,32 +771,34 @@ func (check *Checker) declStmt(decl ast.Decl) {
 					// declare all variables
 					// (only at this point are the variable scopes (parents) set)
 					scopePos := s.End() // see constant declarations
-					for i, name := range s.Names {
+					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
 						// see constant declarations
-						check.declare(check.scope, name, lhs0[i], scopePos)
+						check.declare(check.scope, s.Names().Ident(i), lhs0[i], scopePos)
 					}
 
 				default:
 					check.invalidAST(s.Pos(), "invalid token %s", d.Tok)
 				}
 
-			case *ast.TypeSpec:
-				obj := NewTypeName(s.Name.Pos(), pkg, s.Name.Name, nil)
+			case TypeSpecKind:
+				s := spec.TypeSpec()
+				obj := newTypeName(s.Name().Pos(), pkg, s.Name().Name(), nil)
 				// spec: "The scope of a type identifier declared inside a function
 				// begins at the identifier in the TypeSpec and ends at the end of
 				// the innermost containing block."
-				scopePos := s.Name.Pos()
-				check.declare(check.scope, s.Name, obj, scopePos)
+				scopePos := s.Name().Pos()
+				check.declare(check.scope, s.Name(), obj, scopePos)
 				// mark and unmark type before calling typeDecl; its type is still nil (see Checker.objDecl)
 				obj.setColor(grey + color(check.push(obj)))
-				check.typeDecl(obj, s.Type, nil, s.Assign.IsValid())
+				check.typeDecl(obj, s.Type(), nil, s.Assign().IsValid())
 				check.pop().setColor(black)
 			default:
-				check.invalidAST(s.Pos(), "const, type, or var declaration expected")
+				check.invalidAST(spec.Pos(), "const, type, or var declaration expected")
 			}
 		}
 
 	default:
-		check.invalidAST(d.Pos(), "unknown ast.Decl node %T", d)
+		// TODO: confirm this error message is fixed
+		check.invalidAST(decl.Pos(), "unknown ast.Decl node %T", decl)
 	}
 }
