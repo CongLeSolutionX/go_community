@@ -107,8 +107,6 @@ func typecheckclosure(clo *Node, top int) {
 	}
 
 	xfunc.Func.Nname.Sym = closurename(Curfn)
-	disableExport(xfunc.Func.Nname.Sym)
-	declare(xfunc.Func.Nname, PFUNC)
 	xfunc = typecheck(xfunc, ctxStmt)
 
 	// Type check the body now, but only if we're inside a function.
@@ -225,7 +223,8 @@ func transformclosure(xfunc *Node) {
 	lno := lineno
 	lineno = xfunc.Pos
 	clo := xfunc.Func.Closure
-
+	disableExport(xfunc.Func.Nname.Sym)
+	declare(xfunc.Func.Nname, PFUNC)
 	if clo.Func.Top&ctxCallee != 0 {
 		// If the closure is directly called, we transform it to a plain function call
 		// with variables passed as args. This avoids allocation of a closure object.
