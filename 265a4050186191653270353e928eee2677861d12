@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24b1ecbb_4aed4d69",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-14T15:06:09Z",
+      "side": 1,
+      "message": "pctab ?",
+      "range": {
+        "startLine": 557,
+        "startChar": 17,
+        "endLine": 557,
+        "endChar": 23
+      },
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c787d1d2_a0bf628c",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-14T15:06:09Z",
+      "side": 1,
+      "message": "Maybe add some comment? It is not obvious to me what this function does without reading the code. Also, as this is very similar to AddStringAt, what about AddBytesAt or AddDataAt?",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
