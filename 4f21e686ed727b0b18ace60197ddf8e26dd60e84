@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4eea185_6a825c88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-08-14T01:05:11Z",
+      "side": 1,
+      "message": "Howdy, calls can now be expanded late, and in this CL I wrote a new rule for an optimization in terms of the new \"LE\" (Late Expanded) call instructions.\n\nIf you could have a look at this stack of CLs (this is the end/goal), that would be nice.\n\nThere\u0027s further work needed before this is really ready for changing ABIs; this only deals with calls and their results, not with incoming args and outgoing results within a function.  It also doesn\u0027t fully atomize all the aggregate types -- it doesn\u0027t do interfaces, slices, strings, or complex (because it currently doesn\u0027t have to, because it runs before the pass that expands those) but doing that should be a SMOP (adding two-register 64-bit ints on 32-bit machines was a SMOP).\n\nIn addition, the recursive walks that deal with args and results would need to pass something more abstract than an \"offset\" to figure out the homes.  Again SMOP.",
+      "revId": "4f21e686ed727b0b18ace60197ddf8e26dd60e84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
