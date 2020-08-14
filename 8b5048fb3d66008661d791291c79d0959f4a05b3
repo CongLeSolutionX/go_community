@@ -51,6 +51,24 @@
       "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65a3d327_49ae5ca3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-14T08:50:48Z",
+      "side": 1,
+      "message": "If we take a look at that code, the first error encountered when with dest[i] will be returned from convertAssignRows. If the first scannable destination value returns an error, no more scan shall proceed and that first encountered error will be wrapped and sent back.",
+      "parentUuid": "1bb38ba5_49a07e0b",
+      "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
