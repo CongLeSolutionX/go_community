@@ -16,6 +16,23 @@
       "revId": "8ae02d76f7a7d76c7b35a932827123250d0ff803",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d158a1de_2b5a4feb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34724
+      },
+      "writtenOn": "2020-08-14T17:05:13Z",
+      "side": 1,
+      "message": "Removed the version info in docs. I believe all comments have been handled. Thanks for your patience!",
+      "revId": "8ae02d76f7a7d76c7b35a932827123250d0ff803",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

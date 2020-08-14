@@ -105,6 +105,42 @@
       "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d23012cb_2bcfe654",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34724
+      },
+      "writtenOn": "2020-08-14T17:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "643988cf_165ca933",
+      "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77088ddb_28981e73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34724
+      },
+      "writtenOn": "2020-08-14T17:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "053ea21c_2dad55da",
+      "revId": "8b5048fb3d66008661d791291c79d0959f4a05b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
