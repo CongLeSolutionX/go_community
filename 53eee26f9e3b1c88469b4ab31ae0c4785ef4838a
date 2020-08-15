@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8830ce5_c9d03755",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-15T18:07:01Z",
+      "side": 1,
+      "message": "Minor nit: s/map fast delete/mapdelete_fast*/g",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebb99013_0b88cabf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-15T18:07:01Z",
+      "side": 1,
+      "message": "Thank you for working on this Martin, and great to catch you here! I shall kindly loop in Josh and Keith as reviewers.",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e87961e_d13d2494",
+        "filename": "src/runtime/map_fast64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-15T18:07:01Z",
+      "side": 1,
+      "message": "What’s the difference between keeping t.key.size here vs using 8?",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
