@@ -75,6 +75,24 @@
       "revId": "a67f7b7dcac2c1074a359cde94273fc2742d5c8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "369d5a5c_02966683",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-08-15T17:23:49Z",
+      "side": 1,
+      "message": "Thanks for details explanation, sounds like your assumption is right.",
+      "parentUuid": "7b05cc25_7f276479",
+      "revId": "a67f7b7dcac2c1074a359cde94273fc2742d5c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
