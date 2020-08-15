@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "360b32ca_3d1dde3c",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-15T03:56:53Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to check this? We dereferenced xfunc.Func.Nname.Sym on the previous line, so xfunc.Func.Nname should still be non-nil here.\n\n(Sorry, I meant to imply this when I left my last comment and highlighted the entire \u0027if\u0027 condition, but I should have stated that explicitly.)",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 27
+      },
+      "revId": "a67f7b7dcac2c1074a359cde94273fc2742d5c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf3027f_3e994dbb",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-15T03:56:53Z",
+      "side": 1,
+      "message": "I wonder if we can just move the disableExport/declare calls here instead? This is after type-checking, so we should have already exited if there are any duplicate functions. Do you mind testing if that works?\n\nIn fact, I\u0027m kinda curious if we really have to disableExport/declare these symbols at all. declare()\u0027s primary responsibility is to associate a symbol (Sym) with a declaration (Node), so that \"oldname\" will work... but that shouldn\u0027t be necessary for function literals, since they\u0027re anonymous.",
+      "revId": "a67f7b7dcac2c1074a359cde94273fc2742d5c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
