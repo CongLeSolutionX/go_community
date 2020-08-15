@@ -36,6 +36,86 @@
     },
     {
       "key": {
+        "uuid": "92224e6c_4081380d",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-15T18:33:49Z",
+      "side": 1,
+      "message": "s/too/also/",
+      "range": {
+        "startLine": 306,
+        "startChar": 47,
+        "endLine": 306,
+        "endChar": 50
+      },
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74275c27_e65c1999",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-15T18:33:49Z",
+      "side": 1,
+      "message": "s/bit/bits/",
+      "range": {
+        "startLine": 306,
+        "startChar": 9,
+        "endLine": 306,
+        "endChar": 13
+      },
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9e4fe56_56e2c502",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-15T18:33:49Z",
+      "side": 1,
+      "message": "This comment is unnecessary. We already know we are clearing the pointer key.\nAvoiding memclrHasPointers is good for the CL description, but it is not really helpful to have here permanently.",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b314f885_8b17d471",
+        "filename": "src/runtime/map_fast64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-15T18:33:49Z",
+      "side": 1,
+      "message": "Remove this line",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e87961e_d13d2494",
         "filename": "src/runtime/map_fast64.go",
         "patchSetId": 1
@@ -50,6 +130,24 @@
       "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b0591e3_838d1a60",
+        "filename": "src/runtime/map_fast64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-15T18:33:49Z",
+      "side": 1,
+      "message": "8 is cheaper, and we know here that t.key.size\u003d\u003d8",
+      "parentUuid": "7e87961e_d13d2494",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
