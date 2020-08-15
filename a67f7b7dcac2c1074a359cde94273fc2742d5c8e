@@ -57,6 +57,24 @@
       "revId": "a67f7b7dcac2c1074a359cde94273fc2742d5c8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b05cc25_7f276479",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-15T11:35:04Z",
+      "side": 1,
+      "message": "\u003e Moving disableExport/declare should (and actually) work 👍\n\nThanks, that\u0027s good to know. Let me think about this some more tomorrow.\n\n\u003e Removing them will break the build, as the closure now is not pushed to Curfn.Func.Dcl, but still be kept track by liveness analysis.\n\nHm, that seems suspicious. This declaration is for the function that underlies the closure, and liveness analysis only needs to track stack variables (not functions).\n\nPerhaps the issue is that omitting declare(n, PFUNC) means we never set n.SetClass(PFUNC) or n.Sym.SetFunc(true), and so some code later misinterprets it as a variable. Maybe just setting those two is enough.\n\n\u003e Maybe can we modify \"livenessShouldTrack\" logic to ignore the closure? Maybe can we modify \"livenessShouldTrack\" logic to ignore the closure?\n\nNo, I don\u0027t think that should be necessary. livenessShouldTrack looks like it\u0027s doing the right thing already.\n\n\u003e Also, would you mind elaborating what does \"oldname\" mean?\n\nI mean the oldname function in dcl.go.\n\nIn rough pseudo code, the idea is:\n\n    x :\u003d 0        // x1 :\u003d newname(\"x\"); declare(x1, PAUTO)\n    {             // types.Markdcl()\n         x :\u003d 1   // x2 :\u003d newname(\"x\"); declare(x2, PAUTO)\n         x +\u003d 2   // oldname(\"x\")    (returns x2)\n    }             // types.Popdcl()\n    x +\u003d 3        // oldname(\"x\")    (returns x1)\n\nLet me know if I should elaborate further. cmd/compile\u0027s name resolution is fairly subtle and non-intuitive.",
+      "parentUuid": "786be7de_1dfcb7b4",
+      "revId": "a67f7b7dcac2c1074a359cde94273fc2742d5c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
