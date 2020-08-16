@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d2ee3e0_a06d0145",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:34:22Z",
+      "side": 1,
+      "message": "Thank you for this change, Tigran and for the review, Brad.\nTigran, as Brad mentioned, this change has to firstly be accepted\nas a proposal that has incorporated discourse and all available options\nand has ultimately been accepted. Please file that issue and describe it.",
+      "revId": "f8012bdf167fa8d11bcad5b910dccd4b3e8329e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
