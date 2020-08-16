@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f730a7db_972ac654",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T21:51:25Z",
+      "side": 1,
+      "message": "Thank you for this contribution and welcome to the Go project, Chirag!\nLGTM and looking forward to even more contributions from you in the future.",
+      "revId": "30d67a28eea818feac3503efeae76d73b14c5a17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
