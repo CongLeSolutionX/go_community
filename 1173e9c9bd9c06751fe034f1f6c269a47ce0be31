@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "077880bc_6a3c10f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T15:35:43Z",
+      "side": 1,
+      "message": "Perhaps we could improve this subject to be more descriptive of this change. How about:\nruntime: only call setitimer for threads with profiling enabled\n\n\nand then the description of the change perhaps.",
+      "revId": "1173e9c9bd9c06751fe034f1f6c269a47ce0be31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17e5e3b4_7cd5fafb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T15:35:43Z",
+      "side": 1,
+      "message": "Thank you for this change Ian, and for the review Keith.\nI’ve added a suggestion for the commit message. This change is\nvery important and a description/summary to help understand it will\ndefinitely return dividends to our future selves.",
+      "revId": "1173e9c9bd9c06751fe034f1f6c269a47ce0be31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
