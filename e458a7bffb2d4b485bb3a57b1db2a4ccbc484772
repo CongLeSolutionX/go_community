@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba288b9d_ebb365fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:48:48Z",
+      "side": 1,
+      "message": "Please update this entire Markdown description to:\nAdd an io.Reader that’s always returns 0 and a non-nil error.\n\nFixes #38781",
+      "revId": "e458a7bffb2d4b485bb3a57b1db2a4ccbc484772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4687181_44e06554",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:48:48Z",
+      "side": 1,
+      "message": "Thank you Carlos for this change and for following through with the proposal.\nThank you Ian for the review.\n\nCarlos, I’ve added some suggestions, but please also rebase your change.",
+      "revId": "e458a7bffb2d4b485bb3a57b1db2a4ccbc484772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bbb90e_37524150",
+        "filename": "src/testing/iotest/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:48:48Z",
+      "side": 1,
+      "message": "We are breaking precedent with “fake io error”. Perhaps just “io”, as we do\nfor ErrTimeout.",
+      "revId": "e458a7bffb2d4b485bb3a57b1db2a4ccbc484772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80a1c5ba_9c67044c",
+        "filename": "src/testing/iotest/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:48:48Z",
+      "side": 1,
+      "message": "type errReader int, given that it doesn’t need any fields.",
+      "revId": "e458a7bffb2d4b485bb3a57b1db2a4ccbc484772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f3c54b3_4565f78b",
+        "filename": "src/testing/iotest/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:48:48Z",
+      "side": 1,
+      "message": "func (r errReader) Read\n\nafter we’ve made it an int",
+      "revId": "e458a7bffb2d4b485bb3a57b1db2a4ccbc484772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "467ae993_1d415c24",
+        "filename": "src/testing/iotest/reader_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:48:48Z",
+      "side": 1,
+      "message": "n, err :\u003d",
+      "revId": "e458a7bffb2d4b485bb3a57b1db2a4ccbc484772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c332455_4fddaca9",
+        "filename": "src/testing/iotest/reader_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T16:48:48Z",
+      "side": 1,
+      "message": "I’d say use errors.Is, but perhaps this is sufficient.",
+      "revId": "e458a7bffb2d4b485bb3a57b1db2a4ccbc484772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
