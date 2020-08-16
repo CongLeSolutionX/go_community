@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "609baac3_08dcf40e",
+        "filename": "src/strconv/atoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-08-16T03:42:36Z",
+      "side": 1,
+      "message": "Yeah, fair enough. I had pulled the switch approach from genericFtoa() in ftoa.go, but I like your approach better (and the fact that it\u0027s consistent with ParseFloat). Though it\u0027s /2 rather then *2 -- I\u0027ve used \u003e\u003e1.",
+      "parentUuid": "9ca982c7_a8b08c02",
+      "revId": "fd1d402b46692f62de3d1cb7fb679cd8db88fffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "423fe82c_a3541b50",
         "filename": "src/strconv/atoc_test.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ae0ef9b6_69b57368",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-08-16T03:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "423fe82c_a3541b50",
+      "revId": "fd1d402b46692f62de3d1cb7fb679cd8db88fffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffe6310_f4af5d5f",
         "filename": "src/strconv/atoc_test.go",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "fd1d402b46692f62de3d1cb7fb679cd8db88fffb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16558765_4183c9f0",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-08-16T03:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ffe6310_f4af5d5f",
+      "revId": "fd1d402b46692f62de3d1cb7fb679cd8db88fffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
