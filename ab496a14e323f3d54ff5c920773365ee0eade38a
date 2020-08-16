@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efbc97b7_6eb5ccb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-16T21:05:18Z",
+      "side": 1,
+      "message": "Thank you Carlos, LGTM. Ian, the CL fixes an issue whose proposal got approved,\nkindly asking for your un-veto.",
+      "revId": "ab496a14e323f3d54ff5c920773365ee0eade38a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
