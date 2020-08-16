@@ -274,6 +274,27 @@ func (f *Func) initLSym(hasBody bool) {
 		}
 	}
 
+	wi := f.wasmimport
+	if wi != nil && objabi.GOARCH == "wasm" {
+		if f.lsym.Func == nil {
+			f.lsym.Func = &obj.FuncInfo{}
+		}
+		if wi.module == "go" {
+			f.lsym.Func.WasmImport = &obj.WasmImport{
+				Module: wi.module,
+				Name:   wi.name,
+				Params: []obj.WasmField{{Type: obj.WasmI32}},
+			}
+		} else {
+			f.lsym.Func.WasmImport = &obj.WasmImport{
+				Module:  wi.module,
+				Name:    wi.name,
+				Params:  f.wasmfields.Params,
+				Results: f.wasmfields.Results,
+			}
+		}
+	}
+
 	if !hasBody {
 		// For body-less functions, we only create the LSym.
 		return

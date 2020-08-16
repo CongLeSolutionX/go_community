@@ -120,10 +120,12 @@ func (ctxt *Link) InitTextSym(s *LSym, flag int) {
 		// func _() { }
 		return
 	}
-	if s.Func != nil {
+	if s.Func != nil && s.Func.WasmImport == nil {
 		ctxt.Diag("InitTextSym double init for %s", s.Name)
 	}
-	s.Func = new(FuncInfo)
+	if s.Func == nil {
+		s.Func = new(FuncInfo)
+	}
 	if s.OnList() {
 		ctxt.Diag("symbol %s listed multiple times", s.Name)
 	}

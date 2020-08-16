@@ -578,6 +578,9 @@ type Func struct {
 	// function for go:nowritebarrierrec analysis. Only filled in
 	// if nowritebarrierrecCheck != nil.
 	nwbrCalls *[]nowritebarrierrecCallSym
+
+	wasmimport *wasmimport
+	wasmfields *wasmfields
 }
 
 // An Inline holds fields used for function bodies that can be inlined.

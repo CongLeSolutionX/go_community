@@ -26,6 +26,7 @@ func closefd(fd int32) int32                         { panic("not implemented") 
 func read(fd int32, p unsafe.Pointer, n int32) int32 { panic("not implemented") }
 
 //go:noescape
+//go:wasmimport go runtime.wasmWrite
 func wasmWrite(fd uintptr, p unsafe.Pointer, n int32)
 
 func usleep(usec uint32)
@@ -101,6 +102,7 @@ func crash() {
 	*(*int32)(nil) = 0
 }
 
+//go:wasmimport go runtime.getRandomData
 func getRandomData(r []byte)
 
 func goenvs() {

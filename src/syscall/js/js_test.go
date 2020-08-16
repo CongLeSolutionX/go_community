@@ -44,6 +44,19 @@ var dummys = js.Global().Call("eval", `({
 	objBooleanFalse: new Boolean(false),
 })`)
 
+//go:wasmimport gotest add
+func testAdd(a, b uint32) uint32
+
+func TestWasmImport(t *testing.T) {
+	a := uint32(3)
+	b := uint32(5)
+	expected := uint32(a + b)
+	actual := testAdd(a, b)
+	if actual != expected {
+		t.Errorf("Expected %v, got: %v", expected, actual)
+	}
+}
+
 func TestBool(t *testing.T) {
 	want := true
 	o := dummys.Get("someBool")

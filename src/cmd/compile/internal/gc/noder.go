@@ -511,12 +511,19 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 	f.Func.Nname.Name.Defn = f
 	f.Func.Nname.Name.Param.Ntype = t
 
+	isWasmImport := false
 	if pragma, ok := fun.Pragma.(*Pragma); ok {
 		f.Func.Pragma = pragma.Flag & FuncPragmas
 		if pragma.Flag&Systemstack != 0 && pragma.Flag&Nosplit != 0 {
 			yyerrorl(f.Pos, "go:nosplit and go:systemstack cannot be combined")
 		}
 		pragma.Flag &^= FuncPragmas
+		if pragma.wasmimport != nil {
+			isWasmImport = true
+			f.Func.Pragma |= Noescape
+			f.Func.Pragma |= Nosplit
+			f.Func.wasmimport = pragma.wasmimport
+		}
 		p.checkUnused(pragma)
 	}
 
@@ -530,6 +537,9 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 		if f.Func.Pragma&Noescape != 0 {
 			yyerrorl(f.Pos, "can only use //go:noescape with external func implementations")
 		}
+		if isWasmImport {
+			yyerrorl(f.Pos, "cannot have function body with //go:wasmimport")
+		}
 	} else {
 		if pure_go || strings.HasPrefix(f.funcname(), "init.") {
 			// Linknamed functions are allowed to have no body. Hopefully
@@ -541,7 +551,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 					break
 				}
 			}
-			if !isLinknamed {
+			if !isLinknamed && !isWasmImport {
 				yyerrorl(f.Pos, "missing function body")
 			}
 		}
@@ -1502,8 +1512,19 @@ var allowedStdPragmas = map[string]bool{
 
 // *Pragma is the value stored in a syntax.Pragma during parsing.
 type Pragma struct {
-	Flag PragmaFlag  // collected bits
-	Pos  []PragmaPos // position of each individual flag
+	Flag       PragmaFlag  // collected bits
+	Pos        []PragmaPos // position of each individual flag
+	wasmimport *wasmimport
+}
+
+type wasmimport struct {
+	module string
+	name   string
+}
+
+type wasmfields struct {
+	Results []obj.WasmField
+	Params  []obj.WasmField
 }
 
 type PragmaPos struct {
@@ -1552,6 +1573,17 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 	}
 
 	switch {
+	case strings.HasPrefix(text, "go:wasmimport"):
+		f := strings.Fields(text)
+		if len(f) != 3 {
+			p.error(syntax.Error{Pos: pos, Msg: "usage: //go:wasmimport [module name] [import name]"})
+		}
+		module := f[1]
+		name := f[2]
+		pragma.wasmimport = &wasmimport{
+			module: module,
+			name:   name,
+		}
 	case strings.HasPrefix(text, "go:linkname "):
 		f := strings.Fields(text)
 		if !(2 <= len(f) && len(f) <= 3) {

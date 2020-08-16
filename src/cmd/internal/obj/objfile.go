@@ -497,7 +497,12 @@ func (w *writer) Aux(s *LSym) {
 		for _, pcSym := range s.Func.Pcln.Pcdata {
 			w.aux1(goobj.AuxPcdata, pcSym)
 		}
-
+		if s.Func.WasmImportSym != nil {
+			if s.Func.WasmImportSym.Size == 0 {
+				panic("wasmimport aux sym must have non-zero size")
+			}
+			w.aux1(goobj.AuxWasmImport, s.Func.WasmImportSym)
+		}
 	}
 }
 
@@ -591,6 +596,12 @@ func nAuxSym(s *LSym) int {
 		if s.Func.Pcln.Pcinline != nil && s.Func.Pcln.Pcinline.Size != 0 {
 			n++
 		}
+		if s.Func.WasmImport != nil {
+			if s.Func.WasmImportSym == nil || s.Func.WasmImportSym.Size == 0 {
+				panic("wasmimport aux sym must exist and have non-zero size")
+			}
+			n++
+		}
 		n += len(s.Func.Pcln.Pcdata)
 	}
 	return n
@@ -666,7 +677,7 @@ func genFuncInfoSyms(ctxt *Link) {
 		s.Func.FuncInfoSym = isym
 		b.Reset()
 
-		dwsyms := []*LSym{s.Func.dwarfRangesSym, s.Func.dwarfLocSym, s.Func.dwarfDebugLinesSym, s.Func.dwarfInfoSym}
+		dwsyms := []*LSym{s.Func.dwarfRangesSym, s.Func.dwarfLocSym, s.Func.dwarfDebugLinesSym, s.Func.dwarfInfoSym, s.Func.WasmImportSym}
 		for _, s := range dwsyms {
 			if s == nil || s.Size == 0 {
 				continue

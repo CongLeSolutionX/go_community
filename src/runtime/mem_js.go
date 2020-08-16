@@ -78,6 +78,7 @@ func growMemory(pages int32) int32
 
 // resetMemoryDataView signals the JS front-end that WebAssembly's memory.grow instruction has been used.
 // This allows the front-end to replace the old DataView object with a new one.
+//go:wasmimport go runtime.resetMemoryDataView
 func resetMemoryDataView()
 
 func sysMap(v unsafe.Pointer, n uintptr, sysStat *uint64) {
