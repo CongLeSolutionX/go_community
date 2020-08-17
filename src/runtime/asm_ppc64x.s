@@ -957,10 +957,10 @@ flush:
 	MOVD	R9, (FIXED_FRAME+64)(R1)
 	MOVD	R10, (FIXED_FRAME+72)(R1)
 	MOVD	R11, (FIXED_FRAME+80)(R1)
-	MOVD	R12, (FIXED_FRAME+88)(R1)
+	// R12 may be clobbered by external-linker-inserted trampoline
 	// R13 is REGTLS
-	MOVD	R14, (FIXED_FRAME+96)(R1)
-	MOVD	R15, (FIXED_FRAME+104)(R1)
+	MOVD	R14, (FIXED_FRAME+88)(R1)
+	MOVD	R15, (FIXED_FRAME+96)(R1)
 
 	// This takes arguments R20 and R21.
 	CALL	runtime·wbBufFlush(SB)
@@ -976,9 +976,8 @@ flush:
 	MOVD	(FIXED_FRAME+64)(R1), R9
 	MOVD	(FIXED_FRAME+72)(R1), R10
 	MOVD	(FIXED_FRAME+80)(R1), R11
-	MOVD	(FIXED_FRAME+88)(R1), R12
-	MOVD	(FIXED_FRAME+96)(R1), R14
-	MOVD	(FIXED_FRAME+104)(R1), R15
+	MOVD	(FIXED_FRAME+88)(R1), R14
+	MOVD	(FIXED_FRAME+96)(R1), R15
 	JMP	ret
 
 // Note: these functions use a special calling convention to save generated code space.
