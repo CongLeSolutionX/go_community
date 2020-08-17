@@ -16,6 +16,24 @@
       "revId": "39087ebf78d03d6be5c0a6bea0534208a82a5f40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bc6f82c_1c867ee5",
+        "filename": "src/cmd/go/internal/modcmd/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-17T18:00:24Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "8c708685_0d600cc9",
+      "revId": "39087ebf78d03d6be5c0a6bea0534208a82a5f40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
