@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c84604_e2bdbe44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:19:32Z",
+      "side": 1,
+      "message": "We\u0027re trying to revert dashboard breakage more aggressively this cycle to prevent masking other failures.",
+      "revId": "3d47e5eeea02ffc9c39437f3d95a4090c0f86043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
