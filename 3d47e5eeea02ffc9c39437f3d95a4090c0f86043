@@ -16,6 +16,41 @@
       "revId": "3d47e5eeea02ffc9c39437f3d95a4090c0f86043",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbc6efa2_e50b07e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-08-17T13:57:25Z",
+      "side": 1,
+      "message": "TRY\u003ds390x",
+      "revId": "3d47e5eeea02ffc9c39437f3d95a4090c0f86043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c576ac2_4539d44c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-08-17T13:57:25Z",
+      "side": 1,
+      "message": "Keith has sent CL 248684 which will fix the issue. That might well get finished today. Up to you if you still want to revert.",
+      "parentUuid": "56c84604_e2bdbe44",
+      "revId": "3d47e5eeea02ffc9c39437f3d95a4090c0f86043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
