@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "724d2fa0_3acc8432",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e217214_a33e88bf",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 16
+      },
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29c3b718_d502f0b7",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "265a4050186191653270353e928eee2677861d12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9116c45_e04eabd8",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "I\u0027ll add the comment here as well, but carriers don\u0027t work right for non-generator pclntab variables. It\u0027s a side effect of two main main problems: carriers cannot have carriers (and runtime.pctab is in the carrier runtime.pclntab), and the number of times pclntab\u0027s variables change type.",
+      "parentUuid": "29c3b718_d502f0b7",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "377767d5_f906351f",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24b1ecbb_4aed4d69",
+      "range": {
+        "startLine": 557,
+        "startChar": 17,
+        "endLine": 557,
+        "endChar": 23
+      },
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bdf6c8d_d948f351",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -79,6 +145,24 @@
       "revId": "265a4050186191653270353e928eee2677861d12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fea75f5_71f9fc15",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "I was unable to ever find a case where that was true, so considered it vestigial of a different time and place. I\u0027ll re-add the code, but I have yet to see an instance of that.",
+      "parentUuid": "7bdf6c8d_d948f351",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "86761660_723aee59",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "PCdata should never be sparse anymore. As of the previous change in the stack:\n\nhttps://github.com/golang/go/blob/dev.link/src/cmd/internal/obj/pcln.go#L319\n\nWe populate with a 0-length PCData.",
+      "parentUuid": "76b9817c_c8581625",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d285b2ec_25f08406",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -113,6 +215,24 @@
       "revId": "265a4050186191653270353e928eee2677861d12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f3b16f8_e0ba58cf",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "Again, I\u0027ve never been able to create a function with len(PCData()) \u003e 2. I\u0027ll rewrite this to handle that case anyway.",
+      "parentUuid": "d285b2ec_25f08406",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -136,6 +256,30 @@
       "revId": "265a4050186191653270353e928eee2677861d12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dc552a0_5d7e8928",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1afba880_1c2e3dbf",
+      "range": {
+        "startLine": 741,
+        "startChar": 36,
+        "endLine": 741,
+        "endChar": 41
+      },
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -171,6 +315,24 @@
       "revId": "265a4050186191653270353e928eee2677861d12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c821af39_dd126264",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T16:32:11Z",
+      "side": 1,
+      "message": "I\u0027ll rename to SetBytesAt.\n\nUnfortunately, carrier symbols won\u0027t work yet for pclntab. The two main reasons are that carrier symbols that live within other carrier symbols don\u0027t work yet, and pclntab\u0027s changing of types (in symtab.go) also introduces a little complexity in the data.go writing of the symbol. All of this is just a small matter of coding, but I felt it most important to get the wins in for now while re-engineering carriers with carriers to work.",
+      "parentUuid": "1684d222_e813f9d7",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
