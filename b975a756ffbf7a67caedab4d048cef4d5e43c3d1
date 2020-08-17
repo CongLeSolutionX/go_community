@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1001a3da_debb0382",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-17T21:30:27Z",
+      "side": 1,
+      "message": "I don\u0027t see your comment explaining what the problem with the race detector is.\nOtherwise, looks fine.\n",
+      "revId": "b975a756ffbf7a67caedab4d048cef4d5e43c3d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
