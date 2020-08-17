@@ -11,27 +11,35 @@ import (
 	"sort"
 )
 
+type selKey struct {
+	from   *Value
+	offset int64
+	size   int64
+	typ    types.EType
+}
+
+type offsetKey struct {
+	from   *Value
+	offset int64
+	pt     *types.Type
+}
+
 // expandCalls converts LE (Late Expansion) calls that act like they receive value args into a lower-level form
 // that is more oriented to a platform's ABI.  The SelectN operations that extract results are rewritten into
 // more appropriate forms, and any StructMake or ArrayMake inputs are decomposed until non-struct values are
-// reached (for now, Strings, Slices, Complex, and Interface are not decomposed because they are rewritten in
-// a subsequent phase, but that may need to change for a register ABI in case one of those composite values is
-// split between registers and memory).
-//
-// TODO: when it comes time to use registers, might want to include builtin selectors as well, but currently that happens in lower.
+// reached.
 func expandCalls(f *Func) {
 	if !LateCallExpansionEnabledWithin(f) {
 		return
 	}
+	debug := f.pass.debug > 1
+
 	canSSAType := f.fe.CanSSA
 	regSize := f.Config.RegSize
 	sp, _ := f.spSb()
+	typ := &f.Config.Types
 
-	debug := false
-
-	// For 32-bit, need to deal with decomposition of 64-bit integers
-	tUint32 := types.Types[types.TUINT32]
-	tInt32 := types.Types[types.TINT32]
+	// For 32-bit, need to deal with decomposition of 64-bit integers, which depends on endianness.
 	var hiOffset, lowOffset int64
 	if f.Config.BigEndian {
 		lowOffset = 4
@@ -39,14 +47,16 @@ func expandCalls(f *Func) {
 		hiOffset = 4
 	}
 
+	ptrSize := f.Config.PtrSize
+
 	// intPairTypes returns the pair of 32-bit int types needed to encode a 64-bit integer type on a target
 	// that has no 64-bit integer registers.
 	intPairTypes := func(et types.EType) (tHi, tLo *types.Type) {
-		tHi = tUint32
+		tHi = typ.UInt32
 		if et == types.TINT64 {
-			tHi = tInt32
+			tHi = typ.Int32
 		}
-		tLo = tUint32
+		tLo = typ.UInt32
 		return
 	}
 
@@ -58,7 +68,39 @@ func expandCalls(f *Func) {
 			return false
 		}
 		et := t.Etype
-		return et == types.TSTRUCT || et == types.TARRAY || regSize == 4 && (et == types.TINT64 || et == types.TUINT64)
+		switch et {
+		case types.TINT64, types.TUINT64:
+			return regSize == 4
+		case types.TARRAY, types.TSTRUCT:
+			return true
+		}
+		return false
+	}
+
+	offsets := make(map[offsetKey]*Value)
+
+	// offsetFrom creates an offset from a pointer, simplifying chained offsets and offsets from SP
+	// TODO should also optimize offsets from SB?
+	offsetFrom := func(from *Value, offset int64, pt *types.Type) *Value {
+		if offset == 0 && from.Type == pt { // this is not actually likely
+			return from
+		}
+		// Simplify, canonicalize
+		for from.Op == OpOffPtr {
+			offset += from.AuxInt
+			from = from.Args[0]
+		}
+		if from == sp {
+			return f.ConstOffPtrSP(pt, offset, sp)
+		}
+		key := offsetKey{from, offset, pt}
+		v := offsets[key]
+		if v != nil {
+			return v
+		}
+		v = from.Block.NewValue1I(from.Pos.WithNotStmt(), OpOffPtr, pt, offset, from)
+		offsets[key] = v
+		return v
 	}
 
 	// Calls that need lowering have some number of inputs, including a memory input,
@@ -73,12 +115,10 @@ func expandCalls(f *Func) {
 	// rewriteSelect recursively walks through a chain of Struct/Array Select
 	// operations until a select from call results is reached.  It emits the
 	// code necessary to implement the leaf select operation that leads to the call.
-	// TODO when registers really arrive, must also decompose anything split across two registers or registers and memory.
 	var rewriteSelect func(v *Value, sel *Value, offset int64, t *types.Type)
 	rewriteSelect = func(v *Value, sel *Value, offset int64, t *types.Type) {
 		switch sel.Op {
 		case OpSelectN:
-			// TODO these may be duplicated. Should memoize. Intermediate selectors will go dead, no worries there.
 			call := sel.Args[0]
 			aux := call.Aux.(*AuxCall)
 			which := sel.AuxInt
@@ -86,9 +126,13 @@ func expandCalls(f *Func) {
 				// rewrite v as a Copy of call -- the replacement call will produce a mem.
 				v.copyOf(call)
 			} else {
-				pt := types.NewPtr(t)
 				if canSSAType(t) {
-					off := f.ConstOffPtrSP(pt, offset+aux.OffsetOfResult(which), sp)
+					for t.Etype == types.TSTRUCT && t.NumFields() == 1 {
+						// This may not be adequately general -- consider [1]etc but this is caused by immediate IDATA
+						t = t.Field(0).Type
+					}
+					pt := types.NewPtr(t)
+					off := offsetFrom(sp, offset+aux.OffsetOfResult(which), pt)
 					// Any selection right out of the arg area/registers has to be same Block as call, use call as mem input.
 					if v.Block == call.Block {
 						v.reset(OpLoad)
@@ -105,9 +149,12 @@ func expandCalls(f *Func) {
 		case OpStructSelect:
 			w := sel.Args[0]
 			if w.Type.Etype != types.TSTRUCT {
-				fmt.Printf("Bad type for w:\nv=%v\nsel=%v\nw=%v\n,f=%s\n", v.LongString(), sel.LongString(), w.LongString(), f.Name)
+				fmt.Printf("Bad type for w: v=%v; sel=%v; w=%v; ,f=%s\n", v.LongString(), sel.LongString(), w.LongString(), f.Name)
+				// Artifact of immediate interface idata
+				rewriteSelect(v, w, offset, t)
+			} else {
+				rewriteSelect(v, w, offset+w.Type.FieldOff(int(sel.AuxInt)), t)
 			}
-			rewriteSelect(v, w, offset+w.Type.FieldOff(int(sel.AuxInt)), t)
 
 		case OpInt64Hi:
 			w := sel.Args[0]
@@ -120,6 +167,10 @@ func expandCalls(f *Func) {
 		case OpArraySelect:
 			w := sel.Args[0]
 			rewriteSelect(v, w, offset+sel.Type.Size()*sel.AuxInt, t)
+
+		case OpCopy: // If it's an intermediate result, recurse
+			rewriteSelect(v, sel.Args[0], offset, t)
+
 		default:
 			// panic(fmt.Sprintf("Did not expect to arrive here, sel = %v", sel))
 		}
@@ -133,12 +184,14 @@ func expandCalls(f *Func) {
 		switch a.Op {
 		case OpArrayMake0, OpStructMake0:
 			return mem
+
 		case OpStructMake1, OpStructMake2, OpStructMake3, OpStructMake4:
 			for i := 0; i < t.NumFields(); i++ {
 				fld := t.Field(i)
 				mem = storeArg(pos, b, a.Args[i], fld.Type, offset+fld.Offset, mem)
 			}
 			return mem
+
 		case OpArrayMake1:
 			return storeArg(pos, b, a.Args[0], t.Elem(), offset, mem)
 
@@ -146,8 +199,21 @@ func expandCalls(f *Func) {
 			tHi, tLo := intPairTypes(t.Etype)
 			mem = storeArg(pos, b, a.Args[0], tHi, offset+hiOffset, mem)
 			return storeArg(pos, b, a.Args[1], tLo, offset+lowOffset, mem)
+
+		case OpComplexMake:
+			tPart := typ.Float32
+			wPart := t.Width / 2
+			if wPart == 8 {
+				tPart = typ.Float64
+			}
+			mem = storeArg(pos, b, a.Args[0], tPart, offset, mem)
+			return storeArg(pos, b, a.Args[1], tPart, offset+wPart, mem)
+
+		case OpIMake:
+			mem = storeArg(pos, b, a.Args[0], typ.Uintptr, offset, mem)
+			return storeArg(pos, b, a.Args[1], typ.BytePtr, offset+ptrSize, mem)
 		}
-		dst := f.ConstOffPtrSP(types.NewPtr(t), offset, sp)
+		dst := offsetFrom(sp, offset, types.NewPtr(t))
 		x := b.NewValue3A(pos, OpStore, types.TypeMem, t, dst, a, mem)
 		if debug {
 			fmt.Printf("storeArg(%v) returns %s\n", a, x.LongString())
@@ -155,30 +221,11 @@ func expandCalls(f *Func) {
 		return x
 	}
 
-	// offsetFrom creates an offset from a pointer, simplifying chained offsets and offsets from SP
-	// TODO should also optimize offsets from SB?
-	offsetFrom := func(dst *Value, offset int64, t *types.Type) *Value {
-		pt := types.NewPtr(t)
-		if offset == 0 && dst.Type == pt { // this is not actually likely
-			return dst
-		}
-		if dst.Op != OpOffPtr {
-			return dst.Block.NewValue1I(dst.Pos.WithNotStmt(), OpOffPtr, pt, offset, dst)
-		}
-		// Simplify OpOffPtr
-		from := dst.Args[0]
-		offset += dst.AuxInt
-		if from == sp {
-			return f.ConstOffPtrSP(pt, offset, sp)
-		}
-		return dst.Block.NewValue1I(dst.Pos.WithNotStmt(), OpOffPtr, pt, offset, from)
-	}
-
 	// splitStore converts a store of an SSA-able aggregate into a series of smaller stores, emitting
 	// appropriate Struct/Array Select operations (which will soon go dead) to obtain the parts.
-	var splitStore func(dst, src, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value
-	splitStore = func(dst, src, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value {
-		// TODO might be worth commoning up duplicate selectors, but since they go dead, maybe no point.
+	// This has to handle aggregate types that have already been lowered by an earlier phase.
+	var splitStore func(dest, source, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value
+	splitStore = func(dest, source, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value {
 		pos := v.Pos.WithNotStmt()
 		switch t.Etype {
 		case types.TINT64, types.TUINT64:
@@ -186,40 +233,39 @@ func expandCalls(f *Func) {
 				break
 			}
 			tHi, tLo := intPairTypes(t.Etype)
-			sel := src.Block.NewValue1(pos, OpInt64Hi, tHi, src)
-			mem = splitStore(dst, sel, mem, v, tHi, offset+hiOffset, firstStorePos)
+			sel := source.Block.NewValue1(pos, OpInt64Hi, tHi, source)
+			mem = splitStore(dest, sel, mem, v, tHi, offset+hiOffset, firstStorePos)
 			firstStorePos = firstStorePos.WithNotStmt()
-			sel = src.Block.NewValue1(pos, OpInt64Lo, tLo, src)
-			mem = splitStore(dst, sel, mem, v, tLo, offset+lowOffset, firstStorePos)
+			sel = source.Block.NewValue1(pos, OpInt64Lo, tLo, source)
+			mem = splitStore(dest, sel, mem, v, tLo, offset+lowOffset, firstStorePos)
 
 		case types.TARRAY:
 			elt := t.Elem()
-			if elt.Width == t.Width && t.Width == regSize {
-				break
-			}
 			for i := int64(0); i < t.NumElem(); i++ {
-				sel := src.Block.NewValue1I(pos, OpArraySelect, elt, i, src)
-				mem = splitStore(dst, sel, mem, v, elt, offset+i*elt.Width, firstStorePos)
+				sel := source.Block.NewValue1I(pos, OpArraySelect, elt, i, source)
+				mem = splitStore(dest, sel, mem, v, elt, offset+i*elt.Width, firstStorePos)
 				firstStorePos = firstStorePos.WithNotStmt()
 			}
 			return mem
 		case types.TSTRUCT:
-			if t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width == regSize {
-				break
+			if t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width <= regSize {
+				// handle (StructSelect [0] (IData x)) => (IData x)
+				return splitStore(dest, source, mem, v, t.Field(0).Type, offset, firstStorePos)
 			}
 			for i := 0; i < t.NumFields(); i++ {
 				fld := t.Field(i)
-				sel := src.Block.NewValue1I(pos, OpStructSelect, fld.Type, int64(i), src)
-				mem = splitStore(dst, sel, mem, v, fld.Type, offset+fld.Offset, firstStorePos)
+				sel := source.Block.NewValue1I(pos, OpStructSelect, fld.Type, int64(i), source)
+				mem = splitStore(dest, sel, mem, v, fld.Type, offset+fld.Offset, firstStorePos)
 				firstStorePos = firstStorePos.WithNotStmt()
 			}
 			return mem
 		}
+
 		// Default, including for aggregates whose single element exactly fills their container
 		// TODO this will be a problem for cast interfaces containing floats when we move to registers.
-		x := v.Block.NewValue3A(firstStorePos, OpStore, types.TypeMem, t, offsetFrom(dst, offset, t), src, mem)
+		x := v.Block.NewValue3A(firstStorePos, OpStore, types.TypeMem, t, offsetFrom(dest, offset, types.NewPtr(t)), source, mem)
 		if debug {
-			fmt.Printf("splitStore(%v, %v, %v, %v) returns %s\n", dst, src, mem, v, x.LongString())
+			fmt.Printf("splitStore(%v, %v, %v, %v) returns %s\n", dest, source, mem, v, x.LongString())
 		}
 		return x
 	}
@@ -266,6 +312,21 @@ func expandCalls(f *Func) {
 		return mem
 	}
 
+	splitSelectInPlace := func(v *Value, combine Op, t1, t2 *types.Type, off2 int64) {
+		call := v.Args[0] // will become a mem operand, later
+		which := v.AuxInt
+		aux := call.Aux.(*AuxCall)
+		pt := v.Type
+		pos := v.Pos
+		first := offsetFrom(sp, aux.OffsetOfResult(which), types.NewPtr(t1))
+		second := offsetFrom(first, off2, types.NewPtr(t1))
+		v.reset(combine)
+		v.Pos = pos
+		v.SetArgs2(call.Block.NewValue2(v.Pos, OpLoad, t1, first, call),
+			call.Block.NewValue2(v.Pos, OpLoad, t2, second, call))
+		v.Type = pt
+	}
+
 	// Step 0: rewrite the calls to convert incoming args to stores.
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
@@ -292,7 +353,16 @@ func expandCalls(f *Func) {
 		for _, v := range b.Values {
 			if v.Op == OpStore {
 				t := v.Aux.(*types.Type)
-				if isAlreadyExpandedAggregateType(t) {
+				iAEATt := isAlreadyExpandedAggregateType(t)
+				if !iAEATt {
+					// guarding against store immediate struct into interface data field -- store type is *uint8
+					tSrc := v.Args[1].Type
+					iAEATt = isAlreadyExpandedAggregateType(tSrc)
+					if iAEATt {
+						t = tSrc
+					}
+				}
+				if iAEATt {
 					dst, src, mem := v.Args[0], v.Args[1], v.Args[2]
 					mem = splitStore(dst, src, mem, v, t, 0, v.Pos)
 					v.copyOf(mem)
@@ -305,7 +375,7 @@ func expandCalls(f *Func) {
 
 	// Step 2: accumulate selection operations for rewrite in topological order.
 	// Any select-for-addressing applied to call results can be transformed directly.
-	// TODO this is overkill; with the transformation of aggregate references into series of leaf references, it is only necessary to remember and recurse on the leaves.
+	// TODO investigate if only the leaf selectors matter; this may not be true in general because of pending full rewrite of builtin types.
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			// Accumulate chains of selectors for processing in topological order
@@ -313,14 +383,36 @@ func expandCalls(f *Func) {
 			case OpStructSelect, OpArraySelect, OpInt64Hi, OpInt64Lo:
 				w := v.Args[0]
 				switch w.Op {
-				case OpStructSelect, OpArraySelect, OpInt64Hi, OpInt64Lo, OpSelectN:
+				case OpStructSelect, OpArraySelect, OpSelectN:
 					val2Preds[w] += 1
 					if debug {
 						fmt.Printf("v2p[%s] = %d\n", w.LongString(), val2Preds[w])
 					}
 				}
-				fallthrough
+				if _, ok := val2Preds[v]; !ok {
+					val2Preds[v] = 0
+					if debug {
+						fmt.Printf("v2p[%s] = %d\n", v.LongString(), val2Preds[v])
+					}
+				}
+
 			case OpSelectN:
+				switch v.Type.Etype {
+				// Types that have not yet been decomposed, simply split and remake in place, from pieces.
+				case types.TINTER:
+					splitSelectInPlace(v, OpIMake, typ.Uintptr, typ.BytePtr, ptrSize)
+					continue
+				case types.TCOMPLEX64:
+					splitSelectInPlace(v, OpComplexMake, typ.Float32, typ.Float32, 4)
+					continue
+				case types.TCOMPLEX128:
+					splitSelectInPlace(v, OpComplexMake, typ.Float64, typ.Float64, 8)
+					continue
+				case types.TSTRING:
+				case types.TINT64: // for 32-bit
+				case types.TSLICE:
+				}
+
 				if _, ok := val2Preds[v]; !ok {
 					val2Preds[v] = 0
 					if debug {
@@ -333,44 +425,118 @@ func expandCalls(f *Func) {
 				which := v.AuxInt
 				aux := call.Aux.(*AuxCall)
 				pt := v.Type
-				off := f.ConstOffPtrSP(pt, aux.OffsetOfResult(which), sp)
+				off := offsetFrom(sp, aux.OffsetOfResult(which), pt)
 				v.copyOf(off)
 			}
 		}
 	}
 
-	// Compilation must be deterministic
-	var ordered []*Value
-	less := func(i, j int) bool { return ordered[i].ID < ordered[j].ID }
+	// Step 3: Compute topological order of selectors,
+	// then process it in reverse to eliminate duplicates,
+	// then forwards to rewrite selectors.
+	//
+	// All chains of selectors end up in same block as the call.
+	sdom := f.Sdom()
 
-	// Step 3: Rewrite in topological order.  All chains of selectors end up in same block as the call.
+	// Compilation must be deterministic, so sort after extracting first zeroes from map.
+	// Sorting allows dominators-last order within each batch,
+	// so that the backwards scan for duplicates will most often find copies from dominating blocks (it is best-effort).
+	var toProcess []*Value
+	less := func(i, j int) bool {
+		vi, vj := toProcess[i], toProcess[j]
+		bi, bj := vi.Block, vj.Block
+		if bi == bj {
+			return vi.ID < vj.ID
+		}
+		return sdom.domorder(bi) > sdom.domorder(bj) // reverse the order to put dominators last.
+	}
+
+	// Accumulate order in allOrdered
+	var allOrdered []*Value
+	for v, n := range val2Preds {
+		if n == 0 {
+			allOrdered = append(allOrdered, v)
+		}
+	}
+	last := 0 // allOrdered[0:last] has been top-sorted and processed
 	for len(val2Preds) > 0 {
-		ordered = ordered[:0]
-		for v, n := range val2Preds {
-			if n == 0 {
-				ordered = append(ordered, v)
+		toProcess = allOrdered[last:]
+		last = len(allOrdered)
+		sort.Slice(toProcess, less)
+		for _, v := range toProcess {
+			w := v.Args[0]
+			delete(val2Preds, v)
+			n, ok := val2Preds[w]
+			if !ok {
+				continue
+			}
+			if n == 1 {
+				allOrdered = append(allOrdered, w)
+				delete(val2Preds, w)
+				continue
+			}
+			val2Preds[w] = n - 1
+		}
+	}
+
+	common := make(map[selKey]*Value)
+	// Rewrite duplicates as copies where possible.
+	for i := len(allOrdered) - 1; i >= 0; i-- {
+		v := allOrdered[i]
+		w := v.Args[0]
+		for w.Op == OpCopy {
+			w = w.Args[0]
+		}
+		typ := v.Type
+		if typ.IsMemory() {
+			continue // handled elsewhere, not an indexable result
+		}
+		size := typ.Width
+		offset := int64(0)
+		switch v.Op {
+		case OpStructSelect:
+			if w.Type.Etype == types.TSTRUCT {
+				offset = w.Type.FieldOff(int(v.AuxInt))
+			} else { // Immediate interface data artifact, offset is zero.
+				fmt.Printf("Func %s, v=%s, w=%s\n", f.Name, v.LongString(), w.LongString())
+			}
+		case OpArraySelect:
+			offset = size * v.AuxInt
+		case OpInt64Hi:
+			offset = hiOffset
+		case OpInt64Lo:
+			offset = lowOffset
+		case OpSelectN:
+			offset = w.Aux.(*AuxCall).OffsetOfResult(v.AuxInt)
+		}
+		sk := selKey{from: w, size: size, offset: offset, typ: typ.Etype}
+		dupe := common[sk]
+		if dupe == nil {
+			common[sk] = v
+		} else {
+			if sdom.IsAncestorEq(dupe.Block, v.Block) {
+				v.copyOf(dupe)
+			} else {
+				if f.pass.debug > 0 {
+					fmt.Printf("%s is non-dominated copy of %s\n", v.LongString(), dupe.LongString())
+				}
 			}
 		}
-		sort.Slice(ordered, less)
-		for _, v := range ordered {
-			for {
-				w := v.Args[0]
-				if debug {
-					fmt.Printf("About to rewrite %s, args[0]=%s\n", v.LongString(), w.LongString())
-				}
-				delete(val2Preds, v)
-				rewriteSelect(v, v, 0, v.Type)
-				v = w
-				n, ok := val2Preds[v]
-				if !ok {
-					break
-				}
-				if n != 1 {
-					val2Preds[v] = n - 1
-					break
-				}
-			}
+	}
+	// Rewrite selectors.
+	for i, v := range allOrdered {
+		if debug {
+			b := v.Block
+			fmt.Printf("allOrdered[%d] = b%d, %s, uses=%d\n", i, b.ID, v.LongString(), v.Uses)
 		}
+		if v.Uses == 0 {
+			v.reset(OpInvalid)
+			continue
+		}
+		if v.Op == OpCopy {
+			continue
+		}
+		rewriteSelect(v, v, 0, v.Type)
 	}
 
 	// Step 4: rewrite the calls themselves, correcting the type
