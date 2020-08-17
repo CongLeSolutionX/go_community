@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1da4add_621bca92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-17T07:48:19Z",
+      "side": 1,
+      "message": "Thank you for working on this change Yury and welcome to the Go project!\n\nFor performance changes, please include numbers on improvements which you can get by\ngoing into crypto/x509 and then running:\n* Before this change:\ngo test -run\u003d^$ -bench\u003d. -count\u003d10 \u003e before.txt\n\n* After this change:\ngo test -run\u003d^$ -bench\u003d. -count\u003d10 \u003e after.txt\n\nAnd then to compare the results, we\u0027ll use benchstat https://godoc.org/golang.org/x/perf/cmd/benchstat\nbenchstat before.txt after.txt\n\nand then paste the results into your commit message. Thank you!",
+      "revId": "a742879fcccfea04e6a88fd3474e252a74bfd87b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
