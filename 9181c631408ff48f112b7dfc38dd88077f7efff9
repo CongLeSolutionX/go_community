@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f9fda0b_2d2fa1a3",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:20:01Z",
+      "side": 1,
+      "message": "This call to fmt.Sprintf induces extra allocation and processing when tracing is not enabled.\n\nNot a big deal here (since this call only happens once per invocation anyway), but should we factor out a trace.StartSpanf to avoid unnecessary string allocations going forward?",
+      "range": {
+        "startLine": 589,
+        "startChar": 35,
+        "endLine": 589,
+        "endChar": 81
+      },
+      "revId": "9181c631408ff48f112b7dfc38dd88077f7efff9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
