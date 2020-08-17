@@ -16,6 +16,24 @@
       "revId": "abfeec5eb0356d1ac91a097d2124a6b7c8cfccd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8c1fa_6f728ed6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-17T17:09:06Z",
+      "side": 1,
+      "message": "It was following precedent with ErrTimeout. Definitely a foresight from my end, sorry about that. I am going to revert this change. Carlos, please take a look at Dmitri’s comments.",
+      "parentUuid": "515d563e_c6fd3e85",
+      "revId": "abfeec5eb0356d1ac91a097d2124a6b7c8cfccd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
