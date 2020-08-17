@@ -16,6 +16,24 @@
       "revId": "280db3590f0079974997e040121ae59182b39cc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d05abf5_0136386c",
+        "filename": "src/cmd/go/testdata/script/test_json_exit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T19:23:24Z",
+      "side": 1,
+      "message": "\u003e Just wanted to confirm this is the intended behavior w.r.t. golang.org/issue/29062.\n\u003e \n\u003e It looks like the fix for that issue was rolled back, and the consensus is now that \u0027go test\u0027 should panic if \u0027os.Exit(0)\u0027 is called when some flag or environment variable is set. So this test would still be correct.\n\nAs I understand it, the approved behavior for #29062 is to have tests panic if `os.Exit(0)` is called after tests have already started, but to still allow `TestMain` to invoke it explicitly before running tests (as is the case here).\n\n(That proposal is why there is no `testexit0` to parallel `mainexit0` in this script test.)",
+      "parentUuid": "36107457_cc6efe52",
+      "revId": "280db3590f0079974997e040121ae59182b39cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
