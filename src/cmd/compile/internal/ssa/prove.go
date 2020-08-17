@@ -368,6 +368,7 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 				lim.umin = uc
 				lim.umax = uc
 			}
+
 			// We could use the contrapositives of the
 			// signed implications to derive signed facts,
 			// but it turns out not to matter.
@@ -453,8 +454,11 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 	}
 
 	// Process: x+delta > w (with delta constant)
-	// Only signed domain for now (useful for accesses to slices in loops).
+	// Process: x*(2^power) > w (with power constant)
+	// Process: x*multiple > w (with positive multiple constant)
 	if r == gt || r == gt|eq {
+		// Process: x+delta > w (with delta constant)
+		// Only signed domain for now (useful for accesses to slices in loops).
 		if x, delta := isConstDelta(v); x != nil && d == signed {
 			if parent.Func.pass.debug > 1 {
 				parent.Func.Warnl(parent.Pos, "x+d %s w; x:%v %v delta:%v w:%v d:%v", r, x, parent.String(), delta, w.AuxInt, d)
@@ -530,6 +534,49 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 				}
 			}
 		}
+
+		// Process: x*(2^power) > w (power and w are positive constants) x >= 0, w > 0, power >= 0
+		// Process: x*multiple > w (multiple and w constants) x >= 0, w > 0, multiple >= 1
+		// Only signed domain for now (useful for accesses to slices in loops).
+		// only for elim IsSliceInBounds now
+		// for array a *[32]byte, b *[4]uint64
+		// when code of go is a[i*8:] or a[i*3:]
+		if x, multiple := isMulPosConst(ft, v); x != nil && d == signed && ft.isNonNegative(x) && w.isGenericIntConst() {
+			if parent.Func.pass.debug > 1 {
+				parent.Func.Warnl(parent.Pos, "x*d %s w; x:%v %v multiple:%v w:%v d:%v", r, x, parent.String(), multiple, w.AuxInt, d)
+			}
+
+			// With w,multiple constants, w > 0 and multiple > 1, we want to derive: x*multiple > w  ⇒  x > w/multiple
+			// x >= 0, multiple > 0, w >= 0
+			// We compute (using integers of the correct size):
+			// min = w / multiple
+			// max = MaxInt / multiple
+			// And we prove that:
+			// when x, multiple, w are all positive:
+			// min < x <= max
+			var min, max int64
+			var vmin, vmax *Value
+
+			switch x.Type.Size() {
+			case 8:
+				min = w.AuxInt / multiple
+				max = int64(^uint64(0)>>1) / multiple
+
+				vmin = parent.NewValue0I(parent.Pos, OpConst64, parent.Func.Config.Types.Int64, min)
+				vmax = parent.NewValue0I(parent.Pos, OpConst64, parent.Func.Config.Types.Int64, max)
+			case 4:
+				min = int64(int32(w.AuxInt) / int32(multiple))
+				max = int64(int32(^uint32(0)>>1) / int32(multiple))
+
+				vmin = parent.NewValue0I(parent.Pos, OpConst32, parent.Func.Config.Types.Int32, min)
+				vmax = parent.NewValue0I(parent.Pos, OpConst32, parent.Func.Config.Types.Int32, max)
+			default:
+				panic("unimplemented")
+			}
+			ft.update(parent, x, vmin, d, r)
+			ft.update(parent, vmax, x, d, r|eq)
+
+		}
 	}
 
 	// Look through value-preserving extensions.
@@ -589,7 +636,6 @@ func (ft *factsTable) isNonNegative(v *Value) bool {
 	}
 
 	// Check if the recorded limits can prove that the value is positive
-
 	if l, has := ft.limits[v.ID]; has && (l.min >= 0 || l.umax <= uint64(max)) {
 		return true
 	}
@@ -604,6 +650,13 @@ func (ft *factsTable) isNonNegative(v *Value) bool {
 				return true
 			}
 		}
+	}
+
+	// Check if v := x * a or v := x << shift, and we can use x's limits to prove that it's positive
+	if x, _ := isMulPosConst(ft, v); x != nil && ft.isNonNegative(x) {
+		// for v := x * a: when x >= 0 and a is a postive const, we get v >= 0
+		// for v := x << shift: when x >= 0, we get v >= 0
+		return true
 	}
 
 	// Check if v is a value-preserving extension of a non-negative value.
@@ -1405,6 +1458,33 @@ func isConstDelta(v *Value) (w *Value, delta int64) {
 			}
 		}
 	}
+	return nil, 0
+}
+
+// isMulPosConst check if v equivalent to v = w*multiple or v = w<<shift
+// return non-nil when :
+// v = w*multiple : multiple >= 1 (signed)
+// v = w<<shift : shift >= 0 (signed)
+func isMulPosConst(ft *factsTable, v *Value) (w *Value, multiple int64) {
+	cop := OpConst64
+	switch v.Op {
+	case OpMul32:
+		cop = OpConst32
+	}
+	switch v.Op {
+	case OpMul64, OpMul32:
+		if v.Args[0].Op == cop && v.Args[0].AuxInt >= 1 {
+			return v.Args[1], v.Args[0].AuxInt
+		}
+		if v.Args[1].Op == cop && v.Args[1].AuxInt >= 1 {
+			return v.Args[0], v.Args[1].AuxInt
+		}
+	case OpLsh64x64, OpLsh32x32:
+		if v.Args[1].Op == cop && v.Args[1].AuxInt >= 0 {
+			return v.Args[0], int64(1 << uint64(v.Args[1].AuxInt))
+		}
+	}
+
 	return nil, 0
 }
 
