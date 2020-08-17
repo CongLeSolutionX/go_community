@@ -16,6 +16,110 @@
       "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a51039_98298cd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T20:05:37Z",
+      "side": 1,
+      "message": "Looking good so far, IMO. Just some shallow nits at the moment.",
+      "parentUuid": "6f096315_bca549da",
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82044778_3cd0bc20",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T20:05:37Z",
+      "side": 1,
+      "message": "nit: consistency check\n\nhttps://developers.google.com/style/inclusive-documentation#ableist-language",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 16
+      },
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "657c7035_2111eab7",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T20:05:37Z",
+      "side": 1,
+      "message": "Maybe rangesContainsAll? The switch to past tense made me expect at first this would do something different.",
+      "range": {
+        "startLine": 394,
+        "startChar": 5,
+        "endLine": 394,
+        "endChar": 20
+      },
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8732270e_cd69b4b0",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T20:05:37Z",
+      "side": 1,
+      "message": "I think Fatalf would be more appropriate here?",
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a661942a_361d36a0",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T20:05:37Z",
+      "side": 1,
+      "message": "nit: ensures",
+      "range": {
+        "startLine": 437,
+        "startChar": 19,
+        "endLine": 437,
+        "endChar": 26
+      },
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
