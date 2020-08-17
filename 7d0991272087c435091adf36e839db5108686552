@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87713869_281dde9c",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-17T21:18:35Z",
+      "side": 1,
+      "message": "caseReleaseTime",
+      "range": {
+        "startLine": 226,
+        "startChar": 5,
+        "endLine": 226,
+        "endChar": 19
+      },
+      "revId": "7d0991272087c435091adf36e839db5108686552",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
