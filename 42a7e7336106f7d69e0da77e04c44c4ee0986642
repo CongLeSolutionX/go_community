@@ -16,6 +16,24 @@
       "revId": "42a7e7336106f7d69e0da77e04c44c4ee0986642",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72879871_0aa8ccf9",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-17T20:05:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b1c98e7_a3e00280",
+      "revId": "42a7e7336106f7d69e0da77e04c44c4ee0986642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
