@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f95d9b58_652b1118",
+        "filename": "src/cmd/go/internal/modload/mvs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:54:42Z",
+      "side": 1,
+      "message": "The per-mvsReqs semaphore seems out of place to me.\n\nThe point of this semaphore, if I understand correctly, is to limit filesystem and/or network traffic. If we have multiple mvsReqs instances, presumably we want them to share a pool of semaphore tokens, rather than issuing a multiple of the configured request limit.\n\nI suspect that a global semaphore in the modfetch package would be a better fit.",
+      "revId": "eb2c6dfb463418f5cab59da40d990c73ce1164b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

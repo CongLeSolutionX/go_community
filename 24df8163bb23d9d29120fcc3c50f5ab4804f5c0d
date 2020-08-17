@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec41e8dc_6555d370",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:54:42Z",
+      "side": 1,
+      "message": "Hmm, I think we could actually use a semaphore here, making this a semi-concurrent traversal.\n\nThe general idea is to factor out the possibly-concurrent work into a function, and then vary how you call the function based on the semaphore state.\n\n• Try to acquire the semaphore.\n• If a token was available, invoke the function asynchronously (in a new goroutine).\n• Otherwise, either invoke it synchronously or add it to a queue.\n\nActually, that\u0027s pretty much exactly what the par.Queue in CL 247766 does. Maybe it would make sense to rebase this CL on top of that one and reimplement in terms of par.Queue instead of par.Work?\n\n(But this file is already getting a pretty big overhaul in CL 244760 anyway, so maybe we should just leave this par.Work for now.)",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 89
+      },
+      "revId": "24df8163bb23d9d29120fcc3c50f5ab4804f5c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
