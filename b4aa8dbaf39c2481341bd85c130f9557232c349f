@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b28e33f_906c89c3",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:37:36Z",
+      "side": 1,
+      "message": "(nit) This order is inconsistent with the other imports in this file.",
+      "revId": "b4aa8dbaf39c2481341bd85c130f9557232c349f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f5b5ac_3040117c",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:37:36Z",
+      "side": 1,
+      "message": "This might no longer hold when we add lazy loading. I would prefer to put these TODOs inline in moduleInfo calls in the top-level functions.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 30
+      },
+      "revId": "b4aa8dbaf39c2481341bd85c130f9557232c349f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70ecb75a_0187f197",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:37:36Z",
+      "side": 1,
+      "message": "There is already a ctx in scope here, so pass it to moduleInfo rather than injecting context.TODO() via moduleInfoFromBuildList.\n\n(This is another reason I would prefer to avoid the moduleInfoFromBuildList helper: it obscures potential connections like the one here.)",
+      "range": {
+        "startLine": 60,
+        "startChar": 33,
+        "endLine": 60,
+        "endChar": 70
+      },
+      "revId": "b4aa8dbaf39c2481341bd85c130f9557232c349f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
