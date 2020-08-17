@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d060e21_3c46eb06",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:17:19Z",
+      "side": 1,
+      "message": "(not sure)\nA trace span with the name of the calling function seems like the common case.\n\nWould it make sense to write a helper-function using `runtime.Caller` and `runtime.FuncForPC` to reduce the risk of skew if functions are renamed or refactored?",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 18
+      },
+      "revId": "fe4c47c8929d8263e7149bdf2a1a9d1f6710c2ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
