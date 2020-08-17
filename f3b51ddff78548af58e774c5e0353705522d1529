@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5671c7da_241d8531",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T21:26:00Z",
+      "side": 1,
+      "message": "This is ready to merge as soon as the backport issue is approved.",
+      "revId": "f3b51ddff78548af58e774c5e0353705522d1529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
