@@ -22,6 +22,30 @@
       "revId": "9181c631408ff48f112b7dfc38dd88077f7efff9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "647f192e_c14ea0e1",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-17T17:48:37Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll introduce a new CL to do that on top of the stack",
+      "parentUuid": "8f9fda0b_2d2fa1a3",
+      "range": {
+        "startLine": 589,
+        "startChar": 35,
+        "endLine": 589,
+        "endChar": 81
+      },
+      "revId": "9181c631408ff48f112b7dfc38dd88077f7efff9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
