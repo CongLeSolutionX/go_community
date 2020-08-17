@@ -33,7 +33,27 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
+	"strings"
 )
+
+// Return true for functions whose only calls are to
+// panic functions in runtime.
+func isZeroArgRuntimeCall(s *obj.LSym) bool {
+	if s == nil {
+		return false
+	}
+	switch s.Name {
+	case "runtime.panicdivide", "runtime.panicwrap", "runtime.panicshift":
+		return true
+	}
+	if strings.HasPrefix(s.Name, "runtime.panicIndex") || strings.HasPrefix(s.Name, "runtime.panicSlice") {
+		// These functions do take arguments (in registers),
+		// but use no stack before they do a stack check. We
+		// should include them. See issue 31219.
+		return true
+	}
+	return false
+}
 
 func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	p.From.Class = 0
@@ -415,6 +435,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.From.Sym.Set(obj.AttrNoFrame, true)
 		textstksiz = 0
 	}
+
 	if textstksiz%8 != 0 {
 		c.ctxt.Diag("frame size %d not a multiple of 8", textstksiz)
 	}
@@ -615,10 +636,28 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				autosize += int32(c.ctxt.FixedFrameSize())
 			}
 
-			if p.Mark&LEAF != 0 && autosize < objabi.StackSmall {
-				// A leaf function with a small stack can be marked
-				// NOSPLIT, avoiding a stack check.
-				p.From.Sym.Set(obj.AttrNoSplit, true)
+			if autosize < objabi.StackSmall {
+				if p.Mark&LEAF != 0 {
+					p.From.Sym.Set(obj.AttrNoSplit, true)
+				} else {
+					leaf := true
+				LeafSearch:
+					for q := p; q != nil; q = q.Link {
+						switch q.As {
+						case ABL, ABCL:
+							// Don't consider runtime calls to zero arg
+							// panic function when determining leaf status.
+							if !isZeroArgRuntimeCall(q.To.Sym) {
+								leaf = false
+								break LeafSearch
+							}
+						}
+					}
+
+					if leaf {
+						p.From.Sym.Set(obj.AttrNoSplit, true)
+					}
+				}
 			}
 
 			p.To.Offset = int64(autosize)
