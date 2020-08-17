@@ -22,6 +22,30 @@
       "revId": "7d0991272087c435091adf36e839db5108686552",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "037b9700_85a20322",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T22:12:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87713869_281dde9c",
+      "range": {
+        "startLine": 226,
+        "startChar": 5,
+        "endLine": 226,
+        "endChar": 19
+      },
+      "revId": "7d0991272087c435091adf36e839db5108686552",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
