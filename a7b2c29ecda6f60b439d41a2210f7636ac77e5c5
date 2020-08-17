@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b89aa0b6_91ba36b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-17T06:55:05Z",
+      "side": 1,
+      "message": "Thank you for this change Bryan, and great to see your first contribution to the Go project!\n\nPlease rebase from master, but also for performance changes, please use benchmarking\nwith benchstat after comparison of results and performance changes in here to show the performance\nchanges. Thank you.",
+      "revId": "a7b2c29ecda6f60b439d41a2210f7636ac77e5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
