@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a8ef591_3e54a256",
+        "filename": "src/cmd/go/internal/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:09:58Z",
+      "side": 1,
+      "message": "Named constants — perhaps even a distinct named type? — for the phases would make this easier for me to follow.\n\n(I found a table in https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#heading\u003dh.puwqg050lyuy, but without that table the meaning of the letter is a bit obscure.)",
+      "revId": "c23cac4424abe12a01a49361afb9532097efe62d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
