@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e817592_201c7ec6",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1806,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T19:13:57Z",
+      "side": 1,
+      "message": "It seems odd to check for the ParentError method without actually invoking it.\nIs there a semantically-meaningful method we can provide instead?\n\nActually, the modload registers a bunch of hooks with the load package — would it make sense to register an `IsImportMissingError` predicate function instead of relying on a type-assertion?",
+      "revId": "135da877edfd3e1a472bbcdf3e5007e57bc40d45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17da720_f83e23f8",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T19:13:57Z",
+      "side": 1,
+      "message": "Please add a doc comment for this method. (What does a “parent error” mean in this context?)",
+      "revId": "135da877edfd3e1a472bbcdf3e5007e57bc40d45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be4b9a71_6e358fcd",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T19:13:57Z",
+      "side": 1,
+      "message": "Is this type used in this CL? (I\u0027m having trouble finding a construction site.)",
+      "revId": "135da877edfd3e1a472bbcdf3e5007e57bc40d45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf3ea57_c69b2add",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T19:13:57Z",
+      "side": 1,
+      "message": "s/Erorr/Error/",
+      "range": {
+        "startLine": 66,
+        "startChar": 51,
+        "endLine": 66,
+        "endChar": 69
+      },
+      "revId": "135da877edfd3e1a472bbcdf3e5007e57bc40d45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b60372_23a9d950",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T19:13:57Z",
+      "side": 1,
+      "message": "Agreed: \u0027go fmt\u0027 should be able to format files even when they contain unresolved imports.\n\n(#30975 is closely related.)",
+      "range": {
+        "startLine": 210,
+        "startChar": 80,
+        "endLine": 211,
+        "endChar": 41
+      },
+      "revId": "135da877edfd3e1a472bbcdf3e5007e57bc40d45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
