@@ -22,6 +22,30 @@
       "revId": "fe4c47c8929d8263e7149bdf2a1a9d1f6710c2ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8791eaa9_974d36ff",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-17T17:48:37Z",
+      "side": 1,
+      "message": "I think it\u0027s a good idea. I\u0027d like to submit these (mostly) as is, but I\u0027ll add create a new CL that we can discuss on.",
+      "parentUuid": "1d060e21_3c46eb06",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 18
+      },
+      "revId": "fe4c47c8929d8263e7149bdf2a1a9d1f6710c2ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
