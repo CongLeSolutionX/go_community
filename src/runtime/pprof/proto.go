@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"os"
 	"runtime"
 	"strconv"
 	"time"
@@ -407,6 +408,10 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 			// Even if stk was truncated due to the stack depth
 			// limit, expandFinalInlineFrame above has already
 			// fixed the truncation, ensuring it is long enough.
+			if len(l.pcs) < len(stk) {
+				// Temporary logging for golang.org/issues/40823
+				dumpState(l, stk)
+			}
 			stk = stk[len(l.pcs):]
 			continue
 		}
@@ -444,6 +449,16 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 		locs = append(locs, id)
 	}
 	return locs
+}
+
+func dumpState(l locInfo, stk []uintptr) {
+	buf := new(bytes.Buffer)
+	buf.WriteString("stk:")
+	printStackRecord(buf, stk, true)
+	buf.WriteString("\n")
+	buf.WriteString("l.pcs:")
+	printStackRecord(buf, l.pcs, true)
+	fmt.Fprintln(os.Stderr, buf.String())
 }
 
 // pcDeck is a helper to detect a sequence of inlined functions from
