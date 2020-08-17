@@ -16,6 +16,23 @@
       "revId": "09dd6882b924dc2511ccd2e636162c905266c6f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef9abd6d_07c595cc",
+        "filename": "test/fixedbugs/issue8606b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T22:08:16Z",
+      "side": 1,
+      "message": "Use reflect.StringHeader for manipulating these strings?",
+      "revId": "09dd6882b924dc2511ccd2e636162c905266c6f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
