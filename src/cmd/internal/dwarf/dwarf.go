@@ -101,26 +101,26 @@ func EnableLogging(doit bool) {
 	logDwarf = doit
 }
 
-// UnifyRanges merges the list of ranges of c into the list of ranges of s
-func (s *Scope) UnifyRanges(c *Scope) {
-	out := make([]Range, 0, len(s.Ranges)+len(c.Ranges))
-
+// MergeRanges merges the ranges from 'src' into the ranges in 'dst'
+// and returns the result.
+func MergeRanges(src, dst []Range) []Range {
+	out := make([]Range, 0, len(src)+len(dst))
 	i, j := 0, 0
 	for {
 		var cur Range
-		if i < len(s.Ranges) && j < len(c.Ranges) {
-			if s.Ranges[i].Start < c.Ranges[j].Start {
-				cur = s.Ranges[i]
+		if i < len(dst) && j < len(src) {
+			if dst[i].Start < src[j].Start {
+				cur = dst[i]
 				i++
 			} else {
-				cur = c.Ranges[j]
+				cur = src[j]
 				j++
 			}
-		} else if i < len(s.Ranges) {
-			cur = s.Ranges[i]
+		} else if i < len(dst) {
+			cur = dst[i]
 			i++
-		} else if j < len(c.Ranges) {
-			cur = c.Ranges[j]
+		} else if j < len(src) {
+			cur = src[j]
 			j++
 		} else {
 			break
@@ -133,7 +133,12 @@ func (s *Scope) UnifyRanges(c *Scope) {
 		}
 	}
 
-	s.Ranges = out
+	return out
+}
+
+// UnifyRanges merges the ranges from 'c' into the list of ranges for 's'.
+func (s *Scope) UnifyRanges(c *Scope) {
+	s.Ranges = MergeRanges(s.Ranges, c.Ranges)
 }
 
 // AppendRange adds r to s, if r is non-empty.

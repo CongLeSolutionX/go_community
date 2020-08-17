@@ -8,6 +8,7 @@ import (
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
 	"cmd/internal/src"
+	"fmt"
 	"strings"
 )
 
@@ -170,10 +171,30 @@ func assembleInlines(fnsym *obj.LSym, dwVars []*dwarf.Var) dwarf.InlCalls {
 		addRange(inlcalls.Calls, start, fnsym.Size, curii, imap)
 	}
 
+	// Issue 33188: if II foo is a child of II bar, then insure that
+	// bar's ranges include the ranges of foo (the loop above will produce
+	// disjoint ranges).
+	for k, c := range inlcalls.Calls {
+		if c.Root {
+			unifyCallRanges(inlcalls, k)
+		}
+	}
+
 	// Debugging
 	if Debug_gendwarfinl != 0 {
 		dumpInlCalls(inlcalls)
 		dumpInlVars(dwVars)
+	}
+
+	// Sanity check inlined routine PC ranges produced by
+	// unifyCallRanges above. In particular, complain in cases where
+	// you have A -> B -> C (e.g. C is inlined into B, and B is
+	// inlined into A) and the ranges for B are not enclosed within
+	// the ranges for A, or C within B.
+	for k, c := range inlcalls.Calls {
+		if c.Root {
+			checkInlCall(fnsym.Name, inlcalls, fnsym.Size, k, -1)
+		}
 	}
 
 	return inlcalls
@@ -353,5 +374,76 @@ func dumpInlVars(dwvars []*dwarf.Var) {
 			ia = 1
 		}
 		Ctxt.Logf("V%d: %s CI:%d II:%d IA:%d %s\n", i, dwv.Name, dwv.ChildIndex, dwv.InlIndex-1, ia, typ)
+	}
+}
+
+func rangesContains(par []dwarf.Range, rng dwarf.Range) (bool, string) {
+	for _, r := range par {
+		if rng.Start >= r.Start && rng.End <= r.End {
+			return true, ""
+		}
+	}
+	msg := fmt.Sprintf("range [%d,%d) not contained in {", rng.Start, rng.End)
+	for _, r := range par {
+		msg += fmt.Sprintf(" [%d,%d)", r.Start, r.End)
+	}
+	msg += " }"
+	return false, msg
+}
+
+func rangesContained(parent, child []dwarf.Range) (bool, string) {
+	for _, r := range child {
+		c, m := rangesContains(parent, r)
+		if !c {
+			return false, m
+		}
+	}
+	return true, ""
+}
+
+// checkInlCall verifies that the PC ranges for inline info 'idx' are
+// enclosed/contained within the ranges of its parent inline (or if
+// this is a root/toplevel inline, checks that the ranges fall within
+// the extent of the top level function). A panic is issued if a
+// malformed range is found.
+func checkInlCall(fname string, inlcalls dwarf.InlCalls, fnsize int64, idx, par int) {
+
+	// Callee
+	ic := inlcalls.Calls[idx]
+	callee := Ctxt.InlTree.InlinedFunction(ic.InlIndex).Name
+	cranges := ic.Ranges
+
+	// Caller
+	caller := fname
+	pranges := []dwarf.Range{dwarf.Range{Start: int64(0), End: fnsize}}
+	if par != -1 {
+		pic := inlcalls.Calls[par]
+		caller = Ctxt.InlTree.InlinedFunction(pic.InlIndex).Name
+		pranges = pic.Ranges
+	}
+
+	// Callee ranges contained in caller ranges?
+	c, m := rangesContained(pranges, cranges)
+	if !c {
+		panic(fmt.Sprintf("** malformed inlined routine range in %s: caller %s callee %s II=%d %s\n", fname, caller, callee, idx, m))
+	}
+
+	// Now visit kids
+	for _, k := range ic.Children {
+		checkInlCall(fname, inlcalls, fnsize, k, idx)
+	}
+}
+
+// unifyCallRanges insures that the ranges for a given inline
+// transitively include all of the ranges for its child inlines.
+func unifyCallRanges(inlcalls dwarf.InlCalls, idx int) {
+	ic := &inlcalls.Calls[idx]
+	for _, childIdx := range ic.Children {
+		// First make sure child ranges are unified.
+		unifyCallRanges(inlcalls, childIdx)
+
+		// Then merge child ranges into ranges for this inline.
+		cic := inlcalls.Calls[childIdx]
+		ic.Ranges = dwarf.MergeRanges(ic.Ranges, cic.Ranges)
 	}
 }
