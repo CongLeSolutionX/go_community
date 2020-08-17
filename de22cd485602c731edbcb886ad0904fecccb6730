@@ -16,6 +16,23 @@
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c47e30a_1eaa2e3e",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-17T14:59:18Z",
+      "side": 1,
+      "message": "Actually, I\u0027m not sure this is the right thing to do (although we do it on some architectures). See my comment for Wasm: https://go-review.googlesource.com/c/go/+/207399/2/src/cmd/internal/obj/wasm/wasmobj.go#790 , copied below:\n\nActually, I\u0027m not sure why no-argument matters. The argument area will be counted in frame size, if there is one.\n\nThe problem is, the callee functions must NOT be nosplit (including auto-nosplit). Otherwise we could use more stack size than StackSmall below the stack guard. Currently there is no guarantee for that. Maybe it is fine for a hard-coded small set. We need some mechanism to ensure those are not nosplit.",
+      "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
