@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36107457_cc6efe52",
+        "filename": "src/cmd/go/testdata/script/test_json_exit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-17T16:41:40Z",
+      "side": 1,
+      "message": "Just wanted to confirm this is the intended behavior w.r.t. golang.org/issue/29062.\n\nIt looks like the fix for that issue was rolled back, and the consensus is now that \u0027go test\u0027 should panic if \u0027os.Exit(0)\u0027 is called when some flag or environment variable is set. So this test would still be correct.",
+      "revId": "280db3590f0079974997e040121ae59182b39cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
