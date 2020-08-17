@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9b4fcaab_8fe2daa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-17T04:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8830ce5_c9d03755",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebb99013_0b88cabf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
