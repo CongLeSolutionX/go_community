@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "8e217214_a33e88bf",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:01:09Z",
+      "side": 1,
+      "message": "Maybe \"pctab offsets of 0\"?",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 16
+      },
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29c3b718_d502f0b7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:01:09Z",
+      "side": 1,
+      "message": "In a sense this is fine, but isn\u0027t this exactly what carrier symbols are for? And then you get the benefits of engineering that have gone into making Layout and Asmb really fast.",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24b1ecbb_4aed4d69",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -25,6 +65,80 @@
     },
     {
       "key": {
+        "uuid": "7bdf6c8d_d948f351",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:01:09Z",
+      "side": 1,
+      "message": "The \"if\" that was here before was important. It\u0027s possible for numPCData to already be greater than PCDATA_InlTreeIndex+1 from above, in which case you don\u0027t want to reduce it here.",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b9817c_c8581625",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:01:09Z",
+      "side": 1,
+      "message": "What happens here if fi.Pcdata is sparse? A function doesn\u0027t necessarily have all of the PCDATA tables.",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d285b2ec_25f08406",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:01:09Z",
+      "side": 1,
+      "message": "Something seems fishy here, but maybe I\u0027m just not following the code right. What happens in the loop just above if fi.Pcdata() includes PCDATA tables beyond the inltree? Is the loop above going to write out some value and then the if here just going to overwrite it with the inltree offset?",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1afba880_1c2e3dbf",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:01:09Z",
+      "side": 1,
+      "message": "off + objabi.PCDATA_InlTreeIndex*4",
+      "range": {
+        "startLine": 741,
+        "startChar": 36,
+        "endLine": 741,
+        "endChar": 41
+      },
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c787d1d2_a0bf628c",
         "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
         "patchSetId": 5
@@ -36,6 +150,24 @@
       "writtenOn": "2020-08-14T15:06:09Z",
       "side": 1,
       "message": "Maybe add some comment? It is not obvious to me what this function does without reading the code. Also, as this is very similar to AddStringAt, what about AddBytesAt or AddDataAt?",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1684d222_e813f9d7",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T13:01:09Z",
+      "side": 1,
+      "message": "(If we switch to a carrier symbol, which I ask about in a comment above, I think we no longer need this method.)",
+      "parentUuid": "c787d1d2_a0bf628c",
       "revId": "265a4050186191653270353e928eee2677861d12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
