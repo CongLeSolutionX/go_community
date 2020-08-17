@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "370603a8_7817f00e",
+        "filename": "src/runtime/map_fast64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 17951
+      },
+      "writtenOn": "2020-08-17T05:16:28Z",
+      "side": 1,
+      "message": "Bit late now but: ore -\u003e or",
+      "revId": "f979d072d339a24e4938d46588c153587d61af19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
