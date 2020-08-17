@@ -82,6 +82,54 @@
     },
     {
       "key": {
+        "uuid": "8cafa0d1_323448e8",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-17T04:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92224e6c_4081380d",
+      "range": {
+        "startLine": 306,
+        "startChar": 47,
+        "endLine": 306,
+        "endChar": 50
+      },
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39391065_e874ec81",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-17T04:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74275c27_e65c1999",
+      "range": {
+        "startLine": 306,
+        "startChar": 9,
+        "endLine": 306,
+        "endChar": 13
+      },
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9e4fe56_56e2c502",
         "filename": "src/runtime/map_fast32.go",
         "patchSetId": 1
@@ -99,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "f783980c_0741aeed",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-17T04:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9e4fe56_56e2c502",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b314f885_8b17d471",
         "filename": "src/runtime/map_fast64.go",
         "patchSetId": 1
@@ -113,6 +179,24 @@
       "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce57c14c_18c56025",
+        "filename": "src/runtime/map_fast64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-17T04:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b314f885_8b17d471",
+      "revId": "53eee26f9e3b1c88469b4ab31ae0c4785ef4838a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
