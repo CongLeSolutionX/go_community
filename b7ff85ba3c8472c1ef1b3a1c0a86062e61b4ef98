@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2e5ff08_6e7f7f36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-17T20:31:30Z",
+      "side": 1,
+      "message": "This patch series is largely ready for review. The 4th CL (split PCs out of scase) has a known issue with the race detector that I need to resolve. I\u0027ve left a comment identifying and explaining it.",
+      "revId": "b7ff85ba3c8472c1ef1b3a1c0a86062e61b4ef98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
