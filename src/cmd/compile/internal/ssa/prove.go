@@ -204,10 +204,13 @@ func newFactsTable(f *Func) *factsTable {
 // restricting it to r.
 func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 	if parent.Func.pass.debug > 2 {
-		parent.Func.Warnl(parent.Pos, "parent=%s, update %s %s %s", parent, v, w, r)
+		parent.Func.Warnl(parent.Pos, "parent=%s, update %s %s %s %s", parent, v, w, r, d)
 	}
 	// No need to do anything else if we already found unsat.
 	if ft.unsat {
+		if parent.Func.pass.debug > 2 {
+			parent.Func.Warnl(parent.Pos, "unsat do nothing %s %s %s %s", v, w, r, d)
+		}
 		return
 	}
 
@@ -244,7 +247,7 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 		}
 		if !ok {
 			if parent.Func.pass.debug > 2 {
-				parent.Func.Warnl(parent.Pos, "unsat %s %s %s", v, w, r)
+				parent.Func.Warnl(parent.Pos, "unsat %s %s %s %s", v, w, r, d)
 			}
 			ft.unsat = true
 			return
@@ -368,6 +371,7 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 				lim.umin = uc
 				lim.umax = uc
 			}
+
 			// We could use the contrapositives of the
 			// signed implications to derive signed facts,
 			// but it turns out not to matter.
@@ -380,6 +384,9 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 		}
 		if lim.min > lim.max || lim.umin > lim.umax {
 			ft.unsat = true
+			if v.Block.Func.pass.debug > 2 {
+				v.Block.Func.Warnl(parent.Pos, "unsat parent=%s, new limits %s %s %s %s", parent, v, w, r, lim)
+			}
 			return
 		}
 	}
@@ -453,8 +460,11 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 	}
 
 	// Process: x+delta > w (with delta constant)
-	// Only signed domain for now (useful for accesses to slices in loops).
+	// Process: x*(2^power) > w (with power constant)
+	// Process: x*multiple > w (with positive multiple constant)
 	if r == gt || r == gt|eq {
+		// Process: x+delta > w (with delta constant)
+		// Only signed domain for now (useful for accesses to slices in loops).
 		if x, delta := isConstDelta(v); x != nil && d == signed {
 			if parent.Func.pass.debug > 1 {
 				parent.Func.Warnl(parent.Pos, "x+d %s w; x:%v %v delta:%v w:%v d:%v", r, x, parent.String(), delta, w.AuxInt, d)
@@ -530,6 +540,44 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 				}
 			}
 		}
+
+		// Process: (x << shift) > w (shift and w are constants) x >= 0, w >= 0, shift >= 0
+		// Process: x * multiple > w (multiple and w are constants) x >= 0, w >= 0, multiple > 1
+		// Only signed domain for now (useful for accesses to slices in loops, for eliminate IsSliceInBounds).
+		// for example : array a *[32]byte, b *[4]uint64
+		// when use a[i*8:] or a[i*3:] if 0=< i < 4, we can eliminate IsSliceInBounds
+		if x, multiple := isMulPosConst(ft, v); x != nil && d == signed && ft.isNonNegative(x) && w.isGenericIntConst() && w.AuxInt >= 0 {
+			if parent.Func.pass.debug > 1 {
+				parent.Func.Warnl(parent.Pos, "x*d %s w; x:%v %v d:%v w:%v d:%v", r, x, parent.String(), multiple, w.AuxInt, d)
+			}
+
+			// With two conditions: 1. w and multiple are constants. 2. w >= 0, multiple > 0, shift >= 0, x >= 0
+			// we want to derive:
+			// 1. x*multiple > w  ⇒  x > w/multiple
+			// 2. x*multiple >= w and w % multiple != 0 ⇒  x >= w/multiple + 1
+			// We compute (using integers of the correct size):
+			// min = w / multiple
+			var min int64
+			var vmin *Value
+
+			switch x.Type.Size() {
+			case 8:
+				min = w.AuxInt / multiple
+				if r == gt|eq && w.AuxInt%multiple != 0 {
+					min += 1
+				}
+				vmin = parent.NewValue0I(parent.Pos, OpConst64, parent.Func.Config.Types.Int64, min)
+			case 4:
+				min = int64(int32(w.AuxInt) / int32(multiple))
+				if r == gt|eq && int32(w.AuxInt)%int32(multiple) != 0 {
+					min += 1
+				}
+				vmin = parent.NewValue0I(parent.Pos, OpConst32, parent.Func.Config.Types.Int32, min)
+			default:
+				panic("unimplemented")
+			}
+			ft.update(parent, x, vmin, d, r)
+		}
 	}
 
 	// Look through value-preserving extensions.
@@ -589,7 +637,6 @@ func (ft *factsTable) isNonNegative(v *Value) bool {
 	}
 
 	// Check if the recorded limits can prove that the value is positive
-
 	if l, has := ft.limits[v.ID]; has && (l.min >= 0 || l.umax <= uint64(max)) {
 		return true
 	}
@@ -602,6 +649,29 @@ func (ft *factsTable) isNonNegative(v *Value) bool {
 			}
 			if delta < 0 && l.min >= -delta {
 				return true
+			}
+		}
+	}
+
+	// Check for expressions: v = x * a or v = x << shift,
+	// when x >= 0, a >= 0, we can use x's limits to prove that v is positive
+	// Because the multiplication overflows,
+	// this is just part of x's range in v = x * a(v >= 0),
+	// but is enough here.
+	if x, mul := isMulPosConst(ft, v); x != nil && ft.isNonNegative(x) {
+		// for v := x * mul: when x >= 0, mul >= 1, l.max <= maxint/mul, we get v >= 0
+		if l, has := ft.limits[x.ID]; has {
+			switch x.Type.Size() {
+			case 8:
+				maxv := int64(^uint64(0)>>1) / mul
+				if l.max <= maxv {
+					return true
+				}
+			case 4:
+				maxv := int64(int32(^uint32(0)>>1) / int32(mul))
+				if l.max <= maxv {
+					return true
+				}
 			}
 		}
 	}
@@ -1405,6 +1475,33 @@ func isConstDelta(v *Value) (w *Value, delta int64) {
 			}
 		}
 	}
+	return nil, 0
+}
+
+// isMulPosConst check if v equivalent to v = w*multiple or v = w<<shift
+// return non-nil when :
+// v = w*multiple : multiple >= 1 (signed)
+// v = w<<shift : shift >= 0 (signed)
+func isMulPosConst(ft *factsTable, v *Value) (w *Value, multiple int64) {
+	cop := OpConst64
+	switch v.Op {
+	case OpMul32:
+		cop = OpConst32
+	}
+	switch v.Op {
+	case OpMul64, OpMul32:
+		if v.Args[0].Op == cop && v.Args[0].AuxInt >= 1 {
+			return v.Args[1], v.Args[0].AuxInt
+		}
+		if v.Args[1].Op == cop && v.Args[1].AuxInt >= 1 {
+			return v.Args[0], v.Args[1].AuxInt
+		}
+	case OpLsh64x64, OpLsh32x32:
+		if v.Args[1].Op == cop && v.Args[1].AuxInt >= 0 {
+			return v.Args[0], int64(1 << uint64(v.Args[1].AuxInt))
+		}
+	}
+
 	return nil, 0
 }
 
