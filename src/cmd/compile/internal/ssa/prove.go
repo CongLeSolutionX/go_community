@@ -453,8 +453,11 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 	}
 
 	// Process: x+delta > w (with delta constant)
-	// Only signed domain for now (useful for accesses to slices in loops).
+	// Process: x*(2^power) > w (with power constant)
+	// Process: x*multiple > w (with multiple constant)
 	if r == gt || r == gt|eq {
+		// Process: x+delta > w (with delta constant)
+		// Only signed domain for now (useful for accesses to slices in loops).
 		if x, delta := isConstDelta(v); x != nil && d == signed {
 			if parent.Func.pass.debug > 1 {
 				parent.Func.Warnl(parent.Pos, "x+d %s w; x:%v %v delta:%v w:%v d:%v", r, x, parent.String(), delta, w.AuxInt, d)
@@ -528,6 +531,83 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 						}
 					}
 				}
+			}
+		}
+
+		if x, power := isLshConst(v); x != nil && x.AuxInt >= 0 && power >= 0 && d == unsigned {
+			if parent.Func.pass.debug > 1 {
+				parent.Func.Warnl(parent.Pos, "x*(2^d) %s w; x:%v %v power:%v w:%v d:%v", r, x, parent.String(), power, w.AuxInt, d)
+			}
+			if w.isGenericIntConst() {
+				// With w,multiplicand constants, we want to derive: x*(2^d) > w  ⇒  x > w/(2^d)
+				//
+				// We compute (using integers of the correct size):
+				//    min = w / (2^d)
+				//    max = MaxInt / (2^d)
+				//
+				// And we prove that:
+				//    for min<max: min < x AND x <= max
+				var min, max int64
+				var vmin, vmax *Value
+
+				switch x.Type.Size() {
+				case 8:
+					min = int64(w.AuxInt >> power)
+					max = int64((^uint64(0) >> 1) >> power)
+
+					vmin = parent.NewValue0I(parent.Pos, OpConst64, parent.Func.Config.Types.Int64, min)
+					vmax = parent.NewValue0I(parent.Pos, OpConst64, parent.Func.Config.Types.Int64, max)
+
+				case 4:
+					min = int64(int32(w.AuxInt) >> power)
+					max = int64(int32((^uint32(0) >> 1) >> power))
+
+					vmin = parent.NewValue0I(parent.Pos, OpConst32, parent.Func.Config.Types.Int32, min)
+					vmax = parent.NewValue0I(parent.Pos, OpConst32, parent.Func.Config.Types.Int32, max)
+
+				default:
+					panic("unimplemented")
+				}
+				ft.update(parent, x, vmin, d, r)
+				ft.update(parent, vmax, x, d, r|eq)
+			}
+		}
+		if x, multiple := isMulConst(v); x != nil && x.AuxInt >= 0 && multiple >= 0 && d == unsigned {
+			if parent.Func.pass.debug > 1 {
+				parent.Func.Warnl(parent.Pos, "x*d %s w; x:%v %v multiple:%v w:%v d:%v", r, x, parent.String(), multiple, w.AuxInt, d)
+			}
+			if w.isGenericIntConst() && multiple >= 0 {
+				// With w,multiple constants, we want to derive: x*multiple > w  ⇒  x > w/multiple
+				//
+				// We compute (using integers of the correct size):
+				//    min = w / multiple
+				//    max = MaxInt / multiple
+				//
+				// And we prove that:
+				//    for min<max: min < x AND x <= max
+				var min, max int64
+				var vmin, vmax *Value
+
+				switch x.Type.Size() {
+				case 8:
+					min = w.AuxInt / multiple
+					max = int64(^uint64(0)>>1) / multiple
+
+					vmin = parent.NewValue0I(parent.Pos, OpConst64, parent.Func.Config.Types.Int64, min)
+					vmax = parent.NewValue0I(parent.Pos, OpConst64, parent.Func.Config.Types.Int64, max)
+
+				case 4:
+					min = int64(int32(w.AuxInt) / int32(multiple))
+					max = int64(int32(^uint32(0)>>1) / int32(multiple))
+
+					vmin = parent.NewValue0I(parent.Pos, OpConst32, parent.Func.Config.Types.Int32, min)
+					vmax = parent.NewValue0I(parent.Pos, OpConst32, parent.Func.Config.Types.Int32, max)
+
+				default:
+					panic("unimplemented")
+				}
+				ft.update(parent, x, vmin, d, r)
+				ft.update(parent, vmax, x, d, r|eq)
 			}
 		}
 	}
@@ -1403,6 +1483,41 @@ func isConstDelta(v *Value) (w *Value, delta int64) {
 			if aux != -aux { // Overflow; too bad
 				return v.Args[0], -aux
 			}
+		}
+	}
+	return nil, 0
+}
+
+// isLshConst returns non-nil if v is equivalent to w*(2^power) (signed).
+func isLshConst(v *Value) (w *Value, power uint64) {
+	cop := OpConst64
+	switch v.Op {
+	case OpLsh32x32:
+		cop = OpConst32
+	}
+	switch v.Op {
+	case OpLsh64x64, OpLsh32x32:
+		if v.Args[1].Op == cop {
+			return v.Args[0], uint64(v.Args[1].AuxInt)
+		}
+	}
+	return nil, 0
+}
+
+// isMulConst returns non-nil if v is equivalent to w*multiple (signed).
+func isMulConst(v *Value) (w *Value, multiple int64) {
+	cop := OpConst64
+	switch v.Op {
+	case OpMul32:
+		cop = OpConst32
+	}
+	switch v.Op {
+	case OpMul64, OpMul32:
+		if v.Args[0].Op == cop {
+			return v.Args[1], v.Args[0].AuxInt
+		}
+		if v.Args[1].Op == cop {
+			return v.Args[0], v.Args[1].AuxInt
 		}
 	}
 	return nil, 0
