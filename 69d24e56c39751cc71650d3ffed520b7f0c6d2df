@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b97199a_ee09ced4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-17T23:37:12Z",
+      "side": 1,
+      "message": "I can update the CL to include R11 as well.",
+      "revId": "69d24e56c39751cc71650d3ffed520b7f0c6d2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
