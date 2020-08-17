@@ -51,6 +51,24 @@
       "revId": "3d47e5eeea02ffc9c39437f3d95a4090c0f86043",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58df3103_ff14a529",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T14:44:22Z",
+      "side": 1,
+      "message": "Yeah, I saw there were several comments on that and it looks like a somewhat non-trivial change, so I think I\u0027ll go ahead with the revert so this stuff can get worked out off the dashboard.",
+      "parentUuid": "4c576ac2_4539d44c",
+      "revId": "3d47e5eeea02ffc9c39437f3d95a4090c0f86043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
