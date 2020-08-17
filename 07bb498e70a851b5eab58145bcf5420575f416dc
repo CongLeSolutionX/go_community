@@ -16,6 +16,23 @@
       "revId": "07bb498e70a851b5eab58145bcf5420575f416dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6de57a_efaa4560",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2020-08-17T18:51:00Z",
+      "side": 1,
+      "message": "Nice catch. LGTM.",
+      "revId": "07bb498e70a851b5eab58145bcf5420575f416dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
