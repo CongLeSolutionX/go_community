@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d91ad8fd_df0ef046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-08-17T18:59:33Z",
+      "side": 1,
+      "message": "I would provide more of a description of changes you made, such as: added rules and ops to generate madd* instructions on power9 where they are beneficial. A new register allocation rule was needed for the 3 register operand case to the new PPC64 ops.\n\nPersonally I don\u0027t think I\u0027d share that the ordering is different from fmadd or that we have some other instructions that aren\u0027t useful. I don\u0027t think we need that in the log, but maybe could be noted in our issue to document what was done or not done or in our asm documentation.",
+      "revId": "6475aa4fb99afef5c254169b146e821ad3e6c3f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "618cbca3_f61d52c2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -33,6 +50,23 @@
       "revId": "6475aa4fb99afef5c254169b146e821ad3e6c3f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8009bcd3_e03f3b0c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-08-17T18:59:33Z",
+      "side": 1,
+      "message": "integer?",
+      "revId": "6475aa4fb99afef5c254169b146e821ad3e6c3f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
