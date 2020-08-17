@@ -4710,7 +4710,7 @@ func (s *state) getClosureAndRcvr(fn *Node) (*ssa.Value, *ssa.Value) {
 	s.nilCheck(itab)
 	itabidx := fn.Xoffset + 2*int64(Widthptr) + 8 // offset of fun field in runtime.itab
 	closure := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.UintptrPtr, itabidx, itab)
-	rcvr := s.newValue1(ssa.OpIData, types.Types[TUINTPTR], i)
+	rcvr := s.newValue1(ssa.OpIData, s.f.Config.Types.BytePtr, i)
 	return closure, rcvr
 }
 
