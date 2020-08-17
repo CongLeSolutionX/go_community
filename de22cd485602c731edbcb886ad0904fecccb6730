@@ -51,6 +51,24 @@
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b96a3c9a_f3413346",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-17T15:51:22Z",
+      "side": 1,
+      "message": "I never liked that code in x86, either. But there seems nothing really bad happens, so I don\u0027t have a compelling reason to take it out, either...\n\nRe extra 16 bytes, is it due to the reserved 4-word fixed frame size? Could you show an example?",
+      "parentUuid": "1b5c3e0d_99d4ec27",
+      "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
