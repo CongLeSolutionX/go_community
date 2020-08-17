@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c708685_0d600cc9",
+        "filename": "src/cmd/go/internal/modcmd/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-17T17:27:17Z",
+      "side": 1,
+      "message": "Should seen start out with an entry for modload.Target?",
+      "revId": "39087ebf78d03d6be5c0a6bea0534208a82a5f40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
