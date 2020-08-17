@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b1c98e7_a3e00280",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T19:40:07Z",
+      "side": 1,
+      "message": "I think you want to lift this outside the \"if numPCData\" check. As it is, if we add another PCDATA table after PCDATA_InlTreeIndex, the code below that checks writeInlTreePCData will stop writing the PCDATA_InlTreeIndex offset.",
+      "revId": "42a7e7336106f7d69e0da77e04c44c4ee0986642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

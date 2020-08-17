@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "4f026b22_c6523151",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T19:40:07Z",
+      "side": 1,
+      "message": "Le sigh. Thanks for adding the TODO comment.",
+      "parentUuid": "b9116c45_e04eabd8",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24b1ecbb_4aed4d69",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -160,6 +178,24 @@
       "side": 1,
       "message": "I was unable to ever find a case where that was true, so considered it vestigial of a different time and place. I\u0027ll re-add the code, but I have yet to see an instance of that.",
       "parentUuid": "7bdf6c8d_d948f351",
+      "revId": "265a4050186191653270353e928eee2677861d12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d16aaeb_83223757",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-17T19:40:07Z",
+      "side": 1,
+      "message": "That\u0027s only because PCDATA_InlTreeIndex just happens to be the highest-numbered PCDATA table right now, but I definitely don\u0027t want to bake that assumption in here. Hopefully if we move inltree generation to the compiler, it can also generate the PCDATA and all of this special logic will just evaporate.",
+      "parentUuid": "2fea75f5_71f9fc15",
       "revId": "265a4050186191653270353e928eee2677861d12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
