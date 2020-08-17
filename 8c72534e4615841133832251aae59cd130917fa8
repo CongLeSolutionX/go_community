@@ -33,6 +33,24 @@
       "revId": "8c72534e4615841133832251aae59cd130917fa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb42fba_bce12043",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34474
+      },
+      "writtenOn": "2020-08-17T14:22:08Z",
+      "side": 1,
+      "message": "Sorry for the trouble, I closed the github pull request by accident after I rebase from master. It seems that the CL is be abandoned and I can\u0027t reopen it.",
+      "parentUuid": "65bb062c_34ce4671",
+      "revId": "8c72534e4615841133832251aae59cd130917fa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
