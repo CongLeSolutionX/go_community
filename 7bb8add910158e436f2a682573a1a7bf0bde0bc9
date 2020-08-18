@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1bbfa118_1ce4ae77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-18T00:51:00Z",
+      "side": 1,
+      "message": "Is the concern that the trampoline could clobber any caller-saved registers? Are the rest of these really all callee-save? (Is the behavior of call trampolines on ppc64 actually documented anywhere?)",
+      "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aafc29e_b8ebac08",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -13,6 +30,23 @@
       "writtenOn": "2020-08-17T23:53:03Z",
       "side": 1,
       "message": "PS2 includes R11 as well.",
+      "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63297d28_7e058d72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-18T00:51:00Z",
+      "side": 1,
+      "message": "Yikes.",
       "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
