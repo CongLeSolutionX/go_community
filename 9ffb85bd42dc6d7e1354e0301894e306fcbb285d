@@ -16,6 +16,24 @@
       "revId": "9ffb85bd42dc6d7e1354e0301894e306fcbb285d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c59c7bbd_de6c22b9",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T22:06:58Z",
+      "side": 1,
+      "message": "Done (and through that process, I\u0027ve upped the amount some. I was a bit too close.)",
+      "parentUuid": "4ece0028_7a3c8f2f",
+      "revId": "9ffb85bd42dc6d7e1354e0301894e306fcbb285d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
