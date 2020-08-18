@@ -1584,8 +1584,9 @@ func buildop(ctxt *obj.Link) {
 		case ALXV: /* lxv */
 			opset(ALXV, r0)
 
-		case ALXVL: /* lxvl */
+		case ALXVL: /* lxvl, lxvll, lxvx */
 			opset(ALXVLL, r0)
+			opset(ALXVX, r0)
 
 		case ASTXVD2X: /* stxvd2x, stxvdsx, stxvw4x, stxvh8x, stxvb16x */
 			opset(ASTXVW4X, r0)
@@ -1595,8 +1596,9 @@ func buildop(ctxt *obj.Link) {
 		case ASTXV: /* stxv */
 			opset(ASTXV, r0)
 
-		case ASTXVL: /* stxvl, stxvll */
+		case ASTXVL: /* stxvl, stxvll, stvx */
 			opset(ASTXVLL, r0)
+			opset(ASTXVX, r0)
 
 		case ALXSDX: /* lxsdx  */
 			opset(ALXSDX, r0)
@@ -5025,6 +5027,8 @@ func (c *ctxt9) opload(a obj.As) uint32 {
 		return OPVXX1(31, 269, 0) /* lxvl - ISA v3.00 */
 	case ALXVLL:
 		return OPVXX1(31, 301, 0) /* lxvll - ISA v3.00 */
+	case ALXVX:
+		return OPVXX1(31, 268, 0) /* lxvx - ISA v3.00 */
 
 		/* no AMOVWU */
 	case AMOVB, AMOVBZ:
@@ -5142,6 +5146,8 @@ func (c *ctxt9) oploadx(a obj.As) uint32 {
 
 	/* Vector scalar (VSX) instructions */
 	/* ISA 2.06 enables these for POWER7. */
+	case ALXVX:
+		return OPVXX1(31, 268, 0) /* lxvx - ISA v3.00 */
 	case ALXVD2X:
 		return OPVXX1(31, 844, 0) /* lxvd2x - v2.06 */
 	case ALXVW4X:
@@ -5208,6 +5214,8 @@ func (c *ctxt9) opstore(a obj.As) uint32 {
 		return OPVXX1(31, 397, 0) /* stxvl ISA 3.0 */
 	case ASTXVLL:
 		return OPVXX1(31, 429, 0) /* stxvll ISA 3.0 */
+	case ASTXVX:
+		return OPVXX1(31, 396, 0) /* stxvx - ISA v3.00 */
 
 	}
 
@@ -5287,6 +5295,8 @@ func (c *ctxt9) opstorex(a obj.As) uint32 {
 
 	/* Vector scalar (VSX) instructions */
 	/* ISA 2.06 enables these for POWER7. */
+	case ASTXVX:
+		return OPVXX1(31, 396, 0) /* stxvx - ISA v3.00 */
 	case ASTXVD2X:
 		return OPVXX1(31, 972, 0) /* stxvd2x - v2.06 */
 	case ASTXVW4X:
