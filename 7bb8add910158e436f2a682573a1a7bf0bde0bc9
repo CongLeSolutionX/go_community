@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d43b0931_ca81f742",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-18T04:17:00Z",
+      "side": 1,
+      "message": "It seems to me that in principle the trampoline could clobber any register that is caller-saved and is not used for function arguments.  I believe that is only R0, R11, and R12.  I\u0027m not sure we really have to worry about R0, since it has strange properties on PPC.\n\nI don\u0027t know if more specific trampoline behavior is documented anywhere; I don\u0027t know why it would be.",
+      "parentUuid": "8273e751_e0620147",
+      "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aafc29e_b8ebac08",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
