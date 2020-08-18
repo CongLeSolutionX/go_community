@@ -99,26 +99,34 @@ func (check *Checker) simpleStmt(s astStmt) {
 	}
 }
 
-func trimTrailingEmptyStmts(list astStmtList) astStmtList {
+/*
+func trimTrailingEmptyStmts(list astStmtList) int {
 	for i := list.Len(); i > 0; i-- {
 		if empty := list.Stmt(i - 1).EmptyStmt(); empty == nil {
-			return list.Head(i)
+			return i
 		}
 	}
-	return nil
+	return list.Len()
 }
+*/
 
 func (check *Checker) stmtList(ctxt stmtContext, list astStmtList) {
 	ok := ctxt&fallthroughOk != 0
 	inner := ctxt &^ fallthroughOk
-	list = trimTrailingEmptyStmts(list) // trailing empty statements are "invisible" to fallthrough analysis
+	// list = trimTrailingEmptyStmts(list) // trailing empty statements are "invisible" to fallthrough analysis
+	length := list.Len()
+	for ; length > 0; length-- {
+		if empty, _ := list.Stmt(length - 1).(astEmptyStmt); empty == nil {
+			break
+		}
+	}
 	if list == nil {
 		return
 	}
-	for i := 0; i < list.Len(); i++ {
+	for i := 0; i < length; i++ {
 		s := list.Stmt(i)
 		inner := inner
-		if ok && i+1 == list.Len() {
+		if ok && i+1 == length {
 			inner |= fallthroughOk
 		}
 		check.stmt(inner, s)
@@ -130,13 +138,13 @@ func (check *Checker) multipleDefaults(list astStmtList) {
 	for si := 0; si < list.Len(); si++ {
 		s := list.Stmt(si)
 		var d astStmt
-		switch s.Kind() {
-		case caseClauseKind:
-			if s.CaseClause().List().Len() == 0 {
+		switch s := s.(type) {
+		case astCaseClause:
+			if s.ListLen() == 0 {
 				d = s
 			}
-		case commClauseKind:
-			if s.CommClause().Comm() == nil {
+		case astCommClause:
+			if s.Comm() == nil {
 				d = s
 			}
 		default:
@@ -172,9 +180,11 @@ func assignOp(op token.Token) token.Token {
 }
 
 func (check *Checker) suspendedCall(keyword string, call astCallExpr) {
-	var x operand
+	x := operandPool.Get().(*operand)
+	*x = operand{}
+	defer operandPool.Put(x)
 	var msg string
-	switch check.rawExpr(&x, call, nil) {
+	switch check.rawExpr(x, call, nil) {
 	case conversion:
 		msg = "requires function call, not conversion"
 	case expression:
@@ -184,7 +194,7 @@ func (check *Checker) suspendedCall(keyword string, call astCallExpr) {
 	default:
 		unreachable()
 	}
-	check.errorf(x.pos(), "%s %s %s", keyword, msg, &x)
+	check.errorf(x.pos(), "%s %s %s", keyword, msg, x)
 }
 
 // goVal returns the Go value for val, or nil.
@@ -229,10 +239,10 @@ type (
 	}
 )
 
-func (check *Checker) caseValues(x *operand, values astExprList, seen valueMap) {
+func (check *Checker) caseValues(x *operand, clause astCaseClause, seen valueMap) {
 L:
-	for ei := 0; ei < values.Len(); ei++ {
-		e := values.Expr(ei)
+	for ei := 0; ei < clause.ListLen(); ei++ {
+		e := clause.Item(ei)
 		var v operand
 		check.expr(&v, e)
 		if x.mode == invalid || v.mode == invalid {
@@ -267,10 +277,10 @@ L:
 	}
 }
 
-func (check *Checker) caseTypes(x *operand, xtyp *Interface, types astExprList, seen map[Type]astPosition) (T Type) {
+func (check *Checker) caseTypes(x *operand, xtyp *Interface, clause astCaseClause, seen map[Type]astPosition) (T Type) {
 L:
-	for ei := 0; ei < types.Len(); ei++ {
-		e := types.Expr(ei)
+	for ei := 0; ei < clause.ListLen(); ei++ {
+		e := clause.Item(ei)
 		T = check.typOrNil(e)
 		if T == Typ[Invalid] {
 			continue L
@@ -314,24 +324,25 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 	defer check.processDelayed(len(check.delayed))
 
 	inner := ctxt &^ (fallthroughOk | finalSwitchCase)
-	switch stmt.Kind() {
-	case badStmtKind, emptyStmtKind:
+	switch s := stmt.(type) {
+	case astBadStmt, astEmptyStmt:
 		// ignore
 
-	case declStmtKind:
-		check.declStmt(stmt.DeclStmt().Decl())
+	case astDeclStmt:
+		check.declStmt(s.Decl())
 
-	case labeledStmtKind:
+	case astLabeledStmt:
 		check.hasLabel = true
-		check.stmt(ctxt, stmt.LabeledStmt().Stmt())
+		check.stmt(ctxt, s.Stmt())
 
-	case exprStmtKind:
-		s := stmt.ExprStmt()
+	case astExprStmt:
 		// spec: "With the exception of specific built-in functions,
 		// function and method calls and receive operations can appear
 		// in statement context. Such statements may be parenthesized."
-		var x operand
-		kind := check.rawExpr(&x, s.X(), nil)
+		x := operandPool.Get().(*operand)
+		*x = operand{}
+		defer operandPool.Put(x)
+		kind := check.rawExpr(x, s.X(), nil)
 		var msg string
 		switch x.mode {
 		default:
@@ -344,10 +355,9 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 		case typexpr:
 			msg = "is not an expression"
 		}
-		check.errorf(x.pos(), "%s %s", &x, msg)
+		check.errorf(x.pos(), "%s %s", x, msg)
 
-	case sendStmtKind:
-		s := stmt.SendStmt()
+	case astSendStmt:
 		var ch, x operand
 		check.expr(&ch, s.Chan())
 		check.expr(&x, s.Value())
@@ -368,8 +378,7 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 
 		check.assignment(&x, tch.elem, "send")
 
-	case incDecStmtKind:
-		s := stmt.IncDecStmt()
+	case astIncDecStmt:
 		var op token.Token
 		switch s.Tok() {
 		case token.INC:
@@ -381,8 +390,10 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 			return
 		}
 
-		var x operand
-		check.expr(&x, s.X())
+		x := operandPool.Get().(*operand)
+		*x = operand{}
+		defer operandPool.Put(x)
+		check.expr(x, s.X())
 		if x.mode == invalid {
 			return
 		}
@@ -393,30 +404,29 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 
 		// Y := &ast.BasicLit{ValuePos: s.X.Pos(), Kind: token.INT, Value: "1"} // use x's position
 		Y := astNewBasicLit(s.X().Pos(), token.INT, "1") // use x's position
-		check.binary(&x, nil, s.X(), Y, op)
+		check.binary(x, nil, s.X(), Y, op)
 		if x.mode == invalid {
 			return
 		}
-		check.assignVar(s.X(), &x)
+		check.assignVar(s.X(), x)
 
-	case assignStmtKind:
-		s := stmt.AssignStmt()
+	case astAssignStmt:
 		switch s.Tok() {
 		case token.ASSIGN, token.DEFINE:
-			if s.Lhs().Len() == 0 {
+			if s.LhsLen() == 0 {
 				check.invalidAST(s.Pos(), "missing lhs in assignment")
 				return
 			}
 			if s.Tok() == token.DEFINE {
-				check.shortVarDecl(s.TokPos(), s.Lhs(), s.Rhs())
+				check.shortVarDecl(s.TokPos(), s)
 			} else {
 				// regular assignment
-				check.assignVars(s.Lhs(), s.Rhs())
+				check.assignVars(s)
 			}
 
 		default:
 			// assignment operations
-			if s.Lhs().Len() != 1 || s.Rhs().Len() != 1 {
+			if s.LhsLen() != 1 || s.RhsLen() != 1 {
 				check.errorf(s.TokPos(), "assignment operation %v requires single-valued expressions", s.Tok())
 				return
 			}
@@ -425,27 +435,28 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 				check.invalidAST(s.TokPos(), "unknown assignment operation %s", s.Tok)
 				return
 			}
-			var x operand
-			check.binary(&x, nil, s.Lhs().Expr(0), s.Rhs().Expr(0), op)
+			x := operandPool.Get().(*operand)
+			*x = operand{}
+			defer operandPool.Put(x)
+			check.binary(x, nil, s.LhsExpr(0), s.RhsExpr(0), op)
 			if x.mode == invalid {
 				return
 			}
-			check.assignVar(s.Lhs().Expr(0), &x)
+			check.assignVar(s.LhsExpr(0), x)
 		}
 
-	case goStmtKind:
-		check.suspendedCall("go", stmt.GoStmt().Call())
+	case astGoStmt:
+		check.suspendedCall("go", s.Call())
 
-	case deferStmtKind:
-		check.suspendedCall("defer", stmt.DeferStmt().Call())
+	case astDeferStmt:
+		check.suspendedCall("defer", s.Call())
 
-	case returnStmtKind:
-		s := stmt.ReturnStmt()
+	case astReturnStmt:
 		res := check.sig.results
 		if res.Len() > 0 {
 			// function returns results
 			// (if one, say the first, result parameter is named, all of them are named)
-			if s.Results().Len() == 0 && res.vars[0].name != "" {
+			if s.ResultsLen() == 0 && res.vars[0].name != "" {
 				// spec: "Implementation restriction: A compiler may disallow an empty expression
 				// list in a "return" statement if a different entity (constant, type, or variable)
 				// with the same name as a result parameter is in scope at the place of the return."
@@ -460,13 +471,12 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 				// return has results or result parameters are unnamed
 				check.initVars(res.vars, s.Results(), s.Return())
 			}
-		} else if s.Results().Len() > 0 {
-			check.error(s.Results().Expr(0).Pos(), "no result values expected")
-			check.useList(s.Results())
+		} else if s.ResultsLen() > 0 {
+			check.error(s.Result(0).Pos(), "no result values expected")
+			check.useListReturn(s)
 		}
 
-	case branchStmtKind:
-		s := stmt.BranchStmt()
+	case astBranchStmt:
 		if s.Label() != nil {
 			check.hasLabel = true
 			return // checked in 2nd pass (check.labels)
@@ -492,49 +502,51 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 			check.invalidAST(s.Pos(), "branch statement: %s", s.Tok)
 		}
 
-	case blockStmtKind:
-		s := stmt.BlockStmt()
+	case astBlockStmt:
 		check.openScope(s, "block")
 		defer check.closeScope()
 
 		check.stmtList(inner, s.List())
 
-	case ifStmtKind:
-		s := stmt.IfStmt()
+	case astIfStmt:
 		check.openScope(s, "if")
 		defer check.closeScope()
 
 		check.simpleStmt(s.Init())
-		var x operand
-		check.expr(&x, s.Cond())
+		x := operandPool.Get().(*operand)
+		*x = operand{}
+		defer operandPool.Put(x)
+		check.expr(x, s.Cond())
 		if x.mode != invalid && !isBoolean(x.typ) {
 			check.error(s.Cond().Pos(), "non-boolean condition in if statement")
 		}
 		check.stmt(inner, s.Body())
 		// The parser produces a correct AST but if it was modified
 		// elsewhere the else branch may be invalid. Check again.
-		switch kindOfStmt(s.Else()) {
-		case nilStmtKind, badStmtKind:
+		sElse := s.Else()
+		switch sElse.(type) {
+		case nil, astBadStmt:
 			// valid or error already reported
-		case ifStmtKind, blockStmtKind:
-			check.stmt(inner, s.Else())
+		case astIfStmt, astBlockStmt:
+			check.stmt(inner, sElse)
 		default:
-			check.error(s.Else().Pos(), "invalid else branch in if statement")
+			check.error(sElse.Pos(), "invalid else branch in if statement")
 		}
 
-	case switchStmtKind:
-		s := stmt.SwitchStmt()
+	case astSwitchStmt:
 		inner |= breakOk
 		check.openScope(s, "switch")
 		defer check.closeScope()
 
 		check.simpleStmt(s.Init())
-		var x operand
+		x := operandPool.Get().(*operand)
+		*x = operand{}
+		defer operandPool.Put(x)
 		if s.Tag() != nil {
-			check.expr(&x, s.Tag())
+			check.expr(x, s.Tag())
 			// By checking assignment of x to an invisible temporary
 			// (as a compiler would), we get all the relevant checks.
-			check.assignment(&x, nil, "switch expression")
+			check.assignment(x, nil, "switch expression")
 		} else {
 			// spec: "A missing switch expression is
 			// equivalent to the boolean value true."
@@ -550,12 +562,12 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 		seen := make(valueMap) // map of seen case values to positions and types
 		for i := 0; i < s.Body().List().Len(); i++ {
 			c := s.Body().List().Stmt(i)
-			clause := c.CaseClause()
+			clause, _ := c.(astCaseClause)
 			if clause == nil {
 				check.invalidAST(c.Pos(), "incorrect expression switch case")
 				continue
 			}
-			check.caseValues(&x, clause.List(), seen)
+			check.caseValues(x, clause, seen)
 			check.openScope(clause, "case")
 			inner := inner
 			if i+1 < s.Body().List().Len() {
@@ -567,8 +579,7 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 			check.closeScope()
 		}
 
-	case typeSwitchStmtKind:
-		s := stmt.TypeSwitchStmt()
+	case astTypeSwitchStmt:
 		inner |= breakOk
 		check.openScope(s, "type switch")
 		defer check.closeScope()
@@ -586,23 +597,22 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 		var lhs astIdent // lhs identifier or nil
 		var rhs astExpr
 		assign := s.Assign()
-		switch assign.Kind() {
-		case exprStmtKind:
-			rhs = assign.ExprStmt().X()
-		case assignStmtKind:
-			guard := assign.AssignStmt()
-			if guard.Lhs().Len() != 1 || guard.Tok() != token.DEFINE || guard.Rhs().Len() != 1 {
+		switch guard := assign.(type) {
+		case astExprStmt:
+			rhs = guard.X()
+		case astAssignStmt:
+			if guard.LhsLen() != 1 || guard.Tok() != token.DEFINE || guard.Rhs().Len() != 1 {
 				check.invalidAST(s.Pos(), "incorrect form of type switch guard")
 				return
 			}
 
-			lhs = guard.Lhs().Expr(0).Ident()
+			lhs, _ = guard.LhsExpr(0).(astIdent)
 			if lhs == nil {
 				check.invalidAST(s.Pos(), "incorrect form of type switch guard")
 				return
 			}
 
-			if lhs.Name() == "_" {
+			if lhs.IdentName() == "_" {
 				// _ := x.(type) is an invalid short variable declaration
 				check.softErrorf(lhs.Pos(), "no new variable on left side of :=")
 				lhs = nil // avoid declared but not used error below
@@ -618,19 +628,21 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 		}
 
 		// rhs must be of the form: expr.(type) and expr must be an interface
-		expr := rhs.TypeAssertExpr()
+		expr, _ := rhs.(astTypeAssertExpr)
 		if expr == nil || expr.Type() != nil {
 			check.invalidAST(s.Pos(), "incorrect form of type switch guard")
 			return
 		}
-		var x operand
-		check.expr(&x, expr.X())
+		x := operandPool.Get().(*operand)
+		*x = operand{}
+		defer operandPool.Put(x)
+		check.expr(x, expr.X())
 		if x.mode == invalid {
 			return
 		}
 		xtyp, _ := x.typ.Underlying().(*Interface)
 		if xtyp == nil {
-			check.errorf(x.pos(), "%s is not an interface", &x)
+			check.errorf(x.pos(), "%s is not an interface", x)
 			return
 		}
 
@@ -640,13 +652,13 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 		seen := make(map[Type]astPosition) // map of seen types to positions
 		for si := 0; si < s.Body().List().Len(); si++ {
 			s := s.Body().List().Stmt(si)
-			clause := s.CaseClause()
+			clause, _ := s.(astCaseClause)
 			if clause == nil {
 				check.invalidAST(s.Pos(), "incorrect type switch case")
 				continue
 			}
 			// Check each type in this type switch case.
-			T := check.caseTypes(&x, xtyp, clause.List(), seen)
+			T := check.caseTypes(x, xtyp, clause, seen)
 			check.openScope(clause, "case")
 			// If lhs exists, declare a corresponding variable in the case-local scope.
 			if lhs != nil {
@@ -655,14 +667,14 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 				// the implicit block in each clause. In clauses with a case listing
 				// exactly one type, the variable has that type; otherwise, the variable
 				// has the type of the expression in the TypeSwitchGuard."
-				if clause.List().Len() != 1 || T == nil {
+				if clause.ListLen() != 1 || T == nil {
 					T = x.typ
 				}
-				obj := newVar(lhs.Pos(), check.pkg, lhs.Name(), T)
+				obj := newVar(lhs.Pos(), check.pkg, lhs.IdentName(), T)
 				// TODO: fix this type assertion
 				scopePos := clause.Pos().(token.Pos) + token.Pos(len("default")) // for default clause (len(List) == 0)
-				if n := clause.List().Len(); n > 0 {
-					scopePos = clause.List().Expr(n - 1).End().(token.Pos)
+				if n := clause.ListLen(); n > 0 {
+					scopePos = clause.Item(n - 1).End().(token.Pos)
 				}
 				check.declare(check.scope, nil, obj, scopePos)
 				check.recordImplicit(clause, obj)
@@ -685,19 +697,18 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 				v.used = true // avoid usage error when checking entire function
 			}
 			if !used {
-				check.softErrorf(lhs.Pos(), "%v declared but not used", lhs.Name())
+				check.softErrorf(lhs.Pos(), "%v declared but not used", lhs.IdentName())
 			}
 		}
 
-	case selectStmtKind:
-		s := stmt.SelectStmt()
+	case astSelectStmt:
 		inner |= breakOk
 
 		check.multipleDefaults(s.Body().List())
 
 		for si := 0; si < s.Body().List().Len(); si++ {
 			s := s.Body().List().Stmt(si)
-			clause := s.CommClause()
+			clause, _ := s.(astCommClause)
 			if clause == nil {
 				continue // error reported before
 			}
@@ -706,26 +717,28 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 			valid := false
 			var rhs astExpr // rhs of RecvStmt, or nil
 			comm := clause.Comm()
-			switch kindOfStmt(comm) {
-			case nilStmtKind, sendStmtKind:
+			switch s := comm.(type) {
+			case nil, astSendStmt:
 				valid = true
-			case assignStmtKind:
-				s := comm.AssignStmt()
+			case astAssignStmt:
 				if s.Rhs().Len() == 1 {
 					rhs = s.Rhs().Expr(0)
 				}
-			case exprStmtKind:
+			case astExprStmt:
+				rhs = s.X()
 				// TODO: clean this up.
-				if comm.ExprStmt() == nil {
-					rhs = nil
-				} else {
-					rhs = comm.ExprStmt().X()
-				}
+				/*
+					if comm.ExprStmt() == nil {
+						rhs = nil
+					} else {
+						rhs = comm.ExprStmt().X()
+					}
+				*/
 			}
 
 			// if present, rhs must be a receive operation
 			if rhs != nil {
-				if x := unparen(rhs).UnaryExpr(); x != nil && x.Op() == token.ARROW {
+				if x, _ := unparen(rhs).(astUnaryExpr); x != nil && x.OpTok() == token.ARROW {
 					valid = true
 				}
 			}
@@ -743,44 +756,46 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 			check.closeScope()
 		}
 
-	case forStmtKind:
-		s := stmt.ForStmt()
+	case astForStmt:
 		inner |= breakOk | continueOk
 		check.openScope(s, "for")
 		defer check.closeScope()
 
 		check.simpleStmt(s.Init())
 		if s.Cond() != nil {
-			var x operand
-			check.expr(&x, s.Cond())
+			x := operandPool.Get().(*operand)
+			*x = operand{}
+			check.expr(x, s.Cond())
 			if x.mode != invalid && !isBoolean(x.typ) {
 				check.error(s.Cond().Pos(), "non-boolean condition in for statement")
 			}
+			operandPool.Put(x)
 		}
 		check.simpleStmt(s.Post())
 		// spec: "The init statement may be a short variable
 		// declaration, but the post statement must not."
 		// TODO: clean this up
 		if s.Post() != nil {
-			if s := s.Post().AssignStmt(); s != nil && s.Tok() == token.DEFINE {
+			if s, _ := s.Post().(astAssignStmt); s != nil && s.Tok() == token.DEFINE {
 				check.softErrorf(s.Pos(), "cannot declare in post statement")
 				// Don't call useLHS here because we want to use the lhs in
 				// this erroneous statement so that we don't get errors about
 				// these lhs variables being declared but not used.
-				check.useList(s.Lhs()) // avoid follow-up errors
+				check.useListLhs(s) // avoid follow-up errors
 			}
 		}
 		check.stmt(inner, s.Body())
 
-	case rangeStmtKind:
-		s := stmt.RangeStmt()
+	case astRangeStmt:
 		inner |= breakOk | continueOk
 		check.openScope(s, "for")
 		defer check.closeScope()
 
 		// check expression to iterate over
-		var x operand
-		check.expr(&x, s.X())
+		x := operandPool.Get().(*operand)
+		*x = operand{}
+		defer operandPool.Put(x)
+		check.expr(x, s.X())
 
 		// determine key/value types
 		var key, val Type
@@ -809,18 +824,18 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 				key = typ.elem
 				val = Typ[Invalid]
 				if typ.dir == SendOnly {
-					check.errorf(x.pos(), "cannot range over send-only channel %s", &x)
+					check.errorf(x.pos(), "cannot range over send-only channel %s", x)
 					// ok to continue
 				}
 				if s.Value() != nil {
-					check.errorf(s.Value().Pos(), "iteration over %s permits only one iteration variable", &x)
+					check.errorf(s.Value().Pos(), "iteration over %s permits only one iteration variable", x)
 					// ok to continue
 				}
 			}
 		}
 
 		if key == nil {
-			check.errorf(x.pos(), "cannot range over %s", &x)
+			check.errorf(x.pos(), "cannot range over %s", x)
 			// ok to continue
 		}
 
@@ -843,9 +858,9 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 
 				// determine lhs variable
 				var obj *Var
-				if ident := lhs.Ident(); ident != nil {
+				if ident, _ := lhs.(astIdent); ident != nil {
 					// declare new variable
-					name := ident.Name()
+					name := ident.IdentName()
 					obj = newVar(ident.Pos(), check.pkg, name, nil)
 					check.recordDef(ident, obj)
 					// _ variables don't count as new variables
@@ -862,7 +877,7 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 					x.mode = value
 					x.expr = lhs // we don't have a better rhs expression to use here
 					x.typ = typ
-					check.initVar(obj, &x, "range clause")
+					check.initVar(obj, x, "range clause")
 				} else {
 					obj.typ = Typ[Invalid]
 					obj.used = true // don't complain about unused variable
@@ -892,7 +907,7 @@ func (check *Checker) stmt(ctxt stmtContext, stmt astStmt) {
 					x.mode = value
 					x.expr = lhs // we don't have a better rhs expression to use here
 					x.typ = typ
-					check.assignVar(lhs, &x)
+					check.assignVar(lhs, x)
 				}
 			}
 		}

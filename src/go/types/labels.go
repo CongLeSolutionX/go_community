@@ -21,7 +21,7 @@ func (check *Checker) labels(body astBlockStmt) {
 	// for the respective gotos.
 	for _, jmp := range fwdJumps {
 		var msg string
-		name := jmp.Label().Name()
+		name := jmp.Label().IdentName()
 		if alt := all.Lookup(name); alt != nil {
 			msg = "goto %s jumps into block"
 			alt.(*Label).used = true // avoid another error
@@ -49,7 +49,7 @@ type block struct {
 // insert records a new label declaration for the current block.
 // The label must not have been declared before in any block.
 func (b *block) insert(s astLabeledStmt) {
-	name := s.Label().Name()
+	name := s.Label().IdentName()
 	if debug {
 		assert(b.gotoTarget(name) == nil)
 	}
@@ -76,7 +76,7 @@ func (b *block) gotoTarget(name string) astLabeledStmt {
 // statement with the given label name, or nil.
 func (b *block) enclosingTarget(name string) astLabeledStmt {
 	for s := b; s != nil; s = s.parent {
-		if t := s.lstmt; t != nil && t.Label().Name() == name {
+		if t := s.lstmt; t != nil && t.Label().IdentName() == name {
 			return t
 		}
 	}
@@ -121,18 +121,16 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt astLabeledS
 	}
 
 	var stmtBranches func(astStmt)
-	stmtBranches = func(inStmt astStmt) {
-		switch inStmt.Kind() {
-		case declStmtKind:
-			s := inStmt.DeclStmt()
-			if d := s.Decl().GenDecl(); d != nil && d.Tok() == token.VAR {
+	stmtBranches = func(stmt astStmt) {
+		switch s := stmt.(type) {
+		case astDeclStmt:
+			if d, _ := s.Decl().(astGenDecl); d != nil && d.Tok() == token.VAR {
 				recordVarDecl(d.Pos())
 			}
 
-		case labeledStmtKind:
-			s := inStmt.LabeledStmt()
+		case astLabeledStmt:
 			// declare non-blank label
-			if name := s.Label().Name(); name != "_" {
+			if name := s.Label().IdentName(); name != "_" {
 				lbl := newLabel(s.Label().Pos(), check.pkg, name)
 				if alt := all.Insert(lbl); alt != nil {
 					check.softErrorf(lbl.pos, "label %s already declared", name)
@@ -145,7 +143,7 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt astLabeledS
 				// resolve matching forward jumps and remove them from fwdJumps
 				i := 0
 				for _, jmp := range fwdJumps {
-					if jmp.Label().Name() == name {
+					if jmp.Label().IdentName() == name {
 						// match
 						lbl.used = true
 						check.recordUse(jmp.Label(), lbl)
@@ -170,14 +168,14 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt astLabeledS
 			}
 			stmtBranches(s.Stmt())
 
-		case branchStmtKind:
-			s := inStmt.BranchStmt()
-			if s.Label() == nil {
+		case astBranchStmt:
+			sLabel := s.Label()
+			if sLabel == nil {
 				return // checked in 1st pass (check.stmt)
 			}
 
 			// determine and validate target
-			name := s.Label().Name()
+			name := sLabel.IdentName()
 			switch s.Tok() {
 			case token.BREAK:
 				// spec: "If there is a label, it must be that of an enclosing
@@ -185,8 +183,8 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt astLabeledS
 				// whose execution terminates."
 				valid := false
 				if t := b.enclosingTarget(name); t != nil {
-					switch t.Stmt().Kind() {
-					case switchStmtKind, typeSwitchStmtKind, selectStmtKind, forStmtKind, rangeStmtKind:
+					switch t.Stmt().(type) {
+					case astSwitchStmt, astTypeSwitchStmt, astSelectStmt, astForStmt, astRangeStmt:
 						valid = true
 					}
 				}
@@ -200,8 +198,8 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt astLabeledS
 				// "for" statement, and that is the one whose execution advances."
 				valid := false
 				if t := b.enclosingTarget(name); t != nil {
-					switch t.Stmt().Kind() {
-					case forStmtKind, rangeStmtKind:
+					switch t.Stmt().(type) {
+					case astForStmt, astRangeStmt:
 						valid = true
 					}
 				}
@@ -227,42 +225,40 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt astLabeledS
 			obj.(*Label).used = true
 			check.recordUse(s.Label(), obj)
 
-		case assignStmtKind:
-			s := inStmt.AssignStmt()
+		case astAssignStmt:
 			if s.Tok() == token.DEFINE {
 				recordVarDecl(s.Pos())
 			}
 
-		case blockStmtKind:
-			blockBranches(lstmt, inStmt.BlockStmt().List())
+		case astBlockStmt:
+			blockBranches(lstmt, s.List())
 
-		case ifStmtKind:
-			s := inStmt.IfStmt()
+		case astIfStmt:
 			stmtBranches(s.Body())
 			if s.Else() != nil {
 				stmtBranches(s.Else())
 			}
 
-		case caseClauseKind:
-			blockBranches(nil, inStmt.CaseClause().Body())
+		case astCaseClause:
+			blockBranches(nil, s.Body())
 
-		case switchStmtKind:
-			stmtBranches(inStmt.SwitchStmt().Body())
+		case astSwitchStmt:
+			stmtBranches(s.Body())
 
-		case typeSwitchStmtKind:
-			stmtBranches(inStmt.TypeSwitchStmt().Body())
+		case astTypeSwitchStmt:
+			stmtBranches(s.Body())
 
-		case commClauseKind:
-			blockBranches(nil, inStmt.CommClause().Body())
+		case astCommClause:
+			blockBranches(nil, s.Body())
 
-		case selectStmtKind:
-			stmtBranches(inStmt.SelectStmt().Body())
+		case astSelectStmt:
+			stmtBranches(s.Body())
 
-		case forStmtKind:
-			stmtBranches(inStmt.ForStmt().Body())
+		case astForStmt:
+			stmtBranches(s.Body())
 
-		case rangeStmtKind:
-			stmtBranches(inStmt.RangeStmt().Body())
+		case astRangeStmt:
+			stmtBranches(s.Body())
 		}
 	}
 

@@ -13,11 +13,11 @@ import (
 )
 
 func (check *Checker) call(x *operand, e astCallExpr) exprKind {
-	check.exprOrType(x, e.Fun())
+	check.exprOrType(x, e.FunExpr())
 
 	switch x.mode {
 	case invalid:
-		check.useList(e.Args())
+		check.useListCall(e)
 		x.mode = invalid
 		x.expr = e
 		return statement
@@ -26,17 +26,17 @@ func (check *Checker) call(x *operand, e astCallExpr) exprKind {
 		// conversion
 		T := x.typ
 		x.mode = invalid
-		switch n := e.Args().Len(); n {
+		switch n := e.ArgsLen(); n {
 		case 0:
-			check.errorf(e.Rparen(), "missing argument in conversion to %s", T)
+			check.errorf(e.RparenPos(), "missing argument in conversion to %s", T)
 		case 1:
-			check.expr(x, e.Args().Expr(0))
+			check.expr(x, e.Arg(0))
 			if x.mode != invalid {
 				check.conversion(x, T)
 			}
 		default:
-			check.useList(e.Args())
-			check.errorf(e.Args().Expr(n-1).Pos(), "too many arguments in conversion to %s", T)
+			check.useListCall(e)
+			check.errorf(e.Arg(n-1).Pos(), "too many arguments in conversion to %s", T)
 		}
 		x.expr = e
 		return conversion
@@ -65,7 +65,7 @@ func (check *Checker) call(x *operand, e astCallExpr) exprKind {
 			return statement
 		}
 
-		arg, n, _ := unpack(func(x *operand, i int) { check.multiExpr(x, e.Args().Expr(i)) }, e.Args().Len(), false)
+		arg, n, _ := unpack(func(x *operand, i int) { check.multiExpr(x, e.Arg(i)) }, e.ArgsLen(), false)
 		if arg != nil {
 			check.arguments(x, e, sig, arg, n)
 		} else {
@@ -100,24 +100,53 @@ func (check *Checker) call(x *operand, e astCallExpr) exprKind {
 // (and variables are "used") in the presence of other errors.
 // The arguments may be nil.
 func (check *Checker) use(arg ...astExpr) {
-	var x operand
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
 	for _, e := range arg {
 		// The nil check below is necessary since certain AST fields
 		// may legally be nil (e.g., the astSliceExpr.High field).
 		if e != nil {
-			check.rawExpr(&x, e, nil)
+			check.rawExpr(x, e, nil)
 		}
 	}
 }
 
-func (check *Checker) useList(args astExprList) {
-	var x operand
-	for argi := 0; argi < args.Len(); argi++ {
-		e := args.Expr(argi)
+func (check *Checker) useListLhs(stmt astAssignStmt) {
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
+	for argi := 0; argi < stmt.LhsLen(); argi++ {
+		e := stmt.LhsExpr(argi)
 		// The nil check below is necessary since certain AST fields
 		// may legally be nil (e.g., the astSliceExpr.High field).
 		if e != nil {
-			check.rawExpr(&x, e, nil)
+			check.rawExpr(x, e, nil)
+		}
+	}
+}
+
+func (check *Checker) useListCall(call astCallExpr) {
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
+	for argi := 0; argi < call.ArgsLen(); argi++ {
+		e := call.Arg(argi)
+		// The nil check below is necessary since certain AST fields
+		// may legally be nil (e.g., the astSliceExpr.High field).
+		if e != nil {
+			check.rawExpr(x, e, nil)
+		}
+	}
+}
+
+// duplicated for testing...
+func (check *Checker) useListReturn(stmt astReturnStmt) {
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
+	for argi := 0; argi < stmt.ResultsLen(); argi++ {
+		e := stmt.Result(argi)
+		// The nil check below is necessary since certain AST fields
+		// may legally be nil (e.g., the astSliceExpr.High field).
+		if e != nil {
+			check.rawExpr(x, e, nil)
 		}
 	}
 }
@@ -134,7 +163,8 @@ func (l internalExprList) Expr(i int) astExpr { return l[i] }
 // expressions on the lhs of an assignment.
 // The arguments must not be nil.
 func (check *Checker) useLHS(arg astExprList) {
-	var x operand
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
 	for ei := 0; ei < arg.Len(); ei++ {
 		e := arg.Expr(ei)
 		// If the lhs is an identifier denoting a variable v, this assignment
@@ -142,12 +172,12 @@ func (check *Checker) useLHS(arg astExprList) {
 		// after evaluating the lhs via check.rawExpr.
 		var v *Var
 		var v_used bool
-		if ident := unparen(e).Ident(); ident != nil {
+		if ident, _ := unparen(e).(astIdent); ident != nil {
 			// never type-check the blank name on the lhs
-			if ident.Name() == "_" {
+			if ident.IdentName() == "_" {
 				continue
 			}
-			if _, obj := check.scope.LookupParent(ident.Name(), token.NoPos); obj != nil {
+			if _, obj := check.scope.LookupParent(ident.IdentName(), token.NoPos); obj != nil {
 				// It's ok to mark non-local variables, but ignore variables
 				// from other packages to avoid potential race conditions with
 				// dot-imported variables.
@@ -157,7 +187,7 @@ func (check *Checker) useLHS(arg astExprList) {
 				}
 			}
 		}
-		check.rawExpr(&x, e, nil)
+		check.rawExpr(x, e, nil)
 		if v != nil {
 			v.used = v_used // restore v.used
 		}
@@ -169,9 +199,10 @@ func (check *Checker) useLHS(arg astExprList) {
 // evaluation of the first argument (since the getter was likely obtained via
 // unpack, which may have evaluated the first argument already).
 func (check *Checker) useGetter(get getter, n int) {
-	var x operand
+	x := operandPool.Get().(*operand)
+	defer operandPool.Put(x)
 	for i := 0; i < n; i++ {
-		get(&x, i)
+		get(x, i)
 	}
 }
 
@@ -250,20 +281,20 @@ func (check *Checker) arguments(x *operand, call astCallExpr, sig *Signature, ar
 	if call.EllipsisPos().IsValid() {
 		// last argument is of the form x...
 		if !sig.variadic {
-			check.errorf(call.EllipsisPos(), "cannot use ... in call to non-variadic %s", call.Fun())
+			check.errorf(call.EllipsisPos(), "cannot use ... in call to non-variadic %s", call.FunExpr())
 			check.useGetter(arg, n)
 			return
 		}
-		if call.Args().Len() == 1 && n > 1 {
+		if call.ArgsLen() == 1 && n > 1 {
 			// f()... is not permitted if f() is multi-valued
-			check.errorf(call.EllipsisPos(), "cannot use ... with %d-valued %s", n, call.Args().Expr(0))
+			check.errorf(call.EllipsisPos(), "cannot use ... with %d-valued %s", n, call.Arg(0))
 			check.useGetter(arg, n)
 			return
 		}
 	}
 
 	// evaluate arguments
-	context := check.sprintf("argument to %s", call.Fun())
+	context := check.sprintf("argument to %s", call.FunExpr())
 	for i := 0; i < n; i++ {
 		arg(x, i)
 		if x.mode != invalid {
@@ -283,7 +314,7 @@ func (check *Checker) arguments(x *operand, call astCallExpr, sig *Signature, ar
 		n++
 	}
 	if n < sig.params.Len() {
-		check.errorf(call.Rparen(), "too few arguments in call to %v", call.Fun())
+		check.errorf(call.RparenPos(), "too few arguments in call to %v", call.FunExpr())
 		// ok to continue
 	}
 }
@@ -352,13 +383,13 @@ func (check *Checker) selector(x *operand, e astSelectorExpr) {
 		indirect bool
 	)
 
-	sel := e.Sel().Name()
+	sel := e.Sel().IdentName()
 	// If the identifier refers to a package, handle everything here
 	// so we don't need a "package" mode for operands: package names
 	// can only appear in qualified identifiers which are mapped to
 	// selector expressions.
-	if ident := e.X().Ident(); ident != nil {
-		obj := check.lookup(ident.Name())
+	if ident, _ := e.X().(astIdent); ident != nil {
+		obj := check.lookup(ident.IdentName())
 		if pname, _ := obj.(*PkgName); pname != nil {
 			assert(pname.pkg == check.pkg)
 			check.recordUse(ident, pname)
