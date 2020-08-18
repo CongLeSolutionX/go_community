@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0ee99c4_5a58bffa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-08-18T15:56:50Z",
+      "side": 1,
+      "message": "Leaving a notification here, this CL (and two more that follow) were reverted in CL 248326 to fix linux longtest builders, issue #40861.\n\nPlease investigate what caused the issue and re-send these using slowbots to ensure longtest builders will pass before submitting.",
+      "revId": "f30044a03bc7cf107dbec03c02fb6d0072878252",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
