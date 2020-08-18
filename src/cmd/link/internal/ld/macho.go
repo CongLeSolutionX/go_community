@@ -1070,6 +1070,8 @@ func machorelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []loader.Sy
 
 	// sanity check
 	if uint64(out.Offset()) != sect.Reloff+sect.Rellen {
+		println(out.Offset(), " ", sect.Reloff+sect.Rellen)
+		fmt.Printf("%+v\n", sect)
 		panic("machorelocsect: size mismatch")
 	}
 }
