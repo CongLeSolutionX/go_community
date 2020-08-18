@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b89da2e_44abcd95",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "Maybe add a comment reference the runtime part?",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf11fb23_44afe784",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "Can this happen? The if above should take care of it, right?",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e92e9a24_e3f8a5a7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "calculatePclnSize",
+      "range": {
+        "startLine": 555,
+        "startChar": 3,
+        "endLine": 555,
+        "endChar": 18
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f7f1a8e_9c5992db",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "Maybe add a comment about this formula.",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5bff50f_cc9f6194",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "It seems the return values are never used. Maybe just drop the return value. And the \"NOP\" case can just return.",
+      "range": {
+        "startLine": 592,
+        "startChar": 0,
+        "endLine": 593,
+        "endChar": 76
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec2f2032_3605ade3",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "Add a period here.",
+      "range": {
+        "startLine": 607,
+        "startChar": 19,
+        "endLine": 607,
+        "endChar": 20
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fa6978c_b865c62a",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "I think it may be clearer to order this in the same way as execution, i.e. generate relocations first, then write the data.",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc746e28_b02262f8",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T20:53:52Z",
+      "side": 1,
+      "message": "Move this out of the loop? I.e. use different closures for the two cases?",
+      "range": {
+        "startLine": 765,
+        "startChar": 40,
+        "endLine": 765,
+        "endChar": 51
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
