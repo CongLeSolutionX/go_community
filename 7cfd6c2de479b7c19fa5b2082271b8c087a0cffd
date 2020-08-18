@@ -34,6 +34,24 @@
       "revId": "7cfd6c2de479b7c19fa5b2082271b8c087a0cffd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c176d3a9_e3231f7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28615
+      },
+      "writtenOn": "2020-08-18T20:03:55Z",
+      "side": 1,
+      "message": "https://fuchsia-review.googlesource.com/c/third_party/go/+/418255",
+      "parentUuid": "a07be35d_2e468fe6",
+      "revId": "7cfd6c2de479b7c19fa5b2082271b8c087a0cffd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
