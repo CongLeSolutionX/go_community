@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e39f663_0f605b90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2020-08-18T00:40:46Z",
+      "side": 1,
+      "message": "Is this meant to be reviewed? It was abandoned, then restored. Also Josh\u0027s comment seems unaddressed.",
+      "revId": "422b5f322e2d15699c2f59309c01fa67f79eec2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
