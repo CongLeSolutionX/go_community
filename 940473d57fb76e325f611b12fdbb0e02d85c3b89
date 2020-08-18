@@ -106,6 +106,24 @@
       "revId": "940473d57fb76e325f611b12fdbb0e02d85c3b89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c38c4e2c_54a0f4b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-18T09:35:45Z",
+      "side": 1,
+      "message": "yes. https://groups.google.com/d/msg/golang-dev/qtxOW0x4Rrw/WqepX5V6AQAJ",
+      "parentUuid": "e338252b_34c451b7",
+      "revId": "940473d57fb76e325f611b12fdbb0e02d85c3b89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
