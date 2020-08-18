@@ -33,6 +33,24 @@
       "revId": "23baa035c48a6a4f09c0b2cfc2679d92ce443606",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f16d319_0c5ce9ce",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-18T20:05:05Z",
+      "side": 1,
+      "message": "Ack. I thought about doing that, but this function doesn\u0027t actually check that there\u0027s only one default case. It is checked in reflect.Value.Select, but it felt a bit icky to rely on that here.\n\nI plan to merge this code with reflect.Value.Select in a followup CL, at which point I\u0027ll make sure to incorporate this optimization.",
+      "parentUuid": "e2817548_190def8c",
+      "revId": "23baa035c48a6a4f09c0b2cfc2679d92ce443606",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
