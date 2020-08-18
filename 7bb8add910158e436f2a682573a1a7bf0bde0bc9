@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a041ce17_cc4a8412",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T15:50:43Z",
+      "side": 1,
+      "message": "https://www.ibm.com/support/knowledgecenter/en/ssw_aix_72/assembler/idalangref_reg_use_conv.html documents the calling convention.\n\nR3-R10 are used for arguments, so trampolines cannot clobber. R14-R31 are callee-save. R1, R2, R13 are special.",
+      "parentUuid": "d43b0931_ca81f742",
+      "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aafc29e_b8ebac08",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -100,6 +118,41 @@
       "writtenOn": "2020-08-18T12:34:33Z",
       "side": 1,
       "message": "Shouldn\u0027t this be run on at least one of the ppc64 slowbots?",
+      "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b58cc9c_ee8f140c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T15:50:43Z",
+      "side": 1,
+      "message": "I tested on the builder manually.",
+      "parentUuid": "2417a40f_56cd34de",
+      "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebf5eed9_d96c5bbd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T15:50:43Z",
+      "side": 1,
+      "message": "Thanks for review.",
       "revId": "7bb8add910158e436f2a682573a1a7bf0bde0bc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
