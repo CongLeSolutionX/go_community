@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95ce4eca_b66cf2b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-18T00:05:18Z",
+      "side": 1,
+      "message": "Can we just use fgetgrent_r?",
+      "revId": "b7fdeee97027ace809ea267062536d62b9b9c7cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
