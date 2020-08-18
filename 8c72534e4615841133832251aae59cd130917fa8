@@ -68,6 +68,24 @@
       "revId": "8c72534e4615841133832251aae59cd130917fa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e37b81c1_a2c36a6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34474
+      },
+      "writtenOn": "2020-08-18T00:42:01Z",
+      "side": 1,
+      "message": "Thank you. I have already resolved the conflict in GitHub PR, but GerritBot didn\u0027t import the change.",
+      "parentUuid": "d44f54c2_5988357b",
+      "revId": "8c72534e4615841133832251aae59cd130917fa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
