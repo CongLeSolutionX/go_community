@@ -16,6 +16,23 @@
       "revId": "23baa035c48a6a4f09c0b2cfc2679d92ce443606",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2817548_190def8c",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-18T19:37:33Z",
+      "side": 1,
+      "message": "The only thing that needs to be compacted out is the default case, right?\nYou could just do:\nif dflt \u003e\u003d 0 {\n  if nrecvs \u003e 0 {\n     sel[nsends] \u003d sel[len(sel)-1]\n  }\n  sel \u003d sel[:len(sel)-1]\n}\n\nand the same for orig.",
+      "revId": "23baa035c48a6a4f09c0b2cfc2679d92ce443606",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
