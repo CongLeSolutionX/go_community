@@ -172,11 +172,6 @@ func growBitmap(reqLen int, b Bitmap) Bitmap {
 	return b
 }
 
-type symAndSize struct {
-	sym  Sym
-	size uint32
-}
-
 // A Loader loads new object files and resolves indexed symbol references.
 //
 // Notes on the layout of global symbol index space:
@@ -328,7 +323,7 @@ func NewLoader(flags uint32, elfsetstring elfsetstringFunc, reporter *ErrorRepor
 	ldr := &Loader{
 		start:                make(map[*oReader]Sym),
 		objs:                 []objIdx{{}, {extReader, 0}}, // reserve index 0 for nil symbol, 1 for external symbols
-		objSyms:              make([]objSym, 1, 100000),    // reserve index 0 for nil symbol
+		objSyms:              make([]objSym, 1, 200000),    // reserve index 0 for nil symbol
 		extReader:            extReader,
 		symsByName:           [2]map[string]Sym{make(map[string]Sym, 80000), make(map[string]Sym, 50000)}, // preallocate ~2MB for ABI0 and ~1MB for ABI1 symbols
 		objByPkg:             make(map[string]*oReader),
@@ -418,44 +413,29 @@ func (st *loadState) addSym(name string, ver int, r *oReader, li uint32, kind in
 		// but don't add to name lookup table, as they are not
 		// referenced by name. Also no need to do overwriting
 		// check, as same hash indicates same content.
-		var checkHash func() (symAndSize, bool)
-		var addToHashMap func(symAndSize)
+		var checkHash func() (Sym, bool)
+		var addToHashMap func(Sym)
 		var h64 uint64        // only used for hashed64Def
 		var h *goobj.HashType // only used for hashedDef
 		if kind == hashed64Def {
-			checkHash = func() (symAndSize, bool) {
+			checkHash = func() (Sym, bool) {
 				h64 = r.Hash64(li - uint32(r.ndef))
 				s, existed := st.hashed64Syms[h64]
 				return s, existed
 			}
-			addToHashMap = func(ss symAndSize) { st.hashed64Syms[h64] = ss }
+			addToHashMap = func(s Sym) { st.hashed64Syms[h64] = s }
 		} else {
-			checkHash = func() (symAndSize, bool) {
+			checkHash = func() (Sym, bool) {
 				h = r.Hash(li - uint32(r.ndef+r.nhashed64def))
 				s, existed := st.hashedSyms[*h]
 				return s, existed
 			}
-			addToHashMap = func(ss symAndSize) { st.hashedSyms[*h] = ss }
+			addToHashMap = func(s Sym) { st.hashedSyms[*h] = s }
 		}
-		siz := osym.Siz()
 		if s, existed := checkHash(); existed {
-			// The content hash is built from symbol data and relocations. In the
-			// object file, the symbol data may not always contain trailing zeros,
-			// e.g. for [5]int{1,2,3} and [100]int{1,2,3}, the data is same
-			// (although the size is different).
-			// Also, for short symbols, the content hash is the identity function of
-			// the 8 bytes, and trailing zeros doesn't change the hash value, e.g.
-			// hash("A") == hash("A\0\0\0").
-			// So when two symbols have the same hash, we need to use the one with
-			// larger size.
-			if siz > s.size {
-				// New symbol has larger size, use the new one. Rewrite the index mapping.
-				l.objSyms[s.sym] = objSym{r.objidx, li}
-				addToHashMap(symAndSize{s.sym, siz})
-			}
-			return s.sym
+			return s
 		}
-		addToHashMap(symAndSize{i, siz})
+		addToHashMap(i)
 		addToGlobal()
 		return i
 	}
@@ -2072,8 +2052,8 @@ func (l *Loader) Preload(localSymVersion int, f *bio.Reader, lib *sym.Library, u
 // Holds the loader along with temporary states for loading symbols.
 type loadState struct {
 	l            *Loader
-	hashed64Syms map[uint64]symAndSize         // short hashed (content-addressable) symbols, keyed by content hash
-	hashedSyms   map[goobj.HashType]symAndSize // hashed (content-addressable) symbols, keyed by content hash
+	hashed64Syms map[uint64]Sym         // short hashed (content-addressable) symbols, keyed by content hash
+	hashedSyms   map[goobj.HashType]Sym // hashed (content-addressable) symbols, keyed by content hash
 }
 
 // Preload symbols of given kind from an object.
@@ -2153,8 +2133,8 @@ func (l *Loader) LoadNonpkgSyms(arch *sys.Arch) {
 	// ~13000 hashed symbols.
 	st := loadState{
 		l:            l,
-		hashed64Syms: make(map[uint64]symAndSize, 10000),
-		hashedSyms:   make(map[goobj.HashType]symAndSize, 15000),
+		hashed64Syms: make(map[uint64]Sym, 10000),
+		hashedSyms:   make(map[goobj.HashType]Sym, 60000),
 	}
 	for _, o := range l.objs[goObjStart:] {
 		st.preloadSyms(o.r, hashed64Def)
