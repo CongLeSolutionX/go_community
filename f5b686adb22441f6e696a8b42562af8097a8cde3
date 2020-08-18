@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79ca5c7d_8aeca031",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-18T18:32:26Z",
+      "side": 1,
+      "message": "Thanks, but no, I did mean \"closure\" (\"the condition of being closed\") here. This phrase should be read as \"Setting nil to indicate that the channel was closed ...\". (Note: this is separate from the programmer jargon usage of \"closure\" to refer to function literals, etc.)\n\nDo you think this usage of \"closure\" is less accessible? I\u0027m inclined to leave this alone as it\u0027s just a commit message, but I\u0027m interested to know for writing documentation.",
+      "parentUuid": "51ac2e8d_7fc414e2",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "f5b686adb22441f6e696a8b42562af8097a8cde3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "146d801d_46eeec28",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
