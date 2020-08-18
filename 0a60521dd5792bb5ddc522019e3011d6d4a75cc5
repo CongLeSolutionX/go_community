@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4262e98_34bf489f",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b89da2e_44abcd95",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf11fb23_44afe784",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-08-18T20:53:52Z",
       "side": 1,
       "message": "Can this happen? The if above should take care of it, right?",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e91e2bb2_d9c4ed1f",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "Unfortunately, FuncInfo\u0027s Funcdata resizes the array, so yes, it could happen. I poked at changing the accessor (to keep the size, or some other approach), but I was dissatisfied with all approaches that weren\u0027t this one. I\u0027d be happy to take suggestions.",
+      "parentUuid": "bf11fb23_44afe784",
       "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "24d292cb_764b9028",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "oops. done.",
+      "parentUuid": "e92e9a24_e3f8a5a7",
+      "range": {
+        "startLine": 555,
+        "startChar": 3,
+        "endLine": 555,
+        "endChar": 18
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f7f1a8e_9c5992db",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 4
@@ -73,6 +133,24 @@
       "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6894c9d1_8e0bf4d7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "Done\n\n(incidentally, the +4 isn\u0027t needed, it was just to keep the sizes the same with the old code, and doesn\u0027t need to be there.)",
+      "parentUuid": "6f7f1a8e_9c5992db",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "0c63e22f_74ffc09c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "Done. Thanks, I had them this way for validation, and never removed the vestigial bits.",
+      "parentUuid": "e5bff50f_cc9f6194",
+      "range": {
+        "startLine": 592,
+        "startChar": 0,
+        "endLine": 593,
+        "endChar": 76
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec2f2032_3605ade3",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 4
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "fa38941d_1ff79c2d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec2f2032_3605ade3",
+      "range": {
+        "startLine": 607,
+        "startChar": 19,
+        "endLine": 607,
+        "endChar": 20
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fa6978c_b865c62a",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 4
@@ -136,6 +262,24 @@
       "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0224d8cc_d32eb245",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "You\u0027re right, I would love to, but the generator API uses the func pointer, and that symbol is used to write the relocations.....",
+      "parentUuid": "7fa6978c_b865c62a",
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -159,6 +303,30 @@
       "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5939af6c_7d417884",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-18T23:52:56Z",
+      "side": 1,
+      "message": "Done. I like the suggestion better than what I had.",
+      "parentUuid": "bc746e28_b02262f8",
+      "range": {
+        "startLine": 765,
+        "startChar": 40,
+        "endLine": 765,
+        "endChar": 51
+      },
+      "revId": "0a60521dd5792bb5ddc522019e3011d6d4a75cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
