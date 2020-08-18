@@ -328,7 +328,7 @@ func NewLoader(flags uint32, elfsetstring elfsetstringFunc, reporter *ErrorRepor
 	ldr := &Loader{
 		start:                make(map[*oReader]Sym),
 		objs:                 []objIdx{{}, {extReader, 0}}, // reserve index 0 for nil symbol, 1 for external symbols
-		objSyms:              make([]objSym, 1, 100000),    // reserve index 0 for nil symbol
+		objSyms:              make([]objSym, 1, 200000),    // reserve index 0 for nil symbol
 		extReader:            extReader,
 		symsByName:           [2]map[string]Sym{make(map[string]Sym, 80000), make(map[string]Sym, 50000)}, // preallocate ~2MB for ABI0 and ~1MB for ABI1 symbols
 		objByPkg:             make(map[string]*oReader),
@@ -2150,11 +2150,11 @@ func (l *Loader) LoadNonpkgSyms(arch *sys.Arch) {
 	l.npkgsyms = l.NSym()
 	// Preallocate some space (a few hundreds KB) for some symbols.
 	// As of Go 1.15, linking cmd/compile has ~8000 hashed64 symbols and
-	// ~13000 hashed symbols.
+	// ~60000 hashed symbols.
 	st := loadState{
 		l:            l,
 		hashed64Syms: make(map[uint64]symAndSize, 10000),
-		hashedSyms:   make(map[goobj.HashType]symAndSize, 15000),
+		hashedSyms:   make(map[goobj.HashType]symAndSize, 70000),
 	}
 	for _, o := range l.objs[goObjStart:] {
 		st.preloadSyms(o.r, hashed64Def)
