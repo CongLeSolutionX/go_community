@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "679ff6de_7b7209fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T21:05:25Z",
+      "side": 1,
+      "message": "We still need the size for hashed64 symbols, because the 64-bit hash function doesn\u0027t distinguish it (and PCData symbols are not this case).",
+      "revId": "45adc7fc279f09ebcb2c14068e7397a019ef2d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
