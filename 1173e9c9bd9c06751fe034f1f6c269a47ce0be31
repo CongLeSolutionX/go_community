@@ -86,6 +86,24 @@
       "revId": "1173e9c9bd9c06751fe034f1f6c269a47ce0be31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "401632d8_f8fc1877",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-18T23:47:56Z",
+      "side": 1,
+      "message": "Technical, I wasn\u0027t fully aware of those changes. I yield to you, please go ahead with the best course of action that you see fit :) Thanks for the responses.",
+      "parentUuid": "42ed02fd_098b731a",
+      "revId": "1173e9c9bd9c06751fe034f1f6c269a47ce0be31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
