@@ -86,6 +86,24 @@
       "revId": "8c72534e4615841133832251aae59cd130917fa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab94819d_b790118f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-18T18:52:08Z",
+      "side": 1,
+      "message": "I asked the gerrit experts. They think there may be a bug in importing from github after close+open. They recommend sending a new PR.\nWe\u0027re opening a bug into seeing if this can be fixed for the future.",
+      "parentUuid": "e37b81c1_a2c36a6d",
+      "revId": "8c72534e4615841133832251aae59cd130917fa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
