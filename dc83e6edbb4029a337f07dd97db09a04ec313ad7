@@ -16,6 +16,24 @@
       "revId": "dc83e6edbb4029a337f07dd97db09a04ec313ad7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee466063_e29256cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-08-18T16:49:10Z",
+      "side": 1,
+      "message": "You\u0027re probably running the wrong go binary or you have GOROOT set or something.",
+      "parentUuid": "ae9c90d5_f4901d57",
+      "revId": "dc83e6edbb4029a337f07dd97db09a04ec313ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
