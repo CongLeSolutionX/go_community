@@ -1930,11 +1930,6 @@ func (fi *FuncInfo) Funcdata(syms []Sym) []Sym {
 	if !fi.lengths.Initialized {
 		panic("need to call Preload first")
 	}
-	if int(fi.lengths.NumFuncdataoff) > cap(syms) {
-		syms = make([]Sym, 0, fi.lengths.NumFuncdataoff)
-	} else {
-		syms = syms[:0]
-	}
 	for j := range fi.auxs {
 		a := &fi.auxs[j]
 		if a.Type() == goobj.AuxFuncdata {
