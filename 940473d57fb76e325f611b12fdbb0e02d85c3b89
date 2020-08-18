@@ -142,6 +142,24 @@
       "revId": "940473d57fb76e325f611b12fdbb0e02d85c3b89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "373aedc4_e15e7164",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-08-18T10:41:22Z",
+      "side": 1,
+      "message": "When reviewers find the time for review. There is no planing or dashboard with an estimation as it depends on a lot of factors.",
+      "parentUuid": "5016911c_44a69ade",
+      "revId": "940473d57fb76e325f611b12fdbb0e02d85c3b89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
