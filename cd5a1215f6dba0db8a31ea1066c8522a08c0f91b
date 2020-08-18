@@ -16,6 +16,23 @@
       "revId": "cd5a1215f6dba0db8a31ea1066c8522a08c0f91b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d45b63e_3df06c70",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2534,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-18T00:19:37Z",
+      "side": 1,
+      "message": "With this change, it seems like it would also be worth checking that n \u003e 0 before acquiring the lock and calling globrunqputbatch.",
+      "revId": "cd5a1215f6dba0db8a31ea1066c8522a08c0f91b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
