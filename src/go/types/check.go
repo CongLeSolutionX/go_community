@@ -137,7 +137,7 @@ func (check *Checker) rememberUntyped(e astExpr, lhs bool, mode operandMode, typ
 		m = make(map[astExpr]exprInfo)
 		check.untyped = m
 	}
-	m[e.Reify()] = exprInfo{lhs, mode, typ, val}
+	m[e] = exprInfo{lhs, mode, typ, val}
 }
 
 // later pushes f on to the stack of actions that will be processed later;
@@ -213,12 +213,13 @@ func (check *Checker) initFiles(files []astFile) {
 	// determine package name and collect valid files
 	pkg := check.pkg
 	for _, file := range files {
-		switch name := file.Name().Name(); pkg.name {
+		fName := file.Name()
+		switch name := fName.IdentName(); pkg.name {
 		case "":
 			if name != "_" {
 				pkg.name = name
 			} else {
-				check.errorf(file.Name().Pos(), "invalid package name _")
+				check.errorf(fName.Pos(), "invalid package name _")
 			}
 			fallthrough
 
@@ -349,11 +350,11 @@ func (check *Checker) recordBuiltinType(f astExpr, sig *Signature) {
 	// here): record the signature for f and possible children.
 	for {
 		check.recordTypeAndValue(f, builtin, sig, nil)
-		switch f.Kind() {
-		case identKind:
+		switch e := f.(type) {
+		case astIdent:
 			return // we're done
-		case parenExprKind:
-			f = f.ParenExpr().X()
+		case astParenExpr:
+			f = e.X()
 		default:
 			unreachable()
 		}

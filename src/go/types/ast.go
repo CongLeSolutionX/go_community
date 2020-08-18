@@ -22,11 +22,7 @@ type astFile interface {
 	astNode
 	Package() astPosition
 	Name() astIdent
-	Decls() astDeclList
-}
-
-type astDeclList interface {
-	Len() int
+	DeclsLen() int
 	Decl(i int) astDecl
 }
 
@@ -34,268 +30,235 @@ type astPosition interface {
 	IsValid() bool
 }
 
-type declKind int
+// Decls
+type (
+	astDecl interface {
+		astNode
+		aDecl()
+	}
 
-const (
-	nilDeclKind declKind = iota
-	badDeclKind
-	genDeclKind
-	funcDeclKind
+	astBadDecl interface {
+		astDecl
+		aBadDecl()
+	}
 
-	// In a future iteration, it makes sense to split up GenDecl into the
-	// following:
-	/*
-		importDeclKind
-		constDeclKind
-		typeDeclKind
-		varDeclKind
-	*/
+	astGenDecl interface {
+		astDecl
+		aGenDecl()
+
+		Tok() token.Token
+		SpecsLen() int
+		Spec(i int) astSpec
+	}
+
+	astFuncDecl interface {
+		astDecl
+		aFuncDecl()
+
+		Recv() astFieldList
+		Name() astIdent
+		Type() astFuncType
+		Body() astBlockStmt
+	}
 )
 
-type astDecl interface {
-	astNode
+// Specs
+type (
+	astSpec interface {
+		astNode
+		aSpec()
+	}
 
-	Kind() declKind
+	astValueSpec interface {
+		astSpec
+		aValueSpec()
+		NamesLen() int
+		Name(i int) astIdent
+		Type() astExpr
+		ValuesLen() int
+		Value(i int) astExpr
+	}
 
-	BadDecl() astBadDecl
-	GenDecl() astGenDecl
-	FuncDecl() astFuncDecl
-}
+	astTypeSpec interface {
+		astSpec
+		aTypeSpec()
+		Name() astIdent
+		Assign() astPosition
+		Type() astExpr
+	}
 
-type astBadDecl interface {
-	astDecl
-}
-
-type astGenDecl interface {
-	astDecl
-	Tok() token.Token
-	Specs() astSpecList
-}
-
-type astSpec interface {
-	astNode
-
-	Kind() specKind
-
-	ImportSpec() astImportSpec
-	ValueSpec() astValueSpec
-	TypeSpec() astTypeSpec
-}
-
-type specKind int
-
-const (
-	NilSpecKind specKind = iota
-	ImportSpecKind
-	ValueSpecKind
-	TypeSpecKind
+	astImportSpec interface {
+		astSpec
+		anImportSpec()
+		Path() astBasicLit
+		Name() astIdent
+	}
 )
 
-type astValueSpec interface {
-	astSpec
-	Names() astIdentList
-	Type() astExpr
-	Values() astExprList
-}
+// Exprs
+type (
+	astExpr interface {
+		astNode
+		anExpr()
+	}
 
-type astTypeSpec interface {
-	astSpec
-	Name() astIdent
-	Assign() astPosition
-	Type() astExpr
-}
+	astIdent interface {
+		astExpr
+		IdentName() string
+		anIdent()
+	}
 
-type astImportSpec interface {
-	astSpec
-	Path() astBasicLit
-	Name() astIdent
-}
+	astSelectorExpr interface {
+		astExpr
+		X() astExpr
+		Sel() astIdent
+		anSelectorExpr()
+	}
 
-type astSpecList interface {
-	Len() int
-	Spec(i int) astSpec
-}
+	astBadExpr interface {
+		astExpr
+		anBadExpr()
+	}
 
-type astFuncDecl interface {
-	astDecl
-	Recv() astFieldList
-	Name() astIdent
-	Type() astFuncType
-	Body() astBlockStmt
-}
+	astEllipsis interface {
+		astExpr
+		Elt() astExpr
+		anEllipsis()
+	}
 
-type expressionKind int
+	astBasicLit interface {
+		astExpr
+		LitKind() token.Token
+		LitValue() string
+		anBasicLit()
+	}
 
-const (
-	nilExprKind expressionKind = iota
-	badExprKind
-	identKind
-	ellipsisKind
-	basicLitKind
-	funcLitKind
-	compositeLitKind
-	parenExprKind
-	selectorExprKind
-	indexExprKind
-	sliceExprKind
-	typeAssertExprKind
-	callExprKind
-	starExprKind
-	unaryExprKind
-	binaryExprKind
-	keyValueExprKind
-	arrayTypeKind
-	structTypeKind
-	funcTypeKind
-	interfaceTypeKind
-	mapTypeKind
-	chanTypeKind
+	astFuncLit interface {
+		astExpr
+		Type() astExpr
+		Body() astBlockStmt
+		anFuncLit()
+	}
+
+	astCompositeLit interface {
+		astExpr
+		Type() astExpr
+		EltsLen() int
+		Elt(i int) astExpr
+		Rbrace() astPosition
+		anCompositeLit()
+	}
+
+	astParenExpr interface {
+		astExpr
+		X() astExpr
+		anParenExpr()
+	}
+
+	astIndexExpr interface {
+		astExpr
+		X() astExpr
+		Index() astExpr
+		anIndexExpr()
+	}
+
+	astSliceExpr interface {
+		astExpr
+		X() astExpr
+		Low() astExpr
+		High() astExpr
+		Max() astExpr
+		Slice3() bool
+		Rbrack() astPosition
+		anSliceExpr()
+	}
+
+	astTypeAssertExpr interface {
+		astExpr
+		X() astExpr
+		Type() astExpr
+		anTypeAssertExpr()
+	}
+
+	astCallExpr interface {
+		astExpr
+		ArgsLen() int
+		Arg(i int) astExpr
+		FunExpr() astExpr
+		EllipsisPos() astPosition
+		RparenPos() astPosition
+		anCallExpr()
+	}
+
+	astStarExpr interface {
+		astExpr
+
+		InnerX() astExpr
+		anStarExpr()
+	}
+
+	astUnaryExpr interface {
+		astExpr
+		OpTok() token.Token
+		InnerX() astExpr
+		anUnaryExpr()
+	}
+
+	astBinaryExpr interface {
+		astExpr
+		OpTok() token.Token
+		XExpr() astExpr
+		YExpr() astExpr
+		anBinaryExpr()
+	}
+
+	astKeyValueExpr interface {
+		astExpr
+		KeyExpr() astExpr
+		ValueExpr() astExpr
+		anKeyValueExpr()
+	}
+
+	astArrayType interface {
+		astExpr
+		Len() astExpr
+		Elt() astExpr
+		anArrayType()
+	}
+
+	astStructType interface {
+		astExpr
+		Fields() astFieldList
+		anStructType()
+	}
+	astFuncType interface {
+		astExpr
+		Params() astFieldList
+		Results() astFieldList
+		anFuncType()
+	}
+
+	astInterfaceType interface {
+		astExpr
+		Methods() astFieldList
+		anInterfaceType()
+	}
+
+	astMapType interface {
+		astExpr
+		Key() astExpr
+		Value() astExpr
+		anMapType()
+	}
+
+	astChanType interface {
+		astExpr
+		// TODO: replace this return type
+		Dir() ast.ChanDir
+		Value() astExpr
+		anChanType()
+	}
 )
-
-type astExpr interface {
-	astNode
-
-	// Reify returns the concrete wrapper underlying a possible lazy
-	// wrapper. This is necessary in situations where we rely on ast
-	// comparison (for example, when using expressions as map keys).
-	Reify() astExpr
-
-	Kind() expressionKind
-
-	BadExpr() astBadExpr
-	Ident() astIdent
-	Ellipsis() astEllipsis
-	BasicLit() astBasicLit
-	FuncLit() astFuncLit
-	CompositeLit() astCompositeLit
-	ParenExpr() astParenExpr
-	SelectorExpr() astSelectorExpr
-	IndexExpr() astIndexExpr
-	SliceExpr() astSliceExpr
-	TypeAssertExpr() astTypeAssertExpr
-	CallExpr() astCallExpr
-	StarExpr() astStarExpr
-	UnaryExpr() astUnaryExpr
-	BinaryExpr() astBinaryExpr
-	KeyValueExpr() astKeyValueExpr
-	ArrayType() astArrayType
-	StructType() astStructType
-	FuncType() astFuncType
-	InterfaceType() astInterfaceType
-	MapType() astMapType
-	ChanType() astChanType
-}
-
-type astIdent interface {
-	astExpr
-	Name() string
-}
-
-type astSelectorExpr interface {
-	astExpr
-	X() astExpr
-	Sel() astIdent
-}
-
-type astBadExpr interface {
-	astExpr
-}
-
-type astEllipsis interface {
-	astExpr
-	Elt() astExpr
-}
-
-type astBasicLit interface {
-	astExpr
-	LitKind() token.Token
-	Value() string
-}
-
-type astFuncLit interface {
-	astExpr
-	Type() astExpr
-	Body() astBlockStmt
-}
-
-type astCompositeLit interface {
-	astExpr
-	Type() astExpr
-	Elts() astExprList
-	Rbrace() astPosition
-}
-
-type astParenExpr interface {
-	astExpr
-	X() astExpr
-}
-
-type astIndexExpr interface {
-	astExpr
-	X() astExpr
-	Index() astExpr
-}
-
-type astSliceExpr interface {
-	astExpr
-	X() astExpr
-	Low() astExpr
-	High() astExpr
-	Max() astExpr
-	Slice3() bool
-	Rbrack() astPosition
-}
-
-type astTypeAssertExpr interface {
-	astExpr
-	X() astExpr
-	Type() astExpr
-}
-
-type astCallExpr interface {
-	astExpr
-	Args() astExprList
-	Fun() astExpr
-	EllipsisPos() astPosition
-	Rparen() astPosition
-}
-
-type astStarExpr interface {
-	astExpr
-
-	X() astExpr
-}
-
-type astUnaryExpr interface {
-	astExpr
-	Op() token.Token
-	X() astExpr
-}
-
-type astBinaryExpr interface {
-	astExpr
-	Op() token.Token
-	X() astExpr
-	Y() astExpr
-}
-
-type astKeyValueExpr interface {
-	astExpr
-	Key() astExpr
-	Value() astExpr
-	Colon() astPosition
-}
-
-type astArrayType interface {
-	astExpr
-	Len() astExpr
-	Elt() astExpr
-}
-
-type astStructType interface {
-	astExpr
-	Fields() astFieldList
-}
 
 type astFieldList interface {
 	astNode
@@ -305,7 +268,8 @@ type astFieldList interface {
 
 type astField interface {
 	astNode
-	Names() astIdentList
+	NamesLen() int
+	Name(i int) astIdent
 	Type() astExpr
 	Tag() astBasicLit
 }
@@ -315,223 +279,175 @@ type astExprList interface {
 	Expr(i int) astExpr
 }
 
-type astIdentList interface {
-	Len() int
-	Ident(i int) astIdent
-}
+// Stmts
+type (
+	astStmt interface {
+		astNode
+		aStmt()
+	}
 
-type astFuncType interface {
-	astExpr
-	Params() astFieldList
-	Results() astFieldList
-}
+	astBadStmt interface {
+		astStmt
+		aBadStmt()
+	}
 
-type astInterfaceType interface {
-	astExpr
-	Methods() astFieldList
-}
+	astDeclStmt interface {
+		astStmt
+		aDeclStmt()
+		Decl() astDecl
+	}
 
-type astMapType interface {
-	astExpr
-	Key() astExpr
-	Value() astExpr
-}
+	astEmptyStmt interface {
+		astStmt
+		aEmptyStmt()
+	}
 
-type astChanType interface {
-	astExpr
-	// TODO: replace this return type
-	Dir() ast.ChanDir
-	Value() astExpr
-}
+	astLabeledStmt interface {
+		astStmt
+		aLabeledStmt()
+		Label() astIdent
+		Stmt() astStmt
+	}
 
-type stmtKind int
+	astExprStmt interface {
+		astStmt
+		aExprStmt()
+		X() astExpr
+	}
 
-const (
-	nilStmtKind stmtKind = iota
-	badStmtKind
-	declStmtKind
-	emptyStmtKind
-	labeledStmtKind
-	exprStmtKind
-	sendStmtKind
-	incDecStmtKind
-	assignStmtKind
-	goStmtKind
-	deferStmtKind
-	returnStmtKind
-	branchStmtKind
-	blockStmtKind
-	ifStmtKind
-	caseClauseKind
-	switchStmtKind
-	typeSwitchStmtKind
-	commClauseKind
-	selectStmtKind
-	forStmtKind
-	rangeStmtKind
+	astSendStmt interface {
+		astStmt
+		aSendStmt()
+		Chan() astExpr
+		Value() astExpr
+		Arrow() astPosition
+	}
+
+	astIncDecStmt interface {
+		astStmt
+		aIncDecStmt()
+		Tok() token.Token
+		TokPos() astPosition
+		X() astExpr
+	}
+
+	astAssignStmt interface {
+		astStmt
+		aAssignStmt()
+		Lhs() astExprList
+		LhsLen() int
+		LhsExpr(i int) astExpr
+		RhsLen() int
+		RhsExpr(i int) astExpr
+		Rhs() astExprList
+		Tok() token.Token
+		TokPos() astPosition
+	}
+
+	astGoStmt interface {
+		astStmt
+		aGoStmt()
+		Call() astCallExpr
+	}
+
+	astDeferStmt interface {
+		astStmt
+		aDeferStmt()
+		Call() astCallExpr
+	}
+
+	astReturnStmt interface {
+		astStmt
+		aReturnStmt()
+		Results() astExprList
+		ResultsLen() int
+		Result(i int) astExpr
+		Return() astPosition
+	}
+
+	astBranchStmt interface {
+		astStmt
+		aBranchStmt()
+		Tok() token.Token
+		Label() astIdent
+	}
+
+	astBlockStmt interface {
+		astStmt
+		aBlockStmt()
+		List() astStmtList
+		Lbrace() astPosition
+		Rbrace() astPosition
+	}
+
+	astIfStmt interface {
+		astStmt
+		aIfStmt()
+		Init() astStmt
+		Cond() astExpr
+		Body() astBlockStmt
+		Else() astStmt
+	}
+
+	astCaseClause interface {
+		astStmt
+		aCaseClause()
+		ListLen() int
+		Item(i int) astExpr
+		Body() astStmtList
+	}
+
+	astSwitchStmt interface {
+		astStmt
+		aSwitchStmt()
+		Init() astStmt
+		Tag() astExpr
+		Body() astBlockStmt
+	}
+
+	astTypeSwitchStmt interface {
+		astStmt
+		aTypeSwitchStmt()
+		Init() astStmt
+		Assign() astStmt
+		Body() astBlockStmt
+	}
+
+	astCommClause interface {
+		astStmt
+		aCommClause()
+		Comm() astStmt
+		Body() astStmtList
+	}
+
+	astSelectStmt interface {
+		astStmt
+		aSelectStmt()
+		Body() astBlockStmt
+	}
+
+	astForStmt interface {
+		astStmt
+		aForStmt()
+		Init() astStmt
+		Cond() astExpr
+		Post() astStmt
+		Body() astBlockStmt
+	}
+
+	astRangeStmt interface {
+		astStmt
+		aRangeStmt()
+		Key() astExpr
+		Value() astExpr
+		X() astExpr
+		Body() astBlockStmt
+		Tok() token.Token
+		TokPos() astPosition
+	}
 )
-
-type astStmt interface {
-	astNode
-
-	Kind() stmtKind
-	BadStmt() astBadStmt
-	DeclStmt() astDeclStmt
-	EmptyStmt() astEmptyStmt
-	LabeledStmt() astLabeledStmt
-	ExprStmt() astExprStmt
-	SendStmt() astSendStmt
-	IncDecStmt() astIncDecStmt
-	AssignStmt() astAssignStmt
-	GoStmt() astGoStmt
-	DeferStmt() astDeferStmt
-	ReturnStmt() astReturnStmt
-	BranchStmt() astBranchStmt
-	BlockStmt() astBlockStmt
-	IfStmt() astIfStmt
-	CaseClause() astCaseClause
-	SwitchStmt() astSwitchStmt
-	TypeSwitchStmt() astTypeSwitchStmt
-	CommClause() astCommClause
-	SelectStmt() astSelectStmt
-	ForStmt() astForStmt
-	RangeStmt() astRangeStmt
-}
-
-type astBadStmt interface {
-	astStmt
-}
-
-type astDeclStmt interface {
-	astStmt
-	Decl() astDecl
-}
-
-type astEmptyStmt interface {
-	astStmt
-}
-
-type astLabeledStmt interface {
-	astStmt
-	Label() astIdent
-	Stmt() astStmt
-}
-
-type astExprStmt interface {
-	astStmt
-	X() astExpr
-}
-
-type astSendStmt interface {
-	astStmt
-	Chan() astExpr
-	Value() astExpr
-	Arrow() astPosition
-}
-
-type astIncDecStmt interface {
-	astStmt
-	Tok() token.Token
-	TokPos() astPosition
-	X() astExpr
-}
-
-type astAssignStmt interface {
-	astStmt
-	Lhs() astExprList
-	Rhs() astExprList
-	Tok() token.Token
-	TokPos() astPosition
-}
-
-type astGoStmt interface {
-	astStmt
-	Call() astCallExpr
-}
-
-type astDeferStmt interface {
-	astStmt
-	Call() astCallExpr
-}
-
-type astReturnStmt interface {
-	astStmt
-	Results() astExprList
-	Return() astPosition
-}
-
-type astBranchStmt interface {
-	astStmt
-	Tok() token.Token
-	Label() astIdent
-}
-
-type astBlockStmt interface {
-	astStmt
-	List() astStmtList
-	Lbrace() astPosition
-	Rbrace() astPosition
-}
 
 type astStmtList interface {
 	Len() int
 	Stmt(i int) astStmt
-	Head(i int) astStmtList // [:i]
-}
-
-type astIfStmt interface {
-	astStmt
-	Init() astStmt
-	Cond() astExpr
-	Body() astBlockStmt
-	Else() astStmt
-}
-
-type astCaseClause interface {
-	astStmt
-	List() astExprList
-	Body() astStmtList
-}
-
-type astSwitchStmt interface {
-	astStmt
-	Init() astStmt
-	Tag() astExpr
-	Body() astBlockStmt
-}
-
-type astTypeSwitchStmt interface {
-	astStmt
-	Init() astStmt
-	Assign() astStmt
-	Body() astBlockStmt
-}
-
-type astCommClause interface {
-	astStmt
-	Comm() astStmt
-	Body() astStmtList
-}
-
-type astSelectStmt interface {
-	astStmt
-	Body() astBlockStmt
-}
-
-type astForStmt interface {
-	astStmt
-	Init() astStmt
-	Cond() astExpr
-	Post() astStmt
-	Body() astBlockStmt
-}
-
-type astRangeStmt interface {
-	astStmt
-	Key() astExpr
-	Value() astExpr
-	X() astExpr
-	Body() astBlockStmt
-	Tok() token.Token
-	TokPos() astPosition
 }

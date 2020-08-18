@@ -406,11 +406,14 @@ func (check *Checker) constDecl(obj *Const, typ, init astExpr) {
 	}
 
 	// check initialization
-	var x operand
+	x := operandPool.Get().(*operand)
+	*x = operand{}
+	defer operandPool.Put(x)
+	// x := &operand{}
 	if init != nil {
-		check.expr(&x, init)
+		check.expr(x, init)
 	}
-	check.initConst(obj, &x)
+	check.initConst(obj, x)
 }
 
 func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init astExpr) {
@@ -440,9 +443,10 @@ func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init astExpr) {
 
 	if lhs == nil || len(lhs) == 1 {
 		assert(lhs == nil || lhs[0] == obj)
-		var x operand
-		check.expr(&x, init)
-		check.initVar(obj, &x, "variable declaration")
+		x := operandPool.Get().(*operand)
+		check.expr(x, init)
+		check.initVar(obj, x, "variable declaration")
+		operandPool.Put(x)
 		return
 	}
 
@@ -666,25 +670,23 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 func (check *Checker) declStmt(decl astDecl) {
 	pkg := check.pkg
 
-	switch decl.Kind() {
-	case badDeclKind:
+	switch d := decl.(type) {
+	case astBadDecl:
 		// ignore
 
-	case genDeclKind:
-		d := decl.GenDecl()
+	case astGenDecl:
 		var last astValueSpec // last ValueSpec with type or init exprs seen
-		for iota := 0; iota < d.Specs().Len(); iota++ {
-			spec := d.Specs().Spec(iota)
-			switch spec.Kind() {
-			case ValueSpecKind:
-				s := spec.ValueSpec()
+		for iota := 0; iota < d.SpecsLen(); iota++ {
+			spec := d.Spec(iota)
+			switch s := spec.(type) {
+			case astValueSpec:
 				switch d.Tok() {
 				case token.CONST:
 					top := len(check.delayed)
 
 					// determine which init exprs to use
 					switch {
-					case s.Type() != nil || s.Values().Len() > 0:
+					case s.Type() != nil || s.ValuesLen() > 0:
 						last = s
 					case last == nil:
 						// last = new(ast.ValueSpec) // make sure last exists
@@ -692,15 +694,15 @@ func (check *Checker) declStmt(decl astDecl) {
 					}
 
 					// declare all constants
-					lhs := make([]*Const, s.Names().Len())
-					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
-						name := s.Names().Ident(i)
-						obj := newConst(name.Pos(), pkg, name.Name(), nil, constant.MakeInt64(int64(iota)))
+					lhs := make([]*Const, s.NamesLen())
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
+						name := s.Name(i)
+						obj := newConst(name.Pos(), pkg, name.IdentName(), nil, constant.MakeInt64(int64(iota)))
 						lhs[i] = obj
 
 						var init astExpr
-						if i < last.Values().Len() {
-							init = last.Values().Expr(i)
+						if i < last.ValuesLen() {
+							init = last.Value(i)
 						}
 
 						check.constDecl(obj, last.Type(), init)
@@ -716,39 +718,39 @@ func (check *Checker) declStmt(decl astDecl) {
 					// (ShortVarDecl for short variable declarations) and ends at the
 					// end of the innermost containing block."
 					scopePos := s.End()
-					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
-						check.declare(check.scope, s.Names().Ident(i), lhs[i], scopePos)
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
+						check.declare(check.scope, s.Name(i), lhs[i], scopePos)
 					}
 
 				case token.VAR:
 
 					top := len(check.delayed)
 
-					lhs0 := make([]*Var, s.Names().Len())
-					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
-						name := s.Names().Ident(i)
-						lhs0[i] = newVar(name.Pos(), pkg, name.Name(), nil)
+					lhs0 := make([]*Var, s.NamesLen())
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
+						name := s.Name(i)
+						lhs0[i] = newVar(name.Pos(), pkg, name.IdentName(), nil)
 					}
 
 					// initialize all variables
 					for i, obj := range lhs0 {
 						var lhs []*Var
 						var init astExpr
-						switch s.Values().Len() {
-						case s.Names().Len():
+						switch s.ValuesLen() {
+						case s.NamesLen():
 							// lhs and rhs match
-							init = s.Values().Expr(i)
+							init = s.Value(i)
 						case 1:
 							// rhs is expected to be a multi-valued expression
 							lhs = lhs0
-							init = s.Values().Expr(0)
+							init = s.Value(0)
 						default:
-							if i < s.Values().Len() {
-								init = s.Values().Expr(i)
+							if i < s.ValuesLen() {
+								init = s.Value(i)
 							}
 						}
 						check.varDecl(obj, lhs, s.Type(), init)
-						if s.Values().Len() == 1 {
+						if s.ValuesLen() == 1 {
 							// If we have a single lhs variable we are done either way.
 							// If we have a single rhs expression, it must be a multi-
 							// valued expression, in which case handling the first lhs
@@ -771,18 +773,17 @@ func (check *Checker) declStmt(decl astDecl) {
 					// declare all variables
 					// (only at this point are the variable scopes (parents) set)
 					scopePos := s.End() // see constant declarations
-					for i, namesLen := 0, s.Names().Len(); i < namesLen; i++ {
+					for i, namesLen := 0, s.NamesLen(); i < namesLen; i++ {
 						// see constant declarations
-						check.declare(check.scope, s.Names().Ident(i), lhs0[i], scopePos)
+						check.declare(check.scope, s.Name(i), lhs0[i], scopePos)
 					}
 
 				default:
 					check.invalidAST(s.Pos(), "invalid token %s", d.Tok)
 				}
 
-			case TypeSpecKind:
-				s := spec.TypeSpec()
-				obj := newTypeName(s.Name().Pos(), pkg, s.Name().Name(), nil)
+			case astTypeSpec:
+				obj := newTypeName(s.Name().Pos(), pkg, s.Name().IdentName(), nil)
 				// spec: "The scope of a type identifier declared inside a function
 				// begins at the identifier in the TypeSpec and ends at the end of
 				// the innermost containing block."

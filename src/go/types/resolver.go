@@ -48,10 +48,10 @@ func (d *declInfo) addDep(obj Object) {
 // decls, init is the value spec providing the init exprs; for
 // var decls, init is nil (the init exprs are in s in this case).
 func (check *Checker) arityMatch(s, init astValueSpec) {
-	l := s.Names().Len()
-	r := s.Values().Len()
+	l := s.NamesLen()
+	r := s.ValuesLen()
 	if init != nil {
-		r = init.Values().Len()
+		r = init.ValuesLen()
 	}
 
 	switch {
@@ -61,9 +61,9 @@ func (check *Checker) arityMatch(s, init astValueSpec) {
 			check.errorf(s.Pos(), "missing type or init expr")
 		}
 	case l < r:
-		if l < s.Values().Len() {
+		if l < s.ValuesLen() {
 			// init exprs from s
-			n := s.Values().Expr(l)
+			n := s.Value(l)
 			check.errorf(n.Pos(), "extra init expr %s", n)
 			// TODO(gri) avoid declared but not used error here
 		} else {
@@ -73,7 +73,7 @@ func (check *Checker) arityMatch(s, init astValueSpec) {
 			// TODO(gri) avoid declared but not used error here
 		}
 	case l > r && (init != nil || r != 1):
-		n := s.Names().Ident(r)
+		n := s.Name(r)
 		check.errorf(n.Pos(), "missing init expr for %s", n)
 	}
 }
@@ -98,18 +98,18 @@ func validatedImportPath(path string) (string, error) {
 // declarePkgObj declares obj in the package scope, records its ident -> obj mapping,
 // and updates check.objMap. The object must not be a function or method.
 func (check *Checker) declarePkgObj(ident astIdent, obj Object, d *declInfo) {
-	assert(ident.Name() == obj.Name())
+	assert(ident.IdentName() == obj.Name())
 
 	// spec: "A package-scope or file-scope identifier with name init
 	// may only be declared to be a function with this (func()) signature."
-	if ident.Name() == "init" {
+	if ident.IdentName() == "init" {
 		check.errorf(ident.Pos(), "cannot declare init - must be func")
 		return
 	}
 
 	// spec: "The main package must have package name main and declare
 	// a function main that takes no arguments and returns no value."
-	if ident.Name() == "main" && check.pkg.name == "main" {
+	if ident.IdentName() == "main" && check.pkg.name == "main" {
 		check.errorf(ident.Pos(), "cannot declare main - must be func")
 		return
 	}
@@ -238,29 +238,28 @@ func (check *Checker) collectObjects() {
 		// TODO: eliminate this type assertion
 		fileDir := dir(check.fset.Position(file.Name().Pos().(token.Pos)).Filename)
 
-		for decli := 0; decli < file.Decls().Len(); decli++ {
-			decl := file.Decls().Decl(decli)
-			switch decl.Kind() {
-			case badDeclKind:
+		for decli := 0; decli < file.DeclsLen(); decli++ {
+			decl := file.Decl(decli)
+			switch d := decl.(type) {
+			case astBadDecl:
 				// ignore
 
-			case genDeclKind:
-				d := decl.GenDecl()
+			case astGenDecl:
 				var last astValueSpec // last ValueSpec with type or init exprs seen
 				// for iota, spec := range d.Specs() {
-				for iota := 0; iota < d.Specs().Len(); iota++ {
-					spec := d.Specs().Spec(iota)
-					switch spec.Kind() {
-					case ImportSpecKind:
-						s := spec.ImportSpec()
+				for iota := 0; iota < d.SpecsLen(); iota++ {
+					spec := d.Spec(iota)
+					switch s := spec.(type) {
+					case astImportSpec:
 						// import package
-						path, err := validatedImportPath(s.Path().Value())
+						sPath := s.Path()
+						path, err := validatedImportPath(sPath.LitValue())
 						if err != nil {
-							check.errorf(s.Path().Pos(), "invalid import path (%s)", err)
+							check.errorf(sPath.Pos(), "invalid import path (%s)", err)
 							continue
 						}
 
-						imp := check.importPackage(s.Path().Pos(), path, fileDir)
+						imp := check.importPackage(sPath.Pos(), path, fileDir)
 						if imp == nil {
 							continue
 						}
@@ -275,8 +274,8 @@ func (check *Checker) collectObjects() {
 
 						// local name overrides imported package name
 						name := imp.name
-						if s.Name() != nil {
-							name = s.Name().Name()
+						if sName := s.Name(); sName != nil {
+							name = sName.IdentName()
 							if path == "C" {
 								// match cmd/compile (not prescribed by spec)
 								check.errorf(s.Name().Pos(), `cannot rename import "C"`)
@@ -328,13 +327,12 @@ func (check *Checker) collectObjects() {
 							check.declare(fileScope, nil, obj, token.NoPos)
 						}
 
-					case ValueSpecKind:
-						s := spec.ValueSpec()
+					case (astValueSpec):
 						switch d.Tok() {
 						case token.CONST:
 							// determine which initialization expressions to use
 							switch {
-							case s.Type() != nil || s.Values().Len() > 0:
+							case s.Type() != nil || s.ValuesLen() > 0:
 								last = s
 							case last == nil:
 								// last = new(ast.ValueSpec) // make sure last exists
@@ -342,13 +340,13 @@ func (check *Checker) collectObjects() {
 							}
 
 							// declare all constants
-							for i := 0; i < s.Names().Len(); i++ {
-								name := s.Names().Ident(i)
-								obj := newConst(name.Pos(), pkg, name.Name(), nil, constant.MakeInt64(int64(iota)))
+							for i := 0; i < s.NamesLen(); i++ {
+								name := s.Name(i)
+								obj := newConst(name.Pos(), pkg, name.IdentName(), nil, constant.MakeInt64(int64(iota)))
 
 								var init astExpr
-								if i < last.Values().Len() {
-									init = last.Values().Expr(i)
+								if i < last.ValuesLen() {
+									init = last.Value(i)
 								}
 
 								d := &declInfo{file: fileScope, typ: last.Type(), init: init}
@@ -358,33 +356,34 @@ func (check *Checker) collectObjects() {
 							check.arityMatch(s, last)
 
 						case token.VAR:
-							lhs := make([]*Var, s.Names().Len())
+							lhs := make([]*Var, s.NamesLen())
 							// If there's exactly one rhs initializer, use
 							// the same declInfo d1 for all lhs variables
 							// so that each lhs variable depends on the same
 							// rhs initializer (n:1 var declaration).
 							var d1 *declInfo
-							if s.Values().Len() == 1 {
+							sType := s.Type()
+							if s.ValuesLen() == 1 {
 								// The lhs elements are only set up after the for loop below,
 								// but that's ok because declareVar only collects the declInfo
 								// for a later phase.
-								d1 = &declInfo{file: fileScope, lhs: lhs, typ: s.Type(), init: s.Values().Expr(0)}
+								d1 = &declInfo{file: fileScope, lhs: lhs, typ: sType, init: s.Value(0)}
 							}
 
 							// declare all variables
-							for i := 0; i < s.Names().Len(); i++ {
-								name := s.Names().Ident(i)
-								obj := newVar(name.Pos(), pkg, name.Name(), nil)
+							for i := 0; i < s.NamesLen(); i++ {
+								name := s.Name(i)
+								obj := newVar(name.Pos(), pkg, name.IdentName(), nil)
 								lhs[i] = obj
 
 								d := d1
 								if d == nil {
 									// individual assignments
 									var init astExpr
-									if i < s.Values().Len() {
-										init = s.Values().Expr(i)
+									if i < s.ValuesLen() {
+										init = s.Value(i)
 									}
-									d = &declInfo{file: fileScope, typ: s.Type(), init: init}
+									d = &declInfo{file: fileScope, typ: sType, init: init}
 								}
 
 								check.declarePkgObj(name, obj, d)
@@ -396,9 +395,8 @@ func (check *Checker) collectObjects() {
 							check.invalidAST(s.Pos(), "invalid token %s", d.Tok)
 						}
 
-					case TypeSpecKind:
-						s := spec.TypeSpec()
-						obj := newTypeName(s.Name().Pos(), pkg, s.Name().Name(), nil)
+					case (astTypeSpec):
+						obj := newTypeName(s.Name().Pos(), pkg, s.Name().IdentName(), nil)
 						check.declarePkgObj(s.Name(), obj, &declInfo{file: fileScope, typ: s.Type(), alias: s.Assign().IsValid()})
 
 					default:
@@ -407,32 +405,31 @@ func (check *Checker) collectObjects() {
 					}
 				}
 
-			case funcDeclKind:
-				d := decl.FuncDecl()
-				name := d.Name().Name()
-				obj := newFunc(d.Name().Pos(), pkg, name, nil)
+			case astFuncDecl:
+				name := d.Name()
+				obj := newFunc(name.Pos(), pkg, name.IdentName(), nil)
 				if d.Recv() == nil {
 					// regular function
-					if name == "init" {
+					if name.IdentName() == "init" {
 						// don't declare init functions in the package scope - they are invisible
 						obj.parent = pkg.scope
-						check.recordDef(d.Name(), obj)
+						check.recordDef(name, obj)
 						// init functions must have a body
 						if d.Body() == nil {
 							check.softErrorf(obj.pos, "missing function body")
 						}
 					} else {
-						check.declare(pkg.scope, d.Name(), obj, token.NoPos)
+						check.declare(pkg.scope, name, obj, token.NoPos)
 					}
 				} else {
 					// method
 					// (Methods with blank _ names are never found; no need to collect
 					// them for later type association. They will still be type-checked
 					// with all the other functions.)
-					if name != "_" {
+					if name.IdentName() != "_" {
 						methods = append(methods, obj)
 					}
-					check.recordDef(d.Name(), obj)
+					check.recordDef(name, obj)
 				}
 				info := &declInfo{file: fileScope, fdecl: d}
 				// Methods are not package-level objects but we still track them in the
@@ -502,24 +499,24 @@ func (check *Checker) resolveBaseTypeName(typ astExpr) (ptr bool, base *TypeName
 		typ = unparen(typ)
 
 		// check if we have a pointer type
-		if pexpr := typ.StarExpr(); pexpr != nil {
+		if pexpr, _ := typ.(astStarExpr); pexpr != nil {
 			// if we've already seen a pointer, we're done
 			if ptr {
 				return false, nil
 			}
 			ptr = true
-			typ = unparen(pexpr.X()) // continue with pointer base type
+			typ = unparen(pexpr.InnerX()) // continue with pointer base type
 		}
 
 		// typ must be a name
-		name := typ.Ident()
+		name, _ := typ.(astIdent)
 		if name == nil {
 			return false, nil
 		}
 
 		// name must denote an object found in the current package scope
 		// (note that dot-imported objects are not in the package scope!)
-		obj := check.pkg.scope.Lookup(name.Name())
+		obj := check.pkg.scope.Lookup(name.IdentName())
 		if obj == nil {
 			return false, nil
 		}
