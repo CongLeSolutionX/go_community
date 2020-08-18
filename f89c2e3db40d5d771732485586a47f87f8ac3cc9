@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a223ef9_ea0452c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T17:22:44Z",
+      "side": 1,
+      "message": "This may be okay, but I wonder, does it happen in practice?\n",
+      "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04693a3_ccde1cdd",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T17:22:44Z",
+      "side": 1,
+      "message": "I think it is better to directly write the condition in the rule, instead of using a helper function.",
+      "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdd18061_160c4355",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T17:22:44Z",
+      "side": 1,
+      "message": "This fits in int64. You can write it in hex below.",
+      "range": {
+        "startLine": 1331,
+        "startChar": 7,
+        "endLine": 1331,
+        "endChar": 17
+      },
+      "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fc3cce5_de0313cf",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-18T17:22:44Z",
+      "side": 1,
+      "message": "uint64(a) \u003d\u003d 0xff00ff00ff00ff00 ?",
+      "range": {
+        "startLine": 1337,
+        "startChar": 9,
+        "endLine": 1337,
+        "endChar": 32
+      },
+      "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
