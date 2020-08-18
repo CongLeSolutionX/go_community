@@ -16,6 +16,41 @@
       "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "733f3778_0742566d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35665
+      },
+      "writtenOn": "2020-08-18T14:52:56Z",
+      "side": 1,
+      "message": "Comments update below, thanks for review.",
+      "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53c952cd_940af2de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35665
+      },
+      "writtenOn": "2020-08-18T14:52:56Z",
+      "side": 1,
+      "message": "Hi, Emmanuel\nI actually embeded the demonstrated information in originial github PR (https://github.com/golang/go/pull/38534), but it was removed due to compromise the isse format later on.\n\nThe issue is found when i was using `http.FileServer` to serve virtual filesystem, which files are stored as binary format in some db or memory which doesn\u0027t matter, If the url accessed was exactly `/`, it will redirect to `..//`, and as you can see, it is already root path, and this is actually itself, as result,\nthis line of code will cause infinite 301 redirects loop.\n\nTo prevent this behavior it is safe to add additional check \u0026\u0026 url !\u003d\"/\".\n\nIf you check out the code change, actullay this PR is quite simple and clear, just prevent to redirect `/` to `..//`, is that make sense?\n\nRelated issue: golang/go#13996\n\n$ curl http://localhost:9000/ -v -L\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying ::1:9000...\n* TCP_NODELAY set\n*   Trying 127.0.0.1:9000...\n* TCP_NODELAY set\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\u003e GET / HTTP/1.1\n\u003e Host: localhost:9000\n\u003e User-Agent: curl/7.65.3\n\u003e Accept: */*\n\u003e\n* Mark bundle as not supporting multiuse\n\u003c HTTP/1.1 301 Moved Permanently\n\u003c Location: ..//\n\u003c Date: Mon, 20 Apr 2020 02:08:14 GMT\n\u003c Content-Length: 0\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Issue another request to this URL: \u0027http://localhost:9000/\u0027\n* Found bundle for host localhost: 0x2754760 [serially]\n* Can not multiplex, even if we wanted to!\n* Re-using existing connection! (#0) with host localhost\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\u003e GET / HTTP/1.1\n\u003e Host: localhost:9000\n\u003e User-Agent: curl/7.65.3\n\u003e Accept: */*\n\u003e\n* Mark bundle as not supporting multiuse\n\u003c HTTP/1.1 301 Moved Permanently\n\u003c Location: ..//\n\u003c Date: Mon, 20 Apr 2020 02:08:14 GMT\n\u003c Content-Length: 0\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Issue another request to this URL: \u0027http://localhost:9000/\u0027\n* Found bundle for host localhost: 0x2754760 [serially]\n* Can not multiplex, even if we wanted to!\n* Re-using existing connection! (#0) with host localhost\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\nTLDR\n\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Issue another request to this URL: \u0027http://localhost:9000/\u0027\n* Found bundle for host localhost: 0x2754760 [serially]\n* Can not multiplex, even if we wanted to!\n* Re-using existing connection! (#0) with host localhost\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\u003e GET / HTTP/1.1\n\u003e Host: localhost:9000\n\u003e User-Agent: curl/7.65.3\n\u003e Accept: */*\n\u003e\n* Mark bundle as not supporting multiuse\n\u003c HTTP/1.1 301 Moved Permanently\n\u003c Location: ..//\n\u003c Date: Mon, 20 Apr 2020 02:08:14 GMT\n\u003c Content-Length: 0\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Maximum (50) redirects followed\ncurl: (47) Maximum (50) redirects followed",
+      "parentUuid": "fdaeb6c4_adb144bc",
+      "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
