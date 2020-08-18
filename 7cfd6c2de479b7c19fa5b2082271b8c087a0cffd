@@ -16,6 +16,24 @@
       "revId": "7cfd6c2de479b7c19fa5b2082271b8c087a0cffd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a07be35d_2e468fe6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2020-08-18T19:54:49Z",
+      "side": 1,
+      "message": "Not sure if this logs sufficient info for debugging, but I\u0027d appreciate it if you can cherrypick and test.",
+      "parentUuid": "fd0958f1_459935cf",
+      "revId": "7cfd6c2de479b7c19fa5b2082271b8c087a0cffd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
