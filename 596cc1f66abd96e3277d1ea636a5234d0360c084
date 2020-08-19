@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb32412_352fa0bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-19T00:06:10Z",
+      "side": 1,
+      "message": "\"go build\" treats _test.go files specially.  It doesn\u0027t know anything about _test.s files.\n\nThanks for finding the problem.",
+      "revId": "596cc1f66abd96e3277d1ea636a5234d0360c084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
