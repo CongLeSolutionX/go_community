@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04ead0f2_6703499c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32848
+      },
+      "writtenOn": "2020-08-19T04:01:11Z",
+      "side": 1,
+      "message": "No, I didn\u0027t find this pattern in practice. \nThis pattern was inspired by Set interface in REGA64 in image/image.go. I wanted to optimize it as `(moved ptr (rev16 inputValue) memory)`, But I find it\u0027s hard to fix inputValue. So I create a uint64 value as input and get this pattern.\n```\nfunc (p *RGBA64) Set(x, y int, c color.Color) {\n    ....\n    s :\u003d p.Pix[i : i+8 : i+8]  \n    ....\n    s[0] \u003d uint8(c1.R \u003e\u003e 8)\n    s[1] \u003d uint8(c1.R)\n    s[2] \u003d uint8(c1.G \u003e\u003e 8)\n    s[3] \u003d uint8(c1.G)\n    s[4] \u003d uint8(c1.B \u003e\u003e 8)\n    s[5] \u003d uint8(c1.B)\n    s[6] \u003d uint8(c1.A \u003e\u003e 8)\n    s[7] \u003d uint8(c1.A)\n}\n```",
+      "parentUuid": "1a223ef9_ea0452c4",
+      "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04693a3_ccde1cdd",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2020-08-18T17:22:44Z",
       "side": 1,
       "message": "I think it is better to directly write the condition in the rule, instead of using a helper function.",
+      "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9c3025_ccc04759",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 32848
+      },
+      "writtenOn": "2020-08-19T04:01:11Z",
+      "side": 1,
+      "message": "the mask 0xff00ff00ff00ff00 in the rule would write as -71777214294589696 and the rule may be a little hard to read. Could I add a comments to explain what \"-71777214294589696\" stands for if I directly write in the rule.",
+      "parentUuid": "d04693a3_ccde1cdd",
       "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
