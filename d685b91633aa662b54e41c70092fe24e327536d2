@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "718bedc6_ed30dea3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-08-19T12:26:25Z",
+      "side": 1,
+      "message": "but provides data with the same endianness as lvx, unlike lvxd2x and stxvd2x.",
+      "revId": "d685b91633aa662b54e41c70092fe24e327536d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5717faf_b50a3f04",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -16,6 +33,40 @@
       "revId": "d685b91633aa662b54e41c70092fe24e327536d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f97b813_38a750d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-08-19T12:26:25Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-ppc64le-power9osu,ppc64le,ppc64",
+      "revId": "d685b91633aa662b54e41c70092fe24e327536d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33591cd4_253174c4",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5297,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-08-19T12:26:25Z",
+      "side": 1,
+      "message": "Maybe that last comment should be fixed or removed? It says something power7 which golang doesn\u0027t even support anymore and only applies to some instructions. Looked like each instruction has a comment with its ISA.",
+      "revId": "d685b91633aa662b54e41c70092fe24e327536d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
