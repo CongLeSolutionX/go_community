@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d4503d80_fcbf0573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-08-19T12:55:58Z",
+      "side": 1,
+      "message": "I think the prefix should include cmd/asm,cmd/internal/obj/ppc64 and then you don\u0027t need to mention ppc64 in the title, just power9.",
+      "revId": "d685b91633aa662b54e41c70092fe24e327536d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "718bedc6_ed30dea3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
