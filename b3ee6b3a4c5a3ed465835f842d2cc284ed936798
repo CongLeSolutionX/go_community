@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1f7763_18197d13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "Generally, I feel like this was attempted as a simple copy-paste and modify of the x+delta\u003ew cases. I don\u0027t think it is that simple. This is very tricky code, and I think it requires developing some deeper understanding of how prove works.\n\nThat said, I don\u0027t think I have a very deep understanding of how prove works either. You can try to convince me I\u0027m wrong. Some deeper comments in the code about what is going on would help.\n\nThis needs tests. Lots of tests. Both for cases which it can prove removal, as well as (and especially!) cases where it should not.\n",
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1083fc94_f2ae94b8",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "shift",
+      "range": {
+        "startLine": 456,
+        "startChar": 35,
+        "endLine": 456,
+        "endChar": 40
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe9f4610_d413e3a0",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "x \u003c\u003c shift",
+      "range": {
+        "startLine": 456,
+        "startChar": 14,
+        "endLine": 456,
+        "endChar": 24
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "980806d8_894fa1d7",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "Why this condition? You don\u0027t know what operation x is, so its AuxInt value could be anything.",
+      "range": {
+        "startLine": 537,
+        "startChar": 44,
+        "endLine": 537,
+        "endChar": 57
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "828ec41d_eb94e0dd",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "Why unsigned?",
+      "range": {
+        "startLine": 537,
+        "startChar": 75,
+        "endLine": 537,
+        "endChar": 88
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9edf713_0000c12e",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "It would be nice to implement this code once for multiplication (as a function literal?), then from the shift case just pass 1\u003c\u003cpower in as the multiplication factor.",
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12b83b75_7ba6534a",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "I don\u0027t see how this is a max bound on x, because of overflow. If I know that x * 4 \u003c 16, that doesn\u0027t mean x \u003c 4. (x could be 0x40000000 in 32 bit, for example.)",
+      "range": {
+        "startLine": 594,
+        "startChar": 5,
+        "endLine": 594,
+        "endChar": 8
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fd72093_05de9ad0",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "This isn\u0027t the right value for the unsigned domain.",
+      "range": {
+        "startLine": 594,
+        "startChar": 17,
+        "endLine": 594,
+        "endChar": 30
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f39aea9_6528c643",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T16:37:05Z",
+      "side": 1,
+      "message": "Does the signedness matter? Left shifts are the same operation on both signed and unsigned values. (That\u0027s why there is a Rsh32U but not a Lsh32U.)",
+      "range": {
+        "startLine": 1491,
+        "startChar": 64,
+        "endLine": 1491,
+        "endChar": 72
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
