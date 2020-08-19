@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baab3a4c_c592c3ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-19T21:53:02Z",
+      "side": 1,
+      "message": "Thanks. And sorry about the typo.",
+      "revId": "1bf00a19703fd96c7b7b778b2130dd7e26f4c0c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
