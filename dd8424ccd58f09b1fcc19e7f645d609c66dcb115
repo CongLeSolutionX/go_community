@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2bf2c8e_46c0e90a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-19T18:35:22Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-longtest,linux-386-longtest,windows-amd64-longtest,linux-amd64-race,freebsd-amd64-race,darwin-amd64-race,windows-amd64-race",
+      "revId": "dd8424ccd58f09b1fcc19e7f645d609c66dcb115",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
