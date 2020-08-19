@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b26d830_d37d05c4",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T15:42:47Z",
+      "side": 1,
+      "message": "I don\u0027t think this comment is necessary. Maybe just add to the paragraph above \"Note: we don\u0027t need to handle any x-C cases because we already rewrite x-C to x+(-C).\"",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48bfd342_c1fb7f4b",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1808,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T15:42:47Z",
+      "side": 1,
+      "message": "Extraneous )",
+      "range": {
+        "startLine": 1808,
+        "startChar": 29,
+        "endLine": 1808,
+        "endChar": 30
+      },
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "996cf7d3_a1e7fe92",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T15:42:47Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65a5e15_c415c032",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1839,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T15:42:47Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e37c63e_b5182a58",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1870,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T15:42:47Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be053598_c72c8934",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1889,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T15:42:47Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0ba6ee5_c8fcaf13",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-19T15:42:47Z",
+      "side": 1,
+      "message": "Why is this not ADD\\t[$]-4?",
+      "range": {
+        "startLine": 470,
+        "startChar": 16,
+        "endLine": 470,
+        "endChar": 27
+      },
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
