@@ -104,6 +104,24 @@
       "revId": "8c72534e4615841133832251aae59cd130917fa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74bac3d6_4d426fb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34474
+      },
+      "writtenOn": "2020-08-19T01:09:09Z",
+      "side": 1,
+      "message": "Thank you. A new new RP was sent.  https://github.com/golang/go/pull/40877",
+      "parentUuid": "ab94819d_b790118f",
+      "revId": "8c72534e4615841133832251aae59cd130917fa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
