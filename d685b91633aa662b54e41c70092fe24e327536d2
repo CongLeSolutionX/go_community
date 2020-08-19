@@ -102,6 +102,24 @@
       "revId": "d685b91633aa662b54e41c70092fe24e327536d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79880f1e_26e0d17c",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5297,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2020-08-19T14:32:03Z",
+      "side": 1,
+      "message": "Yes, with the ISA numbers next to the instructions, this is unnecessary.",
+      "parentUuid": "33591cd4_253174c4",
+      "revId": "d685b91633aa662b54e41c70092fe24e327536d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
