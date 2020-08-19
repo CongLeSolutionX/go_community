@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed06c829_9cec283f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-19T01:07:50Z",
+      "side": 1,
+      "message": "Thanks Cuong for your patience and for indulging me in exploring a few different options.\n\nI think I\u0027d like to suggest we go back to the original idea from patch set 2 (checking Nname.Sym.Def !\u003d nil). We really shouldn\u0027t need the declare() calls, but it\u0027s consistent with what we do elsewhere even when unnecessary (e.g., dclfunc and typecheckfunc), so let\u0027s just stick with that for now.\n\nHowever, if you\u0027d like to explore replacing those declare() calls in a followup CL, I\u0027ll happily review and help look into that.",
+      "revId": "7bb720708ddb33dc5a7ca9bd31f7de57c2b3668c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
