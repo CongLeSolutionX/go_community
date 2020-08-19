@@ -16,6 +16,24 @@
       "revId": "596cc1f66abd96e3277d1ea636a5234d0360c084",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e91907e_b0b0e6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-19T14:44:07Z",
+      "side": 1,
+      "message": "Maybe go build should ignore _test.s files? Maybe it is too late to change that... (This is probably not the right place for this discussion, sorry.)",
+      "parentUuid": "ddb32412_352fa0bb",
+      "revId": "596cc1f66abd96e3277d1ea636a5234d0360c084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
