@@ -16,6 +16,24 @@
       "revId": "6a7cd4238a048b81b04177a9fe2b7d28df52f564",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff16996_2b6373c8",
+        "filename": "src/go/types/self_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-08-20T14:49:24Z",
+      "side": 1,
+      "message": "Thanks for the review!\n\nGood point. Added net/http.",
+      "parentUuid": "0d622b34_015c4c4e",
+      "revId": "6a7cd4238a048b81b04177a9fe2b7d28df52f564",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
