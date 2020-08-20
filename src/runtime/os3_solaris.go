@@ -288,6 +288,18 @@ func sigdelset(mask *sigset, i int) {
 func (c *sigctxt) fixsigcode(sig uint32) {
 }
 
+func setProcessCPUProfiler(hz int32) {
+	setProcessCPUProfilerSetitimer(hz)
+}
+
+func setThreadCPUProfiler(hz int32) {
+	setThreadCPUProfilerSetitimer(hz)
+}
+
+func ignoreItimerSIGPROF(mp *m) bool {
+	return false
+}
+
 //go:nosplit
 func semacreate(mp *m) {
 	if mp.waitsema != 0 {

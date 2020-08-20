@@ -262,11 +262,11 @@ func clearSignalHandlers() {
 	}
 }
 
-// setProcessCPUProfiler is called when the profiling timer changes.
+// setProcessCPUProfilerSetitimer is called when the profiling timer changes.
 // It is called with prof.lock held. hz is the new timer, and is 0 if
 // profiling is being disabled. Enable or disable the signal as
 // required for -buildmode=c-archive.
-func setProcessCPUProfiler(hz int32) {
+func setProcessCPUProfilerSetitimer(hz int32) {
 	if hz != 0 {
 		// Enable the Go signal handler if not enabled.
 		if atomic.Cas(&handlingSig[_SIGPROF], 0, 1) {
@@ -308,10 +308,10 @@ func setProcessCPUProfiler(hz int32) {
 	}
 }
 
-// setThreadCPUProfiler makes any thread-specific changes required to
+// setThreadCPUProfilerSetitimer makes any thread-specific changes required to
 // implement profiling at a rate of hz.
-// No changes required on Unix systems.
-func setThreadCPUProfiler(hz int32) {
+// No changes required on Unix systems when using setitimer.
+func setThreadCPUProfilerSetitimer(hz int32) {
 	getg().m.profilehz = hz
 }
 
@@ -539,7 +539,18 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	c := &sigctxt{info, ctxt}
 
 	if sig == _SIGPROF {
-		sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, _g_.m)
+		mp := _g_.m
+		if GOOS == "linux" {
+			// Ignore process-wide profiling signals when the thread has its own
+			// profiling timer.
+			//
+			// See golang.org/issue/35057.
+			const SI_KERNEL = 0x80
+			if info.si_code == SI_KERNEL && ignoreItimerSIGPROF(mp) {
+				return
+			}
+		}
+		sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, mp)
 		return
 	}
 

@@ -106,6 +106,98 @@ func TestCPUProfileMultithreaded(t *testing.T) {
 	})
 }
 
+func TestCPUProfileMultithreadMagnitude(t *testing.T) {
+	if runtime.GOOS != "linux" {
+		t.Skip("issue 35057 is only confirmed on Linux")
+	}
+
+	if testing.Short() {
+		// TODO: If the comparison doesn't work out, retry with a longer
+		// duration. There's some mechanism available for that in
+		// testCPUProfile, but it may be tricky to use in combination with the
+		// two things this test needs to do: when comparing two profiles, and
+		// when observing the process-wide CPU time reported by the OS.
+		t.Skip("skipping in short mode")
+	}
+
+	var parallelism int
+	fn := func(dur time.Duration) {
+		var wg sync.WaitGroup
+		var once sync.Once
+		for i := 0; i < parallelism; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				var salt = 0
+				cpuHogger(cpuHog1, &salt, dur)
+				once.Do(func() { salt1 = salt })
+			}()
+		}
+		wg.Wait()
+	}
+
+	var p1, pN *profile.Profile
+	n := runtime.GOMAXPROCS(0)
+
+	cpuTime1 := diffCPUTime(t, func() {
+		parallelism = 1
+		p1 = testCPUProfile(t, stackContains, []string{"runtime/pprof.cpuHog1"}, avoidFunctions(), fn)
+	})
+	cpuTimeN := diffCPUTime(t, func() {
+		parallelism = n
+		pN = testCPUProfile(t, stackContains, []string{"runtime/pprof.cpuHog1"}, avoidFunctions(), fn)
+	})
+
+	for i, unit := range []string{"count", "nanoseconds"} {
+		if have, want := p1.SampleType[i].Unit, unit; have != want {
+			t.Errorf("p1 SampleType[%d]; %q != %q", i, have, want)
+		}
+		if have, want := pN.SampleType[i].Unit, unit; have != want {
+			t.Errorf("pN SampleType[%d]; %q != %q", i, have, want)
+		}
+	}
+
+	var value1, valueN time.Duration
+	for _, sample := range p1.Sample {
+		value1 += time.Duration(sample.Value[1]) * time.Nanosecond
+	}
+	for _, sample := range pN.Sample {
+		valueN += time.Duration(sample.Value[1]) * time.Nanosecond
+	}
+
+	compare := func(a, b time.Duration, maxDiff float64) func(*testing.T) {
+		return func(t *testing.T) {
+			t.Logf("compare %s vs %s", a, b)
+			if a <= 0 || b <= 0 {
+				t.Errorf("Expected both time reports to be positive")
+				return
+			}
+
+			diff := float64(a-b) / float64(a+b)
+			if diff < 0 {
+				diff *= -1
+			}
+
+			if diff > maxDiff {
+				t.Errorf("CPU usage reports are too different (limit %f, got %f)", maxDiff, diff)
+			}
+		}
+	}
+
+	maxDiff := 0.04 // Allow up to 48 vs 52 difference
+	if testing.Short() {
+		maxDiff = 0.20 // Smaller sample size, allow up to 40 vs 60 difference
+	}
+
+	// check that the OS's perspective matches what the Go runtime measures
+	t.Run("baseline serial", compare(cpuTime1, value1, maxDiff))
+	t.Run("baseline parallel", compare(cpuTimeN, valueN, maxDiff))
+
+	// check that CPU time scales correctly when the parallelism changes
+	t.Run("serial vs parallel via OS", compare(cpuTime1*time.Duration(n), cpuTimeN, maxDiff))
+	t.Run("serial vs parallel via pprof", compare(value1*time.Duration(n), valueN, maxDiff))
+}
+
 // containsInlinedCall reports whether the function body for the function f is
 // known to contain an inlined function call within the first maxBytes bytes.
 func containsInlinedCall(f interface{}, maxBytes int) bool {
@@ -335,6 +427,16 @@ func testCPUProfile(t *testing.T, matches matchFunc, need []string, avoid []stri
 	}
 	t.FailNow()
 	return nil
+}
+
+var diffCPUTimeImpl func(f func()) time.Duration
+
+func diffCPUTime(t *testing.T, f func()) time.Duration {
+	if fn := diffCPUTimeImpl; fn != nil {
+		return fn(f)
+	}
+	t.Fatalf("cannot measure CPU time on GOOS=%s GOARCH=%s", runtime.GOOS, runtime.GOARCH)
+	return 0
 }
 
 func contains(slice []string, s string) bool {
