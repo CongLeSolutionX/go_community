@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4c58b49_1e406f2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-20T17:26:08Z",
+      "side": 1,
+      "message": "Initial comments and nitpicks.\n\nI don\u0027t completely understand the need for the atomic flag propagation yet, but I expect it will make sense after I\u0027ve read through later CLs.",
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae3d39d_8283a6a6",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-20T17:26:08Z",
+      "side": 1,
+      "message": "pkgImportsLoaded",
+      "range": {
+        "startLine": 718,
+        "startChar": 4,
+        "endLine": 718,
+        "endChar": 13
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b88ecf0e_6849a434",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-20T17:26:08Z",
+      "side": 1,
+      "message": "s/loads/load/",
+      "range": {
+        "startLine": 957,
+        "startChar": 57,
+        "endLine": 957,
+        "endChar": 62
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f757b08c_3bb65530",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-20T17:26:08Z",
+      "side": 1,
+      "message": "Nit: Inline. I think a switch statement would be a little clearer.",
+      "range": {
+        "startLine": 969,
+        "startChar": 25,
+        "endLine": 969,
+        "endChar": 52
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c549a82_c68fbb10",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-20T17:26:08Z",
+      "side": 1,
+      "message": "Just to confirm, this happens in loader.load and loader.applyPkgFlags?",
+      "range": {
+        "startLine": 1132,
+        "startChar": 3,
+        "endLine": 1132,
+        "endChar": 58
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7623962a_826ba29e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-20T17:26:08Z",
+      "side": 1,
+      "message": "This name feels slightly misleading, since this method isn\u0027t specific to \"all\". Maybe loadDeps? Or loadTransitive?",
+      "range": {
+        "startLine": 1133,
+        "startChar": 18,
+        "endLine": 1133,
+        "endChar": 25
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
