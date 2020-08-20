@@ -56,6 +56,9 @@
 #define SYS_epoll_create	254
 #define SYS_epoll_ctl		255
 #define SYS_epoll_wait		256
+#define SYS_timer_create	259
+#define SYS_timer_settime	260
+#define SYS_timer_delete	263
 #define SYS_clock_gettime	265
 #define SYS_tgkill		270
 #define SYS_epoll_create1	329

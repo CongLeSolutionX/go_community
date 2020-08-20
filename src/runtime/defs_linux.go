@@ -126,5 +126,8 @@ type Timespec C.struct_timespec
 type Timeval C.struct_timeval
 type Sigaction C.struct_sigaction
 type Siginfo C.siginfo_t
+type Itimerspec C.struct_itimerspec
 type Itimerval C.struct_itimerval
+type Sigevent C.struct_sigevent
+type Timert C.__kernel_timer_t
 type EpollEvent C.struct_epoll_event

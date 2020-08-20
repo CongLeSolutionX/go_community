@@ -41,6 +41,9 @@
 #define SYS_exit_group		5205
 #define SYS_epoll_create	5207
 #define SYS_epoll_ctl		5208
+#define SYS_timer_create	5216
+#define SYS_timer_settime	5217
+#define SYS_timer_delete	5220
 #define SYS_tgkill		5225
 #define SYS_openat		5247
 #define SYS_epoll_pwait		5272

@@ -212,10 +212,25 @@ type ucontext struct {
 	uc_sigmask  uint32
 }
 
+type itimerspec struct {
+	it_interval timespec
+	it_value    timespec
+}
+
 type itimerval struct {
 	it_interval timeval
 	it_value    timeval
 }
+
+type sigevent struct {
+	value  uintptr
+	signo  int32
+	notify int32
+	// below here is a union; sigev_notify_thread_id is the only field we use
+	sigev_notify_thread_id int32
+}
+
+type timer_t int32
 
 type epollevent struct {
 	events uint32

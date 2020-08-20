@@ -47,6 +47,9 @@
 #define SYS_sigaltstack		132
 #define SYS_socket		198
 #define SYS_tgkill		131
+#define SYS_timer_create	107
+#define SYS_timer_delete	111
+#define SYS_timer_settime	110
 #define SYS_tkill		130
 #define SYS_write		64
 
