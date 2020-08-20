@@ -192,6 +192,15 @@ func expandCalls(f *Func) {
 		case OpIMake:
 			mem = storeArg(pos, b, a.Args[0], typ.Uintptr, offset, mem)
 			return storeArg(pos, b, a.Args[1], typ.BytePtr, offset+ptrSize, mem)
+
+		case OpStringMake:
+			mem = storeArg(pos, b, a.Args[0], typ.BytePtr, offset, mem)
+			return storeArg(pos, b, a.Args[1], typ.Int, offset+ptrSize, mem)
+
+		case OpSliceMake:
+			mem = storeArg(pos, b, a.Args[0], typ.BytePtr, offset, mem)
+			mem = storeArg(pos, b, a.Args[1], typ.Int, offset+ptrSize, mem)
+			return storeArg(pos, b, a.Args[2], typ.Int, offset+2*ptrSize, mem)
 		}
 
 		dst := offsetFrom(sp, offset, types.NewPtr(t))
@@ -289,7 +298,7 @@ func expandCalls(f *Func) {
 		call := v.Args[0] // will become a mem operand, later
 		which := v.AuxInt
 		aux := call.Aux.(*AuxCall)
-		pt := v.Type
+		t := v.Type
 		pos := v.Pos
 		offset := aux.OffsetOfResult(which)
 		first := offsetFrom(sp, offset+off1, types.NewPtr(t1))
@@ -298,7 +307,25 @@ func expandCalls(f *Func) {
 		v.Pos = pos
 		v.SetArgs2(call.Block.NewValue2(v.Pos, OpLoad, t1, first, call),
 			call.Block.NewValue2(v.Pos, OpLoad, t2, second, call))
-		v.Type = pt
+		v.Type = t
+	}
+
+	splitSelectInPlace3 := func(v *Value, combine Op, t1, t2, t3 *types.Type, off1, off2, off3 int64) {
+		call := v.Args[0] // will become a mem operand, later
+		which := v.AuxInt
+		aux := call.Aux.(*AuxCall)
+		t := v.Type
+		pos := v.Pos
+		offset := aux.OffsetOfResult(which)
+		first := offsetFrom(sp, offset+off1, types.NewPtr(t1))
+		second := offsetFrom(sp, offset+off2, types.NewPtr(t2))
+		third := offsetFrom(sp, offset+off3, types.NewPtr(t3))
+		v.reset(combine)
+		v.Pos = pos
+		v.SetArgs3(call.Block.NewValue2(v.Pos, OpLoad, t1, first, call),
+			call.Block.NewValue2(v.Pos, OpLoad, t2, second, call),
+			call.Block.NewValue2(v.Pos, OpLoad, t3, third, call))
+		v.Type = t
 	}
 
 	// Step 0: rewrite the calls to convert incoming args to stores.
@@ -377,7 +404,10 @@ func expandCalls(f *Func) {
 				case types.TCOMPLEX128:
 					splitSelectInPlace(v, OpComplexMake, typ.Float64, typ.Float64, 0, 8)
 					continue
+
 				case types.TSTRING: // TODO
+					splitSelectInPlace(v, OpStringMake, typ.BytePtr, typ.Int, 0, ptrSize)
+					continue
 
 				case types.TINT64, types.TUINT64: // for 32-bit
 					t := v.Type
@@ -388,6 +418,8 @@ func expandCalls(f *Func) {
 					}
 
 				case types.TSLICE: // TODO
+					splitSelectInPlace3(v, OpSliceMake, typ.BytePtr, typ.Int, typ.Int, 0, ptrSize, 2*ptrSize)
+					continue
 
 				}
 
