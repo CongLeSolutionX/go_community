@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0ec03e4_f34b8b83",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-08-20T15:30:58Z",
+      "side": 1,
+      "message": "The comment makes me question my understanding of this line. Seems like we\u0027re clearing and reusing the buffer. Is the comment because flushToParent is only called at the end of a test so the buffer doesn\u0027t get reused?",
+      "range": {
+        "startLine": 570,
+        "startChar": 2,
+        "endLine": 570,
+        "endChar": 37
+      },
+      "revId": "fb3bf25fe750c9a9be820bccf9af8ec55c77b227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
