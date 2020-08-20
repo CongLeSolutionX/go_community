@@ -273,11 +273,20 @@ func setProcessCPUProfiler(hz int32) {
 			setsig(_SIGPROF, funcPC(sighandler))
 		}
 
-		var it itimerval
-		it.it_interval.tv_sec = 0
-		it.it_interval.set_usec(1000000 / hz)
-		it.it_value = it.it_interval
-		setitimer(_ITIMER_PROF, &it, nil)
+		// var it itimerval
+		// it.it_interval.tv_sec = 0
+		// it.it_interval.set_usec(1000000 / hz)
+		// it.it_value = it.it_interval
+		// setitimer(_ITIMER_PROF, &it, nil)
+
+		// new stuff
+		lock(&sched.lock)
+		first := (*m)(atomic.Loadp(unsafe.Pointer(&allm)))
+		for mp := first; mp != nil; mp = mp.alllink {
+			setOtherThreadCPUProfiler(mp, hz)
+			setThreadProfileRate(int32(mp.procid), hz)
+		}
+		unlock(&sched.lock)
 	} else {
 		// If the Go signal handler should be disabled by default,
 		// switch back to the signal handler that was installed
@@ -312,6 +321,38 @@ func setProcessCPUProfiler(hz int32) {
 // No changes required on Unix systems.
 func setThreadCPUProfiler(hz int32) {
 	getg().m.profilehz = hz
+}
+
+func setOtherThreadCPUProfiler(mp *m, hz int32) {
+	const CLOCK_THREAD_CPUTIME_ID = 3
+	const SIGEV_THREAD_ID = 4
+	var timerid timer_t
+
+	if hz == 0 {
+		// delete timer
+	}
+
+	clockid := getThreadCPUClockID(int32(mp.procid))
+	sevp := &sigevent{
+		notify: SIGEV_THREAD_ID,
+		signo:  _SIGPROF,
+		union:  uintptr(tid),
+	}
+	var res int32
+	res = timer_create(clockid, sevp, &timerid)
+	print("timer_create procid=", tid, " res=", res, " timerid=", timerid, "\n")
+
+	spec := new(itimerspec)
+	spec.it_value.setNsec(1e9 / int64(hz))
+	spec.it_interval.setNsec(1e9 / int64(hz))
+
+	res = timer_settime(timerid, 0, spec, nil)
+	print("timer_settime procid=", tid, " res=", res, "\n")
+}
+
+func getThreadCPUClockID(tid int32) int32 {
+	const CPUCLOCK_PERTHREAD_MASK = 4
+	return (^tid << 3) | CPUCLOCK_PERTHREAD_MASK
 }
 
 func sigpipe() {
@@ -523,7 +564,14 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	c := &sigctxt{info, ctxt}
 
 	if sig == _SIGPROF {
-		sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, _g_.m)
+		source := sigprofUnknown
+		switch info.si_code {
+		case 0x80: // SI_KERNEL, from setitimer
+			source = sigprofProcessInterval
+		case -2: // SI_TIMER, from timer_create
+			source = sigprofThreadInterval
+		}
+		sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, _g_.m, source)
 		return
 	}
 

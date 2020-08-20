@@ -99,6 +99,11 @@ type timespec struct {
 	tv_nsec int64
 }
 
+type itimerspec struct {
+	it_interval timespec
+	it_value    timespec
+}
+
 //go:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
@@ -133,6 +138,15 @@ type itimerval struct {
 	it_interval timeval
 	it_value    timeval
 }
+
+type sigevent struct {
+	value  uintptr
+	signo  int32
+	notify int32
+	union  uintptr
+}
+
+type timer_t int32
 
 type epollevent struct {
 	events uint32

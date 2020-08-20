@@ -1176,6 +1176,11 @@ func mstart1() {
 		acquirep(_g_.m.nextp.ptr())
 		_g_.m.nextp = 0
 	}
+
+	if prof.hz > 0 {
+		setThreadProfileRate(int32(_g_.m.procid), prof.hz)
+	}
+
 	schedule()
 }
 
@@ -3920,10 +3925,18 @@ func _GC()                        { _GC() }
 func _LostSIGPROFDuringAtomic64() { _LostSIGPROFDuringAtomic64() }
 func _VDSO()                      { _VDSO() }
 
+type sigprofSource int
+
+const (
+	sigprofUnknown         sigprofSource = iota
+	sigprofProcessInterval               // The profiling signal is a result of a process-wide interval timer
+	sigprofThreadInterval                // The profiling signal is a result of an interval timer for a single thread
+)
+
 // Called if we receive a SIGPROF signal.
 // Called by the signal handler, may run during STW.
 //go:nowritebarrierrec
-func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
+func sigprof(pc, sp, lr uintptr, gp *g, mp *m, source sigprofSource) {
 	if prof.hz == 0 {
 		return
 	}
@@ -3950,6 +3963,14 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 	// In fact mp may not even be stopped.
 	// See golang.org/issue/17165.
 	getg().m.mallocing++
+
+	// Ignore process-wide profiling signals when the thread has its own
+	// profiling timer.
+	// See golang.org/issue/35057.
+	if source == sigprofProcessInterval && mowntimer(mp) {
+		getg().m.mallocing--
+		return
+	}
 
 	// Define that a "user g" is a user-created goroutine, and a "system g"
 	// is one that is m->g0 or m->gsignal.

@@ -1032,7 +1032,7 @@ func profilem(mp *m, thread uintptr) {
 
 	gp := gFromTLS(mp)
 
-	sigprof(c.ip(), c.sp(), c.lr(), gp, mp)
+	sigprof(c.ip(), c.sp(), c.lr(), gp, mp, sigprofUnknown)
 }
 
 func gFromTLS(mp *m) *g {

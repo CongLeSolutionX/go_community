@@ -10,7 +10,40 @@ import (
 	"unsafe"
 )
 
-type mOS struct{}
+type mOS struct {
+	profileTimer timerID
+}
+
+// A timerID holds the ID of a POSIX per-process interval timer. Its methods
+// differentiate between a timer with ID of 0, and no timer at all.
+//
+// It is accessed atomically. For profiling, it is written and read by the
+// goroutine that starts and stops profiling, and it is read in the SIGPROF
+// handler.
+type timerID uint32
+
+func (t *timerID) set(id int32, ok bool) {
+	id += 1
+	if !ok {
+		id = 0
+	}
+	atomic.Store(t, id)
+}
+
+func (t *timerID) get() (id int32, ok bool) {
+	id = atomic.Load(t)
+	ok = (id != 0)
+	id -= 1
+	return id, ok
+}
+
+func mowntimer(mp *m) bool {
+	if mp == nil {
+		return false
+	}
+	_, ok := mp.mOS.profileTimer.get()
+	return ok
+}
 
 //go:noescape
 func futex(addr unsafe.Pointer, op int32, val uint32, ts, addr2 unsafe.Pointer, val3 uint32) int32
@@ -371,6 +404,15 @@ func sigaltstack(new, old *stackt)
 
 //go:noescape
 func setitimer(mode int32, new, old *itimerval)
+
+//go:noescape
+func timer_create(clockid int32, sevp *sigevent, timerid *timer_t) int32
+
+//go:noescape
+func timer_settime(timerid timer_t, flags int32, new, old *itimerspec) int32
+
+//go:noescape
+func timer_delete(timerid timer_t) int32
 
 //go:noescape
 func rtsigprocmask(how int32, new, old *sigset, size int32)
