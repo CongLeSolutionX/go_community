@@ -1411,6 +1411,19 @@ func mstart1() {
 		acquirep(_g_.m.nextp.ptr())
 		_g_.m.nextp = 0
 	}
+
+	if prof.hz > 0 && GOOS == "linux" {
+		// Make sure profiling is enabled for all threads, via turning it off
+		// and on again. Inefficient / bad / slow, but works well enough for a
+		// demo.
+		//
+		// TODO: new threads (on Linux) need to check this and update
+		// themselves.
+		hz := prof.hz
+		setcpuprofilerate(0)
+		setcpuprofilerate(hz)
+	}
+
 	schedule()
 }
 

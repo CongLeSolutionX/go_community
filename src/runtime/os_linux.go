@@ -5,11 +5,45 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
 
-type mOS struct{}
+type mOS struct {
+	profileTimer timerID
+}
+
+// A timerID holds the ID of a POSIX per-process interval timer. Its methods
+// differentiate between a timer with ID of 0, and no timer at all.
+//
+// It is accessed atomically. For profiling, it is written and read by the
+// goroutine that starts and stops profiling, and it is read in the SIGPROF
+// handler.
+type timerID int32
+
+func (t *timerID) set(id int32, ok bool) {
+	id += 1
+	if !ok {
+		id = 0
+	}
+	atomic.Storeint32((*int32)(t), id)
+}
+
+func (t *timerID) get() (id int32, ok bool) {
+	id = atomic.Loadint32((*int32)(t))
+	ok = (id != 0)
+	id -= 1
+	return id, ok
+}
+
+func mowntimer(mp *m) bool {
+	if mp == nil {
+		return false
+	}
+	_, ok := mp.mOS.profileTimer.get()
+	return ok
+}
 
 //go:noescape
 func futex(addr unsafe.Pointer, op int32, val uint32, ts, addr2 unsafe.Pointer, val3 uint32) int32
@@ -395,6 +429,15 @@ func sigaltstack(new, old *stackt)
 func setitimer(mode int32, new, old *itimerval)
 
 //go:noescape
+func timer_create(clockid int32, sevp *sigevent, timerid *timer_t) int32
+
+//go:noescape
+func timer_settime(timerid timer_t, flags int32, new, old *itimerspec) int32
+
+//go:noescape
+func timer_delete(timerid timer_t) int32
+
+//go:noescape
 func rtsigprocmask(how int32, new, old *sigset, size int32)
 
 //go:nosplit
@@ -506,4 +549,121 @@ func tgkill(tgid, tid, sig int)
 // signalM sends a signal to mp.
 func signalM(mp *m, sig int) {
 	tgkill(getpid(), int(mp.procid), sig)
+}
+
+func setProcessCPUProfiler(hz int32) {
+	if debug.pproftimercreate >= 1 {
+		setProcessCPUProfilerTimerCreate(hz)
+	} else {
+		setProcessCPUProfilerSetitimer(hz)
+	}
+}
+
+func ignoreItimerSIGPROF(mp *m) bool {
+	return mowntimer(mp)
+}
+
+func setOtherThreadProfileRate(mp *m, hz int32) {
+	const CLOCK_THREAD_CPUTIME_ID = 3
+	const SIGEV_THREAD_ID = 4
+	var timerid timer_t
+
+	tid := mp.procid
+
+	verbose := debug.pproftimercreate >= 2
+
+	if hz == 0 {
+		id, ok := mp.profileTimer.get()
+		if !ok {
+			return
+		}
+
+		var res int32
+		timerid = timer_t(id)
+		res = timer_delete(timerid)
+		if verbose {
+			print("timer_delete procid=", tid, " timerid=", timerid, " res=", res, "\n")
+		}
+		return
+	}
+
+	clockid := getThreadCPUClockID(int32(mp.procid))
+	sevp := &sigevent{
+		notify:                 SIGEV_THREAD_ID,
+		signo:                  _SIGPROF,
+		sigev_notify_thread_id: int32(tid),
+	}
+	var res int32
+	res = timer_create(clockid, sevp, &timerid)
+	if verbose {
+		print("timer_create procid=", tid, " res=", res, " timerid=", timerid, "\n")
+	}
+
+	spec := new(itimerspec)
+	spec.it_value.setNsec(1e9 / int64(hz))
+	spec.it_interval.setNsec(1e9 / int64(hz))
+
+	res = timer_settime(timerid, 0, spec, nil)
+	if verbose {
+		print("timer_settime procid=", tid, " res=", res, "\n")
+	}
+
+	mp.profileTimer.set(int32(timerid), true)
+}
+
+func getThreadCPUClockID(tid int32) int32 {
+	const CPUCLOCK_PERTHREAD_MASK = 4
+	return (^tid << 3) | CPUCLOCK_PERTHREAD_MASK
+}
+
+// setProcessCPUProfilerTimerCreate is called when the profiling timer changes.
+// It is called with prof.lock held. hz is the new timer, and is 0 if
+// profiling is being disabled. Enable or disable the signal as
+// required for -buildmode=c-archive.
+func setProcessCPUProfilerTimerCreate(hz int32) {
+	if hz != 0 {
+		// Enable the Go signal handler if not enabled.
+		if atomic.Cas(&handlingSig[_SIGPROF], 0, 1) {
+			atomic.Storeuintptr(&fwdSig[_SIGPROF], getsig(_SIGPROF))
+			setsig(_SIGPROF, funcPC(sighandler))
+		}
+
+		lock(&sched.lock)
+		first := (*m)(atomic.Loadp(unsafe.Pointer(&allm)))
+		for mp := first; mp != nil; mp = mp.alllink {
+			setOtherThreadProfileRate(mp, hz)
+		}
+		unlock(&sched.lock)
+	} else {
+		// If the Go signal handler should be disabled by default,
+		// switch back to the signal handler that was installed
+		// when we enabled profiling. We don't try to handle the case
+		// of a program that changes the SIGPROF handler while Go
+		// profiling is enabled.
+		//
+		// If no signal handler was installed before, then start
+		// ignoring SIGPROF signals. We do this, rather than change
+		// to SIG_DFL, because there may be a pending SIGPROF
+		// signal that has not yet been delivered to some other thread.
+		// If we change to SIG_DFL here, the program will crash
+		// when that SIGPROF is delivered. We assume that programs
+		// that use profiling don't want to crash on a stray SIGPROF.
+		// See issue 19320.
+		if !sigInstallGoHandler(_SIGPROF) {
+			if atomic.Cas(&handlingSig[_SIGPROF], 1, 0) {
+				h := atomic.Loaduintptr(&fwdSig[_SIGPROF])
+				if h == _SIG_DFL {
+					h = _SIG_IGN
+				}
+				setsig(_SIGPROF, h)
+			}
+		}
+
+		lock(&sched.lock)
+		first := (*m)(atomic.Loadp(unsafe.Pointer(&allm)))
+		for mp := first; mp != nil; mp = mp.alllink {
+			setOtherThreadProfileRate(mp, 0)
+		}
+		unlock(&sched.lock)
+	}
 }
