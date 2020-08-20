@@ -267,6 +267,19 @@ func sigdelset(mask *sigset, i int) {
 func (c *sigctxt) fixsigcode(sig uint32) {
 }
 
+func setProcessCPUProfiler(hz int32) {
+	setProcessCPUProfilerSetitimer(hz)
+}
+
+func setThreadCPUProfiler(hz int32) {
+	setThreadCPUProfilerSetitimer(hz)
+}
+
+//go:nosplit
+func ignoreSIGPROF(mp *m, c *sigctxt) bool {
+	return false
+}
+
 func sysargs(argc int32, argv **byte) {
 	n := argc + 1
 
