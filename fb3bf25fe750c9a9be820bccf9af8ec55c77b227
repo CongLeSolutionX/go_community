@@ -22,6 +22,30 @@
       "revId": "fb3bf25fe750c9a9be820bccf9af8ec55c77b227",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39064286_62ec5a3a",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-20T21:26:05Z",
+      "side": 1,
+      "message": "\u003e The comment makes me question my understanding of this line. Seems like we\u0027re clearing and reusing the buffer. Is the comment because flushToParent is only called at the end of a test so the buffer doesn\u0027t get reused?\n\nYep. I carried this line forward from line 580 of the baseline, but I still don\u0027t understand why it would have been needed in the first place.",
+      "parentUuid": "a0ec03e4_f34b8b83",
+      "range": {
+        "startLine": 570,
+        "startChar": 2,
+        "endLine": 570,
+        "endChar": 37
+      },
+      "revId": "fb3bf25fe750c9a9be820bccf9af8ec55c77b227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
