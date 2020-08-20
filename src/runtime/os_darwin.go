@@ -425,6 +425,18 @@ func sigdelset(mask *sigset, i int) {
 	*mask &^= 1 << (uint32(i) - 1)
 }
 
+func setProcessCPUProfiler(hz int32) {
+	setProcessCPUProfilerSetitimer(hz)
+}
+
+func setThreadCPUProfiler(hz int32) {
+	setThreadCPUProfilerSetitimer(hz)
+}
+
+func ignoreSIGPROF(mp *m, c *sigctxt) bool {
+	return false
+}
+
 //go:linkname executablePath os.executablePath
 var executablePath string
 
