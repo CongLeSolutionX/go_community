@@ -315,6 +315,7 @@ var debug struct {
 	schedtrace         int32
 	tracebackancestors int32
 	asyncpreemptoff    int32
+	pproftimercreate   int32
 
 	// debug.malloc is used as a combined debug check
 	// in the malloc function and should be set
@@ -344,6 +345,7 @@ var dbgvars = []dbgVar{
 	{"tracebackancestors", &debug.tracebackancestors},
 	{"asyncpreemptoff", &debug.asyncpreemptoff},
 	{"inittrace", &debug.inittrace},
+	{"pproftimercreate", &debug.pproftimercreate},
 }
 
 func parsedebugvars() {
@@ -361,6 +363,7 @@ func parsedebugvars() {
 		// Hence, default to MADV_DONTNEED.
 		debug.madvdontneed = 1
 	}
+	debug.pproftimercreate = 1
 
 	for p := gogetenv("GODEBUG"); p != ""; {
 		field := ""
