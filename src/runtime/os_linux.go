@@ -5,11 +5,29 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
 
-type mOS struct{}
+type mOS struct {
+	// profileTimer is accessed atomically. It holds the ID of the POSIX
+	// interval timer for profiling CPU usage on this thread.
+	//
+	// Bits 2 to 33 hold the 32 bits of an interval timer's id, which is valid
+	// when the "profileTimerValid" flag (bit 0) is set. A thread creates its
+	// own timer, so all transitions that set the "profileTimerValid" flag
+	// originate in the thread itself.
+	//
+	// The "profileTimerShutdown" flag (bit 1) coordinates deletion of the
+	// timer.
+	profileTimer int64
+}
+
+const (
+	profileTimerValid    = 0x1
+	profileTimerShutdown = 0x2
+)
 
 //go:noescape
 func futex(addr unsafe.Pointer, op int32, val uint32, ts, addr2 unsafe.Pointer, val3 uint32) int32
@@ -395,6 +413,15 @@ func sigaltstack(new, old *stackt)
 func setitimer(mode int32, new, old *itimerval)
 
 //go:noescape
+func timer_create(clockid int32, sevp *sigevent, timerid *timer_t) int32
+
+//go:noescape
+func timer_settime(timerid timer_t, flags int32, new, old *itimerspec) int32
+
+//go:noescape
+func timer_delete(timerid timer_t) int32
+
+//go:noescape
 func rtsigprocmask(how int32, new, old *sigset, size int32)
 
 //go:nosplit
@@ -506,4 +533,212 @@ func tgkill(tgid, tid, sig int)
 // signalM sends a signal to mp.
 func signalM(mp *m, sig int) {
 	tgkill(getpid(), int(mp.procid), sig)
+}
+
+func setProcessCPUProfiler(hz int32) {
+	setProcessCPUProfilerSetitimer(hz)
+	if debug.pproftimercreate >= 1 {
+		setProcessCPUProfilerTimerCreate(hz)
+	}
+}
+
+func setThreadCPUProfiler(hz int32) {
+	getg().m.profilehz = hz
+	if debug.pproftimercreate >= 1 {
+		createThreadTimer(hz)
+	}
+}
+
+//go:nosplit
+func ignoreSIGPROF(mp *m, c *sigctxt) bool {
+	setitimer := c.sigcode() == _SI_KERNEL
+	if mp == nil {
+		// Since we don't have an M, we can't check if there's an active
+		// per-thread timer for this thread. We don't know how long this thread
+		// has been around, and if it happened to interact with the Go scheduler
+		// at a time when profiling was active (causing it to have a per-thread
+		// timer). But it may have never interacted with the Go scheduler, or
+		// never while profiling was active. To avoid double-counting, process
+		// signals only from setitimer, ignore any others.
+		return !setitimer
+	}
+
+	// Having an M means the thread interacts with the Go scheduler, and we can
+	// check whether there's an active per-thread timer for this thread.
+	//
+	// If this M has its own per-thread CPU profiling interval timer, we should
+	// track only the SIGPROF signals that come from that timer (for accurate
+	// reporting of its CPU usage; see issue 35057) and ignore any that it gets
+	// from the process-wide setitimer (to not over-count its CPU consumption).
+	value := atomic.Loadint64(&mp.profileTimer)
+	haveThreadTimer := value&profileTimerValid != 0
+	return haveThreadTimer && setitimer
+}
+
+// allowThreadTimer clears the shutdown flag, to allow the thread mp to create a
+// profiling timer for itself.
+func allowThreadTimer(mp *m) {
+	for {
+		prev := atomic.Loadint64(&mp.profileTimer)
+		next := prev
+		next &= ^profileTimerShutdown
+		if atomic.Casint64(&mp.profileTimer, prev, next) {
+			break
+		}
+	}
+}
+
+// forbidThreadTimer sets the shutdown flag, to prevent the thread mp from
+// creating a profiling timer for itself (or to trigger it to roll back that
+// creation).
+func forbidThreadTimer(mp *m) {
+	for {
+		prev := atomic.Loadint64(&mp.profileTimer)
+		next := prev
+		next |= profileTimerShutdown
+		if atomic.Casint64(&mp.profileTimer, prev, next) {
+			break
+		}
+	}
+}
+
+// destroyThreadTimer cleans up any valid profiling timer for the thread mp.
+// When there is a valid timer and the call to timer_delete(2) succeeds, it
+// clears both the valid flag and the id of the timer. It does not modify the
+// shutdown flag.
+func destroyThreadTimer(mp *m) {
+	verbose := debug.pproftimercreate >= 2
+
+	for {
+		prev := atomic.Loadint64(&mp.profileTimer)
+		if prev&profileTimerValid == 0 {
+			break
+		}
+
+		var res int32
+		timerid := timer_t(prev >> 2)
+		res = timer_delete(timerid)
+		if verbose {
+			tid := mp.procid
+			print("timer_delete procid=", tid, " timerid=", timerid, " res=", res, "\n")
+		}
+		if res != 0 {
+			break
+		}
+
+		next := prev
+		next &= ^profileTimerValid
+		next &= ^(int64(^int32(0)) << 2)
+		if atomic.Casint64(&mp.profileTimer, prev, next) {
+			break
+		}
+	}
+}
+
+// createThreadTimer creates a profiling timer for the current thread.
+func createThreadTimer(hz int32) {
+	mp := getg().m
+	tid := mp.procid
+
+	verbose := debug.pproftimercreate >= 2
+
+	destroyThreadTimer(mp)
+	if hz == 0 {
+		// If the goal was to disable profiling for this thread, then the job's done.
+		return
+	}
+
+	prev := atomic.Loadint64(&mp.profileTimer)
+	if prev&profileTimerShutdown != 0 {
+		return
+	}
+
+	var timerid timer_t
+	sevp := &sigevent{
+		notify:                 _SIGEV_THREAD_ID,
+		signo:                  _SIGPROF,
+		sigev_notify_thread_id: int32(tid),
+	}
+	var res int32
+	res = timer_create(_CLOCK_THREAD_CPUTIME_ID, sevp, &timerid)
+	if verbose {
+		print("timer_create procid=", tid, " res=", res, " timerid=", timerid, "\n")
+	}
+	if res != 0 {
+		return
+	}
+
+	// The period of the timer should be 1/Hz. For every "1/Hz" of additional
+	// work, the user should expect one additional sample in the profile.
+	//
+	// But to scale down to very small amounts of application work, to observe
+	// even CPU usage of "one tenth" of the requested period, set the initial
+	// timing delay in a different way: So that "one tenth" of a period of CPU
+	// spend shows up as a 10% chance of one sample (for an expected value of
+	// 0.1 samples), and so that "two and six tenths" periods of CPU spend show
+	// up as a 60% chance of 3 samples and a 40% chance of 2 samples (for an
+	// expected value of 2.6). Set the initial delay to a value in the unifom
+	// random distribution between 0 and the desired period. And because "0"
+	// means "disable timer", add 1 so the half-open interval [0,period) turns
+	// into (0,period].
+	//
+	// Otherwise, this would show up as a bias away from short-lived threads and
+	// from threads that are only occasionally active: for example, when the
+	// garbage collector runs on a mostly-idle system, the additional threads it
+	// activates may do a couple milliseconds of GC-related work and nothing
+	// else in the few seconds that the profiler observes.
+	spec := new(itimerspec)
+	spec.it_value.setNsec(1 + int64(fastrandn(uint32(1e9/hz))))
+	spec.it_interval.setNsec(1e9 / int64(hz))
+
+	res = timer_settime(timerid, 0, spec, nil)
+	if verbose {
+		print("timer_settime procid=", tid, " res=", res, "\n")
+	}
+	if res != 0 {
+		timer_delete(timerid)
+		return
+	}
+
+	// Store the id of the new timer. If the shutdown flag has become active
+	// since the start of this function, destroy the new timer to back out that
+	// work. This thread owns its transition into the "timer is valid" state, so
+	// the only conflict we need to look for is the shutdown bit.
+	for {
+		next := int64(timerid)<<2 | profileTimerValid
+		if atomic.Casint64(&mp.profileTimer, prev, next) {
+			break
+		}
+
+		prev = atomic.Loadint64(&mp.profileTimer)
+		if prev&profileTimerShutdown != 0 {
+			res = timer_delete(timerid)
+			if verbose {
+				tid := mp.procid
+				print("timer_delete shutdown procid=", tid, " timerid=", timerid, " res=", res, "\n")
+			}
+			break
+		}
+	}
+}
+
+// setProcessCPUProfilerTimerCreate is called when the profiling timer changes.
+// It is called with prof.lock held. hz is the new timer, and is 0 if
+// profiling is being disabled.
+func setProcessCPUProfilerTimerCreate(hz int32) {
+	if hz != 0 {
+		for mp := (*m)(atomic.Loadp(unsafe.Pointer(&allm))); mp != nil; mp = mp.alllink {
+			// Each M is responsible for creating its own interval timer.
+			allowThreadTimer(mp)
+		}
+	} else {
+		for mp := (*m)(atomic.Loadp(unsafe.Pointer(&allm))); mp != nil; mp = mp.alllink {
+			// Because each M is responsible for creating its own interval
+			// timer, it is also responsible for destroying it. The test in
+			// execute uses mp.profilehz to determine if profiling is active on
+			// the M; if we destroy the timer without also changing that value,
+			// the M won't know to re-create it.
+			forbidThreadTimer(mp)
+		}
+	}
 }

@@ -322,6 +322,19 @@ func sigdelset(mask *sigset, i int) {
 	(*mask)[(i-1)/64] &^= 1 << ((uint32(i) - 1) & 63)
 }
 
+func setProcessCPUProfiler(hz int32) {
+	setProcessCPUProfilerSetitimer(hz)
+}
+
+func setThreadCPUProfiler(hz int32) {
+	setThreadCPUProfilerSetitimer(hz)
+}
+
+//go:nosplit
+func ignoreSIGPROF(mp *m, c *sigctxt) bool {
+	return false
+}
+
 const (
 	_CLOCK_REALTIME  = 9
 	_CLOCK_MONOTONIC = 10
