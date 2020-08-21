@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "7824d65a_5cbaf25d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-21T19:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae3d39d_8283a6a6",
+      "range": {
+        "startLine": 718,
+        "startChar": 4,
+        "endLine": 718,
+        "endChar": 13
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b88ecf0e_6849a434",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 14
@@ -62,6 +86,30 @@
       "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96999acd_a47c455c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-21T19:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b88ecf0e_6849a434",
+      "range": {
+        "startLine": 957,
+        "startChar": 57,
+        "endLine": 957,
+        "endChar": 62
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "6b211a22_d87ca71c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-21T19:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f757b08c_3bb65530",
+      "range": {
+        "startLine": 969,
+        "startChar": 25,
+        "endLine": 969,
+        "endChar": 52
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c549a82_c68fbb10",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 14
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "a1a9db49_be99df01",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-21T19:42:13Z",
+      "side": 1,
+      "message": "Correct. (Clarified the comment.)",
+      "parentUuid": "1c549a82_c68fbb10",
+      "range": {
+        "startLine": 1132,
+        "startChar": 3,
+        "endLine": 1132,
+        "endChar": 58
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7623962a_826ba29e",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 14
@@ -131,6 +227,30 @@
       "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "937a8767_3ea68e7a",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-21T19:42:13Z",
+      "side": 1,
+      "message": "Yeah, it was more accurate back when the function mostly just expanded to the “all” pattern. Inlined back into the call site for clarity.",
+      "parentUuid": "7623962a_826ba29e",
+      "range": {
+        "startLine": 1133,
+        "startChar": 18,
+        "endLine": 1133,
+        "endChar": 25
+      },
+      "revId": "93ddba7b989280bc7f8ba34e3af2a5f226813671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
