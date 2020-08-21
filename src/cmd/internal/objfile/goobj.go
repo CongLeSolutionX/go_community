@@ -17,13 +17,13 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 )
 
 type goobjFile struct {
 	goobj *archive.GoObj
 	r     *goobj.Reader
 	f     *os.File
+	arch  *sys.Arch
 }
 
 func openGoFile(f *os.File) (*File, error) {
@@ -45,9 +45,16 @@ L:
 				return nil, err
 			}
 			r := goobj.NewReaderFromBytes(b, false)
+			var arch *sys.Arch
+			for _, a := range sys.Archs {
+				if a.Name == e.Obj.Arch {
+					arch = a
+					break
+				}
+			}
 			entries = append(entries, &Entry{
 				name: e.Name,
-				raw:  &goobjFile{e.Obj, r, f},
+				raw:  &goobjFile{e.Obj, r, f, arch},
 			})
 			continue
 		case archive.EntryNativeObj:
@@ -223,17 +230,8 @@ func (f *goobjFile) pcln() (textStart uint64, symtab, pclntab []byte, err error)
 // Returns "",0,nil if unknown.
 // This function implements the Liner interface in preference to pcln() above.
 func (f *goobjFile) PCToLine(pc uint64) (string, int, *gosym.Func) {
-	// TODO: this is really inefficient. Binary search? Memoize last result?
 	r := f.r
-	var arch *sys.Arch
-	archname := f.goarch()
-	for _, a := range sys.Archs {
-		if a.Name == archname {
-			arch = a
-			break
-		}
-	}
-	if arch == nil {
+	if f.arch == nil {
 		return "", 0, nil
 	}
 	getSymData := func(s goobj.SymRef) []byte {
@@ -270,10 +268,19 @@ func (f *goobjFile) PCToLine(pc uint64) (string, int, *gosym.Func) {
 		b := r.BytesAt(r.DataOff(isym), r.DataSize(isym))
 		var info *goobj.FuncInfo
 		lengths := info.ReadFuncInfoLengths(b)
+<<<<<<< HEAD   (ac5c40 [dev.link] cmd/link: clean up some pclntab state)
 		pcline := getSymData(info.ReadPcline(b))
 		line := int(pcValue(pcline, pc-addr, arch))
 		pcfile := getSymData(info.ReadPcfile(b))
 		fileID := pcValue(pcfile, pc-addr, arch)
+=======
+		off, end := info.ReadPcline(b)
+		pcline := r.BytesAt(pcdataBase+off, int(end-off))
+		line := int(pcValue(pcline, pc-addr, f.arch))
+		off, end = info.ReadPcfile(b)
+		pcfile := r.BytesAt(pcdataBase+off, int(end-off))
+		fileID := pcValue(pcfile, pc-addr, f.arch)
+>>>>>>> BRANCH (9679b3 cmd/go/testdata/script: make list_case_collision's behavior )
 		globalFileID := info.ReadFile(b, lengths.FileOff, uint32(fileID))
 		fileName := r.File(int(globalFileID))
 		// Note: we provide only the name in the Func structure.
@@ -338,11 +345,7 @@ func (f *goobjFile) text() (textStart uint64, text []byte, err error) {
 }
 
 func (f *goobjFile) goarch() string {
-	hs := strings.Fields(string(f.goobj.TextHeader))
-	if len(hs) >= 4 {
-		return hs[3]
-	}
-	return ""
+	return f.goobj.Arch
 }
 
 func (f *goobjFile) loadAddress() (uint64, error) {
