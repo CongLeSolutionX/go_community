@@ -22,6 +22,30 @@
       "revId": "ca1d4a1d90b33b031d871025c0e3fc4c6ef724d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50bec42_667d1d4d",
+        "filename": "src/cmd/go/testdata/script/list_case_collision.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-21T16:52:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e463468_e2840c95",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "ca1d4a1d90b33b031d871025c0e3fc4c6ef724d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
