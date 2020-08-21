@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6fcc8b3_0f956fa0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T03:46:56Z",
+      "side": 1,
+      "message": "These buffer sizes make me sad, but sometimes that\u0027s life.\n\nIf the linker\u0027s allocation is so sensitive to these, would it be possible to make a really fast pre-pass over all of the object files just to figure out these sizes and then allocate these structures? Or would that not work because duplicates would cause it to be too much of an overestimate? (Even crazier: add a Bloom filter to the object file that the linker can bitwise-or and use to estimate the final number of symbols post-dupok!)",
+      "revId": "e25e73c0827882cbdf6a2512d1efa7ff828a116d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca55c5c4_971109eb",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2157,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T03:46:56Z",
+      "side": 1,
+      "message": "Does this mean we can make some other map smaller?",
+      "range": {
+        "startLine": 2157,
+        "startChar": 52,
+        "endLine": 2157,
+        "endChar": 57
+      },
+      "revId": "e25e73c0827882cbdf6a2512d1efa7ff828a116d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
