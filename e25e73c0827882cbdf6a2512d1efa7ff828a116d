@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ed833c4_dea8b21e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-21T14:38:45Z",
+      "side": 1,
+      "message": "A pre-pass seems reasonable. Maybe we could preallocate something like\nNpkgsyms + C1 * Nhashedsyms + C2 * Nnonpkgsyms\nwhere C1, C2 are constants less than 1, possibly depending on total number of object files. In fact, we already don\u0027t even process hashed symbols and non-package symbols until all objects are loaded, and it should be easy to move the process of package symbols later if necessary.\n\nFor Bloom filter, I\u0027m not sure how big it would be. I think the optimal size is related to total number of symbols, which is not known when compiling one package.\n\nI\u0027m not sure why it is so sensitive. If the preallocation is too big, yeah, it will use more memory. If it is too small, the runtime should do pretty reasonable things to grow it, right? I thought the preallocation is mainly to help reduce the first a few rounds of doubling when it is small.",
+      "parentUuid": "c6fcc8b3_0f956fa0",
+      "revId": "e25e73c0827882cbdf6a2512d1efa7ff828a116d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca55c5c4_971109eb",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 5
