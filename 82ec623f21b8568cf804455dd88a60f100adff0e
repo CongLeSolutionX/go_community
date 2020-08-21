@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9425d3e_25462b75",
+        "filename": "test/gen/g043.go2",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-21T00:03:40Z",
+      "side": 1,
+      "message": "Trailing whitespace--run gofmt?",
+      "revId": "82ec623f21b8568cf804455dd88a60f100adff0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
