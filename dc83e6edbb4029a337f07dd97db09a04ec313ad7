@@ -52,6 +52,24 @@
       "revId": "dc83e6edbb4029a337f07dd97db09a04ec313ad7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35e2887c_73ae8cd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-21T07:52:27Z",
+      "side": 1,
+      "message": "Next time you can use ./make.bash which will be faster or just cd net/http and then run go test.",
+      "parentUuid": "709796b3_bb457e75",
+      "revId": "dc83e6edbb4029a337f07dd97db09a04ec313ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
