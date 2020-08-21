@@ -1,0 +1,524 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06ccbfc8_b650e5fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "I assume you\u0027re assuming there\u0027s no aleatoric uncertainty in these measurements. If so, run benchstat -delta-test\u003dnone. It will print the delta without doing significance tests. (My first reaction looking at these stats was \"wait, how did this not change anything?\")",
+      "range": {
+        "startLine": 14,
+        "startChar": 58,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e4c3f6_944003e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "(I\u0027m pretty sleepy. I hope this is coherent!)",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ba2161e_7311872d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "Is it worth making inlSyms sparse? (E.g., a map)",
+      "range": {
+        "startLine": 233,
+        "startChar": 3,
+        "endLine": 233,
+        "endChar": 25
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a25579e3_4de99580",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "This might be slightly clearer as \"numPCData \u003c object.PCDATA_InlTreeIndex + 1\" so that the common subexpression between the condition and the body are clear.",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4fe6da_76020889",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "This documentation could be better. What are the \"offsets\"? What are the arguments?",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5b73efa_2816bf86",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "Same comment as above",
+      "range": {
+        "startLine": 535,
+        "startChar": 28,
+        "endLine": 535,
+        "endChar": 59
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40bc1546_9e71fe6f",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "Did you mean to reuse the passed-in fdSyms and fdOffs if they have sufficient capacity?",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d29c0d8_2a4f0337",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "I don\u0027t think this code is necessary because you already accounted for this when computing size above.",
+      "range": {
+        "startLine": 545,
+        "startChar": 3,
+        "endLine": 549,
+        "endChar": 4
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5090eecf_cd09da8c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "Does fdOffs also need to be set?",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc156c3f_539d9e9d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure I know what \"the pclntab\" is at this point. Elsewhere I believe you call this the functab, which I think is more apt.",
+      "range": {
+        "startLine": 556,
+        "startChar": 44,
+        "endLine": 556,
+        "endChar": 55
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d31b8595_02fd8696",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "Is there any value in putting the pc-\u003efunc table in a different section? (It\u0027s fine if the answer is *shrug*)",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "380cfc3a_c4eb2900",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "The total size of what? I\u0027m not sure I\u0027d say \"as well\" since you\u0027re updating size in place. Maybe \"Now allocate space for the function table.\"?",
+      "range": {
+        "startLine": 567,
+        "startChar": 13,
+        "endLine": 567,
+        "endChar": 27
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b9ea133_6c36bbac",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "Maybe this pattern is worth abstracting like you did for PCDATA?",
+      "range": {
+        "startLine": 577,
+        "startChar": 0,
+        "endLine": 582,
+        "endChar": 4
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27eeb270_729cb0b0",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "\"walk\" to me usually implies a function that is generic and side-effect-free. This seems much more like a write or a gen. Technically it invokes the setAddr and setUint callbacks, but those don\u0027t know what a \"PcToFunc\" entry is.",
+      "range": {
+        "startLine": 601,
+        "startChar": 5,
+        "endLine": 601,
+        "endChar": 17
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939aa57a_403eea83",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "The value assigned to thisSect here is never used.",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e857392c_b14ec6e6",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "How does this nfunc relate to pclntab.nfunc?",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19de2e4c_6cb50cbd",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "Same comment about \"walk\"",
+      "range": {
+        "startLine": 640,
+        "startChar": 22,
+        "endLine": 640,
+        "endChar": 34
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d215dfe9_74f719ee",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "I would think it would be simpler and have better locality if writing out the FUNCDATA references was interwoven with writing out the func descriptors.",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc983e8_6f2f5fed",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "What is funcdataoff[j] if funcdata[j] is 0?",
+      "range": {
+        "startLine": 659,
+        "startChar": 44,
+        "endLine": 659,
+        "endChar": 55
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696af01f_6044ff5c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "This seems not to be the case (though perhaps it should be)",
+      "range": {
+        "startLine": 669,
+        "startChar": 50,
+        "endLine": 669,
+        "endChar": 62
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6f0e09b_0041f956",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "What happened to the zeroth word? The old code doesn\u0027t seem to skip a word like this...",
+      "range": {
+        "startLine": 682,
+        "startChar": 27,
+        "endLine": 682,
+        "endChar": 54
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d688acee_844d0779",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "This part of the condition shouldn\u0027t be here. If there\u0027s an inltree, you have to set its offset. If there were higher-numbered PCDATA tables, the loop above will just have written a nonsense value here.",
+      "range": {
+        "startLine": 738,
+        "startChar": 29,
+        "endLine": 738,
+        "endChar": 76
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "105ebdeb_4cc18b51",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "This is a matter of style, but I would love to see this function before a bunch of the functions above. C has given a lot of programmers what I think is a bad habit of putting all the details before the big picture because otherwise you have to write function prototypes and no one wants to do that.",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "121579e5_8c854b21",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "What\u0027s the value of setUint? It doesn\u0027t capture anything or add useful indirection, so it seems like it would just slow things down.",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "710b07f2_270472b7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "I\u0027m pretty confused by what\u0027s going on here. Why is it necessary to generate everything twice? (And isn\u0027t this pretty expensive CPU-wise?)",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c37d74_75e85e37",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-21T04:39:31Z",
+      "side": 1,
+      "message": "What does it mean to both SetAddrPlus on the first pass and SetUint on the second pass?",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
