@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0c5654fe_84b734ac",
+        "filename": "src/cmd/go/testdata/script/mod_find.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-21T16:51:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fb37921_11db521f",
+      "revId": "0245fa1b91e8520140a3a7dc4e3b2b4a64339ea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdfd95a2_bb86a909",
         "filename": "src/cmd/go/testdata/script/mod_invalid_path.txt",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "0245fa1b91e8520140a3a7dc4e3b2b4a64339ea3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca180eb8_7b70c9e4",
+        "filename": "src/cmd/go/testdata/script/mod_invalid_path.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-21T16:51:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdfd95a2_bb86a909",
+      "range": {
+        "startLine": 1,
+        "startChar": 27,
+        "endLine": 1,
+        "endChar": 51
+      },
+      "revId": "0245fa1b91e8520140a3a7dc4e3b2b4a64339ea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
