@@ -33,6 +33,41 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82b4bc0c_6527c1b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T04:33:13Z",
+      "side": 1,
+      "message": "Can you elaborate on why you think that\u0027s the case?\n\nI see that noWB is the only //go:notinheap type that\u0027s specific to wasm, but I don\u0027t immediately see anything wrong with wasm\u0027s StorepNoWB function. I also don\u0027t see anything in the js-wasm trybot logs that indicate this code in particular.",
+      "parentUuid": "ed33c736_344a019d",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d62b6bf_2b60ee03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T04:33:13Z",
+      "side": 1,
+      "message": "I looked over the CL a couple extra times because of the js-wasm failures, but I\u0027m still not seeing anything that I would attribute the js-wasm failures to.",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
