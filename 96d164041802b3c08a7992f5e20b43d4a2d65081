@@ -194,6 +194,24 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52f815b_86839fd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T06:40:56Z",
+      "side": 1,
+      "message": "No, that would cause the assignment to use write barriers, which is what this function is trying to avoid.\n\nSomething like this seems to work:\n\n```\nfunc StorepNoWB(ptr unsafe.Pointer, val unsafe.Pointer) {\n    *(*uintptr)(ptr) \u003d uintptr(val)\n\n    if never :\u003d false; never {\n        *(*unsafe.Pointer)(ptr) \u003d val\n    }\n}\n```\n\nThat\u0027s obfuscated just enough that escape analysis will treat val as escaping, but easy for SSA to optimize away as dead code.\n\nThat\u0027s pretty brittle though (e.g., if/when we move escape analysis to SSA, it won\u0027t work anymore). We\u0027d probably want a test that runs \"GOOS\u003djs GOARCH\u003dwasm go build -gcflags\u003d-m runtime/internal/atomic\" and looks for the \"leaking param: val\" line.",
+      "parentUuid": "d2f02554_3f70d336",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
