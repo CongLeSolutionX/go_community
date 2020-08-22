@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba544a18_6970d20c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:24:23Z",
+      "side": 1,
+      "message": "net/http: stop indefinite ServeFile 301s from \"/\" to \"..//\"",
+      "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97201bcc_8faec706",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:24:23Z",
+      "side": 1,
+      "message": "Ensures that if the there is a ServeFile redirect from \"/\"\nto \"..//\", that it won\u0027t cause indefinite 301 redirects.\n\nUpdates #13996",
+      "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdaeb6c4_adb144bc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -48,6 +82,41 @@
       "side": 1,
       "message": "Hi, Emmanuel\nI actually embeded the demonstrated information in originial github PR (https://github.com/golang/go/pull/38534), but it was removed due to compromise the isse format later on.\n\nThe issue is found when i was using `http.FileServer` to serve virtual filesystem, which files are stored as binary format in some db or memory which doesn\u0027t matter, If the url accessed was exactly `/`, it will redirect to `..//`, and as you can see, it is already root path, and this is actually itself, as result,\nthis line of code will cause infinite 301 redirects loop.\n\nTo prevent this behavior it is safe to add additional check \u0026\u0026 url !\u003d\"/\".\n\nIf you check out the code change, actullay this PR is quite simple and clear, just prevent to redirect `/` to `..//`, is that make sense?\n\nRelated issue: golang/go#13996\n\n$ curl http://localhost:9000/ -v -L\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying ::1:9000...\n* TCP_NODELAY set\n*   Trying 127.0.0.1:9000...\n* TCP_NODELAY set\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\u003e GET / HTTP/1.1\n\u003e Host: localhost:9000\n\u003e User-Agent: curl/7.65.3\n\u003e Accept: */*\n\u003e\n* Mark bundle as not supporting multiuse\n\u003c HTTP/1.1 301 Moved Permanently\n\u003c Location: ..//\n\u003c Date: Mon, 20 Apr 2020 02:08:14 GMT\n\u003c Content-Length: 0\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Issue another request to this URL: \u0027http://localhost:9000/\u0027\n* Found bundle for host localhost: 0x2754760 [serially]\n* Can not multiplex, even if we wanted to!\n* Re-using existing connection! (#0) with host localhost\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\u003e GET / HTTP/1.1\n\u003e Host: localhost:9000\n\u003e User-Agent: curl/7.65.3\n\u003e Accept: */*\n\u003e\n* Mark bundle as not supporting multiuse\n\u003c HTTP/1.1 301 Moved Permanently\n\u003c Location: ..//\n\u003c Date: Mon, 20 Apr 2020 02:08:14 GMT\n\u003c Content-Length: 0\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Issue another request to this URL: \u0027http://localhost:9000/\u0027\n* Found bundle for host localhost: 0x2754760 [serially]\n* Can not multiplex, even if we wanted to!\n* Re-using existing connection! (#0) with host localhost\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\nTLDR\n\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Issue another request to this URL: \u0027http://localhost:9000/\u0027\n* Found bundle for host localhost: 0x2754760 [serially]\n* Can not multiplex, even if we wanted to!\n* Re-using existing connection! (#0) with host localhost\n* Connected to localhost (127.0.0.1) port 9000 (#0)\n\u003e GET / HTTP/1.1\n\u003e Host: localhost:9000\n\u003e User-Agent: curl/7.65.3\n\u003e Accept: */*\n\u003e\n* Mark bundle as not supporting multiuse\n\u003c HTTP/1.1 301 Moved Permanently\n\u003c Location: ..//\n\u003c Date: Mon, 20 Apr 2020 02:08:14 GMT\n\u003c Content-Length: 0\n\u003c\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n* Connection #0 to host localhost left intact\n* Maximum (50) redirects followed\ncurl: (47) Maximum (50) redirects followed",
       "parentUuid": "fdaeb6c4_adb144bc",
+      "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cac3503_9c912a23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:24:23Z",
+      "side": 1,
+      "message": "Thank you Medcl, I\u0027ve added some suggestions and responded to your response, please take a look.",
+      "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2841fa1_50acc5a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:24:23Z",
+      "side": 1,
+      "message": "Thanks for the response, Medcl! So:\na) You showed a scenario but it isn\u0027t clear how you trigger a redirect to \"..//\" and what paths normally \"..//\", that looks like a typo and not common for UNIX file systems, sure it is legal and resolves, but looks rare. What I meant is that provide a minimal Go server in a main.go that shows how you invoke http.ServeFile\n\nb) To see a test case in Go, perhaps could you modify an adaptation of the test case for the original issue that only handled path[len(path)-1] \u003d\u003d \"/\"to self contained show the one you found, https://github.com/golang/go/commit/ddcf8d402a0f8b7556dad49005ff578244baa11c#diff-9c98561805bdf6a5bcb4aa9cfa8b522eR508\n\nThank you!",
+      "parentUuid": "53c952cd_940af2de",
       "revId": "5d03a883d06591a0488d944f546c84d008b06df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
