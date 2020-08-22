@@ -16,6 +16,23 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bf11ce0_7cab05ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T04:07:20Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ve wanted to collapse the has-pointer functions for a while, but was never successful. It seems like extending //go:notinheap to disallow variables on the stack was the extra step I never thought to try.\n\ncmd/compile changes look good, but js-wasm failure seems real.",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

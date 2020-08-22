@@ -16,6 +16,23 @@
       "revId": "f1057da166bc4fdd20cd14efedb71b546220c54c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67b12462_7327c601",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T04:07:20Z",
+      "side": 1,
+      "message": "I think this should be called HasHeapPointers. *NotInHeapType is still a \"pointer\".\n\nAlso, I think it would be preferable to handle collapsing the variety of has-pointer functions in a followup, refactoring-only CL. There\u0027s so many mechanical renames that it took me a few passes before I was confident I\u0027d spotted all the normative changes. If splitting this out again is going to be a lot of work though, then don\u0027t worry about it.",
+      "revId": "f1057da166bc4fdd20cd14efedb71b546220c54c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
