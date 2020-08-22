@@ -86,6 +86,24 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d243111_0c8d098b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-08-22T04:52:54Z",
+      "side": 1,
+      "message": "Sorry, copy-paste error, \"After\" case:\n\n```\n./atomic_wasm.go:161:17: ptr does not escape\n./atomic_wasm.go:161:37: val does not escape\n```",
+      "parentUuid": "59df375a_207a0e47",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
