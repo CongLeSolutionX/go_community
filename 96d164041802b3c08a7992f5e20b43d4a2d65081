@@ -140,6 +140,24 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "005ba93c_fd3dbc02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T05:54:24Z",
+      "side": 1,
+      "message": "(For GOOS\u003djs GOARCH\u003dwasm, that is.)",
+      "parentUuid": "27b43e90_3c9db997",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
