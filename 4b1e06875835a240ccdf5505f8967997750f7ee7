@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "586c8890_fb802c74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:57:49Z",
+      "side": 1,
+      "message": "For a suggestion about this subject, perhaps a description of the change (apologies for preaching to the choir, but was just throwing in the word description to make the subject more succinct)\nin which we now only serve requests whose RawPath is either \"\" or has the same prefix as the pattern to strip aka has the same prefix as Path, so perhaps:\n\nnet/http: only serve RawPath with empty or same prefix as Path in StripPrefix",
+      "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddad73e5_eb7002cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:57:49Z",
+      "side": 1,
+      "message": "Minor nit: s/mistmatched/mismatched/g",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 18,
+        "endChar": 37
+      },
+      "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ebe7267_8a3ddbc2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -16,6 +56,46 @@
       "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "962f5952_6621b0ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:57:49Z",
+      "side": 1,
+      "message": "Thank you for this change Andrew! I\u0027ve added some suggestions, please\ntake a look and also please rebase from the mothership.\nThank you for the review, Caleb!",
+      "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5581f7_8f871149",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2891,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-22T13:57:49Z",
+      "side": 1,
+      "message": "Perhaps let\u0027s make this a subtest and won\u0027t need the tc.reqPath prefix in every error log so\n\tfor _, tc :\u003d range cases {\n                tc :\u003d tc\n                t.Run(tc.reqPath, func(t *testing.T) {\n\t\t        res, err :\u003d c.Get(ts.URL + tc.reqPath)\n\t\t        if err !\u003d nil {\n\t\t\t      t.Fatal(err)\n\t\t        }\n\t\t        res.Body.Close()\n                 \n                        if tc.path \u003d\u003d \"\" { // We want a 404.\n\t\t\t        if g, w :\u003d res.StatusCode, StatusNotFound {\n\t\t\t\t       t.Errorf(\"StatusCode mismatch: got %d want %d\", g, w)\n\t\t\t        }\n                                continue\n                        }\n\t\t        \n                        if g, w :\u003d res.StatusCode, StatusOK; g !\u003d w {\n\t\t\t        t.Errorf(\"StatusCode mismatch: got %d want %d\", g, w)\n\t\t        }\n\t\t        if g, w :\u003d res.Header.Get(\"X-Path\"), tc.path; g !\u003d w {\n\t\t\t        t.Errorf(\"Path mismatch: got %q, want %q\", g, w)\n\t\t        }\n\t\t        if g, w :\u003d res.Header.Get(\"X-RawPath\"), tc.rawPath; g !\u003d w {\n\t\t\t        t.Errorf(\"RawPath mismatch: got %q, want %q\", tc.reqPath, g, w)\n\t\t        }\n                 })\n         }",
+      "range": {
+        "startLine": 2870,
+        "startChar": 2,
+        "endLine": 2891,
+        "endChar": 3
+      },
+      "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
