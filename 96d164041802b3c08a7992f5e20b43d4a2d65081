@@ -68,6 +68,24 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59df375a_207a0e47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-08-22T04:51:09Z",
+      "side": 1,
+      "message": "That\u0027s totally my guess only, without digging further by running wasn/js test in local. Before this CL:\n\n```\n./atomic_wasm.go:161:17: ptr does not escape\n./atomic_wasm.go:161:37: leaking param: val\n```\n\nAfter:\n\n```\n./atomic_wasm.go:161:37: val does not escape\n./atomic_wasm.go:167:10: ptr does not escape\n```\n\nAnd looking at your fix in 814c97b3133d0e5a8aa884e2ef752aaf7e7bd500, that seems to be problem because \"val\" is treated as a non-leaking parameter.",
+      "parentUuid": "82b4bc0c_6527c1b7",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
