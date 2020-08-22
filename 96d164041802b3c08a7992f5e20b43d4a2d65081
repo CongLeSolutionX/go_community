@@ -122,6 +122,24 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27b43e90_3c9db997",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T05:53:41Z",
+      "side": 1,
+      "message": "Yep, this CL causes the \"new([]*moduledata)\" at runtime/symtab.go:460 to be stack allocated.",
+      "parentUuid": "3c723948_56bd04f6",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
