@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "eb834c06_de037114",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-22T23:07:54Z",
+      "side": 1,
+      "message": "Mention the target for these measurements. (cmd/compile?)",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06ccbfc8_b650e5fb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
