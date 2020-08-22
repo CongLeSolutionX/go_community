@@ -104,6 +104,24 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c723948_56bd04f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-22T05:20:23Z",
+      "side": 1,
+      "message": "Ah, well spotted. That definitely seems like a problem.\n\nWhen I\u0027m looking for escape analysis related failures, I typically run something like\n\n    go test -c -gcflags\u003dall\u003d-m bufio | grep -e \"moved to heap\" -e \"escapes to heap\"\n\nbefore and after a compiler CL and look for any changes in the diff output. I bet you can find a \"new(T)\" statement somewhere in the runtime that\u0027s now being stack allocated because of this CL.\n\n(The \"moved to heap\" and \"escapes to heap\" diagnostics are much more important because they indicate whether a particular variable was actually allocated on the heap or stack, whereas the latter are internal details; the \"does not escape\" and \"leaking param\" diagnostics are just to help understand why escape analysis made the decisions it did.)",
+      "parentUuid": "2d243111_0c8d098b",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
