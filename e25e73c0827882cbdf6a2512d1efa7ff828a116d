@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0aba6cdf_0898f56c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-23T02:44:40Z",
+      "side": 1,
+      "message": "The runtime will still grow these structures in 25% increments. That\u0027s pretty much exactly the scale of growth we saw in allocations, so maybe it was just on a cusp before and this pushed it just over a cusp?",
+      "parentUuid": "6ed833c4_dea8b21e",
+      "revId": "e25e73c0827882cbdf6a2512d1efa7ff828a116d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca55c5c4_971109eb",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 5
