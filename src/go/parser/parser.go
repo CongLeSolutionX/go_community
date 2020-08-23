@@ -143,6 +143,11 @@ func (p *parser) shortVarDecl(decl *ast.AssignStmt, list []ast.Expr) {
 	// the same type, and at least one of the non-blank variables is new.
 	n := 0 // number of new variables
 	for _, x := range list {
+		if _, isIdent := x.(*ast.Ident); !isIdent {
+			p.resolve(x)
+		}
+	}
+	for _, x := range list {
 		if ident, isIdent := x.(*ast.Ident); isIdent {
 			assert(ident.Obj == nil, "identifier already declared or resolved")
 			obj := ast.NewObj(ast.Var, ident.Name)
@@ -156,8 +161,6 @@ func (p *parser) shortVarDecl(decl *ast.AssignStmt, list []ast.Expr) {
 					n++ // new declaration
 				}
 			}
-		} else {
-			p.errorExpected(x.Pos(), "identifier on left side of :=")
 		}
 	}
 	if n == 0 && p.mode&DeclarationErrors != 0 {

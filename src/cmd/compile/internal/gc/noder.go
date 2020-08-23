@@ -1068,17 +1068,26 @@ func (p *noder) assignList(expr syntax.Expr, defn *Node, colas bool) []*Node {
 
 	res := make([]*Node, len(exprs))
 	seen := make(map[*types.Sym]bool, len(exprs))
-
 	newOrErr := false
+
+	// Handle all expressions first, so they're not affected by
+	// variables declared in the second loop.
 	for i, expr := range exprs {
 		p.setlineno(expr)
 		res[i] = nblank
 
+		if _, ok := expr.(*syntax.Name); ok {
+			continue // handled below
+		}
+		res[i] = p.expr(expr)
+	}
+
+	for i, expr := range exprs {
+		p.setlineno(expr)
+
 		name, ok := expr.(*syntax.Name)
 		if !ok {
-			p.yyerrorpos(expr.Pos(), "non-name %v on left side of :=", p.expr(expr))
-			newOrErr = true
-			continue
+			continue // handled above
 		}
 
 		sym := p.name(name)
