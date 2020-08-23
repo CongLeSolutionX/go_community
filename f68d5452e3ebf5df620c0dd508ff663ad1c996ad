@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95383b12_d0a88110",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-08-23T03:26:57Z",
+      "side": 1,
+      "message": "@hanyu in patch set 2 some of the changes indicated in the commit message have been reverted, was that intentional?",
+      "revId": "f68d5452e3ebf5df620c0dd508ff663ad1c996ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79b58a4_7edfc28f",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-08-23T03:26:57Z",
+      "side": 1,
+      "message": "I don\u0027t think this is correct, a send on buffered an unbuffered channels happens before the receive.",
+      "revId": "f68d5452e3ebf5df620c0dd508ff663ad1c996ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
