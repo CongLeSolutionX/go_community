@@ -212,6 +212,24 @@
       "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8076568_8dca9aa5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-08-23T20:49:03Z",
+      "side": 1,
+      "message": "The fix for StorepNoWB was handled in CL 249962. A test is being discussed in CL 249761.\n\nMarking this conversation as Resolved.",
+      "parentUuid": "d52f815b_86839fd7",
+      "revId": "96d164041802b3c08a7992f5e20b43d4a2d65081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
