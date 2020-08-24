@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84bb32a3_46980e06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2020-08-24T22:21:05Z",
+      "side": 1,
+      "message": "In this CL or a separate one?",
+      "parentUuid": "1b50b9fe_fdc07e5c",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "4210eb21d3c49fbb394cc0e6ca30b75c330ff3fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7015f6e4_4e2c430a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
