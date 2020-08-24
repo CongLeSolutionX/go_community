@@ -33,6 +33,24 @@
       "revId": "64a58b57bf3465726fbca2285fa2877f1ff71810",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a2705af_54a99c25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-08-24T02:38:08Z",
+      "side": 1,
+      "message": "We should do this for GOSSAFUNC -- if it\u0027s not empty, check for match both with and w/o package.",
+      "parentUuid": "a7fe7232_f26a5f81",
+      "revId": "64a58b57bf3465726fbca2285fa2877f1ff71810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
