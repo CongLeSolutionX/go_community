@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff6e7c7a_fcfa8d8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-24T07:01:25Z",
+      "side": 1,
+      "message": "s/for/to/\n\nand perhaps let’s make this subject:\nmath/big: invert and comment on non-finite form in SetMantExp",
+      "revId": "550d0c5dc55ccfb4e0419bad5750ded7507db591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07543031_21ddbd8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-24T07:01:25Z",
+      "side": 1,
+      "message": "We can remove all this since the subject will explain it,",
+      "revId": "550d0c5dc55ccfb4e0419bad5750ded7507db591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20aa37d9_04cb0ab5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-24T07:01:25Z",
+      "side": 1,
+      "message": "Thank you for this change, Surech. Robert, thanks for the review, and Dmitri, thanks for the triage. Surech, your change was already approved but I’ve added a suggestion for the commit message and when ready I shall run the trybots and then merge it.",
+      "revId": "550d0c5dc55ccfb4e0419bad5750ded7507db591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
