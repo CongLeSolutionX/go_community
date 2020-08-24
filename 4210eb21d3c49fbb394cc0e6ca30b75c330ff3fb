@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1b50b9fe_fdc07e5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-24T19:04:36Z",
+      "side": 1,
+      "message": "Given that this may cause a regression for a small number of users, it should probably have a release note in doc/go1.16.html",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "4210eb21d3c49fbb394cc0e6ca30b75c330ff3fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7015f6e4_4e2c430a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -51,6 +74,29 @@
       "revId": "4210eb21d3c49fbb394cc0e6ca30b75c330ff3fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d41f3e_e0a8df32",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2066,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-24T19:04:36Z",
+      "side": 1,
+      "message": "Please also update this comment.",
+      "range": {
+        "startLine": 2066,
+        "startChar": 6,
+        "endLine": 2066,
+        "endChar": 59
+      },
+      "revId": "4210eb21d3c49fbb394cc0e6ca30b75c330ff3fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
