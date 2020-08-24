@@ -110,7 +110,6 @@ const (
 	//            == 3: logging of per-word updates
 	//            == 4: logging of per-word reads
 	stackDebug       = 0
-	stackFromSystem  = 0 // allocate stacks from system memory instead of the heap
 	stackFaultOnFree = 0 // old stacks are mapped noaccess to detect use after free
 	stackPoisonCopy  = 0 // fill stack that should not be accessed with garbage, to detect bad dereferences during copy
 	stackNoCache     = 0 // disable per-P small stack caches
@@ -118,6 +117,8 @@ const (
 	// check the BP links during traceback.
 	debugCheckBP = false
 )
+
+var stackFromSystem int = 0 // allocate stacks from system memory instead of the heap
 
 const (
 	uintptrMask = 1<<(8*sys.PtrSize) - 1
@@ -197,7 +198,7 @@ func stackpoolalloc(order uint8) gclinkptr {
 		if s.manualFreeList.ptr() != nil {
 			throw("bad manualFreeList")
 		}
-		osStackAlloc(s)
+		osStackAlloc(s.base(), _StackCacheSize)
 		s.elemsize = _FixedStack << order
 		for i := uintptr(0); i < _StackCacheSize; i += s.elemsize {
 			x := gclinkptr(s.base() + i)
@@ -250,7 +251,7 @@ func stackpoolfree(x gclinkptr, order uint8) {
 		// By not freeing, we prevent step #4 until GC is done.
 		stackpool[order].item.span.remove(s)
 		s.manualFreeList = 0
-		osStackFree(s)
+		osStackFree(s.base(), s.npages*pageSize)
 		mheap_.freeManual(s, spanAllocStack)
 	}
 }
@@ -345,6 +346,7 @@ func stackalloc(n uint32) stack {
 		if v == nil {
 			throw("out of memory (stackalloc)")
 		}
+		osStackAlloc(uintptr(v), uintptr(n))
 		return stack{uintptr(v), uintptr(v) + uintptr(n)}
 	}
 
@@ -400,7 +402,7 @@ func stackalloc(n uint32) stack {
 			if s == nil {
 				throw("out of memory")
 			}
-			osStackAlloc(s)
+			osStackAlloc(s.base(), uintptr(n))
 			s.elemsize = uintptr(n)
 		}
 		v = unsafe.Pointer(s.base())
@@ -479,7 +481,7 @@ func stackfree(stk stack) {
 		if gcphase == _GCoff {
 			// Free the stack immediately if we're
 			// sweeping.
-			osStackFree(s)
+			osStackFree(s.base(), s.npages*pageSize)
 			mheap_.freeManual(s, spanAllocStack)
 		} else {
 			// If the GC is running, we can't return a
@@ -1192,7 +1194,7 @@ func freeStackSpans() {
 			if s.allocCount == 0 {
 				list.remove(s)
 				s.manualFreeList = 0
-				osStackFree(s)
+				osStackFree(s.base(), s.npages*pageSize)
 				mheap_.freeManual(s, spanAllocStack)
 			}
 			s = next
@@ -1206,7 +1208,7 @@ func freeStackSpans() {
 		for s := stackLarge.free[i].first; s != nil; {
 			next := s.next
 			stackLarge.free[i].remove(s)
-			osStackFree(s)
+			osStackFree(s.base(), s.npages*pageSize)
 			mheap_.freeManual(s, spanAllocStack)
 			s = next
 		}
