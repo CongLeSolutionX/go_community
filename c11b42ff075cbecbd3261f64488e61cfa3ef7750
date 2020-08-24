@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "03ccbd79_477d9500",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "Thanks for the reviewing. All done.",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b26d830_d37d05c4",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 3
@@ -13,6 +30,24 @@
       "writtenOn": "2020-08-19T15:42:47Z",
       "side": 1,
       "message": "I don\u0027t think this comment is necessary. Maybe just add to the paragraph above \"Note: we don\u0027t need to handle any x-C cases because we already rewrite x-C to x+(-C).\"",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b3bc7a1_7d3b8dd9",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "Good idea. Thank you. Done.",
+      "parentUuid": "6b26d830_d37d05c4",
       "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -42,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "a44cd70d_b9b14e2e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1808,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48bfd342_c1fb7f4b",
+      "range": {
+        "startLine": 1808,
+        "startChar": 29,
+        "endLine": 1808,
+        "endChar": 30
+      },
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "996cf7d3_a1e7fe92",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 3
@@ -56,6 +115,24 @@
       "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278ef12a_3eb85951",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "996cf7d3_a1e7fe92",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "150e23c1_da06c83e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1839,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f65a5e15_c415c032",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e37c63e_b5182a58",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 3
@@ -90,6 +185,24 @@
       "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42b70b36_e383e30b",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1870,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e37c63e_b5182a58",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +223,24 @@
     },
     {
       "key": {
+        "uuid": "eeab7f0f_67d2d6dc",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1889,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be053598_c72c8934",
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0ba6ee5_c8fcaf13",
         "filename": "test/codegen/arithmetic.go",
         "patchSetId": 3
@@ -121,6 +252,30 @@
       "writtenOn": "2020-08-19T15:42:47Z",
       "side": 1,
       "message": "Why is this not ADD\\t[$]-4?",
+      "range": {
+        "startLine": 470,
+        "startChar": 16,
+        "endLine": 470,
+        "endChar": 27
+      },
+      "revId": "c11b42ff075cbecbd3261f64488e61cfa3ef7750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06f9026e_c9b50f5c",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-08-24T03:19:57Z",
+      "side": 1,
+      "message": "The progedit() function of assembler will rewrite negative immediate as positive immediate with complementary instruction, so it is \"SUB 4\" not \"ADD -4\". Thank you.",
+      "parentUuid": "c0ba6ee5_c8fcaf13",
       "range": {
         "startLine": 470,
         "startChar": 16,
