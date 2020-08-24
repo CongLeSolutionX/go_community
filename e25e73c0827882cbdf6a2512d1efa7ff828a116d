@@ -55,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "e523e4b7_ae70e48a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-08-24T01:43:02Z",
+      "side": 1,
+      "message": "Want to go ahead and submit this one? I don\u0027t think it depends on anything in the parent CL.",
+      "revId": "e25e73c0827882cbdf6a2512d1efa7ff828a116d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca55c5c4_971109eb",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 5
