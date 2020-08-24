@@ -244,8 +244,10 @@ func testShiftFunc(t *testing.T, f func(z, x []Word, s uint) Word, a argVU) {
 	// save a.d for error message, or it will be overwritten.
 	b := make([]Word, len(a.d))
 	copy(b, a.d)
-	z := a.d[a.zp : a.zp+a.l]
-	x := a.d[a.xp : a.xp+a.l]
+	z := make([]Word, a.l)
+	copy(z, a.d[a.zp:a.zp+a.l])
+	x := make([]Word, a.l)
+	copy(x, a.d[a.xp:a.xp+a.l])
 	c := f(z, x, a.s)
 	for i, zi := range z {
 		if zi != a.r[i] {
