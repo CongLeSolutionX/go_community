@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dd62c7d4_cda17359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2020-08-24T00:10:58Z",
+      "side": 1,
+      "message": "The main thrust of this change is to have StripPRefix trim the prefix from RawPath as well as Path; the fact that there are minority cases where we don\u0027t serve is a detail, not deserving of being in the change subject line (IMO).",
+      "parentUuid": "586c8890_fb802c74",
+      "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ddad73e5_eb7002cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ea139d7_15f20b93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2020-08-24T00:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddad73e5_eb7002cb",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 18,
+        "endChar": 37
+      },
+      "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +138,30 @@
       "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07248ee1_b07d1b29",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2891,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2020-08-24T00:10:58Z",
+      "side": 1,
+      "message": "Good call.\nDone",
+      "parentUuid": "2d5581f7_8f871149",
+      "range": {
+        "startLine": 2870,
+        "startChar": 2,
+        "endLine": 2891,
+        "endChar": 3
+      },
+      "revId": "4b1e06875835a240ccdf5505f8967997750f7ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
