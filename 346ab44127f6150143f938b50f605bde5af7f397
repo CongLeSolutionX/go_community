@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "091f543f_97fa0996",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "\"fix the bug\" doesn\u0027t say what\u0027s going on, and mentioning the file name doesn\u0027t add information (we already have that file name in the CL). Please change to:\n\nmath/big: fix TestShiftOverlap for test -count arguments \u003e 1",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e11c7ab_e6ff31f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "We don\u0027t need this sentence anymore. Leave this one away.",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c27d7623_361450a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "replace with:\n\nDon\u0027t overwrite incoming test data.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 85
+      },
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cfa349d_2ba96475",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "Thanks for finding and tracking this down.\n\nThere\u0027s a more direct fix. See my feedback below. Thanks.",
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ad581b_e426bb73",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "replace this comment with:\n\n// work on copy of a.d to preserve the original data",
+      "range": {
+        "startLine": 244,
+        "startChar": 16,
+        "endLine": 244,
+        "endChar": 17
+      },
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c48b43_78343938",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "There\u0027s a simpler fix:\njust use b instead of a.d\n\nz :\u003d b[a.zp : a.zp+a.l]\nx :\u003d b[a.xp : a.xp+a.l]\n\n(we already made a copy, no need for another one)",
+      "range": {
+        "startLine": 247,
+        "startChar": 13,
+        "endLine": 247,
+        "endChar": 17
+      },
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0610f7a9_fccd1d6a",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "s/b/a.d/ since now we overwrite b",
+      "range": {
+        "startLine": 254,
+        "startChar": 80,
+        "endLine": 254,
+        "endChar": 81
+      },
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "849cf20d_96686d87",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-24T19:22:31Z",
+      "side": 1,
+      "message": "s/b/a.d/",
+      "range": {
+        "startLine": 259,
+        "startChar": 75,
+        "endLine": 259,
+        "endChar": 76
+      },
+      "revId": "346ab44127f6150143f938b50f605bde5af7f397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
