@@ -8,10 +8,10 @@ package runtime
 
 // osStackAlloc performs OS-specific initialization before s is used
 // as stack memory.
-func osStackAlloc(s *mspan) {
+func osStackAlloc(v, n uintptr) {
 }
 
 // osStackFree undoes the effect of osStackAlloc before s is returned
 // to the heap.
-func osStackFree(s *mspan) {
+func osStackFree(v, n uintptr) {
 }

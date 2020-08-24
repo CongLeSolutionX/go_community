@@ -197,7 +197,7 @@ func stackpoolalloc(order uint8) gclinkptr {
 		if s.manualFreeList.ptr() != nil {
 			throw("bad manualFreeList")
 		}
-		osStackAlloc(s)
+		osStackAlloc(s.base(), s.npages*pageSize)
 		s.elemsize = _FixedStack << order
 		for i := uintptr(0); i < _StackCacheSize; i += s.elemsize {
 			x := gclinkptr(s.base() + i)
@@ -250,7 +250,7 @@ func stackpoolfree(x gclinkptr, order uint8) {
 		// By not freeing, we prevent step #4 until GC is done.
 		stackpool[order].item.span.remove(s)
 		s.manualFreeList = 0
-		osStackFree(s)
+		osStackFree(s.base(), s.npages*pageSize)
 		mheap_.freeManual(s, spanAllocStack)
 	}
 }
@@ -345,6 +345,7 @@ func stackalloc(n uint32) stack {
 		if v == nil {
 			throw("out of memory (stackalloc)")
 		}
+		osStackAlloc(uintptr(v), uintptr(n))
 		return stack{uintptr(v), uintptr(v) + uintptr(n)}
 	}
 
@@ -400,7 +401,7 @@ func stackalloc(n uint32) stack {
 			if s == nil {
 				throw("out of memory")
 			}
-			osStackAlloc(s)
+			osStackAlloc(s.base(), s.npages*pageSize)
 			s.elemsize = uintptr(n)
 		}
 		v = unsafe.Pointer(s.base())
@@ -439,6 +440,7 @@ func stackfree(stk stack) {
 		memclrNoHeapPointers(v, n) // for testing, clobber stack data
 	}
 	if debug.efence != 0 || stackFromSystem != 0 {
+		osStackFree(uintptr(v), uintptr(n))
 		if debug.efence != 0 || stackFaultOnFree != 0 {
 			sysFault(v, n)
 		} else {
@@ -479,7 +481,7 @@ func stackfree(stk stack) {
 		if gcphase == _GCoff {
 			// Free the stack immediately if we're
 			// sweeping.
-			osStackFree(s)
+			osStackFree(s.base(), s.npages*pageSize)
 			mheap_.freeManual(s, spanAllocStack)
 		} else {
 			// If the GC is running, we can't return a
@@ -1192,7 +1194,7 @@ func freeStackSpans() {
 			if s.allocCount == 0 {
 				list.remove(s)
 				s.manualFreeList = 0
-				osStackFree(s)
+				osStackFree(s.base(), s.npages*pageSize)
 				mheap_.freeManual(s, spanAllocStack)
 			}
 			s = next
@@ -1206,7 +1208,7 @@ func freeStackSpans() {
 		for s := stackLarge.free[i].first; s != nil; {
 			next := s.next
 			stackLarge.free[i].remove(s)
-			osStackFree(s)
+			osStackFree(s.base(), s.npages*pageSize)
 			mheap_.freeManual(s, spanAllocStack)
 			s = next
 		}
