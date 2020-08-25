@@ -16,6 +16,29 @@
       "revId": "d14250f53e599c44db0063fda1b78b70e61ab29f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871237d6_82d01573",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-25T19:53:04Z",
+      "side": 1,
+      "message": "This should be factored out into a `go116` predicate, to make it easy to notch out if we need to pull it at the last minute.",
+      "range": {
+        "startLine": 80,
+        "startChar": 22,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "d14250f53e599c44db0063fda1b78b70e61ab29f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
