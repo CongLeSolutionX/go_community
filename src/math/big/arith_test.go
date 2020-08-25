@@ -7,6 +7,7 @@ package big
 import (
 	"fmt"
 	"internal/testenv"
+	"math/bits"
 	"math/rand"
 	"strings"
 	"testing"
@@ -397,7 +398,6 @@ func TestFunVWW(t *testing.T) {
 
 		if a.y != 0 && a.r < a.y {
 			arg := argWVW{a.x, a.c, a.z, a.y, a.r}
-			testFunWVW(t, "divWVW_g", divWVW_g, arg)
 			testFunWVW(t, "divWVW", divWVW, arg)
 		}
 	}
@@ -440,6 +440,73 @@ func TestMulAddWWW(t *testing.T) {
 	}
 }
 
+func TestGetInvert(t *testing.T) {
+	for _, c := range [...]uint{
+		3,
+		5,
+		6,
+		7,
+		9,
+		10,
+		11,
+		12,
+		13,
+		14,
+		15,
+		17,
+		1<<8 - 1,
+		1<<8 + 1,
+		1<<16 - 1,
+		1<<16 + 1,
+		1<<32 - 1,
+		1<<32 + 1,
+		1<<64 - 1,
+	} {
+		inv := getInvert(Word(c))
+
+		mul, _ := bits.Div(0, _M, c)
+		_, mul = bits.Mul(mul, c)
+
+		tests := []uint{0, 1,
+			c - 1, c, c + 1,
+			2*c - 1, 2 * c, 2*c + 1,
+			mul - 1, mul, mul + 1,
+			_M - 1, _M,
+		}
+		for _, t1 := range tests {
+			if t1 >= c {
+				continue //overflow
+			}
+			for _, t0 := range tests {
+				shift := bits.LeadingZeros(c)
+				x1 := (t1<<shift | t0>>(_W-shift))
+				x0 := t0 << shift
+				y := c << shift
+				q, q0 := bits.Mul(x1, inv)
+				q0, cc := bits.Add(q0, x0, 0)
+				q, cc = bits.Add(q, x1, cc)
+				r := x0 - y*q
+				r -= y
+				q++
+				if r >= q0 {
+					q--
+					r += y
+				}
+				if r >= y {
+					q++
+					r -= y
+				}
+				r >>= shift
+				qGot, rGot := q, r
+				qWant, rWant := bits.Div(t1, t0, c)
+				if qWant != qGot || rWant != rGot {
+					t.Errorf("getInvert for %d, %d/%d doesn't work, got q=%d, r=%d, want q=%d, r=%d\n", t1, t0, c, qGot, rGot, qWant, rWant)
+				}
+			}
+		}
+	}
+}
+
 func BenchmarkMulAddVWW(b *testing.B) {
 	for _, n := range benchSizes {
 		if isRaceBuilder && n > 1e3 {
@@ -470,6 +537,22 @@ func BenchmarkAddMulVVW(b *testing.B) {
 			b.SetBytes(int64(n * _W))
 			for i := 0; i < b.N; i++ {
 				addMulVVW(z, x, y)
+			}
+		})
+	}
+}
+func BenchmarkDivWVW(b *testing.B) {
+	for _, n := range benchSizes {
+		if isRaceBuilder && n > 1e3 {
+			continue
+		}
+		x := rndV(n)
+		y := rndW()
+		z := make([]Word, n)
+		b.Run(fmt.Sprint(n), func(b *testing.B) {
+			b.SetBytes(int64(n * _W))
+			for i := 0; i < b.N; i++ {
+				divWVW(z, 0, x, y)
 			}
 		})
 	}

@@ -60,12 +60,6 @@ func nlz(x Word) uint {
 	return uint(bits.LeadingZeros(uint(x)))
 }
 
-// q = (u1<<_W + u0 - r)/v
-func divWW_g(u1, u0, v Word) (q, r Word) {
-	qq, rr := bits.Div(uint(u1), uint(u0), uint(v))
-	return Word(qq), Word(rr)
-}
-
 // The resulting carry c is either 0 or 1.
 func addVV_g(z, x, y []Word) (c Word) {
 	// The comment near the top of this file discusses this for loop condition.
@@ -207,10 +201,94 @@ func addMulVVW_g(z, x []Word, y Word) (c Word) {
 	return
 }
 
-func divWVW_g(z []Word, xn Word, x []Word, y Word) (r Word) {
-	r = xn
-	for i := len(z) - 1; i >= 0; i-- {
-		z[i], r = divWW_g(r, x[i], y)
+// q = (x1<<_W + x0 - r)/v. inverse = ( _B^2 - 1 ) / d - _B. d = y << nlz(y).
+func divWW(x1, x0, y Word, inv uint) (q, r Word) {
+	shift := nlz(y)
+	if shift != 0 {
+		x1 = (x1<<shift | x0>>(_W-shift))
+		x0 <<= shift
+		y <<= shift
 	}
+	d := uint(y)
+	qq, q0 := bits.Mul(uint(x1), inv)   // multipy inverse instead of dividing
+	q0, cc := bits.Add(q0, uint(x0), 0) // add dividend once to correct quotient
+	qq, cc = bits.Add(qq, uint(x1), cc)
+
+	rr := uint(x0) - d*qq
+	rr -= d
+	qq++ // plus one to ensure quotient not less than real quotient
+
+	if rr >= q0 { // conditionally adjust quotient
+		qq--
+		rr += d
+	}
+
+	if rr >= d {
+		qq++
+		rr -= d
+	}
+	rr >>= shift
+	return Word(qq), Word(rr)
+}
+
+func divWVW(z []Word, xn Word, x []Word, y Word) (r Word) {
+	r = xn
+	if len(x) == 1 {
+		qq, rr := bits.Div(uint(r), uint(x[0]), uint(y))
+		z[0] = Word(qq)
+		return Word(rr)
+	}
+	inv := getInvert(y)
+	for i := len(z) - 1; i >= 0; i-- {
+		z[i], r = divWW(r, x[i], y, inv)
+	}
+	return r
+}
+
+// getInvert return the inverse of the divisor. inv = floor(( _B^2 - 1 ) / u1 - _B). u1 = d1 << nlz(d1).
+func getInvert(d1 Word) (inv uint) {
+	// ( _B^2 - 1) / u1 - _B = ( _B * ^u1 + _M) / u1.
+	const halfSize = _W >> 1
+	const mask = uint((1 << halfSize) - 1)
+	shift := nlz(d1)
+	u1 := uint(d1) << shift
+	ul := u1 & mask      // low bits of u1
+	uh := u1 >> halfSize // high bits of u1
+
+	qh := ^u1 / uh // high bits of the quotient, which is floor((( _B ^ 1/2) * ^u1 + mask) / u1). similar with bits.go:533
+
+	r := ((^u1 - qh*uh) << halfSize) | mask // let b = ( _B ^ 1/2) , the remainder r =  b * (^u) + b-1 - qh * (b * uh + ul) = b (^u - qh * uh) + b-1 - qh * ul
+
+	// conditionally adjust qh to ensure that the remainder is positive.
+	// As u1 = d1 << nlz(d1), 2 * u1 >= _B > qh * ul, we need to subtract one from qh at most twice.
+	p := qh * ul
+	if r < p {
+		qh--
+		r += u1
+		if r >= u1 { // if no overflow occurred
+			if r < p {
+				qh--
+				r += u1
+			}
+		}
+	}
+	r -= p
+
+	// low half of quotient, which is floor((( _B ^ 1/2) * r +mask) / u1).
+	p = (r>>halfSize)*qh + r  // the trick that qh is a suitable inverse of uh now. same as p = ( r / uh) << halfSize (bits.go:544)
+	ql := (p >> halfSize) + 1 // only need the high bits of p, plus one to ensure ql not less than real ql.
+
+	r = (r << halfSize) + mask - ql*u1 // real remainder now. we don't need the high halfSize bits of remainder
+
+	if r >= (p << halfSize) { // conditionally adjust ql
+		ql--
+		r += u1
+	}
+	if r >= u1 { // if no overflow occurred
+		ql++
+		r -= u1
+	}
+
+	inv = (qh << halfSize) + ql
 	return
 }
