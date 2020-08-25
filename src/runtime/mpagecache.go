@@ -72,7 +72,7 @@ func (c *pageCache) allocN(npages uintptr) (uintptr, uintptr) {
 // true.
 //
 // s.mheapLock must be held or the world must be stopped.
-func (c *pageCache) flush(s *pageAlloc) {
+func (c *pageCache) flush(p *pageAlloc) {
 	if c.empty() {
 		return
 	}
@@ -83,18 +83,18 @@ func (c *pageCache) flush(s *pageAlloc) {
 	// slower, safer thing by iterating over each bit individually.
 	for i := uint(0); i < 64; i++ {
 		if c.cache&(1<<i) != 0 {
-			s.chunkOf(ci).free1(pi + i)
+			p.chunkOf(ci).free1(pi + i)
 		}
 		if c.scav&(1<<i) != 0 {
-			s.chunkOf(ci).scavenged.setRange(pi+i, 1)
+			p.chunkOf(ci).scavenged.setRange(pi+i, 1)
 		}
 	}
 	// Since this is a lot like a free, we need to make sure
 	// we update the searchAddr just like free does.
-	if b := (offAddr{c.base}); b.lessThan(s.searchAddr) {
-		s.searchAddr = b
+	if b := (offAddr{c.base}); b.lessThan(p.searchAddr) {
+		p.searchAddr = b
 	}
-	s.update(c.base, pageCachePages, false, false)
+	p.update(c.base, pageCachePages, false, false)
 	*c = pageCache{}
 }
 
@@ -103,18 +103,18 @@ func (c *pageCache) flush(s *pageAlloc) {
 // chunk.
 //
 // s.mheapLock must be held.
-func (s *pageAlloc) allocToCache() pageCache {
+func (p *pageAlloc) allocToCache() pageCache {
 	// If the searchAddr refers to a region which has a higher address than
 	// any known chunk, then we know we're out of memory.
-	if chunkIndex(s.searchAddr.addr()) >= s.end {
+	if chunkIndex(p.searchAddr.addr()) >= p.end {
 		return pageCache{}
 	}
 	c := pageCache{}
-	ci := chunkIndex(s.searchAddr.addr()) // chunk index
-	if s.summary[len(s.summary)-1][ci] != 0 {
+	ci := chunkIndex(p.searchAddr.addr()) // chunk index
+	if p.summary[len(p.summary)-1][ci] != 0 {
 		// Fast path: there's free pages at or near the searchAddr address.
-		chunk := s.chunkOf(ci)
-		j, _ := chunk.find(1, chunkPageIndex(s.searchAddr.addr()))
+		chunk := p.chunkOf(ci)
+		j, _ := chunk.find(1, chunkPageIndex(p.searchAddr.addr()))
 		if j == ^uint(0) {
 			throw("bad summary data")
 		}
@@ -126,15 +126,15 @@ func (s *pageAlloc) allocToCache() pageCache {
 	} else {
 		// Slow path: the searchAddr address had nothing there, so go find
 		// the first free page the slow way.
-		addr, _ := s.find(1)
+		addr, _ := p.find(1)
 		if addr == 0 {
 			// We failed to find adequate free space, so mark the searchAddr as OoM
 			// and return an empty pageCache.
-			s.searchAddr = maxSearchAddr
+			p.searchAddr = maxSearchAddr
 			return pageCache{}
 		}
 		ci := chunkIndex(addr)
-		chunk := s.chunkOf(ci)
+		chunk := p.chunkOf(ci)
 		c = pageCache{
 			base:  alignDown(addr, 64*pageSize),
 			cache: ^chunk.pages64(chunkPageIndex(addr)),
@@ -143,10 +143,10 @@ func (s *pageAlloc) allocToCache() pageCache {
 	}
 
 	// Set the bits as allocated and clear the scavenged bits.
-	s.allocRange(c.base, pageCachePages)
+	p.allocRange(c.base, pageCachePages)
 
 	// Update as an allocation, but note that it's not contiguous.
-	s.update(c.base, pageCachePages, false, true)
+	p.update(c.base, pageCachePages, false, true)
 
 	// Set the search address to the last page represented by the cache.
 	// Since all of the pages in this block are going to the cache, and we
@@ -156,6 +156,6 @@ func (s *pageAlloc) allocToCache() pageCache {
 	// However, s.searchAddr is not allowed to point into unmapped heap memory
 	// unless it is maxSearchAddr, so make it the last page as opposed to
 	// the page after.
-	s.searchAddr = offAddr{c.base + pageSize*(pageCachePages-1)}
+	p.searchAddr = offAddr{c.base + pageSize*(pageCachePages-1)}
 	return c
 }
