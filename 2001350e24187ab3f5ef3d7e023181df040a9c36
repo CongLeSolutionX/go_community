@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "00ad320b_ff5bf3b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb834c06_de037114",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06ccbfc8_b650e5fb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a76dc4b_415102b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "I think we\u0027ve gotten all we can get until we eliminate the call to SymName in Darwin. (see pcln.go:emitpcln)",
+      "parentUuid": "06ccbfc8_b650e5fb",
+      "range": {
+        "startLine": 14,
+        "startChar": 58,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "c2ad36d8_ec58da24",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "My initial looks at this say, \"maybe\" -- but definitely not in this CL. 😊\n\nI think it\u0027s a little too early to tell until we do a further study on pcln\u0027s increase in size. Now that we will know how big everything is, we can begin to cut down the long poles.",
+      "parentUuid": "4ba2161e_7311872d",
+      "range": {
+        "startLine": 233,
+        "startChar": 3,
+        "endLine": 233,
+        "endChar": 25
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a25579e3_4de99580",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -99,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "7eba8892_c27e7b0b",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a25579e3_4de99580",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4fe6da_76020889",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -113,6 +197,24 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "887e7075_c57d24c4",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4fe6da_76020889",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +241,30 @@
     },
     {
       "key": {
+        "uuid": "68c47f43_21d1f7ed",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5b73efa_2816bf86",
+      "range": {
+        "startLine": 535,
+        "startChar": 28,
+        "endLine": 535,
+        "endChar": 59
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40bc1546_9e71fe6f",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -153,6 +279,24 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a8dd39_80d3e24c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Like the below comment -- this is all cause the FuncInfo.FuncData API is terrible. I\u0027ll fix it.",
+      "parentUuid": "40bc1546_9e71fe6f",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +323,30 @@
     },
     {
       "key": {
+        "uuid": "2f78f270_2c407429",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "In Cherry\u0027s review she commented on the same thing. The difficulty here is the clunkiness of the Funcdata API from FuncInfo. As it currently stands, this is correct. I\u0027ll go ahead, and fix the FuncInfo API, and clean this up.",
+      "parentUuid": "0d29c0d8_2a4f0337",
+      "range": {
+        "startLine": 545,
+        "startChar": 3,
+        "endLine": 549,
+        "endChar": 4
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5090eecf_cd09da8c",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -193,6 +361,24 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64b0ed33_11ee5abd",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Not according to the old code.",
+      "parentUuid": "5090eecf_cd09da8c",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -219,6 +405,30 @@
     },
     {
       "key": {
+        "uuid": "ae5fbac3_113ecb95",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc156c3f_539d9e9d",
+      "range": {
+        "startLine": 556,
+        "startChar": 44,
+        "endLine": 556,
+        "endChar": 55
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31b8595_02fd8696",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -233,6 +443,24 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4443ee1_6be2dd4b",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "A different section or symbol? I think the answer is maybe. I would like to break pclntab up further, individual symbols for each section. Not there yet.",
+      "parentUuid": "d31b8595_02fd8696",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -259,6 +487,30 @@
     },
     {
       "key": {
+        "uuid": "b1698b21_ec05a7b7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "380cfc3a_c4eb2900",
+      "range": {
+        "startLine": 567,
+        "startChar": 13,
+        "endLine": 567,
+        "endChar": 27
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b9ea133_6c36bbac",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -279,6 +531,30 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "378e514f_139f7a18",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Tempting, but I don\u0027t see the win...",
+      "parentUuid": "5b9ea133_6c36bbac",
+      "range": {
+        "startLine": 577,
+        "startChar": 0,
+        "endLine": 582,
+        "endChar": 4
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -305,6 +581,30 @@
     },
     {
       "key": {
+        "uuid": "13a61a05_1fcf3d46",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Sigh. I felt this way when you asked me to rename the previous functions (I had named \"iterateXXX\") to walkXXX. I was trying to be consistent with your historical requests. Unless my presentation with your fickle ways has changed your mind, I will leave it as is for now.  😊",
+      "parentUuid": "27eeb270_729cb0b0",
+      "range": {
+        "startLine": 601,
+        "startChar": 5,
+        "endLine": 601,
+        "endChar": 17
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "939aa57a_403eea83",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -322,6 +622,24 @@
     },
     {
       "key": {
+        "uuid": "a4609e2b_5d4d46df",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "939aa57a_403eea83",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e857392c_b14ec6e6",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -336,6 +654,24 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4761c2bd_e1f5abee",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Historically, or this is context? This value is counting up to pclntab.nfunc. I don\u0027t want to change that value, as it\u0027s used outside pcln.go. I kept the previous name mostly to help reviewers of this CL keep context with the older code. I\u0027ll change it funcIndex.",
+      "parentUuid": "e857392c_b14ec6e6",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -379,6 +715,48 @@
     },
     {
       "key": {
+        "uuid": "d9227bb8_20db0e4f",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Yeah, you would think, but no. It\u0027s all a question of linker timing, when we know what etc.\n\nWhen we CREATE the pcln variables (eg, call pclntab()), we know the offsets to variables, and which things need relocations but can\u0027t write any of the data yet (because we haven\u0027t allocated the output buffer, and figured out where things go there). So, at the time we create teh variables, we also need to make any relocations. If we were to combine the funcdata code (which possibly needs to write relocations) with writing the func objects, we would call a bunch of NOP-setUint calls. I felt it easier to just make the funcdata a separate pass. With this code:\n\n1) The func objects are just plain written. You\u0027ll see there\u0027s indirection in writeFuncs.\n2) The funcdata, can handle 2 passes. The first if we nneed relocations, and the second when we have the output buffer and can write the data. (Note, the OLD code couldn\u0027t do this, and every funcdataoff that was written was a relocation.)\n\nI know this is confusing, but it reduces duplicated work the most. It might not be the friendliest in the cache....",
+      "parentUuid": "d215dfe9_74f719ee",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "956f88ed_f5af7642",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Same reply.",
+      "parentUuid": "19de2e4c_6cb50cbd",
+      "range": {
+        "startLine": 640,
+        "startChar": 22,
+        "endLine": 640,
+        "endChar": 34
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acc983e8_6f2f5fed",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -399,6 +777,30 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f179d70_b82f963a",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "I have no idea, really. This is cargo culted from lines 721-723 in the old code.",
+      "parentUuid": "acc983e8_6f2f5fed",
+      "range": {
+        "startLine": 659,
+        "startChar": 44,
+        "endLine": 659,
+        "endChar": 55
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -425,6 +827,30 @@
     },
     {
       "key": {
+        "uuid": "83847cf6_6e65ad1c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "I\u0027ll discard this part of the comment, see above discussion about why things are separated out this way.",
+      "parentUuid": "696af01f_6044ff5c",
+      "range": {
+        "startLine": 669,
+        "startChar": 50,
+        "endLine": 669,
+        "endChar": 62
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6f0e09b_0041f956",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -445,6 +871,30 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f8a56f7_b7032a05",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "The entry is set in the walkPCToFunc code. That entry might be a relocation. I\u0027ll add a comment here beyond the \"// entry\" above.",
+      "parentUuid": "c6f0e09b_0041f956",
+      "range": {
+        "startLine": 682,
+        "startChar": 27,
+        "endLine": 682,
+        "endChar": 54
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -471,6 +921,30 @@
     },
     {
       "key": {
+        "uuid": "b4f12acb_d416f992",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d688acee_844d0779",
+      "range": {
+        "startLine": 738,
+        "startChar": 29,
+        "endLine": 738,
+        "endChar": 76
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105ebdeb_4cc18b51",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -485,6 +959,24 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a8d61bd_f20b83c5",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Fair point. I find it less an issue, who reads files top-to-bottom anymore? In any case -- moved.",
+      "parentUuid": "105ebdeb_4cc18b51",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -505,6 +997,24 @@
     },
     {
       "key": {
+        "uuid": "5042584b_7441be4d",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "It\u0027s a compromise. In Cherry\u0027s review she said, \"the return values are never used, don\u0027t include them.\" I\u0027ll move BACK to that API.",
+      "parentUuid": "121579e5_8c854b21",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "710b07f2_270472b7",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -522,6 +1032,24 @@
     },
     {
       "key": {
+        "uuid": "a18996a9_86ae8415",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "Actually, it\u0027s not expensive. (see all previous discussions that looping over symbols has never been the issue, it\u0027s the amount of work done. Also, do note, we\u0027re only looping over reachable funcs with pclndata we\u0027ll emit).\n\nAgain, it\u0027s two passes: related to the timing in the linker. The first pass is create the relocations we need. The second is to actually any data that needs to be written. I\u0027ll add more comments here.",
+      "parentUuid": "710b07f2_270472b7",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47c37d74_75e85e37",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -536,6 +1064,24 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5926649_682a915c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T16:11:10Z",
+      "side": 1,
+      "message": "The first pass is for any relocations, the second to actually any data. At this point, I\u0027m a broken record.",
+      "parentUuid": "47c37d74_75e85e37",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
