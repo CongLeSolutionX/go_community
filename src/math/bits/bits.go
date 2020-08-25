@@ -586,3 +586,74 @@ func Rem64(hi, lo, y uint64) uint64 {
 	_, rem := Div64(hi%y, lo, y)
 	return rem
 }
+func GetInvert(d1 uint) (inv uint, shift uint) {
+	nlzx, nlzc := d1, uint(0)
+	const SHIFT_BITS int = 8
+	if uintSize > SHIFT_BITS {
+		for ; (nlzx & (uint(0xff) << (uintSize - 8))) == 0; nlzc += 8 {
+			nlzx <<= SHIFT_BITS
+		}
+	}
+	for ; (nlzx & (uint(1) << (uintSize - 1))) == 0; nlzc++ {
+		nlzx <<= 1
+	}
+	shift = nlzc
+	if shift > 0 {
+		d1 = (d1 << shift)
+	}
+	mask := uint((1 << (UintSize / 2)) - 1)
+	max := ^uint(0)
+	u1 := d1
+	ul := u1 & mask
+	uh := u1 >> (uintSize / 2)
+
+	qh := (u1 ^ max) / uh
+
+	r := ((^u1 - qh*uh) << (uintSize / 2)) | mask
+	p := qh * ul
+
+	if r < p {
+		qh--
+		r += u1
+		if r >= u1 {
+			if r < p {
+				qh--
+				r += u1
+			}
+		}
+	}
+	r -= p
+	p = (r>>(uintSize/2))*qh + r
+	ql := (p >> (uintSize / 2)) + 1
+	r = (r << (uintSize / 2)) + mask - ql*u1
+	if r >= (max & (p << (uintSize / 2))) {
+		ql--
+		r += u1
+	}
+	inv = (qh << (uintSize / 2)) + ql
+	if r >= u1 {
+		inv++
+		r -= u1
+	}
+	return
+}
+func DivByInv(n2, n1, d, inv uint) (q uint, r uint) {
+	q, q0 := Mul(n2, inv)
+	q0, cc := Add(q0, n1, 0)
+	q, cc = Add(q, n2, cc)
+
+	r = n1 - d*q
+	r -= d
+	q++
+
+	if r >= q0 {
+		q--
+		r += d
+	}
+
+	if r >= d {
+		q++
+		r -= d
+	}
+	return
+}

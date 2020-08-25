@@ -646,7 +646,7 @@ func (z nat) divW(x nat, y Word) (q nat, r Word) {
 	}
 	// m > 0
 	z = z.make(m)
-	r = divWVW(z, 0, x, y)
+	r = divWVWByInv(z, 0, x, y)
 	q = z.norm()
 	return
 }
@@ -751,6 +751,7 @@ func (q nat) divBasic(u, v nat) {
 
 	// D2.
 	vn1 := v[n-1]
+	inv, shift := bits.GetInvert(uint(vn1))
 	for j := m; j >= 0; j-- {
 		// D3.
 		qhat := Word(_M)
@@ -760,7 +761,7 @@ func (q nat) divBasic(u, v nat) {
 		}
 		if ujn != vn1 {
 			var rhat Word
-			qhat, rhat = divWW(ujn, u[j+n-1], vn1)
+			qhat, rhat = divWWByInv(ujn, u[j+n-1], vn1, inv, shift)
 
 			// x1 | x2 = q̂v_{n-2}
 			vn2 := v[n-2]
@@ -1179,7 +1180,7 @@ func (x nat) modW(d Word) (r Word) {
 	// TODO(agl): we don't actually need to store the q value.
 	var q nat
 	q = q.make(len(x))
-	return divWVW(q, 0, x, d)
+	return divWVWByInv(q, 0, x, d)
 }
 
 // random creates a random integer in [0..limit), using the space in z if
