@@ -1748,6 +1748,10 @@ func (ctxt *Context) match(name string, allTags map[string]bool) bool {
 	if ctxt.GOOS == "illumos" && name == "solaris" {
 		return true
 	}
+	// Let applications know that the Go+BoringCrypto toolchain is in use.
+	if name == "boringcrypto" {
+		return true
+	}
 
 	// other tags
 	for _, tag := range ctxt.BuildTags {
