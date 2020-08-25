@@ -41,3 +41,6 @@ TEXT ·addMulVVW(SB),NOSPLIT,$0
 
 TEXT ·divWVW(SB),NOSPLIT,$0
 	JMP	·divWVW_g(SB)
+
+TEXT ·getInvert(SB),NOSPLIT,$0
+	JMP ·getInvert_g(SB)

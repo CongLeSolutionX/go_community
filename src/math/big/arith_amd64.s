@@ -18,14 +18,9 @@ TEXT ·mulWW(SB),NOSPLIT,$0
 	RET
 
 
-// func divWW(x1, x0, y Word) (q, r Word)
+// func divWW(x1, x0, y Word, inv, shift uint) (q, r Word)
 TEXT ·divWW(SB),NOSPLIT,$0
-	MOVQ x1+0(FP), DX
-	MOVQ x0+8(FP), AX
-	DIVQ y+16(FP)
-	MOVQ AX, q+24(FP)
-	MOVQ DX, r+32(FP)
-	RET
+	JMP ·divWW_g(SB)
 
 // The carry bit is saved with SBBQ Rx, Rx: if the carry was set, Rx is -1, otherwise it is 0.
 // It is restored with ADDQ Rx, Rx: if Rx was -1 the carry is set, otherwise it is cleared.
@@ -533,19 +528,7 @@ adx_short:
 
 // func divWVW(z []Word, xn Word, x []Word, y Word) (r Word)
 TEXT ·divWVW(SB),NOSPLIT,$0
-	MOVQ z+0(FP), R10
-	MOVQ xn+24(FP), DX	// r = xn
-	MOVQ x+32(FP), R8
-	MOVQ y+56(FP), R9
-	MOVQ z_len+8(FP), BX	// i = z
-	JMP E7
+    JMP ·divWVW_g(SB)
 
-L7:	MOVQ (R8)(BX*8), AX
-	DIVQ R9
-	MOVQ AX, (R10)(BX*8)
-
-E7:	SUBQ $1, BX		// i--
-	JGE L7			// i >= 0
-
-	MOVQ DX, r+64(FP)
-	RET
+TEXT ·getInvert(SB),NOSPLIT,$0
+	JMP ·getInvert_g(SB)

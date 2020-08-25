@@ -19,7 +19,7 @@ TEXT ·mulWW(SB),NOSPLIT,$0
 	MOV	X8, z0+24(FP)
 	RET
 
-// func divWW(x1, x0, y Word) (q, r Word)
+// func divWW(x1, x0, y Word, inv, shift uint) (q, r Word)
 TEXT ·divWW(SB),NOSPLIT,$0
 	JMP ·divWW_g(SB)		// riscv64 has no multiword division
 
@@ -49,3 +49,6 @@ TEXT ·addMulVVW(SB),NOSPLIT,$0
 
 TEXT ·divWVW(SB),NOSPLIT,$0
 	JMP ·divWVW_g(SB)
+
+TEXT ·getInvert(SB),NOSPLIT,$0
+	JMP ·getInvert_g(SB)

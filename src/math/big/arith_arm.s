@@ -278,10 +278,13 @@ TEXT ·divWVW(SB),NOSPLIT,$0
 	B ·divWVW_g(SB)
 
 
-// func divWW(x1, x0, y Word) (q, r Word)
+// func divWW(x1, x0, y Word, inv, shift uint) (q, r Word)
 TEXT ·divWW(SB),NOSPLIT,$0
 	// ARM has no multiword division, so use portable code.
 	B ·divWW_g(SB)
+
+TEXT ·getInvert(SB),NOSPLIT,$0
+	B ·getInvert_g(SB)
 
 
 // func mulWW(x, y Word) (z1, z0 Word)
