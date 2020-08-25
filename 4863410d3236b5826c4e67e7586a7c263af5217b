@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "608ef523_ff20fc38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-25T00:25:44Z",
+      "side": 1,
+      "message": "We might need to instead make the edit in the go1.16.html file instead of go1.6.html file :)",
+      "revId": "4863410d3236b5826c4e67e7586a7c263af5217b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa077c6_4c02bdfa",
+        "filename": "doc/go1.6.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-25T00:25:44Z",
+      "side": 1,
+      "message": "s/Go 1.6/Go 1.16/g",
+      "range": {
+        "startLine": 780,
+        "startChar": 3,
+        "endLine": 780,
+        "endChar": 9
+      },
+      "revId": "4863410d3236b5826c4e67e7586a7c263af5217b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
