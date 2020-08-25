@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98827dc3_e7d846ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-08-25T17:10:27Z",
+      "side": 1,
+      "message": "PTAL. This should do the preallocation strategy we discussed.",
+      "revId": "40789aa1a473d21c7659cffb14d024775bb33a55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
