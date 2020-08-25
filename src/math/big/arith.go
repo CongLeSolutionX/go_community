@@ -214,3 +214,28 @@ func divWVW_g(z []Word, xn Word, x []Word, y Word) (r Word) {
 	}
 	return
 }
+
+func divWWByInv_g(x1, x0, y Word, inv uint, shift uint) (q, r Word) {
+	if shift != 0 {
+		x1 = (x1<<shift | x0>>(bits.UintSize-shift))
+		x0 <<= shift
+		y <<= shift
+	}
+	qq, rr := bits.DivByInv(uint(x1), uint(x0), uint(y), uint(inv))
+	rr >>= shift
+	return Word(qq), Word(rr)
+}
+
+func divWVWByInv_g(z []Word, xn Word, x []Word, y Word) (r Word) {
+	r = xn
+	if len(x) == 1 {
+		qq, rr := bits.Div(uint(r), uint(x[0]), uint(y))
+		z[0] = Word(qq)
+		return Word(rr)
+	}
+	inv, shift := bits.GetInvert(uint(y))
+	for i := len(z) - 1; i >= 0; i-- {
+		z[i], r = divWWByInv_g(r, x[i], y, inv, shift)
+	}
+	return r
+}

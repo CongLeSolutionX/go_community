@@ -399,6 +399,7 @@ func TestFunVWW(t *testing.T) {
 			arg := argWVW{a.x, a.c, a.z, a.y, a.r}
 			testFunWVW(t, "divWVW_g", divWVW_g, arg)
 			testFunWVW(t, "divWVW", divWVW, arg)
+			testFunWVW(t, "divWVWByInv", divWVWByInv, arg)
 		}
 	}
 }
@@ -470,6 +471,23 @@ func BenchmarkAddMulVVW(b *testing.B) {
 			b.SetBytes(int64(n * _W))
 			for i := 0; i < b.N; i++ {
 				addMulVVW(z, x, y)
+			}
+		})
+	}
+}
+func BenchmarkDivWVW(b *testing.B) {
+	for _, n := range benchSizes {
+		if isRaceBuilder && n > 1e3 {
+			continue
+		}
+		x := rndV(n)
+		y := rndW()
+		z := make([]Word, n)
+		b.Run(fmt.Sprint(n), func(b *testing.B) {
+			b.SetBytes(int64(n * _W))
+			for i := 0; i < b.N; i++ {
+				divWVW(z, 0, x, y)
+				//divWVWByInv(z,0,  x, y)
 			}
 		})
 	}
