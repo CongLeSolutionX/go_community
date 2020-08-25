@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be3c4036_f2b0577b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-08-25T13:22:44Z",
+      "side": 1,
+      "message": "it might be more informative to say something like:\n\nmisc/wasm: support webpack in the empty global fs check",
+      "revId": "f15797925f8eea192aace6bd58a29c126923e852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76fb24f0_b95479e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-08-25T13:22:44Z",
+      "side": 1,
+      "message": "nit: we don\u0027t use markdown backticks in commit messages in general, because they are plaintext; you could instead use single or double quotes to separate names if you want, as that\u0027s just more general English.\n\nSee https://github.com/golang/go/wiki/CommitMessage. Some \"light\" markdown like tab-indented blocks, or bulleted lists, are still OK as they are both generally fine in plain English as well.",
+      "revId": "f15797925f8eea192aace6bd58a29c126923e852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1417e9_eb189570",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-08-25T13:22:44Z",
+      "side": 1,
+      "message": "My JS/Wasm is pretty basic, but this looks fine to me. If you can amend these nits, and if there isn\u0027t another review from Richard or someone else in the next week, I\u0027ll just approve and merge :) ",
+      "revId": "f15797925f8eea192aace6bd58a29c126923e852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
