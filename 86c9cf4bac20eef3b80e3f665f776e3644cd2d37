@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d6e9e4e_2a84b788",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-25T18:41:15Z",
+      "side": 1,
+      "message": "Maybe remove, then? Any problem without this line?",
+      "revId": "86c9cf4bac20eef3b80e3f665f776e3644cd2d37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cac0a21_bc075957",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2016,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-25T18:41:15Z",
+      "side": 1,
+      "message": "Maybe combine these two lines to read better?",
+      "range": {
+        "startLine": 2015,
+        "startChar": 0,
+        "endLine": 2016,
+        "endChar": 72
+      },
+      "revId": "86c9cf4bac20eef3b80e3f665f776e3644cd2d37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd713687_1ac06a70",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2146,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-25T18:41:15Z",
+      "side": 1,
+      "message": "I thought we could do the counting in Preload, so we can reduce a loop. But then these numbers need to be global, kept on the loader or somewhere. Not sure which is better. Up to you.",
+      "revId": "86c9cf4bac20eef3b80e3f665f776e3644cd2d37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebde9efa_c15b9bea",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2147,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-25T18:41:15Z",
+      "side": 1,
+      "message": "Because of duplication, I think this can be made smaller as well.",
+      "range": {
+        "startLine": 2147,
+        "startChar": 24,
+        "endLine": 2147,
+        "endChar": 57
+      },
+      "revId": "86c9cf4bac20eef3b80e3f665f776e3644cd2d37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1d76d7b_a02019d1",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-25T18:41:15Z",
+      "side": 1,
+      "message": "Any data for the decision here (and next line)?",
+      "range": {
+        "startLine": 2148,
+        "startChar": 33,
+        "endLine": 2148,
+        "endChar": 34
+      },
+      "revId": "86c9cf4bac20eef3b80e3f665f776e3644cd2d37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "269927b1_106c085f",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-25T18:41:15Z",
+      "side": 1,
+      "message": "Add comment about reserving index 0.",
+      "revId": "86c9cf4bac20eef3b80e3f665f776e3644cd2d37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
