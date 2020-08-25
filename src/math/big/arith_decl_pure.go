@@ -10,10 +10,6 @@ func mulWW(x, y Word) (z1, z0 Word) {
 	return mulWW_g(x, y)
 }
 
-func divWW(x1, x0, y Word) (q, r Word) {
-	return divWW_g(x1, x0, y)
-}
-
 func addVV(z, x, y []Word) (c Word) {
 	return addVV_g(z, x, y)
 }
@@ -56,6 +52,14 @@ func addMulVVW(z, x []Word, y Word) (c Word) {
 	return addMulVVW_g(z, x, y)
 }
 
+func divWW(x1, x0, y Word, inv, shift uint) (q, r Word) {
+	return divWW_g(x1, x0, y, inv, shift)
+}
+
 func divWVW(z []Word, xn Word, x []Word, y Word) (r Word) {
 	return divWVW_g(z, xn, x, y)
+}
+
+func getInvert(d1 Word) (inv uint, shift uint) {
+	return getInvert_g(d1)
 }
