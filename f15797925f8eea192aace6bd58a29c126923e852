@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c67bce8_9eeebb78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 37398
+      },
+      "writtenOn": "2020-08-25T20:19:10Z",
+      "side": 1,
+      "message": "I believe the intent was for webpack (or another bundler that does the same thing?) to already be supported but the check is not working and useless as it is currently. i.e. the outcome of the conditional can NEVER be true.\n\nThis really is a fix to that check, not _adding_ support for webpack - which is what I\u0027d assume the suggested commit message would imply.\n\nMaybe it would be more informative to say:\n\nmisc/wasm: fix empty global fs check for webpack support",
+      "parentUuid": "be3c4036_f2b0577b",
+      "revId": "f15797925f8eea192aace6bd58a29c126923e852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76fb24f0_b95479e3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "f15797925f8eea192aace6bd58a29c126923e852",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b462e9f_41828c14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 37398
+      },
+      "writtenOn": "2020-08-25T20:19:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "76fb24f0_b95479e3",
+      "revId": "f15797925f8eea192aace6bd58a29c126923e852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
