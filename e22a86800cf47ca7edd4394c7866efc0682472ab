@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "2482daa9_64e56b99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-25T18:17:22Z",
+      "side": 1,
+      "message": "That\u0027s right, it uses existing tests(Mainly arith_test.go).My intention is to completely replace the original division with the new method, but I was not sure if the community would accept. On the other hand I need to test GetInvert and DivByInv(If we regard it just as an optimization, maybe we no longer need them) specifically. I will make the corresponding changes in my CL.",
+      "revId": "e22a86800cf47ca7edd4394c7866efc0682472ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dde1be6d_b3fec9c7",
         "filename": "src/math/big/arith.go",
         "patchSetId": 2
