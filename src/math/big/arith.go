@@ -60,12 +60,6 @@ func nlz(x Word) uint {
 	return uint(bits.LeadingZeros(uint(x)))
 }
 
-// q = (u1<<_W + u0 - r)/v
-func divWW_g(u1, u0, v Word) (q, r Word) {
-	qq, rr := bits.Div(uint(u1), uint(u0), uint(v))
-	return Word(qq), Word(rr)
-}
-
 // The resulting carry c is either 0 or 1.
 func addVV_g(z, x, y []Word) (c Word) {
 	// The comment near the top of this file discusses this for loop condition.
@@ -207,10 +201,86 @@ func addMulVVW_g(z, x []Word, y Word) (c Word) {
 	return
 }
 
+// q = (u1<<_W + u0 - r)/v
+func divWW_g(x1, x0, y Word, inv, shift uint) (q, r Word) {
+	if shift != 0 {
+		x1 = (x1<<shift | x0>>(bits.UintSize-shift))
+		x0 <<= shift
+		y <<= shift
+	}
+	d := uint(y)
+	qq, q0 := bits.Mul(uint(x1), inv)
+	q0, cc := bits.Add(q0, uint(x0), 0)
+	qq, cc = bits.Add(qq, uint(x1), cc)
+
+	rr := uint(x0) - d*qq
+	rr -= d
+	qq++
+
+	if rr >= q0 {
+		qq--
+		rr += d
+	}
+
+	if rr >= d {
+		qq++
+		rr -= d
+	}
+	rr >>= shift
+	return Word(qq), Word(rr)
+}
+
 func divWVW_g(z []Word, xn Word, x []Word, y Word) (r Word) {
 	r = xn
+	if len(x) == 1 {
+		qq, rr := bits.Div(uint(r), uint(x[0]), uint(y))
+		z[0] = Word(qq)
+		return Word(rr)
+	}
+	inv, shift := getInvert(y)
 	for i := len(z) - 1; i >= 0; i-- {
-		z[i], r = divWW_g(r, x[i], y)
+		z[i], r = divWW_g(r, x[i], y, inv, shift)
+	}
+	return r
+}
+
+// getInvert return the multiplicative inverse of the dividor
+func getInvert_g(d1 Word) (inv, shift uint) {
+	const uintSize = bits.UintSize
+	const mask = uint((1 << (uintSize / 2)) - 1)
+	const max = ^uint(0)
+	shift = nlz(d1)
+	u1 := uint(d1) << shift
+	ul := u1 & mask
+	uh := u1 >> (uintSize / 2)
+
+	qh := (u1 ^ max) / uh
+
+	r := ((^u1 - qh*uh) << (uintSize / 2)) | mask
+	p := qh * ul
+
+	if r < p {
+		qh--
+		r += u1
+		if r >= u1 {
+			if r < p {
+				qh--
+				r += u1
+			}
+		}
+	}
+	r -= p
+	p = (r>>(uintSize/2))*qh + r
+	ql := (p >> (uintSize / 2)) + 1
+	r = (r << (uintSize / 2)) + mask - ql*u1
+	if r >= (max & (p << (uintSize / 2))) {
+		ql--
+		r += u1
+	}
+	inv = (qh << (uintSize / 2)) + ql
+	if r >= u1 {
+		inv++
+		r -= u1
 	}
 	return
 }

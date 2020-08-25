@@ -440,6 +440,27 @@ func TestMulAddWWW(t *testing.T) {
 	}
 }
 
+var getInvertTests = []struct {
+	d1    Word
+	inv   uint
+	shift uint
+}{
+	{1, _M, _W - 1},
+	{2, _M, _W - 2},
+	{Word((1 << (_W / 2)) - 1), 1<<(_W/2) + 1, _W / 2},
+	{_M - 1, 2, 0},
+	{_M, 1, 0},
+}
+
+func TestGetInvert(t *testing.T) {
+	for i, test := range getInvertTests {
+		inv, shift := getInvert(test.d1)
+		if inv != test.inv || shift != test.shift {
+			t.Errorf("#%d got (%x, %x) want (%x, %x)", i, inv, shift, test.inv, test.shift)
+		}
+	}
+}
+
 func BenchmarkMulAddVWW(b *testing.B) {
 	for _, n := range benchSizes {
 		if isRaceBuilder && n > 1e3 {
@@ -470,6 +491,40 @@ func BenchmarkAddMulVVW(b *testing.B) {
 			b.SetBytes(int64(n * _W))
 			for i := 0; i < b.N; i++ {
 				addMulVVW(z, x, y)
+			}
+		})
+	}
+}
+func BenchmarkDivWVW(b *testing.B) {
+	for _, n := range benchSizes {
+		if isRaceBuilder && n > 1e3 {
+			continue
+		}
+		x := rndV(n)
+		y := rndW()
+		z := make([]Word, n)
+		b.Run(fmt.Sprint(n), func(b *testing.B) {
+			b.SetBytes(int64(n * _W))
+			for i := 0; i < b.N; i++ {
+				divWVW(z, 0, x, y)
+				//divWVWByInv(z,0,  x, y)
+			}
+		})
+	}
+}
+
+func BenchmarkDivWVW(b *testing.B) {
+	for _, n := range benchSizes {
+		if isRaceBuilder && n > 1e3 {
+			continue
+		}
+		x := rndV(n)
+		y := rndW()
+		z := make([]Word, n)
+		b.Run(fmt.Sprint(n), func(b *testing.B) {
+			b.SetBytes(int64(n * _W))
+			for i := 0; i < b.N; i++ {
+				divWVW(z, 0, x, y)
 			}
 		})
 	}

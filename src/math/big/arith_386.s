@@ -18,14 +18,9 @@ TEXT ·mulWW(SB),NOSPLIT,$0
 	RET
 
 
-// func divWW(x1, x0, y Word) (q, r Word)
+// func divWW(x1, x0, y Word, inv, shift uint) (q, r Word)
 TEXT ·divWW(SB),NOSPLIT,$0
-	MOVL x1+0(FP), DX
-	MOVL x0+4(FP), AX
-	DIVL y+8(FP)
-	MOVL AX, q+12(FP)
-	MOVL DX, r+16(FP)
-	RET
+	JMP ·divWW_g(SB)
 
 
 // func addVV(z, x, y []Word) (c Word)
@@ -253,19 +248,7 @@ E6:	CMPL BX, $0		// i < 0
 
 // func divWVW(z* Word, xn Word, x []Word, y Word) (r Word)
 TEXT ·divWVW(SB),NOSPLIT,$0
-	MOVL z+0(FP), DI
-	MOVL xn+12(FP), DX	// r = xn
-	MOVL x+16(FP), SI
-	MOVL y+28(FP), CX
-	MOVL z_len+4(FP), BX	// i = z
-	JMP E7
+    JMP ·divWVW_g(SB)
 
-L7:	MOVL (SI)(BX*4), AX
-	DIVL CX
-	MOVL AX, (DI)(BX*4)
-
-E7:	SUBL $1, BX		// i--
-	JGE L7			// i >= 0
-
-	MOVL DX, r+32(FP)
-	RET
+TEXT ·getInvert(SB),NOSPLIT,$0
+	JMP ·getInvert_g(SB)
