@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ff19747_5475a17d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-25T15:20:24Z",
+      "side": 1,
+      "message": "I don\u0027t see any tests in this CL. Correctness tests are definitely needed.\nAre there existing division tests that cover this new code? Maybe, but if we\u0027re relying on existing tests I\u0027d like to see the argument that they are sufficient.\nUnit tests of GetInvert and DivByInv would be good also. They have lots of corner cases that need testing.\n",
+      "revId": "e22a86800cf47ca7edd4394c7866efc0682472ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dde1be6d_b3fec9c7",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-25T15:20:24Z",
+      "side": 1,
+      "message": "Is there any reason we need to keep this code?\nOr can we just add inv and shift to this function? That way we wouldn\u0027t need both divWW_g and divWWByInv_g.",
+      "revId": "e22a86800cf47ca7edd4394c7866efc0682472ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "166d6718_3d28e9e0",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-25T15:20:24Z",
+      "side": 1,
+      "message": "These functions need comments about what they do.\nWhat must inv and shift be?",
+      "revId": "e22a86800cf47ca7edd4394c7866efc0682472ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
