@@ -16,6 +16,23 @@
       "revId": "bda3b1b996b8715aa8c73e5a6e4917235821fdfa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0d90cd_5f86258b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-25T19:50:20Z",
+      "side": 1,
+      "message": "This is ready to merge whenever the backport issue is approved.",
+      "revId": "bda3b1b996b8715aa8c73e5a6e4917235821fdfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
