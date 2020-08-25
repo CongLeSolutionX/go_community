@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1259c7f_e7d5870b",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-08-25T16:03:59Z",
+      "side": 1,
+      "message": "I think this godoc needs updated",
+      "range": {
+        "startLine": 1694,
+        "startChar": 0,
+        "endLine": 1694,
+        "endChar": 44
+      },
+      "revId": "0c867aea207b7f8ca6941ee47ec75d056f4a3596",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
