@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc786a6_96230f47",
+        "filename": "src/hash/crc64/crc64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-08-26T06:53:48Z",
+      "side": 1,
+      "message": "Please use this form\n\nvar a [8]byte",
+      "revId": "0485d5434055122e949076df44a44a5b2c37be22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
