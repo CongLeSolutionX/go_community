@@ -16,6 +16,190 @@
       "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a71acd_1a5adfe5",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "If LoadTests is set and allLevel is importedByTarget, then a dependency D of a test of a dependency of a package in the main module, where D doesn\u0027t have any transitive dependencies from the main module, has pkgInAll set to false, right?",
+      "range": {
+        "startLine": 704,
+        "startChar": 1,
+        "endLine": 708,
+        "endChar": 19
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b4668f_ba349481",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "this means to set the test field on the loadPackage, right?",
+      "range": {
+        "startLine": 720,
+        "startChar": 47,
+        "endLine": 720,
+        "endChar": 78
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08cf8cee_5a61c0e6",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "maybe \"update sets the given flags\" by itself the word update doesn\u0027t convey to me that we\u0027re setting the value of the flag to true (even though that\u0027s the only direction we actually update in)",
+      "range": {
+        "startLine": 739,
+        "startChar": 3,
+        "endLine": 739,
+        "endChar": 25
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a57c7f61_78e04990",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "it isn\u0027t, right?",
+      "range": {
+        "startLine": 781,
+        "startChar": 1,
+        "endLine": 781,
+        "endChar": 77
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "710e4f44_3a74d13a",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "stale? ld.pkgLoaded is no longer in this cl right?",
+      "range": {
+        "startLine": 913,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 62
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83017190_d083f211",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "When I first read this I got confused because I forgot that pkgInAll doesn\u0027t necessarily meant that all is being loaded. Even though it\u0027s redundant, I wonder if we could modify the phrasing to make that clear. Maybe something like:\n\nA nonzero allLevel means that all is included as one of the root patterns, so that this package which matches all should be included as a root.",
+      "range": {
+        "startLine": 968,
+        "startChar": 2,
+        "endLine": 969,
+        "endChar": 24
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac83446d_8825c093",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "\"this package\u0027s test(s)\"?",
+      "range": {
+        "startLine": 995,
+        "startChar": 44,
+        "endLine": 995,
+        "endChar": 53
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a4c6bfe_e2e465bf",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-08-26T17:03:00Z",
+      "side": 1,
+      "message": "would this be covered by automatic vendoring too?",
+      "range": {
+        "startLine": 1072,
+        "startChar": 0,
+        "endLine": 1074,
+        "endChar": 3
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
