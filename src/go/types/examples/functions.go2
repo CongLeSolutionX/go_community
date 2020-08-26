@@ -202,3 +202,9 @@ func _() {
 	var funcs Funcs
 	_ = append(funcs, f)
 }
+
+// Generic type declarations cannot have empty type parameter lists
+// (that would indicate a slice type). Thus, generic functions cannot
+// have empty type parameter lists, either.
+
+func h[] /* ERROR empty type parameter list */ ()
