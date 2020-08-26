@@ -205,7 +205,7 @@ var depsRules = `
 	  encoding/json, encoding/pem, encoding/xml, mime;
 
 	# hashes
-	io
+	io, encoding/binary
 	< hash
 	< hash/adler32, hash/crc32, hash/crc64, hash/fnv, hash/maphash;
 
