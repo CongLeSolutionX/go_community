@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6249d42_65dcdb5c",
+        "filename": "src/go/go2go/go2go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-26T15:59:48Z",
+      "side": 1,
+      "message": "Do we really need the type parser.Mode here?  Just use :\u003d?",
+      "revId": "fe2e03ebca7a12096daa40f5782b11e665374b8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
