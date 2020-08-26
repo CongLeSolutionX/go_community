@@ -16,6 +16,23 @@
       "revId": "acf2caa81b7fcfb1fc6d2ece9d2217f4fd4bf8aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ad1879_74da3c29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-08-26T09:15:41Z",
+      "side": 1,
+      "message": "Russ, can you confirm that it is ok for the hash (in particular hash/crc32 and hash/crc64) packages to depend on encoding/binary? I want to double check because encoding/binary pulls in several other packages including the reflect package. Thanks.",
+      "revId": "acf2caa81b7fcfb1fc6d2ece9d2217f4fd4bf8aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
