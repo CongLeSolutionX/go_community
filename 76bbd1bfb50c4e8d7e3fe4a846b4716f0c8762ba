@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71889f3b_60eef3aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-26T16:04:51Z",
+      "side": 1,
+      "message": "This race is not serious.  I don\u0027t think we need to worry about it for the example.",
+      "revId": "76bbd1bfb50c4e8d7e3fe4a846b4716f0c8762ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
