@@ -1022,7 +1022,7 @@ const (
 //
 func (check *Checker) rawExpr(x *operand, e ast.Expr, hint Type) exprKind {
 	if check.conf.Trace {
-		check.trace(e.Pos(), "expr %s", e)
+		check.trace(e.Pos(), "expr %s %s", e, fmt.Sprintf("%T", e))
 		check.indent++
 		defer func() {
 			check.indent--
