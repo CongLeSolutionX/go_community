@@ -22,6 +22,30 @@
       "revId": "f2d1c46cd46ebed9b35f11c4bcb1758b97f67d6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "134143da_a314d5ba",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-26T01:30:17Z",
+      "side": 1,
+      "message": "Thanks to Robert, Dmitri, Emmanuel. Due to lack of experience and not good at English, I caused some troubles for Robert. I am very sorry. I will avoid it later.",
+      "parentUuid": "fadb62a5_16c59df8",
+      "range": {
+        "startLine": 325,
+        "startChar": 6,
+        "endLine": 325,
+        "endChar": 7
+      },
+      "revId": "f2d1c46cd46ebed9b35f11c4bcb1758b97f67d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
