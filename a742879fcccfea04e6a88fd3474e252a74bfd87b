@@ -16,6 +16,23 @@
       "revId": "a742879fcccfea04e6a88fd3474e252a74bfd87b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5180b15_3afe629d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36769
+      },
+      "writtenOn": "2020-08-26T19:08:05Z",
+      "side": 1,
+      "message": "Hi, thank you for your feedback.\n\nUnfortunately I couldn\u0027t run the commands you provided.\n\nHere is an error I got on my mac:\n\n```\n➜ go test -run\u003d^$ -bench\u003d. -count\u003d10 \u003e before.txt\npackage std/crypto/x509\n        root_darwin_amd64.go:11:2: use of internal package crypto/x509/internal/macos not allowed\n```\n\nAnd here is an error from a docker container (I tried to run the tests from linux):\n\n```\nroot@93b93f9afe22:/src/crypto/x509#  go test -run\u003d^$ -bench\u003d. -count\u003d10 \u003e before.txt\n# std/crypto/x509\npackage std/crypto/x509 (test)\n        x509_test.go:24:2: use of internal package internal/testenv not allowed\n```\n\nI also didn\u0027t find any benchmarks in crypto/x509 package. Would you like me to add one?\n\nHow should I proceed here?\n\nThank you!",
+      "revId": "a742879fcccfea04e6a88fd3474e252a74bfd87b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
