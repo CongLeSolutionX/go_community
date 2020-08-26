@@ -209,6 +209,8 @@ var depsRules = `
 	< hash
 	< hash/adler32, hash/crc32, hash/crc64, hash/fnv, hash/maphash;
 
+	encoding/binary < hash/crc64;
+
 	# math/big
 	FMT, encoding/binary, math/rand
 	< math/big;
