@@ -52,6 +52,41 @@
       "revId": "bae4481716e6af9edc54d8871d5b64368a7818df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3747c6_5521a861",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35313
+      },
+      "writtenOn": "2020-08-26T06:56:49Z",
+      "side": 1,
+      "message": "I ran benchmark tests on two clean machines(X86 and ARM), and the results are consistent with the above.\n\nX86 system parameters: Linux 4.4.0-104-generic #127-Ubuntu SMP Mon Dec 11 12:16:42 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux\nARM system parameters: Linux  4.15.0-70-generic #79-Ubuntu SMP Tue Nov 12 10:36:10 UTC 2019 aarch64 aarch64 aarch64 GNU/Linux\n\nOn x86,running result :\nname                      old time/op    new time/op     delta\nWriteStruct-8                540ns ± 5%      535ns ± 5%      ~     (p\u003d0.155 n\u003d20+19)\nWriteInts-8                  401ns ± 3%      401ns ± 4%      ~     (p\u003d0.922 n\u003d18+19)\nWriteSlice1000Int32s-8      6.24µs ± 3%     6.30µs ± 4%      ~     (p\u003d0.180 n\u003d20+20)\nWriteFloats-8                111ns ± 3%      112ns ± 4%      ~     (p\u003d0.782 n\u003d20+20)\nWriteSlice1000Float32s-8    6.40µs ± 3%     6.47µs ± 4%      ~     (p\u003d0.090 n\u003d20+20)\nWriteSlice1000Uint8s-8       280ns ± 3%       79ns ± 4%   -71.75%  (p\u003d0.000 n\u003d20+19)\n\nname                      old speed      new speed       delta\nWriteStruct-8              139MB/s ± 5%    140MB/s ± 5%      ~     (p\u003d0.182 n\u003d20+19)\nWriteInts-8               74.6MB/s ± 6%   74.8MB/s ± 4%      ~     (p\u003d0.891 n\u003d19+19)\nWriteSlice1000Int32s-8     641MB/s ± 3%    635MB/s ± 4%      ~     (p\u003d0.180 n\u003d20+20)\nWriteFloats-8              108MB/s ± 3%    107MB/s ± 4%      ~     (p\u003d0.292 n\u003d19+20)\nWriteSlice1000Float32s-8   626MB/s ± 3%    619MB/s ± 4%      ~     (p\u003d0.086 n\u003d20+20)\nWriteSlice1000Uint8s-8    3.57GB/s ± 3%  12.60GB/s ± 5%  +253.01%  (p\u003d0.000 n\u003d20+20)\n\nname                      old alloc/op   new alloc/op    delta\nWriteStruct-8                80.0B ± 0%      80.0B ± 0%      ~     (all equal)\nWriteInts-8                  64.0B ± 0%      64.0B ± 0%      ~     (all equal)\nWriteSlice1000Int32s-8      4.13kB ± 0%     4.13kB ± 0%      ~     (all equal)\nWriteFloats-8                24.0B ± 0%      24.0B ± 0%      ~     (all equal)\nWriteSlice1000Float32s-8    4.13kB ± 0%     4.13kB ± 0%      ~     (all equal)\nWriteSlice1000Uint8s-8      1.06kB ± 0%     0.03kB ± 0%   -96.97%  (p\u003d0.000 n\u003d20+20)\n\nname                      old allocs/op  new allocs/op   delta\nWriteStruct-8                 1.00 ± 0%       1.00 ± 0%      ~     (all equal)\nWriteInts-8                   14.0 ± 0%       14.0 ± 0%      ~     (all equal)\nWriteSlice1000Int32s-8        2.00 ± 0%       2.00 ± 0%      ~     (all equal)\nWriteFloats-8                 4.00 ± 0%       4.00 ± 0%      ~     (all equal)\nWriteSlice1000Float32s-8      2.00 ± 0%       2.00 ± 0%      ~     (all equal)\nWriteSlice1000Uint8s-8        2.00 ± 0%       1.00 ± 0%   -50.00%  (p\u003d0.000 n\u003d20+20)\n\nAnd On ARM, Running result:\nname                      old time/op    new time/op    delta\nWriteStruct-8               1.07µs ± 0%    1.06µs ± 0%    -1.17%  (p\u003d0.000 n\u003d20+20)\nWriteInts-8                  501ns ± 0%     505ns ± 1%    +0.82%  (p\u003d0.000 n\u003d18+20)\nWriteSlice1000Int32s-8      7.61µs ± 0%    7.60µs ± 1%      ~     (p\u003d0.164 n\u003d19+20)\nWriteFloats-8                142ns ± 0%     141ns ± 1%    -1.23%  (p\u003d0.000 n\u003d20+20)\nWriteSlice1000Float32s-8    7.21µs ± 1%    7.22µs ± 1%      ~     (p\u003d0.095 n\u003d20+20)\nWriteSlice1000Uint8s-8       438ns ± 2%     103ns ± 1%   -76.53%  (p\u003d0.000 n\u003d20+20)\n\nname                      old speed      new speed      delta\nWriteStruct-8             70.0MB/s ± 0%  70.9MB/s ± 0%    +1.15%  (p\u003d0.000 n\u003d20+19)\nWriteInts-8               59.9MB/s ± 0%  59.4MB/s ± 1%    -0.78%  (p\u003d0.000 n\u003d19+20)\nWriteSlice1000Int32s-8     526MB/s ± 0%   526MB/s ± 1%      ~     (p\u003d0.168 n\u003d19+20)\nWriteFloats-8             84.3MB/s ± 1%  85.3MB/s ± 1%    +1.21%  (p\u003d0.000 n\u003d20+19)\nWriteSlice1000Float32s-8   555MB/s ± 1%   554MB/s ± 1%      ~     (p\u003d0.095 n\u003d20+20)\nWriteSlice1000Uint8s-8    2.29GB/s ± 2%  9.74GB/s ± 0%  +326.17%  (p\u003d0.000 n\u003d20+20)\n\nname                      old alloc/op   new alloc/op   delta\nWriteStruct-8                80.0B ± 0%     80.0B ± 0%      ~     (all equal)\nWriteInts-8                  64.0B ± 0%     64.0B ± 0%      ~     (all equal)\nWriteSlice1000Int32s-8      4.13kB ± 0%    4.13kB ± 0%      ~     (all equal)\nWriteFloats-8                24.0B ± 0%     24.0B ± 0%      ~     (all equal)\nWriteSlice1000Float32s-8    4.13kB ± 0%    4.13kB ± 0%      ~     (all equal)\nWriteSlice1000Uint8s-8      1.06kB ± 0%    0.03kB ± 0%   -96.97%  (p\u003d0.000 n\u003d20+20)\n\nname                      old allocs/op  new allocs/op  delta\nWriteStruct-8                 1.00 ± 0%      1.00 ± 0%      ~     (all equal)\nWriteInts-8                   14.0 ± 0%      14.0 ± 0%      ~     (all equal)\nWriteSlice1000Int32s-8        2.00 ± 0%      2.00 ± 0%      ~     (all equal)\nWriteFloats-8                 4.00 ± 0%      4.00 ± 0%      ~     (all equal)\nWriteSlice1000Float32s-8      2.00 ± 0%      2.00 ± 0%      ~     (all equal)\nWriteSlice1000Uint8s-8        2.00 ± 0%      1.00 ± 0%   -50.00%  (p\u003d0.000 n\u003d20+20)\n\nThe benchmark results show that the current change does not seem to make other cases a tiny bit slower.",
+      "parentUuid": "f0d9d772_af7cfd7d",
+      "revId": "bae4481716e6af9edc54d8871d5b64368a7818df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a6bf55c_220d7351",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35313
+      },
+      "writtenOn": "2020-08-26T06:56:49Z",
+      "side": 1,
+      "message": "I tested this change on x86/arm64 and it does not seem to make other cases a tiny bit slower.\nwhat else do I need to do for this change?",
+      "revId": "bae4481716e6af9edc54d8871d5b64368a7818df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
