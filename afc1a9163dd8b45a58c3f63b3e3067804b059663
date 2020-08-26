@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "864968d0_43ef1b73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-26T22:13:10Z",
+      "side": 1,
+      "message": "Thanks, this looks mostly good to me, but I have a final suggestion before submitting. Thanks.",
+      "revId": "afc1a9163dd8b45a58c3f63b3e3067804b059663",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7eca13_f6e24e01",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-26T22:13:10Z",
+      "side": 1,
+      "message": "Just looked at this one more time: Can you please move this comment inside the if statement? As it is, it\u0027s incorrect: on this line z could be 0 or Inf, so the comment doesn\u0027t accurately state the invariant here. Only inside the \u0027if\u0027 statement is it correct.",
+      "revId": "afc1a9163dd8b45a58c3f63b3e3067804b059663",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
