@@ -33,6 +33,258 @@
       "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9254f9f_d573cc7e",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "y",
+      "range": {
+        "startLine": 204,
+        "startChar": 69,
+        "endLine": 204,
+        "endChar": 76
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fd00d60_c43565f0",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "y",
+      "range": {
+        "startLine": 204,
+        "startChar": 25,
+        "endLine": 204,
+        "endChar": 26
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd9745c9_c15fdaab",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "divisor",
+      "range": {
+        "startLine": 204,
+        "startChar": 128,
+        "endLine": 204,
+        "endChar": 135
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9638452b_df63ef40",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "mod 1\u003c\u003c64,",
+      "range": {
+        "startLine": 204,
+        "startChar": 76,
+        "endLine": 204,
+        "endChar": 77
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91374bc8_78ef3c6b",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "Probably worth explaining what the \"normalization shift count\" means.\nI think the clearest thing might be to just say that \"inv and shift are derived from y, and must satisfy k / y \u003d\u003d (k * inv) \u003e\u003e (64 + shift) for all k\" or whatever the rule is. Then you don\u0027t need the \"multiplicative inverse\" part of the comment.",
+      "range": {
+        "startLine": 204,
+        "startChar": 135,
+        "endLine": 204,
+        "endChar": 136
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88ed1f02_8a99ad2b",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "x",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 9
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ffde3c_d4cca176",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "x",
+      "range": {
+        "startLine": 204,
+        "startChar": 17,
+        "endLine": 204,
+        "endChar": 18
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "764da60b_94064798",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "Do we know that xn \u003c y? We need that for bits.Div not to panic.\n(I suspect we do, but I haven\u0027t checked all the callsites.)",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce28fdc6_1e1d3831",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "divisor",
+      "range": {
+        "startLine": 247,
+        "startChar": 54,
+        "endLine": 247,
+        "endChar": 61
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "011b622c_9c165c0c",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "Add the same comment about k / d1 \u003d\u003d (k * inv) \u003e\u003e (_W + shift) for all k.",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "870b5a0b_b94af2f6",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "This code needs a whole lot more comments. See, for instance, cmd/compile/internal/ssa/magic.go.\nYou\u0027re somehow splitting d1 into high and low halves, but that\u0027s as far as I understand this code.",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5c6ad8_07346264",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-26T16:07:39Z",
+      "side": 1,
+      "message": "You might look at cmd/compile/internal/ssa/magic_test.go:TestMagicUnsigned, which does a similar thing.\nThe only problem with using that test directly is that it uses math/big as the source of truth, and that\u0027s what we\u0027re trying to test here...\n\nSomething akin to testMagicExhaustiveU might also be good.",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
