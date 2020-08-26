@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15491369_41033b7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-26T16:14:49Z",
+      "side": 1,
+      "message": "Thanks.  API changes to the standard library should go through the proposal process, as described at https:golang.org/s/proposal.\n\nMarking -2 until there is an accepted proposal.",
+      "revId": "68a83daebaa97625b2f60c406d6cc6cf26a04c9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
