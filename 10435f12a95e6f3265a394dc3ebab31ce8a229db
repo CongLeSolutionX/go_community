@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "445388fa_47420f75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-26T01:34:40Z",
+      "side": 1,
+      "message": "Minor nit: please delete these 2 lines.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 0
+      },
+      "revId": "10435f12a95e6f3265a394dc3ebab31ce8a229db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00c7cbf0_ad896a67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-26T01:34:40Z",
+      "side": 1,
+      "message": "Thank you Surechen, you are doing great and we are happy to receive your contribution 😊\nPlease rebase if you can as the trybot failure was caused by something that might be\nfixed in older dependencies.",
+      "revId": "10435f12a95e6f3265a394dc3ebab31ce8a229db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
