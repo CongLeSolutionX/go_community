@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "977516a6_8d3e7b19",
+        "filename": "src/flag/example_func_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-27T02:41:31Z",
+      "side": 1,
+      "message": "I don\u0027t think UnmarshalText is the best example, as people don\u0027t call that directly.  Better would be net.ParseIP.",
+      "revId": "b789acd8f6ff3a553aa6e9a5d00c4e500a28ad98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b66f269_062de6e6",
+        "filename": "src/flag/example_func_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-27T02:41:31Z",
+      "side": 1,
+      "message": "Can we also show an error case?",
+      "revId": "b789acd8f6ff3a553aa6e9a5d00c4e500a28ad98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36592e0d_6343ec61",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-08-27T02:41:31Z",
+      "side": 1,
+      "message": "How about something like:\n\nEach time the flag is seen, fn is called with the value of the flag.\nIf fn returns a non-nil error, it will be treated as a flag value parsing error.\n\nI don\u0027t think we need the \"This allows....\"; that is for the example.",
+      "range": {
+        "startLine": 839,
+        "startChar": 65,
+        "endLine": 843,
+        "endChar": 92
+      },
+      "revId": "b789acd8f6ff3a553aa6e9a5d00c4e500a28ad98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
