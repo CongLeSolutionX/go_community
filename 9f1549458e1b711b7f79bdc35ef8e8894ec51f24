@@ -549,6 +549,24 @@
       "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2e1504d_4d268e3a",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T14:58:20Z",
+      "side": 1,
+      "message": "I\u0027d feel better if we could test the code exhaustively, like testMagicExhaustiveU does. Maybe that\u0027s not possible here, as _W is a constant we can\u0027t change.\nMaybe you can still test the first 2^10 values of d. And maybe, since the implementation splits  half, numbers of the form x * 2^(_W/2) + y, for 0 \u003c x,y \u003c\u003d 2^5.",
+      "parentUuid": "db06a152_23fbe6bc",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
