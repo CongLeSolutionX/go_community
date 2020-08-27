@@ -16,6 +16,24 @@
       "revId": "bb2fb190c7c703b951f0e63a592f10b92e47786b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e75ecf4e_e822feaa",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T21:30:25Z",
+      "side": 1,
+      "message": "I\u0027d like to leave it as is. Doing p.To.SetTarget makes it clear that it\u0027s using the To address for storage. Otherwise it\u0027s not clear that using SetTarget conflicts with another use of the To field.\nWe also do:\np.To.Type \u003d obj.TYPE_BRANCH\np.To.SetTarget(q)\nI think the association with the To field makes more sense with code like this.",
+      "parentUuid": "4a023851_675ffc32",
+      "revId": "bb2fb190c7c703b951f0e63a592f10b92e47786b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
