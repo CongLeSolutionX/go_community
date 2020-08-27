@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "1fdd9846_a34e4773",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "Correct.\n\n(That can occur if LoadTests is set to true. LoadTests\u003dtrue does not co-occur with allLevel\u003dimportedByTarget as of this CL, but it becomes possible in the next CL in the stack.)",
+      "parentUuid": "63a71acd_1a5adfe5",
+      "range": {
+        "startLine": 704,
+        "startChar": 1,
+        "endLine": 708,
+        "endChar": 19
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9b4668f_ba349481",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 17
@@ -62,6 +86,30 @@
       "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2972cdc_4902649b",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "Yep.",
+      "parentUuid": "b9b4668f_ba349481",
+      "range": {
+        "startLine": 720,
+        "startChar": 47,
+        "endLine": 720,
+        "endChar": 78
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "3525d10d_9037c678",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "Done (was a typo)",
+      "parentUuid": "08cf8cee_5a61c0e6",
+      "range": {
+        "startLine": 739,
+        "startChar": 3,
+        "endLine": 739,
+        "endChar": 25
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a57c7f61_78e04990",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 17
@@ -108,6 +180,30 @@
       "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "522d647a_9faea9b5",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "Right, but I don\u0027t want to remove it before this CL because it would be a bit tricky to roll back. (Added a CL to clean this up later in the stack.)",
+      "parentUuid": "a57c7f61_78e04990",
+      "range": {
+        "startLine": 781,
+        "startChar": 1,
+        "endLine": 781,
+        "endChar": 77
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "21ba73da_2580607e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "710e4f44_3a74d13a",
+      "range": {
+        "startLine": 913,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 62
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83017190_d083f211",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 17
@@ -154,6 +274,30 @@
       "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b25d1b5_2bdf72b9",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83017190_d083f211",
+      "range": {
+        "startLine": 968,
+        "startChar": 2,
+        "endLine": 969,
+        "endChar": 24
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "f0e6f4a0_c570a752",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac83446d_8825c093",
+      "range": {
+        "startLine": 995,
+        "startChar": 44,
+        "endLine": 995,
+        "endChar": 53
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a4c6bfe_e2e465bf",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 17
@@ -200,6 +368,30 @@
       "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f1c9e5c_ea8f34e1",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-27T21:14:21Z",
+      "side": 1,
+      "message": "No: automatic vendoring applies only to the `vendor` directory of the main module.\n\nThis condition makes packages imported from \"std\" resolve their imports from GOROOT/src/vendor even when \"std\" is not the main module.",
+      "parentUuid": "4a4c6bfe_e2e465bf",
+      "range": {
+        "startLine": 1072,
+        "startChar": 0,
+        "endLine": 1074,
+        "endChar": 3
+      },
+      "revId": "b63f72d9e8d1241f6e9e65dba4b02e08d54cadee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
