@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d66424c4_bbcd58d1",
+        "filename": "src/flag/example_func_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2020-08-27T02:50:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "977516a6_8d3e7b19",
+      "revId": "b789acd8f6ff3a553aa6e9a5d00c4e500a28ad98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b66f269_062de6e6",
         "filename": "src/flag/example_func_test.go",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "94499f77_4178efbd",
+        "filename": "src/flag/example_func_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2020-08-27T02:50:16Z",
+      "side": 1,
+      "message": "The example for flag.Value doesn’t show the error case, but it seems like a good idea.",
+      "parentUuid": "0b66f269_062de6e6",
+      "revId": "b789acd8f6ff3a553aa6e9a5d00c4e500a28ad98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36592e0d_6343ec61",
         "filename": "src/flag/flag.go",
         "patchSetId": 9
@@ -47,6 +83,30 @@
       "writtenOn": "2020-08-27T02:41:31Z",
       "side": 1,
       "message": "How about something like:\n\nEach time the flag is seen, fn is called with the value of the flag.\nIf fn returns a non-nil error, it will be treated as a flag value parsing error.\n\nI don\u0027t think we need the \"This allows....\"; that is for the example.",
+      "range": {
+        "startLine": 839,
+        "startChar": 65,
+        "endLine": 843,
+        "endChar": 92
+      },
+      "revId": "b789acd8f6ff3a553aa6e9a5d00c4e500a28ad98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e43ec1f_ba315ad4",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2020-08-27T02:50:16Z",
+      "side": 1,
+      "message": "flag.Var says “For instance, the caller could create a flag that turns a comma-separated string into...” Just leave it alone or remove the pseudo-example there too?",
+      "parentUuid": "36592e0d_6343ec61",
       "range": {
         "startLine": 839,
         "startChar": 65,
