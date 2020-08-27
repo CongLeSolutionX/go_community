@@ -103,6 +103,23 @@
       "revId": "f15797925f8eea192aace6bd58a29c126923e852",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ceccf92_6e75985d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2020-08-27T11:48:49Z",
+      "side": 1,
+      "message": "@Alan Maybe my previous message wasn\u0027t phrased well: I prepared the other CL while working on https://github.com/golang/go/issues/40730 and it made sense to include this change. The other CL was also already waiting for a review for some days and my -2 here just meant \"please don\u0027t merge this CL while the other CL is still waiting for a review and thus create a conflict\". My intention wasn\u0027t to dismiss you contribution. :) Thanks for reporting the issue and for proactively creating this CL!",
+      "revId": "f15797925f8eea192aace6bd58a29c126923e852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
