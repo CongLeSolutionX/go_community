@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27353cde_99b67352",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Thanks very much for reviewing. I deleted the shift parameter of divWW, because calling nlz every time it is executed will not have a big impact on performance. In addition, the comments and corresponding tests in getInvert have been added. I think we should write a new CL to change the corresponding content in cmd, what do you think？",
+      "revId": "de2c6b26a949223a7f9bf23b5bc4429875456417",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

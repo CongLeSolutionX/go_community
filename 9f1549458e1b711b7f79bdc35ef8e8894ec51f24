@@ -197,6 +197,174 @@
     },
     {
       "key": {
+        "uuid": "470a47cf_81f6a028",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9745c9_c15fdaab",
+      "range": {
+        "startLine": 204,
+        "startChar": 128,
+        "endLine": 204,
+        "endChar": 135
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0cbfee_585ed421",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9638452b_df63ef40",
+      "range": {
+        "startLine": 204,
+        "startChar": 76,
+        "endLine": 204,
+        "endChar": 77
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74731531_a0d0fb59",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2ffde3c_d4cca176",
+      "range": {
+        "startLine": 204,
+        "startChar": 17,
+        "endLine": 204,
+        "endChar": 18
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178d843_74c1e714",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88ed1f02_8a99ad2b",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 9
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37d9aa3d_9ccf950c",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91374bc8_78ef3c6b",
+      "range": {
+        "startLine": 204,
+        "startChar": 135,
+        "endLine": 204,
+        "endChar": 136
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94722833_c7c5b895",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd00d60_c43565f0",
+      "range": {
+        "startLine": 204,
+        "startChar": 25,
+        "endLine": 204,
+        "endChar": 26
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "499960ff_1b91a697",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9254f9f_d573cc7e",
+      "range": {
+        "startLine": 204,
+        "startChar": 69,
+        "endLine": 204,
+        "endChar": 76
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "764da60b_94064798",
         "filename": "src/math/big/arith.go",
         "patchSetId": 5
@@ -208,6 +376,24 @@
       "writtenOn": "2020-08-26T16:07:39Z",
       "side": 1,
       "message": "Do we know that xn \u003c y? We need that for bits.Div not to panic.\n(I suspect we do, but I haven\u0027t checked all the callsites.)",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d98ad12_d2434977",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "I think we can ensure xn \u003c y as I have checked all the callsites. Actually, the original divWVW did not do the xn check. If we add such a check, should we simply report an error or increase the length of z?",
+      "parentUuid": "764da60b_94064798",
       "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -237,6 +423,30 @@
     },
     {
       "key": {
+        "uuid": "405c397e_3715f27a",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce28fdc6_1e1d3831",
+      "range": {
+        "startLine": 247,
+        "startChar": 54,
+        "endLine": 247,
+        "endChar": 61
+      },
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "011b622c_9c165c0c",
         "filename": "src/math/big/arith.go",
         "patchSetId": 5
@@ -251,6 +461,24 @@
       "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ec4516c_aa0457b0",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "011b622c_9c165c0c",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -271,6 +499,24 @@
     },
     {
       "key": {
+        "uuid": "fc8f97e5_1a9f1fde",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "870b5a0b_b94af2f6",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b5c6ad8_07346264",
         "filename": "src/math/big/arith_test.go",
         "patchSetId": 5
@@ -282,6 +528,24 @@
       "writtenOn": "2020-08-26T16:07:39Z",
       "side": 1,
       "message": "You might look at cmd/compile/internal/ssa/magic_test.go:TestMagicUnsigned, which does a similar thing.\nThe only problem with using that test directly is that it uses math/big as the source of truth, and that\u0027s what we\u0027re trying to test here...\n\nSomething akin to testMagicExhaustiveU might also be good.",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db06a152_23fbe6bc",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-27T12:33:57Z",
+      "side": 1,
+      "message": "I refer to the TestMagicUnsigned test, but perhaps more changes need to be made, such as adding randomly generated use cases?",
+      "parentUuid": "0b5c6ad8_07346264",
       "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
