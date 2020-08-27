@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7ebc8f9_6e262bec",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "Add \"Requires x1 \u003c y\".",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f380270_d0941928",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "// Shift both dividend and divisor up to the top end of the range.\n\nIt\u0027s clear that this is a safe thing to do (x/y \u003d\u003d (x\u003c\u003cs)/(y\u003c\u003cs), and the shift doesn\u0027t overflow), but why are you doing it? Add comments.",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "188268ba_0ff7907b",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "*Why* do we need to correct the quotient? Why is this the right correction? Can you work through the math like the comments in magic.go?",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35a3b4da_327d5f9a",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "_",
+      "range": {
+        "startLine": 215,
+        "startChar": 5,
+        "endLine": 215,
+        "endChar": 7
+      },
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be5f64e9_839c3dc5",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "Why all these adjustments? Why are they needed, and why are these adjustments the right values?",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "977c3aab_777714a3",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "\"Requires xn \u003c y\".\n(In fact, I think xn is always 0 at the callsites. Maybe we can just remove this arg in a separate CL.)",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b16ad37e_5c516192",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "This comment tells me what inv is, but I\u0027d really be more interested in what invariant inv satisfies. As in, \"getInvert returns inv such that x * 2^_B / y \u003d\u003d x * inv for all x\" or whatever it turns out to be. That shows why the value is what it is.",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87b47e80_be9ebaf5",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "The magic tests don\u0027t try powers of 2 because those get lowered to shifts instead of multiplies. But your code must handle powers of 2.",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c15454a_27b2675d",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "// largest multiple of c",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b149ac0a_cdbf7197",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-27T15:43:18Z",
+      "side": 1,
+      "message": "Not sure what is happening here.\nI would expect that you would be testing that GetInvert returns floor(( _B^2 - 1 ) / u1 - _B). u1 \u003d d1 \u003c\u003c nlz(d1), which is the spec of GetInvert.\nBut you\u0027re testing something else, which is somehow the ability of the result of GetInvert to compute division. What exactly is that? Can that be the spec of GetInvert instead?",
+      "revId": "02def6b18907928a904dc16e5725026e22ee4bfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
