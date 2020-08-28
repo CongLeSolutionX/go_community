@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a616707f_8e843767",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-28T01:10:53Z",
+      "side": 1,
+      "message": "\u003e Could you expand the comment to say why it matters?\n\nDone.\n\n\u003e Here\u0027s my understanding: It\u0027s because in 1.16+ the Go command doesn\u0027t load tests and their dependencies for all now unless -test is supplied, while in 1.15 and earlier all without \"-test\" would result in everything that \"all -test\" would load being loaded, and the tests being filtered out afterwards?\n\nCorrect.",
+      "parentUuid": "56365fc3_5ac3d440",
+      "range": {
+        "startLine": 48,
+        "startChar": 18,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7475d3b_8d62620e",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c289cdb1_f34e1c4c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-28T01:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7475d3b_8d62620e",
+      "range": {
+        "startLine": 672,
+        "startChar": 44,
+        "endLine": 672,
+        "endChar": 51
+      },
+      "revId": "4c74e1949a8a81ae18817b8f84ef56e71935630a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {

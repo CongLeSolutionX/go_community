@@ -65,6 +65,54 @@
     },
     {
       "key": {
+        "uuid": "7cbf8c38_e470e667",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-28T01:10:53Z",
+      "side": 1,
+      "message": "Correct. (Added a comment in the factored-out (*index).allLevel method.)",
+      "parentUuid": "036b1506_4256fdae",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 19
+      },
+      "revId": "d14250f53e599c44db0063fda1b78b70e61ab29f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c6cf23_5bc3572b",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-28T01:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "871237d6_82d01573",
+      "range": {
+        "startLine": 80,
+        "startChar": 22,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "d14250f53e599c44db0063fda1b78b70e61ab29f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e649c20e_d1e1774c",
         "filename": "src/cmd/go/testdata/script/mod_all.txt",
         "patchSetId": 21
@@ -85,6 +133,30 @@
       "revId": "d14250f53e599c44db0063fda1b78b70e61ab29f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a76cb442_132e62ac",
+        "filename": "src/cmd/go/testdata/script/mod_all.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-08-28T01:10:53Z",
+      "side": 1,
+      "message": "Done (packages d and x).\n\nAlso added an ASCII diagram at the top of the file.",
+      "parentUuid": "e649c20e_d1e1774c",
+      "range": {
+        "startLine": 211,
+        "startChar": 5,
+        "endLine": 213,
+        "endChar": 0
+      },
+      "revId": "d14250f53e599c44db0063fda1b78b70e61ab29f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
