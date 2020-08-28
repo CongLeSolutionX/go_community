@@ -69,6 +69,24 @@
       "revId": "afc1a9163dd8b45a58c3f63b3e3067804b059663",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dad00dd_34549749",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-08-28T17:14:19Z",
+      "side": 1,
+      "message": "Hi;\n\nIf you are interested in helping out with fixing issues, you could look at the issues marked \"help wanted\": https://github.com/golang/go/labels/help%20wanted .\nThese are good issues to get started with.\n\nIf you like to help with moving forward elsewhere, you could look at proposals ( https://github.com/golang/go/labels/Proposal ) and see if you can help making progress with them.\n\n- gri",
+      "parentUuid": "55d8d0f4_46423792",
+      "revId": "afc1a9163dd8b45a58c3f63b3e3067804b059663",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
