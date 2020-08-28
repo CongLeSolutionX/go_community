@@ -33,6 +33,24 @@
       "revId": "afc1a9163dd8b45a58c3f63b3e3067804b059663",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c791b19_a416c05b",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-28T03:08:49Z",
+      "side": 1,
+      "message": "Thank you very much for your review and guidance. I admire your superb technology and rigorous attitude very much. In fact, I have some time recently. If there is anything I can do for the community, could you please give me some guidance on how to do it?",
+      "parentUuid": "ed7eca13_f6e24e01",
+      "revId": "afc1a9163dd8b45a58c3f63b3e3067804b059663",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
