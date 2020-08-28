@@ -34,6 +34,24 @@
       "revId": "ae4d8753e2aac2f78940405b27e955e178cf0354",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ede7d8a5_3ad6ccd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2020-08-28T01:23:41Z",
+      "side": 1,
+      "message": "Well, as Russ pointed out in the original issue, essentially the same helper function exists in a compiler internal package already. https://go.googlesource.com/go/+/refs/heads/master/src/cmd/internal/objabi/flag.go#22 I think independent reinvention of the same simple but convenient code shows its value, but it\u0027s up to someone on the team to make the final call.",
+      "parentUuid": "23a51424_77d68d83",
+      "revId": "ae4d8753e2aac2f78940405b27e955e178cf0354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
