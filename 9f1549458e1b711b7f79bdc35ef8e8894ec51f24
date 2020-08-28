@@ -585,6 +585,24 @@
       "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "566a5c7a_e0512f90",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-28T18:12:28Z",
+      "side": 1,
+      "message": "I tested the smallest, largest and middle 2^16 values of uint respectively. Maybe we need more random test cases?",
+      "parentUuid": "14ccfa3a_4c2745fd",
+      "revId": "9f1549458e1b711b7f79bdc35ef8e8894ec51f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
