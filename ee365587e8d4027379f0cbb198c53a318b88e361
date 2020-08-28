@@ -2,6 +2,138 @@
   "comments": [
     {
       "key": {
+        "uuid": "a2f7575c_6ea96e71",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-28T22:00:40Z",
+      "side": 1,
+      "message": "This took me a while to understand, but I got it:\n\nqq*B+q0 \u003d floor(X/B)*inv+X\n        \u003d floor(X/B)*floor((B^2-1)/d-B)+X\n        \u003c\u003d X/B*((B^2-1)/d-B)+X   (removing the floors)\n        \u003d X(B-1/B)/d\n        \u003c\u003d XB/d\nqq \u003c\u003d X/d - q0/B\nqq \u003c\u003d X/d",
+      "range": {
+        "startLine": 215,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 42
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "380e8f18_ad97735c",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-28T22:00:40Z",
+      "side": 1,
+      "message": "l",
+      "range": {
+        "startLine": 217,
+        "startChar": 15,
+        "endLine": 217,
+        "endChar": 16
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411fa972_eaa477e4",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-28T22:00:40Z",
+      "side": 1,
+      "message": "This makes things confusing. Later, which qq are we talking about?",
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd904b30_d06dd78d",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-28T22:00:40Z",
+      "side": 1,
+      "message": "Remove \u003c\u003c",
+      "range": {
+        "startLine": 222,
+        "startChar": 30,
+        "endLine": 222,
+        "endChar": 32
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120b1019_fb0ee136",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-28T22:00:40Z",
+      "side": 1,
+      "message": "Your code uses this fact the other way around, that rr \u003e\u003d q0 implies qq\u003d\u003dfloor(realQ)+1.\n\nIt\u0027s not obvious to me that rr \u003e\u003d q0 necessarily implies that qq is too high. Especially if q0 \u003c d.",
+      "range": {
+        "startLine": 225,
+        "startChar": 58,
+        "endLine": 225,
+        "endChar": 80
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea0e6334_f843c9eb",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-28T22:00:40Z",
+      "side": 1,
+      "message": "-?",
+      "range": {
+        "startLine": 233,
+        "startChar": 76,
+        "endLine": 233,
+        "endChar": 77
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b8d4e6e_92fd496a",
         "filename": "src/math/big/arith.go",
         "patchSetId": 12
