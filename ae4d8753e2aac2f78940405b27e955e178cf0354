@@ -16,6 +16,24 @@
       "revId": "ae4d8753e2aac2f78940405b27e955e178cf0354",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23a51424_77d68d83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-08-28T00:43:44Z",
+      "side": 1,
+      "message": "I\u0027m not going to veto this, but I\u0027m also not going to approve it. I don\u0027t see the value in complicating the package by providing a new way that avoids the existing type-based model. The example provided is unconvincing.\n\nThe proposal is approved, so it can land, but someone else will have to own it.",
+      "parentUuid": "e553b6ae_ee639f99",
+      "revId": "ae4d8753e2aac2f78940405b27e955e178cf0354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
