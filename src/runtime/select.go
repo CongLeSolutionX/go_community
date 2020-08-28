@@ -148,6 +148,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 	// optimizing (and needing to test).
 
 	// generate permuted order
+	pollorder[0] = 0
 	norder := 0
 	for i := range scases {
 		cas := &scases[i]
