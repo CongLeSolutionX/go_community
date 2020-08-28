@@ -87,6 +87,30 @@
       "revId": "fdb158ff3f8bbc621be31b0d385657c9c838ecd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af7c3162_344c57a6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6048,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-28T20:27:41Z",
+      "side": 1,
+      "message": "Maybe it also cover p.From.Target(), for ADR/ADRP case (case 60 and 61 in the big switch in asmout.)",
+      "parentUuid": "65d2c680_8d667668",
+      "range": {
+        "startLine": 6046,
+        "startChar": 0,
+        "endLine": 6048,
+        "endChar": 2
+      },
+      "revId": "fdb158ff3f8bbc621be31b0d385657c9c838ecd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
