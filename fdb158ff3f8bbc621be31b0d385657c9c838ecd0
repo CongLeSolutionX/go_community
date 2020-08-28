@@ -63,6 +63,30 @@
       "revId": "fdb158ff3f8bbc621be31b0d385657c9c838ecd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65d2c680_8d667668",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6048,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-28T20:25:12Z",
+      "side": 1,
+      "message": "Okay, thanks. We should probably clean up the call of brdist from omovlit, as it is not a branch. Maybe add a TODO?",
+      "parentUuid": "c2b8c8a5_786f3f57",
+      "range": {
+        "startLine": 6046,
+        "startChar": 0,
+        "endLine": 6048,
+        "endChar": 2
+      },
+      "revId": "fdb158ff3f8bbc621be31b0d385657c9c838ecd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
