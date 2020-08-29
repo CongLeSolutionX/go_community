@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ead3df1d_cceaa05c",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-08-29T03:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6344abd_5a9b4853",
+      "revId": "51dc7cf74b48ee4e9e1fc24d269062069f341687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "713fc60e_2dc5a4a6",
         "filename": "src/runtime/select.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "51dc7cf74b48ee4e9e1fc24d269062069f341687",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b3bbf8_eae941ed",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-08-29T03:13:16Z",
+      "side": 1,
+      "message": "Ah I see, that was changed in your recent CL to omit nil-channel cases.",
+      "parentUuid": "713fc60e_2dc5a4a6",
+      "revId": "51dc7cf74b48ee4e9e1fc24d269062069f341687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
