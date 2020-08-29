@@ -5,14 +5,17 @@
 package http_test
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"os/signal"
+	"strings"
 )
 
 func ExampleHijacker() {
@@ -190,4 +193,73 @@ func ExampleNotFoundHandler() {
 	mux.Handle("/resources/people/", newPeopleHandler())
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
+}
+
+func ExampleTransport_connectRequest() {
+	const target = "backend:443"
+
+	// Start a server for listening CONNECT request.
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		if req.RequestURI != target {
+			log.Fatalf("unexpected CONNECT target %q", req.RequestURI)
+			w.WriteHeader(500)
+			return
+		}
+
+		conn, bufrw, err := w.(http.Hijacker).Hijack()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer conn.Close()
+
+		conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
+
+		// Switch to a little protocol that capitalize its input lines:
+		for {
+			line, err := bufrw.ReadString('\n')
+			if err != nil {
+				if err != io.EOF {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+				}
+				return
+			}
+			io.WriteString(bufrw, strings.ToUpper(line))
+			bufrw.Flush()
+		}
+	}))
+
+	pr, pw := io.Pipe()
+	defer pw.Close()
+
+	req, err := http.NewRequest("CONNECT", ts.URL, pr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Makes the request url opaque.
+	req.URL.Opaque = target
+
+	tr := http.Transport{}
+	res, err := tr.RoundTrip(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer res.Body.Close()
+	if res.StatusCode != 200 {
+		log.Fatalf("status code = %d; want 200", res.StatusCode)
+	}
+
+	br := bufio.NewReader(res.Body)
+	for _, str := range []string{"foo", "bar", "baz"} {
+		fmt.Fprintf(pw, "%s\n", str)
+		got, err := br.ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Print(got)
+	}
+	// Output: FOO
+	// BAR
+	// BAZ
 }
