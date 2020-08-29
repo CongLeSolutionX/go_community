@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09c4462d_e87e67c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "Thanks very much for reviewing 😊. I updated the proof process of the algorithm to make it clearer and more reasonable. In addition, because getInvert becomes very simple and straightforward (just like the nlz function), I think the test function can be removed. ",
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1d7d843d_4a468847",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "380e8f18_ad97735c",
+      "range": {
+        "startLine": 217,
+        "startChar": 15,
+        "endLine": 217,
+        "endChar": 16
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "411fa972_eaa477e4",
         "filename": "src/math/big/arith.go",
         "patchSetId": 12
@@ -62,6 +86,24 @@
       "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c9a149d_92d40f3e",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "For all the following proofs， B*qq+q0 \u003d inv*x1+B*x1+x0+B \u003d x1*qd+x0+B",
+      "parentUuid": "411fa972_eaa477e4",
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "0bc26355_0386126c",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd904b30_d06dd78d",
+      "range": {
+        "startLine": 222,
+        "startChar": 30,
+        "endLine": 222,
+        "endChar": 32
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120b1019_fb0ee136",
         "filename": "src/math/big/arith.go",
         "patchSetId": 12
@@ -99,6 +165,30 @@
       "writtenOn": "2020-08-28T22:00:40Z",
       "side": 1,
       "message": "Your code uses this fact the other way around, that rr \u003e\u003d q0 implies qq\u003d\u003dfloor(realQ)+1.\n\nIt\u0027s not obvious to me that rr \u003e\u003d q0 necessarily implies that qq is too high. Especially if q0 \u003c d.",
+      "range": {
+        "startLine": 225,
+        "startChar": 58,
+        "endLine": 225,
+        "endChar": 80
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6dfc077_ebab48dc",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "In fact, q0 and d are not necessarily related. The comparison result of q0 and rr will negate one of the three cases, and the remaining two need to be distinguished by the size of the real remainder. We can see the proof below for details.",
+      "parentUuid": "120b1019_fb0ee136",
       "range": {
         "startLine": 225,
         "startChar": 58,
@@ -134,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "2af5523f_9ecee26c",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0e6334_f843c9eb",
+      "range": {
+        "startLine": 233,
+        "startChar": 76,
+        "endLine": 233,
+        "endChar": 77
+      },
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b8d4e6e_92fd496a",
         "filename": "src/math/big/arith.go",
         "patchSetId": 12
@@ -145,6 +259,24 @@
       "writtenOn": "2020-08-28T21:06:36Z",
       "side": 1,
       "message": "It *almost* works to just do:\n\nu1 :\u003d d1 \u003c\u003c nlz(d1)\nq, _ :\u003d bits.Div(_M, _M, u1)\nreturn q\n\nThe only difficulty is that u1 \u003c M.  Maybe we can fix that?\n\nfloor((B^2-1)/u-B) \u003d floor((B^2-uB-1)/u)\n                   \u003d floor((B(B-u)-1)/u)\n                   \u003d floor((B(B-u-1)+B-1)/u)\n                   \u003d bits.Div(B-u-1, B-1, u) (the quotient part)\n                   \u003d bits.Div(^u, B-1, u)\n\nSo this might work:\n\nu1 :\u003d d1 \u003c\u003c nlz(d1)\nq, _ \u003d bits.Div(^u1, _M, u1)\nreturn q\n\nIt has the added advantage that on some platforms Div is an intrinsic, so it would be faster as well.\nThat way we don\u0027t need similar tricky code both here and in bits.Div64.",
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3718737_e893518b",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "It does make sense. Actually this function is a part of the get-inverse function of the 3/2 (192/128) type( We are now talking about the 128/64 type. If it is expected, I will try to implement this more efficient algorithm for nats division in the future). Directly using the bits.Div function has little impact on the overall performance.",
+      "parentUuid": "7b8d4e6e_92fd496a",
       "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -165,6 +297,24 @@
       "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "458cc3fe_50cd5b6d",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-29T10:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76017e8a_f4e5bc8f",
+      "revId": "ee365587e8d4027379f0cbb198c53a318b88e361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
