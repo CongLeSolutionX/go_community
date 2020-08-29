@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "8a1b5cf1_e3766d34",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-29T23:26:57Z",
+      "side": 1,
+      "message": "That\u0027s only true if q0\u003c\u003dd. Do we know that?",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 69
+      },
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25890d66_ebc8b768",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-29T23:26:57Z",
+      "side": 1,
+      "message": "This doesn\u0027t follow to me. If we enter branch 1 and do rr +\u003d d, and that computation overflows, then we won\u0027t enter branch 2.",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 83
+      },
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c776a210_00201670",
         "filename": "src/math/big/arith.go",
         "patchSetId": 13
