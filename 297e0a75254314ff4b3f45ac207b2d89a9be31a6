@@ -16,6 +16,46 @@
       "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c776a210_00201670",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-29T23:00:52Z",
+      "side": 1,
+      "message": "I don\u0027t understand how it could possibly work to decide which case we\u0027re in by just looking at rr. It needs to somehow encode both the remainder and whether we\u0027re in the q, q-1, or q+1 case. That means rr needs log(3B) bits, which is too many. Even if some of the q-1 or q+1 cases can\u0027t have a full range of remainders, it still looks more tight to me than is possible.\n\nHow about the following:\n\n\t// compute remainder x-dq.\n\tdq1, dq0 :\u003d bits.Mul64(d, q)\n\tr0, b :\u003d bits.Sub64(x0, dq0, 0)\n\tr1, b :\u003d bits.Sub64(x1, dq1, b)\n\tif b !\u003d 0 {\n\t\t// x - dq \u003c 0, which means q was too large.\n\t\treturn q - 1, (r0 + d) \u003e\u003e s\n\t}\n\tif r1 !\u003d 0 || r0 \u003e\u003d d {\n\t\t// x - dq \u003e\u003d d, which means q was too small.\n\t\treturn q + 1, (r0 - d) \u003e\u003e s\n\t}\n\treturn q, r0 \u003e\u003e s\n\nIt also means all the argument in cases 1-3 above are not neeeded.",
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1486ba2_0c675d95",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-29T23:00:52Z",
+      "side": 1,
+      "message": "U",
+      "range": {
+        "startLine": 313,
+        "startChar": 57,
+        "endLine": 313,
+        "endChar": 58
+      },
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
