@@ -5,12 +5,14 @@
 package http_test
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 )
@@ -190,4 +192,36 @@ func ExampleNotFoundHandler() {
 	mux.Handle("/resources/people/", newPeopleHandler())
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
+}
+
+func ExampleTransport_RoundTrip() {
+	// Build a pipe for writing bytes to server.
+	pr, pw := io.Pipe()
+	req := &http.Request{
+		Method: "CONNECT",
+		Header: http.Header{
+			"Proxy-Authorization": {"basic aGVsbG86d29ybGQ="},
+		},
+		URL: &url.URL{
+			Scheme: "https",
+			Host:   "proxy.com",
+			Opaque: "backend:443",
+		},
+		Body: pr,
+	}
+
+	// Establish a HTTP tunnel.
+	tr := http.Transport{}
+	resp, err := tr.RoundTrip(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	// Send data to server from standard input.
+	go io.Copy(pw, os.Stdin)
+
+	// Receive data from server to standard output.
+	br := bufio.NewReader(resp.Body)
+	io.Copy(os.Stdout, br)
 }
