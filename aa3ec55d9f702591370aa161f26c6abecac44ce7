@@ -16,6 +16,132 @@
       "revId": "aa3ec55d9f702591370aa161f26c6abecac44ce7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb8b6ce8_e2cf3064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-29T22:27:21Z",
+      "side": 1,
+      "message": "Thank you for working on this Ian, LGTM but with requests to instead use\nt.Fatal* given that we are now running sub-tests.",
+      "revId": "aa3ec55d9f702591370aa161f26c6abecac44ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c8fa79d_03057a73",
+        "filename": "src/debug/elf/file_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-29T22:27:21Z",
+      "side": 1,
+      "message": "We are now in a sub-test so we can just invoke t.Fatal(err) instead of the t.Error and return here.",
+      "revId": "aa3ec55d9f702591370aa161f26c6abecac44ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb29e6b_44a2e46b",
+        "filename": "src/debug/elf/file_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-29T22:27:21Z",
+      "side": 1,
+      "message": "Ditto here, this can be replaced now with t.Fatal(err)",
+      "range": {
+        "startLine": 687,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 0
+      },
+      "revId": "aa3ec55d9f702591370aa161f26c6abecac44ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15184de5_a0998b70",
+        "filename": "src/debug/elf/file_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-29T22:27:21Z",
+      "side": 1,
+      "message": "t.Fatalf(...) instead of t.Errorf and return given that we are in a sub-test.",
+      "range": {
+        "startLine": 694,
+        "startChar": 0,
+        "endLine": 696,
+        "endChar": 0
+      },
+      "revId": "aa3ec55d9f702591370aa161f26c6abecac44ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79b2ae5_edf863b9",
+        "filename": "src/debug/elf/file_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-29T22:27:21Z",
+      "side": 1,
+      "message": "t.Fatalf... :)",
+      "range": {
+        "startLine": 700,
+        "startChar": 0,
+        "endLine": 702,
+        "endChar": 0
+      },
+      "revId": "aa3ec55d9f702591370aa161f26c6abecac44ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ed2b74_3d7a63e8",
+        "filename": "src/debug/elf/file_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-08-29T22:27:21Z",
+      "side": 1,
+      "message": "t.Fatalf... :)",
+      "range": {
+        "startLine": 707,
+        "startChar": 0,
+        "endLine": 709,
+        "endChar": 0
+      },
+      "revId": "aa3ec55d9f702591370aa161f26c6abecac44ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
