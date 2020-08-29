@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bbf66ae_5a4db014",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-08-29T09:14:10Z",
+      "side": 1,
+      "message": "database/sql: shortestIdleTimeLocked correct min comparison\n\nWhen zero or less, maxIdleTime and maxLifetime means unlimited.\nHelper function shortestIdleTimeLocked must not return the\nminimum of the two until both are verified to be greater\nthen zero.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 79
+      },
+      "revId": "68e4bc5d9ebe130d521c88a1f11e3ddc6ce638a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "566f639f_7a93014d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2020-08-29T09:14:10Z",
+      "side": 1,
+      "message": "Please tweak the commit message, but change itself looks good.\n\nThanks!\n",
+      "revId": "68e4bc5d9ebe130d521c88a1f11e3ddc6ce638a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
