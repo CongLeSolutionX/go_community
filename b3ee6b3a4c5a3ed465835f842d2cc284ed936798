@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8f155277_723897f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Sorry to reply so late. Some things have delayed my progress. I hope it’s not too late. Indeed, as you said, my previous ideas were too simple, and I have modified it. Because here what I want to deal with is a special situation, so other situations can be ruled out through judgment conditions.\nFor example x * 3 \u003e 16, due to the overflow, the range of x is not continuous, it‘s not only [6, maxint / 3]. But because what we pay attention to is an array index, So I only deal with the following conditions:\n// With two conditions: 1. w and multiplec are constants. 2. w \u003e\u003d 0, multiple \u003e\u003d 1, x \u003e\u003d 0\n// 1. x*multiple \u003e w  ⇒  x \u003e w/multiple\n// 2. x*multiple \u003e\u003d w and (w%multiple)  !\u003d 0 ⇒  x \u003e\u003d w/multiple + 1",
+      "parentUuid": "184f01aa_48ed22a5",
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1083fc94_f2ae94b8",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 1
@@ -80,6 +98,54 @@
       "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec186ee9_432ce960",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1083fc94_f2ae94b8",
+      "range": {
+        "startLine": 456,
+        "startChar": 35,
+        "endLine": 456,
+        "endChar": 40
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "226eaa47_e6ac5e70",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe9f4610_d413e3a0",
+      "range": {
+        "startLine": 456,
+        "startChar": 14,
+        "endLine": 456,
+        "endChar": 24
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -129,6 +195,54 @@
     },
     {
       "key": {
+        "uuid": "8d251a6f_d8f7fbab",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "980806d8_894fa1d7",
+      "range": {
+        "startLine": 537,
+        "startChar": 44,
+        "endLine": 537,
+        "endChar": 57
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4cd1f39_35809976",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "828ec41d_eb94e0dd",
+      "range": {
+        "startLine": 537,
+        "startChar": 75,
+        "endLine": 537,
+        "endChar": 88
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9edf713_0000c12e",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 1
@@ -143,6 +257,24 @@
       "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "420f71ee_8ff83f4d",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9edf713_0000c12e",
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -192,6 +324,54 @@
     },
     {
       "key": {
+        "uuid": "d30cb991_a9fca908",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fd72093_05de9ad0",
+      "range": {
+        "startLine": 594,
+        "startChar": 17,
+        "endLine": 594,
+        "endChar": 30
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7427d0e_05b6f07b",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12b83b75_7ba6534a",
+      "range": {
+        "startLine": 594,
+        "startChar": 5,
+        "endLine": 594,
+        "endChar": 8
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f39aea9_6528c643",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 1
@@ -212,6 +392,30 @@
       "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee290bfd_e4e3a5bc",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f39aea9_6528c643",
+      "range": {
+        "startLine": 1491,
+        "startChar": 64,
+        "endLine": 1491,
+        "endChar": 72
+      },
+      "revId": "b3ee6b3a4c5a3ed465835f842d2cc284ed936798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

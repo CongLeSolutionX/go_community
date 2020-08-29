@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fa04d4b_13a70bd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-08-29T07:52:46Z",
+      "side": 1,
+      "message": "Sorry to reply so late. Some things have delayed my progress. I hope it’s not too late. Indeed, as you said, my previous ideas were too simple, and I have modified it. Because here what I want to deal with is a special situation, so other situations can be ruled out through judgment conditions.",
+      "revId": "33cd121ac07e2cedaeb799082f85e470406e7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
