@@ -65,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "ceda2ef9_09fd2904",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-30T06:01:38Z",
+      "side": 1,
+      "message": "This case causes q++ to overflow:\nx1\u003d0xbfffffffffffffff x0\u003d0xffffffffffffffff y\u003d0xc000000000000000\nMiraculously, in the end it still gets the right answer (but my suggestion doesn\u0027t).",
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c776a210_00201670",
         "filename": "src/math/big/arith.go",
         "patchSetId": 13
