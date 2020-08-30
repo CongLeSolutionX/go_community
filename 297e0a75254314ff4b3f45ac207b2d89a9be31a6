@@ -183,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "ebd1fc23_e71c6851",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-30T12:23:14Z",
+      "side": 1,
+      "message": "We allow rr to get is an negative overflow result,which means real remainder r\u003c0. And rr \u003d r mod B \u003d B + r.",
+      "parentUuid": "366c8de3_ce630a62",
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1486ba2_0c675d95",
         "filename": "src/math/big/arith.go",
         "patchSetId": 13
