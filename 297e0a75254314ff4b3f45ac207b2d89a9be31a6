@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "9ed56c22_421be53a",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-31T07:54:38Z",
+      "side": 1,
+      "message": "You said when qq\u003dB-1, then qq+1 overflows. When qq\u003dB-1, because (B*x1+x0-r)/d\u003dqq, then r\u003d B*(x1-d)+x0-d. Because x1\u003cd, then r\u003c0. Then here\u0027s what I prove in prove2.",
+      "parentUuid": "18e127a5_dedef7a4",
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c776a210_00201670",
         "filename": "src/math/big/arith.go",
         "patchSetId": 13
@@ -231,6 +249,24 @@
       "side": 1,
       "message": "Here\u0027s a fixed code for my version. Don\u0027t do q++, instead compute the remainder using the original q.\n\n\t// We know that\n\t//   m \u003d ⎣(B^2-1)/d⎦-B\n\t//   ⎣(B^2-1)/d⎦ \u003d m+B\n\t//   (B^2-1)/d \u003d m+B+delta1    0 \u003c\u003d delta1 \u003c\u003d (d-1)/d\n\t//   B^2/d \u003d m+B+delta2        0 \u003c\u003d delta2 \u003c\u003d 1\n\t// The quotient we\u0027re trying to compute is\n\t//   quotient \u003d ⎣(x1*B+x0)/d⎦\n\t//            \u003d ⎣(x1*B*(B^2/d)+x0*(B^2/d))/B^2⎦\n\t//            \u003d ⎣(x1*B*(m+B+delta2)+x0*(m+B+delta2))/B^2⎦\n\t//            \u003d ⎣(x1*m+x1*B+x0)/B + x0*m/B^2 + delta2*(x1*B+x0)/B^2⎦\n\t// The latter two terms of this three-term sum are between 0 and 1.\n\t// So we can compute just the first term, and we will be low by at most 2.\n\tt1, t0 :\u003d bits.Mul64(m, x1)\n\t_, c :\u003d bits.Add64(t0, x0, 0)\n\tt1, _ \u003d bits.Add64(t1, x1, c)\n\n\t// The quotient is either t1, t1+1, or t1+2.\n\t// We\u0027ll try t1 and adjust if needed.\n\tq :\u003d t1\n\n\t// compute remainder r\u003dx-d*q.\n\tdq1, dq0 :\u003d bits.Mul64(d, q)\n\tr0, b :\u003d bits.Sub64(x0, dq0, 0)\n\tr1, _ :\u003d bits.Sub64(x1, dq1, b)\n\n\t// The remainder we just computed is bounded above by B+d:\n\t// r \u003d x1*B + x0 - d*q.\n\t//   \u003d x1*B + x0 - d*⎣(x1*m+x1*B+x0)/B⎦\n\t//   \u003d x1*B + x0 - d*((x1*m+x1*B+x0)/B-alpha)                                   0 \u003c\u003d alpha \u003c 1\n\t//   \u003d x1*B + x0 - x1*d/B*m                         - x1*d - x0*d/B + d*alpha\n\t//   \u003d x1*B + x0 - x1*d/B*⎣(B^2-1)/d-B⎦             - x1*d - x0*d/B + d*alpha\n\t//   \u003d x1*B + x0 - x1*d/B*⎣(B^2-1)/d-B⎦             - x1*d - x0*d/B + d*alpha\n\t//   \u003d x1*B + x0 - x1*d/B*((B^2-1)/d-B-beta)        - x1*d - x0*d/B + d*alpha   0 \u003c\u003d beta \u003c 1\n\t//   \u003d x1*B + x0 - x1*B + x1/B + x1*d + x1*d/B*beta - x1*d - x0*d/B + d*alpha\n\t//   \u003d        x0        + x1/B        + x1*d/B*beta        - x0*d/B + d*alpha\n\t//   \u003d x0*(1-d/B) + x1*(1+d*beta)/B + d*alpha\n\t//   \u003c  B*(1-d/B) +  d*B/B          + d          because x0\u003cB (and 1-d/B\u003e0), x1\u003cd, 1+d*beta\u003c\u003dB, alpha\u003c1\n\t//   \u003d  B - d     +  d              + d\n\t//   \u003d B+d\n\t// So r1 can only be 0 or 1. If r1 is 1, then we know q was too small.\n\t// Add 1 to q and subtract d from r. That guarantees that r is \u003cB, so\n\t// we no longer need to keep track of r1.\n\tif r1 !\u003d 0 {\n\t\tq++\n\t\tr0 -\u003d d\n\t}\n\t// If the remainder is still too large, increment q one more time.\n\tif r0 \u003e\u003d d {\n\t\tq++\n\t\tr0 -\u003d d\n\t}\n\treturn q, r0 \u003e\u003e s",
       "parentUuid": "ebd1fc23_e71c6851",
+      "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e083b9e5_59e8639a",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-08-31T07:54:38Z",
+      "side": 1,
+      "message": "All right. It does make sense. I change Mul64 to Mul because it may also be executed on 32-bit machines, Add and Sub are also, is it ok?",
+      "parentUuid": "cbbf629a_38e01fa6",
       "revId": "297e0a75254314ff4b3f45ac207b2d89a9be31a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
