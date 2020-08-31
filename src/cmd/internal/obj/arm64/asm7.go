@@ -2546,9 +2546,11 @@ func buildop(ctxt *obj.Link) {
 
 		case ALDP:
 			oprangeset(AFLDPD, t)
+			oprangeset(AFLDPQ, t)
 
 		case ASTP:
 			oprangeset(AFSTPD, t)
+			oprangeset(AFSTPQ, t)
 
 		case ASTPW:
 			oprangeset(AFSTPS, t)
@@ -6829,12 +6831,18 @@ func (c *ctxt7) opldpstp(p *obj.Prog, o *Optab, vo int32, rbase, rl, rh, ldp uin
 		if wback == true {
 			c.checkUnpredictable(p, false, true, p.To.Reg, p.From.Reg, int16(p.From.Offset))
 		}
-	case AFLDPD, AFLDPS:
+	case AFLDPD, AFLDPQ, AFLDPS:
 		c.checkUnpredictable(p, true, false, p.From.Reg, p.To.Reg, int16(p.To.Offset))
 	}
 	var ret uint32
 	// check offset
 	switch p.As {
+	case AFLDPQ, AFSTPQ:
+		if vo < -1024 || vo > 1008 || vo%16 != 0 {
+			c.ctxt.Diag("invalid offset %v\n", p)
+		}
+		vo /= 16
+		ret = 1<<30 | 1<<26
 	case AFLDPD, AFSTPD:
 		if vo < -512 || vo > 504 || vo%8 != 0 {
 			c.ctxt.Diag("invalid offset %v\n", p)
@@ -6870,7 +6878,7 @@ func (c *ctxt7) opldpstp(p *obj.Prog, o *Optab, vo int32, rbase, rl, rh, ldp uin
 	}
 	// check register pair
 	switch p.As {
-	case AFLDPD, AFLDPS, AFSTPD, AFSTPS:
+	case AFLDPD, AFLDPQ, AFLDPS, AFSTPD, AFSTPQ, AFSTPS:
 		if rl < REG_F0 || REG_F31 < rl || rh < REG_F0 || REG_F31 < rh {
 			c.ctxt.Diag("invalid register pair %v\n", p)
 		}
