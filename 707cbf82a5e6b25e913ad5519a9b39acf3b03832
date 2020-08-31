@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6b81b7_e27eb353",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39315
+      },
+      "writtenOn": "2020-08-31T09:43:41Z",
+      "side": 1,
+      "message": "Very cool!  Does this change set add support for loading constants from literal pools?",
+      "revId": "707cbf82a5e6b25e913ad5519a9b39acf3b03832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
