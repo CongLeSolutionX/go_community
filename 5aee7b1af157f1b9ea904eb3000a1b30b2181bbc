@@ -19,6 +19,161 @@
     },
     {
       "key": {
+        "uuid": "9b0b0a94_03e07fdc",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "Use Go-style // comment.\n\n/* ... */ style comment are mostly for large block comments, or retained from legacy C code. This is new code, so use new style.",
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa77135_7791ed24",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "Use more Go-style name, no underscore. Maybe mipsGnuAttributes.",
+      "range": {
+        "startLine": 834,
+        "startChar": 5,
+        "endLine": 834,
+        "endChar": 23
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6340df2c_1ecf03f6",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "including, also below.",
+      "range": {
+        "startLine": 836,
+        "startChar": 23,
+        "endLine": 836,
+        "endChar": 30
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "416ee25e_07371faa",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "Quote it. \"gnu\\0\"",
+      "range": {
+        "startLine": 837,
+        "startChar": 20,
+        "endLine": 837,
+        "endChar": 25
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ee9c36b_e4b3a195",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "elfGnuAttributesContent.",
+      "range": {
+        "startLine": 844,
+        "startChar": 5,
+        "endLine": 844,
+        "endChar": 28
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4fe4daf_23c5a108",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "Make sure you run \"gofmt\" to format the code. Thanks.",
+      "range": {
+        "startLine": 845,
+        "startChar": 0,
+        "endLine": 849,
+        "endChar": 2
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a41a31f_761c6673",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "Add some comments about the values, what is FP32/FP64/FPXX. Maybe define symbolic constants.",
+      "range": {
+        "startLine": 851,
+        "startChar": 6,
+        "endLine": 851,
+        "endChar": 16
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87c6f824_fd5809f8",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 5
@@ -88,6 +243,23 @@
     },
     {
       "key": {
+        "uuid": "2151c6f8_d7ec25fa",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "Using encoding/binary package to write struct is inefficient and subtle (due to padding). I would suggest writing the fields directly using ctxt.Out.Write* functions. It appears less pretty, but that\u0027s okay.",
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b63a373f_c308f614",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 5
@@ -105,6 +277,23 @@
         "endLine": 907,
         "endChar": 32
       },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee267b0_6fafffee",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-08-31T16:16:37Z",
+      "side": 1,
+      "message": "Do you need to change this package? I think you don\u0027t need to change this for the linker.",
       "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
