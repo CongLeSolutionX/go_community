@@ -123,26 +123,26 @@ func (check *Checker) typ(e ast.Expr) Type {
 	return check.definedType(e, nil)
 }
 
-// varType type-checks the type expression e and returns its type, or Typ[Invalid].
+// ordinaryType type-checks the type expression e and returns its type, or Typ[Invalid].
 // The type must not be an (uninstantiated) generic type and it must not be an
-// interface type containing type lists.
-func (check *Checker) varType(e ast.Expr) Type {
+// interface type containing type lists or be (or embed) the the predeclared type comparable.
+func (check *Checker) ordinaryType(e ast.Expr) Type {
 	typ := check.definedType(e, nil)
-	if t := typ.Interface(); t != nil {
-		// We don't want to complete interfaces while we are in the middle
-		// of type-checking parameter declarations that might belong to
-		// interface methods. Delay this check to the end of type-checking.
-		check.atEnd(func() {
+	check.atEnd(func() {
+		if t := typ.Interface(); t != nil {
+			// We don't want to complete interfaces while we are in the middle
+			// of type-checking parameter declarations that might belong to
+			// interface methods. Delay this check to the end of type-checking.
 			check.completeInterface(e.Pos(), t) // TODO(gri) is this the correct position?
 			if t.allTypes != nil {
-				check.softErrorf(e.Pos(), "interface type for variable cannot contain type constraints (%s)", t.allTypes)
+				check.softErrorf(e.Pos(), "interface contains type constraints (%s)", t.allTypes)
 				return
 			}
 			if t.IsComparable() {
-				check.softErrorf(e.Pos(), "interface type for variable cannot be (or embed) comparable")
+				check.softErrorf(e.Pos(), "interface is (or embeds) comparable")
 			}
-		})
-	}
+		}
+	})
 	return typ
 }
 
@@ -477,13 +477,13 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 			typ := new(Array)
 			def.setUnderlying(typ)
 			typ.len = check.arrayLength(e.Len)
-			typ.elem = check.typ(e.Elt)
+			typ.elem = check.ordinaryType(e.Elt)
 			return typ
 		}
 
 		typ := new(Slice)
 		def.setUnderlying(typ)
-		typ.elem = check.typ(e.Elt)
+		typ.elem = check.ordinaryType(e.Elt)
 		return typ
 
 	case *ast.StructType:
@@ -495,7 +495,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 	case *ast.StarExpr:
 		typ := new(Pointer)
 		def.setUnderlying(typ)
-		typ.base = check.typ(e.X)
+		typ.base = check.ordinaryType(e.X)
 		return typ
 
 	case *ast.FuncType:
@@ -517,8 +517,8 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		typ := new(Map)
 		def.setUnderlying(typ)
 
-		typ.key = check.typ(e.Key)
-		typ.elem = check.typ(e.Value)
+		typ.key = check.ordinaryType(e.Key)
+		typ.elem = check.ordinaryType(e.Value)
 
 		// spec: "The comparison operators == and != must be fully defined
 		// for operands of the key type; thus the key type must not be a
@@ -556,7 +556,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		}
 
 		typ.dir = dir
-		typ.elem = check.typ(e.Value)
+		typ.elem = check.ordinaryType(e.Value)
 		return typ
 
 	default:
@@ -670,7 +670,7 @@ func (check *Checker) arrayLength(e ast.Expr) int64 {
 func (check *Checker) typeList(list []ast.Expr) []Type {
 	res := make([]Type, len(list)) // res != nil even if len(list) == 0
 	for i, x := range list {
-		t := check.typ(x)
+		t := check.ordinaryType(x)
 		if t == Typ[Invalid] {
 			res = nil
 		}
@@ -703,7 +703,7 @@ func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, type0 ast
 				// ignore ... and continue
 			}
 		}
-		typ := check.varType(ftype)
+		typ := check.ordinaryType(ftype)
 		// The parser ensures that f.Tag is nil and we don't
 		// care if a constructed AST contains a non-nil tag.
 		if len(field.Names) > 0 {
@@ -1054,7 +1054,7 @@ func (check *Checker) structType(styp *Struct, e *ast.StructType) {
 	}
 
 	for _, f := range list.List {
-		typ = check.typ(f.Type)
+		typ = check.ordinaryType(f.Type)
 		tag = check.tag(f.Tag)
 		if len(f.Names) > 0 {
 			// named fields
@@ -1098,6 +1098,7 @@ func (check *Checker) structType(styp *Struct, e *ast.StructType) {
 				case *Interface:
 					if isPtr {
 						check.errorf(embeddedPos, "embedded field type cannot be a pointer to an interface")
+						break
 					}
 				}
 			})
@@ -1134,7 +1135,7 @@ func (check *Checker) collectTypeConstraints(pos token.Pos, types []ast.Expr) []
 			check.invalidAST(pos, "missing type constraint")
 			continue
 		}
-		typ := check.typ(texpr)
+		typ := check.ordinaryType(texpr)
 		// A type constraint may be a predeclared type or a
 		// composite type composed of only predeclared types.
 		// TODO(gri) If we enable this again it also must run
