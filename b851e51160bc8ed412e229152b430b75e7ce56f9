@@ -16,6 +16,24 @@
       "revId": "b851e51160bc8ed412e229152b430b75e7ce56f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6cdde97_9edcb196",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-08-31T19:49:56Z",
+      "side": 1,
+      "message": "In fact, we did forget part of this in the revert: golang.org/cl/251757",
+      "parentUuid": "cedcbfc8_05459e2d",
+      "revId": "b851e51160bc8ed412e229152b430b75e7ce56f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
