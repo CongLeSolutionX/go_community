@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62d643f2_2c9ca8a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-31T17:02:10Z",
+      "side": 1,
+      "message": "TRY\u003driscv,arm64,android-arm",
+      "revId": "df4c0f7fc8c067a66ef25a2691c00ffd335c0afc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
