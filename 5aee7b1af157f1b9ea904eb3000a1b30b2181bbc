@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb5f8288_16e06bd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-08-31T01:46:30Z",
+      "side": 1,
+      "message": "Hi, cherry\n\nCould you take a look at this CL?\nThanks.",
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87c6f824_fd5809f8",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-08-31T01:46:30Z",
+      "side": 1,
+      "message": "I think ElfInternalABIFlagsV0 is more prorate. \n\nhttps://github.com/golang/go/wiki/CodeReviewComments#initialisms",
+      "range": {
+        "startLine": 858,
+        "startChar": 5,
+        "endLine": 858,
+        "endChar": 29
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20202ac8_48061a92",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-08-31T01:46:30Z",
+      "side": 1,
+      "message": "isaLevel",
+      "range": {
+        "startLine": 862,
+        "startChar": 1,
+        "endLine": 862,
+        "endChar": 10
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac909579_736327c2",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-08-31T01:46:30Z",
+      "side": 1,
+      "message": "isaRev",
+      "range": {
+        "startLine": 864,
+        "startChar": 1,
+        "endLine": 864,
+        "endChar": 8
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63a373f_c308f614",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-08-31T01:46:30Z",
+      "side": 1,
+      "message": "Maybe we should add a const for it.",
+      "range": {
+        "startLine": 907,
+        "startChar": 18,
+        "endLine": 907,
+        "endChar": 32
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
