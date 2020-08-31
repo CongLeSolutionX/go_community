@@ -647,6 +647,12 @@ var optab = []Optab{
 	{ALDP, C_PPAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, 0},
 	{ALDP, C_PPAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, C_XPRE},
 	{ALDP, C_PPAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, C_XPOST},
+	{ALDP, C_PZAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, 0},
+	{ALDP, C_PZAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, C_XPRE},
+	{ALDP, C_PZAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, C_XPOST},
+	{ALDP, C_PQAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, 0},
+	{ALDP, C_PQAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, C_XPRE},
+	{ALDP, C_PQAUTO, C_NONE, C_NONE, C_PAIR, 66, 4, REGSP, 0, C_XPOST},
 	{ALDP, C_UAUTO4K, C_NONE, C_NONE, C_PAIR, 74, 8, REGSP, 0, 0},
 	{ALDP, C_UAUTO4K, C_NONE, C_NONE, C_PAIR, 74, 8, REGSP, 0, C_XPRE},
 	{ALDP, C_UAUTO4K, C_NONE, C_NONE, C_PAIR, 74, 8, REGSP, 0, C_XPOST},
@@ -679,6 +685,12 @@ var optab = []Optab{
 	{ASTP, C_PAIR, C_NONE, C_NONE, C_PPAUTO, 67, 4, REGSP, 0, 0},
 	{ASTP, C_PAIR, C_NONE, C_NONE, C_PPAUTO, 67, 4, REGSP, 0, C_XPRE},
 	{ASTP, C_PAIR, C_NONE, C_NONE, C_PPAUTO, 67, 4, REGSP, 0, C_XPOST},
+	{ASTP, C_PAIR, C_NONE, C_NONE, C_PZAUTO, 67, 4, REGSP, 0, 0},
+	{ASTP, C_PAIR, C_NONE, C_NONE, C_PZAUTO, 67, 4, REGSP, 0, C_XPRE},
+	{ASTP, C_PAIR, C_NONE, C_NONE, C_PZAUTO, 67, 4, REGSP, 0, C_XPOST},
+	{ASTP, C_PAIR, C_NONE, C_NONE, C_PQAUTO, 67, 4, REGSP, 0, 0},
+	{ASTP, C_PAIR, C_NONE, C_NONE, C_PQAUTO, 67, 4, REGSP, 0, C_XPRE},
+	{ASTP, C_PAIR, C_NONE, C_NONE, C_PQAUTO, 67, 4, REGSP, 0, C_XPOST},
 	{ASTP, C_PAIR, C_NONE, C_NONE, C_UAUTO4K, 76, 8, REGSP, 0, 0},
 	{ASTP, C_PAIR, C_NONE, C_NONE, C_UAUTO4K, 76, 8, REGSP, 0, C_XPRE},
 	{ASTP, C_PAIR, C_NONE, C_NONE, C_UAUTO4K, 76, 8, REGSP, 0, C_XPOST},
@@ -1215,9 +1227,11 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 		C_NAUTO4K,
 		C_LAUTO,
 		C_PPOREG,
+		C_PQAUTO,
 		C_PSOREG,
 		C_PSOREG_4,
 		C_PSOREG_8,
+		C_PZAUTO,
 		C_UOREG4K_8,
 		C_UOREG4K_4,
 		C_UOREG4K_2,
@@ -1503,6 +1517,9 @@ func autoclass(l int64) int {
 		if l >= -512 && (l&7) == 0 {
 			return C_NPAUTO
 		}
+		if l >= -1024 && (l&15) == 0 {
+			return C_PZAUTO
+		}
 		if l >= -4095 {
 			return C_NAUTO4K
 		}
@@ -1520,6 +1537,9 @@ func autoclass(l int64) int {
 	}
 	if l <= 504 && l&7 == 0 {
 		return C_PPAUTO
+	}
+	if l <= 1008 && l&15 == 0 {
+		return C_PQAUTO
 	}
 	if l <= 4095 {
 		if l&7 == 0 {
@@ -2142,8 +2162,8 @@ func cmp(a int, b int) bool {
 
 	case C_LAUTO:
 		switch b {
-		case C_ZAUTO, C_NSAUTO, C_NSAUTO_4, C_NSAUTO_8, C_NPAUTO,
-			C_NAUTO4K, C_PSAUTO, C_PSAUTO_4, C_PSAUTO_8, C_PPAUTO,
+		case C_ZAUTO, C_NSAUTO, C_NSAUTO_4, C_NSAUTO_8, C_NPAUTO, C_PZAUTO,
+			C_NAUTO4K, C_PSAUTO, C_PSAUTO_4, C_PSAUTO_8, C_PPAUTO, C_PQAUTO,
 			C_UAUTO4K, C_UAUTO4K_2, C_UAUTO4K_4, C_UAUTO4K_8,
 			C_UAUTO8K, C_UAUTO8K_4, C_UAUTO8K_8,
 			C_UAUTO16K, C_UAUTO16K_8,
@@ -2174,6 +2194,12 @@ func cmp(a int, b int) bool {
 			return true
 		}
 
+	case C_PQAUTO:
+		switch b {
+		case C_ZAUTO, C_PSAUTO, C_PPAUTO, C_PSAUTO_4, C_PSAUTO_8:
+			return true
+		}
+
 	case C_PSOREG_4:
 		switch b {
 		case C_ZOREG, C_PSOREG_8:
@@ -2189,6 +2215,12 @@ func cmp(a int, b int) bool {
 	case C_PPOREG:
 		switch b {
 		case C_ZOREG, C_PSOREG_8:
+			return true
+		}
+
+	case C_PZAUTO:
+		switch b {
+		case C_NPAUTO, C_NSAUTO, C_NSAUTO_4, C_NSAUTO_8:
 			return true
 		}
 
@@ -2546,9 +2578,11 @@ func buildop(ctxt *obj.Link) {
 
 		case ALDP:
 			oprangeset(AFLDPD, t)
+			oprangeset(AFLDPQ, t)
 
 		case ASTP:
 			oprangeset(AFSTPD, t)
+			oprangeset(AFSTPQ, t)
 
 		case ASTPW:
 			oprangeset(AFSTPS, t)
@@ -6829,12 +6863,18 @@ func (c *ctxt7) opldpstp(p *obj.Prog, o *Optab, vo int32, rbase, rl, rh, ldp uin
 		if wback == true {
 			c.checkUnpredictable(p, false, true, p.To.Reg, p.From.Reg, int16(p.From.Offset))
 		}
-	case AFLDPD, AFLDPS:
+	case AFLDPD, AFLDPQ, AFLDPS:
 		c.checkUnpredictable(p, true, false, p.From.Reg, p.To.Reg, int16(p.To.Offset))
 	}
 	var ret uint32
 	// check offset
 	switch p.As {
+	case AFLDPQ, AFSTPQ:
+		if vo < -1024 || vo > 1008 || vo%16 != 0 {
+			c.ctxt.Diag("invalid offset %v\n", p)
+		}
+		vo /= 16
+		ret = 1<<30 | 1<<26
 	case AFLDPD, AFSTPD:
 		if vo < -512 || vo > 504 || vo%8 != 0 {
 			c.ctxt.Diag("invalid offset %v\n", p)
@@ -6870,7 +6910,7 @@ func (c *ctxt7) opldpstp(p *obj.Prog, o *Optab, vo int32, rbase, rl, rh, ldp uin
 	}
 	// check register pair
 	switch p.As {
-	case AFLDPD, AFLDPS, AFSTPD, AFSTPS:
+	case AFLDPD, AFLDPQ, AFLDPS, AFSTPD, AFSTPQ, AFSTPS:
 		if rl < REG_F0 || REG_F31 < rl || rh < REG_F0 || REG_F31 < rh {
 			c.ctxt.Diag("invalid register pair %v\n", p)
 		}
