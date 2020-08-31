@@ -1098,6 +1098,15 @@ func (check *Checker) structType(styp *Struct, e *ast.StructType) {
 				case *Interface:
 					if isPtr {
 						check.errorf(embeddedPos, "embedded field type cannot be a pointer to an interface")
+						break
+					}
+					check.completeInterface(embeddedPos, t)
+					if t.allTypes != nil {
+						check.softErrorf(embeddedPos, "embedded interface type cannot contain type constraints (%s)", t.allTypes)
+						break
+					}
+					if t.IsComparable() {
+						check.softErrorf(embeddedPos, "embedded interface type cannot be (or embed) comparable")
 					}
 				}
 			})
