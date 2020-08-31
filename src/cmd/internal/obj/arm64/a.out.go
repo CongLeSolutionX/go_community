@@ -423,11 +423,13 @@ const (
 	C_NSAUTO_4   // -256 <= x < 0, 0 mod 4
 	C_NSAUTO     // -256 <= x < 0
 	C_NPAUTO     // -512 <= x < 0, 0 mod 8
+	C_PZAUTO     // -1024 <= x < 0, 0 mod 16
 	C_NAUTO4K    // -4095 <= x < 0
 	C_PSAUTO_8   // 0 to 255, 0 mod 8
 	C_PSAUTO_4   // 0 to 255, 0 mod 4
 	C_PSAUTO     // 0 to 255
 	C_PPAUTO     // 0 to 504, 0 mod 8
+	C_PQAUTO     // 0 to 1008, 0 mod 16
 	C_UAUTO4K_8  // 0 to 4095, 0 mod 8
 	C_UAUTO4K_4  // 0 to 4095, 0 mod 4
 	C_UAUTO4K_2  // 0 to 4095, 0 mod 2
@@ -871,6 +873,7 @@ const (
 	AFDIVD
 	AFDIVS
 	AFLDPD
+	AFLDPQ
 	AFLDPS
 	AFMOVD
 	AFMOVS
@@ -881,6 +884,7 @@ const (
 	AFSQRTD
 	AFSQRTS
 	AFSTPD
+	AFSTPQ
 	AFSTPS
 	AFSUBD
 	AFSUBS

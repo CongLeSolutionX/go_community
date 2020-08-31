@@ -50,6 +50,8 @@ var cnames7 = []string{
 	"PSAUTO_4",
 	"PSAUTO",
 	"PPAUTO",
+	"PQAUTO",
+	"PZAUTO",
 	"UAUTO4K_8",
 	"UAUTO4K_4",
 	"UAUTO4K_2",
