@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "66545d80_88f8a29e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4005,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-31T15:34:34Z",
+      "side": 0,
+      "message": "You still need this part of the CL. Otherwise, the compiler replaces any calls to divWW to the intrinsic divide instruction and ignores the body of divWW. So your new code isn\u0027t actually being used.\n\nSpeaking of which, can you rerun the benchmarks?",
+      "revId": "c4fed25553ee266ed9cb3a98e7a33a82af110ed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c4b7940_032ddecb",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 5

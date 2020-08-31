@@ -16,6 +16,41 @@
       "revId": "4e7c634236b45534b43659a840b36b244e89413b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f565a8b_94ba44f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-31T15:34:34Z",
+      "side": 1,
+      "message": "Yes, that\u0027s good thanks.",
+      "parentUuid": "96c2aefc_d1e7b72b",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6638b6b1_2fa8453e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-08-31T15:34:34Z",
+      "side": 1,
+      "message": "Thanks for looking at my code. Sorry about the back-and-forth. It seems that your code worked fine; I just couldn\u0027t get my head around *why* it worked. I\u0027m happy to spend a bit of performance to make the code clear, not just for me but the next person who happens upon this code.\n\nI feel like this could still use more tests. I think the current tests are just TestFunVWW, TestNatDiv, and TestIssue37499. There\u0027s not a lot of test cases. Although it probably gets called from a lot of other tests that aren\u0027t explicitly tests for div itself.\n\nI ran coverage on this current CL (with the divWW intrinsic fix) and at least we\u0027re 100% covered on the new code. But I think we should try to stress divWW explicitly, maybe with random tests?\n",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
