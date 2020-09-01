@@ -16,6 +16,24 @@
       "revId": "0745180e215271ef19dcf316c38f964b6658c827",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f408bfe4_bd1ce637",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-01T03:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e272aebf_51b94ae5",
+      "revId": "0745180e215271ef19dcf316c38f964b6658c827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
