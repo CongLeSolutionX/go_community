@@ -51,6 +51,24 @@
       "revId": "f3bb3405b37c2c8b50cb7314c18a7a6fc1ec7167",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d41f8cec_ac630dfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-09-01T11:57:31Z",
+      "side": 1,
+      "message": "Yes, please remove the TODO. Thanks!",
+      "parentUuid": "10c6ec6e_b3ed5d21",
+      "revId": "f3bb3405b37c2c8b50cb7314c18a7a6fc1ec7167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
