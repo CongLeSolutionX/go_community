@@ -46,6 +46,30 @@
       "revId": "c3068a461af01b2d6c7ad50ae7b7e01010144b9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61acfdce_c7346a88",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-01T16:18:49Z",
+      "side": 1,
+      "message": "Okay. Feel free to decide a factor and submit.\n\nobjSyms will also include host object symbols (if internal linking) and linker created symbols. So it will be a little more.",
+      "parentUuid": "48f2ecdb_f7180daa",
+      "range": {
+        "startLine": 2149,
+        "startChar": 64,
+        "endLine": 2149,
+        "endChar": 80
+      },
+      "revId": "c3068a461af01b2d6c7ad50ae7b7e01010144b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
