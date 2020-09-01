@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "416d3a1a_ef50839f",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-01T12:20:54Z",
+      "side": 1,
+      "message": "That\u0027s exactly what i did before. (You can look at Patchset4 ). But omitting nlz does not increase performance in my tests. Maybe it makes more sense to avoid passing more parameters.",
+      "parentUuid": "0e7b8f47_42a09326",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee7578ee_4dc95078",
         "filename": "src/math/big/arith.go",
         "patchSetId": 15
@@ -99,6 +117,24 @@
       "writtenOn": "2020-09-01T03:35:20Z",
       "side": 1,
       "message": "This method looks to be similar to the one in https://gmplib.org/~tege/division-paper.pdf and it seems most of the comments here could be replaced with reference to the primary source.\n\nAlso, algorithm 4 in that reference appears to be more efficient than this implementation in that it only contains a single full-width multiply (line 1 \u003d one bits.Mul) and a full-width addition (line 2 \u003d two bits.Add) and the rest of the calculations act on single word values.",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b90acd53_98a1be17",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-01T12:20:54Z",
+      "side": 1,
+      "message": "That\u0027s what I did before too. In fact, I have seen the source code of gmp. And here is what I wrote and prove before. Keith said that we should give up some performance to ensure clean code. Do you think we should stick to the following implementation？\ncode:\n\tqq++\n\t//  refers to Q3.\n\trr :\u003d uint(x0) - d*qq\n\tif rr \u003e\u003d q0 {\t// branch1\n\t\tqq--\n\t\trr +\u003d d\n\t}\n\tif rr \u003e\u003d d {\t// branch2\n\t\tqq++\n\t\trr -\u003d d\n\t}\n\trr \u003e\u003e\u003d shift\n\treturn Word(qq), Word(rr)\nprove:\nlook at Patch14: arith.go",
+      "parentUuid": "ee7578ee_4dc95078",
       "revId": "4e7c634236b45534b43659a840b36b244e89413b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -128,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "dfcc821f_cbfb7318",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-01T12:20:54Z",
+      "side": 1,
+      "message": "Thanks very much. I think I did akin thing before too. Refers to getInvert Patch10. Do you think we should stick to this way of writing and give up clean code?",
+      "parentUuid": "1979a2aa_25491da3",
+      "range": {
+        "startLine": 279,
+        "startChar": 12,
+        "endLine": 279,
+        "endChar": 13
+      },
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48b8d6ec_0d2eb239",
         "filename": "src/math/big/nat.go",
         "patchSetId": 15
@@ -139,6 +199,24 @@
       "writtenOn": "2020-09-01T03:35:20Z",
       "side": 1,
       "message": "Minor note, speeding up divBasic changes divRecursiveThreshold, the optimum cut-off for switching to recursive division. If the shift is big, it is worth including in this change as well. Unfortunately, I don\u0027t think there is a straightforward calibration test for that like the karatsuba thresholds in calibrate_test.go",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d2fa89_fdaf64c0",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-01T12:20:54Z",
+      "side": 1,
+      "message": "Thanks very much for this:). But I still don’t know what the value of the special change should be. Consider that if you use the 3/2 (192bits/128bits) type inverse in the future instead of the 2/1 type used now. I think we can make corresponding changes in a new CL, what do you think?",
+      "parentUuid": "48b8d6ec_0d2eb239",
       "revId": "4e7c634236b45534b43659a840b36b244e89413b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

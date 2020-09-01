@@ -16,6 +16,23 @@
       "revId": "fd53a284b13492f8d47a6de3b2817052f81da06b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a0ee254_427754d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-01T12:20:54Z",
+      "side": 1,
+      "message": "Thanks very much for reviewing 😊. In fact, I have already read the source code of gmp. But as Keith said, maybe we should give up some performance to keep the code clean. Or we can improve it in the future,what do you think, Brian?",
+      "revId": "fd53a284b13492f8d47a6de3b2817052f81da06b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
