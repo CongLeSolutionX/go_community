@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8ad7aa9_4d11fa4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-01T15:46:03Z",
+      "side": 1,
+      "message": "Thanks for adding the big comment at the top. It\u0027s really good to have an overview of the whole process there.",
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da8505d6_914e5bd2",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-01T15:46:03Z",
+      "side": 1,
+      "message": "(for example, ImportPathsQuiet, LoadALL)",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5568d30a_ae084701",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-01T15:46:03Z",
+      "side": 1,
+      "message": "Optional, but maybe TODO(golang.org/issue/40775) instead?",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4f01278_2d6ce48b",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-01T15:46:03Z",
+      "side": 1,
+      "message": "This makes it sound like packages and tests in the main module don\u0027t match the all pattern if they\u0027re not imported. Maybe add that as another base case?",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbeb0eb5_0963170a",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-01T15:46:03Z",
+      "side": 1,
+      "message": "Could this flag be set together with pkgImportsLoaded below, or is it important that this is set before we start loading imports?",
+      "range": {
+        "startLine": 1090,
+        "startChar": 5,
+        "endLine": 1090,
+        "endChar": 18
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
