@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e272aebf_51b94ae5",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-01T03:20:08Z",
+      "side": 1,
+      "message": "Move some of the detail here to a high-level overview at the top of the file.",
+      "revId": "0745180e215271ef19dcf316c38f964b6658c827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
