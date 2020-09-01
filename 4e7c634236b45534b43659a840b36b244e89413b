@@ -51,6 +51,97 @@
       "revId": "4e7c634236b45534b43659a840b36b244e89413b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f4471f0_2b0df225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-01T03:35:20Z",
+      "side": 1,
+      "message": "Thanks a lot for putting this in.  This is a really great improvement.\n\nPlease have a look at my suggestions from the reference https://gmplib.org/~tege/division-paper.pdf by the GMP authors.  I believe there are a few opportunities to improve the performance even more.\n\nI would also recommend that you keep the straightforward division implementation in a test file and setup a random test to compare the optimized implementation versus the obviously correct implementation.",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b8f47_42a09326",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-01T03:35:20Z",
+      "side": 1,
+      "message": "Since you are changing the signature, there is no need to recompute nlz(y) every time this is called since it will be called repeatedly.  You can return the shift, s, from getInvert and just pass it in here as an argument.",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7578ee_4dc95078",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-01T03:35:20Z",
+      "side": 1,
+      "message": "This method looks to be similar to the one in https://gmplib.org/~tege/division-paper.pdf and it seems most of the comments here could be replaced with reference to the primary source.\n\nAlso, algorithm 4 in that reference appears to be more efficient than this implementation in that it only contains a single full-width multiply (line 1 \u003d one bits.Mul) and a full-width addition (line 2 \u003d two bits.Add) and the rest of the calculations act on single word values.",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1979a2aa_25491da3",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-01T03:35:20Z",
+      "side": 1,
+      "message": "getReciprocal would be a more accurate name for this function.\n\nAlso, the aforementioned reference https://gmplib.org/~tege/division-paper.pdf contains algorithm 2 and 3 which compute this reciprocal for 32/64 bits respectively without using any division.  That method should be faster in general and will improve the speed for divisions of only a few words where getReciprocal will be a significant portion of the overall calculation.  It would be worth noting that as a possible future improvement.",
+      "range": {
+        "startLine": 279,
+        "startChar": 12,
+        "endLine": 279,
+        "endChar": 13
+      },
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48b8d6ec_0d2eb239",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-01T03:35:20Z",
+      "side": 1,
+      "message": "Minor note, speeding up divBasic changes divRecursiveThreshold, the optimum cut-off for switching to recursive division. If the shift is big, it is worth including in this change as well. Unfortunately, I don\u0027t think there is a straightforward calibration test for that like the karatsuba thresholds in calibrate_test.go",
+      "revId": "4e7c634236b45534b43659a840b36b244e89413b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
