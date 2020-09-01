@@ -22,6 +22,30 @@
       "revId": "c3068a461af01b2d6c7ad50ae7b7e01010144b9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48f2ecdb_f7180daa",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-01T15:46:42Z",
+      "side": 1,
+      "message": "I ran for cmd/compile:\n\n+       println(\"SymSize: \", symSize, \" \", len(l.objSyms))\n+       println(\"HashSize: \", hashedSize, \" \", len(st.hashedSyms))\n+       println(\"Hash64Size: \", hashed64Size, \" \", len(st.hashed64Syms))\n\n\nSymSize:  200770   201422\nHashSize:  52752   59272\nHash64Size:  5600   8151\n\n\nI\u0027m happy to use whatever factors we want. :)",
+      "parentUuid": "03e19150_034dc7a0",
+      "range": {
+        "startLine": 2149,
+        "startChar": 64,
+        "endLine": 2149,
+        "endChar": 80
+      },
+      "revId": "c3068a461af01b2d6c7ad50ae7b7e01010144b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
