@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "924ff9b1_bb7da92a",
+        "filename": "src/encoding/binary/binary.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 35313
+      },
+      "writtenOn": "2020-09-01T09:10:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b57e149_297f8248",
+      "range": {
+        "startLine": 201,
+        "startChar": 3,
+        "endLine": 201,
+        "endChar": 12
+      },
+      "revId": "a4acb0f9b5afd0b9e99e8842297312790c229fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3b21b46_d6a69261",
         "filename": "src/encoding/binary/binary.go",
         "patchSetId": 1
