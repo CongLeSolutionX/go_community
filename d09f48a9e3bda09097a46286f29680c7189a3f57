@@ -16,6 +16,24 @@
       "revId": "d09f48a9e3bda09097a46286f29680c7189a3f57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "671e481c_713a75ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-09-01T13:17:28Z",
+      "side": 1,
+      "message": "Can you refine the commit message like:\n\nencoding/binary: remove TODO in Write and add benchmarks\n\nBenchmarks:\n...",
+      "parentUuid": "a3389d48_aeeb9eb2",
+      "revId": "d09f48a9e3bda09097a46286f29680c7189a3f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
