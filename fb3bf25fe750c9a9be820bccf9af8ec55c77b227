@@ -63,6 +63,24 @@
       "revId": "fb3bf25fe750c9a9be820bccf9af8ec55c77b227",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0239e8c8_99f4a4c8",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-01T19:49:02Z",
+      "side": 1,
+      "message": "Removed the comment.\n\nThis block used to traverse up to the root and then print to root.w, but it now calls t.chatty.Updatef instead, and t.chatty.Updatef always avoids extra indentation.\n\n(The destination of t.chatty happens to be the same as root.w, but t.chatty.Updatef seems more self-explanatory than writing to root.w to me.)",
+      "parentUuid": "c4350126_5ffbeeef",
+      "revId": "fb3bf25fe750c9a9be820bccf9af8ec55c77b227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
