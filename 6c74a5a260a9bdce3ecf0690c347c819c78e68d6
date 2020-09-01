@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b94b5a87_c3e572a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-01T12:33:51Z",
+      "side": 1,
+      "message": "Thanks for reviewing. I have changed the function name to getReciprocal and made some other corresponding changes.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
