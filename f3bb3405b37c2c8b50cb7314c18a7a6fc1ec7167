@@ -33,6 +33,24 @@
       "revId": "f3bb3405b37c2c8b50cb7314c18a7a6fc1ec7167",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c6ec6e_b3ed5d21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-09-01T09:25:36Z",
+      "side": 1,
+      "message": "I would change the CL to just remove the TODO and add benchmarks. But I think josharian@ should be able to comment if he agrees its fine to remove the TODO inlight of multiple CLs having tried to improve the performance here but none was satisfactory in terms of added Code and not regressing any other type.",
+      "parentUuid": "e8ef3179_84547b5b",
+      "revId": "f3bb3405b37c2c8b50cb7314c18a7a6fc1ec7167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
