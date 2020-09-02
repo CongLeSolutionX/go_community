@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4dfa30d_f41a65e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-09-02T16:28:08Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-amd64-race, linux-amd64-race, windows-amd64-race",
+      "revId": "7ee65127f886a753c83909a87c02a6093b2465b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
