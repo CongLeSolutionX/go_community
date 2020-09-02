@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8793e36f_829fb808",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-09-02T16:38:51Z",
+      "side": 1,
+      "message": "\u003e This change failed on linux-amd64-race:\n\u003e See https://storage.googleapis.com/go-build-log/89c368b9/linux-amd64-race_907af8e2.log\n\nThe TestTxCannotCommitAfterRollback failure is a known flaky test, issue 38597. It was fixed in Go 1.15.",
+      "revId": "89c368b92c490b18fc60ff3689521db1329043a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
