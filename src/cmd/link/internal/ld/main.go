@@ -36,7 +36,6 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/quoted"
 	"cmd/internal/sys"
-	"cmd/link/internal/benchmark"
 	"flag"
 	"internal/buildcfg"
 	"log"
@@ -60,6 +59,8 @@ func init() {
 
 // Flags used by the linker. The exported flags are used by the architecture-specific packages.
 var (
+	dumpSymsFlag = flag.String("dumpsymsat", "", "Dump symbols at selected phase(s).")
+
 	flagBuildid = flag.String("buildid", "", "record `id` as Go toolchain build id")
 
 	flagOutfile    = flag.String("o", "", "write output to `file`")
@@ -216,18 +217,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 		*flagBuildid = "go-openbsd"
 	}
 
-	// enable benchmarking
-	var bench *benchmark.Metrics
-	if len(*benchmarkFlag) != 0 {
-		if *benchmarkFlag == "mem" {
-			bench = benchmark.New(benchmark.GC, *benchmarkFileFlag)
-		} else if *benchmarkFlag == "cpu" {
-			bench = benchmark.New(benchmark.NoGC, *benchmarkFileFlag)
-		} else {
-			Errorf(nil, "unknown benchmark flag: %q", *benchmarkFlag)
-			usage()
-		}
-	}
+	bench := makeAtPhaseStart(ctxt)
 
 	bench.Start("libinit")
 	libinit(ctxt) // creates outfile
