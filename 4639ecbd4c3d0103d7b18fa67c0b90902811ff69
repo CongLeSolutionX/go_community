@@ -16,6 +16,23 @@
       "revId": "4639ecbd4c3d0103d7b18fa67c0b90902811ff69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801c047c_8d8143d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-09-02T16:02:30Z",
+      "side": 1,
+      "message": "The backport issue is now approved. We can submit this CL after it is reviewed.",
+      "revId": "4639ecbd4c3d0103d7b18fa67c0b90902811ff69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
