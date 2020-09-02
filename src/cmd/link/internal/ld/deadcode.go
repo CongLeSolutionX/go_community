@@ -342,6 +342,23 @@ func (d *deadcodePass) mapinitcleanup() {
 	}
 }
 
+func (d *deadcodePass) fmtSym(def string, symIdx loader.Sym) string {
+	f := ""
+	if symIdx != 0 {
+		f = d.ldr.SymName(symIdx)
+		if *dumpSymsFlag != "" {
+			f += fmt.Sprintf("[%d]", symIdx)
+		}
+		if f != "" && d.ldr.AttrUsedInIface(symIdx) {
+			f += " <UsedInIface>"
+		}
+	}
+	if f == "" {
+		f = def
+	}
+	return f
+}
+
 func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
 	if symIdx != 0 && !d.ldr.AttrReachable(symIdx) {
 		d.wq.push(symIdx)
@@ -366,6 +383,9 @@ func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
 
 func (d *deadcodePass) dumpDepAddFlags(name string, symIdx loader.Sym) string {
 	var flags strings.Builder
+	if *dumpSymsFlag != "" {
+		flags.WriteString(fmt.Sprintf("[%d]", symIdx))
+	}
 	if d.ldr.AttrUsedInIface(symIdx) {
 		flags.WriteString("<UsedInIface>")
 	}
