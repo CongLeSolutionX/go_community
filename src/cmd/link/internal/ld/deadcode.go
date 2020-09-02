@@ -307,6 +307,23 @@ func (d *deadcodePass) mapinitcleanup() {
 	}
 }
 
+func (d *deadcodePass) fmtSym(def string, symIdx loader.Sym) string {
+	f := ""
+	if symIdx != 0 {
+		f = d.ldr.SymName(symIdx)
+		if *dumpSymsFlag != "" {
+			f += fmt.Sprintf("[%d]", symIdx)
+		}
+		if f != "" && d.ldr.AttrUsedInIface(symIdx) {
+			f += " <UsedInIface>"
+		}
+	}
+	if f == "" {
+		f = def
+	}
+	return f
+}
+
 func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
 	if symIdx != 0 && !d.ldr.AttrReachable(symIdx) {
 		d.wq.push(symIdx)
@@ -315,19 +332,9 @@ func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
 			d.ldr.Reachparent[symIdx] = parent
 		}
 		if *flagDumpDep {
-			to := d.ldr.SymName(symIdx)
+			to := d.fmtSym("", symIdx)
 			if to != "" {
-				if d.ldr.AttrUsedInIface(symIdx) {
-					to += " <UsedInIface>"
-				}
-				from := "_"
-				if parent != 0 {
-					from = d.ldr.SymName(parent)
-					if d.ldr.AttrUsedInIface(parent) {
-						from += " <UsedInIface>"
-					}
-				}
-				fmt.Printf("%s -> %s\n", from, to)
+				fmt.Printf("%s -> %s\n", d.fmtSym("_", parent), to)
 			}
 		}
 	}
