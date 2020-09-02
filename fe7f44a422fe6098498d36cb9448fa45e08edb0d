@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "607e9527_ac4d377b",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-09-02T23:09:40Z",
+      "side": 1,
+      "message": "My impression is that almost all users that want to customize transport settings should start by cloning the default transport. If this is the case, then examples that start with an empty transport are likely to push users in the wrong direction.\n\nAn example which starts by cloning the default transport should also be trivially adaptable to using an empty transport, since the only difference will be the source of the transport.",
+      "parentUuid": "2199ee20_25f6222f",
+      "revId": "fe7f44a422fe6098498d36cb9448fa45e08edb0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d903e48a_e98fec79",
         "filename": "src/net/http/example_test.go",
         "patchSetId": 2

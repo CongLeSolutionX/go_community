@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5f88da8_8766a098",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-09-02T23:09:40Z",
+      "side": 1,
+      "message": "The package doc header states:\n\n  To explicitly enable HTTP/2 on a transport, use golang.org/x/net/http2 and call ConfigureTransport.\n\nAssuming that comment is still accurate the HTTP/2 examples should use that function.",
+      "revId": "da2ec5f6a5ffd65c425870e23138ec3e2a193700",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
