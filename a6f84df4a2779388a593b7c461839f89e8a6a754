@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf01efa6_81b77e98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-02T09:24:53Z",
+      "side": 1,
+      "message": "Guards the connection read with a mutex, because typeStdin\nasynchronously and concurrently writes to the underlying conn.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "a6f84df4a2779388a593b7c461839f89e8a6a754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4feaa218_d08e500c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-02T09:24:53Z",
+      "side": 1,
+      "message": "Thank you for this change Tzu-Chiao. I\u0027ve added a suggestion, please take a look!",
+      "revId": "a6f84df4a2779388a593b7c461839f89e8a6a754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
