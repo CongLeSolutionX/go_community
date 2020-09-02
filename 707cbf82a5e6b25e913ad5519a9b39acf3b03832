@@ -39,6 +39,30 @@
       "revId": "707cbf82a5e6b25e913ad5519a9b39acf3b03832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6384eb99_982cc77d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2549,
+      "author": {
+        "id": 35325
+      },
+      "writtenOn": "2020-09-02T12:43:02Z",
+      "side": 1,
+      "message": "Sorry, I just saw it today. I spent a lot of time still not sure how to make changes here, and I admit that I was a bit reckless.\nAccording to you, it is not reusable here. Do I need to add a new case? Let me talk about my guess:\nAdd the following code in optab:\n{FLDPQ, C_FREG, C_FREG, C_RSP, C_RSP, 101, 16, 0, 0, 0},\nAnd add in the function buildop:\ncase 101: /* FLDPQ \u003cQt1\u003e, \u003cQt2\u003e, [\u003cXn|SP\u003e], #\u003cimm\u003e */\n...\nI will continue to study this issue tomorrow. It is best if you can get your guidance.",
+      "parentUuid": "88a08d68_e79d432d",
+      "range": {
+        "startLine": 2549,
+        "startChar": 3,
+        "endLine": 2549,
+        "endChar": 24
+      },
+      "revId": "707cbf82a5e6b25e913ad5519a9b39acf3b03832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
