@@ -65,6 +65,29 @@
     },
     {
       "key": {
+        "uuid": "662d3e6a_22b49a6b",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-02T15:57:20Z",
+      "side": 1,
+      "message": "\"resolve modules for\"?",
+      "range": {
+        "startLine": 22,
+        "startChar": 65,
+        "endLine": 22,
+        "endChar": 75
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4f01278_2d6ce48b",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 21
@@ -81,6 +104,99 @@
         "startChar": 9,
         "endLine": 36,
         "endChar": 23
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ced9fb00_43279e54",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-02T15:57:20Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c4f01278_2d6ce48b",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6883f44_b5744300",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-02T15:57:20Z",
+      "side": 1,
+      "message": "should we mention allLevels earlier in this comment, so that the reader knows what they are by the time they reach this bullet point?",
+      "range": {
+        "startLine": 38,
+        "startChar": 10,
+        "endLine": 38,
+        "endChar": 55
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ae702bb_f09aa24c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-02T15:57:20Z",
+      "side": 1,
+      "message": "\"This helps satisfy\"?",
+      "range": {
+        "startLine": 54,
+        "startChar": 50,
+        "endLine": 54,
+        "endChar": 55
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46d8b3d_0602cb95",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-02T15:57:20Z",
+      "side": 1,
+      "message": "\"start a new interation\"?",
+      "range": {
+        "startLine": 73,
+        "startChar": 67,
+        "endLine": 73,
+        "endChar": 75
       },
       "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
