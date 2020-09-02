@@ -59,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "069791cb_55e82404",
+        "filename": "src/cmd/compile/internal/ssa/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-02T16:01:48Z",
+      "side": 1,
+      "message": "This doesn\u0027t really test anything (just that the top 32 bits are clean?). Maybe do _ \u003d opcodeTable[Op(v.AuxInt)]? That would at least check that it is a valid opcode.",
+      "revId": "d36277bc0c20187d415cd1e03ce0ebbe9ff48036",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e085575_65ccaf5c",
         "filename": "src/cmd/compile/internal/ssa/value.go",
         "patchSetId": 1
