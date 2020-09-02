@@ -35,7 +35,6 @@ import (
 	"cmd/internal/goobj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
-	"cmd/link/internal/benchmark"
 	"flag"
 	"internal/buildcfg"
 	"log"
@@ -98,6 +97,7 @@ var (
 	memprofilerate    = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
 	benchmarkFlag     = flag.String("benchmark", "", "set to 'mem' or 'cpu' to enable phase benchmarking")
 	benchmarkFileFlag = flag.String("benchmarkprofile", "", "emit phase profiles to `base`_phase.{cpu,mem}prof")
+	dumpSymsFlag      = flag.String("dumpsymsat", "", "Dump symbols at selected phase(s).")
 )
 
 // Main is the main entry point for the linker code.
@@ -196,18 +196,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 		*flagBuildid = "go-openbsd"
 	}
 
-	// enable benchmarking
-	var bench *benchmark.Metrics
-	if len(*benchmarkFlag) != 0 {
-		if *benchmarkFlag == "mem" {
-			bench = benchmark.New(benchmark.GC, *benchmarkFileFlag)
-		} else if *benchmarkFlag == "cpu" {
-			bench = benchmark.New(benchmark.NoGC, *benchmarkFileFlag)
-		} else {
-			Errorf(nil, "unknown benchmark flag: %q", *benchmarkFlag)
-			usage()
-		}
-	}
+	bench := makeAtPhaseStart(ctxt)
 
 	bench.Start("libinit")
 	libinit(ctxt) // creates outfile
