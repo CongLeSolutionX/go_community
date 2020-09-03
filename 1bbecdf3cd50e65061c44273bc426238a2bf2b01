@@ -16,6 +16,24 @@
       "revId": "1bbecdf3cd50e65061c44273bc426238a2bf2b01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a6b0113_12078997",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 38769
+      },
+      "writtenOn": "2020-09-03T20:37:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "666a3aab_4972754c",
+      "revId": "1bbecdf3cd50e65061c44273bc426238a2bf2b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
