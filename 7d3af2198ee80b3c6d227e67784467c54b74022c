@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "502bf045_4b306fdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-03T20:57:50Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "7d3af2198ee80b3c6d227e67784467c54b74022c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebf3a0c0_1b4b396c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1790,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-03T20:57:50Z",
+      "side": 1,
+      "message": "Given that it\u0027s executable, should this be 05 instead? I don\u0027t think it will make any difference in the generated code, but might improve readability at the callsite.",
+      "range": {
+        "startLine": 1790,
+        "startChar": 71,
+        "endLine": 1790,
+        "endChar": 73
+      },
+      "revId": "7d3af2198ee80b3c6d227e67784467c54b74022c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
