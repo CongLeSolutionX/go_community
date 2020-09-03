@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "666a3aab_4972754c",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-03T20:25:10Z",
+      "side": 1,
+      "message": "Needs a comment as to why. You can refer to the issue.",
+      "revId": "1bbecdf3cd50e65061c44273bc426238a2bf2b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
