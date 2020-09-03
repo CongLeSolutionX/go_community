@@ -69,6 +69,30 @@
 (Rsh16x64 x (Const64 [c])) && uint32(c) >= 16 => (SRAconst (SLLconst <typ.UInt32> x [16]) [31])
 (Rsh8x64  x (Const64 [c])) && uint32(c) >= 8  => (SRAconst (SLLconst <typ.UInt32> x [24]) [31])
 
+// Generic opt also rewrites constant shifts into shift by Const32
+(Lsh32x32  x (Const32 [c])) && uint32(c) < 32 => (SLLconst x [int32(c)])
+(Rsh32x32  x (Const32 [c])) && uint32(c) < 32 => (SRAconst x [int32(c)])
+(Rsh32Ux32 x (Const32 [c])) && uint32(c) < 32 => (SRLconst x [int32(c)])
+(Lsh16x32  x (Const32 [c])) && uint32(c) < 16 => (SLLconst x [int32(c)])
+(Rsh16x32  x (Const32 [c])) && uint32(c) < 16 => (SRAconst (SLLconst <typ.UInt32> x [16]) [int32(c+16)])
+(Rsh16Ux32 x (Const32 [c])) && uint32(c) < 16 => (SRLconst (SLLconst <typ.UInt32> x [16]) [int32(c+16)])
+(Lsh8x32   x (Const32 [c])) && uint32(c) < 8  => (SLLconst x [int32(c)])
+(Rsh8x32   x (Const32 [c])) && uint32(c) < 8  => (SRAconst (SLLconst <typ.UInt32> x [24]) [int32(c+24)])
+(Rsh8Ux32  x (Const32 [c])) && uint32(c) < 8  => (SRLconst (SLLconst <typ.UInt32> x [24]) [int32(c+24)])
+
+// large constant shifts
+(Lsh32x32 _ (Const32 [c]))  && uint32(c) >= 32 => (MOVWconst [0])
+(Rsh32Ux32 _ (Const32 [c])) && uint32(c) >= 32 => (MOVWconst [0])
+(Lsh16x32 _ (Const32 [c]))  && uint32(c) >= 16 => (MOVWconst [0])
+(Rsh16Ux32 _ (Const32 [c])) && uint32(c) >= 16 => (MOVWconst [0])
+(Lsh8x32 _ (Const32 [c]))   && uint32(c) >= 8  => (MOVWconst [0])
+(Rsh8Ux32 _ (Const32 [c]))  && uint32(c) >= 8  => (MOVWconst [0])
+
+// large constant signed right shift, we leave the sign bit
+(Rsh32x32 x (Const32 [c])) && uint32(c) >= 32 => (SRAconst x [31])
+(Rsh16x32 x (Const32 [c])) && uint32(c) >= 16 => (SRAconst (SLLconst <typ.UInt32> x [16]) [31])
+(Rsh8x32  x (Const32 [c])) && uint32(c) >= 8  => (SRAconst (SLLconst <typ.UInt32> x [24]) [31])
+
 // shifts
 // hardware instruction uses only the low 5 bits of the shift
 // we compare to 32 to ensure Go semantics for large shifts

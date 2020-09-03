@@ -1682,6 +1682,38 @@ func rewriteValueMIPS_OpLsh16x32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Lsh16x32 x (Const32 [c]))
+	// cond: uint32(c) < 16
+	// result: (SLLconst x [int32(c)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 16) {
+			break
+		}
+		v.reset(OpMIPSSLLconst)
+		v.AuxInt = int32ToAuxInt(int32(c))
+		v.AddArg(x)
+		return true
+	}
+	// match: (Lsh16x32 _ (Const32 [c]))
+	// cond: uint32(c) >= 16
+	// result: (MOVWconst [0])
+	for {
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 16) {
+			break
+		}
+		v.reset(OpMIPSMOVWconst)
+		v.AuxInt = int32ToAuxInt(0)
+		return true
+	}
 	// match: (Lsh16x32 <t> x y)
 	// result: (CMOVZ (SLL <t> x y) (MOVWconst [0]) (SGTUconst [32] y))
 	for {
@@ -1792,6 +1824,38 @@ func rewriteValueMIPS_OpLsh32x32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Lsh32x32 x (Const32 [c]))
+	// cond: uint32(c) < 32
+	// result: (SLLconst x [int32(c)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 32) {
+			break
+		}
+		v.reset(OpMIPSSLLconst)
+		v.AuxInt = int32ToAuxInt(int32(c))
+		v.AddArg(x)
+		return true
+	}
+	// match: (Lsh32x32 _ (Const32 [c]))
+	// cond: uint32(c) >= 32
+	// result: (MOVWconst [0])
+	for {
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 32) {
+			break
+		}
+		v.reset(OpMIPSMOVWconst)
+		v.AuxInt = int32ToAuxInt(0)
+		return true
+	}
 	// match: (Lsh32x32 <t> x y)
 	// result: (CMOVZ (SLL <t> x y) (MOVWconst [0]) (SGTUconst [32] y))
 	for {
@@ -1902,6 +1966,38 @@ func rewriteValueMIPS_OpLsh8x32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Lsh8x32 x (Const32 [c]))
+	// cond: uint32(c) < 8
+	// result: (SLLconst x [int32(c)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 8) {
+			break
+		}
+		v.reset(OpMIPSSLLconst)
+		v.AuxInt = int32ToAuxInt(int32(c))
+		v.AddArg(x)
+		return true
+	}
+	// match: (Lsh8x32 _ (Const32 [c]))
+	// cond: uint32(c) >= 8
+	// result: (MOVWconst [0])
+	for {
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 8) {
+			break
+		}
+		v.reset(OpMIPSMOVWconst)
+		v.AuxInt = int32ToAuxInt(0)
+		return true
+	}
 	// match: (Lsh8x32 <t> x y)
 	// result: (CMOVZ (SLL <t> x y) (MOVWconst [0]) (SGTUconst [32] y))
 	for {
@@ -5613,6 +5709,41 @@ func rewriteValueMIPS_OpRsh16Ux32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Rsh16Ux32 x (Const32 [c]))
+	// cond: uint32(c) < 16
+	// result: (SRLconst (SLLconst <typ.UInt32> x [16]) [int32(c+16)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 16) {
+			break
+		}
+		v.reset(OpMIPSSRLconst)
+		v.AuxInt = int32ToAuxInt(int32(c + 16))
+		v0 := b.NewValue0(v.Pos, OpMIPSSLLconst, typ.UInt32)
+		v0.AuxInt = int32ToAuxInt(16)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (Rsh16Ux32 _ (Const32 [c]))
+	// cond: uint32(c) >= 16
+	// result: (MOVWconst [0])
+	for {
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 16) {
+			break
+		}
+		v.reset(OpMIPSMOVWconst)
+		v.AuxInt = int32ToAuxInt(0)
+		return true
+	}
 	// match: (Rsh16Ux32 <t> x y)
 	// result: (CMOVZ (SRL <t> (ZeroExt16to32 x) y) (MOVWconst [0]) (SGTUconst [32] y))
 	for {
@@ -5733,6 +5864,46 @@ func rewriteValueMIPS_OpRsh16x32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Rsh16x32 x (Const32 [c]))
+	// cond: uint32(c) < 16
+	// result: (SRAconst (SLLconst <typ.UInt32> x [16]) [int32(c+16)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 16) {
+			break
+		}
+		v.reset(OpMIPSSRAconst)
+		v.AuxInt = int32ToAuxInt(int32(c + 16))
+		v0 := b.NewValue0(v.Pos, OpMIPSSLLconst, typ.UInt32)
+		v0.AuxInt = int32ToAuxInt(16)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (Rsh16x32 x (Const32 [c]))
+	// cond: uint32(c) >= 16
+	// result: (SRAconst (SLLconst <typ.UInt32> x [16]) [31])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 16) {
+			break
+		}
+		v.reset(OpMIPSSRAconst)
+		v.AuxInt = int32ToAuxInt(31)
+		v0 := b.NewValue0(v.Pos, OpMIPSSLLconst, typ.UInt32)
+		v0.AuxInt = int32ToAuxInt(16)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
 	// match: (Rsh16x32 x y)
 	// result: (SRA (SignExt16to32 x) ( CMOVZ <typ.UInt32> y (MOVWconst [-1]) (SGTUconst [32] y)))
 	for {
@@ -5855,6 +6026,38 @@ func rewriteValueMIPS_OpRsh32Ux32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Rsh32Ux32 x (Const32 [c]))
+	// cond: uint32(c) < 32
+	// result: (SRLconst x [int32(c)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 32) {
+			break
+		}
+		v.reset(OpMIPSSRLconst)
+		v.AuxInt = int32ToAuxInt(int32(c))
+		v.AddArg(x)
+		return true
+	}
+	// match: (Rsh32Ux32 _ (Const32 [c]))
+	// cond: uint32(c) >= 32
+	// result: (MOVWconst [0])
+	for {
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 32) {
+			break
+		}
+		v.reset(OpMIPSMOVWconst)
+		v.AuxInt = int32ToAuxInt(0)
+		return true
+	}
 	// match: (Rsh32Ux32 <t> x y)
 	// result: (CMOVZ (SRL <t> x y) (MOVWconst [0]) (SGTUconst [32] y))
 	for {
@@ -5964,6 +6167,40 @@ func rewriteValueMIPS_OpRsh32x32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Rsh32x32 x (Const32 [c]))
+	// cond: uint32(c) < 32
+	// result: (SRAconst x [int32(c)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 32) {
+			break
+		}
+		v.reset(OpMIPSSRAconst)
+		v.AuxInt = int32ToAuxInt(int32(c))
+		v.AddArg(x)
+		return true
+	}
+	// match: (Rsh32x32 x (Const32 [c]))
+	// cond: uint32(c) >= 32
+	// result: (SRAconst x [31])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 32) {
+			break
+		}
+		v.reset(OpMIPSSRAconst)
+		v.AuxInt = int32ToAuxInt(31)
+		v.AddArg(x)
+		return true
+	}
 	// match: (Rsh32x32 x y)
 	// result: (SRA x ( CMOVZ <typ.UInt32> y (MOVWconst [-1]) (SGTUconst [32] y)))
 	for {
@@ -6076,6 +6313,41 @@ func rewriteValueMIPS_OpRsh8Ux32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Rsh8Ux32 x (Const32 [c]))
+	// cond: uint32(c) < 8
+	// result: (SRLconst (SLLconst <typ.UInt32> x [24]) [int32(c+24)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 8) {
+			break
+		}
+		v.reset(OpMIPSSRLconst)
+		v.AuxInt = int32ToAuxInt(int32(c + 24))
+		v0 := b.NewValue0(v.Pos, OpMIPSSLLconst, typ.UInt32)
+		v0.AuxInt = int32ToAuxInt(24)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (Rsh8Ux32 _ (Const32 [c]))
+	// cond: uint32(c) >= 8
+	// result: (MOVWconst [0])
+	for {
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 8) {
+			break
+		}
+		v.reset(OpMIPSMOVWconst)
+		v.AuxInt = int32ToAuxInt(0)
+		return true
+	}
 	// match: (Rsh8Ux32 <t> x y)
 	// result: (CMOVZ (SRL <t> (ZeroExt8to32 x) y) (MOVWconst [0]) (SGTUconst [32] y))
 	for {
@@ -6196,6 +6468,46 @@ func rewriteValueMIPS_OpRsh8x32(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
+	// match: (Rsh8x32 x (Const32 [c]))
+	// cond: uint32(c) < 8
+	// result: (SRAconst (SLLconst <typ.UInt32> x [24]) [int32(c+24)])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) < 8) {
+			break
+		}
+		v.reset(OpMIPSSRAconst)
+		v.AuxInt = int32ToAuxInt(int32(c + 24))
+		v0 := b.NewValue0(v.Pos, OpMIPSSLLconst, typ.UInt32)
+		v0.AuxInt = int32ToAuxInt(24)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (Rsh8x32 x (Const32 [c]))
+	// cond: uint32(c) >= 8
+	// result: (SRAconst (SLLconst <typ.UInt32> x [24]) [31])
+	for {
+		x := v_0
+		if v_1.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(v_1.AuxInt)
+		if !(uint32(c) >= 8) {
+			break
+		}
+		v.reset(OpMIPSSRAconst)
+		v.AuxInt = int32ToAuxInt(31)
+		v0 := b.NewValue0(v.Pos, OpMIPSSLLconst, typ.UInt32)
+		v0.AuxInt = int32ToAuxInt(24)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
 	// match: (Rsh8x32 x y)
 	// result: (SRA (SignExt16to32 x) ( CMOVZ <typ.UInt32> y (MOVWconst [-1]) (SGTUconst [32] y)))
 	for {
