@@ -992,6 +992,7 @@ func mapclear(t *maptype, h *hmap) {
 	h.nevacuate = 0
 	h.noverflow = 0
 	h.count = 0
+	h.hash0 = fastrand()
 
 	// Keep the mapextra allocation but clear any extra information.
 	if h.extra != nil {
