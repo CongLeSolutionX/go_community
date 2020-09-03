@@ -6,6 +6,7 @@ package json
 
 import (
 	"bytes"
+	"errors"
 	"math"
 	"math/rand"
 	"reflect"
@@ -186,6 +187,17 @@ type indentErrorTest struct {
 var indentErrorTests = []indentErrorTest{
 	{`{"X": "foo", "Y"}`, &SyntaxError{"invalid character '}' after object key", 17}},
 	{`{"X": "foo" "Y": "bar"}`, &SyntaxError{"invalid character '\"' after object key:value pair", 13}},
+}
+
+func TestSyntaxErrorIs(t *testing.T) {
+	err := &SyntaxError{"some error", 43}
+	if !errors.Is(err, &SyntaxError{}) {
+		t.Errorf("%v should be a SyntaxError, but returned false", err)
+	}
+
+	if errors.Is(err, &UnmarshalTypeError{}) {
+		t.Errorf("%v should not be a UnmarshalTypeError, but returned true", err)
+	}
 }
 
 func TestIndentErrors(t *testing.T) {
