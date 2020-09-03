@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e9afab4_1b1fef38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-03T20:59:50Z",
+      "side": 1,
+      "message": "LGTM. \n\nAny idea when we will have a darwin/arm64 builder?",
+      "revId": "3463357fca4892ebc87b766a1ba41b4809745368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
