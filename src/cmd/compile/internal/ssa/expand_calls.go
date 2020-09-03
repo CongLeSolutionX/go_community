@@ -40,7 +40,7 @@ func expandCalls(f *Func) {
 	if !LateCallExpansionEnabledWithin(f) {
 		return
 	}
-	debug := f.pass.debug > 1
+	debug := f.pass.debug > 0
 
 	canSSAType := f.fe.CanSSA
 	regSize := f.Config.RegSize
@@ -76,6 +76,10 @@ func expandCalls(f *Func) {
 		}
 		et := t.Etype
 		switch et {
+		case types.TINT64, types.TUINT64:
+			return regSize == 4
+		case types.TINTER, types.TSTRING, types.TSLICE, types.TCOMPLEX64, types.TCOMPLEX128:
+			return true
 		case types.TARRAY, types.TSTRUCT:
 			return true
 		}
@@ -108,7 +112,7 @@ func expandCalls(f *Func) {
 		return v
 	}
 
-	// rewriteSelect recursively walks through a chain of Struct/Array Select
+	// rewriteSelect recursively walks through a chain of Struct/Array/Builtin Select
 	// operations until a select from call results is reached.  It emits the
 	// code necessary to implement the leaf select operation that leads to the call.
 	var rewriteSelect func(v *Value, sel *Value, offset int64, t *types.Type)
@@ -157,6 +161,26 @@ func expandCalls(f *Func) {
 			w := sel.Args[0]
 			rewriteSelect(v, w, offset+sel.Type.Size()*sel.AuxInt, t)
 
+		case OpInt64Hi:
+			w := sel.Args[0]
+			rewriteSelect(v, w, offset+hiOffset, t)
+
+		case OpInt64Lo:
+			w := sel.Args[0]
+			rewriteSelect(v, w, offset+lowOffset, t)
+
+		case OpStringPtr, OpSlicePtr, OpITab, OpComplexReal:
+			rewriteSelect(v, sel.Args[0], offset, t)
+
+		case OpStringLen, OpSliceLen, OpIData:
+			rewriteSelect(v, sel.Args[0], offset+ptrSize, t)
+
+		case OpSliceCap:
+			rewriteSelect(v, sel.Args[0], offset+2*ptrSize, t)
+
+		case OpComplexImag:
+			rewriteSelect(v, sel.Args[0], offset+t.Width, t) // result is FloatNN, width of result is offset of imaginary part.
+
 		case OpCopy: // If it's an intermediate result, recurse
 			rewriteSelect(v, sel.Args[0], offset, t)
 
@@ -169,6 +193,10 @@ func expandCalls(f *Func) {
 	// smaller types into individual parameter slots.
 	var storeArg func(pos src.XPos, b *Block, a *Value, t *types.Type, offset int64, mem *Value) *Value
 	storeArg = func(pos src.XPos, b *Block, a *Value, t *types.Type, offset int64, mem *Value) *Value {
+		if debug {
+			fmt.Printf("\tstoreArg(%s;  %s;  %v;  %d;  %s)\n", b, a.LongString(), t, offset, mem.String())
+		}
+
 		switch a.Op {
 		case OpArrayMake0, OpStructMake0:
 			return mem
@@ -214,7 +242,7 @@ func expandCalls(f *Func) {
 		dst := offsetFrom(sp, offset, types.NewPtr(t))
 		x := b.NewValue3A(pos, OpStore, types.TypeMem, t, dst, a, mem)
 		if debug {
-			fmt.Printf("storeArg(%v) returns %s\n", a, x.LongString())
+			fmt.Printf("\t\tstoreArg returns %s\n", x.LongString())
 		}
 		return x
 	}
@@ -224,16 +252,25 @@ func expandCalls(f *Func) {
 	// This has to handle aggregate types that have already been lowered by an earlier phase.
 	var splitStore func(dest, source, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value
 	splitStore = func(dest, source, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value {
+		if debug {
+			fmt.Printf("\tsplitStore(%s;  %s;  %s;  %s;  %v;  %d;  %v)\n", dest.LongString(), source.LongString(), mem.String(), v.LongString(), t, offset, firstStorePos)
+		}
 		pos := v.Pos.WithNotStmt()
 		switch t.Etype {
 		case types.TARRAY:
 			elt := t.Elem()
+			// TODO is the commented code necessary? Test by stuffing struct {[1]uintptr} into an interface.
+			//if elt.Width == t.Width && t.Width <= regSize {
+			//	// handle array version of (StructSelect [0] (IData x)) => (IData x)
+			//	return splitStore(dest, source, mem, v, elt, offset, firstStorePos)
+			//}
 			for i := int64(0); i < t.NumElem(); i++ {
 				sel := source.Block.NewValue1I(pos, OpArraySelect, elt, i, source)
 				mem = splitStore(dest, sel, mem, v, elt, offset+i*elt.Width, firstStorePos)
 				firstStorePos = firstStorePos.WithNotStmt()
 			}
 			return mem
+
 		case types.TSTRUCT:
 			if t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width <= regSize {
 				// handle (StructSelect [0] (IData x)) => (IData x)
@@ -246,13 +283,63 @@ func expandCalls(f *Func) {
 				firstStorePos = firstStorePos.WithNotStmt()
 			}
 			return mem
+
+		case types.TINT64, types.TUINT64:
+			if t.Width == regSize {
+				break
+			}
+			tHi, tLo := intPairTypes(t.Etype)
+			sel := source.Block.NewValue1(pos, OpInt64Hi, tHi, source)
+			mem = splitStore(dest, sel, mem, v, tHi, offset+hiOffset, firstStorePos)
+			firstStorePos = firstStorePos.WithNotStmt()
+			sel = source.Block.NewValue1(pos, OpInt64Lo, tLo, source)
+			return splitStore(dest, sel, mem, v, tLo, offset+lowOffset, firstStorePos)
+
+		case types.TINTER:
+			sel := source.Block.NewValue1(pos, OpITab, typ.BytePtr, source)
+			mem = splitStore(dest, sel, mem, v, typ.BytePtr, offset, firstStorePos)
+			firstStorePos = firstStorePos.WithNotStmt()
+			sel = source.Block.NewValue1(pos, OpIData, typ.BytePtr, source)
+			return splitStore(dest, sel, mem, v, typ.BytePtr, offset+ptrSize, firstStorePos)
+
+		case types.TSTRING:
+			sel := source.Block.NewValue1(pos, OpStringPtr, typ.BytePtr, source)
+			mem = splitStore(dest, sel, mem, v, typ.BytePtr, offset, firstStorePos)
+			firstStorePos = firstStorePos.WithNotStmt()
+			sel = source.Block.NewValue1(pos, OpStringLen, typ.Int, source)
+			return splitStore(dest, sel, mem, v, typ.Int, offset+ptrSize, firstStorePos)
+
+		case types.TSLICE:
+			et := types.NewPtr(t.Elem())
+			sel := source.Block.NewValue1(pos, OpSlicePtr, et, source)
+			mem = splitStore(dest, sel, mem, v, et, offset, firstStorePos)
+			firstStorePos = firstStorePos.WithNotStmt()
+			sel = source.Block.NewValue1(pos, OpSliceLen, typ.Int, source)
+			mem = splitStore(dest, sel, mem, v, typ.Int, offset+ptrSize, firstStorePos)
+			sel = source.Block.NewValue1(pos, OpSliceCap, typ.Int, source)
+			return splitStore(dest, sel, mem, v, typ.Int, offset+2*ptrSize, firstStorePos)
+
+		case types.TCOMPLEX64:
+			sel := source.Block.NewValue1(pos, OpComplexReal, typ.Float32, source)
+			mem = splitStore(dest, sel, mem, v, typ.Float32, offset, firstStorePos)
+			firstStorePos = firstStorePos.WithNotStmt()
+			sel = source.Block.NewValue1(pos, OpComplexImag, typ.Float32, source)
+			return splitStore(dest, sel, mem, v, typ.Float32, offset+4, firstStorePos)
+
+		case types.TCOMPLEX128:
+			sel := source.Block.NewValue1(pos, OpComplexReal, typ.Float64, source)
+			mem = splitStore(dest, sel, mem, v, typ.Float64, offset, firstStorePos)
+			firstStorePos = firstStorePos.WithNotStmt()
+			sel = source.Block.NewValue1(pos, OpComplexImag, typ.Float64, source)
+			return splitStore(dest, sel, mem, v, typ.Float64, offset+8, firstStorePos)
 		}
 		// Default, including for aggregates whose single element exactly fills their container
 		// TODO this will be a problem for cast interfaces containing floats when we move to registers.
 		x := v.Block.NewValue3A(firstStorePos, OpStore, types.TypeMem, t, offsetFrom(dest, offset, types.NewPtr(t)), source, mem)
 		if debug {
-			fmt.Printf("splitStore(%v, %v, %v, %v) returns %s\n", dest, source, mem, v, x.LongString())
+			fmt.Printf("\t\tsplitStore returns %s\n", x.LongString())
 		}
+
 		return x
 	}
 
@@ -291,6 +378,9 @@ func expandCalls(f *Func) {
 					mem.AuxInt = aux.SizeOfArg(auxI)
 				}
 			} else {
+				if debug {
+					fmt.Printf("storeArg %s, %v, %d\n", a.LongString(), aux.TypeOfArg(auxI), aux.OffsetOfArg(auxI))
+				}
 				mem = storeArg(pos, v.Block, a, aux.TypeOfArg(auxI), aux.OffsetOfArg(auxI), mem)
 			}
 		}
@@ -298,41 +388,7 @@ func expandCalls(f *Func) {
 		return mem
 	}
 
-	// splitSelectInPlace replaces a select of an aggregate type that has two parts,
-	// with a FooMake of the loads of those two parts.
-	splitSelectInPlace := func(v *Value, combine Op, t1, t2 *types.Type, off1, off2 int64) {
-		call := v.Args[0] // will become a mem operand, later
-		which := v.AuxInt
-		aux := call.Aux.(*AuxCall)
-		t := v.Type
-		pos := v.Pos
-		offset := aux.OffsetOfResult(which)
-		first := offsetFrom(sp, offset+off1, types.NewPtr(t1))
-		second := offsetFrom(sp, offset+off2, types.NewPtr(t2))
-		v.reset(combine)
-		v.Pos = pos
-		v.SetArgs2(call.Block.NewValue2(v.Pos, OpLoad, t1, first, call),
-			call.Block.NewValue2(v.Pos, OpLoad, t2, second, call))
-		v.Type = t
-	}
-
-	splitSelectInPlace3 := func(v *Value, combine Op, t1, t2, t3 *types.Type, off1, off2, off3 int64) {
-		call := v.Args[0] // will become a mem operand, later
-		which := v.AuxInt
-		aux := call.Aux.(*AuxCall)
-		t := v.Type
-		pos := v.Pos
-		offset := aux.OffsetOfResult(which)
-		first := offsetFrom(sp, offset+off1, types.NewPtr(t1))
-		second := offsetFrom(sp, offset+off2, types.NewPtr(t2))
-		third := offsetFrom(sp, offset+off3, types.NewPtr(t3))
-		v.reset(combine)
-		v.Pos = pos
-		v.SetArgs3(call.Block.NewValue2(v.Pos, OpLoad, t1, first, call),
-			call.Block.NewValue2(v.Pos, OpLoad, t2, second, call),
-			call.Block.NewValue2(v.Pos, OpLoad, t3, third, call))
-		v.Type = t
-	}
+	// TODO if too slow, whole program iteration can be replaced w/ slices of appropriate values, accumulated in first loop here.
 
 	// Step 0: rewrite the calls to convert incoming args to stores.
 	for _, b := range f.Blocks {
@@ -370,6 +426,9 @@ func expandCalls(f *Func) {
 					}
 				}
 				if iAEATt {
+					if debug {
+						fmt.Printf("Splitting store %s\n", v.LongString())
+					}
 					dst, src, mem := v.Args[0], v.Args[1], v.Args[2]
 					mem = splitStore(dst, src, mem, v, t, 0, v.Pos)
 					v.copyOf(mem)
@@ -391,7 +450,12 @@ func expandCalls(f *Func) {
 		for _, v := range b.Values {
 			// Accumulate chains of selectors for processing in topological order
 			switch v.Op {
-			case OpStructSelect, OpArraySelect:
+			case OpStructSelect, OpArraySelect,
+				OpIData, OpITab,
+				OpStringPtr, OpStringLen,
+				OpSlicePtr, OpSliceLen, OpSliceCap,
+				OpComplexReal, OpComplexImag,
+				OpInt64Hi, OpInt64Lo:
 				w := v.Args[0]
 				switch w.Op {
 				case OpStructSelect, OpArraySelect, OpSelectN:
@@ -408,42 +472,13 @@ func expandCalls(f *Func) {
 				}
 
 			case OpSelectN:
-				switch v.Type.Etype {
-				// Types that have not yet been decomposed, simply split and remake in place, from pieces.
-				case types.TINTER:
-					splitSelectInPlace(v, OpIMake, typ.Uintptr, typ.BytePtr, 0, ptrSize)
-					continue
-				case types.TCOMPLEX64:
-					splitSelectInPlace(v, OpComplexMake, typ.Float32, typ.Float32, 0, 4)
-					continue
-				case types.TCOMPLEX128:
-					splitSelectInPlace(v, OpComplexMake, typ.Float64, typ.Float64, 0, 8)
-					continue
-
-				case types.TSTRING: // TODO
-					splitSelectInPlace(v, OpStringMake, typ.BytePtr, typ.Int, 0, ptrSize)
-					continue
-
-				case types.TINT64, types.TUINT64: // for 32-bit
-					t := v.Type
-					if t.Width != regSize { // split into a pair of loads.
-						tHi, tLo := intPairTypes(t.Etype)
-						splitSelectInPlace(v, OpInt64Make, tHi, tLo, hiOffset, lowOffset)
-						continue
-					}
-
-				case types.TSLICE: // TODO
-					splitSelectInPlace3(v, OpSliceMake, typ.BytePtr, typ.Int, typ.Int, 0, ptrSize, 2*ptrSize)
-					continue
-
-				}
-
 				if _, ok := val2Preds[v]; !ok {
 					val2Preds[v] = 0
 					if debug {
 						fmt.Printf("v2p[%s] = %d\n", v.LongString(), val2Preds[v])
 					}
 				}
+
 			case OpSelectNAddr:
 				// Do these directly, there are no chains of selectors.
 				call := v.Args[0]
@@ -529,6 +564,16 @@ func expandCalls(f *Func) {
 			offset = size * v.AuxInt
 		case OpSelectN:
 			offset = w.Aux.(*AuxCall).OffsetOfResult(v.AuxInt)
+		case OpInt64Hi:
+			offset = hiOffset
+		case OpInt64Lo:
+			offset = lowOffset
+		case OpStringLen, OpSliceLen, OpIData:
+			offset = ptrSize
+		case OpSliceCap:
+			offset = 2 * ptrSize
+		case OpComplexImag:
+			offset = size
 		}
 		sk := selKey{from: w, size: size, offset: offset, typ: typ.Etype}
 		dupe := common[sk]
@@ -544,6 +589,7 @@ func expandCalls(f *Func) {
 			}
 		}
 	}
+
 	// Rewrite selectors.
 	for i, v := range allOrdered {
 		if debug {
