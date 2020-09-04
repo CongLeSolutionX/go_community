@@ -148,6 +148,30 @@
     },
     {
       "key": {
+        "uuid": "c3d660d8_52d8e800",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "I don\u0027t think my suggestion had anything to do with pcln\u0027s size, just with the linker\u0027s memory use. I only meant to consider changing the inlSyms slice constructed by this function from a slice with potentially many 0s in it, to a map[loader.Sym]loader.Sym. I think that\u0027s a win if roughly 75% or more slots are 0. But maybe the slice is small enough that it doesn\u0027t matter either way.",
+      "parentUuid": "c2ad36d8_ec58da24",
+      "range": {
+        "startLine": 233,
+        "startChar": 3,
+        "endLine": 233,
+        "endChar": 25
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a25579e3_4de99580",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -464,6 +488,24 @@
     },
     {
       "key": {
+        "uuid": "b9441502_8cce4aad",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Sorry, I think I meant a different symbol, rather than section. All of the other symbols that comprise the pclntab now are pretty homogeneous, so it seems odd that the functab has both the lookup table and the data. But maybe it\u0027s fine since you can\u0027t do anything with the data without the lookup table.",
+      "parentUuid": "d4443ee1_6be2dd4b",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "380cfc3a_c4eb2900",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -602,6 +644,30 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab23b22_5b61dfd8",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Hmm. I don\u0027t *think* I\u0027m being inconsistent. IIRC, the functions I asked you to rename before really were \"walk\" functions in the sense of \"I\u0027ll call this callback for each thing in this collection, but I\u0027m completely agnostic to what it\u0027s going to do.\" In a language with an iterator protocol or generators or something, you\u0027d probably use that and the \"caller\" would actually be a loop.\n\nThis function is *not* that. Yes, this takes a few callbacks that supply some details, but this function is very aware of what it\u0027s doing and what its output is going to look like.",
+      "parentUuid": "13a61a05_1fcf3d46",
+      "range": {
+        "startLine": 601,
+        "startChar": 5,
+        "endLine": 601,
+        "endChar": 17
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
@@ -754,6 +820,48 @@
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa1f9942_144cd44a",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Same reply to your reply :D",
+      "parentUuid": "956f88ed_f5af7642",
+      "range": {
+        "startLine": 640,
+        "startChar": 22,
+        "endLine": 640,
+        "endChar": 34
+      },
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8f0bf74_e5059a85",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Okay, I understand this now. It\u0027s probably worth giving a bit of this justification in the doc comment for walkFuncData since it is a bit subtle. Just a sentence like \"The output of this is interwoven with writeFuncs, but this is a separate function because it\u0027s needed in different passes of generateFunctab.\"",
+      "parentUuid": "d9227bb8_20db0e4f",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
@@ -980,6 +1088,24 @@
     },
     {
       "key": {
+        "uuid": "3da4515f_2dd611c5",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "I do, when I\u0027m doing a code review. :)",
+      "parentUuid": "0a8d61bd_f20b83c5",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "121579e5_8c854b21",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 5
@@ -1009,6 +1135,24 @@
       "side": 1,
       "message": "It\u0027s a compromise. In Cherry\u0027s review she said, \"the return values are never used, don\u0027t include them.\" I\u0027ll move BACK to that API.",
       "parentUuid": "121579e5_8c854b21",
+      "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8050e05a_48505fd7",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Sorry, that wasn\u0027t at all what I meant in my comment. Since I totally hadn\u0027t understood the two-pass structure, I\u0027d missed that the other pass used a different setUint closure. What I was trying to ask was \"why can\u0027t walkPcToFunc and walkFuncData just call s.SetUint directly?\" but now I understand.\n\nAs for the return value, I think it\u0027s fine either way.",
+      "parentUuid": "5042584b_7441be4d",
       "revId": "2001350e24187ab3f5ef3d7e023181df040a9c36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

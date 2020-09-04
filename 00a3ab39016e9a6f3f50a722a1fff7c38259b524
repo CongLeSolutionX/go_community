@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcc32d89_e62b223f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Can you also include change in TotalTime?",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c862da9d_edfb9d21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Getting pretty close! I\u0027m excited to see this land. (And, sorry, I realize today was basically a pessimal day for me to get to this.)",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1245af76_56927807",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "There are a lot of negatives in this comment. Maybe \"// For static, internally linked binaries, all symbol values in the funcdata are known, so we don\u0027t need to call this at all in that case.\" or something.",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4bb819e_3703273a",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Now I know why I\u0027m so confused about what the \"offsets\" are here. At least on linux/amd64, they\u0027re *always* zero. I didn\u0027t try to prove this in the code, though, so maybe this isn\u0027t the case on all platforms.\n\nAnyway, I think it\u0027s fine to leave this, but maybe add a TODO to simply this by removing the unused offsets.",
+      "range": {
+        "startLine": 614,
+        "startChar": 3,
+        "endLine": 614,
+        "endChar": 60
+      },
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cd90c44_9533d043",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Document that these are scratch space that may be used for the return values.",
+      "range": {
+        "startLine": 618,
+        "startChar": 53,
+        "endLine": 618,
+        "endChar": 88
+      },
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0002501c_2612c9cc",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "Your code doesn\u0027t use size any more, so you can delete this block.\n\n(Previously, you used \"size\" to allocate fdSyms and fdOffs to the right size, accounting for FUNCDATA_InlTree. That was why I said the newFdsyms/newFdoffs code below was unnecessary. It was literally unreachable. But now that you\u0027ve replaced the reallocation of fdSyms/fdOffs with an append loop [which is good], the newFdsyms/newFdoffs code below *is* necessary and size isn\u0027t.)",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ec98c0c_3ee34528",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "It\u0027s rather unfortunate that we\u0027re frequently going to allocate here, even though fdSyms will already have enough space for this.\n\n  if len(fdSyms) \u003c objabi.FUNCDATA_InlTree+1 {\n    fdSyms \u003d append(fdSyms, make([]loader.Sym, objabi.FUNCDATA_InlTree + 1 - len(fdSyms))...)\n    fdOffs \u003d append(fdOffs, make([]int64, objabi.FUNCDATA_InlTree + 1 - len(fdOffs))...)\n  }\n\nIt looks ugly, but the compiler recognizes this pattern and optimizes away the allocation when the slice has sufficient capacity.",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a88170fb_c4297636",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "I think this is actually computing the size of the functab?",
+      "range": {
+        "startLine": 645,
+        "startChar": 3,
+        "endLine": 645,
+        "endChar": 55
+      },
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bb960d1_92a1f382",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 1,
+      "message": "I think we\u0027d actually want module-relative offsets rather than CU-relative offsets. I think CU-relative offsets would introduce an extra step in lookup, and I don\u0027t think there\u0027s any disadvantage to using module-relative for this.",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

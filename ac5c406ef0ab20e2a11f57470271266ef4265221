@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682c2aa1_ba67658f",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1937,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T15:04:38Z",
+      "side": 0,
+      "message": "Was this deletion intentional? The old API seemed preferable, since it would reuse the slice whenever possible, but always return a slice where the 0th FUNCDATA was at index 0. Now this is \"AppendFuncdata\", which breaks the simple indexing into the result. Looking at the call in pcln.go, the old code here should have worked fine.",
+      "revId": "ac5c406ef0ab20e2a11f57470271266ef4265221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
