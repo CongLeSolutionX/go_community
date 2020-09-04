@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "8a181bf7_7928a094",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-04T22:03:56Z",
+      "side": 1,
+      "message": "I ran the kubelet benchmark on this on top of the latest dev.link tip (5402d40d5b) and I think something isn\u0027t quite right. While it did speed up Pclntab a little, Asmb slowed down by a factor of 2, causing an overall ~7% time regression. That kind of tells me we\u0027re creating a lot of relocations we weren\u0027t before.\n\nIt reduced the live-B delta more: -22% from 36.4 MiB to 28.5 MiB. Of the remaining 28.5 MiB, 41% is relocations from walkFuncData, 28% is from makeInlSyms, and 13% is from generateFuncnametab. The absolute numbers on these didn\u0027t really change, so I think this is all expected, at least.",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1245af76_56927807",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 7
