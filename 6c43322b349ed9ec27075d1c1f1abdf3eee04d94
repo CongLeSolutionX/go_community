@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "6f524b86_4a169719",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-05T19:00:51Z",
+      "side": 1,
+      "message": "You can remove \"Worth to note\", it doesn\u0027t add anything useful for future readers.",
+      "revId": "6c43322b349ed9ec27075d1c1f1abdf3eee04d94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52b5754_ef573705",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-05T19:00:51Z",
+      "side": 1,
+      "message": "Break the line, and end with a period.",
+      "revId": "6c43322b349ed9ec27075d1c1f1abdf3eee04d94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a39e7e91_ce4527b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-05T19:00:51Z",
+      "side": 1,
+      "message": "Change \"Closes\" to \"Fixes\".  See https://golang.org/wiki/CommitMessage.",
+      "revId": "6c43322b349ed9ec27075d1c1f1abdf3eee04d94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6da02398_0f51f0ee",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -16,6 +67,40 @@
       "revId": "6c43322b349ed9ec27075d1c1f1abdf3eee04d94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed2c6c84_b37f644f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-05T19:00:51Z",
+      "side": 1,
+      "message": "This change should have some sort of test.",
+      "revId": "6c43322b349ed9ec27075d1c1f1abdf3eee04d94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a307135_80d15c31",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-05T19:00:51Z",
+      "side": 1,
+      "message": "Drop \"is the *tls.Config\", people can see that from the type.\n\nPeriods at end of sentences, like the existing comments.",
+      "revId": "6c43322b349ed9ec27075d1c1f1abdf3eee04d94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
