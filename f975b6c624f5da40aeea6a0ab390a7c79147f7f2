@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a25974a_c138a275",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-06T04:53:18Z",
+      "side": 1,
+      "message": "Thank you Ainar for this change! LGTM.",
+      "revId": "f975b6c624f5da40aeea6a0ab390a7c79147f7f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
