@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f0f4011_dd3fd81d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-09-06T09:50:28Z",
+      "side": 1,
+      "message": "Friendly ping once more :) This has missed two merge windows already. Joe, do you have time to look at this this cycle?\n\nIf Joe doesn\u0027t have time, I would argue that this should be rebased and merged this cycle anyway, because it is a good change in an objective way (as per the tests).",
+      "revId": "b64d28b11a5a6bebe014ab741fe125c9ac205289",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
