@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6abea6b_ce421384",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-09-06T10:17:48Z",
+      "side": 1,
+      "message": "I started reviewing this and was about to argue about the API design, but then thought that GitHub would be a better place to do so: https://github.com/golang/go/issues/5901#issuecomment-687747107",
+      "revId": "61c1008fe35f8ad378fef7569f29e33ad2c7a31f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
