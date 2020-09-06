@@ -120,3 +120,10 @@ func ExampleStrings() {
 	fmt.Println(s)
 	// Output: [Alpha Bravo Delta Go Gopher Grin]
 }
+
+func ExampleSearchInts() {
+	array := []int{3, 2, 1}
+	sort.Ints(array)
+	fmt.Println(sort.SearchInts(array, 2))
+	// Output: 1
+}
