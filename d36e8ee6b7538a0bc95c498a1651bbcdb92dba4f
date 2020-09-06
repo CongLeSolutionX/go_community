@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71afb41d_41f85692",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-06T22:12:42Z",
+      "side": 1,
+      "message": "Please don\u0027t update the CONTRIBUTORS file in the same change.  Please do it separately.  Thanks.",
+      "revId": "d36e8ee6b7538a0bc95c498a1651bbcdb92dba4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
