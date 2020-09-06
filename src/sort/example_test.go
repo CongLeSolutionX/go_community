@@ -120,3 +120,9 @@ func ExampleStrings() {
 	fmt.Println(s)
 	// Output: [Alpha Bravo Delta Go Gopher Grin]
 }
+
+func ExampleSearchInts() {
+	s := []int{2, 5, 11}                // The slice must be sorted in ascending order.
+	fmt.Println(sort.SearchInts(s, 90)) // if x is not present (it could be len(a)).
+	// Output: 3
+}
