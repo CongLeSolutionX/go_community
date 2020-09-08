@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "212b43fb_777a0717",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-08T21:59:05Z",
+      "side": 1,
+      "message": "Please remove this line from the commit message.\n\nIn fact, please remove the next paragraph as well, it doesn\u0027t add anything.\n\n(See https://golang.org/wiki/CommitMessage.)",
+      "revId": "e3999eb37b0597e042d6dfe26eaa1bfd8d9df1ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bef770e_fd8c5879",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -16,6 +33,23 @@
       "revId": "e3999eb37b0597e042d6dfe26eaa1bfd8d9df1ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e23d120_ea522b9d",
+        "filename": "src/sort/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-08T21:59:05Z",
+      "side": 1,
+      "message": "I think it would be better to start with a sorted array, perhaps with a comment pointing out that the array is sorted.  Right now I think it\u0027s not obvious what the answer 1 means.  So it might help to provide a comment for that as well.",
+      "revId": "e3999eb37b0597e042d6dfe26eaa1bfd8d9df1ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
