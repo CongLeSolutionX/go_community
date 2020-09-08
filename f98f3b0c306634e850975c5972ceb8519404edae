@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61c53df8_e7d676d0",
+        "filename": "src/runtime/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-08T17:05:03Z",
+      "side": 0,
+      "message": "I think this line should remain. Otherwise, looks good.",
+      "revId": "f98f3b0c306634e850975c5972ceb8519404edae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

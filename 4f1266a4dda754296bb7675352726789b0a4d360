@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "958df7a5_4df3e82f",
+        "filename": "src/runtime/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-08T17:05:03Z",
+      "side": 1,
+      "message": "returned by",
+      "range": {
+        "startLine": 14,
+        "startChar": 13,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "4f1266a4dda754296bb7675352726789b0a4d360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
