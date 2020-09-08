@@ -538,21 +538,32 @@ func BenchmarkCopyFat1024(b *testing.B) {
 	}
 }
 
+// The following test memmove uses 4, and 8 byte load/store to move 4, and 8 bytes.
+// It used to do 2 2-byte load/stores, which leads to a pipeline stall
+// when we try to read the result with one 4-byte load.
 func BenchmarkIssue18740(b *testing.B) {
-	// This tests that memmove uses one 4-byte load/store to move 4 bytes.
-	// It used to do 2 2-byte load/stores, which leads to a pipeline stall
-	// when we try to read the result with one 4-byte load.
-	var buf [4]byte
-	for j := 0; j < b.N; j++ {
-		s := uint32(0)
-		for i := 0; i < 4096; i += 4 {
-			copy(buf[:], g[i:])
-			s += binary.LittleEndian.Uint32(buf[:])
-		}
-		sink = uint64(s)
+	benchmarks := []struct {
+		name  string
+		nbyte int
+		s     uint64
+		f     func([]byte) uint64
+	}{
+		{"2byte", 2, 0, func(buf []byte) uint64 { return uint64(binary.LittleEndian.Uint16(buf)) }},
+		{"4byte", 4, 0, func(buf []byte) uint64 { return uint64(binary.LittleEndian.Uint32(buf)) }},
+		{"8byte", 8, 0, func(buf []byte) uint64 { return uint64(binary.LittleEndian.Uint64(buf)) }},
+	}
+
+	var g [4096]byte
+	for _, bm := range benchmarks {
+		buf := make([]byte, bm.nbyte)
+		b.Run(bm.name, func(b *testing.B) {
+			for j := 0; j < b.N; j++ {
+				for i := 0; i < 4096; i += bm.nbyte {
+					copy(buf[:], g[i:])
+					bm.s += bm.f(buf[:])
+				}
+				sink = bm.s
+			}
+		})
 	}
 }
-
-// TODO: 2 byte and 8 byte benchmarks also.
-
-var g [4096]byte
