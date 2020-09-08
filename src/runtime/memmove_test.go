@@ -538,10 +538,22 @@ func BenchmarkCopyFat1024(b *testing.B) {
 	}
 }
 
-func BenchmarkIssue18740(b *testing.B) {
-	// This tests that memmove uses one 4-byte load/store to move 4 bytes.
-	// It used to do 2 2-byte load/stores, which leads to a pipeline stall
-	// when we try to read the result with one 4-byte load.
+// The following test memmove uses 4, and 8 byte load/store to move 4, and 8 bytes.
+// It used to do 2 2-byte load/stores, which leads to a pipeline stall
+// when we try to read the result with one 4-byte load.
+func BenchmarkIssue18740_2byte(b *testing.B) {
+	var buf [2]byte
+	for j := 0; j < b.N; j++ {
+		s := uint16(0)
+		for i := 0; i < 4096; i += 2 {
+			copy(buf[:], g[i:])
+			s += binary.LittleEndian.Uint16(buf[:])
+		}
+		sink = uint64(s)
+	}
+}
+
+func BenchmarkIssue18740_4byte(b *testing.B) {
 	var buf [4]byte
 	for j := 0; j < b.N; j++ {
 		s := uint32(0)
@@ -553,6 +565,16 @@ func BenchmarkIssue18740(b *testing.B) {
 	}
 }
 
-// TODO: 2 byte and 8 byte benchmarks also.
+func BenchmarkIssue18740_8byte(b *testing.B) {
+	var buf [8]byte
+	for j := 0; j < b.N; j++ {
+		s := uint64(0)
+		for i := 0; i < 4096; i += 8 {
+			copy(buf[:], g[i:])
+			s += binary.LittleEndian.Uint64(buf[:])
+		}
+		sink = s
+	}
+}
 
 var g [4096]byte
