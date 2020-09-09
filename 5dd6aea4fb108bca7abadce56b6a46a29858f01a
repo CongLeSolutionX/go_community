@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bd241cb_3f147b63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-09T11:39:50Z",
+      "side": 1,
+      "message": "LGTM.  Are there benchmark numbers?",
+      "revId": "5dd6aea4fb108bca7abadce56b6a46a29858f01a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b05a476_06fa960b",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-09T11:39:50Z",
+      "side": 1,
+      "message": "This could also be an index into the objs slice as well (meaning that you could store 32 bits instead of 64). Just a thought.",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 24
+      },
+      "revId": "5dd6aea4fb108bca7abadce56b6a46a29858f01a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
