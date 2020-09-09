@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ebbfa4_7cbc4e79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-09T21:02:23Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-longtest,windows-amd64-longtest",
+      "revId": "c10333bd7306b7e89a7cdef32b7198ecd0412a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
