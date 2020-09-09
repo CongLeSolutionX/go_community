@@ -52,6 +52,29 @@
       "revId": "9497a9e1c59c0029c095a5d075d2acccff88a6f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0adfdc9_08a9afe8",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-09-09T16:25:34Z",
+      "side": 1,
+      "message": "It would be nice if these could be subbenchmarks like some other mem benchmarks in this file:\nhttps://blog.golang.org/subtests",
+      "range": {
+        "startLine": 544,
+        "startChar": 0,
+        "endLine": 544,
+        "endChar": 46
+      },
+      "revId": "9497a9e1c59c0029c095a5d075d2acccff88a6f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
