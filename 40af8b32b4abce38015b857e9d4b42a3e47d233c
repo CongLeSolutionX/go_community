@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e155786_3dfcd6e6",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T20:06:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03ca1a7b_53b10f58",
+      "revId": "40af8b32b4abce38015b857e9d4b42a3e47d233c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd76d79f_3ead092c",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 24
@@ -39,6 +57,30 @@
       "revId": "40af8b32b4abce38015b857e9d4b42a3e47d233c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d19ead_d7571ec8",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T20:06:59Z",
+      "side": 1,
+      "message": "Correct.",
+      "parentUuid": "bd76d79f_3ead092c",
+      "range": {
+        "startLine": 728,
+        "startChar": 49,
+        "endLine": 728,
+        "endChar": 68
+      },
+      "revId": "40af8b32b4abce38015b857e9d4b42a3e47d233c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
