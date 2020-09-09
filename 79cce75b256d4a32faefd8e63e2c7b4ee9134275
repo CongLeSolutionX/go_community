@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aecb3a68_36c3f095",
+        "filename": "src/sort/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2020-09-09T10:14:16Z",
+      "side": 1,
+      "message": "1. This is a slice and all other examples use s as the\nvariable name.\n\n2. \"should be sorted\" sounds like it merely is better if\nit is sorted. but it must be sorted.\n\n3. The values 1, 2, 3 overlap with the valid indices 0, 1, 2\nof the slice. It might be didactically better to use values\nwhich clearly are not indices and not adjacent.\n\nHow about\n\n   s :\u003d []int{4,7,8} // The slice must be sorted in ascending order.\n\n?",
+      "revId": "79cce75b256d4a32faefd8e63e2c7b4ee9134275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8c5e815_287c17b1",
+        "filename": "src/sort/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2020-09-09T10:14:16Z",
+      "side": 1,
+      "message": "s/array/s/; s/2/7/\n\nThe case where the element is found is the simple case\nfor SearchInts and more can be learned from an example\nsearching for 5 and 12 (and maybe 3 too).\nCan you add examples for 5  and 12 too?",
+      "revId": "79cce75b256d4a32faefd8e63e2c7b4ee9134275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
