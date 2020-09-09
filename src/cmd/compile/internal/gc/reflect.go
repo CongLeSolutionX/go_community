@@ -1395,6 +1395,9 @@ func dtypesym(t *types.Type) *obj.LSym {
 
 	ot = dextratypeData(lsym, ot, t)
 	ggloblsym(lsym, int32(ot), int16(dupok|obj.RODATA))
+	if dupok != 0 {
+		lsym.Set(obj.AttrContentAddressable, true)
+	}
 
 	// The linker will leave a table of all the typelinks for
 	// types in the binary, so the runtime can find them.

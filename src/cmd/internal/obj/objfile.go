@@ -371,11 +371,23 @@ func contentHash64(s *LSym) goobj.Hash64Type {
 // For now, we assume there is no circular dependencies among
 // hashed symbols.
 func (w *writer) contentHash(s *LSym) goobj.HashType {
+	var tmp [14]byte
 	h := sha1.New()
+	if strings.HasPrefix(s.Name, "type.") {
+		// For type descriptors, hash the name for now.
+		// The general algorithm doesn't handle it as it is likely to
+		// have cycles (e.g. ptrToThis field).
+		// We could build a structural hash that is specific for types,
+		// but that is quite involved, with knowledge of types from the
+		// compiler and with many special cases.
+		h.Write([]byte{'T'})
+		io.WriteString(h, s.Name) // name is already expanded at this point
+		goto ret
+	}
+	h.Write([]byte{0}) // differentiate from type descriptors
 	// The compiler trims trailing zeros _sometimes_. We just do
 	// it always.
 	h.Write(bytes.TrimRight(s.P, "\x00"))
-	var tmp [14]byte
 	for i := range s.R {
 		r := &s.R[i]
 		binary.LittleEndian.PutUint32(tmp[:4], uint32(r.Off))
@@ -410,6 +422,7 @@ func (w *writer) contentHash(s *LSym) goobj.HashType {
 			h.Write(tmp[:4])
 		}
 	}
+ret:
 	var b goobj.HashType
 	copy(b[:], h.Sum(nil))
 	return b
