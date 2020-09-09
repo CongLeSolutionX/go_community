@@ -239,3 +239,10 @@ func indexByte(s string, c byte) int {
 	}
 	return -1
 }
+
+// RegParamState is a struct that has space for each argument
+// and return value register on the current architecture.
+type RegParamState struct {
+	Ints   [IntParamRegisters]uintptr
+	Floats [FloatParamRegisters]uint64
+}

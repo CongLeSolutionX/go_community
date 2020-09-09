@@ -316,7 +316,7 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT|NOFRAME,$0-0
 	B runtime·morestack(SB)
 
 // reflectcall: call a function with the given argument list
-// func call(argtype *_type, f *FuncVal, arg *byte, argsize, retoffset uint32).
+// func call(stackArgsType *_type, f *FuncVal, stackArgs *byte, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *cpu.RegParamState).
 // we don't have variable-sized frames, so we use a small number
 // of constant-sized-frame functions to encode a few bits of size in the pc.
 // Caution: ugly multiline assembly macros in your future!
@@ -329,8 +329,8 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT|NOFRAME,$0-0
 	B	(R27)
 // Note: can't just "B NAME(SB)" - bad inlining results.
 
-TEXT ·reflectcall(SB), NOSPLIT|NOFRAME, $0-32
-	MOVWU argsize+24(FP), R16
+TEXT ·reflectcall(SB), NOSPLIT|NOFRAME, $0-48
+	MOVWU stackArgsSize+24(FP), R16
 	DISPATCH(runtime·call32, 32)
 	DISPATCH(runtime·call64, 64)
 	DISPATCH(runtime·call128, 128)
@@ -361,11 +361,11 @@ TEXT ·reflectcall(SB), NOSPLIT|NOFRAME, $0-32
 	B	(R0)
 
 #define CALLFN(NAME,MAXSIZE)			\
-TEXT NAME(SB), WRAPPER, $MAXSIZE-24;		\
+TEXT NAME(SB), WRAPPER, $MAXSIZE-48;		\
 	NO_LOCAL_POINTERS;			\
 	/* copy arguments to stack */		\
-	MOVD	arg+16(FP), R3;			\
-	MOVWU	argsize+24(FP), R4;		\
+	MOVD	stackArgs+16(FP), R3;			\
+	MOVWU	stackArgsSize+24(FP), R4;		\
 	ADD	$8, RSP, R5;			\
 	BIC	$0xf, R4, R6;			\
 	CBZ	R6, 6(PC);			\
@@ -391,10 +391,10 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-24;		\
 	PCDATA  $PCDATA_StackMapIndex, $0;	\
 	BL	(R0);				\
 	/* copy return values back */		\
-	MOVD	argtype+0(FP), R7;		\
-	MOVD	arg+16(FP), R3;			\
-	MOVWU	n+24(FP), R4;			\
-	MOVWU	retoffset+28(FP), R6;		\
+	MOVD	stackArgsType+0(FP), R7;		\
+	MOVD	stackArgs+16(FP), R3;			\
+	MOVWU	stackArgsSize+24(FP), R4;			\
+	MOVWU	stackRetOffset+28(FP), R6;		\
 	ADD	$8, RSP, R5;			\
 	ADD	R6, R5; 			\
 	ADD	R6, R3;				\

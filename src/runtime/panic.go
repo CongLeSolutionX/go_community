@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"internal/cpu"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -883,7 +884,8 @@ func reflectcallSave(p *_panic, fn, arg unsafe.Pointer, argsize uint32) {
 		p.pc = getcallerpc()
 		p.sp = unsafe.Pointer(getcallersp())
 	}
-	reflectcall(nil, fn, arg, argsize, argsize)
+	var regs cpu.RegParamState
+	reflectcall(nil, fn, arg, argsize, argsize, argsize, noescape(unsafe.Pointer(&regs)))
 	if p != nil {
 		p.pc = 0
 		p.sp = unsafe.Pointer(nil)
@@ -977,7 +979,9 @@ func gopanic(e interface{}) {
 			}
 		} else {
 			p.argp = unsafe.Pointer(getargp(0))
-			reflectcall(nil, unsafe.Pointer(d.fn), deferArgs(d), uint32(d.siz), uint32(d.siz))
+
+			var regs cpu.RegParamState
+			reflectcall(nil, unsafe.Pointer(d.fn), deferArgs(d), uint32(d.siz), uint32(d.siz), uint32(d.siz), noescape(unsafe.Pointer(&regs)))
 		}
 		p.argp = nil
 
