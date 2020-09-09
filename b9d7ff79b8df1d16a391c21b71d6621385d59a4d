@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "91763e33_c07300ba",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da8505d6_914e5bd2",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5568d30a_ae084701",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 21
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "97908794_4d85427e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5568d30a_ae084701",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "662d3e6a_22b49a6b",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 21
@@ -85,6 +133,30 @@
       "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1832f757_35c43c83",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "662d3e6a_22b49a6b",
+      "range": {
+        "startLine": 22,
+        "startChar": 65,
+        "endLine": 22,
+        "endChar": 75
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -135,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "fc54ee75_4e641491",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ced9fb00_43279e54",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6883f44_b5744300",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 21
@@ -155,6 +251,30 @@
       "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46a70197_2eb1c006",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "The allLevels were confusing, so I knocked them back down to booleans and adjusted the documentation to mention them at (I hope) appropriate places.\n\n(It\u0027s still a bit confusing, but hopefully less confusing than the allLevels.)",
+      "parentUuid": "d6883f44_b5744300",
+      "range": {
+        "startLine": 38,
+        "startChar": 10,
+        "endLine": 38,
+        "endChar": 55
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -181,6 +301,30 @@
     },
     {
       "key": {
+        "uuid": "ab687b75_bb39e06d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ae702bb_f09aa24c",
+      "range": {
+        "startLine": 54,
+        "startChar": 50,
+        "endLine": 54,
+        "endChar": 55
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b46d8b3d_0602cb95",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 21
@@ -204,6 +348,30 @@
     },
     {
       "key": {
+        "uuid": "d7d2a9a3_a99891e5",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b46d8b3d_0602cb95",
+      "range": {
+        "startLine": 73,
+        "startChar": 67,
+        "endLine": 73,
+        "endChar": 75
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbeb0eb5_0963170a",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 21
@@ -224,6 +392,30 @@
       "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73862a82_1627ce24",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-09T01:23:04Z",
+      "side": 1,
+      "message": "Added a comment.\n\n(It could be set together with pkgImportsLoaded, but it\u0027s a bit easier for me to think about this way.)",
+      "parentUuid": "bbeb0eb5_0963170a",
+      "range": {
+        "startLine": 1090,
+        "startChar": 5,
+        "endLine": 1090,
+        "endChar": 18
+      },
+      "revId": "b9d7ff79b8df1d16a391c21b71d6621385d59a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
