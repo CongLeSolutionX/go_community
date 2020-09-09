@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e80747e6_25752b34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-09T15:03:14Z",
+      "side": 1,
+      "message": "It\u0027s kind of small and scattered over phases (as resolve calls are). Linking cmd/compile,\n\nDeadcode_GC                  45.2ms ±10%    41.6ms ± 2%     -7.89%  (p\u003d0.032 n\u003d5+5)\n\nLive heap:\nLoadlib_GC                    11.3M ± 0%     11.3M ± 0%    +0.04%  (p\u003d0.008 n\u003d5+5)",
+      "parentUuid": "2bd241cb_3f147b63",
+      "revId": "5dd6aea4fb108bca7abadce56b6a46a29858f01a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b05a476_06fa960b",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2020-09-09T11:39:50Z",
       "side": 1,
       "message": "This could also be an index into the objs slice as well (meaning that you could store 32 bits instead of 64). Just a thought.",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 24
+      },
+      "revId": "5dd6aea4fb108bca7abadce56b6a46a29858f01a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2270de7b_48fad1fd",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-09T15:03:14Z",
+      "side": 1,
+      "message": "Good idea. Done. While here, I also changed objByPkg map to store index.",
+      "parentUuid": "6b05a476_06fa960b",
       "range": {
         "startLine": 97,
         "startChar": 16,
