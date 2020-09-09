@@ -5,6 +5,7 @@
 package reflect
 
 import (
+	"internal/cpu"
 	"internal/unsafeheader"
 	"math"
 	"runtime"
@@ -349,6 +350,196 @@ func (v Value) CallSlice(in []Value) []Value {
 	return v.call("CallSlice", in)
 }
 
+// assignRegParam copies a Value with ABI parameter description a to the
+// register parameter state regs. a.stackAllocated() must be false.
+func assignRegParam(regs *cpu.RegArgState, a abiParam, v Value) {
+	if a.stackAllocated() {
+		panic("cannot copy value of a stack-assigned argument to registers")
+	}
+	t := v.typ
+	var p unsafe.Pointer
+	if v.flag&flagIndir != 0 {
+		p = v.ptr
+	} else {
+		p = unsafe.Pointer(&v.ptr)
+	}
+	assignRegParam1(regs, a, t, p)
+}
+
+// Recursive helper for assignRegParam.
+func assignRegParam1(regs *cpu.RegArgState, a abiParam, t *rtype, v unsafe.Pointer) {
+	switch t.Kind() {
+	case UnsafePointer, Ptr, Chan, Map, Func:
+		regs.Ints[a.iReg] = uintptr(*(*uintptr)(v))
+	case Int, Uint:
+		regs.Ints[a.iReg] = uintptr(*(*uint)(v))
+	case Bool, Int8, Uint8:
+		regs.Ints[a.iReg] = uintptr(*(*uint8)(v))
+	case Int16, Uint16:
+		regs.Ints[a.iReg] = uintptr(*(*uint16)(v))
+	case Int32, Uint32:
+		regs.Ints[a.iReg] = uintptr(*(*uint32)(v))
+	case Int64, Uint64:
+		switch ptrSize {
+		case 4:
+			v := *(*uint64)(v)
+			regs.Ints[a.iReg] = uintptr(v & uint64(^uint32(0)))
+			regs.Ints[a.iReg+1] = uintptr(v >> 32)
+		case 8:
+			regs.Ints[a.iReg] = uintptr(*(*uint64)(v))
+		}
+	case Float32:
+		regs.Floats[a.fReg] = uint64(*(*uint32)(v))
+	case Float64:
+		regs.Floats[a.fReg] = *(*uint64)(v)
+	case Complex64:
+		regs.Floats[a.fReg] = uint64(*(*uint32)(v))
+		regs.Floats[a.fReg+1] = uint64(*(*uint32)(v))
+	case Complex128:
+		regs.Floats[a.fReg] = uint64(*(*uint32)(v))
+		regs.Floats[a.fReg+1] = uint64(*(*uint32)(v))
+	case String:
+		h := *(*unsafeheader.String)(v)
+		regs.Ints[a.iReg] = uintptr(h.Data)
+		regs.Ints[a.iReg+1] = uintptr(h.Len)
+	case Interface:
+		eface := *(*emptyInterface)(v)
+		regs.Ints[a.iReg] = uintptr(unsafe.Pointer(eface.typ))
+		regs.Ints[a.iReg+1] = uintptr(eface.word)
+	case Slice:
+		h := *(*unsafeheader.Slice)(v)
+		regs.Ints[a.iReg] = uintptr(h.Data)
+		regs.Ints[a.iReg+1] = uintptr(h.Len)
+		regs.Ints[a.iReg+2] = uintptr(h.Cap)
+	case Struct:
+		st := (*structType)(unsafe.Pointer(t))
+		for i := range st.fields {
+			f := &st.fields[i]
+			if f.typ.Size() == 0 || f.name.name() == "_" {
+				// Ignore zero-sized and anonymous fields.
+				continue
+			}
+			assignRegParam1(regs, a, f.typ, add(v, f.offset(), "struct offset"))
+			// Note that we can't just check the abiParam here
+			// because that's for the whole argument and we're
+			// assigning a specific field.
+			ri, rf := regsForType(f.typ)
+			a.iReg += int8(ri)
+			a.fReg += int8(rf)
+		}
+	}
+}
+
+// extractRegParam extracts a Value of type t and ABI parameter description a out of the
+// register parameter state regs. a.stackAllocated() must be false.
+func extractRegParam(regs *cpu.RegArgState, a abiParam, t *rtype) Value {
+	if a.stackAllocated() {
+		panic("cannot extract value of a stack-assigned argument from registers")
+	}
+	flags := flag(t.Kind())
+	switch t.Kind() {
+	case UnsafePointer, Ptr, Chan, Map, Func:
+		// Pointer-valued data gets put directly
+		// into v.ptr.
+	default:
+		flags |= flagIndir
+	}
+	v := Value{t, nil, flags}
+	extractRegParam1(regs, a, t, &v.ptr)
+	return v
+}
+
+// Recursive helper for extractRegParam.
+func extractRegParam1(regs *cpu.RegArgState, a abiParam, t *rtype, p *unsafe.Pointer) {
+	var v unsafe.Pointer
+	switch t.Kind() {
+	case UnsafePointer, Ptr, Chan, Map, Func:
+		if *p == nil {
+			// We're writing into a Value, so *p is v.ptr.
+			// Write the pointer there directly.
+			*p = unsafe.Pointer(regs.Ints[a.iReg])
+		} else {
+			// We're writing into a struct, so we need two
+			// indirections here (the first indirection is some
+			// pointer on the stack, the second is the actual
+			// word in the struct).
+			*(*unsafe.Pointer)(*p) = unsafe.Pointer(regs.Ints[a.iReg])
+		}
+		return
+	default:
+		if *p == nil {
+			// We're writing into a Value.
+			// Since this is a value type, we know it's
+			// going to be indirect. Create some space for it.
+			*p = unsafe_New(t)
+		}
+		v = *p
+	}
+	// We're handling some kind of value type. We also have space to
+	// write data for the type at this point. Pointer types will panic
+	// from this point forward.
+	switch t.Kind() {
+	case Int, Uint:
+		*(*uint)(v) = uint(regs.Ints[a.iReg])
+	case Bool, Int8, Uint8:
+		*(*uint8)(v) = uint8(regs.Ints[a.iReg])
+	case Int16, Uint16:
+		*(*uint16)(v) = uint16(regs.Ints[a.iReg])
+	case Int32, Uint32:
+		*(*uint32)(v) = uint32(regs.Ints[a.iReg])
+	case Int64, Uint64:
+		switch ptrSize {
+		case 4:
+			*(*uint32)(v) = uint32(regs.Ints[a.iReg])
+			*(*uint32)(add(v, 4, "within type size")) = uint32(regs.Ints[a.iReg+1])
+		case 8:
+			*(*uint64)(v) = uint64(regs.Ints[a.iReg])
+		}
+	case Float32:
+		*(*uint32)(v) = uint32(regs.Floats[a.fReg])
+	case Float64:
+		*(*uint64)(v) = uint64(regs.Floats[a.fReg])
+	case Complex64:
+		*(*uint32)(v) = uint32(regs.Floats[a.fReg])
+		*(*uint32)(add(v, 4, "within type size")) = uint32(regs.Floats[a.fReg+1])
+	case Complex128:
+		*(*uint64)(v) = uint64(regs.Floats[a.fReg])
+		*(*uint64)(add(v, 8, "within type size")) = uint64(regs.Floats[a.fReg+1])
+	case String:
+		h := (*unsafeheader.String)(v)
+		h.Data = unsafe.Pointer(regs.Ints[a.iReg])
+		h.Len = int(regs.Ints[a.iReg+1])
+	case Interface:
+		eface := (*emptyInterface)(v)
+		eface.typ = (*rtype)(unsafe.Pointer(regs.Ints[a.iReg]))
+		eface.word = unsafe.Pointer(regs.Ints[a.iReg+1])
+	case Slice:
+		h := (*unsafeheader.Slice)(v)
+		h.Data = unsafe.Pointer(regs.Ints[a.iReg])
+		h.Len = int(regs.Ints[a.iReg+1])
+		h.Cap = int(regs.Ints[a.iReg+2])
+	case Struct:
+		st := (*structType)(unsafe.Pointer(t))
+		for i := range st.fields {
+			f := &st.fields[i]
+			if f.typ.Size() == 0 || f.name.name() == "_" {
+				// Ignore zero-sized and anonymous fields.
+				continue
+			}
+			sfp := add(v, f.offset(), "struct field offset")
+			extractRegParam1(regs, a, f.typ, &sfp)
+			// Note that we can't just check the abiParam here
+			// because that's for the whole argument and we're
+			// extracting a specific field.
+			ri, rf := regsForType(f.typ)
+			a.iReg += int8(ri)
+			a.fReg += int8(rf)
+		}
+	default:
+		panic("unexpected kind in indirect register Value extraction")
+	}
+}
+
 var callGC bool // for testing; see TestCallMethodJump
 
 func (v Value) call(op string, in []Value) []Value {
@@ -430,29 +621,38 @@ func (v Value) call(op string, in []Value) []Value {
 	nout := t.NumOut()
 
 	// Compute frame type.
-	frametype, _, retOffset, _, framePool := funcLayout(t, rcvrtype)
+	frametype, _, retOffset, _, framePool, abiIn, abiOut := funcLayout(t, rcvrtype)
 
-	// Allocate a chunk of memory for frame.
-	var args unsafe.Pointer
-	if nout == 0 {
-		args = framePool.Get().(unsafe.Pointer)
-	} else {
-		// Can't use pool if the function has return values.
-		// We will leak pointer to args in ret, so its lifetime is not scoped.
-		args = unsafe_New(frametype)
+	// Allocate a chunk of memory for frame if needed.
+	var stackArgs unsafe.Pointer
+	if frametype.size != 0 {
+		if nout == 0 {
+			stackArgs = framePool.Get().(unsafe.Pointer)
+		} else {
+			// Can't use pool if the function has return values.
+			// We will leak pointer to args in ret, so its lifetime is not scoped.
+			stackArgs = unsafe_New(frametype)
+		}
 	}
-	off := uintptr(0)
+	var rstate cpu.RegArgState
+	stackOff := uintptr(0)
+	frameSize := frametype.size
 
 	// Copy inputs into args.
+	abiOffset := 0
 	if rcvrtype != nil {
-		storeRcvr(rcvr, args)
-		off = ptrSize
+		if abi := abiIn[0]; abi.stackAllocated() {
+			// Put the reciever on the stack.
+			storeRcvr(rcvr, stackArgs)
+			stackOff = ptrSize
+		} else {
+			assignRegParam(&rstate, abi, rcvr)
+		}
+		abiOffset = 1
 	}
 	for i, v := range in {
 		v.mustBeExported()
 		targ := t.In(i).(*rtype)
-		a := uintptr(targ.align)
-		off = (off + a - 1) &^ (a - 1)
 		n := targ.size
 		if n == 0 {
 			// Not safe to compute args+off pointing at 0 bytes,
@@ -461,18 +661,36 @@ func (v Value) call(op string, in []Value) []Value {
 			v.assignTo("reflect.Value.Call", targ, nil)
 			continue
 		}
-		addr := add(args, off, "n > 0")
+		if abi := abiIn[i+abiOffset]; !abi.stackAllocated() {
+			// TODO(mknyszek): An unfortunate side-effect of arguments
+			// passed in registers is that we don't actually have any
+			// scratch space for assignTo to use.
+			v = v.assignTo("reflect.Value.Call", targ, nil)
+			assignRegParam(&rstate, abi, v)
+			// We need to add space for this argument to
+			// the frame so that it can spill args into it if
+			// we preempt ourselves on function entry.
+			// TODO(mknyszek): Remove this when we no longer have
+			// compiler-generated spill space.
+			frameSize = (frameSize + 7) &^ 7
+			frameSize += uintptr(abi.iCount) * ptrSize
+			frameSize += uintptr(abi.fCount) * 8
+			continue
+		}
+		a := uintptr(targ.align)
+		stackOff = (stackOff + a - 1) &^ (a - 1)
+		addr := add(stackArgs, stackOff, "n > 0")
 		v = v.assignTo("reflect.Value.Call", targ, addr)
 		if v.flag&flagIndir != 0 {
 			typedmemmove(targ, addr, v.ptr)
 		} else {
 			*(*unsafe.Pointer)(addr) = v.ptr
 		}
-		off += n
+		stackOff += n
 	}
 
 	// Call.
-	call(frametype, fn, args, uint32(frametype.size), uint32(retOffset))
+	call(frametype, fn, stackArgs, uint32(frametype.size), uint32(retOffset), uint32(frameSize), unsafe.Pointer(&rstate))
 
 	// For testing; see TestCallMethodJump.
 	if callGC {
@@ -481,24 +699,32 @@ func (v Value) call(op string, in []Value) []Value {
 
 	var ret []Value
 	if nout == 0 {
-		typedmemclr(frametype, args)
-		framePool.Put(args)
+		if stackArgs != nil {
+			typedmemclr(frametype, stackArgs)
+			framePool.Put(stackArgs)
+		}
 	} else {
-		// Zero the now unused input area of args,
-		// because the Values returned by this function contain pointers to the args object,
-		// and will thus keep the args object alive indefinitely.
-		typedmemclrpartial(frametype, args, 0, retOffset)
+		if stackArgs != nil {
+			// Zero the now unused input area of args,
+			// because the Values returned by this function contain pointers to the args object,
+			// and will thus keep the args object alive indefinitely.
+			typedmemclrpartial(frametype, stackArgs, 0, retOffset)
+		}
 
 		// Wrap Values around return values in args.
 		ret = make([]Value, nout)
-		off = retOffset
+		stackOff = retOffset
 		for i := 0; i < nout; i++ {
 			tv := t.Out(i)
+			if abi := abiOut[i]; !abi.stackAllocated() {
+				ret[i] = extractRegParam(&rstate, abi, tv.common())
+				continue
+			}
 			a := uintptr(tv.Align())
-			off = (off + a - 1) &^ (a - 1)
+			stackOff = (stackOff + a - 1) &^ (a - 1)
 			if tv.Size() != 0 {
 				fl := flagIndir | flag(tv.Kind())
-				ret[i] = Value{tv.common(), add(args, off, "tv.Size() != 0"), fl}
+				ret[i] = Value{tv.common(), add(stackArgs, stackOff, "tv.Size() != 0"), fl}
 				// Note: this does introduce false sharing between results -
 				// if any result is live, they are all live.
 				// (And the space for the args is live as well, but as we've
@@ -508,7 +734,7 @@ func (v Value) call(op string, in []Value) []Value {
 				// In this case, return the zero value instead.
 				ret[i] = Zero(tv)
 			}
-			off += tv.Size()
+			stackOff += tv.Size()
 		}
 	}
 
@@ -708,7 +934,7 @@ func align(x, n uintptr) uintptr {
 func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool) {
 	rcvr := ctxt.rcvr
 	rcvrtype, t, fn := methodReceiver("call", rcvr, ctxt.method)
-	frametype, argSize, retOffset, _, framePool := funcLayout(t, rcvrtype)
+	frametype, argSize, retOffset, _, framePool, _, _ := funcLayout(t, rcvrtype)
 
 	// Make a new frame that is one word bigger so we can store the receiver.
 	// This space is used for both arguments and return values.
@@ -729,7 +955,9 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool) {
 	// Call.
 	// Call copies the arguments from scratch to the stack, calls fn,
 	// and then copies the results back into scratch.
-	call(frametype, fn, scratch, uint32(frametype.size), uint32(retOffset))
+	// TODO(mknyszek): Pass in register spill space.
+	var regs cpu.RegArgState
+	call(frametype, fn, scratch, uint32(frametype.size), uint32(retOffset), uint32(frametype.size), unsafe.Pointer(&regs))
 
 	// Copy return values.
 	// Ignore any changes to args and just copy return values.
@@ -2775,7 +3003,7 @@ func maplen(m unsafe.Pointer) int
 // call can execute appropriate write barriers during the copy.
 //
 //go:linkname call runtime.reflectcall
-func call(argtype *rtype, fn, arg unsafe.Pointer, n uint32, retoffset uint32)
+func call(stackArgsType *rtype, f, stackArgs unsafe.Pointer, stackArgsSize, stackRetOffset, frameSize uint32, regArgs unsafe.Pointer)
 
 func ifaceE2I(t *rtype, src interface{}, dst unsafe.Pointer)
 
