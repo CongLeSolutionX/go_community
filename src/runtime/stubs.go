@@ -4,7 +4,9 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"unsafe"
+)
 
 // Should be a built-in for unsafe.Pointer?
 //go:nosplit
@@ -166,7 +168,11 @@ func breakpoint()
 // site for justification.
 //
 // Package reflect accesses this symbol through a linkname.
-func reflectcall(argtype *_type, fn, arg unsafe.Pointer, argsize uint32, retoffset uint32)
+//
+// regArgs actually has type *cpu.RegArgState, but we need to convince
+// the compiler that it doesn't escape and it turns out to be more ergonomic
+// this way.
+func reflectcall(argtype *_type, fn, stackArgs unsafe.Pointer, stackArgsSize, stackRetOffset, frameSize uint32, regArgs unsafe.Pointer)
 
 func procyield(cycles uint32)
 
