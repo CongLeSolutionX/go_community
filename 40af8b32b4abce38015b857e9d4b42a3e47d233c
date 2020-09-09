@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03ca1a7b_53b10f58",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-09T19:57:45Z",
+      "side": 1,
+      "message": "super optional, but it would be nice to pass a literal loaderParams here like we do in the other places so we can more clearly see which params are being passed in.",
+      "revId": "40af8b32b4abce38015b857e9d4b42a3e47d233c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd76d79f_3ead092c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-09T19:57:45Z",
+      "side": 1,
+      "message": "This means that the packages in all that are not in the Target module should be treated as roots in addition to the packages that are (the packages in all that are in the target module being those that are returned in listRoots) ... right?",
+      "range": {
+        "startLine": 728,
+        "startChar": 49,
+        "endLine": 728,
+        "endChar": 68
+      },
+      "revId": "40af8b32b4abce38015b857e9d4b42a3e47d233c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
