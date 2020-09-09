@@ -6,6 +6,28 @@
 // used by the Go standard library.
 package cpu
 
+const (
+	// Number of argument and return registers.
+	// As of the current ABI, there are zero of each,
+	// so once we start using registers in our ABI,
+	// these constants should be specified for their
+	// respective architectures.
+	//
+	// Return registers across all architectures
+	// are always a subset of the argument registers,
+	// so it's always safe to allocate the same
+	// space for both by just using the *ArgRegisters
+	// constants.
+	IntArgRegisters   = 0
+	FloatArgRegisters = 0
+	MaxFloatBytes     = 8
+)
+
+type RegArgState struct {
+	Ints   [IntArgRegisters]uintptr
+	Floats [FloatArgRegisters]uint64
+}
+
 // DebugOptions is set to true by the runtime if the OS supports reading
 // GODEBUG early in runtime startup.
 // This should not be changed after it is initialized.

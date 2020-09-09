@@ -16,6 +16,7 @@
 package reflect
 
 import (
+	"internal/cpu"
 	"internal/unsafeheader"
 	"strconv"
 	"sync"
@@ -2981,22 +2982,152 @@ type layoutKey struct {
 }
 
 type layoutType struct {
-	t         *rtype
-	argSize   uintptr // size of arguments
-	retOffset uintptr // offset of return values.
-	stack     *bitVector
-	framePool *sync.Pool
+	t             *rtype
+	argSize       uintptr // size of arguments
+	retOffset     uintptr // offset of return values.
+	stack         *bitVector
+	framePool     *sync.Pool
+	abiIn, abiOut []abiParam
 }
 
 var layoutCache sync.Map // map[layoutKey]layoutType
 
+type abiParam struct {
+	iReg, fReg     int8
+	iCount, fCount uint8
+}
+
+func (a abiParam) stackAllocated() bool {
+	return a.iReg == -1 && a.fReg == -1
+}
+
+type regs struct {
+	ints, floats int
+}
+
+var regsCache sync.Map // map[*structType]*regs
+
+// regsForType returns the number of integer registers
+// and floating point registers required to hold the type.
+func regsForType(t *rtype) (int, int) {
+	switch t.Kind() {
+	case UnsafePointer, Ptr, Chan, Map, Func:
+		return 1, 0
+	case Bool, Int, Uint, Int8, Uint8, Int16, Uint16, Int32, Uint32:
+		return 1, 0
+	case Int64, Uint64:
+		switch ptrSize {
+		case 4:
+			return 2, 0
+		case 8:
+			return 1, 0
+		}
+	case Float32:
+		if cpu.MaxFloatBytes >= 4 {
+			return 0, 1
+		}
+	case Float64:
+		if cpu.MaxFloatBytes >= 8 {
+			return 0, 1
+		}
+	case Complex64:
+		if cpu.MaxFloatBytes >= 4 {
+			return 0, 2
+		}
+	case Complex128:
+		if cpu.MaxFloatBytes >= 8 {
+			return 0, 2
+		}
+	case String, Interface:
+		return 2, 0
+	case Slice:
+		return 3, 0
+	case Struct:
+		if t.Size() == 0 {
+			return 0, 0
+		}
+		st := (*structType)(unsafe.Pointer(t))
+		v, ok := regsCache.Load(st)
+		if !ok {
+			ints, floats := 0, 0
+			for i := range st.fields {
+				if st.fields[i].name.name() == "_" {
+					continue
+				}
+				ri, rf := regsForType(st.fields[i].typ)
+				ints += ri
+				floats += rf
+			}
+			regsCache.Store(st, &regs{ints, floats})
+			return ints, floats
+		}
+		r := v.(*regs)
+		return r.ints, r.floats
+	default:
+		// Stack assign the rest.
+		// Notably includes arrays.
+	}
+	return 0, 0
+}
+
+func abiLayout(t *funcType, rcvr *rtype) (args, ret []abiParam) {
+	i, o := t.in(), t.out()
+	inCount := len(i)
+	if rcvr != nil {
+		inCount++
+	}
+	out := make([]abiParam, 0, inCount+len(o))
+
+	var intRegs, floatRegs int
+	reserve := func(t *rtype) {
+		ni, nf := regsForType(t)
+		ri, rf := -1, -1
+		if ni != 0 && intRegs+ni <= cpu.IntArgRegisters {
+			ri = intRegs
+			intRegs += ni
+		}
+		if nf != 0 {
+			if floatRegs+nf <= cpu.FloatArgRegisters {
+				rf = floatRegs
+				floatRegs += nf
+			} else {
+				// We couldn't allocate float registers
+				// so back out any int register changes
+				// we did.
+				if ri != -1 {
+					intRegs = ri
+				}
+			}
+		}
+		out = append(out, abiParam{
+			iReg:   int8(ri),
+			iCount: uint8(ni),
+			fReg:   int8(rf),
+			fCount: uint8(nf),
+		})
+	}
+	if rcvr != nil {
+		reserve(rcvr)
+	}
+	for _, arg := range i {
+		reserve(arg)
+	}
+	// Reset register counts for output.
+	intRegs, floatRegs = 0, 0
+	for _, res := range o {
+		reserve(res)
+	}
+	return out[:inCount], out[inCount:]
+}
+
 // funcLayout computes a struct type representing the layout of the
-// function arguments and return values for the function type t.
+// stack-assigned function arguments and return values for the function
+// type t.
 // If rcvr != nil, rcvr specifies the type of the receiver.
 // The returned type exists only for GC, so we only fill out GC relevant info.
 // Currently, that's just size and the GC program. We also fill in
 // the name for possible debugging use.
-func funcLayout(t *funcType, rcvr *rtype) (frametype *rtype, argSize, retOffset uintptr, stk *bitVector, framePool *sync.Pool) {
+func funcLayout(t *funcType, rcvr *rtype) (frametype *rtype, argSize, retOffset uintptr, stk *bitVector, framePool *sync.Pool, abiIn, abiOut []abiParam) {
 	if t.Kind() != Func {
 		panic("reflect: funcLayout of non-func type " + t.String())
 	}
@@ -3006,24 +3137,36 @@ func funcLayout(t *funcType, rcvr *rtype) (frametype *rtype, argSize, retOffset 
 	k := layoutKey{t, rcvr}
 	if lti, ok := layoutCache.Load(k); ok {
 		lt := lti.(layoutType)
-		return lt.t, lt.argSize, lt.retOffset, lt.stack, lt.framePool
+		return lt.t, lt.argSize, lt.retOffset, lt.stack, lt.framePool, lt.abiIn, lt.abiOut
 	}
 
-	// compute gc program & stack bitmap for arguments
+	// Compute the ABI layout.
+	abiIn, abiOut = abiLayout(t, rcvr)
+
+	// compute gc program & stack bitmap for stack arguments
 	ptrmap := new(bitVector)
 	var offset uintptr
+	var abiOffset int
+	// Handle a stack-assigned reciever.
 	if rcvr != nil {
-		// Reflect uses the "interface" calling convention for
-		// methods, where receivers take one word of argument
-		// space no matter how big they actually are.
-		if ifaceIndir(rcvr) || rcvr.pointers() {
-			ptrmap.append(1)
-		} else {
-			ptrmap.append(0)
+		if abiIn[0].stackAllocated() {
+			// Reflect uses the "interface" calling convention for
+			// methods, where receivers take one word of argument
+			// space no matter how big they actually are.
+			if ifaceIndir(rcvr) || rcvr.pointers() {
+				ptrmap.append(1)
+			} else {
+				ptrmap.append(0)
+			}
+			offset += ptrSize
 		}
-		offset += ptrSize
+		abiOffset = 1
 	}
-	for _, arg := range t.in() {
+	for i, arg := range t.in() {
+		if !abiIn[i+abiOffset].stackAllocated() {
+			// Filter out register-assigned arguments.
+			continue
+		}
 		offset += -offset & uintptr(arg.align-1)
 		addTypeBits(ptrmap, offset, arg)
 		offset += arg.size
@@ -3031,7 +3174,11 @@ func funcLayout(t *funcType, rcvr *rtype) (frametype *rtype, argSize, retOffset 
 	argSize = offset
 	offset += -offset & (ptrSize - 1)
 	retOffset = offset
-	for _, res := range t.out() {
+	for i, res := range t.out() {
+		if !abiOut[i].stackAllocated() {
+			// Filter out register-assigned return values.
+			continue
+		}
 		offset += -offset & uintptr(res.align-1)
 		addTypeBits(ptrmap, offset, res)
 		offset += res.size
@@ -3066,9 +3213,11 @@ func funcLayout(t *funcType, rcvr *rtype) (frametype *rtype, argSize, retOffset 
 		retOffset: retOffset,
 		stack:     ptrmap,
 		framePool: framePool,
+		abiIn:     abiIn,
+		abiOut:    abiOut,
 	})
 	lt := lti.(layoutType)
-	return lt.t, lt.argSize, lt.retOffset, lt.stack, lt.framePool
+	return lt.t, lt.argSize, lt.retOffset, lt.stack, lt.framePool, lt.abiIn, lt.abiOut
 }
 
 // ifaceIndir reports whether t is stored indirectly in an interface value.
