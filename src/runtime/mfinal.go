@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"internal/cpu"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -219,7 +220,8 @@ func runfinq() {
 					throw("bad kind in runfinq")
 				}
 				fingRunning = true
-				reflectcall(nil, unsafe.Pointer(f.fn), frame, uint32(framesz), uint32(framesz))
+				var regs cpu.RegParamState
+				reflectcall(nil, unsafe.Pointer(f.fn), frame, uint32(framesz), uint32(framesz), uint32(framesz), noescape(unsafe.Pointer(&regs)))
 				fingRunning = false
 
 				// Drop finalizer queue heap references

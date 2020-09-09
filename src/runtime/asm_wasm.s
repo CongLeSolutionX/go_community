@@ -299,7 +299,7 @@ TEXT ·cgocallback_gofunc(SB), NOSPLIT, $16-32
 		JMP NAME(SB); \
 	End
 
-TEXT ·reflectcall(SB), NOSPLIT, $0-32
+TEXT ·reflectcall(SB), NOSPLIT, $0-48
 	I64Load fn+8(FP)
 	I64Eqz
 	If
@@ -337,7 +337,7 @@ TEXT ·reflectcall(SB), NOSPLIT, $0-32
 	JMP runtime·badreflectcall(SB)
 
 #define CALLFN(NAME, MAXSIZE) \
-TEXT NAME(SB), WRAPPER, $MAXSIZE-32; \
+TEXT NAME(SB), WRAPPER, $MAXSIZE-48; \
 	NO_LOCAL_POINTERS; \
 	MOVW argsize+24(FP), R0; \
 	\

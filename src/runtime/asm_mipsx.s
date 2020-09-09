@@ -280,7 +280,7 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$0-0
 	JMP	runtime·morestack(SB)
 
 // reflectcall: call a function with the given argument list
-// func call(argtype *_type, f *FuncVal, arg *byte, argsize, retoffset uint32).
+// func call(stackArgsType *_type, f *FuncVal, stackArgs *byte, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *cpu.RegParamState).
 // we don't have variable-sized frames, so we use a small number
 // of constant-sized-frame functions to encode a few bits of size in the pc.
 
@@ -291,7 +291,7 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$0-0
 	MOVW	$NAME(SB), R4;	\
 	JMP	(R4)
 
-TEXT ·reflectcall(SB),NOSPLIT|NOFRAME,$0-20
+TEXT ·reflectcall(SB),NOSPLIT|NOFRAME,$0-28
 	MOVW	argsize+12(FP), R1
 
 	DISPATCH(runtime·call16, 16)
@@ -325,7 +325,7 @@ TEXT ·reflectcall(SB),NOSPLIT|NOFRAME,$0-20
 	JMP	(R4)
 
 #define CALLFN(NAME,MAXSIZE)	\
-TEXT NAME(SB),WRAPPER,$MAXSIZE-20;	\
+TEXT NAME(SB),WRAPPER,$MAXSIZE-28;	\
 	NO_LOCAL_POINTERS;	\
 	/* copy arguments to stack */		\
 	MOVW	arg+8(FP), R1;	\

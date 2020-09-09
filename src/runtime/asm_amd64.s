@@ -455,8 +455,68 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$0
 	MOVL	$0, DX
 	JMP	runtime·morestack(SB)
 
+// spillParams stores return values from registers to a pointer in R12.
+TEXT spillParams<>(SB),NOSPLIT,$0-0
+/*
+	MOVQ AX, 0(R12)
+	MOVQ BX, 8(R12)
+	MOVQ CX, 16(R12)
+	MOVQ DI, 24(R12)
+	MOVQ SI, 32(R12)
+	MOVQ R8, 40(R12)
+	MOVQ R9, 48(R12)
+	MOVQ R10, 56(R12)
+	MOVQ R11, 64(R12)
+	MOVQ X0, 72(R12)
+	MOVQ X1, 80(R12)
+	MOVQ X2, 88(R12)
+	MOVQ X3, 96(R12)
+	MOVQ X4, 104(R12)
+	MOVQ X5, 112(R12)
+	MOVQ X6, 120(R12)
+	MOVQ X7, 128(R12)
+	MOVQ X8, 136(R12)
+	MOVQ X9, 144(R12)
+	MOVQ X10, 152(R12)
+	MOVQ X11, 160(R12)
+	MOVQ X12, 168(R12)
+	MOVQ X13, 176(R12)
+	MOVQ X14, 184(R12)
+*/
+	RET
+
+// unspillParams loads args into registers from a pointer in R12.
+TEXT unspillParams<>(SB),NOSPLIT,$0-0
+/*
+	MOVQ 0(R12), AX
+	MOVQ 8(R12), BX
+	MOVQ 16(R12), CX
+	MOVQ 24(R12), DI
+	MOVQ 32(R12), SI
+	MOVQ 40(R12), R8
+	MOVQ 48(R12), R9
+	MOVQ 56(R12), R10
+	MOVQ 64(R12), R11
+	MOVQ 72(R12), X0
+	MOVQ 80(R12), X1
+	MOVQ 88(R12), X2
+	MOVQ 96(R12), X3
+	MOVQ 104(R12), X4
+	MOVQ 112(R12), X5
+	MOVQ 120(R12), X6
+	MOVQ 128(R12), X7
+	MOVQ 136(R12), X8
+	MOVQ 144(R12), X9
+	MOVQ 152(R12), X10
+	MOVQ 160(R12), X11
+	MOVQ 168(R12), X12
+	MOVQ 176(R12), X13
+	MOVQ 184(R12), X14
+*/
+	RET
+	
 // reflectcall: call a function with the given argument list
-// func call(argtype *_type, f *FuncVal, arg *byte, argsize, retoffset uint32).
+// func call(stackArgsType *_type, f *FuncVal, stackArgs *byte, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *cpu.RegParamState).
 // we don't have variable-sized frames, so we use a small number
 // of constant-sized-frame functions to encode a few bits of size in the pc.
 // Caution: ugly multiline assembly macros in your future!
@@ -468,8 +528,8 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$0
 	JMP	AX
 // Note: can't just "JMP NAME(SB)" - bad inlining results.
 
-TEXT ·reflectcall(SB), NOSPLIT, $0-32
-	MOVLQZX argsize+24(FP), CX
+TEXT ·reflectcall(SB), NOSPLIT, $0-48
+	MOVLQZX frameSize+32(FP), CX
 	DISPATCH(runtime·call32, 32)
 	DISPATCH(runtime·call64, 64)
 	DISPATCH(runtime·call128, 128)
@@ -500,28 +560,37 @@ TEXT ·reflectcall(SB), NOSPLIT, $0-32
 	JMP	AX
 
 #define CALLFN(NAME,MAXSIZE)			\
-TEXT NAME(SB), WRAPPER, $MAXSIZE-32;		\
+TEXT NAME(SB), WRAPPER, $MAXSIZE-48;		\
 	NO_LOCAL_POINTERS;			\
 	/* copy arguments to stack */		\
-	MOVQ	argptr+16(FP), SI;		\
-	MOVLQZX argsize+24(FP), CX;		\
+	MOVQ	stackArgs+16(FP), SI;		\
+	MOVLQZX stackArgsSize+24(FP), CX;		\
 	MOVQ	SP, DI;				\
 	REP;MOVSB;				\
+	/* set up argument registers */		\
+	MOVQ    regArgs+40(FP), R12;		\
+	CALL    unspillParams<>(SB);		\
 	/* call function */			\
 	MOVQ	f+8(FP), DX;			\
 	PCDATA  $PCDATA_StackMapIndex, $0;	\
-	MOVQ	(DX), AX;			\
-	CALL	AX;				\
-	/* copy return values back */		\
-	MOVQ	argtype+0(FP), DX;		\
-	MOVQ	argptr+16(FP), DI;		\
-	MOVLQZX	argsize+24(FP), CX;		\
-	MOVLQZX	retoffset+28(FP), BX;		\
+	MOVQ	(DX), R12;			\
+	CALL	R12;				\
+	/* copy register return values back */		\
+	MOVQ    regArgs+40(FP), R12;		\
+	CALL    spillParams<>(SB);		\
+	MOVLQZX	stackArgsSize+24(FP), CX;		\
+	MOVLQZX	stackRetOffset+28(FP), BX;		\
+	/* skip copying back stack args if there aren't any, i.e. stackArgsSize == stackRetOffset */		\
+	CMPQ    CX, BX;		\
+	JE      done;		\
+	MOVQ	stackArgs+16(FP), DI;		\
+	MOVQ	stackArgsType+0(FP), DX;		\
 	MOVQ	SP, SI;				\
 	ADDQ	BX, DI;				\
 	ADDQ	BX, SI;				\
 	SUBQ	BX, CX;				\
 	CALL	callRet<>(SB);			\
+done:;		\
 	RET
 
 // callRet copies return values back at the end of call*. This is a
