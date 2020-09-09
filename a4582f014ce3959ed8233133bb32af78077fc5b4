@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786b1c69_3549d82c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-09T22:42:02Z",
+      "side": 1,
+      "message": "Thanks for the reviews, Bryan and Ian. Updates, PTAL.",
+      "revId": "a4582f014ce3959ed8233133bb32af78077fc5b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
