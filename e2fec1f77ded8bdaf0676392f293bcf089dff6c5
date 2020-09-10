@@ -16,6 +16,24 @@
       "revId": "e2fec1f77ded8bdaf0676392f293bcf089dff6c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e532c931_a09dc989",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-10T19:24:11Z",
+      "side": 1,
+      "message": "Done, changed to \u0027go get -d\u0027 in most cases. I think \u0027go build\u0027 was just used to check that go.mod would be automatically updated. It wasn\u0027t actually important to build.",
+      "parentUuid": "07901fa6_f8c2535c",
+      "revId": "e2fec1f77ded8bdaf0676392f293bcf089dff6c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
