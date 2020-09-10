@@ -16,6 +16,40 @@
       "revId": "a4582f014ce3959ed8233133bb32af78077fc5b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cecea43_d43c86a8",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2890,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-10T15:36:21Z",
+      "side": 1,
+      "message": "Something seems off here.\n\nIf the `db.conn` goroutine returns, it will close `errCh` and thus unblock the `select` below, so the `waitingForConn` channel will have no discernible effect.\n\nOn the other hand, if this goroutine completes first (and closes the `waitingForConn` channel), then the `errCh` channel will be ignored, and the test will hang at line 2916 waiting for afterPutConn to be closed.",
+      "revId": "a4582f014ce3959ed8233133bb32af78077fc5b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58070b60_3a787ce7",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-10T15:36:21Z",
+      "side": 1,
+      "message": "errCh adds a potential point of cache contention that could interfere with the benchmark.\n\nSince the setEvent call in the benchmark should never fail anyway, perhaps it would be simpler to replace the b.Fatal call with a panic? (A panic in a goroutine will halt the test process one way or another...)",
+      "revId": "a4582f014ce3959ed8233133bb32af78077fc5b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
