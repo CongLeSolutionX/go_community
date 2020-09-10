@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07901fa6_f8c2535c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-10T15:34:51Z",
+      "side": 1,
+      "message": "I think it\u0027s a bit unintuitive that we use \"go get\" to fetch dependencies of and do a build of the current directory.\n\nIt would read better to do go get -d; go build, but then we\u0027re doing an extra load iteration, so I understand why we\u0027re doing things this way.",
+      "revId": "e2fec1f77ded8bdaf0676392f293bcf089dff6c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
