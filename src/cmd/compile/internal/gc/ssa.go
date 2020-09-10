@@ -6888,8 +6888,8 @@ func (e *ssafn) SplitString(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
 	lenType := types.Types[TINT]
 	if n.Class() == PAUTO && !n.Name.Addrtaken() {
 		// Split this string up into two separate variables.
-		p := e.splitSlot(&name, ".ptr", 0, ptrType)
-		l := e.splitSlot(&name, ".len", ptrType.Size(), lenType)
+		p := e.SplitSlot(&name, ".ptr", 0, ptrType)
+		l := e.SplitSlot(&name, ".len", ptrType.Size(), lenType)
 		return p, l
 	}
 	// Return the two parts of the larger variable.
@@ -6906,8 +6906,8 @@ func (e *ssafn) SplitInterface(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot
 		if n.Type.IsEmptyInterface() {
 			f = ".type"
 		}
-		c := e.splitSlot(&name, f, 0, u) // see comment in plive.go:onebitwalktype1.
-		d := e.splitSlot(&name, ".data", u.Size(), t)
+		c := e.SplitSlot(&name, f, 0, u) // see comment in plive.go:onebitwalktype1.
+		d := e.SplitSlot(&name, ".data", u.Size(), t)
 		return c, d
 	}
 	// Return the two parts of the larger variable.
@@ -6920,9 +6920,9 @@ func (e *ssafn) SplitSlice(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot, ss
 	lenType := types.Types[TINT]
 	if n.Class() == PAUTO && !n.Name.Addrtaken() {
 		// Split this slice up into three separate variables.
-		p := e.splitSlot(&name, ".ptr", 0, ptrType)
-		l := e.splitSlot(&name, ".len", ptrType.Size(), lenType)
-		c := e.splitSlot(&name, ".cap", ptrType.Size()+lenType.Size(), lenType)
+		p := e.SplitSlot(&name, ".ptr", 0, ptrType)
+		l := e.SplitSlot(&name, ".len", ptrType.Size(), lenType)
+		c := e.SplitSlot(&name, ".cap", ptrType.Size()+lenType.Size(), lenType)
 		return p, l, c
 	}
 	// Return the three parts of the larger variable.
@@ -6942,8 +6942,8 @@ func (e *ssafn) SplitComplex(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) 
 	}
 	if n.Class() == PAUTO && !n.Name.Addrtaken() {
 		// Split this complex up into two separate variables.
-		r := e.splitSlot(&name, ".real", 0, t)
-		i := e.splitSlot(&name, ".imag", t.Size(), t)
+		r := e.SplitSlot(&name, ".real", 0, t)
+		i := e.SplitSlot(&name, ".imag", t.Size(), t)
 		return r, i
 	}
 	// Return the two parts of the larger variable.
@@ -6961,9 +6961,9 @@ func (e *ssafn) SplitInt64(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
 	if n.Class() == PAUTO && !n.Name.Addrtaken() {
 		// Split this int64 up into two separate variables.
 		if thearch.LinkArch.ByteOrder == binary.BigEndian {
-			return e.splitSlot(&name, ".hi", 0, t), e.splitSlot(&name, ".lo", t.Size(), types.Types[TUINT32])
+			return e.SplitSlot(&name, ".hi", 0, t), e.SplitSlot(&name, ".lo", t.Size(), types.Types[TUINT32])
 		}
-		return e.splitSlot(&name, ".hi", t.Size(), t), e.splitSlot(&name, ".lo", 0, types.Types[TUINT32])
+		return e.SplitSlot(&name, ".hi", t.Size(), t), e.SplitSlot(&name, ".lo", 0, types.Types[TUINT32])
 	}
 	// Return the two parts of the larger variable.
 	if thearch.LinkArch.ByteOrder == binary.BigEndian {
@@ -6984,7 +6984,7 @@ func (e *ssafn) SplitStruct(name ssa.LocalSlot, i int) ssa.LocalSlot {
 		// Note: the _ field may appear several times.  But
 		// have no fear, identically-named but distinct Autos are
 		// ok, albeit maybe confusing for a debugger.
-		return e.splitSlot(&name, "."+st.FieldName(i), offset, ft)
+		return e.SplitSlot(&name, "."+st.FieldName(i), offset, ft)
 	}
 	return ssa.LocalSlot{N: n, Type: ft, Off: name.Off + st.FieldOff(i)}
 }
@@ -6997,7 +6997,7 @@ func (e *ssafn) SplitArray(name ssa.LocalSlot) ssa.LocalSlot {
 	}
 	et := at.Elem()
 	if n.Class() == PAUTO && !n.Name.Addrtaken() {
-		return e.splitSlot(&name, "[0]", 0, et)
+		return e.SplitSlot(&name, "[0]", 0, et)
 	}
 	return ssa.LocalSlot{N: n, Type: et, Off: name.Off}
 }
@@ -7006,9 +7006,15 @@ func (e *ssafn) DerefItab(it *obj.LSym, offset int64) *obj.LSym {
 	return itabsym(it, offset)
 }
 
-// splitSlot returns a slot representing the data of parent starting at offset.
-func (e *ssafn) splitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t *types.Type) ssa.LocalSlot {
-	s := &types.Sym{Name: parent.N.(*Node).Sym.Name + suffix, Pkg: localpkg}
+// SplitSlot returns a slot representing the data of parent starting at offset.
+func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t *types.Type) ssa.LocalSlot {
+	node := parent.N.(*Node)
+
+	if node.Class() != PAUTO || node.Name.Addrtaken() {
+		return ssa.LocalSlot{N: node, Type: t, Off: parent.Off + offset}
+	}
+
+	s := &types.Sym{Name: node.Sym.Name + suffix, Pkg: localpkg}
 
 	n := &Node{
 		Name: new(Name),
