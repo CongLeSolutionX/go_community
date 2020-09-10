@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da60b7ef_c43653c9",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2020-09-10T12:36:16Z",
+      "side": 1,
+      "message": "The error that\u0027s referenced in the parent PR _is not_ coming from `runBuild` here but from `copyFile`\nhttps://github.com/golang/go/blob/3f568625980f6e23a603cfd1cb4fcd2bf5c895d7/src/cmd/go/internal/work/exec.go#L1671. \n\nI\u0027d recommend that we start a discussion on the parent issue first, and understand what\u0027s really happening here. This will allow to propose a solid solution, along with the relevant tests to avoid future regressions.",
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
