@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "edbee628_fba16189",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1851,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-10T16:30:04Z",
+      "side": 1,
+      "message": "OK, SGTM",
+      "parentUuid": "56485159_610e60d4",
+      "range": {
+        "startLine": 1851,
+        "startChar": 27,
+        "endLine": 1851,
+        "endChar": 57
+      },
+      "revId": "cd828a01933bf6c6a3fe25d567c848eabde7b03f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73609d10_4485639b",
         "filename": "src/cmd/link/internal/ld/macho.go",
         "patchSetId": 1
