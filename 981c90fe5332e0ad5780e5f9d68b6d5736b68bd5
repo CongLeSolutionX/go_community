@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfd6baee_420800c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-09-10T23:05:29Z",
+      "side": 1,
+      "message": "OK, this is ready for review.  The Gobot failure is because of the ",
+      "revId": "981c90fe5332e0ad5780e5f9d68b6d5736b68bd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
