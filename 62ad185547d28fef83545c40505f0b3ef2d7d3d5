@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96d6bedc_545cd3e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-10T14:53:43Z",
+      "side": 1,
+      "message": "The original CL is just tests. While it is possible that the implementation may have bugs, I don\u0027t see a problem for the behavior the tests are testing. Why revert this?",
+      "revId": "62ad185547d28fef83545c40505f0b3ef2d7d3d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
