@@ -106,6 +106,24 @@
       "revId": "62ad185547d28fef83545c40505f0b3ef2d7d3d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e8ca6e9_8e0fac56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-11T19:34:42Z",
+      "side": 1,
+      "message": "To put it another way, it seems to me that returning runtime.sigprof in the stack trace is wrong, so it\u0027s a good thing that the test is failing.  We should try to understand and fix that problem rather than reverting the test that is catching the problem.",
+      "parentUuid": "83a65cdf_39fb1364",
+      "revId": "62ad185547d28fef83545c40505f0b3ef2d7d3d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
