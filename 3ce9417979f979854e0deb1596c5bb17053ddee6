@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00afaa7f_fc53da58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-11T23:06:32Z",
+      "side": 1,
+      "message": "\u003e Patch Set 4:\n\u003e \n\u003e The reported issue is about the obsolete format of RFC 5322 date string.\n\u003e The check of \u0027T\u0027 using .Index was chosen to limit complexity to handle\n\u003e today\u0027s format.\n\u003e \n\u003e If the obsolete format must be completely handled, the RFC allows\n\u003e CFWS between all elements. They must be removed for parsing.\n\u003e This would be much more complex.\n\u003e \n\u003e Without updating the documentation, it could be mentioned somewhere.\n\u003e \n\u003e A few tests were removed because of problems on\n\u003e one platform. It might be an opportunity to reinstate them.\n\nHowdy Constantin, could you please point me to the cases that you mentioned that were removed?",
+      "revId": "3ce9417979f979854e0deb1596c5bb17053ddee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
