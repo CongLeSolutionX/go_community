@@ -118,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "e2accfa2_eb109d74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-11T22:25:04Z",
+      "side": 1,
+      "message": "Yes, I think it would be beneficial to add Is, As and even Unwrap for all of:\n* InvalidUnmarshalError\n* MarshalerError\n* SyntaxError\n* UnmarshalFieldError\n* UnmarshalTypeError\n* UnsupportedValueError \n\nThat would be much appreciate, thank you!",
+      "parentUuid": "d12b2413_bad89942",
+      "revId": "61c1008fe35f8ad378fef7569f29e33ad2c7a31f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94eef479_b74bed5e",
         "filename": "src/encoding/json/scanner_test.go",
         "patchSetId": 1

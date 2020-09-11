@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b966572e_af6a437a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-11T22:25:04Z",
+      "side": 1,
+      "message": "Thank you Carlos! Kindly also looping in Bryan.",
+      "revId": "d4cef7763aeb992a555d22ffd8ac4f700c4f5fbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
