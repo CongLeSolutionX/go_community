@@ -70,6 +70,24 @@
       "revId": "62ad185547d28fef83545c40505f0b3ef2d7d3d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02d6b9ad_2fbefde8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-09-11T10:04:13Z",
+      "side": 1,
+      "message": "Take TestCPUProfile as an example, the stack trace in gollvm is:\nruntime.sigprof\nruntime/pprof.cpuHog0\nruntime/pprof.cpuHog1\nruntime/pprof.cpuHogger\npprof.TestCPUProfile..func1\npprof.testCPUProfile\nruntime/pprof.TestCPUProfile\ntesting.tRunner\n\nruntime.sigprof is what we want to skip, but it appears, so the test failed.\n\nThe stack trace in gccgo is:\nruntime.callers\nruntime/pprof.cpuHog0\nruntime/pprof.cpuHog1\nruntime/pprof.cpuHogger\npprof.TestCPUProfile..func1\npprof.testCPUProfile\nruntime/pprof.TestCPUProfile\ntesting.tRunner\n\nThe stack trace doesn\u0027t contain runtime.sigprof, so the test passed in gccgo.\n\ngccgo and gollvm share gofrontend, but stacktrace is different, which is a bit strange. I don\u0027t understand this point.",
+      "parentUuid": "92cac991_e213d124",
+      "revId": "62ad185547d28fef83545c40505f0b3ef2d7d3d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
