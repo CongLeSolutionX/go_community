@@ -93,3 +93,14 @@ func ParseFile(filename string, errh ErrorHandler, pragh PragmaHandler, mode Mod
 	defer f.Close()
 	return Parse(NewFileBase(filename), f, errh, pragh, mode)
 }
+
+// CommentsDo calls commenth for each syntax error or comment in the given source.
+// The commenth text argument contains the comment text, which always starts with
+// a '/'; or it contains the error message, which never starts with a '/'.
+func CommentsDo(src io.Reader, commenth func(line, col uint, text string)) {
+	var s scanner
+	s.init(src, commenth, comments)
+	for s.tok != _EOF {
+		s.next()
+	}
+}

@@ -101,28 +101,141 @@ func (check *Checker) err(pos syntax.Pos, msg string, soft bool) {
 	f(err)
 }
 
-func (check *Checker) error(pos syntax.Pos, msg string) {
-	check.err(pos, msg, false)
+func (check *Checker) error(at interface{}, msg string) {
+	check.err(leftPosFor(at), msg, false)
 }
 
-func (check *Checker) errorf(pos syntax.Pos, format string, args ...interface{}) {
-	check.err(pos, check.sprintf(format, args...), false)
+func (check *Checker) errorf(at interface{}, format string, args ...interface{}) {
+	check.err(leftPosFor(at), check.sprintf(format, args...), false)
 }
 
-func (check *Checker) softErrorf(pos syntax.Pos, format string, args ...interface{}) {
-	check.err(pos, check.sprintf(format, args...), true)
+func (check *Checker) softErrorf(at interface{}, format string, args ...interface{}) {
+	check.err(leftPosFor(at), check.sprintf(format, args...), true)
 }
 
-func (check *Checker) invalidAST(pos syntax.Pos, format string, args ...interface{}) {
-	check.errorf(pos, "invalid AST: "+format, args...)
+func (check *Checker) invalidASTf(at interface{}, format string, args ...interface{}) {
+	check.errorf(at, "invalid AST: "+format, args...)
 }
 
-func (check *Checker) invalidArg(pos syntax.Pos, format string, args ...interface{}) {
-	check.errorf(pos, "invalid argument: "+format, args...)
+func (check *Checker) invalidArgf(at interface{}, format string, args ...interface{}) {
+	check.errorf(at, "invalid argument: "+format, args...)
 }
 
-func (check *Checker) invalidOp(pos syntax.Pos, format string, args ...interface{}) {
-	check.errorf(pos, "invalid operation: "+format, args...)
+func (check *Checker) invalidOpf(at interface{}, format string, args ...interface{}) {
+	check.errorf(at, "invalid operation: "+format, args...)
+}
+
+// leftPosFor reports the left (= start) position of at.
+func leftPosFor(at interface{}) (pos syntax.Pos) {
+	switch x := at.(type) {
+	case nil:
+		panic("internal error: nil")
+	case syntax.Pos:
+		pos = x
+	case operand:
+		panic("internal error: should always pass *operand")
+	case *operand:
+		pos = leftPos(x.expr)
+	case syntax.Node:
+		pos = leftPos(x)
+	case Object:
+		pos = x.Pos()
+	default:
+		panic(fmt.Sprintf("internal error: unknown type %T", x))
+	}
+	return
+}
+
+// leftPos returns left (= start) position of n.
+func leftPos(n syntax.Node) (pos syntax.Pos) {
+	switch n := n.(type) {
+	// packages
+	case *syntax.File:
+
+	// declarations
+	case *syntax.ImportDecl:
+	case *syntax.ConstDecl:
+	case *syntax.TypeDecl:
+	case *syntax.VarDecl:
+	case *syntax.FuncDecl:
+
+	// expressions
+	case *syntax.BadExpr:
+	case *syntax.Name:
+	case *syntax.BasicLit:
+	case *syntax.CompositeLit:
+		pos = leftPos(n.Type)
+	case *syntax.KeyValueExpr:
+	case *syntax.FuncLit:
+	case *syntax.ParenExpr:
+	case *syntax.SelectorExpr:
+		pos = leftPos(n.X)
+	case *syntax.IndexExpr:
+		pos = leftPos(n.X)
+	case *syntax.SliceExpr:
+	case *syntax.AssertExpr:
+		pos = leftPos(n.X)
+	case *syntax.TypeSwitchGuard:
+		if n.Lhs != nil {
+			pos = leftPos(n.Lhs)
+			break
+		}
+		pos = leftPos(n.X)
+	case *syntax.Operation:
+		if n.Y != nil {
+			pos = leftPos(n.X)
+		}
+	case *syntax.CallExpr:
+		pos = leftPos(n.Fun)
+	case *syntax.ListExpr:
+		if len(n.ElemList) > 0 {
+			pos = leftPos(n.ElemList[0])
+		}
+	// types
+	case *syntax.ArrayType:
+	case *syntax.SliceType:
+	case *syntax.DotsType:
+	case *syntax.StructType:
+	case *syntax.Field:
+	case *syntax.InterfaceType:
+	case *syntax.FuncType:
+	case *syntax.MapType:
+	case *syntax.ChanType:
+
+	// statements
+	case *syntax.EmptyStmt:
+	case *syntax.LabeledStmt:
+	case *syntax.BlockStmt:
+	case *syntax.ExprStmt:
+	case *syntax.SendStmt:
+		pos = leftPos(n.Chan)
+	case *syntax.DeclStmt:
+	case *syntax.AssignStmt:
+		pos = leftPos(n.Lhs)
+	case *syntax.BranchStmt:
+	case *syntax.CallStmt:
+	case *syntax.ReturnStmt:
+	case *syntax.IfStmt:
+	case *syntax.ForStmt:
+	case *syntax.SwitchStmt:
+	case *syntax.SelectStmt:
+
+	// helper nodes
+	case *syntax.RangeClause:
+		if n.Lhs != nil {
+			pos = leftPos(n.Lhs)
+		} else {
+			pos = leftPos(n.X)
+		}
+	case *syntax.CaseClause:
+	case *syntax.CommClause:
+	}
+
+	if !pos.IsKnown() && n != nil {
+		pos = n.Pos()
+	}
+
+	return
 }
 
 // stripAnnotations removes internal (type) annotations from s.

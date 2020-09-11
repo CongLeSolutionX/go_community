@@ -6,12 +6,5 @@
 
 package p
 
-// fun test case
-type C[P interface{m()}] P
-
-func (r C[P]) m() { r.m() }
-
-func f[T interface{m(); n()}](x T) {
-	y := C[T](x)
-	y.m()
-}
+func e27[T any]() interface{  }
+func x27() { e27() /* ERROR cannot infer T */ }
