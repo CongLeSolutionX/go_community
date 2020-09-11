@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "206f1e2b_7a2dd6d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-09-11T00:53:38Z",
+      "side": 1,
+      "message": "OK, this is ready for review.  From your patch for mips64x.s, I had to change MOVD -\u003e MOVV for it to build.\n\nAlso, I am getting a seg fault failure for 386 when building Go, which goes away if I change getcallerfp() to just return 0.  Have you run into anything like this?\n",
+      "revId": "7eac33d7b6a1b8dd7b3a2138948be38efb147766",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
