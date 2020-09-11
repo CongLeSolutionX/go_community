@@ -2,6 +2,115 @@
   "comments": [
     {
       "key": {
+        "uuid": "ca773d86_4d57ecf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "Re-title: cmd/go: allow output in non-existent directory",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fa8b2db_d856d2db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "Wrap lines to 70 columns in commit messages. You should be able to edit the commit message here by editing the top comment in the PR.\n\nThis can be simplified a bit, too:\n\n    When \u0027go build\u0027 is given an output path with -o, if the output path\n    ends with a path separator, always treat it as a directory.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 154
+      },
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b179123_51077b4e",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "Delete trailing space.",
+      "range": {
+        "startLine": 50,
+        "startChar": 64,
+        "endLine": 50,
+        "endChar": 65
+      },
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb11baf_1f893a75",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "Rephrase: \"is an existing directory or ends with a slash or backslash,\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "798e55c8_21a7f1a9",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "Make sure to run ./mkalldocs.sh after editing help text so the doc comments stay in sync.",
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da60b7ef_c43653c9",
         "filename": "src/cmd/go/internal/work/build.go",
         "patchSetId": 1
@@ -49,6 +158,64 @@
       "side": 1,
       "message": "`runBuild` will consider the output is a file not a directory. https://github.com/golang/go/blob/07d19b2597af253ed78ef43ba6e7a49db9a8f4ba/src/cmd/go/internal/work/build.go#L394\n\n`BuildInstallFunc` will create the directory because the output name contains directory. https://github.com/golang/go/blob/07d19b2597af253ed78ef43ba6e7a49db9a8f4ba/src/cmd/go/internal/work/exec.go#L1554\n\nThe error message is coming from `copyFile` since it expects output is not a directory (created in BuildInstallFunc).\n\nSo I add the behavior of `runBuild`, consider an inexistent directory is a directory to fix the problem.",
       "parentUuid": "bf2ea498_a2abb4a6",
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ee3d628_718ab26d",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "I think this is the right thing to fix. If I understand correctly, the problem is just that we treat a path here as a regular file, even though it ends with a slash.",
+      "parentUuid": "daa25a30_4b8abd10",
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50f46488_fd82e76c",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "Instead of using filepath.Split, I think this would be clearer as strings.HasSuffix(cfg.BuildO, string(os.PathSeparator))",
+      "range": {
+        "startLine": 398,
+        "startChar": 36,
+        "endLine": 398,
+        "endChar": 46
+      },
+      "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec3e8f6_692ad993",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-11T18:08:10Z",
+      "side": 1,
+      "message": "Please test the new behavior in testdata/script/build_output.txt. See testdata/script/README for the test format. Make sure \u0027go test cmd/go/...\u0027 passes.",
       "revId": "41d0816cb5645ef9c49941d6a227c66a8ba9cfcd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
