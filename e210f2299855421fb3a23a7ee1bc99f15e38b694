@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ffe99ab_480c1dbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-11T13:06:30Z",
+      "side": 1,
+      "message": "Any chance of getting a review so I can move forward with cgo support on linux/riscv64?",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
