@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b59d583_3b63113f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-11T19:31:23Z",
+      "side": 1,
+      "message": "I\u0027m sorry, this change still looks wrong to me.\n\nFor what it\u0027s worth, we could now support the full specification of TZ (std offset[dst[offset][,start[/time],end[/time]]]) as we can now parse that in the tzset function.\n\nIn general LoadLocation uses its argument as the name of the timezone.  If we use TZ as the source, why shouldn\u0027t we use the value of TZ as the name?  Why use Local?\n\nWhat is the related GitHub page that you mention?",
+      "parentUuid": "ca3950cb_80bbcce3",
+      "revId": "3218392bb586981379417153c1e3c2298b6c1163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9a20e85_1f7fa4c0",
         "filename": "src/time/zoneinfo_unix.go",
         "patchSetId": 6
