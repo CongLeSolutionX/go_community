@@ -16,6 +16,160 @@
       "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab12dbd3_bb282358",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "I looked through this patch. I\u0027ll send more specific comments, but I wanted to make a sort of general remark first.\n\nAs you know folks on the Go team spent a lot of time during the last couple of releases rewriting the linker.\n\nOne of the things that made the rewrite most challenging was that there were many places in the linker code base where arch- and OS-specific operations were being performed, but without an indication in the comments or function/variable naming that the code only mattered for very specific corner cases. So we would be looking at a particular code construct like\n\n        if s :\u003d ctxt.Syms.ROLookup(something, 0); s !\u003d nil {\n    \t  switch s.Type {\n\t    case sym.STEXT:\n\t      vaddr \u003d 0\n            ...\t    \n\t}\n\nand puzzle over its implications, only to discover later on that the switch statement was only ever executing for Darwin + amd64 + shared build mode (or pick some other combination). Discovering these facts was often painful and time consuming.\n\nWith this in mind, I get nervous when I see things like the addition of a field like \n\n\tAddTextp     []loader.Sym\n\nto the \"Link\" struct, next to the existing \"Textp\". The similar naming and positioning makes it imply to the casual reader that these two slices are similar or equivalent, but in fact one of them is only needed or interesting when doing external linking on a specific architecture and link mode.\n\nA casual reader might also look at this and think, \"OK, I know what symbols are added to Textp -- function symbols, so I guess AddTextp probably also contains function symbols\", when in fact the symbols in AddTextp (as set out in the current patch) don\u0027t have any length (no payload), nor do they correspond to functions in any meaningful way-- they are only created so as to trigger creation of ELF symbol table entries.\n\nWith this in mind, I think it would be good to update your patch to try to more carefully identify the arch/OS specific buts. For example, AddTextp could be called something more descriptive, and perhaps placed in a spot that makes clear that it is used only in very restricted circumstances, and what those circumstances are. There are other places as well where I think more comments of this sort are needed.  \n\nLet me know if this makes sense. Thanks.\n\n",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f4351ce_d40d6102",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "Please add a comment describing what this hook does.  Also, is \"Gentext2\" really the right name for it? If so, why?",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68d8557_583120bf",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "Please see higher level comments on this.",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de071f89_456001b3",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1798,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "Would this be easier using sort.SliceStable?",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "935f85c2_74fbcaf2",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "Creating an entirely new text sym here seems wasteful in terms of memory. The loader will have to allocate space for the symbol\u0027s relocations, its name, etc (and this memory is essentially non-reclaimable). I wonder if there is a different way to generate the ELF symbol without having to create the loader symbol.",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf6dadc5_5cfd2aae",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 26
+      },
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd54724c_8f7e5710",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "If you are setting the section, do you also need to worry about the outer symbol (if present)?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21d4781a_e70ca541",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-11T15:02:45Z",
+      "side": 1,
+      "message": "This seems like a weird restriction-- any pointers on where it comes from? Instead of creating a new symbol (hi20ElfSym) and using a zero addend, could you use the original text symbol and an addend that gets you to the proper location?",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 72
+      },
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
