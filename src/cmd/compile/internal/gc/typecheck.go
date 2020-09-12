@@ -796,7 +796,16 @@ func typecheck1(n *Node, top int) (res *Node) {
 				return n
 			}
 		}
-
+		if !okfor[n.Op][TCOMPLEX128] && (Isconst(l, CTCPLX) || Isconst(r, CTCPLX)) {
+			yyerror("invalid operation: %v (operator %v not defined on untyped complex)", n, n.Op)
+			n.Type = nil
+			return n
+		}
+		if !okfor[op][TFLOAT64] && (Isconst(l, CTFLT) || Isconst(r, CTFLT)) {
+			yyerror("invalid operation: operator %v not defined on untyped float", op)
+			n.Type = nil
+			return n
+		}
 		n.Type = t
 
 	case OBITNOT, ONEG, ONOT, OPLUS:
@@ -813,7 +822,11 @@ func typecheck1(n *Node, top int) (res *Node) {
 			n.Type = nil
 			return n
 		}
-
+		if n.Op == OBITNOT && (Isconst(l, CTFLT) || Isconst(l, CTCPLX)) {
+			yyerror("invalid operation: %v %v", n.Op, t)
+			n.Type = nil
+			return n
+		}
 		n.Type = t
 
 	// exprs
