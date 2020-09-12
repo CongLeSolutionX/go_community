@@ -753,7 +753,21 @@ func typecheck1(n *Node, top int) (res *Node) {
 			}
 		}
 
+		if (op == OMOD || op == OOR || op == OAND || op == OANDNOT || op == OXOR) && (Isconst(l, CTFLT) || Isconst(l, CTFLT) || Isconst(r, CTCPLX) || Isconst(r, CTCPLX)) {
+			yyerror("invalid operation: operator %v not defined on untyped float or complex", op)
+			n.Type = nil
+			return n
+		}
+
+		if (op == ODIV || op == OMOD) && Isconst(r, CTINT) {
+			if r.Val().U.(*Mpint).CmpInt64(0) == 0 {
+				yyerror("division by zero")
+				n.Type = nil
+				return n
+			}
+		}
 		t = l.Type
+
 		if iscmp[n.Op] {
 			// TIDEAL includes complex constant, but only OEQ and ONE are defined for complex,
 			// so check that the n.op is available for complex  here before doing evconst.
@@ -789,14 +803,11 @@ func typecheck1(n *Node, top int) (res *Node) {
 			n.Right = nil
 		}
 
-		if (op == ODIV || op == OMOD) && Isconst(r, CTINT) {
-			if r.Val().U.(*Mpint).CmpInt64(0) == 0 {
-				yyerror("division by zero")
-				n.Type = nil
-				return n
-			}
-		}
-
+		//if (op == OMOD || op == OOR || op == OAND || op == OANDNOT || op == OXOR) && (Isconst(l, CTFLT) || Isconst(l, CTFLT) || Isconst(r, CTCPLX) || Isconst(r, CTCPLX)) {
+		//	yyerror("invalid operation: operator %v not defined on untyped float or complex", op)
+		//	n.Type = nil
+		//	return n
+		//}
 		n.Type = t
 
 	case OBITNOT, ONEG, ONOT, OPLUS:
@@ -808,7 +819,7 @@ func typecheck1(n *Node, top int) (res *Node) {
 			n.Type = nil
 			return n
 		}
-		if !okfor[n.Op][t.Etype] {
+		if !okfor[n.Op][t.Etype] || (n.Op == OBITNOT && (Isconst(l, CTFLT) || Isconst(l, CTCPLX))) {
 			yyerror("invalid operation: %v %v", n.Op, t)
 			n.Type = nil
 			return n
