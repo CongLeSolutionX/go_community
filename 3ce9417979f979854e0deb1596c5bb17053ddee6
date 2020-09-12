@@ -16,6 +16,24 @@
       "revId": "3ce9417979f979854e0deb1596c5bb17053ddee6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d85dbd2_e44608e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-09-12T08:00:01Z",
+      "side": 1,
+      "message": "Two cases of TestDateParsingCFWS in net/mail/message_test.go started failing on one builder. The issue of reference is https://github.com/golang/go/issues/34854\nIssue was closed by setting an empty time.Time{} for those tests the day following the merge of CFWS support.\n\nThe change that removed these tests refers to a change of zoninfo data. There are a few others issues which are related to zoneinfo. There is maybe some explanations there.\n\nThis issue seems to duplicate #34854 as one comment in the tests mentions support for obsolete time zone (CST in this case). Maybe removing support for obsolete time zone was deliberate.",
+      "parentUuid": "00afaa7f_fc53da58",
+      "revId": "3ce9417979f979854e0deb1596c5bb17053ddee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
