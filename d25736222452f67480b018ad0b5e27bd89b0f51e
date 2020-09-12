@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec603cf_e8910161",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-12T12:41:29Z",
+      "side": 1,
+      "message": "Hi Dempsky, I created a new CL due to my wrong operation. In case OBITNOT, I can check in okfor.But XOR is not success, I don\u0027t know why.",
+      "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
