@@ -16,6 +16,63 @@
       "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49e9ae67_15a33699",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-12T20:57:31Z",
+      "side": 1,
+      "message": "This should be right after the okfor check.\n\nAlso, the Isconst checks are wrong.",
+      "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ce889d_ad96ff69",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-12T20:57:31Z",
+      "side": 1,
+      "message": "Put this back where it was.",
+      "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d658b588_b2282ce3",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-12T20:57:31Z",
+      "side": 1,
+      "message": "I recommend either:\n\n1) Incorporate this directly into the okfor test by replacing \"[t.Etype]\" with something else.\n\n2) Keep as a separate test like how it was before.",
+      "range": {
+        "startLine": 822,
+        "startChar": 27,
+        "endLine": 822,
+        "endChar": 92
+      },
+      "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
