@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "705b9483_c2c59e53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29128
+      },
+      "writtenOn": "2020-09-12T06:00:21Z",
+      "side": 1,
+      "message": "How about only supporting `:/etc/localtime` when specifying absolute path? This should solve most cases and also make `Local` name correct. When something like `:/etc/mytz` is provided, it will fail and fallback to UTC as in the past no matter whether `/etc/mytz` exists or not.\n\nThe page link is here: https://github.com/golang/go/pull/27570#issuecomment-482339503. Another issue is https://github.com/NixOS/nixpkgs/pull/23078#issuecomment-637439716.",
+      "parentUuid": "3b59d583_3b63113f",
+      "revId": "3218392bb586981379417153c1e3c2298b6c1163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9a20e85_1f7fa4c0",
         "filename": "src/time/zoneinfo_unix.go",
         "patchSetId": 6
