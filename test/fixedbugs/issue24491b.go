@@ -10,16 +10,17 @@
 package main
 
 import (
+	"context"
 	"runtime"
-	"sync/atomic"
+	"time"
 	"unsafe"
 )
 
-var done uint32
+var done = make(chan bool)
 
 func setup() unsafe.Pointer {
 	s := "ok"
-	runtime.SetFinalizer(&s, func(p *string) { atomic.StoreUint32(&done, 1) })
+	runtime.SetFinalizer(&s, func(p *string) { close(done) })
 	return unsafe.Pointer(&s)
 }
 
@@ -27,15 +28,21 @@ func setup() unsafe.Pointer {
 //go:uintptrescapes
 func before(p uintptr) int {
 	runtime.GC()
-	if atomic.LoadUint32(&done) != 0 {
+	select {
+	case <-done:
 		panic("GC early")
+	default:
 	}
 	return 0
 }
 
 func after() int {
 	runtime.GC()
-	if atomic.LoadUint32(&done) == 0 {
+	ctx, cancelFn := context.WithTimeout(context.Background(), time.Minute)
+	defer cancelFn()
+	select {
+	case <-done:
+	case <-ctx.Done():
 		panic("GC late")
 	}
 	return 0
