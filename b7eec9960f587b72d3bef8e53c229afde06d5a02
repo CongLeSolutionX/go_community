@@ -16,6 +16,23 @@
       "revId": "b7eec9960f587b72d3bef8e53c229afde06d5a02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "303d997a_49715794",
+        "filename": "test/fixedbugs/issue24491b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-13T06:29:44Z",
+      "side": 1,
+      "message": "Ops, this is redundant, copy-paste mistake, I will remove in followup patch.",
+      "revId": "b7eec9960f587b72d3bef8e53c229afde06d5a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
