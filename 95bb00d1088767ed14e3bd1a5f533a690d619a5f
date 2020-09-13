@@ -86,6 +86,42 @@
       "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af9749a1_23e231f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38859
+      },
+      "writtenOn": "2020-09-13T22:17:23Z",
+      "side": 1,
+      "message": "I\u0027ve made it already.\n\nI first fixed the tests to test properly (check if the errors are equal), then I changed the implementations so the tests would pass (check if same type and use reflect.DeepEquals to check for equality), then I deleted the Is implementation of some errors and tests were still passing... so in the end I just removed both Is and all their tests.\n\nCL 254541.",
+      "parentUuid": "bdc9236a_d7543e3b",
+      "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07f36d7a_0d1d29e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38859
+      },
+      "writtenOn": "2020-09-13T22:17:23Z",
+      "side": 1,
+      "message": "reverted all this on CL 253037.",
+      "parentUuid": "406fc6b8_80a065e6",
+      "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
