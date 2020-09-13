@@ -69,6 +69,23 @@
       "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdc9236a_d7543e3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-13T20:19:54Z",
+      "side": 1,
+      "message": "\u003e Patch Set 5:\n\u003e \n\u003e Thank you Roger and Ainar for chiming in and Carlos, thank you for the CLs. My fault for the incomplete implementation of not checking the internal records, I should have known better and Carlos could have used the guidance. I was basing these implementations off errors.Is for io.EOF. My apologies!\n\u003e \n\u003e Carlos, we have a few options:\n\u003e \n\u003e a) Finish up the implementations to correctness by comparing internal records\n\u003e \n\u003e b) Revert the prior CLs and then send a wholesome proper CL\n\u003e \n\u003e In both options, please tag Roger, myself and Ainar.\n\nI\u0027ll actually mail the CL with the corrections :) Carlos, please don\u0027t worry.",
+      "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
