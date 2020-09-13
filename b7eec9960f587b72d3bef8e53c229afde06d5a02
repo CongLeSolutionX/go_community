@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "2e9f1eee_90045163",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-13T06:32:22Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on linux-arm:\n\u003e See https://storage.googleapis.com/go-build-log/b7eec996/linux-arm_41e20f69.log\n\u003e \n\u003e Other builds still in progress; subsequent failure notices suppressed until final report. Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\nThis is known failure for linux-arm https://github.com/golang/go/issues/35628",
+      "revId": "b7eec9960f587b72d3bef8e53c229afde06d5a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "303d997a_49715794",
         "filename": "test/fixedbugs/issue24491b.go",
         "patchSetId": 1
