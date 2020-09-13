@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "7285ddce_018a6ee6",
+        "filename": "test/fixedbugs/issue24491b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-13T07:19:56Z",
+      "side": 1,
+      "message": "I would want to break the test earlier in case something went wrong, so we don\u0027t have to wait until the whole test suite is terminated.",
+      "parentUuid": "e969118d_b522c7a3",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 2
+      },
+      "revId": "b7eec9960f587b72d3bef8e53c229afde06d5a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "303d997a_49715794",
         "filename": "test/fixedbugs/issue24491b.go",
         "patchSetId": 1
