@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "335586d4_1839d6a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-13T02:05:34Z",
+      "side": 1,
+      "message": "You need to remove the space between the \u0026 and beginning so:\n      errors.Is(err, \u0026UnmarshalTypeError{})\n      errors.Is(err, \u0026UnmarshalFieldError{})\n      errors.Is(err, \u0026InvalidUnmarshalError{})\n      errors.Is(err, \u0026UnsupportedValueError{})\n      errors.Is(err, \u0026MarshalerError{})",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "8161e15f2e5986af5c9a4411ff8ed7ae5373e2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea992b19_6f83832c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-13T02:05:34Z",
+      "side": 1,
+      "message": "SyntaxError.Is was implemented in CL 253037.\nAs and Unwrap relevant methods will be added in\nfuture CLs.",
+      "revId": "8161e15f2e5986af5c9a4411ff8ed7ae5373e2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff390299_c54664c0",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-13T02:05:34Z",
+      "side": 1,
+      "message": "This code is incorrect and won\u0027t compile. Please ensure you can run this code locally by: go test, before uploading it. Thanks!",
+      "revId": "8161e15f2e5986af5c9a4411ff8ed7ae5373e2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
