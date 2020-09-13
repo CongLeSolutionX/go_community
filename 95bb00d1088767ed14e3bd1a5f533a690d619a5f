@@ -16,6 +16,24 @@
       "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df359fdc_1305d1c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8455
+      },
+      "writtenOn": "2020-09-13T18:19:09Z",
+      "side": 1,
+      "message": "As an API user, the behaviour implemented here and in the other CL is definitely not the one I expect.  The one I expect is the one described in *Working with Errors in Go 1.13,* in the *Customizing error tests with Is and As methods* section[1].  That is, first compare the types, and then compare the meaningful data.  In fact, that is how gRPC\u0027s `statusError` does it as well[2].\n\n[1][https://blog.golang.org/go1.13-errors#TOC_4%2E]\n\n[2][https://github.com/grpc/grpc-go/blob/5e8f83304c0563d1ba74db05fee83d9c18ab9a58/internal/status/status.go#L154]",
+      "parentUuid": "66c719e5_a9b78ab5",
+      "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
