@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66c719e5_a9b78ab5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2020-09-13T17:59:17Z",
+      "side": 1,
+      "message": "For the record, this does not feel right to be. `Is` should be about comparing type identity, not kind I\u0027m fairly sure. Surely people can already use `As` to do this check?",
+      "revId": "95bb00d1088767ed14e3bd1a5f533a690d619a5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
