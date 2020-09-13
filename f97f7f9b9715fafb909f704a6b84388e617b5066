@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "770dbe87_56d1efbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-13T07:27:59Z",
+      "side": 1,
+      "message": "Thanks for your interest in working on this. Two requests:\n\n1. Before uploading your CLs, please double check that they\u0027re ready to be reviewed/committed. For example, don\u0027t include any commented out code or unnecessary white-space changes.\n\n2. Please try to make sure tests already pass locally before uploading them. Occasional mistakes are understandable; but once you know a test is failing (e.g., test/const1.go), you should try to reproduce that failure locally and make sure you\u0027ve fixed it before uploading another version for review.\n\nYou can run the full test suite by running \"./all.bash\" in $GOROOT/src. However, that\u0027s somewhat slow, so I often take short cuts. For example, you can install a new compiler (\"go install cmd/compile\"), and then just run \"go run run.go -- const1.go\" within $GOROOT/test.\n\n(Beware: If you install a broken compiler, you won\u0027t be able to use \"go install cmd/compile\" again to fix it. You\u0027ll have to use \"./make.bash\" in $GOROOT/src.)",
+      "revId": "f97f7f9b9715fafb909f704a6b84388e617b5066",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
