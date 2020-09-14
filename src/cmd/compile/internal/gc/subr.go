@@ -1597,7 +1597,8 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	// generate those wrappers within the same compilation unit as (T).M.
 	// TODO(mdempsky): Investigate why we can't enable this more generally.
 	if rcvr.IsPtr() && rcvr.Elem() == method.Type.Recv().Type && rcvr.Elem().Sym != nil {
-		inlcalls(fn)
+		maxCost, allocatorCallPenalty := maxInlineCost(fn)
+		inlcalls(fn, maxCost, allocatorCallPenalty)
 	}
 	escapeFuncs([]*Node{fn}, false)
 

@@ -708,17 +708,18 @@ func Main(archInit func(*Arch)) {
 			numfns := numNonClosures(list)
 			numClosuresSeen += len(list) - numfns
 			for _, n := range list {
+				maxCost, smallAllocatorPenalty := maxInlineCost(n)
 				if !recursive || numfns > 1 {
 					// We allow inlining if there is no
 					// recursion, or the recursion cycle is
 					// across more than one function.
-					caninl(n)
+					caninl(n, maxCost, smallAllocatorPenalty)
 				} else {
 					if Debug.m > 1 {
 						fmt.Printf("%v: cannot inline %v: recursive\n", n.Line(), n.Func.Nname)
 					}
 				}
-				inlcalls(n)
+				inlcalls(n, maxCost, smallAllocatorPenalty)
 			}
 			escapeFuncs(list, recursive)
 		})
