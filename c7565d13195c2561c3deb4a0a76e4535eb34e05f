@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b03cd59d_953be611",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-14T06:02:24Z",
+      "side": 1,
+      "message": "Hmm, this check seems redundant, because dumpglobls on line 161 will set funcsyms \u003d nil. Maybe we should move this check right after the compile loop instead?",
+      "revId": "c7565d13195c2561c3deb4a0a76e4535eb34e05f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
