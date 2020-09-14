@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "76500850_863f7e05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34694
+      },
+      "writtenOn": "2020-09-14T09:32:09Z",
+      "side": 1,
+      "message": "the readDirName\u0027s error is os.open and f.Readdirnames\u0027s error, which would not cause exist program exsiting.",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78c41a43_fdc63eb1",
         "filename": "src/path/filepath/path.go",
         "patchSetId": 8
@@ -19,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "c8e3b7eb_48e52066",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 34694
+      },
+      "writtenOn": "2020-09-14T09:32:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "78c41a43_fdc63eb1",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ad30d76_6f76d60f",
         "filename": "src/path/filepath/path.go",
         "patchSetId": 8
@@ -30,6 +65,42 @@
       "writtenOn": "2020-06-19T04:58:38Z",
       "side": 1,
       "message": "Unfortunately I don\u0027t think this change can be made.  Existing code expects to be able to intercept this error in walkFn.  Here that no longer happens.  This seems likely to break existing programs.",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6fb1bd1_8d7a3719",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 34694
+      },
+      "writtenOn": "2020-09-14T09:32:09Z",
+      "side": 1,
+      "message": "The purpose for this PR is for the readname bug, which would cause unnecessary memory usage when skipdir.\n\nIt should be intercept in walkFn.\n\nSorry, English is not my native language. it maybe not clear to explan my purpose, I\u0027m sorry.",
+      "parentUuid": "0ad30d76_6f76d60f",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc8eea13_8f8b54d3",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 34694
+      },
+      "writtenOn": "2020-09-14T09:32:09Z",
+      "side": 1,
+      "message": "Let\u0027s dig the code logic.\n\n1. \"names, err :\u003d readDirNames(path)\" this is read the dirname,which will cause large memory usage when skipdir on large directory.\n\n2. \"err1 :\u003d walkFn(path, info, err)\" still return on err, I just put this line before readdirname, which will return skipdir.\n\nthis pr is just change the skipdir logic before readdirname.\n\nwhat\u0027s the problem for this? Could you make a example? Thanks.",
+      "parentUuid": "0ad30d76_6f76d60f",
       "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
