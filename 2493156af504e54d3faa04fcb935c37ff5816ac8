@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38cdf462_1d5317a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-14T05:17:33Z",
+      "side": 1,
+      "message": "nit: \"non-reentrant\" appears to be more common\n\n(\"un-re-\" sounds funny. I think because \"non-\" and \"re-\" are from Latin, but \"un-\" is from Germanic.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba907cdb_f60eb7c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-14T05:17:33Z",
+      "side": 1,
+      "message": "nit: I think \"uncompiled\" is fine.",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24d8355a_7a44e6fb",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-14T05:17:33Z",
+      "side": 1,
+      "message": "Can we just move this before phase 8 instead? (I actually think it should even be possible to move just before phase 4, but I feel like there was a reason I haven\u0027t done that yet.)\n\nIf so, I think that would be worth doing in a separate CL before this one. But if it causes any problems, we can go ahead with this and revisit early-fninit later.",
+      "range": {
+        "startLine": 759,
+        "startChar": 0,
+        "endLine": 761,
+        "endChar": 2
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "020d6d32_c5c882f7",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-14T05:17:33Z",
+      "side": 1,
+      "message": "We call some of these again below, but not all of them. For example, we already handle calling dumpglobls again if externdcl grows (L154). We also already call dumpsignats repeatedly if necessary (L141).\n\nI\u0027m somewhat nervous that calling funccompile later might mean more of these need to be called again. And if not today, possibly in the future.\n\nFor example, addptabs and dumptabs iterate over `exportlist` and `ptabs`. I don\u0027t think funccompile can append to these lists, but adding a few checks would be a cheap/easy way to be confident about that.\n\nCan you: (1) check what lists each of these functions use; (2) add code after we call the function to save the length of its lists; and (3) add code add the bottom of dumpdata to make sure the lists haven\u0027t grown?",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 17
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
