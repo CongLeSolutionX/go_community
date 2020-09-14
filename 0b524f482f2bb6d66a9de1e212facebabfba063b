@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30bd8f49_fdb7076f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-14T21:04:25Z",
+      "side": 1,
+      "message": "Thank you Damien, we can properly work out the details later but the errors advisory is quite subjective with pretty much no clear examples.",
+      "revId": "0b524f482f2bb6d66a9de1e212facebabfba063b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
