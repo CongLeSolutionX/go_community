@@ -1,0 +1,20 @@
+# For issue 41355
+[short] skip
+[!race] skip
+
+! go test -v cleanup_failnow/cleanup_failnow_test.go
+stdout 'panic: die'
+
+-- cleanup_failnow/cleanup_failnow_test.go --
+package cleanup_failnow
+import "testing"
+func TestCleanupWithFailNow(t *testing.T) {
+	t.Cleanup(func() {
+		t.FailNow()
+	})
+	t.Run("x", func(t *testing.T) {
+		t.Run("y", func(t *testing.T) {
+			panic("die")
+		})
+	})
+}
