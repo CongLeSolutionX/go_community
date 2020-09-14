@@ -751,6 +751,13 @@ func Main(archInit func(*Arch)) {
 	}
 	timings.AddEvent(fcount, "funcs")
 
+	// At this point, all ODCLFUNC in xtop were compiled, we record current length of xtop
+	// here, so dumpdata can continue compiling un-compiled functions.
+	//
+	// Note: this assignment must be placed before fninit, because fninit can add functions to xtop.
+	//
+	// TODO: revisit if we can do early-fninit
+	xtops := len(xtop)
 	if nsavederrors+nerrors == 0 {
 		fninit(xtop)
 	}
@@ -790,7 +797,7 @@ func Main(archInit func(*Arch)) {
 
 	// Write object data to disk.
 	timings.Start("be", "dumpobj")
-	dumpdata()
+	dumpdata(xtops)
 	Ctxt.NumberSyms()
 	dumpobj()
 	if asmhdr != "" {
