@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f6251d1_02e5827d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-14T22:24:49Z",
+      "side": 1,
+      "message": "time: support colon at start of TZ value",
+      "revId": "d5e1ae18b384733f8ad20a47ca0afc78c2eac37e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed7ac22_ed2dc4b8",
+        "filename": "src/time/zoneinfo_unix_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-14T22:24:49Z",
+      "side": 1,
+      "message": "s/2018/2020/\n\n2020 is the year of the gopher.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "d5e1ae18b384733f8ad20a47ca0afc78c2eac37e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ebb391_e02f5c72",
+        "filename": "src/time/zoneinfo_unix_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-14T22:24:49Z",
+      "side": 1,
+      "message": "Just write \":\" + path.",
+      "range": {
+        "startLine": 73,
+        "startChar": 17,
+        "endLine": 73,
+        "endChar": 40
+      },
+      "revId": "d5e1ae18b384733f8ad20a47ca0afc78c2eac37e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
