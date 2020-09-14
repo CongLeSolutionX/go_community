@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6cd11877_b9dc8476",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-14T05:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38cdf462_1d5317a6",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba907cdb_f60eb7c7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "93033df3_8d6dcd00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-14T05:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba907cdb_f60eb7c7",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24d8355a_7a44e6fb",
         "filename": "src/cmd/compile/internal/gc/main.go",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2020-09-14T05:17:33Z",
       "side": 1,
       "message": "Can we just move this before phase 8 instead? (I actually think it should even be possible to move just before phase 4, but I feel like there was a reason I haven\u0027t done that yet.)\n\nIf so, I think that would be worth doing in a separate CL before this one. But if it causes any problems, we can go ahead with this and revisit early-fninit later.",
+      "range": {
+        "startLine": 759,
+        "startChar": 0,
+        "endLine": 761,
+        "endChar": 2
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95ea281_afe87705",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-14T05:42:31Z",
+      "side": 1,
+      "message": "Yay, I did try moving this before phase 8, but compiler fails with something related to declaration context:\n\n/home/cuonglm/sources/go/src/runtime/float.go:9:5: internal compiler error: funchdr: dclcontext \u003d 2",
+      "parentUuid": "24d8355a_7a44e6fb",
       "range": {
         "startLine": 759,
         "startChar": 0,
@@ -91,6 +163,30 @@
       "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c1082b_dec4702c",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-14T05:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "020d6d32_c5c882f7",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 17
+      },
+      "revId": "2493156af504e54d3faa04fcb935c37ff5816ac8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
