@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c15e679f_4fb340a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-14T18:48:26Z",
+      "side": 1,
+      "message": "As from #40699, to submit a CL from a non-approver strictly requires two Trust+1 from two approvers? How to prove I am the person who owns the account and CL so that worth the Trust label?\n\nMaybe one more off-topic question, what are the criteria to become an approver?",
+      "revId": "41ba54db80e02b80c8dd79b9f9d8020a54d3bc6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
