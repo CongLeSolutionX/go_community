@@ -51,6 +51,23 @@
       "revId": "41ba54db80e02b80c8dd79b9f9d8020a54d3bc6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b930b7e8_5d262f9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-14T19:18:56Z",
+      "side": 1,
+      "message": "Thank you Ian for your kind explaination, and thanks Emmanuel for your trust :) ",
+      "revId": "41ba54db80e02b80c8dd79b9f9d8020a54d3bc6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
