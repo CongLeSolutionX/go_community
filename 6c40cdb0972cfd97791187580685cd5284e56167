@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b43c7c7b_685ae70d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-14T22:01:52Z",
+      "side": 1,
+      "message": "Looking good. Two small comments on the test.",
+      "revId": "6c40cdb0972cfd97791187580685cd5284e56167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47800e5_71d04bb9",
+        "filename": "src/cmd/go/testdata/script/build_output.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-14T22:01:52Z",
+      "side": 1,
+      "message": "Change to\n\n    exists -exec bin/x$GOEXE\n\nOn Windows, the output file will have an .exe extension. In these tests, $GOEXE is \".exe\" on Windows and is \"\" on other systems.",
+      "revId": "6c40cdb0972cfd97791187580685cd5284e56167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc362b2_7672dd3e",
+        "filename": "src/cmd/go/testdata/script/build_output.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-14T22:01:52Z",
+      "side": 1,
+      "message": "$GOEXE here, too.",
+      "revId": "6c40cdb0972cfd97791187580685cd5284e56167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
