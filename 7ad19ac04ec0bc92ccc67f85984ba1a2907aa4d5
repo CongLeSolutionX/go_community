@@ -16,6 +16,24 @@
       "revId": "7ad19ac04ec0bc92ccc67f85984ba1a2907aa4d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d10172d_d23ecf9f",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-14T09:39:25Z",
+      "side": 1,
+      "message": "I think something like this could work:\n\n```\n if !okfor[op][TFLOAT64] \u0026\u0026 (Isconst(l, CTFLT) || Isconst(r, CTFLT)) {\n     yyerror(\"invalid operation: operator %v not defined on untyped float\", op)\n     n.Type \u003d nil\n     return n\n }\n\n if !okfor[op][TCOMPLEX128] \u0026\u0026 (Isconst(l, CTCPLX) || Isconst(r, CTCPLX)) {\n     yyerror(\"invalid operation: operator %v not defined on untyped complex\", op)\n     n.Type \u003d nil\n     return n\n }\n```",
+      "parentUuid": "85dfe96c_e0d337fe",
+      "revId": "7ad19ac04ec0bc92ccc67f85984ba1a2907aa4d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
