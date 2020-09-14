@@ -747,6 +747,23 @@ func uaddOvf(a, b int64) bool {
 	return uint64(a)+uint64(b) < uint64(a)
 }
 
+var ChanSendRecv1 *obj.LSym
+
+func mergeChanSendRecv(send1, recv1 interface{}) *AuxCall {
+	sendac := send1.(*AuxCall)
+	recvac := recv1.(*AuxCall)
+	var args []ArgOrResult
+	args = append(args, sendac.args...)
+	for _, a := range recvac.args {
+		prev := args[len(args)-1]
+		// TODO: this may have alignment issues? Ideally we could just
+		// have t.Params().Field(i).Offset for runtime.chansendrecv1.
+		a.Offset = prev.Offset + int32(prev.T.Size())
+		args = append(args, a)
+	}
+	return StaticAuxCall(ChanSendRecv1, args, nil)
+}
+
 // de-virtualize an InterCall
 // 'sym' is the symbol for the itab
 func devirt(v *Value, aux interface{}, sym Sym, offset int64) *AuxCall {
@@ -932,6 +949,13 @@ found:
 
 	}
 	return nil // too far away
+}
+
+func replaceUses(old, new *Value) bool {
+	for _, b := range old.Block.Func.Blocks {
+		b.replaceUses(old, new)
+	}
+	return true
 }
 
 // clobber invalidates values. Returns true.

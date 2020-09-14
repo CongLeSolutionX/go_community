@@ -68,6 +68,7 @@ func initssaconfig() {
 	ssaCaches = make([]ssa.Cache, nBackendWorkers)
 
 	// Set up some runtime functions we'll need to call.
+	ssa.ChanSendRecv1 = sysfunc("chansendrecv1")  // TODO: better way to get symbol from package ssa?
 	assertE2I = sysfunc("assertE2I")
 	assertE2I2 = sysfunc("assertE2I2")
 	assertI2I = sysfunc("assertI2I")

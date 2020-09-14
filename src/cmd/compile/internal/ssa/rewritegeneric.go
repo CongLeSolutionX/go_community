@@ -21375,6 +21375,41 @@ func rewriteValuegeneric_OpStaticLECall(v *Value) bool {
 		v.AddArg2(v0, mem)
 		return true
 	}
+	// match: (StaticLECall {recvSym} recvHchan recvElem sendKill:(VarKill sendSelectN:(SelectN sendCall:(StaticLECall {sendSym} sendHchan sendElem mem))))
+	// cond: symNamed(recvSym, "runtime.chanrecv1") && symNamed(sendSym, "runtime.chansend1") && warnRule(true, v, "call to chanrecv1 following chansend1") && replaceUses(sendKill, mem) && clobber(sendCall, sendSelectN, sendKill)
+	// result: (StaticLECall {mergeChanSendRecv(sendSym, recvSym)} sendHchan sendElem recvHchan recvElem mem)
+	for {
+		if len(v.Args) != 3 {
+			break
+		}
+		recvSym := auxToCall(v.Aux)
+		_ = v.Args[2]
+		recvHchan := v.Args[0]
+		recvElem := v.Args[1]
+		sendKill := v.Args[2]
+		if sendKill.Op != OpVarKill {
+			break
+		}
+		sendSelectN := sendKill.Args[0]
+		if sendSelectN.Op != OpSelectN {
+			break
+		}
+		sendCall := sendSelectN.Args[0]
+		if sendCall.Op != OpStaticLECall || len(sendCall.Args) != 3 {
+			break
+		}
+		sendSym := auxToCall(sendCall.Aux)
+		mem := sendCall.Args[2]
+		sendHchan := sendCall.Args[0]
+		sendElem := sendCall.Args[1]
+		if !(symNamed(recvSym, "runtime.chanrecv1") && symNamed(sendSym, "runtime.chansend1") && warnRule(true, v, "call to chanrecv1 following chansend1") && replaceUses(sendKill, mem) && clobber(sendCall, sendSelectN, sendKill)) {
+			break
+		}
+		v.reset(OpStaticLECall)
+		v.Aux = callToAux(mergeChanSendRecv(sendSym, recvSym))
+		v.AddArg5(sendHchan, sendElem, recvHchan, recvElem, mem)
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpStore(v *Value) bool {

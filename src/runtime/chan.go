@@ -143,6 +143,12 @@ func chansend1(c *hchan, elem unsafe.Pointer) {
 	chansend(c, elem, true, getcallerpc())
 }
 
+func chansendrecv1(sendChan *hchan, sendElem unsafe.Pointer, recvChan *hchan, recvElem unsafe.Pointer) {
+	// TODO: more efficient implementation. :)
+	chansend1(sendChan, sendElem)
+	chanrecv1(recvChan, recvElem)
+}
+
 /*
  * generic single channel send/recv
  * If block is not nil,

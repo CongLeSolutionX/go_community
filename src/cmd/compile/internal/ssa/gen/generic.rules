@@ -2490,3 +2490,11 @@
 // Elide self-moves. This only happens rarely (e.g test/fixedbugs/bug277.go).
 // However, this rule is needed to prevent the previous rule from looping forever in such cases.
 (Move dst src mem) && isSamePtr(dst, src) => mem
+
+(StaticLECall {recvSym} recvHchan recvElem sendKill:(VarKill sendSelectN:(SelectN sendCall:(StaticLECall {sendSym} sendHchan sendElem mem))))
+	&& symNamed(recvSym, "runtime.chanrecv1")
+	&& symNamed(sendSym, "runtime.chansend1")
+	&& warnRule(true, v, "call to chanrecv1 following chansend1")
+	&& replaceUses(sendKill, mem)  // TODO: is this the best way to completely eliminate the mem from from after chansend1 and replace it with the mem from before chansend1?
+	&& clobber(sendCall, sendSelectN, sendKill)
+	=> (StaticLECall {mergeChanSendRecv(sendSym, recvSym)} sendHchan sendElem recvHchan recvElem mem)
