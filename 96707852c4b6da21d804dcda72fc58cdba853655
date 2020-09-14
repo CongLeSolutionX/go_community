@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af0df04_ab1db907",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-14T23:58:49Z",
+      "side": 1,
+      "message": "Please put these right after the functions that processes the list. E.g., addptabs processes exportlist, so this should go right after that call.",
+      "revId": "96707852c4b6da21d804dcda72fc58cdba853655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
