@@ -104,6 +104,24 @@
       "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf6b91a3_a75fbddd",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-14T15:55:39Z",
+      "side": 1,
+      "message": "In the original code, if readDirNames returns an error, that error is passed to walkFn.\n\nIn this change, if readDirNames returns an error, that error is returned to the caller.  It is not passed to walkFn.\n\nI do not think we can change the behavior in that way.",
+      "parentUuid": "fc8eea13_8f8b54d3",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
