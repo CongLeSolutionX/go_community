@@ -40,9 +40,14 @@ const (
 	inlineMaxBudget       = 80
 	inlineExtraAppendCost = 0
 	// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
-	inlineExtraCallCost  = 57              // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
-	inlineExtraPanicCost = 1               // do not penalize inlining panics.
-	inlineExtraThrowCost = inlineMaxBudget // with current (2018-05/1.11) code, inlining runtime.throw does not help.
+	inlineExtraCallCost  = 57 // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
+	inlineExtraPanicCost = 1  // do not penalize inlining panics.
+	inlineExtraThrowCost = 40 // Updated value based on benchmarking 2020-11-8
+
+	// These two knobs are intended to keep "return new(Thing).initialize()" inlineable and thus make the
+	// allocation visible in the caller, and perhaps not escape.
+	inlineAllocatorCallSize    = 11 // The number of nodes (not "budget") for which an allocator call penalty applies
+	inlineAllocatorCallPenalty = 9  // A function that allocates and could plausibly be inlined applies this penalty to any calls it makes.
 
 	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
 	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
@@ -104,10 +109,14 @@ func typecheckinl(fn *Node) {
 	lineno = lno
 }
 
+func debugThisFn(fn *Node) bool {
+	return false
+}
+
 // Caninl determines whether fn is inlineable.
 // If so, caninl saves fn->nbody in fn->inl and substitutes it with a copy.
 // fn and ->nbody will already have been typechecked.
-func caninl(fn *Node) {
+func caninl(fn *Node, maxCost int32) {
 	if fn.Op != ODCLFUNC {
 		Fatalf("caninl %v", fn)
 	}
@@ -203,7 +212,12 @@ func caninl(fn *Node) {
 	visitor := hairyVisitor{
 		budget:        inlineMaxBudget,
 		extraCallCost: cc,
+		maxInlineCost: maxCost,
 		usedLocals:    make(map[*Node]bool),
+		debug:         debugThisFn(fn),
+	}
+	if visitor.debug {
+		Warnl(fn.Pos, "About to inline visit %s.%s", myimportpath, fn.funcname())
 	}
 	if visitor.visitList(fn.Nbody) {
 		reason = visitor.reason
@@ -299,10 +313,16 @@ func inlFlood(n *Node) {
 // hairiness and whether or not it can be inlined.
 type hairyVisitor struct {
 	budget        int32
-	reason        string
 	extraCallCost int32
+	reason        string
 	usedLocals    map[*Node]bool
+	maxInlineCost int32
+	indent        int16
+	debug         bool
+	exits         bool
 }
+
+const spaces = "                                                                                                       "
 
 // Look for anything we want to punt on.
 func (v *hairyVisitor) visitList(ll Nodes) bool {
@@ -317,6 +337,23 @@ func (v *hairyVisitor) visitList(ll Nodes) bool {
 func (v *hairyVisitor) visit(n *Node) bool {
 	if n == nil {
 		return false
+	}
+
+	if v.debug {
+		i := int(v.indent)
+		if i > len(spaces) {
+			i = len(spaces)
+		}
+		fmt.Printf("%sEnter %v budget %d\n", spaces[:i], n.Op, v.budget)
+		v.indent++
+		defer func() {
+			v.indent--
+			i := int(v.indent)
+			if i > len(spaces) {
+				i = len(spaces)
+			}
+			fmt.Printf("%sExit %v budget %d\n", spaces[:i], n.Op, v.budget)
+		}()
 	}
 
 	switch n.Op {
@@ -343,7 +380,10 @@ func (v *hairyVisitor) visit(n *Node) bool {
 			break
 		}
 
-		if fn := inlCallee(n.Left); fn != nil && fn.Func.Inl != nil {
+		if fn := inlCallee(n.Left, v.maxInlineCost); fn != nil && fn.Func.Inl != nil && fn.Func.Inl.Cost < v.maxInlineCost {
+			if v.debug {
+				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", fn.funcname(), fn.Func.Inl.Cost, v.maxInlineCost)
+			}
 			v.budget -= fn.Func.Inl.Cost
 			break
 		}
@@ -371,7 +411,10 @@ func (v *hairyVisitor) visit(n *Node) bool {
 				break
 			}
 		}
-		if inlfn := asNode(t.FuncType().Nname).Func; inlfn.Inl != nil {
+		if inlfn := asNode(t.FuncType().Nname).Func; inlfn.Inl != nil && inlfn.Inl.Cost < v.maxInlineCost {
+			if v.debug {
+				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", n.Left.Sym.Name, inlfn.Inl.Cost, v.maxInlineCost)
+			}
 			v.budget -= inlfn.Inl.Cost
 			break
 		}
@@ -483,37 +526,39 @@ func inlcopy(n *Node) *Node {
 	return m
 }
 
-func countNodes(n *Node) int {
-	if n == nil {
-		return 0
+// maxInlineCost returns the maximum cost of another function to be inlined into fn
+func maxInlineCost(fn *Node) int32 {
+	var nNodes, nAllocs, nCalls int
+	inspectList(fn.Nbody, func(n *Node) bool {
+		nNodes++
+		switch n.Op {
+		case ONEW, ONEWOBJ:
+			nAllocs++
+		case OCALL, OCALLFUNC, OCALLMETH, OCALLINTER:
+			nCalls++
+		}
+		return true
+	})
+
+	maxCost := int32(inlineMaxBudget)
+
+	if nNodes >= inlineBigFunctionNodes {
+		return inlineBigFunctionMaxCost
 	}
-	cnt := 1
-	cnt += countNodes(n.Left)
-	cnt += countNodes(n.Right)
-	for _, n1 := range n.Ninit.Slice() {
-		cnt += countNodes(n1)
+	if nNodes < inlineAllocatorCallSize && nCalls == 1 && nAllocs > 0 {
+		// Don't inline so much into little functions that contain allocations that they become not-inlineable themselves.
+		// Zero calls means no point setting this, two or more calls means this is not getting inlined anyway, modulo OIF-max-not-sum weighting.
+		// TODO this is a terribly crude metric.
+		return maxCost - inlineAllocatorCallPenalty
 	}
-	for _, n1 := range n.Nbody.Slice() {
-		cnt += countNodes(n1)
-	}
-	for _, n1 := range n.List.Slice() {
-		cnt += countNodes(n1)
-	}
-	for _, n1 := range n.Rlist.Slice() {
-		cnt += countNodes(n1)
-	}
-	return cnt
+	return maxCost
 }
 
 // Inlcalls/nodelist/node walks fn's statements and expressions and substitutes any
 // calls made to inlineable functions. This is the external entry point.
-func inlcalls(fn *Node) {
+func inlcalls(fn *Node, maxCost int32) {
 	savefn := Curfn
 	Curfn = fn
-	maxCost := int32(inlineMaxBudget)
-	if countNodes(fn) >= inlineBigFunctionNodes {
-		maxCost = inlineBigFunctionMaxCost
-	}
 	// Map to keep track of functions that have been inlined at a particular
 	// call site, in order to stop inlining when we reach the beginning of a
 	// recursion cycle again. We don't inline immediately recursive functions,
@@ -521,6 +566,9 @@ func inlcalls(fn *Node) {
 	// Most likely, the inlining will stop before we even hit the beginning of
 	// the cycle again, but the map catches the unusual case.
 	inlMap := make(map[*Node]bool)
+	if debugThisFn(fn) {
+		Warnl(fn.Pos, "inlnode(%s.%s,%d)", myimportpath, fn.funcname(), maxCost)
+	}
 	fn = inlnode(fn, maxCost, inlMap)
 	if fn != Curfn {
 		Fatalf("inlnode replaced curfn")
@@ -688,7 +736,7 @@ func inlnode(n *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 		if isIntrinsicCall(n) {
 			break
 		}
-		if fn := inlCallee(n.Left); fn != nil && fn.Func.Inl != nil {
+		if fn := inlCallee(n.Left, maxCost); fn != nil && fn.Func.Inl != nil {
 			n = mkinlcall(n, fn, maxCost, inlMap)
 		}
 
@@ -715,7 +763,7 @@ func inlnode(n *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 
 // inlCallee takes a function-typed expression and returns the underlying function ONAME
 // that it refers to if statically known. Otherwise, it returns nil.
-func inlCallee(fn *Node) *Node {
+func inlCallee(fn *Node, maxCost int32) *Node {
 	fn = staticValue(fn)
 	switch {
 	case fn.Op == ONAME && fn.Class() == PFUNC:
@@ -732,7 +780,7 @@ func inlCallee(fn *Node) *Node {
 		return fn
 	case fn.Op == OCLOSURE:
 		c := fn.Func.Closure
-		caninl(c)
+		caninl(c, maxCost)
 		return c.Func.Nname
 	}
 	return nil
@@ -904,6 +952,7 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 		}
 		return n
 	}
+
 	if fn.Func.Inl.Cost > maxCost {
 		// The inlined function body is too big. Typically we use this check to restrict
 		// inlining into very big functions.  See issue 26546 and 17566.

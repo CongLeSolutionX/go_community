@@ -686,17 +686,18 @@ func Main(archInit func(*Arch)) {
 		visitBottomUp(xtop, func(list []*Node, recursive bool) {
 			numfns := numNonClosures(list)
 			for _, n := range list {
+				maxCost := maxInlineCost(n)
 				if !recursive || numfns > 1 {
 					// We allow inlining if there is no
 					// recursion, or the recursion cycle is
 					// across more than one function.
-					caninl(n)
+					caninl(n, maxCost)
 				} else {
 					if Debug.m > 1 {
 						fmt.Printf("%v: cannot inline %v: recursive\n", n.Line(), n.Func.Nname)
 					}
 				}
-				inlcalls(n)
+				inlcalls(n, maxCost)
 			}
 		})
 	}
