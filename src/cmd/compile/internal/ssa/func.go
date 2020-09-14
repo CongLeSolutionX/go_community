@@ -306,7 +306,7 @@ func (f *Func) freeValue(v *Value) {
 		f.Fatalf("trying to free an already freed value")
 	}
 	if v.Uses != 0 {
-		f.Fatalf("value %s still has %d uses", v, v.Uses)
+		f.Fatalf("value %s still has %d uses: %s", v, v.Uses, v.Block.Func)
 	}
 	if len(v.Args) != 0 {
 		f.Fatalf("value %s still has %d args", v, len(v.Args))

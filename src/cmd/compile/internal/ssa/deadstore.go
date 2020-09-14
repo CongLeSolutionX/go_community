@@ -64,7 +64,7 @@ func dse(f *Func) {
 				continue
 			}
 			if last != nil {
-				b.Fatalf("two final stores - simultaneous live stores %s %s", last.LongString(), v.LongString())
+				b.Fatalf("two final stores - simultaneous live stores %s %s: %s", last.LongString(), v.LongString(), f)
 			}
 			last = v
 		}
