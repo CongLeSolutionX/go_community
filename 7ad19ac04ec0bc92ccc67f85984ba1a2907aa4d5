@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85dfe96c_e0d337fe",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-14T06:30:41Z",
+      "side": 1,
+      "message": "Could we somehow make this error message specific for each type instead of mixing \"float or complex\"?",
+      "revId": "7ad19ac04ec0bc92ccc67f85984ba1a2907aa4d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
