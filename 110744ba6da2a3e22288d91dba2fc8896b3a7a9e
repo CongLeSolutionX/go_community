@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87fef96b_33739671",
+        "filename": "src/cmd/go/testdata/script/test_cleanup_failnow.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-14T17:05:33Z",
+      "side": 1,
+      "message": "Why only run this on the race detector?",
+      "revId": "110744ba6da2a3e22288d91dba2fc8896b3a7a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9bf81c4_d571a7df",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-14T17:05:33Z",
+      "side": 1,
+      "message": "Use a deferred call to ensure that we report that the test is complete even if a cleanup function calls t.FailNow.  See issue 41355.",
+      "revId": "110744ba6da2a3e22288d91dba2fc8896b3a7a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
