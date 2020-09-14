@@ -111,7 +111,11 @@ func dumpCompilerObj(bout *bio.Writer) {
 	dumpexport(bout)
 }
 
-func dumpdata() {
+// dumpdata prepares data for writing object to disk.
+//
+// xtops is the index of xtop that we continue compiling
+// un-compiled functions.
+func dumpdata(xtops int) {
 	externs := len(externdcl)
 
 	dumpglobls()
@@ -129,9 +133,19 @@ func dumpdata() {
 	// number of types in a finite amount of code.
 	// In the typical case, we loop 0 or 1 times.
 	// It was not until issue 24761 that we found any code that required a loop at all.
-	for len(compilequeue) > 0 {
+	for {
+		for i := xtops; i < len(xtop); i++ {
+			n := xtop[i]
+			if n.Op == ODCLFUNC {
+				funccompile(n)
+			}
+		}
+		xtops = len(xtop)
 		compileFunctions()
 		dumpsignats()
+		if xtops == len(xtop) {
+			break
+		}
 	}
 
 	// Dump extra globals.
