@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69425af3_e2d8b3c1",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2498,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-14T20:02:47Z",
+      "side": 1,
+      "message": "replaceUses is bad because it has to grovel over the whole function to find the uses.\nJust update sendKill to be an OpCopy of mem. Copy elision will do the work for you more efficiently.\n\nIn fact, now that I think about it, you should just require that sendKill.Uses \u003d\u003d 1. Otherwise, there may be a load in between the send and recv - what memory state will that use? (Maybe it is ok to use mem instead, because the send\u0027s completion doesn\u0027t modify memory in any visible way. In which case, forget this paragraph, go for paragraph #1.)",
+      "revId": "77ce3e668b3590218887d283849e0f933098c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
