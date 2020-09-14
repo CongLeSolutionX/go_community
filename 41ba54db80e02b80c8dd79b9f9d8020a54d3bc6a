@@ -16,6 +16,24 @@
       "revId": "41ba54db80e02b80c8dd79b9f9d8020a54d3bc6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70fcc502_04ba0310",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-14T19:00:11Z",
+      "side": 1,
+      "message": "About becoming an approver, see https://golang.org/wiki/GerritAccess.\n\nI think we are assuming that people who are on the approvers list will let us know if they lose control of their account.  Even then to get a change into the repo will now require two people to lose control of their accounts.\n\nIf you are asking about how we know whether someone who is not on the approvers list has lost control of their account, it shouldn\u0027t matter.  Two separate people will read and review the CL, so adding bad code to the repo will be difficult.  At least that is my understanding of the theory.",
+      "parentUuid": "c15e679f_4fb340a7",
+      "revId": "41ba54db80e02b80c8dd79b9f9d8020a54d3bc6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
