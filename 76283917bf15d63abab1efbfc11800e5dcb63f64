@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85060620_647389c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T00:21:01Z",
+      "side": 1,
+      "message": "Can we have a test for the new SendMail method?  Thanks.",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42b9bd11_69581591",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T00:21:01Z",
+      "side": 1,
+      "message": "I don\u0027t see an obvious reason for this method to close the connection.",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6cd0ca0_05f594f2",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T00:21:01Z",
+      "side": 1,
+      "message": "Seems like we should call testHookStartTLS here.",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c2cb836_6ecfb7fa",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T00:21:01Z",
+      "side": 1,
+      "message": "Why quit?",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15662dba_55d604c3",
+        "filename": "src/net/smtp/smtp_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T00:21:01Z",
+      "side": 1,
+      "message": "Use \"Got: %+v Expected nil\", along the lines of the above message.",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d6bb325_92c82ea9",
+        "filename": "src/net/smtp/smtp_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T00:21:01Z",
+      "side": 1,
+      "message": "if err \u003d\u003d nil || err \u003d\u003d io.EOF",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db1f9183_46e1ff76",
+        "filename": "src/net/smtp/smtp_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T00:21:01Z",
+      "side": 1,
+      "message": "got %v expected %v",
+      "range": {
+        "startLine": 1015,
+        "startChar": 50,
+        "endLine": 1015,
+        "endChar": 69
+      },
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
