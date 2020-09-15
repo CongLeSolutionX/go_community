@@ -1,0 +1,18 @@
+# Regression test for https://golang.org/issue/41400:
+#
+# If CC is set to a path containing spaces, the go command should not
+# truncate that path at the first space.
+
+[!cgo] skip
+
+chmod 0777 $WORK/'bin with spaces'/cc.sh
+env CC=$WORK/'bin with spaces/cc.sh -some-flag'
+
+go env CC GOGCCFLAGS
+stdout '^'$WORK[/\\]'bin with spaces'[/\\]cc.sh'$'
+stdout '^-some-flag\b'
+
+-- $WORK/bin with spaces/cc.sh --
+#!/bin/sh
+
+$(go env CC) "$@"
