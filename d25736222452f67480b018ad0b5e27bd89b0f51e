@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "28c86980_cfcabf86",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "If this code after the okfor check, this code is not work, I don\u0027t know why.",
+      "parentUuid": "49e9ae67_15a33699",
+      "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36ce889d_ad96ff69",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "5f38aeb3_e82a6627",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36ce889d_ad96ff69",
+      "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d658b588_b2282ce3",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 4
@@ -64,6 +100,30 @@
       "writtenOn": "2020-09-12T20:57:31Z",
       "side": 1,
       "message": "I recommend either:\n\n1) Incorporate this directly into the okfor test by replacing \"[t.Etype]\" with something else.\n\n2) Keep as a separate test like how it was before.",
+      "range": {
+        "startLine": 822,
+        "startChar": 27,
+        "endLine": 822,
+        "endChar": 92
+      },
+      "revId": "d25736222452f67480b018ad0b5e27bd89b0f51e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96502967_c1808fd2",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "I can only separate as before.",
+      "parentUuid": "d658b588_b2282ce3",
       "range": {
         "startLine": 822,
         "startChar": 27,

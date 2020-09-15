@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2349433e_51775fff",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "I don\u0027t know where this code works.",
+      "range": {
+        "startLine": 760,
+        "startChar": 0,
+        "endLine": 764,
+        "endChar": 4
+      },
+      "revId": "2347ef653a91836eb23ccc29064db0b473e9ff85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b4dd29d_697dbbf8",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "I don\u0027t know why this code does not work here.",
+      "revId": "2347ef653a91836eb23ccc29064db0b473e9ff85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

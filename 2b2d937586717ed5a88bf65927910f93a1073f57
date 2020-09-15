@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8308bc8b_d5811484",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "Hi Cuong Manh, Is this all right?",
+      "revId": "2b2d937586717ed5a88bf65927910f93a1073f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9f948fa_c41fb8bc",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "Can this code be removed?",
+      "range": {
+        "startLine": 760,
+        "startChar": 3,
+        "endLine": 764,
+        "endChar": 4
+      },
+      "revId": "2b2d937586717ed5a88bf65927910f93a1073f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,70 @@
       "revId": "f97f7f9b9715fafb909f704a6b84388e617b5066",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3427e58_7557c996",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "ok. I will fix. But only old patchset can work.",
+      "parentUuid": "770dbe87_56d1efbf",
+      "revId": "f97f7f9b9715fafb909f704a6b84388e617b5066",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e86d17f6_ee676920",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "I don\u0027t know where this code works.",
+      "range": {
+        "startLine": 760,
+        "startChar": 0,
+        "endLine": 764,
+        "endChar": 4
+      },
+      "revId": "f97f7f9b9715fafb909f704a6b84388e617b5066",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94959a2c_3cd158cb",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2020-09-15T10:23:03Z",
+      "side": 1,
+      "message": "I don\u0027t know why this code is not working.",
+      "range": {
+        "startLine": 765,
+        "startChar": 0,
+        "endLine": 769,
+        "endChar": 6
+      },
+      "revId": "f97f7f9b9715fafb909f704a6b84388e617b5066",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
