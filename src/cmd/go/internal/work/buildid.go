@@ -281,7 +281,7 @@ func (b *Builder) gccgoToolID(name, language string) (string, error) {
 			return "", fmt.Errorf("%s: can not find compilation command in %q", name, out)
 		}
 
-		fields := strings.Fields(compiler)
+		fields := cfg.SplitCmdEnv(compiler)
 		if len(fields) == 0 {
 			return "", fmt.Errorf("%s: compilation command confusion %q", name, out)
 		}

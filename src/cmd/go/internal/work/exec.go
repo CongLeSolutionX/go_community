@@ -2351,7 +2351,7 @@ func (b *Builder) fcExe() []string {
 // were present in the environment value.
 // For example if CC="gcc -DGOPHER" then the result is ["gcc", "-DGOPHER"].
 func (b *Builder) compilerExe(envValue string, def string) []string {
-	compiler := strings.Fields(envValue)
+	compiler := cfg.SplitCmdEnv(envValue)
 	if len(compiler) == 0 {
 		compiler = []string{def}
 	}

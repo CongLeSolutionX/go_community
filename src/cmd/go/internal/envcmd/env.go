@@ -100,11 +100,11 @@ func MkEnv() []cfg.EnvVar {
 	}
 
 	cc := cfg.DefaultCC(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CC")); len(env) > 0 {
+	if env := cfg.SplitCmdEnv(cfg.Getenv("CC")); len(env) > 0 {
 		cc = env[0]
 	}
 	cxx := cfg.DefaultCXX(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CXX")); len(env) > 0 {
+	if env := cfg.SplitCmdEnv(cfg.Getenv("CXX")); len(env) > 0 {
 		cxx = env[0]
 	}
 	env = append(env, cfg.EnvVar{Name: "AR", Value: envOr("AR", "ar")})
