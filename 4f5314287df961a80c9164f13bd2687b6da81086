@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685022ed_754e9e89",
+        "filename": "src/cmd/go/testdata/script/build_cc_spaces.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 27609
+      },
+      "writtenOn": "2020-09-15T16:19:25Z",
+      "side": 1,
+      "message": "Should there also be a test for running cgo directly without going through the cmd/go (not go tool cgo)?\nThat would check if cmd/cgo/gcc breaks",
+      "revId": "4f5314287df961a80c9164f13bd2687b6da81086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
