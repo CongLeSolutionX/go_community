@@ -33,6 +33,24 @@
       "revId": "d1511a2ebc92310a1c5f18d2880e0840d15da339",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6346ce0_9fb6c410",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-15T20:32:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf844e23_8990756d",
+      "revId": "d1511a2ebc92310a1c5f18d2880e0840d15da339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
