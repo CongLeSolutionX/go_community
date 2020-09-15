@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f3a6454_65e7a4c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38843
+      },
+      "writtenOn": "2020-09-15T12:42:00Z",
+      "side": 1,
+      "message": "Fixed the contents of SAMPLE and the commit message. Please confirm.",
+      "revId": "1620c16f40c6fdf364d00b0d7432104bbf9f9991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
