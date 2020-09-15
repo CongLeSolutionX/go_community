@@ -16,6 +16,23 @@
       "revId": "4f5314287df961a80c9164f13bd2687b6da81086",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54f2d343_bde8508d",
+        "filename": "src/cmd/internal/cmdenv/cmdenv.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-15T23:36:10Z",
+      "side": 1,
+      "message": "Why not\n    for i, r :\u003d range cmd\n?",
+      "revId": "4f5314287df961a80c9164f13bd2687b6da81086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
