@@ -33,6 +33,7 @@ import (
 	"cmd/go/internal/load"
 	"cmd/go/internal/str"
 	"cmd/go/internal/trace"
+	"cmd/internal/cmdenv"
 )
 
 // actionList returns the list of actions in the dag rooted at root
@@ -2351,11 +2352,11 @@ func (b *Builder) fcExe() []string {
 // were present in the environment value.
 // For example if CC="gcc -DGOPHER" then the result is ["gcc", "-DGOPHER"].
 func (b *Builder) compilerExe(envValue string, def string) []string {
-	compiler := strings.Fields(envValue)
-	if len(compiler) == 0 {
-		compiler = []string{def}
+	exe, args := cmdenv.Split(envValue)
+	if exe == "" {
+		return []string{def}
 	}
-	return compiler
+	return append([]string{exe}, args...)
 }
 
 // compilerCmd returns a command line prefix for the given environment

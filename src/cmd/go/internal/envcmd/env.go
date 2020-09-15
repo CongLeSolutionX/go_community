@@ -24,6 +24,7 @@ import (
 	"cmd/go/internal/load"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/work"
+	"cmd/internal/cmdenv"
 )
 
 var CmdEnv = &base.Command{
@@ -100,12 +101,12 @@ func MkEnv() []cfg.EnvVar {
 	}
 
 	cc := cfg.DefaultCC(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CC")); len(env) > 0 {
-		cc = env[0]
+	if exe, _ := cmdenv.Split(cfg.Getenv("CC")); exe != "" {
+		cc = exe
 	}
 	cxx := cfg.DefaultCXX(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CXX")); len(env) > 0 {
-		cxx = env[0]
+	if exe, _ := cmdenv.Split(cfg.Getenv("CXX")); exe != "" {
+		cxx = exe
 	}
 	env = append(env, cfg.EnvVar{Name: "AR", Value: envOr("AR", "ar")})
 	env = append(env, cfg.EnvVar{Name: "CC", Value: cc})
