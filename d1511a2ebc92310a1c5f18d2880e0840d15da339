@@ -74,6 +74,30 @@
       "revId": "d1511a2ebc92310a1c5f18d2880e0840d15da339",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ff104b1_a9a69388",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-15T20:54:06Z",
+      "side": 1,
+      "message": "In my mind, `base.ExitIfErrors()` explains the lack of an `error` return in the function signature, so it belongs up near the signature (instead of at the end of the function).\n\n(Plus, if we ever refactor this function to have an early return this will be more robust.)",
+      "parentUuid": "de339864_78cbf7c7",
+      "range": {
+        "startLine": 604,
+        "startChar": 12,
+        "endLine": 604,
+        "endChar": 24
+      },
+      "revId": "d1511a2ebc92310a1c5f18d2880e0840d15da339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
