@@ -9,6 +9,7 @@ package main
 
 import (
 	"bytes"
+	"cmd/internal/cmdenv"
 	"debug/dwarf"
 	"debug/elf"
 	"debug/macho"
@@ -1535,14 +1536,15 @@ func gofmtPos(n ast.Expr, pos token.Pos) string {
 // defaultCC is defined in zdefaultcc.go, written by cmd/dist.
 func (p *Package) gccBaseCmd() []string {
 	// Use $CC if set, since that's what the build uses.
-	if ret := strings.Fields(os.Getenv("CC")); len(ret) > 0 {
-		return ret
+	if exe, args := cmdenv.Split(os.Getenv("CC")); exe != "" {
+		return append([]string{exe}, args...)
 	}
 	// Try $GCC if set, since that's what we used to use.
-	if ret := strings.Fields(os.Getenv("GCC")); len(ret) > 0 {
-		return ret
+	if exe, args := cmdenv.Split(os.Getenv("GCC")); exe != "" {
+		return append([]string{exe}, args...)
 	}
-	return strings.Fields(defaultCC(goos, goarch))
+	exe, args := cmdenv.Split(defaultCC(goos, goarch))
+	return append([]string{exe}, args...)
 }
 
 // gccMachine returns the gcc -m flag to use, either "-m32", "-m64" or "-marm".
