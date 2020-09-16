@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b1ed5778_f17f129c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-09-16T20:12:36Z",
+      "side": 1,
+      "message": "I see. So I think we should just add the Flock wrapper to syscall for illumos without duplicating all solaris files. I\u0027ve sent CL 255377 which does add it to x/sys/unix and we could just copy the implementation from there.",
+      "parentUuid": "671b54dd_e5806448",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b63e868_021786a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
