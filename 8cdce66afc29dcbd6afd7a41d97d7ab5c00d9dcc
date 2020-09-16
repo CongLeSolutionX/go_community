@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18e13333_28c428ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-16T19:01:50Z",
+      "side": 1,
+      "message": "TRY\u003dsolaris,illumos",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b09f1e4_56bc0b13",
+        "filename": "src/cmd/go/internal/lockedfile/internal/filelock/filelock_fcntl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-16T19:01:50Z",
+      "side": 1,
+      "message": "(spurious trailing space added to this line)",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af9ccc5d_c07fca41",
+        "filename": "src/syscall/zsysnum_solaris_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-16T19:01:50Z",
+      "side": 1,
+      "message": "Needs a blank line above this one, I think.",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3566438d_93a9361d",
+        "filename": "src/syscall/zsysnum_solaris_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-16T19:01:50Z",
+      "side": 1,
+      "message": "Any particular reason to use an extra +build line here, instead of extending the tuple on the existing line as in the other files?",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 23
+      },
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
