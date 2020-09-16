@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "b6777744_87f693dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-16T19:05:35Z",
+      "side": 1,
+      "message": "I should add: I cloned this change locally and verified that the new illumos files are nearly identical to the solaris files (apart from Flock and a few constants added / removed).",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b09f1e4_56bc0b13",
         "filename": "src/cmd/go/internal/lockedfile/internal/filelock/filelock_fcntl.go",
         "patchSetId": 1
