@@ -51,6 +51,24 @@
       "revId": "770119c191904a98aeb3290884646dcbca87c95d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0170e4_7fd34fc5",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2092,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-16T09:58:38Z",
+      "side": 1,
+      "message": "Great, thanks. As always, let me know if you have questions or need me to elaborate.",
+      "parentUuid": "7e88d139_49166e7b",
+      "revId": "770119c191904a98aeb3290884646dcbca87c95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
