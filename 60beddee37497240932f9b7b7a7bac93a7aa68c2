@@ -22,6 +22,30 @@
       "revId": "60beddee37497240932f9b7b7a7bac93a7aa68c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4858527a_d8f7cb05",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-09-16T21:06:45Z",
+      "side": 1,
+      "message": "I think this CL is fine merged together (though I wouldn\u0027t mind a test :)).\n\nFWIW, if anything I think the large number of small CLs can sometime make things harder to read, since code I need to reference isn\u0027t available in this CL or code search, but in one of a dozen+ parent CLs.",
+      "parentUuid": "73e3718e_cf1d8366",
+      "range": {
+        "startLine": 778,
+        "startChar": 3,
+        "endLine": 778,
+        "endChar": 20
+      },
+      "revId": "60beddee37497240932f9b7b7a7bac93a7aa68c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
