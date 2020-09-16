@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cdf7027_b29244f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-16T03:36:20Z",
+      "side": 1,
+      "message": "The test failures are real.  The test will need to test whether the files exist or something, and skip the test if they do not.  And there\u0027s not much point to running the test on windows or wasm.",
+      "revId": "325c9afd48d67e12dba9ad30270e4ffd9c7d0b3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
