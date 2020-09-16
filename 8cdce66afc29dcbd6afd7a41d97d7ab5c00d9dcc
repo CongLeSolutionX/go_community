@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b753633_43364bf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-09-16T19:49:29Z",
+      "side": 1,
+      "message": "\u003e Given that the syscall package is frozen (https://github.com/golang/go/blob/10dfb1dd3d1d26122cf18f29468ec17eb7222c3f/src/syscall/syscall.go#L21-L25), I\u0027m not sure this is really worth doing as we\u0027re not going to add new public functions to this package.\n\u003e \n\u003e New syscalls should be added to golang.org/x/sys/unix, so the change might be worth making there.\n\nThat being said, I think we already have the infrastructure in x/sys/unix to add new illumos specific syscalls, see e.g. CL 224238",
+      "parentUuid": "7a52d94a_11c4f42d",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b63e868_021786a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
