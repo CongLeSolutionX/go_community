@@ -530,6 +530,9 @@ func geneq(t *types.Type) *obj.LSym {
 	np := asNode(tfn.Type.Params().Field(0).Nname)
 	nq := asNode(tfn.Type.Params().Field(1).Nname)
 
+	// Label to jump to if an equality test fails.
+	neq := autolabel(".neq")
+
 	// We reach here only for types that have equality but
 	// cannot be handled by the standard algorithms,
 	// so t must be either an array or a struct.
@@ -577,19 +580,12 @@ func geneq(t *types.Type) *obj.LSym {
 
 			if nelem <= unroll {
 				// Generate a series of checks.
-				var cond *Node
 				for i := int64(0); i < nelem; i++ {
-					c := nodintconst(i)
-					check := checkIdx(c)
-					if cond == nil {
-						cond = check
-						continue
-					}
-					cond = nod(OANDAND, cond, check)
+					// if check {} else { goto neq }
+					nif := nod(OIF, checkIdx(nodintconst(i)), nil)
+					nif.Rlist.Append(nodSym(OGOTO, nil, neq))
+					fn.Nbody.Append(nif)
 				}
-				nif := nod(OIF, cond, nil)
-				nif.Rlist.Append(nod(ORETURN, nil, nil))
-				fn.Nbody.Append(nif)
 				return
 			}
 
@@ -601,10 +597,9 @@ func geneq(t *types.Type) *obj.LSym {
 			post := nod(OAS, i, nod(OADD, i, nodintconst(1)))
 			loop := nod(OFOR, cond, post)
 			loop.Ninit.Append(init)
-			// if eq(pi, qi) {} else { return }
-			check := checkIdx(i)
-			nif := nod(OIF, check, nil)
-			nif.Rlist.Append(nod(ORETURN, nil, nil))
+			// if eq(pi, qi) {} else { goto neq }
+			nif := nod(OIF, checkIdx(i), nil)
+			nif.Rlist.Append(nodSym(OGOTO, nil, neq))
 			loop.Nbody.Append(nif)
 			fn.Nbody.Append(loop)
 		}
@@ -636,10 +631,6 @@ func geneq(t *types.Type) *obj.LSym {
 				return nod(OEQ, pi, qi)
 			})
 		}
-		// return true
-		ret := nod(ORETURN, nil, nil)
-		ret.List.Append(nodbool(true))
-		fn.Nbody.Append(ret)
 
 	case TSTRUCT:
 		// Build a list of conditions to satisfy.
@@ -717,20 +708,24 @@ func geneq(t *types.Type) *obj.LSym {
 			flatConds = append(flatConds, c...)
 		}
 
-		var cond *Node
-		if len(flatConds) == 0 {
-			cond = nodbool(true)
-		} else {
-			cond = flatConds[0]
-			for _, c := range flatConds[1:] {
-				cond = nod(OANDAND, cond, c)
-			}
+		for _, c := range flatConds {
+			// if cond {} else { goto neq }
+			i := nod(OIF, c, nil)
+			i.Rlist.Append(nodSym(OGOTO, nil, neq))
+			fn.Nbody.Append(i)
 		}
-
-		ret := nod(ORETURN, nil, nil)
-		ret.List.Append(cond)
-		fn.Nbody.Append(ret)
 	}
+
+	//   return true
+	ret1 := nod(ORETURN, nil, nil)
+	ret1.List.Append(nodbool(true))
+	fn.Nbody.Append(ret1)
+	// neq:
+	//   return false
+	fn.Nbody.Append(nodSym(OLABEL, nil, neq))
+	ret2 := nod(ORETURN, nil, nil)
+	ret2.List.Append(nodbool(false))
+	fn.Nbody.Append(ret2)
 
 	if Debug['r'] != 0 {
 		dumplist("geneq body", fn.Nbody)
