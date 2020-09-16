@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "abf1509a_dfc9438b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-16T20:53:59Z",
+      "side": 1,
+      "message": "Rules like those are pretty complex and delicate. If it doesn\u0027t help any real code, I suggest we don\u0027t do it.",
+      "parentUuid": "04ead0f2_6703499c",
+      "revId": "f89c2e3db40d5d771732485586a47f87f8ac3cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d04693a3_ccde1cdd",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 3
