@@ -16,6 +16,24 @@
       "revId": "c2f23b20dfe12bb5f053d40583115d568da7ca34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b62982c4_e494f6d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-16T20:21:38Z",
+      "side": 1,
+      "message": "Indeed, somehow on dragonfly the C.FILE type is incomplete, which screws up one of our tests.\nDragonfly declares a file using:\n\ntypedef struct __FILE FILE;\n\nAnd then in misc/cgo/stdio/testdata/stdio/file.go, we do:\n\ntype File C.FILE\n\nWe need a go:notinheap declaration on that File type.",
+      "parentUuid": "b9088600_bb28d831",
+      "revId": "c2f23b20dfe12bb5f053d40583115d568da7ca34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
