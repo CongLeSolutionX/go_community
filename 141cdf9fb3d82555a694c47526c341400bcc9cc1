@@ -16,6 +16,46 @@
       "revId": "141cdf9fb3d82555a694c47526c341400bcc9cc1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabbe4de_c9351067",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-16T16:25:43Z",
+      "side": 1,
+      "message": "It looks like the test is failing on Windows with \u0027-o bin/\u0027.\n\nIn addition to this clause, let\u0027s check strings.HasSuffix(cfg.BuildO, \"/\")",
+      "range": {
+        "startLine": 389,
+        "startChar": 3,
+        "endLine": 389,
+        "endChar": 57
+      },
+      "revId": "141cdf9fb3d82555a694c47526c341400bcc9cc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ec8166c_294fc6c2",
+        "filename": "src/cmd/go/testdata/script/build_output.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-16T16:25:43Z",
+      "side": 1,
+      "message": "Let\u0027s add:\n\n[windows] ! exists bin\n[windows] go build -o bin\\ x.go\n[windows] exists -exec bin\\x.exe\n[windows] rm bin",
+      "revId": "141cdf9fb3d82555a694c47526c341400bcc9cc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
