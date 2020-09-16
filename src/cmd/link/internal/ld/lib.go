@@ -1290,6 +1290,19 @@ func (ctxt *Link) hostlink() {
 		argv = append(argv, "-Wl,-bbigtoc")
 	}
 
+	// Enable ASLR on Windows.
+	addASLRargs := func(argv []string) []string {
+		// Enable ASLR.
+		argv = append(argv, "-Wl,--dynamicbase")
+		// enable high-entropy ASLR on 64-bit.
+		if ctxt.Arch.PtrSize >= 8 {
+			argv = append(argv, "-Wl,--high-entropy-va")
+		}
+		// Work around binutils limitation that strips relocation table for dynamicbase.
+		// See https://sourceware.org/bugzilla/show_bug.cgi?id=19011
+		return append(argv, "-Wl,--export-all-symbols")
+	}
+
 	switch ctxt.BuildMode {
 	case BuildModeExe:
 		if ctxt.HeadType == objabi.Hdarwin {
@@ -1302,15 +1315,7 @@ func (ctxt *Link) hostlink() {
 		switch ctxt.HeadType {
 		case objabi.Hdarwin, objabi.Haix:
 		case objabi.Hwindows:
-			// Enable ASLR.
-			argv = append(argv, "-Wl,--dynamicbase")
-			// enable high-entropy ASLR on 64-bit.
-			if ctxt.Arch.PtrSize >= 8 {
-				argv = append(argv, "-Wl,--high-entropy-va")
-			}
-			// Work around binutils limitation that strips relocation table for dynamicbase.
-			// See https://sourceware.org/bugzilla/show_bug.cgi?id=19011
-			argv = append(argv, "-Wl,--export-all-symbols")
+			argv = addASLRargs(argv)
 		default:
 			// ELF.
 			if ctxt.UseRelro() {
@@ -1331,7 +1336,9 @@ func (ctxt *Link) hostlink() {
 				argv = append(argv, "-Wl,-z,relro")
 			}
 			argv = append(argv, "-shared")
-			if ctxt.HeadType != objabi.Hwindows {
+			if ctxt.HeadType == objabi.Hwindows {
+				argv = addASLRargs(argv)
+			} else {
 				// Pass -z nodelete to mark the shared library as
 				// non-closeable: a dlclose will do nothing.
 				argv = append(argv, "-Wl,-z,nodelete")

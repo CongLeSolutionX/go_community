@@ -893,7 +893,8 @@ func (f *peFile) writeOptionalHeader(ctxt *Link) {
 	// The DLL can be relocated at load time.
 	switch ctxt.Arch.Family {
 	case sys.AMD64, sys.I386:
-		if ctxt.BuildMode == BuildModePIE {
+		switch ctxt.BuildMode {
+		case BuildModePIE, BuildModeCShared:
 			oh64.DllCharacteristics |= pe.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
 			oh.DllCharacteristics |= pe.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
 		}
@@ -903,7 +904,8 @@ func (f *peFile) writeOptionalHeader(ctxt *Link) {
 	}
 
 	// Image can handle a high entropy 64-bit virtual address space.
-	if ctxt.BuildMode == BuildModePIE {
+	switch ctxt.BuildMode {
+	case BuildModePIE, BuildModeCShared:
 		oh64.DllCharacteristics |= pe.IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
 	}
 
