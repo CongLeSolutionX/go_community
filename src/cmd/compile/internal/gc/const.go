@@ -994,11 +994,6 @@ func setconst(n *Node, v Val) {
 		Xoffset: BADWIDTH,
 	}
 	n.SetVal(v)
-	if n.Type.IsUntyped() {
-		// TODO(mdempsky): Make typecheck responsible for setting
-		// the correct untyped type.
-		n.Type = idealType(v.Ctype())
-	}
 
 	// Check range.
 	lno := setlineno(n)

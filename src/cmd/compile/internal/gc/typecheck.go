@@ -2088,6 +2088,9 @@ func typecheck1(n *Node, top int) (res *Node) {
 		}
 	}
 
+	if ct := idealkind(n); ct != CTxxx {
+		n.Type = idealType(ct)
+	}
 	evconst(n)
 	if n.Op == OTYPE && top&ctxType == 0 {
 		if !n.Type.Broke() {
