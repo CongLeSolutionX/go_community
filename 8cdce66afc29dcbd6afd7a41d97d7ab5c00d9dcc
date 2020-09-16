@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "671b54dd_e5806448",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-16T19:55:28Z",
+      "side": 1,
+      "message": "I would like to add `Flock` to the standard `syscall` package, at least, in order to be able to use it in the same way as the existing `Flock` on other platforms. (That\u0027s #35618.)",
+      "parentUuid": "2b753633_43364bf8",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b63e868_021786a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
