@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6b63e868_021786a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-16T19:02:31Z",
+      "side": 1,
+      "message": "Add:\n\nFixes #35618",
+      "revId": "8cdce66afc29dcbd6afd7a41d97d7ab5c00d9dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18e13333_28c428ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
