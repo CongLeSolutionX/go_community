@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bc95438_9a01c74d",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-16T18:24:14Z",
+      "side": 1,
+      "message": "I think the Goop programming language is the one where we start with Go and then accept every language change proposal.",
+      "revId": "2a34435ddc7e145fe1a9cffc39c29ab829990ff1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
