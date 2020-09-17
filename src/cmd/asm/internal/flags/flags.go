@@ -17,7 +17,7 @@ import (
 var (
 	Debug      = flag.Bool("debug", false, "dump instructions as they are parsed")
 	OutputFile = flag.String("o", "", "output file; default foo.o for /a/b/c/foo.s as first argument")
-	PrintOut   = flag.Bool("S", false, "print assembly and machine code")
+	PrintOut   int
 	TrimPath   = flag.String("trimpath", "", "remove prefix from recorded source file paths")
 	Shared     = flag.Bool("shared", false, "generate code that can be linked into a shared library")
 	Dynlink    = flag.Bool("dynlink", false, "support references to Go symbols defined in other shared libraries")
@@ -36,6 +36,7 @@ func init() {
 	flag.Var(&D, "D", "predefined symbol with optional simple value -D=identifier=value; can be set multiple times")
 	flag.Var(&I, "I", "include directory; can be set multiple times")
 	objabi.AddVersionFlag() // -V
+	objabi.Flagcount("S", "print assembly and machine code", &PrintOut)
 }
 
 // MultiFlag allows setting a value multiple times to collect a list, as in -I=dir1 -I=dir2.
@@ -61,8 +62,7 @@ func Usage() {
 }
 
 func Parse() {
-	flag.Usage = Usage
-	flag.Parse()
+	objabi.Flagparse(Usage)
 	if flag.NArg() == 0 {
 		flag.Usage()
 	}
