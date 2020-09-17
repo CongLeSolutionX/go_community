@@ -52,6 +52,24 @@
       "revId": "1611b71abeb6aff2585bcf174b6e3d9c17e057b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbbdfe62_67a4fc3b",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-17T21:21:26Z",
+      "side": 1,
+      "message": "Seems doable, please see latest patch 😊",
+      "parentUuid": "42c48e35_64a71da4",
+      "revId": "1611b71abeb6aff2585bcf174b6e3d9c17e057b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
