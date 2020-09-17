@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a07df6_4e426293",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-09-17T08:56:25Z",
+      "side": 1,
+      "message": "Please rebase so we can test against the latest master.",
+      "revId": "9aa8afa45e67bac85a304dbfd8b8eee3fed5247d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
