@@ -16,6 +16,24 @@
       "revId": "1611b71abeb6aff2585bcf174b6e3d9c17e057b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3576eeea_9a958c1b",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-17T20:01:28Z",
+      "side": 1,
+      "message": "Do you mean we can remove the check on L716 and fold this check out of the if block?",
+      "parentUuid": "5f281d6c_15eaaadc",
+      "revId": "1611b71abeb6aff2585bcf174b6e3d9c17e057b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
