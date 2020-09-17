@@ -814,6 +814,11 @@ func typecheck1(n *Node, top int) (res *Node) {
 			default:
 				Fatalf("bad untyped type: %v", t)
 			}
+			if !okfor[op][defaultType(n.Type).Etype] {
+				yyerror("invalid operation: %v (operator %v not defined on %s)", n, op, typekind(n.Type))
+				n.Type = nil
+				return n
+			}
 		}
 
 	case OBITNOT, ONEG, ONOT, OPLUS:
@@ -825,8 +830,8 @@ func typecheck1(n *Node, top int) (res *Node) {
 			n.Type = nil
 			return n
 		}
-		if !okfor[n.Op][t.Etype] {
-			yyerror("invalid operation: %v %v", n.Op, t)
+		if !okfor[n.Op][defaultType(l.Type).Etype] {
+			yyerror("invalid operation: %v (operator %v not defined on %s)", l, n.Op, typekind(t))
 			n.Type = nil
 			return n
 		}
