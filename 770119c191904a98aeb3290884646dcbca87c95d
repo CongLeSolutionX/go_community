@@ -69,6 +69,24 @@
       "revId": "770119c191904a98aeb3290884646dcbca87c95d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b30ffee_934698b5",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2092,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-17T15:31:35Z",
+      "side": 1,
+      "message": "Hey Matthew, I think the CL is ready for review again.",
+      "parentUuid": "ec0170e4_7fd34fc5",
+      "revId": "770119c191904a98aeb3290884646dcbca87c95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
