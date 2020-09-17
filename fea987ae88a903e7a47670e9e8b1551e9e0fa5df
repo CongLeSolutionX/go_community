@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "86fd0e4c_c612b8a5",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-17T19:58:19Z",
+      "side": 1,
+      "message": "It\u0027s necessary, otherwise, it will break shifting, like in:\n\nvar x int \u003d 1.0 \u003c\u003c c\nf(x)\n\nx should have type int when passing to f. Without checking for literal value, x will have type float64 instead.",
+      "parentUuid": "6da19837_9c4b4163",
+      "range": {
+        "startLine": 1121,
+        "startChar": 0,
+        "endLine": 1121,
+        "endChar": 21
+      },
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9fe990ea_96d8b975",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 2
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "4f060749_ed7e1d5e",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-17T19:58:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fe990ea_96d8b975",
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cba12d4d_c4810d56",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 2
@@ -73,6 +115,24 @@
       "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96578b71_b24f56f1",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-17T19:58:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cba12d4d_c4810d56",
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
