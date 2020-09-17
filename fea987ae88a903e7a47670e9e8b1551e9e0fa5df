@@ -114,6 +114,30 @@
     },
     {
       "key": {
+        "uuid": "7aa9f9ba_2b9da55e",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T20:43:09Z",
+      "side": 1,
+      "message": "You\u0027re talking about when c is a constant right? (That code is expected to fail to compile if c is a variable.) If so, I think I see why.\n\nIn typecheck.go there\u0027s a separate path for OLSH/ORSH around L602-L628. What happens if you change that to include something like:\n\n    if (l.Type \u003d\u003d types.Idealfloat || l.Type \u003d\u003d types.Idealcomplex) \u0026\u0026 r.Op \u003d\u003d OLITERAL {\n        n.Type \u003d types.Idealint\n    }\n\nI think then you wouldn\u0027t need n.Val() here.",
+      "parentUuid": "af5682fb_53ac9368",
+      "range": {
+        "startLine": 1121,
+        "startChar": 0,
+        "endLine": 1121,
+        "endChar": 21
+      },
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9fe990ea_96d8b975",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 2
