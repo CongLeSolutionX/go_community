@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0ce73b0_4aae242b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29128
+      },
+      "writtenOn": "2020-09-17T07:30:57Z",
+      "side": 1,
+      "message": "I copied the build flags line from zoneinfo_unix.go, now it should only build on supported platform.\n\nI have also tested the latest patch on freebsd and all tests pass.",
+      "revId": "6d6913cefe1403079e45e61292a5def855144bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
