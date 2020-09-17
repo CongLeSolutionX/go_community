@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c37c5afc_7992d1fc",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T22:08:35Z",
+      "side": 1,
+      "message": "FYI, this is basically the same logic as the switch you added in typecheck.go.\n\nIf you want to refactor that switch into a separate function so this code is just something like \"t :\u003d mixUntyped(l.Type, r.Type)\" I think that would be great. But I\u0027m fine with doing that in a followup CL.",
+      "range": {
+        "startLine": 1089,
+        "startChar": 0,
+        "endLine": 1094,
+        "endChar": 26
+      },
+      "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8689c928_29fd6973",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T22:08:35Z",
+      "side": 1,
+      "message": "FYI, I didn\u0027t really look into the trybot failure from earlier. I\u0027m not going to hold up the CL over this, but I\u0027d appreciate if you could look into this and explain why it\u0027s necessary.",
+      "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55d19dfa_10db7a31",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T22:08:35Z",
+      "side": 1,
+      "message": "nit: \"switch t\"",
+      "range": {
+        "startLine": 1124,
+        "startChar": 1,
+        "endLine": 1124,
+        "endChar": 7
+      },
+      "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

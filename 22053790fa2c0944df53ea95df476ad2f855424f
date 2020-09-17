@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32d1da9f_30e1b9fe",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T22:08:35Z",
+      "side": 0,
+      "message": "Let\u0027s restore this as:\n\n    if n.Type.IsUntyped() \u0026\u0026 n.Type !\u003d idealType(v.Ctype()) {\n        Fatalf(...)\n    }",
+      "range": {
+        "startLine": 997,
+        "startChar": 0,
+        "endLine": 1001,
+        "endChar": 2
+      },
+      "revId": "22053790fa2c0944df53ea95df476ad2f855424f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
