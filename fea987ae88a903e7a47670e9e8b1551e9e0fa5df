@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "cce9be6a_caec6673",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T20:19:26Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t follow. How does x\u0027s type change from int to float64? If x is declared as \"var x int\", then it should still have type \"int\" no matter what expressions are assigned to it.",
+      "parentUuid": "86fd0e4c_c612b8a5",
+      "range": {
+        "startLine": 1121,
+        "startChar": 0,
+        "endLine": 1121,
+        "endChar": 21
+      },
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9fe990ea_96d8b975",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 2
@@ -113,6 +137,24 @@
       "side": 1,
       "message": "Look like we need that check https://storage.googleapis.com/go-build-log/88e7b98d/misc-compile-plan9_341cac49.log",
       "parentUuid": "4f060749_ed7e1d5e",
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3deefbc5_eb3ed40b",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T20:19:26Z",
+      "side": 1,
+      "message": "When working on const.go, I recommend running \"go run run.go\" regularly. There\u0027s just too many subtle ways things can go wrong.\n\nE.g., when I was working on CL 187657, I remember getting to the point where for every tiny change I made, I\u0027d make a local commit, run \"go run run.go\", and revert unless it passed. I still had to restart from scratch multiple times and had 40+ commits that I squashed into that one CL.",
+      "parentUuid": "1a4ec5cf_b152100a",
       "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
