@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "760a0377_a776298e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T19:24:51Z",
+      "side": 1,
+      "message": "Thanks, this is looking better.",
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6da19837_9c4b4163",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T19:24:51Z",
+      "side": 1,
+      "message": "Is this actually necessary? I would expect switching on only n.Type to be sufficient. (And if that\u0027s the case, the function should take \"t *types.Type\" instead of \"n *Node\".)",
+      "range": {
+        "startLine": 1121,
+        "startChar": 0,
+        "endLine": 1121,
+        "endChar": 21
+      },
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fe990ea_96d8b975",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T19:24:51Z",
+      "side": 1,
+      "message": "Can we get here? I would expect Fatalf should be fine.\n\nOtherwise, maybe we need a:\n\n    if !t.IsUntyped() { return t }\n\nbefore the switch. (But only add this if necessary.)",
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba12d4d_c4810d56",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-17T19:24:51Z",
+      "side": 1,
+      "message": "We should be able to add a \"default: Fatalf()\" case.\n\n(Aside: I think this switch statement should actually happen around the same time as the defaultlit2() call at L631, but even placing it here is still a net improvement. Fixing defaultlit2 is going to be more involved.)",
+      "revId": "fea987ae88a903e7a47670e9e8b1551e9e0fa5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
