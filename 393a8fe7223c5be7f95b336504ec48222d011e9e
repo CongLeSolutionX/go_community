@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7d7ea34a_4a54c287",
+        "filename": "src/cmd/asm/internal/flags/flags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-17T20:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cbb0778_b8ed14d6",
+      "revId": "393a8fe7223c5be7f95b336504ec48222d011e9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26cc2fc7_8f908dfd",
         "filename": "src/cmd/asm/internal/flags/flags.go",
         "patchSetId": 1
@@ -51,6 +69,24 @@
       "revId": "393a8fe7223c5be7f95b336504ec48222d011e9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75d35364_15b64dc5",
+        "filename": "src/cmd/asm/internal/flags/flags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-17T20:33:57Z",
+      "side": 1,
+      "message": "I\u0027ll take it out.  -S\u003d2 seems to work without it.",
+      "parentUuid": "26cc2fc7_8f908dfd",
+      "revId": "393a8fe7223c5be7f95b336504ec48222d011e9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
