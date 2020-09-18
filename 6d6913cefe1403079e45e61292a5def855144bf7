@@ -16,6 +16,40 @@
       "revId": "6d6913cefe1403079e45e61292a5def855144bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1296bb89_bfb26650",
+        "filename": "src/time/zoneinfo_unix_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-18T00:41:58Z",
+      "side": 1,
+      "message": "Please copy the current +build line of zoneinfo_unix.go, from tip.  darwin,386 and nacl are no longer supported.  I\u0027m not sure js,wasm belongs here.",
+      "revId": "6d6913cefe1403079e45e61292a5def855144bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fb5b4a_cff222de",
+        "filename": "src/time/zoneinfo_unix_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-18T00:41:58Z",
+      "side": 1,
+      "message": "I wouldn\u0027t mention FreeBSD here, it may not exist in general.",
+      "revId": "6d6913cefe1403079e45e61292a5def855144bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
