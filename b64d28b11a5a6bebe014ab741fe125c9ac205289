@@ -33,6 +33,40 @@
       "revId": "b64d28b11a5a6bebe014ab741fe125c9ac205289",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "700ca0b0_f264bcdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-09-18T17:13:23Z",
+      "side": 1,
+      "message": "Found an interesting test case. ",
+      "revId": "b64d28b11a5a6bebe014ab741fe125c9ac205289",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06e4040_3d8cae82",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-09-18T17:13:23Z",
+      "side": 1,
+      "message": "What happens if I do\nrt :\u003d reflect.TypeOf(some type that triggers this branch)\nv1 :\u003d reflect.Zero(rt) \nv2 :\u003d reflect.Zero(rt)\nv2.Set(v1)",
+      "revId": "b64d28b11a5a6bebe014ab741fe125c9ac205289",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
