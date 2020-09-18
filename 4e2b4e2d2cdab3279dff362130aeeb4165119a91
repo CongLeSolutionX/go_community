@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b064c41f_b1a0a780",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-09-18T11:03:08Z",
+      "side": 1,
+      "message": "Thanks, prove is indeed doing something similar. But prove deals with the case of a single predecessor, and the processing of deducible branches is deletion. And this CL deals cases with multiple predecessors, and the processing method is redirection, so this CL may be more like fuse. Since there are too many cases covered by prove pass, the code is relatively complicated. So I think it is possible but not easy to implement in prove, it needs to be very careful and requires more effort. This CL is much simple, so if the current practice is acceptable, I am more inclined to the current approach, we can add cases bit by bit.",
+      "parentUuid": "9bd8b3dc_05217dac",
+      "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fd0858b_f06ddc50",
         "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
         "patchSetId": 1
