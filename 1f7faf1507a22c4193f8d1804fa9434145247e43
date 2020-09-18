@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3df1ec24_291dc103",
+        "filename": "src/sort/example_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2020-09-18T12:41:52Z",
+      "side": 1,
+      "message": "Sorry, it seems I wasn\u0027t clear. I did not suggest to\nreplace sort.SearchInts(s, 7) which is found, but to add\none (or two) more calls to sort.SearchInts in the example.\n\nMore like\n\n    s :\u003d []int{4, 7, 9} // The slice must be sorted in ascending order.\n    fmt.Println(sort.SearchInts(s, 7))  // 7 is present in s at index 1\n    fmt.Println(sort.SearchInts(s, 8))  // 8 is not present and would go to  index 2\n    fmt.Println(sort.SearchInts(s, 15))  // 15 is not present and would go to  index 3\n    // Output:\n    // 1\n    // 2\n    // 3\n\nAs SearchInts has two major modes (found and not found) an example\nshould show both modes IMHO.",
+      "revId": "1f7faf1507a22c4193f8d1804fa9434145247e43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
