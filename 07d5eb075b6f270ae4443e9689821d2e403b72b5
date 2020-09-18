@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f9a7bcd_bece9049",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36908
+      },
+      "writtenOn": "2020-09-18T08:25:23Z",
+      "side": 1,
+      "message": "Thanks for the awesome review.\n\nWill Go1.15.3 include this fix?",
+      "revId": "07d5eb075b6f270ae4443e9689821d2e403b72b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
