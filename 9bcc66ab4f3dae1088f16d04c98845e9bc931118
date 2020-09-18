@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf01425e_80c2b34c",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-18T02:28:24Z",
+      "side": 1,
+      "message": "I will do it in followup CL.",
+      "parentUuid": "c37c5afc_7992d1fc",
+      "range": {
+        "startLine": 1089,
+        "startChar": 0,
+        "endLine": 1094,
+        "endChar": 26
+      },
+      "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8689c928_29fd6973",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2020-09-17T22:08:35Z",
       "side": 1,
       "message": "FYI, I didn\u0027t really look into the trybot failure from earlier. I\u0027m not going to hold up the CL over this, but I\u0027d appreciate if you could look into this and explain why it\u0027s necessary.",
+      "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee5ee803_e4323bf0",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-18T02:28:24Z",
+      "side": 1,
+      "message": "It\u0027s necessary because in CL 255617, we make the op validation general, so in defaultType(t), t can be untyped, like in x !\u003d \"\", t is string type, not untyped string.",
+      "parentUuid": "8689c928_29fd6973",
       "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -62,6 +104,30 @@
       "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed1fc56c_4914bf46",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-18T02:28:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55d19dfa_10db7a31",
+      "range": {
+        "startLine": 1124,
+        "startChar": 1,
+        "endLine": 1124,
+        "endChar": 7
+      },
+      "revId": "9bcc66ab4f3dae1088f16d04c98845e9bc931118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
