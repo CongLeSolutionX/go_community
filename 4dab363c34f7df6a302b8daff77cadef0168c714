@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "87f765a2_8441a53c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34694
+      },
+      "writtenOn": "2020-09-18T03:34:10Z",
+      "side": 1,
+      "message": "        f, err :\u003d os.Open(path)\n\tf.Close()\n\n\terr1 :\u003d walkFn(path, info, err)\n\tif err1 !\u003d nil {\n\t\treturn err1\n\t}\n\n\tnames, err :\u003d f.Readdirnames(-1)\n\tif err !\u003d nil {\n\t\treturn err\n\t}\n\tsort.Strings(names)\n\tif err !\u003d nil {\n\t\treturn err\n\t}\n\n\nOr change the code like these? split the readdirnames and join in the walkFn.\n\nThe f.Readdirnames will cause large meomery usage when the directory has large files. The case is happend in our production environment which use filewalk to scan files in machine, which cause 4g meomery usage, cause alert.",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78c41a43_fdc63eb1",
         "filename": "src/path/filepath/path.go",
         "patchSetId": 8
