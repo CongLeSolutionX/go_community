@@ -16,6 +16,24 @@
       "revId": "07d5eb075b6f270ae4443e9689821d2e403b72b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "037223bd_945bc785",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-18T12:10:18Z",
+      "side": 1,
+      "message": "This will be in Go 1.16, but I don\u0027t think we can backport to 1.15.3. Our policy is to backport only fixes for security issues, serious problems with no workaround, and documentation fixes.\n\nMore information at https://github.com/golang/go/wiki/MinorReleases.",
+      "parentUuid": "4f9a7bcd_bece9049",
+      "revId": "07d5eb075b6f270ae4443e9689821d2e403b72b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
