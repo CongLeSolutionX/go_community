@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aafdae66_8ba2b5da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-18T00:35:31Z",
+      "side": 1,
+      "message": "If possible, try to avoid topic lines that just say \"fix\" because they don\u0027t convey much information to future readers.  A better topic line would be something like\n\ngo/internal/gccgoimporter: recognize aixbigafMagic archives",
+      "revId": "39acae7bd63ec087e09a023704e592676a69f21c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
