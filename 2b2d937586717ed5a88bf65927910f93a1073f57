@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "7a411b33_b3755318",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-18T04:04:59Z",
+      "side": 1,
+      "message": "Hi Lifeng, FYI, https://go-review.googlesource.com/c/go/+/255617 was merged, so I think we should abandon this one.",
+      "revId": "2b2d937586717ed5a88bf65927910f93a1073f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9f948fa_c41fb8bc",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 11
