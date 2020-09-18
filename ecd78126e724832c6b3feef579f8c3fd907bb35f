@@ -16,6 +16,24 @@
       "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16757de5_e3bbf528",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-18T16:17:15Z",
+      "side": 1,
+      "message": "Thanks for updating the CL description. But I\u0027m still confused, sorry. Before and after this CL, \"expand call\" runs before \"late opt\". This CL moves it across \"decompose builtin\" and \"softfloat\". \"softfloat\" probably doesn\u0027t matter, as I guess you\u0027re not looking at a softfloat platform. That leaves \"decompose builtin\". Why that pass matters? Thanks...",
+      "parentUuid": "2ab7e4db_8bd7538d",
+      "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
