@@ -34,6 +34,24 @@
       "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c2545ba_84a012ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-18T21:12:39Z",
+      "side": 1,
+      "message": "At this distance, I am not 100% sure why this change made the difference; it may be that there is an interaction.  The other possibility is that there was a mistake somewhere in the several refactorings, and expandCalls use to run after late opt, but accidentally got put before (and I did not notice and did not check that it was still missing the optimization).\n\nLong run, this is all moot, since we decided to make it able to run in several places and it gets moved again in a later CL (but moved to places where some of the intermediate CLs would fail).",
+      "parentUuid": "16757de5_e3bbf528",
+      "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
