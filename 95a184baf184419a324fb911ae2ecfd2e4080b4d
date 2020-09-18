@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ef0f1d1_98be4c1d",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-09-18T16:15:14Z",
+      "side": 1,
+      "message": "gen",
+      "range": {
+        "startLine": 834,
+        "startChar": 12,
+        "endLine": 834,
+        "endChar": 16
+      },
+      "revId": "95a184baf184419a324fb911ae2ecfd2e4080b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
