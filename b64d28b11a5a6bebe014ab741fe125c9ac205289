@@ -67,6 +67,24 @@
       "revId": "b64d28b11a5a6bebe014ab741fe125c9ac205289",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7141c22d_32b283e1",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-18T17:19:15Z",
+      "side": 1,
+      "message": "You can\u0027t call Set on the result of reflect.Zero.\nWell, you can, but the v.mustBeAssignable() test above will panic.",
+      "parentUuid": "f06e4040_3d8cae82",
+      "revId": "b64d28b11a5a6bebe014ab741fe125c9ac205289",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
