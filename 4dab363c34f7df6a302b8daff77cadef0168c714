@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5c9ef958_1120b85f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34694
+      },
+      "writtenOn": "2020-09-18T02:01:53Z",
+      "side": 1,
+      "message": "But I just would like to skip the readdirname if walkFn return SkipDir, which would cause large meomery usage when the directory has huge files.\n\nIs there anyone could help me to solve this bug, please.",
+      "revId": "4dab363c34f7df6a302b8daff77cadef0168c714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78c41a43_fdc63eb1",
         "filename": "src/path/filepath/path.go",
         "patchSetId": 8
