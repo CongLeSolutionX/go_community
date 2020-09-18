@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb639447_9b100af5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2020-09-18T15:33:20Z",
+      "side": 1,
+      "message": "I don\u0027t know how to make it even more clear\nthan with what I tried already: Please\ninclude _several_ calls to SearchInts.\n\nIf you are unsure: Use the code review tool\nto discuss how a useful example would look\nlike before creating more and more patchsets\nwhich do not address my concerns.\n\nIf you think my concerns are unsound: Please\ndiscuss this too. ",
+      "revId": "4ca619b44580f047b987e39e079a72703e903872",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55e4c080_aedc4432",
+        "filename": "src/sort/example_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2020-09-18T15:33:20Z",
+      "side": 1,
+      "message": "Hm. I seem to be unable to make my point.\nSearchInts has _two_ major modes and an example\nshould be an example to _both_ not just one\n_or_ the other.\n\nPlease include at least 2 invocations of \nSearchInts, one where the value is found and one\nwhere not.\n\nIf you are unaware: An example can have several lines\nof Output.",
+      "revId": "4ca619b44580f047b987e39e079a72703e903872",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
