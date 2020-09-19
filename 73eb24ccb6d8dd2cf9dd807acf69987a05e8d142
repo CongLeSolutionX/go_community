@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "012282cd_22457c29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2020-09-19T09:16:22Z",
+      "side": 1,
+      "message": "Because of the new rules, two committers must trust a commit before it can be submitted. I added my Trust+1 and submitted it.",
+      "revId": "73eb24ccb6d8dd2cf9dd807acf69987a05e8d142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
