@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "007685c6_0621e225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-09-19T02:40:28Z",
+      "side": 1,
+      "message": "I think you need to rebase on top of master before I can submit. Thanks.",
+      "revId": "a56e00d86333fa7b2df199ba511ae9a5018474b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
