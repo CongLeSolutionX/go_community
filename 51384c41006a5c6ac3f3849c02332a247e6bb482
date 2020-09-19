@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ba20217_36742a8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-09-19T09:43:49Z",
+      "side": 1,
+      "message": "Thanks for the reviews.\n\nSorry that I overwrote your trust.\nI added one last line.",
+      "revId": "51384c41006a5c6ac3f3849c02332a247e6bb482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
