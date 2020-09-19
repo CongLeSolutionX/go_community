@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9614f650_ec54554c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2020-09-19T09:19:25Z",
+      "side": 1,
+      "message": "Constantin: for patch series, you can follow our contribute guide that explains how to submit them to Gerrit in a chained sequence:\nhttps://golang.org/doc/contribute.html#multiple_changes\n\nTL;DR: just create a branch with one CL per commit, and the mail the whole branch. This makes it easier to handle for reviewers.",
+      "revId": "4585e728ac4f821c9cb1fef41612f07f25022e1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
