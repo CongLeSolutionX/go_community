@@ -2076,6 +2076,18 @@
 (InterLECall [argsize] {auxCall} (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) ___) && devirtLESym(v, auxCall, itab, off) !=
     nil => devirtLECall(v, devirtLESym(v, auxCall, itab, off))
 
+(ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr mem ) && fn.String() != `"".main_main·f`   =>
+(StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} mem )
+
+(ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr x mem ) =>
+(StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} x mem )
+
+(ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr x y mem ) =>
+(StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} x y mem )
+
+(ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr x y z mem) =>
+(StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} x y z mem )
+
 // Move and Zero optimizations.
 // Move source and destination may overlap.
 

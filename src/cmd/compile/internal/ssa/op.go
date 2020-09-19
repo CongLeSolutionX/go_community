@@ -79,6 +79,12 @@ type AuxCall struct {
 	results []Param
 }
 
+func (a *AuxCall) closureSymToCallSym(v *Value, sym Sym) *AuxCall {
+	s := sym.(*obj.LSym).String()                                              // demand the type
+	a.Fn = v.Block.Func.Config.Ctxt().LookupABI(s[:len(s)-3], obj.ABIInternal) // lose the CDOT f
+	return a
+}
+
 // ResultForOffset returns the index of the result at a particular offset among the results
 // This does not include the mem result for the call opcode.
 func (a *AuxCall) ResultForOffset(offset int64) int64 {
@@ -152,7 +158,7 @@ func (a *AuxCall) String() string {
 	if a.Fn == nil {
 		fn = "AuxCall{nil" // could be interface/closure etc.
 	} else {
-		fn = fmt.Sprintf("AuxCall{%v", a.Fn)
+		fn = fmt.Sprintf("AuxCall{%s", a.Fn.String())
 	}
 
 	if len(a.args) == 0 {

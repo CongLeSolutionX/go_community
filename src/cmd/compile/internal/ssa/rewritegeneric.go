@@ -34,6 +34,8 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpAndB(v)
 	case OpArraySelect:
 		return rewriteValuegeneric_OpArraySelect(v)
+	case OpClosureLECall:
+		return rewriteValuegeneric_OpClosureLECall(v)
 	case OpCom16:
 		return rewriteValuegeneric_OpCom16(v)
 	case OpCom32:
@@ -3469,6 +3471,128 @@ func rewriteValuegeneric_OpArraySelect(v *Value) bool {
 		x := v_0.Args[0]
 		v.reset(OpIData)
 		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpClosureLECall(v *Value) bool {
+	// match: (ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr mem )
+	// cond: fn.String() != `"".main_main·f`
+	// result: (StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} mem )
+	for {
+		if len(v.Args) != 3 {
+			break
+		}
+		argsize := auxIntToInt32(v.AuxInt)
+		auxCall := auxToCall(v.Aux)
+		mem := v.Args[2]
+		v_0 := v.Args[0]
+		if v_0.Op != OpLoad {
+			break
+		}
+		addr := v_0.Args[0]
+		if addr.Op != OpAddr {
+			break
+		}
+		fn := auxToSym(addr.Aux)
+		addr_0 := addr.Args[0]
+		if addr_0.Op != OpSB || addr != v.Args[1] || !(fn.String() != `"".main_main·f`) {
+			break
+		}
+		v.reset(OpStaticLECall)
+		v.AuxInt = int32ToAuxInt(argsize)
+		v.Aux = callToAux(auxCall.closureSymToCallSym(v, fn))
+		v.AddArg(mem)
+		return true
+	}
+	// match: (ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr x mem )
+	// result: (StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} x mem )
+	for {
+		if len(v.Args) != 4 {
+			break
+		}
+		argsize := auxIntToInt32(v.AuxInt)
+		auxCall := auxToCall(v.Aux)
+		mem := v.Args[3]
+		v_0 := v.Args[0]
+		if v_0.Op != OpLoad {
+			break
+		}
+		addr := v_0.Args[0]
+		if addr.Op != OpAddr {
+			break
+		}
+		fn := auxToSym(addr.Aux)
+		addr_0 := addr.Args[0]
+		if addr_0.Op != OpSB || addr != v.Args[1] {
+			break
+		}
+		x := v.Args[2]
+		v.reset(OpStaticLECall)
+		v.AuxInt = int32ToAuxInt(argsize)
+		v.Aux = callToAux(auxCall.closureSymToCallSym(v, fn))
+		v.AddArg2(x, mem)
+		return true
+	}
+	// match: (ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr x y mem )
+	// result: (StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} x y mem )
+	for {
+		if len(v.Args) != 5 {
+			break
+		}
+		argsize := auxIntToInt32(v.AuxInt)
+		auxCall := auxToCall(v.Aux)
+		mem := v.Args[4]
+		v_0 := v.Args[0]
+		if v_0.Op != OpLoad {
+			break
+		}
+		addr := v_0.Args[0]
+		if addr.Op != OpAddr {
+			break
+		}
+		fn := auxToSym(addr.Aux)
+		addr_0 := addr.Args[0]
+		if addr_0.Op != OpSB || addr != v.Args[1] {
+			break
+		}
+		x := v.Args[2]
+		y := v.Args[3]
+		v.reset(OpStaticLECall)
+		v.AuxInt = int32ToAuxInt(argsize)
+		v.Aux = callToAux(auxCall.closureSymToCallSym(v, fn))
+		v.AddArg3(x, y, mem)
+		return true
+	}
+	// match: (ClosureLECall [argsize] {auxCall} (Load addr:(Addr {fn} (SB)) _) addr x y z mem)
+	// result: (StaticLECall [argsize] {auxCall.closureSymToCallSym(v, fn)} x y z mem )
+	for {
+		if len(v.Args) != 6 {
+			break
+		}
+		argsize := auxIntToInt32(v.AuxInt)
+		auxCall := auxToCall(v.Aux)
+		mem := v.Args[5]
+		v_0 := v.Args[0]
+		if v_0.Op != OpLoad {
+			break
+		}
+		addr := v_0.Args[0]
+		if addr.Op != OpAddr {
+			break
+		}
+		fn := auxToSym(addr.Aux)
+		addr_0 := addr.Args[0]
+		if addr_0.Op != OpSB || addr != v.Args[1] {
+			break
+		}
+		x := v.Args[2]
+		y := v.Args[3]
+		z := v.Args[4]
+		v.reset(OpStaticLECall)
+		v.AuxInt = int32ToAuxInt(argsize)
+		v.Aux = callToAux(auxCall.closureSymToCallSym(v, fn))
+		v.AddArg4(x, y, z, mem)
 		return true
 	}
 	return false
