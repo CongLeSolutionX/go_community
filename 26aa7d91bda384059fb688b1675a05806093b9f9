@@ -22,6 +22,30 @@
       "revId": "26aa7d91bda384059fb688b1675a05806093b9f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cb12511_7b92e02f",
+        "filename": "src/math/acosh.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 34869
+      },
+      "writtenOn": "2020-09-19T01:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b986388d_da220e38",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 7
+      },
+      "revId": "26aa7d91bda384059fb688b1675a05806093b9f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
