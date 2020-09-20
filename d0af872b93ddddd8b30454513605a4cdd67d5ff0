@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "713c0360_9c31c021",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-20T10:21:44Z",
+      "side": 1,
+      "message": "crypto/tls: make config.Clone return nil if the source is nil",
+      "revId": "d0af872b93ddddd8b30454513605a4cdd67d5ff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9333c17d_9a562cbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-20T10:21:44Z",
+      "side": 1,
+      "message": "Thank you for this change and congrats Zhidong! Thank you Dave for the review.\nHey Dave, I think that a parity between nil and its Clone returning nil is warranted\nand despite the author’s problem being relying on global initialization, if we take\nnet/http out of the equation, invoking .Clone() on a nil Config isn’t documented to\nfail but shouldn’t have to deference fields on a nil value. We’ve done the same for say\nnet/http.Header.Clone() and I can cite precedent in https://github.com/golang/go/issues/33141\nfixed by CL 188022.",
+      "revId": "d0af872b93ddddd8b30454513605a4cdd67d5ff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "840e979d_d5464441",
+        "filename": "src/crypto/tls/common_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-20T10:21:44Z",
+      "side": 1,
+      "message": "if r :\u003d recover(); r !\u003d nil {",
+      "revId": "d0af872b93ddddd8b30454513605a4cdd67d5ff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d4c334_a290793c",
+        "filename": "src/crypto/tls/common_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-20T10:21:44Z",
+      "side": 1,
+      "message": "if cc :\u003d c.Clone(); cc !\u003d nil {\n   t.Fatalf(“Clone with nil should return nil, got: %+v”, cc)",
+      "revId": "d0af872b93ddddd8b30454513605a4cdd67d5ff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
