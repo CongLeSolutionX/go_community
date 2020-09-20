@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6948d966_a0001b3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-20T10:09:20Z",
+      "side": 1,
+      "message": "Thank you Sean! Just chiming in to add bread crumbs for release notes.\n\nRELNOTE\u003dyes",
+      "revId": "1cd3795a70e832f0974d8adbf3c4cbda48b1a3a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
