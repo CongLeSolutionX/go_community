@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4212d92c_948935c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-21T15:07:59Z",
+      "side": 1,
+      "message": "CL\n\nGerrit understands \"CL 249758\" syntax and will make it a link.",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "893dfef8_bb14e79a",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-21T15:07:59Z",
+      "side": 1,
+      "message": "Should we remove this? Later pass doesn\u0027t seem to support it now.",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33534c77_7f737580",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-21T15:07:59Z",
+      "side": 1,
+      "message": "Make this only cover From3, and maybe name it LFROM3. The flags can be OR\u0027d together. You could do LFROM|LFROM3 when you need both.",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a5bf17a_dd5a50c8",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-21T15:07:59Z",
+      "side": 1,
+      "message": "Can we check the class is C_VCON (i.e. not C_LCON), instead of hard-code instructions?",
+      "range": {
+        "startLine": 1182,
+        "startChar": 73,
+        "endLine": 1182,
+        "endChar": 105
+      },
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7664901_695c3c0c",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-21T15:07:59Z",
+      "side": 1,
+      "message": "I think it is helpful to explicitly mention the two operands are high and low 64 bits.",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
