@@ -8,6 +8,13 @@
 package user
 
 import (
+	"bytes"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net"
+	"os"
+	"path/filepath"
 	"reflect"
 	"strings"
 	"testing"
@@ -272,5 +279,76 @@ func TestLookupUser(t *testing.T) {
 				t.Errorf("lookupUser(%s): got name %s, want %s", tt.name, got.Username, tt.name)
 			}
 		}
+	}
+}
+
+func serveUserdbd(conn net.Conn) error {
+	// A single lookup query will fit into a page of memory:
+	buf := make([]byte, 4096)
+	n, err := conn.Read(buf)
+	if err != nil {
+		return err
+	}
+	buf = buf[:n]
+
+	if !bytes.HasSuffix(buf, []byte{0}) {
+		return fmt.Errorf("message not \\0-terminated: %x", buf)
+	}
+
+	if _, err := conn.Write(append([]byte(`{"parameters":{"record":{"groupName":"stdlibcontrib","gid":181,"status":{"ecb5a44f1a5846ad871566e113bf8937":{"service":"io.systemd.NameServiceSwitch"}}},"incomplete":false}}`), 0)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func TestQueryUserdbd(t *testing.T) {
+	tmpdir, err := ioutil.TempDir("", "testqueryuserdbd")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(tmpdir)
+
+	quit := make(chan struct{})
+	sockFn := filepath.Join(tmpdir, "sock")
+	ln, err := net.Listen("unix", sockFn)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+	defer close(quit)
+
+	go func() {
+		for {
+			conn, err := ln.Accept()
+			if err != nil {
+				select {
+				case <-quit:
+					// Swallow error caused by closing the listener
+
+				default:
+					log.Print(err)
+				}
+				return
+			}
+			go func() {
+				if err := serveUserdbd(conn); err != nil {
+					log.Print(err)
+				}
+			}()
+		}
+	}()
+
+	cl := &userdbClient{address: sockFn}
+	got, err := cl.lookupGroup("stdlibcontrib")
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := &Group{
+		Gid:  "181",
+		Name: "stdlibcontrib",
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("lookupGroup(stdlibcontrib) = %v, want %v", got, want)
 	}
 }

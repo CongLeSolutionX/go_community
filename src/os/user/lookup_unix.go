@@ -10,8 +10,11 @@ package user
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -161,6 +164,17 @@ func findUsername(name string, r io.Reader) (*User, error) {
 }
 
 func lookupGroup(groupname string) (*Group, error) {
+	if g, err := defaultUserdbClient.lookupGroup(groupname); err != nil {
+		var connectError *errConnectUserdb
+		if !errors.As(err, &connectError) {
+			// systemd userdb is available per se, but an error occurred:
+			return nil, err
+		}
+		// fallthrough to parsing files ourselves:
+	} else {
+		return g, nil
+	}
+
 	f, err := os.Open(groupFile)
 	if err != nil {
 		return nil, err
@@ -170,6 +184,17 @@ func lookupGroup(groupname string) (*Group, error) {
 }
 
 func lookupGroupId(id string) (*Group, error) {
+	if g, err := defaultUserdbClient.lookupGroupId(id); err != nil {
+		var connectError *errConnectUserdb
+		if !errors.As(err, &connectError) {
+			// systemd userdb is available per se, but an error occurred:
+			return nil, err
+		}
+		// fallthrough to parsing files ourselves:
+	} else {
+		return g, nil
+	}
+
 	f, err := os.Open(groupFile)
 	if err != nil {
 		return nil, err
@@ -179,6 +204,17 @@ func lookupGroupId(id string) (*Group, error) {
 }
 
 func lookupUser(username string) (*User, error) {
+	if u, err := defaultUserdbClient.lookupUser(username); err != nil {
+		var connectError *errConnectUserdb
+		if !errors.As(err, &connectError) {
+			// systemd userdb is available per se, but an error occurred:
+			return nil, err
+		}
+		// fallthrough to parsing files ourselves:
+	} else {
+		return u, nil
+	}
+
 	f, err := os.Open(userFile)
 	if err != nil {
 		return nil, err
@@ -188,10 +224,204 @@ func lookupUser(username string) (*User, error) {
 }
 
 func lookupUserId(uid string) (*User, error) {
+	if u, err := defaultUserdbClient.lookupUserId(uid); err != nil {
+		var connectError *errConnectUserdb
+		if !errors.As(err, &connectError) {
+			// systemd userdb is available per se, but an error occurred:
+			return nil, err
+		}
+		// fallthrough to parsing files ourselves:
+	} else {
+		return u, nil
+	}
+
 	f, err := os.Open(userFile)
 	if err != nil {
 		return nil, err
 	}
 	defer f.Close()
 	return findUserId(uid, f)
+}
+
+type errConnectUserdb struct {
+	underlying error
+}
+
+func (e *errConnectUserdb) Error() string {
+	return fmt.Sprintf("could not connect to systemd user database: %v", e.underlying)
+}
+
+// userdbClient queries the io.systemd.UserDatabase service provided by
+// systemd-userdbd.service(8) for obtaining full user/group details even when
+// cgo is not available.
+type userdbClient struct {
+	address string
+}
+
+var defaultUserdbClient = &userdbClient{
+	address: "/run/systemd/userdb/io.systemd.NameServiceSwitch",
+}
+
+func (c *userdbClient) query(method string, unmarshal func([]byte) (bool, error)) error {
+	conn, err := net.Dial("unix", c.address)
+	if err != nil {
+		return &errConnectUserdb{err}
+	}
+	defer conn.Close()
+
+	// The other end of this socket is implemented in
+	// https://github.com/systemd/systemd/tree/v245/src/userdb
+
+	type params struct {
+		Service string `json:"service"`
+	}
+	req := struct {
+		Method     string `json:"method"`
+		Parameters params `json:"parameters"`
+		More       bool   `json:"more"`
+	}{
+		Method: method,
+		Parameters: params{
+			Service: "io.systemd.NameServiceSwitch",
+		},
+		More: true,
+	}
+
+	b, err := json.Marshal(req)
+	if err != nil {
+		return err
+	}
+	if _, err := conn.Write(append(b, 0)); err != nil {
+		return err
+	}
+	sc := bufio.NewScanner(conn)
+	// This is bufio.ScanLines, but looking for a 0-byte instead of '\n':
+	sc.Split(func(data []byte, atEOF bool) (advance int, token []byte, err error) {
+		if atEOF && len(data) == 0 {
+			return 0, nil, nil
+		}
+		if i := bytes.IndexByte(data, 0); i >= 0 {
+			// We have a full 0-byte-terminated line.
+			return i + 1, data[0:i], nil
+		}
+		// If we're at EOF, we have a final, non-terminated line. Return it.
+		if atEOF {
+			return len(data), data, nil
+		}
+		// Request more data.
+		return 0, nil, nil
+	})
+	for sc.Scan() {
+		continues, err := unmarshal(sc.Bytes())
+		if err != nil {
+			return nil
+		}
+		if !continues {
+			break
+		}
+	}
+	if err := sc.Err(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (cl *userdbClient) queryGroupDb(predicate func(*groupRecord) bool) (*Group, error) {
+	const method = "io.systemd.UserDatabase.GetGroupRecord"
+	var group *Group
+	unmarshal := func(b []byte) (bool, error) {
+		var reply struct {
+			Parameters struct {
+				Record groupRecord `json:"record"`
+			} `json:"parameters"`
+			Continues bool `json:"continues"`
+		}
+		if err := json.Unmarshal(b, &reply); err != nil {
+			return false, err
+		}
+		r := reply.Parameters.Record // for convenience
+		if !predicate(&r) {
+			return reply.Continues, nil // skip
+		}
+		group = &Group{
+			Name: r.GroupName,
+			Gid:  strconv.FormatInt(r.Gid, 10),
+		}
+		return reply.Continues, nil
+	}
+
+	if err := cl.query(method, unmarshal); err != nil {
+		return nil, err
+	}
+	return group, nil
+}
+
+func (cl *userdbClient) queryUserDb(predicate func(*userRecord) bool) (*User, error) {
+	const method = "io.systemd.UserDatabase.GetUserRecord"
+	var u *User
+	unmarshal := func(b []byte) (bool, error) {
+		var reply struct {
+			Parameters struct {
+				Record userRecord `json:"record"`
+			} `json:"parameters"`
+			Continues bool `json:"continues"`
+		}
+		if err := json.Unmarshal(b, &reply); err != nil {
+			return false, err
+		}
+		r := reply.Parameters.Record // for convenience
+		if !predicate(&r) {
+			return reply.Continues, nil // skip
+		}
+		u = &User{
+			Uid:      strconv.FormatInt(r.Uid, 10),
+			Gid:      strconv.FormatInt(r.Gid, 10),
+			Username: r.UserName,
+			Name:     r.RealName,
+			HomeDir:  r.HomeDirectory,
+		}
+		return reply.Continues, nil
+	}
+	if err := cl.query(method, unmarshal); err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
+type groupRecord struct {
+	GroupName string `json:"groupName"`
+	Gid       int64  `json:"gid"`
+}
+
+func (cl *userdbClient) lookupGroup(groupname string) (*Group, error) {
+	return cl.queryGroupDb(func(g *groupRecord) bool {
+		return g.GroupName == groupname
+	})
+}
+
+func (cl *userdbClient) lookupGroupId(id string) (*Group, error) {
+	return cl.queryGroupDb(func(g *groupRecord) bool {
+		return strconv.FormatInt(g.Gid, 10) == id
+	})
+}
+
+type userRecord struct {
+	UserName      string `json:"userName"`
+	RealName      string `json:"realName"`
+	Uid           int64  `json:"uid"`
+	Gid           int64  `json:"gid"`
+	HomeDirectory string `json:"homeDirectory"`
+}
+
+func (cl *userdbClient) lookupUser(username string) (*User, error) {
+	return cl.queryUserDb(func(u *userRecord) bool {
+		return u.UserName == username
+	})
+}
+
+func (cl *userdbClient) lookupUserId(uid string) (*User, error) {
+	return cl.queryUserDb(func(u *userRecord) bool {
+		return strconv.FormatInt(u.Uid, 10) == uid
+	})
 }
