@@ -16,6 +16,23 @@
       "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0825d02_79176d32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-21T13:05:22Z",
+      "side": 1,
+      "message": "Could you plz give some more advice?",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
