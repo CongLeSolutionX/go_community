@@ -16,6 +16,29 @@
       "revId": "99d565b30f72191b236ed1624af012f84c06c4ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6b91144_10584f32",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-21T16:37:58Z",
+      "side": 1,
+      "message": "(nit) Since the resulting binary is build as `falign`, I would be inclined to name this module either `cmd/link/falign` or `cmd/link/TestFuncAlign/falign`.",
+      "range": {
+        "startLine": 599,
+        "startChar": 44,
+        "endLine": 599,
+        "endChar": 45
+      },
+      "revId": "99d565b30f72191b236ed1624af012f84c06c4ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
