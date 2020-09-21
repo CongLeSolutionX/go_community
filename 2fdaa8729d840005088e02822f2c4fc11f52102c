@@ -34,6 +34,24 @@
       "revId": "2fdaa8729d840005088e02822f2c4fc11f52102c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44840c74_027d28f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-21T12:00:17Z",
+      "side": 1,
+      "message": "That\u0027s fine, I\u0027m happy with the change as is. I was just \"thinking aloud\".",
+      "parentUuid": "57872129_9bea4927",
+      "revId": "2fdaa8729d840005088e02822f2c4fc11f52102c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
