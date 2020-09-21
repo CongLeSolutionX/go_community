@@ -605,6 +605,11 @@ func TestFuncAlign(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	src = filepath.Join(tmpdir, "go.mod")
+	err = ioutil.WriteFile(src, []byte("module falign\n"), 0666)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	// Build and run with old object file format.
 	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "falign")
