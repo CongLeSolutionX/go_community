@@ -25,6 +25,40 @@
     },
     {
       "key": {
+        "uuid": "452c63f6_0b92f07f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39315
+      },
+      "writtenOn": "2020-09-21T15:18:45Z",
+      "side": 1,
+      "message": "Dropping FMOVS and FMOVD breaks compatibility.  Those instructions are used even in the Go tree itself (e.g. in src/math/exp_arm64.s) and should be preserved the way they are.  For completeness, FMOVQ should be an alias to VMOVQ but with a F register name instead of a V register name.",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ea59b1f_12b304cd",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 39315
+      },
+      "writtenOn": "2020-09-21T15:18:45Z",
+      "side": 1,
+      "message": "How do these instruction assemble and pass the test suite if they have been removed?  It seems that I don\u0027t have quite understood the impact of this change.",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "893dfef8_bb14e79a",
         "filename": "src/cmd/internal/obj/arm64/a.out.go",
         "patchSetId": 2
