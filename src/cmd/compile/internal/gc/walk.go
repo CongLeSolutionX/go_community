@@ -1622,7 +1622,18 @@ opswitch:
 // markTypeUsedInInterface marks that type t is converted to an interface.
 // This information is used in the linker in dead method elimination.
 func markTypeUsedInInterface(t *types.Type) {
-	typenamesym(t).Linksym().Set(obj.AttrUsedInIface, true)
+	tsym := typenamesym(t).Linksym()
+	if Curfn != nil && Curfn.Func.lsym != nil {
+		// In a function, emit a marker relocation. The linker will know
+		// the type is converted to an interface if this function is
+		// reachable.
+		r := obj.Addrel(Curfn.Func.lsym)
+		r.Sym = tsym
+		r.Type = objabi.R_USEIFACE
+	} else {
+		// Not in function context (e.g. in global scope), just mark the type.
+		tsym.Set(obj.AttrUsedInIface, true)
+	}
 }
 
 // rtconvfn returns the parameter and result types that will be used by a
@@ -3687,6 +3698,8 @@ func usemethod(n *Node) {
 	// Also need to check for reflect package itself (see Issue #38515).
 	if s := res0.Type.Sym; s != nil && s.Name == "Method" && isReflectPkg(s.Pkg) {
 		Curfn.Func.SetReflectMethod(true)
+		// The LSym is initialized at this point. We need to set the attribute on the LSym.
+		Curfn.Func.lsym.Set(obj.AttrReflectMethod, true)
 	}
 }
 
