@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "f7ea7832_c6e68709",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-09-22T18:02:12Z",
+      "side": 1,
+      "message": "Reworded in patchset 2.",
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9355a477_9fad2152",
         "filename": "doc/go1.16.html",
         "patchSetId": 1
@@ -62,6 +79,30 @@
       "revId": "23902302ea391208367cbc364abe615e963c2543",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7298cf5_cbc6e594",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-09-22T18:02:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9355a477_9fad2152",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 35
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +129,30 @@
     },
     {
       "key": {
+        "uuid": "5d584046_642445e5",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-09-22T18:02:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20f2c569_eba88c97",
+      "range": {
+        "startLine": 79,
+        "startChar": 72,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a332e6bf_71148ad7",
         "filename": "doc/go1.16.html",
         "patchSetId": 1
@@ -108,6 +173,30 @@
       "revId": "23902302ea391208367cbc364abe615e963c2543",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb1ed0a6_a0baa4d7",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-09-22T18:02:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a332e6bf_71148ad7",
+      "range": {
+        "startLine": 81,
+        "startChar": 45,
+        "endLine": 81,
+        "endChar": 63
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -154,6 +243,54 @@
       "revId": "23902302ea391208367cbc364abe615e963c2543",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c701e7f_c5f38276",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-09-22T18:02:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9962acd8_967f413a",
+      "range": {
+        "startLine": 83,
+        "startChar": 47,
+        "endLine": 83,
+        "endChar": 69
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00ce5003_d1dc54ee",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2020-09-22T18:02:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c686e70_0ffd6a19",
+      "range": {
+        "startLine": 81,
+        "startChar": 45,
+        "endLine": 83,
+        "endChar": 70
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
