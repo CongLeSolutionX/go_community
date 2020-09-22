@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "0300ec36_eb983f22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "This is a long subject line and can probably be shortened to just \n\nmath/big: replace division with multiplication by reciprocal word\n\nor similar",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d9c204d_68e4cf25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "Please wrap this line and some of this can probably be reworded.  You can drop \"as we know\"  The whole line referencing math/bits.go/Div64 can probably be dropped because the division is typically implemented with a single instruction, which is slow of course.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b45108e5_5f42d13e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "Please note the architecture here, presumably amd64.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b94b5a87_c3e572a9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 17
@@ -50,6 +101,91 @@
       "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "818743ef_c4664941",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "I think the code looks fine.  I believe it is correct and much faster than before.  I had a few stylistic suggestions that you can take or not.  My only concern with this variation versus the algorithm 4 version of Granlund and Moller that only uses a single full-width multiply is the performance impact on architectures where full-width multiplies are expensive.  But that could be a follow up change if it is determined to have a measurable impact.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00297a6b_efea77da",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "Please add a more detailed comment that this is division by using an approximate reciprocal with a reference to the original paper.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66e59f41_87b4bc34",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "I believe m\u0027s type should be Word for consistency with the rest of the package.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a068dbde_83037dd4",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "My concern with this method versus algorithm 4 in the Granlund Moller paper is this second full-width multiply can be expensive on some architectures.  Even on my amd64 machine this method is ~2% slower.  I also think it is beneficial for people coming on this code later to stay close to the published algorithm so that it is easier to verify and doesn\u0027t appear to be original research.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479815b9_7538f469",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-09-22T06:42:57Z",
+      "side": 1,
+      "message": "Please wrap this comment.  Also, I know I requested this function name changed once, but I think the more precise reciprocalWord and for consistency with the rest of the package it should return a Word rather than a uint even though those are currently aliased.  Note that the alias has actually changed in the past.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
