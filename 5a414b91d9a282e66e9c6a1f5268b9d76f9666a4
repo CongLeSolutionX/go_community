@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8735d19_a61837fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-22T17:34:24Z",
+      "side": 1,
+      "message": "Missing period at end of sentence.",
+      "revId": "5a414b91d9a282e66e9c6a1f5268b9d76f9666a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
