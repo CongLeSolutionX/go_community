@@ -52,6 +52,24 @@
       "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52b94aca_2c162870",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-09-22T22:25:22Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve fixed this by adding\n\n  //go:cgo_import_dynamic _ _ \"libsocket.so\"\n\nto syscall/syscall_illumos.go. Not sure if this is the correct solution, but testing this on the illumos builder using gomote seems to pass the misc/cgo/errors tests now.",
+      "parentUuid": "d423d521_2b337947",
+      "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
