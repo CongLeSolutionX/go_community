@@ -70,6 +70,24 @@
       "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2e3bfbd_fc8ad443",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-22T22:31:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure a cgo_import_dynamic line is enough when doing external linking.  But maybe.",
+      "parentUuid": "52b94aca_2c162870",
+      "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
