@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b174e7b_5fd73943",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-09-22T18:05:51Z",
+      "side": 1,
+      "message": "Thanks. Not running trybots again given that PS2 only changed the commit message.",
+      "revId": "6730dbb18dd91c086130b4df2703b5e3977d128a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
