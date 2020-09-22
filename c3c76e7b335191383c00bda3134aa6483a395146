@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76a03aef_f4a01b44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-22T07:37:13Z",
+      "side": 1,
+      "message": "Done. Thank you.",
+      "parentUuid": "4212d92c_948935c7",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "452c63f6_0b92f07f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -72,6 +96,23 @@
       "side": 1,
       "message": "Ah, that explains it.  Thanks a lot.  I am not too familiar with the assemblers inner workings.",
       "parentUuid": "5a90244f_4f30e21c",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19028b8f_f7eebf98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-22T07:37:13Z",
+      "side": 1,
+      "message": "All done. Thank you for the review.",
       "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -130,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "a7a04cf0_8c540011",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-22T07:37:13Z",
+      "side": 1,
+      "message": "Do you mean \"AFMOVQ\" op?  The function omovlit() uses this op, we can of course just use \"VMOVQ\". The reason why I use \"AFMOVQ\" in omovlit() function is that I want to use \"FMOVS/FMOVD/FMOVQ\" for arm \"ldr(literal, simd\u0026fp)\" instruction. \"VMOVQ / VMOVD / VMOVS\" are similar to pseudo-instructions, they move large constants to the V registers. So can we keep it? Thank you.",
+      "parentUuid": "893dfef8_bb14e79a",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33534c77_7f737580",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 2
@@ -144,6 +203,24 @@
       "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5207d6e5_4ac0729c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-22T07:37:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33534c77_7f737580",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -170,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "ca614281_e1a163a6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-22T07:37:13Z",
+      "side": 1,
+      "message": "I think it might be wrong to check C_VCON here. Because the user can write \"VMOVQ, $0x100, $0x20, V0\" instruction， the class of \"0x100 and 0x20\" are not C_VCON, so add them in the pool as \"WORD 0x100, WORD 0x20\", then 128-bit literal-loading will load wrong value.",
+      "parentUuid": "5a5bf17a_dd5a50c8",
+      "range": {
+        "startLine": 1182,
+        "startChar": 73,
+        "endLine": 1182,
+        "endChar": 105
+      },
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7664901_695c3c0c",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 2
@@ -184,6 +285,24 @@
       "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b029f203_4cfe72ba",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-22T07:37:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7664901_695c3c0c",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
