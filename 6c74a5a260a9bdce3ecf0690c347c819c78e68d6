@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad734614_ed22b1a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0300ec36_eb983f22",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d9c204d_68e4cf25",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bfac4172_a73d30f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d9c204d_68e4cf25",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b45108e5_5f42d13e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -50,6 +86,24 @@
       "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "605042ca_1b32be49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b45108e5_5f42d13e",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -138,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "b60e560d_c8d86d9b",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00297a6b_efea77da",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66e59f41_87b4bc34",
         "filename": "src/math/big/arith.go",
         "patchSetId": 17
@@ -155,6 +227,24 @@
     },
     {
       "key": {
+        "uuid": "38a93a50_3982c11a",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66e59f41_87b4bc34",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a068dbde_83037dd4",
         "filename": "src/math/big/arith.go",
         "patchSetId": 17
@@ -166,6 +256,24 @@
       "writtenOn": "2020-09-22T06:42:57Z",
       "side": 1,
       "message": "My concern with this method versus algorithm 4 in the Granlund Moller paper is this second full-width multiply can be expensive on some architectures.  Even on my amd64 machine this method is ~2% slower.  I also think it is beneficial for people coming on this code later to stay close to the published algorithm so that it is easier to verify and doesn\u0027t appear to be original research.",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6056dbf7_3ad852f0",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "I think it does makes sense. Like you said, we can continue to improve in the follow up CL.",
+      "parentUuid": "a068dbde_83037dd4",
       "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -189,6 +297,24 @@
     },
     {
       "key": {
+        "uuid": "2ca8b3f8_f7026ec8",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "479815b9_7538f469",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4464629_120064c6",
         "filename": "src/math/big/arith_test.go",
         "patchSetId": 17
@@ -203,6 +329,24 @@
       "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb2eb56a_e0a4eae8",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-09-22T14:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4464629_120064c6",
+      "revId": "6c74a5a260a9bdce3ecf0690c347c819c78e68d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
