@@ -1294,6 +1294,7 @@ func (ctxt *Link) hostlink() {
 	addASLRargs := func(argv []string) []string {
 		// Enable ASLR.
 		argv = append(argv, "-Wl,--dynamicbase")
+<<<<<<< HEAD   (7831b6 cmd/link: enable ASLR on windows binaries built with -buildm)
 		// enable high-entropy ASLR on 64-bit.
 		if ctxt.Arch.PtrSize >= 8 {
 			argv = append(argv, "-Wl,--high-entropy-va")
@@ -1301,6 +1302,13 @@ func (ctxt *Link) hostlink() {
 		// Work around binutils limitation that strips relocation table for dynamicbase.
 		// See https://sourceware.org/bugzilla/show_bug.cgi?id=19011
 		return append(argv, "-Wl,--export-all-symbols")
+=======
+		// Enable high-entropy ASLR on 64-bit.
+		if ctxt.Arch.PtrSize >= 8 {
+			argv = append(argv, "-Wl,--high-entropy-va")
+		}
+		return argv
+>>>>>>> BRANCH (2ca353 cmd/link: enable ASLR on windows binaries built with -buildm)
 	}
 
 	switch ctxt.BuildMode {
@@ -1316,6 +1324,12 @@ func (ctxt *Link) hostlink() {
 		case objabi.Hdarwin, objabi.Haix:
 		case objabi.Hwindows:
 			argv = addASLRargs(argv)
+<<<<<<< HEAD   (7831b6 cmd/link: enable ASLR on windows binaries built with -buildm)
+=======
+			// Work around binutils limitation that strips relocation table for dynamicbase.
+			// See https://sourceware.org/bugzilla/show_bug.cgi?id=19011
+			argv = append(argv, "-Wl,--export-all-symbols")
+>>>>>>> BRANCH (2ca353 cmd/link: enable ASLR on windows binaries built with -buildm)
 		default:
 			// ELF.
 			if ctxt.UseRelro() {
