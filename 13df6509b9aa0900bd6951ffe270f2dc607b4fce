@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17449c48_1ea6ef88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-22T20:11:07Z",
+      "side": 1,
+      "message": "1. Why make this change?  What is an example of code that would take advantage of this?\n\n2. A change like this should have a test.\n\nThanks.",
+      "revId": "13df6509b9aa0900bd6951ffe270f2dc607b4fce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
