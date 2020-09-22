@@ -16,6 +16,24 @@
       "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28fcb7b4_32a60678",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-09-22T07:20:33Z",
+      "side": 1,
+      "message": "I don\u0027t understand the failure either. On my local illumos VM this works fine. Maybe something specific with the builder?",
+      "parentUuid": "7d00a622_2744b2e2",
+      "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
