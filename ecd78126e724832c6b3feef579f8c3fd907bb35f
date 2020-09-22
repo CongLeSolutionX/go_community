@@ -70,6 +70,24 @@
       "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "963fcde0_2164e061",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-22T16:35:12Z",
+      "side": 1,
+      "message": "I will see what happens if I undo it, but I suspect we\u0027ll end up with a bunch of failing intermediate CLs if I do.  I am slightly regretting the large stack of smaller CLs, though this was supposed to make it \"easier\".",
+      "parentUuid": "c67acb79_4fdb1814",
+      "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
