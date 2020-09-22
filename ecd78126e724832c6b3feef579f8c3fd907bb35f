@@ -52,6 +52,24 @@
       "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c67acb79_4fdb1814",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-22T16:22:50Z",
+      "side": 1,
+      "message": "Okay, thanks. I guess it is okay to check in this CL if you prefer, but it would be better if the CL description describes what actually changes. Or, as it gets moved again later, maybe we don\u0027t need this CL?",
+      "parentUuid": "5c2545ba_84a012ab",
+      "revId": "ecd78126e724832c6b3feef579f8c3fd907bb35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
