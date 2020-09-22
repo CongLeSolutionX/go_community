@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b27c3d5_b686eb76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-09-22T18:08:35Z",
+      "side": 1,
+      "message": "This helps some generated eq routines and helps others. E.g. for package os:\n\nos\n.eq.\"\".ProcessState 46 -\u003e 50  (+8.70%)\n.eq.struct 133 -\u003e 138  (+3.76%)\n.eq.\"\".fileStat 261 -\u003e 234  (-10.34%)\n.eq.\"\".PathError 271 -\u003e 242  (-10.70%)\n.eq.\"\".file 210 -\u003e 213  (+1.43%)\n.eq.\"\".Process 88 -\u003e 106  (+20.45%)\n.eq.[7]string 212 -\u003e 202  (-4.72%)\n.eq.\"\".LinkError 349 -\u003e 325  (-6.88%)\n.eq.\"\".SyscallError 180 -\u003e 187  (+3.89%)\n\n(Generated with \u0027compilecmp -cl 255317  -fn\u003dchanged\u0027.)\n\nOverall it is a very, very minor net increase in text size:\n\ntotal                                                              19562095 19562309 +214    +0.001%  \n\nI had planned last cycle to investigate whether (a) there was an easy way to detect which generation  style works better with which eq routine or (b) whether we could teach the compiler to make one of them always generate  optimal code. I didn\u0027t make much headway on either front.",
+      "revId": "c8941260809b46ee20e4d1f1af7f5ea285df8bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
