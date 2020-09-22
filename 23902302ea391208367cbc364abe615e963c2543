@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7a6d736b_47cee6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-22T15:45:42Z",
+      "side": 1,
+      "message": "LGTM modulo Jay\u0027s comments.",
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9355a477_9fad2152",
         "filename": "doc/go1.16.html",
         "patchSetId": 1
