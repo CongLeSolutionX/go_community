@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "275e515e_cd472cb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35325
+      },
+      "writtenOn": "2020-09-22T08:34:05Z",
+      "side": 1,
+      "message": "$ benchstat old_8byte.txt new_2*4_byte.txt\nname                old time/op    new time/op    delta\nIssue18740_8byte-4    2.61µs ± 7%    4.96µs ± 3%  +89.57%  (p\u003d0.000 n\u003d19+20)",
+      "parentUuid": "0ac85ef8_9f0f5f6b",
+      "revId": "9497a9e1c59c0029c095a5d075d2acccff88a6f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0adfdc9_08a9afe8",
         "filename": "src/runtime/memmove_test.go",
         "patchSetId": 2
