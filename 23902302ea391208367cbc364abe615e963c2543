@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ffcc3004_90ade193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-22T15:53:36Z",
+      "side": 1,
+      "message": "doc/go1.16",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a6d736b_47cee6be",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -65,6 +88,29 @@
     },
     {
       "key": {
+        "uuid": "a332e6bf_71148ad7",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-22T15:53:36Z",
+      "side": 1,
+      "message": "Note",
+      "range": {
+        "startLine": 81,
+        "startChar": 45,
+        "endLine": 81,
+        "endChar": 63
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c686e70_0ffd6a19",
         "filename": "doc/go1.16.html",
         "patchSetId": 1
@@ -81,6 +127,29 @@
         "startChar": 45,
         "endLine": 83,
         "endChar": 70
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9962acd8_967f413a",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-22T15:53:36Z",
+      "side": 1,
+      "message": "\u003ccode\u003eGOPRIVATE\u003c/code\u003e or \u003ccode\u003eGONOSUMDB\u003c/code\u003e\n\nMost uses of GOINSECURE also don\u0027t want the pro",
+      "range": {
+        "startLine": 83,
+        "startChar": 47,
+        "endLine": 83,
+        "endChar": 69
       },
       "revId": "23902302ea391208367cbc364abe615e963c2543",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
