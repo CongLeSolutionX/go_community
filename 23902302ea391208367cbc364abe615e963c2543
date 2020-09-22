@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9355a477_9fad2152",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-22T14:33:22Z",
+      "side": 1,
+      "message": "\u003ccode\u003ego\u003c/code\u003e \u003ccode\u003eget\u003c/code\u003e \u003ccode\u003e-insecure\u003c/code\u003e",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 35
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20f2c569_eba88c97",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-22T14:33:22Z",
+      "side": 1,
+      "message": "s/is usually a better alternative/should be used instead/",
+      "range": {
+        "startLine": 79,
+        "startChar": 72,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c686e70_0ffd6a19",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-22T14:33:22Z",
+      "side": 1,
+      "message": "Rephrase:\n\nUnlike the \u003ccode\u003e-insecure\u003c/code\u003e flag, \u003ccode\u003eGOINSECURE\u003c/code\u003e does not disable module sum validation using the checksum database. The \u003ccode\u003eGONOSUMDB\u003c/code\u003e environment variable may be used instead.",
+      "range": {
+        "startLine": 81,
+        "startChar": 45,
+        "endLine": 83,
+        "endChar": 70
+      },
+      "revId": "23902302ea391208367cbc364abe615e963c2543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
