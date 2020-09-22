@@ -34,6 +34,24 @@
       "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d423d521_2b337947",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-22T21:39:47Z",
+      "side": 1,
+      "message": "I can fix the problem if I force the misc/cgo/errors ptrtest test source to import \"net\", which it doesn\u0027t otherwise do.  Importing \"net\" brings in net/cgo_solaris.go, which adds -lsocket -lnsl -lsendfile to the external link line.  So the problem is that the syscall package refers to accept4, but doesn\u0027t do anything to link against -lsocket.",
+      "parentUuid": "28fcb7b4_32a60678",
+      "revId": "d04a6feb65751b642e1356c0718bd7c7b4743b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
