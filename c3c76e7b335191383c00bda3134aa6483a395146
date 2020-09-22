@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "eaa380b7_e228f753",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-22T16:20:47Z",
+      "side": 1,
+      "message": "If AFMOVQ is not in the optab, the omovlit case can never happen, right?\n\nFMOVQ suggests it takes a floating point constant (instead of integer constant), and targets an F register (instead of V register). It doesn\u0027t seem to do either. So that seems weird.",
+      "parentUuid": "a7a04cf0_8c540011",
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33534c77_7f737580",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 2
@@ -259,6 +277,30 @@
       "side": 1,
       "message": "I think it might be wrong to check C_VCON here. Because the user can write \"VMOVQ, $0x100, $0x20, V0\" instruction， the class of \"0x100 and 0x20\" are not C_VCON, so add them in the pool as \"WORD 0x100, WORD 0x20\", then 128-bit literal-loading will load wrong value.",
       "parentUuid": "5a5bf17a_dd5a50c8",
+      "range": {
+        "startLine": 1182,
+        "startChar": 73,
+        "endLine": 1182,
+        "endChar": 105
+      },
+      "revId": "c3c76e7b335191383c00bda3134aa6483a395146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be27adda_0829760f",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-22T16:20:47Z",
+      "side": 1,
+      "message": "Okay, thanks.",
+      "parentUuid": "ca614281_e1a163a6",
       "range": {
         "startLine": 1182,
         "startChar": 73,
