@@ -109,6 +109,10 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 			continue
 		}
 
+		if f.Type.Width == -2 && !f.Type.Broke() {
+			f.Type.SetBroke(true)
+			yyerrorl(asNode(f.Type.Nod).Pos, "invalid recursive type: %v refers to %v", f.Type, t)
+		}
 		dowidth(f.Type)
 		if int32(f.Type.Align) > maxalign {
 			maxalign = int32(f.Type.Align)
