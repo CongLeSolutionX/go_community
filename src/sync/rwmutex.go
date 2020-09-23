@@ -14,17 +14,11 @@ import (
 // If you make any changes here, see if you should make them there.
 
 // A RWMutex is a reader/writer mutual exclusion lock.
-// The lock can be held by an arbitrary number of readers or a single writer.
+// The lock can be held by any number of readers or a single writer, and
+// a blocked writer also blocks new readers from acquiring the lock.
+//
 // The zero value for a RWMutex is an unlocked mutex.
-//
 // A RWMutex must not be copied after first use.
-//
-// If a goroutine holds a RWMutex for reading and another goroutine might
-// call Lock, no goroutine should expect to be able to acquire a read lock
-// until the initial read lock is released. In particular, this prohibits
-// recursive read locking. This is to ensure that the lock eventually becomes
-// available; a blocked Lock call excludes new readers from acquiring the
-// lock.
 type RWMutex struct {
 	w           Mutex  // held if there are pending writers
 	writerSem   uint32 // semaphore for writers to wait for completing readers
@@ -37,9 +31,8 @@ const rwmutexMaxReaders = 1 << 30
 
 // RLock locks rw for reading.
 //
-// It should not be used for recursive read locking; a blocked Lock
-// call excludes new readers from acquiring the lock. See the
-// documentation on the RWMutex type.
+// A RWLock blocks until a prior write lock is released. As a result,
+// RLock cannot be used for recursive read locking.
 func (rw *RWMutex) RLock() {
 	if race.Enabled {
 		_ = rw.w.state
@@ -87,8 +80,10 @@ func (rw *RWMutex) rUnlockSlow(r int32) {
 }
 
 // Lock locks rw for writing.
-// If the lock is already locked for reading or writing,
-// Lock blocks until the lock is available.
+//
+// Lock blocks until a prior read/write is finished. Subsequent calls
+// to RLock (from any goroutine) will block until this call to Lock has
+// returned and the write lock has been released by a call to Unlock.
 func (rw *RWMutex) Lock() {
 	if race.Enabled {
 		_ = rw.w.state
