@@ -19,12 +19,11 @@ import (
 //
 // A RWMutex must not be copied after first use.
 //
-// If a goroutine holds a RWMutex for reading and another goroutine might
-// call Lock, no goroutine should expect to be able to acquire a read lock
-// until the initial read lock is released. In particular, this prohibits
-// recursive read locking. This is to ensure that the lock eventually becomes
-// available; a blocked Lock call excludes new readers from acquiring the
-// lock.
+// If a reader holds RWMutex and other writers might call Lock, no one can
+// acquire a read lock until the initial read lock is released. In particular,
+// recursive read locking is prohibited. This is to ensure that the lock
+// eventually becomes available; a blocked Lock call excludes new readers
+// from acquiring the lock.
 type RWMutex struct {
 	w           Mutex  // held if there are pending writers
 	writerSem   uint32 // semaphore for writers to wait for completing readers
@@ -37,7 +36,7 @@ const rwmutexMaxReaders = 1 << 30
 
 // RLock locks rw for reading.
 //
-// It should not be used for recursive read locking; a blocked Lock
+// It cannot be used for recursive read locking; a blocked Lock
 // call excludes new readers from acquiring the lock. See the
 // documentation on the RWMutex type.
 func (rw *RWMutex) RLock() {
