@@ -256,3 +256,24 @@ func seen(p *profile.Profile, fname string) bool {
 	}
 	return false
 }
+
+func TestEscapeURL(t *testing.T) {
+	testCases := []struct {
+		path    string
+		escaped string
+	}{
+		{"heap", "heap"},
+		{"heap?debug=1", "heap?debug=1"},
+		{"tracking-name_01.txt", "tracking-name_01.txt"},
+		{"heap<div></div>", "heap%3cdiv%3e%3c%2fdiv%3e"},
+		{"☺☻☹", "%e2%98%ba%e2%98%bb%e2%98%b9"},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.path, func(t *testing.T) {
+			escaped := escapeURL(tc.path)
+			if escaped != tc.escaped {
+				t.Errorf("got: %q; want: %q", escaped, tc.escaped)
+			}
+		})
+	}
+}
