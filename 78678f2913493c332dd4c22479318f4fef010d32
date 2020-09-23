@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de526e16_00490533",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-23T18:15:30Z",
+      "side": 1,
+      "message": "The issue is about reporting the full struct cycle. I don\u0027t think this CL does that?\n\nFor example:\n\n```\n$ cat x.go\npackage p\n\ntype a struct { b }\ntype b struct { c }\ntype c struct { a }\n\n$ gotype x.go\nx.go:3:6: illegal cycle in declaration of a\nx.go:3:6: \ta refers to\nx.go:4:6: \tb refers to\nx.go:5:6: \tc refers to\nx.go:3:6: \ta\n```\n\nBased on issue41575.go, it seems like this will only print \"a refers to b\"?",
+      "revId": "78678f2913493c332dd4c22479318f4fef010d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
