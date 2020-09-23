@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7ea1f3a_6ed81f8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-09-23T23:30:41Z",
+      "side": 1,
+      "message": "Thanks for doing this! This was a long on my wishlist and should make a pretty big difference for math/big performance throughout.\n- gri",
+      "revId": "d54a9a9c42e751a020308cae296add426b56d0f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
