@@ -39,6 +39,30 @@
       "revId": "f094e163b93469ab92b66d4a93a9759a000809fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a204184_f92fd75c",
+        "filename": "src/internal/bytealg/index_generic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-09-23T18:57:16Z",
+      "side": 1,
+      "message": "Done. Changed argument names to a and b to match index_native.go.",
+      "parentUuid": "1c3aa89a_54c124a9",
+      "range": {
+        "startLine": 18,
+        "startChar": 21,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "f094e163b93469ab92b66d4a93a9759a000809fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
