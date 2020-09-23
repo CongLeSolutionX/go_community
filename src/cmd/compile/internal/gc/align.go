@@ -173,6 +173,36 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 	return o
 }
 
+var dowidthStack []*types.Type
+
+func errRecursiveType(t *types.Type, checkStack bool) {
+	pos := asNode(t.Nod).Pos
+	errReferMsg := func(t *types.Type) {
+		yyerrorl(pos, "\t%v refers to", t)
+	}
+
+	i := 0
+
+	if checkStack {
+		for i < len(dowidthStack) && dowidthStack[i] != t {
+			i++
+		}
+		if i == len(dowidthStack) {
+			Fatalf("couldn't find %v in %v", t, dowidthStack)
+		}
+	} else {
+		errReferMsg(t)
+	}
+
+	for ; i < len(dowidthStack); i++ {
+		errReferMsg(dowidthStack[i])
+	}
+
+	yyerrorl(pos, "\t%v", t)
+}
+
+var skipDowidthForErrRecursive bool
+
 // dowidth calculates and stores the size and alignment for t.
 // If sizeCalculationDisabled is set, and the size/alignment
 // have not already been calculated, it calls Fatal.
@@ -180,7 +210,7 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 func dowidth(t *types.Type) {
 	// Calling dowidth when typecheck tracing enabled is not safe.
 	// See issue #33658.
-	if enableTrace && skipDowidthForTracing {
+	if enableTrace && skipDowidthForTracing || skipDowidthForErrRecursive {
 		return
 	}
 	if Widthptr == 0 {
@@ -194,7 +224,10 @@ func dowidth(t *types.Type) {
 	if t.Width == -2 {
 		if !t.Broke() {
 			t.SetBroke(true)
-			yyerrorl(asNode(t.Nod).Pos, "invalid recursive type %v", t)
+			skipDowidthForErrRecursive = true
+			yyerrorl(asNode(t.Nod).Pos, "invalid recursive type: %v", t)
+			errRecursiveType(t, true)
+			skipDowidthForErrRecursive = false
 		}
 
 		t.Width = 0
@@ -228,6 +261,8 @@ func dowidth(t *types.Type) {
 	if asNode(t.Nod) != nil {
 		lineno = asNode(t.Nod).Pos
 	}
+
+	dowidthStack = append(dowidthStack, t)
 
 	t.Width = -2
 	t.Align = 0 // 0 means use t.Width, below
@@ -310,7 +345,12 @@ func dowidth(t *types.Type) {
 	case TFORW: // should have been filled in
 		if !t.Broke() {
 			t.SetBroke(true)
-			yyerror("invalid recursive type %v", t)
+			if nt := asNode(t.Nod).Name.Param.Ntype; nt.Type.Broke() {
+				skipDowidthForErrRecursive = true
+				yyerrorl(nt.Pos, "invalid recursive type: %v", nt.Type)
+				errRecursiveType(nt.Type, nt.Type == t)
+				skipDowidthForErrRecursive = false
+			}
 		}
 		w = 1 // anything will do
 
@@ -390,6 +430,13 @@ func dowidth(t *types.Type) {
 	lineno = lno
 
 	resumecheckwidth()
+
+	last := len(dowidthStack) - 1
+	if dowidthStack[last] != t {
+		Fatalf("dowidthStack mismatch")
+	}
+	dowidthStack[last] = nil
+	dowidthStack = dowidthStack[:last]
 }
 
 // when a type's width should be known, we call checkwidth
