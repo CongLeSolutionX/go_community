@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/compile/internal/types"
+	"fmt"
 	"sort"
 )
 
@@ -95,6 +96,23 @@ func expandiface(t *types.Type) {
 	t.Extra.(*types.Interface).Fields.Set(methods)
 }
 
+// TODO: expands this for dowidth, so it can work for all types.
+var widstructStack []*types.Type
+
+func errRecursiveStructTypeDef() string {
+	errReferMsg := func(t *types.Type) string {
+		return fmt.Sprintf("\t%v refers to\n", t)
+	}
+
+	root := widstructStack[len(widstructStack)-1]
+	msg := errReferMsg(root)
+	for i := 0; i < len(widstructStack)-1; i++ {
+		msg += errReferMsg(widstructStack[i])
+	}
+	msg += fmt.Sprintf("\t%v", root)
+	return msg
+}
+
 func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 	starto := o
 	maxalign := int32(flag)
@@ -109,7 +127,22 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 			continue
 		}
 
+		if f.Type.Width == -2 && t.Width == -2 {
+			if !f.Type.Broke() {
+				f.Type.SetBroke(true)
+				yyerrorl(asNode(t.Nod).Pos, "invalid recursive type: %v\n%s", t, errRecursiveStructTypeDef())
+			}
+		}
+
+		widstructStack = append(widstructStack, f.Type)
 		dowidth(f.Type)
+		last := len(widstructStack) - 1
+		if widstructStack[last] != f.Type {
+			Fatalf("widstructStack mismatch")
+		}
+		widstructStack[last] = nil
+		widstructStack = widstructStack[:last]
+
 		if int32(f.Type.Align) > maxalign {
 			maxalign = int32(f.Type.Align)
 		}
