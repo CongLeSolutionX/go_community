@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "399c9cc7_2b57fe0e",
+        "filename": "src/sync/rwmutex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-23T13:40:14Z",
+      "side": 1,
+      "message": "Hmm... This comment relates the behavior of two methods (Lock and RLock), and also says something about the RWMutex as a whole (namely, that RWMutex is starvation-free).\n\nSome of this information is already duplicated in the comment for RLock, but missing from the comment for Lock. Perhaps we should make the RLock and Lock comments more similar to each other, and make this paragraph more concise.\n\nMaybe something like:\n\n// A RWMutex is a reader/writer mutual exclusion lock.\n// The lock can be held by an arbitrary number of readers or a single writer.\n// To ensure that no reader or writer is starved, a blocked writer\n// also blocks new readers from acquiring the lock.\n//\n// The zero value for a RWMutex is an unlocked mutex.\n// A RWMutex must not be copied after first use.\ntype RWMutex struct {\n\t…\n}\n\n// RLock locks rw for reading.\n//\n// If rw is already locked for writing, or if a prior\n// call to Lock is still blocked, RWLock blocks until the\n// write lock is released. As a result, RLock cannot be\n// used for recursive read locking.\nfunc (rw *RWMutex) RLock() {\n\t…\n}\n\n// Lock locks rw for writing.\n//\n// If rw is already locked for reading or writing,\n// Lock blocks until the lock is available. Subsequent calls\n// to RLock (from any goroutine) will block until this call to\n// Lock has returned and the write lock has been released\n// by a call to Unlock.\nfunc (rw *RWMutex) Lock() {\n\t…\n}",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 40
+      },
+      "revId": "a3fa1732a1c33d8ec8f922f4be42b4a69a159948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
