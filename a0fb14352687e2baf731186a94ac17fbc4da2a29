@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99039d8e_d87a2f49",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-23T12:45:07Z",
+      "side": 1,
+      "message": "Is it feasible to add a regression test for this? (cmd/go regression tests are in src/cmd/go/testdata/script.)",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 2
+      },
+      "revId": "a0fb14352687e2baf731186a94ac17fbc4da2a29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
