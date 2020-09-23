@@ -10,7 +10,7 @@
 package p
 
 type a struct{ b }
-type b struct{ a } // ERROR "invalid recursive type"
+type b struct{ a } // ERROR "invalid recursive type: b" "b refers to$" "a refers to$" "b$"
 
 var x interface{}
 
