@@ -9,7 +9,7 @@
 
 package p
 
-type T struct{ T } // ERROR "invalid recursive type T"
+type T struct{ T } // ERROR "(?s)invalid recursive type: T.\tT refers to.\tT$"
 
 func f() {
 	println(T{} == T{})

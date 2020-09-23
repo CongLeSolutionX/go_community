@@ -3541,6 +3541,7 @@ func typecheckdeftype(n *Node) {
 		// copy new type and clear fields
 		// that don't come along.
 		setUnderlying(n.Type, t)
+		checkwidth(n.Type)
 	}
 }
 

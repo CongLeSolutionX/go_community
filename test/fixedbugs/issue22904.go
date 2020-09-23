@@ -9,8 +9,8 @@
 
 package p
 
-type a struct{ b }
-type b struct{ a } // ERROR "invalid recursive type"
+type a struct{ b } // ERROR "(?s)invalid recursive type: a.\ta refers to.\tb refers to.\ta$"
+type b struct{ a }
 
 var x interface{}
 
