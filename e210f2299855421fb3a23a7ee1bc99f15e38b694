@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "e56c7cde_fff6e7e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "It makes perfect sense - I was largely following existing naming conventions (e.g. Asmb/Asmb2 and Textp/Textp2) which is not ideal and in hindsight partially a result of the transision/rewrite process. More than happy to use appropriate names and detailed comments.",
+      "parentUuid": "ab12dbd3_bb282358",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f4351ce_d40d6102",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 3
@@ -50,6 +68,24 @@
       "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd9e0b83_426954c2",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "Probably not - I was initially following what appeared to be the style of this code (e.g. Asmb/Asmb2). I\u0027ve renamed this to GentextAfterAddressing which reflects its purpose.",
+      "parentUuid": "0f4351ce_d40d6102",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "8d51aada_abaf67dc",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "Renamed, moved and commented.",
+      "parentUuid": "e68d8557_583120bf",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de071f89_456001b3",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 3
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "8ce53194_f3ae6b44",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1798,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "It is... I was not aware that it existed - thanks!",
+      "parentUuid": "de071f89_456001b3",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "935f85c2_74fbcaf2",
         "filename": "src/cmd/link/internal/riscv64/asm.go",
         "patchSetId": 3
@@ -101,6 +173,24 @@
       "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51510d4_3d84ec8e",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "It should be possible, but there is no mechanism for it currently - we would have to rework genelfsym so that called putelfsyment directly for some symbols and putelfsym for others, while maintaining the correct order. I\u0027ve added a TODO.",
+      "parentUuid": "935f85c2_74fbcaf2",
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ab437_f164141a",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "I was thinking it would be needed since they all have the same name, but it is not likely necessary since they\u0027re not external.",
+      "parentUuid": "cf6dadc5_5cfd2aae",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 26
+      },
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd54724c_8f7e5710",
         "filename": "src/cmd/link/internal/riscv64/asm.go",
         "patchSetId": 3
@@ -150,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "a1d43659_f1526fd2",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "It did not seem to be an issue, however putelfsym clearly looks for the outer symbol so have fixed this.",
+      "parentUuid": "cd54724c_8f7e5710",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d4781a_e70ca541",
         "filename": "src/cmd/link/internal/riscv64/asm.go",
         "patchSetId": 3
@@ -170,6 +308,30 @@
       "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb64a79a_0fc7b018",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-09-23T18:35:29Z",
+      "side": 1,
+      "message": "The ELF specification for RISC-V is available here:\n\nhttps://github.com/riscv/riscv-elf-psabi-doc/blob/master/riscv-elf.md#pc-relative-symbol-addresses\n\nIt is certainly unusual - this part of the RISC-V architecture is built around an AUIPC (Add Upper Immediate to PC) instruction and load/store instructions that include the a signed 12 bit address value in their encoding. My understanding is that they wanted the ability to use one AUIPC with multiple load/store instructions, effectively doing more of the heavy lifting at link time.\n\nUsing the original text symbol seems like it might work, however I\u0027ve not been able to get it to - I keep hitting `%pcrel_lo missing matching %pcrel_hi` errors from binutils:\n\n  https://sources.debian.org/src/binutils/2.35-3/bfd/elfnn-riscv.c/?hl\u003d1592#L1576\n\nAdditionally, even if it does work it would not match what gcc/binutils generates which may have other implications.",
+      "parentUuid": "21d4781a_e70ca541",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 72
+      },
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
