@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "536dac76_b242e255",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-23T22:43:25Z",
+      "side": 1,
+      "message": "I\u0027m going look carefully at the other comments (and probably make changes), these I think required explanation but no particular change.",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5783e1e1_d8a4c1fa",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 23
@@ -39,6 +56,30 @@
       "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "244e37df_cc546474",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-23T22:43:25Z",
+      "side": 1,
+      "message": "It depends upon where you want to put the ABI logic, and what it looks like.  I\u0027m opting to put all that in one place, where calls are late-expanded.  This also keeps the appearance of calls uniform in the generic section of SSA, otherwise it will show some combination of register use and memory use.",
+      "parentUuid": "5783e1e1_d8a4c1fa",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +129,30 @@
     },
     {
       "key": {
+        "uuid": "1da03f7b_52760429",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-23T22:43:25Z",
+      "side": 1,
+      "message": "No, the way this works is that a part is being picked out of an aggregate select, and t is the type of the piece.\nSo t is correct.  I might rename it \"leafType\", if that would help.",
+      "parentUuid": "a42f3ba4_ae157664",
+      "range": {
+        "startLine": 107,
+        "startChar": 64,
+        "endLine": 107,
+        "endChar": 65
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f220ced1_18d1c932",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 23
@@ -119,6 +184,24 @@
       "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef44c0dc_58feb157",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-23T22:43:25Z",
+      "side": 1,
+      "message": "Without this the intermediate SSA got surprisingly messy, and I was worried about cost, and the possibility that the common expressions wouldn\u0027t be caught until the next CSE pass.",
+      "parentUuid": "3dd1e153_9f59c423",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
