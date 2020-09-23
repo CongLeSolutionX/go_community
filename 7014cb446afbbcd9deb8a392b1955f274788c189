@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0d60860_43e02530",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-23T23:39:51Z",
+      "side": 1,
+      "message": "Do we still need to test GOARCH \u003d\u003d \"arm64\"?\n\nSimilarly elsewhere.",
+      "revId": "7014cb446afbbcd9deb8a392b1955f274788c189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
