@@ -253,6 +253,9 @@ func (r *gitRepo) Latest() (*RevInfo, error) {
 // in which case this returns some name - it doesn't matter which.
 func (r *gitRepo) findRef(hash string) (ref string, ok bool) {
 	r.refsOnce.Do(r.loadRefs)
+	if r.refsErr != nil {
+		return "", r.refsErr
+	}
 	for ref, h := range r.refs {
 		if h == hash {
 			return ref, true
@@ -296,6 +299,9 @@ func (r *gitRepo) stat(rev string) (*RevInfo, error) {
 	// Or maybe it's the prefix of a hash of a named ref.
 	// Try to resolve to both a ref (git name) and full (40-hex-digit) commit hash.
 	r.refsOnce.Do(r.loadRefs)
+	if r.refsErr != nil {
+		return nil, r.refsErr
+	}
 	var ref, hash string
 	if r.refs["refs/tags/"+rev] != "" {
 		ref = "refs/tags/" + rev
