@@ -9,6 +9,6 @@
 
 package main
 
-type A struct {	a A }	// ERROR "recursive"
-func foo()		{ new(A).bar() }
-func (a A) bar()	{}
+type A struct{ a A } // ERROR "(?s)invalid recursive type: A.\tA refers to.\tA$"
+func foo()           { new(A).bar() }
+func (a A) bar()     {}

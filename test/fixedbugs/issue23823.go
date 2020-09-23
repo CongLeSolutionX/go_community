@@ -10,6 +10,6 @@ type I1 = interface {
 	I2
 }
 
-type I2 interface { // ERROR "invalid recursive type"
+type I2 interface { // ERROR "(?s)invalid recursive type: I2.\tI2 refers to.\tI2$"
 	I1
 }

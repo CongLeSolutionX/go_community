@@ -6,19 +6,19 @@
 
 package main
 
-type T0 T0 // ERROR "invalid recursive type"
+type T0 T0 // ERROR "(?s)(?s)invalid recursive type: T0.\tT0 refers to.\tT0$"
 type _ map[T0]int
 
-type T1 struct{ T1 } // ERROR "invalid recursive type"
+type T1 struct{ T1 } // ERROR "(?s)invalid recursive type: T1.\tT1 refers to.\tT1$"
 type _ map[T1]int
 
 func f() {
-	type T2 T2 // ERROR "invalid recursive type"
+	type T2 T2 // ERROR "(?s)invalid recursive type: T2.\tT2 refers to.\tT2$"
 	type _ map[T2]int
 }
 
 func g() {
-	type T3 struct{ T3 } // ERROR "invalid recursive type"
+	type T3 struct{ T3 } // ERROR "(?s)invalid recursive type: T3.\tT3 refers to.\tT3$"
 	type _ map[T3]int
 }
 
