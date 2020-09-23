@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "729305d3_b0888b3a",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 14
+      },
+      "lineNbr": 2032,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:33:31Z",
+      "side": 1,
+      "message": "Didn\u0027t know that the RHS can be a function call, not an s-expression.\n\nIs it possible to write this using ... ? Something like\n(InterLECall [argsize] {auxCall} (Load XXX) ...) -\u003e (StaticLECall [argsize] {divertLE(XXX)} ...) ?\n\nThen we don\u0027t need to invent another pattern.",
+      "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fbdd6a1_b95d4c9a",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:33:31Z",
+      "side": 1,
+      "message": "LE, both uppercase, for consistency. Also below.",
+      "range": {
+        "startLine": 769,
+        "startChar": 11,
+        "endLine": 769,
+        "endChar": 13
+      },
+      "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
