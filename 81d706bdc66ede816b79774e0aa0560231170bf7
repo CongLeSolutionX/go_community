@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1264d4d_8c8227f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T14:40:08Z",
+      "side": 1,
+      "message": "Fannie, can you Trust+1 on the CL? If you don\u0027t have permission I can find someone to do it. Let me know. Thanks.",
+      "revId": "81d706bdc66ede816b79774e0aa0560231170bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d88ef31_76d099d6",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 4
