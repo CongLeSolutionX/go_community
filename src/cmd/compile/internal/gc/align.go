@@ -173,6 +173,39 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 	return o
 }
 
+var dowidthStack []*types.Type
+
+func reportInvalidRecursiveType(t *types.Type, checkStack bool) {
+	skipDowidthForErrRecursive = true
+	pos := asNode(t.Nod).Pos
+	yyerrorl(pos, "invalid recursive type: %v", t)
+	errReferMsg := func(t *types.Type) {
+		yyerrorl(pos, "\t%v refers to", t)
+	}
+
+	i := 0
+
+	if checkStack {
+		for i < len(dowidthStack) && dowidthStack[i] != t {
+			i++
+		}
+		if i == len(dowidthStack) {
+			Fatalf("couldn't find %v in %v", t, dowidthStack)
+		}
+	} else {
+		errReferMsg(t)
+	}
+
+	for ; i < len(dowidthStack); i++ {
+		errReferMsg(dowidthStack[i])
+	}
+
+	yyerrorl(pos, "\t%v", t)
+	skipDowidthForErrRecursive = false
+}
+
+var skipDowidthForErrRecursive bool
+
 // dowidth calculates and stores the size and alignment for t.
 // If sizeCalculationDisabled is set, and the size/alignment
 // have not already been calculated, it calls Fatal.
@@ -180,7 +213,7 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 func dowidth(t *types.Type) {
 	// Calling dowidth when typecheck tracing enabled is not safe.
 	// See issue #33658.
-	if enableTrace && skipDowidthForTracing {
+	if enableTrace && skipDowidthForTracing || skipDowidthForErrRecursive {
 		return
 	}
 	if Widthptr == 0 {
@@ -194,7 +227,7 @@ func dowidth(t *types.Type) {
 	if t.Width == -2 {
 		if !t.Broke() {
 			t.SetBroke(true)
-			yyerrorl(asNode(t.Nod).Pos, "invalid recursive type %v", t)
+			reportInvalidRecursiveType(t, true)
 		}
 
 		t.Width = 0
@@ -228,6 +261,8 @@ func dowidth(t *types.Type) {
 	if asNode(t.Nod) != nil {
 		lineno = asNode(t.Nod).Pos
 	}
+
+	dowidthStack = append(dowidthStack, t)
 
 	t.Width = -2
 	t.Align = 0 // 0 means use t.Width, below
@@ -309,8 +344,30 @@ func dowidth(t *types.Type) {
 
 	case TFORW: // should have been filled in
 		if !t.Broke() {
+			// For cycle like:
+			//
+			//   type a b
+			//   type b c
+			//   type c b
+			//
+			// We don't need to report error for a, only report the cycle with b and c.
+			//
+			//  - type a b -> t is "a", "nt.Type" is "b", "a" is marked as broken.
+			//  - type b c -> t is "b", "nt.Type" is "c", "b" is marked as broken.
+			//  - type c b -> t is "c", "nt.Type" is "b", "b" was marked as broken above, so we report the cycle.
+			//
+			// Above example happens with "nt.Type" (b) != "t" (c). With code like:
+			//
+			//   type a b
+			//   type b c
+			//   type c c
+			//
+			// We have "nt.Type" (c) == "t" (c), so the cycle has c only.
 			t.SetBroke(true)
-			yyerror("invalid recursive type %v", t)
+			nt := asNode(t.Nod).Name.Param.Ntype
+			if nt.Type.Broke() {
+				reportInvalidRecursiveType(nt.Type, nt.Type == t)
+			}
 		}
 		w = 1 // anything will do
 
@@ -390,6 +447,13 @@ func dowidth(t *types.Type) {
 	lineno = lno
 
 	resumecheckwidth()
+
+	last := len(dowidthStack) - 1
+	if dowidthStack[last] != t {
+		Fatalf("dowidthStack mismatch")
+	}
+	dowidthStack[last] = nil
+	dowidthStack = dowidthStack[:last]
 }
 
 // when a type's width should be known, we call checkwidth
