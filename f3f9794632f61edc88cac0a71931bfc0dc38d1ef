@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d7013d7_0b6aa7f7",
+        "filename": "src/sync/rwmutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-23T16:26:39Z",
+      "side": 1,
+      "message": "The phrase “a prior write lock” seems too ambiguous: RLock doesn\u0027t block if there was no prior write lock, and (importantly!) it also blocks if some other goroutine is already blocked in Lock (which isn\u0027t really “a prior write lock”, in the sense that the other blocked goroutine has not yet write-locked the mutex).",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 55
+      },
+      "revId": "f3f9794632f61edc88cac0a71931bfc0dc38d1ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
