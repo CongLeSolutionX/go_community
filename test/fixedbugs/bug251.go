@@ -6,7 +6,7 @@
 
 package main
 
-type I1 interface { // GC_ERROR "invalid recursive type"
+type I1 interface { // GC_ERROR "invalid recursive type: I1" "I1 refers to$" "I2 refers to$" "I1$"
 	m() I2
 	I2 // GCCGO_ERROR "loop|interface"
 }
@@ -14,7 +14,6 @@ type I1 interface { // GC_ERROR "invalid recursive type"
 type I2 interface {
 	I1 // GCCGO_ERROR "loop|interface"
 }
-
 
 var i1 I1 = i2
 var i2 I2
