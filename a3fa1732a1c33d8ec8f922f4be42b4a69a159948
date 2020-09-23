@@ -46,6 +46,30 @@
       "revId": "a3fa1732a1c33d8ec8f922f4be42b4a69a159948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f817970_c66891f6",
+        "filename": "src/sync/rwmutex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-23T19:38:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8012ab33_bb16ad80",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 40
+      },
+      "revId": "a3fa1732a1c33d8ec8f922f4be42b4a69a159948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

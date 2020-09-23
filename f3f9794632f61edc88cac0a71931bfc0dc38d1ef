@@ -22,6 +22,30 @@
       "revId": "f3f9794632f61edc88cac0a71931bfc0dc38d1ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0e981ef_a9c81633",
+        "filename": "src/sync/rwmutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-23T19:38:15Z",
+      "side": 1,
+      "message": "Fair point, DONE.",
+      "parentUuid": "4d7013d7_0b6aa7f7",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 55
+      },
+      "revId": "f3f9794632f61edc88cac0a71931bfc0dc38d1ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
