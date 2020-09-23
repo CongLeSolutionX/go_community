@@ -22,6 +22,30 @@
       "revId": "842257cf9fe4ad11a59b5eda116715d8e580cf32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ece1d800_81acf784",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-23T02:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6c8d219_e2c2877d",
+      "range": {
+        "startLine": 954,
+        "startChar": 0,
+        "endLine": 965,
+        "endChar": 3
+      },
+      "revId": "842257cf9fe4ad11a59b5eda116715d8e580cf32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
