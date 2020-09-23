@@ -10,6 +10,7 @@ type I1 = interface {
 	I2
 }
 
-type I2 interface { // ERROR "invalid recursive type"
+// BAD: "interface {}" in error message should be replaced by "I1"
+type I2 interface { // ERROR "invalid recursive type: I2" "I2 refers to$" "interface {} refers to$" "I2$"
 	I1
 }

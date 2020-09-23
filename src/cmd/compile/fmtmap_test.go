@@ -67,6 +67,7 @@ var knownFormats = map[string]string{
 	"[16]byte %x":                                     "",
 	"[]*cmd/compile/internal/ssa.Block %v":            "",
 	"[]*cmd/compile/internal/ssa.Value %v":            "",
+	"[]*cmd/compile/internal/types.Type %v":           "",
 	"[][]string %q":                                   "",
 	"[]byte %s":                                       "",
 	"[]byte %x":                                       "",

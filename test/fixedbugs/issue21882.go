@@ -6,4 +6,4 @@
 
 package p
 
-type T [2]T // ERROR "invalid recursive type"
+type T [2]T // ERROR "invalid recursive type: T" "T refers to$" "T$"
