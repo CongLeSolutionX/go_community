@@ -22,6 +22,30 @@
       "revId": "a3fa1732a1c33d8ec8f922f4be42b4a69a159948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8012ab33_bb16ad80",
+        "filename": "src/sync/rwmutex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-23T14:26:54Z",
+      "side": 1,
+      "message": "Thanks for the clarification. Your suggestion is more reasonable. Just one more thing: I would prefer to avoid \"complicate\" API doc by explaining the root cause and just documenting the actual behavior, it could be explained internally. Specifically, removing the word `starvation`, though it\u0027s a well known word in the concurrent world. So a small modification was made, I hope this could still reserve the original intention. What do you think?",
+      "parentUuid": "399c9cc7_2b57fe0e",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 40
+      },
+      "revId": "a3fa1732a1c33d8ec8f922f4be42b4a69a159948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
