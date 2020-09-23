@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "999961f0_1c183fd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-23T23:38:57Z",
+      "side": 1,
+      "message": "s/macO/macOS/",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe306389_6e0e8936",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-23T23:38:57Z",
+      "side": 1,
+      "message": "Do we still need to test goarch here?  Why not just goos \u003d\u003d \"ios\"?",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e14e89ba_4ba6feb5",
+        "filename": "test/fixedbugs/bug429_run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-23T23:38:57Z",
+      "side": 1,
+      "message": "Is there some way we can remember to remove this when darwin/arm64 supports internal linking?",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
