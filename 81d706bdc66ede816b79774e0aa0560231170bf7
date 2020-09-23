@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d88ef31_76d099d6",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T14:38:43Z",
+      "side": 1,
+      "message": "Drop this, start with \"It\". Just say what it does. I think this is clearer.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 63
+      },
+      "revId": "81d706bdc66ede816b79774e0aa0560231170bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
