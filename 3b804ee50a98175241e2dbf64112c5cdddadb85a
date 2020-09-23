@@ -16,6 +16,143 @@
       "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5783e1e1_d8a4c1fa",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "I think normally at this point they should already be decomposed, right? Maybe the decompose code doesn\u0027t understand the new opcode so it couldn\u0027t? Maybe we could expand the decompose pass to handle them? Or maybe it\u0027s just not going to work?",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e69d684_8deef671",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "Nit: use t.IsStruct() helper, etc. ?",
+      "range": {
+        "startLine": 58,
+        "startChar": 9,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42f3ba4_ae157664",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "Should this be the field type? Also other cases below?",
+      "range": {
+        "startLine": 107,
+        "startChar": 64,
+        "endLine": 107,
+        "endChar": 65
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f220ced1_18d1c932",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "Uncomment or delete. In fact, could this happen? Maybe use Fatalf if this really cannot happen.",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd1e153_9f59c423",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "Do whatever easier here. The opt pass will optimize them anyway.",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e294db7_713f76c6",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "Maybe we should add OpSelectNAddr here as well?",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaa347d4_5535834a",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "Should we include OpSelectNAddr in this function?",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

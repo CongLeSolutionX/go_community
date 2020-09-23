@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6a1489b_71959f27",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 5070,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-23T21:11:57Z",
+      "side": 1,
+      "message": "Why this is necessary? It looks to me that this will make things hard to reason about. And the distinction between call and rtcall seems subtle.",
+      "revId": "4f2a98ccbce1f08cac7333c08068cd5a18d67fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
