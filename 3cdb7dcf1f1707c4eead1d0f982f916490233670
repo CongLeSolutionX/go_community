@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20d6babf_e1d301e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-24T21:23:36Z",
+      "side": 1,
+      "message": "Test LGTM, though we need to think through the desired behaviors carefully. Can discuss next week.",
+      "revId": "3cdb7dcf1f1707c4eead1d0f982f916490233670",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
