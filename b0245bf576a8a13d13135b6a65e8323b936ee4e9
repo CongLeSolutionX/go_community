@@ -33,6 +33,24 @@
       "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e513ed01_1f91443f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-24T22:37:30Z",
+      "side": 1,
+      "message": "Rather CL 257317",
+      "parentUuid": "2104d9ea_25f5d324",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
