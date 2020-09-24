@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59841d56_698d5515",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-24T20:36:03Z",
+      "side": 1,
+      "message": "LGTM, but I\u0027d like Ian to have the final say on the cherry-pick.",
+      "revId": "8bbf59e0c4b7ad8853eb2d02d1c2323624ae6db0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
