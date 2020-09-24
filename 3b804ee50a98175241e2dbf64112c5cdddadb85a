@@ -229,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "e984d7de_062775df",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T21:33:21Z",
+      "side": 1,
+      "message": "Turns out yes, it can happen.  int64 on 32-bit has a whole lot more ways to create \"aggregates\" than all the other kinds, which rely on load, phi, arg, and make only.  It is safe to ignore the \"wrong\" ones that will come later if this is run before decompose builtin.",
+      "parentUuid": "206e1ceb_818b4565",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dd1e153_9f59c423",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 23
