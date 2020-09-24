@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f395db94_f246abdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-24T01:47:37Z",
+      "side": 1,
+      "message": "I have the permission on Trust+1. Done. Thank you. BTW, what is the function of Trust label? Thank you.",
+      "parentUuid": "f1264d4d_8c8227f7",
+      "revId": "81d706bdc66ede816b79774e0aa0560231170bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d88ef31_76d099d6",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "81d706bdc66ede816b79774e0aa0560231170bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30af4b16_64a518b6",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-24T01:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d88ef31_76d099d6",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 63
+      },
+      "revId": "81d706bdc66ede816b79774e0aa0560231170bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
