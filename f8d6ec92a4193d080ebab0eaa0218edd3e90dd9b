@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b0a52db_92f21636",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-09-24T21:36:08Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of adverbs, and the two \"entirelys\" here don\u0027t even feel right.\nI would just say something along the lines of the implementation controlling the interpretation.\n",
+      "revId": "f8d6ec92a4193d080ebab0eaa0218edd3e90dd9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
