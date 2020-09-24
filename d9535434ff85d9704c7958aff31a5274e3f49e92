@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aa6f551_82cbe256",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-09-24T08:09:50Z",
+      "side": 1,
+      "message": "I didn\u0027t notice an appropriate method that I can use. Most of these sanitization funcs are unfortunately in html/template.",
+      "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f3ea6b8_e9c2f6f0",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-09-24T08:09:50Z",
+      "side": 1,
+      "message": "Is this set of characters fine?",
+      "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
