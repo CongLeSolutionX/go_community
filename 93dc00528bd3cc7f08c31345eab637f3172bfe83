@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "b64c2987_c6fc78a5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-24T00:49:53Z",
+      "side": 1,
+      "message": "It depends on what the story of ios/amd64 (the simulator) is. Currently we don\u0027t have that combination but it seems people want it. I\u0027m doing the minimal change so it doesn\u0027t affect ios/amd64. If we \"don\u0027t care\", I can make it only goos\u003d\u003d\"ios\".",
+      "parentUuid": "fe306389_6e0e8936",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e14e89ba_4ba6feb5",
         "filename": "test/fixedbugs/bug429_run.go",
         "patchSetId": 1
@@ -53,6 +71,24 @@
       "writtenOn": "2020-09-23T23:38:57Z",
       "side": 1,
       "message": "Is there some way we can remember to remove this when darwin/arm64 supports internal linking?",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc88a34_14179b2b",
+        "filename": "test/fixedbugs/bug429_run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-24T00:49:53Z",
+      "side": 1,
+      "message": "I\u0027m still trying to get internal linking work in this cycle, although I can\u0027t guarantee.  Typically I put this on a sticky note on my desk in the office, but I don\u0027t have access to the desk now. I\u0027ve been keeping a text file for them now.",
+      "parentUuid": "e14e89ba_4ba6feb5",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
