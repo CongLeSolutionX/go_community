@@ -87,6 +87,30 @@
       "revId": "707cbf82a5e6b25e913ad5519a9b39acf3b03832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd283e92_31619bef",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2549,
+      "author": {
+        "id": 35325
+      },
+      "writtenOn": "2020-09-24T09:10:31Z",
+      "side": 1,
+      "message": "Thank you for your guidance, I have made changes, please review.",
+      "parentUuid": "6426ff78_d067c91d",
+      "range": {
+        "startLine": 2549,
+        "startChar": 3,
+        "endLine": 2549,
+        "endChar": 24
+      },
+      "revId": "707cbf82a5e6b25e913ad5519a9b39acf3b03832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
