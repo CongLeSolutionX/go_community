@@ -16,6 +16,24 @@
       "revId": "876c26e487f3eaadad5dba9053906b10e0fa69be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1d10212_07df1c3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-24T13:28:24Z",
+      "side": 1,
+      "message": "Sure, that\u0027s a good idea. The wording here provides more useful information, and it makes sense to communicate that in both places.",
+      "parentUuid": "3e866520_7aaa45f4",
+      "revId": "876c26e487f3eaadad5dba9053906b10e0fa69be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
