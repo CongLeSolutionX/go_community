@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e4875b4_da6f3d4a",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-24T16:53:38Z",
+      "side": 1,
+      "message": "It looks like this prints the entire stack, whereas we only need to print the cycle.\n\nFor example:\n\n    type a b\n    type b b\n\ndoesn\u0027t need to print anything about \"a\". Printing just \"b refers to b\" is sufficient.",
+      "revId": "d7dcd85e27751630b78ee40bd35499afcc358a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c04657ee_52ab42a8",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-24T16:53:38Z",
+      "side": 1,
+      "message": "I think the extra code needs to go here, rather than in widstruct. We can have type cycles due to arrays too, which don\u0027t go through widstruct. For example:\n\n    type a [1]b\n    type b struct { a }",
+      "revId": "d7dcd85e27751630b78ee40bd35499afcc358a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
