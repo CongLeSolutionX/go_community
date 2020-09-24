@@ -16,6 +16,23 @@
       "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2104d9ea_25f5d324",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-24T22:36:55Z",
+      "side": 1,
+      "message": "I\u0027ve mailed CL 57317, which after it has been merged and rebased, you\u0027ll be able to\nrun the benchmark and the results of your CL are nice, like this:\n\nname      old time/op    new time/op    delta\nHelper-8    1.00µs ±32%    0.37µs ± 5%   -63.17%  (p\u003d0.000 n\u003d10+10)\n\nname      old alloc/op   new alloc/op   delta\nHelper-8      216B ± 0%        0B       -100.00%  (p\u003d0.000 n\u003d10+10)\n\nname      old allocs/op  new allocs/op  delta\nHelper-8      2.00 ± 0%      0.00       -100.00%  (p\u003d0.000 n\u003d10+10)\n\n\nWell done!",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
