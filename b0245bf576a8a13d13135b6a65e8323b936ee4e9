@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce3fb8bf_f6bbc455",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-24T22:13:24Z",
+      "side": 1,
+      "message": "Thank you for the rebase, Bryan! I\u0027ve added some reviews. For performance related changes, please\npost in the commit messages the savings in time spent, memory conserved and operations conserved by (if you might not already know):\na) Running benchmarks before and after and saving them to files before.txt and after.txt respectively\nb) Using https://godoc.org/golang.org/x/perf/cmd/benchstat, run benchstat before.txt after.txt\nc) Paste the results summary at the end of your commit message\n\nthat\u0027ll ensure objective discernment, but also a nice summary for users and maintainers alike.",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
