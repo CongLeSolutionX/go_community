@@ -34,6 +34,24 @@
       "revId": "78678f2913493c332dd4c22479318f4fef010d32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eac92d7_346b902b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-24T02:10:05Z",
+      "side": 1,
+      "message": "If that works, that\u0027s fine. However, in general, a cycle might consist of N types. I\u0027m skeptical that any solution requiring just O(1) memory and O(1) computation will be able to correctly detect a cycle.\n\nYou can see how we use typecheckdefstack in typecheck.go for an example of how we detect when declarations are circular (e.g., `var a \u003d b; var b \u003d c; var c \u003d a`).",
+      "parentUuid": "72ff3a9f_dabefb6b",
+      "revId": "78678f2913493c332dd4c22479318f4fef010d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
