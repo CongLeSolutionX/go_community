@@ -16,6 +16,24 @@
       "revId": "4f2a98ccbce1f08cac7333c08068cd5a18d67fcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57b3af18_7f7ab83a",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 5070,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T18:30:30Z",
+      "side": 1,
+      "message": "Turns out this is not necessary.  I had added it defensively, not knowing what weird places might insert rtcalls.",
+      "parentUuid": "e6a1489b_71959f27",
+      "revId": "4f2a98ccbce1f08cac7333c08068cd5a18d67fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "a55929ef_bb720968",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T18:30:30Z",
+      "side": 1,
+      "message": "Next patch set coming as soon as local testing completes happily.",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5783e1e1_d8a4c1fa",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 23
@@ -106,6 +123,30 @@
     },
     {
       "key": {
+        "uuid": "71723c27_804a5f45",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T18:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e69d684_8deef671",
+      "range": {
+        "startLine": 58,
+        "startChar": 9,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a42f3ba4_ae157664",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 23
@@ -170,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "206e1ceb_818b4565",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T18:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f220ced1_18d1c932",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dd1e153_9f59c423",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 23
@@ -222,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "c3668f1f_c42cc0cc",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T18:30:30Z",
+      "side": 1,
+      "message": "yes.",
+      "parentUuid": "5e294db7_713f76c6",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaa347d4_5535834a",
         "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
         "patchSetId": 23
@@ -236,6 +313,24 @@
       "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "212f7f0f_4ec48382",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T18:30:30Z",
+      "side": 1,
+      "message": "Probably.  It hasn\u0027t seemed necessary yet, but it fits the description of the function.",
+      "parentUuid": "aaa347d4_5535834a",
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
