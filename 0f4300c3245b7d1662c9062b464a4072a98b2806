@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e88d26cf_e96e151d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-24T21:34:42Z",
+      "side": 1,
+      "message": "cmd/go/internal/modfetch/codehost",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "0f4300c3245b7d1662c9062b464a4072a98b2806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58c3f1e1_3b85d13d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-24T21:34:42Z",
+      "side": 1,
+      "message": "Reflow text: try to keep it below 75 characters.",
+      "revId": "0f4300c3245b7d1662c9062b464a4072a98b2806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "596b2b14_254d6f46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-09-24T21:34:42Z",
+      "side": 1,
+      "message": "Couple nits on the commit message. You can fix it by editing the PR title and first comment.\n\nIf there\u0027s a way to reproduce this in a regression test without standing up an external git repo, that would be ideal. If not, this seems good as-is.",
+      "revId": "0f4300c3245b7d1662c9062b464a4072a98b2806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
