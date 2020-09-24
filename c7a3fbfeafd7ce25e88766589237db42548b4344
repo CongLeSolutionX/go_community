@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a64f5110_bb7a4b3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T19:41:06Z",
+      "side": 1,
+      "message": "next patch set coming....",
+      "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "729305d3_b0888b3a",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 14
@@ -13,6 +30,24 @@
       "writtenOn": "2020-09-23T21:33:31Z",
       "side": 1,
       "message": "Didn\u0027t know that the RHS can be a function call, not an s-expression.\n\nIs it possible to write this using ... ? Something like\n(InterLECall [argsize] {auxCall} (Load XXX) ...) -\u003e (StaticLECall [argsize] {divertLE(XXX)} ...) ?\n\nThen we don\u0027t need to invent another pattern.",
+      "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10be3a72_c166af9e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 14
+      },
+      "lineNbr": 2032,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T19:41:06Z",
+      "side": 1,
+      "message": "I tried that first, I could not make it work with the condition, which is necessary.\nI think stripping a leading value off is also beyond its current abilities.\n\nThe rule parsing+compiling code does not make me happy; I thought it lacked adequate documentation about how it all connected or what was actually enforced/required (and why).",
+      "parentUuid": "729305d3_b0888b3a",
       "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -39,6 +74,30 @@
       "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d11d733_cf352e66",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-24T19:41:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fbdd6a1_b95d4c9a",
+      "range": {
+        "startLine": 769,
+        "startChar": 11,
+        "endLine": 769,
+        "endChar": 13
+      },
+      "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
