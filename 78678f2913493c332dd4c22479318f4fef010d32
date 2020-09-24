@@ -16,6 +16,24 @@
       "revId": "78678f2913493c332dd4c22479318f4fef010d32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ff3a9f_dabefb6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-24T00:33:42Z",
+      "side": 1,
+      "message": "\u003e it seems like this will only print \"a refers to b\"?\n\nActually, \"b refers to a\", which skips \"c\". I don\u0027t have this test case in mind when doing the CL.\n\nI think a solution can be `if ft.Width \u003d\u003d -2 \u0026\u0026 t.Width \u003d\u003d -2`, we can recursive look into ft struct fields, and terminate the recursive if we get back t. How do you think?",
+      "parentUuid": "de526e16_00490533",
+      "revId": "78678f2913493c332dd4c22479318f4fef010d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
