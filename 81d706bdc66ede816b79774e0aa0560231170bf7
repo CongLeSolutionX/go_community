@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bb3b717b_9e0798bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-24T14:24:49Z",
+      "side": 1,
+      "message": "See Russ\u0027s email https://groups.google.com/g/golang-dev/c/jgkuktb_m7A/m/oLOSzYZvAwAJ about what Trust label is for. Basically, a CL needs to be trusted by two people (my +2 counts as a trust).",
+      "parentUuid": "f395db94_f246abdc",
+      "revId": "81d706bdc66ede816b79774e0aa0560231170bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d88ef31_76d099d6",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 4
