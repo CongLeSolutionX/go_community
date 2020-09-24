@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "6773a9dc_0dae0cf7",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-24T20:13:44Z",
+      "side": 1,
+      "message": "It seems to me that if we add support for ios/amd64, we would still want a method like this to report true for ios/amd64.  If the iOS simulator should act differently in some way, I think we should key off that, rather than \n\nI know you know this, but the only reason the arm64 is in there is that before we used to say darwin/386 and darwin/amd64 are regular macOS, while darwin/arm and darwin/arm64 are iOS.  Then we dropped darwin/arm.  Then we added goos \u003d\u003d \"ios\".  The \"arm64\" is left over from when we were using GOARCH to separate macOS and iOS.  I can\u0027t see any clear reason why, after adding \"ios\", we would still want to check \"arm64\".\n\nIf the iOS simulator should act differently in some way, I think we should have some way to mark the simulator, rather than continuing to differentiate based on GOARCH.",
+      "parentUuid": "b64c2987_c6fc78a5",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e14e89ba_4ba6feb5",
         "filename": "test/fixedbugs/bug429_run.go",
         "patchSetId": 1
@@ -92,6 +110,24 @@
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3b66ab_28c81a43",
+        "filename": "test/fixedbugs/bug429_run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-24T20:13:44Z",
+      "side": 1,
+      "message": "Perhaps we could set up a sticky note service, in which we could mail sticky notes to some central location, and they would put them up in front of a web cam, so you could check on your sticky note status at any time.  Also there would be a rearrange and delete API, and so forth.",
+      "parentUuid": "5cc88a34_14179b2b",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
