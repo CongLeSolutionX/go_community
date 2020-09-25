@@ -81,6 +81,24 @@
       "revId": "9911df1bd2794ceaea8128f3008cd81d7e3bbf41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29347976_28a7e123",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-25T19:33:38Z",
+      "side": 1,
+      "message": "OK, I suppose that makes sense.",
+      "parentUuid": "cef426a1_7d866574",
+      "revId": "9911df1bd2794ceaea8128f3008cd81d7e3bbf41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
