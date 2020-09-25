@@ -139,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "22078d23_9bfadf20",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 38590
+      },
+      "writtenOn": "2020-09-25T10:17:10Z",
+      "side": 1,
+      "message": "Using the \u0027testify\u0027 library, calling assert.NoError() every time round a loop is not rare.\nI did fix that specific issue - https://github.com/stretchr/testify/pull/933 - but a variant require.NoError() using the same library proved harder.\n\nSaving memory allocation; see other comment.",
+      "parentUuid": "aea65b9a_1af14363",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a95abc3d_5be9ff9d",
         "filename": "src/testing/testing.go",
         "patchSetId": 3
@@ -150,6 +168,24 @@
       "writtenOn": "2020-09-25T01:31:14Z",
       "side": 1,
       "message": "I think this will do the wrong thing when helper functions are inlined.  We really do want to pass the full slice to CallersFrames.\n\nIn fact, this may be a problem with this whole approach.  In general a single PC value can represent a stack of inlined functions.  The purpose of using CallersFrames is to handle these stacks correctly.  I don\u0027t think we can skip that.\n\nI\u0027m also not sure where the memory allocation is here.  The strings returned by frame.Function are not allocated.",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "840ddbd8_bdd58816",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 38590
+      },
+      "writtenOn": "2020-09-25T10:17:10Z",
+      "side": 1,
+      "message": "Sorry it\u0027s a while since I did this so I will have to figure out again why I thought it was ok to pass just one PC.\n\nOn the question about memory allocation, it\u0027s the return value from CallersFrames(), here:\n\n         .          .    997:func callerName(skip int) string {\n         .          .    998:   // Make room for the skip PC.\n    1.50MB     1.50MB    999:   var pc [1]uintptr\n         .          .   1000:   n :\u003d runtime.Callers(skip+2, pc[:]) // skip + runtime.Callers + callerName\n         .          .   1001:   if n \u003d\u003d 0 {\n         .          .   1002:           panic(\"testing: zero callers found\")\n         .          .   1003:   }\n   48.01MB    48.01MB   1004:   frames :\u003d runtime.CallersFrames(pc[:n])\n         .          .   1005:   frame, _ :\u003d frames.Next()\n         .          .   1006:   return frame.Function\n         .          .   1007:}\n\nMaybe, instead of all this, have a variant of CallersFrames() that takes the return *Frame as an argument?",
+      "parentUuid": "a95abc3d_5be9ff9d",
       "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
