@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33c90d6f_725441b2",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-25T20:35:06Z",
+      "side": 1,
+      "message": "Rename to \"reportInvalidRecursiveType\".",
+      "range": {
+        "startLine": 178,
+        "startChar": 5,
+        "endLine": 178,
+        "endChar": 21
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae6584f7_f6d84768",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-25T20:35:06Z",
+      "side": 1,
+      "message": "Are there test cases that make sure this is working as expected? E.g., I mentioned on Slack\n\n    type (a b; b c; c d; d c)\n\nbut I don\u0027t see anything like that in the test cases you had to update. (I didn\u0027t look too closely though, so maybe I missed one.)",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cd4fb2f_d9cf0fe9",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-25T20:35:06Z",
+      "side": 1,
+      "message": "Push these into errRecursiveType.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 63
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc9d24fd_3ccbb48d",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-25T20:35:06Z",
+      "side": 1,
+      "message": "I don\u0027t understand what\u0027s going on here. This needs a comment.\n\nAlso, justify why this case always needs to print the full stack. That seems suspicious to me.",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a758f2_cdc2ed44",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-25T20:35:06Z",
+      "side": 1,
+      "message": "This seems bad, IMO.\n\nIt looks like go/types just omits this mention (\"I2 refers to I2\"). I\u0027d rather be consistent with that behavior than print a misleading type. (\"interface {}\" is a different type than \"I1\" or \"interface { I2 }\").",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
