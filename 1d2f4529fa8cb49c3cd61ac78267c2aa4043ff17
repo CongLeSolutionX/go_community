@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d19269c_bb5126db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-09-25T16:24:15Z",
+      "side": 1,
+      "message": "Adding Ian as well for an extra pair of eyes, since he owns net/.",
+      "revId": "1d2f4529fa8cb49c3cd61ac78267c2aa4043ff17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67268971_f7a37629",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-09-25T16:24:15Z",
+      "side": 1,
+      "message": "this does mean copying the string to make a new one, which is a bit unfortunate. do you have any other ideas? for example, if one of the date layouts didn\u0027t have a timezone at all, we could trim the \"UT\" and just set the timezone to UTC at the end of the func.",
+      "revId": "1d2f4529fa8cb49c3cd61ac78267c2aa4043ff17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a424dd4f_4cc8521b",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-09-25T16:24:15Z",
+      "side": 1,
+      "message": "The name \"index\" doesn\u0027t really say what it does beyond strings.Index. Perhaps call it \"indexFrom\" or something like that.",
+      "revId": "1d2f4529fa8cb49c3cd61ac78267c2aa4043ff17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
