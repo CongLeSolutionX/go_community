@@ -16,6 +16,177 @@
       "revId": "850f65346eddd36062b504327e515ab18e13991f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "964e7695_6ab14292",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "Perhaps make it f.pass.debug .",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c28e46_889a0c4c",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "Maybe add more comment about the parameters, especially the difference between v and sel, and what t is (type of v? type of sel? something else?).",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47db8ad3_9e17e546",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "It seems clearer for those helper functions (including storeArg, etc. below) be top level functions (less nested code, etc.). It seems they only close in configuration-like things like tHi, tLo, and SP. Maybe pass them as a separate \"config\" parameter?",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb8abdea_0dc1e79b",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "return here? Doesn\u0027t seem you want to fall through to the default case below.",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed272845_38f63380",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "I think we probably need to recursively decompose things like [1][1][1]int. Same for struct.",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "756a15a3_8d2b8c81",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "Nit: v.MemoryArg() ?",
+      "range": {
+        "startLine": 229,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 31
+      },
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf8d137_8f48fd4d",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "What happens if OpDereference\u0027s memory and Call\u0027s memory are different?\n\nIt seems we are using the Call\u0027s memory (plus updates in this loop). Maybe the a.Uses\u003d\u003d1 condition above needs also a.MemoryArg()\u003d\u003dm0 or a.Block \u003d\u003d v.Block or something?",
+      "range": {
+        "startLine": 248,
+        "startChar": 28,
+        "endLine": 248,
+        "endChar": 31
+      },
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "093bb0b0_074c4138",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "Typo.",
+      "range": {
+        "startLine": 279,
+        "startChar": 116,
+        "endLine": 279,
+        "endChar": 125
+      },
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe1de237_8bb3c27f",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "Why not decrement if n\u003d\u003d1 ? If n\u003d\u003d1 it seems val2Preds[v] will stick at 1, and this cannot terminate. I probably missed something.",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

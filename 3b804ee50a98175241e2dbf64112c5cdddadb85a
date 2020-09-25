@@ -100,6 +100,30 @@
     },
     {
       "key": {
+        "uuid": "ee9a2709_4a07693c",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "Thanks. I was thinking whether it is possible to decompose the struct/array accesses earlier but keep the high level Call structure, and still lower Calls here. Maybe that is not possible.",
+      "parentUuid": "244e37df_cc546474",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e69d684_8deef671",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 23
@@ -182,6 +206,30 @@
       "side": 1,
       "message": "No, the way this works is that a part is being picked out of an aggregate select, and t is the type of the piece.\nSo t is correct.  I might rename it \"leafType\", if that would help.",
       "parentUuid": "a42f3ba4_ae157664",
+      "range": {
+        "startLine": 107,
+        "startChar": 64,
+        "endLine": 107,
+        "endChar": 65
+      },
+      "revId": "3b804ee50a98175241e2dbf64112c5cdddadb85a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796d997b_89d4dcfe",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T15:43:52Z",
+      "side": 1,
+      "message": "Okay, I think I see it now.",
+      "parentUuid": "1da03f7b_52760429",
       "range": {
         "startLine": 107,
         "startChar": 64,
