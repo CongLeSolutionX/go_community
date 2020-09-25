@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5c578fc2_d2361375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-25T10:23:00Z",
+      "side": 1,
+      "message": "I guess Ian meant without parentheses previously? Same for the rest of the commit message.",
+      "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "453fda21_aff0cdc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-25T10:23:00Z",
+      "side": 1,
+      "message": "I think it is necessart to paste your benchstat results here.\n\nThe benchmark from CL 257317 avoids the internal overhead of test entity, which should be more accurate for the result I think.",
+      "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6fd5f059_61be1f11",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -13,6 +47,23 @@
       "writtenOn": "2020-09-25T10:17:10Z",
       "side": 1,
       "message": "Emmanuel gave benchmark results and linked https://go-review.googlesource.com/57317, but that 404s for me.\n\nI\u0027ve added my own small benchmark with similar results, to aid discussion about where the problem lies.\n\nname      old time/op    new time/op    delta\nHelper-2    1.00µs ± 5%    0.49µs ±23%   -51.13%  (p\u003d0.008 n\u003d5+5)\n\nname      old alloc/op   new alloc/op   delta\nHelper-2      216B ± 0%        0B       -100.00%  (p\u003d0.008 n\u003d5+5)\n\nname      old allocs/op  new allocs/op  delta\nHelper-2      2.00 ± 0%      0.00       -100.00%  (p\u003d0.008 n\u003d5+5)\n\n",
+      "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5afd1439_c947f2c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-25T10:23:00Z",
+      "side": 1,
+      "message": "Nice change and the rest LGTM",
       "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
