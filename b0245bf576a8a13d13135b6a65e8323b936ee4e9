@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "b9a8b601_3c80f3fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-25T01:31:14Z",
+      "side": 1,
+      "message": "Just write Helper with the parentheses.  We usually omit them in Go as godoc does not pay attention to them.",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce3fb8bf_f6bbc455",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -85,6 +102,57 @@
       "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6891a977_583298ef",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-25T01:31:14Z",
+      "side": 1,
+      "message": "This is a case where it is clearer to use make rather than forcing people to count curly braces.\n    helperNames :\u003d make(map[string]string{})\n\nSeparately, in the vast majority of cases len(c.helpers) \u003d\u003d 0.  May as well only make the map if we need it.  Otherwise it can just be nil.",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aea65b9a_1af14363",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-25T01:31:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this.  Calls to Helper are rare.  Walking a stack frame is fast.  What are we saving here?",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95abc3d_5be9ff9d",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-25T01:31:14Z",
+      "side": 1,
+      "message": "I think this will do the wrong thing when helper functions are inlined.  We really do want to pass the full slice to CallersFrames.\n\nIn fact, this may be a problem with this whole approach.  In general a single PC value can represent a stack of inlined functions.  The purpose of using CallersFrames is to handle these stacks correctly.  I don\u0027t think we can skip that.\n\nI\u0027m also not sure where the memory allocation is here.  The strings returned by frame.Function are not allocated.",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
