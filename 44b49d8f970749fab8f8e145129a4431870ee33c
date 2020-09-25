@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9076fc1_79f71198",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-09-25T16:39:06Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-amd64-10_12, darwin-amd64-10_14, darwin-amd64-10_15, darwin-arm64",
+      "revId": "44b49d8f970749fab8f8e145129a4431870ee33c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
