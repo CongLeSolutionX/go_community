@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "15b37e8a_3033bbde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "next patch set coming after I finish the rebase...",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "964e7695_6ab14292",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 25
@@ -33,6 +50,24 @@
       "revId": "850f65346eddd36062b504327e515ab18e13991f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2cffd39_6c61bcd9",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "964e7695_6ab14292",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "1c4e9852_31fd9186",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "Should be better now.  The type parameter was pointless, as it happens.",
+      "parentUuid": "c5c28e46_889a0c4c",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47db8ad3_9e17e546",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 25
@@ -64,6 +117,24 @@
       "writtenOn": "2020-09-25T15:43:52Z",
       "side": 1,
       "message": "It seems clearer for those helper functions (including storeArg, etc. below) be top level functions (less nested code, etc.). It seems they only close in configuration-like things like tHi, tLo, and SP. Maybe pass them as a separate \"config\" parameter?",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5406e1e_9c5742da",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "This might be better put off till a later CL, unless I want to flatten several CLs together because there\u0027s more changes coming to these functions (I\u0027ve been wondering if I should do that flattening).",
+      "parentUuid": "47db8ad3_9e17e546",
       "revId": "850f65346eddd36062b504327e515ab18e13991f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -87,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "bd692efb_b007f5ab",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "That seems very likely, how did this ever work?",
+      "parentUuid": "cb8abdea_0dc1e79b",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed272845_38f63380",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 25
@@ -101,6 +190,24 @@
       "revId": "850f65346eddd36062b504327e515ab18e13991f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4995f13e_e95a3126",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "Done for the array case, cannot be done for the struct case.  The code to deal with immediate struct data in interface types is peculiar.  I added a comment explaining why, and made it target exactly the problematic case.  We have a rewrite rule for this also:\n\n  \"(StructSelect [0] (IData x)) \u003d\u003e (IData x)\" \n\nBy going straight to the code at the end, the size, type, and offset all work out correctly.",
+      "parentUuid": "ed272845_38f63380",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +234,30 @@
     },
     {
       "key": {
+        "uuid": "08bfc727_ddf80c6a",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "756a15a3_8d2b8c81",
+      "range": {
+        "startLine": 229,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 31
+      },
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cf8d137_8f48fd4d",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 25
@@ -147,6 +278,30 @@
       "revId": "850f65346eddd36062b504327e515ab18e13991f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25a2654d_05dd62df",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "Good question -- they shouldn\u0027t be different, given constraints on how the code is generated, but \"shouldn\u0027t\" is not really enough.  I think I should assert that they are the same, because given how the mem is threaded through the stores/moves, it\u0027s a problem if they\u0027re not.  It would have crashed by now if they weren\u0027t, however (I think).",
+      "parentUuid": "8cf8d137_8f48fd4d",
+      "range": {
+        "startLine": 248,
+        "startChar": 28,
+        "endLine": 248,
+        "endChar": 31
+      },
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +328,30 @@
     },
     {
       "key": {
+        "uuid": "da208e65_b28e85e8",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "093bb0b0_074c4138",
+      "range": {
+        "startLine": 279,
+        "startChar": 116,
+        "endLine": 279,
+        "endChar": 125
+      },
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe1de237_8bb3c27f",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 25
@@ -187,6 +366,24 @@
       "revId": "850f65346eddd36062b504327e515ab18e13991f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5485a25_11158df5",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-25T20:33:53Z",
+      "side": 1,
+      "message": "If n is 1, then it goes around the loop, and \"delete(val2Preds, v)\".\nSetting the map entry to zero before deletion is an option, but it would just take time.\nProbably ought to mention that in a comment.",
+      "parentUuid": "fe1de237_8bb3c27f",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
