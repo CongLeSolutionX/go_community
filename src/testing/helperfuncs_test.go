@@ -78,3 +78,14 @@ func parallelTestHelper(t *T) {
 	}
 	wg.Wait()
 }
+
+func noErrorhelper(b *B) {
+	b.Helper()
+}
+
+func BenchmarkHelper(b *B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		noErrorhelper(b)
+	}
+}
