@@ -33,6 +33,24 @@
       "revId": "d7dcd85e27751630b78ee40bd35499afcc358a48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1316cd4a_a506f334",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-25T01:37:54Z",
+      "side": 1,
+      "message": "I did try, but there\u0027re some problem:\n\n - pseudo-variables will also be put to the stack, e.g in:\n\n```\ntype a struct{ b }\ntype b struct{ c }\ntype c struct{ a }\n```\n\nthe stack when we hit the loop is:\n\n```\n0 - struct { b }\n1 - b\n2 - c\n3 - a\n```\n\nThough we can detect these pesudo-variables by checking asNode(t.Nod).Class(), I\u0027m not sure it\u0027s the right way.\n\n - For type alias involve anonymous interface, thing is even more cryptic. e.g fixedbugs/issue23823.go, the stack looks like:\n\n```\n0 - I2\n1 - interface {}\n```\n\nand the error is:\n\n```\nfixedbugs/issue23823.go:9:11: invalid recursive type interface {}\n\tinterface {} refers to\n\tI2 refers to\n\tinterface {}\n```\n\nFor above reason, I chose to go with solution for struct first, before gaining more understanding of current code. I feel we need to restructure dowidth code to make thing clearer. Do you have any suggestions?",
+      "parentUuid": "c04657ee_52ab42a8",
+      "revId": "d7dcd85e27751630b78ee40bd35499afcc358a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
