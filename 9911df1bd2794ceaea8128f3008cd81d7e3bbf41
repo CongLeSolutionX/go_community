@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "204efd13_7d189954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-25T18:44:08Z",
+      "side": 1,
+      "message": "wording is off. Maybe \"wrong location, then potentially continue\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "9911df1bd2794ceaea8128f3008cd81d7e3bbf41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e6025b1_1a730e39",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-25T18:44:08Z",
+      "side": 1,
+      "message": "Is there a reason why this would need to be a runtime error, as opposed to a linker error? What would happen if we just failed the link at this point?",
+      "revId": "9911df1bd2794ceaea8128f3008cd81d7e3bbf41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
