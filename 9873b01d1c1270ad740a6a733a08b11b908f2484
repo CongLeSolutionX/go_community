@@ -16,6 +16,46 @@
       "revId": "9873b01d1c1270ad740a6a733a08b11b908f2484",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fe3688e_81c2c8c0",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-09-25T14:56:32Z",
+      "side": 1,
+      "message": "Minor nit, should the hard tabs be converted to soft?",
+      "revId": "9873b01d1c1270ad740a6a733a08b11b908f2484",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8640d1d_fa01732b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-09-25T14:56:32Z",
+      "side": 1,
+      "message": "Maybe a naive question, I see z.Uses like constraints missing on other rules (most notably the rule to convert floating multiply + add to fma).  Is this a bug in the fma code?",
+      "range": {
+        "startLine": 1029,
+        "startChar": 46,
+        "endLine": 1029,
+        "endChar": 57
+      },
+      "revId": "9873b01d1c1270ad740a6a733a08b11b908f2484",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
