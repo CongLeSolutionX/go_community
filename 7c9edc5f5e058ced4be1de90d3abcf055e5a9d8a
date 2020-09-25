@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ebda345_2beb1f09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38353
+      },
+      "writtenOn": "2020-09-25T11:06:22Z",
+      "side": 1,
+      "message": "I have updated the common_test.go according to the comments of that file, but I don\u0027t have permission to edit the commit message. It replies me a 403 error when I try to save the content, and I may need help for updating the commit message according to the review comment.",
+      "revId": "7c9edc5f5e058ced4be1de90d3abcf055e5a9d8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
