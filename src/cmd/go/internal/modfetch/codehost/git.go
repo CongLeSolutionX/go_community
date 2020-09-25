@@ -247,20 +247,6 @@ func (r *gitRepo) Latest() (*RevInfo, error) {
 	return r.Stat(r.refs["HEAD"])
 }
 
-// findRef finds some ref name for the given hash,
-// for use when the server requires giving a ref instead of a hash.
-// There may be multiple ref names for a given hash,
-// in which case this returns some name - it doesn't matter which.
-func (r *gitRepo) findRef(hash string) (ref string, ok bool) {
-	r.refsOnce.Do(r.loadRefs)
-	for ref, h := range r.refs {
-		if h == hash {
-			return ref, true
-		}
-	}
-	return "", false
-}
-
 // minHashDigits is the minimum number of digits to require
 // before accepting a hex digit sequence as potentially identifying
 // a specific commit in a git repo. (Of course, users can always
@@ -296,6 +282,9 @@ func (r *gitRepo) stat(rev string) (*RevInfo, error) {
 	// Or maybe it's the prefix of a hash of a named ref.
 	// Try to resolve to both a ref (git name) and full (40-hex-digit) commit hash.
 	r.refsOnce.Do(r.loadRefs)
+	if r.refsErr != nil {
+		return nil, r.refsErr
+	}
 	var ref, hash string
 	if r.refs["refs/tags/"+rev] != "" {
 		ref = "refs/tags/" + rev
