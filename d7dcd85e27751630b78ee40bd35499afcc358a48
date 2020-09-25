@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cd147ec9_b7e5dfd9",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-25T07:35:13Z",
+      "side": 1,
+      "message": "Also, isn\u0027t the \"stack\" is also the \"cycle\"?",
+      "parentUuid": "aa289643_70280e45",
+      "revId": "d7dcd85e27751630b78ee40bd35499afcc358a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c04657ee_52ab42a8",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 2
