@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa289643_70280e45",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-25T02:20:07Z",
+      "side": 1,
+      "message": "go1.15 print two errors:\n\n```\nx.go:3:6: invalid recursive type a\nx.go:4:6: invalid recursive type b\n```\n\nWhile if we move the stack check to line 230 like you suggested, we got:\n\n```\nx.go:3:6: invalid recursive type a\n\ta refers to\n\ta\nx.go:4:6: invalid recursive type b\n\tb refers to\n\tb\n```",
+      "parentUuid": "4e4875b4_da6f3d4a",
+      "revId": "d7dcd85e27751630b78ee40bd35499afcc358a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c04657ee_52ab42a8",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 2
