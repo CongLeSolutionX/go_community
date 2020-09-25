@@ -39,6 +39,30 @@
       "revId": "74edbea445a65f687ff0713131153e7eb66098c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a90877b_d4c5a1f3",
+        "filename": "src/testing/helper_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2020-09-25T10:21:36Z",
+      "side": 1,
+      "message": "I think it avoids potential inlining here. The benchmark LGTM.",
+      "parentUuid": "87104f2d_4e8b317f",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "74edbea445a65f687ff0713131153e7eb66098c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
