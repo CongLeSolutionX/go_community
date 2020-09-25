@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "19af06f0_ef6145e6",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T17:08:28Z",
+      "side": 1,
+      "message": "Sounds reasonable. Done. Changed to only goos\u003d\u003d\"ios\" now.",
+      "parentUuid": "6773a9dc_0dae0cf7",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e14e89ba_4ba6feb5",
         "filename": "test/fixedbugs/bug429_run.go",
         "patchSetId": 1
@@ -125,6 +143,24 @@
       "side": 1,
       "message": "Perhaps we could set up a sticky note service, in which we could mail sticky notes to some central location, and they would put them up in front of a web cam, so you could check on your sticky note status at any time.  Also there would be a rearrange and delete API, and so forth.",
       "parentUuid": "5cc88a34_14179b2b",
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3518cf_2e782018",
+        "filename": "test/fixedbugs/bug429_run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-25T17:08:28Z",
+      "side": 1,
+      "message": "Haha, that would be nice :)",
+      "parentUuid": "7a3b66ab_28c81a43",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
