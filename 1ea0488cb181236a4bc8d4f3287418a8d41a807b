@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb0da41_8b843837",
+        "filename": "src/runtime/os_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-25T23:35:30Z",
+      "side": 1,
+      "message": "GOOS !\u003d \"ios\"   ?",
+      "revId": "1ea0488cb181236a4bc8d4f3287418a8d41a807b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46df51f2_4ce04aef",
+        "filename": "src/runtime/os_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-25T23:35:30Z",
+      "side": 1,
+      "message": "GOOS !\u003d \"ios\"    ?",
+      "revId": "1ea0488cb181236a4bc8d4f3287418a8d41a807b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66bd19ec_b99abf61",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-25T23:35:30Z",
+      "side": 1,
+      "message": "Drop sys.GoarchArm64?",
+      "range": {
+        "startLine": 69,
+        "startChar": 82,
+        "endLine": 69,
+        "endChar": 98
+      },
+      "revId": "1ea0488cb181236a4bc8d4f3287418a8d41a807b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
