@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "42f8371f_bb92e76a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-09-25T01:46:38Z",
+      "side": 1,
+      "message": "I got it. Thank you.",
+      "parentUuid": "bb3b717b_9e0798bf",
+      "revId": "81d706bdc66ede816b79774e0aa0560231170bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d88ef31_76d099d6",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 4
