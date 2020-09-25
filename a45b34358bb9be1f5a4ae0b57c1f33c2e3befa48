@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9f09971_5333db16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-09-25T20:31:45Z",
+      "side": 1,
+      "message": "Ok, this CL is now much better in terms of smaller code (-few% to -ten%). Only a few generated equality functions get bigger, and even then only by a little bit. All comparisons except the last use a branch to neq, and the last comparison is directly assigned to the result. The eq and neq cases share the return code.\n",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
