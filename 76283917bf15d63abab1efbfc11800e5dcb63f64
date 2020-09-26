@@ -124,6 +124,42 @@
     },
     {
       "key": {
+        "uuid": "43f9a059_90edaf9f",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-09-26T22:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6330deb7_394e0161",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec6a324_042908ac",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-09-26T22:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6330deb7_394e0161",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c2cb836_6ecfb7fa",
         "filename": "src/net/smtp/smtp.go",
         "patchSetId": 6
@@ -171,6 +207,24 @@
       "side": 1,
       "message": "I think it depends on the status of the connection after sending the message.  For example, would it be reasonable to use a single connection to send multiple messages to the server?",
       "parentUuid": "c8d563c8_44882d4c",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc58273_28847226",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-09-26T22:20:17Z",
+      "side": 1,
+      "message": "\u003e I think it depends on the status of the connection after sending the message.  For example, would it be reasonable to use a single connection to send multiple messages to the server?\n\nIt might be, a quick search led me to this discussion https://stackoverflow.com/questions/30450221/go-connect-to-smtp-server-and-send-multiple-emails-in-one-connection\n\nThis CL makes it easier to send multiple messages, and I think you are right, we should not close the connection nor issue the QUIT command in the SendMail method. but I think it\u0027s necessary to make the Close method issue the QUIT command if not called manually to close the connection properly.",
+      "parentUuid": "42d2ef26_cfef9b98",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

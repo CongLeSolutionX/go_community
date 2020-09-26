@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c57ac606_7fe27932",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-09-26T22:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41a60e29_ac9baaa1",
+      "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78851100_d663a9df",
         "filename": "src/net/smtp/smtp.go",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "880748f4_52492dc7",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-09-26T22:20:17Z",
+      "side": 1,
+      "message": "Moved back to the SendMail function comment",
+      "parentUuid": "78851100_d663a9df",
+      "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
