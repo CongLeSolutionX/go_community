@@ -540,6 +540,7 @@ var errMissingHost = errors.New("http: Request.Write on Request with no Host or 
 
 // extraHeaders may be nil
 // waitForContinue may be nil
+// always closes body
 func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitForContinue func() bool) (err error) {
 	trace := httptrace.ContextClientTrace(r.Context())
 	if trace != nil && trace.WroteRequest != nil {
@@ -549,6 +550,15 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 			})
 		}()
 	}
+	closed := false
+	defer func() {
+		if closed {
+			return
+		}
+		if closeErr := r.closeBody(); closeErr != nil && err == nil {
+			err = closeErr
+		}
+	}()
 
 	// Find the target host. Prefer the Host: header, but if that
 	// is not given, use the host from the request URL.
@@ -667,6 +677,7 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 			trace.Wait100Continue()
 		}
 		if !waitForContinue() {
+			closed = true
 			r.closeBody()
 			return nil
 		}
@@ -679,6 +690,7 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	}
 
 	// Write body and trailer
+	closed = true
 	err = tw.writeBody(w)
 	if err != nil {
 		if tw.bodyReadError == err {
@@ -1383,10 +1395,11 @@ func (r *Request) wantsClose() bool {
 	return hasToken(r.Header.get("Connection"), "close")
 }
 
-func (r *Request) closeBody() {
-	if r.Body != nil {
-		r.Body.Close()
+func (r *Request) closeBody() error {
+	if r.Body == nil {
+		return nil
 	}
+	return r.Body.Close()
 }
 
 func (r *Request) isReplayable() bool {
