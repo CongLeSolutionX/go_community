@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "a512aa8f_bfd0f7f9",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-26T02:19:57Z",
+      "side": 1,
+      "message": "By these I also meant thte skipDowidthForErrRecursive assignments.\n\nAnd now I\u0027m thinking the t.Broke() and t.SetBroke() calls belong there too.",
+      "parentUuid": "ac682452_f2017b80",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 63
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc9d24fd_3ccbb48d",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 5
@@ -190,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "57510855_153cb72f",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-26T02:19:57Z",
+      "side": 1,
+      "message": "Okay, I can believe this is necessary to suppress the duplicate error messages. It still needs a comment to that effect.\n\nAlso, do you have test cases that exercise each of these cases?\n\n1. !nt.Type.Broke()\n2. nt.Type.Broke() \u0026\u0026 nt.Type \u003d\u003d t\n3. nt.Type.Broke() \u0026\u0026 nt.Type !\u003d t\n\nIt\u0027s not immediately obvious to me when these cases happen.\n\nIt\u0027s also odd to me that we\u0027re printing errors here when nt.Type is already broken, but not when it\u0027s okay? Usually we only skip printing errors when we know an error has already been printed, so this seems backwards.",
+      "parentUuid": "bf4be15b_6c268550",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a758f2_cdc2ed44",
         "filename": "test/fixedbugs/issue23823.go",
         "patchSetId": 5
@@ -219,6 +267,24 @@
       "side": 1,
       "message": "gotype reports that:\n\n../test/fixedbugs/issue23823.go:14:6: illegal cycle in declaration of I2\n../test/fixedbugs/issue23823.go:14:6: \tI2 refers to\n../test/fixedbugs/issue23823.go:9:6: \tI1 refers to\n../test/fixedbugs/issue23823.go:14:6: \tI2\n\nThe issue with us is we don\u0027t create new type for alias (I1), so the underlying type is used. That the same issue that we can\u0027t use alias name in error reports involved alias type in current implementation.",
       "parentUuid": "76a758f2_cdc2ed44",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a1f6094_1da11003",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-26T02:19:57Z",
+      "side": 1,
+      "message": "Odd, that\u0027s not what I see:\n\n```\n$ gotype test/fixedbugs/issue23823.go\ntest/fixedbugs/issue23823.go:13:6: illegal cycle in declaration of I2\ntest/fixedbugs/issue23823.go:13:6: \tI2 refers to\ntest/fixedbugs/issue23823.go:13:6: \tI2\n```\n\nIt\u0027s certainly preferable to include I1, but I\u0027m wondering why we\u0027re getting different behavior here.",
+      "parentUuid": "17e75e35_463710bf",
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
