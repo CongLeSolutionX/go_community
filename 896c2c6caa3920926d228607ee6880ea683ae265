@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "035099fc_a0c19b61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-09-26T19:33:22Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s the best place to put a test, because test/ is generally reserved for the toolchain (compiler, linker) and the runtime, which are hard to unit test. The README says that, too.\n\nIt\u0027s best to just place a regular test in text/template, then the normal \u0027go test -race\u0027 will catch it as usual. We already have a number of machines in CI running with -race.",
+      "revId": "896c2c6caa3920926d228607ee6880ea683ae265",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
