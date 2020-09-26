@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "0bd67271_af228be1",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T17:28:24Z",
+      "side": 1,
+      "message": "Ah ok, but sounds like we still need to keep t.Broke() and t.SetBroke() out of the function, because in case of TFORW, we pass nt.Type instead of t to reportInvalidRecursiveType",
+      "parentUuid": "a512aa8f_bfd0f7f9",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 63
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc9d24fd_3ccbb48d",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 5
@@ -238,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "02f71a98_a938dc5a",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T17:28:24Z",
+      "side": 1,
+      "message": "\u003e Usually we only skip printing errors when we know an error has already been printed, so this seems backwards.\n\nDo you mean n.Diag() vs n.SetDiag()? As I understand, when type was marked as broken, it\u0027s not necessary to report the error right away. There\u0027re many places in the source code that we only set type as broken, then we check in other places and report error.\n\n\u003e Also, do you have test cases that exercise each of these cases?\n\nThe example `type (a b; b c; c d; d c)` contains (1) and (2) cases:\n\n1.!nt.Type.Broke():\n\ntype a b\n\nHere \"t\" is \"a\", \"nt.Type\" is \"b\", \"b\" is not broken, then \"a\" is set broken.\n\nSame for \"type b c\", \"b\" is set broken.\nSame for \"type c d\", \"c\" is set broken.\n\n\n3. nt.Type.Broke() \u0026\u0026 nt.Type !\u003d t\n\ntype d c\n\nHere \"t\" is \"d\", \"nt.Type\" is \"c\". \"c\" was marked as broken in (1).\n\nFor (2) case \"nt.Type.Broke() \u0026\u0026 nt.Type \u003d\u003d t\", we can add test case like:\n\ntype a b\ntype b c\ntype c d\ntype d d",
+      "parentUuid": "57510855_153cb72f",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a758f2_cdc2ed44",
         "filename": "test/fixedbugs/issue23823.go",
         "patchSetId": 5
@@ -285,6 +333,24 @@
       "side": 1,
       "message": "Odd, that\u0027s not what I see:\n\n```\n$ gotype test/fixedbugs/issue23823.go\ntest/fixedbugs/issue23823.go:13:6: illegal cycle in declaration of I2\ntest/fixedbugs/issue23823.go:13:6: \tI2 refers to\ntest/fixedbugs/issue23823.go:13:6: \tI2\n```\n\nIt\u0027s certainly preferable to include I1, but I\u0027m wondering why we\u0027re getting different behavior here.",
       "parentUuid": "17e75e35_463710bf",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f379ff95_e9d4cf65",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T17:28:24Z",
+      "side": 1,
+      "message": "Hmm, sounds like I used old version of gotype, after running:\n\nGO111MODULES\u003doff go1.15.2 get golang.org/x/tools/cmd/gotype\n\nI now get the same error as you.",
+      "parentUuid": "5a1f6094_1da11003",
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
