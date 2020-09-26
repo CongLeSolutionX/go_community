@@ -6289,3 +6289,155 @@ func TestTransportRejectsSignInContentLength(t *testing.T) {
 		t.Fatalf("Error mismatch\nGot: %q\nWanted substring: %q", got, want)
 	}
 }
+<<<<<<< HEAD   (f75ab2 [release-branch.go1.15] cmd/compile: fix escape analysis of )
+=======
+
+// dumpConn is a net.Conn which writes to Writer and reads from Reader
+type dumpConn struct {
+	io.Writer
+	io.Reader
+}
+
+func (c *dumpConn) Close() error                       { return nil }
+func (c *dumpConn) LocalAddr() net.Addr                { return nil }
+func (c *dumpConn) RemoteAddr() net.Addr               { return nil }
+func (c *dumpConn) SetDeadline(t time.Time) error      { return nil }
+func (c *dumpConn) SetReadDeadline(t time.Time) error  { return nil }
+func (c *dumpConn) SetWriteDeadline(t time.Time) error { return nil }
+
+// delegateReader is a reader that delegates to another reader,
+// once it arrives on a channel.
+type delegateReader struct {
+	c chan io.Reader
+	r io.Reader // nil until received from c
+}
+
+func (r *delegateReader) Read(p []byte) (int, error) {
+	if r.r == nil {
+		var ok bool
+		if r.r, ok = <-r.c; !ok {
+			return 0, errors.New("delegate closed")
+		}
+	}
+	return r.r.Read(p)
+}
+
+func testTransportRace(req *Request) {
+	save := req.Body
+	pr, pw := io.Pipe()
+	defer pr.Close()
+	defer pw.Close()
+	dr := &delegateReader{c: make(chan io.Reader)}
+
+	t := &Transport{
+		Dial: func(net, addr string) (net.Conn, error) {
+			return &dumpConn{pw, dr}, nil
+		},
+	}
+	defer t.CloseIdleConnections()
+
+	quitReadCh := make(chan struct{})
+	// Wait for the request before replying with a dummy response:
+	go func() {
+		defer close(quitReadCh)
+
+		req, err := ReadRequest(bufio.NewReader(pr))
+		if err == nil {
+			// Ensure all the body is read; otherwise
+			// we'll get a partial dump.
+			io.Copy(io.Discard, req.Body)
+			req.Body.Close()
+		}
+		select {
+		case dr.c <- strings.NewReader("HTTP/1.1 204 No Content\r\nConnection: close\r\n\r\n"):
+		case quitReadCh <- struct{}{}:
+			// Ensure delegate is closed so Read doesn't block forever.
+			close(dr.c)
+		}
+	}()
+
+	t.RoundTrip(req)
+
+	// Ensure the reader returns before we reset req.Body to prevent
+	// a data race on req.Body.
+	pw.Close()
+	<-quitReadCh
+
+	req.Body = save
+}
+
+// Issue 37669
+// Test that a cancellation doesn't result in a data race due to the writeLoop
+// goroutine being left running, if the caller mutates the processed Request
+// upon completion.
+func TestErrorWriteLoopRace(t *testing.T) {
+	if testing.Short() {
+		return
+	}
+	t.Parallel()
+	for i := 0; i < 1000; i++ {
+		delay := time.Duration(mrand.Intn(5)) * time.Millisecond
+		ctx, cancel := context.WithTimeout(context.Background(), delay)
+		defer cancel()
+
+		r := bytes.NewBuffer(make([]byte, 10000))
+		req, err := NewRequestWithContext(ctx, MethodPost, "http://example.com", r)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		testTransportRace(req)
+	}
+}
+
+// Issue 41600
+// Test that a new request which uses the connection of an active request
+// cannot cause it to be canceled as well.
+func TestCancelRequestWhenSharingConnection(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping in short mode")
+	}
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, req *Request) {
+		w.Header().Add("Content-Length", "0")
+	}))
+	defer ts.Close()
+
+	client := ts.Client()
+	transport := client.Transport.(*Transport)
+	transport.MaxIdleConns = 1
+	transport.MaxConnsPerHost = 1
+
+	var wg sync.WaitGroup
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for ctx.Err() == nil {
+				reqctx, reqcancel := context.WithCancel(ctx)
+				go reqcancel()
+				req, _ := NewRequestWithContext(reqctx, "GET", ts.URL, nil)
+				res, err := client.Do(req)
+				if err == nil {
+					res.Body.Close()
+				}
+			}
+		}()
+	}
+
+	for ctx.Err() == nil {
+		req, _ := NewRequest("GET", ts.URL, nil)
+		if res, err := client.Do(req); err != nil {
+			t.Errorf("unexpected: %p %v", req, err)
+			break
+		} else {
+			res.Body.Close()
+		}
+	}
+
+	cancel()
+	wg.Wait()
+}
+>>>>>>> CHANGE (212d38 net/http: ignore connection closes once done with the connec)
