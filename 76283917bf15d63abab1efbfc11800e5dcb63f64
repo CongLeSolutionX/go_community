@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "6330deb7_394e0161",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-26T19:42:41Z",
+      "side": 1,
+      "message": "That is true, but it seems to me that this is a different case: the one where the new SendMail method is used without first setting up a TLS connection.  We seem to be supporting that case here.  In general it seems to me that testHookStartTLS should be called before calling StartTLS.\n\nBut as this is only for testing it may not matter very much.",
+      "parentUuid": "6b37ea07_aa3094ef",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c2cb836_6ecfb7fa",
         "filename": "src/net/smtp/smtp.go",
         "patchSetId": 6
@@ -135,6 +153,24 @@
       "side": 1,
       "message": "I Agree. One thing to note though, If we don\u0027t issue a QUIT command in this method, I think  the Close method should issue this command if not already done before closing? instead of doing this\n\ndefer client.Close()\ndefer client.Quit()\nclient.SendMail(...)\n\nwhe just do \n\ndefer client.Close()\nclient.SendMail(...)\n\nwhat do you think ?",
       "parentUuid": "6c2cb836_6ecfb7fa",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42d2ef26_cfef9b98",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-26T19:42:41Z",
+      "side": 1,
+      "message": "I think it depends on the status of the connection after sending the message.  For example, would it be reasonable to use a single connection to send multiple messages to the server?",
+      "parentUuid": "c8d563c8_44882d4c",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
