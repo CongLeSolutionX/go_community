@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "db8f4cdf_44c58731",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T01:07:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33c90d6f_725441b2",
+      "range": {
+        "startLine": 178,
+        "startChar": 5,
+        "endLine": 178,
+        "endChar": 21
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae6584f7_f6d84768",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f76798f_328cd6cf",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T01:07:44Z",
+      "side": 1,
+      "message": "Added this test case.",
+      "parentUuid": "ae6584f7_f6d84768",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ac682452_f2017b80",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T01:07:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cd4fb2f_d9cf0fe9",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 63
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc9d24fd_3ccbb48d",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "bf4be15b_6c268550",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T01:07:44Z",
+      "side": 1,
+      "message": "This is exactly for handling your test case above: type (a b; b c; c d; d c)\n\nWhen we reach d the second time in the last \"d c\", we report the error, but this time, the stack only contains \"d\". That\u0027s why there\u0027s a check that `if nt :\u003d asNode(t.Nod).Name.Param.Ntype; nt.Type.Broke()`, otherwise, we will report invalid recursive type for all type \"a\", \"b\", \"c\", and \"d\".\n\nCurrently, go1.15 also reports 4 errors this case.",
+      "parentUuid": "cc9d24fd_3ccbb48d",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a758f2_cdc2ed44",
         "filename": "test/fixedbugs/issue23823.go",
         "patchSetId": 5
@@ -105,6 +201,24 @@
       "writtenOn": "2020-09-25T20:35:06Z",
       "side": 1,
       "message": "This seems bad, IMO.\n\nIt looks like go/types just omits this mention (\"I2 refers to I2\"). I\u0027d rather be consistent with that behavior than print a misleading type. (\"interface {}\" is a different type than \"I1\" or \"interface { I2 }\").",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17e75e35_463710bf",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-26T01:07:44Z",
+      "side": 1,
+      "message": "gotype reports that:\n\n../test/fixedbugs/issue23823.go:14:6: illegal cycle in declaration of I2\n../test/fixedbugs/issue23823.go:14:6: \tI2 refers to\n../test/fixedbugs/issue23823.go:9:6: \tI1 refers to\n../test/fixedbugs/issue23823.go:14:6: \tI2\n\nThe issue with us is we don\u0027t create new type for alias (I1), so the underlying type is used. That the same issue that we can\u0027t use alias name in error reports involved alias type in current implementation.",
+      "parentUuid": "76a758f2_cdc2ed44",
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
