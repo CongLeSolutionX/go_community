@@ -231,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "8b00d614_6d64951d",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-27T23:55:39Z",
+      "side": 1,
+      "message": "Well, we already have the Quit method.  I don\u0027t see a reason that Close should also call Quit.  I suggest that we document for the new SendMail method that the caller should call Quit when done.",
+      "parentUuid": "ccc58273_28847226",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15662dba_55d604c3",
         "filename": "src/net/smtp/smtp_test.go",
         "patchSetId": 6
