@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d888be3f_5fb1ea16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38353
+      },
+      "writtenOn": "2020-09-27T05:59:12Z",
+      "side": 1,
+      "message": "Thank you!",
+      "parentUuid": "6eb57590_eea83922",
+      "revId": "7c9edc5f5e058ced4be1de90d3abcf055e5a9d8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "134f64bc_0c6409a6",
         "filename": "src/crypto/tls/common_test.go",
         "patchSetId": 3
@@ -65,6 +83,24 @@
       "writtenOn": "2020-09-27T03:51:28Z",
       "side": 1,
       "message": "Where is c from? \n\nWe could fix this by making this test self contained. We don’t need the recover because\nif it regresses it will anyways panic. This can be simplified to:\n\na) No need to make an entire new file, it is also lacking the Go copyright header; this test can be put into the already existing *_test.go files\nb) We just need to create a nil configuration and then invoke Clone so:\nvar config *Config\nif cc :\u003d config.Clone(); cc !\u003d nil {\n   t.Fatalf(\"Clone with nil returned a non-nil value: %+v\", cc)\n}",
+      "revId": "7c9edc5f5e058ced4be1de90d3abcf055e5a9d8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b0143a_63c3b8cb",
+        "filename": "src/crypto/tls/common_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 38353
+      },
+      "writtenOn": "2020-09-27T05:59:12Z",
+      "side": 1,
+      "message": "I thought the test function is for the Clone method in common.go, so I made a common_test.go file. I don\u0027t think there is a better *_test.go file to put the test function. \nI have added the Go copyright header and simplified the test content in common_test.go file. Could you please check it again? Thanks!",
+      "parentUuid": "134f64bc_0c6409a6",
       "revId": "7c9edc5f5e058ced4be1de90d3abcf055e5a9d8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
