@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a31ab29_aceb222d",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2031,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2020-09-27T15:13:11Z",
+      "side": 1,
+      "message": "I am a bit concerned that this single test doesn\u0027t cover the guarantee being made. Code wise it should but not test wise.\nI also do not understand why you need so many bytes in the body. It would make more sense if you were randomly cancelling the request or killing the connection.",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d06e7b02_d5c5c8d2",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2058,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2020-09-27T15:13:11Z",
+      "side": 1,
+      "message": "You just need to count the number of closes.\nThe testcase can just look at the close count and error/fail if !\u003d 1.",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e0ee964_36a95082",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2020-09-27T15:13:11Z",
+      "side": 1,
+      "message": "if we are claiming that we always close, we shouldn\u0027t need to track reads any more. Looking at whether its been closed should be sufficient.",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
