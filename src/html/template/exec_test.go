@@ -14,6 +14,7 @@ import (
 	"io/ioutil"
 	"reflect"
 	"strings"
+	"sync"
 	"testing"
 	"text/template"
 )
@@ -1705,4 +1706,49 @@ func TestIssue31810(t *testing.T) {
 	if b.String() != "result" {
 		t.Errorf("%s got %q, expected %q", textCall, b.String(), "result")
 	}
+}
+
+// Issue 39807: data race in html/template & text/template
+func TestIssue39807(t *testing.T) {
+	var wg sync.WaitGroup
+
+	jsTempl := `
+{{- define "jstempl" -}}
+var foo = "bar";
+{{- end -}}
+<script type="application/javascript">
+{{ template "jstempl" $ }}
+</script>
+`
+
+	tpl := New("")
+	_, err := tpl.New("templ.html").Parse(jsTempl)
+	if err != nil {
+		t.Error(err)
+	}
+
+	const numTemplates = 20
+
+	for i := 0; i < numTemplates; i++ {
+		_, err = tpl.New(fmt.Sprintf("main%d.html", i)).Parse(`{{ template "templ.html" . }}`)
+		if err != nil {
+			t.Error(err)
+		}
+	}
+
+	for i := 1; i <= 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < numTemplates; j++ {
+				templ := tpl.Lookup(fmt.Sprintf("main%d.html", j))
+				if err := templ.Execute(ioutil.Discard, nil); err != nil {
+					t.Error(err)
+				}
+
+			}
+		}()
+	}
+
+	wg.Wait()
 }
