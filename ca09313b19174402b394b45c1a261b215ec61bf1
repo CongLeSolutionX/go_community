@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cb0e5e4_933ef292",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-28T17:06:21Z",
+      "side": 1,
+      "message": "Rather than the ASN.1 structure, it\u0027d be useful to put in this comment the actual parameters that were encoded, in terms of the pssParameters type. (For example, that the AlgorithmIdentifier has a NULL, and that the SaltLength is the hash size.)",
+      "range": {
+        "startLine": 357,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 6
+      },
+      "revId": "ca09313b19174402b394b45c1a261b215ec61bf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a439f870_766f7bd1",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-28T17:06:21Z",
+      "side": 1,
+      "message": "asn1.RawValue might be a better type for this.",
+      "range": {
+        "startLine": 363,
+        "startChar": 42,
+        "endLine": 363,
+        "endChar": 48
+      },
+      "revId": "ca09313b19174402b394b45c1a261b215ec61bf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "136f9420_bd021b62",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2753,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-28T17:06:21Z",
+      "side": 1,
+      "message": "got, want\n\nhttps://github.com/golang/go/wiki/TestComments#got-before-want",
+      "revId": "ca09313b19174402b394b45c1a261b215ec61bf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a64d10f_d6de12ee",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2754,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-28T17:06:21Z",
+      "side": 1,
+      "message": "Leftover debugging?",
+      "revId": "ca09313b19174402b394b45c1a261b215ec61bf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
