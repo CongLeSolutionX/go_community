@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "ef40a3ae_e23b7a8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-09-28T22:35:24Z",
+      "side": 1,
+      "message": "I expect it\u0027ll fail on the ios (darwin-arm64-corellium) builder because issue #41610 is not resolved yet, but I wanted to start a slowbot run to see how exactly it\u0027ll fail.\n\nTRY\u003ddarwin-amd64, ios",
+      "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d2f9d50_3448c6fd",
         "filename": "src/runtime/debug/panic_test.go",
         "patchSetId": 2
