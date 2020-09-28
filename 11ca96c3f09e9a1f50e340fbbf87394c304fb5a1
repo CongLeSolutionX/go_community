@@ -334,6 +334,30 @@
     },
     {
       "key": {
+        "uuid": "b3901593_1c12c1c9",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-28T20:48:19Z",
+      "side": 1,
+      "message": "tostruct skips calling checkwidth there because (1) if t is broken, then we must have already printed a diagnostic about one of its fields\u0027 types; (2) we know checkwidth will fail because one of its fields\u0027 types is broken too; and (3) the checkwidth error message would be redundant with the earlier errors.",
+      "parentUuid": "e7814f09_6d33d043",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a758f2_cdc2ed44",
         "filename": "test/fixedbugs/issue23823.go",
         "patchSetId": 5
