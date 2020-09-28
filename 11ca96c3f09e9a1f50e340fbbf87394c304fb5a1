@@ -286,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "be039107_85e89672",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-28T19:54:55Z",
+      "side": 1,
+      "message": "\u003e As I understand, when type was marked as broken, it\u0027s not necessary to report the error right away. There\u0027re many places in the source code that we only set type as broken, then we check in other places and report error.\n\nThe purpose of Type.Broke and Node.Diag are to indicate we\u0027ve already printed an error message related to that type/expression, so we don\u0027t need to print more error messages. A typical use is something like this code from typecheck.go:\n\n    if n.IsDDD() {\n        if !l.Type.Broke() {\n            yyerror(\"invalid use of ... in type conversion to %v\", l.Type)\n        }\n        n.SetDiag(true)\n    }\n\nThe point of the l.Type.Broke check here is that if we\u0027ve already reported an error about l.Type, then we can suppress the error about \"...\" because maybe it\u0027s related.\n\nTo my knowledge, we always use Broke/Diag to indicate that an error message has already been printed. I\u0027m not aware of any cases where we set them to indicate someone else needs to print an error message. If there is, we should probably fix that.",
+      "parentUuid": "02f71a98_a938dc5a",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a758f2_cdc2ed44",
         "filename": "test/fixedbugs/issue23823.go",
         "patchSetId": 5
