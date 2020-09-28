@@ -58,8 +58,10 @@ type Func struct {
 	// of keys to make iteration order deterministic.
 	Names []LocalSlot
 
-	// AuxCall describing parameters and results for this function.
+	// AuxCall describes parameters and results for this function.
 	OwnAux *AuxCall
+	// RegArgs is a slice of register-memory pairs that must be spilled and unspilled in the uncommon path of function entry.
+	RegArgs []ArgPair
 
 	// WBLoads is a list of Blocks that branch on the write
 	// barrier flag. Safe-points are disabled from the OpLoad that
