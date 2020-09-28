@@ -16,6 +16,24 @@
       "revId": "ac5c406ef0ab20e2a11f57470271266ef4265221",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5b8d623_1e612afe",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1937,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 0,
+      "message": "This deletion WAS intentional. I believe that through the requested changes that have been done during review, it makes sense to move BACK to this change. As such, I have.",
+      "parentUuid": "682c2aa1_ba67658f",
+      "revId": "ac5c406ef0ab20e2a11f57470271266ef4265221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

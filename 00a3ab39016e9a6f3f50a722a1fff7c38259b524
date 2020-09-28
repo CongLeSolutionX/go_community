@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a04f61ed_1dec3d51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcc32d89_e62b223f",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c862da9d_edfb9d21",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "68fce7a8_b594c54e",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1245af76_56927807",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4bb819e_3703273a",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 7
@@ -90,6 +126,30 @@
       "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60257f09_7f33aaa9",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "I don\u0027t believe I\u0027ve seen them be non-zero on darwin either. (It wouldn\u0027t be the first hiccup I\u0027ve seen in pclntab.) 😊\n\nI\u0027ll drop a TODO.",
+      "parentUuid": "d4bb819e_3703273a",
+      "range": {
+        "startLine": 614,
+        "startChar": 3,
+        "endLine": 614,
+        "endChar": 60
+      },
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +176,30 @@
     },
     {
       "key": {
+        "uuid": "ef3876ba_0dca03fd",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cd90c44_9533d043",
+      "range": {
+        "startLine": 618,
+        "startChar": 53,
+        "endLine": 618,
+        "endChar": 88
+      },
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0002501c_2612c9cc",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 7
@@ -133,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "ba122848_756f4b53",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "0002501c_2612c9cc",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ec98c0c_3ee34528",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 7
@@ -147,6 +249,24 @@
       "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2668ef_ca122798",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ec98c0c_3ee34528",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +293,30 @@
     },
     {
       "key": {
+        "uuid": "61f136cb_28636212",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a88170fb_c4297636",
+      "range": {
+        "startLine": 645,
+        "startChar": 3,
+        "endLine": 645,
+        "endChar": 55
+      },
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bb960d1_92a1f382",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 7
@@ -187,6 +331,24 @@
       "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "144e588d_d06a9a27",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-09-28T18:57:16Z",
+      "side": 1,
+      "message": "I\u0027ll update the comment, but I believe at this point they\u0027re the same.",
+      "parentUuid": "1bb960d1_92a1f382",
+      "revId": "00a3ab39016e9a6f3f50a722a1fff7c38259b524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
