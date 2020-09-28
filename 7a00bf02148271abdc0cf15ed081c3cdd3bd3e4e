@@ -67,6 +67,23 @@
       "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4af70da0_4c2b1e01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-28T20:52:30Z",
+      "side": 1,
+      "message": "Bryan, please rebase from master, you\u0027ll now have the benchmark included in source after https://go-review.googlesource.com/c/go/+/257317.",
+      "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
