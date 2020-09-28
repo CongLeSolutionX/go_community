@@ -33,6 +33,23 @@
       "revId": "d9c72a98653f5e83a857f7f932a4f40868941de7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c891b230_815cd0cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-28T16:43:15Z",
+      "side": 1,
+      "message": "Thank you for contributing! crypto/dsa is being deprecated and its performance will not be improved going forward, so there\u0027s no need for benchmarks in the standard library.\n\nhttps://golang.org/issue/40337",
+      "revId": "d9c72a98653f5e83a857f7f932a4f40868941de7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
