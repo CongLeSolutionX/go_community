@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "478f0956_4695c347",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 14
+      },
+      "lineNbr": 2032,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-28T23:03:22Z",
+      "side": 1,
+      "message": "Okay, I see. I think it just doesn\u0027t support vararg ops very well, because in the past the only vararg op is Phi, which is too special. I guess it needs a new pattern to represent \"rest of the args\", which may appear on RHS (in exactly the same order), or now. Maybe ___ is okay...",
+      "parentUuid": "10be3a72_c166af9e",
+      "revId": "c7a3fbfeafd7ce25e88766589237db42548b4344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5fbdd6a1_b95d4c9a",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 14
