@@ -354,6 +354,24 @@
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf99097a_2a697c4a",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-28T19:36:13Z",
+      "side": 1,
+      "message": "I filled https://github.com/golang/go/issues/41669",
+      "parentUuid": "f379ff95_e9d4cf65",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
