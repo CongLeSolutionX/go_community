@@ -110,6 +110,24 @@
     },
     {
       "key": {
+        "uuid": "0aecae67_b65a911e",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2197,
+      "author": {
+        "id": 35325
+      },
+      "writtenOn": "2020-09-28T10:06:43Z",
+      "side": 1,
+      "message": "I don\u0027t find guidance on the matching objects for each constant.\nAre case C_PQAUTO and case C_PZAUTO not required here?\nPSAUTO_16 (0-255, 0 mod 16) and PPAUTO_16 (0-511, 0 mod 16) are not required. Do I have to add them here? I look forward to your reply.",
+      "parentUuid": "0ea0b92d_4f525efd",
+      "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "633dcb80_a531ba2f",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 6
