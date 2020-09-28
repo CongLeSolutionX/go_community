@@ -310,6 +310,30 @@
     },
     {
       "key": {
+        "uuid": "e7814f09_6d33d043",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-28T20:31:29Z",
+      "side": 1,
+      "message": "Ah right, maybe I made that statement wrongly. What I mean is like what we did in dcl.go, line 606. We mark struct t as broken, then later on line 614, we check if it’s broken or not then do checkwidth",
+      "parentUuid": "be039107_85e89672",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a758f2_cdc2ed44",
         "filename": "test/fixedbugs/issue23823.go",
         "patchSetId": 5
