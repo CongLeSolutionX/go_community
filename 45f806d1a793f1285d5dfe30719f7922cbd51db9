@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46b9daf6_06a4c879",
+        "filename": "src/runtime/mpagealloc_32bit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-09-28T18:26:25Z",
+      "side": 1,
+      "message": "comment need to be updated?",
+      "revId": "45f806d1a793f1285d5dfe30719f7922cbd51db9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9199c635_a677d82b",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-09-28T18:26:25Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "45f806d1a793f1285d5dfe30719f7922cbd51db9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
