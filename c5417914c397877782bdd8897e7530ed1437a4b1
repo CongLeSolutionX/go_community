@@ -33,6 +33,23 @@
       "revId": "c5417914c397877782bdd8897e7530ed1437a4b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aea1a597_3a538a51",
+        "filename": "src/crypto/tls/common_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-28T22:42:41Z",
+      "side": 1,
+      "message": "Let\u0027s not create a file for such a small test. This can go in the generic tls_test.go, next to TestCloneNonFuncFields and TestCloneFuncFields.",
+      "revId": "c5417914c397877782bdd8897e7530ed1437a4b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
