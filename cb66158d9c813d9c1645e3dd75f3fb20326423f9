@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81a85f70_0f1ba544",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-28T19:56:08Z",
+      "side": 1,
+      "message": "Thank you for the review Changkun and Tobias, updated, PTAL.",
+      "revId": "cb66158d9c813d9c1645e3dd75f3fb20326423f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
