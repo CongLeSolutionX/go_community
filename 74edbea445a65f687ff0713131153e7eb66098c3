@@ -129,6 +129,30 @@
       "revId": "74edbea445a65f687ff0713131153e7eb66098c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd0fe52d_704bc4cd",
+        "filename": "src/testing/helper_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-09-28T20:51:20Z",
+      "side": 1,
+      "message": "Thank you for the reviews Tobias and Changkun!",
+      "parentUuid": "92a5334b_d256490c",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "74edbea445a65f687ff0713131153e7eb66098c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
