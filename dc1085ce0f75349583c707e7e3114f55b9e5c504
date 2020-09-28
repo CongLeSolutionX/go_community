@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f81b831_d9522a81",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-28T22:44:55Z",
+      "side": 1,
+      "message": "Typo.",
+      "range": {
+        "startLine": 71,
+        "startChar": 83,
+        "endLine": 71,
+        "endChar": 92
+      },
+      "revId": "dc1085ce0f75349583c707e7e3114f55b9e5c504",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

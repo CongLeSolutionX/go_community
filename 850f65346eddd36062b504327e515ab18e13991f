@@ -141,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "19321165_3f665a0b",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-28T22:44:55Z",
+      "side": 1,
+      "message": "Sure. We can do it later.",
+      "parentUuid": "f5406e1e_9c5742da",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb8abdea_0dc1e79b",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 25
@@ -381,6 +399,24 @@
       "side": 1,
       "message": "If n is 1, then it goes around the loop, and \"delete(val2Preds, v)\".\nSetting the map entry to zero before deletion is an option, but it would just take time.\nProbably ought to mention that in a comment.",
       "parentUuid": "fe1de237_8bb3c27f",
+      "revId": "850f65346eddd36062b504327e515ab18e13991f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee6ad926_122c6ee2",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-28T22:44:55Z",
+      "side": 1,
+      "message": "Okay, I think I understand how it works now, but it seems a little hard to follow. You mentioned in an earlier comment that the topological order is overkill, so maybe just do it with a simpler recursive algorithm? Or, if you want to keep the topological order, maybe traverse them in a more BFS-like way: find all val2Preds[v] \u003d\u003d 0 Values and rewrite them, then find all val2Preds[v] \u003d\u003d 1 ones, then val2Preds[v] \u003d\u003d 2 ones, ..., and remove the inner loop?",
+      "parentUuid": "c5485a25_11158df5",
       "revId": "850f65346eddd36062b504327e515ab18e13991f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
