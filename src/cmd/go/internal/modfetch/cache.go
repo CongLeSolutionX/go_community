@@ -280,21 +280,6 @@ func (r *cachingRepo) Zip(dst io.Writer, version string) error {
 	return r.r.Zip(dst, version)
 }
 
-// Stat is like Lookup(path).Stat(rev) but avoids the
-// repository path resolution in Lookup if the result is
-// already cached on local disk.
-func Stat(proxy, path, rev string) (*RevInfo, error) {
-	_, info, err := readDiskStat(path, rev)
-	if err == nil {
-		return info, nil
-	}
-	repo, err := Lookup(proxy, path)
-	if err != nil {
-		return nil, err
-	}
-	return repo.Stat(rev)
-}
-
 // InfoFile is like Stat but returns the name of the file containing
 // the cached information.
 func InfoFile(path, version string) (string, error) {

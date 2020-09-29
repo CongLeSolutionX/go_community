@@ -228,7 +228,7 @@ func lookup(proxy, path string) (r Repo, err error) {
 
 	switch proxy {
 	case "off":
-		return nil, errProxyOff
+		return proxyOffRepo{path}, nil
 	case "direct":
 		return lookupDirect(path)
 	case "noproxy":
@@ -406,6 +406,22 @@ func (l *loggingRepo) Zip(dst io.Writer, version string) error {
 	defer logCall("Repo[%s]: Zip(%s, %q)", l.r.ModulePath(), dstName, version)()
 	return l.r.Zip(dst, version)
 }
+
+// proxyOffRepo is a Repo that returns errProxyOff for all operations.
+//
+// It is useful in conjunction with caching, since cache hits will not attempt
+// the prohibited operations.
+type proxyOffRepo struct {
+	modulePath string
+}
+
+func (r proxyOffRepo) ModulePath() string { return r.modulePath }
+
+func (r proxyOffRepo) Versions(prefix string) (tags []string, err error) { return nil, errProxyOff }
+func (r proxyOffRepo) Stat(rev string) (*RevInfo, error)                 { return nil, errProxyOff }
+func (r proxyOffRepo) Latest() (*RevInfo, error)                         { return nil, errProxyOff }
+func (r proxyOffRepo) GoMod(version string) ([]byte, error)              { return nil, errProxyOff }
+func (r proxyOffRepo) Zip(dst io.Writer, version string) error           { return errProxyOff }
 
 // A notExistError is like os.ErrNotExist, but with a custom message
 type notExistError struct {
