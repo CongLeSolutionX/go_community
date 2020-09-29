@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fa1882a_cc2804b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Code copied/adapted forward to https://go-review.googlesource.com/c/go/+/257972\n",
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cc45b7_9f79896c",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Copied to https://go-review.googlesource.com/c/go/+/257972/1/src/cmd/compile/internal/ssa/func.go",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6424f4a_41cfba41",
+        "filename": "src/cmd/compile/internal/ssa/location.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Copied to https://go-review.googlesource.com/c/go/+/257972/1/src/cmd/compile/internal/ssa/location.go",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 1
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8492469_0424116b",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Copied to https://go-review.googlesource.com/c/go/+/257972/1/src/cmd/internal/obj/link.go",
+      "range": {
+        "startLine": 715,
+        "startChar": 2,
+        "endLine": 724,
+        "endChar": 1
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfa4e9ed_bef37022",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Copied.  (Will we still need RegArgs_enabled?)",
+      "range": {
+        "startLine": 768,
+        "startChar": 2,
+        "endLine": 770,
+        "endChar": 26
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0999e9e9_a76bb856",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Copied/adapted.",
+      "range": {
+        "startLine": 792,
+        "startChar": 1,
+        "endLine": 820,
+        "endChar": 0
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d066750e_492620c2",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Copied to https://go-review.googlesource.com/c/go/+/257972/1/src/cmd/internal/obj/x86/obj6.go",
+      "range": {
+        "startLine": 1181,
+        "startChar": 1,
+        "endLine": 1182,
+        "endChar": 38
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd088260_7fb24715",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Modified version of this copied.",
+      "range": {
+        "startLine": 1208,
+        "startChar": 2,
+        "endLine": 1213,
+        "endChar": 0
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99f8fc08_38433e11",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T20:43:55Z",
+      "side": 1,
+      "message": "Copied.",
+      "range": {
+        "startLine": 1216,
+        "startChar": 1,
+        "endLine": 1217,
+        "endChar": 38
+      },
+      "revId": "dd47dbc523a0a24c3650623237e87c643a7cb046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
