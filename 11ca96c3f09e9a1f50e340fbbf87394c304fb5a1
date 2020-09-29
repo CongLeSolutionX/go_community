@@ -510,6 +510,24 @@
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75d1ddbc_564112d6",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-29T02:52:34Z",
+      "side": 1,
+      "message": "With skipping anonymous type, we have:\n\n```\nt.go:4:4: invalid recursive type: struct { A }\nt.go:4:4: \tA refers to\nt.go:4:4: \tstruct { A }\n```",
+      "parentUuid": "aec0a409_f9895a0a",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

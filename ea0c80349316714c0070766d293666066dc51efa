@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ef2d60d_3d9e6358",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-29T02:52:34Z",
+      "side": 1,
+      "message": "The main purpose of doing t.SetBroke(true) in this case is for providing us a way to detect that we hit the cycle. Otherwise, we will print errors on all lines in:\n\n```\ntype a b\ntype b c\ntype c b\n```\n\nWhile we only want to print error with b c in the cycle.\n\n\u003e Also, go/types uses each respective type\u0027s position for the \"refers to\" lines, rather than putting them all at the first type\u0027s line. I recommend cmd/compile do the same.\n\nI noticed that, too. But our problem is that when flusherrors will sort errors by line number, so errors will look like this:\n\n```\np.go:3:6: \ta refers to\np.go:4:6: invalid recursive type: b\np.go:4:6: \tb refers to\np.go:4:6: \tb\np.go:5:6: \tc refers to\n```\n\nwithout relying on type\u0027s position, errors will look like:\n\n```\np.go:4:6: invalid recursive type: b\np.go:4:6: \tb refers to\np.go:4:6: \tc refers to\np.go:4:6: \ta refers to\np.go:4:6: \tb\n```\n\nNote that in this case, we detect the cycle starting from b, instead of a like gotype:\n\n```\np.go:3:6: illegal cycle in declaration of a\np.go:3:6: \ta refers to\np.go:4:6: \tb refers to\np.go:5:6: \tc refers to\np.go:3:6: \ta\n\n```",
+      "parentUuid": "affa96d2_a430c7eb",
+      "revId": "ea0c80349316714c0070766d293666066dc51efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41bebd50_c2677c1a",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "ea0c80349316714c0070766d293666066dc51efa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d032438a_1338fdb7",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-29T02:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41bebd50_c2677c1a",
+      "revId": "ea0c80349316714c0070766d293666066dc51efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
