@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b061faa0_9045614d",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-29T03:29:55Z",
+      "side": 1,
+      "message": "\u003e The cycle is detected with t.Width\u003d\u003d-2. Setting Broke is to suppress unnecessary reports.\n\nHmm, as I understand, t.Width \u003d\u003d -2 only apply for compound variables, like struct, array ... when you call dowidth nested inside widstruct ...\n\nPrevious this CL, there\u0027re 2 places we detect the cycle, once with t.Width \u003d\u003d -2, once with t.Etype \u003d\u003d TFORW.",
+      "parentUuid": "42cc1ec8_ee958060",
+      "revId": "ea0c80349316714c0070766d293666066dc51efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41bebd50_c2677c1a",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 7
