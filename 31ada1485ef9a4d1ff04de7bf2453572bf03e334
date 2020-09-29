@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d36a0453_e1ea9c04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 41915
+      },
+      "writtenOn": "2020-09-29T06:44:58Z",
+      "side": 1,
+      "message": "I\u0027d used \u0027closes\u0027 because it doesn\u0027t really \u0027fix\u0027 the reported issue — it just addresses a potential cause of that issue. Since we have no follow-up to confirm that this was the cause (nor probably want to wait for any) \u0027closes\u0027 seemed more reasonable.\n\nBut that\u0027s no big deal.",
+      "parentUuid": "6cf177e1_53b93ad2",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "31ada1485ef9a4d1ff04de7bf2453572bf03e334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daeb6b95_51fe3a9b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
