@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d44a0ad2_ffced873",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-09-29T09:30:17Z",
+      "side": 1,
+      "message": "We just standardized the whole repository on Fixes, and there is tooling that looks at Fixes lines, so we only use that.\n\nTo update the commit message you need to edit the description of your PR (because the commits in the PR are squashed into a single CL, and their commit messages discarded).",
+      "parentUuid": "d36a0453_e1ea9c04",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "31ada1485ef9a4d1ff04de7bf2453572bf03e334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "daeb6b95_51fe3a9b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
