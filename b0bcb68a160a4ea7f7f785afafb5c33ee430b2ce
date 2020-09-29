@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "366bd0ac_e88c4668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38353
+      },
+      "writtenOn": "2020-09-29T09:07:35Z",
+      "side": 1,
+      "message": "I have moved the code from common_test.go into tls_test.go. Please check it out. Thanks!",
+      "revId": "b0bcb68a160a4ea7f7f785afafb5c33ee430b2ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
