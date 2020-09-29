@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "968cb987_52e4b55a",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-29T07:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bd67271_af228be1",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 63
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc9d24fd_3ccbb48d",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 5
@@ -567,6 +591,24 @@
       "side": 1,
       "message": "In typecheckdeftype, try adding checkwidth(n.Type) after the setUnderlying call. That should ensure when we reach resumecheckwidth() in typecheckdef that A is type checked before the anonymous \"struct { A }\".",
       "parentUuid": "75d1ddbc_564112d6",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8283ffae_620b3e26",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-09-29T07:42:29Z",
+      "side": 1,
+      "message": "That does the trick, cool 👍",
+      "parentUuid": "e5cab98f_8bef430b",
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
