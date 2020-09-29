@@ -16,6 +16,24 @@
       "revId": "8899ee22054decaa6a27be1858267c6a30b3eaa9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "035c6b6b_e1afa497",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 42173
+      },
+      "writtenOn": "2020-09-29T17:25:52Z",
+      "side": 1,
+      "message": "Well, sorry for making your day worse ;-) I agree about the test location, it was a compromise.\n\nI moved the test case to text/template and changed it to reproduce the data race that parallel runs of html/template.Execute() trigger: a write in AddParseTree() and a read in Execute().\n\nIt doesn\u0027t work out 100% (here we go again ;-) as there is now an earlier race between concurrent invocations of just AddParseTree(), which both reads and writes. But running the test without the race detector enabled frequently triggers the same concurrent map read and write crash that was originally observed: a write in AddParseTree() and a read in Execute(). The underlying variable that needs a lock is the same.",
+      "parentUuid": "dd4a4e2f_72f1d506",
+      "revId": "8899ee22054decaa6a27be1858267c6a30b3eaa9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
