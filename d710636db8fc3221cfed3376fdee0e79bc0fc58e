@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3710df65_8411257b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-09-29T15:32:24Z",
+      "side": 1,
+      "message": "New patch set up, if you very much want, I can pull a later version of the top-sorting code in; it may have its own issues, but we won\u0027t spend too much time on a piece of code that we hope lives for only a couple of week or two (if we\u0027re lucky, day or two).",
+      "revId": "d710636db8fc3221cfed3376fdee0e79bc0fc58e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
