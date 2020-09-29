@@ -35,13 +35,14 @@ var modFile *modfile.File
 // A modFileIndex is an index of data corresponding to a modFile
 // at a specific point in time.
 type modFileIndex struct {
-	data         []byte
-	dataNeedsFix bool // true if fixVersion applied a change while parsing data
-	module       module.Version
-	goVersionV   string // GoVersion with "v" prefix
-	require      map[module.Version]requireMeta
-	replace      map[module.Version]module.Version
-	exclude      map[module.Version]bool
+	data            []byte
+	dataNeedsFix    bool // true if fixVersion applied a change while parsing data
+	module          module.Version
+	goVersionV      string // GoVersion with "v" prefix
+	require         map[module.Version]requireMeta
+	replace         map[module.Version]module.Version
+	highestReplaced map[string]string // highest replaced version of each module path; empty string for wildcard-only replacements
+	exclude         map[module.Version]bool
 }
 
 // index is the index of the go.mod file as of when it was last read or written.
@@ -253,6 +254,14 @@ func indexModFile(data []byte, modFile *modfile.File, needsFix bool) *modFileInd
 			base.Fatalf("go: conflicting replacements for %v:\n\t%v\n\t%v", r.Old, prev, r.New)
 		}
 		i.replace[r.Old] = r.New
+	}
+
+	i.highestReplaced = make(map[string]string)
+	for _, r := range modFile.Replace {
+		v, ok := i.highestReplaced[r.Old.Path]
+		if !ok || semver.Compare(r.Old.Version, v) > 0 {
+			i.highestReplaced[r.Old.Path] = r.Old.Version
+		}
 	}
 
 	i.exclude = make(map[module.Version]bool, len(modFile.Exclude))

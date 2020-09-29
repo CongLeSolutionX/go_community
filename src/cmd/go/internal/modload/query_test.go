@@ -45,7 +45,7 @@ var (
 	queryRepoV3 = queryRepo + "/v3"
 
 	// Empty version list (no semver tags), not actually empty.
-	emptyRepo = "vcs-test.golang.org/git/emptytest.git"
+	emptyRepoPath = "vcs-test.golang.org/git/emptytest.git"
 )
 
 var queryTests = []struct {
@@ -171,9 +171,9 @@ var queryTests = []struct {
 	// That should prevent us from resolving any version for the /v3 path.
 	{path: queryRepoV3, query: "latest", err: `no matching versions for query "latest"`},
 
-	{path: emptyRepo, query: "latest", vers: "v0.0.0-20180704023549-7bb914627242"},
-	{path: emptyRepo, query: ">v0.0.0", err: `no matching versions for query ">v0.0.0"`},
-	{path: emptyRepo, query: "<v10.0.0", err: `no matching versions for query "<v10.0.0"`},
+	{path: emptyRepoPath, query: "latest", vers: "v0.0.0-20180704023549-7bb914627242"},
+	{path: emptyRepoPath, query: ">v0.0.0", err: `no matching versions for query ">v0.0.0"`},
+	{path: emptyRepoPath, query: "<v10.0.0", err: `no matching versions for query "<v10.0.0"`},
 }
 
 func TestQuery(t *testing.T) {
