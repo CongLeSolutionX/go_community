@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "e2e1866a_794ebba4",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-29T03:49:39Z",
+      "side": 1,
+      "message": "Sorry. Yes, you\u0027re right: we detect cycles with t.Width\u003d\u003d-2 and also with t.Etype\u003d\u003dTFORW.\n\nBut my point was we don\u0027t use Broke to detect cycles. We use Broke to indicate we\u0027ve already printed an error involving that type, so we can skip printing another. Setting Broke like I suggested shouldn\u0027t negatively affect that.",
+      "parentUuid": "b061faa0_9045614d",
+      "revId": "ea0c80349316714c0070766d293666066dc51efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41bebd50_c2677c1a",
         "filename": "src/cmd/compile/internal/gc/align.go",
         "patchSetId": 7
