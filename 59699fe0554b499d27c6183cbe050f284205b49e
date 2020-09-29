@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f7c079d2_b52f0123",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-29T16:52:41Z",
+      "side": 1,
+      "message": "Well, it seems the failure is hanging indefinitely (which is not surprising to me, given the signal stuff).",
+      "parentUuid": "ef40a3ae_e23b7a8a",
+      "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d2f9d50_3448c6fd",
         "filename": "src/runtime/debug/panic_test.go",
         "patchSetId": 2
