@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd4a4e2f_72f1d506",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-09-29T00:34:10Z",
+      "side": 1,
+      "message": "I\u0027m not happy with that, sorry. You should be able to write a test that illustrates the bug locally. If not, perhaps it\u0027s a bug in html/template and that is where the fix should go.\n\nIn any case, if the test is only in html/template, someone working on text/template might break it without realizing.",
+      "revId": "8899ee22054decaa6a27be1858267c6a30b3eaa9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
