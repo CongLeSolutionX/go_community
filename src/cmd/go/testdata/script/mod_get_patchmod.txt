@@ -11,13 +11,13 @@ stdout '^example.net/pkgremoved'
 # If we simultaneously 'get' that module at the query "patch", the module should
 # be upgraded to its patch release (v0.2.1) even though it no longer matches a
 # package.
-#
-# BUG(#37438): Today, the pattern is only interpreted as its initial kind
-# (a package), so the 'go get' invocation fails.
 
-! go get -d example.net/pkgremoved@patch example.net/other@v0.1.0
+go get -d example.net/pkgremoved@patch example.net/other@v0.1.0
 
-stderr '^go get example.net/pkgremoved@patch: module example.net/pkgremoved@latest found \(v0.2.1\), but does not contain package example.net/pkgremoved$'
+! go list example.net/pkgremoved
+
+go list -m example.net/pkgremoved
+stdout '^example.net/pkgremoved v0.2.1$'
 
 
 -- go.mod --
