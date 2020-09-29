@@ -382,6 +382,30 @@
     },
     {
       "key": {
+        "uuid": "16e96e89_a9c5a59c",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-29T01:57:26Z",
+      "side": 1,
+      "message": "Maybe, but I\u0027m pretty skeptical of any solution that uses anything except Type.Broke or Node.Diag to decide to skip printing an error message.\n\nI recommend first exploring my suggestion of making reportInvalidRecursiveType set Broke on all the types.",
+      "parentUuid": "7c232b54_a1268745",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a758f2_cdc2ed44",
         "filename": "test/fixedbugs/issue23823.go",
         "patchSetId": 5
@@ -465,6 +489,24 @@
       "side": 1,
       "message": "I filled https://github.com/golang/go/issues/41669",
       "parentUuid": "f379ff95_e9d4cf65",
+      "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec0a409_f9895a0a",
+        "filename": "test/fixedbugs/issue23823.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-29T01:57:26Z",
+      "side": 1,
+      "message": "Thanks for tracking that down.\n\nI suggest we make cmd/compile consistent with go/types for now, maybe with a TODO referencing that issue. That is, skip printing anonymous types from the loop. You can identify anonymous types with t.Sym\u003d\u003dnil or asNode(t.Node).Sym\u003d\u003dnil, whichever\u0027s more convenient.\n\nAlso, add something like this as a test case:\n\n    type A struct {\n        B struct {\n            A\n        }\n    }\n\ngo/types prints \"A refers to A\", which is fine.\n\nI think this CL currently prints \"A refers to struct { A } refers to A\"? That\u0027s okay, but a bit unnecessarily verbose. If it says \"struct {}\" though, that\u0027s bad.",
+      "parentUuid": "cf99097a_2a697c4a",
       "revId": "11ca96c3f09e9a1f50e340fbbf87394c304fb5a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

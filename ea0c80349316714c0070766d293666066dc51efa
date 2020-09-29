@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "affa96d2_a430c7eb",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-29T01:57:26Z",
+      "side": 1,
+      "message": "What if we set t.SetBroke(true) after this error message? Does that make handling TFORW easier?\n\nAlso, go/types uses each respective type\u0027s position for the \"refers to\" lines, rather than putting them all at the first type\u0027s line. I recommend cmd/compile do the same.",
+      "revId": "ea0c80349316714c0070766d293666066dc51efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41bebd50_c2677c1a",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-09-29T01:57:26Z",
+      "side": 1,
+      "message": "Use a defer for this.",
+      "revId": "ea0c80349316714c0070766d293666066dc51efa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
