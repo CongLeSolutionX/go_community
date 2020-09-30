@@ -1,23 +1,21 @@
 [short] skip
 
+cd $WORK
+
 # Test
-go test -list=Test
+go test './gopath/src/testlist/...' -list=Test
 stdout TestSimple
 
 # Benchmark
-go test -list=Benchmark
+go test './gopath/src/testlist/...' -list=Benchmark
 stdout BenchmarkSimple
 
 # Examples
-go test -list=Example
+go test './gopath/src/testlist/...' -list=Example
 stdout ExampleSimple
 stdout ExampleWithEmptyOutput
 
--- go.mod --
-module m
-
-go 1.16
--- bench_test.go --
+-- testlist/bench_test.go --
 package testlist
 
 import (
@@ -32,7 +30,7 @@ func BenchmarkSimplefunc(b *testing.B) {
 		_ = fmt.Sprint("Test for bench")
 	}
 }
--- example_test.go --
+-- testlist/example_test.go --
 package testlist
 
 import (
@@ -54,7 +52,7 @@ func ExampleWithEmptyOutput() {
 func ExampleNoOutput() {
 	_ = fmt.Sprint("Test with no output")
 }
--- test_test.go --
+-- testlist/test_test.go --
 package testlist
 
 import (

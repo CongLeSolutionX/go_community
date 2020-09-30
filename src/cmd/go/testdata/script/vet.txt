@@ -1,33 +1,29 @@
 # Package with external tests
-! go vet m/vetpkg
+! go vet vetpkg
 stderr 'Printf'
 
 # With tags
-! go vet -tags tagtest m/vetpkg
+! go vet -tags tagtest vetpkg
 stderr 'c\.go.*Printf'
 
 # With flags on
-! go vet -printf m/vetpkg
+! go vet -printf vetpkg
 stderr 'Printf'
 
 # With flags off
-go vet -printf=false m/vetpkg
+go vet -printf=false vetpkg
 ! stderr .
 
 # With only test files (tests issue #23395)
-go vet m/onlytest
+go vet onlytest
 ! stderr .
 
 # With only cgo files (tests issue #24193)
 [!cgo] skip
 [short] skip
-go vet m/onlycgo
+go vet onlycgo
 ! stderr .
 
--- go.mod --
-module m
-
-go 1.16
 -- vetpkg/a_test.go --
 package p_test
 -- vetpkg/b.go --

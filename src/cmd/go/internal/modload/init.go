@@ -22,6 +22,7 @@ import (
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/load"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modconv"
 	"cmd/go/internal/modfetch"
@@ -34,7 +35,8 @@ import (
 )
 
 var (
-	initialized bool
+	mustUseModules = false
+	initialized    bool
 
 	modRoot string
 	Target  module.Version
@@ -53,42 +55,17 @@ var (
 	CmdModInit   bool   // running 'go mod init'
 	CmdModModule string // module argument for 'go mod init'
 
-	// RootMode determines whether a module root is needed.
-	RootMode Root
-
-	// ForceUseModules may be set to force modules to be enabled when
-	// GO111MODULE=auto or to report an error when GO111MODULE=off.
-	ForceUseModules bool
-
 	allowMissingModuleImports bool
-)
-
-type Root int
-
-const (
-	// AutoRoot is the default for most commands. modload.Init will look for
-	// a go.mod file in the current directory or any parent. If none is found,
-	// modules may be disabled (GO111MODULE=on) or commands may run in a
-	// limited module mode.
-	AutoRoot Root = iota
-
-	// NoRoot is used for commands that run in module mode and ignore any go.mod
-	// file the current directory or in parent directories.
-	NoRoot
-
-	// NeedRoot is used for commands that must run in module mode and don't
-	// make sense without a main module.
-	NeedRoot
 )
 
 // ModFile returns the parsed go.mod file.
 //
-// Note that after calling LoadPackages or LoadAllModules,
+// Note that after calling ImportPaths or LoadBuildList,
 // the require statements in the modfile.File are no longer
 // the source of truth and will be ignored: edits made directly
 // will be lost at the next call to WriteGoMod.
 // To make permanent changes to the require statements
-// in go.mod, edit it before loading.
+// in go.mod, edit it before calling ImportPaths or LoadBuildList.
 func ModFile() *modfile.File {
 	Init()
 	if modFile == nil {
@@ -115,19 +92,15 @@ func Init() {
 	// Keep in sync with WillBeEnabled. We perform extra validation here, and
 	// there are lots of diagnostics and side effects, so we can't use
 	// WillBeEnabled directly.
-	var mustUseModules bool
 	env := cfg.Getenv("GO111MODULE")
 	switch env {
 	default:
 		base.Fatalf("go: unknown environment setting GO111MODULE=%s", env)
-	case "auto":
-		mustUseModules = ForceUseModules
-	case "on", "":
+	case "auto", "":
+		mustUseModules = false
+	case "on":
 		mustUseModules = true
 	case "off":
-		if ForceUseModules {
-			base.Fatalf("go: modules disabled by GO111MODULE=off; see 'go help modules'")
-		}
 		mustUseModules = false
 		return
 	}
@@ -162,19 +135,11 @@ func Init() {
 	if CmdModInit {
 		// Running 'go mod init': go.mod will be created in current directory.
 		modRoot = base.Cwd
-	} else if RootMode == NoRoot {
-		if cfg.ModFile != "" && !base.InGOFLAGS("-modfile") {
-			base.Fatalf("go: -modfile cannot be used with commands that ignore the current module")
-		}
-		modRoot = ""
 	} else {
 		modRoot = findModuleRoot(base.Cwd)
 		if modRoot == "" {
 			if cfg.ModFile != "" {
 				base.Fatalf("go: cannot find main module, but -modfile was set.\n\t-modfile cannot be used to set the module root directory.")
-			}
-			if RootMode == NeedRoot {
-				base.Fatalf("go: cannot find main module; see 'go help modules'")
 			}
 			if !mustUseModules {
 				// GO111MODULE is 'auto', and we can't find a module root.
@@ -189,9 +154,6 @@ func Init() {
 			// when it happens. See golang.org/issue/26708.
 			modRoot = ""
 			fmt.Fprintf(os.Stderr, "go: warning: ignoring go.mod in system temp root %v\n", os.TempDir())
-			if !mustUseModules {
-				return
-			}
 		}
 	}
 	if cfg.ModFile != "" && !strings.HasSuffix(cfg.ModFile, ".mod") {
@@ -210,6 +172,14 @@ func Init() {
 	}
 
 	cfg.ModulesEnabled = true
+	load.ModBinDir = BinDir
+	load.ModLookup = Lookup
+	load.ModPackageModuleInfo = PackageModuleInfo
+	load.ModImportPaths = ImportPaths
+	load.ModPackageBuildInfo = PackageBuildInfo
+	load.ModInfoProg = ModInfoProg
+	load.ModImportFromFiles = ImportFromFiles
+	load.ModDirImportPath = DirImportPath
 
 	if modRoot == "" {
 		// We're in module mode, but not inside a module.
@@ -235,6 +205,10 @@ func Init() {
 	}
 }
 
+func init() {
+	load.ModInit = Init
+}
+
 // WillBeEnabled checks whether modules should be enabled but does not
 // initialize modules by installing hooks. If Init has already been called,
 // WillBeEnabled returns the same result as Enabled.
@@ -245,12 +219,10 @@ func Init() {
 // be called until the command is installed and flags are parsed. Instead of
 // calling Init and Enabled, the main package can call this function.
 func WillBeEnabled() bool {
-	if modRoot != "" || cfg.ModulesEnabled {
-		// Already enabled.
+	if modRoot != "" || mustUseModules {
 		return true
 	}
 	if initialized {
-		// Initialized, not enabled.
 		return false
 	}
 
@@ -258,9 +230,9 @@ func WillBeEnabled() bool {
 	// exits, so it can't call this function directly.
 	env := cfg.Getenv("GO111MODULE")
 	switch env {
-	case "on", "":
+	case "on":
 		return true
-	case "auto":
+	case "auto", "":
 		break
 	default:
 		return false
@@ -291,7 +263,7 @@ func WillBeEnabled() bool {
 // (usually through MustModRoot).
 func Enabled() bool {
 	Init()
-	return modRoot != "" || cfg.ModulesEnabled
+	return modRoot != "" || mustUseModules
 }
 
 // ModRoot returns the root of the main module.
@@ -559,7 +531,7 @@ func setDefaultBuildMod() {
 		return
 	}
 	if modRoot == "" {
-		cfg.BuildMod = "readonly"
+		cfg.BuildMod = "mod"
 		return
 	}
 
@@ -582,7 +554,13 @@ func setDefaultBuildMod() {
 		cfg.BuildModReason = fmt.Sprintf("Go version in go.mod is %s, so vendor directory was not used.", modGo)
 	}
 
-	cfg.BuildMod = "readonly"
+	p := ModFilePath()
+	if fi, err := os.Stat(p); err == nil && !hasWritePerm(p, fi) {
+		cfg.BuildMod = "readonly"
+		cfg.BuildModReason = "go.mod file is read-only."
+		return
+	}
+	cfg.BuildMod = "mod"
 }
 
 func legacyModInit() {
@@ -880,12 +858,10 @@ func WriteGoMod() {
 	if dirty && cfg.BuildMod == "readonly" {
 		// If we're about to fail due to -mod=readonly,
 		// prefer to report a dirty go.mod over a dirty go.sum
-		if cfg.BuildModExplicit {
-			base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly")
-		} else if cfg.BuildModReason != "" {
+		if cfg.BuildModReason != "" {
 			base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly\n\t(%s)", cfg.BuildModReason)
-		} else {
-			base.Fatalf("go: updates to go.mod needed; try 'go mod tidy' first")
+		} else if cfg.BuildModExplicit {
+			base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly")
 		}
 	}
 
@@ -944,9 +920,9 @@ func WriteGoMod() {
 
 // keepSums returns a set of module sums to preserve in go.sum. The set
 // includes entries for all modules used to load packages (according to
-// the last load function such as LoadPackages or ImportFromFiles).
-// It also contains entries for go.mod files needed for MVS (the version
-// of these entries ends with "/go.mod").
+// the last load function like ImportPaths, LoadALL, etc.). It also contains
+// entries for go.mod files needed for MVS (the version of these entries
+// ends with "/go.mod").
 //
 // If addDirect is true, the set also includes sums for modules directly
 // required by go.mod, as represented by the index, with replacements applied.
@@ -978,7 +954,8 @@ func keepSums(addDirect bool) map[module.Version]bool {
 	}
 	walk(Target)
 
-	// Add entries for modules from which packages were loaded.
+	// Add entries for modules that provided packages loaded with ImportPaths,
+	// LoadALL, or similar functions.
 	if loaded != nil {
 		for _, pkg := range loaded.pkgs {
 			m := pkg.mod

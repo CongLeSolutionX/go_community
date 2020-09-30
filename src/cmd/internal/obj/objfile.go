@@ -389,13 +389,6 @@ func (w *writer) contentHash(s *LSym) goobj.HashType {
 	binary.LittleEndian.PutUint64(tmp[:8], uint64(s.Size))
 	h.Write(tmp[:8])
 
-	// Don't dedup type symbols with others, as they are in a different
-	// section.
-	if strings.HasPrefix(s.Name, "type.") {
-		h.Write([]byte{'T'})
-	} else {
-		h.Write([]byte{0})
-	}
 	// The compiler trims trailing zeros _sometimes_. We just do
 	// it always.
 	h.Write(bytes.TrimRight(s.P, "\x00"))
@@ -719,11 +712,7 @@ func (ctxt *Link) writeSymDebug(s *LSym) {
 }
 
 func (ctxt *Link) writeSymDebugNamed(s *LSym, name string) {
-	ver := ""
-	if ctxt.Debugasm > 1 {
-		ver = fmt.Sprintf("<%d>", s.ABI())
-	}
-	fmt.Fprintf(ctxt.Bso, "%s%s ", name, ver)
+	fmt.Fprintf(ctxt.Bso, "%s ", name)
 	if s.Type != 0 {
 		fmt.Fprintf(ctxt.Bso, "%v ", s.Type)
 	}
@@ -786,19 +775,15 @@ func (ctxt *Link) writeSymDebugNamed(s *LSym, name string) {
 	sort.Sort(relocByOff(s.R)) // generate stable output
 	for _, r := range s.R {
 		name := ""
-		ver := ""
 		if r.Sym != nil {
 			name = r.Sym.Name
-			if ctxt.Debugasm > 1 {
-				ver = fmt.Sprintf("<%d>", r.Sym.ABI())
-			}
 		} else if r.Type == objabi.R_TLS_LE {
 			name = "TLS"
 		}
 		if ctxt.Arch.InFamily(sys.ARM, sys.PPC64) {
-			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d %s%s+%x\n", int(r.Off), r.Siz, r.Type, name, ver, uint64(r.Add))
+			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d %s+%x\n", int(r.Off), r.Siz, r.Type, name, uint64(r.Add))
 		} else {
-			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d %s%s+%d\n", int(r.Off), r.Siz, r.Type, name, ver, r.Add)
+			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d %s+%d\n", int(r.Off), r.Siz, r.Type, name, r.Add)
 		}
 	}
 }

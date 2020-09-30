@@ -1853,9 +1853,6 @@ const (
 	OpPPC64SLW
 	OpPPC64ROTL
 	OpPPC64ROTLW
-	OpPPC64RLDICL
-	OpPPC64CLRLSLWI
-	OpPPC64CLRLSLDI
 	OpPPC64LoweredAdd64Carry
 	OpPPC64SRADconst
 	OpPPC64SRAWconst
@@ -1865,7 +1862,6 @@ const (
 	OpPPC64SLWconst
 	OpPPC64ROTLconst
 	OpPPC64ROTLWconst
-	OpPPC64EXTSWSLconst
 	OpPPC64CNTLZD
 	OpPPC64CNTLZW
 	OpPPC64CNTTZD
@@ -2718,7 +2714,6 @@ const (
 	OpSP
 	OpSB
 	OpLoad
-	OpDereference
 	OpStore
 	OpMove
 	OpZero
@@ -2732,7 +2727,6 @@ const (
 	OpClosureCall
 	OpStaticCall
 	OpInterCall
-	OpStaticLECall
 	OpSignExt8to16
 	OpSignExt8to32
 	OpSignExt8to64
@@ -2829,8 +2823,6 @@ const (
 	OpCvt64Fto64U
 	OpSelect0
 	OpSelect1
-	OpSelectN
-	OpSelectNAddr
 	OpAtomicLoad8
 	OpAtomicLoad32
 	OpAtomicLoad64
@@ -5824,17 +5816,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 65519, // AX CX DX BX BP SI DI X0 X1 X2 X3 X4 X5 X6 X7
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -5848,7 +5841,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -13159,17 +13152,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 4294967279, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -13183,7 +13177,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -16928,17 +16922,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 4294924287, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14 F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -16952,7 +16947,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -20561,17 +20556,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 9223372035512336383, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R19 R20 R21 R22 R23 R24 R25 R26 g R30 F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -20585,7 +20581,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -22261,17 +22257,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 140737421246462, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 R28 g R31 F0 F2 F4 F6 F8 F10 F12 F14 F16 F18 F20 F22 F24 F26 F28 F30 HI LO
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -22285,7 +22282,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -23807,17 +23804,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 4611686018393833470, // R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 g R31 F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31 HI LO
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -23831,7 +23829,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -24681,48 +24679,6 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:    "RLDICL",
-		auxType: auxInt32,
-		argLen:  1,
-		asm:     ppc64.ARLDICL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-			outputs: []outputInfo{
-				{0, 1073733624}, // R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-		},
-	},
-	{
-		name:    "CLRLSLWI",
-		auxType: auxInt32,
-		argLen:  1,
-		asm:     ppc64.ACLRLSLWI,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-			outputs: []outputInfo{
-				{0, 1073733624}, // R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-		},
-	},
-	{
-		name:    "CLRLSLDI",
-		auxType: auxInt32,
-		argLen:  1,
-		asm:     ppc64.ACLRLSLDI,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-			outputs: []outputInfo{
-				{0, 1073733624}, // R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-		},
-	},
-	{
 		name:            "LoweredAdd64Carry",
 		argLen:          3,
 		resultNotInArgs: true,
@@ -24841,20 +24797,6 @@ var opcodeTable = [...]opInfo{
 		auxType: auxInt64,
 		argLen:  1,
 		asm:     ppc64.AROTLW,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-			outputs: []outputInfo{
-				{0, 1073733624}, // R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
-			},
-		},
-	},
-	{
-		name:    "EXTSWSLconst",
-		auxType: auxInt64,
-		argLen:  1,
-		asm:     ppc64.AEXTSWSLI,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 1073733630}, // SP SB R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29
@@ -26562,17 +26504,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 576460745860964344, // R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 g F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -26586,7 +26529,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -27844,17 +27787,18 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:    "CALLstatic",
-		auxType: auxCallOff,
-		argLen:  1,
-		call:    true,
+		name:      "CALLstatic",
+		auxType:   auxSymOff,
+		argLen:    1,
+		call:      true,
+		symEffect: SymNone,
 		reg: regInfo{
 			clobbers: 9223372035781033980, // X3 g X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
 		},
 	},
 	{
 		name:    "CALLclosure",
-		auxType: auxCallOff,
+		auxType: auxInt64,
 		argLen:  3,
 		call:    true,
 		reg: regInfo{
@@ -27867,7 +27811,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "CALLinter",
-		auxType: auxCallOff,
+		auxType: auxInt64,
 		argLen:  2,
 		call:    true,
 		reg: regInfo{
@@ -31442,17 +31386,18 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxCallOff,
+		auxType:      auxSymOff,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
+		symEffect:    SymNone,
 		reg: regInfo{
 			clobbers: 4294933503, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R11 R12 g R14 F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
 		},
 	},
 	{
 		name:         "CALLclosure",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       3,
 		clobberFlags: true,
 		call:         true,
@@ -31466,7 +31411,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLinter",
-		auxType:      auxCallOff,
+		auxType:      auxInt64,
 		argLen:       2,
 		clobberFlags: true,
 		call:         true,
@@ -32086,17 +32031,18 @@ var opcodeTable = [...]opInfo{
 	},
 
 	{
-		name:    "LoweredStaticCall",
-		auxType: auxCallOff,
-		argLen:  1,
-		call:    true,
+		name:      "LoweredStaticCall",
+		auxType:   auxSymOff,
+		argLen:    1,
+		call:      true,
+		symEffect: SymNone,
 		reg: regInfo{
 			clobbers: 844424930131967, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31 g
 		},
 	},
 	{
 		name:    "LoweredClosureCall",
-		auxType: auxCallOff,
+		auxType: auxInt64,
 		argLen:  3,
 		call:    true,
 		reg: regInfo{
@@ -32109,7 +32055,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "LoweredInterCall",
-		auxType: auxCallOff,
+		auxType: auxInt64,
 		argLen:  2,
 		call:    true,
 		reg: regInfo{
@@ -34762,11 +34708,6 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "Dereference",
-		argLen:  2,
-		generic: true,
-	},
-	{
 		name:    "Store",
 		auxType: auxTyp,
 		argLen:  3,
@@ -34832,29 +34773,23 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "ClosureCall",
-		auxType: auxCallOff,
+		auxType: auxInt64,
 		argLen:  3,
 		call:    true,
 		generic: true,
 	},
 	{
-		name:    "StaticCall",
-		auxType: auxCallOff,
-		argLen:  1,
-		call:    true,
-		generic: true,
+		name:      "StaticCall",
+		auxType:   auxSymOff,
+		argLen:    1,
+		call:      true,
+		symEffect: SymNone,
+		generic:   true,
 	},
 	{
 		name:    "InterCall",
-		auxType: auxCallOff,
+		auxType: auxInt64,
 		argLen:  2,
-		call:    true,
-		generic: true,
-	},
-	{
-		name:    "StaticLECall",
-		auxType: auxCallOff,
-		argLen:  -1,
 		call:    true,
 		generic: true,
 	},
@@ -35358,18 +35293,6 @@ var opcodeTable = [...]opInfo{
 		argLen:    1,
 		zeroWidth: true,
 		generic:   true,
-	},
-	{
-		name:    "SelectN",
-		auxType: auxInt64,
-		argLen:  1,
-		generic: true,
-	},
-	{
-		name:    "SelectNAddr",
-		auxType: auxInt64,
-		argLen:  1,
-		generic: true,
 	},
 	{
 		name:    "AtomicLoad8",

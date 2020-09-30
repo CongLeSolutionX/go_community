@@ -80,7 +80,9 @@ type moduleJSON struct {
 
 func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// Check whether modules are enabled and whether we're in a module.
-	modload.ForceUseModules = true
+	if cfg.Getenv("GO111MODULE") == "off" {
+		base.Fatalf("go: modules disabled by GO111MODULE=off; see 'go help modules'")
+	}
 	if !modload.HasModRoot() && len(args) == 0 {
 		base.Fatalf("go mod download: no modules specified (see 'go help mod download')")
 	}

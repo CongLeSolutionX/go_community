@@ -151,10 +151,6 @@ type Dirent struct {
 	Pad_cgo_0 [3]byte
 }
 
-const (
-	pathMax = 0x400
-)
-
 type RawSockaddrInet4 struct {
 	Len    uint8
 	Family uint8

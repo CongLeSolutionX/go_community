@@ -831,12 +831,7 @@ func (ctxt *Link) mangleTypeSym() {
 
 	ldr := ctxt.loader
 	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
-		if !ldr.AttrReachable(s) && !ctxt.linkShared {
-			// If -linkshared, the GCProg generation code may need to reach
-			// out to the shared library for the type descriptor's data, even
-			// the type descriptor itself is not actually needed at run time
-			// (therefore not reachable). We still need to mangle its name,
-			// so it is consistent with the one stored in the shared library.
+		if !ldr.AttrReachable(s) {
 			continue
 		}
 		name := ldr.SymName(s)

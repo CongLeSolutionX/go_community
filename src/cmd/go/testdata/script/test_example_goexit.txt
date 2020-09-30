@@ -5,11 +5,7 @@
 stdout '(?s)--- PASS.*--- FAIL.*'
 stdout 'panic: test executed panic\(nil\) or runtime\.Goexit'
 
--- go.mod --
-module examplegoexit
-
-go 1.16
--- example_test.go --
+-- examplegoexit/example_test.go --
 package main
 
 import (

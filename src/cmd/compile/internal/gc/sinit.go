@@ -278,7 +278,7 @@ func (s *InitSchedule) staticassign(l *Node, r *Node) bool {
 			return Isconst(val, CTNIL)
 		}
 
-		markTypeUsedInInterface(val.Type, l.Sym.Linksym())
+		markTypeUsedInInterface(val.Type)
 
 		var itab *Node
 		if l.Type.IsEmptyInterface() {

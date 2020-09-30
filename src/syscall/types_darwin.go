@@ -123,12 +123,6 @@ type Fsid C.struct_fsid
 
 type Dirent C.struct_dirent
 
-// File system limits
-
-const (
-	pathMax = C.PATH_MAX
-)
-
 // Sockets
 
 type RawSockaddrInet4 C.struct_sockaddr_in

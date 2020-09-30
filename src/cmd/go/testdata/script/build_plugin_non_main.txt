@@ -2,13 +2,16 @@
 [!linux] [!darwin] skip
 [!cgo] skip
 
-go build -n testdep
-! go build -buildmode=plugin testdep
+go build -n testdep/p2
+! go build -buildmode=plugin testdep/p2
 stderr '-buildmode=plugin requires exactly one main package'
 
--- go.mod --
-module testdep
+-- testdep/p1/p1.go --
+package p1
+-- testdep/p1/p1_test.go --
+package p1
 
-go 1.16
--- testdep.go --
-package p
+import _ "testdep/p2"
+-- testdep/p2/p2.go --
+package p2
+

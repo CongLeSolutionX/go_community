@@ -231,15 +231,12 @@ func walkstmt(n *Node) *Node {
 		case OCOPY:
 			n.Left = copyany(n.Left, &n.Ninit, true)
 
-		case OCALLFUNC, OCALLMETH, OCALLINTER:
-			if n.Left.Nbody.Len() > 0 {
+		default:
+			if n.Left.NeedsWrapper() {
 				n.Left = wrapCall(n.Left, &n.Ninit)
 			} else {
 				n.Left = walkexpr(n.Left, &n.Ninit)
 			}
-
-		default:
-			n.Left = walkexpr(n.Left, &n.Ninit)
 		}
 
 	case OFOR, OFORUNTIL:
@@ -565,7 +562,6 @@ opswitch:
 	case OCALLINTER, OCALLFUNC, OCALLMETH:
 		if n.Op == OCALLINTER {
 			usemethod(n)
-			markUsedIfaceMethod(n)
 		}
 
 		if n.Op == OCALLFUNC && n.Left.Op == OCLOSURE {
@@ -649,7 +645,7 @@ opswitch:
 			// x = append(...)
 			r := n.Right
 			if r.Type.Elem().NotInHeap() {
-				yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", r.Type.Elem())
+				yyerror("%v is go:notinheap; heap allocation disallowed", r.Type.Elem())
 			}
 			switch {
 			case isAppendOfMake(r):
@@ -806,8 +802,8 @@ opswitch:
 		fromType := n.Left.Type
 		toType := n.Type
 
-		if !fromType.IsInterface() && !Curfn.Func.Nname.isBlank() { // skip unnamed functions (func _())
-			markTypeUsedInInterface(fromType, Curfn.Func.lsym)
+		if !fromType.IsInterface() {
+			markTypeUsedInInterface(fromType)
 		}
 
 		// typeword generates the type word of the interface value.
@@ -1165,7 +1161,7 @@ opswitch:
 
 	case ONEW:
 		if n.Type.Elem().NotInHeap() {
-			yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", n.Type.Elem())
+			yyerror("%v is go:notinheap; heap allocation disallowed", n.Type.Elem())
 		}
 		if n.Esc == EscNone {
 			if n.Type.Elem().Width >= maxImplicitStackVarSize {
@@ -1336,7 +1332,7 @@ opswitch:
 		}
 		t := n.Type
 		if t.Elem().NotInHeap() {
-			yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", t.Elem())
+			yyerror("%v is go:notinheap; heap allocation disallowed", t.Elem())
 		}
 		if n.Esc == EscNone {
 			if !isSmallMakeSlice(n) {
@@ -1413,7 +1409,7 @@ opswitch:
 
 		t := n.Type
 		if t.Elem().NotInHeap() {
-			yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", t.Elem())
+			yyerror("%v is go:notinheap; heap allocation disallowed", t.Elem())
 		}
 
 		length := conv(n.Left, types.Types[TINT])
@@ -1485,7 +1481,7 @@ opswitch:
 		} else {
 			// slicebytetostring(*[32]byte, ptr *byte, n int) string
 			n.Left = cheapexpr(n.Left, init)
-			ptr, len := n.Left.backingArrayPtrLen()
+			ptr, len := n.Left.slicePtrLen()
 			n = mkcall("slicebytetostring", n.Type, init, a, ptr, len)
 		}
 
@@ -1498,7 +1494,7 @@ opswitch:
 		}
 		// slicebytetostringtmp(ptr *byte, n int) string
 		n.Left = cheapexpr(n.Left, init)
-		ptr, len := n.Left.backingArrayPtrLen()
+		ptr, len := n.Left.slicePtrLen()
 		n = mkcall("slicebytetostringtmp", n.Type, init, ptr, len)
 
 	case OSTR2BYTES:
@@ -1622,27 +1618,8 @@ opswitch:
 
 // markTypeUsedInInterface marks that type t is converted to an interface.
 // This information is used in the linker in dead method elimination.
-func markTypeUsedInInterface(t *types.Type, from *obj.LSym) {
-	tsym := typenamesym(t).Linksym()
-	// Emit a marker relocation. The linker will know the type is converted
-	// to an interface if "from" is reachable.
-	r := obj.Addrel(from)
-	r.Sym = tsym
-	r.Type = objabi.R_USEIFACE
-}
-
-// markUsedIfaceMethod marks that an interface method is used in the current
-// function. n is OCALLINTER node.
-func markUsedIfaceMethod(n *Node) {
-	ityp := n.Left.Left.Type
-	tsym := typenamesym(ityp).Linksym()
-	r := obj.Addrel(Curfn.Func.lsym)
-	r.Sym = tsym
-	// n.Left.Xoffset is the method index * Widthptr (the offset of code pointer
-	// in itab).
-	midx := n.Left.Xoffset / int64(Widthptr)
-	r.Add = ifaceMethodOffset(ityp, midx)
-	r.Type = objabi.R_USEIFACEMETHOD
+func markTypeUsedInInterface(t *types.Type) {
+	typenamesym(t).Linksym().Set(obj.AttrUsedInIface, true)
 }
 
 // rtconvfn returns the parameter and result types that will be used by a
@@ -2784,25 +2761,36 @@ func appendslice(n *Node, init *Nodes) *Node {
 		// instantiate typedslicecopy(typ *type, dstPtr *any, dstLen int, srcPtr *any, srcLen int) int
 		fn := syslook("typedslicecopy")
 		fn = substArgTypes(fn, l1.Type.Elem(), l2.Type.Elem())
-		ptr1, len1 := nptr1.backingArrayPtrLen()
-		ptr2, len2 := nptr2.backingArrayPtrLen()
+		ptr1, len1 := nptr1.slicePtrLen()
+		ptr2, len2 := nptr2.slicePtrLen()
 		ncopy = mkcall1(fn, types.Types[TINT], &nodes, typename(elemtype), ptr1, len1, ptr2, len2)
+
 	} else if instrumenting && !compiling_runtime {
-		// rely on runtime to instrument:
-		//  copy(s[len(l1):], l2)
-		// l2 can be a slice or string.
+		// rely on runtime to instrument copy.
+		// copy(s[len(l1):], l2)
 		nptr1 := nod(OSLICE, s, nil)
 		nptr1.Type = s.Type
 		nptr1.SetSliceBounds(nod(OLEN, l1, nil), nil, nil)
 		nptr1 = cheapexpr(nptr1, &nodes)
+
 		nptr2 := l2
 
-		ptr1, len1 := nptr1.backingArrayPtrLen()
-		ptr2, len2 := nptr2.backingArrayPtrLen()
+		if l2.Type.IsString() {
+			// instantiate func slicestringcopy(toPtr *byte, toLen int, fr string) int
+			fn := syslook("slicestringcopy")
+			ptr, len := nptr1.slicePtrLen()
+			str := nod(OCONVNOP, nptr2, nil)
+			str.Type = types.Types[TSTRING]
+			ncopy = mkcall1(fn, types.Types[TINT], &nodes, ptr, len, str)
+		} else {
+			// instantiate func slicecopy(to any, fr any, wid uintptr) int
+			fn := syslook("slicecopy")
+			fn = substArgTypes(fn, l1.Type.Elem(), l2.Type.Elem())
+			ptr1, len1 := nptr1.slicePtrLen()
+			ptr2, len2 := nptr2.slicePtrLen()
+			ncopy = mkcall1(fn, types.Types[TINT], &nodes, ptr1, len1, ptr2, len2, nodintconst(elemtype.Width))
+		}
 
-		fn := syslook("slicecopy")
-		fn = substArgTypes(fn, ptr1.Type.Elem(), ptr2.Type.Elem())
-		ncopy = mkcall1(fn, types.Types[TINT], &nodes, ptr1, len1, ptr2, len2, nodintconst(elemtype.Width))
 	} else {
 		// memmove(&s[len(l1)], &l2[0], len(l2)*sizeof(T))
 		nptr1 := nod(OINDEX, s, nod(OLEN, l1, nil))
@@ -3101,25 +3089,28 @@ func copyany(n *Node, init *Nodes, runtimecall bool) *Node {
 		Curfn.Func.setWBPos(n.Pos)
 		fn := writebarrierfn("typedslicecopy", n.Left.Type.Elem(), n.Right.Type.Elem())
 		n.Left = cheapexpr(n.Left, init)
-		ptrL, lenL := n.Left.backingArrayPtrLen()
+		ptrL, lenL := n.Left.slicePtrLen()
 		n.Right = cheapexpr(n.Right, init)
-		ptrR, lenR := n.Right.backingArrayPtrLen()
+		ptrR, lenR := n.Right.slicePtrLen()
 		return mkcall1(fn, n.Type, init, typename(n.Left.Type.Elem()), ptrL, lenL, ptrR, lenR)
 	}
 
 	if runtimecall {
-		// rely on runtime to instrument:
-		//  copy(n.Left, n.Right)
-		// n.Right can be a slice or string.
-
-		n.Left = cheapexpr(n.Left, init)
-		ptrL, lenL := n.Left.backingArrayPtrLen()
-		n.Right = cheapexpr(n.Right, init)
-		ptrR, lenR := n.Right.backingArrayPtrLen()
+		if n.Right.Type.IsString() {
+			fn := syslook("slicestringcopy")
+			n.Left = cheapexpr(n.Left, init)
+			ptr, len := n.Left.slicePtrLen()
+			str := nod(OCONVNOP, n.Right, nil)
+			str.Type = types.Types[TSTRING]
+			return mkcall1(fn, n.Type, init, ptr, len, str)
+		}
 
 		fn := syslook("slicecopy")
-		fn = substArgTypes(fn, ptrL.Type.Elem(), ptrR.Type.Elem())
-
+		fn = substArgTypes(fn, n.Left.Type.Elem(), n.Right.Type.Elem())
+		n.Left = cheapexpr(n.Left, init)
+		ptrL, lenL := n.Left.slicePtrLen()
+		n.Right = cheapexpr(n.Right, init)
+		ptrR, lenR := n.Right.slicePtrLen()
 		return mkcall1(fn, n.Type, init, ptrL, lenL, ptrR, lenR, nodintconst(n.Left.Type.Elem().Width))
 	}
 
@@ -3707,8 +3698,6 @@ func usemethod(n *Node) {
 	// Also need to check for reflect package itself (see Issue #38515).
 	if s := res0.Type.Sym; s != nil && s.Name == "Method" && isReflectPkg(s.Pkg) {
 		Curfn.Func.SetReflectMethod(true)
-		// The LSym is initialized at this point. We need to set the attribute on the LSym.
-		Curfn.Func.lsym.Set(obj.AttrReflectMethod, true)
 	}
 }
 
@@ -3922,7 +3911,6 @@ func wrapCall(n *Node, init *Nodes) *Node {
 	if !isBuiltinCall {
 		call.Op = OCALL
 		call.Left = n.Left
-		call.SetIsDDD(n.IsDDD())
 	}
 	call.List.Set(args)
 	fn.Nbody.Set1(call)

@@ -17,7 +17,8 @@ var vdsoSymbolKeys = []vdsoSymbolKey{
 	{"__vdso_clock_gettime", 0xd35ec75, 0x6e43a318, &vdsoClockgettimeSym},
 }
 
+// initialize with vsyscall fallbacks
 var (
-	vdsoGettimeofdaySym uintptr
-	vdsoClockgettimeSym uintptr
+	vdsoGettimeofdaySym uintptr = 0xffffffffff600000
+	vdsoClockgettimeSym uintptr = 0
 )

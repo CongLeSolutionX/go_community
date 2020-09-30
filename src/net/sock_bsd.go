@@ -17,7 +17,7 @@ func maxListenerBacklog() int {
 		err error
 	)
 	switch runtime.GOOS {
-	case "darwin", "ios":
+	case "darwin":
 		n, err = syscall.SysctlUint32("kern.ipc.somaxconn")
 	case "freebsd":
 		n, err = syscall.SysctlUint32("kern.ipc.soacceptqueue")

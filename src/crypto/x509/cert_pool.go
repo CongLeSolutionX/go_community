@@ -5,7 +5,6 @@
 package x509
 
 import (
-	"bytes"
 	"encoding/pem"
 	"errors"
 	"runtime"
@@ -13,21 +12,29 @@ import (
 
 // CertPool is a set of certificates.
 type CertPool struct {
-	byName map[string][]int
-	certs  []*Certificate
+	bySubjectKeyId map[string][]int
+	byName         map[string][]int
+	certs          []*Certificate
 }
 
 // NewCertPool returns a new, empty CertPool.
 func NewCertPool() *CertPool {
 	return &CertPool{
-		byName: make(map[string][]int),
+		bySubjectKeyId: make(map[string][]int),
+		byName:         make(map[string][]int),
 	}
 }
 
 func (s *CertPool) copy() *CertPool {
 	p := &CertPool{
-		byName: make(map[string][]int, len(s.byName)),
-		certs:  make([]*Certificate, len(s.certs)),
+		bySubjectKeyId: make(map[string][]int, len(s.bySubjectKeyId)),
+		byName:         make(map[string][]int, len(s.byName)),
+		certs:          make([]*Certificate, len(s.certs)),
+	}
+	for k, v := range s.bySubjectKeyId {
+		indexes := make([]int, len(v))
+		copy(indexes, v)
+		p.bySubjectKeyId[k] = indexes
 	}
 	for k, v := range s.byName {
 		indexes := make([]int, len(v))
@@ -63,42 +70,19 @@ func SystemCertPool() (*CertPool, error) {
 }
 
 // findPotentialParents returns the indexes of certificates in s which might
-// have signed cert.
+// have signed cert. The caller must not modify the returned slice.
 func (s *CertPool) findPotentialParents(cert *Certificate) []int {
 	if s == nil {
 		return nil
 	}
 
-	// consider all candidates where cert.Issuer matches cert.Subject.
-	// when picking possible candidates the list is built in the order
-	// of match plausibility as to save cycles in buildChains:
-	//   AKID and SKID match
-	//   AKID present, SKID missing / AKID missing, SKID present
-	//   AKID and SKID don't match
-	var matchingKeyID, oneKeyID, mismatchKeyID []int
-	for _, c := range s.byName[string(cert.RawIssuer)] {
-		candidate := s.certs[c]
-		kidMatch := bytes.Equal(candidate.SubjectKeyId, cert.AuthorityKeyId)
-		switch {
-		case kidMatch:
-			matchingKeyID = append(matchingKeyID, c)
-		case (len(candidate.SubjectKeyId) == 0 && len(cert.AuthorityKeyId) > 0) ||
-			(len(candidate.SubjectKeyId) > 0 && len(cert.AuthorityKeyId) == 0):
-			oneKeyID = append(oneKeyID, c)
-		default:
-			mismatchKeyID = append(mismatchKeyID, c)
-		}
+	var candidates []int
+	if len(cert.AuthorityKeyId) > 0 {
+		candidates = s.bySubjectKeyId[string(cert.AuthorityKeyId)]
 	}
-
-	found := len(matchingKeyID) + len(oneKeyID) + len(mismatchKeyID)
-	if found == 0 {
-		return nil
+	if len(candidates) == 0 {
+		candidates = s.byName[string(cert.RawIssuer)]
 	}
-	candidates := make([]int, 0, found)
-	candidates = append(candidates, matchingKeyID...)
-	candidates = append(candidates, oneKeyID...)
-	candidates = append(candidates, mismatchKeyID...)
-
 	return candidates
 }
 
@@ -131,6 +115,10 @@ func (s *CertPool) AddCert(cert *Certificate) {
 	n := len(s.certs)
 	s.certs = append(s.certs, cert)
 
+	if len(cert.SubjectKeyId) > 0 {
+		keyId := string(cert.SubjectKeyId)
+		s.bySubjectKeyId[keyId] = append(s.bySubjectKeyId[keyId], n)
+	}
 	name := string(cert.RawSubject)
 	s.byName[name] = append(s.byName[name], n)
 }

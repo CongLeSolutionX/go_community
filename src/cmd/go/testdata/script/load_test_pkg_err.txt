@@ -10,19 +10,15 @@ stdout golang.org/fake/d
 d
 d.test
 d_test [d.test]
--- go.mod --
-module d
-
-go 1.16
--- d.go --
+-- d/d.go --
 package d
 
 import "net/http"
 
 const d = http.MethodGet
 func Get() string { return d; }
--- d2.go --
--- d_test.go --
+-- d/d2.go --
+-- d/d_test.go --
 package d_test
 
 import "testing"

@@ -717,7 +717,6 @@ type Reader struct {
 	d            *Data
 	err          error
 	unit         int
-	lastUnit     bool   // set if last entry returned by Next is TagCompileUnit/TagPartialUnit
 	lastChildren bool   // .Children of last entry returned by Next
 	lastSibling  Offset // .Val(AttrSibling) of last entry returned by Next
 	cu           *Entry // current compilation unit
@@ -775,16 +774,11 @@ func (r *Reader) Seek(off Offset) {
 // maybeNextUnit advances to the next unit if this one is finished.
 func (r *Reader) maybeNextUnit() {
 	for len(r.b.data) == 0 && r.unit+1 < len(r.d.unit) {
-		r.nextUnit()
+		r.unit++
+		u := &r.d.unit[r.unit]
+		r.b = makeBuf(r.d, u, "info", u.off, u.data)
+		r.cu = nil
 	}
-}
-
-// nextUnit advances to the next unit.
-func (r *Reader) nextUnit() {
-	r.unit++
-	u := &r.d.unit[r.unit]
-	r.b = makeBuf(r.d, u, "info", u.off, u.data)
-	r.cu = nil
 }
 
 // Next reads the next entry from the encoded entry stream.
@@ -805,14 +799,12 @@ func (r *Reader) Next() (*Entry, error) {
 		r.err = r.b.err
 		return nil, r.err
 	}
-	r.lastUnit = false
 	if e != nil {
 		r.lastChildren = e.Children
 		if r.lastChildren {
 			r.lastSibling, _ = e.Val(AttrSibling).(Offset)
 		}
 		if e.Tag == TagCompileUnit || e.Tag == TagPartialUnit {
-			r.lastUnit = true
 			r.cu = e
 		}
 	} else {
@@ -835,11 +827,6 @@ func (r *Reader) SkipChildren() {
 	// child subtrees.
 	if r.lastSibling >= r.b.off {
 		r.Seek(r.lastSibling)
-		return
-	}
-
-	if r.lastUnit && r.unit+1 < len(r.d.unit) {
-		r.nextUnit()
 		return
 	}
 

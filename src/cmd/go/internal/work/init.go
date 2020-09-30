@@ -9,7 +9,7 @@ package work
 import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
-	"cmd/go/internal/modload"
+	"cmd/go/internal/load"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"flag"
@@ -21,7 +21,7 @@ import (
 )
 
 func BuildInit() {
-	modload.Init()
+	load.ModInit()
 	instrumentInit()
 	buildModeInit()
 
@@ -121,7 +121,7 @@ func buildModeInit() {
 			codegenArg = "-fPIC"
 		} else {
 			switch cfg.Goos {
-			case "darwin", "ios":
+			case "darwin":
 				switch cfg.Goarch {
 				case "arm64":
 					codegenArg = "-shared"
@@ -157,7 +157,7 @@ func buildModeInit() {
 			ldBuildmode = "pie"
 		case "windows":
 			ldBuildmode = "pie"
-		case "darwin", "ios":
+		case "darwin":
 			switch cfg.Goarch {
 			case "arm64":
 				codegenArg = "-shared"
@@ -254,18 +254,34 @@ func buildModeInit() {
 	case "":
 		// Behavior will be determined automatically, as if no flag were passed.
 	case "readonly", "vendor", "mod":
-		if !cfg.ModulesEnabled && !base.InGOFLAGS("-mod") {
+		if !cfg.ModulesEnabled && !inGOFLAGS("-mod") {
 			base.Fatalf("build flag -mod=%s only valid when using modules", cfg.BuildMod)
 		}
 	default:
 		base.Fatalf("-mod=%s not supported (can be '', 'mod', 'readonly', or 'vendor')", cfg.BuildMod)
 	}
 	if !cfg.ModulesEnabled {
-		if cfg.ModCacheRW && !base.InGOFLAGS("-modcacherw") {
+		if cfg.ModCacheRW && !inGOFLAGS("-modcacherw") {
 			base.Fatalf("build flag -modcacherw only valid when using modules")
 		}
-		if cfg.ModFile != "" && !base.InGOFLAGS("-mod") {
+		if cfg.ModFile != "" && !inGOFLAGS("-mod") {
 			base.Fatalf("build flag -modfile only valid when using modules")
 		}
 	}
+}
+
+func inGOFLAGS(flag string) bool {
+	for _, goflag := range base.GOFLAGS() {
+		name := goflag
+		if strings.HasPrefix(name, "--") {
+			name = name[1:]
+		}
+		if i := strings.Index(name, "="); i >= 0 {
+			name = name[:i]
+		}
+		if name == flag {
+			return true
+		}
+	}
+	return false
 }

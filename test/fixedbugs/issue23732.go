@@ -24,19 +24,19 @@ func main() {
 	_ = Foo{
 		1,
 		2,
-		3, // ERROR "too few values in Foo{...}"
+		3, // ERROR "too few values in Foo literal"
 	}
 
 	_ = Foo{
 		1,
 		2,
 		3,
-		Bar{"A", "B"}, // ERROR "too many values in Bar{...}"
+		Bar{"A", "B"}, // ERROR "too many values in Bar literal"
 	}
 
 	_ = Foo{
 		1,
 		2,
-		Bar{"A", "B"}, // ERROR "too many values in Bar{...}" "too few values in Foo{...}"
+		Bar{"A", "B"}, // ERROR "too many values in Bar literal" "too few values in Foo literal"
 	}
 }

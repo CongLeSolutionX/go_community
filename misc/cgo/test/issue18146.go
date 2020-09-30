@@ -24,7 +24,7 @@ func test18146(t *testing.T) {
 		t.Skip("skipping in short mode")
 	}
 
-	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
+	if runtime.GOOS == "darwin" {
 		t.Skipf("skipping flaky test on %s; see golang.org/issue/18202", runtime.GOOS)
 	}
 

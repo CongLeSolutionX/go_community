@@ -10,9 +10,3 @@ var certFiles = []string{
 	"/etc/ssl/certs/ca-certificates.crt", // Joyent SmartOS
 	"/etc/ssl/cacert.pem",                // OmniOS
 }
-
-// Possible directories with certificate files; stop after successfully
-// reading at least one file from a directory.
-var certDirectories = []string{
-	"/etc/certs/CA",
-}

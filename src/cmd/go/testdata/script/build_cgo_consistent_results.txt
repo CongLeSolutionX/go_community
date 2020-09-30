@@ -11,11 +11,7 @@ go build -x -o $WORK/exe2$GOEXE cgotest
 
 cmp $WORK/exe1$GOEXE $WORK/exe2$GOEXE
 
--- go.mod --
-module cgotest
-
-go 1.16
--- m.go --
+-- cgotest/m.go --
 package cgotest
 
 import "C"

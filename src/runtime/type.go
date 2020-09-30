@@ -217,9 +217,7 @@ func (t *_type) nameOff(off nameOff) name {
 }
 
 func resolveTypeOff(ptrInModule unsafe.Pointer, off typeOff) *_type {
-	if off == 0 || off == -1 {
-		// -1 is the sentinel value for unreachable code.
-		// See cmd/link/internal/ld/data.go:relocsym.
+	if off == 0 {
 		return nil
 	}
 	base := uintptr(ptrInModule)
@@ -259,11 +257,6 @@ func (t *_type) typeOff(off typeOff) *_type {
 }
 
 func (t *_type) textOff(off textOff) unsafe.Pointer {
-	if off == -1 {
-		// -1 is the sentinel value for unreachable code.
-		// See cmd/link/internal/ld/data.go:relocsym.
-		return unsafe.Pointer(^uintptr(0))
-	}
 	base := uintptr(unsafe.Pointer(t))
 	var md *moduledata
 	for next := &firstmoduledata; next != nil; next = next.next {

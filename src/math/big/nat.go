@@ -751,7 +751,6 @@ func (q nat) divBasic(u, v nat) {
 
 	// D2.
 	vn1 := v[n-1]
-	rec := reciprocalWord(vn1)
 	for j := m; j >= 0; j-- {
 		// D3.
 		qhat := Word(_M)
@@ -761,7 +760,7 @@ func (q nat) divBasic(u, v nat) {
 		}
 		if ujn != vn1 {
 			var rhat Word
-			qhat, rhat = divWW(ujn, u[j+n-1], vn1, rec)
+			qhat, rhat = divWW(ujn, u[j+n-1], vn1)
 
 			// x1 | x2 = q̂v_{n-2}
 			vn2 := v[n-2]

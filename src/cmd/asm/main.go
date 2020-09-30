@@ -35,7 +35,9 @@ func main() {
 	flags.Parse()
 
 	ctxt := obj.Linknew(architecture.LinkArch)
-	ctxt.Debugasm = flags.PrintOut
+	if *flags.PrintOut {
+		ctxt.Debugasm = 1
+	}
 	ctxt.Flag_dynlink = *flags.Dynlink
 	ctxt.Flag_shared = *flags.Shared || *flags.Dynlink
 	ctxt.IsAsm = true

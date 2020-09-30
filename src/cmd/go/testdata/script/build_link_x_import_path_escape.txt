@@ -4,11 +4,7 @@ go build -o linkx$GOEXE -ldflags -X=my.pkg.Text=linkXworked my.pkg/main
 exec ./linkx$GOEXE
 stderr '^linkXworked$'
 
--- go.mod --
-module my.pkg
-
-go 1.16
--- main/main.go --
+-- my.pkg/main/main.go --
 package main
 
 import "my.pkg"
@@ -16,7 +12,7 @@ import "my.pkg"
 func main() {
 	println(pkg.Text)
 }
--- pkg.go --
+-- my.pkg/pkg.go --
 package pkg
 
 var Text = "unset"

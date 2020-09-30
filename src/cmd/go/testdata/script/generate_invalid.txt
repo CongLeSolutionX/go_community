@@ -54,10 +54,6 @@ func main() {
 	fmt.Println()
 }
 
--- go.mod --
-module m
-
-go 1.16
 -- nogo/foo.txt --
 Text file in a directory without go files.
 Go generate should ignore this directory.

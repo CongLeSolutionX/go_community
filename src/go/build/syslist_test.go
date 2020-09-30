@@ -17,7 +17,7 @@ var (
 )
 
 func anotherOS() string {
-	if thisOS != "darwin" && thisOS != "ios" {
+	if thisOS != "darwin" {
 		return "darwin"
 	}
 	return "linux"

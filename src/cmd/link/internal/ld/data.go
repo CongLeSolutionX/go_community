@@ -390,12 +390,6 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 			o = ldr.SymValue(rs) + r.Add() - int64(ldr.SymSect(rs).Vaddr)
 		case objabi.R_WEAKADDROFF, objabi.R_METHODOFF:
 			if !ldr.AttrReachable(rs) {
-				if rt == objabi.R_METHODOFF {
-					// Set it to a sentinel value. The runtime knows this is not pointing to
-					// anything valid.
-					o = -1
-					break
-				}
 				continue
 			}
 			fallthrough
@@ -704,9 +698,6 @@ func windynrelocsym(ctxt *Link, rel *loader.SymbolBuilder, s loader.Sym) {
 	relocs := ctxt.loader.Relocs(s)
 	for ri := 0; ri < relocs.Count(); ri++ {
 		r := relocs.At(ri)
-		if r.IsMarker() {
-			continue // skip marker relocations
-		}
 		targ := r.Sym()
 		if targ == 0 {
 			continue
@@ -784,9 +775,6 @@ func dynrelocsym(ctxt *Link, s loader.Sym) {
 	relocs := ldr.Relocs(s)
 	for ri := 0; ri < relocs.Count(); ri++ {
 		r := relocs.At(ri)
-		if r.IsMarker() {
-			continue // skip marker relocations
-		}
 		if ctxt.BuildMode == BuildModePIE && ctxt.LinkMode == LinkInternal {
 			// It's expected that some relocations will be done
 			// later by relocsym (R_TLS_LE, R_ADDROFF), so

@@ -711,17 +711,6 @@ func tconv2(b *bytes.Buffer, t *types.Type, flag FmtFlag, mode fmtMode, visited 
 		return
 	}
 
-	if t.Etype == types.TRESULTS {
-		tys := t.Extra.(*types.Results).Types
-		for i, et := range tys {
-			if i > 0 {
-				b.WriteByte(',')
-			}
-			b.WriteString(et.String())
-		}
-		return
-	}
-
 	flag, mode = flag.update(mode)
 	if mode == FTypeIdName {
 		flag |= FmtUnsigned
@@ -1418,7 +1407,7 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 				return
 			}
 			if n.Right != nil {
-				mode.Fprintf(s, "%v{%s}", n.Right, ellipsisIf(n.List.Len() != 0))
+				mode.Fprintf(s, "%v literal", n.Right)
 				return
 			}
 
@@ -1432,7 +1421,7 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 
 	case OSTRUCTLIT, OARRAYLIT, OSLICELIT, OMAPLIT:
 		if mode == FErr {
-			mode.Fprintf(s, "%v{%s}", n.Type, ellipsisIf(n.List.Len() != 0))
+			mode.Fprintf(s, "%v literal", n.Type)
 			return
 		}
 		mode.Fprintf(s, "(%v{ %.v })", n.Type, n.List)
@@ -1944,11 +1933,4 @@ func indent(s fmt.State) {
 	for i := 0; i < dumpdepth; i++ {
 		fmt.Fprint(s, ".   ")
 	}
-}
-
-func ellipsisIf(b bool) string {
-	if b {
-		return "..."
-	}
-	return ""
 }

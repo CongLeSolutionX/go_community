@@ -19,7 +19,6 @@ import (
 // import "C" block.  Add more tests here.
 var filePrefixes = []string{
 	"anonunion",
-	"bitfields",
 	"issue8478",
 	"fieldtypedef",
 	"issue37479",

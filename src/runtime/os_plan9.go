@@ -92,11 +92,8 @@ func sigpanic() {
 		}
 		addr := note[i:]
 		g.sigcode1 = uintptr(atolwhex(addr))
-		if g.sigcode1 < 0x1000 {
+		if g.sigcode1 < 0x1000 || g.paniconfault {
 			panicmem()
-		}
-		if g.paniconfault {
-			panicmemAddr(g.sigcode1)
 		}
 		print("unexpected fault address ", hex(g.sigcode1), "\n")
 		throw("fault")

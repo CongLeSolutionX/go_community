@@ -4,11 +4,7 @@ env GOCACHE=$WORK/tmp
 go test -v multimain
 stdout -count=2 notwithstanding # check tests ran twice
 
--- go.mod --
-module multimain
-
-go 1.16
--- multimain_test.go --
+-- multimain/multimain_test.go --
 package multimain_test
 
 import "testing"

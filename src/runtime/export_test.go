@@ -983,35 +983,9 @@ func MapHashCheck(m interface{}, k interface{}) (uintptr, uintptr) {
 	return x, y
 }
 
-// mspan wrapper for testing.
-//go:notinheap
-type MSpan mspan
-
-// Allocate an mspan for testing.
-func AllocMSpan() *MSpan {
-	var s *mspan
-	systemstack(func() {
-		lock(&mheap_.lock)
-		s = (*mspan)(mheap_.spanalloc.alloc())
-		unlock(&mheap_.lock)
-	})
-	return (*MSpan)(s)
-}
-
-// Free an allocated mspan.
-func FreeMSpan(s *MSpan) {
-	systemstack(func() {
-		lock(&mheap_.lock)
-		mheap_.spanalloc.free(unsafe.Pointer(s))
-		unlock(&mheap_.lock)
-	})
-}
-
-func MSpanCountAlloc(ms *MSpan, bits []byte) int {
-	s := (*mspan)(ms)
+func MSpanCountAlloc(bits []byte) int {
+	s := (*mspan)(mheap_.spanalloc.alloc())
 	s.nelems = uintptr(len(bits) * 8)
 	s.gcmarkBits = (*gcBits)(unsafe.Pointer(&bits[0]))
-	result := s.countAlloc()
-	s.gcmarkBits = nil
-	return result
+	return s.countAlloc()
 }

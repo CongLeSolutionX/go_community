@@ -382,11 +382,14 @@ func ifacedcl(n *Node) {
 // returns in auto-declaration context.
 func funchdr(n *Node) {
 	// change the declaration context from extern to auto
-	funcStack = append(funcStack, funcStackEnt{Curfn, dclcontext})
-	Curfn = n
-	dclcontext = PAUTO
+	if Curfn == nil && dclcontext != PEXTERN {
+		Fatalf("funchdr: dclcontext = %d", dclcontext)
+	}
 
+	dclcontext = PAUTO
 	types.Markdcl()
+	funcstack = append(funcstack, Curfn)
+	Curfn = n
 
 	if n.Func.Nname != nil {
 		funcargs(n.Func.Nname.Name.Param.Ntype)
@@ -494,22 +497,21 @@ func funcarg2(f *types.Field, ctxt Class) {
 	declare(n, ctxt)
 }
 
-var funcStack []funcStackEnt // stack of previous values of Curfn/dclcontext
-
-type funcStackEnt struct {
-	curfn      *Node
-	dclcontext Class
-}
+var funcstack []*Node // stack of previous values of Curfn
 
 // finish the body.
 // called in auto-declaration context.
 // returns in extern-declaration context.
 func funcbody() {
-	// change the declaration context from auto to previous context
+	// change the declaration context from auto to extern
+	if dclcontext != PAUTO {
+		Fatalf("funcbody: unexpected dclcontext %d", dclcontext)
+	}
 	types.Popdcl()
-	var e funcStackEnt
-	funcStack, e = funcStack[:len(funcStack)-1], funcStack[len(funcStack)-1]
-	Curfn, dclcontext = e.curfn, e.dclcontext
+	funcstack, Curfn = funcstack[:len(funcstack)-1], funcstack[len(funcstack)-1]
+	if Curfn == nil {
+		dclcontext = PEXTERN
+	}
 }
 
 // structs, functions, and methods.

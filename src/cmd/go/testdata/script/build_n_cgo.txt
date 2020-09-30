@@ -5,10 +5,6 @@
 go build -n
 ! stderr '[/\\]\$WORK'
 
--- go.mod --
-module m
-
-go 1.16
 -- main.go --
 package main
 

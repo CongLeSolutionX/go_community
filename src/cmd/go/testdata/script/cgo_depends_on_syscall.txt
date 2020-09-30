@@ -4,11 +4,7 @@
 go list -race -deps foo
 stdout syscall
 
--- go.mod --
-module foo
-
-go 1.16
--- foo.go --
+-- foo/foo.go --
 package foo
 
 // #include <stdio.h>

@@ -166,12 +166,10 @@ func Serve(handler http.Handler) error {
 }
 
 type response struct {
-	req            *http.Request
-	header         http.Header
-	code           int
-	wroteHeader    bool
-	wroteCGIHeader bool
-	bufw           *bufio.Writer
+	req        *http.Request
+	header     http.Header
+	bufw       *bufio.Writer
+	headerSent bool
 }
 
 func (r *response) Flush() {
@@ -183,38 +181,26 @@ func (r *response) Header() http.Header {
 }
 
 func (r *response) Write(p []byte) (n int, err error) {
-	if !r.wroteHeader {
+	if !r.headerSent {
 		r.WriteHeader(http.StatusOK)
-	}
-	if !r.wroteCGIHeader {
-		r.writeCGIHeader(p)
 	}
 	return r.bufw.Write(p)
 }
 
 func (r *response) WriteHeader(code int) {
-	if r.wroteHeader {
+	if r.headerSent {
 		// Note: explicitly using Stderr, as Stdout is our HTTP output.
 		fmt.Fprintf(os.Stderr, "CGI attempted to write header twice on request for %s", r.req.URL)
 		return
 	}
-	r.wroteHeader = true
-	r.code = code
-}
+	r.headerSent = true
+	fmt.Fprintf(r.bufw, "Status: %d %s\r\n", code, http.StatusText(code))
 
-// writeCGIHeader finalizes the header sent to the client and writes it to the output.
-// p is not written by writeHeader, but is the first chunk of the body
-// that will be written. It is sniffed for a Content-Type if none is
-// set explicitly.
-func (r *response) writeCGIHeader(p []byte) {
-	if r.wroteCGIHeader {
-		return
-	}
-	r.wroteCGIHeader = true
-	fmt.Fprintf(r.bufw, "Status: %d %s\r\n", r.code, http.StatusText(r.code))
+	// Set a default Content-Type
 	if _, hasType := r.header["Content-Type"]; !hasType {
-		r.header.Set("Content-Type", http.DetectContentType(p))
+		r.header.Add("Content-Type", "text/html; charset=utf-8")
 	}
+
 	r.header.Write(r.bufw)
 	r.bufw.WriteString("\r\n")
 	r.bufw.Flush()

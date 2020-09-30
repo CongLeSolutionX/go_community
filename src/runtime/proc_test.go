@@ -523,17 +523,9 @@ func BenchmarkPingPongHog(b *testing.B) {
 	<-done
 }
 
-var padData [128]uint64
-
 func stackGrowthRecursive(i int) {
 	var pad [128]uint64
-	pad = padData
-	for j := range pad {
-		if pad[j] != 0 {
-			return
-		}
-	}
-	if i != 0 {
+	if i != 0 && pad[0] == 0 {
 		stackGrowthRecursive(i - 1)
 	}
 }

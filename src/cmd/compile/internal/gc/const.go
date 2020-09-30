@@ -44,7 +44,7 @@ func (v Val) Ctype() Ctype {
 		Fatalf("unexpected Ctype for %T", v.U)
 		panic("unreachable")
 	case nil:
-		return CTxxx
+		return 0
 	case *NilVal:
 		return CTNIL
 	case bool:
@@ -261,7 +261,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 	}
 
 	if t == nil || !okforconst[t.Etype] {
-		t = defaultType(n.Type)
+		t = defaultType(idealkind(n))
 	}
 
 	switch n.Op {
@@ -838,6 +838,10 @@ Outer:
 				return Val{}
 			}
 			u.Quo(y)
+		case OMOD, OOR, OAND, OANDNOT, OXOR:
+			// TODO(mdempsky): Move to typecheck; see #31060.
+			yyerror("invalid operation: operator %v not defined on untyped float", op)
+			return Val{}
 		default:
 			break Outer
 		}
@@ -863,6 +867,10 @@ Outer:
 				yyerror("complex division by zero")
 				return Val{}
 			}
+		case OMOD, OOR, OAND, OANDNOT, OXOR:
+			// TODO(mdempsky): Move to typecheck; see #31060.
+			yyerror("invalid operation: operator %v not defined on untyped complex", op)
+			return Val{}
 		default:
 			break Outer
 		}
@@ -924,6 +932,15 @@ func unaryOp(op Op, x Val, t *types.Type) Val {
 			}
 			u.Xor(x)
 			return Val{U: u}
+
+		case CTFLT:
+			// TODO(mdempsky): Move to typecheck; see #31060.
+			yyerror("invalid operation: operator %v not defined on untyped float", op)
+			return Val{}
+		case CTCPLX:
+			// TODO(mdempsky): Move to typecheck; see #31060.
+			yyerror("invalid operation: operator %v not defined on untyped complex", op)
+			return Val{}
 		}
 
 	case ONOT:
@@ -977,8 +994,10 @@ func setconst(n *Node, v Val) {
 		Xoffset: BADWIDTH,
 	}
 	n.SetVal(v)
-	if vt := idealType(v.Ctype()); n.Type.IsUntyped() && n.Type != vt {
-		Fatalf("untyped type mismatch, have: %v, want: %v", n.Type, vt)
+	if n.Type.IsUntyped() {
+		// TODO(mdempsky): Make typecheck responsible for setting
+		// the correct untyped type.
+		n.Type = idealType(v.Ctype())
 	}
 
 	// Check range.
@@ -1037,6 +1056,67 @@ func idealType(ct Ctype) *types.Type {
 	return nil
 }
 
+// idealkind returns a constant kind like consttype
+// but for an arbitrary "ideal" (untyped constant) expression.
+func idealkind(n *Node) Ctype {
+	if n == nil || !n.Type.IsUntyped() {
+		return CTxxx
+	}
+
+	switch n.Op {
+	default:
+		return CTxxx
+
+	case OLITERAL:
+		return n.Val().Ctype()
+
+		// numeric kinds.
+	case OADD,
+		OAND,
+		OANDNOT,
+		OBITNOT,
+		ODIV,
+		ONEG,
+		OMOD,
+		OMUL,
+		OSUB,
+		OXOR,
+		OOR,
+		OPLUS:
+		k1 := idealkind(n.Left)
+		k2 := idealkind(n.Right)
+		if k1 > k2 {
+			return k1
+		} else {
+			return k2
+		}
+
+	case OREAL, OIMAG:
+		return CTFLT
+
+	case OCOMPLEX:
+		return CTCPLX
+
+	case OADDSTR:
+		return CTSTR
+
+	case OANDAND,
+		OEQ,
+		OGE,
+		OGT,
+		OLE,
+		OLT,
+		ONE,
+		ONOT,
+		OOROR:
+		return CTBOOL
+
+		// shifts (beware!).
+	case OLSH, ORSH:
+		return idealkind(n.Left)
+	}
+}
+
 // defaultlit on both nodes simultaneously;
 // if they're both ideal going in they better
 // get the same type going out.
@@ -1072,60 +1152,32 @@ func defaultlit2(l *Node, r *Node, force bool) (*Node, *Node) {
 		return l, r
 	}
 
-	t := defaultType(mixUntyped(l.Type, r.Type))
+	k := idealkind(l)
+	if rk := idealkind(r); rk > k {
+		k = rk
+	}
+	t := defaultType(k)
 	l = convlit(l, t)
 	r = convlit(r, t)
 	return l, r
 }
 
-func ctype(t *types.Type) Ctype {
-	switch t {
-	case types.Idealbool:
-		return CTBOOL
-	case types.Idealstring:
-		return CTSTR
-	case types.Idealint:
-		return CTINT
-	case types.Idealrune:
-		return CTRUNE
-	case types.Idealfloat:
-		return CTFLT
-	case types.Idealcomplex:
-		return CTCPLX
-	}
-	Fatalf("bad type %v", t)
-	panic("unreachable")
-}
-
-func mixUntyped(t1, t2 *types.Type) *types.Type {
-	t := t1
-	if ctype(t2) > ctype(t1) {
-		t = t2
-	}
-	return t
-}
-
-func defaultType(t *types.Type) *types.Type {
-	if !t.IsUntyped() || t.Etype == TNIL {
-		return t
-	}
-
-	switch t {
-	case types.Idealbool:
+func defaultType(k Ctype) *types.Type {
+	switch k {
+	case CTBOOL:
 		return types.Types[TBOOL]
-	case types.Idealstring:
+	case CTSTR:
 		return types.Types[TSTRING]
-	case types.Idealint:
+	case CTINT:
 		return types.Types[TINT]
-	case types.Idealrune:
+	case CTRUNE:
 		return types.Runetype
-	case types.Idealfloat:
+	case CTFLT:
 		return types.Types[TFLOAT64]
-	case types.Idealcomplex:
+	case CTCPLX:
 		return types.Types[TCOMPLEX128]
 	}
-
-	Fatalf("bad type %v", t)
+	Fatalf("bad idealkind: %v", k)
 	return nil
 }
 

@@ -119,8 +119,7 @@ td.collapsed {
 }
 
 td.collapsed div {
-    text-align: right;
-    transform: rotate(180deg);
+    /* TODO: Flip the direction of the phase's title 90 degrees on a collapsed column. */
     writing-mode: vertical-lr;
     white-space: pre;
 }
@@ -358,21 +357,6 @@ body.darkmode ellipse.outline-black { outline: gray solid 2px; }
 </style>
 
 <script type="text/javascript">
-
-// Contains phase names which are expanded by default. Other columns are collapsed.
-let expandedDefault = [
-    "start",
-    "deadcode",
-    "opt",
-    "lower",
-    "late-deadcode",
-    "regalloc",
-    "genssa",
-];
-if (history.state === null) {
-    history.pushState({expandedDefault}, "", location.href);
-}
-
 // ordered list of all available highlight colors
 var highlights = [
     "highlight-aquamarine",
@@ -417,9 +401,6 @@ for (var i = 0; i < outlines.length; i++) {
 }
 
 window.onload = function() {
-    if (history.state !== null) {
-        expandedDefault = history.state.expandedDefault;
-    }
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
         toggleDarkMode();
         document.getElementById("dark-mode-button").checked = true;
@@ -427,6 +408,9 @@ window.onload = function() {
 
     var ssaElemClicked = function(elem, event, selections, selected) {
         event.stopPropagation();
+
+        // TODO: pushState with updated state and read it on page load,
+        // so that state can survive across reloads
 
         // find all values with the same name
         var c = elem.classList.item(0);
@@ -505,18 +489,21 @@ window.onload = function() {
         lines[i].addEventListener('click', ssaValueClicked);
     }
 
+    // Contains phase names which are expanded by default. Other columns are collapsed.
+    var expandedDefault = [
+        "start",
+        "deadcode",
+        "opt",
+        "lower",
+        "late-deadcode",
+        "regalloc",
+        "genssa",
+    ];
 
     function toggler(phase) {
         return function() {
             toggle_cell(phase+'-col');
             toggle_cell(phase+'-exp');
-            const i = expandedDefault.indexOf(phase);
-            if (i !== -1) {
-                expandedDefault.splice(i, 1);
-            } else {
-                expandedDefault.push(phase);
-            }
-            history.pushState({expandedDefault}, "", location.href);
         };
     }
 
@@ -544,13 +531,9 @@ window.onload = function() {
             const len = combined.length;
             if (len > 1) {
                 for (let i = 0; i < len; i++) {
-                    const num = expandedDefault.indexOf(combined[i]);
-                    if (num !== -1) {
-                        expandedDefault.splice(num, 1);
-                        if (expandedDefault.indexOf(phase) === -1) {
-                            expandedDefault.push(phase);
-                            show = true;
-                        }
+                    if (expandedDefault.indexOf(combined[i]) !== -1) {
+                        show = true;
+                        break;
                     }
                 }
             }

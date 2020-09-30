@@ -4,15 +4,11 @@ go test xtestonly
 ! stdout '^ok.*\[no tests to run\]'
 stdout '^ok'
 
--- go.mod --
-module xtestonly
-
-go 1.16
--- f.go --
+-- xtestonly/f.go --
 package xtestonly
 
 func F() int { return 42 }
--- f_test.go --
+-- xtestonly/f_test.go --
 package xtestonly_test
 
 import (

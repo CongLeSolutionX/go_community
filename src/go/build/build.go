@@ -1072,9 +1072,9 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 		}
 	}
 
-	// If GO111MODULE=auto, look to see if there is a go.mod.
+	// Unless GO111MODULE=on, look to see if there is a go.mod.
 	// Since go1.13, it doesn't matter if we're inside GOPATH.
-	if go111Module == "auto" {
+	if go111Module != "on" {
 		var (
 			parent string
 			err    error
@@ -1754,9 +1754,6 @@ func (ctxt *Context) match(name string, allTags map[string]bool) bool {
 	if ctxt.GOOS == "illumos" && name == "solaris" {
 		return true
 	}
-	if ctxt.GOOS == "ios" && name == "darwin" {
-		return true
-	}
 
 	// other tags
 	for _, tag := range ctxt.BuildTags {
@@ -1784,10 +1781,7 @@ func (ctxt *Context) match(name string, allTags map[string]bool) bool {
 //     name_$(GOARCH)_test.*
 //     name_$(GOOS)_$(GOARCH)_test.*
 //
-// Exceptions:
-// if GOOS=android, then files with GOOS=linux are also matched.
-// if GOOS=illumos, then files with GOOS=solaris are also matched.
-// if GOOS=ios, then files with GOOS=darwin are also matched.
+// An exception: if GOOS=android, then files with GOOS=linux are also matched.
 func (ctxt *Context) goodOSArchFile(name string, allTags map[string]bool) bool {
 	if dot := strings.Index(name, "."); dot != -1 {
 		name = name[:dot]

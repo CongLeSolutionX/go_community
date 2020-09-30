@@ -113,16 +113,12 @@ func dumpCompilerObj(bout *bio.Writer) {
 
 func dumpdata() {
 	externs := len(externdcl)
-	xtops := len(xtop)
 
 	dumpglobls()
 	addptabs()
-	exportlistLen := len(exportlist)
 	addsignats(externdcl)
 	dumpsignats()
 	dumptabs()
-	ptabsLen := len(ptabs)
-	itabsLen := len(itabs)
 	dumpimportstrings()
 	dumpbasictypes()
 
@@ -133,19 +129,9 @@ func dumpdata() {
 	// number of types in a finite amount of code.
 	// In the typical case, we loop 0 or 1 times.
 	// It was not until issue 24761 that we found any code that required a loop at all.
-	for {
-		for i := xtops; i < len(xtop); i++ {
-			n := xtop[i]
-			if n.Op == ODCLFUNC {
-				funccompile(n)
-			}
-		}
-		xtops = len(xtop)
+	for len(compilequeue) > 0 {
 		compileFunctions()
 		dumpsignats()
-		if xtops == len(xtop) {
-			break
-		}
 	}
 
 	// Dump extra globals.
@@ -163,16 +149,6 @@ func dumpdata() {
 	}
 
 	addGCLocals()
-
-	if exportlistLen != len(exportlist) {
-		Fatalf("exportlist changed after compile functions loop")
-	}
-	if ptabsLen != len(ptabs) {
-		Fatalf("ptabs changed after compile functions loop")
-	}
-	if itabsLen != len(itabs) {
-		Fatalf("itabs changed after compile functions loop")
-	}
 }
 
 func dumpLinkerObj(bout *bio.Writer) {

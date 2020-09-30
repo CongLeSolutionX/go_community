@@ -139,18 +139,12 @@ func ssaGenValue387(s *gc.SSAGenState, v *ssa.Value) {
 		// Set precision if needed.  64 bits is the default.
 		switch v.Op {
 		case ssa.Op386ADDSS, ssa.Op386SUBSS, ssa.Op386MULSS, ssa.Op386DIVSS:
-			// Save AX so we can use it as scratch space.
-			p := s.Prog(x86.AMOVL)
-			p.From.Type = obj.TYPE_REG
-			p.From.Reg = x86.REG_AX
+			p := s.Prog(x86.AFSTCW)
 			s.AddrScratch(&p.To)
-			// Install a 32-bit version of the control word.
-			installControlWord(s, gc.ControlWord32, x86.REG_AX)
-			// Restore AX.
-			p = s.Prog(x86.AMOVL)
-			s.AddrScratch(&p.From)
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = x86.REG_AX
+			p = s.Prog(x86.AFLDCW)
+			p.From.Type = obj.TYPE_MEM
+			p.From.Name = obj.NAME_EXTERN
+			p.From.Sym = gc.ControlWord32
 		}
 
 		var op obj.As
@@ -173,7 +167,8 @@ func ssaGenValue387(s *gc.SSAGenState, v *ssa.Value) {
 		// Restore precision if needed.
 		switch v.Op {
 		case ssa.Op386ADDSS, ssa.Op386SUBSS, ssa.Op386MULSS, ssa.Op386DIVSS:
-			restoreControlWord(s)
+			p := s.Prog(x86.AFLDCW)
+			s.AddrScratch(&p.From)
 		}
 
 	case ssa.Op386UCOMISS, ssa.Op386UCOMISD:
@@ -230,11 +225,19 @@ func ssaGenValue387(s *gc.SSAGenState, v *ssa.Value) {
 	case ssa.Op386CVTTSD2SL, ssa.Op386CVTTSS2SL:
 		push(s, v.Args[0])
 
+		// Save control word.
+		p := s.Prog(x86.AFSTCW)
+		s.AddrScratch(&p.To)
+		p.To.Offset += 4
+
 		// Load control word which truncates (rounds towards zero).
-		installControlWord(s, gc.ControlWord64trunc, v.Reg())
+		p = s.Prog(x86.AFLDCW)
+		p.From.Type = obj.TYPE_MEM
+		p.From.Name = obj.NAME_EXTERN
+		p.From.Sym = gc.ControlWord64trunc
 
 		// Now do the conversion.
-		p := s.Prog(x86.AFMOVLP)
+		p = s.Prog(x86.AFMOVLP)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = x86.REG_F0
 		s.AddrScratch(&p.To)
@@ -244,7 +247,9 @@ func ssaGenValue387(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Reg = v.Reg()
 
 		// Restore control word.
-		restoreControlWord(s)
+		p = s.Prog(x86.AFLDCW)
+		s.AddrScratch(&p.From)
+		p.From.Offset += 4
 
 	case ssa.Op386CVTSS2SD:
 		// float32 -> float64 is a nop
@@ -367,37 +372,4 @@ func ssaGenBlock387(s *gc.SSAGenState, b, next *ssa.Block) {
 	flush387(s)
 
 	ssaGenBlock(s, b, next)
-}
-
-// installControlWord saves the current floating-point control
-// word and installs a new one loaded from cw.
-// scratchReg must be an unused register.
-// This call must be paired with restoreControlWord.
-// Bytes 4-5 of the scratch space (s.AddrScratch) are used between
-// this call and restoreControlWord.
-func installControlWord(s *gc.SSAGenState, cw *obj.LSym, scratchReg int16) {
-	// Save current control word.
-	p := s.Prog(x86.AFSTCW)
-	s.AddrScratch(&p.To)
-	p.To.Offset += 4
-
-	// Materialize address of new control word.
-	// Note: this must be a seperate instruction to handle PIE correctly.
-	// See issue 41503.
-	p = s.Prog(x86.ALEAL)
-	p.From.Type = obj.TYPE_MEM
-	p.From.Name = obj.NAME_EXTERN
-	p.From.Sym = cw
-	p.To.Type = obj.TYPE_REG
-	p.To.Reg = scratchReg
-
-	// Load replacement control word.
-	p = s.Prog(x86.AFLDCW)
-	p.From.Type = obj.TYPE_MEM
-	p.From.Reg = scratchReg
-}
-func restoreControlWord(s *gc.SSAGenState) {
-	p := s.Prog(x86.AFLDCW)
-	s.AddrScratch(&p.From)
-	p.From.Offset += 4
 }

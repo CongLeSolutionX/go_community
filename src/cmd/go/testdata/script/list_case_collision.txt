@@ -8,34 +8,30 @@ stderr 'case-insensitive import collision'
 
 # List files explicitly on command line, to encounter case-checking
 # logic even on case-insensitive filesystems.
-cp b/file.go b/FILE.go  # no-op on case-insensitive filesystems
-! go list b/file.go b/FILE.go
+cp example/b/file.go example/b/FILE.go  # no-op on case-insensitive filesystems
+! go list example/b/file.go example/b/FILE.go
 stderr 'case-insensitive file name collision'
 
-mkdir a/Pkg  # no-op on case-insensitive filesystems
-cp a/pkg/pkg.go a/Pkg/pkg.go  # no-op on case-insensitive filesystems
+mkdir example/a/Pkg  # no-op on case-insensitive filesystems
+cp example/a/pkg/pkg.go example/a/Pkg/pkg.go  # no-op on case-insensitive filesystems
 ! go list example/a/pkg example/a/Pkg
 
 # Test that the path reported with an indirect import is correct.
-cp b/file.go b/FILE.go
+cp example/b/file.go example/b/FILE.go
 [case-sensitive] ! go build example/c
 [case-sensitive] stderr '^package example/c\n\timports example/b: case-insensitive file name collision: "FILE.go" and "file.go"$'
 
--- go.mod --
-module example
-
-go 1.16
--- a/a.go --
+-- example/a/a.go --
 package p
 import (
 	_ "example/a/pkg"
 	_ "example/a/Pkg"
 )
--- a/pkg/pkg.go --
+-- example/a/pkg/pkg.go --
 package pkg
--- b/file.go --
+-- example/b/file.go --
 package b
--- c/c.go --
+-- example/c/c.go --
 package c
 
 import _ "example/b"

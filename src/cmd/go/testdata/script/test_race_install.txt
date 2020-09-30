@@ -8,10 +8,6 @@ go install -race -pkgdir=$WORKDIR/tmp/pkg std
 go test -race -pkgdir=$WORKDIR/tmp/pkg -i -v empty/pkg
 ! stderr .
 
--- go.mod --
-module empty
-
-go 1.16
--- pkg/pkg.go --
+-- empty/pkg/pkg.go --
 package p
 
