@@ -63,6 +63,7 @@ type Reloc struct {
 func (rel Reloc) Type() objabi.RelocType { return objabi.RelocType(rel.Reloc.Type()) + rel.typ }
 func (rel Reloc) Sym() Sym               { return rel.l.resolve(rel.r, rel.Reloc.Sym()) }
 func (rel Reloc) SetSym(s Sym)           { rel.Reloc.SetSym(goobj.SymRef{PkgIdx: 0, SymIdx: uint32(s)}) }
+func (rel Reloc) IsMarker() bool         { return rel.Siz() == 0 }
 
 func (rel Reloc) SetType(t objabi.RelocType) {
 	if t != objabi.RelocType(uint8(t)) {
@@ -2155,14 +2156,25 @@ func (l *Loader) LoadSyms(arch *sys.Arch) {
 	l.objSyms = make([]objSym, 1, symSize)
 
 	l.npkgsyms = l.NSym()
+<<<<<<< HEAD   (c863e1 [dev.link] cmd/link: use generator symbols for the rest of p)
+=======
+	// Preallocate some space (a few hundreds KB) for some symbols.
+	// As of Go 1.15, linking cmd/compile has ~8000 hashed64 symbols and
+	// ~27000 hashed symbols.
+>>>>>>> BRANCH (846dce runtime: code cleanup about map)
 	st := loadState{
 		l:            l,
+<<<<<<< HEAD   (c863e1 [dev.link] cmd/link: use generator symbols for the rest of p)
 		hashed64Syms: make(map[uint64]symAndSize, hashed64Size),
 		hashedSyms:   make(map[goobj.HashType]symAndSize, hashedSize),
 	}
 
 	for _, o := range l.objs[goObjStart:] {
 		st.preloadSyms(o.r, pkgDef)
+=======
+		hashed64Syms: make(map[uint64]symAndSize, 10000),
+		hashedSyms:   make(map[goobj.HashType]symAndSize, 30000),
+>>>>>>> BRANCH (846dce runtime: code cleanup about map)
 	}
 	for _, o := range l.objs[goObjStart:] {
 		st.preloadSyms(o.r, hashed64Def)
