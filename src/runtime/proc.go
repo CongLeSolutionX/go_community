@@ -2780,13 +2780,12 @@ func checkTimers(pp *p, now int64) (rnow, pollUntil int64, ran bool) {
 
 	lock(&pp.timersLock)
 
-	adjusttimers(pp)
-
 	rnow = now
 	if len(pp.timers) > 0 {
 		if rnow == 0 {
 			rnow = nanotime()
 		}
+		adjusttimers(pp, rnow)
 		for len(pp.timers) > 0 {
 			// Note that runtimer may temporarily unlock
 			// pp.timersLock.
