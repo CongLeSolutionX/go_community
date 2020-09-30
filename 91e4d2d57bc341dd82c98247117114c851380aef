@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b31c8b5d_d0d561cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-30T22:07:32Z",
+      "side": 1,
+      "message": "Yeah, it looks right this time.\n\nWhy Gerrit shows a Change-Id line in red below the CL description, though? Maybe it doesn\u0027t matter. But it\u0027s weird...\n",
+      "revId": "91e4d2d57bc341dd82c98247117114c851380aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
