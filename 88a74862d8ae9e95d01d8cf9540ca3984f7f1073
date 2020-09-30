@@ -22,6 +22,30 @@
       "revId": "88a74862d8ae9e95d01d8cf9540ca3984f7f1073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "148f1495_2aff0ba5",
+        "filename": "src/cmd/go/testdata/script/mod_get_ambiguous_pkg.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-09-30T18:06:30Z",
+      "side": 1,
+      "message": "The spaces suppress the output for these lines in non-verbose mode.\n\n(The commented-out commands are part of the BUG described at line 62, so they don\u0027t need to be logged separately, but I want to have them around in the code for when that bug is fixed.)",
+      "parentUuid": "4e7c7b4e_f7cfd263",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 1
+      },
+      "revId": "88a74862d8ae9e95d01d8cf9540ca3984f7f1073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
