@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bad37d5_4dc1c817",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-30T15:12:03Z",
+      "side": 1,
+      "message": "You should run this enough times to get statistical significance (based on the data you have, it won\u0027t take a large sample size!)",
+      "range": {
+        "startLine": 16,
+        "startChar": 58,
+        "endLine": 16,
+        "endChar": 79
+      },
+      "revId": "bb5bb110d3b5f26e3577ee99cda0b51c3171fc20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3332b5_e2e37177",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-30T15:12:03Z",
+      "side": 1,
+      "message": "Update",
+      "range": {
+        "startLine": 225,
+        "startChar": 23,
+        "endLine": 225,
+        "endChar": 31
+      },
+      "revId": "bb5bb110d3b5f26e3577ee99cda0b51c3171fc20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeb3e766_4258407a",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-30T15:12:03Z",
+      "side": 1,
+      "message": "Thanks for adding this, but I\u0027m not sure I could come back to this TODO in a year and understand it. I spent a few minutes tracking this down more. It turns out these offsets ultimately come from linkpcln in cmd/internal/obj/pcln.go, which just gets them from Prog.To.Offset. This sort of makes sense because in assembly you could write FUNCDATA $0, sym+off(SB) and it\u0027s just supporting the full generality allowed by the symbol offset. In practice, if you look at everywhere the compiler produces an AFUNCDATA Prog (there aren\u0027t many), it never sets To.Offset.\n\nSo now I don\u0027t know. It sort of makes sense to plumb this through even though the compiler doesn\u0027t presently use it. Maybe we should drop the TODO and just clarify that fdOffs are \"byte offsets into the corresponding fdSyms\"?",
+      "range": {
+        "startLine": 620,
+        "startChar": 3,
+        "endLine": 620,
+        "endChar": 53
+      },
+      "revId": "bb5bb110d3b5f26e3577ee99cda0b51c3171fc20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
