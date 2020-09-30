@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e7c7b4e_f7cfd263",
+        "filename": "src/cmd/go/testdata/script/mod_get_ambiguous_pkg.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-09-30T18:04:26Z",
+      "side": 1,
+      "message": "should there be spaces before the comments here?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 1
+      },
+      "revId": "88a74862d8ae9e95d01d8cf9540ca3984f7f1073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
