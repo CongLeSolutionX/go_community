@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e5fb53ca_682433f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-09-30T20:27:42Z",
+      "side": 1,
+      "message": "Ah, determinism.\n\nFor future reference, in cases where you know there\u0027s no uncertainty, you can pass -delta-test\u003dnone to benchstat.",
+      "parentUuid": "e53f5434_e6d2a753",
+      "range": {
+        "startLine": 16,
+        "startChar": 58,
+        "endLine": 16,
+        "endChar": 79
+      },
+      "revId": "bb5bb110d3b5f26e3577ee99cda0b51c3171fc20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb3332b5_e2e37177",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 9
