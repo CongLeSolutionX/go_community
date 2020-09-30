@@ -501,8 +501,9 @@ loop:
 		if newStatus == timerModifiedEarlier {
 			adjust++
 		}
+		tpp := t.pp.ptr()
 		if adjust != 0 {
-			atomic.Xadd(&t.pp.ptr().adjustTimers, adjust)
+			atomic.Xadd(&tpp.adjustTimers, adjust)
 		}
 
 		// Set the new status of the timer.
@@ -513,6 +514,7 @@ loop:
 
 		// If the new status is earlier, wake up the poller.
 		if newStatus == timerModifiedEarlier {
+			updateFirstModifiedEarlierWhen(tpp, when)
 			wakeNetPoller(when)
 		}
 	}
@@ -637,16 +639,33 @@ func moveTimers(pp *p, timers []*timer) {
 // the correct place in the heap. While looking for those timers,
 // it also moves timers that have been modified to run later,
 // and removes deleted timers. The caller must have locked the timers for pp.
-func adjusttimers(pp *p) {
-	if len(pp.timers) == 0 {
-		return
-	}
+func adjusttimers(pp *p, now int64) {
 	if atomic.Load(&pp.adjustTimers) == 0 {
 		if verifyTimers {
 			verifyTimerHeap(pp)
 		}
+		atomic.Store64(&pp.timerFirstModifiedEarlierWhen, 0)
 		return
 	}
+
+	// If we haven't yet reached the time of the first timerModifiedEarlier
+	// timer, don't do anything. This speeds up programs that adjust
+	// a lot of timers back and forth if the timers rarely expire.
+	// We'll postpone looking through all the adjusted timers until
+	// one would actually expire.
+	first := atomic.Load64(&pp.timerFirstModifiedEarlierWhen)
+	if first != 0 {
+		if int64(first) > now {
+			if verifyTimers {
+				verifyTimerHeap(pp)
+			}
+			return
+		}
+
+		// We are going to clear all timerModifiedEarlier timers.
+		atomic.Store64(&pp.timerFirstModifiedEarlierWhen, 0)
+	}
+
 	var moved []*timer
 loop:
 	for i := 0; i < len(pp.timers); i++ {
@@ -974,6 +993,21 @@ func updateTimer0When(pp *p) {
 		atomic.Store64(&pp.timer0When, 0)
 	} else {
 		atomic.Store64(&pp.timer0When, uint64(pp.timers[0].when))
+	}
+}
+
+// updateFirstModifiedEarlierWhen updates the recorded nextwhen field of the
+// earlier timerModifiedEarier value.
+// The timers for pp will not be locked.
+func updateFirstModifiedEarlierWhen(pp *p, nextwhen int64) {
+	for {
+		old := atomic.Load64(&pp.timerFirstModifiedEarlierWhen)
+		if old != 0 && int64(old) < nextwhen {
+			return
+		}
+		if atomic.Cas64(&pp.timerFirstModifiedEarlierWhen, old, uint64(nextwhen)) {
+			return
+		}
 	}
 }
 
