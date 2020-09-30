@@ -16,6 +16,23 @@
       "revId": "f861f6160ad6dac215f0f95e85239033565ede7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f97e6b2_11f31833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-09-30T20:22:19Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2: TryBot-Result-1\n\u003e \n\u003e 1 of 21 SlowBots failed:\n\u003e Failed on netbsd-arm64-bsiegert: https://storage.googleapis.com/go-build-log/f861f616/netbsd-arm64-bsiegert_b3a923a4.log\n\nTrybot failure looks unrelated:\n  \n --- FAIL: TestCheckPtr (19.96s)\n    checkptr_test.go:20: building testprog [-gcflags\u003dall\u003d-d\u003dcheckptr\u003d1]: exit status 1\n        go build runtime: /var/gobuilder/buildlet/go/pkg/tool/netbsd_arm64/compile: exit status 16962\n        \nFAIL\nFAIL\truntime\t213.125s\n\nI think I\u0027ve seen the \"exit status 16962\" on other CLs. Maybe some OOM condition or such?",
+      "revId": "f861f6160ad6dac215f0f95e85239033565ede7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
