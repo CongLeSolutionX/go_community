@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4428f788_2774a73c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-30T21:02:53Z",
+      "side": 1,
+      "message": "Sorry for not picking up on that... The [dev.link] threw me off.",
+      "revId": "7f62382bd8adace54a473a2c8724f34139ccedc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
