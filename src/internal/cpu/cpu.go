@@ -18,8 +18,8 @@ const (
 	// so it's always safe to allocate the same
 	// space for both by just using the *ArgRegisters
 	// constants.
-	IntParamRegisters   = 0
-	FloatParamRegisters = 0
+	IntParamRegisters   = 9
+	FloatParamRegisters = 15
 	MaxFloatBytes       = 8
 )
 
