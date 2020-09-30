@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2190168c_b7027c59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-30T22:18:31Z",
+      "side": 1,
+      "message": "As you already merged master to dev.link, could you just merge that back, so there is no conflict?",
+      "revId": "c70fbafdaeba80496eb340223db31539657cda27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
