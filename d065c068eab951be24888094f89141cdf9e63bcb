@@ -134,6 +134,23 @@
       "revId": "d065c068eab951be24888094f89141cdf9e63bcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23cd3bdc_a2b6095b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-09-30T18:20:45Z",
+      "side": 1,
+      "message": "Interesting. When I created the original checkin comment I wrote this paragraph:\n\n:During Go 1.16 development, the fix in https://golang.org/cl/235739\n:was revised so as to fix another related problem (described in issue\n:#39757)\n\nand it looks as though the friendly gerrit bots auto-trimmed away that last line. I\u0027ll reword it\nso as to avoid any interference from the automation.\n",
+      "revId": "d065c068eab951be24888094f89141cdf9e63bcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
