@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ecb2be5_446bb179",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-09-30T20:47:36Z",
+      "side": 1,
+      "message": "Oh, I have forgotten this. Didn\u0027t realize this hasn\u0027t merged.",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 391,
+        "endChar": 0
+      },
+      "revId": "7bf60b9707cb66fb4f64eb93ff8d10d7234c3b12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
