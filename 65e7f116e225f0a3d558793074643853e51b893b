@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1198e4c6_6f50e503",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "Not quite done yet, still some more edge cases to test but bugs at this point should be trivial to fix and not require a total upheaval. However, I\u0027m not totally happy with how I wrote it so far (though, happier than before) so feedback is welcome in that regard if you have some time or are otherwise curious. If not, I\u0027ll just ping again when it\u0027s actually ready for review.",
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40eff48b_5425bdd5",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "This should be Param to align with the rest of the code.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 7
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff00ddae_ceb2de5f",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3018,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "I _think_ I like this detail, but because this is insufficient for actually stack-assigning a parameter it\u0027s hard to make it the key bit in abiParam. maybe with some reorganization I could make this the case. then a zero-value abiParam means \"stack-assign\" instead of \"assign 0 int/float registers at index 0/0.\"",
+      "range": {
+        "startLine": 3017,
+        "startChar": 0,
+        "endLine": 3018,
+        "endChar": 48
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60502f1e_7e0cb45c",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3019,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "not totally happy with how all this works. open to input.",
+      "range": {
+        "startLine": 2995,
+        "startChar": 0,
+        "endLine": 3019,
+        "endChar": 39
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5654f5d9_dafd21b7",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3065,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "it\u0027s a little unfortunate this detail needs to be re-checked to other functions (e.g. assignRegParam) but it\u0027s pretty much only this so it\u0027s not terrible. the abiParam could have a field which indicates this somehow also.",
+      "range": {
+        "startLine": 3062,
+        "startChar": 3,
+        "endLine": 3065,
+        "endChar": 4
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc050737_d2cc5847",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3130,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "bleh. it\u0027s not much code but it feels spaghetti-esque.",
+      "range": {
+        "startLine": 3110,
+        "startChar": 2,
+        "endLine": 3130,
+        "endChar": 3
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adb851d1_0acefa20",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3148,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "bleh. I originally had this state encapsulated, perhaps I should go back to that.",
+      "range": {
+        "startLine": 3146,
+        "startChar": 1,
+        "endLine": 3148,
+        "endChar": 26
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3a92a7b_2cda9cec",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3198,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "a slightly unfortunate detail that pops up in one other place. perhaps a more structured abiLayout type could help smooth this out.",
+      "range": {
+        "startLine": 3198,
+        "startChar": 14,
+        "endLine": 3198,
+        "endChar": 23
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ea79b5_37fd9613",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "gah, flagIndir makes this really annoying to write concisely. I thought I could get around this by just passing the right value for p but I\u0027m not sure I can because it won\u0027t work right for recursive calls.",
+      "range": {
+        "startLine": 456,
+        "startChar": 1,
+        "endLine": 467,
+        "endChar": 3
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccaa4468_14ac9c95",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure there\u0027s really a way around this. We don\u0027t have space for it and the register state doesn\u0027t count because it could be a struct that has floats and ints splayed across the structure, so we\u0027re not guaranteed to actually have enough space.",
+      "range": {
+        "startLine": 665,
+        "startChar": 3,
+        "endLine": 667,
+        "endChar": 40
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3043e77d_2a43005a",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "this, plus reflectcall accepting a frameSize parameter, is the extent of additional code for the spill space.",
+      "range": {
+        "startLine": 670,
+        "startChar": 3,
+        "endLine": 677,
+        "endChar": 39
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b63696b_df957e7a",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "the callers of callMethod and callReflect need to change to allocate appropriate spill space on the stack and pass it into those respective functions. unfortunately I can\u0027t actually do that until the register ABI is more widely available.",
+      "range": {
+        "startLine": 934,
+        "startChar": 5,
+        "endLine": 934,
+        "endChar": 15
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4764eada_74af79e2",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-09-30T01:02:40Z",
+      "side": 1,
+      "message": "this check could be done in callRet and save some space.",
+      "range": {
+        "startLine": 584,
+        "startChar": 1,
+        "endLine": 585,
+        "endChar": 17
+      },
+      "revId": "65e7f116e225f0a3d558793074643853e51b893b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
