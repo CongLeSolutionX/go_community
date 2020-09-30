@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "cfd69ed8_cbced396",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-09-30T18:15:04Z",
+      "side": 1,
+      "message": "Missing issue number?  And missing close parenthesis.",
+      "range": {
+        "startLine": 21,
+        "startChar": 50,
+        "endLine": 21,
+        "endChar": 68
+      },
+      "revId": "d065c068eab951be24888094f89141cdf9e63bcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "252206b9_1a82db5e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
