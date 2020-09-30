@@ -457,7 +457,6 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$0
 
 // spillParams stores return values from registers to a pointer in R12.
 TEXT spillParams<>(SB),NOSPLIT,$0-0
-/*
 	MOVQ AX, 0(R12)
 	MOVQ BX, 8(R12)
 	MOVQ CX, 16(R12)
@@ -482,12 +481,10 @@ TEXT spillParams<>(SB),NOSPLIT,$0-0
 	MOVQ X12, 168(R12)
 	MOVQ X13, 176(R12)
 	MOVQ X14, 184(R12)
-*/
 	RET
 
 // unspillParams loads args into registers from a pointer in R12.
 TEXT unspillParams<>(SB),NOSPLIT,$0-0
-/*
 	MOVQ 0(R12), AX
 	MOVQ 8(R12), BX
 	MOVQ 16(R12), CX
@@ -512,7 +509,6 @@ TEXT unspillParams<>(SB),NOSPLIT,$0-0
 	MOVQ 168(R12), X12
 	MOVQ 176(R12), X13
 	MOVQ 184(R12), X14
-*/
 	RET
 	
 // reflectcall: call a function with the given argument list
