@@ -16,6 +16,24 @@
       "revId": "c70fbafdaeba80496eb340223db31539657cda27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9b2f4b4_62ed48b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-10-01T13:54:49Z",
+      "side": 1,
+      "message": "Git rebase and git merge both have conflicts. Not sure I follow you?",
+      "parentUuid": "2190168c_b7027c59",
+      "revId": "c70fbafdaeba80496eb340223db31539657cda27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
