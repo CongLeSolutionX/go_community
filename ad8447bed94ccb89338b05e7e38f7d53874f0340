@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72584485_2bdd1b69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-01T19:10:02Z",
+      "side": 1,
+      "message": "This seems to break some 32-bit ARM builders, e.g. https://build.golang.org/log/b6b1624a3d96699f30cc44e156fe6290c6c4828d\nBut the error doesn\u0027t make sense...\n",
+      "revId": "ad8447bed94ccb89338b05e7e38f7d53874f0340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
