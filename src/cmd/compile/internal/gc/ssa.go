@@ -11,7 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
-
+	"strings"
 	"bufio"
 	"bytes"
 	"cmd/compile/internal/ssa"
@@ -313,6 +313,13 @@ func buildssa(fn *Node, worker int) *ssa.Func {
 	s.hasdefer = fn.Func.HasDefer()
 	if fn.Func.Pragma&CgoUnsafeArgs != 0 {
 		s.cgoUnsafeArgs = true
+	}
+
+	if fn.Func.Pragma&RegisterParams != 0 {
+		if strings.Contains(name, ".") {
+			yyerrorl(fn.Pos, "Calls to //go:registerparams method %s won't work, remove the pragma from the declaration.\n", name)
+		}
+		fmt.Printf("Declared function %s has register params\n", name)
 	}
 
 	fe := ssafn{
@@ -4372,6 +4379,7 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	}
 
 	testLateExpansion := false
+	inRegisters := false
 
 	switch n.Op {
 	case OCALLFUNC:
@@ -4379,7 +4387,13 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 			testLateExpansion = true
 		}
 		if k == callNormal && fn.Op == ONAME && fn.Class() == PFUNC {
+			inRegisters1 := fn.Func != nil && fn.Func.Pragma&RegisterParams != 0
+			inRegisters2 := fn.Name != nil && fn.Name.Defn != nil && fn.Name.Defn.Func != nil && fn.Name.Defn.Func.Pragma&RegisterParams != 0
+			inRegisters = inRegisters1 || inRegisters2
 			sym = fn.Sym
+			if inRegisters {
+				fmt.Printf("Called function %s has register params, %v, %v\n", sym.Linksym().Name, inRegisters1, inRegisters2)
+			}
 			break
 		}
 		closure = s.expr(fn)

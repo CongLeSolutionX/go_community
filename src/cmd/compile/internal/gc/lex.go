@@ -40,6 +40,7 @@ const (
 	NoCheckPtr                // func should not be instrumented by checkptr
 	CgoUnsafeArgs             // treat a pointer to one arg as a pointer to them all
 	UintptrEscapes            // pointers converted to uintptr escape
+	RegisterParams            // (some) params passed in registers; for new-ABI dev/test purposes
 
 	// Runtime-only func pragmas.
 	// See ../../../../runtime/README.md for detailed descriptions.
@@ -61,6 +62,7 @@ const (
 		NoCheckPtr |
 		CgoUnsafeArgs |
 		UintptrEscapes |
+		RegisterParams |
 		Systemstack |
 		Nowritebarrier |
 		Nowritebarrierrec |
@@ -108,6 +110,8 @@ func pragmaFlag(verb string) PragmaFlag {
 		// in the argument list.
 		// Used in syscall/dll_windows.go.
 		return UintptrEscapes
+	case "go:registerparams":
+		return RegisterParams
 	case "go:notinheap":
 		return NotInHeap
 	}
