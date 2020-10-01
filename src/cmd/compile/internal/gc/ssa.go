@@ -321,6 +321,13 @@ func buildssa(fn *Node, worker int) *ssa.Func {
 		s.cgoUnsafeArgs = true
 	}
 
+	if fn.Func.Pragma&RegisterParams != 0 {
+		if strings.Contains(name, ".") {
+			yyerrorl(fn.Pos, "Calls to //go:registerparams method %s won't work, remove the pragma from the declaration.\n", name)
+		}
+		fmt.Printf("Declared function %s has register params\n", name)
+	}
+
 	fe := ssafn{
 		curfn: fn,
 		log:   printssa && ssaDumpStdout,
@@ -4372,13 +4379,20 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	}
 
 	testLateExpansion := false
+	inRegisters := false
 
 	switch n.Op {
 	case OCALLFUNC:
 		if k == callNormal && fn.Op == ONAME && fn.Class() == PFUNC {
+			inRegisters1 := fn.Func != nil && fn.Func.Pragma&RegisterParams != 0
+			inRegisters2 := fn.Name != nil && fn.Name.Defn != nil && fn.Name.Defn.Func != nil && fn.Name.Defn.Func.Pragma&RegisterParams != 0
+			inRegisters = inRegisters1 || inRegisters2
 			sym = fn.Sym
 			if !returnResultAddr && strings.Contains(sym.Name, "testLateExpansion") {
 				testLateExpansion = true
+			}
+			if inRegisters {
+				fmt.Printf("Called function %s has register params, %v, %v\n", sym.Linksym().Name, inRegisters1, inRegisters2)
 			}
 			break
 		}
