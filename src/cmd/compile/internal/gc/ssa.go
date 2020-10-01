@@ -5,14 +5,6 @@
 package gc
 
 import (
-	"encoding/binary"
-	"fmt"
-	"go/constant"
-	"html"
-	"os"
-	"path/filepath"
-	"sort"
-
 	"bufio"
 	"bytes"
 	"cmd/compile/internal/base"
@@ -24,6 +16,14 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"cmd/internal/sys"
+	"encoding/binary"
+	"fmt"
+	"go/constant"
+	"html"
+	"os"
+	"path/filepath"
+	"sort"
+	"strings"
 )
 
 var ssaConfig *ssa.Config
@@ -321,6 +321,13 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	s.hasdefer = fn.HasDefer()
 	if fn.Pragma&ir.CgoUnsafeArgs != 0 {
 		s.cgoUnsafeArgs = true
+	}
+
+	if fn.Func().Pragma&ir.RegisterParams != 0 {
+		if strings.Contains(name, ".") {
+			base.ErrorfAt(fn.Pos(), "Calls to //go:registerparams method %s won't work, remove the pragma from the declaration.\n", name)
+		}
+		fmt.Printf("Declared function %s has register params\n", name)
 	}
 
 	fe := ssafn{
@@ -4646,12 +4653,19 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 	}
 
 	testLateExpansion := false
+	inRegisters := false
 
 	switch n.Op() {
 	case ir.OCALLFUNC:
 		testLateExpansion = k != callDeferStack && ssa.LateCallExpansionEnabledWithin(s.f)
 		if k == callNormal && fn.Op() == ir.ONAME && fn.(*ir.Name).Class() == ir.PFUNC {
+			inRegisters1 := fn.Func() != nil && fn.Func().Pragma&ir.RegisterParams != 0
+			inRegisters2 := fn.Name() != nil && fn.Name().Defn != nil && fn.Name().Defn.Func() != nil && fn.Name().Defn.Func().Pragma&ir.RegisterParams != 0
+			inRegisters = inRegisters1 || inRegisters2
 			sym = fn.Sym()
+			if inRegisters {
+				fmt.Printf("Called function %s has register params, %v, %v\n", sym.Linksym().Name, inRegisters1, inRegisters2)
+			}
 			break
 		}
 		closure = s.expr(fn)

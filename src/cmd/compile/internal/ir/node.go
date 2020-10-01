@@ -607,6 +607,8 @@ const (
 
 	// Go command pragmas
 	GoBuildPragma
+
+	RegisterParams // TODO remove this when testing of register parames is done.
 )
 
 func AsNode(n types.Object) Node {

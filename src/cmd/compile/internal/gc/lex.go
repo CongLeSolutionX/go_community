@@ -84,6 +84,8 @@ func pragmaFlag(verb string) ir.PragmaFlag {
 		// in the argument list.
 		// Used in syscall/dll_windows.go.
 		return ir.UintptrEscapes
+	case "go:registerparams":
+		return ir.RegisterParams
 	case "go:notinheap":
 		return ir.NotInHeap
 	}

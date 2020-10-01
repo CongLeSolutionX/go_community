@@ -975,6 +975,12 @@ func (w *exportWriter) funcExt(n *ir.Name) {
 	w.linkname(n.Sym())
 	w.symIdx(n.Sym())
 
+	pragma := ir.PragmaFlag(0)
+	if n.Name() != nil && n.Name().Defn != nil && n.Name().Defn.Func() != nil && n.Name().Defn.Func().Pragma != 0 {
+		pragma = n.Name().Defn.Func().Pragma
+	}
+	w.uint64(uint64(pragma))
+
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
 		for _, f := range fs(n.Type()).FieldSlice() {

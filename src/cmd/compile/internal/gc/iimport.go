@@ -634,6 +634,8 @@ func (r *importReader) funcExt(n ir.Node) {
 	r.linkname(n.Sym())
 	r.symIdx(n.Sym())
 
+	n.Func().Pragma = ir.PragmaFlag(r.uint64())
+
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
 		for _, f := range fs(n.Type()).FieldSlice() {
