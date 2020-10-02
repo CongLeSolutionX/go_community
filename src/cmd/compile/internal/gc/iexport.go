@@ -239,6 +239,8 @@ const (
 	signatureType
 	structType
 	interfaceType
+
+	notinheapTypeFlag = 16
 )
 
 func iexport(out *bufio.Writer) {
@@ -625,47 +627,51 @@ func (w *exportWriter) startType(k itag) {
 }
 
 func (w *exportWriter) doTyp(t *types.Type) {
+	var flags itag
+	if t.NotInHeap() {
+		flags |= notinheapTypeFlag
+	}
 	if t.Sym != nil {
 		if t.Sym.Pkg == builtinpkg || t.Sym.Pkg == unsafepkg {
 			Fatalf("builtin type missing from typIndex: %v", t)
 		}
 
-		w.startType(definedType)
+		w.startType(definedType | flags)
 		w.qualifiedIdent(typenod(t))
 		return
 	}
 
 	switch t.Etype {
 	case TPTR:
-		w.startType(pointerType)
+		w.startType(pointerType | flags)
 		w.typ(t.Elem())
 
 	case TSLICE:
-		w.startType(sliceType)
+		w.startType(sliceType | flags)
 		w.typ(t.Elem())
 
 	case TARRAY:
-		w.startType(arrayType)
+		w.startType(arrayType | flags)
 		w.uint64(uint64(t.NumElem()))
 		w.typ(t.Elem())
 
 	case TCHAN:
-		w.startType(chanType)
+		w.startType(chanType | flags)
 		w.uint64(uint64(t.ChanDir()))
 		w.typ(t.Elem())
 
 	case TMAP:
-		w.startType(mapType)
+		w.startType(mapType | flags)
 		w.typ(t.Key())
 		w.typ(t.Elem())
 
 	case TFUNC:
-		w.startType(signatureType)
+		w.startType(signatureType | flags)
 		w.setPkg(t.Pkg(), true)
 		w.signature(t)
 
 	case TSTRUCT:
-		w.startType(structType)
+		w.startType(structType | flags)
 		w.setPkg(t.Pkg(), true)
 
 		w.uint64(uint64(t.NumFields()))
@@ -687,7 +693,7 @@ func (w *exportWriter) doTyp(t *types.Type) {
 			}
 		}
 
-		w.startType(interfaceType)
+		w.startType(interfaceType | flags)
 		w.setPkg(t.Pkg(), true)
 
 		w.uint64(uint64(len(embeddeds)))
