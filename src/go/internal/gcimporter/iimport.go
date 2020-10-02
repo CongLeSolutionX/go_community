@@ -54,6 +54,8 @@ const (
 	signatureType
 	structType
 	interfaceType
+
+	notinheapTypeFlag = 16
 )
 
 // iImportData imports a package from the serialized package data
@@ -490,7 +492,7 @@ func (r *importReader) pkg() *types.Package { return r.p.pkgAt(r.uint64()) }
 func (r *importReader) string() string      { return r.p.stringAt(r.uint64()) }
 
 func (r *importReader) doType(base *types.Named) types.Type {
-	switch k := r.kind(); k {
+	switch k := r.kind() &^ notinheapTypeFlag; k {
 	default:
 		errorf("unexpected kind tag in %q: %v", r.p.ipath, k)
 		return nil
