@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "774d97ae_76442599",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-02T15:24:46Z",
+      "side": 1,
+      "message": "This doesn\u0027t match what the CL actually does.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a042e9df_9c7f2e14",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 12
+      },
+      "lineNbr": 1995,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-02T15:24:46Z",
+      "side": 1,
+      "message": "I think you can use symIsRO. It is not limited to strings, but any RO global.",
+      "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd3ba5c1_8ce3525c",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-02T15:24:46Z",
+      "side": 1,
+      "message": "Maybe worth mentioning it includes the memory argument.",
+      "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
