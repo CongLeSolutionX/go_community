@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "1981e5aa_10927163",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-02T19:11:06Z",
+      "side": 1,
+      "message": "If LDANDALB instruction doesn\u0027t actually do an AND, that seems wrong. We should fix that, by either renaming the instruction, or expanding it to MVN+LDCLRALB in the assembler backend.",
+      "parentUuid": "6eb435fa_1322eedf",
+      "range": {
+        "startLine": 793,
+        "startChar": 5,
+        "endLine": 793,
+        "endChar": 8
+      },
+      "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5b33581_f7ed2ace",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 6
