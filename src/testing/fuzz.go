@@ -14,9 +14,13 @@ import (
 
 func initFuzzFlags() {
 	matchFuzz = flag.String("test.fuzz", "", "run the fuzz target matching `regexp`")
+	isFuzzWorker = flag.Bool("test.fuzzworker", false, "coordinate with the parent process to fuzz random values")
 }
 
-var matchFuzz *string
+var (
+	matchFuzz    *string
+	isFuzzWorker *bool
+)
 
 // InternalFuzzTarget is an internal type but exported because it is cross-package;
 // it is part of the implementation of the "go test" command.
@@ -32,7 +36,6 @@ type F struct {
 	corpus     []corpusEntry // corpus is the in-memory corpus
 	result     FuzzResult    // result is the result of running the fuzz target
 	fuzzFunc   func(f *F)    // fuzzFunc is the function which makes up the fuzz target
-	fuzz       bool          // fuzz indicates whether the fuzzing engine should run
 	fuzzCalled bool          // fuzzCalled indicates whether f.Fuzz has been called for this target
 }
 
@@ -101,7 +104,41 @@ func (f *F) Fuzz(ff interface{}) {
 		t.finished = true
 	}
 
-	// Run the seed corpus first
+	// If this is a worker process, follow instructions from the coordinator
+	// (parent) process. Don't run the fuzz function with the seed corpus; the
+	// coordinator does that, and we don't want all workers to repeat the same
+	// work.
+	if f.context.runFuzzWorker != nil {
+		err := f.context.runFuzzWorker(func(input []byte) error {
+			t := &T{
+				common: common{
+					signal: make(chan bool),
+					w:      f.w,
+					chatty: f.chatty,
+				},
+				context: newTestContext(1, nil),
+			}
+			go run(t, input)
+			<-t.signal
+			if t.Failed() {
+				return errors.New(string(t.output))
+			}
+			return nil
+		})
+		if err != nil {
+			// TODO(jayconrod,katiehockman): how should we handle a failure to
+			// communicate with the coordinator? Might be caused by the coordinator
+			// terminating early.
+			fmt.Fprintf(os.Stderr, "testing: communicating with fuzz coordinator: %v\n", err)
+			os.Exit(1)
+		}
+		// TODO(jayconrod,katiehockman): should we set FuzzResult? It probably
+		// doesn't matter for workers, but the coordinator could aggregate
+		// statistics across workers.
+		return
+	}
+
+	// Run the seed corpus.
 	for _, c := range f.corpus {
 		t := &T{
 			common: common{
@@ -123,7 +160,15 @@ func (f *F) Fuzz(ff interface{}) {
 		return
 	}
 
-	// TODO: if f.fuzz is set, run fuzzing engine
+	// If fuzzing is enabled, act as the coordinator process. Start worker
+	// processes to perform the actual fuzzing.
+	if f.context.coordinateFuzzing != nil {
+		seed := make([][]byte, len(f.corpus))
+		for i, e := range f.corpus {
+			seed[i] = e.b
+		}
+		f.context.coordinateFuzzing(*parallel, seed)
+	}
 }
 
 func (f *F) report() {
@@ -201,15 +246,10 @@ func (r FuzzResult) String() string {
 
 // fuzzContext holds all fields that are common to all fuzz targets.
 type fuzzContext struct {
-	runMatch  *matcher
-	fuzzMatch *matcher
-}
-
-// RunFuzzTargets is an internal function but exported because it is cross-package;
-// it is part of the implementation of the "go test" command.
-func RunFuzzTargets(matchString func(pat, str string) (bool, error), fuzzTargets []InternalFuzzTarget) (ok bool) {
-	_, ok = runFuzzTargets(matchString, fuzzTargets)
-	return ok
+	runMatch          *matcher
+	fuzzMatch         *matcher
+	coordinateFuzzing func(int, [][]byte) error
+	runFuzzWorker     func(func([]byte) error) error
 }
 
 // runFuzzTargets runs the fuzz targets matching the pattern for -run. This will
@@ -217,7 +257,7 @@ func RunFuzzTargets(matchString func(pat, str string) (bool, error), fuzzTargets
 // engine to generate or mutate inputs.
 func runFuzzTargets(matchString func(pat, str string) (bool, error), fuzzTargets []InternalFuzzTarget) (ran, ok bool) {
 	ok = true
-	if len(fuzzTargets) == 0 {
+	if len(fuzzTargets) == 0 || *isFuzzWorker {
 		return ran, ok
 	}
 	ctx := &fuzzContext{runMatch: newMatcher(matchString, *match, "-test.run")}
@@ -248,25 +288,21 @@ func runFuzzTargets(matchString func(pat, str string) (bool, error), fuzzTargets
 	return ran, ok
 }
 
-// RunFuzzing is an internal function but exported because it is cross-package;
-// it is part of the implementation of the "go test" command.
-func RunFuzzing(matchString func(pat, str string) (bool, error), fuzzTargets []InternalFuzzTarget) (ok bool) {
-	_, ok = runFuzzing(matchString, fuzzTargets)
-	return ok
-}
-
 // runFuzzing runs the fuzz target matching the pattern for -fuzz. Only one such
 // fuzz target must match. This will run the fuzzing engine to generate and
 // mutate new inputs against the f.Fuzz function.
-func runFuzzing(matchString func(pat, str string) (bool, error), fuzzTargets []InternalFuzzTarget) (ran, ok bool) {
-	if len(fuzzTargets) == 0 {
+//
+// If fuzzing is disabled (-test.fuzz is not set), runFuzzing
+// returns immediately.
+func runFuzzing(deps testDeps, fuzzTargets []InternalFuzzTarget) (ran, ok bool) {
+	if len(fuzzTargets) == 0 || *matchFuzz == "" {
 		return false, true
 	}
-	ctx := &fuzzContext{
-		fuzzMatch: newMatcher(matchString, *matchFuzz, "-test.fuzz"),
-	}
-	if *matchFuzz == "" {
-		return false, true
+	ctx := &fuzzContext{fuzzMatch: newMatcher(deps.MatchString, *matchFuzz, "-test.fuzz")}
+	if *isFuzzWorker {
+		ctx.runFuzzWorker = deps.RunFuzzWorker
+	} else {
+		ctx.coordinateFuzzing = deps.CoordinateFuzzing
 	}
 	f := &F{
 		common: common{
@@ -274,7 +310,6 @@ func runFuzzing(matchString func(pat, str string) (bool, error), fuzzTargets []I
 			w:      os.Stdout,
 		},
 		context: ctx,
-		fuzz:    true,
 	}
 	var (
 		ft    InternalFuzzTarget
