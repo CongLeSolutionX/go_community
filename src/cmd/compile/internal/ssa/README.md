@@ -184,6 +184,27 @@ compile passes, making it easy to see what each pass does to a particular
 program. You can also click on values and blocks to highlight them, to help
 follow the control flow and values.
 
+For finer control of exactly which function has its SSA rendered into html,
+use the fully-slash-separated package name of the function in question,
+for example:
+
+	GOSSAFUNC=main.main go build .
+
+Sometimes the function you need to examine is in a file obtained via
+Go's module system, and is not stored or compiled in a writeable
+directory.  In that case, specify `GOSSADIR` to set an alternate,
+writeable directory for output html. In this case, the generated file
+will be named after the function or method, and if it appears in a
+package with slashes in its name, it will be placed in a subdirectory
+created for it.  For example:
+
+	GOSSADIR=/tmp/ssaok \
+	GOSSAFUNC=makeToplevelFunction \
+	go get -u github.com/go-delve/delve/...
+
+which will create `/tmp/ssaok/go.starlark.net/starlark.makeToplevelFunction.html`
+
+
 <!---
 TODO: need more ideas for this section
 -->
