@@ -207,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "40145b4d_110b1d7a",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-10-02T19:13:53Z",
+      "side": 1,
+      "message": "Just to check, the AtomicOr8 also would not need the unsafePoint flag. Correct?",
+      "parentUuid": "412dabab_78c8c3e3",
+      "range": {
+        "startLine": 627,
+        "startChar": 137,
+        "endLine": 627,
+        "endChar": 154
+      },
+      "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94a3f4cf_8435d1a6",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 6
