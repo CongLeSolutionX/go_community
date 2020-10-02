@@ -664,12 +664,12 @@ func typesEqual(t, v *_type, seen map[_typePair]struct{}) bool {
 		if it.pkgpath.name() != iv.pkgpath.name() {
 			return false
 		}
-		if len(it.mhdr) != len(iv.mhdr) {
+		if cap(it.mhdr) != cap(iv.mhdr) {
 			return false
 		}
-		for i := range it.mhdr {
-			tm := &it.mhdr[i]
-			vm := &iv.mhdr[i]
+		for i := range it.mhdr[:cap(it.mhdr)] {
+			tm := &it.mhdr[:cap(it.mhdr)][i]
+			vm := &iv.mhdr[:cap(iv.mhdr)][i]
 			// Note the mhdr array can be relocated from
 			// another module. See #17724.
 			tname := resolveNameOff(unsafe.Pointer(tm), tm.name)

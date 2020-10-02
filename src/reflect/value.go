@@ -635,10 +635,10 @@ func methodReceiver(op string, v Value, methodIndex int) (rcvrtype *rtype, t *fu
 	i := methodIndex
 	if v.typ.Kind() == Interface {
 		tt := (*interfaceType)(unsafe.Pointer(v.typ))
-		if uint(i) >= uint(len(tt.methods)) {
+		if uint(i) >= uint(cap(tt.methods)) {
 			panic("reflect: internal error: invalid method index")
 		}
-		m := &tt.methods[i]
+		m := &tt.methods[:cap(tt.methods)][i]
 		if !tt.nameOff(m.name).isExported() {
 			panic("reflect: " + op + " of unexported method")
 		}
@@ -1908,10 +1908,10 @@ func (v Value) Type() Type {
 	if v.typ.Kind() == Interface {
 		// Method on interface.
 		tt := (*interfaceType)(unsafe.Pointer(v.typ))
-		if uint(i) >= uint(len(tt.methods)) {
+		if uint(i) >= uint(cap(tt.methods)) {
 			panic("reflect: internal error: invalid method index")
 		}
-		m := &tt.methods[i]
+		m := &tt.methods[:cap(tt.methods)][i]
 		return v.typ.typeOff(m.typ)
 	}
 	// Method on concrete type.
