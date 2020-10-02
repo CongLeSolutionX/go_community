@@ -70,6 +70,93 @@
       "revId": "c5d968d5421ae40002435879338e6f0a41c9b66a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80bea67e_a3373977",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-02T20:20:49Z",
+      "side": 1,
+      "message": "I was wondering that too. Storing two `int`s seems like overkill when we can just use two `uint16`s for concrete types. But it at least seems orthogonal to the issue here.",
+      "parentUuid": "01da0ce5_58f7337d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "c5d968d5421ae40002435879338e6f0a41c9b66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78205405_b2f0999f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-02T20:20:49Z",
+      "side": 1,
+      "message": "We need to document the cap/len convention somewhere. Probably on runtime.interfacetype.mhdr (or whatever it\u0027s renamed to) is fine.",
+      "revId": "c5d968d5421ae40002435879338e6f0a41c9b66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce5a87cc_10011e5d",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-02T20:20:49Z",
+      "side": 1,
+      "message": "I suggest renaming mhdr to `expMethods`, and then adding an\n\n    allMethods() { return expMethods[:cap(expMethods)] }\n\nhelper function so we don\u0027t have to repeat this trick everywhere.\n\n(There might be similar helper methods for non-interface types. If so, use similar names to what they use.)",
+      "range": {
+        "startLine": 670,
+        "startChar": 17,
+        "endLine": 670,
+        "endChar": 39
+      },
+      "revId": "c5d968d5421ae40002435879338e6f0a41c9b66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32ed217f_14156132",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-02T20:20:49Z",
+      "side": 1,
+      "message": "I think SSA should optimize this away, but can you double check? I\u0027d probably check the \"go build -gcflags\u003d-S runtime\" output with and without this change, and hopefully the function size doesn\u0027t grow.",
+      "range": {
+        "startLine": 671,
+        "startChar": 10,
+        "endLine": 671,
+        "endChar": 32
+      },
+      "revId": "c5d968d5421ae40002435879338e6f0a41c9b66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
