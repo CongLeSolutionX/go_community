@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "3015b37a_dac1540a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-02T21:05:45Z",
+      "side": 1,
+      "message": "I need debug the arm failure, and will certainly add tests for arrays, but I couldn\u0027t force that case to fail, so would generally rather not add code for cases that aren\u0027t necessary.",
+      "revId": "f6584f403138fb7de6016ca591944107c9ec27ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d47ee9fb_4a582a7f",
         "filename": "src/cmd/compile/internal/ssa/config.go",
         "patchSetId": 1
@@ -30,6 +47,24 @@
       "writtenOn": "2020-10-02T20:33:30Z",
       "side": 1,
       "message": "Are we ready to turn this on now?\n\nDoes it work on 32-bit ARM now? The original CL broke ARM.",
+      "revId": "f6584f403138fb7de6016ca591944107c9ec27ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "900a0f03_66aab8f9",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-02T21:05:45Z",
+      "side": 1,
+      "message": "It does not.  So more work to do....",
+      "parentUuid": "d47ee9fb_4a582a7f",
       "revId": "f6584f403138fb7de6016ca591944107c9ec27ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
