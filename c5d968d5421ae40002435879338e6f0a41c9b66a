@@ -22,6 +22,30 @@
       "revId": "c5d968d5421ae40002435879338e6f0a41c9b66a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f483547_4af7af71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-02T19:16:59Z",
+      "side": 1,
+      "message": "That\u0027s only apply for non-interface type, see function \"dextratype\"",
+      "parentUuid": "0dd38d7f_5d847721",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "c5d968d5421ae40002435879338e6f0a41c9b66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
