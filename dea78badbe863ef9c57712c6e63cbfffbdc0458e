@@ -33,6 +33,23 @@
       "revId": "dea78badbe863ef9c57712c6e63cbfffbdc0458e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8229f0b_2de36751",
+        "filename": "src/cmd/go/testdata/script/build_cache_arch_mode.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-10-02T08:08:31Z",
+      "side": 1,
+      "message": "Nit: maybe adjust the comment to just say GOARM.",
+      "revId": "dea78badbe863ef9c57712c6e63cbfffbdc0458e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
