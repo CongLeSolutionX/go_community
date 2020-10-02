@@ -497,7 +497,11 @@ func (p *iimporter) typAt(off uint64) *types.Type {
 }
 
 func (r *importReader) typ1() *types.Type {
-	switch k := r.kind(); k {
+	k := r.kind()
+	notinheap := k&notinheapTypeFlag != 0
+	k &^= notinheapTypeFlag
+	var t *types.Type
+	switch k {
 	default:
 		Fatalf("unexpected kind tag in %q: %v", r.p.ipkg.Path, k)
 		return nil
@@ -516,23 +520,23 @@ func (r *importReader) typ1() *types.Type {
 		if n.Op != OTYPE {
 			Fatalf("expected OTYPE, got %v: %v, %v", n.Op, n.Sym, n)
 		}
-		return n.Type
+		t = n.Type
 	case pointerType:
-		return types.NewPtr(r.typ())
+		t = types.NewPtr(r.typ())
 	case sliceType:
-		return types.NewSlice(r.typ())
+		t = types.NewSlice(r.typ())
 	case arrayType:
 		n := r.uint64()
-		return types.NewArray(r.typ(), int64(n))
+		t = types.NewArray(r.typ(), int64(n))
 	case chanType:
 		dir := types.ChanDir(r.uint64())
-		return types.NewChan(r.typ(), dir)
+		t = types.NewChan(r.typ(), dir)
 	case mapType:
-		return types.NewMap(r.typ(), r.typ())
+		t = types.NewMap(r.typ(), r.typ())
 
 	case signatureType:
 		r.setPkg()
-		return r.signature(nil)
+		t = r.signature(nil)
 
 	case structType:
 		r.setPkg()
@@ -556,10 +560,9 @@ func (r *importReader) typ1() *types.Type {
 			fs[i] = f
 		}
 
-		t := types.New(TSTRUCT)
+		t = types.New(TSTRUCT)
 		t.SetPkg(r.currPkg)
 		t.SetFields(fs)
-		return t
 
 	case interfaceType:
 		r.setPkg()
@@ -588,15 +591,15 @@ func (r *importReader) typ1() *types.Type {
 			methods[i] = f
 		}
 
-		t := types.New(TINTER)
+		t = types.New(TINTER)
 		t.SetPkg(r.currPkg)
 		t.SetInterface(append(embeddeds, methods...))
 
 		// Ensure we expand the interface in the frontend (#25055).
 		checkwidth(t)
-
-		return t
 	}
+	t.SetNotInHeap(notinheap)
+	return t
 }
 
 func (r *importReader) kind() itag {
