@@ -694,7 +694,7 @@ func implements(T, V *rtype) bool {
 		return false
 	}
 	t := (*interfaceType)(unsafe.Pointer(T))
-	if len(t.methods) == 0 {
+	if cap(t.methods) == 0 {
 		return true
 	}
 
@@ -713,10 +713,10 @@ func implements(T, V *rtype) bool {
 	if V.Kind() == Interface {
 		v := (*interfaceType)(unsafe.Pointer(V))
 		i := 0
-		for j := 0; j < len(v.methods); j++ {
-			tm := &t.methods[i]
+		for j := 0; j < cap(v.methods); j++ {
+			tm := &t.methods[:cap(t.methods)][i]
 			tmName := t.nameOff(tm.name)
-			vm := &v.methods[j]
+			vm := &v.methods[:cap(v.methods)][j]
 			vmName := V.nameOff(vm.name)
 			if vmName.name() == tmName.name() && V.typeOff(vm.typ) == t.typeOff(tm.typ) {
 				if !tmName.isExported() {
@@ -732,7 +732,7 @@ func implements(T, V *rtype) bool {
 						continue
 					}
 				}
-				if i++; i >= len(t.methods) {
+				if i++; i >= cap(t.methods) {
 					return true
 				}
 			}
@@ -747,7 +747,7 @@ func implements(T, V *rtype) bool {
 	i := 0
 	vmethods := v.methods()
 	for j := 0; j < int(v.mcount); j++ {
-		tm := &t.methods[i]
+		tm := &t.methods[:cap(t.methods)][i]
 		tmName := t.nameOff(tm.name)
 		vm := vmethods[j]
 		vmName := V.nameOff(vm.name)
@@ -765,7 +765,7 @@ func implements(T, V *rtype) bool {
 					continue
 				}
 			}
-			if i++; i >= len(t.methods) {
+			if i++; i >= cap(t.methods) {
 				return true
 			}
 		}
@@ -859,7 +859,7 @@ func haveIdenticalUnderlyingType(T, V *rtype, cmpTags bool) bool {
 	case Interface:
 		t := (*interfaceType)(unsafe.Pointer(T))
 		v := (*interfaceType)(unsafe.Pointer(V))
-		if len(t.methods) == 0 && len(v.methods) == 0 {
+		if cap(t.methods) == 0 && cap(v.methods) == 0 {
 			return true
 		}
 		// Might have the same methods but still
