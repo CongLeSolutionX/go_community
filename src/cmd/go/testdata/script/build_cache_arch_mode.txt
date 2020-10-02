@@ -2,14 +2,6 @@
 
 [short] skip
 
-# 386
-env GOOS=linux
-env GOARCH=386
-env GO386=387
-go install mycmd
-env GO386=sse2
-stale mycmd
-
 # arm
 env GOOS=linux
 env GOARCH=arm
