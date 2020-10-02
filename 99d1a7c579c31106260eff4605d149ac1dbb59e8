@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7c57789e_35f93843",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2031,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2020-10-02T14:59:06Z",
+      "side": 1,
+      "message": "The number of bytes needs to exceed the number of bytes the server reads on Close, so it forces the Write to error later. In my testing, it also would not occur reliably on the first attempt.",
+      "parentUuid": "9a31ab29_aceb222d",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d06e7b02_d5c5c8d2",
         "filename": "src/net/http/client_test.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c927fa2e_16210b0c",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2058,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2020-10-02T14:59:06Z",
+      "side": 1,
+      "message": "I tried that originally, but it appears to not synchronize. I would always get a close count of 0. I suspect it has something to do with the idle connections in the Client, but I\u0027m not familiar enough with the intricacies of this package to have a good working explanation.",
+      "parentUuid": "d06e7b02_d5c5c8d2",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e0ee964_36a95082",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2020-09-27T15:13:11Z",
       "side": 1,
       "message": "if we are claiming that we always close, we shouldn\u0027t need to track reads any more. Looking at whether its been closed should be sufficient.",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3174eda3_36aa38e5",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2020-10-02T14:59:06Z",
+      "side": 1,
+      "message": "It would take me a while to trace it back, but I believe there is a codepath where rewindBody gets called and it\u0027s ambiguous as to whether it will have been closed or not.",
+      "parentUuid": "5e0ee964_36a95082",
       "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
