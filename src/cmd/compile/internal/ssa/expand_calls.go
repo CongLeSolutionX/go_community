@@ -85,6 +85,10 @@ func expandCalls(f *Func) {
 				leaf.copyOf(call)
 			} else {
 				leafType := leaf.Type
+				for leafType.Etype == types.TSTRUCT && leafType.NumFields() == 1 {
+					// This may not be adequately general -- consider [1]etc but this is caused by immediate IDATA
+					leafType = leafType.Field(0).Type
+				}
 				pt := types.NewPtr(leafType)
 				if canSSAType(leafType) {
 					off := f.ConstOffPtrSP(pt, offset+aux.OffsetOfResult(which), sp)
@@ -92,6 +96,7 @@ func expandCalls(f *Func) {
 					if leaf.Block == call.Block {
 						leaf.reset(OpLoad)
 						leaf.SetArgs2(off, call)
+						leaf.Type = leafType
 					} else {
 						w := call.Block.NewValue2(leaf.Pos, OpLoad, leafType, off, call)
 						leaf.copyOf(w)
@@ -199,7 +204,7 @@ func expandCalls(f *Func) {
 			}
 			return mem
 		case types.TSTRUCT:
-			if src.Op == OpIData && t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width == regSize   {
+			if src.Op == OpIData && t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width == regSize {
 				// This peculiar test deals with accesses to immediate interface data.
 				// It works okay because everything is the same size.
 				// Example code that triggers this can be found in go/constant/value.go, function ToComplex
