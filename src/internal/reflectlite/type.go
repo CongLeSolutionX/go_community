@@ -234,9 +234,11 @@ type imethod struct {
 // interfaceType represents an interface type.
 type interfaceType struct {
 	rtype
-	pkgPath name      // import path
-	methods []imethod // sorted by hash
+	pkgPath    name      // import path
+	expMethods []imethod // sorted by hash, see runtime/type.go:interfacetype to see how it is encoded.
 }
+
+func (t *interfaceType) allMethods() []imethod { return t.expMethods[:cap(t.expMethods)] }
 
 // mapType represents a map type.
 type mapType struct {
@@ -657,7 +659,7 @@ func add(p unsafe.Pointer, x uintptr, whySafe string) unsafe.Pointer {
 }
 
 // NumMethod returns the number of interface methods in the type's method set.
-func (t *interfaceType) NumMethod() int { return len(t.methods) }
+func (t *interfaceType) NumMethod() int { return len(t.expMethods) }
 
 // TypeOf returns the reflection Type that represents the dynamic type of i.
 // If i is a nil interface value, TypeOf returns nil.
@@ -694,7 +696,7 @@ func implements(T, V *rtype) bool {
 		return false
 	}
 	t := (*interfaceType)(unsafe.Pointer(T))
-	if len(t.methods) == 0 {
+	if cap(t.expMethods) == 0 {
 		return true
 	}
 
@@ -713,10 +715,12 @@ func implements(T, V *rtype) bool {
 	if V.Kind() == Interface {
 		v := (*interfaceType)(unsafe.Pointer(V))
 		i := 0
-		for j := 0; j < len(v.methods); j++ {
-			tm := &t.methods[i]
+		tmethods := t.allMethods()
+		vmethods := v.allMethods()
+		for j := 0; j < cap(v.expMethods); j++ {
+			tm := &tmethods[i]
 			tmName := t.nameOff(tm.name)
-			vm := &v.methods[j]
+			vm := &vmethods[j]
 			vmName := V.nameOff(vm.name)
 			if vmName.name() == tmName.name() && V.typeOff(vm.typ) == t.typeOff(tm.typ) {
 				if !tmName.isExported() {
@@ -732,7 +736,7 @@ func implements(T, V *rtype) bool {
 						continue
 					}
 				}
-				if i++; i >= len(t.methods) {
+				if i++; i >= cap(t.expMethods) {
 					return true
 				}
 			}
@@ -746,8 +750,9 @@ func implements(T, V *rtype) bool {
 	}
 	i := 0
 	vmethods := v.methods()
+	tmethods := t.allMethods()
 	for j := 0; j < int(v.mcount); j++ {
-		tm := &t.methods[i]
+		tm := &tmethods[i]
 		tmName := t.nameOff(tm.name)
 		vm := vmethods[j]
 		vmName := V.nameOff(vm.name)
@@ -765,7 +770,7 @@ func implements(T, V *rtype) bool {
 					continue
 				}
 			}
-			if i++; i >= len(t.methods) {
+			if i++; i >= cap(t.expMethods) {
 				return true
 			}
 		}
@@ -859,7 +864,7 @@ func haveIdenticalUnderlyingType(T, V *rtype, cmpTags bool) bool {
 	case Interface:
 		t := (*interfaceType)(unsafe.Pointer(T))
 		v := (*interfaceType)(unsafe.Pointer(V))
-		if len(t.methods) == 0 && len(v.methods) == 0 {
+		if cap(t.expMethods) == 0 && cap(v.expMethods) == 0 {
 			return true
 		}
 		// Might have the same methods but still
