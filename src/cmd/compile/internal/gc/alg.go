@@ -27,6 +27,7 @@ const (
 	AMEM64
 	AMEM128
 	ASTRING
+	ASTRINGARRAY
 	AINTER
 	ANILINTER
 	AFLOAT32
@@ -162,6 +163,8 @@ func algtype1(t *types.Type) (AlgKind, *types.Type) {
 		switch a {
 		case AMEM:
 			return AMEM, nil
+		case ASTRING:
+			return ASTRINGARRAY, nil
 		case ANOEQ:
 			return ANOEQ, bad
 		}
@@ -255,6 +258,19 @@ func genhash(t *types.Type) *obj.LSym {
 		ot := 0
 		ot = dsymptr(closure, ot, memhashvarlen, 0)
 		ot = duintptr(closure, ot, uint64(t.Width)) // size encoded in closure
+		ggloblsym(closure, int32(ot), obj.DUPOK|obj.RODATA)
+		return closure
+	case ASTRINGARRAY:
+		closure := typeLookup(fmt.Sprintf(".stringhashfunc%d", t.NumElem())).Linksym()
+		if len(closure.P) > 0 { // already generated
+			return closure
+		}
+		if stringarrayhashvarlen == nil {
+			stringarrayhashvarlen = sysfunc("stringarrayhash_varlen")
+		}
+		ot := 0
+		ot = dsymptr(closure, ot, stringarrayhashvarlen, 0)
+		ot = duintptr(closure, ot, uint64(t.NumElem())) // nelem encoded in closure
 		ggloblsym(closure, int32(ot), obj.DUPOK|obj.RODATA)
 		return closure
 	case ASPECIAL:
@@ -498,6 +514,21 @@ func geneq(t *types.Type) *obj.LSym {
 		ot := 0
 		ot = dsymptr(closure, ot, memequalvarlen, 0)
 		ot = duintptr(closure, ot, uint64(t.Width))
+		ggloblsym(closure, int32(ot), obj.DUPOK|obj.RODATA)
+		return closure
+	case ASTRINGARRAY:
+		// make equality closure. The size of the type
+		// is encoded in the closure.
+		closure := typeLookup(fmt.Sprintf(".stringeqfunc%d", t.NumElem())).Linksym()
+		if len(closure.P) != 0 {
+			return closure
+		}
+		if stringarrayequalvarlen == nil {
+			stringarrayequalvarlen = sysfunc("stringarrayequal_varlen")
+		}
+		ot := 0
+		ot = dsymptr(closure, ot, stringarrayequalvarlen, 0)
+		ot = duintptr(closure, ot, uint64(t.NumElem()))
 		ggloblsym(closure, int32(ot), obj.DUPOK|obj.RODATA)
 		return closure
 	case ASPECIAL:

@@ -25,6 +25,7 @@ const (
 	alg_MEM64
 	alg_MEM128
 	alg_STRING
+	alg_STRINGARRAY
 	alg_INTER
 	alg_NILINTER
 	alg_FLOAT32
@@ -55,6 +56,36 @@ func memhash_varlen(p unsafe.Pointer, h uintptr) uintptr {
 	ptr := getclosureptr()
 	size := *(*uintptr)(unsafe.Pointer(ptr + unsafe.Sizeof(h)))
 	return memhash(p, h, size)
+}
+
+// TODO: nosplit needed?
+
+//go:nosplit
+func stringarrayhash_varlen(p unsafe.Pointer, h uintptr) uintptr {
+	ptr := getclosureptr()
+	n := *(*uintptr)(unsafe.Pointer(ptr + unsafe.Sizeof(h)))
+	// TODO
+	for i := uintptr(0); i < n; i++ {
+		// TODO: strength reduce
+		h = strhash(add(p, 2*sys.PtrSize*i), h)
+	}
+	return h
+}
+
+//go:nosplit
+func stringarrayequal_varlen(p, q unsafe.Pointer, h uintptr) bool {
+	ptr := getclosureptr()
+	n := *(*uintptr)(unsafe.Pointer(ptr + unsafe.Sizeof(h)))
+	// TODO
+	for i := uintptr(0); i < n; i++ {
+		// TODO: strength reduce
+		s := add(p, 2*sys.PtrSize*i)
+		t := add(q, 2*sys.PtrSize*i)
+		if !strequal(s, t) {
+			return false
+		}
+	}
+	return true
 }
 
 // runtime variable to check if the processor we're running on

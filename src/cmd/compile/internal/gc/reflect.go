@@ -820,6 +820,9 @@ const (
 var (
 	memhashvarlen  *obj.LSym
 	memequalvarlen *obj.LSym
+
+	stringarrayhashvarlen  *obj.LSym
+	stringarrayequalvarlen *obj.LSym
 )
 
 // dcommontype dumps the contents of a reflect.rtype (runtime._type).
