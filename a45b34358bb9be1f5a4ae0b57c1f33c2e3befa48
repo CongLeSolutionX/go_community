@@ -33,6 +33,74 @@
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd825c8_b9a2105f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-10-03T23:03:23Z",
+      "side": 1,
+      "message": "If you make the two code tweaks suggested below, this CL now has only a single, tiny regression in all of std+cmd:\n\ncmd/link/internal/benchmark\n.eq.\"\".mark 444 -\u003e 446  (+0.45%)\n\nEverything else shrinks. (I haven\u0027t investigated that regression; not worth the bother.)\n\nThanks for doing this.\n\nOne little optional thing. If you\u0027re up for it, it\u0027d be nice to do a before/after pseudo-code in the commit message, for folks following along.\n",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee0fe46_59e30481",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-10-03T23:03:23Z",
+      "side": 1,
+      "message": "Given the changes I suggest below, \"last\" might not be the best variable name here. I don\u0027t have a better suggestion, though. \"peel\"?",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24915ca3_f4f7ac66",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-10-03T23:03:23Z",
+      "side": 1,
+      "message": "Change this to false.",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750cc625_9a91d586",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-10-03T23:03:23Z",
+      "side": 1,
+      "message": "This too.",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
