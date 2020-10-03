@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "c2e48da6_8c62b7e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-03T01:50:16Z",
+      "side": 1,
+      "message": "Try this:\n\npackage p\n\ntype T [1]*int\n\nfunc F(x *int) {\n\ta :\u003d interface{}(T{x})\n\tswitch t :\u003d a.(type) {\n\tcase T:\n\t\tG(t)\n\t}\n}\n\nfunc G(T)",
+      "parentUuid": "3015b37a_dac1540a",
+      "revId": "f6584f403138fb7de6016ca591944107c9ec27ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d47ee9fb_4a582a7f",
         "filename": "src/cmd/compile/internal/ssa/config.go",
         "patchSetId": 1
