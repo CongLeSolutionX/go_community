@@ -16,6 +16,23 @@
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241175d8_719c32fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-10-03T19:20:12Z",
+      "side": 1,
+      "message": "The only remaining regressions are arrays. I’ll see whether there’s a way to fix that; it’d be nice for this to be an across the board improvement.",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
