@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "56487f2d_2e093cd5",
+        "filename": "src/runtime/os_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T14:23:05Z",
+      "side": 1,
+      "message": "I think we\u0027d keep GOARCH check for now. Otherwise we\u0027d need to change AMD64\u0027s sigtramp to support switching stacks, otherwise ios/amd64 (including using -tags\u003dios) would fail.\n\nI\u0027m not sure the simulator supports sigaltstack or not (if it does, it doesn\u0027t actually simulate iOS).",
+      "parentUuid": "bcb0da41_8b843837",
+      "revId": "1ea0488cb181236a4bc8d4f3287418a8d41a807b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46df51f2_4ce04aef",
         "filename": "src/runtime/os_darwin.go",
         "patchSetId": 2
