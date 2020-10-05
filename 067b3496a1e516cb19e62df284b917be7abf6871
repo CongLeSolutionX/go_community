@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7f7c61b_6675b6e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T15:20:14Z",
+      "side": 1,
+      "message": "On the builder, if the bootstrap toolchain runs with GOOS\u003dios, GOHOSTOS will be ios. I think we don\u0027t want a cross-bootstrap (GOHOSTOS\u003ddarwin GOOS\u003dios), which will not work after darwin/arm64 binaries stop working on iOS.",
+      "parentUuid": "95acffd5_b22f95ea",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "067b3496a1e516cb19e62df284b917be7abf6871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da3694b1_0e9902e1",
         "filename": "src/cmd/dist/main.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-10-05T15:07:22Z",
       "side": 1,
       "message": "It looks like uname -v needed to be executed back when macOS and iOS shared \"darwin\" as the GOOS value.\n\nGiven that iOS now has GOOS\u003dios all to itself, it can be handled more simply, in the earlier switch:\n\n\tgohostos \u003d runtime.GOOS\n\tswitch gohostos {\n\tcase \"ios\":\n\t\tgohostarch \u003d \"arm64\"\n\nIf you prefer to keep the logic for GOOS\u003ddarwin and GOOS\u003dios close together or prefer to know that uname -v output contains RELEASE_ARM64_, then keeping code as is is good.",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "067b3496a1e516cb19e62df284b917be7abf6871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6c51fee_bf0e88b4",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T15:20:14Z",
+      "side": 1,
+      "message": "We could do that, but maybe after the builder starts to run with GOOS\u003dios.",
+      "parentUuid": "da3694b1_0e9902e1",
       "range": {
         "startLine": 133,
         "startChar": 3,
