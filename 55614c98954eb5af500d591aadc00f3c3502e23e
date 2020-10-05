@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba92afd9_9bea8265",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-05T05:09:08Z",
+      "side": 1,
+      "message": "Your commit subject already details the fix so no need for this body. To make an edit, you’ll need to manually edit the Github PR message.",
+      "revId": "55614c98954eb5af500d591aadc00f3c3502e23e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98a21293_bc965b20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-05T05:09:08Z",
+      "side": 1,
+      "message": "Nice catch, thank you Luca, and welcome to the Go project! I shall also kindly cc code owners, but otherwise LGTM! Please keep up the sharp eyes, Luca and we would be delighted to see more of you and your work on the Go project!",
+      "revId": "55614c98954eb5af500d591aadc00f3c3502e23e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
