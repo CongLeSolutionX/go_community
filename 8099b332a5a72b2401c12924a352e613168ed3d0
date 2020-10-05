@@ -16,6 +16,23 @@
       "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4a0bbdd_aacb6599",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-05T15:30:49Z",
+      "side": 1,
+      "message": "LGTM overall.\n\nCherry, do you want to add anything?",
+      "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

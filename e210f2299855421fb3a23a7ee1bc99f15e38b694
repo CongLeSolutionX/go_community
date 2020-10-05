@@ -332,6 +332,30 @@
       "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58cd7d80_a54e5aa3",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-05T15:30:49Z",
+      "side": 1,
+      "message": "OK, thanks for the additional context. I spent a little time looking at the code and relocations emitted by clang for riscv (with -pie) and it does indeed look as though they are doing the same thing.",
+      "parentUuid": "cb64a79a_0fc7b018",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 72
+      },
+      "revId": "e210f2299855421fb3a23a7ee1bc99f15e38b694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
