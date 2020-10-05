@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "527d5cb9_a6210f54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-05T17:27:39Z",
+      "side": 1,
+      "message": "Ping. I\u0027d like to get this in for the next 1.15 release.\n",
+      "revId": "7e3516727e95a23c997f05a3470ea4f50e4b5e14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
