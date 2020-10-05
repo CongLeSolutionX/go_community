@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92535cdf_ffa39394",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T15:58:52Z",
+      "side": 1,
+      "message": "As the ARM bug still not fixed, maybe not turn it on by default for now, otherwise it will break the ARM builders again.",
+      "revId": "011b45faadcf0fadf1b504740c24dab70d6bbee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dab2a666_1c8a6450",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T15:58:52Z",
+      "side": 1,
+      "message": "As commented in another CL, this may be better be a top-level function. (Could be done later.)",
+      "revId": "011b45faadcf0fadf1b504740c24dab70d6bbee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
