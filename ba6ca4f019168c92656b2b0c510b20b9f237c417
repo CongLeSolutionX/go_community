@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf124b4e_2cac7fc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-05T15:27:03Z",
+      "side": 1,
+      "message": "LGTM but feel free to wait for another reviewer if you\u0027d like.",
+      "revId": "ba6ca4f019168c92656b2b0c510b20b9f237c417",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

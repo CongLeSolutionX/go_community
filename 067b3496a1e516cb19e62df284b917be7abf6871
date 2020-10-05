@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "01afb08c_8424e16b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-05T15:27:03Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ll /cc Elias on this, since he prepared the bootstrap toolchain.",
+      "parentUuid": "a7f7c61b_6675b6e6",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "067b3496a1e516cb19e62df284b917be7abf6871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da3694b1_0e9902e1",
         "filename": "src/cmd/dist/main.go",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "We could do that, but maybe after the builder starts to run with GOOS\u003dios.",
       "parentUuid": "da3694b1_0e9902e1",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "067b3496a1e516cb19e62df284b917be7abf6871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00592b9e_064851c2",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-05T15:27:03Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "a6c51fee_bf0e88b4",
       "range": {
         "startLine": 133,
         "startChar": 3,
