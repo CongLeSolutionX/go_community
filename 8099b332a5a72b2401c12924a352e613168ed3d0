@@ -33,6 +33,69 @@
       "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54b000ef_05dae380",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T16:28:54Z",
+      "side": 1,
+      "message": "I still like my idea of generating them late. Can we generate them later, right before Asmb?\n\nThen maybe we can directly attach those extra symbols to Textp, without the extra AdditionalELFSymbols ?",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 2
+      },
+      "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42ce0523_d7cda783",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T16:28:54Z",
+      "side": 1,
+      "message": "I\u0027d be fine for having a hook for genelfsym to call. This can be done later.",
+      "range": {
+        "startLine": 47,
+        "startChar": 61,
+        "endLine": 49,
+        "endChar": 48
+      },
+      "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e6240b4_9595410d",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-05T16:28:54Z",
+      "side": 1,
+      "message": "Can this just return false? It doesn\u0027t actually generate an ELF relocation.",
+      "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
