@@ -754,13 +754,20 @@ func (p *parser) parseFieldDecl(scope *ast.Scope) *ast.Field {
 	return field
 }
 
-func (p *parser) parseStructType() *ast.StructType {
+func (p *parser) parseStructType() ast.Expr {
 	if p.trace {
 		defer un(trace(p, "StructType"))
 	}
 
 	pos := p.expect(token.STRUCT)
-	lbrace := p.expect(token.LBRACE)
+
+	lbrace := p.pos
+	if p.tok != token.LBRACE {
+		p.error(pos, "expected 'struct{}' but found 'struct'")
+		return &ast.BadExpr{From: pos, To: pos}
+	}
+	p.next()
+
 	scope := ast.NewScope(nil) // struct scope
 	var list []*ast.Field
 	for p.tok == token.IDENT || p.tok == token.MUL || p.tok == token.LPAREN {
@@ -965,13 +972,20 @@ func (p *parser) parseMethodSpec(scope *ast.Scope) *ast.Field {
 	return spec
 }
 
-func (p *parser) parseInterfaceType() *ast.InterfaceType {
+func (p *parser) parseInterfaceType() ast.Expr {
 	if p.trace {
 		defer un(trace(p, "InterfaceType"))
 	}
 
 	pos := p.expect(token.INTERFACE)
-	lbrace := p.expect(token.LBRACE)
+
+	lbrace := p.pos
+	if p.tok != token.LBRACE {
+		p.error(pos, "expected 'interface{}' but found 'interface'")
+		return &ast.BadExpr{From: pos, To: pos}
+	}
+	p.next()
+
 	scope := ast.NewScope(nil) // interface scope
 	var list []*ast.Field
 	for p.tok == token.IDENT {
