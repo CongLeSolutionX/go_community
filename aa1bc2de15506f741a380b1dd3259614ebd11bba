@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55985a94_23434040",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-10-06T08:38:23Z",
+      "side": 1,
+      "message": "Typo: s/a the/a/",
+      "range": {
+        "startLine": 954,
+        "startChar": 63,
+        "endLine": 955,
+        "endChar": 3
+      },
+      "revId": "aa1bc2de15506f741a380b1dd3259614ebd11bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
