@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "a34fa7ea_78574484",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,28 @@
       "side": 1,
       "message": "I think it\u0027s helpful to include a mention to a relevant issue for tracking purposes.",
       "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a3d7a15_04db6ade",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-06T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a34fa7ea_78574484",
+      "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "ef40a3ae_e23b7a8a",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +50,10 @@
       "side": 1,
       "message": "I expect it\u0027ll fail on the ios (darwin-arm64-corellium) builder because issue #41610 is not resolved yet, but I wanted to start a slowbot run to see how exactly it\u0027ll fail.\n\nTRY\u003ddarwin-amd64, ios",
       "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "f7c079d2_b52f0123",
         "filename": "/PATCHSET_LEVEL",
@@ -49,10 +68,10 @@
       "message": "Well, it seems the failure is hanging indefinitely (which is not surprising to me, given the signal stuff).",
       "parentUuid": "ef40a3ae_e23b7a8a",
       "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "ed1b3d68_60939486",
         "filename": "/PATCHSET_LEVEL",
@@ -67,10 +86,10 @@
       "message": "I see. Thanks. I\u0027ll stop it now.",
       "parentUuid": "f7c079d2_b52f0123",
       "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1d2f9d50_3448c6fd",
         "filename": "src/runtime/debug/panic_test.go",
@@ -90,8 +109,31 @@
         "endChar": 54
       },
       "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34ebd638_177d835e",
+        "filename": "src/runtime/debug/panic_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-06T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2f9d50_3448c6fd",
+      "range": {
+        "startLine": 23,
+        "startChar": 26,
+        "endLine": 23,
+        "endChar": 54
+      },
+      "revId": "59699fe0554b499d27c6183cbe050f284205b49e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
