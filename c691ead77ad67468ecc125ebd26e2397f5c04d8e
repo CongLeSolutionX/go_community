@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c19d6c0e_3f4745fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-06T00:45:42Z",
+      "side": 1,
+      "message": "The race is not in text/template, and the test case here violates the documented property of the package, which is that templates should be parsed before execution.\n",
+      "revId": "c691ead77ad67468ecc125ebd26e2397f5c04d8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
