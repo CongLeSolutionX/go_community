@@ -385,6 +385,75 @@ func IsDirWithGoFiles(dir string) (bool, error) {
 	return false, firstErr
 }
 
+// walk recursively descends path, calling walkFn.
+func walk(path string, info os.FileInfo, walkFn filepath.WalkFunc) error {
+	if !info.IsDir() {
+		return walkFn(path, info, nil)
+	}
+
+	fis, err := ReadDir(path)
+	err1 := walkFn(path, info, err)
+	// If err != nil, walk can't walk into this directory.
+	// err1 != nil means walkFn want walk to skip this directory or stop walking.
+	// Therefore, if one of err and err1 isn't nil, walk will return.
+	if err != nil || err1 != nil {
+		// The caller's behavior is controlled by the return value, which is decided
+		// by walkFn. walkFn may ignore err and return nil.
+		// If walkFn returns SkipDir, it will be handled by the caller.
+		// So walk should return whatever walkFn returns.
+		return err1
+	}
+
+	for _, fileInfo := range fis {
+		filename := filepath.Join(path, fileInfo.Name())
+		if err = walk(filename, fileInfo, walkFn); err != nil {
+			if !fileInfo.IsDir() || err != filepath.SkipDir {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// Walk walks the file tree rooted at root, calling walkFn for each file or
+// directory in the tree, including root.
+func Walk(root string, walkFn filepath.WalkFunc) error {
+	info, err := lstat(root)
+	if err != nil {
+		err = walkFn(root, nil, err)
+	} else {
+		err = walk(root, info, walkFn)
+	}
+	if err == filepath.SkipDir {
+		return nil
+	}
+	return err
+}
+
+func lstat(path string) (os.FileInfo, error) {
+	cpath := canonicalize(path)
+
+	if _, ok := parentIsOverlayFile(filepath.Dir(cpath)); ok {
+		return nil, &os.PathError{Op: "lstat", Path: cpath, Err: os.ErrNotExist}
+	}
+
+	node, ok := overlay[cpath]
+	if !ok {
+		// The file or directory is not overlaid.
+		return os.Lstat(cpath)
+	}
+
+	switch {
+	case node.isDeleted():
+		return nil, &os.PathError{Op: "lstat", Path: cpath, Err: os.ErrNotExist}
+	case node.isDir():
+		return fakeDir(filepath.Base(cpath)), nil
+	default:
+		fi, err := os.Lstat(node.actualFilePath)
+		return fakeFile{name: filepath.Base(cpath), real: fi}, err
+	}
+}
+
 // fakeFile provides an os.FileInfo implementation for an overlaid file,
 // so that the file has the name of the overlaid file, but takes all
 // other characteristics of the replacement file.
