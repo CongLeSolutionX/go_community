@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8700149f_850b6d1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-06T23:47:06Z",
+      "side": 1,
+      "message": "Let\u0027s just fix the compiler (https://golang.org/issue/14768).  Let\u0027s not make the code harder to maintain to work around a compiler deficiency.",
+      "revId": "8d8d7943808175b6d0f1facb0e793d5533a282d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
