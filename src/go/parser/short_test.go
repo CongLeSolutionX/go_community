@@ -127,6 +127,12 @@ var invalids = []string{
 	// issue 13475
 	`package p; func f() { if true {} else ; /* ERROR "expected if statement or block" */ }`,
 	`package p; func f() { if true {} else defer /* ERROR "expected if statement or block" */ f() }`,
+
+	// issue 36750
+	`package p; func f(i interface /* ERROR "expected 'interface{}' but found 'interface'" */ ) {}`,
+
+	// issue 36595
+	`package p; func f(chan struct /* ERROR "expected 'struct{}' but found 'struct'" */ ) {}`,
 }
 
 func TestInvalid(t *testing.T) {
