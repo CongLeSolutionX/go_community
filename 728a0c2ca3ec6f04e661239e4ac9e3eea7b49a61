@@ -16,6 +16,24 @@
       "message": "I don\u0027t think this is good enough. It\u0027s really easy to fix one specific error scenario, but make it worse in all other cases. What happens if the code is \"struct }\", or \"interface m() }\" etc? The parser will exit the struct/interface parsing functions but then will also be unsynchronized. It\u0027s really hard to get this right for most common cases.\n\nIf writing \"interface\" without \"{}\" is a common case, what should happen is that we recognize it as if it were \"interface{}\" (correct node) but report a parser error. But I am not convinced this is a common case.\n\nI think this needs a) more test cases showing the effect on different code scenarios, b) probably a bit smarter logic in case of a failure.\n",
       "revId": "728a0c2ca3ec6f04e661239e4ac9e3eea7b49a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "550469b4_6e8f41d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-06T17:37:14Z",
+      "side": 1,
+      "message": "PS: The compiler\u0027s parser is in cmd/compile/internal/syntax/parser.go. It\u0027s a newer version of the code in go/parser and the original parser that was used by the compiler. It has much better error recovery. I believe the better approach would be to borrow as much as we can from the compiler\u0027s error recovery.",
+      "parentUuid": "49fd455e_e98a8594",
+      "revId": "728a0c2ca3ec6f04e661239e4ac9e3eea7b49a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
