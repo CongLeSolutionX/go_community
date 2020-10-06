@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "ca0d3917_bcd2dbb2",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Thanks for the previous review - PTAL.",
       "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e4a0bbdd_aacb6599",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +32,10 @@
       "side": 1,
       "message": "LGTM overall.\n\nCherry, do you want to add anything?",
       "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "54b000ef_05dae380",
         "filename": "src/cmd/link/internal/ld/main.go",
@@ -54,10 +55,34 @@
         "endChar": 2
       },
       "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "674b06fd_1d770dec",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-06T18:36:40Z",
+      "side": 1,
+      "message": "I thought I had attempted to do that previously without success, however it looks like it is doable. The only downside to removing AdditionalELFSymbols and merging additional symbols into Textp is that we now have some symbols that have been fully processed (appear in pclntab, etc) and some that are not - while this works currently, it seems potentially fragile.",
+      "parentUuid": "54b000ef_05dae380",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 2
+      },
+      "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "42ce0523_d7cda783",
         "filename": "src/cmd/link/internal/riscv64/asm.go",
@@ -77,10 +102,34 @@
         "endChar": 48
       },
       "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17d71d82_6b846755",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-06T18:36:40Z",
+      "side": 1,
+      "message": "Ack. I\u0027ll have to also figure out how we can hook this in so that we can have the elfsym here for reloc and then generate them in the correct order later.",
+      "parentUuid": "42ce0523_d7cda783",
+      "range": {
+        "startLine": 47,
+        "startChar": 61,
+        "endLine": 49,
+        "endChar": 48
+      },
+      "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6e6240b4_9595410d",
         "filename": "src/cmd/link/internal/riscv64/asm.go",
@@ -94,8 +143,25 @@
       "side": 1,
       "message": "Can this just return false? It doesn\u0027t actually generate an ELF relocation.",
       "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a6e78a2_a410b69f",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-06T18:36:40Z",
+      "side": 1,
+      "message": "Indeed, fixed.",
+      "parentUuid": "6e6240b4_9595410d",
+      "revId": "8099b332a5a72b2401c12924a352e613168ed3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
