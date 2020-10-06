@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e3b3e2a_f322fd0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-06T18:37:06Z",
+      "side": 1,
+      "message": "LGTM. Could you also add a go/build/deps_test addition to make sure this dependency edge isn\u0027t reintroduced later?\n",
+      "revId": "052a5e9c2a7a711989a25a48dfd035930ff7454a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
