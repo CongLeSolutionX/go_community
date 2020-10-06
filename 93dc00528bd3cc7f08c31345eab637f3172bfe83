@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "999961f0_1c183fd7",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,34 @@
         "endChar": 35
       },
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9922eb43_780a99d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-06T21:55:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "999961f0_1c183fd7",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "fe306389_6e0e8936",
         "filename": "src/cmd/dist/test.go",
@@ -37,10 +62,10 @@
       "side": 1,
       "message": "Do we still need to test goarch here?  Why not just goos \u003d\u003d \"ios\"?",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b64c2987_c6fc78a5",
         "filename": "src/cmd/dist/test.go",
@@ -55,10 +80,10 @@
       "message": "It depends on what the story of ios/amd64 (the simulator) is. Currently we don\u0027t have that combination but it seems people want it. I\u0027m doing the minimal change so it doesn\u0027t affect ios/amd64. If we \"don\u0027t care\", I can make it only goos\u003d\u003d\"ios\".",
       "parentUuid": "fe306389_6e0e8936",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6773a9dc_0dae0cf7",
         "filename": "src/cmd/dist/test.go",
@@ -73,10 +98,10 @@
       "message": "It seems to me that if we add support for ios/amd64, we would still want a method like this to report true for ios/amd64.  If the iOS simulator should act differently in some way, I think we should key off that, rather than \n\nI know you know this, but the only reason the arm64 is in there is that before we used to say darwin/386 and darwin/amd64 are regular macOS, while darwin/arm and darwin/arm64 are iOS.  Then we dropped darwin/arm.  Then we added goos \u003d\u003d \"ios\".  The \"arm64\" is left over from when we were using GOARCH to separate macOS and iOS.  I can\u0027t see any clear reason why, after adding \"ios\", we would still want to check \"arm64\".\n\nIf the iOS simulator should act differently in some way, I think we should have some way to mark the simulator, rather than continuing to differentiate based on GOARCH.",
       "parentUuid": "b64c2987_c6fc78a5",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "19af06f0_ef6145e6",
         "filename": "src/cmd/dist/test.go",
@@ -91,10 +116,10 @@
       "message": "Sounds reasonable. Done. Changed to only goos\u003d\u003d\"ios\" now.",
       "parentUuid": "6773a9dc_0dae0cf7",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e14e89ba_4ba6feb5",
         "filename": "test/fixedbugs/bug429_run.go",
@@ -108,10 +133,10 @@
       "side": 1,
       "message": "Is there some way we can remember to remove this when darwin/arm64 supports internal linking?",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5cc88a34_14179b2b",
         "filename": "test/fixedbugs/bug429_run.go",
@@ -126,10 +151,10 @@
       "message": "I\u0027m still trying to get internal linking work in this cycle, although I can\u0027t guarantee.  Typically I put this on a sticky note on my desk in the office, but I don\u0027t have access to the desk now. I\u0027ve been keeping a text file for them now.",
       "parentUuid": "e14e89ba_4ba6feb5",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "7a3b66ab_28c81a43",
         "filename": "test/fixedbugs/bug429_run.go",
@@ -144,10 +169,10 @@
       "message": "Perhaps we could set up a sticky note service, in which we could mail sticky notes to some central location, and they would put them up in front of a web cam, so you could check on your sticky note status at any time.  Also there would be a rearrange and delete API, and so forth.",
       "parentUuid": "5cc88a34_14179b2b",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "3e3518cf_2e782018",
         "filename": "test/fixedbugs/bug429_run.go",
@@ -162,8 +187,7 @@
       "message": "Haha, that would be nice :)",
       "parentUuid": "7a3b66ab_28c81a43",
       "revId": "93dc00528bd3cc7f08c31345eab637f3172bfe83",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
