@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "616fd6da_08c349fc",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-07T15:41:04Z",
+      "side": 1,
+      "message": "choose the lowest matching version?",
+      "revId": "3be4cc32f3986cac7112216a9082a9dfc6783e07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c27d3053_8431bea8",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-07T15:41:04Z",
+      "side": 1,
+      "message": "Slight simplification:\n\n    qm :\u003d \u0026queryMatcher{\n      ...\n      preferIncompatible: strings.HasSuffix(current, \"+incompatible\"),\n    }",
+      "revId": "3be4cc32f3986cac7112216a9082a9dfc6783e07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a638c4e_997228f7",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-07T15:41:04Z",
+      "side": 1,
+      "message": "return uniq, nil",
+      "range": {
+        "startLine": 931,
+        "startChar": 8,
+        "endLine": 931,
+        "endChar": 16
+      },
+      "revId": "3be4cc32f3986cac7112216a9082a9dfc6783e07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60aa8eec_63b132fd",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-07T15:41:04Z",
+      "side": 1,
+      "message": "Should this be info.Version? I think that would mean if we stat \"devbranch\", which returns \"v1.2.3\", and \"v1.2.3\" is replaced, we would stat and return the replacement version.",
+      "range": {
+        "startLine": 940,
+        "startChar": 30,
+        "endLine": 940,
+        "endChar": 33
+      },
+      "revId": "3be4cc32f3986cac7112216a9082a9dfc6783e07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fd2a7fb_a846abb8",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-07T15:41:04Z",
+      "side": 1,
+      "message": "s/possible/possibly/",
+      "range": {
+        "startLine": 943,
+        "startChar": 38,
+        "endLine": 943,
+        "endChar": 46
+      },
+      "revId": "3be4cc32f3986cac7112216a9082a9dfc6783e07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98852a5d_20fa40f0",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-07T15:41:04Z",
+      "side": 1,
+      "message": "Should this also check pathMajor \u003d\u003d \"\"? For example, we shouldn\u0027t add +incompatible to example.com/v2@v3.0.0.",
+      "revId": "3be4cc32f3986cac7112216a9082a9dfc6783e07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
