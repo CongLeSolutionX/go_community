@@ -466,6 +466,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b8f836b_d4007530",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:56Z",
+      "side": 1,
+      "message": "Need to update the names in this comment, and also describe frameSize and regArgs.",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "882d30e6_d427803f",
         "filename": "src/runtime/stubs.go",
         "patchSetId": 7
