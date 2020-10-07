@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dfa4fa4_3cb7209c",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-10-07T15:45:05Z",
+      "side": 0,
+      "message": "Are there any requirements that portable opcodes accept similar arguments across targets? Existing code on other targets uses ANOP\u0027s to give hints to vet about stack behavior, and maybe for other historical reasons which no longer exist.",
+      "range": {
+        "startLine": 619,
+        "startChar": 1,
+        "endLine": 619,
+        "endChar": 52
+      },
+      "revId": "bdab5df40f474c7768a945ef4fcf5aab634f7af5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
