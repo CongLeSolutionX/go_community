@@ -16,6 +16,24 @@
       "message": "These two should probably be a single release note.\n\nGo 1.16 drops support for x87 mode compilation (as announced...). Support for non-SSE2 processors is now available using soft float mode.\n\nUsers running on non-SSE2 processors should replace GO386\u003d387 with GO386\u003dsoftfloat.",
       "revId": "a185a5f1118d03e334f7ea493ebc85fec966204c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7f7382d_7bb4c4c4",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-07T18:26:05Z",
+      "side": 1,
+      "message": "Thanks, done in PS 2.\n\nI kept \"As announced ...\" first for consistency with the precedent like at https://golang.org/doc/go1.15#darwin. If you have further suggestions, please let me know.",
+      "parentUuid": "6804b3c6_76cc127e",
+      "revId": "a185a5f1118d03e334f7ea493ebc85fec966204c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
