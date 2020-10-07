@@ -3436,14 +3436,66 @@ func init() {
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, types.Types[TUINT32], v)
 		},
-		sys.AMD64, sys.ARM64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+		sys.AMD64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 	addF("runtime/internal/atomic", "Xchg64",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			v := s.newValue3(ssa.OpAtomicExchange64, types.NewTuple(types.Types[TUINT64], types.TypeMem), args[0], args[1], s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, types.Types[TUINT64], v)
 		},
-		sys.AMD64, sys.ARM64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+		sys.AMD64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+
+	makeAtomicGuardedIntrinsicARM64 := func(
+                                             op0 ssa.Op,
+                                             op1 ssa.Op,
+                                             ty types.EType,
+                                             returnType types.EType,
+                                             opEmitter func(s *state, n *Node, args []*ssa.Value, op ssa.Op, ty types.EType)) func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+		return func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			// Target Atomic feature is identified by dynamic detection
+			addr := s.entryNewValue1A(ssa.OpAddr, types.Types[TBOOL].PtrTo(), arm64HasATOMICS, s.sb)
+			v := s.load(types.Types[TBOOL], addr)
+			b := s.endBlock()
+			b.Kind = ssa.BlockIf
+			b.SetControl(v)
+			bTrue := s.f.NewBlock(ssa.BlockPlain)
+			bFalse := s.f.NewBlock(ssa.BlockPlain)
+			bEnd := s.f.NewBlock(ssa.BlockPlain)
+			b.AddEdgeTo(bTrue)
+			b.AddEdgeTo(bFalse)
+			b.Likely = ssa.BranchLikely
+
+			// We have atomic instructions - use it directly.
+			s.startBlock(bTrue)
+			opEmitter(s, n, args, op0, ty)
+			s.endBlock().AddEdgeTo(bEnd)
+
+			// Use original instruction sequence.
+			s.startBlock(bFalse)
+			opEmitter(s, n, args, op1, ty)
+			s.endBlock().AddEdgeTo(bEnd)
+
+			// Merge results.
+			s.startBlock(bEnd)
+			if returnType == TNIL {
+				return nil
+			} else {
+				return s.variable(n, types.Types[returnType])
+			}
+		}
+	}
+
+	atomicXchgOpEmitterARM64 := func(s *state, n *Node, args []*ssa.Value, op ssa.Op, ty types.EType) {
+		v := s.newValue3(op, types.NewTuple(types.Types[ty], types.TypeMem), args[0], args[1], s.mem())
+		s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
+		s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[ty], v)
+	}
+	addF("runtime/internal/atomic", "Xchg",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicExchange32, ssa.OpAtomicExchange32Variant, TUINT32, TUINT32, atomicXchgOpEmitterARM64),
+		sys.ARM64)
+	addF("runtime/internal/atomic", "Xchg64",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicExchange64, ssa.OpAtomicExchange64Variant, TUINT64, TUINT64, atomicXchgOpEmitterARM64),
+		sys.ARM64)
 
 	addF("runtime/internal/atomic", "Xadd",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
@@ -3460,46 +3512,17 @@ func init() {
 		},
 		sys.AMD64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
-	makeXaddARM64 := func(op0 ssa.Op, op1 ssa.Op, ty types.EType) func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
-		return func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
-			// Target Atomic feature is identified by dynamic detection
-			addr := s.entryNewValue1A(ssa.OpAddr, types.Types[TBOOL].PtrTo(), arm64HasATOMICS, s.sb)
-			v := s.load(types.Types[TBOOL], addr)
-			b := s.endBlock()
-			b.Kind = ssa.BlockIf
-			b.SetControl(v)
-			bTrue := s.f.NewBlock(ssa.BlockPlain)
-			bFalse := s.f.NewBlock(ssa.BlockPlain)
-			bEnd := s.f.NewBlock(ssa.BlockPlain)
-			b.AddEdgeTo(bTrue)
-			b.AddEdgeTo(bFalse)
-			b.Likely = ssa.BranchUnlikely // most machines don't have Atomics nowadays
-
-			// We have atomic instructions - use it directly.
-			s.startBlock(bTrue)
-			v0 := s.newValue3(op1, types.NewTuple(types.Types[ty], types.TypeMem), args[0], args[1], s.mem())
-			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v0)
-			s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[ty], v0)
-			s.endBlock().AddEdgeTo(bEnd)
-
-			// Use original instruction sequence.
-			s.startBlock(bFalse)
-			v1 := s.newValue3(op0, types.NewTuple(types.Types[ty], types.TypeMem), args[0], args[1], s.mem())
-			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v1)
-			s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[ty], v1)
-			s.endBlock().AddEdgeTo(bEnd)
-
-			// Merge results.
-			s.startBlock(bEnd)
-			return s.variable(n, types.Types[ty])
-		}
+	atomicXaddOpEmitterARM64 := func(s *state, n *Node, args []*ssa.Value, op ssa.Op, ty types.EType) {
+		v := s.newValue3(op, types.NewTuple(types.Types[ty], types.TypeMem), args[0], args[1], s.mem())
+		s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
+		s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[ty], v)
 	}
 
 	addF("runtime/internal/atomic", "Xadd",
-		makeXaddARM64(ssa.OpAtomicAdd32, ssa.OpAtomicAdd32Variant, TUINT32),
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicAdd32, ssa.OpAtomicAdd32Variant, TUINT32, TUINT32, atomicXaddOpEmitterARM64),
 		sys.ARM64)
 	addF("runtime/internal/atomic", "Xadd64",
-		makeXaddARM64(ssa.OpAtomicAdd64, ssa.OpAtomicAdd64Variant, TUINT64),
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicAdd64, ssa.OpAtomicAdd64Variant, TUINT64, TUINT64, atomicXaddOpEmitterARM64),
 		sys.ARM64)
 
 	addF("runtime/internal/atomic", "Cas",
@@ -3508,14 +3531,14 @@ func init() {
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, types.Types[TBOOL], v)
 		},
-		sys.AMD64, sys.ARM64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+		sys.AMD64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 	addF("runtime/internal/atomic", "Cas64",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			v := s.newValue4(ssa.OpAtomicCompareAndSwap64, types.NewTuple(types.Types[TBOOL], types.TypeMem), args[0], args[1], args[2], s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, types.Types[TBOOL], v)
 		},
-		sys.AMD64, sys.ARM64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+		sys.AMD64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 	addF("runtime/internal/atomic", "CasRel",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			v := s.newValue4(ssa.OpAtomicCompareAndSwap32, types.NewTuple(types.Types[TBOOL], types.TypeMem), args[0], args[1], args[2], s.mem())
@@ -3524,18 +3547,42 @@ func init() {
 		},
 		sys.PPC64)
 
+	atomicCasOpEmitterARM64 := func(s *state, n *Node, args []*ssa.Value, op ssa.Op, ty types.EType) {
+		v := s.newValue4(op, types.NewTuple(types.Types[TBOOL], types.TypeMem), args[0], args[1], args[2], s.mem())
+		s.vars[&memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
+		s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[ty], v)
+	}
+
+	addF("runtime/internal/atomic", "Cas",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicCompareAndSwap32, ssa.OpAtomicCompareAndSwap32Variant, TUINT32, TBOOL, atomicCasOpEmitterARM64),
+		sys.ARM64)
+	addF("runtime/internal/atomic", "Cas64",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicCompareAndSwap64, ssa.OpAtomicCompareAndSwap64Variant, TUINT64, TBOOL, atomicCasOpEmitterARM64),
+		sys.ARM64)
+
 	addF("runtime/internal/atomic", "And8",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			s.vars[&memVar] = s.newValue3(ssa.OpAtomicAnd8, types.TypeMem, args[0], args[1], s.mem())
 			return nil
 		},
-		sys.AMD64, sys.ARM64, sys.MIPS, sys.PPC64, sys.S390X)
+		sys.AMD64, sys.MIPS, sys.PPC64, sys.S390X)
 	addF("runtime/internal/atomic", "Or8",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			s.vars[&memVar] = s.newValue3(ssa.OpAtomicOr8, types.TypeMem, args[0], args[1], s.mem())
 			return nil
 		},
-		sys.AMD64, sys.ARM64, sys.MIPS, sys.PPC64, sys.S390X)
+		sys.AMD64, sys.MIPS, sys.PPC64, sys.S390X)
+
+	atomicAndOrOpEmitterARM64 := func(s *state, n *Node, args []*ssa.Value, op ssa.Op, ty types.EType) {
+		s.vars[&memVar] = s.newValue3(op, types.TypeMem, args[0], args[1], s.mem())
+	}
+
+	addF("runtime/internal/atomic", "And8",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicAnd8, ssa.OpAtomicAnd8Variant, TNIL, TNIL, atomicAndOrOpEmitterARM64),
+		sys.ARM64)
+	addF("runtime/internal/atomic", "Or8",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicOr8, ssa.OpAtomicOr8Variant, TNIL, TNIL, atomicAndOrOpEmitterARM64),
+		sys.ARM64)
 
 	alias("runtime/internal/atomic", "Loadint64", "runtime/internal/atomic", "Load64", all...)
 	alias("runtime/internal/atomic", "Xaddint64", "runtime/internal/atomic", "Xadd64", all...)
