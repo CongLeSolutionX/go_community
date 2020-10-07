@@ -935,6 +935,8 @@ func init() {
 		ops:             AMD64ops,
 		blocks:          AMD64blocks,
 		regnames:        regNamesAMD64,
+		ParamIRegNames:  []string{"AX", "BX", "CX", "DI", "SI", "R8", "R9", "R10", "R11"},
+		ParamFRegNames:  []string{"X0", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "X10", "X11", "X12", "X13", "X14"},
 		gpregmask:       gp,
 		fpregmask:       fp,
 		specialregmask:  x15,
