@@ -99,6 +99,14 @@ func stackalloc(f *Func, spillLive [][]ID) [][]ID {
 	return s.live
 }
 
+func isArgOp(x Op) bool {
+	switch x {
+	case OpArgIReg, OpArgFReg, OpArg:
+		return true
+	}
+	return false
+}
+
 func (s *stackAllocState) init(f *Func, spillLive [][]ID) {
 	s.f = f
 
@@ -112,7 +120,7 @@ func (s *stackAllocState) init(f *Func, spillLive [][]ID) {
 		for _, v := range b.Values {
 			s.values[v.ID].typ = v.Type
 			s.values[v.ID].needSlot = !v.Type.IsMemory() && !v.Type.IsVoid() && !v.Type.IsFlags() && f.getHome(v.ID) == nil && !v.rematerializeable() && !v.OnWasmStack
-			s.values[v.ID].isArg = v.Op == OpArg
+			s.values[v.ID].isArg = isArgOp(v.Op)
 			if f.pass.debug > stackDebug && s.values[v.ID].needSlot {
 				fmt.Printf("%s needs a stack slot\n", v)
 			}
@@ -151,17 +159,28 @@ func (s *stackAllocState) stackalloc() {
 
 	// Allocate args to their assigned locations.
 	for _, v := range f.Entry.Values {
-		if v.Op != OpArg {
+		if !isArgOp(v.Op) {
 			continue
 		}
-		if v.Aux == nil {
-			f.Fatalf("%s has nil Aux\n", v.LongString())
+		if v.Op == OpArg {
+			if v.Aux == nil {
+				f.Fatalf("%s has nil Aux\n", v.LongString())
+			}
+			loc := LocalSlot{N: v.Aux.(*ir.Name), Type: v.Type, Off: v.AuxInt}
+			if f.pass.debug > stackDebug {
+				fmt.Printf("stackalloc %s to %s\n", v, loc)
+			}
+			f.setHome(v, loc)
+			continue
 		}
-		loc := LocalSlot{N: v.Aux.(*ir.Name), Type: v.Type, Off: v.AuxInt}
-		if f.pass.debug > stackDebug {
-			fmt.Printf("stackalloc %s to %s\n", v, loc)
-		}
-		f.setHome(v, loc)
+		// TODO this is old experiment code
+		// Problem the new ABI has spill locations for registers, not "local slots".
+		// but "Location" wants a Local Slot.
+		// Looking up int/float parameter index, combined with f's param memory size, provides offset from FP.
+		//// register args already allocated to registers, but need to know the stack allocation for later
+		//reg := f.getHome(v.ID).(*Register)
+		//f.RegArgs = append(f.RegArgs, ArgPair{reg: reg, mem: loc})
+		panic("Unimplemented")
 	}
 
 	// For each type, we keep track of all the stack slots we
@@ -198,7 +217,7 @@ func (s *stackAllocState) stackalloc() {
 				s.nNotNeed++
 				continue
 			}
-			if v.Op == OpArg {
+			if isArgOp(v.Op) {
 				s.nArgSlot++
 				continue // already picked
 			}
@@ -385,7 +404,7 @@ func (s *stackAllocState) buildInterferenceGraph() {
 				for _, id := range live.contents() {
 					// Note: args can have different types and still interfere
 					// (with each other or with other values). See issue 23522.
-					if s.values[v.ID].typ.Compare(s.values[id].typ) == types.CMPeq || v.Op == OpArg || s.values[id].isArg {
+					if s.values[v.ID].typ.Compare(s.values[id].typ) == types.CMPeq || isArgOp(v.Op) || s.values[id].isArg {
 						s.interfere[v.ID] = append(s.interfere[v.ID], id)
 						s.interfere[id] = append(s.interfere[id], v.ID)
 					}
@@ -396,7 +415,7 @@ func (s *stackAllocState) buildInterferenceGraph() {
 					live.add(a.ID)
 				}
 			}
-			if v.Op == OpArg && s.values[v.ID].needSlot {
+			if isArgOp(v.Op) && s.values[v.ID].needSlot {
 				// OpArg is an input argument which is pre-spilled.
 				// We add back v.ID here because we want this value
 				// to appear live even before this point. Being live

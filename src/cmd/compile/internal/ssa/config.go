@@ -29,6 +29,8 @@ type Config struct {
 	fp32RegMask    regMask       // floating point register mask
 	fp64RegMask    regMask       // floating point register mask
 	specialRegMask regMask       // special register mask
+	iParamRegs     []int8        // register numbers of integer param (in/out) registers
+	fParamRegs     []int8        // register numbers of floating param (in/out) registers
 	GCRegMap       []*Register   // garbage collector register map, by GC register index
 	FPReg          int8          // register number of frame pointer, -1 if not used
 	LinkReg        int8          // register number of link register if it is a general purpose register, -1 if not used
@@ -202,6 +204,8 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.registers = registersAMD64[:]
 		c.gpRegMask = gpRegMaskAMD64
 		c.fpRegMask = fpRegMaskAMD64
+		c.iParamRegs = paramIRegAMD64
+		c.fParamRegs = paramFRegAMD64
 		c.FPReg = framepointerRegAMD64
 		c.LinkReg = linkRegAMD64
 		c.hasGReg = false

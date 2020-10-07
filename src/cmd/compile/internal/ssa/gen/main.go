@@ -36,6 +36,8 @@ type arch struct {
 	ops             []opData
 	blocks          []blockData
 	regnames        []string
+	ParamIRegNames  []string
+	ParamFRegNames  []string
 	gpregmask       regMask
 	fpregmask       regMask
 	fp32regmask     regMask
@@ -418,7 +420,9 @@ func genOp() {
 		}
 		fmt.Fprintf(w, "var registers%s = [...]Register {\n", a.name)
 		var gcRegN int
+		num := map[string]int8{}
 		for i, r := range a.regnames {
+			num[r] = int8(i)
 			pkg := a.pkg[len("cmd/internal/obj/"):]
 			var objname string // name in cmd/internal/obj/$ARCH
 			switch r {
@@ -441,11 +445,29 @@ func genOp() {
 			}
 			fmt.Fprintf(w, "  {%d, %s, %d, \"%s\"},\n", i, objname, gcRegIdx, r)
 		}
+		parameterRegisterList := func(paramNames []string) []int8 {
+			var paramRegs []int8
+			for _, regName := range paramNames {
+				if regNum, ok := num[regName]; ok {
+					paramRegs = append(paramRegs, regNum)
+					delete(num, regName)
+				} else {
+					log.Fatalf("parameter register %s for architecture %s not a register name (or repeated in parameter list)", regName, a.name)
+				}
+			}
+			return paramRegs
+		}
+
+		paramIRegs := parameterRegisterList(a.ParamIRegNames)
+		paramFRegs := parameterRegisterList(a.ParamFRegNames)
+
 		if gcRegN > 32 {
 			// Won't fit in a uint32 mask.
 			log.Fatalf("too many GC registers (%d > 32) on %s", gcRegN, a.name)
 		}
 		fmt.Fprintln(w, "}")
+		fmt.Fprintf(w, "var paramIReg%s = %#v\n", a.name, paramIRegs)
+		fmt.Fprintf(w, "var paramFReg%s = %#v\n", a.name, paramFRegs)
 		fmt.Fprintf(w, "var gpRegMask%s = regMask(%d)\n", a.name, a.gpregmask)
 		fmt.Fprintf(w, "var fpRegMask%s = regMask(%d)\n", a.name, a.fpregmask)
 		if a.fp32regmask != 0 {
