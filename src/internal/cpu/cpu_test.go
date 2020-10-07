@@ -58,6 +58,10 @@ func runDebugOptionsTest(t *testing.T, test string, options string) {
 }
 
 func TestDisableAllCapabilities(t *testing.T) {
+	if runtime.GOOS == "darwin" && runtime.GOARCH == "arm64" {
+		t.Skipf("CPU feature detection is not supported on %s/%s", runtime.GOOS, runtime.GOARCH)
+	}
+
 	runDebugOptionsTest(t, "TestAllCapabilitiesDisabled", "cpu.all=off")
 }
 
