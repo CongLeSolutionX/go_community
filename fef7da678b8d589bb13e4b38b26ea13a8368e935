@@ -46,6 +46,23 @@
       },
       "revId": "fef7da678b8d589bb13e4b38b26ea13a8368e935",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5c8dc05_0c43fa1c",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-07T19:48:38Z",
+      "side": 1,
+      "message": "There should be a \u003c/dd\u003e closing tag here for consistency.\n\nFixed in PS 4 and sent CL 260497 to update relnote to include them.",
+      "revId": "fef7da678b8d589bb13e4b38b26ea13a8368e935",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
