@@ -544,13 +544,17 @@
 (AtomicStorePtrNoWB ...) => (STLR  ...)
 
 (AtomicExchange(32|64) ...) => (LoweredAtomicExchange(32|64) ...)
+(AtomicExchange(32|64)Variant ...) => (LoweredAtomicExchange(32|64)Variant ...)
 (AtomicAdd(32|64) ...) => (LoweredAtomicAdd(32|64) ...)
 (AtomicCompareAndSwap(32|64) ...) => (LoweredAtomicCas(32|64) ...)
+(AtomicCompareAndSwap(32|64)Variant ...) => (LoweredAtomicCas(32|64)Variant ...)
 
 // Currently the updated value is not used, but we need a register to temporarily hold it.
 (AtomicAnd8  ptr val mem) => (Select1 (LoweredAtomicAnd8  ptr val mem))
+(AtomicAnd8Variant ptr val mem) => (Select1 (LoweredAtomicAnd8Variant ptr val mem))
 (AtomicAnd32 ptr val mem) => (Select1 (LoweredAtomicAnd32 ptr val mem))
 (AtomicOr8   ptr val mem) => (Select1 (LoweredAtomicOr8   ptr val mem))
+(AtomicOr8Variant  ptr val mem) => (Select1 (LoweredAtomicOr8Variant  ptr val mem))
 (AtomicOr32  ptr val mem) => (Select1 (LoweredAtomicOr32  ptr val mem))
 
 (AtomicAdd(32|64)Variant ...) => (LoweredAtomicAdd(32|64)Variant ...)
