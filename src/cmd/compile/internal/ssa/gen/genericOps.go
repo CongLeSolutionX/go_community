@@ -331,6 +331,9 @@ var genericOps = []opData{
 	// Constant-like things
 	{name: "InitMem", zeroWidth: true},                               // memory input to the function.
 	{name: "Arg", aux: "SymOff", symEffect: "Read", zeroWidth: true}, // argument to the function.  aux=GCNode of arg, off = offset in that arg.
+	// Like Arg, these are generic ops that survive lowering.  AuxInt is a register index, and the actual output register is obtained from the architecture.
+	{name: "ArgIReg", aux: "Int8", zeroWidth: true}, // argument to the function in an int reg. AuxInt = integer argument index (not a register number). ABI-specified spill loc obtained from function
+	{name: "ArgFReg", aux: "Int8", zeroWidth: true}, // argument to the function in a float reg. AuxInt = floating argument index (not a register number). ABI-specified spill loc obtained from function
 
 	// The address of a variable.  arg0 is the base pointer.
 	// If the variable is a global, the base pointer will be SB and
