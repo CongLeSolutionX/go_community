@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ef9f73e_dd89043e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "I haven\u0027t read the reflect package changes yet, but I\u0027ve looked over the rest of it.",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42990d6f_9dc63ef9",
@@ -48,6 +65,29 @@
       "writtenOn": "2020-10-07T02:17:23Z",
       "side": 1,
       "message": "I would put this in its own file. Maybe abi.go?",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0862cb_4160ac4f",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "Technically these are arguments, not parameters. That\u0027s also, conveniently, shorter: \"RegArgs\"",
+      "range": {
+        "startLine": 245,
+        "startChar": 5,
+        "endLine": 245,
+        "endChar": 18
+      },
       "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +128,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7710490c_8ef404af",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "This could be param or arg, but maybe it should be \"IntArgRegs\" for consistency with RegArgs.",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "77d0a1a1_e3329fbc",
         "filename": "src/internal/cpu/cpu_regabi_amd64.go",
         "patchSetId": 7
@@ -116,6 +179,304 @@
       "writtenOn": "2020-10-07T02:17:23Z",
       "side": 1,
       "message": "abi_other.go?",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4f304e5_fbaca226",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "Args",
+      "range": {
+        "startLine": 459,
+        "startChar": 8,
+        "endLine": 459,
+        "endChar": 14
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16da2ac7_1245f9ba",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "\"*cpu.RegArgs\"?",
+      "range": {
+        "startLine": 459,
+        "startChar": 56,
+        "endLine": 459,
+        "endChar": 63
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a59e575_277a38f1",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "Args",
+      "range": {
+        "startLine": 487,
+        "startChar": 10,
+        "endLine": 487,
+        "endChar": 16
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff5df5e_290bad78",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "\"*cpu.RegArgs\"?",
+      "range": {
+        "startLine": 487,
+        "startChar": 50,
+        "endLine": 487,
+        "endChar": 57
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9f5b864_ab395166",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "stackArgs",
+      "range": {
+        "startLine": 378,
+        "startChar": 5,
+        "endLine": 378,
+        "endChar": 8
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c41d682_05d83cff",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "stackArgs",
+      "range": {
+        "startLine": 349,
+        "startChar": 10,
+        "endLine": 349,
+        "endChar": 16
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72972a1c_8bf1f14e",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "stackArgsSize",
+      "range": {
+        "startLine": 351,
+        "startChar": 10,
+        "endLine": 351,
+        "endChar": 17
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a0ab4ef_f58d999f",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "stackArgs",
+      "range": {
+        "startLine": 369,
+        "startChar": 9,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81490349_e3f6692f",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "I\u0027m getting rid of this one, at least. :)",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e300e780_e08435cf",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "This is definitely going to have to change so the finalizer arguments get passed in registers. At least it\u0027s pretty easy in this case, since there are at most two words, both known to be pointers.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 0
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da72b71c_3278e23d",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "I suppose this is where we\u0027re going to need the compiler to bake the registers into some new kind of first-class frame so we can reflectcall deferred functions.",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4cb6873_cfaf0aa8",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "I think this needs to bubble up to the callers of reflectcallSave.",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75f93da9_de4598ca",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "Undo",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "882d30e6_d427803f",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:45:10Z",
+      "side": 1,
+      "message": "Can reflectcall be marked go:noescape? It\u0027s always a little scary to mark things go:noescape because it applies all to parameters, but I think it\u0027s actually true. It would certainly make a few uses of this less annoying.",
       "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
