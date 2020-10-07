@@ -16,6 +16,69 @@
       "message": "PTAL",
       "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f63939_9e83f935",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-07T16:12:15Z",
+      "side": 1,
+      "message": "Maybe GenSymsLate ? While it currently only generates text symbols, it could be more general. Maybe mention that the additional symbols are solely for the native symbol table.",
+      "range": {
+        "startLine": 251,
+        "startChar": 1,
+        "endLine": 251,
+        "endChar": 12
+      },
+      "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7093de75_301c7821",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-07T16:12:15Z",
+      "side": 1,
+      "message": "Why it needs to be added to the outer symbol? Does it matter?",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 4
+      },
+      "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4c35a1e_b17f6c91",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-07T16:12:15Z",
+      "side": 1,
+      "message": "If the label symbol has the same address of a function symbol, i.e. the AUIPC is the first instruction of a function, do you need to look at the next one? Or we could just use the function symbol without creating the label symbol.",
+      "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
