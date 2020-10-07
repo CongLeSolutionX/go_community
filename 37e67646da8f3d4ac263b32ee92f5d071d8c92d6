@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "b120aa75_49dc9bd3",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Thanks for the comments. I will make the requested changes.",
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8620eab5_b3a0d52e",
         "filename": "src/cmd/compile/internal/arm64/ssa.go",
@@ -37,10 +38,10 @@
         "endChar": 8
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "6eb435fa_1322eedf",
         "filename": "src/cmd/compile/internal/arm64/ssa.go",
@@ -61,10 +62,10 @@
         "endChar": 8
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1981e5aa_10927163",
         "filename": "src/cmd/compile/internal/arm64/ssa.go",
@@ -85,10 +86,10 @@
         "endChar": 8
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "ec182bd6_7af7b24b",
         "filename": "src/cmd/compile/internal/arm64/ssa.go",
@@ -109,10 +110,10 @@
         "endChar": 8
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "3d1562ad_5058e320",
         "filename": "src/cmd/compile/internal/arm64/ssa.go",
@@ -133,10 +134,10 @@
         "endChar": 8
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f5b33581_f7ed2ace",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
@@ -150,10 +151,10 @@
       "side": 1,
       "message": "All these make functions are quite similar, can we merge chem?",
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7f201616_7b83c71e",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
@@ -168,10 +169,28 @@
       "message": "Yes, I will work on that.",
       "parentUuid": "f5b33581_f7ed2ace",
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11e7208_337f5a47",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3448,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-10-07T16:31:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f201616_7b83c71e",
+      "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "0f561099_ee9ff1e7",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
@@ -185,10 +204,10 @@
       "side": 1,
       "message": "Is the situation changed now?",
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "815c2b1e_409d3ecb",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
@@ -203,10 +222,10 @@
       "message": "This change was based on my intuition that high performance arm64 CPUs are more common than they were when this code was originally written. It\u0027s been a while, but I think my testing showed that it didn\u0027t make a big difference, but it did help some.",
       "parentUuid": "0f561099_ee9ff1e7",
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c6ce51cb_4f9a4291",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
@@ -226,10 +245,10 @@
         "endChar": 154
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "412dabab_78c8c3e3",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
@@ -250,10 +269,10 @@
         "endChar": 154
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "40145b4d_110b1d7a",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
@@ -274,10 +293,10 @@
         "endChar": 154
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e57f1880_90a55f54",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
@@ -298,10 +317,10 @@
         "endChar": 154
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "94a3f4cf_8435d1a6",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
@@ -321,10 +340,10 @@
         "endChar": 21
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9690d0ce_39bbdd2e",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
@@ -345,8 +364,7 @@
         "endChar": 21
       },
       "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
