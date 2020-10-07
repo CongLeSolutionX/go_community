@@ -52,6 +52,24 @@
       "parentUuid": "d3234684_01651f15",
       "revId": "052a5e9c2a7a711989a25a48dfd035930ff7454a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4feca1f5_772feeb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-07T19:21:14Z",
+      "side": 1,
+      "message": "You can send a follow-up change adding a more specific test if you\u0027d like, but this is good enough for now.\n\nAs inspiration to copy from, see:\n\nsrc/crypto/tls/link_test.go:                    cmd \u003d exec.Command(goBin, \"tool\", \"nm\", \"x.exe\")\nsrc/math/big/link_test.go:      cmd \u003d exec.Command(goBin, \"tool\", \"nm\", \"x.exe\")\nsrc/net/http/http_test.go:      out, err :\u003d exec.Command(goBin, \"tool\", \"nm\", goBin).CombinedOutput()",
+      "parentUuid": "79b4ea95_07dd07c4",
+      "revId": "052a5e9c2a7a711989a25a48dfd035930ff7454a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
