@@ -58,6 +58,14 @@ func runDebugOptionsTest(t *testing.T, test string, options string) {
 }
 
 func TestDisableAllCapabilities(t *testing.T) {
+	if runtime.GOARCH == "arm64" {
+		switch runtime.GOOS {
+		case "linux", "android":
+		default:
+			t.Skipf("%s/%s is not supported", runtime.GOOS, runtime.GOARCH)
+		}
+	}
+
 	runDebugOptionsTest(t, "TestAllCapabilitiesDisabled", "cpu.all=off")
 }
 

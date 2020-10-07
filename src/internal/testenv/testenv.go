@@ -45,7 +45,7 @@ func HasGoBuild() bool {
 	switch runtime.GOOS {
 	case "android", "js":
 		return false
-	case "darwin", "ios":
+	case "ios":
 		if runtime.GOARCH == "arm64" {
 			return false
 		}
@@ -124,7 +124,7 @@ func HasExec() bool {
 	switch runtime.GOOS {
 	case "js":
 		return false
-	case "darwin", "ios":
+	case "ios":
 		if runtime.GOARCH == "arm64" {
 			return false
 		}
@@ -135,7 +135,7 @@ func HasExec() bool {
 // HasSrc reports whether the entire source tree is available under GOROOT.
 func HasSrc() bool {
 	switch runtime.GOOS {
-	case "darwin", "ios":
+	case "ios":
 		if runtime.GOARCH == "arm64" {
 			return false
 		}
@@ -199,6 +199,32 @@ func HasCGO() bool {
 func MustHaveCGO(t testing.TB) {
 	if !haveCGO {
 		t.Skipf("skipping test: no cgo")
+	}
+}
+
+// CanInternalLink reports whether the current system can link programs with
+// internal linking.
+// (This is the opposite of cmd/internal/sys.MustLinkExternal. Keep them in sync.)
+func CanInternalLink() bool {
+	switch runtime.GOOS {
+	case "android":
+		if runtime.GOARCH != "arm64" {
+			return false
+		}
+	case "darwin", "ios":
+		if runtime.GOARCH == "arm64" {
+			return false
+		}
+	}
+	return true
+}
+
+// MustInternalLink checks that the current system can link programs with internal
+// linking.
+// If not, MustInternalLink calls t.Skip with an explanation.
+func MustInternalLink(t testing.TB) {
+	if !CanInternalLink() {
+		t.Skipf("skipping test: internal linking on %s/%s is not supported", runtime.GOOS, runtime.GOARCH)
 	}
 }
 
