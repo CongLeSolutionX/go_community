@@ -16,6 +16,24 @@
       "message": "Sorry, I missed this part.\n",
       "revId": "9ad714c2ac0cbbb4e2a90660761b92034a577cb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8483133_5d43bde8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-07T14:57:49Z",
+      "side": 1,
+      "message": "Thanks. No problem :)",
+      "parentUuid": "24810797_5bd770c9",
+      "revId": "9ad714c2ac0cbbb4e2a90660761b92034a577cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
