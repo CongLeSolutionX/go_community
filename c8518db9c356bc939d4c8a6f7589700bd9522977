@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "7e7d2056_13bfb724",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,109 @@
       "side": 1,
       "message": "Now under the GOEXPERIMENT flag!",
       "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c339ade6_7e60781d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:17:23Z",
+      "side": 1,
+      "message": "We talked offline but I wanted to put the suggestion here: we should pull the internal/cpu bits out into their own CL that we can easily go ahead and land so other things can use it.",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42990d6f_9dc63ef9",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:17:23Z",
+      "side": 1,
+      "message": "I would put this in its own file. Maybe abi.go?",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3075b67_c50eeea8",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:17:23Z",
+      "side": 1,
+      "message": "Just \"abi_amd64.go\"?",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cdbd886_e18c88ff",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:17:23Z",
+      "side": 1,
+      "message": "Maybe this is gross, but I just wanted to put the idea out there: what if there were also header files in this package that could be included in assembly files with #defines for ARG_I0.. and ARG_F0..? It doesn\u0027t save you any typing in the assembly code, but maybe it makes it a little more self documenting? Or maybe this is a bad idea because it makes it less clear what registers are being clobbered when, which is one of the most important things to understand in assembly code.",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77d0a1a1_e3329fbc",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:17:23Z",
+      "side": 1,
+      "message": "What is MaxFloatBytes? (Is this related to your concerns about CPUs that only have float32?)",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e739067_8a90d115",
+        "filename": "src/internal/cpu/cpu_regabi_other.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-07T02:17:23Z",
+      "side": 1,
+      "message": "abi_other.go?",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
