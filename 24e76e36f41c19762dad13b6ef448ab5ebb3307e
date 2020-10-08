@@ -16,6 +16,23 @@
       "message": "Ping again. Need a +2 on this so we can get it into 1.15.3.\n",
       "revId": "24e76e36f41c19762dad13b6ef448ab5ebb3307e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4a4c6f9_28bedec7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-08T22:14:18Z",
+      "side": 1,
+      "message": "Any idea what\u0027s up with the js-wasm failure?",
+      "revId": "24e76e36f41c19762dad13b6ef448ab5ebb3307e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
