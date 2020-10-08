@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8459c30f_be9294ff",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T18:46:34Z",
+      "side": 1,
+      "message": "\u003e That seems like a bug too. We should make it panic like (*rtype).Method does.\n\nDo you want to fix it in this CL, or follow up one?",
+      "parentUuid": "597fbd91_d7316ffa",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb7d506e_0c4a3738",
         "filename": "src/reflect/type.go",
         "patchSetId": 6
@@ -208,6 +226,24 @@
       "side": 1,
       "message": "We expect here to return an invalid method. MethodByName can not return unexported method, because it uses Method(i), which does not return unexported method with this CL.",
       "parentUuid": "a08a160a_97972ca3",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bede8df_9f2c93df",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T18:46:34Z",
+      "side": 1,
+      "message": "I mean this one does not affect correctness, just affect performance. It will be problem, when we fix the bug in Method(i), which does not panic for now. Anyway, I will fix it in followup patch.",
+      "parentUuid": "0f4eeaf8_30a6b408",
       "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
