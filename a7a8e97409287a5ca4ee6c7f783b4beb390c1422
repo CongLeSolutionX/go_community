@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68160c08_0bc79f00",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T18:58:49Z",
+      "side": 1,
+      "message": "Let\u0027s fix in this CL. I think it\u0027s worth fixing all of the Method/MethodByName/NumMethod methods in one go.",
+      "parentUuid": "8459c30f_be9294ff",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb7d506e_0c4a3738",
         "filename": "src/reflect/type.go",
         "patchSetId": 6
