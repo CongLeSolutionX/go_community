@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c21a87fb_f58d14e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-08T02:52:19Z",
+      "side": 1,
+      "message": "net/http/httputil: flush ReverseProxy immediately if Content-Length is -1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 78
+      },
+      "revId": "84e3da6c041c58ddf148ccd9ea1cfa439ffb3fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ed6e68a_4ec1f52a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-08T02:52:19Z",
+      "side": 1,
+      "message": "Finish up a prior TODO by making ReverseProxy flush immediately\nif Content-Length is -1, which is a case that can occur if for\nexample we have a streamed response, or chunked encoding, or when\nthe body\u0027s length wasn\u0027t known.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "84e3da6c041c58ddf148ccd9ea1cfa439ffb3fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b45dc38_4f711e0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-08T02:52:19Z",
+      "side": 1,
+      "message": "Thank you Ignacio for this change, some suggestions please take a look.",
+      "revId": "84e3da6c041c58ddf148ccd9ea1cfa439ffb3fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e766d66_31921446",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-08T02:52:19Z",
+      "side": 1,
+      "message": "if its ContentLength is -1;",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "84e3da6c041c58ddf148ccd9ea1cfa439ffb3fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f6490b_eb73db7a",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-08T02:52:19Z",
+      "side": 1,
+      "message": "While the precedent has been to use a variable, I don\u0027t think that\u0027s necessary. Perhaps:\n\n      // We might have the case of streaming for which Content-Length might be unset or -1.     \n      if res.ContentLength \u003d\u003d -1 || res.Header.Get(\"Content-Length\") \u003d\u003d \"-1\" {\n             return -1\n      }",
+      "range": {
+        "startLine": 409,
+        "startChar": 1,
+        "endLine": 412,
+        "endChar": 2
+      },
+      "revId": "84e3da6c041c58ddf148ccd9ea1cfa439ffb3fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
