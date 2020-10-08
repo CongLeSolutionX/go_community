@@ -16,6 +16,40 @@
       "message": "All comments addressed.",
       "revId": "c91b5760543a715a865871a4148bc768e0959e4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c94ae18f_a30a7e9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-08T19:14:01Z",
+      "side": 1,
+      "message": "Thank you Ignacio, just a minor update but otherwise LGTM. Brad, what do you think?",
+      "revId": "c91b5760543a715a865871a4148bc768e0959e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c64f5de_6ed25f9e",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-08T19:14:01Z",
+      "side": 1,
+      "message": "I don\u0027t think we should crowd these conditions here, please revert it to a line of its own as it was before, but with only:\n\n\n  // We might have the case of streaming for which Content-Length might be unset.\n  if res.ContentLength \u003d\u003d -1 {",
+      "revId": "c91b5760543a715a865871a4148bc768e0959e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
