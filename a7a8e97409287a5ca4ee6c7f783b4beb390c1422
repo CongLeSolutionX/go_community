@@ -177,6 +177,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc22134f_3dbab415",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T18:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64a4d8b7_22972203",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a08a160a_97972ca3",
@@ -244,6 +262,24 @@
       "side": 1,
       "message": "I mean this one does not affect correctness, just affect performance. It will be problem, when we fix the bug in Method(i), which does not panic for now. Anyway, I will fix it in followup patch.",
       "parentUuid": "0f4eeaf8_30a6b408",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81fdd9c5_d2025dc5",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T18:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bede8df_9f2c93df",
       "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
