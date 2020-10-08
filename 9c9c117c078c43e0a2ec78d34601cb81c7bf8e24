@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5fc6b6f_9067b1f9",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc508170_5f305d4c",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d07f73b_57c63e48",
@@ -48,6 +66,24 @@
       "writtenOn": "2020-10-08T08:17:33Z",
       "side": 1,
       "message": "So this can become:\n\n    if t.isEmpty() {",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "268b0638_2f5bbf0e",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d07f73b_57c63e48",
       "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a58d09b2_cf9f5161",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00895f5b_4fa39a31",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1d5713a_0e104244",
@@ -82,6 +136,30 @@
       "writtenOn": "2020-10-08T08:17:33Z",
       "side": 1,
       "message": "nit: make this \"t\" for consistency with ifaceIndir above. I don\u0027t think we use \"rt\" as variable name for rtype anywhere.",
+      "range": {
+        "startLine": 933,
+        "startChar": 18,
+        "endLine": 933,
+        "endChar": 20
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11c53778_04fff778",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1d5713a_0e104244",
       "range": {
         "startLine": 933,
         "startChar": 18,
@@ -111,6 +189,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "06a0ed61_7a98738b",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09038095_155113dd",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0c72364e_bf7bba01",
         "filename": "src/reflect/type.go",
         "patchSetId": 5
@@ -122,6 +218,30 @@
       "writtenOn": "2020-10-08T08:17:33Z",
       "side": 1,
       "message": "I\u0027m curious the origin of this comment, because this isn\u0027t how we\u0027ve sorted methods for a while.",
+      "range": {
+        "startLine": 390,
+        "startChar": 25,
+        "endLine": 390,
+        "endChar": 39
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21232850_09821b00",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "I think we just forgot to update this comment when we change the way we sort methods. The first commit of reflect/type.go c007ce824d9a4fccb148f9204e04c23ed2984b71 back in 2014 had that comment already.",
+      "parentUuid": "0c72364e_bf7bba01",
       "range": {
         "startLine": 390,
         "startChar": 25,
@@ -155,6 +275,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e23053_952b589f",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad1b2d1e_fa20beb2",
+      "range": {
+        "startLine": 1069,
+        "startChar": 25,
+        "endLine": 1069,
+        "endChar": 52
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66e2d15e_72cc957a",
@@ -168,6 +312,24 @@
       "writtenOn": "2020-10-08T08:17:33Z",
       "side": 1,
       "message": "nit: move this up just after the interfaceType type declaration (~L392). I\u0027d also add a comment:\n\n    // methods returns t\u0027s full method set, both exported and non-exported.\n\nPlacing it here is suboptimal for two reasons IMO:\n\n1. Here we\u0027re defining the public API, so dropping methods right in the middle is a little confusing\n2. It\u0027s a bit misleading placing it right next to NumMethod, because NumMethod returns the number of exported methods, but methods returns all methods.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f10ab8f_9cc8c269",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66e2d15e_72cc957a",
       "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -189,6 +351,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe15d75a_dd3f7904",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1469,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "252d50f1_01e261c1",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff15d970_fed44400",
@@ -202,6 +382,24 @@
       "writtenOn": "2020-10-08T08:17:33Z",
       "side": 1,
       "message": "Declare:\n\n    ttmethods :\u003d tt.methods()\n\nso you can use len(ttmethods) here, and then index ttmethods on L641.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1693edfe_17508579",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff15d970_fed44400",
       "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -223,6 +421,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e7791c_fff334cf",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ef2f956_fbe2930b",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca48735f_0471fc50",
@@ -236,6 +452,30 @@
       "writtenOn": "2020-10-08T08:17:33Z",
       "side": 1,
       "message": "nit: \"including both\"",
+      "range": {
+        "startLine": 372,
+        "startChar": 53,
+        "endLine": 372,
+        "endChar": 61
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b58e950_6211fe57",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca48735f_0471fc50",
       "range": {
         "startLine": 372,
         "startChar": 53,
@@ -269,6 +509,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eadedae8_57635383",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e77279e1_db47ea8b",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 65
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a832aab_9578ee7c",
@@ -286,6 +550,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ccdcc8_3a695f4b",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a832aab_9578ee7c",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "706c356b_f0770f26",
@@ -299,6 +581,24 @@
       "writtenOn": "2020-10-08T08:17:33Z",
       "side": 1,
       "message": "Same idea again: itmethods and ivmethods",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82a77f32_f9c56690",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T11:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706c356b_f0770f26",
       "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
