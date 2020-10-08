@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a24c5706_51e5a6bf",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T14:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "624dd8ee_4feafd4b",
+      "range": {
+        "startLine": 1214,
+        "startChar": 46,
+        "endLine": 1214,
+        "endChar": 52
+      },
+      "revId": "a7653125ddf56644159e829cc604cb206abf8721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42ecb52a_63929c1a",
@@ -59,6 +83,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5012e701_af3d282a",
+        "filename": "src/internal/cpu/cpu_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T14:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ad75609_1b2e82f9",
+      "revId": "a7653125ddf56644159e829cc604cb206abf8721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91af2f27_fbe0b12c",
@@ -72,6 +114,24 @@
       "writtenOn": "2020-10-08T14:21:38Z",
       "side": 1,
       "message": "this comment isn\u0027t clear to me at least.",
+      "revId": "a7653125ddf56644159e829cc604cb206abf8721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcecb4d1_c2c4e5c5",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T14:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91af2f27_fbe0b12c",
       "revId": "a7653125ddf56644159e829cc604cb206abf8721",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
