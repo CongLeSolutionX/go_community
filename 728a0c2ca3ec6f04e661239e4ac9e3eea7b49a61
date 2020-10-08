@@ -34,6 +34,24 @@
       "parentUuid": "49fd455e_e98a8594",
       "revId": "728a0c2ca3ec6f04e661239e4ac9e3eea7b49a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d231ad9b_fb1af216",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26889
+      },
+      "writtenOn": "2020-10-08T11:20:07Z",
+      "side": 1,
+      "message": "Hmm okay, seems interesting. I agree that it\u0027s not solved for all parsing issues. I\u0027ve not come up with cases where it became worse, but that is indeed a possibility. I might be wrong, but isn\u0027t \"interface m() }\" invalid syntax anyways, the current parser fails on that, since it still expects a \"{\" after the \"interface\".\n\nAnyways, I do have a couple questions:\n1) Why are there two parsers? The one in the compiler seems identical to the one in the parser, only having some newer stuff, but in essence, it seems to work the same.\n2) Would it make sense to unify these parsers?\n3) If not, then the solution is to just use the error handling from the compiler parser right?\n\nI\u0027m just trying to figure out what the most logical steps would be, if I\u0027m doing something, I better be helpful ;)",
+      "parentUuid": "550469b4_6e8f41d1",
+      "revId": "728a0c2ca3ec6f04e661239e4ac9e3eea7b49a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
