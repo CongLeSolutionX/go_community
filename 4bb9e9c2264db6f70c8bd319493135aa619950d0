@@ -34,6 +34,24 @@
       "parentUuid": "49975e2a_782d3db2",
       "revId": "4bb9e9c2264db6f70c8bd319493135aa619950d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0066496_f9f2eb40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T23:10:33Z",
+      "side": 1,
+      "message": "Yeah, I guess it is not common that people want to distinguish if an interface type is empty interface. Probably fine.",
+      "parentUuid": "578902d4_c402c115",
+      "revId": "4bb9e9c2264db6f70c8bd319493135aa619950d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
