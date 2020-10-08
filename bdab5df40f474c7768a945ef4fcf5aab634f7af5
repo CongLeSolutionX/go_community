@@ -22,6 +22,30 @@
       },
       "revId": "bdab5df40f474c7768a945ef4fcf5aab634f7af5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4659e010_ace51240",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-10-08T13:09:47Z",
+      "side": 0,
+      "message": "After chatting with Mike I decided to leave the Optab as is but still fix up the tests.",
+      "parentUuid": "0dfa4fa4_3cb7209c",
+      "range": {
+        "startLine": 619,
+        "startChar": 1,
+        "endLine": 619,
+        "endChar": 52
+      },
+      "revId": "bdab5df40f474c7768a945ef4fcf5aab634f7af5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
