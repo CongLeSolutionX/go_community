@@ -39,6 +39,29 @@
       "message": "Can we omit the GOARCH checks, throughout this file?\n\n(Do we expect an iOS environment other than \"arm64\" to exist and support exec?)",
       "revId": "885e9af0cee3c919abba0713544c62c461fe9caa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f83b78d_a3914911",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-08T15:12:24Z",
+      "side": 1,
+      "message": "Maybe also add a comment in cmd/internal/sys.MustLinkInternal referring back to here?\n\nOr, better still, add a test to verify that they match?\n\n\tfunc TestMustLinkInternalMatchesTestenv(t *testing.T) {\n\t\tif testenv.CanInternalLink() !\u003d sys.MustLinkExternal(runtime.GOOS, runtime.GOARCH) {\n\t\t\tt.Fatalf(…)\n\t\t}\n\t}",
+      "range": {
+        "startLine": 207,
+        "startChar": 28,
+        "endLine": 207,
+        "endChar": 61
+      },
+      "revId": "885e9af0cee3c919abba0713544c62c461fe9caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
