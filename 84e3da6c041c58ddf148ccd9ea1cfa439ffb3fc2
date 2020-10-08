@@ -108,6 +108,30 @@
       },
       "revId": "84e3da6c041c58ddf148ccd9ea1cfa439ffb3fc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "826c3ffd_34519765",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-08T03:34:12Z",
+      "side": 1,
+      "message": "\"-1\" as a string is not correct. The Header value is never \"-1\" on the wire. Only *http.Response.ContentLength can be -1 to mean \"unknown\".",
+      "parentUuid": "39f6490b_eb73db7a",
+      "range": {
+        "startLine": 409,
+        "startChar": 1,
+        "endLine": 412,
+        "endChar": 2
+      },
+      "revId": "84e3da6c041c58ddf148ccd9ea1cfa439ffb3fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
