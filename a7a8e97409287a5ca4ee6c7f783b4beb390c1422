@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ccf85f8_4e47e2a9",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T17:26:36Z",
+      "side": 1,
+      "message": "Ops, I did that for reflect/type.go, not sure why I missed for this.",
+      "parentUuid": "e2e3071c_f478d428",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc4987d7_1f386285",
@@ -48,6 +66,24 @@
       "writtenOn": "2020-10-08T16:44:15Z",
       "side": 1,
       "message": "This should be updated to avoid using cap, like in methodReceiver.",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69f1f65_58accc95",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1912,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T17:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc4987d7_1f386285",
       "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c751e4d_56dfa586",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T17:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f8539e3_e5d8b526",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aab2f9d8_2ac05655",
@@ -82,6 +136,24 @@
       "writtenOn": "2020-10-08T16:44:15Z",
       "side": 1,
       "message": "These two cap calls (here and L397 below) can be replaced with isEmpty",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12340660_d4da8b5c",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T17:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aab2f9d8_2ac05655",
       "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
