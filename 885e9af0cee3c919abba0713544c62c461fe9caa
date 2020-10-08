@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acf7c378_a2c44a1a",
+        "filename": "src/internal/cpu/cpu_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T16:27:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6460f9_1fd982b8",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 2
+      },
+      "revId": "885e9af0cee3c919abba0713544c62c461fe9caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58c3be26_a326a71f",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "979b6fcc_9c6d8bae",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T16:27:20Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "58c3be26_a326a71f",
+      "revId": "885e9af0cee3c919abba0713544c62c461fe9caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f83b78d_a3914911",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-10-08T15:12:24Z",
       "side": 1,
       "message": "Maybe also add a comment in cmd/internal/sys.MustLinkInternal referring back to here?\n\nOr, better still, add a test to verify that they match?\n\n\tfunc TestMustLinkInternalMatchesTestenv(t *testing.T) {\n\t\tif testenv.CanInternalLink() !\u003d sys.MustLinkExternal(runtime.GOOS, runtime.GOARCH) {\n\t\t\tt.Fatalf(…)\n\t\t}\n\t}",
+      "range": {
+        "startLine": 207,
+        "startChar": 28,
+        "endLine": 207,
+        "endChar": 61
+      },
+      "revId": "885e9af0cee3c919abba0713544c62c461fe9caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb79c6b_3c9a1817",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T16:27:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f83b78d_a3914911",
       "range": {
         "startLine": 207,
         "startChar": 28,
