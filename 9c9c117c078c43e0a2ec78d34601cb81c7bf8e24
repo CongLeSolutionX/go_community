@@ -1,0 +1,306 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6849258a_14423320",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Thanks Cuong. CL overall looks good. Lot of comments below, but really just a bunch of nits. Basically, I don\u0027t want any calls to `cap` except in interfacetype helper methods, and I think it\u0027s easy to tweak the code to avoid that.\n\nAlso, as discussed, add a release note about changing the Method methods to doc/go1.16.html. Something like:\n\n    For interface types and values, Method, MethodByName, and NumMethod now operate on the interface\u0027s exported method set, rather than its full method set.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc508170_5f305d4c",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Let\u0027s add a:\n\n    func (t *interfaceType) isEmpty() bool { return cap(t.expMethods) \u003d\u003d 0 }\n\nhelper method.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d07f73b_57c63e48",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "So this can become:\n\n    if t.isEmpty() {",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00895f5b_4fa39a31",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Declare \"tmethods :\u003d t.methods()\" right after this if statement (so you only have to declare it once instead of twice), and use len(tmethods) everywhere below instead of cap(t.expMethods).",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1d5713a_0e104244",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "nit: make this \"t\" for consistency with ifaceIndir above. I don\u0027t think we use \"rt\" as variable name for rtype anywhere.",
+      "range": {
+        "startLine": 933,
+        "startChar": 18,
+        "endLine": 933,
+        "endChar": 20
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09038095_155113dd",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "This can also use tt.isEmpty().\n\n(I\u0027d probably rename \"tt\" to \"it\" or maybe \"ityp\" too... but I see we do use \"tt\" in other places, so I don\u0027t feel that strongly about it. I wouldn\u0027t have mentioned if I wasn\u0027t commenting about isEmpty() anyway.)",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c72364e_bf7bba01",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "I\u0027m curious the origin of this comment, because this isn\u0027t how we\u0027ve sorted methods for a while.",
+      "range": {
+        "startLine": 390,
+        "startChar": 25,
+        "endLine": 390,
+        "endChar": 39
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad1b2d1e_fa20beb2",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "nit: \"number of exported interface methods\"",
+      "range": {
+        "startLine": 1069,
+        "startChar": 25,
+        "endLine": 1069,
+        "endChar": 52
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66e2d15e_72cc957a",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "nit: move this up just after the interfaceType type declaration (~L392). I\u0027d also add a comment:\n\n    // methods returns t\u0027s full method set, both exported and non-exported.\n\nPlacing it here is suboptimal for two reasons IMO:\n\n1. Here we\u0027re defining the public API, so dropping methods right in the middle is a little confusing\n2. It\u0027s a bit misleading placing it right next to NumMethod, because NumMethod returns the number of exported methods, but methods returns all methods.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "252d50f1_01e261c1",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1469,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Make all the same changes I suggested for reflectlite here too.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff15d970_fed44400",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Declare:\n\n    ttmethods :\u003d tt.methods()\n\nso you can use len(ttmethods) here, and then index ttmethods on L641.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ef2f956_fbe2930b",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Declare:\n\n    imethods :\u003d inter.methods()\n\nso you can use len(imethods), etc.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca48735f_0471fc50",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "nit: \"including both\"",
+      "range": {
+        "startLine": 372,
+        "startChar": 53,
+        "endLine": 372,
+        "endChar": 61
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e77279e1_db47ea8b",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "You can omit this since the functions are just below anyway. But maybe add a godoc comment to methods.",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 65
+      },
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a832aab_9578ee7c",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Looks like we didn\u0027t end up needing this, so might as well just remove.\n\nInstead, add isEmpty like in reflect/reflectlite, and update code accordingly.",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "706c356b_f0770f26",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T08:17:33Z",
+      "side": 1,
+      "message": "Same idea again: itmethods and ivmethods",
+      "revId": "9c9c117c078c43e0a2ec78d34601cb81c7bf8e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
