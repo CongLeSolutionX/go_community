@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "340109c9_f105a332",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-08T19:24:04Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "20f63939_9e83f935",
+      "range": {
+        "startLine": 251,
+        "startChar": 1,
+        "endLine": 251,
+        "endChar": 12
+      },
+      "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7093de75_301c7821",
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c54364a4_be88c28e",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-08T19:24:04Z",
+      "side": 1,
+      "message": "putelfsym() considers the outer symbol and while I doubt it will matter for these symbols, it seemed safer to keep things consistent.",
+      "parentUuid": "7093de75_301c7821",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 4
+      },
+      "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4c35a1e_b17f6c91",
@@ -77,6 +125,24 @@
       "writtenOn": "2020-10-07T16:12:15Z",
       "side": 1,
       "message": "If the label symbol has the same address of a function symbol, i.e. the AUIPC is the first instruction of a function, do you need to look at the next one? Or we could just use the function symbol without creating the label symbol.",
+      "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fd83047_cd3c0a0a",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-08T19:24:04Z",
+      "side": 1,
+      "message": "Indeed - a NOFRAME function with an AUIPC/LD or AUIPC/SD as the first instruction pair would hit this. Both using the function symbol or looking for the label symbol should work - it seems more robust to use the label symbols consistently though (if it does not exist something else went wrong).",
+      "parentUuid": "b4c35a1e_b17f6c91",
       "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
