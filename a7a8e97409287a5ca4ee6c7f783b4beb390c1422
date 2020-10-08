@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff200b4_12a9c6c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T18:38:29Z",
+      "side": 1,
+      "message": "Yeah, thanks for the second set of eyes. I\u0027ve been so focused on the other aspects of this CL, I missed those details in refect\u0027s public API. :)",
+      "parentUuid": "11bacd5b_d7f4b9d9",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2e3071c_f478d428",
@@ -90,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "597fbd91_d7316ffa",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T18:38:29Z",
+      "side": 1,
+      "message": "That seems like a bug too. We should make it panic like (*rtype).Method does.",
+      "parentUuid": "b26b608e_594a04d9",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb7d506e_0c4a3738",
         "filename": "src/reflect/type.go",
         "patchSetId": 6
@@ -107,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64a4d8b7_22972203",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T18:38:29Z",
+      "side": 1,
+      "message": "It should not. This can become an assert or something instead.",
+      "parentUuid": "bb7d506e_0c4a3738",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a08a160a_97972ca3",
         "filename": "src/reflect/type.go",
         "patchSetId": 6
@@ -118,6 +172,24 @@
       "writtenOn": "2020-10-08T18:05:12Z",
       "side": 1,
       "message": "So MethodByName can still return unexported method? But when it calls t.Method(i) below it will return an invalid Method. What is expected here?",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "224650f8_aa57b943",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T18:38:29Z",
+      "side": 1,
+      "message": "Ah, good catch. MethodByName should only return exported methods, so this could be expMethods instead.",
+      "parentUuid": "a08a160a_97972ca3",
       "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

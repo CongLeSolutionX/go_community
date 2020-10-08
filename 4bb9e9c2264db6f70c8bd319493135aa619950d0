@@ -16,6 +16,24 @@
       "message": "Reading the code I realized that now NumMethods() \u003d\u003d 0 is not equivalent to \"this is an empty interface\" anymore. This may have unexpected consequence, I guess... Also, is there a way to tell if an interface type is empty interface now?\n",
       "revId": "4bb9e9c2264db6f70c8bd319493135aa619950d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "578902d4_c402c115",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T18:38:29Z",
+      "side": 1,
+      "message": "I was thinking about that too, since that was an implementation hiccup. But since reflect doesn\u0027t expose the raw value though (e.g., Value.Interface will convert to interface{}) and we don\u0027t expose iface/eface as stable interfaces anyway, I don\u0027t think there\u0027s an issue where callers would be using NumMethods()\u003d\u003d0 to distinguish them.\n\nIf users really do need to distinguish empty interface from interface-with-only-non-exported-methods, they can test whether T is an empty interfaces with reflect.TypeOf((*interface{})(nil)).Elem().Implements(T).",
+      "parentUuid": "49975e2a_782d3db2",
+      "revId": "4bb9e9c2264db6f70c8bd319493135aa619950d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
