@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4d4abe_0c43d9e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T19:11:17Z",
+      "side": 1,
+      "message": "PS10 LGTM\n\n(Please wait for CR+2 from Cherry or Ian too.)",
+      "revId": "79f7112ec5cebea252b2dae34d18b4755420f123",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
