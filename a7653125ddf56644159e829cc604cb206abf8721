@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ad75609_1b2e82f9",
+        "filename": "src/internal/cpu/cpu_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T14:26:31Z",
+      "side": 1,
+      "message": "CPU feature detection doesn\u0027t work on darwin/arm64 (yet), so this test needs to be skipped. (It was skipped because HasExec was not enabled.) Maybe I should be more specific, just skip it on darwin/arm64.",
+      "parentUuid": "42ecb52a_63929c1a",
+      "revId": "a7653125ddf56644159e829cc604cb206abf8721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91af2f27_fbe0b12c",
         "filename": "src/os/exec/exec_test.go",
         "patchSetId": 1
