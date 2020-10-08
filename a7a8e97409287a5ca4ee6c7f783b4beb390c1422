@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "065cb239_a929d928",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T16:44:15Z",
+      "side": 1,
+      "message": "Cuong: Thanks. Still a few `cap` calls remain though. Please remove these too. The only calls to `cap` that should remain should be in `methods` or `isEmpty`.\n\nIan/Cherry: Do either of you want to double-check this too?",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2e3071c_f478d428",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T16:44:15Z",
+      "side": 1,
+      "message": "nit: blank line between this declaration and the comment below.",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc4987d7_1f386285",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1912,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T16:44:15Z",
+      "side": 1,
+      "message": "This should be updated to avoid using cap, like in methodReceiver.",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f8539e3_e5d8b526",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T16:44:15Z",
+      "side": 1,
+      "message": "isEmpty",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aab2f9d8_2ac05655",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-08T16:44:15Z",
+      "side": 1,
+      "message": "These two cap calls (here and L397 below) can be replaced with isEmpty",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
