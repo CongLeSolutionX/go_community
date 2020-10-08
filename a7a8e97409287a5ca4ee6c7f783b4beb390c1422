@@ -55,6 +55,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b26b608e_594a04d9",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T18:05:12Z",
+      "side": 1,
+      "message": "The doc says \"It panics if i is not in the range [0, NumMethod())\", but apparently it\u0027s not, with or without the CL.",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb7d506e_0c4a3738",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T18:05:12Z",
+      "side": 1,
+      "message": "Can this happen now?",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a08a160a_97972ca3",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-08T18:05:12Z",
+      "side": 1,
+      "message": "So MethodByName can still return unexported method? But when it calls t.Method(i) below it will return an invalid Method. What is expected here?",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bc4987d7_1f386285",
         "filename": "src/reflect/value.go",
         "patchSetId": 6
