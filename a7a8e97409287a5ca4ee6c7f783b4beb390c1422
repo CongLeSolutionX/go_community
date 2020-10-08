@@ -160,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4892c130_04e26e56",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T19:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68160c08_0bc79f00",
+      "revId": "a7a8e97409287a5ca4ee6c7f783b4beb390c1422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb7d506e_0c4a3738",

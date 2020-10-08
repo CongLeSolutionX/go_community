@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e10b7fd_f0d2da5b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T19:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8498afc8_5cc0de3b",
+      "range": {
+        "startLine": 1059,
+        "startChar": 9,
+        "endLine": 1059,
+        "endChar": 18
+      },
+      "revId": "387a92dfb0f0aa86e59de0fbdfd731d7800b73b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e15d6fb7_979b6072",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-08T18:58:49Z",
       "side": 1,
       "message": "nit: \"unexported\" is how reflect spells it in other panic messages.",
+      "revId": "387a92dfb0f0aa86e59de0fbdfd731d7800b73b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a227d48_8c4878a6",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-08T19:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e15d6fb7_979b6072",
       "revId": "387a92dfb0f0aa86e59de0fbdfd731d7800b73b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
