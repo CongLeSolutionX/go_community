@@ -52,6 +52,24 @@
       "parentUuid": "550469b4_6e8f41d1",
       "revId": "728a0c2ca3ec6f04e661239e4ac9e3eea7b49a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa885d22_8f4afbcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-09T04:50:56Z",
+      "side": 1,
+      "message": "This is not the best place to discuss this but here\u0027s the background:\n\n1) The compiler was originally written in C with the parser being generated (yacc). Eventually, the compiler was translated to Go (semi-automatically). At some point I replaced the yacc parser with a more-or-less yacc-version equivalent hand-written Go parser so we could get rid of the dependency on yacc and do many cleanups and simplifications. Further down the road, I completely rewrote the scanner (lexer), parser, and syntax tree and put it into a new package called syntax. The go/parser was written independently, early on, as part of the go/* libraries. Its initial main application was gofmt. There is no connection between the compiler and go/parser (at that time, the compiler was still written in C). The compiler\u0027s parser in the syntax package is the \"next generation\" parser, based on what we learned from the original compiler\u0027s parser and go/parser. They look similar but the syntax package parser is quite a bit faster, easier to use, and produces smaller and less complex ASTs. Ideally we\u0027d like to have just one parser but that\u0027s not so easy to do given backward-compatibility. We could use go/parser in the compiler but that would not permit us to evolve it as we like to (for backward-compatibility); also it\u0027s slower than what we have. Note that one my goals was to have only one parser, which is why the syntax package is a separate package from the compiler and completely independent. It\u0027s internal because we still want to evolve its API. And even if we made it public, all the external tools (gofmt, vet, lint, go/types, gopls, etc.) are based on go/parser, so we cannot simply deprecate it.\n\n2) See 1). Also, several attempts have been made to use the syntax parser underneath go/parser but to maintain the go/parser API for backward-compatibility. It\u0027s not easily possible (the go/parser does more, e.g. it computes scopes etc.).\n\n3) Yes. If we want to \"upgrade\" go/parser, it would be nice to use the syntax package parser code (a suitably adjusted copy of it) as it\u0027s more resilient to errors. Note that \"error handling\" in a hand-written parser is often a bit of a heuristic with lots of fine-tuning over time, and it requires that all parts work together well. Copying just one part of it may work, or it may not. Feel free to give it a shot. But please note this is not urgent, so code reviews may not happen as quickly as you might wish. Just a heads-up.\n\nThanks.",
+      "parentUuid": "d231ad9b_fb1af216",
+      "revId": "728a0c2ca3ec6f04e661239e4ac9e3eea7b49a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
