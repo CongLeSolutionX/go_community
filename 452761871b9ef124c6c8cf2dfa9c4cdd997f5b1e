@@ -34,6 +34,24 @@
       "parentUuid": "af7b4cf2_e53ec21e",
       "revId": "452761871b9ef124c6c8cf2dfa9c4cdd997f5b1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b38f285_d1d78df9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-09T22:25:24Z",
+      "side": 1,
+      "message": "I\u0027m fine with backporting as-is. My only concern is that it involves updating the gcimporter. We might need to update other copies of the importer, like in x/tools, and maybe the copy in Google\u0027s internal repo, which might complicate things. If we use typeExt I think we don\u0027t need to update the importer.",
+      "parentUuid": "ec480c8c_ae8dd69f",
+      "revId": "452761871b9ef124c6c8cf2dfa9c4cdd997f5b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
