@@ -145,6 +145,24 @@
       "parentUuid": "b4c35a1e_b17f6c91",
       "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9253e139_e6f17104",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-09T14:07:31Z",
+      "side": 1,
+      "message": "I further considered this and it seems that we can cleanly use the function symbol rather than generating a label that is overlapping. Have revised and tested with this approach instead.",
+      "parentUuid": "1fd83047_cd3c0a0a",
+      "revId": "72a3123128f753f9476b809c53eef52d14e1e53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
