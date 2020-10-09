@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "7e2dee7d_d602dc0c",
         "filename": "src/net/http/pprof/pprof.go",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Please use fmt.Fprintf here. It will be far more readable and there\u0027s no need for speed here.",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "66252738_f125eed1",
         "filename": "src/net/http/pprof/pprof.go",
@@ -32,10 +33,10 @@
       "message": "Done",
       "parentUuid": "7e2dee7d_d602dc0c",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c3faa10b_0a97d552",
         "filename": "src/net/http/pprof/pprof.go",
@@ -49,10 +50,10 @@
       "side": 1,
       "message": "Same.",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "8684c37d_8a64493c",
         "filename": "src/net/http/pprof/pprof.go",
@@ -67,10 +68,10 @@
       "message": "Done",
       "parentUuid": "c3faa10b_0a97d552",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7aa6f551_82cbe256",
         "filename": "src/net/http/pprof/pprof.go",
@@ -84,10 +85,10 @@
       "side": 1,
       "message": "I didn\u0027t notice an appropriate method that I can use. Most of these sanitization funcs are unfortunately in html/template.",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c9b0167d_8d415b06",
         "filename": "src/net/http/pprof/pprof.go",
@@ -102,10 +103,10 @@
       "message": "return (\u0026url.URL{Path: s}).String()\n\nBut please use fmt.Fprintf above and then just pass \u0026url.URL{Path: s} to fmt.Fprintf.",
       "parentUuid": "7aa6f551_82cbe256",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "38de60b2_403a6fd0",
         "filename": "src/net/http/pprof/pprof.go",
@@ -120,10 +121,10 @@
       "message": "Done",
       "parentUuid": "c9b0167d_8d415b06",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5f3ea6b8_e9c2f6f0",
         "filename": "src/net/http/pprof/pprof.go",
@@ -137,8 +138,25 @@
       "side": 1,
       "message": "Is this set of characters fine?",
       "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c03795c7_29a17b57",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2020-10-09T09:55:01Z",
+      "side": 1,
+      "message": "not relevant any more.",
+      "parentUuid": "5f3ea6b8_e9c2f6f0",
+      "revId": "d9535434ff85d9704c7958aff31a5274e3f49e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
