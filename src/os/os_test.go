@@ -309,7 +309,7 @@ func testReaddirnames(dir string, contents []string, t *testing.T) {
 	defer file.Close()
 	s, err2 := file.Readdirnames(-1)
 	if err2 != nil {
-		t.Fatalf("readdirnames %q failed: %v", dir, err2)
+		t.Fatalf("Readdirnames %q failed: %v", dir, err2)
 	}
 	for _, m := range contents {
 		found := false
@@ -338,16 +338,66 @@ func testReaddir(dir string, contents []string, t *testing.T) {
 	defer file.Close()
 	s, err2 := file.Readdir(-1)
 	if err2 != nil {
-		t.Fatalf("readdir %q failed: %v", dir, err2)
+		t.Fatalf("Readdir %q failed: %v", dir, err2)
 	}
 	for _, m := range contents {
 		found := false
 		for _, n := range s {
+			if n.Name() == "." || n.Name() == ".." {
+				t.Errorf("got %s in directory", n.Name())
+			}
 			if equal(m, n.Name()) {
 				if found {
 					t.Error("present twice:", m)
 				}
 				found = true
+			}
+		}
+		if !found {
+			t.Error("could not find", m)
+		}
+	}
+}
+
+func testReadDir(dir string, contents []string, t *testing.T) {
+	file, err := Open(dir)
+	if err != nil {
+		t.Fatalf("open %q failed: %v", dir, err)
+	}
+	defer file.Close()
+	s, err2 := file.ReadDir(-1)
+	if err2 != nil {
+		t.Fatalf("ReadDir %q failed: %v", dir, err2)
+	}
+	for _, m := range contents {
+		found := false
+		for _, n := range s {
+			if n.Name() == "." || n.Name() == ".." {
+				t.Errorf("got %s in directory", n)
+			}
+			if equal(m, n.Name()) {
+				if found {
+					t.Error("present twice:", m)
+				}
+				found = true
+				lstat, err := Lstat(dir + "/" + m)
+				if err != nil {
+					t.Fatal(err)
+				}
+				if n.IsDir() != lstat.IsDir() {
+					t.Errorf("%s: IsDir=%v, want %v", m, n.IsDir(), lstat.IsDir())
+				}
+				if n.Type() != lstat.Mode().Type() {
+					t.Errorf("%s: IsDir=%v, want %v", m, n.Type(), lstat.Mode().Type())
+				}
+				info, err := n.Info()
+				if err != nil {
+					t.Errorf("%s: Info: %v", m, err)
+					continue
+				}
+				if !SameFile(info, lstat) {
+					t.Errorf("%s: Info: SameFile(info, lstat) = false", m)
+				}
 			}
 		}
 		if !found {
@@ -364,6 +414,11 @@ func TestReaddirnames(t *testing.T) {
 func TestReaddir(t *testing.T) {
 	testReaddir(".", dot, t)
 	testReaddir(sysdir.name, sysdir.files, t)
+}
+
+func TestReadDir(t *testing.T) {
+	testReadDir(".", dot, t)
+	testReadDir(sysdir.name, sysdir.files, t)
 }
 
 func benchmarkReaddirname(path string, b *testing.B) {
@@ -400,12 +455,33 @@ func benchmarkReaddir(path string, b *testing.B) {
 	b.Logf("benchmarkReaddir %q: %d entries", path, nentries)
 }
 
+func benchmarkReadDir(path string, b *testing.B) {
+	var nentries int
+	for i := 0; i < b.N; i++ {
+		f, err := Open(path)
+		if err != nil {
+			b.Fatalf("open %q failed: %v", path, err)
+		}
+		fs, err := f.ReadDir(-1)
+		f.Close()
+		if err != nil {
+			b.Fatalf("readdir %q failed: %v", path, err)
+		}
+		nentries = len(fs)
+	}
+	b.Logf("benchmarkReadDir %q: %d entries", path, nentries)
+}
+
 func BenchmarkReaddirname(b *testing.B) {
 	benchmarkReaddirname(".", b)
 }
 
 func BenchmarkReaddir(b *testing.B) {
 	benchmarkReaddir(".", b)
+}
+
+func BenchmarkReadDir(b *testing.B) {
+	benchmarkReadDir(".", b)
 }
 
 func benchmarkStat(b *testing.B, path string) {
@@ -547,7 +623,8 @@ func TestReaddirNValues(t *testing.T) {
 		}
 	}
 
-	readDirExpect := func(n, want int, wantErr error) {
+	readdirExpect := func(n, want int, wantErr error) {
+		t.Helper()
 		fi, err := d.Readdir(n)
 		if err != wantErr {
 			t.Fatalf("Readdir of %d got error %v, want %v", n, err, wantErr)
@@ -557,7 +634,19 @@ func TestReaddirNValues(t *testing.T) {
 		}
 	}
 
-	readDirNamesExpect := func(n, want int, wantErr error) {
+	readDirExpect := func(n, want int, wantErr error) {
+		t.Helper()
+		de, err := d.ReadDir(n)
+		if err != wantErr {
+			t.Fatalf("ReadDir of %d got error %v, want %v", n, err, wantErr)
+		}
+		if g, e := len(de), want; g != e {
+			t.Errorf("ReadDir of %d got %d files, want %d", n, g, e)
+		}
+	}
+
+	readdirnamesExpect := func(n, want int, wantErr error) {
+		t.Helper()
 		fi, err := d.Readdirnames(n)
 		if err != wantErr {
 			t.Fatalf("Readdirnames of %d got error %v, want %v", n, err, wantErr)
@@ -567,7 +656,7 @@ func TestReaddirNValues(t *testing.T) {
 		}
 	}
 
-	for _, fn := range []func(int, int, error){readDirExpect, readDirNamesExpect} {
+	for _, fn := range []func(int, int, error){readdirExpect, readdirnamesExpect, readDirExpect} {
 		// Test the slurp case
 		openDir()
 		fn(0, 105, nil)
