@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "233305b6_e0dad13f",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-10T16:10:16Z",
+      "side": 0,
+      "message": "Yes, interface types can\u0027t be notinheap, so I didn\u0027t think it was necessary.",
+      "parentUuid": "42a75b92_47b27812",
+      "revId": "cfeb16ddec5b2134198dcc029cdd501ed11a7c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a3f2f45_740bd7dc",
