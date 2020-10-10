@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6ceb7b_14854ed5",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-10T01:42:02Z",
+      "side": 0,
+      "message": "In the tree of CL 259297, there\u0027s a typeExt call above this line. Is it okay there isn\u0027t one being added here? Asking this question to learn.",
+      "revId": "cfeb16ddec5b2134198dcc029cdd501ed11a7c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a3f2f45_740bd7dc",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-10T01:42:02Z",
+      "side": 0,
+      "message": "Same question here.",
+      "revId": "cfeb16ddec5b2134198dcc029cdd501ed11a7c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
