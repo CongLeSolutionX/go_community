@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae233f3_b49b1861",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-10T22:18:49Z",
+      "side": 1,
+      "message": "os: call File.Close before t.Fatal to avoid vet unreachable code warnings",
+      "revId": "548d6e891e3a10d066691fe275b761b344e81535",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ef3060_3cd9630e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-10T22:18:49Z",
+      "side": 1,
+      "message": "We can remove this after updating the subject to the suggestion I made.",
+      "revId": "548d6e891e3a10d066691fe275b761b344e81535",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "869d104f_efce7e3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-10T22:18:49Z",
+      "side": 1,
+      "message": "Thank you for this change, Dai, and welcome to the Go project!\nLGTM but with a suggestion to update the commit message, which you might have to do\ndirectly on the Github PR.",
+      "revId": "548d6e891e3a10d066691fe275b761b344e81535",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
