@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42a75b92_47b27812",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-10T15:38:24Z",
+      "side": 0,
+      "message": "I think this is because there typeExt does more things, whereas here we know typeExt is no-op for interface types.",
+      "parentUuid": "5d6ceb7b_14854ed5",
+      "revId": "cfeb16ddec5b2134198dcc029cdd501ed11a7c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a3f2f45_740bd7dc",
         "filename": "src/cmd/compile/internal/gc/iimport.go",
         "patchSetId": 7

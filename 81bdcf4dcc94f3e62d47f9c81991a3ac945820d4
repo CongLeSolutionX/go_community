@@ -16,6 +16,24 @@
       "message": "Cherry, thanks. That seems much simpler.\n",
       "revId": "81bdcf4dcc94f3e62d47f9c81991a3ac945820d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "913cfefc_8291c4ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-10T15:38:24Z",
+      "side": 1,
+      "message": "LGTM. Thanks.",
+      "parentUuid": "86c4fbdd_b8ad789b",
+      "revId": "81bdcf4dcc94f3e62d47f9c81991a3ac945820d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
