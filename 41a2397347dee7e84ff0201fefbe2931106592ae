@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "d6f2ec14_782c8d2f",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,24 @@
       "side": 1,
       "message": "Hi Dave, care to re-review this after my fixes? Also adding Robert as reviewer as he last touched this code.",
       "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f69a429b_1062ae8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-12T22:54:45Z",
+      "side": 1,
+      "message": "Ping @griesemer.",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
