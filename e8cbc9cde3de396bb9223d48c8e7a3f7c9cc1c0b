@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "769e40f0_fa77d96a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-12T21:49:00Z",
+      "side": 1,
+      "message": "Seems like we could simplify internal/syscall/windows/registry.",
+      "revId": "e8cbc9cde3de396bb9223d48c8e7a3f7c9cc1c0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
