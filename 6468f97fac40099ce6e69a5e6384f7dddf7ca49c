@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69805fe3_19f5d4f5",
+        "filename": "src/runtime/metrics/description_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-10-12T22:05:50Z",
+      "side": 0,
+      "message": "What happened to this test (and the other dropped ones)?",
+      "revId": "6468f97fac40099ce6e69a5e6384f7dddf7ca49c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
