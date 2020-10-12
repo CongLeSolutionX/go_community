@@ -104,6 +104,24 @@
       "parentUuid": "b96a3c9a_f3413346",
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4a6c897_ab9c1fe7",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-12T18:08:55Z",
+      "side": 1,
+      "message": "This is because the PanicIndex* functions actually needs 16-byte of arg area, see https://golang.org/src/cmd/compile/internal/ppc64/ssa.go#L1736 and https://golang.org/src/runtime/asm_ppc64x.s#L990",
+      "parentUuid": "39337046_74fe471f",
+      "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
