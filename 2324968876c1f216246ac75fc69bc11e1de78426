@@ -33,6 +33,24 @@
       "message": "A better cap would be size + len(1) - 1, I think.",
       "revId": "2324968876c1f216246ac75fc69bc11e1de78426",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e16c92_6acbdd44",
+        "filename": "src/path/path.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-12T22:58:03Z",
+      "side": 1,
+      "message": "size + len(e) - 1.",
+      "parentUuid": "5acb48db_b486dccc",
+      "revId": "2324968876c1f216246ac75fc69bc11e1de78426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
