@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "4cca420f_2a8fedc5",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,27 @@
       "side": 1,
       "message": "TRY\u003dppc64le,ppc64,aix-ppc64",
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2720716d_61e07a46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-10-12T18:02:03Z",
+      "side": 1,
+      "message": "Cherry, what the final decision on this?",
+      "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6c47e30a_1eaa2e3e",
         "filename": "src/cmd/internal/obj/ppc64/obj9.go",
@@ -31,10 +49,10 @@
       "side": 1,
       "message": "Actually, I\u0027m not sure this is the right thing to do (although we do it on some architectures). See my comment for Wasm: https://go-review.googlesource.com/c/go/+/207399/2/src/cmd/internal/obj/wasm/wasmobj.go#790 , copied below:\n\nActually, I\u0027m not sure why no-argument matters. The argument area will be counted in frame size, if there is one.\n\nThe problem is, the callee functions must NOT be nosplit (including auto-nosplit). Otherwise we could use more stack size than StackSmall below the stack guard. Currently there is no guarantee for that. Maybe it is fine for a hard-coded small set. We need some mechanism to ensure those are not nosplit.",
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1b5c3e0d_99d4ec27",
         "filename": "src/cmd/internal/obj/ppc64/obj9.go",
@@ -49,10 +67,10 @@
       "message": "Like the wasm developer, I followed what was done on x86. If there are arguments then won\u0027t the arguments get stored on the stack before calling the runtime function?\n\nWhen you say this is not the right thing to do, do you mean it should not be done at all, or that the check to determine when to do it is wrong. It just seems bad to have this extra code and do stack checking every time the function is called when it is only needed for an error path that is unlikely to happen. This is a small hard-coded set as you mention above.\n\nDifferent but related topic, I also noticed that the stack size seems to be larger than it needs to be and not sure why that it. It acquires 16 extra bytes that are never referenced in the function.",
       "parentUuid": "6c47e30a_1eaa2e3e",
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b96a3c9a_f3413346",
         "filename": "src/cmd/internal/obj/ppc64/obj9.go",
@@ -67,10 +85,10 @@
       "message": "I never liked that code in x86, either. But there seems nothing really bad happens, so I don\u0027t have a compelling reason to take it out, either...\n\nRe extra 16 bytes, is it due to the reserved 4-word fixed frame size? Could you show an example?",
       "parentUuid": "1b5c3e0d_99d4ec27",
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "39337046_74fe471f",
         "filename": "src/cmd/internal/obj/ppc64/obj9.go",
@@ -85,8 +103,7 @@
       "message": "The function I saw was \u003cmath/rand.(*rngSource).Int63\u003e. It is acquiring 48 bytes when I think it only needs 32. Happens without my change. You should be able to see it in an objdump.",
       "parentUuid": "b96a3c9a_f3413346",
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
