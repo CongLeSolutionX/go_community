@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eef749e3_dab77a2f",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T18:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c51bbece_931e214d",
+      "range": {
+        "startLine": 211,
+        "startChar": 19,
+        "endLine": 211,
+        "endChar": 30
+      },
+      "revId": "72415d770c468731c84c894f996abb8296370c8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "994f43b8_d09340e6",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-12T17:35:39Z",
       "side": 1,
       "message": "s/directory/file/",
+      "range": {
+        "startLine": 212,
+        "startChar": 35,
+        "endLine": 212,
+        "endChar": 44
+      },
+      "revId": "72415d770c468731c84c894f996abb8296370c8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f88ada67_37cc4b77",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T18:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "994f43b8_d09340e6",
       "range": {
         "startLine": 212,
         "startChar": 35,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "981cc52e_2b261898",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T18:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b59b53c_6a48d64d",
+      "revId": "72415d770c468731c84c894f996abb8296370c8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4890796f_1a4aa1c6",
@@ -77,6 +143,24 @@
       "writtenOn": "2020-10-12T17:35:39Z",
       "side": 1,
       "message": "Add a doc comment for this function?",
+      "revId": "72415d770c468731c84c894f996abb8296370c8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1ad252a_85ad9617",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T18:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4890796f_1a4aa1c6",
       "revId": "72415d770c468731c84c894f996abb8296370c8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

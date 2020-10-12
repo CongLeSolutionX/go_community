@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04492774_4c035f43",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T18:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e35db0fb_f5651f9e",
+      "range": {
+        "startLine": 395,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 5
+      },
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dc46b1c_7213d180",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b21b04f_0a307136",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T18:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dc46b1c_7213d180",
+      "range": {
+        "startLine": 407,
+        "startChar": 8,
+        "endLine": 407,
+        "endChar": 16
+      },
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff7b9b1b_bbbc9f26",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-10-12T17:25:55Z",
       "side": 1,
       "message": "If err !\u003d nil, let\u0027s return a nil os.FileInfo.",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 9
+      },
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3418a9fc_97481915",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T18:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff7b9b1b_bbbc9f26",
       "range": {
         "startLine": 452,
         "startChar": 6,
