@@ -52,6 +52,24 @@
       "parentUuid": "ec480c8c_ae8dd69f",
       "revId": "452761871b9ef124c6c8cf2dfa9c4cdd997f5b1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eb0ee8f_1b912b81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-12T15:15:00Z",
+      "side": 1,
+      "message": "This was resolved in patch set 7.",
+      "parentUuid": "7b38f285_d1d78df9",
+      "revId": "452761871b9ef124c6c8cf2dfa9c4cdd997f5b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
