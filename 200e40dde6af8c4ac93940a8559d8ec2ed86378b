@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e35db0fb_f5651f9e",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-12T17:25:55Z",
+      "side": 1,
+      "message": "Rename to readErr and walkErr? I know this is from path/filepath.walk, but the names could be a little better.",
+      "range": {
+        "startLine": 395,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 5
+      },
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dc46b1c_7213d180",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-12T17:25:55Z",
+      "side": 1,
+      "message": "Nit: rename to fi, matching the list.",
+      "range": {
+        "startLine": 407,
+        "startChar": 8,
+        "endLine": 407,
+        "endChar": 16
+      },
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff7b9b1b_bbbc9f26",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-12T17:25:55Z",
+      "side": 1,
+      "message": "If err !\u003d nil, let\u0027s return a nil os.FileInfo.",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 9
+      },
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19e88188_8af7c14c",
+        "filename": "src/cmd/go/internal/fsys/fsys_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-12T17:25:55Z",
+      "side": 1,
+      "message": "Let\u0027s also verify that Walk does not follow symbolic links to directories.",
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
