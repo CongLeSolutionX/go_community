@@ -140,6 +140,24 @@
       "parentUuid": "a4a6c897_ab9c1fe7",
       "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b7d42f_6e3c83f3",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-12T18:26:25Z",
+      "side": 1,
+      "message": "I still don\u0027t think this is right, sorry.",
+      "parentUuid": "a91127d0_871ce854",
+      "revId": "de22cd485602c731edbcb886ad0904fecccb6730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
