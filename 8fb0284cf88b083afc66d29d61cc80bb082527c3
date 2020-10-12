@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "82449384_03c83018",
         "filename": "src/runtime/mheap.go",
@@ -20,10 +21,10 @@
         "endChar": 3
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "7f95aeee_f7e38717",
         "filename": "src/runtime/mheap.go",
@@ -44,10 +45,10 @@
         "endChar": 3
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5dd876ea_00db2a18",
         "filename": "src/runtime/mstats.go",
@@ -67,10 +68,10 @@
         "endChar": 57
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "45ca8c21_13ac2979",
         "filename": "src/runtime/mstats.go",
@@ -91,10 +92,10 @@
         "endChar": 57
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2b026294_3fd9e083",
         "filename": "src/runtime/mstats.go",
@@ -114,10 +115,10 @@
         "endChar": 7
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9c6e82c4_d8e2ab08",
         "filename": "src/runtime/mstats.go",
@@ -138,10 +139,10 @@
         "endChar": 7
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "00d785c1_ca1a2c48",
         "filename": "src/runtime/mstats.go",
@@ -161,10 +162,10 @@
         "endChar": 50
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "8dbfbd35_4a7cebe7",
         "filename": "src/runtime/mstats.go",
@@ -185,10 +186,10 @@
         "endChar": 50
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "dad4260d_81c56808",
         "filename": "src/runtime/mstats.go",
@@ -208,10 +209,34 @@
         "endChar": 54
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3141885_3cf638ee",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-12T15:30:36Z",
+      "side": 1,
+      "message": "I rewrote and expanded the comment on the stats field to capture this information.",
+      "parentUuid": "dad4260d_81c56808",
+      "range": {
+        "startLine": 708,
+        "startChar": 22,
+        "endLine": 711,
+        "endChar": 54
+      },
+      "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "57c81bc3_ce07324c",
         "filename": "src/runtime/mstats.go",
@@ -231,10 +256,10 @@
         "endChar": 60
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "31228058_2c9a6828",
         "filename": "src/runtime/mstats.go",
@@ -255,10 +280,10 @@
         "endChar": 60
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b997ccbd_9e20de2d",
         "filename": "src/runtime/mstats.go",
@@ -278,10 +303,10 @@
         "endChar": 34
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "68d0b078_51a402ea",
         "filename": "src/runtime/mstats.go",
@@ -302,10 +327,10 @@
         "endChar": 34
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "916defa3_7398439a",
         "filename": "src/runtime/mstats.go",
@@ -326,10 +351,10 @@
         "endChar": 34
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6de45525_b5a0f1cc",
         "filename": "src/runtime/mstats.go",
@@ -349,10 +374,10 @@
         "endChar": 41
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "51b0b785_47d9548f",
         "filename": "src/runtime/mstats.go",
@@ -373,8 +398,7 @@
         "endChar": 41
       },
       "revId": "8fb0284cf88b083afc66d29d61cc80bb082527c3",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
