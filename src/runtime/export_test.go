@@ -298,7 +298,21 @@ func (p *ProfBuf) Close() {
 	(*profBuf)(p).close()
 }
 
-func ReadMetricsSlow(memStats *MemStats, samplesp unsafe.Pointer, len, cap int) {
+func PrepareAllMetrics() []MetricSample {
+	semacquire(&metricsSema)
+	initMetrics()
+	semrelease(&metricsSema)
+
+	samples := make([]MetricSample, len(metrics))
+	i := 0
+	for name, _ := range metrics {
+		samples[i].name = name
+		i++
+	}
+	return samples
+}
+
+func ReadMetricsSlow(memStats *MemStats, samples []MetricSample) {
 	stopTheWorld("ReadMetricsSlow")
 
 	// Initialize the metrics beforehand because this could
@@ -319,7 +333,7 @@ func ReadMetricsSlow(memStats *MemStats, samplesp unsafe.Pointer, len, cap int) 
 	//
 	// The only part of readMetrics that could allocate
 	// and skew the stats is initMetrics.
-	readMetrics(samplesp, len, cap)
+	readMetrics(unsafe.Pointer(&samples[0]), len(samples), cap(samples))
 
 	startTheWorld()
 }
@@ -1066,4 +1080,17 @@ func (th *TimeHistogram) Count(bucket, subBucket uint) (uint64, bool) {
 
 func (th *TimeHistogram) Record(duration int64) {
 	(*timeHistogram)(th).record(duration)
+}
+
+type MetricSample metricSample
+
+func (s *MetricSample) Name() string {
+	return s.name
+}
+
+func (s *MetricSample) Uint64() uint64 {
+	if s.value.kind != metricKindUint64 {
+		panic("sample does not have metric kind uint64")
+	}
+	return s.value.scalar
 }
