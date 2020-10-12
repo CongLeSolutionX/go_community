@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb17a00b_038abf79",
+        "filename": "src/path/path.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-12T21:44:58Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "revId": "2324968876c1f216246ac75fc69bc11e1de78426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5acb48db_b486dccc",
+        "filename": "src/path/path.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-12T21:44:58Z",
+      "side": 1,
+      "message": "A better cap would be size + len(1) - 1, I think.",
+      "revId": "2324968876c1f216246ac75fc69bc11e1de78426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
