@@ -157,6 +157,24 @@
       "message": "Let\u0027s also verify that Walk does not follow symbolic links to directories.",
       "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a9d04cd_70585a30",
+        "filename": "src/cmd/go/internal/fsys/fsys_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-12T21:12:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19e88188_8af7c14c",
+      "revId": "200e40dde6af8c4ac93940a8559d8ec2ed86378b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
