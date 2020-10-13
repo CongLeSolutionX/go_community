@@ -150,12 +150,12 @@ func (f *File) AddLine(offset int) {
 //
 func (f *File) MergeLine(line int) {
 	if line < 1 {
-		panic("illegal line number (line numbering starts at 1)")
+		panic(fmt.Sprintf("illegal line number %d (line numbering starts at 1)", line))
 	}
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
 	if line >= len(f.lines) {
-		panic("illegal line number")
+		panic(fmt.Sprintf("illegal line number %d", line))
 	}
 	// To merge the line numbered <line> with the line numbered <line+1>,
 	// we need to remove the entry in lines corresponding to the line
@@ -217,12 +217,12 @@ func (f *File) SetLinesForContent(content []byte) {
 // LineStart panics if the 1-based line number is invalid.
 func (f *File) LineStart(line int) Pos {
 	if line < 1 {
-		panic("illegal line number (line numbering starts at 1)")
+		panic(fmt.Sprintf("illegal line number %d (line numbering starts at 1)", line))
 	}
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
 	if line > len(f.lines) {
-		panic("illegal line number")
+		panic(fmt.Sprintf("illegal line number %d", line))
 	}
 	return Pos(f.base + f.lines[line-1])
 }
@@ -267,7 +267,7 @@ func (f *File) AddLineColumnInfo(offset int, filename string, line, column int) 
 //
 func (f *File) Pos(offset int) Pos {
 	if offset > f.size {
-		panic("illegal file offset")
+		panic(fmt.Sprintf("illegal file offset %d", offset))
 	}
 	return Pos(f.base + offset)
 }
@@ -430,8 +430,11 @@ func (s *FileSet) AddFile(filename string, base, size int) *File {
 	if base < 0 {
 		base = s.base
 	}
-	if base < s.base || size < 0 {
-		panic("illegal base or size")
+	if base < s.base {
+		panic(fmt.Sprintf("illegal base %d", base))
+	}
+	if size < 0 {
+		panic(fmt.Sprintf("illegal size %d", size))
 	}
 	// base >= s.base && size >= 0
 	f := &File{set: s, name: filename, base: base, size: size, lines: []int{0}}
