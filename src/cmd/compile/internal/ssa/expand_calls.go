@@ -15,7 +15,7 @@ type selKey struct {
 	from   *Value
 	offset int64
 	size   int64
-	typ    types.EType
+	typ    *types.Type
 }
 
 type offsetKey struct {
@@ -42,6 +42,10 @@ func expandCalls(f *Func) {
 	}
 	debug := f.pass.debug > 0
 
+	if debug {
+		fmt.Printf("\nexpandsCalls(%s)\n", f.Name)
+	}
+
 	canSSAType := f.fe.CanSSA
 	regSize := f.Config.RegSize
 	sp, _ := f.spSb()
@@ -57,6 +61,10 @@ func expandCalls(f *Func) {
 	}
 
 	namedSelects := make(map[*Value][]namedVal)
+
+	sdom := f.Sdom()
+
+	common := make(map[selKey]*Value)
 
 	// intPairTypes returns the pair of 32-bit int types needed to encode a 64-bit integer type on a target
 	// that has no 64-bit integer registers.
@@ -154,14 +162,55 @@ func expandCalls(f *Func) {
 	// TODO when registers really arrive, must also decompose anything split across two registers or registers and memory.
 	var rewriteSelect func(leaf *Value, selector *Value, offset int64) []LocalSlot
 	rewriteSelect = func(leaf *Value, selector *Value, offset int64) []LocalSlot {
+		if debug {
+			fmt.Printf("rewriteSelect(%s, %s, %d)\n", leaf.LongString(), selector.LongString(), offset)
+		}
 		var locs []LocalSlot
 		leafType := leaf.Type
+		if len(selector.Args) > 0 {
+			w := selector.Args[0]
+			if w.Op == OpCopy {
+				for w.Op == OpCopy {
+					w = w.Args[0]
+				}
+				selector.SetArg(0, w)
+			}
+		}
 		switch selector.Op {
-		case OpSelectN:
-			// TODO these may be duplicated. Should memoize. Intermediate selectors will go dead, no worries there.
+		case OpArg:
+			if !isAlreadyExpandedAggregateType(selector.Type) {
+				if debug {
+					fmt.Printf("\tOpArg, break\n")
+				}
+				// do nothing
+				break
+			}
+			aux := selector.Aux
+			auxInt := selector.AuxInt + offset
+			if leaf.Block == selector.Block {
+				leaf.reset(OpArg)
+				leaf.Aux = aux
+				leaf.AuxInt = auxInt
+				leaf.Type = leafType
+			} else {
+				w := selector.Block.NewValue0IA(leaf.Pos, OpArg, leafType, auxInt, aux)
+				leaf.copyOf(w)
+			}
 			for _, s := range namedSelects[selector] {
 				locs = append(locs, f.Names[s.locIndex])
 			}
+
+		case OpLoad: // We end up here because of type casts through IData
+			if leafType != selector.Type {
+				f.Fatalf("Unexpected Load as selector, leaf=%s, selector=%s\n", leaf.LongString(), selector.LongString())
+			}
+			leaf.copyOf(selector)
+			for _, s := range namedSelects[selector] {
+				locs = append(locs, f.Names[s.locIndex])
+			}
+
+		case OpSelectN:
+			// TODO these may be duplicated. Should memoize. Intermediate selectors will go dead, no worries there.
 			call := selector.Args[0]
 			aux := call.Aux.(*AuxCall)
 			which := selector.AuxInt
@@ -186,6 +235,9 @@ func expandCalls(f *Func) {
 						w := call.Block.NewValue2(leaf.Pos, OpLoad, leafType, off, call)
 						leaf.copyOf(w)
 					}
+					for _, s := range namedSelects[selector] {
+						locs = append(locs, f.Names[s.locIndex])
+					}
 				} else {
 					f.Fatalf("Should not have non-SSA-able OpSelectN, selector=%s", selector.LongString())
 				}
@@ -193,14 +245,14 @@ func expandCalls(f *Func) {
 		case OpStructSelect:
 			w := selector.Args[0]
 			var ls []LocalSlot
-			if w.Type.Etype != types.TSTRUCT {
-				f.Fatalf("Bad type for w: v=%v; sel=%v; w=%v; ,f=%s\n", leaf.LongString(), selector.LongString(), w.LongString(), f.Name)
-				// Artifact of immediate interface idata
+			if w.Type.Etype != types.TSTRUCT { // IData artifact
 				ls = rewriteSelect(leaf, w, offset)
 			} else {
 				ls = rewriteSelect(leaf, w, offset+w.Type.FieldOff(int(selector.AuxInt)))
-				for _, l := range ls {
-					locs = append(locs, f.fe.SplitStruct(l, int(selector.AuxInt)))
+				if w.Op != OpIData {
+					for _, l := range ls {
+						locs = append(locs, f.fe.SplitStruct(l, int(selector.AuxInt)))
+					}
 				}
 			}
 
@@ -221,9 +273,7 @@ func expandCalls(f *Func) {
 		case OpStringPtr:
 			ls := rewriteSelect(leaf, selector.Args[0], offset)
 			locs = splitSlots(ls, ".ptr", 0, typ.BytePtr)
-			//for i := range ls {
-			//	locs = append(locs, f.fe.SplitSlot(&ls[i], ".ptr", 0, typ.BytePtr))
-			//}
+
 		case OpSlicePtr:
 			w := selector.Args[0]
 			ls := rewriteSelect(leaf, w, offset)
@@ -274,30 +324,119 @@ func expandCalls(f *Func) {
 
 	// storeArg converts stores of SSA-able aggregate arguments (passed to a call) into a series of stores of
 	// smaller types into individual parameter slots.
-	var storeArg func(pos src.XPos, b *Block, a *Value, t *types.Type, offset int64, mem *Value) *Value
-	storeArg = func(pos src.XPos, b *Block, a *Value, t *types.Type, offset int64, mem *Value) *Value {
-		if debug {
-			fmt.Printf("\tstoreArg(%s;  %s;  %v;  %d;  %s)\n", b, a.LongString(), t, offset, mem.String())
+	var storeArg func(pos src.XPos, b *Block, base, source, mem *Value, t *types.Type, offset int64) *Value
+
+	decomposeArgOrLoad := func(pos src.XPos, b *Block, base, source, mem *Value, t *types.Type, offset int64,
+		decomposeOne func(pos src.XPos, b *Block, base, source, mem *Value, t1 *types.Type, offArg, offStore int64) *Value,
+		decomposeTwo func(pos src.XPos, b *Block, base, source, mem *Value, t1, t2 *types.Type, offArg, offStore int64) *Value) *Value {
+
+		u := source.Type
+		switch u.Etype {
+		case types.TARRAY:
+			elem := u.Elem()
+			for i := int64(0); i < u.NumElem(); i++ {
+				elemOff := i * elem.Size()
+				mem = decomposeOne(pos, b, base, source, mem, elem, source.AuxInt+elemOff, offset+elemOff)
+			}
+			return mem
+		case types.TSTRUCT:
+			for i := 0; i < u.NumFields(); i++ {
+				fld := u.Field(i)
+				mem = decomposeOne(pos, b, base, source, mem, fld.Type, source.AuxInt+fld.Offset, offset+fld.Offset)
+			}
+			return mem
+		case types.TINT64, types.TUINT64:
+			if t.Width == regSize {
+				break
+			}
+			tHi, tLo := intPairTypes(t.Etype)
+			mem = decomposeOne(pos, b, base, source, mem, tHi, source.AuxInt+hiOffset, offset+hiOffset)
+			return decomposeOne(pos, b, base, source, mem, tLo, source.AuxInt+lowOffset, offset+lowOffset)
+		case types.TINTER:
+			return decomposeTwo(pos, b, base, source, mem, typ.BytePtr, typ.BytePtr, source.AuxInt, offset)
+		case types.TSTRING:
+			return decomposeTwo(pos, b, base, source, mem, typ.BytePtr, typ.Int, source.AuxInt, offset)
+		case types.TCOMPLEX64:
+			return decomposeTwo(pos, b, base, source, mem, typ.Float32, typ.Float32, source.AuxInt, offset)
+		case types.TCOMPLEX128:
+			return decomposeTwo(pos, b, base, source, mem, typ.Float64, typ.Float64, source.AuxInt, offset)
+		case types.TSLICE:
+			mem = decomposeTwo(pos, b, base, source, mem, typ.BytePtr, typ.Int, source.AuxInt, offset)
+			return decomposeOne(pos, b, base, source, mem, typ.Int, source.AuxInt+2*ptrSize, offset+2*ptrSize)
 		}
 
-		switch a.Op {
+		return nil
+	}
+
+	// storeSubArg creates a decomposed (one step) arg that is then stored.
+	// pos and b locate the store instruction, base is the base of the store target, source is the "base" of the value input,
+	// mem is the input mem, t is the type in question, and offArg and offStore are the offsets from the respective bases.
+	storeSubArg := func(pos src.XPos, b *Block, base, source, mem *Value, t *types.Type, offArg, offStore int64) *Value {
+		w := common[selKey{source, offArg, t.Width, t}]
+		if w == nil {
+			w = source.Block.NewValue0IA(source.Pos, OpArg, t, offArg, source.Aux)
+			common[selKey{source, offArg, t.Width, t}] = w
+		}
+		return storeArg(pos, b, base, w, mem, t, offStore)
+	}
+
+	// storeSubArg creates a decomposed (one step) arg that is then stored.
+	storeSubLoad := func(pos src.XPos, b *Block, base, source, mem *Value, t *types.Type, offArg, offStore int64) *Value {
+		from := offsetFrom(source.Args[0], offArg, types.NewPtr(t))
+		w := source.Block.NewValue2(source.Pos, OpLoad, t, from, mem)
+		return storeArg(pos, b, base, w, mem, t, offStore)
+	}
+
+	storeTwoSubArg := func(pos src.XPos, b *Block, base, source, mem *Value, t1, t2 *types.Type, offArg, offStore int64) *Value {
+		mem = storeSubArg(pos, b, base, source, mem, t1, offArg, offStore)
+		t1Size := t1.Size()
+		return storeSubArg(pos, b, base, source, mem, t2, offArg+t1Size, offStore+t1Size)
+	}
+
+	storeTwoSubLoad := func(pos src.XPos, b *Block, base, source, mem *Value, t1, t2 *types.Type, offArg, offStore int64) *Value {
+		mem = storeSubLoad(pos, b, base, source, mem, t1, offArg, offStore)
+		t1Size := t1.Size()
+		return storeSubLoad(pos, b, base, source, mem, t2, offArg+t1Size, offStore+t1Size)
+	}
+
+	storeArg = func(pos src.XPos, b *Block, base, source, mem *Value, t *types.Type, offset int64) *Value {
+		if debug {
+			fmt.Printf("\tstoreArg(%s;  %s;  %s;  %s; %d)\n", base.LongString(), source.LongString(), mem.String(), t.String(), offset)
+		}
+
+		switch source.Op {
+		case OpCopy:
+			return storeArg(pos, b, base, source.Args[0], mem, t, offset)
+
+		case OpLoad:
+			ret := decomposeArgOrLoad(pos, b, base, source, mem, t, offset, storeSubLoad, storeTwoSubLoad)
+			if ret != nil {
+				return ret
+			}
+
+		case OpArg:
+			ret := decomposeArgOrLoad(pos, b, base, source, mem, t, offset, storeSubArg, storeTwoSubArg)
+			if ret != nil {
+				return ret
+			}
+
 		case OpArrayMake0, OpStructMake0:
 			return mem
 
 		case OpStructMake1, OpStructMake2, OpStructMake3, OpStructMake4:
 			for i := 0; i < t.NumFields(); i++ {
 				fld := t.Field(i)
-				mem = storeArg(pos, b, a.Args[i], fld.Type, offset+fld.Offset, mem)
+				mem = storeArg(pos, b, base, source.Args[i], mem, fld.Type, offset+fld.Offset)
 			}
 			return mem
 
 		case OpArrayMake1:
-			return storeArg(pos, b, a.Args[0], t.Elem(), offset, mem)
+			return storeArg(pos, b, base, source.Args[0], mem, t.Elem(), offset)
 
 		case OpInt64Make:
 			tHi, tLo := intPairTypes(t.Etype)
-			mem = storeArg(pos, b, a.Args[0], tHi, offset+hiOffset, mem)
-			return storeArg(pos, b, a.Args[1], tLo, offset+lowOffset, mem)
+			mem = storeArg(pos, b, base, source.Args[0], mem, tHi, offset+hiOffset)
+			return storeArg(pos, b, base, source.Args[1], mem, tLo, offset+lowOffset)
 
 		case OpComplexMake:
 			tPart := typ.Float32
@@ -305,59 +444,41 @@ func expandCalls(f *Func) {
 			if wPart == 8 {
 				tPart = typ.Float64
 			}
-			mem = storeArg(pos, b, a.Args[0], tPart, offset, mem)
-			return storeArg(pos, b, a.Args[1], tPart, offset+wPart, mem)
+			mem = storeArg(pos, b, base, source.Args[0], mem, tPart, offset)
+			return storeArg(pos, b, base, source.Args[1], mem, tPart, offset+wPart)
 
 		case OpIMake:
-			mem = storeArg(pos, b, a.Args[0], typ.Uintptr, offset, mem)
-			return storeArg(pos, b, a.Args[1], typ.BytePtr, offset+ptrSize, mem)
+			mem = storeArg(pos, b, base, source.Args[0], mem, typ.Uintptr, offset)
+			return storeArg(pos, b, base, source.Args[1], mem, typ.BytePtr, offset+ptrSize)
 
 		case OpStringMake:
-			mem = storeArg(pos, b, a.Args[0], typ.BytePtr, offset, mem)
-			return storeArg(pos, b, a.Args[1], typ.Int, offset+ptrSize, mem)
+			mem = storeArg(pos, b, base, source.Args[0], mem, typ.BytePtr, offset)
+			return storeArg(pos, b, base, source.Args[1], mem, typ.Int, offset+ptrSize)
 
 		case OpSliceMake:
-			mem = storeArg(pos, b, a.Args[0], typ.BytePtr, offset, mem)
-			mem = storeArg(pos, b, a.Args[1], typ.Int, offset+ptrSize, mem)
-			return storeArg(pos, b, a.Args[2], typ.Int, offset+2*ptrSize, mem)
+			mem = storeArg(pos, b, base, source.Args[0], mem, typ.BytePtr, offset)
+			mem = storeArg(pos, b, base, source.Args[1], mem, typ.Int, offset+ptrSize)
+			return storeArg(pos, b, base, source.Args[2], mem, typ.Int, offset+2*ptrSize)
 		}
 
-		dst := offsetFrom(sp, offset, types.NewPtr(t))
-		x := b.NewValue3A(pos, OpStore, types.TypeMem, t, dst, a, mem)
-		if debug {
-			fmt.Printf("\t\tstoreArg returns %s\n", x.LongString())
-		}
-		return x
-	}
-
-	// splitStore converts a store of an SSA-able aggregate into a series of smaller stores, emitting
-	// appropriate Struct/Array Select operations (which will soon go dead) to obtain the parts.
-	// This has to handle aggregate types that have already been lowered by an earlier phase.
-	var splitStore func(dest, source, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value
-	splitStore = func(dest, source, mem, v *Value, t *types.Type, offset int64, firstStorePos src.XPos) *Value {
-		if debug {
-			fmt.Printf("\tsplitStore(%s;  %s;  %s;  %s;  %v;  %d;  %v)\n", dest.LongString(), source.LongString(), mem.String(), v.LongString(), t, offset, firstStorePos)
-		}
-		pos := v.Pos.WithNotStmt()
+		// For nodes that cannot be taken apart -- OpSelectN, other structure selectors.
 		switch t.Etype {
 		case types.TARRAY:
 			elt := t.Elem()
-			if t.NumElem() == 1 && t.Width == regSize && elt.Width == regSize {
+			if source.Type != t && t.NumElem() == 1 && elt.Width == t.Width && t.Width == regSize {
 				t = removeTrivialWrapperTypes(t)
-				if t.Etype == types.TSTRUCT || t.Etype == types.TARRAY {
-					f.Fatalf("Did not expect to find IDATA-immediate with non-trivial struct/array in it")
-				}
-				break // handle the leaf type.
+				// it could be a leaf type, but the "leaf" could be complex64 (for example)
+				return storeArg(pos, b, base, source, mem, t, offset)
 			}
 			for i := int64(0); i < t.NumElem(); i++ {
 				sel := source.Block.NewValue1I(pos, OpArraySelect, elt, i, source)
-				mem = splitStore(dest, sel, mem, v, elt, offset+i*elt.Width, firstStorePos)
-				firstStorePos = firstStorePos.WithNotStmt()
+				mem = storeArg(pos, b, base, sel, mem, elt, offset+i*elt.Width)
+				pos = pos.WithNotStmt()
 			}
 			return mem
 
 		case types.TSTRUCT:
-			if t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width == regSize {
+			if source.Type != t && t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width == regSize {
 				// This peculiar test deals with accesses to immediate interface data.
 				// It works okay because everything is the same size.
 				// Example code that triggers this can be found in go/constant/value.go, function ToComplex
@@ -377,16 +498,15 @@ func expandCalls(f *Func) {
 				// v139 is later stored as an intVal == struct{val *big.Int} which naively requires the fields of
 				// of a *uint8, which does not succeed.
 				t = removeTrivialWrapperTypes(t)
-
 				// it could be a leaf type, but the "leaf" could be complex64 (for example)
-				return splitStore(dest, source, mem, v, t, offset, firstStorePos)
+				return storeArg(pos, b, base, source, mem, t, offset)
 			}
 
 			for i := 0; i < t.NumFields(); i++ {
 				fld := t.Field(i)
 				sel := source.Block.NewValue1I(pos, OpStructSelect, fld.Type, int64(i), source)
-				mem = splitStore(dest, sel, mem, v, fld.Type, offset+fld.Offset, firstStorePos)
-				firstStorePos = firstStorePos.WithNotStmt()
+				mem = storeArg(pos, b, base, sel, mem, fld.Type, offset+fld.Offset)
+				pos = pos.WithNotStmt()
 			}
 			return mem
 
@@ -396,56 +516,55 @@ func expandCalls(f *Func) {
 			}
 			tHi, tLo := intPairTypes(t.Etype)
 			sel := source.Block.NewValue1(pos, OpInt64Hi, tHi, source)
-			mem = splitStore(dest, sel, mem, v, tHi, offset+hiOffset, firstStorePos)
-			firstStorePos = firstStorePos.WithNotStmt()
+			mem = storeArg(pos, b, base, sel, mem, tHi, offset+hiOffset)
+			pos = pos.WithNotStmt()
 			sel = source.Block.NewValue1(pos, OpInt64Lo, tLo, source)
-			return splitStore(dest, sel, mem, v, tLo, offset+lowOffset, firstStorePos)
+			return storeArg(pos, b, base, sel, mem, tLo, offset+lowOffset)
 
 		case types.TINTER:
 			sel := source.Block.NewValue1(pos, OpITab, typ.BytePtr, source)
-			mem = splitStore(dest, sel, mem, v, typ.BytePtr, offset, firstStorePos)
-			firstStorePos = firstStorePos.WithNotStmt()
+			mem = storeArg(pos, b, base, sel, mem, typ.BytePtr, offset)
+			pos = pos.WithNotStmt()
 			sel = source.Block.NewValue1(pos, OpIData, typ.BytePtr, source)
-			return splitStore(dest, sel, mem, v, typ.BytePtr, offset+ptrSize, firstStorePos)
+			return storeArg(pos, b, base, sel, mem, typ.BytePtr, offset+ptrSize)
 
 		case types.TSTRING:
 			sel := source.Block.NewValue1(pos, OpStringPtr, typ.BytePtr, source)
-			mem = splitStore(dest, sel, mem, v, typ.BytePtr, offset, firstStorePos)
-			firstStorePos = firstStorePos.WithNotStmt()
+			mem = storeArg(pos, b, base, sel, mem, typ.BytePtr, offset)
+			pos = pos.WithNotStmt()
 			sel = source.Block.NewValue1(pos, OpStringLen, typ.Int, source)
-			return splitStore(dest, sel, mem, v, typ.Int, offset+ptrSize, firstStorePos)
+			return storeArg(pos, b, base, sel, mem, typ.Int, offset+ptrSize)
 
 		case types.TSLICE:
 			et := types.NewPtr(t.Elem())
 			sel := source.Block.NewValue1(pos, OpSlicePtr, et, source)
-			mem = splitStore(dest, sel, mem, v, et, offset, firstStorePos)
-			firstStorePos = firstStorePos.WithNotStmt()
+			mem = storeArg(pos, b, base, sel, mem, et, offset)
+			pos = pos.WithNotStmt()
 			sel = source.Block.NewValue1(pos, OpSliceLen, typ.Int, source)
-			mem = splitStore(dest, sel, mem, v, typ.Int, offset+ptrSize, firstStorePos)
+			mem = storeArg(pos, b, base, sel, mem, typ.Int, offset+ptrSize)
 			sel = source.Block.NewValue1(pos, OpSliceCap, typ.Int, source)
-			return splitStore(dest, sel, mem, v, typ.Int, offset+2*ptrSize, firstStorePos)
+			return storeArg(pos, b, base, sel, mem, typ.Int, offset+2*ptrSize)
 
 		case types.TCOMPLEX64:
 			sel := source.Block.NewValue1(pos, OpComplexReal, typ.Float32, source)
-			mem = splitStore(dest, sel, mem, v, typ.Float32, offset, firstStorePos)
-			firstStorePos = firstStorePos.WithNotStmt()
+			mem = storeArg(pos, b, base, sel, mem, typ.Float32, offset)
+			pos = pos.WithNotStmt()
 			sel = source.Block.NewValue1(pos, OpComplexImag, typ.Float32, source)
-			return splitStore(dest, sel, mem, v, typ.Float32, offset+4, firstStorePos)
+			return storeArg(pos, b, base, sel, mem, typ.Float32, offset+4)
 
 		case types.TCOMPLEX128:
 			sel := source.Block.NewValue1(pos, OpComplexReal, typ.Float64, source)
-			mem = splitStore(dest, sel, mem, v, typ.Float64, offset, firstStorePos)
-			firstStorePos = firstStorePos.WithNotStmt()
+			mem = storeArg(pos, b, base, sel, mem, typ.Float64, offset)
+			pos = pos.WithNotStmt()
 			sel = source.Block.NewValue1(pos, OpComplexImag, typ.Float64, source)
-			return splitStore(dest, sel, mem, v, typ.Float64, offset+8, firstStorePos)
-		}
-		// Default, including for aggregates whose single element exactly fills their container
-		// TODO this will be a problem for cast interfaces containing floats when we move to registers.
-		x := v.Block.NewValue3A(firstStorePos, OpStore, types.TypeMem, t, offsetFrom(dest, offset, types.NewPtr(t)), source, mem)
-		if debug {
-			fmt.Printf("\t\tsplitStore returns %s\n", x.LongString())
+			return storeArg(pos, b, base, sel, mem, typ.Float64, offset+8)
 		}
 
+		dst := offsetFrom(base, offset, types.NewPtr(t))
+		x := b.NewValue3A(pos, OpStore, types.TypeMem, t, dst, source, mem)
+		if debug {
+			fmt.Printf("\t\tstoreArg returns %s\n", x.LongString())
+		}
 		return x
 	}
 
@@ -490,7 +609,7 @@ func expandCalls(f *Func) {
 				if debug {
 					fmt.Printf("storeArg %s, %v, %d\n", a.LongString(), aux.TypeOfArg(auxI), aux.OffsetOfArg(auxI))
 				}
-				mem = storeArg(pos, v.Block, a, aux.TypeOfArg(auxI), aux.OffsetOfArg(auxI), mem)
+				mem = storeArg(pos, v.Block, sp, a, mem, aux.TypeOfArg(auxI), aux.OffsetOfArg(auxI))
 			}
 		}
 		v.resetArgs()
@@ -523,7 +642,7 @@ func expandCalls(f *Func) {
 		t := name.Type
 		if isAlreadyExpandedAggregateType(t) {
 			for j, v := range f.NamedValues[name] {
-				if v.Op == OpSelectN {
+				if v.Op == OpSelectN || v.Op == OpArg && isAlreadyExpandedAggregateType(v.Type) {
 					ns := namedSelects[v]
 					namedSelects[v] = append(ns, namedVal{locIndex: i, valIndex: j})
 				}
@@ -537,11 +656,13 @@ func expandCalls(f *Func) {
 		for _, v := range b.Values {
 			if v.Op == OpStore {
 				t := v.Aux.(*types.Type)
+				source := v.Args[1]
+				tSrc := source.Type
 				iAEATt := isAlreadyExpandedAggregateType(t)
+
 				if !iAEATt {
 					// guarding against store immediate struct into interface data field -- store type is *uint8
 					// TODO can this happen recursively?
-					tSrc := v.Args[1].Type
 					iAEATt = isAlreadyExpandedAggregateType(tSrc)
 					if iAEATt {
 						t = tSrc
@@ -551,8 +672,10 @@ func expandCalls(f *Func) {
 					if debug {
 						fmt.Printf("Splitting store %s\n", v.LongString())
 					}
-					dst, source, mem := v.Args[0], v.Args[1], v.Args[2]
-					mem = splitStore(dst, source, mem, v, t, 0, v.Pos)
+					dst, mem := v.Args[0], v.Args[2]
+					// 	var storeArg func(pos src.XPos, b *Block, a *Value, t *types.Type, offset int64, mem *Value) *Value
+					mem = storeArg(v.Pos, b, dst, source, mem, t, 0)
+					// mem = splitStore(dst, source, mem, v, t, 0, v.Pos)
 					v.copyOf(mem)
 				}
 			}
@@ -599,6 +722,16 @@ func expandCalls(f *Func) {
 						fmt.Printf("v2p[%s] = %d\n", v.LongString(), val2Preds[v])
 					}
 				}
+			case OpArg:
+				if !isAlreadyExpandedAggregateType(v.Type) {
+					continue
+				}
+				if _, ok := val2Preds[v]; !ok {
+					val2Preds[v] = 0
+					if debug {
+						fmt.Printf("v2p[%s] = %d\n", v.LongString(), val2Preds[v])
+					}
+				}
 
 			case OpSelectNAddr:
 				// Do these directly, there are no chains of selectors.
@@ -617,7 +750,6 @@ func expandCalls(f *Func) {
 	// then forwards to rewrite selectors.
 	//
 	// All chains of selectors end up in same block as the call.
-	sdom := f.Sdom()
 
 	// Compilation must be deterministic, so sort after extracting first zeroes from map.
 	// Sorting allows dominators-last order within each batch,
@@ -645,8 +777,11 @@ func expandCalls(f *Func) {
 		last = len(allOrdered)
 		sort.SliceStable(toProcess, less)
 		for _, v := range toProcess {
-			w := v.Args[0]
 			delete(val2Preds, v)
+			if v.Op == OpArg {
+				continue // no Args[0], hence done.
+			}
+			w := v.Args[0]
 			n, ok := val2Preds[w]
 			if !ok {
 				continue
@@ -660,13 +795,19 @@ func expandCalls(f *Func) {
 		}
 	}
 
-	common := make(map[selKey]*Value)
+	common = make(map[selKey]*Value)
 	// Rewrite duplicate selectors as copies where possible.
 	for i := len(allOrdered) - 1; i >= 0; i-- {
 		v := allOrdered[i]
+		if v.Op == OpArg {
+			continue
+		}
 		w := v.Args[0]
-		for w.Op == OpCopy {
-			w = w.Args[0]
+		if w.Op == OpCopy {
+			for w.Op == OpCopy {
+				w = w.Args[0]
+			}
+			v.SetArg(0, w)
 		}
 		typ := v.Type
 		if typ.IsMemory() {
@@ -696,7 +837,7 @@ func expandCalls(f *Func) {
 		case OpComplexImag:
 			offset = size
 		}
-		sk := selKey{from: w, size: size, offset: offset, typ: typ.Etype}
+		sk := selKey{from: w, size: size, offset: offset, typ: typ}
 		dupe := common[sk]
 		if dupe == nil {
 			common[sk] = v
