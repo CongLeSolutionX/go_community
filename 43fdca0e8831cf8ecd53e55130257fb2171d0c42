@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "715aba20_6775e26d",
+        "filename": "src/cmd/compile/internal/syntax/parser_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-13T04:14:16Z",
+      "side": 1,
+      "message": "I probably just copied from another test. Trying without.",
+      "parentUuid": "d8a303d8_e3dc673f",
+      "revId": "43fdca0e8831cf8ecd53e55130257fb2171d0c42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82ad5826_cdb2e9a9",
@@ -48,6 +66,24 @@
       "writtenOn": "2020-10-13T00:05:34Z",
       "side": 1,
       "message": "Maybe add a test that StdLib still parses with AllowGenerics?",
+      "revId": "43fdca0e8831cf8ecd53e55130257fb2171d0c42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e29a98ca_d6ec6d45",
+        "filename": "src/cmd/compile/internal/syntax/parser_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-13T04:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82ad5826_cdb2e9a9",
       "revId": "43fdca0e8831cf8ecd53e55130257fb2171d0c42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
