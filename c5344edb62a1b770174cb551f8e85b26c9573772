@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8ccae18_3653b05e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-13T18:52:18Z",
+      "side": 1,
+      "message": "Please update src/cmd/go/testdata/script/env_write.txt to verify the new behavior.",
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "695321ac_632bdb42",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-13T18:52:18Z",
+      "side": 1,
+      "message": "Let\u0027s make sure single component paths are still allowed. For example, \u0027go env -w CC\u003dclang\u0027 should work, but \u0027go env -w CC\u003dbin/clang\u0027 should not.",
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01ac0703_e9b94366",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-13T18:52:18Z",
+      "side": 1,
+      "message": "Let\u0027s combine these two blocks into one loop:\n\n  for _, key :\u003d range []string{\"CC\", \"CXX\"} {\n    ...\n  }",
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f14d13e_72657f70",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-13T18:52:18Z",
+      "side": 1,
+      "message": "Let\u0027s also make sure to allow single component paths here.",
+      "range": {
+        "startLine": 40,
+        "startChar": 39,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37ef06d8_9e788d4a",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-13T18:52:18Z",
+      "side": 1,
+      "message": "Use cfg.Getenv instead. It takes values from the configuration file written with \u0027go env -w\u0027 if they\u0027re not explicitly set in the environment.",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62d7f320_adfb51af",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-13T18:52:18Z",
+      "side": 1,
+      "message": "Use base.Fatalf instead of Fprintf, SetExitStatus, Exit.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 13
+      },
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
