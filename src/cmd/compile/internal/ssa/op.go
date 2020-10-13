@@ -197,6 +197,11 @@ func ClosureAuxCall(args []Param, results []Param) *AuxCall {
 	return &AuxCall{Fn: nil, args: args, results: results}
 }
 
+// OwnAuxCall returns an AuxCall for a closure call.
+func OwnAuxCall(args []Param, results []Param) *AuxCall {
+	return &AuxCall{Fn: nil, args: args, results: results}
+}
+
 const (
 	auxNone         auxType = iota
 	auxBool                 // auxInt is 0/1 for false/true
