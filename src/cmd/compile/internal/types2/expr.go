@@ -1421,7 +1421,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		}
 
 		if sig := x.typ.Signature(); sig != nil {
-			return check.call(x, nil, e)
+			return check.call(x, nil, e, true)
 		}
 
 		valid := false
@@ -1676,7 +1676,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		goto Error
 
 	case *syntax.CallExpr:
-		return check.call(x, e, e)
+		return check.call(x, e, e, false)
 
 	// case *syntax.UnaryExpr:
 	// 	check.expr(x, e.X)

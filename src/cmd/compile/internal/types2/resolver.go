@@ -504,7 +504,27 @@ L: // unpack receiver type
 	// unpack type parameters, if any
 	switch ptyp := rtyp.(type) {
 	case *syntax.IndexExpr:
-		unimplemented()
+		rtyp = ptyp.X
+		if unpackParams {
+			for _, arg := range unpackExpr(ptyp.Index) {
+				var par *syntax.Name
+				switch arg := arg.(type) {
+				case *syntax.Name:
+					par = arg
+				case *syntax.BadExpr:
+					// ignore - error already reported by parser
+				case nil:
+					check.invalidASTf(ptyp, "parameterized receiver contains nil parameters")
+				default:
+					check.errorf(arg, "receiver type parameter %s must be an identifier", arg)
+				}
+				if par == nil {
+					par = newName(arg.Pos(), "_")
+				}
+				tparams = append(tparams, par)
+			}
+
+		}
 	case *syntax.CallExpr:
 		rtyp = ptyp.Fun
 		if unpackParams {
