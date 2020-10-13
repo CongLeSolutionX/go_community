@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32177691_b91b44bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-13T18:25:56Z",
+      "side": 1,
+      "message": "### Building linux-arm64 fails. good! so trybots do indeed test arm64",
+      "revId": "98eae1890398c4fa871c5515a5d76dec80407f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
