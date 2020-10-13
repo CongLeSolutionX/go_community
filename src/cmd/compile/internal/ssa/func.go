@@ -33,6 +33,8 @@ type Func struct {
 	Blocks []*Block    // unordered set of all basic blocks (note: not indexable by ID)
 	Entry  *Block      // the entry basic block
 
+	AuxCall *AuxCall // the AuxCall that would be used to call this function, to describe its ABI.
+
 	bid idAlloc // block ID allocator
 	vid idAlloc // value ID allocator
 
