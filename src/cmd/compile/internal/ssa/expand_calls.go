@@ -157,6 +157,24 @@ func expandCalls(f *Func) {
 		var locs []LocalSlot
 		leafType := leaf.Type
 		switch selector.Op {
+		case OpArg:
+			if !isAlreadyExpandedAggregateType(selector.Type) {
+				// do nothing
+				break
+			}
+			for _, s := range namedSelects[selector] {
+				locs = append(locs, f.Names[s.locIndex])
+			}
+			if leaf.Block == selector.Block {
+				leaf.reset(OpArg)
+				leaf.Aux = selector.Aux
+				leaf.AuxInt = selector.AuxInt + offset
+				leaf.Type = leafType
+			} else {
+				w := selector.Block.NewValue0IA(leaf.Pos, OpArg, leafType, selector.AuxInt+offset, selector.Aux)
+				leaf.copyOf(w)
+			}
+
 		case OpSelectN:
 			// TODO these may be duplicated. Should memoize. Intermediate selectors will go dead, no worries there.
 			for _, s := range namedSelects[selector] {
@@ -523,7 +541,7 @@ func expandCalls(f *Func) {
 		t := name.Type
 		if isAlreadyExpandedAggregateType(t) {
 			for j, v := range f.NamedValues[name] {
-				if v.Op == OpSelectN {
+				if v.Op == OpSelectN || v.Op == OpArg && isAlreadyExpandedAggregateType(v.Type) {
 					ns := namedSelects[v]
 					namedSelects[v] = append(ns, namedVal{locIndex: i, valIndex: j})
 				}

@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"fmt"
+	"strings"
 )
 
 // An Op encodes the specific operation that a Value performs.
@@ -80,8 +81,8 @@ type AuxCall struct {
 }
 
 func (a *AuxCall) closureSymToCallSym(v *Value, sym Sym) *AuxCall {
-	s := sym.(*obj.LSym).String()                                              // demand the type
-	a.Fn = v.Block.Func.Config.Ctxt().LookupABI(s[:len(s)-3], obj.ABIInternal) // lose the CDOT f
+	s := sym.(*obj.LSym).String()                                                             // demand the type, even though interface has String()
+	a.Fn = v.Block.Func.Config.Ctxt().LookupABI(strings.TrimSuffix(s, "·f"), obj.ABIInternal) // lose the MIDDLE DOT (b7) f
 	return a
 }
 
@@ -200,6 +201,11 @@ func InterfaceAuxCall(args []Param, results []Param) *AuxCall {
 
 // ClosureAuxCall returns an AuxCall for a closure call.
 func ClosureAuxCall(args []Param, results []Param) *AuxCall {
+	return &AuxCall{Fn: nil, args: args, results: results}
+}
+
+// OwnAuxCall returns an AuxCall for a closure call.
+func OwnAuxCall(args []Param, results []Param) *AuxCall {
 	return &AuxCall{Fn: nil, args: args, results: results}
 }
 
