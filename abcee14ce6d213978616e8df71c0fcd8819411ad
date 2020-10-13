@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c63e0e7_91dca3f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-13T20:51:59Z",
+      "side": 1,
+      "message": "I think enough is moving around in this cl that it merits a longer change description.",
+      "revId": "abcee14ce6d213978616e8df71c0fcd8819411ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
