@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "774d97ae_76442599",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,34 @@
         "endChar": 22
       },
       "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfc11bf0_cd6b0caa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-13T01:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "774d97ae_76442599",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a042e9df_9c7f2e14",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
@@ -37,10 +62,28 @@
       "side": 1,
       "message": "I think you can use symIsRO. It is not limited to strings, but any RO global.",
       "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "984a7e3b_e4f1b73c",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 12
+      },
+      "lineNbr": 1995,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-13T01:56:29Z",
+      "side": 1,
+      "message": "Yes, and it adds 55 hits building the Go toolchain/runtime/libraries.",
+      "parentUuid": "a042e9df_9c7f2e14",
+      "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "cd3ba5c1_8ce3525c",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
@@ -54,8 +97,25 @@
       "side": 1,
       "message": "Maybe worth mentioning it includes the memory argument.",
       "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abab5340_38dfc2fd",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-13T01:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd3ba5c1_8ce3525c",
+      "revId": "bc9816999bfee09fd19f8dea4d123e1efa0e648c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
