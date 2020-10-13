@@ -105,6 +105,24 @@
       "parentUuid": "c9b0259c_66c4e4ef",
       "revId": "ea9adef5671f29508b5258a8ef889b3eae7e9f1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b8e73cb_51036bb8",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-13T01:17:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e408827_a968a4f4",
+      "revId": "ea9adef5671f29508b5258a8ef889b3eae7e9f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
