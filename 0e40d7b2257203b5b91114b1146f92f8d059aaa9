@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "743a2a81_35d365a5",
         "filename": "src/fmt/print.go",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "perhaps we should rename c to v for verb while we\u0027re here.",
       "revId": "0e40d7b2257203b5b91114b1146f92f8d059aaa9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "50f05c64_9de23959",
         "filename": "src/fmt/print.go",
@@ -32,8 +33,25 @@
       "message": "\u0027v\u0027 is used nearby to mean \"value\" so I renamed it to \u0027verb\u0027.  This is consistent with fmtBool(), fmtInteger(), etc.",
       "parentUuid": "743a2a81_35d365a5",
       "revId": "0e40d7b2257203b5b91114b1146f92f8d059aaa9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ed4d382_8d44f6d0",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-13T19:15:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50f05c64_9de23959",
+      "revId": "0e40d7b2257203b5b91114b1146f92f8d059aaa9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
