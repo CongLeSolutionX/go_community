@@ -283,10 +283,17 @@ func asmArgs(a *Action, p *load.Package) []interface{} {
 			}
 		}
 	}
-	if p.ImportPath == "runtime" && objabi.Regabi_enabled != 0 {
+	compilingRuntime :=
+		(p.ImportPath == "runtime" ||
+			p.ImportPath == "reflect" ||
+			p.ImportPath == "syscall")
+	if compilingRuntime && objabi.Regabi_enabled != 0 {
 		// In order to make it easier to port runtime assembly
 		// to the register ABI, we introduce a macro
 		// indicating the experiment is enabled.
+		//
+		// Note: a similar change also appears in
+		// cmd/dist/build.go.
 		//
 		// TODO(austin): Remove this once we commit to the
 		// register ABI (#40724).
