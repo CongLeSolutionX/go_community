@@ -72,9 +72,9 @@ func initssaconfig() {
 	deferproc = sysfunc("deferproc")
 	deferprocStack = sysfunc("deferprocStack")
 	Deferreturn = sysfunc("deferreturn")
-	Duffcopy = sysvar("duffcopy")             // asm func with special ABI
-	Duffzero = sysvar("duffzero")             // asm func with special ABI
-	gcWriteBarrier = sysvar("gcWriteBarrier") // asm func with special ABI
+	Duffcopy = sysfunc("duffcopy")
+	Duffzero = sysfunc("duffzero")
+	gcWriteBarrier = sysfunc("gcWriteBarrier")
 	goschedguarded = sysfunc("goschedguarded")
 	growslice = sysfunc("growslice")
 	msanread = sysfunc("msanread")
@@ -105,14 +105,14 @@ func initssaconfig() {
 	// asm funcs with special ABI
 	if thearch.LinkArch.Name == "amd64" {
 		GCWriteBarrierReg = map[int16]*obj.LSym{
-			x86.REG_AX: sysvar("gcWriteBarrier"),
-			x86.REG_CX: sysvar("gcWriteBarrierCX"),
-			x86.REG_DX: sysvar("gcWriteBarrierDX"),
-			x86.REG_BX: sysvar("gcWriteBarrierBX"),
-			x86.REG_BP: sysvar("gcWriteBarrierBP"),
-			x86.REG_SI: sysvar("gcWriteBarrierSI"),
-			x86.REG_R8: sysvar("gcWriteBarrierR8"),
-			x86.REG_R9: sysvar("gcWriteBarrierR9"),
+			x86.REG_AX: sysfunc("gcWriteBarrier"),
+			x86.REG_CX: sysfunc("gcWriteBarrierCX"),
+			x86.REG_DX: sysfunc("gcWriteBarrierDX"),
+			x86.REG_BX: sysfunc("gcWriteBarrierBX"),
+			x86.REG_BP: sysfunc("gcWriteBarrierBP"),
+			x86.REG_SI: sysfunc("gcWriteBarrierSI"),
+			x86.REG_R8: sysfunc("gcWriteBarrierR8"),
+			x86.REG_R9: sysfunc("gcWriteBarrierR9"),
 		}
 	}
 

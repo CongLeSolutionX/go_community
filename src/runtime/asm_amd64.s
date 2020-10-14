@@ -232,7 +232,10 @@ ok:
 	MOVQ	$runtime·debugCallV1(SB), AX
 	RET
 
-DATA	runtime·mainPC+0(SB)/8,$runtime·main(SB)
+// mainPC is a function value for runtime.main, to be passed to newproc.
+// The reference to runtime.main is made via ABIInternal, since the
+// actual function (not the ABI0 wrapper) is needed by newproc.
+DATA	runtime·mainPC+0(SB)/8,$runtime·main<ABIInternal>(SB)
 GLOBL	runtime·mainPC(SB),RODATA,$8
 
 TEXT runtime·breakpoint(SB),NOSPLIT,$0-0
@@ -1371,8 +1374,9 @@ TEXT _cgo_topofstack(SB),NOSPLIT,$0
 	RET
 
 // The top-most function running on a goroutine
-// returns to goexit+PCQuantum.
-TEXT runtime·goexit(SB),NOSPLIT,$0-0
+// returns to goexit+PCQuantum. Defined as ABIInternal
+// so as to make it identifiable to traceback.
+TEXT runtime·goexit<ABIInternal>(SB),NOSPLIT,$0-0
 	BYTE	$0x90	// NOP
 	CALL	runtime·goexit1(SB)	// does not return
 	// traceback from goexit1 must hit code range of goexit
@@ -1394,7 +1398,8 @@ TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
 // - AX is the value being written at DI
 // It clobbers FLAGS. It does not clobber any general-purpose registers,
 // but may clobber others (e.g., SSE registers).
-TEXT runtime·gcWriteBarrier(SB),NOSPLIT,$120
+// Defined as ABIInternal since it does not use the stack-based Go ABI.
+TEXT runtime·gcWriteBarrier<ABIInternal>(SB),NOSPLIT,$120
 	// Save the registers clobbered by the fast path. This is slightly
 	// faster than having the caller spill these.
 	MOVQ	R14, 104(SP)
@@ -1478,51 +1483,58 @@ flush:
 	JMP	ret
 
 // gcWriteBarrierCX is gcWriteBarrier, but with args in DI and CX.
-TEXT runtime·gcWriteBarrierCX(SB),NOSPLIT,$0
+// Defined as ABIInternal since it does not use the stable Go ABI.
+TEXT runtime·gcWriteBarrierCX<ABIInternal>(SB),NOSPLIT,$0
 	XCHGQ CX, AX
-	CALL runtime·gcWriteBarrier(SB)
+	CALL runtime·gcWriteBarrier<ABIInternal>(SB)
 	XCHGQ CX, AX
 	RET
 
 // gcWriteBarrierDX is gcWriteBarrier, but with args in DI and DX.
-TEXT runtime·gcWriteBarrierDX(SB),NOSPLIT,$0
+// Defined as ABIInternal since it does not use the stable Go ABI.
+TEXT runtime·gcWriteBarrierDX<ABIInternal>(SB),NOSPLIT,$0
 	XCHGQ DX, AX
-	CALL runtime·gcWriteBarrier(SB)
+	CALL runtime·gcWriteBarrier<ABIInternal>(SB)
 	XCHGQ DX, AX
 	RET
 
 // gcWriteBarrierBX is gcWriteBarrier, but with args in DI and BX.
-TEXT runtime·gcWriteBarrierBX(SB),NOSPLIT,$0
+// Defined as ABIInternal since it does not use the stable Go ABI.
+TEXT runtime·gcWriteBarrierBX<ABIInternal>(SB),NOSPLIT,$0
 	XCHGQ BX, AX
-	CALL runtime·gcWriteBarrier(SB)
+	CALL runtime·gcWriteBarrier<ABIInternal>(SB)
 	XCHGQ BX, AX
 	RET
 
 // gcWriteBarrierBP is gcWriteBarrier, but with args in DI and BP.
-TEXT runtime·gcWriteBarrierBP(SB),NOSPLIT,$0
+// Defined as ABIInternal since it does not use the stable Go ABI.
+TEXT runtime·gcWriteBarrierBP<ABIInternal>(SB),NOSPLIT,$0
 	XCHGQ BP, AX
-	CALL runtime·gcWriteBarrier(SB)
+	CALL runtime·gcWriteBarrier<ABIInternal>(SB)
 	XCHGQ BP, AX
 	RET
 
 // gcWriteBarrierSI is gcWriteBarrier, but with args in DI and SI.
-TEXT runtime·gcWriteBarrierSI(SB),NOSPLIT,$0
+// Defined as ABIInternal since it does not use the stable Go ABI.
+TEXT runtime·gcWriteBarrierSI<ABIInternal>(SB),NOSPLIT,$0
 	XCHGQ SI, AX
-	CALL runtime·gcWriteBarrier(SB)
+	CALL runtime·gcWriteBarrier<ABIInternal>(SB)
 	XCHGQ SI, AX
 	RET
 
 // gcWriteBarrierR8 is gcWriteBarrier, but with args in DI and R8.
-TEXT runtime·gcWriteBarrierR8(SB),NOSPLIT,$0
+// Defined as ABIInternal since it does not use the stable Go ABI.
+TEXT runtime·gcWriteBarrierR8<ABIInternal>(SB),NOSPLIT,$0
 	XCHGQ R8, AX
-	CALL runtime·gcWriteBarrier(SB)
+	CALL runtime·gcWriteBarrier<ABIInternal>(SB)
 	XCHGQ R8, AX
 	RET
 
 // gcWriteBarrierR9 is gcWriteBarrier, but with args in DI and R9.
-TEXT runtime·gcWriteBarrierR9(SB),NOSPLIT,$0
+// Defined as ABIInternal since it does not use the stable Go ABI.
+TEXT runtime·gcWriteBarrierR9<ABIInternal>(SB),NOSPLIT,$0
 	XCHGQ R9, AX
-	CALL runtime·gcWriteBarrier(SB)
+	CALL runtime·gcWriteBarrier<ABIInternal>(SB)
 	XCHGQ R9, AX
 	RET
 
@@ -1561,6 +1573,9 @@ GLOBL	debugCallFrameTooLarge<>(SB), RODATA, $20	// Size duplicated below
 // obey escape analysis requirements. Specifically, it must not pass
 // a stack pointer to an escaping argument. debugCallV1 cannot check
 // this invariant.
+//
+// This is ABIInternal because Go code injects its PC directly into new
+// goroutine stacks.
 TEXT runtime·debugCallV1(SB),NOSPLIT,$152-0
 	// Save all registers that may contain pointers so they can be
 	// conservatively scanned.
