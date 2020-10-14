@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "429dab85_d90850a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T15:47:51Z",
+      "side": 1,
+      "message": "Thanks.\n\nIt appears that we missed two cases. Please address them as well.",
+      "revId": "ea6dab33d3228cd250b8bd94f673636dc1187cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9321f30_8ca05eeb",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T15:47:51Z",
+      "side": 1,
+      "message": "panic(fmt.Sprintf(\"invalid Pos value %d (should be in [%d, %d[)\", p, f.base, f.base+f.size))",
+      "range": {
+        "startLine": 281,
+        "startChar": 20,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "ea6dab33d3228cd250b8bd94f673636dc1187cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69749cda_e412e050",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T15:47:51Z",
+      "side": 1,
+      "message": "panic(fmt.Sprintf(\"invalid Pos value %d (should be in [%d, %d[)\", p, f.base, f.base+f.size))",
+      "range": {
+        "startLine": 349,
+        "startChar": 10,
+        "endLine": 349,
+        "endChar": 17
+      },
+      "revId": "ea6dab33d3228cd250b8bd94f673636dc1187cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
