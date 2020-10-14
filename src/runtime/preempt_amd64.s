@@ -3,7 +3,11 @@
 #include "go_asm.h"
 #include "textflag.h"
 
+#ifdef GOEXPERIMENT_REGABI
+TEXT ·asyncPreempt<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-0
+#else
 TEXT ·asyncPreempt(SB),NOSPLIT|NOFRAME,$0-0
+#endif
 	PUSHQ BP
 	MOVQ SP, BP
 	// Save flags before clobbering them
