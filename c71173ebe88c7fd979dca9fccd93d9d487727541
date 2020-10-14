@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d558b106_3b0a74dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-14T13:31:56Z",
+      "side": 1,
+      "message": "For #40724.",
+      "revId": "c71173ebe88c7fd979dca9fccd93d9d487727541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
