@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fc35125_a9eb152c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-14T21:23:10Z",
+      "side": 1,
+      "message": "Maybe you could take a look at go:nointerface implementation, which works for methods (and only methods).",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "c71173ebe88c7fd979dca9fccd93d9d487727541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d558b106_3b0a74dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -14,6 +37,23 @@
       "writtenOn": "2020-10-14T13:31:56Z",
       "side": 1,
       "message": "For #40724.",
+      "revId": "c71173ebe88c7fd979dca9fccd93d9d487727541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ced8eef6_e5f0b449",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-14T21:23:10Z",
+      "side": 1,
+      "message": "Maybe only import/export a specific flag, not the whole pragma. I\u0027m not sure if other pragmas should be imported/exported, maybe that is fine, but let\u0027s keep it safe and minimal.",
       "revId": "c71173ebe88c7fd979dca9fccd93d9d487727541",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
