@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51412c62_df7f9ded",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-14T21:18:08Z",
+      "side": 1,
+      "message": "Thanks for updating this. Code looks good, but I have a few more comments on the test.",
+      "revId": "386a049cd8847e6affa0ea400d18cf944e6abe01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60bf4a5a_4c2f032b",
+        "filename": "src/cmd/go/testdata/script/env_write.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-14T21:18:08Z",
+      "side": 1,
+      "message": "Add [!windows] at the beginning of each line except L128. We won\u0027t recognize paths with slashes as absolute paths on Windows.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 24
+      },
+      "revId": "386a049cd8847e6affa0ea400d18cf944e6abe01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8284e0cd_9dc7423f",
+        "filename": "src/cmd/go/testdata/script/env_write.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-14T21:18:08Z",
+      "side": 1,
+      "message": "Use $WORK instead of $HOME. These tests run in an isolated environment. $WORK is set to a temporary directory.",
+      "range": {
+        "startLine": 131,
+        "startChar": 23,
+        "endLine": 131,
+        "endChar": 28
+      },
+      "revId": "386a049cd8847e6affa0ea400d18cf944e6abe01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecb2214c_301f5b4e",
+        "filename": "src/cmd/go/testdata/script/env_write.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-14T21:18:08Z",
+      "side": 1,
+      "message": "Use \\ instead of \\\\ in these paths. They\u0027re not escaped.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 35
+      },
+      "revId": "386a049cd8847e6affa0ea400d18cf944e6abe01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bbdeb5d_0670b574",
+        "filename": "src/cmd/go/testdata/script/env_write.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-14T21:18:08Z",
+      "side": 1,
+      "message": "For at least one of the failing commands, add a command checking the error message in stderr. You\u0027ll need [windows] or [!windows] matching the command above.\n\n  stderr \u0027go env -w: CC must be an absolute path\u0027",
+      "revId": "386a049cd8847e6affa0ea400d18cf944e6abe01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc06f7cb_da3fc7c5",
+        "filename": "src/cmd/go/testdata/script/env_write.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-14T21:18:08Z",
+      "side": 1,
+      "message": "Same commands as above.\n\nMake sure these are all CXX too. L136, L140, L141, L142 all mention CC instead.",
+      "revId": "386a049cd8847e6affa0ea400d18cf944e6abe01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
