@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e122ccd_fbac20eb",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T00:50:36Z",
+      "side": 1,
+      "message": "Since you\u0027re changing this, let\u0027s make this a bit systematic:\n\npanic(fmt.Sprintf(\"invalid line number %d (should be \u003e\u003d 1)\", line))\n\ns/illegal/invalid/ everywhere (I wrote \"illegal\" originally, but these values are not really \"illegal\", they are just not valid, so let\u0027s correct this).",
+      "range": {
+        "startLine": 153,
+        "startChar": 34,
+        "endLine": 153,
+        "endChar": 40
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14bfcfb5_8d7a1ea0",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T00:50:36Z",
+      "side": 1,
+      "message": "panic(fmt.Sprintf(\"invalid line number %d (should be \u003c %s)\", line, len(f.lines)))",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 52
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "772cc9fe_1bafcf0f",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T00:50:36Z",
+      "side": 1,
+      "message": "like above",
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0512bf29_472b9345",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T00:50:36Z",
+      "side": 1,
+      "message": "like above",
+      "range": {
+        "startLine": 225,
+        "startChar": 12,
+        "endLine": 225,
+        "endChar": 19
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e50448e_57681cb4",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T00:50:36Z",
+      "side": 1,
+      "message": "panic(fmt.Sprintf(\"invalid file offset %d (should be \u003c %d)\", offset, f.size))",
+      "range": {
+        "startLine": 270,
+        "startChar": 21,
+        "endLine": 270,
+        "endChar": 28
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bee25ec9_dac42f2b",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T00:50:36Z",
+      "side": 1,
+      "message": "panic(fmt.Sprintf(\"invalid base %d (should be \u003c %d)\", base, s.base))",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 45
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e652de12_9aad6b8a",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T00:50:36Z",
+      "side": 1,
+      "message": "panic(fmt.Sprintf(\"invalid size %d (should be \u003e\u003d 0)\", size))",
+      "range": {
+        "startLine": 437,
+        "startChar": 2,
+        "endLine": 437,
+        "endChar": 45
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
