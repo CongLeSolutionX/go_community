@@ -832,6 +832,20 @@ func runInstall(pkg string, ch chan struct{}) {
 		asmArgs = append(asmArgs, "-D", "GOMIPS64_"+gomips64)
 	}
 	goasmh := pathf("%s/go_asm.h", workdir)
+	compilingRuntime :=
+		(pkg == "runtime" || pkg == "reflect" || pkg == "syscall")
+	if compilingRuntime && os.Getenv("GOEXPERIMENT") == "regabi" {
+		// In order to make it easier to port runtime assembly
+		// to the register ABI, we introduce a macro
+		// indicating the experiment is enabled.
+		//
+		// Note: a similar change also appears in
+		// cmd/go/internal/work/gc.go.
+		//
+		// TODO(austin): Remove this once we commit to the
+		// register ABI (#40724).
+		asmArgs = append(asmArgs, "-D=GOEXPERIMENT_REGABI=1")
+	}
 
 	// Collect symabis from assembly code.
 	var symabis string
