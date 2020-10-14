@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "219a6551_0dcf9c4c",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 15955
+      },
+      "writtenOn": "2020-10-14T15:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e122ccd_fbac20eb",
+      "range": {
+        "startLine": 153,
+        "startChar": 34,
+        "endLine": 153,
+        "endChar": 40
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14bfcfb5_8d7a1ea0",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-14T00:50:36Z",
       "side": 1,
       "message": "panic(fmt.Sprintf(\"invalid line number %d (should be \u003c %s)\", line, len(f.lines)))",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 52
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffc9808f_d029bbf3",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 15955
+      },
+      "writtenOn": "2020-10-14T15:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14bfcfb5_8d7a1ea0",
       "range": {
         "startLine": 158,
         "startChar": 2,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5629c8f4_e33aece7",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 15955
+      },
+      "writtenOn": "2020-10-14T15:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "772cc9fe_1bafcf0f",
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0512bf29_472b9345",
@@ -77,6 +143,30 @@
       "writtenOn": "2020-10-14T00:50:36Z",
       "side": 1,
       "message": "like above",
+      "range": {
+        "startLine": 225,
+        "startChar": 12,
+        "endLine": 225,
+        "endChar": 19
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec69ef99_a5e3a8aa",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 15955
+      },
+      "writtenOn": "2020-10-14T15:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0512bf29_472b9345",
       "range": {
         "startLine": 225,
         "startChar": 12,
@@ -110,6 +200,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35c0eae0_bfc91e08",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 15955
+      },
+      "writtenOn": "2020-10-14T15:23:04Z",
+      "side": 1,
+      "message": "Done\n\n(I used \u003c\u003d, given the conditional - hope that\u0027s ok?)",
+      "parentUuid": "9e50448e_57681cb4",
+      "range": {
+        "startLine": 270,
+        "startChar": 21,
+        "endLine": 270,
+        "endChar": 28
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bee25ec9_dac42f2b",
@@ -133,6 +247,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8461de08_f6727468",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 15955
+      },
+      "writtenOn": "2020-10-14T15:23:04Z",
+      "side": 1,
+      "message": "Done\n\n(I used \u003e\u003d, given the conditional - hope that\u0027s ok?)",
+      "parentUuid": "bee25ec9_dac42f2b",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 45
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e652de12_9aad6b8a",
@@ -146,6 +284,30 @@
       "writtenOn": "2020-10-14T00:50:36Z",
       "side": 1,
       "message": "panic(fmt.Sprintf(\"invalid size %d (should be \u003e\u003d 0)\", size))",
+      "range": {
+        "startLine": 437,
+        "startChar": 2,
+        "endLine": 437,
+        "endChar": 45
+      },
+      "revId": "34cfd29ad8422a560c9e07fdf4eaf19202cd9353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae29240_c0f672b1",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 15955
+      },
+      "writtenOn": "2020-10-14T15:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e652de12_9aad6b8a",
       "range": {
         "startLine": 437,
         "startChar": 2,
