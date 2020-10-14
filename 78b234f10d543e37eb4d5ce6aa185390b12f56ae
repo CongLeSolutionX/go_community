@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a63eccb1_20b4d4e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T21:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c6e659b_47587f2e",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "78b234f10d543e37eb4d5ce6aa185390b12f56ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c4e2d8c8_bc749aa4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -37,6 +61,23 @@
       "writtenOn": "2020-10-14T17:25:55Z",
       "side": 1,
       "message": "Nice.",
+      "revId": "78b234f10d543e37eb4d5ce6aa185390b12f56ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e18658_23156def",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T21:37:21Z",
+      "side": 1,
+      "message": "Thanks!",
       "revId": "78b234f10d543e37eb4d5ce6aa185390b12f56ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +95,30 @@
       "writtenOn": "2020-10-14T17:25:55Z",
       "side": 1,
       "message": "nit: \"if\"",
+      "range": {
+        "startLine": 1663,
+        "startChar": 15,
+        "endLine": 1663,
+        "endChar": 17
+      },
+      "revId": "78b234f10d543e37eb4d5ce6aa185390b12f56ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91f01ef1_3dc53f2b",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1663,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T21:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f879212d_4caa1909",
       "range": {
         "startLine": 1663,
         "startChar": 15,
