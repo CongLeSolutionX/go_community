@@ -142,7 +142,7 @@ const (
 func instinit(ctxt *obj.Link) {
 	morestack = ctxt.Lookup("runtime.morestack")
 	morestackNoCtxt = ctxt.Lookup("runtime.morestack_noctxt")
-	gcWriteBarrier = ctxt.Lookup("runtime.gcWriteBarrier")
+	gcWriteBarrier = ctxt.LookupABI("runtime.gcWriteBarrier", obj.ABIInternal)
 	sigpanic = ctxt.LookupABI("runtime.sigpanic", obj.ABIInternal)
 	sigpanic0 = ctxt.LookupABI("runtime.sigpanic", 0) // sigpanic called from assembly, which has ABI0
 	deferreturn = ctxt.LookupABI("runtime.deferreturn", obj.ABIInternal)
