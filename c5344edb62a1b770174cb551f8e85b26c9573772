@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36db8232_f363eb7d",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 34746
+      },
+      "writtenOn": "2020-10-14T17:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "695321ac_632bdb42",
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01ac0703_e9b94366",
@@ -48,6 +66,24 @@
       "writtenOn": "2020-10-13T18:52:18Z",
       "side": 1,
       "message": "Let\u0027s combine these two blocks into one loop:\n\n  for _, key :\u003d range []string{\"CC\", \"CXX\"} {\n    ...\n  }",
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44970daa_c76344b9",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 34746
+      },
+      "writtenOn": "2020-10-14T17:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01ac0703_e9b94366",
       "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -98,6 +134,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaae553f_fbc03ff7",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 34746
+      },
+      "writtenOn": "2020-10-14T17:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37ef06d8_9e788d4a",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa52077_1245e0af",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 34746
+      },
+      "writtenOn": "2020-10-14T17:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f14d13e_72657f70",
+      "range": {
+        "startLine": 40,
+        "startChar": 39,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62d7f320_adfb51af",
@@ -111,6 +195,30 @@
       "writtenOn": "2020-10-13T18:52:18Z",
       "side": 1,
       "message": "Use base.Fatalf instead of Fprintf, SetExitStatus, Exit.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 13
+      },
+      "revId": "c5344edb62a1b770174cb551f8e85b26c9573772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "828f490b_e35990bc",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 34746
+      },
+      "writtenOn": "2020-10-14T17:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62d7f320_adfb51af",
       "range": {
         "startLine": 41,
         "startChar": 2,
