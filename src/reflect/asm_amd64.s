@@ -9,7 +9,11 @@
 // See the comment on the declaration of makeFuncStub in makefunc.go
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
+#ifdef GOEXPERIMENT_REGABI
+TEXT ·makeFuncStub<ABIInternal>(SB),(NOSPLIT|WRAPPER),$32
+#else
 TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$32
+#endif
 	NO_LOCAL_POINTERS
 	MOVQ	DX, 0(SP)
 	LEAQ	argframe+0(FP), CX
@@ -24,7 +28,11 @@ TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$32
 // See the comment on the declaration of methodValueCall in makefunc.go
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
+#ifdef GOEXPERIMENT_REGABI
+TEXT ·methodValueCall<ABIInternal>(SB),(NOSPLIT|WRAPPER),$32
+#else
 TEXT ·methodValueCall(SB),(NOSPLIT|WRAPPER),$32
+#endif
 	NO_LOCAL_POINTERS
 	MOVQ	DX, 0(SP)
 	LEAQ	argframe+0(FP), CX

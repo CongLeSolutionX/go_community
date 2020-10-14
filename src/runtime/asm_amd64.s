@@ -232,7 +232,11 @@ ok:
 	MOVQ	$runtime·debugCallV1(SB), AX
 	RET
 
+#ifdef GOEXPERIMENT_REGABI
+DATA	runtime·mainPC+0(SB)/8,$runtime·main<ABIInternal>(SB)
+#else
 DATA	runtime·mainPC+0(SB)/8,$runtime·main(SB)
+#endif
 GLOBL	runtime·mainPC(SB),RODATA,$8
 
 TEXT runtime·breakpoint(SB),NOSPLIT,$0-0
@@ -1372,7 +1376,11 @@ TEXT _cgo_topofstack(SB),NOSPLIT,$0
 
 // The top-most function running on a goroutine
 // returns to goexit+PCQuantum.
+#ifdef GOEXPERIMENT_REGABI
+TEXT runtime·goexit<ABIInternal>(SB),NOSPLIT,$0-0
+#else
 TEXT runtime·goexit(SB),NOSPLIT,$0-0
+#endif
 	BYTE	$0x90	// NOP
 	CALL	runtime·goexit1(SB)	// does not return
 	// traceback from goexit1 must hit code range of goexit
