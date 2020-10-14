@@ -110,6 +110,30 @@
       },
       "revId": "ea6dab33d3228cd250b8bd94f673636dc1187cbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b34589e3_001599fd",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-14T22:10:17Z",
+      "side": 1,
+      "message": "The ) in [) is just the closing ) for the parenthesized clause. So we have:\n\n[a, b] interval from a to b, inclusive on both ends\n[a, b[ interval from a to b, excluding b; this is the same as [a, b)\n]a, b] interval from a to b, excluding a; this is the same as (a, b]\n]a, b[ interval from a to b, excluding a and b (I don\u0027t think there\u0027s a ()-based equivalent)\n\nI\u0027ve suggested [%d, %d[ rather than [%d, %d) because in the clause the latter would be  [%d, %d)) which looks funny to me. Also, the [-based notation is more systematic and more intuitive in my mind.",
+      "parentUuid": "3d978bc7_407f0c33",
+      "range": {
+        "startLine": 349,
+        "startChar": 10,
+        "endLine": 349,
+        "endChar": 17
+      },
+      "revId": "ea6dab33d3228cd250b8bd94f673636dc1187cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
