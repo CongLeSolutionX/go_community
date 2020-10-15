@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a13cacd1_c7b334ec",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T20:12:09Z",
+      "side": 1,
+      "message": "There is overlap between these two rules. Which one should we pick? Is RISBGZ or ANDconst faster?",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 649,
+        "endChar": 21
+      },
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91e8098d_71779d0a",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T20:12:09Z",
+      "side": 1,
+      "message": "I don\u0027t think these are right.\nFor example, SLW is spec\u0027d to shift by arg1%32. Just because arg1\u003e\u003d32 doesn\u0027t mean the result is 0. SLW is not Go-like (at least, according to S390Ops.go).\n\nThe two rules here should probably be:\n\n(S(LD|RD|RAD) x (MOVDconst [c])) \u003d\u003e (S(LD|RD|RAD)const x [int8(c\u002663)])\n(S(LW|RW|RAW) x (MOVDconst [c])) \u003d\u003e (S(LW|RW|RAW)const x [int8(c\u002631)])\n\n... but check the semantics of those shifts to make sure the comments in S390XOps.go are right.\n\nCan the old rule lead to incorrect code (SLWconst with constant \u003e\u003d32, \u003c64)? If so, we should have a separate CL to fix it (and possibly backport).",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f3d83bc_667bad57",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T20:12:09Z",
+      "side": 1,
+      "message": "I get very confused by this rule. Perhaps an example would help me understand why it is correct.",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fdf7506_30dd7b53",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T20:12:09Z",
+      "side": 1,
+      "message": "Don\u0027t you need r.Amount \u003d\u003d 0 or something here?",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "901f7d4a_0f704b0a",
+        "filename": "src/cmd/internal/obj/s390x/rotate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T20:12:09Z",
+      "side": 1,
+      "message": "Maybe call this RotateLeft? So the reader knows the direction, and it matches byts.RotateLeft64.\n\nMaybe even InRotateLeft, as the rotate happens before the mask.",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adcc746b_5f7beb46",
+        "filename": "src/cmd/internal/obj/s390x/rotate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T20:12:09Z",
+      "side": 1,
+      "message": "unrepresentable (0 or not contiguous)",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 82,
+        "endChar": 40
+      },
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37cf8312_062e9420",
+        "filename": "src/cmd/internal/obj/s390x/rotate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T20:12:09Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 110,
+        "startChar": 26,
+        "endLine": 110,
+        "endChar": 40
+      },
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
