@@ -16,6 +16,24 @@
       "message": "If the kernel combine signals, we may have more signals sent than received, and this counter never comes back to 0.\n\nHmmm, maybe not. We guard it with m.signalPending, so each M can have at most one signal pending. Can we just use m.signalPending? Do we need to protect only the M calling syscall.Exec, or all Ms?\n\nActually, if we send a signal to an M, but the M exits before the signal is received, pendingPreemptSignals may still never get back to 0?",
       "revId": "e8c20cdd8a863b3b5bc0f21822436afb961a057e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a174fdf6_8d1b2bcf",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3516,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-15T22:40:53Z",
+      "side": 1,
+      "message": "We need to protect all M\u0027s.  The problem occurs when thread A is calling syscall.Exec while thread B is sending a signal to thread C.\n\nAn exiting M does seem like a potential problem.  Hmmm.",
+      "parentUuid": "0ae0607e_9756ea04",
+      "revId": "e8c20cdd8a863b3b5bc0f21822436afb961a057e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
