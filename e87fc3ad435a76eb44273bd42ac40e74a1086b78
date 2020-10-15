@@ -16,6 +16,23 @@
       "message": "Update to ppc64.s needed an update to a JMP instruction because of an offset change.",
       "revId": "e87fc3ad435a76eb44273bd42ac40e74a1086b78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e628c4b2_17dcef38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2020-10-15T17:20:51Z",
+      "side": 1,
+      "message": "The ppc64 asm part looks OK. I don\u0027t know the testsuite well enough, so I\u0027ll defer the +2 to someone else.",
+      "revId": "e87fc3ad435a76eb44273bd42ac40e74a1086b78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
