@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2d6de8b_5617c7ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-10-15T05:37:48Z",
+      "side": 1,
+      "message": "The test seems overfitted to the specific root cause of the bug, but I don\u0027t have any good thoughts on how to improve it. Fix LGTM.",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9a31ab29_aceb222d",
         "filename": "src/net/http/client_test.go",
@@ -14,10 +32,10 @@
       "side": 1,
       "message": "I am a bit concerned that this single test doesn\u0027t cover the guarantee being made. Code wise it should but not test wise.\nI also do not understand why you need so many bytes in the body. It would make more sense if you were randomly cancelling the request or killing the connection.",
       "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7c57789e_35f93843",
         "filename": "src/net/http/client_test.go",
@@ -32,10 +50,10 @@
       "message": "The number of bytes needs to exceed the number of bytes the server reads on Close, so it forces the Write to error later. In my testing, it also would not occur reliably on the first attempt.",
       "parentUuid": "9a31ab29_aceb222d",
       "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d06e7b02_d5c5c8d2",
         "filename": "src/net/http/client_test.go",
@@ -49,10 +67,10 @@
       "side": 1,
       "message": "You just need to count the number of closes.\nThe testcase can just look at the close count and error/fail if !\u003d 1.",
       "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c927fa2e_16210b0c",
         "filename": "src/net/http/client_test.go",
@@ -67,10 +85,28 @@
       "message": "I tried that originally, but it appears to not synchronize. I would always get a close count of 0. I suspect it has something to do with the idle connections in the Client, but I\u0027m not familiar enough with the intricacies of this package to have a good working explanation.",
       "parentUuid": "d06e7b02_d5c5c8d2",
       "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "436be540_db04fa59",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2058,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-10-15T05:37:48Z",
+      "side": 1,
+      "message": "The reason for this is that *persistConn has dedicated read/write goroutines (readLoop and writeLoop). If the reader returns an error, (*persistConn).roundTrip will return immediately, potentially while the write is still in progress.\n\nIt\u0027s a bit weird that RoundTrip can return while the write and subsequent close is still going on in the background. I don\u0027t know if this is something that should be addressed, but it\u0027s a separate issue from the double-close that this CL is fixing.",
+      "parentUuid": "c927fa2e_16210b0c",
+      "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5e0ee964_36a95082",
         "filename": "src/net/http/transport.go",
@@ -84,10 +120,10 @@
       "side": 1,
       "message": "if we are claiming that we always close, we shouldn\u0027t need to track reads any more. Looking at whether its been closed should be sufficient.",
       "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3174eda3_36aa38e5",
         "filename": "src/net/http/transport.go",
@@ -102,8 +138,7 @@
       "message": "It would take me a while to trace it back, but I believe there is a codepath where rewindBody gets called and it\u0027s ambiguous as to whether it will have been closed or not.",
       "parentUuid": "5e0ee964_36a95082",
       "revId": "99d1a7c579c31106260eff4605d149ac1dbb59e8",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
