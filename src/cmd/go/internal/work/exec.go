@@ -8,6 +8,7 @@ package work
 
 import (
 	"bytes"
+	"cmd/go/internal/fsys"
 	"context"
 	"encoding/json"
 	"errors"
@@ -2223,8 +2224,6 @@ func (b *Builder) ccompile(a *Action, p *load.Package, outfile string, flags []s
 	// when -trimpath is enabled.
 	if b.gccSupportsFlag(compiler, "-fdebug-prefix-map=a=b") {
 		if cfg.BuildTrimpath {
-			// TODO(#39958): handle overlays
-
 			// Keep in sync with Action.trimpath.
 			// The trimmed paths are a little different, but we need to trim in the
 			// same situations.
@@ -2294,7 +2293,8 @@ func (b *Builder) gccld(a *Action, p *load.Package, objdir, outfile string, flag
 
 	cmdargs := []interface{}{cmd, "-o", outfile, objs, flags}
 	dir := p.Dir
-	out, err := b.runOut(a, dir, b.cCompilerEnv(), cmdargs...)
+	out, err := b.runOut(a, base.Cwd, b.cCompilerEnv(), cmdargs...)
+
 	if len(out) > 0 {
 		// Filter out useless linker warnings caused by bugs outside Go.
 		// See also cmd/link/internal/ld's hostlink method.
@@ -2622,7 +2622,8 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 		cgoLDFLAGS = append([]string{"-fsanitize=memory"}, cgoLDFLAGS...)
 	}
 
-	// Allows including _cgo_export.h from .[ch] files in the package.
+	// Allows including _cgo_export.h, as well as the user's .h files,
+	// from .[ch] files in the package.
 	cgoCPPFLAGS = append(cgoCPPFLAGS, "-I", objdir)
 
 	// cgo
@@ -2679,7 +2680,56 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 		cgoflags = append(cgoflags, "-exportheader="+objdir+"_cgo_install.h")
 	}
 
-	if err := b.run(a, p.Dir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
+	execdir := p.Dir
+
+	// If any of the Cgo, C, or H files are overlaid, copy them all to
+	// objdir to ensure that they refer to the right header files.
+	// TODO(#39958): Ideally, we'd always do this, but this could
+	// subtly break some cgo files that include .h files across directory
+	// boundaries, even though they shouldn't.
+	hasOverlay := false
+	for _, f := range cgofiles {
+		if _, ok := fsys.OverlayPath(f); ok {
+			hasOverlay = true
+		}
+	}
+	for _, f := range p.HFiles {
+		if _, ok := fsys.OverlayPath(mkAbs(p.Dir, f)); ok {
+			hasOverlay = true
+		}
+	}
+	for _, f := range p.CFiles {
+		if _, ok := fsys.OverlayPath(mkAbs(p.Dir, f)); ok {
+			hasOverlay = true
+		}
+	}
+	if hasOverlay {
+		execdir = objdir
+		for i := range cgofiles {
+			opath, _ := fsys.OverlayPath(cgofiles[i])
+			cgofiles[i] = objdir + filepath.Base(cgofiles[i])
+			if err := b.copyFile(cgofiles[i], opath, 0666, false); err != nil {
+				return nil, nil, err
+			}
+		}
+		for i := range p.HFiles {
+			opath, _ := fsys.OverlayPath(mkAbs(p.Dir, p.HFiles[i]))
+			p.HFiles[i] = objdir + p.HFiles[i]
+			if err := b.copyFile(p.HFiles[i], opath, 0666, false); err != nil {
+				return nil, nil, err
+			}
+		}
+		for i := range p.CFiles {
+			opath, _ := fsys.OverlayPath(mkAbs(p.Dir, p.CFiles[i]))
+			dst := objdir + p.CFiles[i]
+			if err := b.copyFile(dst, opath, 0666, false); err != nil {
+				return nil, nil, err
+			}
+			p.CFiles[i] = dst
+		}
+	}
+
+	if err := b.run(a, execdir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
 		return nil, nil, err
 	}
 	outGo = append(outGo, gofiles...)
@@ -2773,7 +2823,7 @@ func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe
 		return err
 	}
 
-	linkobj := str.StringList(ofile, outObj, p.SysoFiles)
+	linkobj := str.StringList(ofile, outObj, mkAbsFiles(p.Dir, p.SysoFiles))
 	dynobj := objdir + "_cgo_.o"
 
 	// we need to use -pie for Linux/ARM to get accurate imported sym
@@ -2798,7 +2848,7 @@ func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe
 	if p.Standard && p.ImportPath == "runtime/cgo" {
 		cgoflags = []string{"-dynlinker"} // record path to dynamic linker
 	}
-	return b.run(a, p.Dir, p.ImportPath, b.cCompilerEnv(), cfg.BuildToolexec, cgoExe, "-dynpackage", p.Name, "-dynimport", dynobj, "-dynout", importGo, cgoflags)
+	return b.run(a, base.Cwd, p.ImportPath, b.cCompilerEnv(), cfg.BuildToolexec, cgoExe, "-dynpackage", p.Name, "-dynimport", dynobj, "-dynout", importGo, cgoflags)
 }
 
 // Run SWIG on all SWIG input files.
