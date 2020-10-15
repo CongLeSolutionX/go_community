@@ -1194,7 +1194,7 @@ func (w *exportWriter) expr(n *Node) {
 	// expressions
 	// (somewhat closely following the structure of exprfmt in fmt.go)
 	case OLITERAL:
-		if n.Val().Ctype() == CTNIL && n.Orig != nil && n.Orig != n {
+		if n.Val().Ctype() == CTNIL && n.Orig != n {
 			w.expr(n.Orig)
 			break
 		}
