@@ -3515,6 +3515,14 @@ func syscall_runtime_AfterForkInChild() {
 func syscall_runtime_BeforeExec() {
 	// Prevent thread creation during exec.
 	execLock.lock()
+
+	// On Darwin, wait for all pending preemption signals to
+	// be received. See issue #41702.
+	if GOOS == "darwin" {
+		for atomic.Load(&pendingPreemptSignals) != 0 {
+			osyield()
+		}
+	}
 }
 
 // Called from syscall package after Exec.
