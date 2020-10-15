@@ -8,6 +8,7 @@ package work
 
 import (
 	"bytes"
+	"cmd/go/internal/fsys"
 	"context"
 	"encoding/json"
 	"errors"
@@ -2216,8 +2217,6 @@ func (b *Builder) ccompile(a *Action, p *load.Package, outfile string, flags []s
 	// when -trimpath is enabled.
 	if b.gccSupportsFlag(compiler, "-fdebug-prefix-map=a=b") {
 		if cfg.BuildTrimpath {
-			// TODO(#39958): handle overlays
-
 			// Keep in sync with Action.trimpath.
 			// The trimmed paths are a little different, but we need to trim in the
 			// same situations.
@@ -2287,7 +2286,8 @@ func (b *Builder) gccld(a *Action, p *load.Package, objdir, outfile string, flag
 
 	cmdargs := []interface{}{cmd, "-o", outfile, objs, flags}
 	dir := p.Dir
-	out, err := b.runOut(a, dir, b.cCompilerEnv(), cmdargs...)
+	out, err := b.runOut(a, base.Cwd, b.cCompilerEnv(), cmdargs...)
+
 	if len(out) > 0 {
 		// Filter out useless linker warnings caused by bugs outside Go.
 		// See also cmd/link/internal/ld's hostlink method.
@@ -2672,7 +2672,27 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 		cgoflags = append(cgoflags, "-exportheader="+objdir+"_cgo_install.h")
 	}
 
-	if err := b.run(a, p.Dir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
+	for i := range cgofiles {
+		cgofiles[i], _ = fsys.OverlayPath(mkAbs(p.Dir, cgofiles[i]))
+	}
+	// Copy overlaid .H files to objdir so that they appear in the include path.
+	// TODO(#39958): Is there a possibility of conflict in the file names? Should we create a new, different
+	// directory for these files?
+	for i := range p.HFiles {
+		if opath, ok := fsys.OverlayPath(mkAbs(p.Dir, p.HFiles[i])); ok {
+			if err := b.copyFile(objdir+p.HFiles[i], opath, 0644, false); err != nil {
+				return nil, nil, err
+			}
+		}
+	}
+
+	dir := p.Dir
+	if _, err := os.Stat(dir); err == fs.ErrNotExist {
+		// If dir is overlaid and doesn't exist on disk, run in objdir.
+		// TODO(#39958): Should this be a different directory?
+		dir = objdir
+	}
+	if err := b.run(a, dir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
 		return nil, nil, err
 	}
 	outGo = append(outGo, gofiles...)
@@ -2766,7 +2786,7 @@ func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe
 		return err
 	}
 
-	linkobj := str.StringList(ofile, outObj, p.SysoFiles)
+	linkobj := str.StringList(ofile, outObj, mkAbsFiles(p.Dir, p.SysoFiles))
 	dynobj := objdir + "_cgo_.o"
 
 	// we need to use -pie for Linux/ARM to get accurate imported sym
@@ -2791,7 +2811,7 @@ func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe
 	if p.Standard && p.ImportPath == "runtime/cgo" {
 		cgoflags = []string{"-dynlinker"} // record path to dynamic linker
 	}
-	return b.run(a, p.Dir, p.ImportPath, b.cCompilerEnv(), cfg.BuildToolexec, cgoExe, "-dynpackage", p.Name, "-dynimport", dynobj, "-dynout", importGo, cgoflags)
+	return b.run(a, base.Cwd, p.ImportPath, b.cCompilerEnv(), cfg.BuildToolexec, cgoExe, "-dynpackage", p.Name, "-dynimport", dynobj, "-dynout", importGo, cgoflags)
 }
 
 // Run SWIG on all SWIG input files.
