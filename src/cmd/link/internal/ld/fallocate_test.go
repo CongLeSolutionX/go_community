@@ -28,6 +28,21 @@ func TestFallocate(t *testing.T) {
 	}
 	defer out.Close()
 
+	// Skip testing filesystems that don't support fallocate.
+	stat := syscall.Statfs_t{}
+	err = syscall.Statfs(dir, &stat)
+	if err != nil {
+		t.Fatalf("Statfs failed: %v", err)
+	}
+	// Common filesystem type list: https://man7.org/linux/man-pages/man2/statfs.2.html,
+	// but ZFS is not included.
+	// Type 0x2fc12fc1 for ZFS was got from live Linux system, official document is not available,
+	// also be mentioned in minio project, https://github.com/minio/minio/blob/master/pkg/disk/type_linux.go
+	if stat.Type == 0x2fc12fc1 {
+		// openZFS
+		t.Skip("fallocate is not supported on ZFS")
+	}
+
 	// Try fallocate first.
 	for {
 		err = out.fallocate(1 << 10)
