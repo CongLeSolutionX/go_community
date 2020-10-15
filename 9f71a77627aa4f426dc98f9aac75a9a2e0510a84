@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "964d1dc1_722249cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-15T21:10:48Z",
+      "side": 1,
+      "message": "LGTM. Wasm failure seems real. There may be some weird things in the wasm asssembler. Let me know if you want me to take a look.",
+      "revId": "9f71a77627aa4f426dc98f9aac75a9a2e0510a84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16d08f46_a32f304c",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-15T21:10:48Z",
+      "side": 1,
+      "message": "Maybe we should remove that comment now. I think it used to refer to that these are ABI0, therefore sysvar instead of sysfunc.",
+      "range": {
+        "startLine": 75,
+        "startChar": 44,
+        "endLine": 75,
+        "endChar": 72
+      },
+      "revId": "9f71a77627aa4f426dc98f9aac75a9a2e0510a84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcefc131_fd9c3eca",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1401,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-15T21:10:48Z",
+      "side": 1,
+      "message": "ABI0? Or the stack-based ABI? Once we have multiple ABIs, \"stable Go ABI\" may be less clear.",
+      "range": {
+        "startLine": 1401,
+        "startChar": 52,
+        "endLine": 1401,
+        "endChar": 65
+      },
+      "revId": "9f71a77627aa4f426dc98f9aac75a9a2e0510a84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
