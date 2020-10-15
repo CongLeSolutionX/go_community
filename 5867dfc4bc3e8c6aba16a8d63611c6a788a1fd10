@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e83b2f_4776cd53",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-15T17:42:15Z",
+      "side": 1,
+      "message": "Can we drop the canonicalize call here? It would be better for error messages to have the uncanonicalized path.",
+      "range": {
+        "startLine": 422,
+        "startChar": 20,
+        "endLine": 422,
+        "endChar": 32
+      },
+      "revId": "5867dfc4bc3e8c6aba16a8d63611c6a788a1fd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
