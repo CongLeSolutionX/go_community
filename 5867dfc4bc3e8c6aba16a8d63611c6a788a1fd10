@@ -22,6 +22,30 @@
       },
       "revId": "5867dfc4bc3e8c6aba16a8d63611c6a788a1fd10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd30917c_ff47834d",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-15T19:53:59Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c1e83b2f_4776cd53",
+      "range": {
+        "startLine": 422,
+        "startChar": 20,
+        "endLine": 422,
+        "endChar": 32
+      },
+      "revId": "5867dfc4bc3e8c6aba16a8d63611c6a788a1fd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
