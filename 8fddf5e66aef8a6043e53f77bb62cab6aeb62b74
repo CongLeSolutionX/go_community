@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9de06371_7a9573c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-15T21:40:15Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-amd64,darwin-amd64-race",
+      "revId": "8fddf5e66aef8a6043e53f77bb62cab6aeb62b74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
