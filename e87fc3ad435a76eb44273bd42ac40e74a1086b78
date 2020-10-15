@@ -33,6 +33,23 @@
       "message": "The ppc64 asm part looks OK. I don\u0027t know the testsuite well enough, so I\u0027ll defer the +2 to someone else.",
       "revId": "e87fc3ad435a76eb44273bd42ac40e74a1086b78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2a6e6ac_f49e66d7",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-15T19:09:19Z",
+      "side": 1,
+      "message": "Please don\u0027t change the copyright notice year.",
+      "revId": "e87fc3ad435a76eb44273bd42ac40e74a1086b78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
