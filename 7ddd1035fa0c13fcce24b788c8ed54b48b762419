@@ -16,6 +16,24 @@
       "message": "Do we also need this for runtime/internal packages?",
       "revId": "7ddd1035fa0c13fcce24b788c8ed54b48b762419",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28622129_15104560",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-15T20:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a0d79e5_5be11365",
+      "revId": "7ddd1035fa0c13fcce24b788c8ed54b48b762419",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
