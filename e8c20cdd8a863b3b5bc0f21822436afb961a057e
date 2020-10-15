@@ -34,6 +34,24 @@
       "parentUuid": "0ae0607e_9756ea04",
       "revId": "e8c20cdd8a863b3b5bc0f21822436afb961a057e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85959eb2_572bf5dd",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3516,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-15T23:11:59Z",
+      "side": 1,
+      "message": "OK, added a fix for an exiting M.",
+      "parentUuid": "a174fdf6_8d1b2bcf",
+      "revId": "e8c20cdd8a863b3b5bc0f21822436afb961a057e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
