@@ -7,6 +7,7 @@ package load
 
 import (
 	"bytes"
+	"cmd/go/internal/fsys"
 	"context"
 	"encoding/json"
 	"errors"
@@ -975,7 +976,7 @@ var isDirCache par.Cache
 
 func isDir(path string) bool {
 	return isDirCache.Do(path, func() interface{} {
-		fi, err := os.Stat(path)
+		fi, err := fsys.Stat(path)
 		return err == nil && fi.IsDir()
 	}).(bool)
 }
@@ -2142,7 +2143,7 @@ func PackagesAndErrors(ctx context.Context, patterns []string) []*Package {
 		if strings.HasSuffix(p, ".go") {
 			// We need to test whether the path is an actual Go file and not a
 			// package path or pattern ending in '.go' (see golang.org/issue/34653).
-			if fi, err := os.Stat(p); err == nil && !fi.IsDir() {
+			if fi, err := fsys.Stat(p); err == nil && !fi.IsDir() {
 				return []*Package{GoFilesPackage(ctx, patterns)}
 			}
 		}
@@ -2302,7 +2303,7 @@ func GoFilesPackage(ctx context.Context, gofiles []string) *Package {
 	var dirent []os.FileInfo
 	var dir string
 	for _, file := range gofiles {
-		fi, err := os.Stat(file)
+		fi, err := fsys.Stat(file)
 		if err != nil {
 			base.Fatalf("%s", err)
 		}
