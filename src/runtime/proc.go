@@ -3510,11 +3510,24 @@ func syscall_runtime_AfterForkInChild() {
 	inForkedChild = false
 }
 
+// pendingPreemptSignals is the number of preemption signals
+// that have been sent but not received. This is only used on Darwin.
+// For #41702.
+var pendingPreemptSignals uint32
+
 // Called from syscall package before Exec.
 //go:linkname syscall_runtime_BeforeExec syscall.runtime_BeforeExec
 func syscall_runtime_BeforeExec() {
 	// Prevent thread creation during exec.
 	execLock.lock()
+
+	// On Darwin, wait for all pending preemption signals to
+	// be received. See issue #41702.
+	if GOOS == "darwin" {
+		for atomic.Load(&pendingPreemptSignals) != 0 {
+			osyield()
+		}
+	}
 }
 
 // Called from syscall package after Exec.
