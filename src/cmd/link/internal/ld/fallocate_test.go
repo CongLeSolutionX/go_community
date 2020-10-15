@@ -7,6 +7,7 @@
 package ld
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -27,6 +28,19 @@ func TestFallocate(t *testing.T) {
 		t.Fatalf("Open file failed: %v", err)
 	}
 	defer out.Close()
+
+	// check filesystem blacklist
+	stat := syscall.Statfs_t{}
+	err = syscall.Statfs(dir, &stat)
+	if err != nil {
+		t.Fatalf("syscal.Statfs failed: %v", err)
+	}
+	// common filesystem type list: https://man7.org/linux/man-pages/man2/statfs.2.html,
+	// but ZFS is not included.
+	if fmt.Sprintf("0x%x", stat.Type) == "0x2fc12fc1" {
+		// openZFS
+		t.Skip("fallocate is not supported on ZFS")
+	}
 
 	// Try fallocate first.
 	for {
