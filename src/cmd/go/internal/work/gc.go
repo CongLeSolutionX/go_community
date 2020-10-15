@@ -252,7 +252,7 @@ func (a *Action) trimpath() string {
 	if len(objdir) > 1 && objdir[len(objdir)-1] == filepath.Separator {
 		objdir = objdir[:len(objdir)-1]
 	}
-	rewrite := objdir + "=>"
+	rewrite := ""
 
 	rewriteDir := a.Package.Dir
 	if cfg.BuildTrimpath {
@@ -261,7 +261,7 @@ func (a *Action) trimpath() string {
 		} else {
 			rewriteDir = a.Package.ImportPath
 		}
-		rewrite += ";" + a.Package.Dir + "=>" + rewriteDir
+		rewrite += a.Package.Dir + "=>" + rewriteDir + ";"
 	}
 
 	// Add rewrites for overlays. The 'from' and 'to' paths in overlays don't need to have
@@ -270,11 +270,14 @@ func (a *Action) trimpath() string {
 	if fsys.OverlayFile != "" {
 		for _, filename := range a.Package.AllFiles() {
 			overlayPath, ok := fsys.OverlayPath(filepath.Join(a.Package.Dir, filename))
+			rewrite += filepath.Join(objdir, filename) + "=>" + filepath.Join(rewriteDir, filename) + ";"
 			if !ok {
 				continue
 			}
-			rewrite += ";" + overlayPath + "=>" + filepath.Join(rewriteDir, filename)
+			rewrite += overlayPath + "=>" + filepath.Join(rewriteDir, filename) + ";"
 		}
+	} else {
+		rewrite += objdir + "=>"
 	}
 
 	return rewrite
