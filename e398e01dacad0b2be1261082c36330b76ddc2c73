@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8b8edfa_60218ab8",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-15T03:37:01Z",
+      "side": 1,
+      "message": "Anywhere we mark something ABIInternal, we should probably have a comment explaining why.\n\n// makeFuncStub must be ABIInternal because it\u0027s placed directly in function values.",
+      "revId": "e398e01dacad0b2be1261082c36330b76ddc2c73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0ed9bb_b2f0b3ab",
         "filename": "src/reflect/asm_amd64.s",
         "patchSetId": 2
@@ -14,6 +31,74 @@
       "writtenOn": "2020-10-14T20:59:50Z",
       "side": 1,
       "message": "I think the idea is that we always mark it ABIInternal (regardless of GOEXPERIMENT), and it should work in both circumstances.",
+      "revId": "e398e01dacad0b2be1261082c36330b76ddc2c73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a61bf3af_6e87521b",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-15T03:37:01Z",
+      "side": 1,
+      "message": "This could probably use a real comment either way.\n\n// mainPC is a function value for runtime.main, to be passed to newproc.",
+      "revId": "e398e01dacad0b2be1261082c36330b76ddc2c73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45632b38_17d887b7",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1379,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-15T03:37:01Z",
+      "side": 1,
+      "message": "// This is ABIInternal because Go code injects its PC directly into new goroutine stacks.",
+      "revId": "e398e01dacad0b2be1261082c36330b76ddc2c73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53c2fb25_1a499f7b",
+        "filename": "src/runtime/preempt_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-15T03:37:01Z",
+      "side": 1,
+      "message": "This needs to be changed in mkpreempt.go.",
+      "revId": "e398e01dacad0b2be1261082c36330b76ddc2c73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeb0b741_cf21d9c3",
+        "filename": "src/runtime/preempt_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-15T03:37:01Z",
+      "side": 1,
+      "message": "// asyncPreempt doesn\u0027t use the internal ABI, but we must be able to inject calls to it from the signal handler, so Go code has to see the PC of this function literally.\n\nor something. That seems a little unwieldy.",
       "revId": "e398e01dacad0b2be1261082c36330b76ddc2c73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
