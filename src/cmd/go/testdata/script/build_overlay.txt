@@ -29,6 +29,10 @@ exec ./print_trimpath_two_files$GOEXE
 stdout $WORK[/\\]gopath[/\\]src[/\\]m[/\\]printpath[/\\]main.go
 stdout $WORK[/\\]gopath[/\\]src[/\\]m[/\\]printpath[/\\]other.go
 
+go build -overlay overlay.json -o main_cgo$GOEXE ./cgo_hello
+exec ./main_cgo$GOEXE
+stdout '^hello cgo$'
+
 # Run same tests but with gccgo.
 env GO111MODULE=off
 [!exec:gccgo] stop
@@ -45,6 +49,10 @@ stdout $WORK[/\\]gopath[/\\]src[/\\]m[/\\]printpath[/\\]main.go
 go build -compiler=gccgo -overlay overlay.json -o print_trimpath_gccgo$GOEXE -trimpath ./printpath
 exec ./print_trimpath_gccgo$GOEXE
 stdout ^\.[/\\]printpath[/\\]main.go
+
+go build -compiler=gccgo -overlay overlay.json -o main_cgo_gccgo$GOEXE ./cgo_hello
+exec ./main_cgo_gccgo$GOEXE
+stdout '^hello cgo$'
 
 -- m/go.mod --
 // TODO(matloob): how do overlays work with go.mod (especially if mod=readonly)
@@ -71,7 +79,9 @@ the actual code is in the overlay
 		"dir/g.go": "overlay/dir_g.go",
 		"dir2/i.go": "overlay/dir2_i.go",
 		"printpath/main.go": "overlay/printpath.go",
-		"printpath/other.go": "overlay2/printpath2.go"
+		"printpath/other.go": "overlay2/printpath2.go",
+		"cgo_hello/cgo_hello.go": "overlay/cgo_hello.go",
+		"cgo_hello/cgo_header.h": "overlay/cgo_head.h"
 	}
 }
 -- m/overlay/f.go --
@@ -128,3 +138,18 @@ import "m/dir"
 func printMessage() {
 	dir.PrintMessage()
 }
+-- m/overlay/cgo_hello.go --
+package main
+
+// #include "cgo_header.h"
+import "C"
+
+func main() {
+	C.say_hello()
+}
+-- m/overlay/cgo_head.h --
+void say_hello();
+-- m/cgo_hello/hello.c --
+#include <stdio.h>
+
+void say_hello() { puts("hello cgo\n"); }
