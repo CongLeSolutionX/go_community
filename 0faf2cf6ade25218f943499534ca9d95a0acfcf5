@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cc37fc8_7ad675dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-16T16:37:51Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest,windows-amd64-longtest",
+      "revId": "0faf2cf6ade25218f943499534ca9d95a0acfcf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
