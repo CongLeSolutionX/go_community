@@ -69,6 +69,24 @@
       "parentUuid": "fe6a00c5_1b1131d9",
       "revId": "482ef21da434489ad36f3d644b45dd948f754368",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "304c0bb3_b3bf9528",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-16T21:09:54Z",
+      "side": 1,
+      "message": "Okay, when we return to C we still have our signal handlers installed, so that may be fine. The C code could install new signal handlers, or exit the thread. But in the end there is only so much we can do, as you said.",
+      "parentUuid": "ec37a4a3_d4eba9d2",
+      "revId": "482ef21da434489ad36f3d644b45dd948f754368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
