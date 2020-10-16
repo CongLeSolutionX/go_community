@@ -692,7 +692,11 @@ func (e *Escape) addr(n *Node) EscHole {
 			e.discard(n.Left)
 		}
 	case ODEREF, ODOTPTR:
-		e.discard(n)
+		if v := staticValue(n.Left); v.Op == OPTRLIT {
+			k = e.oldLoc(v).asHole()
+		} else {
+			e.discard(n)
+		}
 	case OINDEXMAP:
 		e.discard(n.Left)
 		e.assignHeap(n.Right, "key of map put", n)

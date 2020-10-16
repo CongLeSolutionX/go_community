@@ -22,9 +22,8 @@ type ConstPtr2 struct {
 }
 
 func constptr0() {
-	i := 0           // ERROR "moved to heap: i"
+	i := 0
 	x := &ConstPtr{} // ERROR "&ConstPtr{} does not escape"
-	// BAD: i should not escape here
 	x.p = &i
 	_ = x
 }
@@ -77,8 +76,7 @@ func constptr5() *ConstPtr {
 	return p
 }
 
-// BAD: p should not escape here
-func constptr6(p *ConstPtr) { // ERROR "leaking param content: p"
+func constptr6(p *ConstPtr) { // ERROR "p does not escape"
 	p1 := &ConstPtr{} // ERROR "&ConstPtr{} does not escape"
 	*p1 = *p
 	_ = p1
