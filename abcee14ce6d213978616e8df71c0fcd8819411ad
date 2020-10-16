@@ -16,6 +16,24 @@
       "message": "I think enough is moving around in this cl that it merits a longer change description.",
       "revId": "abcee14ce6d213978616e8df71c0fcd8819411ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e52708a_4fa15cd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-16T16:37:21Z",
+      "side": 1,
+      "message": "Done.\n\nAlso added tests illustrating the impact of the change.",
+      "parentUuid": "0c63e0e7_91dca3f3",
+      "revId": "abcee14ce6d213978616e8df71c0fcd8819411ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
