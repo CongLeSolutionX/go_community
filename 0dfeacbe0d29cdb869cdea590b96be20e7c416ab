@@ -16,6 +16,23 @@
       "message": "TRY\u003dmips,mips64le,ppc64,s390x\n",
       "revId": "0dfeacbe0d29cdb869cdea590b96be20e7c416ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a848de78_067ebf07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-16T17:01:37Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "0dfeacbe0d29cdb869cdea590b96be20e7c416ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
