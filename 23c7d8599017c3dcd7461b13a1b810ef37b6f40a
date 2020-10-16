@@ -16,6 +16,24 @@
       "message": "Nice find, Cuong.\n\nHowever, I\u0027m a little concerned at the moment that this will probably make compile times slower, and it doesn\u0027t seem to buy us much for real world programs. E.g., while compiling k8s.io/kubernetes/cmd/kubelet (my usual large Go program benchmark), I only found one variable that can now be stack allocated.\n\nI\u0027m hoping we can make staticValue cheaper (e.g., by rewriting the AST like David suggested). I suggest we revisit this CL after that.",
       "revId": "23c7d8599017c3dcd7461b13a1b810ef37b6f40a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "009ac25b_76504600",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-10-16T18:04:25Z",
+      "side": 1,
+      "message": "Further more, when running make.bash, this fires 1691 times, but I guess it does not help much because most of the composite literal themselves are heap allocated already.\n\nMarking this as -2, so we can revisit it later.",
+      "parentUuid": "a3d46b48_491adf08",
+      "revId": "23c7d8599017c3dcd7461b13a1b810ef37b6f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
