@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc34939_472f7d3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T16:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37748c1e_28080ab1",
+      "range": {
+        "startLine": 7,
+        "startChar": 55,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "beee38aa_6b3879d0",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-16T15:51:03Z",
       "side": 1,
       "message": "Which of these fields is the size?",
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92af73f6_92919f32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T16:03:18Z",
+      "side": 1,
+      "message": "The hex value, 019a55f5.",
+      "parentUuid": "beee38aa_6b3879d0",
       "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -81,6 +123,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a18d153_bdc0f1e5",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T16:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "929cb66b_92164e7b",
+      "range": {
+        "startLine": 1177,
+        "startChar": 64,
+        "endLine": 1177,
+        "endChar": 70
+      },
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3f7d36f_0036230e",
@@ -104,6 +170,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31eeb526_98be4621",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T16:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3f7d36f_0036230e",
+      "range": {
+        "startLine": 1179,
+        "startChar": 42,
+        "endLine": 1179,
+        "endChar": 60
+      },
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85c225c4_a14a89aa",
@@ -117,6 +207,24 @@
       "writtenOn": "2020-10-16T15:51:03Z",
       "side": 1,
       "message": "Maybe this is a problem? This assumes UNIX-style paths.",
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "474fa33f_0ac7e49d",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T16:03:18Z",
+      "side": 1,
+      "message": "So what\u0027s happening here is that as of https://golang.org/cl/214286 the files in the unit file table are emitted with /, regardless of whether we\u0027re on windows or not. So this should have the correct semantics. Then the dir we get back from filepath.Dir below will have / rewritten to \\, so the end effect should be ok. It is kind of weird tho.\n\nIt is worth noting that this switches over file paths on Windows to all \"\\\" instead of all \"/\". I guess I should note that in the commit msg.",
+      "parentUuid": "85c225c4_a14a89aa",
       "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
