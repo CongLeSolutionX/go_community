@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2a7e05b_0ea3982a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1317,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-16T18:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c832a804_d67a45f1",
+      "revId": "482ef21da434489ad36f3d644b45dd948f754368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe6a00c5_1b1131d9",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-16T15:13:02Z",
       "side": 1,
       "message": "Do we also need to do this in dropm? For the case that we send a signal to a C-created thread running Go code but it returned to C (dropm) before the signal is received.\n\nIf so, maybe do this in unminit to cover both?",
+      "revId": "482ef21da434489ad36f3d644b45dd948f754368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec37a4a3_d4eba9d2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-16T18:13:22Z",
+      "side": 1,
+      "message": "We don\u0027t need to do anything in dropm.  What matters is what we do when the signal is received.  I added code to the signal handler for this case.\n\nA different problem is that we are going to lose count if the program receives SIGURG signals that are not being sent for preemption purposes.  I changed the check in syscall.runtime_BeforeExec so that at least we don\u0027t hang in that case.  I think there is only so much we can do there.",
+      "parentUuid": "fe6a00c5_1b1131d9",
       "revId": "482ef21da434489ad36f3d644b45dd948f754368",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
