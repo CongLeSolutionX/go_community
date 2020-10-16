@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "37748c1e_28080ab1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-16T15:51:03Z",
+      "side": 1,
+      "message": "prologue (and below)",
+      "range": {
+        "startLine": 7,
+        "startChar": 55,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beee38aa_6b3879d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-16T15:51:03Z",
+      "side": 1,
+      "message": "Which of these fields is the size?",
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6831e9cd_e6b2171a",
@@ -14,6 +54,69 @@
       "writtenOn": "2020-10-16T15:32:12Z",
       "side": 1,
       "message": "Looks like the DWARF test on windows has some issues. Please hold off on review, hopefully I can figure out what is going on.",
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "929cb66b_92164e7b",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-16T15:51:03Z",
+      "side": 1,
+      "message": "And here",
+      "range": {
+        "startLine": 1177,
+        "startChar": 64,
+        "endLine": 1177,
+        "endChar": 70
+      },
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3f7d36f_0036230e",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-16T15:51:03Z",
+      "side": 1,
+      "message": "Just \"It walks\"?",
+      "range": {
+        "startLine": 1179,
+        "startChar": 42,
+        "endLine": 1179,
+        "endChar": 60
+      },
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85c225c4_a14a89aa",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-16T15:51:03Z",
+      "side": 1,
+      "message": "Maybe this is a problem? This assumes UNIX-style paths.",
       "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
