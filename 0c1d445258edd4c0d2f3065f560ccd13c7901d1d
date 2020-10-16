@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e660fd24_49e412bd",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-16T00:57:29Z",
+      "side": 1,
+      "message": "Please avoid \"blacklist\". See https://developers.google.com/style/word-list#blacklist for further details.\n\nSay something like \"Skip testing filesystems that don\u0027t support fallocate.\"",
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "794bf493_3939cbca",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-16T00:57:29Z",
+      "side": 1,
+      "message": "nit: typo. Probably just remove the prefix. \"Statfs\" is fine.",
+      "range": {
+        "startLine": 36,
+        "startChar": 12,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06876c44_c157911c",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-16T00:57:29Z",
+      "side": 1,
+      "message": "Is there a reference that mentions openZFS\u0027s filesystem ID?",
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ba06d35_b3054979",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-16T00:57:29Z",
+      "side": 1,
+      "message": "Why string comparison? Can\u0027t you just compare the integer value directly?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 50
+      },
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
