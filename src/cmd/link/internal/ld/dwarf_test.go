@@ -1377,8 +1377,8 @@ func main() {
 				if err != nil {
 					t.Fatalf("error reading next DWARF line: %v", err)
 				}
-				if strings.Contains(lne.File.Name, `\`) {
-					t.Errorf("filename should not contain backslash: %v", lne.File.Name)
+				if strings.Contains(lne.File.Name, `\`) && strings.Contains(lne.File.Name, `/`) {
+					t.Errorf("filename contains a mix of forward-slash and back-slash: %v", lne.File.Name)
 				}
 			}
 		}
@@ -1459,7 +1459,8 @@ func TestIssue38192(t *testing.T) {
 				if err != nil {
 					t.Fatalf("error reading next DWARF line: %v", err)
 				}
-				if !strings.HasSuffix(lne.File.Name, "ld/testdata/issue38192/oneline.s") {
+				wantSuffix := filepath.Join("ld", "testdata", "issue38192", "oneline.s")
+				if !strings.HasSuffix(lne.File.Name, wantSuffix) {
 					continue
 				}
 				rows = append(rows, lne)
