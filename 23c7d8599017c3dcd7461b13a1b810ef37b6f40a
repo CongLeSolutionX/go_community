@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d46b48_491adf08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-16T17:33:02Z",
+      "side": 1,
+      "message": "Nice find, Cuong.\n\nHowever, I\u0027m a little concerned at the moment that this will probably make compile times slower, and it doesn\u0027t seem to buy us much for real world programs. E.g., while compiling k8s.io/kubernetes/cmd/kubelet (my usual large Go program benchmark), I only found one variable that can now be stack allocated.\n\nI\u0027m hoping we can make staticValue cheaper (e.g., by rewriting the AST like David suggested). I suggest we revisit this CL after that.",
+      "revId": "23c7d8599017c3dcd7461b13a1b810ef37b6f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
