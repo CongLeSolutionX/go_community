@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5d97e2_2e31f6a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13738
+      },
+      "writtenOn": "2020-10-16T04:36:37Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not really fond of working around system bugs. If it is critical and affects real program execution, we probably should do that. But this is only a test. I think it is fine for a test to fail on a buggy system.\n\nI aggree with you.\n\nWe can suspend this CL until openZFS 2.0.0 release (it is rc 3 now). If the 2.0.0 release does not handle this, considering the amount of Ubuntu and ZFS users, we still can continue  this.\n\nAs a heavy zfs user, it is annoying to fail every ./all.sh running.",
+      "parentUuid": "10aed6da_61d83a38",
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e660fd24_49e412bd",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-16T00:57:29Z",
       "side": 1,
       "message": "Please avoid \"blacklist\". See https://developers.google.com/style/word-list#blacklist for further details.\n\nSay something like \"Skip testing filesystems that don\u0027t support fallocate.\"",
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43d8c6de_c9c6d58b",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13738
+      },
+      "writtenOn": "2020-10-16T04:36:37Z",
+      "side": 1,
+      "message": "Done.\n\nThanks for suggestion.",
+      "parentUuid": "e660fd24_49e412bd",
       "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7117cdb_a5f7eb38",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13738
+      },
+      "writtenOn": "2020-10-16T04:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "794bf493_3939cbca",
+      "range": {
+        "startLine": 36,
+        "startChar": 12,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06876c44_c157911c",
@@ -75,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f6bd449_9c7dff42",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 13738
+      },
+      "writtenOn": "2020-10-16T04:36:37Z",
+      "side": 1,
+      "message": "Done.\n\nReference Added.",
+      "parentUuid": "06876c44_c157911c",
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba06d35_b3054979",
@@ -88,6 +166,30 @@
       "writtenOn": "2020-10-16T00:57:29Z",
       "side": 1,
       "message": "Why string comparison? Can\u0027t you just compare the integer value directly?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 50
+      },
+      "revId": "0c1d445258edd4c0d2f3065f560ccd13c7901d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7372d430_9b805061",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13738
+      },
+      "writtenOn": "2020-10-16T04:36:37Z",
+      "side": 1,
+      "message": "Done.\n\nThanks for suggestion.",
+      "parentUuid": "1ba06d35_b3054979",
       "range": {
         "startLine": 40,
         "startChar": 4,
