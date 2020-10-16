@@ -16,6 +16,24 @@
       "message": "This needs a corresponding test change in conf_test.go, around here: https://github.com/golang/go/blob/e981936855383883edb5fcc85a196c485b15f0f9/src/net/conf_test.go#L173. The comment could probably also use removal or updating.\n\nIf you\u0027re up for it, adding another test case which verifies the `len(srcs) \u003d\u003d 0` bit above would be nice, eg something that uses `nssStr(\"\")` or `nssStr(\"foo: bar\")`.",
       "revId": "d872bbcfec29f2585ed8144fba6262d4228619cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47265f1c_b6f289c8",
+        "filename": "src/net/conf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-10-16T16:25:04Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e7545270_aa4dd52b",
+      "revId": "d872bbcfec29f2585ed8144fba6262d4228619cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
