@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0e8935a_8ef7aece",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T11:21:54Z",
+      "side": 1,
+      "message": "Yes, wasm failure does look real. I\u0027ll poke at it a bit, I may need to ask for help if I can\u0027t figure it out.",
+      "parentUuid": "964d1dc1_722249cb",
+      "revId": "9f71a77627aa4f426dc98f9aac75a9a2e0510a84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16d08f46_a32f304c",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bafea77_d9fade1b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T11:21:54Z",
+      "side": 1,
+      "message": "I\u0027ll remove the comment.\n\nLong term, I think this whole section needs to be revisited, since some of these routines are likely to stay ABI0 (presumably meaning that calls to them will likely go through ABIInternal-\u003eABI0 wrappers) and some will change to accept registers in some form (meaning no wrapper needed), and it would be nice if the lookup routines (sysvar/sysfunc etc) reflected this.",
+      "parentUuid": "16d08f46_a32f304c",
+      "range": {
+        "startLine": 75,
+        "startChar": 44,
+        "endLine": 75,
+        "endChar": 72
+      },
+      "revId": "9f71a77627aa4f426dc98f9aac75a9a2e0510a84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcefc131_fd9c3eca",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-10-15T21:10:48Z",
       "side": 1,
       "message": "ABI0? Or the stack-based ABI? Once we have multiple ABIs, \"stable Go ABI\" may be less clear.",
+      "range": {
+        "startLine": 1401,
+        "startChar": 52,
+        "endLine": 1401,
+        "endChar": 65
+      },
+      "revId": "9f71a77627aa4f426dc98f9aac75a9a2e0510a84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "984038d7_df21461b",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1401,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T11:21:54Z",
+      "side": 1,
+      "message": "I\u0027ll fix it up. Stack-based is clearer.",
+      "parentUuid": "fcefc131_fd9c3eca",
       "range": {
         "startLine": 1401,
         "startChar": 52,
