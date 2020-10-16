@@ -83,6 +83,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5faacae4_a6ea34a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-16T17:36:07Z",
+      "side": 1,
+      "message": "Heh, sorry, *I* knew that. I meant to say in the commit message what the size is because the next person reading this message may not. :)",
+      "parentUuid": "92af73f6_92919f32",
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6831e9cd_e6b2171a",
@@ -225,6 +243,24 @@
       "side": 1,
       "message": "So what\u0027s happening here is that as of https://golang.org/cl/214286 the files in the unit file table are emitted with /, regardless of whether we\u0027re on windows or not. So this should have the correct semantics. Then the dir we get back from filepath.Dir below will have / rewritten to \\, so the end effect should be ok. It is kind of weird tho.\n\nIt is worth noting that this switches over file paths on Windows to all \"\\\" instead of all \"/\". I guess I should note that in the commit msg.",
       "parentUuid": "85c225c4_a14a89aa",
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "595c2574_a9a9d045",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-16T17:36:07Z",
+      "side": 1,
+      "message": "Is this going to depend on what host platform you\u0027re building on? Like, does it mess up cross-compilation?",
+      "parentUuid": "474fa33f_0ac7e49d",
       "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
