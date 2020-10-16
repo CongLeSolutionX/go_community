@@ -16,6 +16,24 @@
       "message": "Oh, interesting. Is this okay? My understanding is that DWARF is oddly silent on the issue and it\u0027s only a problem if they\u0027re mixed.",
       "revId": "2ac39207b7e421632b02bccdfaba28f34f30f133",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4a0c7c7_e5f0d6a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T20:25:58Z",
+      "side": 1,
+      "message": "OK, this language removed in latest patch set.",
+      "parentUuid": "d7680c34_678c3bdb",
+      "revId": "2ac39207b7e421632b02bccdfaba28f34f30f133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
