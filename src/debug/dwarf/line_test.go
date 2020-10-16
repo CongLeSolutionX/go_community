@@ -340,6 +340,7 @@ var joinTests = []joinTest{
 	{`\\host\share\`, `foo`, `\\host\share\foo`},
 	{`\\host\share\`, `foo\bar`, `\\host\share\foo\bar`},
 	{`//host/share/`, `foo/bar`, `//host/share/foo/bar`},
+	{`c:/workdir/go/src/x`, `y.go`, `c:/workdir/go/src/x/y.go`},
 
 	// The following are "best effort". We shouldn't see relative
 	// base directories in DWARF, but these test that pathJoin
