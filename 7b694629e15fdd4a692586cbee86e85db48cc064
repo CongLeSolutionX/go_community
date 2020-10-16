@@ -263,6 +263,24 @@
       "parentUuid": "474fa33f_0ac7e49d",
       "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab44b9b0_76262a98",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-16T19:17:47Z",
+      "side": 1,
+      "message": "Well, poo. I think you are right, it does seem that this change breaks cross compilation, specifically building with GOOS\u003dlinux on a windows machine (prior to this point we hard-coded \"/\" for everything, now I think we\u0027ll get \"\\\" on windows).\n\nI\u0027ll see if I can fix it.",
+      "parentUuid": "595c2574_a9a9d045",
+      "revId": "7b694629e15fdd4a692586cbee86e85db48cc064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
