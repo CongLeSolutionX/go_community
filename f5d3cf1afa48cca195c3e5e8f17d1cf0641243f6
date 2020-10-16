@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7517f55_1fbf9b98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-10-16T11:00:04Z",
+      "side": 1,
+      "message": "Thanks for reviewing this one Keith.",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a13cacd1_c7b334ec",
@@ -14,6 +31,30 @@
       "writtenOn": "2020-10-15T20:12:09Z",
       "side": 1,
       "message": "There is overlap between these two rules. Which one should we pick? Is RISBGZ or ANDconst faster?",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 649,
+        "endChar": 21
+      },
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b8ac900_b2b04d67",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-10-16T11:00:04Z",
+      "side": 1,
+      "message": "They both have the same latency I think. Both also clobber flags. RISBGZ has the advantage that is not in-place and therefore we might be able to save a reg-reg move. ANDconst with a 16-bit immediate can be encoded in 4 bytes whereas RISBGZ and ANDconst with a 32-bit immediate are 6 bytes.\n\nI think overall it makes sense to choose RISBGZ thanks to the separate source and destination registers. Overall that reduces the size of the code more than the 16-bit immediate encoding advantage. But it\u0027s close, the choice is fairly arbitrary.",
+      "parentUuid": "a13cacd1_c7b334ec",
       "range": {
         "startLine": 643,
         "startChar": 0,
@@ -43,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66bbf721_6995ffb8",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-10-16T11:00:04Z",
+      "side": 1,
+      "message": "Ah good spot. The comments in S390XOps are wrong. All shifts on s390x use the rightmost 6 bits of the shift value and are therefore mod 64, even 32-bit shifts. I\u0027ll fix those.\n\nI think the old rules are OK, I don\u0027t think they need to be changed.",
+      "parentUuid": "91e8098d_71779d0a",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f3d83bc_667bad57",
         "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
         "patchSetId": 3
@@ -60,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c9fc818_9e6ad194",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-10-16T11:00:04Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll put together an explanation of the logic.",
+      "parentUuid": "5f3d83bc_667bad57",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fdf7506_30dd7b53",
         "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
         "patchSetId": 3
@@ -71,6 +148,24 @@
       "writtenOn": "2020-10-15T20:12:09Z",
       "side": 1,
       "message": "Don\u0027t you need r.Amount \u003d\u003d 0 or something here?",
+      "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5e29d1_79725b83",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-10-16T11:00:04Z",
+      "side": 1,
+      "message": "Good catch. Yes, I think we need either a \u0027r.Amount \u003d\u003d 0\u0027 or adjust the check to unrotate r.Start before checking it refers to (a copy of) the most significant bit: \u0027(r.Start+r.Amount)\u002663 \u003c\u003d c\u0027.",
+      "parentUuid": "4fdf7506_30dd7b53",
       "revId": "f5d3cf1afa48cca195c3e5e8f17d1cf0641243f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
