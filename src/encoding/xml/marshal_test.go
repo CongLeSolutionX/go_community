@@ -133,6 +133,14 @@ type Service struct {
 	Extra2  interface{} `xml:"host>extra2"`
 }
 
+type ServiceErrorNameConflict struct {
+	XMLName struct{} `xml:"service"`
+	Domain  *Domain  `xml:"host>domain"`
+	Port    *Port    `xml:"host>portZZZ"`
+	Extra1  interface{}
+	Extra2  interface{} `xml:"host>extra2"`
+}
+
 var nilStruct *Ship
 
 type EmbedA struct {
@@ -187,6 +195,10 @@ type XMLNameWithoutTag struct {
 
 type NameInField struct {
 	Foo Name `xml:"ns foo"`
+}
+
+type NameInFieldError struct {
+	Foo Name `xml:"ns "`
 }
 
 type AttrTest struct {
@@ -320,9 +332,22 @@ type MyMarshalerTest struct {
 var _ Marshaler = (*MyMarshalerTest)(nil)
 
 func (m *MyMarshalerTest) MarshalXML(e *Encoder, start StartElement) error {
+	return e.EncodeElement("hello world", start)
+}
+
+type MyMarshalerTestErrorMissingName struct {
+}
+
+func (m *MyMarshalerTestErrorMissingName) MarshalXML(e *Encoder, _ StartElement) error {
+	return e.EncodeElement("hello world", StartElement{Name{"", ""}, nil})
+}
+
+type MyMarshalerTestErrorNotClosed struct {
+}
+
+func (m *MyMarshalerTestErrorNotClosed) MarshalXML(e *Encoder, start StartElement) error {
 	e.EncodeToken(start)
-	e.EncodeToken(CharData([]byte("hello world")))
-	e.EncodeToken(EndElement{start.Name})
+	e.EncodeToken(CharData("hello world"))
 	return nil
 }
 
@@ -792,6 +817,12 @@ var marshalTests = []struct {
 		MarshalOnly: true,
 	},
 	{
+		Value:          &ServiceErrorNameConflict{Port: &Port{Number: "80"}},
+		ExpectXML:      `<service><host><port>80</port></host></service>`,
+		MarshalError:   `conflicts with name`,
+		UnmarshalError: `conflicts with name`,
+	},
+	{
 		Value: &struct {
 			XMLName struct{} `xml:"space top"`
 			A       string   `xml:"x>a"`
@@ -954,6 +985,12 @@ var marshalTests = []struct {
 		Value:         &NameInField{Name{Space: "ns", Local: "foo"}},
 		ExpectXML:     `<NameInField><foo xmlns="ns"><ignore></ignore></foo></NameInField>`,
 		UnmarshalOnly: true,
+	},
+	{
+		Value:          &NameInFieldError{Name{Space: "ns", Local: "foo"}},
+		ExpectXML:      `<NameInField><foo xmlns="ns"></foo></NameInField>`,
+		MarshalError:   "xml: namespace without name in field",
+		UnmarshalError: "xml: namespace without name in field",
 	},
 
 	// Marshaling zero xml.Name uses the tag or field name.
@@ -1242,6 +1279,16 @@ var marshalTests = []struct {
 	{
 		ExpectXML: `<MyMarshalerTest>hello world</MyMarshalerTest>`,
 		Value:     &MyMarshalerTest{},
+	},
+	{
+		ExpectXML:    `<MyMarshalerTest>hello world</MyMarshalerTest>`,
+		Value:        &MyMarshalerTestErrorMissingName{},
+		MarshalError: "xml: EncodeElement of StartElement with missing name",
+	},
+	{
+		ExpectXML:    `<MyMarshalerTest>hello world</MyMarshalerTest>`,
+		Value:        &MyMarshalerTestErrorNotClosed{},
+		MarshalError: "MarshalXML wrote invalid XML",
 	},
 	{
 		ExpectXML: `<MarshalerStruct Foo="hello world"></MarshalerStruct>`,
@@ -1694,6 +1741,27 @@ type BadAttr struct {
 	Name map[string]string `xml:"name,attr"`
 }
 
+type BadTag struct {
+	Comment string `xml:",comment,omitempty"`
+}
+
+type BadTagMultipleModes struct {
+	Comment string `xml:",attr,comment"`
+}
+
+type BadTagTrailingTag struct {
+	Comment string `xml:"comment>"`
+}
+
+type BadEmbed struct {
+	BadInnerEmbed
+}
+
+type BadInnerEmbed struct {
+	Field string `xml:"Field,attr,comment"`
+}
+
+// used by both TestMarshalErrors and TestMarshalIndentErrors
 var marshalErrorTests = []struct {
 	Value interface{}
 	Err   string
@@ -1729,6 +1797,22 @@ var marshalErrorTests = []struct {
 	{
 		Value: BadAttr{map[string]string{"X": "Y"}},
 		Err:   `xml: unsupported type: map[string]string`,
+	},
+	{
+		Value: BadTag{"some comment"},
+		Err:   `xml: invalid tag in field Comment of type xml.BadTag: ",comment,omitempty"`,
+	},
+	{
+		Value: BadTagMultipleModes{"some comment"},
+		Err:   `xml: invalid tag in field Comment of type xml.BadTagMultipleModes: ",attr,comment"`,
+	},
+	{
+		Value: BadTagTrailingTag{"some comment"},
+		Err:   `xml: trailing '>' in field Comment of type xml.BadTagTrailingTag`,
+	},
+	{
+		Value: BadEmbed{},
+		Err:   `xml: invalid tag in field Field of type xml.BadInnerEmbed: "Field,attr,comment"`,
 	},
 }
 
@@ -1825,6 +1909,24 @@ func TestMarshalIndent(t *testing.T) {
 		}
 		if got, want := string(data), test.ExpectXML; got != want {
 			t.Errorf("#%d: MarshalIndent:\nGot:%s\nWant:\n%s", i, got, want)
+		}
+	}
+}
+
+func TestMarshalIndentErrors(t *testing.T) {
+	for idx, test := range marshalErrorTests {
+		data, err := MarshalIndent(test.Value, "", "")
+		if err == nil {
+			t.Errorf("#%d: marshalIndent(%#v) = [success] %q, want error %v", idx, test.Value, data, test.Err)
+			continue
+		}
+		if err.Error() != test.Err {
+			t.Errorf("#%d: marshalIndent(%#v) = [error] %v, want %v", idx, test.Value, err, test.Err)
+		}
+		if test.Kind != reflect.Invalid {
+			if kind := err.(*UnsupportedTypeError).Type.Kind(); kind != test.Kind {
+				t.Errorf("#%d: marshalIndent(%#v) = [error kind] %s, want %s", idx, test.Value, kind, test.Kind)
+			}
 		}
 	}
 }
@@ -2020,6 +2122,12 @@ var encodeTokenTests = []struct {
 		ProcInst{"", []byte("Instruction?>")},
 	},
 	err: "xml: EncodeToken of ProcInst with invalid Target",
+}, {
+	desc: "proc instruction with endProcInst",
+	toks: []Token{
+		ProcInst{"Target", []byte("Instruction?>")},
+	},
+	err: "xml: EncodeToken of ProcInst containing ?> marker",
 }, {
 	desc: "directive",
 	toks: []Token{
@@ -2340,6 +2448,28 @@ func TestProcInstEncodeToken(t *testing.T) {
 	}
 }
 
+func TestProcInstEncodeTokenBadNameString(t *testing.T) {
+	tests := []struct {
+		input ProcInst
+	}{
+		{ProcInst{"\xe6", []byte("Instruction")}},
+		{ProcInst{".", []byte("Instruction")}},
+		{ProcInst{"a\xe6", []byte("Instruction")}},
+	}
+	expectedError := `xml: EncodeToken of ProcInst with invalid Target`
+
+	for _, test := range tests {
+		var buf bytes.Buffer
+		enc := NewEncoder(&buf)
+
+		if err := enc.EncodeToken(test.input); err == nil {
+			t.Fatalf(`expected not receive expected error for input %s`, test.input)
+		} else if err.Error() != expectedError {
+			t.Fatalf(`err.Error() = "%s", want "%s"`, err.Error(), expectedError)
+		}
+	}
+}
+
 func TestDecodeEncode(t *testing.T) {
 	var in, out bytes.Buffer
 	in.WriteString(`<?xml version="1.0" encoding="UTF-8"?>
@@ -2449,7 +2579,6 @@ func TestIssue16158(t *testing.T) {
 }
 
 // Issue 20953. Crash on invalid XMLName attribute.
-
 type InvalidXMLName struct {
 	XMLName Name `xml:"error"`
 	Type    struct {

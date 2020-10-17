@@ -190,6 +190,7 @@ var xmlInput = []string{
 	"<t/><![CDATA[d",
 	"<t/><![CDATA[d]",
 	"<t/><![CDATA[d]]",
+	"<p></p",
 
 	// other Syntax errors
 	"<>",
@@ -214,6 +215,22 @@ var xmlInput = []string{
 
 func TestRawToken(t *testing.T) {
 	d := NewDecoder(strings.NewReader(testInput))
+	d.Entity = testEntity
+	testRawToken(t, d, testInput, rawTokens)
+}
+
+// myIOReader does not implement io.ByteReader forcing a code path
+// where we wrap the io.Reader in an bufio.NewReader
+type myIOReader struct {
+	input string
+}
+
+func (m myIOReader) Read(p []byte) (int, error) {
+	return strings.NewReader(m.input).Read(p)
+}
+
+func TestNewDecoder(t *testing.T) {
+	d := NewDecoder(myIOReader{testInput})
 	d.Entity = testEntity
 	testRawToken(t, d, testInput, rawTokens)
 }
@@ -298,6 +315,48 @@ func TestRawTokenAltEncoding(t *testing.T) {
 		return &downCaser{t, input.(io.ByteReader)}, nil
 	}
 	testRawToken(t, d, testInputAltEncoding, rawTokensAltEncoding)
+}
+
+func TestRawTokenAltEncodingErrors(t *testing.T) {
+	tests := []struct {
+		charsetReader func(charset string, input io.Reader) (io.Reader, error)
+		expectedError string
+	}{
+		{
+			func(_ string, _ io.Reader) (io.Reader, error) { return nil, fmt.Errorf("terrible") },
+			`xml: opening charset "x-testing-uppercase": terrible`,
+		},
+	}
+	for _, test := range tests {
+		d := NewDecoder(strings.NewReader(testInputAltEncoding))
+		d.CharsetReader = test.charsetReader
+
+		var err error
+		for _, err = d.Token(); err == nil; _, err = d.Token() {
+		}
+		if err.Error() != test.expectedError {
+			t.Fatalf(`err.Error() = "%s", want "%s"`, err.Error(), test.expectedError)
+		}
+	}
+}
+
+func TestRawTokenAltEncodingPanic(t *testing.T) {
+	defer func() {
+		expectedError := `CharsetReader returned a nil Reader for charset x-testing-uppercase`
+		r := recover()
+		if r == nil {
+			t.Errorf("code did not panic but should have")
+		} else if r != expectedError {
+			t.Fatalf(`panic = "%s", want "%s"`, r, expectedError)
+		}
+	}()
+
+	d := NewDecoder(strings.NewReader(testInputAltEncoding))
+	d.CharsetReader = func(charset string, input io.Reader) (io.Reader, error) { return nil, nil }
+
+	var err error
+	for _, err = d.Token(); err == nil; _, err = d.Token() {
+	}
 }
 
 func TestRawTokenAltEncodingNoConverter(t *testing.T) {
@@ -426,6 +485,54 @@ func TestToken(t *testing.T) {
 		}
 		if !reflect.DeepEqual(have, want) {
 			t.Errorf("token %d = %#v want %#v", i, have, want)
+		}
+	}
+}
+
+func TestTokenErrors(t *testing.T) {
+	tests := []struct {
+		input         string
+		syntaxError   bool
+		expectedError string
+	}{
+		{`<body xmlns="ns1"></x>`, true, `XML syntax error on line 1: unexpected end element </x>`},
+		{`<?>`, true, `XML syntax error on line 1: expected target name after <?`},
+		{`<?wat>`, true, `XML syntax error on line 1: unexpected EOF`},
+		{`<?xml version="1.1" encoding="UTF-8"?>`, false, `xml: unsupported version "1.1"; only version 1.0 is supported`},
+		{`<?xml version="1" encoding="UTF-8"?>`, false, `xml: unsupported version "1"; only version 1.0 is supported`},
+		{`<?xml version="wat" encoding="UTF-8"?>`, false, `xml: unsupported version "wat"; only version 1.0 is supported`},
+		{`<?xml version="1.0" encoding="UTF-9000"?>`, false, `xml: encoding "UTF-9000" declared but Decoder.CharsetReader is nil`},
+		{`<![XDATA`, false, `XML syntax error on line 1: invalid <![ sequence`},
+		{`<!-~`, false, `XML syntax error on line 1: invalid sequence <!- not part of <!--`},
+		{`<!x<`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`<!x<!--`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`<a href=x`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#x`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#0`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#1`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#xa`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#xA`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#xf`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&#xF`, false, `XML syntax error on line 1: unexpected EOF`},
+		{`"&B`, false, `XML syntax error on line 1: unexpected EOF`},
+		{"<![CDATA[Some \xe6 here]]>", false, `XML syntax error on line 1: invalid UTF-8`},
+		{"<body \xe6>", false, "XML syntax error on line 1: invalid XML name: \xe6"},
+		{"<body w\xe6>", false, "XML syntax error on line 1: invalid XML name: w\xe6"},
+	}
+	for _, test := range tests {
+		d := NewDecoder(strings.NewReader(test.input))
+		d.Strict = false
+
+		var err error
+		for _, err = d.Token(); err == nil; _, err = d.Token() {
+		}
+		if _, ok := err.(*SyntaxError); test.syntaxError && !ok {
+			t.Fatalf(`xmlInput "%s": expected SyntaxError not received`, test.input)
+		}
+		if err.Error() != test.expectedError {
+			t.Fatalf(`err.Error() = "%s", want "%s"`, err.Error(), test.expectedError)
 		}
 	}
 }
@@ -584,6 +691,37 @@ func TestValuelessAttrs(t *testing.T) {
 	}
 }
 
+const testInputAutoClose = `
+<lol>
+<lol></lol>
+`
+
+var cookedTokensAutoClose = []Token{
+	CharData("\n"),
+	StartElement{Name: Name{Space: "", Local: "lol"}, Attr: []Attr{}},
+	EndElement{Name: Name{Space: "", Local: "lol"}},
+	CharData("\n"),
+	StartElement{Name: Name{Space: "", Local: "lol"}, Attr: []Attr{}},
+	EndElement{Name: Name{Space: "", Local: "lol"}},
+	CharData("\n"),
+}
+
+func TestTokenAutoClose(t *testing.T) {
+	d := NewDecoder(strings.NewReader(testInputAutoClose))
+	d.Strict = false
+	d.AutoClose = []string{"LOL"}
+
+	for i, want := range cookedTokensAutoClose {
+		have, err := d.Token()
+		if err != nil {
+			t.Fatalf("token %d: unexpected error: %s", i, err)
+		}
+		if !reflect.DeepEqual(have, want) {
+			t.Errorf("token %d = %#v want %#v", i, have, want)
+		}
+	}
+}
+
 func TestCopyTokenCharData(t *testing.T) {
 	data := []byte("same data")
 	var tok1 Token = CharData(data)
@@ -594,6 +732,45 @@ func TestCopyTokenCharData(t *testing.T) {
 	data[1] = 'o'
 	if reflect.DeepEqual(tok1, tok2) {
 		t.Error("CopyToken(CharData) uses same buffer.")
+	}
+}
+
+func TestCopyTokenComment(t *testing.T) {
+	data := []byte("same data")
+	var tok1 Token = Comment(data)
+	tok2 := CopyToken(tok1)
+	if !reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(Comment) != Comment")
+	}
+	data[1] = 'o'
+	if reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(Comment) uses same buffer.")
+	}
+}
+
+func TestCopyTokenDirective(t *testing.T) {
+	data := []byte("same data")
+	var tok1 Token = Directive(data)
+	tok2 := CopyToken(tok1)
+	if !reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(Directive) != Directive")
+	}
+	data[1] = 'o'
+	if reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(Directive) uses same buffer.")
+	}
+}
+
+func TestCopyTokenProcInst(t *testing.T) {
+	data := []byte("same data")
+	var tok1 Token = ProcInst{"hello", data}
+	tok2 := CopyToken(tok1)
+	if !reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(ProcInst) != ProcInst")
+	}
+	data[1] = 'o'
+	if reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(ProcInst) uses same buffer.")
 	}
 }
 
@@ -613,18 +790,16 @@ func TestCopyTokenStartElement(t *testing.T) {
 	}
 }
 
-func TestSyntaxErrorLineNum(t *testing.T) {
-	testInput := "<P>Foo<P>\n\n<P>Bar</>\n"
-	d := NewDecoder(strings.NewReader(testInput))
-	var err error
-	for _, err = d.Token(); err == nil; _, err = d.Token() {
+func TestCopyTokenDefaultCase(t *testing.T) {
+	data := []byte("same data")
+	var tok1 = Token(data)
+	tok2 := CopyToken(data)
+	if !reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(Token]) != Token")
 	}
-	synerr, ok := err.(*SyntaxError)
-	if !ok {
-		t.Error("Expected SyntaxError.")
-	}
-	if synerr.Line != 3 {
-		t.Error("SyntaxError didn't have correct line number.")
+	data[1] = 'o'
+	if !reflect.DeepEqual(tok1, tok2) {
+		t.Error("CopyToken(CharData) uses different buffer.")
 	}
 }
 
@@ -677,7 +852,6 @@ var characterTests = []struct {
 }
 
 func TestDisallowedCharacters(t *testing.T) {
-
 	for i, tt := range characterTests {
 		d := NewDecoder(strings.NewReader(tt.in))
 		var err error
@@ -778,18 +952,44 @@ func TestEscapeTextIOErrors(t *testing.T) {
 	}
 }
 
-func TestEscapeTextInvalidChar(t *testing.T) {
-	input := []byte("A \x00 terminated string.")
-	expected := "A \uFFFD terminated string."
+var escapeTextTests = []struct {
+	input    []byte
+	expected string
+}{
+	{[]byte("A \" terminated string."), "A &#34; terminated string."},
+	{[]byte(`A ' terminated string.`), "A &#39; terminated string."},
+	{[]byte("A & terminated string."), "A &amp; terminated string."},
+	{[]byte("A < terminated string."), "A &lt; terminated string."},
+	{[]byte("A > terminated string."), "A &gt; terminated string."},
+	{[]byte("A \t terminated string."), "A &#x9; terminated string."},
+	{[]byte("A \n terminated string."), "A &#xA; terminated string."},
+	{[]byte("A \r terminated string."), "A &#xD; terminated string."},
+	{[]byte("A \x00 terminated string."), "A \uFFFD terminated string."},
+}
 
-	buff := new(bytes.Buffer)
-	if err := EscapeText(buff, input); err != nil {
-		t.Fatalf("have %v, want nil", err)
+func TestEscapeText(t *testing.T) {
+	for _, test := range escapeTextTests {
+		buff := new(bytes.Buffer)
+		if err := EscapeText(buff, test.input); err != nil {
+			t.Fatalf("have %v, want nil", err)
+		}
+
+		text := buff.String()
+		if text != test.expected {
+			t.Errorf("have %v, want %v", text, test.expected)
+		}
 	}
-	text := buff.String()
+}
 
-	if text != expected {
-		t.Errorf("have %v, want %v", text, expected)
+func TestEscape(t *testing.T) {
+	for _, test := range escapeTextTests {
+		buff := new(bytes.Buffer)
+		Escape(buff, test.input)
+
+		text := buff.String()
+		if text != test.expected {
+			t.Errorf("have %v, want %v", text, test.expected)
+		}
 	}
 }
 

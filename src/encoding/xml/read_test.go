@@ -5,6 +5,7 @@
 package xml
 
 import (
+	"errors"
 	"io"
 	"reflect"
 	"strings"
@@ -332,7 +333,7 @@ var badPathTests = []struct {
 func TestUnmarshalBadPaths(t *testing.T) {
 	for _, tt := range badPathTests {
 		err := Unmarshal([]byte(pathTestString), tt.v)
-		if !reflect.DeepEqual(err, tt.e) {
+		if !strings.Contains(err.Error(), "conflicts with field") || !reflect.DeepEqual(err, tt.e) {
 			t.Fatalf("Unmarshal with %#v didn't fail properly:\nhave %#v,\nwant %#v", tt.v, err, tt.e)
 		}
 	}
@@ -346,6 +347,18 @@ const withoutNameTypeData = `
 type TestThree struct {
 	XMLName Name   `xml:"Test3"`
 	Attr    string `xml:",attr"`
+}
+
+func TestUnmarshalNonpointer(t *testing.T) {
+	var x TestThree
+	err := Unmarshal([]byte(withoutNameTypeData), x)
+	errText := "non-pointer passed to Unmarshal"
+	if err == nil {
+		t.Errorf("[success], want error %v", errText)
+	}
+	if err.Error() != errText {
+		t.Errorf("[error] %v, want %v", err, errText)
+	}
 }
 
 func TestUnmarshalWithoutNameType(t *testing.T) {
@@ -683,6 +696,126 @@ func TestUnmarshaler(t *testing.T) {
 
 	if m.Data == nil || m.Attr == nil || m.Data.body != "hello world" || m.Attr.attr != "attr1" || m.Data2.body != "howdy world" || m.Attr2.attr != "attr2" {
 		t.Errorf("m=%#+v\n", m)
+	}
+}
+
+var errText = "UnmarshalXML failed"
+
+type MyBodyError struct {
+	Body string
+}
+
+func (m *MyBodyError) UnmarshalXML(*Decoder, StartElement) error {
+	return errors.New(errText)
+}
+
+func TestUnmarshalerError(t *testing.T) {
+	xml := `<?xml version="1.0" encoding="utf-8"?><Body>words</Body>`
+	var m MyBodyError
+	err := Unmarshal([]byte(xml), &m)
+
+	if err == nil {
+		t.Errorf("[success], want error %v", errText)
+	}
+	if err.Error() != errText {
+		t.Errorf("[error] %v, want %v", err, errText)
+	}
+}
+
+type MyBodyErrorText struct {
+	Body string
+}
+
+func (m MyBodyErrorText) UnmarshalText([]byte) error {
+	return errors.New(errText)
+}
+
+func TestUnmarshalerTextError(t *testing.T) {
+	xml := `<?xml version="1.0" encoding="utf-8"?><Body>words</Body>`
+	var m MyBodyErrorText
+	err := Unmarshal([]byte(xml), &m)
+
+	if err == nil {
+		t.Errorf("[success], want error %v", errText)
+	}
+	if err.Error() != errText {
+		t.Errorf("[error] %v, want %v", err, errText)
+	}
+}
+
+func TestUnmarshalUnknownType(t *testing.T) {
+	expectedError := `unknown type func()`
+	var dst func()
+
+	if err := Unmarshal([]byte(pathTestString), &dst); err == nil || err.Error() != expectedError {
+		t.Errorf("have %v, want %v", err, expectedError)
+	}
+}
+
+type XMLNameWithNamespace struct {
+	XMLName Name `xml:"ns Test3"`
+}
+
+func TestUnmarshalErrors(t *testing.T) {
+	tests := []struct {
+		input         []byte
+		expectedError string
+	}{
+		{[]byte(""), "EOF"},
+		{[]byte("<a>bbb</a>"), `expected element type <Test3> but have <a>`},
+		{[]byte(`<Test3 xmlns="namespace">inside</Test3>`), `expected element <Test3> in name space ns but have namespace`},
+		{[]byte(`<Test3 xmlns="">inside</Test3>`), `expected element <Test3> in name space ns but have no name space`},
+	}
+	for _, test := range tests {
+		var dst XMLNameWithNamespace
+
+		if err := Unmarshal(test.input, &dst); err == nil || err.Error() != test.expectedError {
+			t.Errorf("have %v, want %v", err, test.expectedError)
+		}
+	}
+}
+
+func TestSkip(t *testing.T) {
+	xml := "<a>bbb</a><Person><name>nnn</name><uri>uuu</uri>wefwef</Person>"
+
+	var dst Person
+	d := NewDecoder(strings.NewReader(xml))
+
+	// consume a start element
+	if _, err := d.Token(); err != nil {
+		t.Fatalf("expected d.Token() to succeed but got: :%v", err)
+	}
+
+	// consume the rest until the matching end element
+	if err := d.Skip(); err != nil {
+		t.Fatalf("expected d.Skip() to succeed but got: :%v", err)
+	}
+
+	if err := d.Decode(&dst); err != nil {
+		t.Fatalf("expected d.Decode() to succeed but got: :%v", err)
+	}
+}
+
+func TestSkipErrors(t *testing.T) {
+	tests := []struct {
+		input         string
+		expectedError string
+	}{
+		{"<a>", `XML syntax error on line 1: unexpected EOF`},
+		{"<a>bbbb<c>", `XML syntax error on line 1: unexpected EOF`},
+	}
+
+	for _, test := range tests {
+		d := NewDecoder(strings.NewReader(test.input))
+
+		// consume a start element
+		if _, err := d.Token(); err != nil {
+			t.Fatalf("expected d.Token() to succeed but got: :%v", err)
+		}
+
+		if err := d.Skip(); err == nil || err.Error() != test.expectedError {
+			t.Errorf("have %v, want %v", err, test.expectedError)
+		}
 	}
 }
 
