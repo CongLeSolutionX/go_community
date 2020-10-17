@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deff634f_ea3d228d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-10-17T01:58:57Z",
+      "side": 1,
+      "message": "Added a comment on #39177. I\u0027m not convinced it\u0027s worth changing the behavior for negative timeouts.",
+      "revId": "020d03fc67a87b76ca9e2a558d0bfa184b98e7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
