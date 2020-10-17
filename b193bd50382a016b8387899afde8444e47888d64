@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d892111_61a44802",
+        "filename": "src/io/fs/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2020-10-17T17:40:41Z",
+      "side": 1,
+      "message": "Given that backslash is a valid character in unix paths, does this imply that such files will be inaccessible through os.DirFS? Seems a bit odd, especially since aiui they will continue to appear in ReadDir.",
+      "revId": "b193bd50382a016b8387899afde8444e47888d64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
