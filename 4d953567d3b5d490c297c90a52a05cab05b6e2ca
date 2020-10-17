@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "41a60e29_ac9baaa1",
         "filename": "src/net/smtp/smtp.go",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Perhaps I am mistaken but I think we need to say something like \"switches to TLS if possible and if the connection is not already using TLS.\"",
       "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "c57ac606_7fe27932",
         "filename": "src/net/smtp/smtp.go",
@@ -32,10 +33,10 @@
       "message": "Done",
       "parentUuid": "41a60e29_ac9baaa1",
       "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "78851100_d663a9df",
         "filename": "src/net/smtp/smtp.go",
@@ -49,10 +50,10 @@
       "side": 1,
       "message": "This sentence is no longer appropriate; this method does not have an addr.",
       "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "880748f4_52492dc7",
         "filename": "src/net/smtp/smtp.go",
@@ -67,10 +68,10 @@
       "message": "Moved back to the SendMail function comment",
       "parentUuid": "78851100_d663a9df",
       "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1fe2441c_389cf5e2",
         "filename": "src/net/smtp/smtp.go",
@@ -84,10 +85,28 @@
       "side": 1,
       "message": "I guess the docs need to say something about the status of the connection after SendMail completes.",
       "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "976d6043_cd9d7411",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-10-17T18:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fe2441c_389cf5e2",
+      "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "25e00129_0e31b05a",
         "filename": "src/net/smtp/smtp_test.go",
@@ -101,8 +120,25 @@
       "side": 1,
       "message": "There should be some test somewhere that calls the new method.",
       "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3a236c6_957e367e",
+        "filename": "src/net/smtp/smtp_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-10-17T18:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e00129_0e31b05a",
+      "revId": "4d953567d3b5d490c297c90a52a05cab05b6e2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "85060620_647389c2",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Can we have a test for the new SendMail method?  Thanks.",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1875061e_cb4c1d1a",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +32,28 @@
       "side": 1,
       "message": "RELNOTES\u003dyes",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3323a15_250ab3a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-10-17T18:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85060620_647389c2",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "42b9bd11_69581591",
         "filename": "src/net/smtp/smtp.go",
@@ -48,10 +67,10 @@
       "side": 1,
       "message": "I don\u0027t see an obvious reason for this method to close the connection.",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "000c123a_5507006b",
         "filename": "src/net/smtp/smtp.go",
@@ -66,10 +85,10 @@
       "message": "I Agree.",
       "parentUuid": "42b9bd11_69581591",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f6cd0ca0_05f594f2",
         "filename": "src/net/smtp/smtp.go",
@@ -83,10 +102,10 @@
       "side": 1,
       "message": "Seems like we should call testHookStartTLS here.",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6b37ea07_aa3094ef",
         "filename": "src/net/smtp/smtp.go",
@@ -101,10 +120,10 @@
       "message": "testHookStartTLS could be called on Client.TLSConfig before calling Client.SendMail which is not the case of SendMail where we don\u0027t have access to the tls.Config before it\u0027s used. Am I right ?",
       "parentUuid": "f6cd0ca0_05f594f2",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6330deb7_394e0161",
         "filename": "src/net/smtp/smtp.go",
@@ -119,10 +138,10 @@
       "message": "That is true, but it seems to me that this is a different case: the one where the new SendMail method is used without first setting up a TLS connection.  We seem to be supporting that case here.  In general it seems to me that testHookStartTLS should be called before calling StartTLS.\n\nBut as this is only for testing it may not matter very much.",
       "parentUuid": "6b37ea07_aa3094ef",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "43f9a059_90edaf9f",
         "filename": "src/net/smtp/smtp.go",
@@ -137,10 +156,10 @@
       "message": "Done",
       "parentUuid": "6330deb7_394e0161",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "bec6a324_042908ac",
         "filename": "src/net/smtp/smtp.go",
@@ -155,10 +174,10 @@
       "message": "Done",
       "parentUuid": "6330deb7_394e0161",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6c2cb836_6ecfb7fa",
         "filename": "src/net/smtp/smtp.go",
@@ -172,10 +191,10 @@
       "side": 1,
       "message": "Why quit?",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c8d563c8_44882d4c",
         "filename": "src/net/smtp/smtp.go",
@@ -190,10 +209,10 @@
       "message": "I Agree. One thing to note though, If we don\u0027t issue a QUIT command in this method, I think  the Close method should issue this command if not already done before closing? instead of doing this\n\ndefer client.Close()\ndefer client.Quit()\nclient.SendMail(...)\n\nwhe just do \n\ndefer client.Close()\nclient.SendMail(...)\n\nwhat do you think ?",
       "parentUuid": "6c2cb836_6ecfb7fa",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "42d2ef26_cfef9b98",
         "filename": "src/net/smtp/smtp.go",
@@ -208,10 +227,10 @@
       "message": "I think it depends on the status of the connection after sending the message.  For example, would it be reasonable to use a single connection to send multiple messages to the server?",
       "parentUuid": "c8d563c8_44882d4c",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ccc58273_28847226",
         "filename": "src/net/smtp/smtp.go",
@@ -226,10 +245,10 @@
       "message": "\u003e I think it depends on the status of the connection after sending the message.  For example, would it be reasonable to use a single connection to send multiple messages to the server?\n\nIt might be, a quick search led me to this discussion https://stackoverflow.com/questions/30450221/go-connect-to-smtp-server-and-send-multiple-emails-in-one-connection\n\nThis CL makes it easier to send multiple messages, and I think you are right, we should not close the connection nor issue the QUIT command in the SendMail method. but I think it\u0027s necessary to make the Close method issue the QUIT command if not called manually to close the connection properly.",
       "parentUuid": "42d2ef26_cfef9b98",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8b00d614_6d64951d",
         "filename": "src/net/smtp/smtp.go",
@@ -244,10 +263,28 @@
       "message": "Well, we already have the Quit method.  I don\u0027t see a reason that Close should also call Quit.  I suggest that we document for the new SendMail method that the caller should call Quit when done.",
       "parentUuid": "ccc58273_28847226",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21f0591_ba49a8d0",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2020-10-17T18:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b00d614_6d64951d",
+      "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "15662dba_55d604c3",
         "filename": "src/net/smtp/smtp_test.go",
@@ -261,10 +298,10 @@
       "side": 1,
       "message": "Use \"Got: %+v Expected nil\", along the lines of the above message.",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "4cd6e725_296aef36",
         "filename": "src/net/smtp/smtp_test.go",
@@ -279,10 +316,10 @@
       "message": "Done",
       "parentUuid": "15662dba_55d604c3",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3d6bb325_92c82ea9",
         "filename": "src/net/smtp/smtp_test.go",
@@ -296,10 +333,10 @@
       "side": 1,
       "message": "if err \u003d\u003d nil || err \u003d\u003d io.EOF",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "17953073_79ce01e9",
         "filename": "src/net/smtp/smtp_test.go",
@@ -314,10 +351,10 @@
       "message": "Done",
       "parentUuid": "3d6bb325_92c82ea9",
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "db1f9183_46e1ff76",
         "filename": "src/net/smtp/smtp_test.go",
@@ -337,10 +374,10 @@
         "endChar": 69
       },
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "f563f5c4_08f93ec1",
         "filename": "src/net/smtp/smtp_test.go",
@@ -361,8 +398,7 @@
         "endChar": 69
       },
       "revId": "76283917bf15d63abab1efbfc11800e5dcb63f64",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
