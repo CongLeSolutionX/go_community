@@ -55,6 +55,25 @@ func ExampleDialer() {
 	}
 }
 
+func ExampleDialer_unix() {
+	// DialUnix does not expose a context.Context, but you can use this code to
+	// get one.
+	var d net.Dialer
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	defer cancel()
+
+	d.LocalAddr = nil // if you have a local addr, add it here
+	raddr := net.UnixAddr{Name: "/path/to/unix.sock", Net: "unix"}
+	conn, err := d.DialContext(ctx, "tcp", raddr.String())
+	if err != nil {
+		log.Fatalf("Failed to dial: %v", err)
+	}
+	defer conn.Close()
+	if _, err := conn.Write([]byte("Hello, socket!")); err != nil {
+		log.Fatal(err)
+	}
+}
+
 func ExampleIPv4() {
 	fmt.Println(net.IPv4(8, 8, 8, 8))
 
