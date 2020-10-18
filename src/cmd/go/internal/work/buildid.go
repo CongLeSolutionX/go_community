@@ -120,17 +120,7 @@ func contentID(buildID string) string {
 // (20*4+3 = 83 bytes compared to 64*4+3 = 259 bytes for the
 // more straightforward option of printing the entire h in base64).
 func hashToString(h [cache.HashSize]byte) string {
-	const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
-	const chunks = 5
-	var dst [chunks * 4]byte
-	for i := 0; i < chunks; i++ {
-		v := uint32(h[3*i])<<16 | uint32(h[3*i+1])<<8 | uint32(h[3*i+2])
-		dst[4*i+0] = b64[(v>>18)&0x3F]
-		dst[4*i+1] = b64[(v>>12)&0x3F]
-		dst[4*i+2] = b64[(v>>6)&0x3F]
-		dst[4*i+3] = b64[v&0x3F]
-	}
-	return string(dst[:])
+	return buildid.HashToString(h)
 }
 
 // toolID returns the unique ID to use for the current copy of the
@@ -644,44 +634,18 @@ func (b *Builder) updateBuildID(a *Action, target string, rewrite bool) error {
 		}
 	}
 
-	// Find occurrences of old ID and compute new content-based ID.
-	r, err := os.Open(target)
-	if err != nil {
-		return err
-	}
-	matches, hash, err := buildid.FindAndHash(r, a.buildID, 0)
-	r.Close()
-	if err != nil {
-		return err
-	}
-	newID := a.buildID[:strings.LastIndex(a.buildID, buildIDSeparator)] + buildIDSeparator + hashToString(hash)
-	if len(newID) != len(a.buildID) {
-		return fmt.Errorf("internal error: build ID length mismatch %q vs %q", a.buildID, newID)
+	err, newID := buildid.BuildAndFindHash(a.buildID, target, buildIDSeparator, "internal error", rewrite)
+
+	if newID != "" {
+		// Replace with new content-based ID.
+		a.buildID = newID
+		if a.json != nil {
+			a.json.BuildID = a.buildID
+		}
 	}
 
-	// Replace with new content-based ID.
-	a.buildID = newID
-	if a.json != nil {
-		a.json.BuildID = a.buildID
-	}
-	if len(matches) == 0 {
-		// Assume the user specified -buildid= to override what we were going to choose.
+	if err != nil && err != buildid.ErrEmptyMatchLen {
 		return nil
-	}
-
-	if rewrite {
-		w, err := os.OpenFile(target, os.O_WRONLY, 0)
-		if err != nil {
-			return err
-		}
-		err = buildid.Rewrite(w, matches, newID)
-		if err != nil {
-			w.Close()
-			return err
-		}
-		if err := w.Close(); err != nil {
-			return err
-		}
 	}
 
 	// Cache package builds, but not binaries (link steps).
