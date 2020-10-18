@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf065d3_d47617fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-18T10:43:59Z",
+      "side": 1,
+      "message": "Thank you Russ, LGTM with minor nits like using errors.Is(err, io.EOF) throughout instead of err *\u003d io.EOF",
+      "revId": "08fd4eb2706fa96cbce4cd11f1eb60f7ba7b865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "541c40ce_023c73a9",
+        "filename": "src/testing/iotest/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-18T10:43:59Z",
+      "side": 1,
+      "message": "errors.Is(err, io.EOF)",
+      "revId": "08fd4eb2706fa96cbce4cd11f1eb60f7ba7b865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c78402_55b96aa2",
+        "filename": "src/testing/iotest/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-18T10:43:59Z",
+      "side": 1,
+      "message": "r.Seek(0, io.SeekCurrent)",
+      "revId": "08fd4eb2706fa96cbce4cd11f1eb60f7ba7b865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
