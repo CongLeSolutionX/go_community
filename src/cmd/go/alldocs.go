@@ -1975,7 +1975,7 @@
 // like in Go imports:
 //
 // 	require (
-// 		new/thing v2.3.4
+// 		new/thing/v2 v2.3.4
 // 		old/thing v1.2.3
 // 	)
 //
