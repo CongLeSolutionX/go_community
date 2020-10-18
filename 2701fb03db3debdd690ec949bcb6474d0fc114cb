@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbeca2e2_caf5bf08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-18T10:53:16Z",
+      "side": 1,
+      "message": "In lieu of the api/next.txt CL that’s in the chain that reduces the clutter in here, still LGTM.",
+      "revId": "2701fb03db3debdd690ec949bcb6474d0fc114cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
