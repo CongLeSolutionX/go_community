@@ -34,6 +34,24 @@
       "parentUuid": "de81a492_4b9ddf90",
       "revId": "d0fcae07415254121d5d14158d46635bab6a1f20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55987928_7a861ae3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2020-10-19T16:17:12Z",
+      "side": 1,
+      "message": "You\u0027re right that gopls doesn\u0027t parse build constraints, but we are actually starting to consider doing so to improve our error messages (https://github.com/golang/go/issues/31668#issuecomment-690583212, for example). I think having this in 1.16 might be useful, though we may not use it until we start working more seriously on https://github.com/golang/go/issues/29202.",
+      "parentUuid": "fa0ea5d3_d2a7757e",
+      "revId": "d0fcae07415254121d5d14158d46635bab6a1f20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
