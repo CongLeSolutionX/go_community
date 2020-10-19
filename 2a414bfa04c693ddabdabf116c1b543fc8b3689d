@@ -16,6 +16,23 @@
       "message": "Not sure why this is necessary.\nPEXTERN says \"this is a global variable\". I guess it could also mean \"this is an element of the set of global variables\". But either interpretation seems valid, so I see no point in churn here.\n",
       "revId": "2a414bfa04c693ddabdabf116c1b543fc8b3689d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc056bd_b7019d96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T21:36:34Z",
+      "side": 1,
+      "message": "Although now that I look at the surrounding code, we\u0027re not consistent with singular or plural.\nI guess plural is fine, at least then we\u0027re consistent.\n",
+      "revId": "2a414bfa04c693ddabdabf116c1b543fc8b3689d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
