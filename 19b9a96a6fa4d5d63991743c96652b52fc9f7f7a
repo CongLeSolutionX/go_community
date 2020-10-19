@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a9e0d4_ac0e1b65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-10-19T09:19:53Z",
+      "side": 1,
+      "message": "I just don\u0027t see what is the problem that you are trying to solve with this change. What does the program looks like that requires this CL?\n\nThe only file handles that can be inherited by the child process are passed via STARTUPINFO.hStdInput, hStdOutput and hStdError. What is so critical in these file handles that you don\u0027t want to pass them to the child? Can you put os.DevNull there? What am I missing?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "19b9a96a6fa4d5d63991743c96652b52fc9f7f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "eb4f5edf_babb0fbe",
