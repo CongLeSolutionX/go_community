@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a5a6ee5_b90950e4",
+        "filename": "src/testing/iotest/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 34507
+      },
+      "writtenOn": "2020-10-19T03:29:04Z",
+      "side": 1,
+      "message": "io.EOF should never be wrapped, so direct equality is correct; see CL 258524 and #40827.",
+      "parentUuid": "541c40ce_023c73a9",
+      "revId": "08fd4eb2706fa96cbce4cd11f1eb60f7ba7b865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "73c78402_55b96aa2",
         "filename": "src/testing/iotest/reader.go",
         "patchSetId": 6
