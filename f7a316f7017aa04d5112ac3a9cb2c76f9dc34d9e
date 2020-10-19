@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5da15f4c_8c3701b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "Looks promising.\n\nI think to really make this accurate, we need gentraceback/countframes to give us some indication about runtime vs. nonruntime frames, so we can start the second traceback at the right place.\n",
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e2a2e7a_d0694690",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "\u0026\u0026 callback \u003d\u003d nil",
+      "range": {
+        "startLine": 76,
+        "startChar": 64,
+        "endLine": 76,
+        "endChar": 65
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ad05745_34b69673",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "Now also valid for pcbuf \u003d\u003d nil ?",
+      "range": {
+        "startLine": 81,
+        "startChar": 7,
+        "endLine": 81,
+        "endChar": 52
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfebc6b7_007c7fbc",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "This part is ancient history, could probably remove it.",
+      "range": {
+        "startLine": 83,
+        "startChar": 46,
+        "endLine": 85,
+        "endChar": 64
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfd65ddc_839b0b19",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "Maybe we need to condition this decrement on flags\u0026_TraceRuntimeFrames? See below.",
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b60331fa_9cc6c2cf",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "Why do we need these 3 args? Can\u0027t we just hardcode them to nil/0 at their uses below?",
+      "range": {
+        "startLine": 742,
+        "startChar": 47,
+        "endLine": 742,
+        "endChar": 126
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43a809a0_2dab32b2",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "We should probably save the result here, compare to nMaxFramesPerPrint, and don\u0027t return below if it is \u003d\u003d nMaxFramesPerPrint.\n(To handle the case of 0 frames without runtime, but \u003enMaxFramesPerPrint with runtime.)\n\nI would probably just do\n    flags |\u003d _TraceRuntimeFrames\n    goto topoffunction\ninside the nTop\u003d\u003d0 \u0026\u0026 (flags\u0026_TraceRuntimeFrames)\u003d\u003d 0 condition.\nOr a recursive invocation.",
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d802ad1_73d830a4",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "This is a bit tricky. We\u0027d like to print the last 50 non-runtime frames. Does countframes include runtime frames, or not? Maybe it should return a skip count that would get us the last 50 non-runtime frames exactly.\n\nNot sure what would be the right choice here. I think it is very rare to have lots of runtime frames at the top of stack, so maybe it doesn\u0027t matter much. Normally there\u0027s just runtime.goexit. Maybe runtime.main also. There is runtime.doInit which is recursive, so maybe there could be lots of runtime frames at TOS during initialization.",
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "163eb92d_4274d252",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "nTop should always be nMaxFramesPerPrint here, right? So this is elide :\u003d totalframes - _TracebackMaxFrames.",
+      "range": {
+        "startLine": 781,
+        "startChar": 28,
+        "endLine": 781,
+        "endChar": 32
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75ad5a94_0e3f3e50",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-19T22:11:49Z",
+      "side": 1,
+      "message": "Why +1? Is that runtime.goexit?",
+      "range": {
+        "startLine": 785,
+        "startChar": 45,
+        "endLine": 785,
+        "endChar": 47
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
