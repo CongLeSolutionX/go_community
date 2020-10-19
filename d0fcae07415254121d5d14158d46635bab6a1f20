@@ -16,6 +16,24 @@
       "message": "Jay, Ian, Rebecca - Is it worth adding this package in Go 1.16 so that once Go 1.17 comes out, tools that want to use the package to process //go:build lines don\u0027t need to be forced to upgrade to Go 1.17 themselves for their own builds? Thanks.\n",
       "revId": "d0fcae07415254121d5d14158d46635bab6a1f20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa0ea5d3_d2a7757e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-19T15:31:13Z",
+      "side": 1,
+      "message": "Rebecca and Ian can confirm, but I think go/packages and gopls only shell out to \u0027go list\u0027 to find which source files to load; I don\u0027t think they parse or evaluate constraints directly.\n\nMaybe this would be useful for other tools though, especially anything that needs to list all tags mentioned?",
+      "parentUuid": "de81a492_4b9ddf90",
+      "revId": "d0fcae07415254121d5d14158d46635bab6a1f20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
