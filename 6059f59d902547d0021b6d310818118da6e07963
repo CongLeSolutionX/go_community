@@ -16,6 +16,23 @@
       "message": "TRY\u003dnoopt",
       "revId": "6059f59d902547d0021b6d310818118da6e07963",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "178be27c_7fb500aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-19T12:56:39Z",
+      "side": 1,
+      "message": "TRY\u003dnoopt",
+      "revId": "6059f59d902547d0021b6d310818118da6e07963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
