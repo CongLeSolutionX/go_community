@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "608462c7_bba32fb3",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-19T18:34:21Z",
+      "side": 1,
+      "message": "Done. Keep this amd64 only and text one arm64 only, as we expect the object file\u0027s arch matches the target we\u0027re building.",
+      "parentUuid": "d1e4be62_5470b2b5",
+      "range": {
+        "startLine": 477,
+        "startChar": 32,
+        "endLine": 477,
+        "endChar": 45
+      },
+      "revId": "4e81f42bbe5e177e4734699e5ef66db0ab901206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1632d665_e349f15f",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9a54680_4b197643",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-19T18:34:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1632d665_e349f15f",
+      "range": {
+        "startLine": 481,
+        "startChar": 32,
+        "endLine": 481,
+        "endChar": 45
+      },
+      "revId": "4e81f42bbe5e177e4734699e5ef66db0ab901206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb55430c_e1327ab0",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-10-19T16:45:45Z",
       "side": 1,
       "message": "I\u0027m ok with doing this, but why does it matter?  Seems as though you should get the same effect either way.",
+      "range": {
+        "startLine": 640,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 67
+      },
+      "revId": "4e81f42bbe5e177e4734699e5ef66db0ab901206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6601e913_ba91644a",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-19T18:34:21Z",
+      "side": 1,
+      "message": "If we have an empty section with an 0-sized symbol in it, AddInteriorSym will panic. Apparently the ARM64 C compiler tends to make empty text section and an empty symbol (whereas on AMD64 it only makes an empty section with no symbol). On AMD64 it could also panic if we have a native assembly file like\n\n.text\nf:\n  // nothing more",
+      "parentUuid": "fb55430c_e1327ab0",
       "range": {
         "startLine": 640,
         "startChar": 0,
