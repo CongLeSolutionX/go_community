@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "788b0501_d9bda3bc",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:42:45Z",
+      "side": 1,
+      "message": "there is no package comment in this package",
+      "revId": "836409aaf94e384cf826e15c609d3e08e5840af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f3df3b_862354de",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:42:45Z",
+      "side": 1,
+      "message": "i did not understand this sentence. what does it mean to \"access read\"?\nand whose convenience is it? if it\u0027s the user\u0027s fine, but if it\u0027s the implementers, drop that phrase.\nbecause saying \"for covenience\" and following through with a list of caveats is contradictory.",
+      "revId": "836409aaf94e384cf826e15c609d3e08e5840af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e478f954_352a5f12",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:42:45Z",
+      "side": 1,
+      "message": "should you clean the name?\nyou should certainly validate.",
+      "revId": "836409aaf94e384cf826e15c609d3e08e5840af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "158934bf_f57703c6",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:42:45Z",
+      "side": 1,
+      "message": "what if f is nil? it\u0027s non-existent, not a directory.\nwhat if name is empty? that looks like a bug happens below.",
+      "revId": "836409aaf94e384cf826e15c609d3e08e5840af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d9df932_1220ba04",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:42:45Z",
+      "side": 1,
+      "message": "or directories?\n\nalso be clear it\u0027s not an error if it finds file not in the expect list.\n\nmaybe expect should be \"present\". \"expect\" might imply a perfect mapping.",
+      "revId": "836409aaf94e384cf826e15c609d3e08e5840af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c251d5d_cabc462b",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:42:45Z",
+      "side": 1,
+      "message": "you might test other things too, like clean names and valid names and no empty file names.",
+      "revId": "836409aaf94e384cf826e15c609d3e08e5840af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c8ed303_623c7614",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:42:45Z",
+      "side": 1,
+      "message": "use String methods for these.",
+      "revId": "836409aaf94e384cf826e15c609d3e08e5840af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
