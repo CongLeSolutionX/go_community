@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4230aabb_ce8403f4",
+        "filename": "src/os/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T01:29:25Z",
+      "side": 1,
+      "message": "DO",
+      "revId": "533e9abfe7e665699bf0570dca29ca2be89fb256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
