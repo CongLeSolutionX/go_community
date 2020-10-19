@@ -36,6 +36,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67e6c74_d7b0fca7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-19T19:10:03Z",
+      "side": 1,
+      "message": "Thanks for the review--",
+      "revId": "3bdfc2e80620636bc7b557efe3509c3f52b6f7df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7fa5ded_4f0cb0ba",
@@ -73,6 +90,30 @@
       "side": 1,
       "message": "Didn\u0027t realize we were avoiding camel case flags (linker has quite a few, e.g. flagFieldTrack, flagPluginPath, etc)",
       "parentUuid": "e7fa5ded_4f0cb0ba",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 47
+      },
+      "revId": "3bdfc2e80620636bc7b557efe3509c3f52b6f7df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0430fd_ff755f64",
+        "filename": "src/cmd/asm/internal/flags/flags.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-19T19:10:03Z",
+      "side": 1,
+      "message": "I\u0027m going to leave this as is, hope that is ok.",
+      "parentUuid": "0b9bb3d7_5c6410da",
       "range": {
         "startLine": 27,
         "startChar": 31,
