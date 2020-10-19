@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8361518b_dee67ada",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-10-19T03:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a59e104_1a0a6714",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 18
+      },
+      "revId": "1d6b7d5082f1b7d2ac1fa305861ce5c976059913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ab384f3_5fc2f357",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-10-19T02:16:27Z",
       "side": 1,
       "message": "xorBytesNEON ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 18
+      },
+      "revId": "1d6b7d5082f1b7d2ac1fa305861ce5c976059913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5befc10_04089195",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-10-19T03:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ab384f3_5fc2f357",
       "range": {
         "startLine": 29,
         "startChar": 5,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b34519d_0c73f755",
+        "filename": "src/crypto/cipher/xor_arm64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-10-19T03:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43a76b5_a27e59e6",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 18
+      },
+      "revId": "1d6b7d5082f1b7d2ac1fa305861ce5c976059913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a949f7d_ebdb53c8",
@@ -100,6 +172,30 @@
       "writtenOn": "2020-10-19T02:16:27Z",
       "side": 1,
       "message": "Curious if address alignment is helpful for performance",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "1d6b7d5082f1b7d2ac1fa305861ce5c976059913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2aff0a6_7d6b5544",
+        "filename": "src/crypto/cipher/xor_arm64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-10-19T03:42:20Z",
+      "side": 1,
+      "message": "The arm64 manual stated that unaligned access has \"no performance penalty\"",
+      "parentUuid": "9a949f7d_ebdb53c8",
       "range": {
         "startLine": 8,
         "startChar": 6,
