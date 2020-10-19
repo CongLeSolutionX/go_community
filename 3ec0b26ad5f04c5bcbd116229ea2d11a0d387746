@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f88a721_dbc2a08b",
+        "filename": "src/io/fs/stat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:24:38Z",
+      "side": 1,
+      "message": "why is this dotted? it makes the test harder to follow.",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e742147_bb2ab080",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:24:38Z",
+      "side": 1,
+      "message": "since they\u0027re returning strings, use %s not %v",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b53ab82_ad346713",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:24:38Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33f2076f_1d994661",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T00:24:38Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
