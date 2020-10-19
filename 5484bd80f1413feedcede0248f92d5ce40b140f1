@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e842a3b7_84dabb84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-10-19T22:05:30Z",
+      "side": 1,
+      "message": "Clarify that the other *named type* errors in this package use the same prefix, since that\u0027s what initially confused me :) I thought you simply meant the inline fmt.Errorf calls.",
+      "revId": "5484bd80f1413feedcede0248f92d5ce40b140f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
