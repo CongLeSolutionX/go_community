@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7f655fc_2b7c0280",
+        "filename": "src/net/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-10-19T20:17:03Z",
+      "side": 1,
+      "message": "I think the network should be \"unix\" rather than \"tcp\".",
+      "revId": "a5bca430ba7aa926c2889fdb53b17070979394a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
