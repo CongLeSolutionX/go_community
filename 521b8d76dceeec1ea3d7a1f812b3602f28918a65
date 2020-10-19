@@ -16,6 +16,24 @@
       "message": "perhaps be more specific?\n\ncmd/compile: avoid panic on type loops including builtin types",
       "revId": "521b8d76dceeec1ea3d7a1f812b3602f28918a65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66ac9456_c4379a6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-19T21:30:34Z",
+      "side": 1,
+      "message": "Tweaked somewhat. (Technically the builtin types aren\u0027t part of the type loop though.)",
+      "parentUuid": "36182efe_db26069f",
+      "revId": "521b8d76dceeec1ea3d7a1f812b3602f28918a65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
