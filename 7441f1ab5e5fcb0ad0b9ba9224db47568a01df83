@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7cef441_4b9a40e6",
+        "filename": "src/net/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-19T01:35:49Z",
+      "side": 1,
+      "message": "The code looks fine but I\u0027m not sure this comment is quite right.  How about something along the lines of:\n\nDialUnix does not take a context.Context parameter.  This example shows how to dial a Unix socket with a Context.  Note that the Context only applies while making the connection; it does not apply to the connection once it has been established.",
+      "revId": "7441f1ab5e5fcb0ad0b9ba9224db47568a01df83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
