@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b57f01c_a9f262b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-19T17:54:45Z",
+      "side": 1,
+      "message": "TRY\u003dwindows-amd64-longtest",
+      "revId": "0002eaaa9f4ee557b4e9e18e99a1a6923b8143f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b19565_eb926865",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-19T17:54:45Z",
+      "side": 1,
+      "message": "(nit) Place this import with the other `cmd` imports.",
+      "revId": "0002eaaa9f4ee557b4e9e18e99a1a6923b8143f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab54d4bd_2aa395f7",
+        "filename": "src/cmd/go/testdata/script/build_overlay.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-19T17:54:45Z",
+      "side": 1,
+      "message": "filepath.FromSlash? (See CL 263145.)",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 20
+      },
+      "revId": "0002eaaa9f4ee557b4e9e18e99a1a6923b8143f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
