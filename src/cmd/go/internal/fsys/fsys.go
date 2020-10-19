@@ -133,6 +133,9 @@ func initFromJSON(overlayJSON OverlayJSON) error {
 
 		// Create node for overlaid file.
 		dir, base := filepath.Dir(from), filepath.Base(from)
+		if !strings.HasSuffix(base, ".go") && !strings.HasSuffix(base, ".s") && base != "go.mod" {
+			return fmt.Errorf("invalid overlay for file %q: only .go, .s, or go.mod files can be overlaid", from)
+		}
 		if n, ok := overlay[from]; ok {
 			// All 'from' paths in the overlay are file paths. Since the from paths
 			// are in a map, they are unique, so if the node already exists we added

@@ -56,33 +56,76 @@ func initOverlay(t *testing.T, config string) {
 		t.Fatal(fmt.Errorf("parsing overlay JSON: %v", err))
 	}
 
-	initFromJSON(overlayJSON)
+	if err := initFromJSON(overlayJSON); err != nil {
+		t.Fatal(err)
+	}
+}
+
+// Check that only .go or .mod files are allowed in the Replace section of the overlay JSON.
+
+func TestRejectNonGo(t *testing.T) {
+	testCases := []struct {
+		name          string
+		overlayConfig string
+		wantErr       string
+	}{
+		{"empty", `{"Replace": {}}`, ""},
+		{"go_and_mod", `{"Replace": {"foo.go": "bar", "go.mod": "baz", "bar.s": "abc"}}`, ""},
+		{"other_mod", `{"Replace": {"goo.mod": "baz"}}`, "invalid overlay for file \"goo.mod\": only .go or go.mod files can be overlaid"},
+		{"c", `{"Replace": {"foo.c": "baz"}}`, "invalid overlay for file \"foo.c\": only .go or go.mod files can be overlaid"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			var overlayJSON OverlayJSON
+
+			if err := json.Unmarshal([]byte(tc.overlayConfig), &overlayJSON); err != nil {
+				t.Fatal(fmt.Errorf("parsing overlay JSON: %v", err))
+			}
+
+			err := initFromJSON(overlayJSON)
+			if tc.wantErr == "" {
+				if err != nil {
+					t.Fatalf("initFromJSON error: got %q, want nil", err)
+				}
+				return
+			}
+
+			if err == nil {
+				t.Fatalf("initFromJSON error: got nil, want %q", tc.wantErr)
+			}
+
+			if err.Error() != tc.wantErr {
+				t.Fatalf("initFromJSON error: got %q, want %q", err, tc.wantErr)
+			}
+		})
+	}
 }
 
 func TestIsDir(t *testing.T) {
 	initOverlay(t, `
 {
 	"Replace": {
-		"subdir2/file2.txt":  "overlayfiles/subdir2_file2.txt",
-		"subdir4":            "overlayfiles/subdir4",
-		"subdir3/file3b.txt": "overlayfiles/subdir3_file3b.txt",
-		"subdir5":            "",
-		"subdir6":            ""
+		"subdir2/file2.go":  "overlayfiles/subdir2_file2.go",
+		"subdir4.go":            "overlayfiles/subdir4",
+		"subdir3/file3b.go": "overlayfiles/subdir3_file3b.go",
+		"subdir5.go":            "",
+		"subdir6.go":            ""
 	}
 }
--- subdir1/file1.txt --
+-- subdir1/file1.go --
 
--- subdir3/file3a.txt --
+-- subdir3/file3a.go --
 33
--- subdir4/file4.txt --
+-- subdir4.go/file4.go --
 444
--- overlayfiles/subdir2_file2.txt --
+-- overlayfiles/subdir2_file2.go --
 2
--- overlayfiles/subdir3_file3b.txt --
+-- overlayfiles/subdir3_file3b.go --
 66666
 -- overlayfiles/subdir4 --
 x
--- subdir6/file6.txt --
+-- subdir6.go/file6.go --
 six
 `)
 
@@ -98,40 +141,40 @@ six
 		{filepath.Join(cwd, "subdir1"), true, false},
 		{"subdir1", true, false},
 		{"subdir1" + string(filepath.Separator), true, false},
-		{"subdir1/file1.txt", false, false},
-		{"subdir1/doesntexist.txt", false, true},
+		{"subdir1/file1.go", false, false},
+		{"subdir1/doesntexist.go", false, true},
 		{"doesntexist", false, true},
 		// subdir2 is only in overlay
 		{filepath.Join(cwd, "subdir2"), true, false},
 		{"subdir2", true, false},
 		{"subdir2" + string(filepath.Separator), true, false},
-		{"subdir2/file2.txt", false, false},
-		{"subdir2/doesntexist.txt", false, true},
+		{"subdir2/file2.go", false, false},
+		{"subdir2/doesntexist.go", false, true},
 		// subdir3 has files on disk and in overlay
 		{filepath.Join(cwd, "subdir3"), true, false},
 		{"subdir3", true, false},
 		{"subdir3" + string(filepath.Separator), true, false},
-		{"subdir3/file3a.txt", false, false},
-		{"subdir3/file3b.txt", false, false},
-		{"subdir3/doesntexist.txt", false, true},
-		// subdir4 is overlaid with a file
-		{filepath.Join(cwd, "subdir4"), false, false},
-		{"subdir4", false, false},
-		{"subdir4" + string(filepath.Separator), false, false},
-		{"subdir4/file4.txt", false, false},
-		{"subdir4/doesntexist.txt", false, false},
-		// subdir5 doesn't exist, and is overlaid with a "delete" entry
-		{filepath.Join(cwd, "subdir5"), false, false},
-		{"subdir5", false, false},
-		{"subdir5" + string(filepath.Separator), false, false},
-		{"subdir5/file5.txt", false, false},
-		{"subdir5/doesntexist.txt", false, false},
-		// subdir6 does exist, and is overlaid with a "delete" entry
-		{filepath.Join(cwd, "subdir6"), false, false},
-		{"subdir6", false, false},
-		{"subdir6" + string(filepath.Separator), false, false},
-		{"subdir6/file6.txt", false, false},
-		{"subdir6/doesntexist.txt", false, false},
+		{"subdir3/file3a.go", false, false},
+		{"subdir3/file3b.go", false, false},
+		{"subdir3/doesntexist.go", false, true},
+		// subdir4.go is overlaid with a file
+		{filepath.Join(cwd, "subdir4.go"), false, false},
+		{"subdir4.go", false, false},
+		{"subdir4.go" + string(filepath.Separator), false, false},
+		{"subdir4.go/file4.go", false, false},
+		{"subdir4.go/doesntexist.go", false, false},
+		// subdir5.go doesn't exist, and is overlaid with a "delete" entry
+		{filepath.Join(cwd, "subdir5.go"), false, false},
+		{"subdir5.go", false, false},
+		{"subdir5.go" + string(filepath.Separator), false, false},
+		{"subdir5.go/file5.go", false, false},
+		{"subdir5.go/doesntexist.go", false, false},
+		// subdir6.go does exist, and is overlaid with a "delete" entry
+		{filepath.Join(cwd, "subdir6.go"), false, false},
+		{"subdir6.go", false, false},
+		{"subdir6.go" + string(filepath.Separator), false, false},
+		{"subdir6.go/file6.go", false, false},
+		{"subdir6.go/doesntexist.go", false, false},
 	}
 
 	for _, tc := range testCases {
@@ -155,58 +198,58 @@ func TestReadDir(t *testing.T) {
 	initOverlay(t, `
 {
 	"Replace": {
-		"subdir2/file2.txt":                 "overlayfiles/subdir2_file2.txt",
-		"subdir4":                           "overlayfiles/subdir4",
-		"subdir3/file3b.txt":                "overlayfiles/subdir3_file3b.txt",
-		"subdir5":                           "",
-		"subdir6/asubsubdir/afile.txt":      "overlayfiles/subdir6_asubsubdir_afile.txt",
-		"subdir6/asubsubdir/zfile.txt":      "overlayfiles/subdir6_asubsubdir_zfile.txt",
-		"subdir6/zsubsubdir/file.txt":       "overlayfiles/subdir6_zsubsubdir_file.txt",
-		"subdir7/asubsubdir/file.txt":       "overlayfiles/subdir7_asubsubdir_file.txt",
-		"subdir7/zsubsubdir/file.txt":       "overlayfiles/subdir7_zsubsubdir_file.txt",
-		"subdir8/doesntexist":               "this_file_doesnt_exist_anywhere",
-		"other/pointstodir":                 "overlayfiles/this_is_a_directory",
-		"parentoverwritten/subdir1":         "overlayfiles/parentoverwritten_subdir1",
-		"subdir9/this_file_is_overlaid.txt": "overlayfiles/subdir9_this_file_is_overlaid.txt",
-		"subdir10/only_deleted_file.txt":    "",
-		"subdir11/deleted.txt":              "",
-		"subdir11":                          "overlayfiles/subdir11",
-		"textfile.txt/file.go":              "overlayfiles/textfile_txt_file.go"
+		"subdir2/file2.go":                 "overlayfiles/subdir2_file2.go",
+		"subdir4.go":                           "overlayfiles/subdir4.go",
+		"subdir3/file3b.go":                "overlayfiles/subdir3_file3b.go",
+		"subdir5.go":                           "",
+		"subdir6/asubsubdir/afile.go":      "overlayfiles/subdir6_asubsubdir_afile.go",
+		"subdir6/asubsubdir/zfile.go":      "overlayfiles/subdir6_asubsubdir_zfile.go",
+		"subdir6/zsubsubdir/file.go":       "overlayfiles/subdir6_zsubsubdir_file.go",
+		"subdir7/asubsubdir/file.go":       "overlayfiles/subdir7_asubsubdir_file.go",
+		"subdir7/zsubsubdir/file.go":       "overlayfiles/subdir7_zsubsubdir_file.go",
+		"subdir8/doesntexist.go":               "this_file_doesnt_exist_anywhere",
+		"other/pointstodir.go":                 "overlayfiles/this_is_a_directory",
+		"parentoverwritten/subdir1.go":         "overlayfiles/parentoverwritten_subdir1",
+		"subdir9/this_file_is_overlaid.go": "overlayfiles/subdir9_this_file_is_overlaid.go",
+		"subdir10/only_deleted_file.go":    "",
+		"subdir11.go/deleted.go":              "",
+		"subdir11.go":                          "overlayfiles/subdir11",
+		"textfile.go/file.go":              "overlayfiles/textfile_txt_file.go"
 	}
 }
--- subdir1/file1.txt --
+-- subdir1/file1.go --
 
--- subdir3/file3a.txt --
+-- subdir3/file3a.go --
 33
--- subdir4/file4.txt --
+-- subdir4.go/file4.go --
 444
--- subdir6/file.txt --
--- subdir6/asubsubdir/file.txt --
--- subdir6/anothersubsubdir/file.txt --
--- subdir9/this_file_is_overlaid.txt --
--- subdir10/only_deleted_file.txt --
+-- subdir6/file.go --
+-- subdir6/asubsubdir/file.go --
+-- subdir6/anothersubsubdir/file.go --
+-- subdir9/this_file_is_overlaid.go --
+-- subdir10/only_deleted_file.go --
 this will be deleted in overlay
--- subdir11/deleted.txt --
--- parentoverwritten/subdir1/subdir2/subdir3/file.txt --
--- textfile.txt --
-this will be overridden by textfile.txt/file.go
--- overlayfiles/subdir2_file2.txt --
+-- subdir11.go/deleted.go --
+-- parentoverwritten/subdir1.go/subdir2/subdir3/file.go --
+-- textfile.go --
+this will be overridden by textfile.go/file.go
+-- overlayfiles/subdir2_file2.go --
 2
--- overlayfiles/subdir3_file3b.txt --
+-- overlayfiles/subdir3_file3b.go --
 66666
--- overlayfiles/subdir4 --
+-- overlayfiles/subdir4.go --
 x
--- overlayfiles/subdir6_asubsubdir_afile.txt --
--- overlayfiles/subdir6_asubsubdir_zfile.txt --
--- overlayfiles/subdir6_zsubsubdir_file.txt --
--- overlayfiles/subdir7_asubsubdir_file.txt --
--- overlayfiles/subdir7_zsubsubdir_file.txt --
+-- overlayfiles/subdir6_asubsubdir_afile.go --
+-- overlayfiles/subdir6_asubsubdir_zfile.go --
+-- overlayfiles/subdir6_zsubsubdir_file.go --
+-- overlayfiles/subdir7_asubsubdir_file.go --
+-- overlayfiles/subdir7_zsubsubdir_file.go --
 -- overlayfiles/parentoverwritten_subdir1 --
 x
--- overlayfiles/subdir9_this_file_is_overlaid.txt --
+-- overlayfiles/subdir9_this_file_is_overlaid.go --
 99999999
--- overlayfiles/subdir11 --
--- overlayfiles/this_is_a_directory/file.txt --
+-- overlayfiles/subdir11.go --
+-- overlayfiles/this_is_a_directory/file.go --
 -- overlayfiles/textfile_txt_file.go --
 x
 `)
@@ -222,34 +265,34 @@ x
 			{"parentoverwritten", 0, true},
 			{"subdir1", 0, true},
 			{"subdir10", 0, true},
-			{"subdir11", 0, false},
+			{"subdir11.go", 0, false},
 			{"subdir2", 0, true},
 			{"subdir3", 0, true},
-			{"subdir4", 2, false},
-			// no subdir5.
+			{"subdir4.go", 2, false},
+			// no subdir5.go
 			{"subdir6", 0, true},
 			{"subdir7", 0, true},
 			{"subdir8", 0, true},
 			{"subdir9", 0, true},
-			{"textfile.txt", 0, true},
+			{"textfile.go", 0, true},
 		},
-		"subdir1": {{"file1.txt", 1, false}},
-		"subdir2": {{"file2.txt", 2, false}},
-		"subdir3": {{"file3a.txt", 3, false}, {"file3b.txt", 6, false}},
+		"subdir1": {{"file1.go", 1, false}},
+		"subdir2": {{"file2.go", 2, false}},
+		"subdir3": {{"file3a.go", 3, false}, {"file3b.go", 6, false}},
 		"subdir6": {
 			{"anothersubsubdir", 0, true},
 			{"asubsubdir", 0, true},
-			{"file.txt", 0, false},
+			{"file.go", 0, false},
 			{"zsubsubdir", 0, true},
 		},
-		"subdir6/asubsubdir": {{"afile.txt", 0, false}, {"file.txt", 0, false}, {"zfile.txt", 0, false}},
-		"subdir8":            {{"doesntexist", 0, false}}, // entry is returned even if destination file doesn't exist
+		"subdir6/asubsubdir": {{"afile.go", 0, false}, {"file.go", 0, false}, {"zfile.go", 0, false}},
+		"subdir8":            {{"doesntexist.go", 0, false}}, // entry is returned even if destination file doesn't exist
 		// check that read dir actually redirects files that already exist
-		// the original this_file_is_overlaid.txt is empty
-		"subdir9":           {{"this_file_is_overlaid.txt", 9, false}},
+		// the original this_file_is_overlaid.go is empty
+		"subdir9":           {{"this_file_is_overlaid.go", 9, false}},
 		"subdir10":          {},
-		"parentoverwritten": {{"subdir1", 2, false}},
-		"textfile.txt":      {{"file.go", 2, false}},
+		"parentoverwritten": {{"subdir1.go", 2, false}},
+		"textfile.go":       {{"file.go", 2, false}},
 	}
 
 	for dir, want := range testCases {
@@ -278,10 +321,10 @@ x
 	}
 
 	errCases := []string{
-		"subdir1/file1.txt", // regular file on disk
-		"subdir2/file2.txt", // regular file in overlay
-		"subdir4",           // directory overlaid with regular file
-		"subdir5",           // directory deleted in overlay
+		"subdir1/file1.go", // regular file on disk
+		"subdir2/file2.go", // regular file in overlay
+		"subdir4",          // directory overlaid with regular file
+		"subdir5",          // directory deleted in overlay
 		"parentoverwritten/subdir1/subdir2/subdir3", // parentoverwritten/subdir1 overlaid with regular file
 		"parentoverwritten/subdir1/subdir2",         // parentoverwritten/subdir1 overlaid with regular file
 		"subdir11",                                  // directory with deleted child, overlaid with regular file
@@ -302,23 +345,23 @@ func TestOverlayPath(t *testing.T) {
 	initOverlay(t, `
 {
 	"Replace": {
-		"subdir2/file2.txt":                 "overlayfiles/subdir2_file2.txt",
-		"subdir3/doesntexist":               "this_file_doesnt_exist_anywhere",
-		"subdir4/this_file_is_overlaid.txt": "overlayfiles/subdir4_this_file_is_overlaid.txt",
-		"subdir5/deleted.txt":               "",
-		"parentoverwritten/subdir1":         ""
+		"subdir2/file2.go":                 "overlayfiles/subdir2_file2.go",
+		"subdir3/doesntexist.go":               "this_file_doesnt_exist_anywhere",
+		"subdir4/this_file_is_overlaid.go": "overlayfiles/subdir4_this_file_is_overlaid.go",
+		"subdir5/deleted.go":               "",
+		"parentoverwritten/subdir1.go":         ""
 	}
 }
--- subdir1/file1.txt --
+-- subdir1/file1.go --
 file 1
--- subdir4/this_file_is_overlaid.txt --
+-- subdir4/this_file_is_overlaid.go --
 these contents are replaced by the overlay
--- parentoverwritten/subdir1/subdir2/subdir3/file.txt --
--- subdir5/deleted.txt --
+-- parentoverwritten/subdir1/subdir2/subdir3/file.go --
+-- subdir5/deleted.go --
 deleted
--- overlayfiles/subdir2_file2.txt --
+-- overlayfiles/subdir2_file2.go --
 file 2
--- overlayfiles/subdir4_this_file_is_overlaid.txt --
+-- overlayfiles/subdir4_this_file_is_overlaid.go --
 99999999
 `)
 
@@ -327,17 +370,17 @@ file 2
 		wantPath string
 		wantOK   bool
 	}{
-		{"subdir1/file1.txt", "subdir1/file1.txt", false},
+		{"subdir1.go/file1.go", "subdir1.go/file1.go", false},
 		// OverlayPath returns false for directories
 		{"subdir2", "subdir2", false},
-		{"subdir2/file2.txt", filepath.Join(cwd, "overlayfiles/subdir2_file2.txt"), true},
+		{"subdir2/file2.go", filepath.Join(cwd, "overlayfiles/subdir2_file2.go"), true},
 		// OverlayPath doesn't stat a file to see if it exists, so it happily returns
 		// the 'to' path and true even if the 'to' path doesn't exist on disk.
-		{"subdir3/doesntexist", filepath.Join(cwd, "this_file_doesnt_exist_anywhere"), true},
-		// Like the subdir2/file2.txt case above, but subdir4 exists on disk, but subdir2 does not.
-		{"subdir4/this_file_is_overlaid.txt", filepath.Join(cwd, "overlayfiles/subdir4_this_file_is_overlaid.txt"), true},
+		{"subdir3/doesntexist.go", filepath.Join(cwd, "this_file_doesnt_exist_anywhere"), true},
+		// Like the subdir2/file2.go case above, but subdir4 exists on disk, but subdir2 does not.
+		{"subdir4/this_file_is_overlaid.go", filepath.Join(cwd, "overlayfiles/subdir4_this_file_is_overlaid.go"), true},
 		{"subdir5", "subdir5", false},
-		{"subdir5/deleted.txt", "", true},
+		{"subdir5/deleted.go", "", true},
 	}
 
 	for _, tc := range testCases {
@@ -353,39 +396,39 @@ func TestOpen(t *testing.T) {
 	initOverlay(t, `
 {
     "Replace": {
-		"subdir2/file2.txt":                  "overlayfiles/subdir2_file2.txt",
-		"subdir3/doesntexist":                "this_file_doesnt_exist_anywhere",
-		"subdir4/this_file_is_overlaid.txt":  "overlayfiles/subdir4_this_file_is_overlaid.txt",
-		"subdir5/deleted.txt":                "",
-		"parentoverwritten/subdir1":          "",
-		"childoverlay/subdir1.txt/child.txt": "overlayfiles/child.txt",
-		"subdir11/deleted.txt":               "",
-		"subdir11":                           "overlayfiles/subdir11",
-		"parentdeleted":                      "",
-		"parentdeleted/file.txt":             "overlayfiles/parentdeleted_file.txt"
+		"subdir2/file2.go":                  "overlayfiles/subdir2_file2.go",
+		"subdir3/doesntexist.go":                "this_file_doesnt_exist_anywhere",
+		"subdir4/this_file_is_overlaid.go":  "overlayfiles/subdir4_this_file_is_overlaid.go",
+		"subdir5/deleted.go":                "",
+		"parentoverwritten/subdir1.go":          "",
+		"childoverlay/subdir1.go/child.go": "overlayfiles/child.go",
+		"subdir11/deleted.go":               "",
+		"subdir11.go":                           "overlayfiles/subdir11",
+		"parentdeleted.go":                      "",
+		"parentdeleted/file.go":             "overlayfiles/parentdeleted_file.go"
 	}
 }
--- subdir11/deleted.txt --
--- subdir1/file1.txt --
+-- subdir11.go/deleted.go --
+-- subdir1.go/file1.go --
 file 1
--- subdir4/this_file_is_overlaid.txt --
+-- subdir4/this_file_is_overlaid.go --
 these contents are replaced by the overlay
--- parentoverwritten/subdir1/subdir2/subdir3/file.txt --
--- childoverlay/subdir1.txt --
+-- parentoverwritten/subdir1/subdir2/subdir3/file.go --
+-- childoverlay/subdir1.go --
 this file doesn't exist because the path
-childoverlay/subdir1.txt/child.txt is in the overlay
--- subdir5/deleted.txt --
+childoverlay/subdir1.go/child.go is in the overlay
+-- subdir5/deleted.go --
 deleted
--- parentdeleted --
-this will be deleted so that parentdeleted/file.txt can exist
--- overlayfiles/subdir2_file2.txt --
+-- parentdeleted.go --
+this will be deleted so that parentdeleted/file.go can exist
+-- overlayfiles/subdir2_file2.go --
 file 2
--- overlayfiles/subdir4_this_file_is_overlaid.txt --
+-- overlayfiles/subdir4_this_file_is_overlaid.go --
 99999999
--- overlayfiles/child.txt --
+-- overlayfiles/child.go --
 -- overlayfiles/subdir11 --
 11
--- overlayfiles/parentdeleted_file.txt --
+-- overlayfiles/parentdeleted_file.go --
 this can exist because the parent directory is deleted
 `)
 
@@ -394,15 +437,15 @@ this can exist because the parent directory is deleted
 		wantContents string
 		isErr        bool
 	}{
-		{"subdir1/file1.txt", "file 1\n", false},
-		{"subdir2/file2.txt", "file 2\n", false},
-		{"subdir3/doesntexist", "", true},
-		{"subdir4/this_file_is_overlaid.txt", "99999999\n", false},
-		{"subdir5/deleted.txt", "", true},
-		{"parentoverwritten/subdir1/subdir2/subdir3/file.txt", "", true},
-		{"childoverlay/subdir1.txt", "", true},
-		{"subdir11", "11\n", false},
-		{"parentdeleted/file.txt", "this can exist because the parent directory is deleted\n", false},
+		{"subdir1.go/file1.go", "file 1\n", false},
+		{"subdir2/file2.go", "file 2\n", false},
+		{"subdir3/doesntexist.go", "", true},
+		{"subdir4/this_file_is_overlaid.go", "99999999\n", false},
+		{"subdir5/deleted.go", "", true},
+		{"parentoverwritten/subdir1.go/subdir2/subdir3/file.go", "", true},
+		{"childoverlay/subdir1.go", "", true},
+		{"subdir11.go", "11\n", false},
+		{"parentdeleted/file.go", "this can exist because the parent directory is deleted\n", false},
 	}
 
 	for _, tc := range testCases {
@@ -435,22 +478,22 @@ func TestIsDirWithGoFiles(t *testing.T) {
 {
 	"Replace": {
 		"goinoverlay/file.go":       "dummy",
-		"directory/removed/by/file": "dummy",
-		"directory_with_go_dir/dir.go/file.txt": "dummy",
+		"directory/removed/by/file.go": "dummy",
+		"directory_with_go_dir/dir.go/file.go": "dummy",
 		"otherdirectory/deleted.go": "",
 		"nonexistentdirectory/deleted.go": "",
-		"textfile.txt/file.go": "dummy"
+		"textfile.go/file.go": "dummy"
 	}
 }
 -- dummy --
 a destination file for the overlay entries to point to
 contents don't matter for this test
--- nogo/file.txt --
+-- nogo/file.mod --
 -- goondisk/file.go --
--- goinoverlay/file.txt --
--- directory/removed/by/file/in/overlay/file.go --
+-- goinoverlay/file.go --
+-- directory/removed/by/file.go/in/overlay/file.go --
 -- otherdirectory/deleted.go --
--- textfile.txt --
+-- textfile.go --
 `)
 
 	testCases := []struct {
@@ -461,11 +504,11 @@ contents don't matter for this test
 		{"nogo", false, false},
 		{"goondisk", true, false},
 		{"goinoverlay", true, false},
-		{"directory/removed/by/file/in/overlay", false, false},
+		{"directory/removed/by/file.go/in/overlay", false, false},
 		{"directory_with_go_dir", false, false},
 		{"otherdirectory", false, false},
 		{"nonexistentdirectory", false, false},
-		{"textfile.txt", true, false},
+		{"textfile.go", true, false},
 	}
 
 	for _, tc := range testCases {
@@ -501,63 +544,62 @@ func TestWalk(t *testing.T) {
 	}{
 		{"no overlay", `
 {}
--- file.txt --
+-- file.go --
 `,
 			".",
 			[]file{
 				{".", ".", 0, fs.ModeDir | 0700, true},
-				{"file.txt", "file.txt", 0, 0600, false},
+				{"file.go", "file.go", 0, 0600, false},
 			},
 		},
 		{"overlay with different file", `
 {
 	"Replace": {
-		"file.txt": "other.txt"
+		"file.go": "other.go"
 	}
 }
--- file.txt --
--- other.txt --
+-- file.go --
+-- other.go --
 contents of other file
 `,
 			".",
 			[]file{
-				{".", "root", 0, fs.ModeDir | 0500, true},
 				{".", ".", 0, fs.ModeDir | 0500, true},
-				{"file.txt", "file.txt", 23, 0600, false},
-				{"other.txt", "other.txt", 23, 0600, false},
+				{"file.go", "file.go", 23, 0600, false},
+				{"other.go", "other.go", 23, 0600, false},
 			},
 		},
 		{"overlay with new file", `
 {
 	"Replace": {
-		"file.txt": "other.txt"
+		"file.go": "other.go"
 	}
 }
--- other.txt --
+-- other.go --
 contents of other file
 `,
 			".",
 			[]file{
 				{".", ".", 0, fs.ModeDir | 0500, true},
-				{"file.txt", "file.txt", 23, 0600, false},
-				{"other.txt", "other.txt", 23, 0600, false},
+				{"file.go", "file.go", 23, 0600, false},
+				{"other.go", "other.go", 23, 0600, false},
 			},
 		},
 		{"overlay with new directory", `
 {
 	"Replace": {
-		"dir/file.txt": "other.txt"
+		"dir/file.go": "other.go"
 	}
 }
--- other.txt --
+-- other.go --
 contents of other file
 `,
 			".",
 			[]file{
 				{".", ".", 0, fs.ModeDir | 0500, true},
 				{"dir", "dir", 0, fs.ModeDir | 0500, true},
-				{"dir" + string(filepath.Separator) + "file.txt", "file.txt", 23, 0600, false},
-				{"other.txt", "other.txt", 23, 0600, false},
+				{"dir" + string(filepath.Separator) + "file.go", "file.go", 23, 0600, false},
+				{"other.go", "other.go", 23, 0600, false},
 			},
 		},
 	}
@@ -603,12 +645,12 @@ func TestWalk_SkipDir(t *testing.T) {
 	initOverlay(t, `
 {
 	"Replace": {
-		"skipthisdir/file.go": "dummy.txt",
-		"dontskip/file.go": "dummy.txt",
-		"dontskip/skip/file.go": "dummy.txt"
+		"skipthisdir/file.go": "dummy.go",
+		"dontskip/file.go": "dummy.go",
+		"dontskip/skip/file.go": "dummy.go"
 	}
 }
--- dummy.txt --
+-- dummy.go --
 `)
 
 	var seen []string
@@ -620,7 +662,7 @@ func TestWalk_SkipDir(t *testing.T) {
 		return nil
 	})
 
-	wantSeen := []string{".", "dontskip", filepath.Join("dontskip", "file.go"), filepath.Join("dontskip", "skip"), "dummy.txt", "skipthisdir"}
+	wantSeen := []string{".", "dontskip", filepath.Join("dontskip", "file.go"), filepath.Join("dontskip", "skip"), "dummy.go", "skipthisdir"}
 
 	if len(seen) != len(wantSeen) {
 		t.Errorf("paths seen in walk: got %v entries; want %v entries", len(seen), len(wantSeen))
@@ -660,7 +702,7 @@ func TestWalk_Symlink(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
 	initOverlay(t, `{
-	"Replace": {"overlay_symlink": "symlink"}
+	"Replace": {"overlay_symlink.go": "symlink"}
 }
 -- dir/file --`)
 
@@ -678,7 +720,7 @@ func TestWalk_Symlink(t *testing.T) {
 		// ensure Walk doesn't wolk into the directory pointed to by the symlink
 		// (because it's supposed to use Lstat instead of Stat.
 		{"symlink_to_dir", "symlink", []string{"symlink"}},
-		{"overlay_to_symlink_to_dir", "overlay_symlink", []string{"overlay_symlink"}},
+		{"overlay_to_symlink_to_dir", "overlay_symlink.go", []string{"overlay_symlink.go"}},
 	}
 
 	for _, tc := range testCases {
@@ -723,54 +765,54 @@ func TestLstat(t *testing.T) {
 		{
 			"regular_file",
 			`{}
--- file.txt --
+-- file.go --
 contents`,
-			"file.txt",
-			file{"file.txt", 9, 0600, false},
+			"file.go",
+			file{"file.go", 9, 0600, false},
 			false,
 		},
 		{
 			"new_file_in_overlay",
-			`{"Replace": {"file.txt": "dummy.txt"}}
--- dummy.txt --
+			`{"Replace": {"file.go": "dummy.go"}}
+-- dummy.go --
 contents`,
-			"file.txt",
-			file{"file.txt", 9, 0600, false},
+			"file.go",
+			file{"file.go", 9, 0600, false},
 			false,
 		},
 		{
 			"file_replaced_in_overlay",
-			`{"Replace": {"file.txt": "dummy.txt"}}
--- file.txt --
--- dummy.txt --
+			`{"Replace": {"file.go": "dummy.go"}}
+-- file.go --
+-- dummy.go --
 contents`,
-			"file.txt",
-			file{"file.txt", 9, 0600, false},
+			"file.go",
+			file{"file.go", 9, 0600, false},
 			false,
 		},
 		{
 			"file_cant_exist",
-			`{"Replace": {"deleted": "dummy.txt"}}
--- deleted/file.txt --
--- dummy.txt --
+			`{"Replace": {"deleted.go": "dummy.go"}}
+-- deleted.go/file.go --
+-- dummy.go --
 `,
-			"deleted/file.txt",
+			"deleted.go/file.go",
 			file{},
 			true,
 		},
 		{
 			"deleted",
-			`{"Replace": {"deleted": ""}}
--- deleted --
+			`{"Replace": {"deleted.go": ""}}
+-- deleted.go --
 `,
-			"deleted",
+			"deleted.go",
 			file{},
 			true,
 		},
 		{
 			"dir_on_disk",
 			`{}
--- dir/foo.txt --
+-- dir/foo.go --
 `,
 			"dir",
 			file{"dir", 0, 0700 | fs.ModeDir, true},
@@ -778,8 +820,8 @@ contents`,
 		},
 		{
 			"dir_in_overlay",
-			`{"Replace": {"dir/file.txt": "dummy.txt"}}
--- dummy.txt --
+			`{"Replace": {"dir/file.go": "dummy.go"}}
+-- dummy.go --
 `,
 			"dir",
 			file{"dir", 0, 0500 | fs.ModeDir, true},
@@ -840,54 +882,54 @@ func TestStat(t *testing.T) {
 		{
 			"regular_file",
 			`{}
--- file.txt --
+-- file.go --
 contents`,
-			"file.txt",
-			file{"file.txt", 9, 0600, false},
+			"file.go",
+			file{"file.go", 9, 0600, false},
 			false,
 		},
 		{
 			"new_file_in_overlay",
-			`{"Replace": {"file.txt": "dummy.txt"}}
--- dummy.txt --
+			`{"Replace": {"file.go": "dummy.go"}}
+-- dummy.go --
 contents`,
-			"file.txt",
-			file{"file.txt", 9, 0600, false},
+			"file.go",
+			file{"file.go", 9, 0600, false},
 			false,
 		},
 		{
 			"file_replaced_in_overlay",
-			`{"Replace": {"file.txt": "dummy.txt"}}
--- file.txt --
--- dummy.txt --
+			`{"Replace": {"file.go": "dummy.go"}}
+-- file.go --
+-- dummy.go --
 contents`,
-			"file.txt",
-			file{"file.txt", 9, 0600, false},
+			"file.go",
+			file{"file.go", 9, 0600, false},
 			false,
 		},
 		{
 			"file_cant_exist",
-			`{"Replace": {"deleted": "dummy.txt"}}
--- deleted/file.txt --
--- dummy.txt --
+			`{"Replace": {"deleted.go": "dummy.go"}}
+-- deleted.go/file.go --
+-- dummy.go --
 `,
-			"deleted/file.txt",
+			"deleted/file.go",
 			file{},
 			true,
 		},
 		{
 			"deleted",
-			`{"Replace": {"deleted": ""}}
--- deleted --
+			`{"Replace": {"deleted.go": ""}}
+-- deleted.go --
 `,
-			"deleted",
+			"deleted.go",
 			file{},
 			true,
 		},
 		{
 			"dir_on_disk",
 			`{}
--- dir/foo.txt --
+-- dir/foo.go --
 `,
 			"dir",
 			file{"dir", 0, 0700 | os.ModeDir, true},
@@ -895,8 +937,8 @@ contents`,
 		},
 		{
 			"dir_in_overlay",
-			`{"Replace": {"dir/file.txt": "dummy.txt"}}
--- dummy.txt --
+			`{"Replace": {"dir/file.go": "dummy.go"}}
+-- dummy.go --
 `,
 			"dir",
 			file{"dir", 0, 0500 | os.ModeDir, true},

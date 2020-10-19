@@ -20,7 +20,10 @@ go list -overlay overlay.json -f '{{.GoFiles}}' ./dir3 # overlay removes that fi
 go list -overlay overlay.json ./...
 cmp stdout want-list.txt
 
-# TODO(#39958): assembly files, C files, files that require cgo preprocessing
+# Disallow non-.go or go.mod files from overlay
+! go list -overlay bad_overlay.json -f {{.Gofiles}} .
+stderr 'go: invalid overlay for file "'$WORK'[/\\]gopath[/\\]src[/\\]h.c": only .go or go.mod files can be overlaid'
+
 
 -- want-list.txt --
 m
@@ -49,6 +52,13 @@ package dir3
         "dir3/bad.go": ""
     }
 }
+-- bad_overlay.json --
+{
+    "Replace": {
+        "h.go": "overlay/h_go",
+        "h.c": "overlay/h_c"
+    }
+}
 -- overlay/f_go --
 package m
 
@@ -61,3 +71,16 @@ func g() {
 }
 -- overlay/dir2_i_go --
 package dir2
+-- overlay/h_go --
+package main
+
+// void say_hello();
+import "C"
+
+func main() {
+	C.say_hello()
+}
+-- overlay/h_c --
+#include <stdio.h>
+
+void say_hello() { puts("Hello, world!\n"); }
