@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "94ec62bb_da27a549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 44233
+      },
+      "writtenOn": "2020-10-19T17:17:01Z",
+      "side": 1,
+      "message": "I should add that this setting does not only influence those file handles, my understanding is that it influences whether or not the spawned processes are attached to the same conhost.exe or svchost.exe as the service process.",
+      "parentUuid": "e8cd9cd3_41bbea54",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "19b9a96a6fa4d5d63991743c96652b52fc9f7f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eb4f5edf_babb0fbe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
