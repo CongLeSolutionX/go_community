@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f739075_9203feba",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T02:05:03Z",
+      "side": 1,
+      "message": "there is no Match here.",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb81133_d4cc6f01",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T02:05:03Z",
+      "side": 1,
+      "message": "s/pattern/the pattern/ and reflow",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8ad80a4_4e6d00b2",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T02:05:03Z",
+      "side": 1,
+      "message": "matches, returning the updated slice.",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b526696b_e0266180",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2020-10-19T02:05:03Z",
+      "side": 1,
+      "message": "again, path.Match.",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
