@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23616f0e_c9288217",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-19T02:46:32Z",
+      "side": 1,
+      "message": "Thanks for the patience, the CL is now ready. I fixed the bug from https://github.com/golang/go/issues/24628 and got the tests passing too. Please take a look!",
+      "revId": "c0f83bc0e9af85797f4849f9abcebef6d1876960",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
