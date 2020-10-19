@@ -1022,6 +1022,24 @@ func (s *regAllocState) regalloc(f *Func) {
 					continue
 				}
 				m := s.compatRegs(v.Type) &^ phiUsed &^ s.used
+				// If one of the other inputs of v is in a register, and the register is available,
+				// select this register, which can save some unnecessary copies.
+				for i, pe := range b.Preds {
+					if int32(i) == idx {
+						continue
+					}
+					ri := noRegister
+					for _, er := range s.endRegs[pe.b.ID] {
+						if er.v == s.orig[v.Args[i].ID] {
+							ri = er.r
+							break
+						}
+					}
+					if ri != noRegister && m>>ri&1 != 0 {
+						m = regMask(1) << ri
+						break
+					}
+				}
 				if m != 0 {
 					r := pickReg(m)
 					phiRegs[i] = r
@@ -1119,7 +1137,17 @@ func (s *regAllocState) regalloc(f *Func) {
 				}
 				rp, ok := s.f.getHome(v.ID).(*Register)
 				if !ok {
-					continue
+					// If the inputs have allocated register information, add it to desired,
+					// which may reduce spill or copy operations when the register is available.
+					for _, a := range v.Args {
+						rp, ok = s.f.getHome(a.ID).(*Register)
+						if ok {
+							break
+						}
+					}
+					if !ok {
+						continue
+					}
 				}
 				desired.add(v.Args[pidx].ID, register(rp.num))
 			}
