@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a491baa_04f89ce2",
+        "filename": "src/cmd/compile/internal/syntax/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-19T23:24:30Z",
+      "side": 1,
+      "message": "nit: 2020?",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "3564abed121ce5073d8d031c67cbe9bee18feffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061fa52a_63bf62aa",
+        "filename": "src/cmd/compile/internal/syntax/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-19T23:24:30Z",
+      "side": 1,
+      "message": "Can you just assign directly to prev here, and get rid of curr and L62?\n\nI think we can probably get rid of L41 too (and leave prev zero-initialized if the first token is an ERROR comment), but I haven\u0027t thought too much about it.",
+      "revId": "3564abed121ce5073d8d031c67cbe9bee18feffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "662fde69_97166e64",
+        "filename": "src/cmd/compile/internal/syntax/testing_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-19T23:24:30Z",
+      "side": 1,
+      "message": "Maybe count how many errors we found total, and check that it matches strings.Count(src, \"ERROR\")?",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "3564abed121ce5073d8d031c67cbe9bee18feffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
