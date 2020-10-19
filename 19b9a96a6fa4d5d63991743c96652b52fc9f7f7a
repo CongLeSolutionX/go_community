@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e8cd9cd3_41bbea54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 44233
+      },
+      "writtenOn": "2020-10-19T17:13:17Z",
+      "side": 1,
+      "message": "Hi Alex,\n\nThank you for following up regarding this CL. I have a service running in session 0 that spawns a process another session.\n\nAs per the documentation here:\nhttps://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa\n\n\"Terminal Services:  You cannot inherit handles across sessions. Additionally, if this parameter is TRUE, you must create the process in the same session as the caller.\"",
+      "parentUuid": "53a9e0d4_ac0e1b65",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "19b9a96a6fa4d5d63991743c96652b52fc9f7f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eb4f5edf_babb0fbe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
