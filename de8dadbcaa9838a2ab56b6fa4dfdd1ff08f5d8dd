@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "200ad9ea_3e89a6b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-20T22:28:08Z",
+      "side": 1,
+      "message": "Keith:  not sure if this is the right way to fix this -- let me know if you were thinking of another way.  But definitely would be nice to fix the output for func types in AST dumps produced by -W option.\n",
+      "revId": "de8dadbcaa9838a2ab56b6fa4dfdd1ff08f5d8dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
