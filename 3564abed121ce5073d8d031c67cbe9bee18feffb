@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "974651e4_6f0c31bf",
+        "filename": "src/cmd/compile/internal/syntax/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-20T00:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a491baa_04f89ce2",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "3564abed121ce5073d8d031c67cbe9bee18feffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "061fa52a_63bf62aa",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc8a8f4b_0ce3cc75",
+        "filename": "src/cmd/compile/internal/syntax/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-20T00:05:20Z",
+      "side": 1,
+      "message": "Indeed. Done.\n\nI was debating whether to leave zero-initialized or not originally, but it does make sense to say that the position is (0, 0) (\u003d unknown) if there\u0027s no preceding token. So changed (incl. the test).",
+      "parentUuid": "061fa52a_63bf62aa",
+      "revId": "3564abed121ce5073d8d031c67cbe9bee18feffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "662fde69_97166e64",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-10-19T23:24:30Z",
       "side": 1,
       "message": "Maybe count how many errors we found total, and check that it matches strings.Count(src, \"ERROR\")?",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "3564abed121ce5073d8d031c67cbe9bee18feffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bce051f_e57e7427",
+        "filename": "src/cmd/compile/internal/syntax/testing_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-20T00:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "662fde69_97166e64",
       "range": {
         "startLine": 26,
         "startChar": 9,
