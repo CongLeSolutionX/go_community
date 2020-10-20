@@ -16,6 +16,24 @@
       "message": "don\u0027t time out this TODO. do it now.",
       "revId": "11e7a76ad8958d279f40782bdd077b5cc3fbc7e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "093dad61_7f54730c",
+        "filename": "src/io/fs/fs.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T01:03:32Z",
+      "side": 1,
+      "message": "Thanks for flagging this. I\u0027ve removed the TODO and will follow up with a better comment here as part of #41122. I think we need to work out exactly what we want to say about why timeout is a bad concept and what should be used instead.",
+      "parentUuid": "b5e3769b_8bed804a",
+      "revId": "11e7a76ad8958d279f40782bdd077b5cc3fbc7e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
