@@ -16,6 +16,24 @@
       "message": "Reading #19367, it seems like the accepted proposal is actually to add special casts/functions to do this, rather than declaring a new struct as this CL does. That seems like maybe a better idea, so feel free to disregard. I hadn\u0027t seen that proposal when I started churning here.",
       "revId": "037d242adcd45de87132df2237b8426b8de14664",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd7b93ff_347771cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-20T10:38:55Z",
+      "side": 1,
+      "message": "Yes, if you want to continue this you may want to sync with mdempsky and split the cl into uses of unsafe and implementing new unsafe API. As you discovered also using the helpers instead of the headers at the call sides where helpers are applicable would be prefered.\n\nFeel free to abandon the CL and wait for #19367 to be implemented if you need this elsewhere.",
+      "parentUuid": "2a13d0dd_71764ac4",
+      "revId": "037d242adcd45de87132df2237b8426b8de14664",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
