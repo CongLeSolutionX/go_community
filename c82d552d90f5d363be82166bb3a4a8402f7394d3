@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4035f17a_77c082e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-20T23:02:02Z",
+      "side": 1,
+      "message": "The added files are also direct copies of existing test files in go/types/testdata, except that the types2 testing framework uses directories for them while in go/types they had to be explicitly enumerated. There are no changes to these files except that they have moved into a directory.\n\nThe changes to the other files are minimal: In many cases the errors reported by types2 are better (e.g., fewer duplicate errors), and/or match the existing compiler error text.\n\nThere\u0027s one or two errors that types2 doesn\u0027t report yet and which have been disabled.",
+      "revId": "c82d552d90f5d363be82166bb3a4a8402f7394d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
