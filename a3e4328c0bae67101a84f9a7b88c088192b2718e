@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c8c0c3_70933efa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-20T20:02:54Z",
+      "side": 1,
+      "message": "I think I\u0027d like to better understand why this can\u0027t be done in shortcircuit. It seems like the identical optimization. Is it just phase ordering? Can we just run shortcircuit again?\nWhat exactly is different about this code and the shortcircuit pass?\n\n",
+      "revId": "a3e4328c0bae67101a84f9a7b88c088192b2718e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
