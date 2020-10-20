@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58eca1ef_d8d4cb44",
+        "filename": "src/cmd/compile/internal/types2/testdata/issues.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-20T23:37:37Z",
+      "side": 1,
+      "message": "There were earlier drafts that said this, but I don\u0027t think this is in the current design draft.  Does the current implementation do this?  The code seems to be what I expect, so maybe the comment is out of date.",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f08458_d71a5fb9",
+        "filename": "src/cmd/compile/internal/types2/testdata/todos.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-20T23:37:37Z",
+      "side": 1,
+      "message": "Is this comment still apt?",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec73dd49_cfc0d085",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-20T23:37:37Z",
+      "side": 1,
+      "message": "2018?",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8df3ad25_26598ed2",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-20T23:37:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure this restriction is in the design draft.  Though it\u0027s OK for now.",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4efa1d03_d2c84abb",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-20T23:37:37Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
