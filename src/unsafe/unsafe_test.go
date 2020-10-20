@@ -2,26 +2,25 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package unsafeheader_test
+package unsafe_test
 
 import (
 	"bytes"
-	"internal/unsafeheader"
 	"reflect"
 	"testing"
 	"unsafe"
 )
 
 // TestTypeMatchesReflectType ensures that the name and layout of the
-// unsafeheader types matches the corresponding Header types in the reflect
+// header types matches the corresponding Header types in the reflect
 // package.
 func TestTypeMatchesReflectType(t *testing.T) {
 	t.Run("Slice", func(t *testing.T) {
-		testHeaderMatchesReflect(t, unsafeheader.Slice{}, reflect.SliceHeader{})
+		testHeaderMatchesReflect(t, unsafe.Slice{}, reflect.SliceHeader{})
 	})
 
 	t.Run("String", func(t *testing.T) {
-		testHeaderMatchesReflect(t, unsafeheader.String{}, reflect.StringHeader{})
+		testHeaderMatchesReflect(t, unsafe.String{}, reflect.StringHeader{})
 	})
 }
 
@@ -61,7 +60,7 @@ func typeCompatible(t, rt reflect.Type) bool {
 	return t == rt || (t == unsafePointerType && rt == uintptrType)
 }
 
-// TestWriteThroughHeader ensures that the headers in the unsafeheader package
+// TestWriteThroughHeader ensures that the headers in the unsafe package
 // can successfully mutate variables of the corresponding built-in types.
 //
 // This test is expected to fail under -race (which implicitly enables
@@ -72,7 +71,7 @@ func TestWriteThroughHeader(t *testing.T) {
 		s := []byte("Hello, checkptr!")[:5]
 
 		var alias []byte
-		hdr := (*unsafeheader.Slice)(unsafe.Pointer(&alias))
+		hdr := (*unsafe.Slice)(unsafe.Pointer(&alias))
 		hdr.Data = unsafe.Pointer(&s[0])
 		hdr.Cap = cap(s)
 		hdr.Len = len(s)
@@ -89,8 +88,8 @@ func TestWriteThroughHeader(t *testing.T) {
 		s := "Hello, checkptr!"
 
 		var alias string
-		hdr := (*unsafeheader.String)(unsafe.Pointer(&alias))
-		hdr.Data = (*unsafeheader.String)(unsafe.Pointer(&s)).Data
+		hdr := (*unsafe.String)(unsafe.Pointer(&alias))
+		hdr.Data = (*unsafe.String)(unsafe.Pointer(&s)).Data
 		hdr.Len = len(s)
 
 		if alias != s {

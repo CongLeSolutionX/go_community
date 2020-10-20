@@ -5,7 +5,6 @@
 package reflectlite
 
 import (
-	"internal/unsafeheader"
 	"unsafe"
 )
 
@@ -61,7 +60,7 @@ func Swapper(slice interface{}) func(i, j int) {
 		}
 	}
 
-	s := (*unsafeheader.Slice)(v.ptr)
+	s := (*unsafe.Slice)(v.ptr)
 	tmp := unsafe_New(typ) // swap scratch space
 
 	return func(i, j int) {
