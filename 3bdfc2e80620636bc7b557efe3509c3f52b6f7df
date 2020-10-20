@@ -122,6 +122,30 @@
       },
       "revId": "3bdfc2e80620636bc7b557efe3509c3f52b6f7df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd0a60d4_c33c19a6",
+        "filename": "src/cmd/asm/internal/flags/flags.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-20T02:57:41Z",
+      "side": 1,
+      "message": "I meant the flag string, not the variable name. It seems the linker flags are either a single uppercase letter, or all lowercase. Anyway, this is probably fine.",
+      "parentUuid": "ef0430fd_ff755f64",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 47
+      },
+      "revId": "3bdfc2e80620636bc7b557efe3509c3f52b6f7df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
