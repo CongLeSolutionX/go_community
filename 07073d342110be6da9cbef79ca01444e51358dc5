@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e3d931_5dbb3116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-10-20T11:28:56Z",
+      "side": 1,
+      "message": "Typo: I think this should say cpu_no_init.go as well.",
+      "revId": "07073d342110be6da9cbef79ca01444e51358dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e51b7fcf_b0525211",
