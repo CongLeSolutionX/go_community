@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1bfa22_bf597318",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2020-10-20T19:53:25Z",
+      "side": 1,
+      "message": "I ran all.bash on my Mac laptop before trying trybots and it said everything was OK. I\u0027m not sure why it didn\u0027t catch the error that I fixed in patch set 4.",
+      "revId": "a353ab3291d18d105f61123790e7204b4475e7aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
