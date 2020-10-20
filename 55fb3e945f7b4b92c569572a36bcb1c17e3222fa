@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f31fb8_4e9a1f97",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T18:06:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f26c9c03_8eb9a475",
+      "revId": "55fb3e945f7b4b92c569572a36bcb1c17e3222fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2acfdedb_f85978f1",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e97069c1_97972c68",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T18:06:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2acfdedb_f85978f1",
+      "revId": "55fb3e945f7b4b92c569572a36bcb1c17e3222fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18a529d6_b3060b56",
@@ -48,6 +84,24 @@
       "writtenOn": "2020-10-20T06:23:43Z",
       "side": 1,
       "message": "Should dirs be moved inside the once func? It\u0027s only used inside it.",
+      "revId": "55fb3e945f7b4b92c569572a36bcb1c17e3222fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "942cef3b_7d0daac5",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T18:06:11Z",
+      "side": 1,
+      "message": "Indeed, thanks.",
+      "parentUuid": "18a529d6_b3060b56",
       "revId": "55fb3e945f7b4b92c569572a36bcb1c17e3222fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
