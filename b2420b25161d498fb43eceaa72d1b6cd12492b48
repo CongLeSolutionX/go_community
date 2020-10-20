@@ -16,6 +16,23 @@
       "message": "I uploaded a new patch that consolidates the intrinsic guard code into a single function. Thanks again for taking a look.",
       "revId": "b2420b25161d498fb43eceaa72d1b6cd12492b48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f833155_2f7e2bf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-10-20T16:04:10Z",
+      "side": 1,
+      "message": "Cherry--\n\nCould you take another look at this review? I\u0027ve made the changes you requested. I\u0027m eager to have this change included in Go 1.16. What\u0027s the protocol on that? Does this change need to be merged before the dev window closes or can it still be merged during the next phase?\n\nThanks!",
+      "revId": "b2420b25161d498fb43eceaa72d1b6cd12492b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
