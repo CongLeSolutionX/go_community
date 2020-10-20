@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccb9faf4_f1e7c618",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-20T18:55:13Z",
+      "side": 1,
+      "message": "s/inheritence/inheritance/\n\nBut more generally:\n\nSysProcAttr on Windows has a new DontInheritHandles field that disables inheriting handles when creating a new process.",
+      "range": {
+        "startLine": 332,
+        "startChar": 74,
+        "endLine": 332,
+        "endChar": 85
+      },
+      "revId": "6557a73a1a7e0514fadb5a43aaad74e9383c6d76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
