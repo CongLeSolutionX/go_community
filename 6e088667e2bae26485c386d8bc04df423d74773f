@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e803dbc_6f61b96a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-20T11:31:07Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-386-longtest,linux-amd64-longtest,windows-amd64-longtest",
+      "revId": "6e088667e2bae26485c386d8bc04df423d74773f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
