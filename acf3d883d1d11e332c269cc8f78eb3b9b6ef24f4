@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22297911_4afffb96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-20T01:04:12Z",
+      "side": 1,
+      "message": "Per informal discussion of last week, I am proposing that we check in this package as is and then review on a file-by-file basis as we go along as it\u0027s a huge amount of code. It\u0027s originally based on go/types (in 2018), was modified to implement the generics prototype, and then modified to work with the syntax package rather than the go/* packages.\n\nReviewing the diffs will be more painful than reading the code.\n\nI\u0027ve excluded the testdata directory which contains most of the tests that have not changed. I will add them in subsequent CLs again. Where they have not changed (from go/types) they don\u0027t need to be reviewed.\n\nThere examples and fixedbugs directory contain generics-related test, so this commit is not without any tests.\n\n",
+      "revId": "acf3d883d1d11e332c269cc8f78eb3b9b6ef24f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
