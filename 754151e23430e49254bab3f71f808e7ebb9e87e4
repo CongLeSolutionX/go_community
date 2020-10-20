@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f10c5ec_814c6624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6029b5f4_4f84a84e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e91baa7_99cde55e",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-20T13:54:28Z",
       "side": 1,
       "message": "Do we have any way to test that we\u0027re marking the right functions now, or can we not do that until we have some actual ABI bridges?",
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf3b6fb_b1a826cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "In just this patch, no-- it needs to be tested in combination with the bridges/wrappers patch.",
+      "parentUuid": "6e91baa7_99cde55e",
       "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7746183_d3846b90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "If I understand what you\u0027re asking, I don\u0027t think toolstash -cmp is going to be an option, since it checks to make sure that the compiler generates identical object code-- by adding \u003cABIInternal\u003e decls to the assembly for a package you\u0027ll wind up with more/fewer ABI aliases, which would perturb the output.\n\nWhat I can do is do some hand testing to make sure that we\u0027re producing identical binaries; I\u0027ll see about that.",
+      "parentUuid": "60abc162_bf3ce3b3",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b84ecc27_7b50ab51",
@@ -77,6 +143,23 @@
       "writtenOn": "2020-10-20T13:54:28Z",
       "side": 1,
       "message": "Code all LGTM, just a few questions.",
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43036e07_8f4d3918",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "Thanks for the review.\n\nI still have a few more routines to updates (or try to update) so as to minimize the special cases in the next pactch.",
       "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -117,6 +200,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b21b875d_812f153f",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "I agree. I\u0027ll put this on my list.",
+      "parentUuid": "e5125b81_65d83719",
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec11129_844ae8cf",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 7
@@ -128,6 +229,24 @@
       "writtenOn": "2020-10-20T13:54:28Z",
       "side": 1,
       "message": "I know this is kind of a pain, but I wonder if it would make sense to do the other arches while we\u0027re here? Or maybe we hold off until amd64 is working more and then just scan through to see what functions needed to be ABIInternal and copy that over...",
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07decf7d_1552ddff",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "I think it would make more sense to wait until we have amd64 working. Once we do, the process of updating the other arches should be (I hope) pretty mechanical.",
+      "parentUuid": "2ec11129_844ae8cf",
       "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -149,6 +268,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee3056b8_b25d2869",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "961402f3_1e960955",
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c0d75aa_b8e60d39",
@@ -162,6 +299,24 @@
       "writtenOn": "2020-10-20T13:54:28Z",
       "side": 1,
       "message": "This comment is inconsistent with the function signature.",
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd09d260_567f8da5",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-20T16:15:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c0d75aa_b8e60d39",
       "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
