@@ -98,7 +98,7 @@ var bootstrapDirs = []string{
 	"debug/pe",
 	"internal/goversion",
 	"internal/race",
-	"internal/unsafeheader",
+	"unsafe",
 	"internal/xcoff",
 	"math/big",
 	"math/bits",

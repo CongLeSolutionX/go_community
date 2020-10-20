@@ -5,7 +5,6 @@
 package reflect
 
 import (
-	"internal/unsafeheader"
 	"math"
 	"runtime"
 	"unsafe"
@@ -778,7 +777,7 @@ func (v Value) Cap() int {
 		return chancap(v.pointer())
 	case Slice:
 		// Slice is always bigger than a word; assume flagIndir.
-		return (*unsafeheader.Slice)(v.ptr).Cap
+		return (*unsafe.Slice)(v.ptr).Cap
 	}
 	panic(&ValueError{"reflect.Value.Cap", v.kind()})
 }
@@ -957,7 +956,7 @@ func (v Value) Index(i int) Value {
 	case Slice:
 		// Element flag same as Elem of Ptr.
 		// Addressable, indirect, possibly read-only.
-		s := (*unsafeheader.Slice)(v.ptr)
+		s := (*unsafe.Slice)(v.ptr)
 		if uint(i) >= uint(s.Len) {
 			panic("reflect: slice index out of range")
 		}
@@ -968,7 +967,7 @@ func (v Value) Index(i int) Value {
 		return Value{typ, val, fl}
 
 	case String:
-		s := (*unsafeheader.String)(v.ptr)
+		s := (*unsafe.String)(v.ptr)
 		if uint(i) >= uint(s.Len) {
 			panic("reflect: string index out of range")
 		}
@@ -1155,10 +1154,10 @@ func (v Value) Len() int {
 		return maplen(v.pointer())
 	case Slice:
 		// Slice is bigger than a word; assume flagIndir.
-		return (*unsafeheader.Slice)(v.ptr).Len
+		return (*unsafe.Slice)(v.ptr).Len
 	case String:
 		// String is bigger than a word; assume flagIndir.
-		return (*unsafeheader.String)(v.ptr).Len
+		return (*unsafe.String)(v.ptr).Len
 	}
 	panic(&ValueError{"reflect.Value.Len", v.kind()})
 }
@@ -1648,7 +1647,7 @@ func (v Value) SetInt(x int64) {
 func (v Value) SetLen(n int) {
 	v.mustBeAssignable()
 	v.mustBe(Slice)
-	s := (*unsafeheader.Slice)(v.ptr)
+	s := (*unsafe.Slice)(v.ptr)
 	if uint(n) > uint(s.Cap) {
 		panic("reflect: slice length out of range in SetLen")
 	}
@@ -1661,7 +1660,7 @@ func (v Value) SetLen(n int) {
 func (v Value) SetCap(n int) {
 	v.mustBeAssignable()
 	v.mustBe(Slice)
-	s := (*unsafeheader.Slice)(v.ptr)
+	s := (*unsafe.Slice)(v.ptr)
 	if n < s.Len || n > s.Cap {
 		panic("reflect: slice capacity out of range in SetCap")
 	}
@@ -1763,18 +1762,18 @@ func (v Value) Slice(i, j int) Value {
 
 	case Slice:
 		typ = (*sliceType)(unsafe.Pointer(v.typ))
-		s := (*unsafeheader.Slice)(v.ptr)
+		s := (*unsafe.Slice)(v.ptr)
 		base = s.Data
 		cap = s.Cap
 
 	case String:
-		s := (*unsafeheader.String)(v.ptr)
+		s := (*unsafe.String)(v.ptr)
 		if i < 0 || j < i || j > s.Len {
 			panic("reflect.Value.Slice: string slice index out of bounds")
 		}
-		var t unsafeheader.String
+		var t unsafe.String
 		if i < s.Len {
-			t = unsafeheader.String{Data: arrayAt(s.Data, i, 1, "i < s.Len"), Len: j - i}
+			t = unsafe.String{Data: arrayAt(s.Data, i, 1, "i < s.Len"), Len: j - i}
 		}
 		return Value{v.typ, unsafe.Pointer(&t), v.flag}
 	}
@@ -1786,8 +1785,8 @@ func (v Value) Slice(i, j int) Value {
 	// Declare slice so that gc can see the base pointer in it.
 	var x []unsafe.Pointer
 
-	// Reinterpret as *unsafeheader.Slice to edit.
-	s := (*unsafeheader.Slice)(unsafe.Pointer(&x))
+	// Reinterpret as *unsafe.Slice to edit.
+	s := (*unsafe.Slice)(unsafe.Pointer(&x))
 	s.Len = j - i
 	s.Cap = cap - i
 	if cap-i > 0 {
@@ -1825,7 +1824,7 @@ func (v Value) Slice3(i, j, k int) Value {
 
 	case Slice:
 		typ = (*sliceType)(unsafe.Pointer(v.typ))
-		s := (*unsafeheader.Slice)(v.ptr)
+		s := (*unsafe.Slice)(v.ptr)
 		base = s.Data
 		cap = s.Cap
 	}
@@ -1838,8 +1837,8 @@ func (v Value) Slice3(i, j, k int) Value {
 	// can see the base pointer in it.
 	var x []unsafe.Pointer
 
-	// Reinterpret as *unsafeheader.Slice to edit.
-	s := (*unsafeheader.Slice)(unsafe.Pointer(&x))
+	// Reinterpret as *unsafe.Slice to edit.
+	s := (*unsafe.Slice)(unsafe.Pointer(&x))
 	s.Len = j - i
 	s.Cap = k - i
 	if k-i > 0 {
@@ -2089,22 +2088,22 @@ func Copy(dst, src Value) int {
 		typesMustMatch("reflect.Copy", de, se)
 	}
 
-	var ds, ss unsafeheader.Slice
+	var ds, ss unsafe.Slice
 	if dk == Array {
 		ds.Data = dst.ptr
 		ds.Len = dst.Len()
 		ds.Cap = ds.Len
 	} else {
-		ds = *(*unsafeheader.Slice)(dst.ptr)
+		ds = *(*unsafe.Slice)(dst.ptr)
 	}
 	if sk == Array {
 		ss.Data = src.ptr
 		ss.Len = src.Len()
 		ss.Cap = ss.Len
 	} else if sk == Slice {
-		ss = *(*unsafeheader.Slice)(src.ptr)
+		ss = *(*unsafe.Slice)(src.ptr)
 	} else {
-		sh := *(*unsafeheader.String)(src.ptr)
+		sh := *(*unsafe.String)(src.ptr)
 		ss.Data = sh.Data
 		ss.Len = sh.Len
 		ss.Cap = sh.Len
@@ -2292,7 +2291,7 @@ func MakeSlice(typ Type, len, cap int) Value {
 		panic("reflect.MakeSlice: len > cap")
 	}
 
-	s := unsafeheader.Slice{Data: unsafe_NewArray(typ.Elem().(*rtype), cap), Len: len, Cap: cap}
+	s := unsafe.Slice{Data: unsafe_NewArray(typ.Elem().(*rtype), cap), Len: len, Cap: cap}
 	return Value{typ.(*rtype), unsafe.Pointer(&s), flagIndir | flag(Slice)}
 }
 
@@ -2823,7 +2822,7 @@ func typedmemclrpartial(t *rtype, ptr unsafe.Pointer, off, size uintptr)
 // typedslicecopy copies a slice of elemType values from src to dst,
 // returning the number of elements copied.
 //go:noescape
-func typedslicecopy(elemType *rtype, dst, src unsafeheader.Slice) int
+func typedslicecopy(elemType *rtype, dst, src unsafe.Slice) int
 
 //go:noescape
 func typehash(t *rtype, p unsafe.Pointer, h uintptr) uintptr

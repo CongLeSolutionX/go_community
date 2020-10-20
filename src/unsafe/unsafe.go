@@ -203,3 +203,32 @@ func Offsetof(x ArbitraryType) uintptr
 // value returned by reflect.TypeOf(s.f).FieldAlign().
 // The return value of Alignof is a Go constant.
 func Alignof(x ArbitraryType) uintptr
+
+// Slice is the runtime representation of a slice.
+// It cannot be used safely or portably and its representation may
+// change in a later release.
+//
+// Unlike reflect.SliceHeader, its Data field is sufficient to guarantee the
+// data it references will not be garbage collected.
+//
+// This allows packages that cannot import "reflect" to use types that are
+// tested to be equivalent to reflect.SliceHeader and reflect.StringHeader.
+type Slice struct {
+	Data Pointer
+	Len  int
+	Cap  int
+}
+
+// String is the runtime representation of a string.
+// It cannot be used safely or portably and its representation may
+// change in a later release.
+//
+// Unlike reflect.StringHeader, its Data field is sufficient to guarantee the
+// data it references will not be garbage collected.
+//
+// This allows packages that cannot import "reflect" to use types that are
+// tested to be equivalent to reflect.SliceHeader and reflect.StringHeader.
+type String struct {
+	Data Pointer
+	Len  int
+}

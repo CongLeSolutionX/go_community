@@ -80,7 +80,6 @@ var depsRules = `
 	# RUNTIME is the core runtime group of packages, all of them very light-weight.
 	internal/cpu, unsafe
 	< internal/bytealg
-	< internal/unsafeheader
 	< runtime/internal/sys
 	< runtime/internal/atomic
 	< runtime/internal/math

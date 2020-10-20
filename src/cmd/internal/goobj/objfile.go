@@ -25,7 +25,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"internal/unsafeheader"
 	"io"
 	"unsafe"
 )
@@ -653,7 +652,7 @@ func toString(b []byte) string {
 	}
 
 	var s string
-	hdr := (*unsafeheader.String)(unsafe.Pointer(&s))
+	hdr := (*unsafe.String)(unsafe.Pointer(&s))
 	hdr.Data = unsafe.Pointer(&b[0])
 	hdr.Len = len(b)
 

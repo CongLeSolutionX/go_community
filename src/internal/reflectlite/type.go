@@ -7,7 +7,6 @@
 package reflectlite
 
 import (
-	"internal/unsafeheader"
 	"unsafe"
 )
 
@@ -342,7 +341,7 @@ func (n name) name() (s string) {
 	}
 	b := (*[4]byte)(unsafe.Pointer(n.bytes))
 
-	hdr := (*unsafeheader.String)(unsafe.Pointer(&s))
+	hdr := (*unsafe.String)(unsafe.Pointer(&s))
 	hdr.Data = unsafe.Pointer(&b[3])
 	hdr.Len = int(b[1])<<8 | int(b[2])
 	return s
@@ -354,7 +353,7 @@ func (n name) tag() (s string) {
 		return ""
 	}
 	nl := n.nameLen()
-	hdr := (*unsafeheader.String)(unsafe.Pointer(&s))
+	hdr := (*unsafe.String)(unsafe.Pointer(&s))
 	hdr.Data = unsafe.Pointer(n.data(3+nl+2, "non-empty string"))
 	hdr.Len = tl
 	return s

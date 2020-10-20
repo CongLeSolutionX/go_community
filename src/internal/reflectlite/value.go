@@ -5,7 +5,6 @@
 package reflectlite
 
 import (
-	"internal/unsafeheader"
 	"runtime"
 	"unsafe"
 )
@@ -339,10 +338,10 @@ func (v Value) Len() int {
 		return maplen(v.pointer())
 	case Slice:
 		// Slice is bigger than a word; assume flagIndir.
-		return (*unsafeheader.Slice)(v.ptr).Len
+		return (*unsafe.Slice)(v.ptr).Len
 	case String:
 		// String is bigger than a word; assume flagIndir.
-		return (*unsafeheader.String)(v.ptr).Len
+		return (*unsafe.String)(v.ptr).Len
 	}
 	panic(&ValueError{"reflect.Value.Len", v.kind()})
 }
