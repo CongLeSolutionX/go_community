@@ -52,6 +52,24 @@
       "parentUuid": "fa0ea5d3_d2a7757e",
       "revId": "d0fcae07415254121d5d14158d46635bab6a1f20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "797d6d13_88b006a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T03:31:12Z",
+      "side": 1,
+      "message": "Right, my thinking is having it in Go 1.16 means that you can start using it after Go 1.17 without forcing everyone using gopls to build gopls using Go 1.17.\n\nI\u0027m not concerned about evaluating constraints as part of \u0027go list\u0027 (clearly they should keep shelling out for that) but instead about things like helpers to do the build-line-sync part of gofmt more directly.",
+      "parentUuid": "55987928_7a861ae3",
+      "revId": "d0fcae07415254121d5d14158d46635bab6a1f20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
