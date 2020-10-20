@@ -25,7 +25,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"internal/unsafeheader"
 	"io"
 	"unsafe"
 )
@@ -653,8 +652,12 @@ func toString(b []byte) string {
 	}
 
 	var s string
-	hdr := (*unsafeheader.String)(unsafe.Pointer(&s))
-	hdr.Data = unsafe.Pointer(&b[0])
+	// We can't use unsafe.String from bootstrap, so open code a type-specialized version for this one instance
+	hdr := (*struct {
+		Data *byte
+		Len  int
+	})(unsafe.Pointer(&s))
+	hdr.Data = &b[0]
 	hdr.Len = len(b)
 
 	return s
