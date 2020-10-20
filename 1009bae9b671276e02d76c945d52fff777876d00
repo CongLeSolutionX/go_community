@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbf67683_ad6981a0",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T03:03:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f739075_9203feba",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efb81133_d4cc6f01",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-19T02:05:03Z",
       "side": 1,
       "message": "s/pattern/the pattern/ and reflow",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e03a0f0_74042d7a",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T03:03:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efb81133_d4cc6f01",
       "revId": "1009bae9b671276e02d76c945d52fff777876d00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d54c8e_80587082",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T03:03:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8ad80a4_4e6d00b2",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b526696b_e0266180",
@@ -65,6 +119,24 @@
       "writtenOn": "2020-10-19T02:05:03Z",
       "side": 1,
       "message": "again, path.Match.",
+      "revId": "1009bae9b671276e02d76c945d52fff777876d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17bba9d_3c6211c1",
+        "filename": "src/io/fs/glob.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T03:03:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b526696b_e0266180",
       "revId": "1009bae9b671276e02d76c945d52fff777876d00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
