@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7847ee24_8a364f67",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-20T21:25:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eba49f2_7ba20528",
+      "revId": "ad106cef482f5c31900c0e93aa23576eb088b970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40635d7b_9ad41ce3",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-20T19:48:11Z",
       "side": 1,
       "message": "This seems unnecessary.",
+      "revId": "ad106cef482f5c31900c0e93aa23576eb088b970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88be1265_2277f1f0",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-20T21:25:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40635d7b_9ad41ce3",
       "revId": "ad106cef482f5c31900c0e93aa23576eb088b970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
