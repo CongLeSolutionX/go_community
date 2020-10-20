@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ecda3b9e_6d2903a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-10-20T08:05:50Z",
+      "side": 1,
+      "message": "Fair enough. Indeed there are some potential uses of this.",
+      "parentUuid": "94ec62bb_da27a549",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "19b9a96a6fa4d5d63991743c96652b52fc9f7f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eb4f5edf_babb0fbe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -85,6 +109,46 @@
       "writtenOn": "2020-10-13T18:53:53Z",
       "side": 1,
       "message": "Just pushed a another commit documenting the variable pointed out by Ian. Thanks a bunch for having a look at this.",
+      "revId": "19b9a96a6fa4d5d63991743c96652b52fc9f7f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99a3f152_52d1963a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-10-20T08:05:50Z",
+      "side": 1,
+      "message": "Just one change, and LGTM after that.\n\nThank you very much.\n\nLeaving for Ian or Tobias to submit when they are happy.\n\nAlex",
+      "revId": "19b9a96a6fa4d5d63991743c96652b52fc9f7f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f69ad0e_b6ebbe9d",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-10-20T08:05:50Z",
+      "side": 1,
+      "message": "This is a public API change, and should be added to release notes.\n\nCan you, please, add some comment about this change to $GOROOT/doc/go1.16.html file?",
+      "range": {
+        "startLine": 244,
+        "startChar": 1,
+        "endLine": 244,
+        "endChar": 19
+      },
       "revId": "19b9a96a6fa4d5d63991743c96652b52fc9f7f7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
