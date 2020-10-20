@@ -33,6 +33,24 @@
       "message": "If this is implementing https://github.com/golang/go/issues/19367? If so please reference the issue in the commit message as:\n\nFixes #19367.",
       "revId": "45919678f66db72dfbc9f866c11b221caed50979",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a51d0510_3546eb51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-10-20T10:32:24Z",
+      "side": 1,
+      "message": "Thanks. Didn\u0027t know about that.",
+      "parentUuid": "024f1ce5_f1be809f",
+      "revId": "45919678f66db72dfbc9f866c11b221caed50979",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
