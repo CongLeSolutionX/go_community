@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78cae545_1984582a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-20T19:01:13Z",
+      "side": 1,
+      "message": "LGTM after nits. I\u0027ll let Damien finish the review \u0026 submit.\n",
+      "revId": "574b528c84044af380703071162bc4be2a47f4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e7eea05_f529bf37",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6389,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-20T19:01:13Z",
+      "side": 1,
+      "message": "canceled per https://github.com/golang/go/wiki/Spelling",
+      "range": {
+        "startLine": 6389,
+        "startChar": 25,
+        "endLine": 6389,
+        "endChar": 34
+      },
+      "revId": "574b528c84044af380703071162bc4be2a47f4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e95c9d6f_5915f315",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6391,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-20T19:01:13Z",
+      "side": 1,
+      "message": "I worry about this test busy spinning + its 10 second timeout + being parallel.\n\nMaybe since this is a slow test this doesn\u0027t need to be setParallel?",
+      "range": {
+        "startLine": 6391,
+        "startChar": 1,
+        "endLine": 6391,
+        "endChar": 15
+      },
+      "revId": "574b528c84044af380703071162bc4be2a47f4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4070c95_041f914f",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6418,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-20T19:01:13Z",
+      "side": 1,
+      "message": "\"res\" is more common. (or \"resp\" sometimes). But \"rsp\" isn\u0027t really used AFAIK in net/http or its tests.",
+      "range": {
+        "startLine": 6418,
+        "startChar": 4,
+        "endLine": 6418,
+        "endChar": 7
+      },
+      "revId": "574b528c84044af380703071162bc4be2a47f4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7e6bd3d_e86832ae",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6427,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-10-20T19:01:13Z",
+      "side": 1,
+      "message": "We don\u0027t really use these MethodFoo constants in net/http itself. \"GET\" is more readable.\n\nline 6417 too",
+      "revId": "574b528c84044af380703071162bc4be2a47f4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
