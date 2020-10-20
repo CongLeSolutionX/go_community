@@ -16,6 +16,24 @@
       "message": "maybe s/did not visit/not found/\nthe word \u0027visit\u0027 is odd in an error message",
       "revId": "560a4eb33adc7d55228c5833068d10585e9c4e3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a4c9447_5a8f3739",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T17:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3353f9a8_3acf4304",
+      "revId": "560a4eb33adc7d55228c5833068d10585e9c4e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
