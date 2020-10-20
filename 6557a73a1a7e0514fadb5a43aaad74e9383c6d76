@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17cf6942_55032e43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-20T18:58:20Z",
+      "side": 1,
+      "message": "This is new ABI, so it should technically have a proposal.  I filed https://golang.org/issue/42098.",
+      "revId": "6557a73a1a7e0514fadb5a43aaad74e9383c6d76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccb9faf4_f1e7c618",
