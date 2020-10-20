@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eba49f2_7ba20528",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-20T19:48:11Z",
+      "side": 1,
+      "message": "for len(data)\u003e0 \u0026\u0026 data[0] \u003d\u003d \u0027 \u0027 { data \u003d data[1:] }\n\nCould do something similar for the nil removal at the end.",
+      "revId": "ad106cef482f5c31900c0e93aa23576eb088b970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40635d7b_9ad41ce3",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-20T19:48:11Z",
+      "side": 1,
+      "message": "This seems unnecessary.",
+      "revId": "ad106cef482f5c31900c0e93aa23576eb088b970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
