@@ -466,6 +466,10 @@ var depsRules = `
 	< net/rpc
 	< net/rpc/jsonrpc;
 
+	# System Information
+	internal/cpu, sync
+	< internal/sysinfo;
+
 	# Test-only
 	log
 	< testing/iotest;
@@ -473,7 +477,7 @@ var depsRules = `
 	FMT, flag, math/rand
 	< testing/quick;
 
-	FMT, flag, runtime/debug, runtime/trace
+	FMT, flag, runtime/debug, runtime/trace, internal/sysinfo
 	< testing;
 
 	internal/testlog, runtime/pprof, regexp
