@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bd7757f_711bc082",
+        "filename": "src/io/fs/stat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T02:57:34Z",
+      "side": 1,
+      "message": "testing imports os which imports io/fs, so the test (which must import \"testing\") can\u0027t be in package fs directly.\n\nThe import dot is the idiom we\u0027ve always used for this case, to simulate being \u0027package fs\u0027 more closely. (Same pattern in the tests for io, os, bytes, flag, sort, ...)",
+      "parentUuid": "0f88a721_dbc2a08b",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e742147_bb2ab080",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-19T00:24:38Z",
       "side": 1,
       "message": "since they\u0027re returning strings, use %s not %v",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21d58e78_40db347a",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T02:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e742147_bb2ab080",
       "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9231d93c_b4592ded",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T02:57:34Z",
+      "side": 1,
+      "message": "Not done - this is an error.",
+      "parentUuid": "4b53ab82_ad346713",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33f2076f_1d994661",
@@ -65,6 +119,24 @@
       "writtenOn": "2020-10-19T00:24:38Z",
       "side": 1,
       "message": "ditto",
+      "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bcd60fc_14a5c0d1",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-20T02:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f2076f_1d994661",
       "revId": "3ec0b26ad5f04c5bcbd116229ea2d11a0d387746",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
