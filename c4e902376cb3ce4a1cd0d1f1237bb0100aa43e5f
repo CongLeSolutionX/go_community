@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ddd69b7_fd6aed59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-10-20T08:33:29Z",
+      "side": 1,
+      "message": "Still SGTM. Please wait for another approval just in case.",
+      "revId": "c4e902376cb3ce4a1cd0d1f1237bb0100aa43e5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
