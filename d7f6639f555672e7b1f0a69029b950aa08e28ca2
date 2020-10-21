@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bceeb0a_6aa24b19",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-10-21T10:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f4237fb_cc8cd2e1",
+      "range": {
+        "startLine": 1015,
+        "startChar": 49,
+        "endLine": 1016,
+        "endChar": 28
+      },
+      "revId": "d7f6639f555672e7b1f0a69029b950aa08e28ca2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fc48c42_f6282413",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-20T20:23:42Z",
       "side": 1,
       "message": "This needs just a little bit more comment:\n\nIf v is not assigned a register, pick a register assigned to one of v\u0027s inputs. Hopefully v will get assigned that register later.",
+      "revId": "d7f6639f555672e7b1f0a69029b950aa08e28ca2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95586e1_67b7f0a0",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-10-21T10:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fc48c42_f6282413",
       "revId": "d7f6639f555672e7b1f0a69029b950aa08e28ca2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
