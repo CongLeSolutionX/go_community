@@ -700,10 +700,13 @@ func Main(archInit func(*Arch)) {
 	}
 	Curfn = nil
 
+	numClosuresSeen := 0
+
 	if Debug.l != 0 {
 		// Find functions that can be inlined and clone them before walk expands them.
 		visitBottomUp(xtop, func(list []*Node, recursive bool) {
 			numfns := numNonClosures(list)
+			numClosuresSeen += len(list) - numfns
 			for _, n := range list {
 				maxCost := maxInlineCost(n)
 				if !recursive || numfns > 1 {
@@ -723,6 +726,18 @@ func Main(archInit func(*Arch)) {
 	} else {
 		timings.Start("fe", "escapes")
 		visitBottomUp(xtop, escapeFuncs)
+	}
+
+	// Eliminate dead closures after inlining.
+	// TODO for Flag_dynlink, filter dead symbols out of funcsyms
+	if numClosuresSeen > 0 && !Ctxt.Flag_dynlink {
+		var newXtop []*Node
+		visitBottomUp(xtop, func(list []*Node, recursive bool) {
+			for _, n := range list {
+				newXtop = append(newXtop, n)
+			}
+		})
+		xtop = newXtop
 	}
 
 	// Collect information for go:nowritebarrierrec
