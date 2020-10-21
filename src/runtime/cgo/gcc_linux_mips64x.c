@@ -6,16 +6,47 @@
 // +build linux
 // +build mips64 mips64le
 
+#include <limits.h>
 #include <pthread.h>
 #include <string.h>
 #include <signal.h>
+#include <stdlib.h>
 #include "libcgo.h"
 #include "libcgo_unix.h"
 
-static void *threadentry(void*);
+#define magic (0xc476c475c47957UL)
 
-void (*x_cgo_inittls)(void **tlsg, void **tlsbase);
+static void *threadentry(void*);
 static void (*setg_gcc)(void*);
+
+// inittls allocates a thread-local storage slot for g.
+//
+// It finds the first available slot using pthread_key_create and uses
+// it as the offset value for runtime.tlsg.
+static void
+inittls(void **tlsg, void **tlsbase)
+{
+        pthread_key_t k;
+        int i, err;
+
+        err = pthread_key_create(&k, nil);
+        if(err != 0) {
+                fprintf(stderr, "runtime/cgo: pthread_key_create failed: %d\n", err);
+                abort();
+        }
+        //fprintf(stderr, "runtime/cgo: k = %d, tlsbase = %p\n", (int)k, tlsbase); // debug
+        pthread_setspecific(k, (void*)magic);
+        // The first key should be at 257.
+        for (i=0; i<PTHREAD_KEYS_MAX; i++) {
+                if (*(tlsbase+i) == (void*)magic) {
+                        *tlsg = (void*)(i*sizeof(void *));
+                        pthread_setspecific(k, 0);
+                        return;
+                }
+        }
+        fprintf(stderr, "runtime/cgo: could not find pthread key.\n");
+        abort();
+}
 
 void
 _cgo_sys_thread_start(ThreadStart *ts)
@@ -72,7 +103,6 @@ x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 	g->stacklo = (uintptr)&attr - size + 4096;
 	pthread_attr_destroy(&attr);
 
-	if (x_cgo_inittls) {
-		x_cgo_inittls(tlsg, tlsbase);
-	}
+	inittls(tlsg, tlsbase);
 }
+
