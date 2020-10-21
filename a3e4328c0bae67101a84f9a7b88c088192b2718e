@@ -16,6 +16,24 @@
       "message": "I think I\u0027d like to better understand why this can\u0027t be done in shortcircuit. It seems like the identical optimization. Is it just phase ordering? Can we just run shortcircuit again?\nWhat exactly is different about this code and the shortcircuit pass?\n\n",
       "revId": "a3e4328c0bae67101a84f9a7b88c088192b2718e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5aa6a2c_57a74bfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-10-21T06:26:15Z",
+      "side": 1,
+      "message": "This optimization is a bit similar to shortcircuit，because they deal with the derivable branches in the same way (by redirection), but they are for different cases. shortcircuit requires the control value to be OpPhi, and this code does not require the control value to be a specific Op, it can be phi, or Less, leq, etc. This optimization also can\u0027t handle the cases handled by shortcircuit, so they cannot be merged.",
+      "parentUuid": "c4c8c0c3_70933efa",
+      "revId": "a3e4328c0bae67101a84f9a7b88c088192b2718e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
