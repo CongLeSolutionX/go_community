@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "187cfa11_98d1098c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44233
+      },
+      "writtenOn": "2020-10-21T18:01:37Z",
+      "side": 1,
+      "message": "I added a line \"Fixes #42098\" in the commit message of the latest git commit (patch set 6) along with a rename from DontInheritHandles-\u003eNoInherithandles. Might this suffice or do I need to somehow change the gerrit commit message?",
+      "parentUuid": "4692b499_6d0b26d0",
+      "revId": "5baee83ab2767065ce7960940751025694ae4400",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cbf527f6_9dce6a15",
