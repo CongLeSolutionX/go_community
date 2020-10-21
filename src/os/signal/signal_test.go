@@ -476,6 +476,7 @@ func TestNohup(t *testing.T) {
 			// GOROOT/src, such as when GOROOT is installed and owned by root).
 
 			args := []string{
+				"--",
 				os.Args[0],
 				"-test.v",
 				"-test.run=TestStop",
