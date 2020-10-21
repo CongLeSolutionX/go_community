@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8cfd0ec_d05ceb30",
+        "filename": "src/cmd/compile/internal/types2/testdata/issues.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-21T06:08:53Z",
+      "side": 1,
+      "message": "Yes, this comment is out of date. Removed.",
+      "parentUuid": "58eca1ef_d8d4cb44",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18f08458_d71a5fb9",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-20T23:37:37Z",
       "side": 1,
       "message": "Is this comment still apt?",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4823ca17_f40b03be",
+        "filename": "src/cmd/compile/internal/types2/testdata/todos.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-21T06:08:53Z",
+      "side": 1,
+      "message": "No. In fact we don\u0027t need this file anymore. Deleted.",
+      "parentUuid": "18f08458_d71a5fb9",
       "revId": "601f83119d64acfba06d4b015f47a22d43740332",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afae9b02_f2bc68cb",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-21T06:08:53Z",
+      "side": 1,
+      "message": "This file is originally from 2018 - it\u0027s the first test file I had created for generic code. That said, this is a \"fresh\" copy, might as well date it 2020.",
+      "parentUuid": "ec73dd49_cfc0d085",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8df3ad25_26598ed2",
@@ -75,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c355bb77_211d8723",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-21T06:08:53Z",
+      "side": 1,
+      "message": "Are you saying that because we don\u0027t use e this is ok? Since the type list elements are string and []string, the possible types for e are byte and string; i.e., we can\u0027t know the type of e. I believe this should be an error.\n\nI agree that this is not in the design; this is something we need to specify for each operation on type lists (in this case the \"range\" operation).",
+      "parentUuid": "8df3ad25_26598ed2",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4efa1d03_d2c84abb",
@@ -88,6 +166,24 @@
       "writtenOn": "2020-10-20T23:37:37Z",
       "side": 1,
       "message": "Trailing whitespace.",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd6b5d63_4e97354c",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-21T06:08:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4efa1d03_d2c84abb",
       "revId": "601f83119d64acfba06d4b015f47a22d43740332",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
