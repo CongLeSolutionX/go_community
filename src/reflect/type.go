@@ -19,6 +19,7 @@ import (
 	"internal/unsafeheader"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"unicode"
 	"unicode/utf8"
 	"unsafe"
@@ -259,8 +260,8 @@ const (
 	UnsafePointer
 )
 
-// tflag is used by an rtype to signal what extra type information is
-// available in the memory directly following the rtype value.
+// tflag is used for a few flags associated with an rtype.
+// The values are bits.
 //
 // tflag values must be kept in sync with copies in:
 //	cmd/compile/internal/gc/reflect.go
@@ -294,6 +295,10 @@ const (
 	// tflagRegularMemory means that equal and hash functions can treat
 	// this type as a single region of t.size bytes.
 	tflagRegularMemory tflag = 1 << 3
+
+	// tflagDynamic is set for types that are created at runtime.
+	// It is never set for types created at compile time.
+	tflagDynamic tflag = 1 << 4
 )
 
 // rtype is the common implementation of most values.
@@ -1400,13 +1405,24 @@ func PtrTo(t Type) Type {
 }
 
 func (t *rtype) ptrTo() *rtype {
-	if t.ptrToThis != 0 {
-		return t.typeOff(t.ptrToThis)
+	dynamic := t.tflag&tflagDynamic != 0
+	var ptrToThis typeOff
+	if dynamic {
+		ptrToThis = typeOff(atomic.LoadInt32((*int32)(unsafe.Pointer(&t.ptrToThis))))
+	} else {
+		ptrToThis = t.ptrToThis
+	}
+	if ptrToThis != 0 {
+		return t.typeOff(ptrToThis)
 	}
 
 	// Check the cache.
 	if pi, ok := ptrMap.Load(t); ok {
 		return &pi.(*ptrType).rtype
+	}
+
+	setDynamic := func(t *rtype, ptr *rtype) {
+		atomic.StoreInt32((*int32)(unsafe.Pointer(&t.ptrToThis)), int32(resolveReflectType(ptr)))
 	}
 
 	// Look in known types.
@@ -1417,7 +1433,11 @@ func (t *rtype) ptrTo() *rtype {
 			continue
 		}
 		pi, _ := ptrMap.LoadOrStore(t, p)
-		return &pi.(*ptrType).rtype
+		r := &pi.(*ptrType).rtype
+		if dynamic {
+			setDynamic(t, r)
+		}
+		return r
 	}
 
 	// Create a new ptrType starting with the description
@@ -1439,7 +1459,11 @@ func (t *rtype) ptrTo() *rtype {
 	pp.elem = t
 
 	pi, _ := ptrMap.LoadOrStore(t, &pp)
-	return &pi.(*ptrType).rtype
+	r := &pi.(*ptrType).rtype
+	if dynamic {
+		setDynamic(t, r)
+	}
+	return r
 }
 
 // fnv1 incorporates the list of bytes into the hash x using the FNV-1 hash function.
@@ -1845,7 +1869,7 @@ func ChanOf(dir ChanDir, t Type) Type {
 	var ichan interface{} = (chan unsafe.Pointer)(nil)
 	prototype := *(**chanType)(unsafe.Pointer(&ichan))
 	ch := *prototype
-	ch.tflag = tflagRegularMemory
+	ch.tflag = tflagRegularMemory | tflagDynamic
 	ch.dir = uintptr(dir)
 	ch.str = resolveReflectName(newName(s, "", false))
 	ch.hash = fnv1(typ.hash, 'c', byte(dir))
@@ -1891,7 +1915,7 @@ func MapOf(key, elem Type) Type {
 	var imap interface{} = (map[unsafe.Pointer]unsafe.Pointer)(nil)
 	mt := **(**mapType)(unsafe.Pointer(&imap))
 	mt.str = resolveReflectName(newName(s, "", false))
-	mt.tflag = 0
+	mt.tflag = tflagDynamic
 	mt.hash = fnv1(etyp.hash, 'm', byte(ktyp.hash>>24), byte(ktyp.hash>>16), byte(ktyp.hash>>8), byte(ktyp.hash))
 	mt.key = ktyp
 	mt.elem = etyp
@@ -2023,7 +2047,7 @@ func FuncOf(in, out []Type, variadic bool) Type {
 	if len(args) > 50 {
 		panic("reflect.FuncOf does not support more than 50 arguments")
 	}
-	ft.tflag = 0
+	ft.tflag = tflagDynamic
 	ft.hash = hash
 	ft.inCount = uint16(len(in))
 	ft.outCount = uint16(len(out))
@@ -2329,7 +2353,7 @@ func SliceOf(t Type) Type {
 	var islice interface{} = ([]unsafe.Pointer)(nil)
 	prototype := *(**sliceType)(unsafe.Pointer(&islice))
 	slice := *prototype
-	slice.tflag = 0
+	slice.tflag = tflagDynamic
 	slice.str = resolveReflectName(newName(s, "", false))
 	slice.hash = fnv1(typ.hash, '[')
 	slice.elem = typ
@@ -2704,7 +2728,7 @@ func StructOf(fields []StructField) Type {
 	}
 
 	typ.str = resolveReflectName(newName(str, "", false))
-	typ.tflag = 0 // TODO: set tflagRegularMemory
+	typ.tflag = tflagDynamic // TODO: set tflagRegularMemory
 	typ.hash = hash
 	typ.size = size
 	typ.ptrdata = typeptrdata(typ.common())
@@ -2874,7 +2898,7 @@ func ArrayOf(count int, elem Type) Type {
 	var iarray interface{} = [1]unsafe.Pointer{}
 	prototype := *(**arrayType)(unsafe.Pointer(&iarray))
 	array := *prototype
-	array.tflag = typ.tflag & tflagRegularMemory
+	array.tflag = (typ.tflag & tflagRegularMemory) | tflagDynamic
 	array.str = resolveReflectName(newName(s, "", false))
 	array.hash = fnv1(typ.hash, '[')
 	for n := uint32(count); n > 0; n >>= 8 {
