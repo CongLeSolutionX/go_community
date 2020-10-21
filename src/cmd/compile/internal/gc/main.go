@@ -665,7 +665,19 @@ func Main(archInit func(*Arch)) {
 	}
 
 	// Phase 5: Inlining
-	timings.Start("fe", "inlining")
+	// and
+	// Phase 6: Escape analysis.
+	// (Interleaved so that escape information for called funcs is available for inlining decisions)
+	//
+	// Escape analysis is equired for moving heap allocations onto stack,
+	// which in turn is required by the closure implementation,
+	// which stores the addresses of stack variables into the closure.
+	// If the closure does not escape, it needs to be on the stack
+	// or else the stack copier will not update it.
+	// Large values are also moved off stack in escape analysis;
+	// because large values may contain pointers, it must happen early.
+
+	timings.Start("fe", "inlining and escape analysis")
 	if Debug_typecheckinl != 0 {
 		// Typecheck imported function bodies if Debug.l > 1,
 		// otherwise lazily when used or re-exported.
@@ -680,6 +692,13 @@ func Main(archInit func(*Arch)) {
 			errorexit()
 		}
 	}
+
+	for _, n := range xtop {
+		if n.Op == ODCLFUNC {
+			devirtualize(n)
+		}
+	}
+	Curfn = nil
 
 	if Debug.l != 0 {
 		// Find functions that can be inlined and clone them before walk expands them.
@@ -699,26 +718,12 @@ func Main(archInit func(*Arch)) {
 				}
 				inlcalls(n, maxCost)
 			}
+			escapeFuncs(list, recursive)
 		})
+	} else {
+		timings.Start("fe", "escapes")
+		visitBottomUp(xtop, escapeFuncs)
 	}
-
-	for _, n := range xtop {
-		if n.Op == ODCLFUNC {
-			devirtualize(n)
-		}
-	}
-	Curfn = nil
-
-	// Phase 6: Escape analysis.
-	// Required for moving heap allocations onto stack,
-	// which in turn is required by the closure implementation,
-	// which stores the addresses of stack variables into the closure.
-	// If the closure does not escape, it needs to be on the stack
-	// or else the stack copier will not update it.
-	// Large values are also moved off stack in escape analysis;
-	// because large values may contain pointers, it must happen early.
-	timings.Start("fe", "escapes")
-	escapes(xtop)
 
 	// Collect information for go:nowritebarrierrec
 	// checking. This must happen before transformclosure.
