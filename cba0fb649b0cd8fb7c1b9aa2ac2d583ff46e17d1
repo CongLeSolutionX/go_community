@@ -50,6 +50,23 @@
       "message": "There\u0027s a group that\u0027s trying to rewrite GNU coreutils in Rust, see here: github.com/uutils/coreutils. \n\nAt the moment the nohup there requires a \"--\" before the subcommand or it will parse flags for the subcommand as flags for itself. That behavior is incorrect and I\u0027ve opened a ticket to fix it.\n\nI understand this is an edge case but given \"--\" is a common delineator between a command and subcommand and it will make getopt_long terminate argument parsing early it seems useful to add it.\n\nI don\u0027t feel strongly about it and could abandon this change. ",
       "revId": "cba0fb649b0cd8fb7c1b9aa2ac2d583ff46e17d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "787de5e0_5634337f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2020-10-21T21:54:13Z",
+      "side": 1,
+      "message": "Looks like it failed on openbsd nohup so going to abandon.",
+      "revId": "cba0fb649b0cd8fb7c1b9aa2ac2d583ff46e17d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
