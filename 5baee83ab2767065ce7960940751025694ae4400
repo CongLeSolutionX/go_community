@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eee60849_bb6ebc7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-10-21T05:55:53Z",
+      "side": 1,
+      "message": "Please add\n\nFixes #42098\n\nline to the commit message.\n\nThis will link this change to the proposal that Ian created #42098.\n\nThis will also add message to the issue #42098 thread with the link back to this change.\n\nAlso, once issue #42098 is approved, someone will submit this change into the Go tree, and that will close issue #42098 automatically.",
+      "revId": "5baee83ab2767065ce7960940751025694ae4400",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf527f6_9dce6a15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-10-21T05:55:53Z",
+      "side": 1,
+      "message": "Now we wait for #42098 to be approved. Hopefully this will happens before Go 1.16 code change freeze starts.\n\nI will remove my +2 temporarily, so this change does not get submitted by mistake. Please ping us when #42098 is approved, and someone will submit your change.\n\nThank you.\n\nAlex",
+      "revId": "5baee83ab2767065ce7960940751025694ae4400",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
