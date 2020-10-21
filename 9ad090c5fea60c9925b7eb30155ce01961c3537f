@@ -16,6 +16,24 @@
       "message": "This is new API, and I don’t see it discussed anywhere in the proposal. If this came from anyone else, it would have been immediately kicked back to the proposal phase. It’s not good form to have one set of rules for the decision makers and another for everyone else. I’m not saying we should revert this, but I wanted to remind you that inconsistent application of rules is deeply corrosive.",
       "revId": "9ad090c5fea60c9925b7eb30155ce01961c3537f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "202d5b92_637e2ad9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-21T19:21:58Z",
+      "side": 1,
+      "message": "You\u0027re absolutely right that the process here was incomplete.\n\nI thought of #41190 as proposing to accept the io/fs design as specified by the draft and implemented by the prototype code stack, and this was in that code stack, from as far back as July. The importance of having a file system tester also came up in the Reddit discussion a couple times (see for example https://golang.org/s/fstest-reddit). But you are absolutely right that I failed to mention the iotest.TestReader function and fstest package in the design doc itself - they were only in the code stack. That was an oversight and was in no way intended as applying a different set of rules.\n\nI apologize for the mistake.",
+      "parentUuid": "0b379bcc_c543d754",
+      "revId": "9ad090c5fea60c9925b7eb30155ce01961c3537f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
