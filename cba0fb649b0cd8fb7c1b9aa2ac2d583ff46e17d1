@@ -16,6 +16,23 @@
       "message": "I tested this on Mac, let\u0027s test it on the other OS\u0027s.",
       "revId": "cba0fb649b0cd8fb7c1b9aa2ac2d583ff46e17d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9344ea08_2c21200f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-21T21:47:55Z",
+      "side": 1,
+      "message": "Which version of nohup was causing trouble here?",
+      "revId": "cba0fb649b0cd8fb7c1b9aa2ac2d583ff46e17d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
