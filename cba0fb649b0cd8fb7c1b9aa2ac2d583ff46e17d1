@@ -67,6 +67,24 @@
       "message": "Looks like it failed on openbsd nohup so going to abandon.",
       "revId": "cba0fb649b0cd8fb7c1b9aa2ac2d583ff46e17d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b403d29a_08918bd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-21T21:54:56Z",
+      "side": 1,
+      "message": "Note that getopt_long is a GNU-specific concept, and I see that that the OpenBSD nohup doesn\u0027t use it.",
+      "parentUuid": "6a6955d1_07463d6f",
+      "revId": "cba0fb649b0cd8fb7c1b9aa2ac2d583ff46e17d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
