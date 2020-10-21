@@ -153,6 +153,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39825a0a_042bc8c3",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-21T06:14:02Z",
+      "side": 1,
+      "message": "I think the of e in this case is \"interface { type rune, string }\".  But clearly we do need to work this out.",
+      "parentUuid": "c355bb77_211d8723",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4efa1d03_d2c84abb",
