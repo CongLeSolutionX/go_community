@@ -16,6 +16,24 @@
       "message": "optional suggestion:\n\nif sigAlg :\u003d getSignatureAlgorithmFromAI(signatureAlgorithm); sigAlg !\u003d MD5WithRSA {",
       "revId": "143d1683438d7b27a70b01ea6e450e04bce04839",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc523213_514b639f",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2162,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-21T17:12:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1389c62_c2e4c313",
+      "revId": "143d1683438d7b27a70b01ea6e450e04bce04839",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
