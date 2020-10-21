@@ -16,6 +16,24 @@
       "message": "One small nit: please move the Fixes line to the end of the commit message body as per https://golang.org/wiki/CommitMessage.",
       "revId": "6c494dd8d4be5596391585af2be5619c935b98a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0825d0d_cf078e77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44233
+      },
+      "writtenOn": "2020-10-21T18:44:40Z",
+      "side": 1,
+      "message": "Certainly dude. Updated.",
+      "parentUuid": "fd1c3c5f_b8db31ee",
+      "revId": "6c494dd8d4be5596391585af2be5619c935b98a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
