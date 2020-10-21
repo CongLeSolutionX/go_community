@@ -171,6 +171,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae1a6de7_412a0ae6",
+        "filename": "src/cmd/compile/internal/types2/testdata/typeparams.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-21T06:25:34Z",
+      "side": 1,
+      "message": "Interesting. But this would require that interface types with type lists have meaning outside constraints (per the open issue).\n\nAnd if that were the case, if we have only one list element as in \"interface { type string }\", we don\u0027t expect the element type to be \"interface { type rune }\", but simply \"rune\".\n\nSo the \"interface { type rune, string }\" would be some sort of exception. Even if it would make sense to permit that, it seems safer to disallow this at first (as we could always enable it later).\n\nBut as you say, we don\u0027t need to work this out now.",
+      "parentUuid": "39825a0a_042bc8c3",
+      "revId": "601f83119d64acfba06d4b015f47a22d43740332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4efa1d03_d2c84abb",
