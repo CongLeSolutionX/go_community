@@ -34,6 +34,24 @@
       "parentUuid": "c4c8c0c3_70933efa",
       "revId": "a3e4328c0bae67101a84f9a7b88c088192b2718e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6d7c76e_b35296a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-21T19:07:44Z",
+      "side": 1,
+      "message": "Is is possible we should have a single pass that does both?\n\n\u003e This optimization also can\u0027t handle the cases handled by shortcircuit, so they cannot be merged.\n\nCan you describe such a case?",
+      "parentUuid": "e5aa6a2c_57a74bfa",
+      "revId": "a3e4328c0bae67101a84f9a7b88c088192b2718e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
