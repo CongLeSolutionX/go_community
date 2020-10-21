@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f4294ac_c4946c68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2020-10-21T23:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c47bd1c_d5d5f047",
+      "revId": "a5bca430ba7aa926c2889fdb53b17070979394a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7f655fc_2b7c0280",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-19T20:17:03Z",
       "side": 1,
       "message": "I think the network should be \"unix\" rather than \"tcp\".",
+      "revId": "a5bca430ba7aa926c2889fdb53b17070979394a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c854e8b2_0ff9dd51",
+        "filename": "src/net/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2020-10-21T23:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7f655fc_2b7c0280",
       "revId": "a5bca430ba7aa926c2889fdb53b17070979394a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
