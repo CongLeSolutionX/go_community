@@ -13,7 +13,6 @@ import (
 	"go/constant"
 	"sort"
 	"strconv"
-	"strings"
 )
 
 // ident type-checks identifier e and initializes x with the value or type of e.
@@ -418,7 +417,8 @@ func (check *Checker) funcType(sig *Signature, recvPar *syntax.Field, tparams []
 // goTypeName returns the Go type name for typ and
 // removes any occurences of "types." from that name.
 func goTypeName(typ Type) string {
-	return strings.ReplaceAll(fmt.Sprintf("%T", typ), "types.", "")
+	return fmt.Sprintf("%T", typ)
+	// return strings.ReplaceAll(fmt.Sprintf("%T", typ), "types.", "") // TODO(gri) fix this
 }
 
 // typInternal drives type checking of types.
