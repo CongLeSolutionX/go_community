@@ -184,7 +184,19 @@ func runfinq() {
 			for i := fb.cnt; i > 0; i-- {
 				f := &fb.fin[i-1]
 
-				framesz := unsafe.Sizeof((interface{})(nil)) + f.nret
+				var regs abi.RegArgs
+				var framesz uintptr
+				if len(regs.Ints) > 0 {
+					// The args can always be passed inn registers,
+					// but unfortunately because we can have an arbitrary
+					// amount of returns and it would be complex to try and
+					// figure out how many of those can get passed in registers,
+					// just conservatively assume none of them do.
+					framesz = f.nret
+				} else {
+					// Need to pass arguments on the stack too.
+					framesz = unsafe.Sizeof((interface{})(nil)) + f.nret
+				}
 				if framecap < framesz {
 					// The frame does not contain pointers interesting for GC,
 					// all not yet finalized objects are stored in finq.
@@ -197,33 +209,34 @@ func runfinq() {
 				if f.fint == nil {
 					throw("missing type in runfinq")
 				}
-				// frame is effectively uninitialized
-				// memory. That means we have to clear
-				// it before writing to it to avoid
-				// confusing the write barrier.
-				*(*[2]uintptr)(frame) = [2]uintptr{}
+				r := frame
+				if len(regs.Ints) > 0 {
+					r := unsafe.Pointer(&regs.Ints[0])
+				} else {
+					// frame is effectively uninitialized
+					// memory. That means we have to clear
+					// it before writing to it to avoid
+					// confusing the write barrier.
+					*(*[2]uintptr)(frame) = [2]uintptr{}
+				}
 				switch f.fint.kind & kindMask {
 				case kindPtr:
 					// direct use of pointer
-					*(*unsafe.Pointer)(frame) = f.arg
+					*(*unsafe.Pointer)(r) = f.arg
 				case kindInterface:
 					ityp := (*interfacetype)(unsafe.Pointer(f.fint))
 					// set up with empty interface
-					(*eface)(frame)._type = &f.ot.typ
-					(*eface)(frame).data = f.arg
+					(*eface)(r)._type = &f.ot.typ
+					(*eface)(r).data = f.arg
 					if len(ityp.mhdr) != 0 {
 						// convert to interface with methods
 						// this conversion is guaranteed to succeed - we checked in SetFinalizer
-						*(*iface)(frame) = assertE2I(ityp, *(*eface)(frame))
+						*(*iface)(r) = assertE2I(ityp, *(*eface)(r))
 					}
 				default:
 					throw("bad kind in runfinq")
 				}
 				fingRunning = true
-				// Pass a dummy RegArgs for now.
-				//
-				// TODO(mknyszek): Pass arguments in registers.
-				var regs abi.RegArgs
 				reflectcall(nil, unsafe.Pointer(f.fn), frame, uint32(framesz), uint32(framesz), uint32(framesz), &regs)
 				fingRunning = false
 
