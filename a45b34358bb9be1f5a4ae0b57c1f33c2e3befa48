@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "e9f09971_5333db16",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Ok, this CL is now much better in terms of smaller code (-few% to -ten%). Only a few generated equality functions get bigger, and even then only by a little bit. All comparisons except the last use a branch to neq, and the last comparison is directly assigned to the result. The eq and neq cases share the return code.\n",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "241175d8_719c32fa",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +32,10 @@
       "side": 1,
       "message": "The only remaining regressions are arrays. I’ll see whether there’s a way to fix that; it’d be nice for this to be an across the board improvement.",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "3dd825c8_b9a2105f",
         "filename": "/PATCHSET_LEVEL",
@@ -48,10 +49,10 @@
       "side": 1,
       "message": "If you make the two code tweaks suggested below, this CL now has only a single, tiny regression in all of std+cmd:\n\ncmd/link/internal/benchmark\n.eq.\"\".mark 444 -\u003e 446  (+0.45%)\n\nEverything else shrinks. (I haven\u0027t investigated that regression; not worth the bother.)\n\nThanks for doing this.\n\nOne little optional thing. If you\u0027re up for it, it\u0027d be nice to do a before/after pseudo-code in the commit message, for folks following along.\n",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "181f0567_8aae5798",
         "filename": "/PATCHSET_LEVEL",
@@ -65,10 +66,28 @@
       "side": 1,
       "message": "Another option: just as we have a generic algs for mem-only objects of variable length, we could have generic algs for [N]string, [N]float32, [N]float64, and [N]iface that accept N as an argument.\n\nI threw together a very rough prototype for [N]string and (unsurprisingly) it is a win on most dimensions. The only possible regression is speed for small N where we would choose to unroll comparisons in the generated alg. But we could easily continue to generate those.\n\nI\u0027ll file an issue in case anyone wants to do this as a follow-up.",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76696e4a_6f60028e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2020-10-22T21:49:33Z",
+      "side": 1,
+      "message": "Keith, I think we should go ahead and make the two tweaks I suggest and submit this. We can work on generic runtime algs independently, and  have this  as a  baseline to   benchmark against.",
+      "parentUuid": "181f0567_8aae5798",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "0ee0fe46_59e30481",
         "filename": "src/cmd/compile/internal/gc/alg.go",
@@ -82,10 +101,10 @@
       "side": 1,
       "message": "Given the changes I suggest below, \"last\" might not be the best variable name here. I don\u0027t have a better suggestion, though. \"peel\"?",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "24915ca3_f4f7ac66",
         "filename": "src/cmd/compile/internal/gc/alg.go",
@@ -99,10 +118,10 @@
       "side": 1,
       "message": "Change this to false.",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "750cc625_9a91d586",
         "filename": "src/cmd/compile/internal/gc/alg.go",
@@ -116,8 +135,7 @@
       "side": 1,
       "message": "This too.",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
