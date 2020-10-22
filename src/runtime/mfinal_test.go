@@ -5,6 +5,7 @@
 package runtime_test
 
 import (
+	"internal/abi"
 	"runtime"
 	"testing"
 	"time"
@@ -260,5 +261,73 @@ func TestDeferKeepAlive(t *testing.T) {
 	time.Sleep(time.Second)
 	if finRun {
 		t.Errorf("finalizer ran prematurely")
+	}
+}
+
+var regConfirmRun int
+
+//go:registerparams
+func regFinalizerPointer(_ *Tint) (int, float32, [10]byte) {
+	regConfirmRun = -1
+	return 5151, 4.0, [10]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+}
+
+//go:registerparams
+func regFinalizerIface(_ Tinter) (int, float32, [10]byte) {
+	regConfirmRun = -2
+	return 5151, 4.0, [10]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+}
+
+func TestFinalizerRegisterABI(t *testing.T) {
+	if runtime.GOARCH != "amd64" {
+		t.Skipf("Skipping on non-amd64 machine")
+	}
+
+	// Optimistically clear any latent finalizers before continuing.
+	//
+	// It's possible that a finalizer only becomes available to run
+	// after this point, which would interfere with the test and could
+	// cause a crash. It's unlikely, but possible.
+	runtime.GC()
+	runtime.GC()
+
+	// fing will only pick this up if it's awoken from sleeping.
+	argRegsBefore := runtime.SetIntArgRegs(abi.IntArgRegs)
+	defer runtime.SetIntArgRegs(argRegsBefore)
+
+	tests := []struct {
+		name         string
+		fin          interface{}
+		confirmValue int
+	}{
+		{"Pointer", regFinalizerPointer, -1},
+		{"Interface", regFinalizerIface, -2},
+	}
+	for i := range tests {
+		test := &tests[i]
+		t.Run(test.name, func(t *testing.T) {
+			regConfirmRun = 0
+
+			x := new(Tint)
+			runtime.SetFinalizer(x, test.fin)
+
+			runtime.KeepAlive(x)
+
+			// Queue the finalizer.
+			runtime.GC()
+			runtime.GC()
+
+			for i := 0; i < 100; i++ {
+				time.Sleep(10 * time.Millisecond)
+				if regConfirmRun != 0 {
+					break
+				}
+			}
+			if regConfirmRun == 0 {
+				t.Error("finalizer failed to execute")
+			} else if regConfirmRun != test.confirmValue {
+				t.Errorf("wrong finalizer executed? regConfirmRun = %d", regConfirmRun)
+			}
+		})
 	}
 }

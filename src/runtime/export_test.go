@@ -1212,3 +1212,11 @@ func (th *TimeHistogram) Count(bucket, subBucket uint) (uint64, bool) {
 func (th *TimeHistogram) Record(duration int64) {
 	(*timeHistogram)(th).record(duration)
 }
+
+func SetIntArgRegs(a int) int {
+	lock(&finlock)
+	old := intArgRegs
+	intArgRegs = a
+	unlock(&finlock)
+	return old
+}
