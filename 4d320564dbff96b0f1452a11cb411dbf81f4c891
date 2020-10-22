@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8ffdae_7920e343",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "Maybe add a comment.",
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e662676_c78569f2",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "Remove dash.",
+      "range": {
+        "startLine": 160,
+        "startChar": 77,
+        "endLine": 160,
+        "endChar": 84
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941462ab_405759ed",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "That is always the hairy part... Could you show an example? Thanks.",
+      "range": {
+        "startLine": 218,
+        "startChar": 44,
+        "endLine": 218,
+        "endChar": 68
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3068043a_5e39be80",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "Why comment them out?",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 8
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f9ebda_e13b03af",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "What happens if it doesn\u0027t reach Load or Arg?",
+      "range": {
+        "startLine": 345,
+        "startChar": 98,
+        "endLine": 345,
+        "endChar": 114
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ebc55be_f8c49a49",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "I think we use uintptr for the first word of an interface, as it points to non-GC\u0027d memory.",
+      "range": {
+        "startLine": 379,
+        "startChar": 54,
+        "endLine": 379,
+        "endChar": 61
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1bea8eb_40c9c5cf",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "storeArgOrLoad",
+      "range": {
+        "startLine": 428,
+        "startChar": 17,
+        "endLine": 428,
+        "endChar": 25
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c4b7ea_4be9459d",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "Update comment.",
+      "range": {
+        "startLine": 200,
+        "startChar": 37,
+        "endLine": 200,
+        "endChar": 51
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d42879e7_554b0793",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:59:07Z",
+      "side": 1,
+      "message": "Fatalf? (The next line will panic if this happens, so maybe it is fine either way.)",
+      "range": {
+        "startLine": 157,
+        "startChar": 7,
+        "endLine": 157,
+        "endChar": 13
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
