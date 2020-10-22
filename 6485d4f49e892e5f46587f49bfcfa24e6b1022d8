@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9036770_4a6c86cb",
+        "filename": "src/strconv/eisel_lemire.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-22T23:56:24Z",
+      "side": 1,
+      "message": "s/1087/(64 + 1023)/ ?\n\nor maybe even (64 - bias64) with const bias64 \u003d -1023 (and the analogue for the 32bit version)",
+      "range": {
+        "startLine": 44,
+        "startChar": 36,
+        "endLine": 44,
+        "endChar": 40
+      },
+      "revId": "6485d4f49e892e5f46587f49bfcfa24e6b1022d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ae5459_43baecec",
+        "filename": "src/strconv/eisel_lemire.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-22T23:56:24Z",
+      "side": 1,
+      "message": "Mention that the computation happens in 64-bit float before converting to float32?",
+      "range": {
+        "startLine": 101,
+        "startChar": 13,
+        "endLine": 101,
+        "endChar": 17
+      },
+      "revId": "6485d4f49e892e5f46587f49bfcfa24e6b1022d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1f1631d_b116ffb1",
+        "filename": "src/strconv/eisel_lemire.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-22T23:56:24Z",
+      "side": 1,
+      "message": "see comment above",
+      "range": {
+        "startLine": 117,
+        "startChar": 15,
+        "endLine": 117,
+        "endChar": 16
+      },
+      "revId": "6485d4f49e892e5f46587f49bfcfa24e6b1022d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
