@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7452a2a_59d08f8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-10-22T19:02:46Z",
+      "side": 1,
+      "message": "A json.RawMessage can easily contain invalid JSON syntax. There is no way to tell the encoder that you\u0027re opting into an \"unsafe\" mode where the sanity check is disabled for you. If you want to propose that, the place would be the issue tracker. I\u0027m not sure if it has been proposed before.",
+      "revId": "8b4f58f8b0e0ea3ed9b3db169b23c6a0aa7a58e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
