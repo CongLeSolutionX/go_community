@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffad3ece_e6574f17",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T18:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef51e825_72d54095",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 49
+      },
+      "revId": "ec54b0a555da974bdf299a6cf4c0f9d085d3aed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2efb640_9fac6655",
@@ -54,6 +78,24 @@
       "writtenOn": "2020-10-22T18:03:32Z",
       "side": 1,
       "message": "Will this test work ok on WASM?",
+      "revId": "ec54b0a555da974bdf299a6cf4c0f9d085d3aed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bdeeecb_e9cda310",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T18:06:23Z",
+      "side": 1,
+      "message": "Wasm doesn\u0027t have go build, so this is skipped by MustHaveGoBuild. If it had, I don\u0027t see why it doesn\u0027t work. The binary is probably bigger, but 5 MB should be enough.",
+      "parentUuid": "f2efb640_9fac6655",
       "revId": "ec54b0a555da974bdf299a6cf4c0f9d085d3aed4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
