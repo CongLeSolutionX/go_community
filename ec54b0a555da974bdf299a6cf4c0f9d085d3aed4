@@ -16,6 +16,46 @@
       "message": "Not really sure where this test belongs. For this to work, it needs the compiler, the object file writer, and the linker all do the right thing. I just put it here as the linker is the final step.",
       "revId": "ec54b0a555da974bdf299a6cf4c0f9d085d3aed4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef51e825_72d54095",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-22T18:03:32Z",
+      "side": 1,
+      "message": "stray comment from previous test?",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 49
+      },
+      "revId": "ec54b0a555da974bdf299a6cf4c0f9d085d3aed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2efb640_9fac6655",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-22T18:03:32Z",
+      "side": 1,
+      "message": "Will this test work ok on WASM?",
+      "revId": "ec54b0a555da974bdf299a6cf4c0f9d085d3aed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
