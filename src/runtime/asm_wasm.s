@@ -299,14 +299,14 @@ TEXT ·cgocallback_gofunc(SB), NOSPLIT, $16-32
 		JMP NAME(SB); \
 	End
 
-TEXT ·reflectcall(SB), NOSPLIT, $0-32
+TEXT ·reflectcall(SB), NOSPLIT, $0-48
 	I64Load fn+8(FP)
 	I64Eqz
 	If
 		CALLNORESUME runtime·sigpanic(SB)
 	End
 
-	MOVW argsize+24(FP), R0
+	MOVW stackArgsSize+24(FP), R0
 
 	DISPATCH(runtime·call16, 16)
 	DISPATCH(runtime·call32, 32)
@@ -338,18 +338,18 @@ TEXT ·reflectcall(SB), NOSPLIT, $0-32
 	JMP runtime·badreflectcall(SB)
 
 #define CALLFN(NAME, MAXSIZE) \
-TEXT NAME(SB), WRAPPER, $MAXSIZE-32; \
+TEXT NAME(SB), WRAPPER, $MAXSIZE-48; \
 	NO_LOCAL_POINTERS; \
-	MOVW argsize+24(FP), R0; \
+	MOVW stackArgsSize+24(FP), R0; \
 	\
 	Get R0; \
 	I64Eqz; \
 	Not; \
 	If; \
 		Get SP; \
-		I64Load argptr+16(FP); \
+		I64Load stackArgs+16(FP); \
 		I32WrapI64; \
-		I64Load argsize+24(FP); \
+		I64Load stackArgsSize+24(FP); \
 		I64Const $3; \
 		I64ShrU; \
 		I32WrapI64; \
@@ -362,12 +362,12 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-32; \
 	I64Load $0; \
 	CALL; \
 	\
-	I64Load32U retoffset+28(FP); \
+	I64Load32U stackRetOffset+28(FP); \
 	Set R0; \
 	\
-	MOVD argtype+0(FP), RET0; \
+	MOVD stackArgsType+0(FP), RET0; \
 	\
-	I64Load argptr+16(FP); \
+	I64Load stackArgs+16(FP); \
 	Get R0; \
 	I64Add; \
 	Set RET1; \
@@ -378,7 +378,7 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-32; \
 	I64Add; \
 	Set RET2; \
 	\
-	I64Load32U argsize+24(FP); \
+	I64Load32U stackArgsSize+24(FP); \
 	Get R0; \
 	I64Sub; \
 	Set RET3; \

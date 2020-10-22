@@ -323,7 +323,7 @@ TEXT runtime·asminit(SB),NOSPLIT|NOFRAME,$0-0
 	RET
 
 // reflectcall: call a function with the given argument list
-// func call(argtype *_type, f *FuncVal, arg *byte, argsize, retoffset uint32).
+// func call(stackArgsType *_type, f *FuncVal, stackArgs *byte, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *abi.RegArgs).
 // we don't have variable-sized frames, so we use a small number
 // of constant-sized-frame functions to encode a few bits of size in the pc.
 // Caution: ugly multiline assembly macros in your future!
@@ -335,13 +335,13 @@ TEXT runtime·asminit(SB),NOSPLIT|NOFRAME,$0-0
 	JALR	ZERO, T2
 // Note: can't just "BR NAME(SB)" - bad inlining results.
 
-// func call(argtype *rtype, fn, arg unsafe.Pointer, n uint32, retoffset uint32)
+// func call(stackArgsType *rtype, fn, stackArgs unsafe.Pointer, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *abi.RegArgs).
 TEXT reflect·call(SB), NOSPLIT, $0-0
 	JMP	·reflectcall(SB)
 
-// func reflectcall(argtype *_type, fn, arg unsafe.Pointer, argsize uint32, retoffset uint32)
-TEXT ·reflectcall(SB), NOSPLIT|NOFRAME, $0-32
-	MOVWU argsize+24(FP), T0
+// func call(stackArgsType *_type, fn, stackArgs unsafe.Pointer, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *abi.RegArgs).
+TEXT ·reflectcall(SB), NOSPLIT|NOFRAME, $0-48
+	MOVWU stackArgsSize+24(FP), T0
 	DISPATCH(runtime·call16, 16)
 	DISPATCH(runtime·call32, 32)
 	DISPATCH(runtime·call64, 64)
@@ -373,11 +373,11 @@ TEXT ·reflectcall(SB), NOSPLIT|NOFRAME, $0-32
 	JALR	ZERO, T2
 
 #define CALLFN(NAME,MAXSIZE)			\
-TEXT NAME(SB), WRAPPER, $MAXSIZE-24;		\
+TEXT NAME(SB), WRAPPER, $MAXSIZE-48;		\
 	NO_LOCAL_POINTERS;			\
 	/* copy arguments to stack */		\
-	MOV	arg+16(FP), A1;			\
-	MOVWU	argsize+24(FP), A2;		\
+	MOV	stackArgs+16(FP), A1;			\
+	MOVWU	stackArgsSize+24(FP), A2;		\
 	MOV	X2, A3;				\
 	ADD	$8, A3;				\
 	ADD	A3, A2;				\
@@ -393,10 +393,10 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-24;		\
 	PCDATA  $PCDATA_StackMapIndex, $0;	\
 	JALR	RA, A4;				\
 	/* copy return values back */		\
-	MOV	argtype+0(FP), A5;		\
-	MOV	arg+16(FP), A1;			\
-	MOVWU	n+24(FP), A2;			\
-	MOVWU	retoffset+28(FP), A4;		\
+	MOV	stackArgsType+0(FP), A5;		\
+	MOV	stackArgs+16(FP), A1;			\
+	MOVWU	stackArgsSize+24(FP), A2;			\
+	MOVWU	stackRetOffset+28(FP), A4;		\
 	ADD	$8, X2, A3;			\
 	ADD	A4, A3; 			\
 	ADD	A4, A1;				\

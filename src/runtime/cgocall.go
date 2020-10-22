@@ -84,6 +84,7 @@
 package runtime
 
 import (
+	"internal/abi"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -328,7 +329,8 @@ func cgocallbackg1(ctxt uintptr) {
 	// For cgo, cb.arg points into a C stack frame and therefore doesn't
 	// hold any pointers that the GC can find anyway - the write barrier
 	// would be a no-op.
-	reflectcall(nil, unsafe.Pointer(cb.fn), cb.arg, uint32(cb.argsize), 0)
+	var regs abi.RegArgs
+	reflectcall(nil, unsafe.Pointer(cb.fn), cb.arg, uint32(cb.argsize), 0, uint32(cb.argsize), noescape(unsafe.Pointer(&regs)))
 
 	if raceenabled {
 		racereleasemerge(unsafe.Pointer(&racecgosync))

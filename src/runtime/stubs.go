@@ -158,18 +158,42 @@ func asminit()
 func setg(gg *g)
 func breakpoint()
 
-// reflectcall calls fn with a copy of the n argument bytes pointed at by arg.
-// After fn returns, reflectcall copies n-retoffset result bytes
-// back into arg+retoffset before returning. If copying result bytes back,
-// the caller should pass the argument frame type as argtype, so that
-// call can execute appropriate write barriers during the copy.
+// reflectcall calls fn with arguments described by stackArgs, stackArgsSize,
+// frameSize, and regArgs.
+//
+// Arguments passed on the stack and space for return values passed on the stack
+// must be laid out at the space pointed to by stackArgs (with total length
+// stackArgsSize) according to the ABI.
+//
+// stackRetOffset must be some value <= stackArgsSize that indicates the
+// offset within stackArgs where the return value space begins.
+//
+// frameSize is the total size of the argument frame referred to by stackArgs and
+// must therefore be >= stackArgsSize. It must include additional space for spilling
+// register arguments for stack growth and preemption.
+//
+// TODO(mknyszek): Once we don't need the additional spill space, remove frameSize,
+// since frameSize will be redundant with stackArgsSize.
+//
+// Arguments passed in registers must be laid out in regArgs according to the ABI.
+// regArgs has type *internal/abi.RegArgs. regArgs will also hold any return values
+// passed in registers after the call.
+//
+// reflectcall copies stack arguments from stackArgs to the goroutine stack, and
+// then copies back stackArgsSize-stackRetOffset bytes back to the return space
+// in stackArgs once fn has completed. It also "unspills" argument registers from
+// regArgs before calling fn, and spills them back into regArgs immediately
+// following the call to fn. If there are results being returned on the stack,
+// the caller should pass the argument frame type as stackArgsType so that
+// reflectcall can execute appropriate write barriers during the copy.
+//
 // Package reflect passes a frame type. In package runtime, there is only
 // one call that copies results back, in cgocallbackg1, and it does NOT pass a
 // frame type, meaning there are no write barriers invoked. See that call
 // site for justification.
 //
 // Package reflect accesses this symbol through a linkname.
-func reflectcall(argtype *_type, fn, arg unsafe.Pointer, argsize uint32, retoffset uint32)
+func reflectcall(stackArgsType *_type, fn, stackArgs unsafe.Pointer, stackArgsSize, stackRetOffset, frameSize uint32, regArgs unsafe.Pointer)
 
 func procyield(cycles uint32)
 
