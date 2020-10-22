@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f70d4ff5_3c1b88fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb58f161_f15b8346",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7e7d2056_13bfb724",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -86,6 +104,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "266f887a_c2f54b87",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42990d6f_9dc63ef9",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb0862cb_4160ac4f",
@@ -109,6 +145,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08172e83_8cc6f03f",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb0862cb_4160ac4f",
+      "range": {
+        "startLine": 245,
+        "startChar": 5,
+        "endLine": 245,
+        "endChar": 18
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3075b67_c50eeea8",
@@ -122,6 +182,24 @@
       "writtenOn": "2020-10-07T02:17:23Z",
       "side": 1,
       "message": "Just \"abi_amd64.go\"?",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0602d25a_f4a7240e",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3075b67_c50eeea8",
       "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -168,6 +246,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54e2574c_36f11814",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "ehhhhh as much as internal/sys would be nice, the fact that one needs to import both internal/sys and runtime/internal/sys in the runtime is really annoying. I\u0027m just going to put it in internal/abi for now.",
+      "parentUuid": "a474e247_0c2b8e31",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7710490c_8ef404af",
         "filename": "src/internal/cpu/cpu_regabi_amd64.go",
         "patchSetId": 7
@@ -179,6 +281,30 @@
       "writtenOn": "2020-10-07T02:45:10Z",
       "side": 1,
       "message": "This could be param or arg, but maybe it should be \"IntArgRegs\" for consistency with RegArgs.",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f81da07e_0772d295",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7710490c_8ef404af",
       "range": {
         "startLine": 10,
         "startChar": 4,
@@ -206,6 +332,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a64f0a5_e143707d",
+        "filename": "src/internal/cpu/cpu_regabi_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "yes, that\u0027s exactly it. renamed to EffectiveFloatRegSize and added more documentation.",
+      "parentUuid": "77d0a1a1_e3329fbc",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e739067_8a90d115",
@@ -219,6 +363,24 @@
       "writtenOn": "2020-10-07T02:17:23Z",
       "side": 1,
       "message": "abi_other.go?",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db32477a_778b0a49",
+        "filename": "src/internal/cpu/cpu_regabi_other.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e739067_8a90d115",
       "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -259,6 +421,54 @@
       "writtenOn": "2020-10-07T02:45:10Z",
       "side": 1,
       "message": "\"*cpu.RegArgs\"?",
+      "range": {
+        "startLine": 459,
+        "startChar": 56,
+        "endLine": 459,
+        "endChar": 63
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c0127aa_dca40c2d",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4f304e5_fbaca226",
+      "range": {
+        "startLine": 459,
+        "startChar": 8,
+        "endLine": 459,
+        "endChar": 14
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6789fa80_332d2d87",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16da2ac7_1245f9ba",
       "range": {
         "startLine": 459,
         "startChar": 56,
@@ -315,6 +525,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58192b18_c16757d5",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a59e575_277a38f1",
+      "range": {
+        "startLine": 487,
+        "startChar": 10,
+        "endLine": 487,
+        "endChar": 16
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eadc91c_d256acc8",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eff5df5e_290bad78",
+      "range": {
+        "startLine": 487,
+        "startChar": 50,
+        "endLine": 487,
+        "endChar": 57
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9f5b864_ab395166",
@@ -328,6 +586,30 @@
       "writtenOn": "2020-10-07T02:45:10Z",
       "side": 1,
       "message": "stackArgs",
+      "range": {
+        "startLine": 378,
+        "startChar": 5,
+        "endLine": 378,
+        "endChar": 8
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8b0510b_6322e59d",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9f5b864_ab395166",
       "range": {
         "startLine": 378,
         "startChar": 5,
@@ -361,6 +643,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6faec8f1_4fa7fdbc",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c41d682_05d83cff",
+      "range": {
+        "startLine": 349,
+        "startChar": 10,
+        "endLine": 349,
+        "endChar": 16
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72972a1c_8bf1f14e",
@@ -384,6 +690,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41db7e13_0996c50d",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72972a1c_8bf1f14e",
+      "range": {
+        "startLine": 351,
+        "startChar": 10,
+        "endLine": 351,
+        "endChar": 17
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a0ab4ef_f58d999f",
@@ -397,6 +727,30 @@
       "writtenOn": "2020-10-07T02:45:10Z",
       "side": 1,
       "message": "stackArgs",
+      "range": {
+        "startLine": 369,
+        "startChar": 9,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f0ab0f2_3a835867",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a0ab4ef_f58d999f",
       "range": {
         "startLine": 369,
         "startChar": 9,
@@ -449,6 +803,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6fa079ca_b56f98fe",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "yup, created a new CL which implements this.",
+      "parentUuid": "e300e780_e08435cf",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 0
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "da72b71c_3278e23d",
         "filename": "src/runtime/panic.go",
         "patchSetId": 7
@@ -481,6 +859,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8def893b_40b0e4fd",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "correct, just unimplemented for now. left a comment in all these places.",
+      "parentUuid": "d4cb6873_cfaf0aa8",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75f93da9_de4598ca",
@@ -504,6 +900,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "027f481a_1dc22220",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75f93da9_de4598ca",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b8f836b_d4007530",
@@ -517,6 +937,24 @@
       "writtenOn": "2020-10-07T02:45:56Z",
       "side": 1,
       "message": "Need to update the names in this comment, and also describe frameSize and regArgs.",
+      "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8a337b2_3fe881fc",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-22T17:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b8f836b_d4007530",
       "revId": "c8518db9c356bc939d4c8a6f7589700bd9522977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
