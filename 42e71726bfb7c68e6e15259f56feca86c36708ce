@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2624bb4_d6b20bba",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2250,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-22T20:23:31Z",
+      "side": 1,
+      "message": "this line is gone in the current revision.",
+      "parentUuid": "3b81edfa_26988714",
+      "range": {
+        "startLine": 2250,
+        "startChar": 6,
+        "endLine": 2250,
+        "endChar": 23
+      },
+      "revId": "42e71726bfb7c68e6e15259f56feca86c36708ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d7b7aee_f64a3dc0",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-15T17:55:02Z",
       "side": 1,
       "message": "What happens if we have an overlay for foo.c, and that file includes \"bar/baz.h\" (a path relative to the actual file\u0027s directory), which is not overlaid? We\u0027ll need to make sure there\u0027s an -I or -iquote flag for the actual file\u0027s directory. It might already be there.\n\nAlso, what happens if we overlay an .h file? We should make sure the overlay file gets included instead of the actual file.\n\nLet\u0027s make sure it\u0027s not possible to include a file in the same directory as an overlay file when the included file is not part of the overlay.",
+      "revId": "42e71726bfb7c68e6e15259f56feca86c36708ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3608c05_a3270096",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2263,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-22T20:23:31Z",
+      "side": 1,
+      "message": "I think I\u0027ll handle this in a separate CL that adds support for .c files. \n\nIt looks like we don\u0027t need to support relative includes, but we will need to add include path for the overlaid .h file.\n\nNot including a file in the same directory as the overlay file seems tricky....",
+      "parentUuid": "2d7b7aee_f64a3dc0",
       "revId": "42e71726bfb7c68e6e15259f56feca86c36708ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
