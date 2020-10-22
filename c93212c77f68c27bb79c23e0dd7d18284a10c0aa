@@ -50,6 +50,24 @@
       "message": "Interesting bug. Fix LGTM.\n\nThe fact that it causes the size regression is a little counter-intuitive. Is the idea that the large stmp RODATA symbol would be dead except that it has been hashed to the same as some other live symbol?\n",
       "revId": "c93212c77f68c27bb79c23e0dd7d18284a10c0aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "024772ff_3133ef3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-22T16:09:33Z",
+      "side": 1,
+      "message": "Yes, that is what happened.\n\nThanks for review.",
+      "parentUuid": "1efff360_c61883a0",
+      "revId": "c93212c77f68c27bb79c23e0dd7d18284a10c0aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
