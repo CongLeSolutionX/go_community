@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84ae388a_c56471c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-22T18:36:42Z",
+      "side": 1,
+      "message": "Could you rebase onto master, the cert pool changed somewhat since this was originally written (mainly bySubjectKeyId was removed).\n\nThanks!",
+      "revId": "8db27f3a4ebbd3e55513d359edd36527332f985b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d524b9b_9cc15c7f",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-22T18:36:42Z",
+      "side": 1,
+      "message": "Since getCert and rawSubjects are always going to be the same length, could be slightly clearer as []struct{get; subj}, which would prevent someone from accidentally referencing the wrong loader/subject pairing.",
+      "revId": "8db27f3a4ebbd3e55513d359edd36527332f985b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be94c140_7e8e0df1",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-22T18:36:42Z",
+      "side": 1,
+      "message": "Might make sense to just panic here rather than return an error, since currently nothing will actually propagate the error (AddCert just panics itself) and the follow-up change goes back to never actually returning an error from contains (I think?).",
+      "revId": "8db27f3a4ebbd3e55513d359edd36527332f985b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb20460c_921cc34d",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-22T18:36:42Z",
+      "side": 1,
+      "message": "nit: would be nice to have a type for \u0027func() (*Certificate, error)\u0027 rather than redefining it a bunch.",
+      "revId": "8db27f3a4ebbd3e55513d359edd36527332f985b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3c13f6b_02d6242d",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-22T18:36:42Z",
+      "side": 1,
+      "message": "If the two slices are not consolidated, can this be copy(res, s.rawSubjects).",
+      "revId": "8db27f3a4ebbd3e55513d359edd36527332f985b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1a8530a_4f26f3e4",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2652,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-22T18:36:42Z",
+      "side": 1,
+      "message": "nit: for the sake of making test failures somewhat easier to understand this might be nicer by passing in the testing.T and using t.Fatalf.",
+      "revId": "8db27f3a4ebbd3e55513d359edd36527332f985b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "503f7017_0eb9db33",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2659,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-22T18:36:42Z",
+      "side": 1,
+      "message": "Could you add a comparePools test func rather than needing to remember to do the three step zero, zero, reflect dance.",
+      "revId": "8db27f3a4ebbd3e55513d359edd36527332f985b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
