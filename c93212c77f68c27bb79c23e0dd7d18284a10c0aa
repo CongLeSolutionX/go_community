@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b97a8ffd_3197e042",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-22T14:58:45Z",
+      "side": 1,
+      "message": "#42140 is reporting a regression from #38554.\n\nIs it feasible to add a regression test for this issue, so that it won\u0027t regress undetected again in the future?",
+      "revId": "c93212c77f68c27bb79c23e0dd7d18284a10c0aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51550f41_0e6d9ad7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-22T14:58:45Z",
+      "side": 1,
+      "message": "Is there some way to add a regression test for this, so that it doesn\u0027t regress ",
+      "revId": "c93212c77f68c27bb79c23e0dd7d18284a10c0aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
