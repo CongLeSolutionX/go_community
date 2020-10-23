@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c8bc4ee_35e31260",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-23T18:05:41Z",
+      "side": 1,
+      "message": "LGTM modulo fixing the test failure.",
+      "revId": "114b4801071bfe1d0317d62eb3b2a3de32f84db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbcc18c8_520cd5f6",
+        "filename": "src/cmd/go/testdata/script/mod_init_convert_sum.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-23T18:05:41Z",
+      "side": 1,
+      "message": "Hrm. I would kind of rather we wait to fix up the requirements until they actually run \u0027go mod tidy\u0027, or else print out versions that were upgraded due to inconsistency.\n\nI suppose we can follow up with that separately, though, or maybe it\u0027s just not that important. (The number of migrations from older configuration files should asymptotically approach zero...)",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 70
+      },
+      "revId": "114b4801071bfe1d0317d62eb3b2a3de32f84db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
