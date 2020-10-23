@@ -410,6 +410,9 @@ const (
 // syscalls that execute on all OSThreads - with which to support
 // POSIX semantics for security state changes.
 func TestAllThreadsSyscall(t *testing.T) {
+	if runtime.GOARCH == "ppc64" {
+		t.Skip("skipping on linux/ppc64; see issue #42178")
+	}
 	if _, _, err := syscall.AllThreadsSyscall(syscall.SYS_PRCTL, PR_SET_KEEPCAPS, 0, 0); err == syscall.ENOTSUP {
 		t.Skip("AllThreadsSyscall disabled with cgo")
 	}
