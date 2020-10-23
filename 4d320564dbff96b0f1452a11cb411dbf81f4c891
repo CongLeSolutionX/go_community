@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad591f2e_2b2ad503",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Should be better, thanks for the feedback.",
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d8ffdae_7920e343",
@@ -35,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd79d69_f976a263",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d8ffdae_7920e343",
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e662676_c78569f2",
@@ -48,6 +83,30 @@
       "writtenOn": "2020-10-22T16:59:07Z",
       "side": 1,
       "message": "Remove dash.",
+      "range": {
+        "startLine": 160,
+        "startChar": 77,
+        "endLine": 160,
+        "endChar": 84
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dfd82bc_4ea8dd24",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e662676_c78569f2",
       "range": {
         "startLine": 160,
         "startChar": 77,
@@ -81,6 +140,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb0dfc51_317c16a6",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "941462ab_405759ed",
+      "range": {
+        "startLine": 218,
+        "startChar": 44,
+        "endLine": 218,
+        "endChar": 68
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3068043a_5e39be80",
@@ -94,6 +177,30 @@
       "writtenOn": "2020-10-22T16:59:07Z",
       "side": 1,
       "message": "Why comment them out?",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 8
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ad7f8a5_f6c9d1f7",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "It\u0027s an old obsolete bit of code, subsumed by removeTrivialWrapper types above.\nWill remove.",
+      "parentUuid": "3068043a_5e39be80",
       "range": {
         "startLine": 238,
         "startChar": 0,
@@ -127,6 +234,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52851cc0_2680c47e",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Nothing -- I\u0027ll add that comment. The do-nothing behavior is necessary to allow running this before decompose builtin, if that is something we choose to do (this has not been tested lately).",
+      "parentUuid": "b5f9ebda_e13b03af",
+      "range": {
+        "startLine": 345,
+        "startChar": 98,
+        "endLine": 345,
+        "endChar": 114
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ebc55be_f8c49a49",
@@ -140,6 +271,30 @@
       "writtenOn": "2020-10-22T16:59:07Z",
       "side": 1,
       "message": "I think we use uintptr for the first word of an interface, as it points to non-GC\u0027d memory.",
+      "range": {
+        "startLine": 379,
+        "startChar": 54,
+        "endLine": 379,
+        "endChar": 61
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f1c9e16_2a0a08e9",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "I think that is correct, will change.",
+      "parentUuid": "9ebc55be_f8c49a49",
       "range": {
         "startLine": 379,
         "startChar": 54,
@@ -173,6 +328,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ada7041e_0ebc7ff1",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1bea8eb_40c9c5cf",
+      "range": {
+        "startLine": 428,
+        "startChar": 17,
+        "endLine": 428,
+        "endChar": 25
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95c4b7ea_4be9459d",
@@ -196,6 +375,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aa21966_2da45602",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Actually removed this, it is not needed (yet) but probably will be for a function\u0027s return values.\nSo, next CL, corrected there.",
+      "parentUuid": "95c4b7ea_4be9459d",
+      "range": {
+        "startLine": 200,
+        "startChar": 37,
+        "endLine": 200,
+        "endChar": 51
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d42879e7_554b0793",
@@ -209,6 +412,30 @@
       "writtenOn": "2020-10-22T16:59:07Z",
       "side": 1,
       "message": "Fatalf? (The next line will panic if this happens, so maybe it is fine either way.)",
+      "range": {
+        "startLine": 157,
+        "startChar": 7,
+        "endLine": 157,
+        "endChar": 13
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc942912_78f43406",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-23T04:38:06Z",
+      "side": 1,
+      "message": "Done.  I definitely want to leave this in, I expect to hit it when changing to a register ABI.",
+      "parentUuid": "d42879e7_554b0793",
       "range": {
         "startLine": 157,
         "startChar": 7,
