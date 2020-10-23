@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2dc057e_988ca2be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-23T23:06:47Z",
+      "side": 1,
+      "message": "net/http: make TestNewClientServerTest call cst.close before t.Fatal",
+      "revId": "06f137e794de3b3fa4a3f6f09825d91d8c4db17e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95095adf_f9479506",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-23T23:06:47Z",
+      "side": 1,
+      "message": "Thank you for this change Xiangyue and welcome to the Go project!\n\nPlease update your commit message to the suggestion I\u0027ve, made, which you can do\nby editing the Github PR description, but otherwise looks good to me.",
+      "revId": "06f137e794de3b3fa4a3f6f09825d91d8c4db17e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
