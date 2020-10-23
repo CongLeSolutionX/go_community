@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "79c2b7a4_fef952c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2020-10-23T22:53:42Z",
+      "side": 1,
+      "message": "I presume that \"CL 204677\" is a typo for \"CL 264677\".\n\nI still think this CL is worth submitting. We\u0027re waiting for gri@ to review.",
+      "parentUuid": "115e1acb_6a9b90f7",
+      "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d56eb6f1_3682184f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "writtenOn": "2020-10-23T20:35:56Z",
       "side": 1,
       "message": "Removing extFloat code should fix issue 36657.\nCan you check that it is true and add the corresponding test ?\n\nFor example :\n\n     // Halfway between 1090544144181609278303144771584 and 1090544144181609419040633126912\n     // (15497564393479157p+46, should round to even 15497564393479156p+46, issue 36657)\n     {\"1090544144181609348671888949248\", \"1.0905441441816093e+30\", nil},\n     // slightly above, rounds up\n     {\"1090544144181609348835077142190\", \"1.0905441441816094e+30\", nil},\n",
+      "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aae5808_4b0ddc8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2020-10-23T22:53:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41498078_c834328b",
       "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
