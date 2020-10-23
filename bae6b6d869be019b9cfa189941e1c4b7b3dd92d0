@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c58639_747c848e",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-23T17:50:41Z",
+      "side": 0,
+      "message": "Ooh, this is nice!",
+      "revId": "bae6b6d869be019b9cfa189941e1c4b7b3dd92d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
