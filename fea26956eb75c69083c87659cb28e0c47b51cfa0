@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c3fb371_c58a7d0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-23T03:59:47Z",
+      "side": 1,
+      "message": "Eventually we need to get rid of the newly introduced dependencies.\n\n1) The importer will need to be the one that the compiler is using (a variant of which that is using types2 data structures).\n\n2) Instead of go/constant, we may be able to use a slimmed-down version. go/constant is also the reason why there\u0027s a dependency on go/token (tokens are used in the API).\n\nIf you have any suggestions to address this early, please let me know.",
+      "revId": "fea26956eb75c69083c87659cb28e0c47b51cfa0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
