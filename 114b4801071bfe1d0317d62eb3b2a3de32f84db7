@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06d03659_93f77274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-23T18:26:30Z",
+      "side": 1,
+      "message": "FYI, test failure was due to #33767: \u0027go mod init\u0027 uses modfetch.ImportRepoRev, which bypasses GOPROXY logic and only works in direct mode.",
+      "parentUuid": "6c8bc4ee_35e31260",
+      "revId": "114b4801071bfe1d0317d62eb3b2a3de32f84db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbcc18c8_520cd5f6",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-10-23T18:05:41Z",
       "side": 1,
       "message": "Hrm. I would kind of rather we wait to fix up the requirements until they actually run \u0027go mod tidy\u0027, or else print out versions that were upgraded due to inconsistency.\n\nI suppose we can follow up with that separately, though, or maybe it\u0027s just not that important. (The number of migrations from older configuration files should asymptotically approach zero...)",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 70
+      },
+      "revId": "114b4801071bfe1d0317d62eb3b2a3de32f84db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d887c36_71e4a614",
+        "filename": "src/cmd/go/testdata/script/mod_init_convert_sum.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-23T18:26:30Z",
+      "side": 1,
+      "message": "Ack. Will abandon this change since it doesn\u0027t do anything else.\n\nWe\u0027ll nearly always need \u0027go mod tidy\u0027 anyway to at least download zip sums.",
+      "parentUuid": "dbcc18c8_520cd5f6",
       "range": {
         "startLine": 4,
         "startChar": 0,
