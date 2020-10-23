@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "115e1acb_6a9b90f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 7160
+      },
+      "writtenOn": "2020-10-23T20:35:56Z",
+      "side": 1,
+      "message": "It\u0027s not for malicious inputs. It\u0027s for inputs which are too long. In my environment I have old apps which produce non-shortest floats and they are a pain.\n\nSee CL 264677 for a very simple benchmark demonstrating this (basically format numbers with %.20g). The old extFloat code was managing long mantissas, CL 204677 shows how to do that.\n\nOnce you submit this CL I will be happy to push CL 264677.",
+      "parentUuid": "ec1b18aa_452ae07c",
+      "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d56eb6f1_3682184f",
@@ -66,6 +84,23 @@
       "writtenOn": "2020-10-23T02:38:17Z",
       "side": 1,
       "message": "I noted a possible security issue introduced by deleting that. ",
+      "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41498078_c834328b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7160
+      },
+      "writtenOn": "2020-10-23T20:35:56Z",
+      "side": 1,
+      "message": "Removing extFloat code should fix issue 36657.\nCan you check that it is true and add the corresponding test ?\n\nFor example :\n\n     // Halfway between 1090544144181609278303144771584 and 1090544144181609419040633126912\n     // (15497564393479157p+46, should round to even 15497564393479156p+46, issue 36657)\n     {\"1090544144181609348671888949248\", \"1.0905441441816093e+30\", nil},\n     // slightly above, rounds up\n     {\"1090544144181609348835077142190\", \"1.0905441441816094e+30\", nil},\n",
       "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
