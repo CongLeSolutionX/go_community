@@ -156,6 +156,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "04820b02_8587a266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-23T17:23:59Z",
+      "side": 1,
+      "message": "Yes, toolstash checks binaries (including objects and final linker output).\n\nToolstash does a compare for all {compile,asm,link} invocations, so a regular run would just immediately generate failures due to the fact that object files are going to be different. Example:\n\n# crypto/subtle\ntoolstash: compiler output differs, with optimizers disabled (-N)\n\ninconsistent log line:\n/tmp/go-build692338346/b049/_pkg_.a.log:299:\n\t\trel 277+4 t\u003d8 runtime.panicIndex\u003c1\u003e+0\n/tmp/go-build692338346/b049/_pkg_.a.stash.log:299:\n\t\trel 277+4 t\u003d8 runtime.panicIndex\u003c0\u003e+0\n\nI thought about hacking hacking toolstash to skip the compare for compile + asm actions, but this is problematic given that \"toolstash -cmp\" is not rewriting the linker import CFG: when it does the link action, it\u0027s relying on the fact that all previous actions produced identical output.\n\nSo if I were to stub out compile + asm compare actions, I\u0027d also have to somehow rewrite the input CFG for the stashed version of previously compiled packages.  Otherwise for the \"toolstash\" link step it would be picking up \"new\" objects instead of stashed object. Hope this makes sense.\n\nI did do some hand testing just to make sure the binaries are identical, and from what I can tell they are.",
+      "parentUuid": "c3f6053c_00b6121a",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b84ecc27_7b50ab51",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -289,6 +313,24 @@
       "side": 1,
       "message": "Sounds good. One question though: how is this not a problem for ssa.go when building for non-amd64? Why isn\u0027t it mismatching the symbol lookups? (It\u0027s clearly fine because the trybots are happy.)",
       "parentUuid": "07decf7d_1552ddff",
+      "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f21ad2c_2cec1300",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-23T17:23:59Z",
+      "side": 1,
+      "message": "I think bottom line is that without ABI wrappers in the picture, switching from (for example)\n\n\tDuffcopy \u003d sysvar(\"duffcopy\")\n\nto \n\n\tDuffcopy \u003d sysfunc(\"duffcopy\")\n\njust means that the compiler will target the ABI alias and not the underlying asm function itself, which won\u0027t make any difference once the program is linked.",
+      "parentUuid": "670e1e97_4efb9425",
       "revId": "754151e23430e49254bab3f71f808e7ebb9e87e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
