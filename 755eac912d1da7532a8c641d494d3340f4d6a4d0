@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c352a4dd_4e3e43dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-10-23T02:38:17Z",
+      "side": 1,
+      "message": "This case might be a good target for a complexity attack after this change. Externally exploitable by sending weird floats to a Json based API for example.",
+      "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d56eb6f1_3682184f",
@@ -14,6 +31,23 @@
       "writtenOn": "2020-10-23T01:31:26Z",
       "side": 1,
       "message": "WDYT?\n\nWhen Rémy lands the Ryū ftoa algorithm (https://go-review.googlesource.com/c/go/+/170079 and friends), we might be able to delete extfloat.go entirely.",
+      "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ffb65af_2d637a29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-10-23T02:38:17Z",
+      "side": 1,
+      "message": "I noted a possible security issue introduced by deleting that. ",
       "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
