@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "4ccec1ed_4c50ee82",
         "filename": "src/net/mail/message.go",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "It feels like this is captured by the \"For the most part\" of the previous paragraph. Divergences that matter can be a new bullet point in the list above.",
       "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c52e53f_fba0d6e1",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-23T23:41:52Z",
+      "side": 1,
+      "message": "See the problem is that \"For the most part\" leaves a universe of many unknowns, and I believe this separate sentence, citing which RFCs shouldn\u0027t be considered as strict, clears up the confusion.",
+      "parentUuid": "4ccec1ed_4c50ee82",
+      "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
