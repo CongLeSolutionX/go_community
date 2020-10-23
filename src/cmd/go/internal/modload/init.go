@@ -433,7 +433,12 @@ func CreateModFile(ctx context.Context, modPath string) {
 		base.Fatalf("go: %v", err)
 	}
 
+	// Ensure imported requirements actually exist and are consistent.
+	forceDirty := true
+	index = indexModFile(nil, modFile, forceDirty)
 	modFileToBuildList()
+	ReloadBuildList()
+
 	WriteGoMod()
 
 	// Suggest running 'go mod tidy' unless the project is empty. Even if we

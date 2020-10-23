@@ -36,7 +36,7 @@ var modFile *modfile.File
 // at a specific point in time.
 type modFileIndex struct {
 	data            []byte
-	dataNeedsFix    bool // true if fixVersion applied a change while parsing data
+	forceDirty      bool // true if data does not match what we loaded
 	module          module.Version
 	goVersionV      string // GoVersion with "v" prefix
 	require         map[module.Version]requireMeta
@@ -245,10 +245,10 @@ func Replacement(mod module.Version) module.Version {
 // indexModFile rebuilds the index of modFile.
 // If modFile has been changed since it was first read,
 // modFile.Cleanup must be called before indexModFile.
-func indexModFile(data []byte, modFile *modfile.File, needsFix bool) *modFileIndex {
+func indexModFile(data []byte, modFile *modfile.File, forceDirty bool) *modFileIndex {
 	i := new(modFileIndex)
 	i.data = data
-	i.dataNeedsFix = needsFix
+	i.forceDirty = forceDirty
 
 	i.module = module.Version{}
 	if modFile.Module != nil {
@@ -317,7 +317,7 @@ func (i *modFileIndex) modFileIsDirty(modFile *modfile.File) bool {
 		return modFile != nil
 	}
 
-	if i.dataNeedsFix {
+	if i.forceDirty {
 		return true
 	}
 
