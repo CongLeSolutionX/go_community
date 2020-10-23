@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ec1b18aa_452ae07c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2020-10-23T04:48:06Z",
+      "side": 1,
+      "message": "It\u0027s not a new concern, though. As the \"bitSize\u003d64, normallyDistributed\u003dfalse\" section in this commit message shows, there are already inputs which fall past both eiselLemire64 and extFloat to the slowest code path (the fallback). Even before this commit, a malicious person could already send weird floats to a JSON based API.",
+      "parentUuid": "c352a4dd_4e3e43dd",
+      "revId": "755eac912d1da7532a8c641d494d3340f4d6a4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d56eb6f1_3682184f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
