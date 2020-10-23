@@ -787,9 +787,13 @@ const (
 	OSIZEOF      // unsafe.Sizeof(Left)
 
 	// statements
-	OBLOCK    // { List } (block of code)
-	OBREAK    // break [Sym]
-	OCASE     // case List: Nbody (List==nil means default)
+	OBLOCK // { List } (block of code)
+	OBREAK // break [Sym]
+	// OCASE:  case List: Nbody (List==nil means default)
+	//   For OTYPESW, List is a type, and, if a type-switch variable is
+	//   specified, Rlist is optionally an ONAME for the version of the
+	//   type-switch variable with the specified type.
+	OCASE
 	OCONTINUE // continue [Sym]
 	ODEFER    // defer Left (Left must be call)
 	OEMPTY    // no-op (empty statement)

@@ -18,6 +18,7 @@ import (
 	"io"
 	"math/big"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -247,6 +248,12 @@ func (p *iimporter) pkgAt(off uint64) *types.Pkg {
 	return pkg
 }
 
+// symgen is a key for typeswMap
+type symgen struct {
+	sym    *types.Sym
+	vargen int32
+}
+
 // An importReader keeps state for reading an individual imported
 // object (declaration or inline body).
 type importReader struct {
@@ -257,12 +264,19 @@ type importReader struct {
 	prevBase   *src.PosBase
 	prevLine   int64
 	prevColumn int64
+
+	// Map from (Sym, vargen) to Node for typeswitches. (Sym, -1) maps from
+	// the typeswitch pseudo-variable to the defining OTYPESW node. (Sym,
+	// vargen) maps from the pseudo-variable and a generation to each
+	// per-switch variable.
+	typeswMap map[symgen]*Node
 }
 
 func (p *iimporter) newReader(off uint64, pkg *types.Pkg) *importReader {
 	r := &importReader{
-		p:       p,
-		currPkg: pkg,
+		p:         p,
+		currPkg:   pkg,
+		typeswMap: make(map[symgen]*Node),
 	}
 	// (*strings.Reader).Reset wasn't added until Go 1.7, and we
 	// need to build with Go 1.4.
@@ -820,7 +834,61 @@ func (r *importReader) node() *Node {
 		return n
 
 	case ONONAME:
-		return mkname(r.qualifiedIdent())
+		flag := r.int64()
+		if flag == 0 {
+			// Package scope name
+			return mkname(r.qualifiedIdent())
+		}
+		if flag == 1 {
+			// Handle top ONONAME pseudo-variable of OTYPESW
+			pos := r.pos()
+			ident := r.ident()
+			n := newnoname(ident)
+			n = npos(pos, n)
+			return n
+		}
+		if flag == 2 {
+			// Handle per-case variable of OTYPESW
+			pos := r.pos()
+			name := r.string()
+			slice := strings.Split(name, "·")
+			if len(slice) != 2 {
+				Fatalf("Bad per-case variable name %v", name)
+			}
+			// Use the same ident (sym) of the pseudo-variable
+			ident := r.currPkg.Lookup(slice[0])
+			gen, err := strconv.Atoi(slice[1])
+			if err != nil {
+				Fatalf("Bad per-case variable name %v", name)
+			}
+			sg := symgen{
+				sym:    ident,
+				vargen: int32(gen),
+			}
+			// See if we have already created the local variable
+			// specific to this case (i.e. with the specified vargen)
+			n := r.typeswMap[sg]
+			if n == nil {
+				// No, so create a new node for this per-case variable
+				n = newnamel(pos, ident)
+				n.SetClass(PAUTO)
+				n.Name.Vargen = int32(gen)
+				// Mark the per-case variable as defined by the OTYPESW node
+				sg.vargen = -1
+				n.Name.Defn = r.typeswMap[sg]
+				if n.Name.Defn == nil {
+					Fatalf("Typeswitch pseudo-variable node not found for %v", ident)
+				}
+				sg.vargen = int32(gen)
+				// Save the node so we can use it for any
+				// remaining references to this variable within
+				// this case.
+				r.typeswMap[sg] = n
+			}
+			return n
+		}
+		Fatalf("bad ONONAME flag value %d", flag)
+		panic("unreachable") // satisfy compiler
 
 	case ONAME:
 		return mkname(r.ident())
@@ -1028,11 +1096,22 @@ func (r *importReader) node() *Node {
 		n.List.Set(r.stmtList())
 		return n
 
+	case OTYPESW:
+		n := nodl(r.pos(), op, nil, nil)
+		n.Left, n.Right = r.exprsOrNil()
+		// Save mapping from pseudo-variable sym to containing OTYPESW node
+		// (which needs to be set as the Defn for the per-case variables)
+		sg := symgen{
+			sym:    n.Left.Sym,
+			vargen: -1,
+		}
+		r.typeswMap[sg] = n
+		return n
+
 	case OCASE:
 		n := nodl(r.pos(), OCASE, nil, nil)
 		n.List.Set(r.exprList())
-		// TODO(gri) eventually we must declare variables for type switch
-		// statements (type switch statements are not yet exported)
+		n.Rlist.Set(r.exprList())
 		n.Nbody.Set(r.stmtList())
 		return n
 

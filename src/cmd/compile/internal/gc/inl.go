@@ -46,6 +46,12 @@ const (
 
 	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
 	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
+
+	// Temporary test flag - set to true to test out exporting typeswitches
+	// (by allowing typeswitches to be in an inlinable function body). To test
+	// importing, also increase above inlineMaxBudget to 1000, which will then
+	// import a function with a typeswitch (but fail on the inline itself).
+	testExportTypeswitch = false
 )
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
@@ -219,6 +225,9 @@ func caninl(fn *Node) {
 		Dcl:  inlcopylist(pruneUnusedAutos(n.Name.Defn.Func.Dcl, &visitor)),
 		Body: inlcopylist(fn.Nbody.Slice()),
 	}
+	if visitor.hasTypeswitch {
+		fmt.Printf("Exporting %+v with OTYPESW\n", fn.funcname())
+	}
 
 	// hack, TODO, check for better way to link method nodes back to the thing with the ->inl
 	// this is so export can find the body of a method
@@ -284,6 +293,7 @@ type hairyVisitor struct {
 	reason        string
 	extraCallCost int32
 	usedLocals    map[*Node]bool
+	hasTypeswitch bool
 }
 
 // Look for anything we want to punt on.
@@ -377,10 +387,17 @@ func (v *hairyVisitor) visit(n *Node) bool {
 	case OCALLPART:
 		// OCALLPART is inlineable, but no extra cost to the budget
 
+	case OTYPESW:
+		if testExportTypeswitch {
+			v.hasTypeswitch = true
+		} else {
+			v.reason = "unhandled op " + n.Op.String()
+			return true
+		}
+
 	case OCLOSURE,
 		ORANGE,
 		OSELECT,
-		OTYPESW,
 		OGO,
 		ODEFER,
 		ODCLTYPE, // can't print yet

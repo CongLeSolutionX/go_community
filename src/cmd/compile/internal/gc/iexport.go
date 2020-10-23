@@ -1144,6 +1144,8 @@ func (w *exportWriter) stmt(n *Node) {
 		w.op(OCASE)
 		w.pos(n.Pos)
 		w.stmtList(n.List)
+		// Only set for a case in a type-switch - the assignment of the type switch var
+		w.stmtList(n.Rlist)
 		w.stmtList(n.Nbody)
 
 	case OFALL:
@@ -1214,16 +1216,26 @@ func (w *exportWriter) expr(n *Node) {
 			break
 		}
 
-		// Package scope name.
 		if (n.Class() == PEXTERN || n.Class() == PFUNC) && !n.isBlank() {
+			// Package scope name.
 			w.op(ONONAME)
+			w.int64(0)
 			w.qualifiedIdent(n)
 			break
 		}
 
-		// Function scope name.
-		w.op(ONAME)
-		w.localName(n)
+		if defn := n.Name.Defn; defn != nil && defn.Op == OTYPESW {
+			// Write out an ONONAME reference for the local version of
+			// the type-switch variable in each type case
+			w.op(ONONAME)
+			w.int64(2)
+			w.pos(n.Pos)
+			w.localName(n)
+		} else {
+			// Function scope name.
+			w.op(ONAME)
+			w.localName(n)
+		}
 
 	// case OPACK, ONONAME:
 	// 	should have been resolved by typechecking - handled by default case
@@ -1386,6 +1398,22 @@ func (w *exportWriter) expr(n *Node) {
 	case ODCLCONST:
 		// if exporting, DCLCONST should just be removed as its usage
 		// has already been replaced with literals
+
+	case OTYPESW:
+		w.op(op)
+		w.pos(n.Pos)
+		if n.Left != nil && (n.Left.Op != ONONAME || n.Left.Class() != Pxxx) {
+			Fatalf("Bad TYPESW")
+		}
+		// n.Left can be nil if no variable is assigned in type switch
+		w.exprsOrNil(n.Left, n.Right)
+
+	case ONONAME:
+		// For exporting the ONONAME node of the pseudo-variable of OTYPESW
+		w.op(ONONAME)
+		w.int64(1)
+		w.pos(n.Pos)
+		w.localName(n)
 
 	default:
 		Fatalf("cannot export %v (%d) node\n"+

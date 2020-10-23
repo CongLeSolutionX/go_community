@@ -2068,6 +2068,7 @@ func typecheck1(n *Node, top int) (res *Node) {
 	case OCASE:
 		ok |= ctxStmt
 		typecheckslice(n.List.Slice(), ctxExpr)
+		typecheckslice(n.Rlist.Slice(), ctxStmt)
 		typecheckslice(n.Nbody.Slice(), ctxStmt)
 
 	case ODCLFUNC:
