@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fbbd28f_d1b1469e",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-23T22:57:47Z",
+      "side": 1,
+      "message": "Then why it matters? (I guess what matters is the traceback code needs to identify its frame, not the wrapper\u0027s frame?)",
+      "revId": "c51bf5c40cf4e81e31e664932591d914d9bcc889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9230ca8_0f497def",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-23T22:57:47Z",
+      "side": 1,
+      "message": "Typo. Also below.",
+      "range": {
+        "startLine": 44,
+        "startChar": 35,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "c51bf5c40cf4e81e31e664932591d914d9bcc889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03384f46_53cd61ea",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-23T22:57:47Z",
+      "side": 1,
+      "message": "\u003cABIInternal\u003e ?",
+      "revId": "c51bf5c40cf4e81e31e664932591d914d9bcc889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
