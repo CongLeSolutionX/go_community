@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cbdf0c0_dca3282a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-23T22:36:14Z",
+      "side": 1,
+      "message": "Here\u0027s my take on how to export and import type-switch statements.  I\u0027m not planning to do the extra work to allow actual inlining of function with OTYPESW, but let me know if you think otherwise.  So, this export/import functionality is mainly for the upcoming generics work.  (But for OCLOSURE, in a separate change, I am trying to support inlining, so it\u0027s more work.)\n\nDefinitely let me know any comments, whether about the overall approach or small details or anything I missed.  Thanks!\n",
+      "revId": "bccdd2133dee4c45673db25f99b756d70b8d7811",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
