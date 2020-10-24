@@ -136,6 +136,24 @@
       "message": "This too.",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc24f9ed_aedf51f1",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-24T03:34:55Z",
+      "side": 1,
+      "message": "Unfortunately, this generates incorrect code.\n\nfunc main() {\n\tvar x interface{} \u003d [2]float64{}\n\tvar y interface{} \u003d [2]float64{}\n\tif x !\u003d y {\n\t\tpanic(\"bad\")\n\t}\n}\n\nI think if we don\u0027t have \"last\" set anywhere, then we need to have an explicit \"nr \u003d true\" when it falls all the way through.",
+      "parentUuid": "750cc625_9a91d586",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
