@@ -197,9 +197,6 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$192
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVB	runtime·iscgo(SB), R0
-	CMP	$0, R0
-	BEQ	2(PC)
 	BL	runtime·load_g(SB)
 
 #ifdef GOOS_ios
@@ -382,6 +379,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$160
 	FMOVD	F15, 152(RSP)
 
 	MOVD    m_g0(R0), g
+	BL	·save_g(SB)
 
 	BL	runtime·mstart(SB)
 
