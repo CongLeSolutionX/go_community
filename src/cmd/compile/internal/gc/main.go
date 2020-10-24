@@ -701,6 +701,32 @@ func Main(archInit func(*Arch)) {
 		})
 	}
 
+	for _, fn := range xtop {
+		if fn.Op == ODCLFUNC {
+			inspectList(fn.Nbody, func(n *Node) bool {
+				if n.Op == OCALLINTER {
+					if iface := staticValue(n.Left.Left); iface.Op == OCONVIFACE && !iface.Left.Type.IsInterface() {
+						if Debug.m != 0 {
+							Warnl(n.Pos, "devirtualizing %v", n.Left)
+						}
+						// TODO(mdempsky): Replace with direct iface
+						// handling logic once I'm confident this is safe.
+						x := nodl(n.Left.Pos, ODOTTYPE, n.Left.Left, nil)
+						x.Type = iface.Left.Type
+						x = nodlSym(n.Left.Pos, OXDOT, x, n.Left.Sym)
+						x = typecheck(x, ctxExpr|ctxCallee)
+						if x.Op != ODOTMETH {
+							Fatalf("devirtualization failed: %v", x)
+						}
+						n.Op = OCALLMETH
+						n.Left = x
+					}
+				}
+				return true
+			})
+		}
+	}
+
 	// Phase 6: Escape analysis.
 	// Required for moving heap allocations onto stack,
 	// which in turn is required by the closure implementation,
