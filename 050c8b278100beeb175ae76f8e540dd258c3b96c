@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdb03e24_4fc726b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-24T03:48:49Z",
+      "side": 1,
+      "message": "Howdy Austin, it\u0027s been more than 2 years. Still interested in this CL? Thank you.",
+      "revId": "050c8b278100beeb175ae76f8e540dd258c3b96c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
