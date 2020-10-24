@@ -721,6 +721,11 @@ func inlCallee(fn *Node) *Node {
 
 func staticValue(n *Node) *Node {
 	for {
+		if n.Op == OCONVNOP {
+			n = n.Left
+			continue
+		}
+
 		n1 := staticValue1(n)
 		if n1 == nil {
 			return n
@@ -1011,12 +1016,22 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 		}
 	}
 
+	nreturns := 0
+	inspectList(asNodes(fn.Func.Inl.Body), func(n *Node) bool {
+		if n != nil && n.Op == ORETURN {
+			nreturns++
+		}
+		return true
+	})
+
 	// temporaries for return values.
+	var retvarsinit Nodes
 	var retvars []*Node
 	for i, t := range fn.Type.Results().Fields().Slice() {
 		var m *Node
 		mpos := t.Pos
 		if n := asNode(t.Nname); n != nil && !n.isBlank() {
+			nreturns = 0 // cry
 			m = inlvar(n)
 			m = typecheck(m, ctxExpr)
 			inlvars[n] = m
@@ -1036,7 +1051,7 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 			}
 		}
 
-		ninit.Append(nod(ODCL, m, nil))
+		retvarsinit.Append(nod(ODCL, m, nil))
 		retvars = append(retvars, m)
 	}
 
@@ -1097,11 +1112,14 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 		ninit.Append(vas)
 	}
 
-	// Zero the return parameters.
-	for _, n := range retvars {
-		ras := nod(OAS, n, nil)
-		ras = typecheck(ras, ctxStmt)
-		ninit.Append(ras)
+	if nreturns != 1 {
+		// Zero the return parameters.
+		ninit.AppendNodes(&retvarsinit)
+		for _, n := range retvars {
+			ras := nod(OAS, n, nil)
+			ras = typecheck(ras, ctxStmt)
+			ninit.Append(ras)
+		}
 	}
 
 	retlabel := autolabel(".i")
@@ -1134,6 +1152,7 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 	subst := inlsubst{
 		retlabel:    retlabel,
 		retvars:     retvars,
+		retvarsinit: &retvarsinit,
 		inlvars:     inlvars,
 		bases:       make(map[*src.PosBase]*src.PosBase),
 		newInlIndex: newIndex,
@@ -1230,7 +1249,8 @@ type inlsubst struct {
 	retlabel *types.Sym
 
 	// Temporary result variables.
-	retvars []*Node
+	retvars     []*Node
+	retvarsinit *Nodes
 
 	inlvars map[*Node]*Node
 
@@ -1300,6 +1320,14 @@ func (subst *inlsubst) node(n *Node) *Node {
 				as.List.Append(n)
 			}
 			as.Rlist.Set(subst.list(n.List))
+
+			if subst.retvarsinit.Len() != 0 {
+				as.Ninit.AppendNodes(subst.retvarsinit)
+				for _, n := range as.List.Slice() {
+					n.Name.Defn = as
+				}
+			}
+
 			as = typecheck(as, ctxStmt)
 			m.Ninit.Append(as)
 		}
