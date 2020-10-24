@@ -51,6 +51,24 @@
       "parentUuid": "24c0b4bb_322c14dc",
       "revId": "7d940884ab1eb87625da6150a620e86d7be04803",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19546af_f3e7ada4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-10-24T00:47:35Z",
+      "side": 1,
+      "message": "This should be disabled as of patch set 3.",
+      "parentUuid": "e87c4f32_ae620b79",
+      "revId": "7d940884ab1eb87625da6150a620e86d7be04803",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
