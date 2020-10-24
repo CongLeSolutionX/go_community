@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0cc413a_30a9e3d9",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-24T03:18:10Z",
+      "side": 1,
+      "message": "In general, it will probably be better to use a strings.Builder rather than a bytes.Buffer.  strings.Builder doesn\u0027t have Truncate with a non-zero value, but seeing \"..\" in a URL is going to be a very unusual case.\n\nAlso, purely as a matter of style, don\u0027t use new here.  We don\u0027t expect any allocation.  Just \"var dst strings.Builder\".",
+      "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e685dd3f_c0b2aec2",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-24T03:18:10Z",
+      "side": 1,
+      "message": "\"full\" doesn\u0027t seem like a good name in this loop.  Better would be something like \"remaining\".",
+      "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c99d6d9_d6f81fb6",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-24T03:18:10Z",
+      "side": 1,
+      "message": "WriteByte",
+      "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a797ac01_450eeabe",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-24T03:18:10Z",
+      "side": 1,
+      "message": "Why do we need both this conditional and the call to TrimPrefix?",
+      "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
