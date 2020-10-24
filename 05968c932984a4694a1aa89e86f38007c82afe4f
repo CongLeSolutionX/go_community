@@ -16,6 +16,24 @@
       "message": "You don\u0027t need to do this using build tags.  It\u0027s routine for tests to have code like\n\nif runtime.GOOS \u003d\u003d \"linux\" \u0026\u0026 runtime.GOARCH \u003d\u003d \"ppc64\" {\n    t.Skip(\"skipping on linux/ppc64; see issue #NNNN\"\n}",
       "revId": "05968c932984a4694a1aa89e86f38007c82afe4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89c743b8_a5fb8994",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-10-24T00:09:46Z",
+      "side": 1,
+      "message": "Good to know! PTAL. Thanks\n\nSince this whole file is linux only, I\u0027m just excluding ppc64.",
+      "parentUuid": "d1b6c51c_30b6ec96",
+      "revId": "05968c932984a4694a1aa89e86f38007c82afe4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
