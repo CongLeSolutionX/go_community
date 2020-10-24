@@ -154,6 +154,24 @@
       "parentUuid": "750cc625_9a91d586",
       "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a22693c2_36573e21",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-24T03:38:01Z",
+      "side": 1,
+      "message": "Adding fn.Nbody.Append(nod(OAS, nr, nodbool(true))) after both conditions works.\nCan you tell what it does to size though? Is it any better than using last\u003dtrue?",
+      "parentUuid": "dc24f9ed_aedf51f1",
+      "revId": "a45b34358bb9be1f5a4ae0b57c1f33c2e3befa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
