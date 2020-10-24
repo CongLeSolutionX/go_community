@@ -1,6 +1,47 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8171b0b3_2af57d09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-24T00:30:13Z",
+      "side": 1,
+      "message": "runtime: add 2-byte and 8-byte sub-benchmarks for memmove load/store",
+      "revId": "160f7ef99397855903a4d7528c0cc7dc34e4cd7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "587943ab_24932c62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-24T00:30:13Z",
+      "side": 1,
+      "message": "We can remove these.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "160f7ef99397855903a4d7528c0cc7dc34e4cd7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "967053dd_ded67736",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +55,24 @@
       "side": 1,
       "message": "LGTM.\n",
       "revId": "160f7ef99397855903a4d7528c0cc7dc34e4cd7b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26e6aaa6_f75d59e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-24T00:30:13Z",
+      "side": 1,
+      "message": "Thank you Heisenberg for this change, and Keith for the review. Update LGTM, but we could improve the commit subject and message. Also here is a Trust+1.",
+      "revId": "160f7ef99397855903a4d7528c0cc7dc34e4cd7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
