@@ -59,7 +59,9 @@ func expandInline(fn *Node) {
 
 	r := importReaderFor(fn, inlineImporter)
 	if r == nil {
-		Fatalf("missing import reader for %v", fn)
+		// TODO(mdempsky): Need to make inlFlood smarter.
+		// Fatalf("missing import reader for %v", fn)
+		return
 	}
 
 	r.doInline(fn)
