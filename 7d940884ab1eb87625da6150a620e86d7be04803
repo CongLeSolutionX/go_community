@@ -69,6 +69,24 @@
       "parentUuid": "e87c4f32_ae620b79",
       "revId": "7d940884ab1eb87625da6150a620e86d7be04803",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85cd5e66_fc87db90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-24T03:05:58Z",
+      "side": 1,
+      "message": "At least some of the builders run as root specifically because some of the tests in syscall/exec_linux_test.go only work when run as root.",
+      "parentUuid": "f19546af_f3e7ada4",
+      "revId": "7d940884ab1eb87625da6150a620e86d7be04803",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
