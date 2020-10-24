@@ -1000,25 +1000,47 @@ func resolvePath(base, ref string) string {
 	if full == "" {
 		return ""
 	}
-	src := strings.Split(full, "/")
-	dst := make([]string, 0, len(src))
-	for _, elem := range src {
-		switch elem {
-		case ".":
+
+	var (
+		last string
+		elem string
+	)
+	dst := new(bytes.Buffer)
+	originFull := full
+	for len(full) > 0 {
+		i := strings.IndexByte(full, '/')
+		if i < 0 {
+			last, elem, full = full, full, ""
+		} else {
+			elem, full = full[:i], full[i+1:]
+		}
+		if elem == "." {
 			// drop
-		case "..":
-			if len(dst) > 0 {
-				dst = dst[:len(dst)-1]
+			continue
+		}
+
+		if elem == ".." {
+			index := bytes.LastIndexByte(dst.Bytes(), '/')
+			if index == -1 {
+				dst.Truncate(0)
+			} else {
+				dst.Truncate(index)
 			}
-		default:
-			dst = append(dst, elem)
+		} else {
+			dst.WriteString("/")
+			dst.WriteString(elem)
 		}
 	}
-	if last := src[len(src)-1]; last == "." || last == ".." {
-		// Add final slash to the joined path.
-		dst = append(dst, "")
+
+	if strings.HasSuffix(originFull, "/") || last == "." || last == ".." {
+		dst.WriteString("/")
 	}
-	return "/" + strings.TrimPrefix(strings.Join(dst, "/"), "/")
+
+	str := dst.String()
+	if str[0] == '/' {
+		str = str[1:]
+	}
+	return "/" + strings.TrimPrefix(str, "/")
 }
 
 // IsAbs reports whether the URL is absolute.
