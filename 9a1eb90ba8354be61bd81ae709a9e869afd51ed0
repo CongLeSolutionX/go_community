@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4063e90_a3cff56f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-10-25T07:24:55Z",
+      "side": 1,
+      "message": "Thank you very much for the fix.\n\nLGTM, but I cannot submit your fix because I need another person to verify this change. Hopefully someone will come along. Ping me, if nothing happens for days.\n\nTryBots failure looks unrelated to your change. So I will ignore it.\n\nAlex",
+      "revId": "9a1eb90ba8354be61bd81ae709a9e869afd51ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
