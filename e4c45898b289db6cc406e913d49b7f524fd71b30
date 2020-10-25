@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "658a8720_f7097ec5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-25T16:43:02Z",
+      "side": 1,
+      "message": "I reviewed it some anyway, this would be a lovely thing to get in if we could.\nSave space, save time, improve downstream analyses, what\u0027s not to like?",
+      "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76ac6bec_b540712f",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-25T16:43:02Z",
+      "side": 1,
+      "message": "Intent of these is to keep track of which ones need zeroing later?  I\u0027d mention that in a comment.\n(Actually it has some other purpose, definitely this story needs some foreshadowing.)",
+      "range": {
+        "startLine": 1028,
+        "startChar": 1,
+        "endLine": 1028,
+        "endChar": 22
+      },
+      "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "169b35d5_14565a6c",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-25T16:43:02Z",
+      "side": 1,
+      "message": "Can you elaborate?  Why is this sad?",
+      "range": {
+        "startLine": 1034,
+        "startChar": 19,
+        "endLine": 1034,
+        "endChar": 22
+      },
+      "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
