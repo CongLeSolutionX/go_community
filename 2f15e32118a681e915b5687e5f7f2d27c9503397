@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "024576c8_9ad39e2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 43733
+      },
+      "writtenOn": "2020-10-25T18:32:23Z",
+      "side": 1,
+      "message": "Hello Kevin 😊\n\nThanks for your review, I have change all code that you tell me, let me know if you see anything else ;) \n\nAll the best,\n\n\nJR",
+      "revId": "2f15e32118a681e915b5687e5f7f2d27c9503397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
