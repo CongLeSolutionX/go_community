@@ -16,6 +16,23 @@
       "message": "Thank you for this change Natanael! Thank you Dan for the review. Brad, Mikio, and Ian too, what do y\u0027all think?",
       "revId": "a2d71f2699514c907f9d48dd745e40d91a86cea0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10e56418_df521c64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-25T20:51:39Z",
+      "side": 1,
+      "message": "Thanks for taking care of this.",
+      "revId": "a2d71f2699514c907f9d48dd745e40d91a86cea0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
