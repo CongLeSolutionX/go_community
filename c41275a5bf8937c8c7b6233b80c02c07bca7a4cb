@@ -16,6 +16,75 @@
       "message": "Hi, Eric\n\nAll done.\nThank you for your review.",
       "revId": "c41275a5bf8937c8c7b6233b80c02c07bca7a4cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca6af1d_893ac8d0",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-10-26T07:39:42Z",
+      "side": 1,
+      "message": "remove it?",
+      "range": {
+        "startLine": 20,
+        "startChar": 40,
+        "endLine": 20,
+        "endChar": 63
+      },
+      "revId": "c41275a5bf8937c8c7b6233b80c02c07bca7a4cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e928909f_8fc0f5f7",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-10-26T07:39:42Z",
+      "side": 1,
+      "message": "Referring to Cherry\u0027s comments, I also think it would be better to name it xorBytesARM64.",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "c41275a5bf8937c8c7b6233b80c02c07bca7a4cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b69c65c1_99b0c3b4",
+        "filename": "src/crypto/cipher/xor_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-10-26T07:39:42Z",
+      "side": 1,
+      "message": "SUBS $64, R3？",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "c41275a5bf8937c8c7b6233b80c02c07bca7a4cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
