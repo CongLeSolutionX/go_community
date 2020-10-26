@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddfb3a35_1ba51f4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45030
+      },
+      "writtenOn": "2020-10-26T00:04:28Z",
+      "side": 1,
+      "message": "In general, it will probably be better to use a strings.Builder rather than a bytes.Buffer.  strings.Builder doesn\u0027t have Truncate with a non-zero value, but seeing \"..\" in a URL is going to be a very unusual case.\n\nAlso, purely as a matter of style, don\u0027t use new here.  We don\u0027t expect any allocation.  Just \"var dst strings.Builder\".\n\nthanks for your advice. However, strings.Builder does not have a Truncate method. If you encounter \"..\" and need to remove the following string, you need to call \"String\" method to intercept and then allocate a new Strings.Builder again. Will this cause more allocations?\n\nand, do you mean ignore the \"..\" case?",
+      "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0cc413a_30a9e3d9",
@@ -14,6 +31,24 @@
       "writtenOn": "2020-10-24T03:18:10Z",
       "side": 1,
       "message": "In general, it will probably be better to use a strings.Builder rather than a bytes.Buffer.  strings.Builder doesn\u0027t have Truncate with a non-zero value, but seeing \"..\" in a URL is going to be a very unusual case.\n\nAlso, purely as a matter of style, don\u0027t use new here.  We don\u0027t expect any allocation.  Just \"var dst strings.Builder\".",
+      "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77c8a3aa_82208ff2",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 45030
+      },
+      "writtenOn": "2020-10-26T00:04:28Z",
+      "side": 1,
+      "message": "\u003e In general, it will probably be better to use a strings.Builder rather than a bytes.Buffer.  strings.Builder doesn\u0027t have Truncate with a non-zero value, but seeing \"..\" in a URL is going to be a very unusual case.\n\u003e \n\u003e Also, purely as a matter of style, don\u0027t use new here.  We don\u0027t expect any allocation.  Just \"var dst strings.Builder\".\n\nthanks for your advice. However, strings.Builder does not have a Truncate method. If you encounter \"..\" and need to remove the following string, you need to call \"String\" method to intercept and then allocate a new Strings.Builder again. Will this cause more allocations?\n\nand, do you mean ignore the \"..\" case?",
+      "parentUuid": "e0cc413a_30a9e3d9",
       "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
