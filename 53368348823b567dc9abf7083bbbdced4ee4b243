@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "737c9eae_578933d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2020-10-26T21:42:40Z",
+      "side": 1,
+      "message": "Ping gri@\n\nThis is blocking https://go-review.googlesource.com/c/go/+/264677 \"strconv: make Eisel-Lemire handle long mantissas\"",
+      "revId": "53368348823b567dc9abf7083bbbdced4ee4b243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
