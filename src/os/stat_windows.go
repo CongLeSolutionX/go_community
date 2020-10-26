@@ -94,7 +94,14 @@ func stat(funcname, name string, createFileAttrs uint32) (FileInfo, error) {
 	h, err := syscall.CreateFile(namep, 0, 0, nil,
 		syscall.OPEN_EXISTING, createFileAttrs, 0)
 	if err != nil {
-		return nil, &PathError{Op: "CreateFile", Path: name, Err: err}
+		if err.(syscall.Errno) != syscall.ERROR_CANT_ACCESS_FILE {
+			return nil, &PathError{Op: "CreateFile", Path: name, Err: err}
+		}
+		h, err = syscall.CreateFile(namep, 0, 0, nil,
+			syscall.OPEN_EXISTING, createFileAttrs|syscall.FILE_FLAG_OPEN_REPARSE_POINT, 0)
+		if err != nil {
+			return nil, &PathError{Op: "CreateFile", Path: name, Err: err}
+		}
 	}
 	defer syscall.CloseHandle(h)
 
