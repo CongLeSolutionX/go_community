@@ -2430,7 +2430,7 @@ func paramstoheap(params *types.Type) []ir.Node {
 	var nn []ir.Node
 	for _, t := range params.Fields().Slice() {
 		v := ir.AsNode(t.Nname)
-		if v != nil && v.Sym() != nil && strings.HasPrefix(v.Sym().Name, "~r") { // unnamed result
+		if v != nil && v.IsUnnamedOutputParam() { // unnamed result
 			v = nil
 		}
 		if v == nil {

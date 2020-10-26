@@ -151,40 +151,41 @@ func (n *miniNode) SliceBounds() (low, high, max Node) {
 func (n *miniNode) SetSliceBounds(low, high, max Node) {
 	panic(n.no("SetSliceBounds"))
 }
-func (n *miniNode) Iota() int64               { panic(n.no("Iota")) }
-func (n *miniNode) SetIota(int64)             { panic(n.no("SetIota")) }
-func (n *miniNode) Colas() bool               { return false }
-func (n *miniNode) SetColas(bool)             { panic(n.no("SetColas")) }
-func (n *miniNode) NoInline() bool            { panic(n.no("NoInline")) }
-func (n *miniNode) SetNoInline(bool)          { panic(n.no("SetNoInline")) }
-func (n *miniNode) Transient() bool           { panic(n.no("Transient")) }
-func (n *miniNode) SetTransient(bool)         { panic(n.no("SetTransient")) }
-func (n *miniNode) Implicit() bool            { return false }
-func (n *miniNode) SetImplicit(bool)          { panic(n.no("SetImplicit")) }
-func (n *miniNode) IsDDD() bool               { return false }
-func (n *miniNode) SetIsDDD(bool)             { panic(n.no("SetIsDDD")) }
-func (n *miniNode) Embedded() bool            { return false }
-func (n *miniNode) SetEmbedded(bool)          { panic(n.no("SetEmbedded")) }
-func (n *miniNode) IndexMapLValue() bool      { panic(n.no("IndexMapLValue")) }
-func (n *miniNode) SetIndexMapLValue(bool)    { panic(n.no("SetIndexMapLValue")) }
-func (n *miniNode) ResetAux()                 { panic(n.no("ResetAux")) }
-func (n *miniNode) HasBreak() bool            { panic(n.no("HasBreak")) }
-func (n *miniNode) SetHasBreak(bool)          { panic(n.no("SetHasBreak")) }
-func (n *miniNode) Val() constant.Value       { panic(n.no("Val")) }
-func (n *miniNode) SetVal(v constant.Value)   { panic(n.no("SetVal")) }
-func (n *miniNode) Int64Val() int64           { panic(n.no("Int64Val")) }
-func (n *miniNode) Uint64Val() uint64         { panic(n.no("Uint64Val")) }
-func (n *miniNode) CanInt64() bool            { panic(n.no("CanInt64")) }
-func (n *miniNode) BoolVal() bool             { panic(n.no("BoolVal")) }
-func (n *miniNode) StringVal() string         { panic(n.no("StringVal")) }
-func (n *miniNode) HasCall() bool             { return false }
-func (n *miniNode) SetHasCall(bool)           { panic(n.no("SetHasCall")) }
-func (n *miniNode) NonNil() bool              { return false }
-func (n *miniNode) MarkNonNil()               { panic(n.no("MarkNonNil")) }
-func (n *miniNode) Bounded() bool             { return false }
-func (n *miniNode) SetBounded(bool)           { panic(n.no("SetBounded")) }
-func (n *miniNode) Opt() interface{}          { return nil }
-func (n *miniNode) SetOpt(interface{})        { panic(n.no("SetOpt")) }
-func (n *miniNode) MarkReadonly()             { panic(n.no("MarkReadonly")) }
-func (n *miniNode) TChanDir() types.ChanDir   { panic(n.no("TChanDir")) }
-func (n *miniNode) SetTChanDir(types.ChanDir) { panic(n.no("SetTChanDir")) }
+func (n *miniNode) Iota() int64                { panic(n.no("Iota")) }
+func (n *miniNode) SetIota(int64)              { panic(n.no("SetIota")) }
+func (n *miniNode) Colas() bool                { return false }
+func (n *miniNode) SetColas(bool)              { panic(n.no("SetColas")) }
+func (n *miniNode) NoInline() bool             { panic(n.no("NoInline")) }
+func (n *miniNode) SetNoInline(bool)           { panic(n.no("SetNoInline")) }
+func (n *miniNode) Transient() bool            { panic(n.no("Transient")) }
+func (n *miniNode) SetTransient(bool)          { panic(n.no("SetTransient")) }
+func (n *miniNode) Implicit() bool             { return false }
+func (n *miniNode) SetImplicit(bool)           { panic(n.no("SetImplicit")) }
+func (n *miniNode) IsDDD() bool                { return false }
+func (n *miniNode) SetIsDDD(bool)              { panic(n.no("SetIsDDD")) }
+func (n *miniNode) Embedded() bool             { return false }
+func (n *miniNode) SetEmbedded(bool)           { panic(n.no("SetEmbedded")) }
+func (n *miniNode) IndexMapLValue() bool       { panic(n.no("IndexMapLValue")) }
+func (n *miniNode) SetIndexMapLValue(bool)     { panic(n.no("SetIndexMapLValue")) }
+func (n *miniNode) ResetAux()                  { panic(n.no("ResetAux")) }
+func (n *miniNode) HasBreak() bool             { panic(n.no("HasBreak")) }
+func (n *miniNode) SetHasBreak(bool)           { panic(n.no("SetHasBreak")) }
+func (n *miniNode) Val() constant.Value        { panic(n.no("Val")) }
+func (n *miniNode) SetVal(v constant.Value)    { panic(n.no("SetVal")) }
+func (n *miniNode) Int64Val() int64            { panic(n.no("Int64Val")) }
+func (n *miniNode) Uint64Val() uint64          { panic(n.no("Uint64Val")) }
+func (n *miniNode) CanInt64() bool             { panic(n.no("CanInt64")) }
+func (n *miniNode) BoolVal() bool              { panic(n.no("BoolVal")) }
+func (n *miniNode) StringVal() string          { panic(n.no("StringVal")) }
+func (n *miniNode) HasCall() bool              { return false }
+func (n *miniNode) SetHasCall(bool)            { panic(n.no("SetHasCall")) }
+func (n *miniNode) NonNil() bool               { return false }
+func (n *miniNode) MarkNonNil()                { panic(n.no("MarkNonNil")) }
+func (n *miniNode) Bounded() bool              { return false }
+func (n *miniNode) SetBounded(bool)            { panic(n.no("SetBounded")) }
+func (n *miniNode) Opt() interface{}           { return nil }
+func (n *miniNode) SetOpt(interface{})         { panic(n.no("SetOpt")) }
+func (n *miniNode) MarkReadonly()              { panic(n.no("MarkReadonly")) }
+func (n *miniNode) TChanDir() types.ChanDir    { panic(n.no("TChanDir")) }
+func (n *miniNode) SetTChanDir(types.ChanDir)  { panic(n.no("SetTChanDir")) }
+func (n *miniNode) IsUnnamedOutputParam() bool { panic(n.no("IsUnnamedOutputParam")) }

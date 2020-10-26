@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"strings"
 
 	"go/constant"
 )
@@ -235,6 +236,12 @@ func (n *Name) Alias() bool { return n.flags&nameAlias != 0 }
 
 // SetAlias sets whether p, which must be for an OTYPE, is a type alias.
 func (n *Name) SetAlias(alias bool) { n.flags.set(nameAlias, alias) }
+
+// IsUnnamedOutputParam returns whether a name is a synthesized unnamed output parameter,
+// by convention beginning with "~r".
+func (n *Name) IsUnnamedOutputParam() bool {
+	return n.sym != nil && strings.HasPrefix(n.sym.Name, "~r")
+}
 
 const (
 	nameCaptured = 1 << iota // is the variable captured by a closure

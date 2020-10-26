@@ -29,9 +29,9 @@ func y() (int, bool) {
 
 func main() {
 	if a, _ := x(); a != 5 {
-		println("BUG", a)
+		println("BUG x", a)
 	}
 	if a, _ := x2(); a != 5 {
-		println("BUG", a)
+		println("BUG x2", a)
 	}
 }

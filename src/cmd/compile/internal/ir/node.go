@@ -88,6 +88,7 @@ type Node interface {
 	MarkReadonly()
 	Val() constant.Value
 	SetVal(v constant.Value)
+	IsUnnamedOutputParam() bool
 
 	// Storage for analysis passes.
 	Esc() uint16

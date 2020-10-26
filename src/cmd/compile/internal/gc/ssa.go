@@ -420,14 +420,15 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	s.decladdrs = map[*ir.Name]*ssa.Value{}
 	var args []ssa.Param
 	var results []ssa.Param
-	for _, n := range fn.Dcl {
+	for _, n := range fn.Func().Dcl {
 		switch n.Class() {
 		case ir.PPARAM:
 			s.decladdrs[n] = s.entryNewValue2A(ssa.OpLocalAddr, types.NewPtr(n.Type()), n, s.sp, s.startmem)
 			args = append(args, ssa.Param{Type: n.Type(), Offset: int32(n.FrameOffset())})
 		case ir.PPARAMOUT:
 			s.decladdrs[n] = s.entryNewValue2A(ssa.OpLocalAddr, types.NewPtr(n.Type()), n, s.sp, s.startmem)
-			results = append(results, ssa.Param{Type: n.Type(), Offset: int32(n.FrameOffset())})
+			results = append(results, ssa.Param{Type: n.Type(), Offset: int32(n.FrameOffset()), Name: n})
+			s.allReturns = append(s.allReturns, n)
 			if s.canSSA(n) {
 				// Save ssa-able PPARAMOUT variables so we can
 				// store them back to the stack at the end of
@@ -445,6 +446,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 			s.Fatalf("local variable with class %v unimplemented", n.Class())
 		}
 	}
+	s.f.OwnAux = ssa.OwnAuxCall(args, results)
 
 	// Populate SSAable arguments.
 	for _, n := range fn.Dcl {
@@ -462,7 +464,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	// fallthrough to exit
 	if s.curBlock != nil {
 		s.pushLine(fn.Endlineno)
-		s.exit()
+		s.exit(nil)
 		s.popLine()
 	}
 
@@ -471,6 +473,8 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 			s.updateUnsetPredPos(b)
 		}
 	}
+
+	s.f.HTMLWriter.WritePhase("before insert phis", "before insert phis")
 
 	s.insertPhis()
 
@@ -621,12 +625,11 @@ type state struct {
 
 	// addresses of PPARAM and PPARAMOUT variables.
 	decladdrs map[*ir.Name]*ssa.Value
-
-	// starting values. Memory, stack pointer, and globals pointer
-	startmem *ssa.Value
-	sp       *ssa.Value
-	sb       *ssa.Value
+	startmem  *ssa.Value
+	sp        *ssa.Value
+	sb        *ssa.Value
 	// value representing address of where deferBits autotmp is stored
+
 	deferBitsAddr *ssa.Value
 	deferBitsTemp *ir.Name
 
@@ -639,8 +642,10 @@ type state struct {
 	// Used to deduplicate panic calls.
 	panics map[funcLine]*ssa.Block
 
-	// list of PPARAMOUT (return) variables.
+	// list of SSAable PPARAMOUT (return) variables.
 	returns []*ir.Name
+	// list of all PPARAMOUT (return) variables.
+	allReturns []*ir.Name
 
 	cgoUnsafeArgs bool
 	hasdefer      bool // whether the function contains a defer statement
@@ -1414,12 +1419,11 @@ func (s *state) stmt(n ir.Node) {
 		s.startBlock(bEnd)
 
 	case ir.ORETURN:
-		s.stmtList(n.List())
-		b := s.exit()
+		b := s.exit(n)
 		b.Pos = s.lastPos.WithIsStmt()
 
 	case ir.ORETJMP:
-		b := s.exit()
+		b := s.exit(n)
 		b.Kind = ssa.BlockRetJmp // override BlockRet
 		b.Aux = n.Sym().Linksym()
 
@@ -1627,7 +1631,14 @@ const shareDeferExits = false
 // exit processes any code that needs to be generated just before returning.
 // It returns a BlockRet block that ends the control flow. Its control value
 // will be set to the final memory state.
-func (s *state) exit() *ssa.Block {
+func (s *state) exit(n ir.Node) *ssa.Block {
+	lateResultLowering := s.f.DebugTest && ssa.LateCallExpansionEnabledWithin(s.f)
+
+	// Must do work of return-assignment before any defers are run; i.e., defer must see updated return values.
+	// Can be seen in fixedbugs/issue9738.go and fixedbugs/bug293.go
+	if n != nil {
+		s.stmtList(n.List())
+	}
 	if s.hasdefer {
 		if s.hasOpenDefers {
 			if shareDeferExits && s.lastDeferExit != nil && len(s.openDefers) == s.lastDeferCount {
@@ -1646,24 +1657,52 @@ func (s *state) exit() *ssa.Block {
 
 	// Run exit code. Typically, this code copies heap-allocated PPARAMOUT
 	// variables back to the stack.
-	s.stmtList(s.curfn.Exit)
+	s.stmtList(s.curfn.Func().Exit)
 
-	// Store SSAable PPARAMOUT variables back to stack locations.
-	for _, n := range s.returns {
-		addr := s.decladdrs[n]
-		val := s.variable(n, n.Type())
-		s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, n, s.mem())
-		s.store(n.Type(), addr, val)
-		// TODO: if val is ever spilled, we'd like to use the
-		// PPARAMOUT slot for spilling it. That won't happen
-		// currently.
+	var b *ssa.Block
+	// Do actual return.
+	// These currently turn into self-copies (in many cases).
+	if lateResultLowering {
+		results := make([]*ssa.Value, len(s.allReturns)+1, len(s.allReturns)+1)
+		m := s.newValue0(ssa.OpMakeResult, s.f.OwnAux.LateExpansionResultType())
+		for i, r := range s.allReturns {
+			// anything missing gets a self-assignment
+			// currently it is all missing because of corner cases w/ defers, and some paramouts,
+			// so instead the self-moves are caught at the late call expansion.
+			if results[i] == nil {
+				if canSSAType(r.Type()) {
+					results[i] = s.expr(r)
+					s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, r, s.mem())
+				} else {
+					results[i] = s.newValue2(ssa.OpDereference, r.Type(), s.addr(r), s.mem())
+					s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, r, s.mem())
+				}
+			} else {
+				// Should be good.
+			}
+		}
+		results[len(results)-1] = s.mem()
+		m.AddArgs(results...)
+		b = s.endBlock()
+		b.Kind = ssa.BlockRet
+		b.SetControl(m)
+	} else {
+		// Store SSAable PPARAMOUT variables back to stack locations.
+		for _, n := range s.returns {
+			addr := s.decladdrs[n]
+			val := s.variable(n, n.Type())
+			s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, n, s.mem())
+			s.store(n.Type(), addr, val)
+			// TODO: if val is ever spilled, we'd like to use the
+			// PPARAMOUT slot for spilling it. That won't happen
+			// currently.
+		}
+		m := s.mem()
+		b = s.endBlock()
+		b.Kind = ssa.BlockRet
+		b.SetControl(m)
 	}
 
-	// Do actual return.
-	m := s.mem()
-	b := s.endBlock()
-	b.Kind = ssa.BlockRet
-	b.SetControl(m)
 	if s.hasdefer && s.hasOpenDefers {
 		s.lastDeferFinalBlock = b
 	}
@@ -4856,7 +4895,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		// Add recover edge to exit code.
 		r := s.f.NewBlock(ssa.BlockPlain)
 		s.startBlock(r)
-		s.exit()
+		s.exit(nil)
 		b.AddEdgeTo(r)
 		b.Likely = ssa.BranchLikely
 		s.startBlock(bNext)
