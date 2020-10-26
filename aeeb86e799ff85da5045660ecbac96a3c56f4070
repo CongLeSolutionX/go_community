@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "6f096315_bca549da",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "FYI, this is not quite ready for review. It takes care of one of the errors that llvm-dwarfdump is complaining about, but there are a couple of others left. ",
       "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "d3a51039_98298cd3",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,27 @@
       "message": "Looking good so far, IMO. Just some shallow nits at the moment.",
       "parentUuid": "6f096315_bca549da",
       "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cac772ac_c4f01e94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:11:43Z",
+      "side": 1,
+      "message": "Thanks for the bump. \n\nThis CL doesn\u0027t completely fix #33188, due to interactions between scopes and inlined routines (as described in the issue), but it does solve a subset of the problems. I\u0027ll rebase it and incorporate fixes for Matthew\u0027s comments.",
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "82044778_3cd0bc20",
         "filename": "src/cmd/compile/internal/gc/dwinl.go",
@@ -55,10 +73,34 @@
         "endChar": 16
       },
       "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a9c4b94_469a9652",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82044778_3cd0bc20",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 16
+      },
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "657c7035_2111eab7",
         "filename": "src/cmd/compile/internal/gc/dwinl.go",
@@ -78,10 +120,34 @@
         "endChar": 20
       },
       "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bb20257_ac2d364c",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "657c7035_2111eab7",
+      "range": {
+        "startLine": 394,
+        "startChar": 5,
+        "endLine": 394,
+        "endChar": 20
+      },
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "8732270e_cd69b4b0",
         "filename": "src/cmd/compile/internal/gc/dwinl.go",
@@ -95,10 +161,28 @@
       "side": 1,
       "message": "I think Fatalf would be more appropriate here?",
       "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a1760dc_7e84f30e",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8732270e_cd69b4b0",
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a661942a_361d36a0",
         "filename": "src/cmd/compile/internal/gc/dwinl.go",
@@ -118,8 +202,31 @@
         "endChar": 26
       },
       "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47604f22_4e40f7c5",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a661942a_361d36a0",
+      "range": {
+        "startLine": 437,
+        "startChar": 19,
+        "endLine": 437,
+        "endChar": 26
+      },
+      "revId": "aeeb86e799ff85da5045660ecbac96a3c56f4070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
