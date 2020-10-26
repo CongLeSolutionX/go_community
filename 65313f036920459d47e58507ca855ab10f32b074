@@ -51,6 +51,24 @@
       "parentUuid": "b8b56605_9fc8297f",
       "revId": "65313f036920459d47e58507ca855ab10f32b074",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "376df19e_4542bc2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-26T18:37:12Z",
+      "side": 1,
+      "message": "Here\u0027s the linkname approach: golang.org/cl/265124",
+      "parentUuid": "3d7ce4d0_3d4e7254",
+      "revId": "65313f036920459d47e58507ca855ab10f32b074",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
