@@ -26,6 +26,7 @@ const (
 	ERROR_IO_PENDING          Errno = 997
 	ERROR_NOT_FOUND           Errno = 1168
 	ERROR_PRIVILEGE_NOT_HELD  Errno = 1314
+	ERROR_CANT_ACCESS_FILE    Errno = 1920
 	WSAEACCES                 Errno = 10013
 	WSAECONNABORTED           Errno = 10053
 	WSAECONNRESET             Errno = 10054
