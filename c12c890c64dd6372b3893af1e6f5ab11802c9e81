@@ -16,6 +16,23 @@
       "message": "Any chance we could get this for Go 1.16, or at least in some variant?\n\nThis is the biggest patch that Tailscale needs to maintain in our Go tree, all because of iOS memory limitations for Network Extensions (where we only get ~15 MB of memory)\n\n",
       "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9383fef_6f9606f2",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-26T16:09:19Z",
+      "side": 1,
+      "message": "Can contains be updated to use this in the same way it is being used in addCertFunc so we can always avoid the possibility of it triggering the getCert func?",
+      "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
