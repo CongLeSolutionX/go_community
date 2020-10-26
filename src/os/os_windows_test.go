@@ -541,6 +541,40 @@ func TestNetworkSymbolicLink(t *testing.T) {
 	}
 }
 
+func TestLxSymbolicLink(t *testing.T) {
+	tmpdir, err := ioutil.TempDir("", "TestWindowsLxSymlink")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(tmpdir)
+
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = os.Chdir(tmpdir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Chdir(wd)
+
+	_, err = osexec.Command("wsl", "/bin/mkdir", "from").Output()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = osexec.Command("wsl", "/bin/ln", "-s", "from", "to").Output()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	link := "to"
+	fi, err := os.Stat(link)
+	if m := fi.Mode(); m&fs.ModeSymlink == 0 {
+		t.Errorf("%q should be a link, but is not (mode=0x%x)", link, uint32(m))
+	}
+}
+
 func TestStartProcessAttr(t *testing.T) {
 	p, err := os.StartProcess(os.Getenv("COMSPEC"), []string{"/c", "cd"}, new(os.ProcAttr))
 	if err != nil {
