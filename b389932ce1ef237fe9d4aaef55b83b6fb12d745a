@@ -104,6 +104,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c65fb18_f859eae9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45268
+      },
+      "writtenOn": "2020-10-26T17:26:05Z",
+      "side": 1,
+      "message": "Here\u0027s the change for tip including the test and a possible fix: https://go-review.googlesource.com/c/go/+/264939",
+      "parentUuid": "c019b6c9_3ce0fc17",
+      "revId": "b389932ce1ef237fe9d4aaef55b83b6fb12d745a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cd99c05_f6f6bbe4",
