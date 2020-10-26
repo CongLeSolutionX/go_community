@@ -68,6 +68,23 @@
       "parentUuid": "2f92a9f8_c177562f",
       "revId": "b389932ce1ef237fe9d4aaef55b83b6fb12d745a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dcc68bd_8d68fc2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45268
+      },
+      "writtenOn": "2020-10-26T12:24:10Z",
+      "side": 1,
+      "message": "There\u0027s an issue with the handling of the cache zone that can be observed after the recent clock change for CET/CEST.",
+      "revId": "b389932ce1ef237fe9d4aaef55b83b6fb12d745a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
