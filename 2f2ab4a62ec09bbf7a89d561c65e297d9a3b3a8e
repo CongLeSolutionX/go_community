@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22004c30_0138d6fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-26T19:28:55Z",
+      "side": 1,
+      "message": "Most of the size increases were due to having two epilogues instead of one.\nI hacked a change to detect whether the epilogue is large, and share it if so.\nMost equality functions are now better. There are a few regressions, but nothing major. Some of the remaining ones are due to imperfect epilogue detection. For instances, equality for a struct with a struct field, with the inner struct containing a string, isn\u0027t detected properly (because the inner equality is not expanded yet at the point I look for calls).\n",
+      "revId": "2f2ab4a62ec09bbf7a89d561c65e297d9a3b3a8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
