@@ -16,6 +16,23 @@
       "message": "TRY\u003dppc64le,aix-ppc64,linux-ppc64le-power9osu",
       "revId": "48afd32df4296d89462294b12ceac31a78123596",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67b3f07c_8f63172b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-26T18:55:13Z",
+      "side": 1,
+      "message": "Thanks for the quick turnaround!",
+      "revId": "48afd32df4296d89462294b12ceac31a78123596",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
