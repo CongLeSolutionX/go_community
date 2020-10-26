@@ -346,7 +346,7 @@ func enableCurrentThreadPrivilege(privilegeName string) error {
 	return windows.AdjustTokenPrivileges(t, false, &tp, 0, nil, nil)
 }
 
-func createSymbolicLink(link string, target *reparseData, isrelative bool) error {
+func createSymbolicLink(link string, target *reparseData, isrelative bool, tag uint32) error {
 	var buf *windows.SymbolicLinkReparseBuffer
 	buflen := uint16(unsafe.Offsetof(buf.PathBuffer)) + target.pathBuffeLen() // see ReparseDataLength documentation
 	byteblob := make([]byte, buflen)
@@ -418,7 +418,7 @@ func TestDirectorySymbolicLink(t *testing.T) {
 				var t reparseData
 				t.addPrintName(target)
 				t.addSubstituteName(`\??\` + target)
-				return createSymbolicLink(link, &t, false)
+				return createSymbolicLink(link, &t, false, syscall.IO_REPARSE_TAG_SYMLINK)
 			},
 		},
 		dirLinkTest{
@@ -427,7 +427,17 @@ func TestDirectorySymbolicLink(t *testing.T) {
 				var t reparseData
 				t.addSubstituteNameNoNUL(filepath.Base(target))
 				t.addPrintNameNoNUL(filepath.Base(target))
-				return createSymbolicLink(link, &t, true)
+				return createSymbolicLink(link, &t, true, syscall.IO_REPARSE_TAG_SYMLINK)
+			},
+		},
+		dirLinkTest{
+			// Create link with Wsimilar to what mklink does, by inserting \??\ at the front of absolute target.
+			name: "lxsymlink",
+			mklink: func(link, target string) error {
+				var t reparseData
+				t.addPrintName(target)
+				t.addSubstituteName(`\??\` + target)
+				return createSymbolicLink(link, &t, false, windows.IO_REPARSE_TAG_LX_SYMLINK)
 			},
 		},
 	)

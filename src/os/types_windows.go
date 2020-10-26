@@ -102,7 +102,8 @@ func (fs *fileStat) isSymlink() bool {
 		return false
 	}
 	return fs.Reserved0 == syscall.IO_REPARSE_TAG_SYMLINK ||
-		fs.Reserved0 == windows.IO_REPARSE_TAG_MOUNT_POINT
+		fs.Reserved0 == windows.IO_REPARSE_TAG_MOUNT_POINT ||
+		fs.Reserved0 == windows.IO_REPARSE_TAG_LX_SYMLINK
 }
 
 func (fs *fileStat) Size() int64 {
