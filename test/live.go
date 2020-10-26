@@ -626,11 +626,11 @@ func f39a() (x []int) {
 	return
 }
 
-func f39b() (x [10]*int) {
+func f39b() (x, y [10]*int) {
 	x = [10]*int{}
-	x[0] = new(int) // ERROR "live at call to newobject: x$"
-	printnl()       // ERROR "live at call to printnl: x$"
-	return x
+	x[0] = new(int) // ERROR "live at call to newobject: x y$"
+	printnl()       // ERROR "live at call to printnl: x y$"
+	return x, y
 }
 
 func f39c() (x [10]*int) {

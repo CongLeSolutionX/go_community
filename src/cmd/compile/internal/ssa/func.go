@@ -58,6 +58,9 @@ type Func struct {
 	// of keys to make iteration order deterministic.
 	Names []LocalSlot
 
+	// AuxCall describing parameters and results for this function.
+	OwnAux *AuxCall
+
 	// WBLoads is a list of Blocks that branch on the write
 	// barrier flag. Safe-points are disabled from the OpLoad that
 	// reads the write-barrier flag until the control flow rejoins

@@ -1131,6 +1131,11 @@ func dumpNode(w io.Writer, n Node, depth int) {
 		return
 	}
 
+	if n == nil {
+		fmt.Fprint(w, "NilIrNode")
+		return
+	}
+
 	if n.Init().Len() != 0 {
 		fmt.Fprintf(w, "%+v-init", n.Op())
 		dumpNodes(w, n.Init(), depth+1)
