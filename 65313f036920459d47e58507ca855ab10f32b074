@@ -33,6 +33,24 @@
       "message": "So does this mean we have to move stuff from runtime/internal/ to internal/ to use it outside the runtime?\nOr is there another recommended way? linkname?\n",
       "revId": "65313f036920459d47e58507ca855ab10f32b074",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d7ce4d0_3d4e7254",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-26T18:18:47Z",
+      "side": 1,
+      "message": "Moving from runtime/internal/ to internal/ would work.\n\nSounds like Austin is looking into a linkname-based alternative. I\u0027ll hold off on merging this until we see how that approach pans out, so that we can avoid revert-churn if the fix is small.",
+      "parentUuid": "b8b56605_9fc8297f",
+      "revId": "65313f036920459d47e58507ca855ab10f32b074",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
