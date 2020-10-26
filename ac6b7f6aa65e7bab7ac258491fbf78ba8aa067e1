@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "966df006_2dc4fba9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "TRY\u003dwindows-amd64-longtest, linux-amd64-longtest, darwin-amd64-10_15",
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae488ea6_80cffa94",
@@ -31,6 +48,24 @@
       "writtenOn": "2020-10-26T15:51:00Z",
       "side": 1,
       "message": "These files should all be in the same directory, so I don\u0027t think they can conflict.\n\nI\u0027m a little worried about overlay files conflicting with generated files like _cgo_something.h, but I think they all start with _cgo_ and should be ignored (not in p.HFiles).",
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a54a8a_1abfec76",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 2679,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "Yeah, I think file names starting with _ shouldn\u0027t show up because they\u0027d be ignored, but I\u0027m wondering if there are any other patterns.",
+      "parentUuid": "ae488ea6_80cffa94",
       "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +93,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8275482c_1b0a3802",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 2683,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76d2381_7d4a33ec",
+      "range": {
+        "startLine": 2683,
+        "startChar": 51,
+        "endLine": 2683,
+        "endChar": 55
+      },
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c5e4926_18864711",
@@ -71,6 +130,24 @@
       "writtenOn": "2020-10-26T15:51:00Z",
       "side": 1,
       "message": "Or perhaps: can we run in objdir (or base.Cwd?) unconditionally? Better to avoid having a special case.",
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50b7b144_1dee1dbd",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 2692,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "Okay, the next revision runs it there unconditionally and adds p.Dir to the include path instead.",
+      "parentUuid": "3c5e4926_18864711",
       "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -92,6 +169,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c1d39b_31ac719c",
+        "filename": "src/cmd/go/testdata/script/build_overlay.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "added todo.",
+      "parentUuid": "1c0dcdeb_ac2fc931",
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0449ae1e_a413409c",
@@ -105,6 +200,24 @@
       "writtenOn": "2020-10-26T15:51:00Z",
       "side": 1,
       "message": "This tests an entirely synthetic package, which is good.\n\nLet\u0027s also cover the case where the replaced files exist. We need to be sure that the replacement header gets included, not the original.",
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9606cec4_229696b4",
+        "filename": "src/cmd/go/testdata/script/build_overlay.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0449ae1e_a413409c",
       "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -126,6 +239,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0cb8713_837323ff",
+        "filename": "src/cmd/go/testdata/script/build_overlay.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fca6d43_c912c035",
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26b31a7b_486ee799",
@@ -139,6 +270,24 @@
       "writtenOn": "2020-10-26T15:51:00Z",
       "side": 1,
       "message": "overlaydir will be under gopath/src, so the first part of this new case won\u0027t be effective.\n\nInstead, let\u0027s use $WORK/overlaydir. Without -trimpath, the binary should contain \u0027gopath[/\\\\]src\u0027 but not \u0027overlaydir\u0027. With -trimpath, the binary should contain neither \u0027gopath[/\\\\]src\u0027 nor \u0027overlaydir\u0027.",
+      "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5db157ba_9725f3a2",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-26T21:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26b31a7b_486ee799",
       "revId": "ac6b7f6aa65e7bab7ac258491fbf78ba8aa067e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
