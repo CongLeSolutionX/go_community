@@ -16,6 +16,23 @@
       "message": "Kind ping as the freeze is soon. Thanks!",
       "revId": "7fa0bdc281297759dfdee9dd2204cdb414fa701b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f662057_6ce80f37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-10-26T05:58:39Z",
+      "side": 1,
+      "message": "The obsolete time zones mentioned in RFC 5322\nbecame obsolete in 2001 with RFC 2822. The comment of time.Parse()\nconfirms that limits on support of obsolete time zones were set.\n\nThe case reported in the issue is the same as in the test\nat L169 of message_test.go (on tip) was removed with a \ncomment that it related to zone info data.\n\nParsing is successful. The actual error is related to the replacement\n of the obsolete time zone by UTC offset as, for instance on my windows\n10 laptop,\nmain_test.go:150: Header(Date: Fri, 21 Oct 1997 09:55:06 GMT ).Date() \u003d\n 1997-10-21 09:55:06 +0000 GMT, want 1997-11-21 09:55:06 +0000 +0000\n\nThe difference is the translation of GMT to UTC offset.\nThis is documented in the time package which states:\n\"In the absence of a time zone indicator, Parse returns a time in UTC.\n\nWhen parsing a time with a zone offset like -0700, if the offset corresponds to a time zone used by the current location (Local), then Parse uses that location and zone in the returned time. Otherwise it records the time as being in a fabricated location with time fixed at the given zone offset.\"\n\nOn my laptop, listing time zones does not display GMT.\nIn the end, the case reported is illustrated on the play ground where\nit can be suspected that GMT zone info is unavailable.\n\nLoading obsolete time zones description in zone info data should solve\nthe issue. This process depends on the target. I didn\u0027t try to check\nresults.\n\n",
+      "revId": "7fa0bdc281297759dfdee9dd2204cdb414fa701b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
