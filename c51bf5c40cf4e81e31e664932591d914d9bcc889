@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01c70434_ce8accc0",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:03:21Z",
+      "side": 1,
+      "message": "Yes, that\u0027s exactly right. Traceback uses it as a sentinel, so it wants the routine, not the wrapper.",
+      "parentUuid": "0fbbd28f_d1b1469e",
+      "revId": "c51bf5c40cf4e81e31e664932591d914d9bcc889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9230ca8_0f497def",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4899a24_b787b2b3",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:03:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9230ca8_0f497def",
+      "range": {
+        "startLine": 44,
+        "startChar": 35,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "c51bf5c40cf4e81e31e664932591d914d9bcc889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03384f46_53cd61ea",
@@ -54,6 +96,24 @@
       "writtenOn": "2020-10-23T22:57:47Z",
       "side": 1,
       "message": "\u003cABIInternal\u003e ?",
+      "revId": "c51bf5c40cf4e81e31e664932591d914d9bcc889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c1878c5_421f16ae",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-26T14:03:21Z",
+      "side": 1,
+      "message": "Yup, looks like that should be ABIInternal too. Fixed.",
+      "parentUuid": "03384f46_53cd61ea",
       "revId": "c51bf5c40cf4e81e31e664932591d914d9bcc889",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
