@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db0e3dd4_a68b6fdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2020-10-26T18:09:42Z",
+      "side": 1,
+      "message": "Updates #35853",
+      "revId": "905b57434131a1a6c2b9ac7da9a71f675a6d22a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d28799f_5c87a6ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2020-10-26T18:09:42Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "905b57434131a1a6c2b9ac7da9a71f675a6d22a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
