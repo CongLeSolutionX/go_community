@@ -534,8 +534,8 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos 
 	return c
 }
 
-// isLeaf reports whether f performs any calls.
-func isLeaf(f *Func) bool {
+// IsLeaf reports whether f performs any calls.
+func (f *Func) IsLeaf() bool {
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if opcodeTable[v.Op].call {
@@ -592,7 +592,7 @@ func (s *regAllocState) init(f *Func) {
 		s.allocatable &^= 1 << uint(s.f.Config.FPReg)
 	}
 	if s.f.Config.LinkReg != -1 {
-		if isLeaf(f) {
+		if f.IsLeaf() {
 			// Leaf functions don't save/restore the link register.
 			s.allocatable &^= 1 << uint(s.f.Config.LinkReg)
 		}

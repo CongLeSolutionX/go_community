@@ -6049,6 +6049,12 @@ type SSAGenState struct {
 
 	// wasm: The number of values on the WebAssembly stack. This is only used as a safeguard.
 	OnWasmStackSkipped int
+
+	// Whether to share return statements so that we can share
+	// the stack frame breakdown code.
+	sharePostamble bool
+	// If sharePostamble is true, a return statement that has already been generated.
+	ret *obj.Prog
 }
 
 // Prog appends a new Prog.
@@ -6172,6 +6178,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 	var s SSAGenState
 
 	e := f.Frontend().(*ssafn)
+	s.sharePostamble = e.stksize > 0 || !f.IsLeaf()
 
 	s.livenessMap = liveness(e, f, pp)
 	emitStackObjects(e, pp)
@@ -6845,6 +6852,22 @@ func (s *SSAGenState) PrepareCall(v *ssa.Value) {
 func (s *SSAGenState) UseArgs(n int64) {
 	if s.maxarg < n {
 		s.maxarg = n
+	}
+}
+
+// Generate a return instruction.
+func (s *SSAGenState) GenRet() {
+	if s.ret != nil {
+		// Jump to a previous ARET so that we can
+		// share the postamble.
+		p := s.Prog(obj.AJMP)
+		p.To.Type = obj.TYPE_BRANCH
+		p.To.SetTarget(s.ret)
+		return
+	}
+	p := s.Prog(obj.ARET)
+	if s.sharePostamble {
+		s.ret = p
 	}
 }
 
