@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc4e7ef3_e87534c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "cmd/buildid: move and reuse duplicated HashToString code to cmd/internal/buildid/buildid",
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff819589_a14c38d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "We can remove this after changing the subject.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 98
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39335811_0703b73c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "Thank you for this change Mikhail! I\u0027ve added some suggestions, and the code owners shall take a look, but I believe most of them are swamped right now as they try to get code out before the Go1.16 code freeze which is in 4 days. However, please don\u0027t be discouraged, eventually we\u0027ll get to it.",
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd56203d_032a2679",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "\"no matches found\"",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e96f9128_c0cdf159",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "Please change this signature, we usually return:\n  (value, ..., error)\ninstead of\n  (error, ..., value)",
+      "range": {
+        "startLine": 325,
+        "startChar": 78,
+        "endLine": 325,
+        "endChar": 102
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab6b3bc4_1a34b311",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "Minor nit, we can just place the f.Close right after FindAndHash so:\n\tmatches, hash, err :\u003d FindAndHash(f, id, 0)\n        f.Close()\n\tif err !\u003d nil {",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 10
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7c66d67_7f4d8ff4",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "If we are giving errors about length mismatches, it would be helpful to upfront print out the lengths more than the buildIDs or in addition to the buildIDs",
+      "range": {
+        "startLine": 339,
+        "startChar": 50,
+        "endLine": 339,
+        "endChar": 58
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f68f65e5_2730f28b",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "Let\u0027s modify this to an early return with:\n     if !rewrite {\n           return newID, nil\n     }\n\n     f, err :\u003d os.OpenFile(file, os.O_WRONLY, 0)\n     ....\n     err \u003d f.Close()\n     return newID, err",
+      "range": {
+        "startLine": 347,
+        "startChar": 1,
+        "endLine": 360,
+        "endChar": 18
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c81a6716_e57d6ac7",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "H instead of h",
+      "range": {
+        "startLine": 363,
+        "startChar": 3,
+        "endLine": 363,
+        "endChar": 4
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50fa26e1_112daf02",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-26T19:02:26Z",
+      "side": 1,
+      "message": "Couldn\u0027t we invoke base64.StdEncoding.EncodeToString?",
+      "range": {
+        "startLine": 375,
+        "startChar": 1,
+        "endLine": 386,
+        "endChar": 1
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
