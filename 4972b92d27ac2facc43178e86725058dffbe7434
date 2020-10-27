@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19db03ef_d489bed8",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 45030
+      },
+      "writtenOn": "2020-10-27T00:30:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "77c8a3aa_82208ff2",
+      "revId": "4972b92d27ac2facc43178e86725058dffbe7434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e685dd3f_c0b2aec2",
