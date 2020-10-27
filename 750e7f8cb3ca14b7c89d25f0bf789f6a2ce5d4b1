@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b180bca5_9071e783",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-27T17:27:52Z",
+      "side": 1,
+      "message": "This patch still needs a +2, thanks.",
+      "revId": "750e7f8cb3ca14b7c89d25f0bf789f6a2ce5d4b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
