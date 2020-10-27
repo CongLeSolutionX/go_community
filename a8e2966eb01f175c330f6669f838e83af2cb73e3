@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea57327d_f4a38aa4",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2020-10-27T01:56:44Z",
+      "side": 1,
+      "message": "This part of the change is wrong. err was being shadowed in the if-statement (see os.Stat right above). This is testing the err from the first line of the func and is always nil at this point, meaning firstErr is now always nil.",
+      "revId": "a8e2966eb01f175c330f6669f838e83af2cb73e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
