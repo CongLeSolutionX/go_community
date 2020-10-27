@@ -243,6 +243,8 @@ var gccgopkgpath = flag.String("gccgopkgpath", "", "-fgo-pkgpath option used wit
 var gccgoMangler func(string) string
 var importRuntimeCgo = flag.Bool("import_runtime_cgo", true, "import runtime/cgo in generated code")
 var importSyscall = flag.Bool("import_syscall", true, "import syscall in generated code")
+var trimpath = flag.String("trimpath", "", "applies supplied rewrites or trims prefixes to recorded source file paths")
+
 var goarch, goos string
 
 func main() {
@@ -309,6 +311,11 @@ func main() {
 		p.addToFlag("LDFLAGS", args)
 	}
 
+	wd, err := os.Getwd()
+	if err != nil {
+		fatalf("failed to determine working directory: %s", err)
+	}
+
 	// Need a unique prefix for the global C symbols that
 	// we use to coordinate between gcc and ourselves.
 	// We already put _cgo_ at the beginning, so the main
@@ -330,11 +337,14 @@ func main() {
 			fatalf("%s", err)
 		}
 
+		// Won't read from file anymore, so use trimmed name to refer to file now.
+		input = objabi.AbsFile(wd, input, *trimpath)
+		goFiles[i] = input
+
 		f := new(File)
 		f.Edit = edit.NewBuffer(b)
 		f.ParseGo(input, b)
 		f.DiscardCgoDirectives()
-		fs[i] = f
 	}
 
 	cPrefix = fmt.Sprintf("_%x", h.Sum(nil)[0:6])
@@ -367,7 +377,7 @@ func main() {
 		p.PackagePath = f.Package
 		p.Record(f)
 		if *godefs {
-			os.Stdout.WriteString(p.godefs(f, input))
+			os.Stdout.WriteString(p.godefs(f))
 		} else {
 			p.writeOutput(f, input)
 		}
