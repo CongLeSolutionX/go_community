@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "092093d0_295c4c9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-27T04:48:15Z",
+      "side": 1,
+      "message": "Thanks for the review, Ian. I\u0027ve answered your question.",
+      "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ccec1ed_4c50ee82",
@@ -50,6 +67,24 @@
       "side": 1,
       "message": "Thanks, but I\"m not sure I see why we need to say this.  The comment says that we follow the RFC 5322 syntax.  Why do we need to have a list of other RFCs that we do not follow?  We already said that we follow RFC 5322.",
       "parentUuid": "0c52e53f_fba0d6e1",
+      "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aa5a2dd_4f6d01e3",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-27T04:48:15Z",
+      "side": 1,
+      "message": "The reasoning is that RFC 5322 is loose about what it enforces and still delegates control to the other RFCs as per https://tools.ietf.org/html/rfc5322#section-3.4.1. This means that people come expecting that we fully conform to the now listed RFCs. As we know, very few people ever read through the caveats of each RFC. Even worse is the fact that RFC 6532 just talks about extending the syntax from RFC 5322 (an already loose specification) as per https://tools.ietf.org/html/rfc6532#section-3.2, and doesn\u0027t exactly specify what divergences or enforcements it has.",
+      "parentUuid": "6d9dc94b_8f17de46",
       "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
