@@ -87,6 +87,24 @@
       "parentUuid": "6d9dc94b_8f17de46",
       "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6145156d_a0654a34",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-27T05:10:56Z",
+      "side": 1,
+      "message": "But we presumably follow the \"liberal\" syntax described in RFC 5322.  Let\u0027s just say that explicitly.  I still don\u0027t see a reason to provide a list of RFCs that we don\u0027t follow.",
+      "parentUuid": "7aa5a2dd_4f6d01e3",
+      "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
