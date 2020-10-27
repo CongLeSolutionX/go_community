@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baf34d97_546a807f",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 2690,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-27T21:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0739911d_a2301eef",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "333a71b8_9070ed51",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-27T21:03:53Z",
       "side": 1,
       "message": "Reuse cgoFileLists here, too.",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea3381f0_ad497fb8",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 2708,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-27T21:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "333a71b8_9070ed51",
       "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e931b35_f0cb8964",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 2732,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-27T21:23:17Z",
+      "side": 1,
+      "message": "Hm, I was a little worried about the different paths, but not about the directory we\u0027re running in.\n\nI think that the debug information part works because the ccompile passes the appropriate trimpath value for the c files.",
+      "parentUuid": "4a5064bb_be76efd2",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf0f6666_ab5d78b4",
         "filename": "src/cmd/go/internal/work/gc.go",
         "patchSetId": 20
@@ -65,6 +119,24 @@
       "writtenOn": "2020-10-27T21:03:53Z",
       "side": 1,
       "message": "I think we still need it. If we have multiple cgo files, and only one is overlaid, they would all be copied into objdir, but only the path for the overlaid file would be rewritten.",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fdc6e6a_7b188dfb",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-27T21:23:17Z",
+      "side": 1,
+      "message": "Okay, I\u0027m going to output rewrites for all the  files, not just the ones that are overlaid.",
+      "parentUuid": "bf0f6666_ab5d78b4",
       "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
