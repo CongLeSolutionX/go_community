@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37db58c8_c75d84fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-10-27T05:16:39Z",
+      "side": 1,
+      "message": "Sorry Ian, I breaks the builds, please revert it.",
+      "revId": "6150e3eeb194c21e39596f83a950a5397e6a333f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
