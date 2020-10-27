@@ -58,6 +58,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45da56cd_010e3342",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34237
+      },
+      "writtenOn": "2020-10-27T11:50:05Z",
+      "side": 1,
+      "message": "Thanks alot! Ive fixed all of your issues, pls close them, if it\u0027s okey",
+      "parentUuid": "39335811_0703b73c",
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd56203d_032a2679",
@@ -209,6 +227,30 @@
       "writtenOn": "2020-10-26T19:02:26Z",
       "side": 1,
       "message": "Couldn\u0027t we invoke base64.StdEncoding.EncodeToString?",
+      "range": {
+        "startLine": 375,
+        "startChar": 1,
+        "endLine": 386,
+        "endChar": 1
+      },
+      "revId": "5ac4b6f36171e151a409c67c92585ace22d2612b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c32582b9_b7369c87",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 34237
+      },
+      "writtenOn": "2020-10-27T11:50:05Z",
+      "side": 1,
+      "message": "I think we can, but this is not very optimal, we will parse to big string\nhttps://play.golang.org/p/jpJSEr4d21N",
+      "parentUuid": "50fa26e1_112daf02",
       "range": {
         "startLine": 375,
         "startChar": 1,
