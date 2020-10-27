@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2563048c_07c8065a",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-27T04:28:34Z",
+      "side": 1,
+      "message": "Nit: Could replace spaces with tab while here.",
+      "range": {
+        "startLine": 381,
+        "startChar": 5,
+        "endLine": 381,
+        "endChar": 9
+      },
+      "revId": "c0a4091e3138311855077cf5b5d72ce95ca54eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
