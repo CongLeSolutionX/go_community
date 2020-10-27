@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0739911d_a2301eef",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 2690,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-27T21:03:53Z",
+      "side": 1,
+      "message": "Simplify to one loop, and include other kinds of cgo files:\n\n    hasOverlay :\u003d false\n    cgoFileLists :\u003d [][]string{cgofiles, gccfiles, gxxfiles, mfiles, ffiles}\n  OverlayLoop:\n    for _, fs :\u003d range cgoFileLists {\n      for _, f :\u003d range fs {\n        if _, ok :\u003d fsys.OverlayPath(mkAbs(p.Dir, f)); ok {\n          hasOverlay \u003d true\n          break OverlayLoop\n        }\n      }\n    }",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "333a71b8_9070ed51",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 2708,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-27T21:03:53Z",
+      "side": 1,
+      "message": "Reuse cgoFileLists here, too.",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a5064bb_be76efd2",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 2732,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-27T21:03:53Z",
+      "side": 1,
+      "message": "Does running cgo in objdir change the debug info? What about error messages? I guess build_trimpath_cgo.txt should check that it doesn\u0027t, but I\u0027m not sure why it works.\n\ncgo generates code with //line pragmas that point to the source files, so if they\u0027re copied to another directory, I\u0027d expect those pragmas to change.",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf0f6666_ab5d78b4",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-27T21:03:53Z",
+      "side": 1,
+      "message": "I think we still need it. If we have multiple cgo files, and only one is overlaid, they would all be copied into objdir, but only the path for the overlaid file would be rewritten.",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2575b7a_3ea27d5d",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-27T21:03:53Z",
+      "side": 1,
+      "message": "Since overlayfiles has moved, I think this should be $WORK[/\\\\]overlay. Same for other checks below.",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
