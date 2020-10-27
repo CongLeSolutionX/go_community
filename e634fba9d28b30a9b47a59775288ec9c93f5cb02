@@ -16,6 +16,23 @@
       "message": "It\u0027s probably time for a RISC-V section at https://tip.golang.org/doc/asm, eh?\n",
       "revId": "e634fba9d28b30a9b47a59775288ec9c93f5cb02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c02c8091_47a4a62e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-27T15:22:04Z",
+      "side": 1,
+      "message": "TRY\u003driscv64\n",
+      "revId": "e634fba9d28b30a9b47a59775288ec9c93f5cb02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
