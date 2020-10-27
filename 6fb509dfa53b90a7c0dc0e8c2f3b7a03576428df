@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee2ae64b_ce30a94b",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-27T23:24:25Z",
+      "side": 1,
+      "message": "Why do we not need AND $~7,R0 down here?\n\nOh, I see, it used to happen in cgo_init.  But the Darwin version no longer uses it.  This needs a comment somewhere.",
+      "revId": "6fb509dfa53b90a7c0dc0e8c2f3b7a03576428df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
