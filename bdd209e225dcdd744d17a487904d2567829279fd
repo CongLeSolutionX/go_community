@@ -156,6 +156,24 @@
       "message": "Since overlayfiles has moved, I think this should be $WORK[/\\\\]overlay. Same for other checks below.",
       "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7f190d_6953857d",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_cgo.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-10-27T21:23:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2575b7a_3ea27d5d",
+      "revId": "bdd209e225dcdd744d17a487904d2567829279fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
