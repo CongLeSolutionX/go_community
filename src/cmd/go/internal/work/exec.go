@@ -2703,33 +2703,18 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 
 	execdir := p.Dir
 
-	// If any of the Cgo, C, or H files are overlaid, copy them all to
-	// objdir to ensure that they refer to the right header files.
-	// TODO(#39958): Ideally, we'd always do this, but this could
-	// subtly break some cgo files that include .h files across directory
-	// boundaries, even though they shouldn't.
-	hasOverlay := false
-	cgoFileLists := [][]string{cgofiles, gccfiles, gxxfiles, mfiles, ffiles, hfiles}
-OverlayLoop:
-	for _, fs := range cgoFileLists {
-		for _, f := range fs {
-			if _, ok := fsys.OverlayPath(mkAbs(p.Dir, f)); ok {
-				hasOverlay = true
-				break OverlayLoop
-			}
+	// Rewrite overlaid paths in cgo files.
+	// cgo adds //line and #line pragmas in generated files with these paths.
+	var trimpath []string
+	for i := range cgofiles {
+		path := mkAbs(p.Dir, cgofiles[i])
+		if opath, ok := fsys.OverlayPath(path); ok {
+			cgofiles[i] = opath
+			trimpath = append(trimpath, opath+"=>"+path)
 		}
 	}
-	if hasOverlay {
-		execdir = objdir
-		for _, fs := range cgoFileLists {
-			for i := range fs {
-				opath, _ := fsys.OverlayPath(mkAbs(p.Dir, fs[i]))
-				fs[i] = objdir + filepath.Base(fs[i])
-				if err := b.copyFile(fs[i], opath, 0666, false); err != nil {
-					return nil, nil, err
-				}
-			}
-		}
+	if len(trimpath) > 0 {
+		cgoflags = append(cgoflags, "-trimpath", strings.Join(trimpath, ";"))
 	}
 
 	if err := b.run(a, execdir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
