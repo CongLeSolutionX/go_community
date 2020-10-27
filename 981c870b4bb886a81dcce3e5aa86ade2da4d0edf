@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "885595f9_8eb2ac75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-10-27T18:56:31Z",
+      "side": 1,
+      "message": "No period (https://github.com/golang/go/wiki/CommitMessage)",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "981c870b4bb886a81dcce3e5aa86ade2da4d0edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
