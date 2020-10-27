@@ -16,6 +16,144 @@
       "message": "This is ready for review.  Thanks.",
       "revId": "ec1a30a7e459e472d0d65681ef90208dcb96ab31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e82788c_fb3ec26d",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-27T19:57:18Z",
+      "side": 1,
+      "message": "just to shorten the name, perhaps \"timerModifiedEarliest\"? I _think_ that still gives off the right impression?",
+      "range": {
+        "startLine": 654,
+        "startChar": 1,
+        "endLine": 654,
+        "endChar": 30
+      },
+      "revId": "ec1a30a7e459e472d0d65681ef90208dcb96ab31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cacb1a2a_75b3c174",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-27T19:57:18Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we should do this _before_ committing to the new status like adjustTimers, otherwise we can technically miss an update in the window between the status being set and the field being updated (which is supposed to be a conservative reflection of the state of the timer heap).",
+      "range": {
+        "startLine": 517,
+        "startChar": 3,
+        "endLine": 517,
+        "endChar": 44
+      },
+      "revId": "ec1a30a7e459e472d0d65681ef90208dcb96ab31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7776f0f_0f1c0de2",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-27T19:57:18Z",
+      "side": 1,
+      "message": "maybe a note that we need to clear this here because the the earliest ModifiedEarlier timer could have been run or deleted and so this value could be stale?",
+      "range": {
+        "startLine": 647,
+        "startChar": 2,
+        "endLine": 647,
+        "endChar": 54
+      },
+      "revId": "ec1a30a7e459e472d0d65681ef90208dcb96ab31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0cda1f_84872504",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-27T19:57:18Z",
+      "side": 1,
+      "message": "nit: it makes the \"if\" on the next line kind of long, but moving this line down like:\n\n    if first :\u003d atomic.Load64(\u0026pp.timeFirstModifiedEarlierWhen); first !\u003d 0 {\n        ...\n    }\n\nkeeps the value scoped to that block, and it\u0027s not used anywhere else in this function.",
+      "range": {
+        "startLine": 656,
+        "startChar": 1,
+        "endLine": 656,
+        "endChar": 58
+      },
+      "revId": "ec1a30a7e459e472d0d65681ef90208dcb96ab31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a67e997_3582918e",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-27T19:57:18Z",
+      "side": 1,
+      "message": "yet another place where atomic.Min would be useful. :)",
+      "range": {
+        "startLine": 1007,
+        "startChar": 1,
+        "endLine": 1007,
+        "endChar": 6
+      },
+      "revId": "ec1a30a7e459e472d0d65681ef90208dcb96ab31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54779ae_9cb461a0",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-27T19:57:18Z",
+      "side": 1,
+      "message": "this is kind of out of the scope of this change, but I worry a little bit about the raciness and the tail of how soon we notice the timer.\n\nI\u0027m specifically worried about sysmon sleeping too long when all Ps go idle because it somehow manages to miss both timer0When and the earliest modified timer in this change.\n\nlet\u0027s say we have this order of events (with P1\u0027s heap empty):\n\n1. sysmon calls time timeSleepUntil, and reads timer0When on P1 (as 0).\n2. G1 on P1 (the only running/runnable goroutine) adds a timer to P1\u0027s heap.\n3. sysmon reads timerFirstModifiedEarlierWhen (as 0).\n4. G1 on P1 modifies that timer earlier.\n5. G1 blocks on some event happening in that timer so all Ps are idle.\n6. sysmon notices all Ps are idle, next is maxWhen, sleeps for forcegcperiod/2!\n\nwe will eventually run the timer, just late. though, this *can* already happen today since timeSleepUntil will just return maxWhen if timer0When is observed as 0 on every P, and the race is likely extremely rare, both before and after. idk if it\u0027s worth worrying about (and maybe I\u0027m just missing something and its not possible?).",
+      "range": {
+        "startLine": 1040,
+        "startChar": 2,
+        "endLine": 1044,
+        "endChar": 3
+      },
+      "revId": "ec1a30a7e459e472d0d65681ef90208dcb96ab31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
