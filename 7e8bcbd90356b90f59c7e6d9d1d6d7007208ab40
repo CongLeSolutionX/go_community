@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d22a6fa_8b9ae24f",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2076,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-27T16:15:17Z",
+      "side": 1,
+      "message": "Could do (or as a follow up simplification):\n\n```\nstt :\u003d elf.STT_OBJECT\nif cgoexp \u0026\u0026 st \u003d\u003d sym.STEXT {\n   stt \u003d elf.STT_FUNC\n}\nd.AddUint8(elf.ST_INFO(elf.STB_GLOBAL, stt))\n```",
+      "range": {
+        "startLine": 2071,
+        "startChar": 2,
+        "endLine": 2076,
+        "endChar": 50
+      },
+      "revId": "7e8bcbd90356b90f59c7e6d9d1d6d7007208ab40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe32857f_d5eed4c6",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-27T16:15:17Z",
+      "side": 1,
+      "message": "Same thing here.",
+      "range": {
+        "startLine": 2120,
+        "startChar": 2,
+        "endLine": 2130,
+        "endChar": 15
+      },
+      "revId": "7e8bcbd90356b90f59c7e6d9d1d6d7007208ab40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
