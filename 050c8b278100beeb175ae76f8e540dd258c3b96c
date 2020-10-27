@@ -16,6 +16,24 @@
       "message": "Howdy Austin, it\u0027s been more than 2 years. Still interested in this CL? Thank you.",
       "revId": "050c8b278100beeb175ae76f8e540dd258c3b96c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65638763_43c4ad7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-27T06:21:14Z",
+      "side": 1,
+      "message": "I think this can be abandoned. growslice had been changed to typedslicecopy since two years ago and then improved further to be more efficient because it knows the dest slice is full of nil pointers that dont need a write barrier for the dest side.\n\nhttps://go-review.googlesource.com/c/go/+/115755/5/src/runtime/slice.go",
+      "parentUuid": "cdb03e24_4fc726b3",
+      "revId": "050c8b278100beeb175ae76f8e540dd258c3b96c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
