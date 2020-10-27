@@ -2690,7 +2690,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 	// subtly break some cgo files that include .h files across directory
 	// boundaries, even though they shouldn't.
 	hasOverlay := false
-	cgoFileLists := [][]string{cgofiles, gccfiles, gxxfiles, mfiles, ffiles, hfiles}
+	cgoFileLists := [][]string{gccfiles, gxxfiles, mfiles, ffiles, hfiles}
 OverlayLoop:
 	for _, fs := range cgoFileLists {
 		for _, f := range fs {
@@ -2711,6 +2711,18 @@ OverlayLoop:
 				}
 			}
 		}
+	}
+
+	var trimpath []string
+	for i := range cgofiles {
+		path := mkAbs(p.Dir, cgofiles[i])
+		if opath, ok := fsys.OverlayPath(path); ok {
+			cgofiles[i] = opath
+			trimpath = append(trimpath, opath+"=>"+path)
+		}
+	}
+	if len(trimpath) > 0 {
+		cgoflags = append(cgoflags, "-trimpath", strings.Join(trimpath, ";"))
 	}
 
 	if err := b.run(a, execdir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
