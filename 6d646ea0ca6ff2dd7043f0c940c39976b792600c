@@ -34,6 +34,24 @@
       "parentUuid": "4ccec1ed_4c50ee82",
       "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d9dc94b_8f17de46",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-27T04:41:43Z",
+      "side": 1,
+      "message": "Thanks, but I\"m not sure I see why we need to say this.  The comment says that we follow the RFC 5322 syntax.  Why do we need to have a list of other RFCs that we do not follow?  We already said that we follow RFC 5322.",
+      "parentUuid": "0c52e53f_fba0d6e1",
+      "revId": "6d646ea0ca6ff2dd7043f0c940c39976b792600c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
