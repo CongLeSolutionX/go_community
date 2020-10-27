@@ -55,10 +55,10 @@ func maskshift(x uint64) uint64 {
 
 // bitfield ops
 // bfi
-func bfi1(x, y uint64) uint64 {
-	// arm64:"BFI\t[$]4, R[0-9]+, [$]12",-"LSL",-"LSR",-"AND"
-	return ((x & 0xfff) << 4) | (y & 0xffffffffffff000f)
-}
+// TODO: Optimize it as BFI.
+//func bfi1(x, y uint64) uint64 {
+//	return ((x & 0xfff) << 4) | (y & 0xffffffffffff000f)
+//}
 
 func bfi2(x, y uint64) uint64 {
 	// arm64:"BFI\t[$]12, R[0-9]+, [$]40",-"LSL",-"LSR",-"AND"
@@ -184,15 +184,15 @@ func ubfx2(x uint64) uint64 {
 }
 
 func ubfx3(x uint32) uint64 {
-	return uint64(x >> 15) // arm64:"UBFX\t[$]15, R[0-9]+, [$]17",-"LSR"
+	return uint64(x >> 15) // arm64:"UBFX\t[$]15, R[0-9]+, [$]32",-"LSR"
 }
 
 func ubfx4(x uint16) uint64 {
-	return uint64(x >> 9) // arm64:"UBFX\t[$]9, R[0-9]+, [$]7",-"LSR"
+	return uint64(x >> 9) // arm64:"UBFX\t[$]9, R[0-9]+, [$]16",-"LSR"
 }
 
 func ubfx5(x uint8) uint64 {
-	return uint64(x >> 3) // arm64:"UBFX\t[$]3, R[0-9]+, [$]5",-"LSR"
+	return uint64(x >> 3) // arm64:"UBFX\t[$]3, R[0-9]+, [$]8",-"LSR"
 }
 
 func ubfx6(x uint64) uint64 {

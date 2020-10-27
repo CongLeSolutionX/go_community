@@ -3182,34 +3182,6 @@ func rewriteValueARM64_OpARM64CSEL(v *Value) bool {
 	v_2 := v.Args[2]
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
-	// match: (CSEL [cc] x (MOVDconst [0]) flag)
-	// result: (CSEL0 [cc] x flag)
-	for {
-		cc := auxIntToOp(v.AuxInt)
-		x := v_0
-		if v_1.Op != OpARM64MOVDconst || auxIntToInt64(v_1.AuxInt) != 0 {
-			break
-		}
-		flag := v_2
-		v.reset(OpARM64CSEL0)
-		v.AuxInt = opToAuxInt(cc)
-		v.AddArg2(x, flag)
-		return true
-	}
-	// match: (CSEL [cc] (MOVDconst [0]) y flag)
-	// result: (CSEL0 [arm64Negate(cc)] y flag)
-	for {
-		cc := auxIntToOp(v.AuxInt)
-		if v_0.Op != OpARM64MOVDconst || auxIntToInt64(v_0.AuxInt) != 0 {
-			break
-		}
-		y := v_1
-		flag := v_2
-		v.reset(OpARM64CSEL0)
-		v.AuxInt = opToAuxInt(arm64Negate(cc))
-		v.AddArg2(y, flag)
-		return true
-	}
 	// match: (CSEL [cc] x y (InvertFlags cmp))
 	// result: (CSEL [arm64Invert(cc)] x y cmp)
 	for {
@@ -3249,6 +3221,34 @@ func rewriteValueARM64_OpARM64CSEL(v *Value) bool {
 			break
 		}
 		v.copyOf(y)
+		return true
+	}
+	// match: (CSEL [cc] x (MOVDconst [0]) flag)
+	// result: (CSEL0 [cc] x flag)
+	for {
+		cc := auxIntToOp(v.AuxInt)
+		x := v_0
+		if v_1.Op != OpARM64MOVDconst || auxIntToInt64(v_1.AuxInt) != 0 {
+			break
+		}
+		flag := v_2
+		v.reset(OpARM64CSEL0)
+		v.AuxInt = opToAuxInt(cc)
+		v.AddArg2(x, flag)
+		return true
+	}
+	// match: (CSEL [cc] (MOVDconst [0]) y flag)
+	// result: (CSEL0 [arm64Negate(cc)] y flag)
+	for {
+		cc := auxIntToOp(v.AuxInt)
+		if v_0.Op != OpARM64MOVDconst || auxIntToInt64(v_0.AuxInt) != 0 {
+			break
+		}
+		y := v_1
+		flag := v_2
+		v.reset(OpARM64CSEL0)
+		v.AuxInt = opToAuxInt(arm64Negate(cc))
+		v.AddArg2(y, flag)
 		return true
 	}
 	// match: (CSEL [cc] x y (CMPWconst [0] boolval))
