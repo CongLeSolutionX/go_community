@@ -16,6 +16,23 @@
       "message": "Ping gri@\n\nThis is blocking https://go-review.googlesource.com/c/go/+/264677 \"strconv: make Eisel-Lemire handle long mantissas\"",
       "revId": "53368348823b567dc9abf7083bbbdced4ee4b243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21af1efa_d0ec0274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-27T05:21:42Z",
+      "side": 1,
+      "message": "The code LGTM but I have not verified that the math is correct.",
+      "revId": "53368348823b567dc9abf7083bbbdced4ee4b243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
