@@ -16,6 +16,24 @@
       "message": "Move \"str :\u003d dst.String()\" before the \"index :\u003d\" line a few lines up, and use str in the call to strings.LastIndexByte.",
       "revId": "7fcfb2a170e1408ce0968d2b05c942cdd2c52a46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9af54e9b_010f8042",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 45030
+      },
+      "writtenOn": "2020-10-28T09:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46d708d3_7911b110",
+      "revId": "7fcfb2a170e1408ce0968d2b05c942cdd2c52a46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

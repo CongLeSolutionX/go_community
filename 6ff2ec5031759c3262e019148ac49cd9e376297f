@@ -16,6 +16,24 @@
       "message": "Sorry, now you may as well move the call to dst.Reset out of the conditional.",
       "revId": "6ff2ec5031759c3262e019148ac49cd9e376297f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14634ec9_c93e7bc6",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 45030
+      },
+      "writtenOn": "2020-10-28T09:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eeb3398_8aafd926",
+      "revId": "6ff2ec5031759c3262e019148ac49cd9e376297f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
