@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e69684a0_5302186b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-28T21:31:21Z",
+      "side": 1,
+      "message": "s/d/delay/ ?\n\nI get that the reference is to the parameter name, but someone scanning the git log won\u0027t know that.",
+      "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb98d3f9_0ea041b9",
         "filename": "src/time/tick.go",
         "patchSetId": 1
@@ -32,6 +49,24 @@
       "side": 1,
       "message": "You\u0027re right, obviously, but at the same time I don\u0027t think we should\nadd that level of detail here; so I tried to find the simplest way to\nsay \"expect the 1st tick around the time d elapses the first time, and\nnot to fire at time 0\". All the other caveats around the ticks\ntimings are documented anyway in other places on this page.\n\n\u003e can I ask, what is the downside of the ticker firing immediately?\n\u003e that seems to be the underlying cause of this issue.\n\nNot sure, but it was rejected in the past:\n\nhttps://github.com/golang/go/issues/17601\n\nIt seems the rationale was \"we can\u0027t change the existing behaviour\nwithout breaking users, and it\u0027s not important enough to justify a new\nTicker type\".",
       "parentUuid": "eb98d3f9_0ea041b9",
+      "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69932948_dc11f668",
+        "filename": "src/time/tick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-28T21:31:21Z",
+      "side": 1,
+      "message": "Suppose we just change the word \"with\" in the first sentence to \"after\".  Would that be clear enough?",
+      "parentUuid": "a95776a1_6db620be",
       "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
