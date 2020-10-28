@@ -33,6 +33,24 @@
       "message": "This says \"DragonFly\", but I hope that it means \"FreeBSD\".",
       "revId": "4f879fa494a12d9f65d42c41be7f282b985524d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f66aa2f3_89627287",
+        "filename": "src/os/executable_freebsd.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16980
+      },
+      "writtenOn": "2020-10-28T11:12:00Z",
+      "side": 1,
+      "message": "Yes, indeed!",
+      "parentUuid": "64ddb6cd_6ae7a31d",
+      "revId": "4f879fa494a12d9f65d42c41be7f282b985524d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
