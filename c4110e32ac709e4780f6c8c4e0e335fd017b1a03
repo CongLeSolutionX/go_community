@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb98d3f9_0ea041b9",
+        "filename": "src/time/tick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2020-10-28T12:00:29Z",
+      "side": 1,
+      "message": "I don’t think this is accurate or necessary. I don’t think you can asset that the ticker will wait for one d duration, the time the ticker took may exceed that time, and the time it takes to react to the tick, that is the program process enough instructions to observe the tick may exceed d by an unbounded amount, so I’m wary of implied guarantees like “once”. \n\ncan I ask, what is the downside of the ticker firing immediately? that seems to be the underlying cause of this issue.",
+      "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
