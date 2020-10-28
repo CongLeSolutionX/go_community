@@ -164,6 +164,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c24cc8f9_722fae43",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-28T23:16:52Z",
+      "side": 1,
+      "message": "Thanks. I think this is fine for now.\n\nMaybe another approach would be: don\u0027t care all IData weirdness, and at the end of this pass, strip off all the StructSelect [0] \u003cpointer-shaped\u003e, and ArraySelect [0], and perhaps StructMake1 and ArrayMake1.",
+      "parentUuid": "eb0dfc51_317c16a6",
+      "range": {
+        "startLine": 218,
+        "startChar": 44,
+        "endLine": 218,
+        "endChar": 68
+      },
+      "revId": "4d320564dbff96b0f1452a11cb411dbf81f4c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3068043a_5e39be80",
