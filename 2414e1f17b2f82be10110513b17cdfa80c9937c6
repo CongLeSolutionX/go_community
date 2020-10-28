@@ -16,6 +16,24 @@
       "message": "Per discussion on the linked issue: let\u0027s convert all of these `skipExternal \u003d true` cases to `skipExternal \u003d testing.Short()` instead.",
       "revId": "2414e1f17b2f82be10110513b17cdfa80c9937c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8fab55_e46572e3",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-28T14:54:39Z",
+      "side": 0,
+      "message": "I\u0027ve mailed CL 265781 as a potential alternative.",
+      "parentUuid": "2b4d75ef_18d5f4c8",
+      "revId": "2414e1f17b2f82be10110513b17cdfa80c9937c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
