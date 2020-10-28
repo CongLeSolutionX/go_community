@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b41a811c_7e5896d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-28T15:50:00Z",
+      "side": 1,
+      "message": "Good point, done!  Thanks for taking a look.",
+      "parentUuid": "c3044fd4_89784d96",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "5227b14134dd7108508b31ae3eb34d9433722d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3cbdbdbf_8baa95c3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
