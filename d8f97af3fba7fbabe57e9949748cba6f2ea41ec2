@@ -33,6 +33,23 @@
       "message": "Filippo, Roland, Katie, thoughts?\n\n(Despite the Gerrit sticky subject, this is not an API change.)\n",
       "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01139f8f_088c62e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-10-28T17:58:23Z",
+      "side": 1,
+      "message": "+2 from me, though I think we should probably wait to hear from Filippo since I believe he had some thoughts. This sets us up nicely to start chipping away at some of the CertPool pain points.",
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
