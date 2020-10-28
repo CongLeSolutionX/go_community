@@ -80,6 +80,30 @@
       },
       "revId": "5df6d84bee4e8810406fd52ed9f9ce6033918bf9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a292e873_f23cb0eb",
+        "filename": "src/cmd/internal/buildid/buildid.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 34237
+      },
+      "writtenOn": "2020-10-28T18:17:28Z",
+      "side": 1,
+      "message": "At one side, I think we can remove param buildIdSeparator, cause it always /\nAlso we can remove param, and always pass filename,\nso it will be\n(id, file, rewrite)",
+      "parentUuid": "1bb33400_6759cdea",
+      "range": {
+        "startLine": 326,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 21
+      },
+      "revId": "5df6d84bee4e8810406fd52ed9f9ce6033918bf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
