@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6af912eb_71119fee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-28T19:59:42Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on openbsd-amd64-64:\n\u003e See https://storage.googleapis.com/go-build-log/ae4ee926/openbsd-amd64-64_a6ee3d63.log\n\u003e \n\u003e Other builds still in progress; subsequent failure notices suppressed until final report. Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\nhttps://golang.org/issue/42259",
+      "revId": "ae4ee926691248b8525a2bf8c7b9cd84b793967a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
