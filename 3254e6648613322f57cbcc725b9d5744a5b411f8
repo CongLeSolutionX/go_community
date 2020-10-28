@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "443146bf_65d2f666",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-28T21:27:12Z",
+      "side": 1,
+      "message": "I’ve removed the markdown from the message, I’ll rerun the trybots then submit.",
+      "revId": "3254e6648613322f57cbcc725b9d5744a5b411f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
