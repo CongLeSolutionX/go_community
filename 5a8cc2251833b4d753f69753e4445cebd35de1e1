@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8d20553_5ac68d3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-10-28T19:17:08Z",
+      "side": 1,
+      "message": "I went ahead and set the deadline in the closeNotify() function, since it seems like this problem could apply to CloseWrite and Close. LMK if I\u0027m wrong on that assumption, and I\u0027ll just move it to Close.",
+      "revId": "5a8cc2251833b4d753f69753e4445cebd35de1e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
