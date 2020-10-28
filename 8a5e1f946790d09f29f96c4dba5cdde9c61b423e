@@ -34,6 +34,24 @@
       "parentUuid": "7aa0fc09_6a5b027c",
       "revId": "8a5e1f946790d09f29f96c4dba5cdde9c61b423e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbd3ca53_0ce3b4c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-28T21:50:18Z",
+      "side": 1,
+      "message": "Okay, thanks. It is fine either way.",
+      "parentUuid": "9af974ab_b2951dcb",
+      "revId": "8a5e1f946790d09f29f96c4dba5cdde9c61b423e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a35dffa_53a5f9cf",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-28T21:50:18Z",
+      "side": 1,
+      "message": "It is interesting that it has 2-byte relocations.",
+      "revId": "f93db1b4f979a3ab40fdaf85042deffce47b97ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
