@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d4594fd_036e8d21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-28T13:39:26Z",
+      "side": 1,
+      "message": "Is it just me, or is it a little unfortunate that we have so many different places that all know whether we can/must internally/externally link? I wonder if we can refactor that into an internal package...",
+      "revId": "5e2bb0b0aa823d26eafceb5fcc96444ed7642848",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
