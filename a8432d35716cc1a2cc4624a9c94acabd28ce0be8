@@ -16,6 +16,23 @@
       "message": "TRY\u003ddragonfly-amd64, dragonfly-amd64-5_8",
       "revId": "a8432d35716cc1a2cc4624a9c94acabd28ce0be8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fad0589_506af11a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-10-28T12:41:37Z",
+      "side": 1,
+      "message": "Thanks",
+      "revId": "a8432d35716cc1a2cc4624a9c94acabd28ce0be8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
