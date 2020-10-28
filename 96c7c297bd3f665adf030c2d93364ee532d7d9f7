@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "da4d0f2d_1d4ad5c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-28T16:27:15Z",
+      "side": 1,
+      "message": "s/similar to/exactly/ assuming that is true.\n(And if it\u0027s not true, let\u0027s figure out why.)",
+      "revId": "96c7c297bd3f665adf030c2d93364ee532d7d9f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a43562ae_1d6005c5",
