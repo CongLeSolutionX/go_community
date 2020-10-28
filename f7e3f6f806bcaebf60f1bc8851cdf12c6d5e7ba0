@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b2edbf_d6b60263",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-10-28T18:33:12Z",
+      "side": 1,
+      "message": "Thanks for doing all this cleanup.\n",
+      "revId": "f7e3f6f806bcaebf60f1bc8851cdf12c6d5e7ba0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
