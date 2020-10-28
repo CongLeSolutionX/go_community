@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b647e2e9_de3bb83c",
+        "filename": "src/internal/abi/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-10-28T14:54:45Z",
+      "side": 1,
+      "message": "that was the idea with a uint64. it is a good bit easier easier to assume this (otherwise you run into endianness fun! :D). we waste some space, but it\u0027s usually stack space and these register sets typically aren\u0027t _too_ big.",
+      "parentUuid": "8c19b056_6ba77144",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "fd943ca1d597b809e44f8af2eefd59e1017a0388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ddae1b7_9c23d8e8",
         "filename": "src/internal/abi/abi_amd64.go",
         "patchSetId": 1
