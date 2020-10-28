@@ -51,6 +51,24 @@
       "parentUuid": "368c4ca5_65b1420b",
       "revId": "8827ac0a36a756ac85cb349597c84cf0b2fa18e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea80f250_62f6b38b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-28T12:40:48Z",
+      "side": 1,
+      "message": "Either approach is ok by me. Let\u0027s go ahead and merge this to get the builders fixed, and you can follow up to remove the test case entirely if you like.",
+      "parentUuid": "528be9fa_bac04cc8",
+      "revId": "8827ac0a36a756ac85cb349597c84cf0b2fa18e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
