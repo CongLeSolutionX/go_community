@@ -92,11 +92,9 @@ import (
 // staleness determination without a cache beyond the usual installed
 // package and binary locations.
 
-const buildIDSeparator = "/"
-
 // actionID returns the action ID half of a build ID.
 func actionID(buildID string) string {
-	i := strings.Index(buildID, buildIDSeparator)
+	i := strings.Index(buildID, buildid.Separator)
 	if i < 0 {
 		return buildID
 	}
@@ -105,32 +103,7 @@ func actionID(buildID string) string {
 
 // contentID returns the content ID half of a build ID.
 func contentID(buildID string) string {
-	return buildID[strings.LastIndex(buildID, buildIDSeparator)+1:]
-}
-
-// hashToString converts the hash h to a string to be recorded
-// in package archives and binaries as part of the build ID.
-// We use the first 120 bits of the hash (5 chunks of 24 bits each) and encode
-// it in base64, resulting in a 20-byte string. Because this is only used for
-// detecting the need to rebuild installed files (not for lookups
-// in the object file cache), 120 bits are sufficient to drive the
-// probability of a false "do not need to rebuild" decision to effectively zero.
-// We embed two different hashes in archives and four in binaries,
-// so cutting to 20 bytes is a significant savings when build IDs are displayed.
-// (20*4+3 = 83 bytes compared to 64*4+3 = 259 bytes for the
-// more straightforward option of printing the entire h in base64).
-func hashToString(h [cache.HashSize]byte) string {
-	const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
-	const chunks = 5
-	var dst [chunks * 4]byte
-	for i := 0; i < chunks; i++ {
-		v := uint32(h[3*i])<<16 | uint32(h[3*i+1])<<8 | uint32(h[3*i+2])
-		dst[4*i+0] = b64[(v>>18)&0x3F]
-		dst[4*i+1] = b64[(v>>12)&0x3F]
-		dst[4*i+2] = b64[(v>>6)&0x3F]
-		dst[4*i+3] = b64[v&0x3F]
-	}
-	return string(dst[:])
+	return buildID[strings.LastIndex(buildID, buildid.Separator)+1:]
 }
 
 // toolID returns the unique ID to use for the current copy of the
@@ -404,7 +377,7 @@ func (b *Builder) fileHash(file string) string {
 	if err != nil {
 		return ""
 	}
-	return hashToString(sum)
+	return buildid.HashToString(sum)
 }
 
 // useCache tries to satisfy the action a, which has action ID actionHash,
@@ -427,18 +400,18 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 	// the actionID half; if it also appeared in the input that would be like an
 	// engineered 120-bit partial SHA256 collision.
 	a.actionID = actionHash
-	actionID := hashToString(actionHash)
+	actionID := buildid.HashToString(actionHash)
 	if a.json != nil {
 		a.json.ActionID = actionID
 	}
 	contentID := actionID // temporary placeholder, likely unique
-	a.buildID = actionID + buildIDSeparator + contentID
+	a.buildID = actionID + buildid.Separator + contentID
 
 	// Executable binaries also record the main build ID in the middle.
 	// See "Build IDs" comment above.
 	if a.Mode == "link" {
 		mainpkg := a.Deps[0]
-		a.buildID = actionID + buildIDSeparator + mainpkg.buildID + buildIDSeparator + contentID
+		a.buildID = actionID + buildid.Separator + mainpkg.buildID + buildid.Separator + contentID
 	}
 
 	// Check to see if target exists and matches the expected action ID.
@@ -446,7 +419,7 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 	var buildID string
 	if target != "" && !cfg.BuildA {
 		buildID, _ = buildid.ReadFile(target)
-		if strings.HasPrefix(buildID, actionID+buildIDSeparator) {
+		if strings.HasPrefix(buildID, actionID+buildid.Separator) {
 			a.buildID = buildID
 			if a.json != nil {
 				a.json.BuildID = a.buildID
@@ -466,7 +439,7 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 	if target != "" && !cfg.BuildA && !b.NeedExport && a.Mode == "build" && len(a.triggers) == 1 && a.triggers[0].Mode == "link" {
 		buildID, err := buildid.ReadFile(target)
 		if err == nil {
-			id := strings.Split(buildID, buildIDSeparator)
+			id := strings.Split(buildID, buildid.Separator)
 			if len(id) == 4 && id[1] == actionID {
 				// Temporarily assume a.buildID is the package build ID
 				// stored in the installed binary, and see if that makes
@@ -479,8 +452,8 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 				// other than a.buildID, b.linkActionID is only accessing
 				// build IDs of completed actions.
 				oldBuildID := a.buildID
-				a.buildID = id[1] + buildIDSeparator + id[2]
-				linkID := hashToString(b.linkActionID(a.triggers[0]))
+				a.buildID = id[1] + buildid.Separator + id[2]
+				linkID := buildid.HashToString(b.linkActionID(a.triggers[0]))
 				if id[0] == linkID {
 					// Best effort attempt to display output from the compile and link steps.
 					// If it doesn't work, it doesn't work: reusing the cached binary is more
@@ -644,44 +617,22 @@ func (b *Builder) updateBuildID(a *Action, target string, rewrite bool) error {
 		}
 	}
 
-	// Find occurrences of old ID and compute new content-based ID.
-	r, err := os.Open(target)
-	if err != nil {
-		return err
-	}
-	matches, hash, err := buildid.FindAndHash(r, a.buildID, 0)
-	r.Close()
-	if err != nil {
-		return err
-	}
-	newID := a.buildID[:strings.LastIndex(a.buildID, buildIDSeparator)] + buildIDSeparator + hashToString(hash)
-	if len(newID) != len(a.buildID) {
-		return fmt.Errorf("internal error: build ID length mismatch %q vs %q", a.buildID, newID)
+	newID, err := buildid.BuildAndFindHash(a.buildID, target, rewrite)
+
+	if newID != "" {
+		// Replace with new content-based ID.
+		a.buildID = newID
+		if a.json != nil {
+			a.json.BuildID = a.buildID
+		}
 	}
 
-	// Replace with new content-based ID.
-	a.buildID = newID
-	if a.json != nil {
-		a.json.BuildID = a.buildID
-	}
-	if len(matches) == 0 {
-		// Assume the user specified -buildid= to override what we were going to choose.
+	if err == buildid.ErrEmptyMatchLen {
 		return nil
 	}
 
-	if rewrite {
-		w, err := os.OpenFile(target, os.O_WRONLY, 0)
-		if err != nil {
-			return err
-		}
-		err = buildid.Rewrite(w, matches, newID)
-		if err != nil {
-			w.Close()
-			return err
-		}
-		if err := w.Close(); err != nil {
-			return err
-		}
+	if err != nil {
+		return err
 	}
 
 	// Cache package builds, but not binaries (link steps).

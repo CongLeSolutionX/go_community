@@ -7,6 +7,7 @@ package work
 import (
 	"bufio"
 	"bytes"
+	"cmd/internal/buildid"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -534,8 +535,8 @@ func pluginPath(a *Action) string {
 		// The build ID matters because it affects the overall hash
 		// in the plugin's pseudo-import path returned below.
 		// We need to use the same import path when compiling and linking.
-		id := strings.Split(buildID, buildIDSeparator)
-		buildID = id[1] + buildIDSeparator + id[1]
+		id := strings.Split(buildID, buildid.Separator)
+		buildID = id[1] + buildid.Separator + id[1]
 	}
 	fmt.Fprintf(h, "build ID: %s\n", buildID)
 	for _, file := range str.StringList(p.GoFiles, p.CgoFiles, p.SFiles) {
