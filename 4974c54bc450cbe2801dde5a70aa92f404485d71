@@ -33,6 +33,23 @@
       "message": "I assume this puts the prologue end where Delve would want it, thank you for remembering.\n",
       "revId": "4974c54bc450cbe2801dde5a70aa92f404485d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37b8bd1a_cb7d83f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-28T22:24:57Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be really consistent with what x86 and ARM64 do (like, before or after SP is decremented). But as David said, this may be what Delve expects? I\u0027d be fine with that.",
+      "revId": "4974c54bc450cbe2801dde5a70aa92f404485d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
