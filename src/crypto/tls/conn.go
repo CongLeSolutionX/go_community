@@ -1073,7 +1073,9 @@ var (
 	errShutdown = errors.New("tls: protocol is shutdown")
 )
 
-// Write writes data to the connection.
+// Write writes data to the connection. Write calls Handshake, which requies
+// setting a deadline on both Read and Write before it is called. See
+// SetDeadline, SetReadDeadline, and SetWriteDeadline.
 func (c *Conn) Write(b []byte) (int, error) {
 	// interlock with Close below
 	for {
@@ -1232,8 +1234,10 @@ func (c *Conn) handleKeyUpdate(keyUpdate *keyUpdateMsg) error {
 	return nil
 }
 
-// Read can be made to time out and return a net.Error with Timeout() == true
-// after a fixed time limit; see SetDeadline and SetReadDeadline.
+// Read reads data from the connection. Read calls Handshake, which requies
+// setting a deadline on both Read and Write before it is called. This time out
+// will return a net.Error with Timeout() == true after a fixed time limit; see
+// SetDeadline, SetReadDeadline, and SetWriteDeadline.
 func (c *Conn) Read(b []byte) (int, error) {
 	if err := c.Handshake(); err != nil {
 		return 0, err
@@ -1321,11 +1325,13 @@ func (c *Conn) CloseWrite() error {
 	if !c.handshakeComplete() {
 		return errEarlyCloseWrite
 	}
-
 	return c.closeNotify()
 }
 
 func (c *Conn) closeNotify() error {
+	// Set a Write Deadline to prevent possibly blocking forever.
+	c.SetWriteDeadline(time.Now().Add(time.Second * 5))
+
 	c.out.Lock()
 	defer c.out.Unlock()
 
