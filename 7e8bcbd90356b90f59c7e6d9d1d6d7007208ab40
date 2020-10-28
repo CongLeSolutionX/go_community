@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1f7a36e_f82cc05f",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2076,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-10-28T01:18:30Z",
+      "side": 1,
+      "message": "I will do that in another CL if you want :)",
+      "parentUuid": "2d22a6fa_8b9ae24f",
+      "range": {
+        "startLine": 2071,
+        "startChar": 2,
+        "endLine": 2076,
+        "endChar": 50
+      },
+      "revId": "7e8bcbd90356b90f59c7e6d9d1d6d7007208ab40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe32857f_d5eed4c6",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 1
