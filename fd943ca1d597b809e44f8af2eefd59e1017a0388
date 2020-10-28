@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c19b056_6ba77144",
+        "filename": "src/internal/abi/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-28T14:52:37Z",
+      "side": 1,
+      "message": "If EffectiveFloatRegSize can be 4 then maybe this needs to be [FloatArgRegs][EffectiveFloatRegSize]byte.\n\nIt might be easier and applicable to assume all architectures with supported float registers have a used width of 8 bytes?",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "fd943ca1d597b809e44f8af2eefd59e1017a0388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ddae1b7_9c23d8e8",
+        "filename": "src/internal/abi/abi_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-28T14:52:37Z",
+      "side": 1,
+      "message": "maybe use dots \"..\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "fd943ca1d597b809e44f8af2eefd59e1017a0388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f8a18ba_b0961dfe",
+        "filename": "src/internal/abi/abi_generic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-10-28T14:52:37Z",
+      "side": 1,
+      "message": "Are there architectures to be supported that allow 32bit floats in registers but not 64bits? Maybe it can be always 8 if FloatArgRegs is \u003e 0.",
+      "range": {
+        "startLine": 30,
+        "startChar": 33,
+        "endLine": 30,
+        "endChar": 43
+      },
+      "revId": "fd943ca1d597b809e44f8af2eefd59e1017a0388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
