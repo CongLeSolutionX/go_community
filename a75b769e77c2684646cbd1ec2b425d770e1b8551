@@ -88,6 +88,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edee5f4d_9ce624fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-10-28T16:58:07Z",
+      "side": 1,
+      "message": "LGTM after adding \u003cp\u003e \n",
+      "revId": "a75b769e77c2684646cbd1ec2b425d770e1b8551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "814c1f8e_ef8498c4",
