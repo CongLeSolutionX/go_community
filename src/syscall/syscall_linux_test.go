@@ -410,9 +410,6 @@ const (
 // syscalls that execute on all OSThreads - with which to support
 // POSIX semantics for security state changes.
 func TestAllThreadsSyscall(t *testing.T) {
-	if runtime.GOARCH == "ppc64" {
-		t.Skip("skipping on linux/ppc64; see issue #42178")
-	}
 	if _, _, err := syscall.AllThreadsSyscall(syscall.SYS_PRCTL, PR_SET_KEEPCAPS, 0, 0); err == syscall.ENOTSUP {
 		t.Skip("AllThreadsSyscall disabled with cgo")
 	}
@@ -554,13 +551,17 @@ func compareStatus(filter, expect string) error {
 		tf := fmt.Sprintf("/proc/%s/status", f.Name())
 		d, err := ioutil.ReadFile(tf)
 		if err != nil {
-			return fmt.Errorf("unable to read %q: %v", tf, err)
+			// We are racing against threads dying, which
+			// is out of our control, so ignore the
+			// missing file and skip to the next one.
+			continue
 		}
 		lines := strings.Split(string(d), "\n")
 		for _, line := range lines {
 			if strings.HasPrefix(line, filter) {
-				if line != expected {
-					return fmt.Errorf("%s %s (bad)\n", tf, line)
+				// Allow for kernel format changes with a trailing " ".
+				if line != expected && line+" " != expected {
+					return fmt.Errorf("%q got:%q want:%q (bad)\n", tf, line, expected)
 				}
 				break
 			}
@@ -580,9 +581,6 @@ func compareStatus(filter, expect string) error {
 // the syscalls. Care should be taken to mirror any enhancements to
 // this test here in that file too.
 func TestSetuidEtc(t *testing.T) {
-	if runtime.GOARCH == "ppc64" {
-		t.Skip("skipping on linux/ppc64; see issue #42178")
-	}
 	if syscall.Getuid() != 0 {
 		t.Skip("skipping root only test")
 	}
