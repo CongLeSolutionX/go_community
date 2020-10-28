@@ -16,6 +16,41 @@
       "message": "Is it just me, or is it a little unfortunate that we have so many different places that all know whether we can/must internally/externally link? I wonder if we can refactor that into an internal package...",
       "revId": "5e2bb0b0aa823d26eafceb5fcc96444ed7642848",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70d2d45f_94bc9d9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-28T13:58:55Z",
+      "side": 1,
+      "message": "Thanks for review.\n",
+      "revId": "5e2bb0b0aa823d26eafceb5fcc96444ed7642848",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a4e554a_e686eefe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-28T13:58:55Z",
+      "side": 1,
+      "message": "I have that feeling, too. I think at least cmd/link should use cmd/internal/sys. I\u0027ll try to refactor (in a later CL).",
+      "parentUuid": "3d4594fd_036e8d21",
+      "revId": "5e2bb0b0aa823d26eafceb5fcc96444ed7642848",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
