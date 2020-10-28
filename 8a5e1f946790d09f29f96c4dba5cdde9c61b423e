@@ -16,6 +16,24 @@
       "message": "Is this CL necessary? It will be needed for cgo internal linking, but it seems we only do external linking for now? Then we may do this later.",
       "revId": "8a5e1f946790d09f29f96c4dba5cdde9c61b423e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9af974ab_b2951dcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-28T18:09:36Z",
+      "side": 1,
+      "message": "Some of the cmd/link tests start using loadelf as soon as cgo is supported - without this CL those tests obviously fail. The alternative would be to disable those tests.",
+      "parentUuid": "7aa0fc09_6a5b027c",
+      "revId": "8a5e1f946790d09f29f96c4dba5cdde9c61b423e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

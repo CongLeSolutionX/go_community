@@ -16,6 +16,24 @@
       "message": "Could you explain more about what\u0027s going on here?",
       "revId": "ad05fa8001cf9411e6d5db89fd3ac4ef243be20c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f64627ba_1fc5ceab",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-28T18:09:36Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure why these exist - I suspect it is similar to the arm64 case above this one. That said, I\u0027ve just removed this code and I\u0027m not hitting this currently (the machine has been reinstalled with a different Linux distribution and will have a newer gcc since when this diff was created). I\u0027ll remove this chunk.",
+      "parentUuid": "5e1d8d24_6473477b",
+      "revId": "ad05fa8001cf9411e6d5db89fd3ac4ef243be20c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
