@@ -16,6 +16,24 @@
       "message": "Since we\u0027re no longer working on dev.link, do we need this merge?",
       "revId": "a16e30d162c1c7408db7821e7b9513cefa09c6ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "151fac8a_cfeaa984",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-10-28T13:48:34Z",
+      "side": 1,
+      "message": "I think Cherry is maybe doing this to make it a bit easier to submit https://go-review.googlesource.com/c/go/+/248739, which seems like a good idea.",
+      "parentUuid": "13ff5ef9_96b52a45",
+      "revId": "a16e30d162c1c7408db7821e7b9513cefa09c6ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
