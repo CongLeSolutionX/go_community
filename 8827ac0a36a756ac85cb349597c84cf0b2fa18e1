@@ -33,6 +33,24 @@
       "message": "This will fix the builders, but that -pre tag means that soon\nthey\u0027ll release a proper new version and then the test will\nbreak again... sigh.",
       "revId": "8827ac0a36a756ac85cb349597c84cf0b2fa18e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "528be9fa_bac04cc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-10-28T11:31:24Z",
+      "side": 1,
+      "message": "True :( Maybe just remove that repo from the list then? There are still 5 other repos that should cover the test fairly well already.",
+      "parentUuid": "368c4ca5_65b1420b",
+      "revId": "8827ac0a36a756ac85cb349597c84cf0b2fa18e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
