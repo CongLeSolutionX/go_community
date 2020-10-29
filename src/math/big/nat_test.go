@@ -228,7 +228,28 @@ func benchmarkNatMul(b *testing.B, nwords int) {
 	}
 }
 
-var mulBenchSizes = []int{10, 100, 1000, 10000, 100000}
+var fftSizes = []int{1000, 2000, 5000, 10000, 100000}
+
+func TestFftMul(t *testing.T) {
+	initFftThreshold := fftThreshold
+	var x, y, want, got nat
+	for _, s1 := range fftSizes {
+		for _, s2 := range fftSizes {
+			x = rndNat(s1)
+			y = rndNat(s2)
+			fftThreshold = 1<<31 - 1
+			want = want.mul(x, y)
+			fftThreshold = initFftThreshold
+			got = got.mul(x, y)
+			if got.cmp(want) != 0 {
+				t.Errorf("got %x, want %x", got[:100], want[:100])
+			}
+		}
+	}
+	fftThreshold = initFftThreshold
+}
+
+var mulBenchSizes = []int{10, 100, 1000, 10000, 100000, 1000000}
 
 func BenchmarkNatMul(b *testing.B) {
 	for _, n := range mulBenchSizes {
