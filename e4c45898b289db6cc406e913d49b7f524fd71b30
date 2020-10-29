@@ -110,6 +110,30 @@
       },
       "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e683ea6a_9e33c538",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-10-29T18:43:03Z",
+      "side": 1,
+      "message": "Named result parameters are currently causing pain for late results lowering, I am thinking seriously about what it would take to rewrite them into locals and rewrite naked returns into returns of the locals.",
+      "parentUuid": "11391703_c6927e7f",
+      "range": {
+        "startLine": 1034,
+        "startChar": 19,
+        "endLine": 1034,
+        "endChar": 22
+      },
+      "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
