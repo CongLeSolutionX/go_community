@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c6e8070_bd42fb72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-29T17:36:11Z",
+      "side": 1,
+      "message": "This does seem a lot simpler.  That\u0027s a good idea to export/import the CASE nodes directly, and then the syms directly within them, rather than the whole ONONAME/ONAME nodes.\n\nI\u0027m still looking through it, but as I point out below, after import, you\u0027re not using the same Sym for the top-level typeswitch variable and the per-case variables.  Is that unnecessary?\n",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "131e5fa2_0622581c",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-29T17:36:11Z",
+      "side": 1,
+      "message": "Maybe leave in something like:\n\n// case OCASE:\n//   OCASE nodes handled directly by caseList()",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "127183d3_5da94b71",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-29T17:36:11Z",
+      "side": 1,
+      "message": "Maybe a comment here that is s is non-nil, you are writing out the Sym for the type-switch pseudo-variable?",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f446a0_2c5257c6",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-29T17:36:11Z",
+      "side": 1,
+      "message": "You don\u0027t seem to be keeping the invariant that the sym underlying all the per-case variables is the same as the sym underlying the top-level type-switch variable.  Is that definitely fine? If so, I think there should at least be a comment that things are a little different between a normal type switch and an imported typeswitch.",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
