@@ -33,6 +33,120 @@
       "message": "Ping @griesemer.",
       "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0fde56c_8ec15668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-29T22:41:45Z",
+      "side": 1,
+      "message": "LGTM, but I have a couple of minor (nitpick) suggestions if you wouldn\u0027t mind addressing them before submission. Thanks.",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caa702ea_ce19ff31",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-29T22:41:45Z",
+      "side": 1,
+      "message": "make this\n\nconst want \u003d ...",
+      "range": {
+        "startLine": 217,
+        "startChar": 1,
+        "endLine": 217,
+        "endChar": 5
+      },
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae9cb5f7_af185c81",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-29T22:41:45Z",
+      "side": 1,
+      "message": "nitpick:\n\nthis is not a proper sentence, start lower-case",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 7
+      },
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef0abc12_61aa7733",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-29T22:41:45Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13a95988_99b912e6",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-29T22:41:45Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80682d7e_0f068a30",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-10-29T22:41:45Z",
+      "side": 1,
+      "message": "ditto, or, in this case, add a period at the end",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
