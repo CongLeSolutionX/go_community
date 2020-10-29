@@ -693,6 +693,18 @@ func printDebugLog() {
 
 	printlock()
 
+	for _, pp := range allp {
+		println("P", pp.id, "status", pp.status)
+	}
+
+	for mp := allm; mp != nil; mp = mp.alllink {
+		id := int32(-1)
+		if pp := mp.p.ptr(); pp != nil {
+			id = pp.id
+		}
+		println("M", mp.id, "blocked", mp.blocked, "spinning", mp.spinning, "P", id)
+	}
+
 	// Get the list of all debug logs.
 	allp := (*uintptr)(unsafe.Pointer(&allDloggers))
 	all := (*dlogger)(unsafe.Pointer(atomic.Loaduintptr(allp)))
