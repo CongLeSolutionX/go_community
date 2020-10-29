@@ -16,6 +16,23 @@
       "message": "Thanks for the review and the test runner work. Can we kick off the robots again?\n",
       "revId": "285e32ec8dc4efff19e2845ee862cbf8dd3c0388",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb4bcb5_c099b6b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-29T17:29:27Z",
+      "side": 1,
+      "message": "Thank you, LGTM. Others, PTAL.",
+      "revId": "285e32ec8dc4efff19e2845ee862cbf8dd3c0388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
