@@ -35,6 +35,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cada6862_2fc4c37b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T23:16:42Z",
+      "side": 1,
+      "message": "Looks like that code is actually unused. Removed. (If it does erroneously appear, we\u0027ll now hit the default Fatalf.)\n\nWe type check the n.Rlist in typecheckTypeSwitch in swt.go. (Look for \"Assign the clause variable\u0027s type\".)",
+      "parentUuid": "1df0dc5c_8ff1f933",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "838e3687_99213485",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T23:16:42Z",
+      "side": 1,
+      "message": "Yeah, unnecessary.",
+      "parentUuid": "5c6e8070_bd42fb72",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "131e5fa2_0622581c",
@@ -48,6 +84,24 @@
       "writtenOn": "2020-10-29T17:36:11Z",
       "side": 1,
       "message": "Maybe leave in something like:\n\n// case OCASE:\n//   OCASE nodes handled directly by caseList()",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "527908b8_a25046ae",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T23:16:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "131e5fa2_0622581c",
       "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e8e5c7_ad4ec50c",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T23:16:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "127183d3_5da94b71",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8f446a0_2c5257c6",
@@ -82,6 +154,24 @@
       "writtenOn": "2020-10-29T17:36:11Z",
       "side": 1,
       "message": "You don\u0027t seem to be keeping the invariant that the sym underlying all the per-case variables is the same as the sym underlying the top-level type-switch variable.  Is that definitely fine? If so, I think there should at least be a comment that things are a little different between a normal type switch and an imported typeswitch.",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe6bca2_a02afafe",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T23:16:42Z",
+      "side": 1,
+      "message": "Yeah. As discussed this morning, it should be fine. It\u0027s how we already handle other imported, local variables. Added a comment though.",
+      "parentUuid": "c8f446a0_2c5257c6",
       "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
