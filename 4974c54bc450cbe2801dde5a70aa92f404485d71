@@ -68,6 +68,41 @@
       "parentUuid": "37b8bd1a_cb7d83f5",
       "revId": "4974c54bc450cbe2801dde5a70aa92f404485d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4191ab19_fe717944",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-29T13:17:52Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "4974c54bc450cbe2801dde5a70aa92f404485d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ea94711_8f352d4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-29T13:17:52Z",
+      "side": 1,
+      "message": "Okay, that\u0027s the logic. Thanks. (I always thought \"prologue\" as frame allocation, i.e. decrementing SP and, if needed, saving LR and FP.)",
+      "parentUuid": "72e385f3_735f1d12",
+      "revId": "4974c54bc450cbe2801dde5a70aa92f404485d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
