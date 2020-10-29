@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad97f318_9f94235f",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T08:38:49Z",
+      "side": 1,
+      "message": "Restructured a bit, and added a comment. Let me know if it still needs explanation.",
+      "parentUuid": "76ac6bec_b540712f",
+      "range": {
+        "startLine": 1028,
+        "startChar": 1,
+        "endLine": 1028,
+        "endChar": 22
+      },
+      "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "169b35d5_14565a6c",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-10-25T16:43:02Z",
       "side": 1,
       "message": "Can you elaborate?  Why is this sad?",
+      "range": {
+        "startLine": 1034,
+        "startChar": 19,
+        "endLine": 1034,
+        "endChar": 22
+      },
+      "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11391703_c6927e7f",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T08:38:49Z",
+      "side": 1,
+      "message": "This was just a placeholder comment until I had a chance to polish the CL. :-)\n\n(Context was I didn\u0027t initially realize the issue with named result parameters, and I spent a while staring at liveness analysis failures before I realized my mistake.)",
+      "parentUuid": "169b35d5_14565a6c",
       "range": {
         "startLine": 1034,
         "startChar": 19,
