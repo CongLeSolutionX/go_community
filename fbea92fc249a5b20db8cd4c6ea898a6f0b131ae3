@@ -16,6 +16,40 @@
       "message": "TRY\u003dppc64-linux,ppc64le-linux",
       "revId": "fbea92fc249a5b20db8cd4c6ea898a6f0b131ae3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70be5497_2fd24220",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-29T05:36:34Z",
+      "side": 1,
+      "message": "Maybe check os.IsNotExist?  And report an error for which it returns false.",
+      "revId": "fbea92fc249a5b20db8cd4c6ea898a6f0b131ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f635da9_8741931c",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-29T05:36:34Z",
+      "side": 1,
+      "message": "Unless the single space is important, maybe start the loop body with\n    line \u003d strings.TrimSpace(line)\nand drop trailing spaces in the expected strings.",
+      "revId": "fbea92fc249a5b20db8cd4c6ea898a6f0b131ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
