@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7ce2355b_fa2ca3e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-10-29T20:02:26Z",
+      "side": 1,
+      "message": "Indeed, I meant \"exactly the same modulo prefix and suffix\". Your wording is clearer.",
+      "parentUuid": "da4d0f2d_1d4ad5c8",
+      "revId": "96c7c297bd3f665adf030c2d93364ee532d7d9f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a43562ae_1d6005c5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
