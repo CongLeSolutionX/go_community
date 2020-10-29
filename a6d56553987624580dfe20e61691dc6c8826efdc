@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "936de58e_aad6fda1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36043
+      },
+      "writtenOn": "2020-10-29T02:26:17Z",
+      "side": 1,
+      "message": "Simple benchmarks on Kendryte K210:\n\nn\u003d2:   duff\u003d19.6ms, loop\u003d27.6ms, inline\u003d12.2ms\nn\u003d3:   duff\u003d16.6ms, loop\u003d23.9ms, inline\u003d10.0ms\nn\u003d4:   duff\u003d15.1ms, loop\u003d22.0ms, inline\u003d9.46ms\nn\u003d64:  duff\u003d10.7ms, loop\u003d17.0ms\nn\u003d128: duff\u003d10.0ms, loop\u003d16.1ms\n\nduff:   using DUFFCOPY,\nloop:   using generic loop,\ninline: using new optimized moves.\n\nThe benchmark code can be found here: https://github.com/embeddedgo/kendryte/blob/master/devboard/maixbit/examples/duff/main.go\n\nThere are trade offs between speed and code size. Generally using DUFFCOPY gives the smallest code size regardless of n (6 instruction for one copy):\n\nauipc   a1,0x76\nld      a1,1172(a1) # 800dc250 \u003cruntime.edata\u003e\nauipc   a0,0x76\nld      a0,1172(a0) # 800dc258 \u003cmain.b\u003e\nauipc   t6,0xfffec\njalr    -1540(t6) # 800517c8 \u003cruntime.duffcopy+0x400\u003e\n\nThe optimized code is longer even for n\u003d2:\n\nauipc   s1,0x76\nld      s1,1204(s1) # 800dc270 \u003cruntime.edata\u003e\nauipc   a0,0x76\nld      a0,1204(a0) # 800dc278 \u003cmain.b\u003e\nld      a1,0(a0)\nld      a0,8(a0)\nsd      a1,0(s1)\nsd      a0,8(s1)\n\nand much longer for n\u003d4:\n\nauipc   s1,0x76\nld      s1,1332(s1) # 800dc2f0 \u003cruntime.edata\u003e\nauipc   a0,0x76\nld      a0,1332(a0) # 800dc2f8 \u003cmain.b\u003e\nld      a1,0(a0)\nld      a2,8(a0)\nld      a3,16(a0)\nld      a0,24(a0)\nsd      a1,0(s1)\nsd      a2,8(s1)\nsd      a3,16(s1)\nsd      a0,24(s1)\n\nThe go command binary size (text) is affected as bellow:\n\nold\n\n   text    data     bss     dec       hex  filename\n9607492  320624  217272  10145388  9ace6c  go\n\nnew\n\n   text    data     bss     dec       hex  filename\n9615239  320624  217272  10153135  9aecaf  go\n\nso almost unaffected (+7747 bytes, \u003c0.1%).",
+      "revId": "a6d56553987624580dfe20e61691dc6c8826efdc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
