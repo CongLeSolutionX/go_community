@@ -23,7 +23,7 @@ import (
 // debugLogBytes is the size of each per-M ring buffer. This is
 // allocated off-heap to avoid blowing up the M and hence the GC'd
 // heap size.
-const debugLogBytes = 16 << 10
+const debugLogBytes = 1 << 20
 
 // debugLogStringLimit is the maximum number of bytes in a string.
 // Above this, the string will be truncated with "..(n more bytes).."
@@ -692,6 +692,18 @@ func printDebugLog() {
 	// the fatal panic path and this may deadlock.
 
 	printlock()
+
+	for _, pp := range allp {
+		println("P", pp.id, "status", pp.status)
+	}
+
+	for mp := allm; mp != nil; mp = mp.alllink {
+		id := int32(-1)
+		if pp := mp.p.ptr(); pp != nil {
+			id = pp.id
+		}
+		println("M", mp.id, "blocked", mp.blocked, "spinning", mp.spinning, "P", id)
+	}
 
 	// Get the list of all debug logs.
 	allp := (*uintptr)(unsafe.Pointer(&allDloggers))

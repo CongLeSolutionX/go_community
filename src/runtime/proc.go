@@ -695,6 +695,13 @@ func mcommoninit(mp *m, id int64) {
 		mp.id = mReserveID()
 	}
 
+	d := dlog()
+	if d != nil {
+		d.s("mcommoninit: new M")
+		d.i64(mp.id)
+		d.end()
+	}
+
 	mp.fastrand[0] = uint32(int64Hash(uint64(mp.id), fastrandseed))
 	mp.fastrand[1] = uint32(int64Hash(uint64(cputicks()), ^fastrandseed))
 	if mp.fastrand[0]|mp.fastrand[1] == 0 {
@@ -1040,6 +1047,11 @@ func stopTheWorldWithSema() {
 	}
 
 	lock(&sched.lock)
+	d := dlog()
+	if d != nil {
+		d.s("STW: start")
+		d.end()
+	}
 	sched.stopwait = gomaxprocs
 	atomic.Store(&sched.gcwaiting, 1)
 	preemptall()
@@ -1066,8 +1078,20 @@ func stopTheWorldWithSema() {
 		}
 		p.status = _Pgcstop
 		sched.stopwait--
+		d := dlog()
+		if d != nil {
+			d.s("STW: Stopped idle P")
+			d.i32(p.id)
+			d.end()
+		}
 	}
 	wait := sched.stopwait > 0
+	d = dlog()
+	if d != nil {
+		d.s("STW: Waiting for")
+		d.i32(sched.stopwait)
+		d.end()
+	}
 	unlock(&sched.lock)
 
 	// wait for remaining P's to stop voluntarily
@@ -1076,6 +1100,11 @@ func stopTheWorldWithSema() {
 			// wait for 100us, then try to re-preempt in case of any races
 			if notetsleep(&sched.stopnote, 100*1000) {
 				noteclear(&sched.stopnote)
+				d := dlog()
+				if d != nil {
+					d.s("STW: Done waiting")
+					d.end()
+				}
 				break
 			}
 			preemptall()
@@ -1103,6 +1132,12 @@ func stopTheWorldWithSema() {
 	}
 	if bad != "" {
 		throw(bad)
+	}
+
+	d = dlog()
+	if d != nil {
+		d.s("STW: complete")
+		d.end()
 	}
 
 	worldStopped()
@@ -1266,9 +1301,27 @@ func mstartm0() {
 func mPark() {
 	g := getg()
 	for {
+		d := dlog()
+		if d != nil {
+			d.s("mPark: park M")
+			d.i64(g.m.id)
+			d.end()
+		}
 		notesleep(&g.m.park)
+		d = dlog()
+		if d != nil {
+			d.s("mPark: woke M")
+			d.i64(g.m.id)
+			d.end()
+		}
 		noteclear(&g.m.park)
 		if !mDoFixup() {
+			d := dlog()
+			if d != nil {
+				d.s("mPark: return M")
+				d.i64(g.m.id)
+				d.end()
+			}
 			return
 		}
 	}
@@ -1434,6 +1487,12 @@ func forEachP(fn func(*p)) {
 	for _, p := range allp {
 		s := p.status
 		if s == _Psyscall && p.runSafePointFn == 1 && atomic.Cas(&p.status, s, _Pidle) {
+			d := dlog()
+			if d != nil {
+				d.s("forEachP: idle P")
+				d.i32(p.id)
+				d.end()
+			}
 			if trace.enabled {
 				traceGoSysBlock(p)
 				traceProcStop(p)
@@ -2258,6 +2317,14 @@ func startm(_p_ *p, spinning bool) {
 		releasem(mp)
 		return
 	}
+	d := dlog()
+	if d != nil {
+		d.s("startm: start M")
+		d.i64(mp.id)
+		d.s("with P")
+		d.i32(_p_.id)
+		d.end()
+	}
 	unlock(&sched.lock)
 	if nmp.spinning {
 		throw("startm: m is spinning")
@@ -2271,6 +2338,12 @@ func startm(_p_ *p, spinning bool) {
 	// The caller incremented nmspinning, so set m.spinning in the new M.
 	nmp.spinning = spinning
 	nmp.nextp.set(_p_)
+	d = dlog()
+	if d != nil {
+		d.s("startm: wake M")
+		d.i64(nmp.id)
+		d.end()
+	}
 	notewakeup(&nmp.park)
 	// Ownership transfer of _p_ committed by wakeup. Preemption is now
 	// safe.
@@ -2302,6 +2375,12 @@ func handoffp(_p_ *p) {
 	}
 	lock(&sched.lock)
 	if sched.gcwaiting != 0 {
+		d := dlog()
+		if d != nil {
+			d.s("handoffp: gcstop P")
+			d.i32(_p_.id)
+			d.end()
+		}
 		_p_.status = _Pgcstop
 		sched.stopwait--
 		if sched.stopwait == 0 {
@@ -2418,7 +2497,19 @@ func gcstopm() {
 		}
 	}
 	_p_ := releasep()
+	d := dlog()
+	if d != nil {
+		d.s("gcstopm: pre-lock: gcstop P")
+		d.i32(_p_.id)
+		d.end()
+	}
 	lock(&sched.lock)
+	d = dlog()
+	if d != nil {
+		d.s("gcstopm: gcstop P")
+		d.i32(_p_.id)
+		d.end()
+	}
 	_p_.status = _Pgcstop
 	sched.stopwait--
 	if sched.stopwait == 0 {
@@ -3499,6 +3590,12 @@ func entersyscall_gcwait() {
 
 	lock(&sched.lock)
 	if sched.stopwait > 0 && atomic.Cas(&_p_.status, _Psyscall, _Pgcstop) {
+		d := dlog()
+		if d != nil {
+			d.s("entersyscall: gcstop P")
+			d.i32(_p_.id)
+			d.end()
+		}
 		if trace.enabled {
 			traceGoSysBlock(_p_)
 			traceProcStop(_p_)
@@ -4779,6 +4876,12 @@ func procresize(nprocs int32) *p {
 		p := allp[0]
 		p.m = 0
 		p.status = _Pidle
+		d := dlog()
+		if d != nil {
+			d.s("procresize: (1) idle P")
+			d.i32(p.id)
+			d.end()
+		}
 		acquirep(p)
 		if trace.enabled {
 			traceGoStart()
@@ -4809,6 +4912,12 @@ func procresize(nprocs int32) *p {
 		p := allp[i]
 		if _g_.m.p.ptr() == p {
 			continue
+		}
+		d := dlog()
+		if d != nil {
+			d.s("procresize: (2) idle P")
+			d.i32(p.id)
+			d.end()
 		}
 		p.status = _Pidle
 		if runqempty(p) {
@@ -4888,6 +4997,12 @@ func releasep() *p {
 	}
 	_g_.m.p = 0
 	_p_.m = 0
+	d := dlog()
+	if d != nil {
+		d.s("releasep: idle P")
+		d.i32(_p_.id)
+		d.end()
+	}
 	_p_.status = _Pidle
 	return _p_
 }
@@ -5213,6 +5328,12 @@ func retake(now int64) uint32 {
 			// increment nmidle and report deadlock.
 			incidlelocked(-1)
 			if atomic.Cas(&_p_.status, s, _Pidle) {
+				d := dlog()
+				if d != nil {
+					d.s("retake: idle P")
+					d.i32(_p_.id)
+					d.end()
+				}
 				if trace.enabled {
 					traceGoSysBlock(_p_)
 					traceProcStop(_p_)
@@ -5573,6 +5694,13 @@ func updateTimerPMask(pp *p) {
 func pidleput(_p_ *p) {
 	assertLockHeld(&sched.lock)
 
+	d := dlog()
+	if d != nil {
+		d.s("pidleput: P")
+		d.i32(_p_.id)
+		d.end()
+	}
+
 	if !runqempty(_p_) {
 		throw("pidleput: P has non-empty run queue")
 	}
@@ -5594,6 +5722,15 @@ func pidleget() *p {
 
 	_p_ := sched.pidle.ptr()
 	if _p_ != nil {
+		d := dlog()
+		if d != nil {
+			d.s("pidleget: P")
+			d.i32(_p_.id)
+			//var pcs [16]uintptr
+			//n := callers(0, pcs[:])
+			//d.traceback(pcs[:n])
+			d.end()
+		}
 		// Timer may get added at any time now.
 		timerpMask.set(_p_.id)
 		idlepMask.clear(_p_.id)
