@@ -16,6 +16,52 @@
       "message": "Thanks - the diff looks good, however I\u0027ll run some benchmarks on a SiFive HFU to confirm.",
       "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95bdf41a_5c4cb0f6",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-29T13:49:47Z",
+      "side": 1,
+      "message": "What happens if it is still not aligned?",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 41
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0843ba8_86dce239",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-29T13:49:47Z",
+      "side": 1,
+      "message": "Same question here.",
+      "range": {
+        "startLine": 441,
+        "startChar": 31,
+        "endLine": 441,
+        "endChar": 50
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
