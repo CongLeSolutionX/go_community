@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cae9e3e_67bf21c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-29T14:07:00Z",
+      "side": 1,
+      "message": "The performance is similar:\n\n// SiFive HiFive Unleashed (U540 1GHz)\n// n\u003d2: duff\u003d8.0ms, loop\u003d10.6ms, inline\u003d4.9ms\n// n\u003d3: duff\u003d6.9ms, loop\u003d9.2ms, inline\u003d4.0ms\n// n\u003d4: duff\u003d6.2ms, loop\u003d8.5ms, inline\u003d3.5ms\n// n\u003d64: duff\u003d4.3ms, loop\u003d6.4ms\n// n\u003d128: duff\u003d4.2ms, loop\u003d6.3ms",
+      "parentUuid": "1ecb6a99_baa90b34",
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95bdf41a_5c4cb0f6",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-10-29T13:49:47Z",
       "side": 1,
       "message": "What happens if it is still not aligned?",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 41
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c92d9f_547453f9",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-10-29T14:07:00Z",
+      "side": 1,
+      "message": "Right, we seem to be missing the t.Alignment()%2 \u003d\u003d 1 case (which is presumably 4x MOVBstore).\n\nIt may also be preferable to keep these grouped by size to make it easier to review/identify alignment handling (like MIPS64.rules).",
+      "parentUuid": "95bdf41a_5c4cb0f6",
       "range": {
         "startLine": 377,
         "startChar": 26,
