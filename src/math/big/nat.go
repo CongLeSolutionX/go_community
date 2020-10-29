@@ -430,6 +430,13 @@ func (z nat) mul(x, y nat) nat {
 		basicMul(z, x, y)
 		return z.norm()
 	}
+
+	// use fft instead
+	if n > fftThreshold {
+		z = fft(x, y)
+		return z
+	}
+
 	// m >= n && n >= karatsubaThreshold && n >= 2
 
 	// determine Karatsuba length k such that
@@ -1564,5 +1571,304 @@ func (z nat) sqrt(x nat) nat {
 			return z.set(z1)
 		}
 		z1, z2 = z2, z1
+	}
+}
+
+var fftThreshold = 1000
+
+// References to A. Schönhage and V. Strassen, "Schnelle Multiplikation großer Zahlen", Computing 7 (1971), pp. 281–292.
+// and https://en.wikipedia.org/wiki/Sch%C3%B6nhage%E2%80%93Strassen_algorithm#Convolution_theorem
+func fft(x nat, y nat) (z nat) {
+	xl := len(x)
+	yl := len(y)
+	var n, k, i int
+	{
+		// get best n,k for fft
+		n = xl + yl
+		const k0 int = 6
+		var lenTable = []int{
+			fftThreshold, 2 * fftThreshold, 4 * fftThreshold, 8 * fftThreshold, 24 * fftThreshold, 72 * fftThreshold,
+		}
+		for i = 0; i < len(lenTable); i++ {
+			if n < lenTable[i] {
+				k = i + k0
+				break
+			}
+		}
+		if k == 0 {
+			if i == 0 || n < 4*lenTable[i-1] {
+				k = i + k0
+			} else {
+				k = i + k0 + 1
+			}
+		}
+		n = 1 + ((n - 1) >> k) // ceil(n/2^k)
+		n <<= k
+	}
+	z = nat(nil).make(n)
+	N := n * _W // total bits of z
+	M := N >> k // Divide N to 2^k terms and per part is M bits.
+	l := n >> k // Per term has l words.
+	K := 1 << k // K=2^k
+	// get order of terms of fft. fft[1]: 0 1, fft[2]: 0 2 1 3, fft[3]: 0 4 2 6 1 5 3 7, ...
+	fftOrder := make([][]int, k+1)
+	for i, _ = range fftOrder {
+		fftOrder[i] = make([]int, 1<<i)
+	}
+	fftOrder[0][0] = 0
+	for i = 1; i <= k; i++ {
+		Kt := 1 << (i - 1)
+		for j := 0; j < Kt; j++ {
+			fftOrder[i][j] = fftOrder[i-1][j] * 2
+			fftOrder[i][j+Kt] = 1 + fftOrder[i][j]
+		}
+	}
+	// get prime for fft which is 2^Nprime+1.
+	maxLK := _W // ensure Nprime%_W = 0
+	if maxLK < K {
+		maxLK = K
+	}
+	Nprime := (1 + (2*M+k+2)/maxLK) * maxLK // total bits of prime
+	nprime := Nprime / _W
+	Mp := Nprime >> k // divide Nprime to 2^k terms. 2^(Mp*K) mod 2^Nprime+1 = -1. 2^(2*Mp*K) mod 2^Nprime+1 = -1.
+
+	A := nat(nil).make(K * (nprime + 1)) // storage for fft
+	B := nat(nil).make(K * (nprime + 1))
+	Ap := make([]nat, K)
+	Bp := make([]nat, K)
+	T := nat(nil).make(2*nprime + 2) // temporary storage
+	{                                // Extend x to N bits then decompose it to 2^k terms
+		tp := 0
+		tl := 0
+		for i = 0; i < K; i++ {
+			Ap[i] = A[tp : tp+nprime+1]
+			if tl < xl {
+				var j int
+				if l+tl <= xl && i < K-1 {
+					j = l
+				} else {
+					j = xl - tl
+				}
+				copy(Ap[i][:j], x[tl:tl+j]) // put each term into Ap[i]
+				tl += j
+			} // else Ap[i] is empty
+			tp += nprime + 1
+		}
+	}
+	{ // same with above
+		tp := 0
+		tl := 0
+		for i = 0; i < K; i++ {
+			Bp[i] = B[tp : tp+nprime+1]
+			if tl < yl {
+				var j int
+				if l+tl <= yl && i < K-1 {
+					j = l
+				} else {
+					j = yl - tl
+				}
+				copy(Bp[i][:j], y[tl:tl+j])
+				tl += j
+			}
+			tp += nprime + 1
+		}
+	}
+	// direct fft
+	directFFT(Ap, K, fftOrder, k, 2*Mp, nprime, 1, T)
+	directFFT(Bp, K, fftOrder, k, 2*Mp, nprime, 1, T)
+
+	// term multiplications (mod 2^Nprime+1)
+	tp := T[:2*nprime]
+	var cc Word
+	for i := 0; i < K; i++ {
+		a := Ap[i]
+		b := Bp[i]
+		t := nat(nil).mul(a[:nprime], b[:nprime])
+		tp.clear()
+		copy(tp, t)
+		if a[nprime] != 0 {
+			cc = addVV(tp[nprime:2*nprime], tp[nprime:2*nprime], b[:nprime])
+		} else {
+			cc = 0
+		}
+		if b[nprime] != 0 {
+			cc += addVV(tp[nprime:2*nprime], tp[nprime:2*nprime], a[:nprime]) + a[nprime]
+		}
+		if cc != 0 {
+			addVW(tp[:2*nprime], tp[:2*nprime], cc)
+		}
+		if subVV(a[:nprime], tp[:nprime], tp[nprime:2*nprime]) != 0 && addVW(a[:nprime], a[:nprime], 1) != 0 {
+			a[nprime] = 1
+		} else {
+			a[nprime] = 0
+		}
+	}
+
+	// inverse fft
+	inverseFFT(Ap, K, 2*Mp, nprime, T)
+
+	// division of terms after inverse fft
+	for i = 0; i < K; i++ {
+		if i == 0 {
+			Bp[0] = T[nprime+1:]
+		} else {
+			Bp[i] = Ap[i-1]
+		}
+		mul2ExpMod(Bp[i], Ap[i], 2*Nprime-k, nprime)
+		if Bp[i][nprime] != 0 {
+			cc = subVW(Bp[i][:nprime], Bp[i][:nprime], 1)
+			if cc != 0 { // only when Bp[i] = 2^Nprime
+				Bp[i][:nprime].clear()
+				Bp[i][nprime] = 1
+			} else {
+				Bp[i][nprime] = 0
+			}
+		}
+	}
+
+	// addition of terms in result p
+	pla := l*(K-1) + nprime + 1
+	p := B[:pla]
+	p.clear()
+	i = K - 1
+	sh := l * i
+	for ; i >= 0; i-- {
+		t := p[sh:]
+		j := (K - i) & (K - 1) // j=1,2,3,...,K-1,0
+		if addVV(t[:nprime+1], t[:nprime+1], Bp[j][:nprime+1]) != 0 {
+			addVW(t[nprime+1:pla-sh], t[nprime+1:pla-sh], 1)
+		}
+		sh -= l
+	}
+	copy(z[:n], p[:n])
+	return z.norm()
+}
+func directFFT(Ap []nat, K int, ll [][]int, index int, omega int, n int, inc int, tp nat) {
+	if K == 2 {
+		copy(tp[:n+1], Ap[0][:n+1])
+		// Butterfly operation
+		addVV(Ap[0][:n+1], Ap[0][:n+1], Ap[inc][:n+1])
+		cy := subVV(Ap[inc][:n+1], tp[:n+1], Ap[inc][:n+1])
+		if Ap[0][n] > 1 {
+			Ap[0][n] = 1 - subVW(Ap[0][:n], Ap[0][:n], Ap[0][n]-1)
+		}
+		if cy != 0 {
+			Ap[inc][n] = addVW(Ap[inc][:n], Ap[inc][:n], ^Ap[inc][n]+1)
+		}
+	} else {
+		lk := ll[index]
+		K2 := K >> 1
+		directFFT(Ap, K2, ll, index-1, 2*omega, n, inc*2, tp)
+		directFFT(Ap[inc:], K2, ll, index-1, 2*omega, n, inc*2, tp)
+		for j := 0; j < K2; j++ {
+			mul2ExpMod(tp, Ap[inc], lk[2*j]*omega, n)
+			// Butterfly operation
+			c := Ap[0][n] - tp[n] - subVV(Ap[inc][:n], Ap[0][:n], tp[:n])
+			if (c & (_M ^ (_M >> 1))) != 0 { // if c<0
+				Ap[inc][n] = 0
+				addVW(Ap[inc][:n+1], Ap[inc][:n+1], -c)
+			} else {
+				Ap[inc][n] = c
+			}
+
+			c = Ap[0][n] + tp[n] + addVV(Ap[0][:n], Ap[0][:n], tp[:n])
+			if c > 1 {
+				Ap[0][n] = 1
+				subVW(Ap[0][:n+1], Ap[0][:n+1], c-1)
+			} else {
+				Ap[0][n] = c
+			}
+			if j < K2-1 {
+				Ap = Ap[2*inc:]
+			}
+		}
+	}
+}
+func inverseFFT(Ap []nat, K int, omega int, n int, tp nat) {
+	if K == 2 {
+		copy(tp[:n+1], Ap[0][:n+1])
+		// Butterfly operation
+		addVV(Ap[0][:n+1], Ap[0][:n+1], Ap[1][:n+1])
+		cy := subVV(Ap[1][:n+1], tp[:n+1], Ap[1][:n+1])
+		if Ap[0][n] > 1 {
+			Ap[0][n] = 1 - subVW(Ap[0][:n], Ap[0][:n], Ap[0][n]-1)
+		}
+		if cy != 0 {
+			Ap[1][n] = addVW(Ap[1][:n], Ap[1][:n], ^Ap[1][n]+1)
+		}
+	} else {
+		K2 := K >> 1
+		inverseFFT(Ap, K2, 2*omega, n, tp)
+		inverseFFT(Ap[K2:], K2, 2*omega, n, tp)
+		for j := 0; j < K2; j++ {
+			mul2ExpMod(tp, Ap[K2], j*omega, n)
+			// Butterfly operation
+			c := Ap[0][n] - tp[n] - subVV(Ap[K2][:n], Ap[0][:n], tp[:n])
+			if (c & (_M ^ (_M >> 1))) != 0 { // if c<0
+				Ap[K2][n] = 0
+				addVW(Ap[K2][:n+1], Ap[K2][:n+1], -c)
+			} else {
+				Ap[K2][n] = c
+			}
+
+			c = Ap[0][n] + tp[n] + addVV(Ap[0][:n], Ap[0][:n], tp[:n])
+			if c > 1 {
+				Ap[0][n] = 1
+				subVW(Ap[0][:n+1], Ap[0][:n+1], c-1)
+			} else {
+				Ap[0][n] = c
+			}
+			Ap = Ap[1:]
+		}
+	}
+}
+
+// r=a*2^d mod 2^(n*_W)+1, ensure 0 <= d <= 2*n*_W.
+func mul2ExpMod(r nat, a nat, d int, n int) {
+	sh := uint(d % _W)
+	m := d / _W
+	var rd, cc Word
+	if m >= n {
+		m -= n
+		shlVU(r[:m+1], a[n-m:n+1], sh)
+		rd = r[m]
+		cc = shlVU(r[m:n], a[:n-m], sh)
+		for i, x := range r[m:n] {
+			r[m+i] = ^x
+		}
+		r[n] = 0
+		cc++
+		addVW(r[:n+1], r[:n+1], cc)
+		rd++
+		if rd == 0 {
+			cc = 1
+		} else {
+			cc = rd
+		}
+		t := m
+		if rd == 0 {
+			t++
+		}
+		addVW(r[t:n+1], r[t:n+1], cc)
+	} else {
+		shlVU(r[:m+1], a[n-m:n+1], sh)
+		for i, x := range r[:m+1] {
+			r[i] = ^x
+		}
+		rd = ^r[m]
+		cc = shlVU(r[m:n], a[:n-m], sh)
+		if m != 0 {
+			if cc == 0 {
+				cc = addVW(r[:n], r[:n], 1)
+			} else {
+				cc--
+			}
+			cc = subVW(r[:m], r[:m], cc) + 1
+		}
+		r[n] = -subVW(r[m:n], r[m:n], cc)
+		r[n] -= subVW(r[m:n], r[m:n], rd)
+		if r[n]&(_M^(_M>>1)) != 0 { // when r[n]<0
+			r[n] = addVW(r[:n], r[:n], 1)
+		}
 	}
 }
