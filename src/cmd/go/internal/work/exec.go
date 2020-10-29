@@ -24,6 +24,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"runtime"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -537,6 +538,35 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
 		}
 	}
 
+	// Compute overlays for .c/.cc/.h/etc. and if there are any overlays
+	// put correct contents of all those files in the objdir, to ensure
+	// the correct headers are included. nongoOverlay is the overlay that
+	// points from nongo files to the copied files in objdir.
+	var nonGoOverlay nonGoOverlay
+	nongoFileLists := [][]string{a.Package.CFiles, a.Package.SFiles, a.Package.CXXFiles, a.Package.HFiles, a.Package.FFiles}
+OverlayLoop:
+	for _, fs := range nongoFileLists {
+		for _, f := range fs {
+			if _, ok := fsys.OverlayPath(mkAbs(p.Dir, f)); ok {
+				nonGoOverlay = make(map[string]string)
+				break OverlayLoop
+			}
+		}
+	}
+	if nonGoOverlay != nil {
+		for _, fs := range nongoFileLists {
+			for i := range fs {
+				from := mkAbs(p.Dir, fs[i])
+				opath, _ := fsys.OverlayPath(from)
+				dst := objdir + filepath.Base(fs[i])
+				if err := b.copyFile(dst, opath, 0666, false); err != nil {
+					return err
+				}
+				nonGoOverlay[from] = dst
+			}
+		}
+	}
+
 	// Run SWIG on each .swig and .swigcxx file.
 	// Each run will generate two files, a .go file and a .c or .cxx file.
 	// The .go file will use import "C" and is to be processed by cgo.
@@ -620,7 +650,7 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
 			sfiles = nil
 		}
 
-		outGo, outObj, err := b.cgo(a, base.Tool("cgo"), objdir, pcCFLAGS, pcLDFLAGS, mkAbsFiles(a.Package.Dir, cgofiles), gccfiles, cxxfiles, a.Package.MFiles, a.Package.FFiles)
+		outGo, outObj, err := b.cgo(a, nonGoOverlay, base.Tool("cgo"), objdir, pcCFLAGS, pcLDFLAGS, mkAbsFiles(a.Package.Dir, cgofiles), gccfiles, cxxfiles, a.Package.MFiles, a.Package.FFiles)
 		if err != nil {
 			return err
 		}
@@ -2196,23 +2226,25 @@ func (noToolchain) cc(b *Builder, a *Action, ofile, cfile string) error {
 	return noCompiler()
 }
 
+type nonGoOverlay map[string]string
+
 // gcc runs the gcc C compiler to create an object from a single C file.
-func (b *Builder) gcc(a *Action, p *load.Package, workdir, out string, flags []string, cfile string) error {
-	return b.ccompile(a, p, out, flags, cfile, b.GccCmd(p.Dir, workdir))
+func (b *Builder) gcc(a *Action, p *load.Package, overlay nonGoOverlay, workdir, out string, flags []string, cfile string) error {
+	return b.ccompile(a, p, overlay, out, flags, cfile, b.GccCmd(p.Dir, workdir))
 }
 
 // gxx runs the g++ C++ compiler to create an object from a single C++ file.
-func (b *Builder) gxx(a *Action, p *load.Package, workdir, out string, flags []string, cxxfile string) error {
-	return b.ccompile(a, p, out, flags, cxxfile, b.GxxCmd(p.Dir, workdir))
+func (b *Builder) gxx(a *Action, p *load.Package, overlay nonGoOverlay, workdir, out string, flags []string, cxxfile string) error {
+	return b.ccompile(a, p, overlay, out, flags, cxxfile, b.GxxCmd(p.Dir, workdir))
 }
 
 // gfortran runs the gfortran Fortran compiler to create an object from a single Fortran file.
-func (b *Builder) gfortran(a *Action, p *load.Package, workdir, out string, flags []string, ffile string) error {
-	return b.ccompile(a, p, out, flags, ffile, b.gfortranCmd(p.Dir, workdir))
+func (b *Builder) gfortran(a *Action, p *load.Package, overlay nonGoOverlay, workdir, out string, flags []string, ffile string) error {
+	return b.ccompile(a, p, overlay, out, flags, ffile, b.gfortranCmd(p.Dir, workdir))
 }
 
 // ccompile runs the given C or C++ compiler and creates an object from a single source file.
-func (b *Builder) ccompile(a *Action, p *load.Package, outfile string, flags []string, file string, compiler []string) error {
+func (b *Builder) ccompile(a *Action, p *load.Package, overlay nonGoOverlay, outfile string, flags []string, file string, compiler []string) error {
 	file = mkAbs(p.Dir, file)
 	desc := p.ImportPath
 	outfile = mkAbs(p.Dir, outfile)
@@ -2223,11 +2255,12 @@ func (b *Builder) ccompile(a *Action, p *load.Package, outfile string, flags []s
 	// directives pointing to the source directory. It should not generate those
 	// when -trimpath is enabled.
 	if b.gccSupportsFlag(compiler, "-fdebug-prefix-map=a=b") {
+		var from, to string
 		if cfg.BuildTrimpath {
 			// Keep in sync with Action.trimpath.
 			// The trimmed paths are a little different, but we need to trim in the
 			// same situations.
-			var from, toPath string
+			var toPath string
 			if m := p.Module; m != nil {
 				from = m.Dir
 				toPath = m.Path + "@" + m.Version
@@ -2238,19 +2271,35 @@ func (b *Builder) ccompile(a *Action, p *load.Package, outfile string, flags []s
 			// -fdebug-prefix-map requires an absolute "to" path (or it joins the path
 			// with the working directory). Pick something that makes sense for the
 			// target platform.
-			var to string
 			if cfg.BuildContext.GOOS == "windows" {
 				to = filepath.Join(`\\_\_`, toPath)
 			} else {
 				to = filepath.Join("/_", toPath)
 			}
-			flags = append(flags[:len(flags):len(flags)], "-fdebug-prefix-map="+from+"="+to)
 		} else if p.Goroot && cfg.GOROOT_FINAL != cfg.GOROOT {
-			flags = append(flags[:len(flags):len(flags)], "-fdebug-prefix-map="+cfg.GOROOT+"="+cfg.GOROOT_FINAL)
+			from, to = cfg.GOROOT, cfg.GOROOT_FINAL
+		}
+
+		if overlay == nil {
+			flags = append(flags[:len(flags):len(flags)], "-fdebug-prefix-map="+from+"="+to)
+		} else {
+			flags = flags[:len(flags):len(flags)]
+			start := len(flags)
+			for p, op := range overlay {
+				if str.HasFilePathPrefix(op, from) {
+					op = to + op[len(from):]
+				}
+				flags = append(flags, "-fdebug-prefix-map="+p+"="+op)
+			}
+			sort.Strings(flags[start:]) // sort the new entries for determinism
 		}
 	}
 
-	output, err := b.runOut(a, filepath.Dir(file), b.cCompilerEnv(), compiler, flags, "-o", outfile, "-c", filepath.Base(file))
+	overlayPath := file
+	if p, ok := overlay[overlayPath]; ok {
+		overlayPath = p
+	}
+	output, err := b.runOut(a, filepath.Dir(overlayPath), b.cCompilerEnv(), compiler, flags, "-o", outfile, "-c", filepath.Base(overlayPath))
 	if len(output) > 0 {
 		// On FreeBSD 11, when we pass -g to clang 3.8 it
 		// invokes its internal assembler with -dwarf-version=2.
@@ -2268,7 +2317,7 @@ func (b *Builder) ccompile(a *Action, p *load.Package, outfile string, flags []s
 				}
 			}
 			if len(newFlags) < len(flags) {
-				return b.ccompile(a, p, outfile, newFlags, file, compiler)
+				return b.ccompile(a, p, overlay, outfile, newFlags, file, compiler)
 			}
 		}
 
@@ -2590,7 +2639,7 @@ func buildFlags(name, defaults string, fromPackage []string, check func(string, 
 
 var cgoRe = lazyregexp.New(`[/\\:]`)
 
-func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
+func (b *Builder) cgo(a *Action, overlay nonGoOverlay, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
 	p := a.Package
 	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, cgoFFLAGS, cgoLDFLAGS, err := b.CFlags(p)
 	if err != nil {
@@ -2635,8 +2684,6 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 		gofiles = append(gofiles, objdir+f+".cgo1.go")
 		cfiles = append(cfiles, f+".cgo2.c")
 	}
-
-	hfiles := append([]string{}, p.HFiles...)
 
 	// TODO: make cgo not depend on $GOARCH?
 
@@ -2684,35 +2731,6 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 
 	execdir := p.Dir
 
-	// If any of the Cgo, C, or H files are overlaid, copy them all to
-	// objdir to ensure that they refer to the right header files.
-	// TODO(#39958): Ideally, we'd always do this, but this could
-	// subtly break some cgo files that include .h files across directory
-	// boundaries, even though they shouldn't.
-	hasOverlay := false
-	cgoFileLists := [][]string{gccfiles, gxxfiles, mfiles, ffiles, hfiles}
-OverlayLoop:
-	for _, fs := range cgoFileLists {
-		for _, f := range fs {
-			if _, ok := fsys.OverlayPath(mkAbs(p.Dir, f)); ok {
-				hasOverlay = true
-				break OverlayLoop
-			}
-		}
-	}
-	if hasOverlay {
-		execdir = objdir
-		for _, fs := range cgoFileLists {
-			for i := range fs {
-				opath, _ := fsys.OverlayPath(mkAbs(p.Dir, fs[i]))
-				fs[i] = objdir + filepath.Base(fs[i])
-				if err := b.copyFile(fs[i], opath, 0666, false); err != nil {
-					return nil, nil, err
-				}
-			}
-		}
-	}
-
 	var trimpath []string
 	for i := range cgofiles {
 		path := mkAbs(p.Dir, cgofiles[i])
@@ -2746,7 +2764,7 @@ OverlayLoop:
 	cflags := str.StringList(cgoCPPFLAGS, cgoCFLAGS)
 	for _, cfile := range cfiles {
 		ofile := nextOfile()
-		if err := b.gcc(a, p, a.Objdir, ofile, cflags, objdir+cfile); err != nil {
+		if err := b.gcc(a, p, overlay, a.Objdir, ofile, cflags, objdir+cfile); err != nil {
 			return nil, nil, err
 		}
 		outObj = append(outObj, ofile)
@@ -2754,7 +2772,7 @@ OverlayLoop:
 
 	for _, file := range gccfiles {
 		ofile := nextOfile()
-		if err := b.gcc(a, p, a.Objdir, ofile, cflags, file); err != nil {
+		if err := b.gcc(a, p, overlay, a.Objdir, ofile, cflags, file); err != nil {
 			return nil, nil, err
 		}
 		outObj = append(outObj, ofile)
@@ -2763,7 +2781,7 @@ OverlayLoop:
 	cxxflags := str.StringList(cgoCPPFLAGS, cgoCXXFLAGS)
 	for _, file := range gxxfiles {
 		ofile := nextOfile()
-		if err := b.gxx(a, p, a.Objdir, ofile, cxxflags, file); err != nil {
+		if err := b.gxx(a, p, overlay, a.Objdir, ofile, cxxflags, file); err != nil {
 			return nil, nil, err
 		}
 		outObj = append(outObj, ofile)
@@ -2771,7 +2789,7 @@ OverlayLoop:
 
 	for _, file := range mfiles {
 		ofile := nextOfile()
-		if err := b.gcc(a, p, a.Objdir, ofile, cflags, file); err != nil {
+		if err := b.gcc(a, p, overlay, a.Objdir, ofile, cflags, file); err != nil {
 			return nil, nil, err
 		}
 		outObj = append(outObj, ofile)
@@ -2780,7 +2798,7 @@ OverlayLoop:
 	fflags := str.StringList(cgoCPPFLAGS, cgoFFLAGS)
 	for _, file := range ffiles {
 		ofile := nextOfile()
-		if err := b.gfortran(a, p, a.Objdir, ofile, fflags, file); err != nil {
+		if err := b.gfortran(a, p, overlay, a.Objdir, ofile, fflags, file); err != nil {
 			return nil, nil, err
 		}
 		outObj = append(outObj, ofile)
@@ -2789,7 +2807,7 @@ OverlayLoop:
 	switch cfg.BuildToolchainName {
 	case "gc":
 		importGo := objdir + "_cgo_import.go"
-		if err := b.dynimport(a, p, objdir, importGo, cgoExe, cflags, cgoLDFLAGS, outObj); err != nil {
+		if err := b.dynimport(a, p, overlay, objdir, importGo, cgoExe, cflags, cgoLDFLAGS, outObj); err != nil {
 			return nil, nil, err
 		}
 		outGo = append(outGo, importGo)
@@ -2812,10 +2830,10 @@ OverlayLoop:
 // dynimport creates a Go source file named importGo containing
 // //go:cgo_import_dynamic directives for each symbol or library
 // dynamically imported by the object files outObj.
-func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe string, cflags, cgoLDFLAGS, outObj []string) error {
+func (b *Builder) dynimport(a *Action, p *load.Package, overlay nonGoOverlay, objdir, importGo, cgoExe string, cflags, cgoLDFLAGS, outObj []string) error {
 	cfile := objdir + "_cgo_main.c"
 	ofile := objdir + "_cgo_main.o"
-	if err := b.gcc(a, p, objdir, ofile, cflags, cfile); err != nil {
+	if err := b.gcc(a, p, overlay, objdir, ofile, cflags, cfile); err != nil {
 		return err
 	}
 
