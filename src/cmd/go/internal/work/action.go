@@ -79,6 +79,8 @@ type Action struct {
 
 	TryCache func(*Builder, *Action) bool // callback for cache bypass
 
+	nonGoOverlay map[string]string
+
 	// Generated files, directories.
 	Objdir   string         // directory for intermediate objects
 	Target   string         // goal of the action: the created package or executable
