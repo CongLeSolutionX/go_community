@@ -75,6 +75,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7af7ecc0_f5addb11",
+        "filename": "src/strconv/atoc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-10-29T23:51:40Z",
+      "side": 1,
+      "message": "Done. Also fixed in the same way below.",
+      "parentUuid": "caa702ea_ce19ff31",
+      "range": {
+        "startLine": 217,
+        "startChar": 1,
+        "endLine": 217,
+        "endChar": 5
+      },
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae9cb5f7_af185c81",
@@ -88,6 +112,30 @@
       "writtenOn": "2020-10-29T22:41:45Z",
       "side": 1,
       "message": "nitpick:\n\nthis is not a proper sentence, start lower-case",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 7
+      },
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27ff2a7d_5f497784",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-10-29T23:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae9cb5f7_af185c81",
       "range": {
         "startLine": 20,
         "startChar": 6,
@@ -115,6 +163,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ee094df_0c5bc32d",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-10-29T23:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef0abc12_61aa7733",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13a95988_99b912e6",
@@ -132,6 +198,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b81139f2_10889591",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-10-29T23:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13a95988_99b912e6",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80682d7e_0f068a30",
@@ -145,6 +229,24 @@
       "writtenOn": "2020-10-29T22:41:45Z",
       "side": 1,
       "message": "ditto, or, in this case, add a period at the end",
+      "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f8dc015_ecb2ec48",
+        "filename": "src/strconv/ctoa_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 28469
+      },
+      "writtenOn": "2020-10-29T23:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80682d7e_0f068a30",
       "revId": "41a2397347dee7e84ff0201fefbe2931106592ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
