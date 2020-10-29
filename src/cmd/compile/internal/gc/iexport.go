@@ -1138,13 +1138,7 @@ func (w *exportWriter) stmt(n *Node) {
 		w.pos(n.Pos)
 		w.stmtList(n.Ninit)
 		w.exprsOrNil(n.Left, nil)
-		w.stmtList(n.List)
-
-	case OCASE:
-		w.op(OCASE)
-		w.pos(n.Pos)
-		w.stmtList(n.List)
-		w.stmtList(n.Nbody)
+		w.caseList(n)
 
 	case OFALL:
 		w.op(OFALL)
@@ -1165,6 +1159,24 @@ func (w *exportWriter) stmt(n *Node) {
 
 	default:
 		Fatalf("exporter: CANNOT EXPORT: %v\nPlease notify gri@\n", n.Op)
+	}
+}
+
+func (w *exportWriter) caseList(sw *Node) {
+	namedTypeSwitch := sw.Op == OSWITCH && sw.Left != nil && sw.Left.Op == OTYPESW && sw.Left.Left != nil
+
+	cases := sw.List.Slice()
+	w.uint64(uint64(len(cases)))
+	for _, cas := range cases {
+		if cas.Op != OCASE {
+			Fatalf("expected OCASE, got %v", cas)
+		}
+		w.pos(cas.Pos)
+		w.stmtList(cas.List)
+		if namedTypeSwitch {
+			w.localName(cas.Rlist.First())
+		}
+		w.stmtList(cas.Nbody)
 	}
 }
 
@@ -1231,6 +1243,19 @@ func (w *exportWriter) expr(n *Node) {
 	case OTYPE:
 		w.op(OTYPE)
 		w.typ(n.Type)
+
+	case OTYPESW:
+		w.op(OTYPESW)
+		w.pos(n.Pos)
+		var s *types.Sym
+		if n.Left != nil {
+			if n.Left.Op != ONONAME {
+				Fatalf("expected ONONAME, got %v", n.Left)
+			}
+			s = n.Left.Sym
+		}
+		w.localIdent(s, 0)
+		w.exprsOrNil(n.Right, nil)
 
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	// 	should have been resolved by typechecking - handled by default case
