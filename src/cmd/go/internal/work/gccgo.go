@@ -63,7 +63,7 @@ func checkGccgoBin() {
 	base.Exit()
 }
 
-func (tools gccgoToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg []byte, symabis string, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
+func (tools gccgoToolchain) gc(b *Builder, a *Action, nonGoOverlay map[string]string, archive string, importcfg, embedcfg []byte, symabis string, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
 	p := a.Package
 	objdir := a.Objdir
 	out := "_go_.o"
@@ -192,7 +192,7 @@ func buildImportcfgSymlinks(b *Builder, root string, importcfg []byte) error {
 	return nil
 }
 
-func (tools gccgoToolchain) asm(b *Builder, a *Action, sfiles []string) ([]string, error) {
+func (tools gccgoToolchain) asm(b *Builder, a *Action, nonGoOverlay map[string]string, sfiles []string) ([]string, error) {
 	p := a.Package
 	var ofiles []string
 	for _, sfile := range sfiles {
@@ -214,7 +214,7 @@ func (tools gccgoToolchain) asm(b *Builder, a *Action, sfiles []string) ([]strin
 	return ofiles, nil
 }
 
-func (gccgoToolchain) symabis(b *Builder, a *Action, sfiles []string) (string, error) {
+func (gccgoToolchain) symabis(b *Builder, a *Action, nonGoOverlay map[string]string, sfiles []string) (string, error) {
 	return "", nil
 }
 

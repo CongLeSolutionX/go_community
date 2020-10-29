@@ -52,7 +52,7 @@ func pkgPath(a *Action) string {
 	return ppath
 }
 
-func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg []byte, symabis string, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
+func (gcToolchain) gc(b *Builder, a *Action, nonGoOverlay map[string]string, archive string, importcfg, embedcfg []byte, symabis string, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
 	p := a.Package
 	objdir := a.Objdir
 	if archive != "" {
@@ -130,7 +130,7 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 		}
 	}
 
-	args := []interface{}{cfg.BuildToolexec, base.Tool("compile"), "-o", ofile, "-trimpath", a.trimpath(), gcflags, gcargs, "-D", p.Internal.LocalPrefix}
+	args := []interface{}{cfg.BuildToolexec, base.Tool("compile"), "-o", ofile, "-trimpath", a.trimpath(nonGoOverlay), gcflags, gcargs, "-D", p.Internal.LocalPrefix}
 	if importcfg != nil {
 		if err := b.writeFile(objdir+"importcfg", importcfg); err != nil {
 			return "", nil, err
@@ -252,7 +252,7 @@ CheckFlags:
 
 // trimpath returns the -trimpath argument to use
 // when compiling the action.
-func (a *Action) trimpath() string {
+func (a *Action) trimpath(nonGoOverlay map[string]string) string {
 	// Keep in sync with Builder.ccompile
 	// The trimmed paths are a little different, but we need to trim in the
 	// same situations.
@@ -323,11 +323,11 @@ func (a *Action) trimpath() string {
 	return rewrite
 }
 
-func asmArgs(a *Action, p *load.Package) []interface{} {
+func asmArgs(a *Action, p *load.Package, nonGoOverlay map[string]string) []interface{} {
 	// Add -I pkg/GOOS_GOARCH so #include "textflag.h" works in .s files.
 	inc := filepath.Join(cfg.GOROOT, "pkg", "include")
 	pkgpath := pkgPath(a)
-	args := []interface{}{cfg.BuildToolexec, base.Tool("asm"), "-p", pkgpath, "-trimpath", a.trimpath(), "-I", a.Objdir, "-I", inc, "-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch, forcedAsmflags, p.Internal.Asmflags}
+	args := []interface{}{cfg.BuildToolexec, base.Tool("asm"), "-p", pkgpath, "-trimpath", a.trimpath(nonGoOverlay), "-I", a.Objdir, "-I", inc, "-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch, forcedAsmflags, p.Internal.Asmflags}
 	if p.ImportPath == "runtime" && cfg.Goarch == "386" {
 		for _, arg := range forcedAsmflags {
 			if arg == "-dynlink" {
@@ -364,9 +364,9 @@ func asmArgs(a *Action, p *load.Package) []interface{} {
 	return args
 }
 
-func (gcToolchain) asm(b *Builder, a *Action, sfiles []string) ([]string, error) {
+func (gcToolchain) asm(b *Builder, a *Action, nonGoOverlay map[string]string, sfiles []string) ([]string, error) {
 	p := a.Package
-	args := asmArgs(a, p)
+	args := asmArgs(a, p, nonGoOverlay)
 
 	var ofiles []string
 	for _, sfile := range sfiles {
@@ -380,9 +380,9 @@ func (gcToolchain) asm(b *Builder, a *Action, sfiles []string) ([]string, error)
 	return ofiles, nil
 }
 
-func (gcToolchain) symabis(b *Builder, a *Action, sfiles []string) (string, error) {
+func (gcToolchain) symabis(b *Builder, a *Action, nonGoOverlay map[string]string, sfiles []string) (string, error) {
 	mkSymabis := func(p *load.Package, sfiles []string, path string) error {
-		args := asmArgs(a, p)
+		args := asmArgs(a, p, nonGoOverlay)
 		args = append(args, "-gensymabis", "-o", path)
 		for _, sfile := range sfiles {
 			if p.ImportPath == "runtime/cgo" && strings.HasPrefix(sfile, "gcc_") {
