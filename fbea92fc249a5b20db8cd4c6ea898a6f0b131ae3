@@ -172,6 +172,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb735a74_206f3727",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-10-29T17:08:23Z",
+      "side": 1,
+      "message": "I guess it reads more obviously, so I\u0027ve done it.\n\nBut the \u0027err\u0027 here is the third return value from RawSyscall, syscall.Errno, which is numeric:\n\n  https://golang.org/pkg/syscall/#Errno\n\nGiven it is a numeric comparison, the compound comparison isn\u0027t really compound since the Compiler should be able to collapse it to one of (false) or (pc.r2 !\u003d r2).",
+      "parentUuid": "ca7df2fd_ad4f1dbf",
+      "revId": "fbea92fc249a5b20db8cd4c6ea898a6f0b131ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70be5497_2fd24220",
@@ -207,6 +225,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21c82f4_b07ab884",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-10-29T17:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cef54906_1f12d20e",
+      "revId": "fbea92fc249a5b20db8cd4c6ea898a6f0b131ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f635da9_8741931c",
@@ -220,6 +256,24 @@
       "writtenOn": "2020-10-29T05:36:34Z",
       "side": 1,
       "message": "Unless the single space is important, maybe start the loop body with\n    line \u003d strings.TrimSpace(line)\nand drop trailing spaces in the expected strings.",
+      "revId": "fbea92fc249a5b20db8cd4c6ea898a6f0b131ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a167a6_7eeaf41f",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-10-29T17:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f635da9_8741931c",
       "revId": "fbea92fc249a5b20db8cd4c6ea898a6f0b131ae3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
