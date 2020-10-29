@@ -9,7 +9,6 @@
 // * Optimize left and right shift by simplifying SLTIU, Neg, and ADD for constants.
 // * Arrange for non-trivial Zero and Move lowerings to use aligned loads and stores.
 // * Eliminate zero immediate shifts, adds, etc.
-// * Use a Duff's device for some moves and zeros.
 // * Avoid using Neq32 for writeBarrier.enabled checks.
 
 // Lowering arithmetic
@@ -352,18 +351,40 @@
 // with OffPtr -> ADDI.
 (ADDI [c] (MOVaddr [d] {s} x)) && is32Bit(c+int64(d)) => (MOVaddr [int32(c)+d] {s} x)
 
-// Zeroing
-// TODO: more optimized zeroing, including attempting to use aligned accesses.
+// Small aligned zeroing
 (Zero [0]   _ mem) => mem
 (Zero [1] ptr mem) => (MOVBstore ptr (MOVBconst) mem)
-(Zero [2] ptr mem) => (MOVHstore ptr (MOVHconst) mem)
-(Zero [4] ptr mem) => (MOVWstore ptr (MOVWconst) mem)
-(Zero [8] ptr mem) => (MOVDstore ptr (MOVDconst) mem)
+(Zero [2] {t} ptr mem) && t.Alignment()%2 == 0 => (MOVHstore ptr (MOVHconst) mem)
+(Zero [4] {t} ptr mem) && t.Alignment()%4 == 0 => (MOVWstore ptr (MOVWconst) mem)
+(Zero [8] {t} ptr mem) && t.Alignment()%8 == 0 => (MOVDstore ptr (MOVDconst) mem)
+(Zero [16] {t} ptr mem) && t.Alignment()%8 == 0 =>
+	(MOVDstore [8] ptr (MOVDconst)
+		(MOVDstore ptr (MOVDconst) mem))
+(Zero [24] {t} ptr mem) && t.Alignment()%8 == 0 =>
+	(MOVDstore [16] ptr (MOVDconst)
+		(MOVDstore [8] ptr (MOVDconst)
+			(MOVDstore ptr (MOVDconst) mem)))
+(Zero [32] {t} ptr mem) && t.Alignment()%8 == 0 =>
+	(MOVDstore [24] ptr (MOVDconst)
+		(MOVDstore [16] ptr (MOVDconst)
+			(MOVDstore [8] ptr (MOVDconst)
+				(MOVDstore ptr (MOVDconst) mem))))
 
-// Medium zeroing uses a Duff's device
-// 8 and 128 are magic constants, see runtime/mkduff.go
+// Small unaligned zeroing
+(Zero [2] {t} ptr mem)  =>
+	(MOVBstore [1] ptr (MOVBconst)
+		(MOVBstore ptr (MOVBconst) mem))
+(Zero [4] {t} ptr mem) && t.Alignment()%2 == 0 =>
+	(MOVHstore [2] ptr (MOVHconst)
+		(MOVHstore ptr (MOVHconst) mem))
+(Zero [8] {t} ptr mem) && t.Alignment()%4 == 0 =>
+	(MOVWstore [4] ptr (MOVWconst)
+		(MOVWstore ptr (MOVWconst) mem))
+
+// Medium 8-aligned zeroing uses a Duff's device
+// 8, and 128 are magic constants, see runtime/mkduff.go
 (Zero [s] {t} ptr mem)
-	&& s%8 == 0 && s >= 16 && s <= 8*128
+	&& s%8 == 0 && s > 32 && s <= 8*128
 	&& t.Alignment()%8 == 0 && !config.noDuffDevice =>
 	(DUFFZERO [8 * (128 - s/8)] ptr mem)
 
@@ -394,18 +415,40 @@
 (PanicBounds [kind] x y mem) && boundsABI(kind) == 1 => (LoweredPanicBoundsB [kind] x y mem)
 (PanicBounds [kind] x y mem) && boundsABI(kind) == 2 => (LoweredPanicBoundsC [kind] x y mem)
 
-// Moves
-// TODO: more optimized moves, including attempting to use aligned accesses.
+// Small aligned move
 (Move [0]   _   _ mem) => mem
 (Move [1] dst src mem) => (MOVBstore dst (MOVBload src mem) mem)
-(Move [2] dst src mem) => (MOVHstore dst (MOVHload src mem) mem)
-(Move [4] dst src mem) => (MOVWstore dst (MOVWload src mem) mem)
-(Move [8] dst src mem) => (MOVDstore dst (MOVDload src mem) mem)
+(Move [2] {t} dst src mem) && t.Alignment()%2 == 0 => (MOVHstore dst (MOVHload src mem) mem)
+(Move [4] {t} dst src mem) && t.Alignment()%4 == 0 => (MOVWstore dst (MOVWload src mem) mem)
+(Move [8] {t} dst src mem) && t.Alignment()%8 == 0 => (MOVDstore dst (MOVDload src mem) mem)
+(Move [16] {t} dst src mem) && t.Alignment()%8 == 0 =>
+	(MOVDstore [8] dst (MOVDload [8] src mem)
+		(MOVDstore dst (MOVDload src mem) mem))
+(Move [24] {t} dst src mem) && t.Alignment()%8 == 0 =>
+	(MOVDstore [16] dst (MOVDload [16] src mem)
+		(MOVDstore [8] dst (MOVDload [8] src mem)
+			(MOVDstore dst (MOVDload src mem) mem)))
+(Move [32] {t} dst src mem) && t.Alignment()%8 == 0 =>
+	(MOVDstore [24] dst (MOVDload [24] src mem)
+		(MOVDstore [16] dst (MOVDload [16] src mem)
+			(MOVDstore [8] dst (MOVDload [8] src mem)
+				(MOVDstore dst (MOVDload src mem) mem))))
 
-// Medium move uses a Duff's device
+// Small unaligned move
+(Move [2] dst src mem) =>
+	(MOVBstore [1] dst (MOVBload [1] src mem)
+		(MOVBstore dst (MOVBload src mem) mem))
+(Move [4] {t} dst src mem) && t.Alignment()%2 == 0 =>
+	(MOVHstore [2] dst (MOVHload [2] src mem)
+		(MOVHstore dst (MOVHload src mem) mem))
+(Move [8] {t} dst src mem) && t.Alignment()%4 == 0 =>
+	(MOVWstore [4] dst (MOVWload [4] src mem)
+		(MOVWstore dst (MOVWload src mem) mem))
+
+// Medium 8-aligned move use a Duff's device
 // 16 and 128 are magic constants, see runtime/mkduff.go
 (Move [s] {t} dst src mem)
-	&& s%8 == 0 && s >= 16 && s <= 8*128 && t.Alignment()%8 == 0
+	&& s%8 == 0 && s > 32 && s <= 8*128 && t.Alignment()%8 == 0
 	&& !config.noDuffDevice && logLargeCopy(v, s) =>
 	(DUFFCOPY [16 * (128 - s/8)] dst src mem)
 
