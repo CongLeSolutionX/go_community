@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f43e8303_a5a8d4c4",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 36043
+      },
+      "writtenOn": "2020-10-29T14:40:00Z",
+      "side": 1,
+      "message": "I\u0027ve implemented only three simple cases that one misaligned access can be replaced by two aligned accesses.\n\nI can implement more cases (e.g. one misaligned access replaced by up to 4 aligned accesses) but for the first time I\u0027ve decided to leave things simple therefore such a modest code.\n\nAs for grouping, I\u0027ve no my own preferences so It\u0027s your choice.",
+      "parentUuid": "e7c92d9f_547453f9",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 41
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0843ba8_86dce239",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
         "patchSetId": 4
