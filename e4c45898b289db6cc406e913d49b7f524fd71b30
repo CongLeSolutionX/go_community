@@ -134,6 +134,30 @@
       },
       "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b5c4b15_1920bf9b",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-10-29T19:06:27Z",
+      "side": 1,
+      "message": "Ack. I\u0027d be supportive of detangling the user-level \"return\" statement from the ABI-level stack-frame-pop operation.",
+      "parentUuid": "e683ea6a_9e33c538",
+      "range": {
+        "startLine": 1034,
+        "startChar": 19,
+        "endLine": 1034,
+        "endChar": 22
+      },
+      "revId": "e4c45898b289db6cc406e913d49b7f524fd71b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
