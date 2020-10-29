@@ -533,6 +533,13 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	_g_ := getg()
 	c := &sigctxt{info, ctxt}
 
+	if sig == _SIGQUIT {
+		println("SIGQUIT")
+		for _, pp := range allp {
+			println("P", pp.id, "status", pp.status)
+		}
+	}
+
 	if sig == _SIGPROF {
 		sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, _g_.m)
 		return
