@@ -34,9 +34,9 @@ import (
 )
 
 func skipDebugLog(t *testing.T) {
-	if !runtime.DlogEnabled {
+	//if !runtime.DlogEnabled {
 		t.Skip("debug log disabled (rebuild with -tags debuglog)")
-	}
+	//}
 }
 
 func dlogCanonicalize(x string) string {
