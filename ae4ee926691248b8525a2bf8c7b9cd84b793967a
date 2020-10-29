@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a04ff004_689f3308",
+        "filename": "src/cmd/go/testdata/script/mod_lazy_downgrade.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-29T01:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f623b3f1_3895de23",
+      "range": {
+        "startLine": 17,
+        "startChar": 59,
+        "endLine": 17,
+        "endChar": 62
+      },
+      "revId": "ae4ee926691248b8525a2bf8c7b9cd84b793967a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eedb78ed_68187007",
@@ -54,6 +78,24 @@
       "writtenOn": "2020-10-28T21:05:13Z",
       "side": 1,
       "message": "I think this should remove the dependency on example.com/a as well, but it looks like example.com/a@v0.1.0 is missing the requirement though.",
+      "revId": "ae4ee926691248b8525a2bf8c7b9cd84b793967a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dac68d6b_d4ffdd11",
+        "filename": "src/cmd/go/testdata/script/mod_lazy_downgrade.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-29T01:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eedb78ed_68187007",
       "revId": "ae4ee926691248b8525a2bf8c7b9cd84b793967a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
