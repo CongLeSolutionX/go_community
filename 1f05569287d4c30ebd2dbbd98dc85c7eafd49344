@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50339c82_b2537132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-29T17:45:27Z",
+      "side": 1,
+      "message": "This reverts CL 263457.",
+      "revId": "1f05569287d4c30ebd2dbbd98dc85c7eafd49344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
