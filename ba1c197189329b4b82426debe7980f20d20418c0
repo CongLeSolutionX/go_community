@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3d29aa94_598a7903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-29T22:43:58Z",
+      "side": 1,
+      "message": "Good point about shared library. You are right that they are mutually exclusive. Shared library symbols would be a reference, here we only include defined symbols. Also, for that matter, shared library symbols are also Go symbols, so even if we consider them it would be fine.",
+      "parentUuid": "14633719_6a5abf8f",
+      "range": {
+        "startLine": 16,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "ba1c197189329b4b82426debe7980f20d20418c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5304d0b7_51675abe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -54,6 +78,41 @@
       "writtenOn": "2020-10-29T16:32:11Z",
       "side": 1,
       "message": "TRY\u003daix",
+      "revId": "ba1c197189329b4b82426debe7980f20d20418c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c99768_08602433",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-29T22:43:58Z",
+      "side": 1,
+      "message": "Tried with gomote and it passes.",
+      "parentUuid": "08270535_927219a6",
+      "revId": "ba1c197189329b4b82426debe7980f20d20418c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b861e32_0038ba16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-10-29T22:43:58Z",
+      "side": 1,
+      "message": "Thanks for review.\n",
       "revId": "ba1c197189329b4b82426debe7980f20d20418c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
