@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1df0dc5c_8ff1f933",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-29T20:31:46Z",
+      "side": 1,
+      "message": "Also, in typecheck1() in typecheck.go, is it worth adding\n\n\t\ttypecheckslice(n.Rlist.Slice(), ctxStmt)\n\nin the OCASE case, or adding a comment as to why it isn\u0027t necessary, even though n.Rlist is populated for type switches?\n",
+      "revId": "fe8eced60928ce9cfbab66451d3f7eb28376d824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "131e5fa2_0622581c",
