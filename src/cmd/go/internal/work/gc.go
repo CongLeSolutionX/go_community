@@ -330,9 +330,10 @@ func (gcToolchain) asm(b *Builder, a *Action, sfiles []string) ([]string, error)
 
 	var ofiles []string
 	for _, sfile := range sfiles {
+		overlayPath, _ := fsys.OverlayPath(mkAbs(p.Dir, sfile))
 		ofile := a.Objdir + sfile[:len(sfile)-len(".s")] + ".o"
 		ofiles = append(ofiles, ofile)
-		args1 := append(args, "-o", ofile, mkAbs(p.Dir, sfile))
+		args1 := append(args, "-o", ofile, overlayPath)
 		if err := b.run(a, p.Dir, p.ImportPath, nil, args1...); err != nil {
 			return nil, err
 		}
