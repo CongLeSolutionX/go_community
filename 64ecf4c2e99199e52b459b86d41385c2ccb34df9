@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "cc059019_2da209c6",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "What is this for? Maybe remove.",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "49a9935f_4567672b",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +32,10 @@
       "side": 1,
       "message": "please review it,please.",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "da5c8d56_e59095af",
         "filename": "src/cmd/internal/obj/arm64/a.out.go",
@@ -54,10 +55,10 @@
         "endChar": 9
       },
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "90895403_e98b14a1",
         "filename": "src/cmd/internal/obj/arm64/a.out.go",
@@ -71,10 +72,10 @@
       "side": 1,
       "message": "If we support the AUTO form (offset from SP), we should also support the OREG form (offset from Rx). They must match.",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "718d7834_1f80fd68",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
@@ -88,10 +89,10 @@
       "side": 1,
       "message": "Not only this, it seems many cases above also need to be extended.",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0ea0b92d_4f525efd",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
@@ -105,10 +106,10 @@
       "side": 1,
       "message": "This doesn\u0027t seem right. A PSAUTO doesn\u0027t necessarily match a PQAUTO, for example, offset 1 is a PSAUTO, but not a PQAUTO.\n\nIn fact, I don\u0027t think this will work. I think you\u0027ll need PSAUTO_16 (0-255, 0 mod 16), and PPAUTO_16 (0-511, 0 mod 16).",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0aecae67_b65a911e",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
@@ -123,10 +124,28 @@
       "message": "I don\u0027t find guidance on the matching objects for each constant.\nAre case C_PQAUTO and case C_PZAUTO not required here?\nPSAUTO_16 (0-255, 0 mod 16) and PPAUTO_16 (0-511, 0 mod 16) are not required. Do I have to add them here? I look forward to your reply.",
       "parentUuid": "0ea0b92d_4f525efd",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9707759b_fbd0d1f5",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2197,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-10-29T09:06:30Z",
+      "side": 1,
+      "message": "@Heisenberg, Maybe you can refer to this patch https://go-review.googlesource.com/c/go/+/258397/6, it adds the C_UAUTO64K class, which is \"0 to 65520, 0 mod 16\". Hope it can provide some help for you to add a new class. Thank you.",
+      "parentUuid": "0aecae67_b65a911e",
+      "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "633dcb80_a531ba2f",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
@@ -140,8 +159,7 @@
       "side": 1,
       "message": "Same here.",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
