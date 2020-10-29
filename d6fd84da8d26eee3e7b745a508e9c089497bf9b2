@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "807c4b8a_6958ea5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "Thanks a lot for sending this in!  Will be great to have much better asymptotic multiplication.  Some initial comments after a brief look.  The code as it is is very terse with single or double letter variable names and limited comments.  Could you expand the names and comments where appropriate to make it more readable.\n\nThis also will need tests for the correctness of the results.  Manually adding very large test cases is probably prohibitive, but you can use programmatically generated (randomly or specific test cases) to test the fft implementation against the existing karatsuba implementation.  One way to test the mul method as a black box in the test, you can calculate the result first using fft and then temporarily set the fftThreshold higher in the test code and recalculate the result using the existing karatsuba implementation and compare the two results.",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "737d3293_c5105dba",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "z \u003d fftMul(z, x, y)  (see below)",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee226355_55965aea",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "This should take z as an argument so the space already allocated for z can be re-used if possible instead of z being unconditionally allocated below.  Also, this should be named with Mul to match the other multiplication functions and make it clear what it is doing.\n\nfunc fftMul(z, x, y nat) nat",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff03a061_85b02d05",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "If z is passed in above this can become z \u003d z.make(n)",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9062aba2_d975d16e",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "Note this is unnecessary since all memory in go is initialized to the zero value.",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb722d7_61a2ee46",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1640,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "This repeated set of blocks here is a little confusing.  I think the basic action is to copy x into A and y into B in K blocks of size l spaced by nprime+1.  I don\u0027t see a particular reason that A and B need to be a single contiguous block unless that is to have a single large allocation instead of K smaller ones, which I think should be clearly documented if it is the case.  The copying is much clearer to me to have something like.\n\n for i \u003d 0; i \u003c K; i++ {\n\t\t\tAp[i] \u003d nat(nil).make(nprime + 1)\n\t\t\tBp[i] \u003d nat(nil).make(nprime + 1)\n\n\t\t\tstart :\u003d i*l\n\n\t\t\tif start \u003c len(x) {\n\t\t\t\tend :\u003d start+l\n\t\t\t\tif end \u003e len(x) {\n\t\t\t\t\tend \u003d len(x)\n\t\t\t\t}\n\t\t\t\tcopy(Ap[i], x[start:end]) // put l words of x into Ap[i]\n\t\t\t} // else Ap[i] is all zeros\n\n\n\t\t\tif start \u003c len(y) {\n\t\t\t\tend :\u003d start+l\n\t\t\t\tif end \u003e len(y) {\n\t\t\t\t\tend \u003d len(y)\n\t\t\t\t}\n\t\t\t\tcopy(Bp[i], y[start:end]) // put l words of y into Bp[i]\n\t\t\t} // else Bp[i] is all zeros\n}\n\nNote that if you still want to keep the contiguous block that can read \n\nAp[i] \u003d A[i*(nprime+1) : (i+1)*(nprime+1)]\nBp[i] \u003d B[i*(nprime+1) : (i+1)*(nprime+1)]\n\nAlso, out of curiosity, do you mostly write C?  the terse variable names and Ap, Bp, tp that are effectively pointers into the backing slice give the original blocks a very C-style with the associated manual pointer math.",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e4cf8b_92bb8ba9",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "This sequence is a bit sub-optimal here.  There is temporary storage already allocated, but on each loop t is being allocated and then copied into that temporary storage.  You should be able to just use the storage directly.\n\ntp.clear()\ntp \u003d tp.mul(a[:nprime], b[:nprime])",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c1b2a66_b2ecbc55",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "This section is very confusing.  p is using a portion of B for storage and clears it out to use for storage of the sum of terms in Bp, which is also backed by B.  Even if this is ok and the storage that is cleared is not needed, this seems unnecessary since A is available for use if needed and p could just be;\n\np :\u003d A[:pla]",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "917ee018_11ab1443",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "This function signature needs documentation for what it does, what the parameters are and any pre-conditions on those parameters.  Also, index, omega, n and inc can all be grouped as they are the same type.\n\nindex, omega, n, inc int",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5805e5f9_c32c705d",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1787,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2020-10-29T19:47:11Z",
+      "side": 1,
+      "message": "Same here on documenting the function and parameters.",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
