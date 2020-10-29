@@ -11,6 +11,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"cmd/go/internal/web"
@@ -470,6 +471,101 @@ func TestValidateRepoRoot(t *testing.T) {
 				want = "nil"
 			}
 			t.Errorf("validateRepoRoot(%q) = %q, want %s", test.root, err, want)
+		}
+	}
+}
+
+var govcsTests = []struct {
+	govcs string
+	path  string
+	vcs   string
+	ok    bool
+}{
+	{"private:all", "is-public.com/foo", "zzz", false},
+	{"private:all", "is-private.com/foo", "zzz", true},
+	{"public:all", "is-public.com/foo", "zzz", true},
+	{"public:all", "is-private.com/foo", "zzz", false},
+	{"public:all,private:none", "is-public.com/foo", "zzz", true},
+	{"public:all,private:none", "is-private.com/foo", "zzz", false},
+	{"*:all", "is-public.com/foo", "zzz", true},
+	{"golang.org:git", "golang.org/x/text", "zzz", false},
+	{"golang.org:git", "golang.org/x/text", "git", true},
+	{"golang.org:zzz", "golang.org/x/text", "zzz", true},
+	{"golang.org:zzz", "golang.org/x/text", "git", false},
+	{"golang.org:zzz", "golang.org/x/text", "zzz", true},
+	{"golang.org:zzz", "golang.org/x/text", "git", false},
+	{"golang.org:git|hg", "golang.org/x/text", "hg", true},
+	{"golang.org:git|hg", "golang.org/x/text", "git", true},
+	{"golang.org:git|hg", "golang.org/x/text", "zzz", false},
+	{"golang.org:all", "golang.org/x/text", "hg", true},
+	{"golang.org:all", "golang.org/x/text", "git", true},
+	{"golang.org:all", "golang.org/x/text", "zzz", true},
+	{"other.xyz/p:none,golang.org/x:git", "other.xyz/p/x", "git", false},
+	{"other.xyz/p:none,golang.org/x:git", "unexpected.com", "git", false},
+	{"other.xyz/p:none,golang.org/x:git", "golang.org/x/text", "zzz", false},
+	{"other.xyz/p:none,golang.org/x:git", "golang.org/x/text", "git", true},
+	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/x/text", "zzz", true},
+	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/x/text", "git", false},
+	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/x/text", "hg", true},
+	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/x/text", "git", true},
+	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/x/text", "zzz", false},
+	{"other.xyz/p:none,golang.org/x:all", "golang.org/x/text", "hg", true},
+	{"other.xyz/p:none,golang.org/x:all", "golang.org/x/text", "git", true},
+	{"other.xyz/p:none,golang.org/x:all", "golang.org/x/text", "zzz", true},
+	{"other.xyz/p:none,golang.org/x:git", "golang.org/y/text", "zzz", false},
+	{"other.xyz/p:none,golang.org/x:git", "golang.org/y/text", "git", false},
+	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/y/text", "zzz", false},
+	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/y/text", "git", false},
+	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/y/text", "hg", false},
+	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/y/text", "git", false},
+	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/y/text", "zzz", false},
+	{"other.xyz/p:none,golang.org/x:all", "golang.org/y/text", "hg", false},
+	{"other.xyz/p:none,golang.org/x:all", "golang.org/y/text", "git", false},
+	{"other.xyz/p:none,golang.org/x:all", "golang.org/y/text", "zzz", false},
+}
+
+func TestGOVCS(t *testing.T) {
+	for _, tt := range govcsTests {
+		cfg, err := parseGOVCS(tt.govcs)
+		if err != nil {
+			t.Errorf("parseGOVCS(%q): %v", tt.govcs, err)
+			continue
+		}
+		private := strings.HasPrefix(tt.path, "is-private")
+		ok := cfg.allow(tt.path, private, tt.vcs)
+		if ok != tt.ok {
+			t.Errorf("parseGOVCS(%q).allow(%q, %v, %q) = %v, want %v",
+				tt.govcs, tt.path, private, tt.vcs, ok, tt.ok)
+		}
+	}
+}
+
+var govcsErrors = []struct {
+	s   string
+	err string
+}{
+	{`,`, `empty entry in GOVCS`},
+	{`,x`, `empty entry in GOVCS`},
+	{`x,`, `malformed entry in GOVCS (missing colon): "x"`},
+	{`x:y,`, `empty entry in GOVCS`},
+	{`x`, `malformed entry in GOVCS (missing colon): "x"`},
+	{`x:`, `empty VCS list in GOVCS: "x:"`},
+	{`x:|`, `empty VCS name in GOVCS: "x:|"`},
+	{`x:y|`, `empty VCS name in GOVCS: "x:y|"`},
+	{`x:|y`, `empty VCS name in GOVCS: "x:|y"`},
+	{`x:y,z:`, `empty VCS list in GOVCS: "z:"`},
+	{`x:y,z:|`, `empty VCS name in GOVCS: "z:|"`},
+	{`x:y,z:|w`, `empty VCS name in GOVCS: "z:|w"`},
+	{`x:y,z:w|`, `empty VCS name in GOVCS: "z:w|"`},
+	{`x:y,z:w||v`, `empty VCS name in GOVCS: "z:w||v"`},
+	{`x:y,x:z`, `unreachable pattern in GOVCS: "x:z" after "x:y"`},
+}
+
+func TestGOVCSErrors(t *testing.T) {
+	for _, tt := range govcsErrors {
+		_, err := parseGOVCS(tt.s)
+		if err == nil || !strings.Contains(err.Error(), tt.err) {
+			t.Errorf("parseGOVCS(%s): err=%v, want %v", tt.s, err, tt.err)
 		}
 	}
 }
