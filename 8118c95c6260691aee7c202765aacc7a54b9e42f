@@ -33,6 +33,24 @@
       "message": "Thank you for the updates, Jonathan, I shall run the trybots. Just a kind request, please don\u0027t +1/+2 your own changes unless perhaps in cases where there are no reviewers and a change is benign/urgently needed :)",
       "revId": "8118c95c6260691aee7c202765aacc7a54b9e42f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d2bac4_1f021955",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-10-29T21:26:11Z",
+      "side": 1,
+      "message": "Okay. I wasn\u0027t sure what the protocol was on that. I\u0027ve seen other projects use the self +1 as an indication that the change was ready. I\u0027ll refrain from doing that in the future. Thanks!",
+      "parentUuid": "65af9d06_4132f630",
+      "revId": "8118c95c6260691aee7c202765aacc7a54b9e42f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
