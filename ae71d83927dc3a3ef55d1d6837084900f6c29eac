@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94abe625_f12be8fb",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-10-30T20:01:09Z",
+      "side": 1,
+      "message": "Maybe also systemstack here?",
+      "revId": "ae71d83927dc3a3ef55d1d6837084900f6c29eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
