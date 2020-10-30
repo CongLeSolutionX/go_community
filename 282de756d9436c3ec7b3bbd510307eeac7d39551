@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdeed43f_619af6a3",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T18:29:26Z",
+      "side": 1,
+      "message": "Thanks for pointing out I can simplify.  I used n.Func.Closure.Func.Nname.Sym, so we just get the name, not a dump of the full ONAME node.",
+      "parentUuid": "6c2ab876_98b3267b",
+      "range": {
+        "startLine": 1730,
+        "startChar": 27,
+        "endLine": 1730,
+        "endChar": 109
+      },
+      "revId": "282de756d9436c3ec7b3bbd510307eeac7d39551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae2985dd_2eb63c5e",
@@ -71,6 +95,30 @@
       "writtenOn": "2020-10-30T05:43:36Z",
       "side": 1,
       "message": "nit: This is redundant with \"len(n.Func.Dcl) !\u003d 0\"",
+      "range": {
+        "startLine": 1752,
+        "startChar": 22,
+        "endLine": 1752,
+        "endChar": 42
+      },
+      "revId": "282de756d9436c3ec7b3bbd510307eeac7d39551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca70967c_0a0c8329",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1752,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T18:29:26Z",
+      "side": 1,
+      "message": "Good point, got rid of the nil check.",
+      "parentUuid": "ae2985dd_2eb63c5e",
       "range": {
         "startLine": 1752,
         "startChar": 22,
@@ -104,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1e02fbd_130554d8",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T18:29:26Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. Done.",
+      "parentUuid": "a6761140_d664a52c",
+      "range": {
+        "startLine": 776,
+        "startChar": 20,
+        "endLine": 776,
+        "endChar": 30
+      },
+      "revId": "282de756d9436c3ec7b3bbd510307eeac7d39551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5dc4b8b3_25c6dd95",
@@ -117,6 +189,30 @@
       "writtenOn": "2020-10-30T05:43:36Z",
       "side": 1,
       "message": "I don\u0027t think this is true? IIRC, for type switches, List will consist of OLITERAL (for \"nil\") or OTYPE (for type expressions) nodes.",
+      "range": {
+        "startLine": 869,
+        "startChar": 19,
+        "endLine": 869,
+        "endChar": 50
+      },
+      "revId": "282de756d9436c3ec7b3bbd510307eeac7d39551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d55f00d_5d17b6ca",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T18:29:26Z",
+      "side": 1,
+      "message": "Yes, good point!  After typechecking (which is what should be covered here), it is OLITERAL or OTYPE.  I happened to be looking at an AST before typechecking when the node is still an ONONAME.  Changed to your description.",
+      "parentUuid": "5dc4b8b3_25c6dd95",
       "range": {
         "startLine": 869,
         "startChar": 19,
@@ -150,6 +246,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb2fbc3_e47ef219",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T18:29:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3a39b41_cb7ed498",
+      "range": {
+        "startLine": 896,
+        "startChar": 19,
+        "endLine": 896,
+        "endChar": 20
+      },
+      "revId": "282de756d9436c3ec7b3bbd510307eeac7d39551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4459d83_75b8cb7a",
@@ -163,6 +283,30 @@
       "writtenOn": "2020-10-30T05:43:36Z",
       "side": 1,
       "message": "nit: Saying \"type\" and \"types\" here makes me think these would be type expressions, but actually Left/List/Rlist will consist of ODCLFIELD nodes.\n\nI\u0027d probably say: \"Left is receiver field; List is param fields; Rlist is result fields.\"",
+      "range": {
+        "startLine": 905,
+        "startChar": 38,
+        "endLine": 905,
+        "endChar": 42
+      },
+      "revId": "282de756d9436c3ec7b3bbd510307eeac7d39551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "137a40b7_12825459",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T18:29:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4459d83_75b8cb7a",
       "range": {
         "startLine": 905,
         "startChar": 38,
