@@ -770,6 +770,11 @@ func staticValue1(n *Node) *Node {
 		return nil
 	}
 
+	unsafe, _ := reassigned(n)
+	if unsafe {
+		return nil
+	}
+
 	var rhs *Node
 FindRHS:
 	switch defn.Op {
@@ -788,11 +793,6 @@ FindRHS:
 	}
 	if rhs == nil {
 		Fatalf("RHS is nil: %v", defn)
-	}
-
-	unsafe, _ := reassigned(n)
-	if unsafe {
-		return nil
 	}
 
 	return rhs
