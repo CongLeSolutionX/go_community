@@ -16,6 +16,29 @@
       "message": "TRY\u003dlongtest",
       "revId": "dbe5a2947a418df5e2516a34b89bab265521fe8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98ca84c0_03ac325c",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-10-30T22:03:18Z",
+      "side": 1,
+      "message": "version?",
+      "range": {
+        "startLine": 1032,
+        "startChar": 5,
+        "endLine": 1032,
+        "endChar": 15
+      },
+      "revId": "dbe5a2947a418df5e2516a34b89bab265521fe8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
