@@ -69,6 +69,24 @@
       "parentUuid": "a95776a1_6db620be",
       "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f28d21b_87396041",
+        "filename": "src/time/tick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-10-30T10:58:12Z",
+      "side": 1,
+      "message": "So:\n\n\u003e NewTicker returns a new Ticker containing a channel that will send the\n\u003e time after a period specified by the duration argument.\n\nMmh.. I think this makes it sound like it only happens once? Worse than\nthe status quo, IMO.",
+      "parentUuid": "69932948_dc11f668",
+      "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
