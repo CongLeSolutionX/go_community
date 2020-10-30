@@ -812,6 +812,11 @@ func reassigned(n *Node) (bool, *Node) {
 	if n.Name.Curfn == nil {
 		return true, nil
 	}
+	// results variables from inlined functions are always reassigned.
+	if n.Sym != nil && strings.HasPrefix(n.Sym.Name, "~R") {
+		return true, nil
+	}
+
 	f := n.Name.Curfn
 	// There just might be a good reason for this although this can be pretty surprising:
 	// local variables inside a closure have Curfn pointing to the OCLOSURE node instead
