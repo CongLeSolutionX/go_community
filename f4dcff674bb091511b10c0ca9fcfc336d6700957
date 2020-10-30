@@ -33,6 +33,24 @@
       "message": "LGTM but I prefer this should be merged together with CL 264938. I\u0027d be a little nervous about introducing GOVERSION, then changing the version format in a later release, even though I think that would only affect development builds.",
       "revId": "f4dcff674bb091511b10c0ca9fcfc336d6700957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6caba66_a2e11226",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-10-30T09:57:19Z",
+      "side": 1,
+      "message": "I agree it would be ideal for both to land together, but if the other gets pushed back to 1.17, I still think it\u0027s fine to merge this. As far as I know the Go version has never been a strict/stable format, nor does it seem like we want it to be.\n\nThe tools wanting to understand the version string should always do some sort of tolerant matching, e.g. via multiple regular expressions covering 1.16 and older, 1.17 and newer, etc. We could always expose such logic via an x/tools API like:\n\n```\ntype VersionInfo interface {}\n\ntype DevelVersionInfo struct {\n    Commit []byte\n    Date time.Time\n    [more fields can be added later]\n}\n\ntype ReleaseVersionInfo struct {\n    Name string // e.g. 1.15.3\n    [more fields can be added later]\n}\n\nfunc ParseVersionInfo(s string) (VersionInfo, error)\n```",
+      "parentUuid": "ee57e9a0_7ec4ffa2",
+      "revId": "f4dcff674bb091511b10c0ca9fcfc336d6700957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
