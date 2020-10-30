@@ -95,7 +95,6 @@ func lockWithRank(l *mutex, rank lockRank) {
 	})
 }
 
-//go:systemstack
 func printHeldLocks(gp *g) {
 	if gp.m.locksHeldLen == 0 {
 		println("<none>")
@@ -113,7 +112,7 @@ func printHeldLocks(gp *g) {
 //go:nosplit
 func acquireLockRank(rank lockRank) {
 	gp := getg()
-	// Log the new class.
+	// Log the new class. See comment on lockWithRank.
 	systemstack(func() {
 		i := gp.m.locksHeldLen
 		if i >= len(gp.m.locksHeld) {
@@ -238,7 +237,6 @@ func lockWithRankMayAcquire(l *mutex, rank lockRank) {
 	})
 }
 
-//go:systemstack
 func checkLockHeld(gp *g, l *mutex) bool {
 	for i := gp.m.locksHeldLen - 1; i >= 0; i-- {
 		if gp.m.locksHeld[i].lockAddr == uintptr(unsafe.Pointer(l)) {
@@ -255,15 +253,13 @@ func checkLockHeld(gp *g, l *mutex) bool {
 func assertLockHeld(l *mutex) {
 	gp := getg()
 
-	systemstack(func() {
-		held := checkLockHeld(gp, l)
-		if !held {
-			printlock()
-			print("caller requires lock ", l, " (rank ", l.rank.String(), "), holding:\n")
-			printHeldLocks(gp)
-			throw("not holding required lock!")
-		}
-	})
+	held := checkLockHeld(gp, l)
+	if !held {
+		printlock()
+		print("caller requires lock ", l, " (rank ", l.rank.String(), "), holding:\n")
+		printHeldLocks(gp)
+		throw("not holding required lock!")
+	}
 }
 
 // assertRankHeld throws if a mutex with rank r is not held by the caller.
@@ -276,18 +272,34 @@ func assertLockHeld(l *mutex) {
 func assertRankHeld(r lockRank) {
 	gp := getg()
 
-	systemstack(func() {
-		for i := gp.m.locksHeldLen - 1; i >= 0; i-- {
-			if gp.m.locksHeld[i].rank == r {
-				return
-			}
+	for i := gp.m.locksHeldLen - 1; i >= 0; i-- {
+		if gp.m.locksHeld[i].rank == r {
+			return
 		}
+	}
 
-		printlock()
-		print("caller requires lock with rank ", r.String(), "), holding:\n")
-		printHeldLocks(gp)
-		throw("not holding required lock!")
-	})
+	printlock()
+	print("caller requires lock with rank ", r.String(), "), holding:\n")
+	printHeldLocks(gp)
+	throw("not holding required lock!")
+}
+
+// assertSemaLocked throws if a semaphore is not locked.
+//
+// Note that semaphores need not be acquired and released by the same M, so we
+// can't check which M holds the lock.
+//
+// Note also that this assumes that the semaphore allows only a single holder
+// (i.e., *s == 0 when "locked"). This is not true for semaphores in general,
+// but is for semaphores used in the runtime.
+//
+// nosplit to ensure it can be called in as many contexts as possible.
+//go:nosplit
+func assertSemaLocked(s *uint32) {
+	if v := atomic.Load(s); v != 0 {
+		print("semaphore ", s, "=", v, "\n")
+		throw("required semaphore not locked!")
+	}
 }
 
 // worldStopped notes that the world is stopped.
@@ -352,14 +364,12 @@ func assertWorldStoppedOrLockHeld(l *mutex) {
 	}
 
 	gp := getg()
-	systemstack(func() {
-		held := checkLockHeld(gp, l)
-		if !held {
-			printlock()
-			print("caller requires world stop or lock ", l, " (rank ", l.rank.String(), "), holding:\n")
-			println("<no world stop>")
-			printHeldLocks(gp)
-			throw("no world stop or required lock!")
-		}
-	})
+	held := checkLockHeld(gp, l)
+	if !held {
+		printlock()
+		print("caller requires world stop or lock ", l, " (rank ", l.rank.String(), "), holding:\n")
+		println("<no world stop>")
+		printHeldLocks(gp)
+		throw("no world stop or required lock!")
+	}
 }
