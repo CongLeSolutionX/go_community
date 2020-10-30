@@ -251,6 +251,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb0150b_3bd7cdad",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 36043
+      },
+      "writtenOn": "2020-10-30T23:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "427477a7_c78df227",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 41
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0843ba8_86dce239",
@@ -264,6 +288,30 @@
       "writtenOn": "2020-10-29T13:49:47Z",
       "side": 1,
       "message": "Same question here.",
+      "range": {
+        "startLine": 441,
+        "startChar": 31,
+        "endLine": 441,
+        "endChar": 50
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f050b5c_a9a5bec7",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 36043
+      },
+      "writtenOn": "2020-10-30T23:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0843ba8_86dce239",
       "range": {
         "startLine": 441,
         "startChar": 31,
