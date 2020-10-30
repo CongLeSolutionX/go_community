@@ -33,6 +33,24 @@
       "message": "Maybe also systemstack here?",
       "revId": "ae71d83927dc3a3ef55d1d6837084900f6c29eac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "201a4cf1_84e19bf4",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-10-30T20:07:45Z",
+      "side": 1,
+      "message": "Ugh, git rebase is having a bad day. This belongs in a later CL.\n\nI have added systemstack to the worldStop throws below though.",
+      "parentUuid": "94abe625_f12be8fb",
+      "revId": "ae71d83927dc3a3ef55d1d6837084900f6c29eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
