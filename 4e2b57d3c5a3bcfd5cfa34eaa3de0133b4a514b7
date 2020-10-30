@@ -205,6 +205,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4199a9ac_161eee48",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 36043
+      },
+      "writtenOn": "2020-10-30T17:16:55Z",
+      "side": 1,
+      "message": "You are right. My mistake one more time.\n\nIt seems there is simply no any zeroing/copying of unaligned data with size 2, 4, 8 in my K210 code so all potential unaligned cases are handled by the loop.\n\nLet\u0027s summarize what the current CL does.\n\n1. If I understand the loop implementation properly the code works for any alignment and don\u0027t generate any unaligned accesses.\n\n2. Only three unaligned cases are optimized, all other are handled by the loop.\n\nI\u0027ll optimize all possible unaligned cases up to s\u003d8.",
+      "parentUuid": "c87d99c2_e3bc3572",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 41
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0843ba8_86dce239",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
         "patchSetId": 4
