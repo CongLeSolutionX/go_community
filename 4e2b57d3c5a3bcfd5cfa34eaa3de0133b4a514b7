@@ -157,6 +157,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a99d0612_d64517c3",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 36043
+      },
+      "writtenOn": "2020-10-30T11:17:57Z",
+      "side": 1,
+      "message": "\u003e it can be difficult to test\n\nIt\u0027s easy with help of the unsafe package. My mistake.",
+      "parentUuid": "f7f20a57_94af79c7",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 41
+      },
+      "revId": "4e2b57d3c5a3bcfd5cfa34eaa3de0133b4a514b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0843ba8_86dce239",
         "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
         "patchSetId": 4
