@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f47a44a5_aa8c762f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Thanks a lot for reviewing:) I added some comments to the code and modified the variable name, this might make it easier to read.\nThe test method you proposed is really great， I have added the corresponding test in nast_test.",
+      "parentUuid": "807c4b8a_6958ea5d",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "737d3293_c5105dba",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-29T19:47:11Z",
       "side": 1,
       "message": "z \u003d fftMul(z, x, y)  (see below)",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3345f60_e4698e27",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "737d3293_c5105dba",
       "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e51687_2d461933",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee226355_55965aea",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff03a061_85b02d05",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20275923_9d104093",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff03a061_85b02d05",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9062aba2_d975d16e",
@@ -82,6 +154,24 @@
       "writtenOn": "2020-10-29T19:47:11Z",
       "side": 1,
       "message": "Note this is unnecessary since all memory in go is initialized to the zero value.",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9ddd963_9ec1043a",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9062aba2_d975d16e",
       "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -105,6 +195,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02adfd08_6f7d4d07",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1640,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "That\u0027s right, thanks for the code. I do have some rigid C habits actually-_-||. But I think using A and B to allocate space can avoid multiple calls to the make function(not sure if it has an impact), and save the space of merge items later. If it looks weird i can modify it.",
+      "parentUuid": "6fb722d7_61a2ee46",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b1e4cf8b_92bb8ba9",
         "filename": "src/math/big/nat.go",
         "patchSetId": 3
@@ -122,6 +230,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4af5c190_4cdbaff6",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "It does look strange here, but the problem is that the mul function will call “norm” at the end, which will change the length of tp. If this causes the length to be less than 2*nprime, it will cause an out-of-bounds error. I can\u0027t think of a good way to avoid it",
+      "parentUuid": "b1e4cf8b_92bb8ba9",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c1b2a66_b2ecbc55",
         "filename": "src/math/big/nat.go",
         "patchSetId": 3
@@ -133,6 +259,24 @@
       "writtenOn": "2020-10-29T19:47:11Z",
       "side": 1,
       "message": "This section is very confusing.  p is using a portion of B for storage and clears it out to use for storage of the sum of terms in Bp, which is also backed by B.  Even if this is ok and the storage that is cleared is not needed, this seems unnecessary since A is available for use if needed and p could just be;\n\np :\u003d A[:pla]",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b7fb040_37f1e6d9",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c1b2a66_b2ecbc55",
       "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -156,6 +300,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd5fe44d_e32ab520",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "I added the meaning of the variable name and the mechanism of the function, but maybe it is still not clear enough. Maybe need an illustration or something here, what do you think?",
+      "parentUuid": "917ee018_11ab1443",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5805e5f9_c32c705d",
         "filename": "src/math/big/nat.go",
         "patchSetId": 3
@@ -167,6 +329,24 @@
       "writtenOn": "2020-10-29T19:47:11Z",
       "side": 1,
       "message": "Same here on documenting the function and parameters.",
+      "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "293691dc_d905824f",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1787,
+      "author": {
+        "id": 37583
+      },
+      "writtenOn": "2020-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5805e5f9_c32c705d",
       "revId": "d6fd84da8d26eee3e7b745a508e9c089497bf9b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
