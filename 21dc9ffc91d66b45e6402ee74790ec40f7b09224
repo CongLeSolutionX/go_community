@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69942ac6_e15bfa17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-10-30T19:27:22Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-staticlockranking\n\n",
+      "revId": "21dc9ffc91d66b45e6402ee74790ec40f7b09224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
