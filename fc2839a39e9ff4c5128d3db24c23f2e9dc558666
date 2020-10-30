@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5587b71_201c83d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T17:03:58Z",
+      "side": 1,
+      "message": "Looks great.  Thanks for creating this simpler version (and realizing that inlining would just work). \n Probably still want to wait for Keith to take a look, I think?\n",
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a0806d4_b0b54a9c",
+        "filename": "test/fixedbugs/issue37837.dir/b.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-10-30T17:03:58Z",
+      "side": 1,
+      "message": "shart -\u003e short ? \n\nI\u0027m not sure what short variable is, I guess you mean the top-level pseudo variable?",
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
