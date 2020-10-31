@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "411bfb02_9e248feb",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-10-31T02:51:39Z",
+      "side": 1,
+      "message": "Does the assembler embed path information?\n(Do we need something akin to -trimpath for the assembler?)",
+      "revId": "2a1d56279135f6b6666689137a13c672868750dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
