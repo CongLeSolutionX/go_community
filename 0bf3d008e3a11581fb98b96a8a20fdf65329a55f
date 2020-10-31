@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4e47ee_1c54b67d",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2893,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T20:04:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5e1e46f_b86d1e3e",
+      "revId": "0bf3d008e3a11581fb98b96a8a20fdf65329a55f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f00aa7a_efe1beda",
@@ -65,6 +83,24 @@
       "writtenOn": "2020-10-31T15:43:44Z",
       "side": 1,
       "message": "Here too: better not to panic.",
+      "revId": "0bf3d008e3a11581fb98b96a8a20fdf65329a55f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17579918_d8f5239a",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T20:04:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f00aa7a_efe1beda",
       "revId": "0bf3d008e3a11581fb98b96a8a20fdf65329a55f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
