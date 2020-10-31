@@ -92,9 +92,9 @@ It is a comma-separated list of name=val pairs setting these named variables:
 		# allocs    number of heap allocations
 
 	madvdontneed: setting madvdontneed=1 will use MADV_DONTNEED
-	instead of MADV_FREE on Linux when returning memory to the
-	kernel. This is less efficient, but causes RSS numbers to drop
-	more quickly.
+	instead of MADV_FREE on Linux, the BSDs and Illumos/Solaris when
+	returning memory to the kernel. This is less efficient, but causes RSS
+	numbers to drop more quickly.
 
 	memprofilerate: setting memprofilerate=X will update the value of runtime.MemProfileRate.
 	When set to 0 memory profiling is disabled.  Refer to the description of
