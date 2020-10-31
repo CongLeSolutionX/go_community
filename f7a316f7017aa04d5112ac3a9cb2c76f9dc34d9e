@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99cb403f_bb414b54",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e2a2e7a_d0694690",
+      "range": {
+        "startLine": 76,
+        "startChar": 64,
+        "endLine": 76,
+        "endChar": 65
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ad05745_34b69673",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-10-19T22:11:49Z",
       "side": 1,
       "message": "Now also valid for pcbuf \u003d\u003d nil ?",
+      "range": {
+        "startLine": 81,
+        "startChar": 7,
+        "endLine": 81,
+        "endChar": 52
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28d4493d_a5335adb",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ad05745_34b69673",
       "range": {
         "startLine": 81,
         "startChar": 7,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71e74b5d_b567cc75",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfebc6b7_007c7fbc",
+      "range": {
+        "startLine": 83,
+        "startChar": 46,
+        "endLine": 85,
+        "endChar": 64
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfd65ddc_839b0b19",
@@ -100,6 +172,24 @@
       "writtenOn": "2020-10-19T22:11:49Z",
       "side": 1,
       "message": "Maybe we need to condition this decrement on flags\u0026_TraceRuntimeFrames? See below.",
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dcc9c5a_8f7f94cf",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Okay I see, so basically only skipping through non runtime frames, that becomes\na little hairy so instead I\u0027ve changed this function to return the counts of the\nvarious kinds of frames. Hope this answers your question?",
+      "parentUuid": "cfd65ddc_839b0b19",
       "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -127,6 +217,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2691e0e2_7f3a8565",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60331fa_9cc6c2cf",
+      "range": {
+        "startLine": 742,
+        "startChar": 47,
+        "endLine": 742,
+        "endChar": 126
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43a809a0_2dab32b2",
@@ -144,6 +258,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e88895_511a496b",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Gotcha, thank you!",
+      "parentUuid": "43a809a0_2dab32b2",
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d802ad1_73d830a4",
@@ -157,6 +289,24 @@
       "writtenOn": "2020-10-19T22:11:49Z",
       "side": 1,
       "message": "This is a bit tricky. We\u0027d like to print the last 50 non-runtime frames. Does countframes include runtime frames, or not? Maybe it should return a skip count that would get us the last 50 non-runtime frames exactly.\n\nNot sure what would be the right choice here. I think it is very rare to have lots of runtime frames at the top of stack, so maybe it doesn\u0027t matter much. Normally there\u0027s just runtime.goexit. Maybe runtime.main also. There is runtime.doInit which is recursive, so maybe there could be lots of runtime frames at TOS during initialization.",
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d5dc632_13bdd687",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "\u003eDoes countframes include runtime frames, or not?\n\ncountframes includes all frames, both runtime and non-runtime frames. Sure I\u0027ve separated out the count of regular frames vs runtime frames, so that we can properly skip using nregularframes. PTAL.",
+      "parentUuid": "8d802ad1_73d830a4",
       "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -184,6 +334,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da50da2_57f08894",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "163eb92d_4274d252",
+      "range": {
+        "startLine": 781,
+        "startChar": 28,
+        "endLine": 781,
+        "endChar": 32
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75ad5a94_0e3f3e50",
@@ -197,6 +371,30 @@
       "writtenOn": "2020-10-19T22:11:49Z",
       "side": 1,
       "message": "Why +1? Is that runtime.goexit?",
+      "range": {
+        "startLine": 785,
+        "startChar": 45,
+        "endLine": 785,
+        "endChar": 47
+      },
+      "revId": "f7a316f7017aa04d5112ac3a9cb2c76f9dc34d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f23ef823_c69293d8",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T07:56:41Z",
+      "side": 1,
+      "message": "Yes indeed! However, I\u0027ve modified it to remove the +1 and instead added a note as well in the tests.",
+      "parentUuid": "75ad5a94_0e3f3e50",
       "range": {
         "startLine": 785,
         "startChar": 45,
