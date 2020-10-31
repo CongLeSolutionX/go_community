@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5512f3ea_044fb3ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-10-31T13:37:00Z",
+      "side": 1,
+      "message": "If I\u0027m not mistaken, CL 266898 will already cover this.",
+      "revId": "185c7da6807705fb734ef5adaf759ac83dc8dc10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
