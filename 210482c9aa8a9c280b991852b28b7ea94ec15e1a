@@ -56,6 +56,30 @@
       },
       "revId": "210482c9aa8a9c280b991852b28b7ea94ec15e1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8689a2f2_52b02e4b",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 36043
+      },
+      "writtenOn": "2020-10-31T10:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "886350eb_b2c3784f",
+      "range": {
+        "startLine": 358,
+        "startChar": 17,
+        "endLine": 358,
+        "endChar": 26
+      },
+      "revId": "210482c9aa8a9c280b991852b28b7ea94ec15e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
