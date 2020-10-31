@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "f04babf6_f00cfc90",
         "filename": "src/database/sql/sql_test.go",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "As far as I can see, this case won\u0027t work.  Nothing closes waitingForConn.\n\nAlso it seems to me that we only want an early return here if the other goroutine sees an error.",
       "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5fe4767c_c32f5ef0",
         "filename": "src/database/sql/sql_test.go",
@@ -32,10 +33,28 @@
       "message": "Line 2884 closes waitingForConn.\n\n\u003eAlso it seems to me that we only want an early return here if the other goroutine sees an error.\n\nIf the other goroutine terminates with an error, we\u0027ll keep spinning in this goroutine forever,\nbecause db.connRequests is only populated after db.conn in the other goroutine encounters db.maxOpen \u003e 0 \u0026\u0026 db.numOpen \u003e\u003d db.maxOpen, which in this case will be 1, and the case of successfully grabbing a connection.\n\nAnyways, down below I am going to be selecting on errCh (I had forgotten to mail it up), thus by the time that the other goroutine terminates this one should also get the memo to terminate.",
       "parentUuid": "f04babf6_f00cfc90",
       "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2399ef4_0a5ed225",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2890,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-10-31T20:30:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fe4767c_c32f5ef0",
+      "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "e76b6e95_effee033",
         "filename": "src/runtime/syscall_windows_test.go",
@@ -49,10 +68,10 @@
       "side": 1,
       "message": "I think this has to be something like\n    case err, ok :\u003d \u003c-errCH\n        if ok {\n            b.Fatal(err)\n        }\n        errCh \u003d nil\nOtherwise we can get caught selecting this case every time after errCh is closed.",
       "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a7afab08_b5776a5a",
         "filename": "src/runtime/syscall_windows_test.go",
@@ -67,8 +86,7 @@
       "message": "Doh! My bad, I thought about this too while eating dinner. Thank you for the correction!",
       "parentUuid": "e76b6e95_effee033",
       "revId": "24cd221c9879cddbe7cae68e96d40233851f8f6b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
