@@ -16,6 +16,23 @@
       "message": "Thank you Ian, I previously had almost similar structure and select statements, but there were some suggestions to modify that/refrain from that, I\u0027ve instead gone with *.Errorf and then t.Failed() if statements, PTAL.",
       "revId": "6b9452ea1692d42e89fbee5a82f941341e39cab7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92465155_690c23bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-10-31T20:10:11Z",
+      "side": 1,
+      "message": "Thanks, LGTM.",
+      "revId": "6b9452ea1692d42e89fbee5a82f941341e39cab7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
