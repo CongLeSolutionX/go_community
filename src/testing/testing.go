@@ -49,6 +49,21 @@
 //     BenchmarkRandInt-8   	68453040	        17.8 ns/op
 // means that the loop ran 68453040 times at a speed of 17.8 ns per loop.
 //
+// If the -benchmem flag is provided. The memory allocation statistics will
+// show in the output as well. For example:
+//
+//     func BenchmarkRandRead(b *testing.B) {
+//         var source []byte
+//         for i := 0; i < b.N; i++ {
+//             source = make([]byte, 10)
+//             rand.Read(source)
+//         }
+//     }
+//
+// The output
+//     BenchmarkRandRead-8   	24854270	        44.8 ns/op	      16 B/op	       1 allocs/op
+// means 16 bytes allocated with 1 memory allocation per loop.
+//
 // If a benchmark needs some expensive setup before running, the timer
 // may be reset:
 //
