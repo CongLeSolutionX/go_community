@@ -16,6 +16,41 @@
       "message": "If I\u0027m not mistaken, CL 266898 will already cover this.",
       "revId": "185c7da6807705fb734ef5adaf759ac83dc8dc10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac65ee81_02a6b5cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-31T14:50:12Z",
+      "side": 1,
+      "message": "Yes it will. But it’s no problem to rebase/regenerate that CL on top of this, so it’s fine to proceed here if you’d like.",
+      "parentUuid": "5512f3ea_044fb3ff",
+      "revId": "185c7da6807705fb734ef5adaf759ac83dc8dc10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f820caef_e8c5ff14",
+        "filename": "src/cmd/vendor/modules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-10-31T14:50:12Z",
+      "side": 1,
+      "message": "The x/sys module needs to be updated to the same version in cmd module as in std module to avoid version skew. A test will fail if this isn’t done.",
+      "revId": "185c7da6807705fb734ef5adaf759ac83dc8dc10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
