@@ -16,6 +16,23 @@
       "message": "Thank you for the review, Ian, PTAL!",
       "revId": "1cd0832489fe92a1daea8cbc726565c0e5e23c40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85cd7215_721eb743",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2020-11-01T09:58:28Z",
+      "side": 1,
+      "message": "Currently, parsing fails when the day is Tue or Thu, \ntime in using an obsolete time zone with a T and \nthere is at least one T in the CFWS. \n\nMany T\u0027s in CFWS is already successful.\n// Two T\u0027s or more and no obsolete time zone\n{\n     \"Thu, 20 Nov 1997 09:55:06 -0600    \\r\\n (Thisisa(valid)cfws T)   \\t \",\t\t \n     time.Date(1997, 11, 20, 9, 55, 6, 0, time.FixedZone(\"\", -6*60*60)),\n     true,\n},\n\t\t\nThe case to add cannot be tested on usual systems as obsolete time zones\nmust be loaded explicitly. This is what changed between design\nand commit. It is also the reason that cases with T in time zones were\nremoved.\n\nThe current issue was originally about correctly\nparsing an obsolete time zone (\"GMT\"). The solution is to load relevant\nzone info data.\n\nThe purpose of the current CL defines as partial support to some obsolete\ntime zones for which not test can be added on the current builders.\n\nIt seems that the commit message should remove the line about the two T\u0027s \nand warn that support remains limited in view of the relevant RFC.\n\n\n\n\n",
+      "revId": "1cd0832489fe92a1daea8cbc726565c0e5e23c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
