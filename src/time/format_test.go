@@ -6,10 +6,12 @@ package time_test
 
 import (
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 	"testing"
 	"testing/quick"
+	"time"
 	. "time"
 )
 
@@ -126,6 +128,36 @@ func TestFormat(t *testing.T) {
 		if result != test.result {
 			t.Errorf("%s expected %q got %q", test.name, test.result, result)
 		}
+	}
+}
+
+var goStringTests = []struct {
+	in   Time
+	want string
+}{
+	{time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.UTC),
+		"time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.UTC)"},
+	{time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.Local),
+		"time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.Local)"},
+}
+
+func TestGoString(t *testing.T) {
+	// The numeric time represents Thu Feb  4 21:00:57.012345600 PST 2009
+	for _, tt := range goStringTests {
+		if tt.in.GoString() != tt.want {
+			t.Errorf("GoString (%q): got %q want %q", tt.in, tt.in.GoString(), tt.want)
+		}
+	}
+	loc, err := time.LoadLocation("Europe/Berlin")
+	if err != nil {
+		t.Skip("skipping custom Location based GoString test")
+	}
+	ptrval := fmt.Sprintf("%#v", reflect.ValueOf(loc).Pointer())
+	in := time.Date(2009, time.February, 5, 5, 0, 57, 12345600, loc)
+	got := in.GoString()
+	want := `time.Date(2009, time.February, 5, 5, 0, 57, 12345600, (*time.Location)(` + ptrval + "))"
+	if got != want {
+		t.Errorf("GoString with tzdata Location (%q): got %q, want %q", in, got, want)
 	}
 }
 
