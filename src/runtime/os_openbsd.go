@@ -14,6 +14,10 @@ type mOS struct {
 	waitsemacount uint32
 }
 
+// physPageAlignedStacks indicates whether stack allocations must be
+// physical page aligned. This is a requirement for MAP_STACK.
+const physPageAlignedStacks = true
+
 //go:noescape
 func setitimer(mode int32, new, old *itimerval)
 

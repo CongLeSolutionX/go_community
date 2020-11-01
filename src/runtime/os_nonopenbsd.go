@@ -6,6 +6,10 @@
 
 package runtime
 
+// physPageAlignedStacks indicates whether stack allocations must be
+// physical page aligned.
+const physPageAlignedStacks = false
+
 // osStackAlloc performs OS-specific initialization before s is used
 // as stack memory.
 func osStackAlloc(s *mspan) {
