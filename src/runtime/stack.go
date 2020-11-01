@@ -179,6 +179,15 @@ func stacklog2(n uintptr) int {
 	return log2
 }
 
+func stackSpanType() spanAllocType {
+	// openbsd/mips64 has 16KB physical pages and requires physical page
+	// alignment for stack memory - see issue #41008 for further details.
+	if GOOS == "openbsd" && GOARCH == "mips64" {
+		return spanAllocStackPhysPageAligned
+	}
+	return spanAllocStack
+}
+
 // Allocates a stack from the free pool. Must be called with
 // stackpool[order].item.mu held.
 func stackpoolalloc(order uint8) gclinkptr {
@@ -187,7 +196,7 @@ func stackpoolalloc(order uint8) gclinkptr {
 	lockWithRankMayAcquire(&mheap_.lock, lockRankMheap)
 	if s == nil {
 		// no free stacks. Allocate another span worth.
-		s = mheap_.allocManual(_StackCacheSize>>_PageShift, spanAllocStack)
+		s = mheap_.allocManual(_StackCacheSize>>_PageShift, stackSpanType())
 		if s == nil {
 			throw("out of memory")
 		}
@@ -251,7 +260,7 @@ func stackpoolfree(x gclinkptr, order uint8) {
 		stackpool[order].item.span.remove(s)
 		s.manualFreeList = 0
 		osStackFree(s)
-		mheap_.freeManual(s, spanAllocStack)
+		mheap_.freeManual(s, stackSpanType())
 	}
 }
 
@@ -396,7 +405,7 @@ func stackalloc(n uint32) stack {
 
 		if s == nil {
 			// Allocate a new stack from the heap.
-			s = mheap_.allocManual(npage, spanAllocStack)
+			s = mheap_.allocManual(npage, stackSpanType())
 			if s == nil {
 				throw("out of memory")
 			}
@@ -480,7 +489,7 @@ func stackfree(stk stack) {
 			// Free the stack immediately if we're
 			// sweeping.
 			osStackFree(s)
-			mheap_.freeManual(s, spanAllocStack)
+			mheap_.freeManual(s, stackSpanType())
 		} else {
 			// If the GC is running, we can't return a
 			// stack span to the heap because it could be
@@ -1193,7 +1202,7 @@ func freeStackSpans() {
 				list.remove(s)
 				s.manualFreeList = 0
 				osStackFree(s)
-				mheap_.freeManual(s, spanAllocStack)
+				mheap_.freeManual(s, stackSpanType())
 			}
 			s = next
 		}
@@ -1207,7 +1216,7 @@ func freeStackSpans() {
 			next := s.next
 			stackLarge.free[i].remove(s)
 			osStackFree(s)
-			mheap_.freeManual(s, spanAllocStack)
+			mheap_.freeManual(s, stackSpanType())
 			s = next
 		}
 	}

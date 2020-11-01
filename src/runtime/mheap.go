@@ -875,10 +875,11 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 type spanAllocType uint8
 
 const (
-	spanAllocHeap          spanAllocType = iota // heap span
-	spanAllocStack                              // stack span
-	spanAllocPtrScalarBits                      // unrolled GC prog bitmap span
-	spanAllocWorkBuf                            // work buf span
+	spanAllocHeap                 spanAllocType = iota // heap span
+	spanAllocStack                                     // stack span
+	spanAllocStackPhysPageAligned                      // stack span aligned to physical page
+	spanAllocPtrScalarBits                             // unrolled GC prog bitmap span
+	spanAllocWorkBuf                                   // work buf span
 )
 
 // manual returns true if the span allocation is manually managed.
@@ -1123,7 +1124,7 @@ func (h *mheap) allocSpan(npages uintptr, typ spanAllocType, spanclass spanClass
 
 	// If the allocation is small enough, try the page cache!
 	pp := gp.m.p.ptr()
-	if pp != nil && npages < pageCachePages/4 {
+	if pp != nil && npages < pageCachePages/4 && typ != spanAllocStackPhysPageAligned {
 		c := &pp.pcache
 
 		// If the cache is empty, refill it.
@@ -1149,6 +1150,11 @@ func (h *mheap) allocSpan(npages uintptr, typ spanAllocType, spanclass spanClass
 	// whole job done without the heap lock.
 	lock(&h.lock)
 
+	if typ == spanAllocStackPhysPageAligned && pageSize < physPageSize {
+		// Overallocate by a physical page to allow for later alignment.
+		npages += physPageSize / pageSize
+	}
+
 	if base == 0 {
 		// Try to acquire a base address.
 		base, scav = h.pages.alloc(npages)
@@ -1168,6 +1174,23 @@ func (h *mheap) allocSpan(npages uintptr, typ spanAllocType, spanclass spanClass
 		// one now that we have the heap lock.
 		s = h.allocMSpanLocked()
 	}
+
+	if typ == spanAllocStackPhysPageAligned && pageSize < physPageSize {
+		allocBase, allocPages := base, npages
+		base = alignUp(allocBase, physPageSize)
+		npages -= physPageSize / pageSize
+
+		// Return memory around the aligned allocation.
+		spaceBefore := base - allocBase
+		if spaceBefore > 0 {
+			h.pages.free(allocBase, spaceBefore/pageSize)
+		}
+		spaceAfter := (allocPages-npages)*pageSize - spaceBefore
+		if spaceAfter > 0 {
+			h.pages.free(base+npages*pageSize, spaceAfter/pageSize)
+		}
+	}
+
 	unlock(&h.lock)
 
 HaveSpan:
@@ -1253,7 +1276,7 @@ HaveSpan:
 	switch typ {
 	case spanAllocHeap:
 		atomic.Xaddint64(&stats.inHeap, int64(nbytes))
-	case spanAllocStack:
+	case spanAllocStack, spanAllocStackPhysPageAligned:
 		atomic.Xaddint64(&stats.inStacks, int64(nbytes))
 	case spanAllocPtrScalarBits:
 		atomic.Xaddint64(&stats.inPtrScalarBits, int64(nbytes))
@@ -1444,7 +1467,7 @@ func (h *mheap) freeSpanLocked(s *mspan, typ spanAllocType) {
 	switch typ {
 	case spanAllocHeap:
 		atomic.Xaddint64(&stats.inHeap, -int64(nbytes))
-	case spanAllocStack:
+	case spanAllocStack, spanAllocStackPhysPageAligned:
 		atomic.Xaddint64(&stats.inStacks, -int64(nbytes))
 	case spanAllocPtrScalarBits:
 		atomic.Xaddint64(&stats.inPtrScalarBits, -int64(nbytes))
