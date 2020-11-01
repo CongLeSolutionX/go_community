@@ -51,6 +51,24 @@
       "message": "The x/sys module needs to be updated to the same version in cmd module as in std module to avoid version skew. A test will fail if this isn’t done.",
       "revId": "185c7da6807705fb734ef5adaf759ac83dc8dc10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5615510_6081acaf",
+        "filename": "src/cmd/vendor/modules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-11-01T13:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f820caef_e8c5ff14",
+      "revId": "185c7da6807705fb734ef5adaf759ac83dc8dc10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
