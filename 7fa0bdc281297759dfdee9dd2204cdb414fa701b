@@ -68,6 +68,24 @@
       "parentUuid": "c35d7ec5_7b00332d",
       "revId": "7fa0bdc281297759dfdee9dd2204cdb414fa701b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e8348f4_8e284d5d",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-01T00:14:36Z",
+      "side": 1,
+      "message": "I\u0027m suggesting that you get rid of the switch entirely.  Replace the whole switch statement with\n\n    ind :\u003d strings.Index(p.s, \"T\")\n    if ind \u003d\u003d 0 {\n        ind \u003d strings.Index(p.s[:1], \"T\")\n        if ind !\u003d -1 {\n            ind++\n        }\n    }\n    if ind !\u003d -1 \u0026\u0026 len(p.s) \u003e\u003d ind+5 {\n        // original code from before your CL",
+      "parentUuid": "f7d4d615_856b290b",
+      "revId": "7fa0bdc281297759dfdee9dd2204cdb414fa701b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
