@@ -71,6 +71,17 @@ Do not send CLs removing the interior tags from such phrases.
   TODO: complete this section
 </p>
 
+<dl id="time"><dt><a href="/pkg/time/">time</a></dt>
+  <dd>
+    <p><!-- CL 260858 -->
+    time.Time now has a <a href="/pkg/time/#Time.GoString">GoString</a>
+    method, that will return a more useful value for times when printed with
+    the <code>"%#v"</code> format in the fmt package.
+    when
+    </p>
+  </dd>
+</dl><!-- time -->
+
 <h3 id="minor_library_changes">Minor changes to the library</h3>
 
 <p>

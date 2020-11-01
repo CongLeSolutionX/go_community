@@ -4,7 +4,10 @@
 
 package time
 
-import "errors"
+import (
+	"errors"
+	"reflect"
+)
 
 // These are predefined layouts for use in Time.Format and time.Parse.
 // The reference time used in the layouts is the specific time:
@@ -364,6 +367,10 @@ func lookup(tab []string, val string) (int, string, error) {
 // If the decimal form (excluding sign) is shorter than width, the result is padded with leading 0's.
 // Duplicates functionality in strconv, but avoids dependency.
 func appendInt(b []byte, x int, width int) []byte {
+	return appendIntBase(b, x, width, 10)
+}
+
+func appendIntBase(b []byte, x int, width int, base uint) []byte {
 	u := uint(x)
 	if x < 0 {
 		b = append(b, '-')
@@ -373,14 +380,23 @@ func appendInt(b []byte, x int, width int) []byte {
 	// Assemble decimal in reverse order.
 	var buf [20]byte
 	i := len(buf)
-	for u >= 10 {
+	for u >= base {
 		i--
-		q := u / 10
-		buf[i] = byte('0' + u - q*10)
+		q := u / base
+		v := byte(u - q*base)
+		if v <= 9 {
+			buf[i] = '0' + v
+		} else {
+			buf[i] = 'a' + v - 10
+		}
 		u = q
 	}
 	i--
-	buf[i] = byte('0' + u)
+	if u <= 9 {
+		buf[i] = byte('0' + u)
+	} else {
+		buf[i] = byte('a' + u - 10)
+	}
 
 	// Add 0-padding.
 	for w := len(buf) - i; w < width; w++ {
@@ -474,6 +490,58 @@ func (t Time) String() string {
 		s += string(buf)
 	}
 	return s
+}
+
+// GoString implements the fmt.GoStringer interface and formats t to be printed
+// Goin source code.
+func (t Time) GoString() string {
+	buf := []byte("time.Date(")
+	buf = appendInt(buf, t.Year(), 0)
+	month := t.Month()
+	if January <= month && month <= December {
+		buf = append(buf, []byte(", time.")...)
+		buf = append(buf, []byte(t.Month().String())...)
+	} else {
+		// It's difficult to construct a time.Time with a date outside the
+		// standard range but we might as well try to handle the case.
+		buf = appendInt(buf, int(month), 0)
+	}
+	buf = append(buf, []byte(", ")...)
+	buf = appendInt(buf, t.Day(), 0)
+	buf = append(buf, []byte(", ")...)
+	buf = appendInt(buf, t.Hour(), 0)
+	buf = append(buf, []byte(", ")...)
+	buf = appendInt(buf, t.Minute(), 0)
+	buf = append(buf, []byte(", ")...)
+	buf = appendInt(buf, t.Second(), 0)
+	buf = append(buf, []byte(", ")...)
+	buf = appendInt(buf, t.Nanosecond(), 0)
+	buf = append(buf, []byte(", ")...)
+	switch loc := t.Location(); loc {
+	case nil:
+		// same behavior as loc.get()
+		fallthrough
+	case UTC:
+		buf = append(buf, []byte("time.UTC")...)
+	case Local:
+		buf = append(buf, []byte("time.Local")...)
+	default:
+		// there are several options here, none of which are good:
+		// - use LoadLocation(loc.name), which will cause a syntax error when
+		// embedded and also would require us to escape the string without
+		// importing fmt or strconv
+		// - try to use FixedZone, which would also require escaping the name
+		// and would represent e.g. "America/Los_Angeles" daylight saving time
+		// shifts inaccurately
+		// - use the pointer format, which is no worse than you'd get with the
+		// old fmt.Sprintf("%#v", t) format.
+		buf = append(buf, []byte("(*time.Location)(0x")...)
+		ptrval := reflect.ValueOf(loc).Pointer()
+		buf = appendIntBase(buf, int(ptrval), 0, 16)
+		buf = append(buf, ')')
+	}
+	buf = append(buf, ')')
+	return string(buf)
 }
 
 // Format returns a textual representation of the time value formatted
