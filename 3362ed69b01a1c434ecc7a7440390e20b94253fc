@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "851f0270_543655ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2020-11-02T01:48:14Z",
+      "side": 1,
+      "message": "On my Mac this change results in a 13% slowdown in the MarshalJSON benchmark which is unacceptable, obviously. I am sure we can find a way to represent a pointer/do hex encoding without affecting performance or adding more imports, but the exact way to do it depends on feedback on the proposal and which tradeoffs are best to make.",
+      "revId": "3362ed69b01a1c434ecc7a7440390e20b94253fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
