@@ -286,6 +286,17 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 			"GOSSAFUNC",
 			"GO_SSA_PHI_LOC_CUTOFF",
 			"GOSSAHASH",
+			// for inlining tuner knobs
+			"GO_INLMAXBUDGET",
+			"GO_INLCALLEXTRA",
+			"GO_INLAPPENDEXTRA",
+			"GO_INLTHROWEXTRA",
+			"GO_INLPANICEXTRA",
+			"GO_INLALLOCATORCALLSIZE",
+			"GO_INLALLOCATORCALLPENALTY",
+			"GO_INLCALLEENOLEAKPENALTY",
+			"GO_INLBIGFUNCTION",
+			"GO_INLBIGMAXBUDGET",
 		}
 		for _, env := range magic {
 			if x := os.Getenv(env); x != "" {
