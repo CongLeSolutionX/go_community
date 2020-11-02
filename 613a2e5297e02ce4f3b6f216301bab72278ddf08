@@ -98,6 +98,30 @@
       },
       "revId": "613a2e5297e02ce4f3b6f216301bab72278ddf08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "230607b8_a3a48718",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-11-02T17:20:20Z",
+      "side": 1,
+      "message": "Presumably users that know how to monitor with MADV_FREE won\u0027t want to take the performance hit of switching back to MADV_DONTNEED. Thus those users will want to be able to turn this back on.",
+      "parentUuid": "46681699_ed2291fe",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 364,
+        "endChar": 24
+      },
+      "revId": "613a2e5297e02ce4f3b6f216301bab72278ddf08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
