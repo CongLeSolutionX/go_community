@@ -22,6 +22,30 @@
       },
       "revId": "4841deccc4f83bf378c1a5cef44b32cf8291dd08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e12a927d_44644c55",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T19:51:45Z",
+      "side": 1,
+      "message": "Oops. Fixed by dropping \"This means\"",
+      "parentUuid": "b1b403a6_b7c54a13",
+      "range": {
+        "startLine": 170,
+        "startChar": 46,
+        "endLine": 170,
+        "endChar": 56
+      },
+      "revId": "4841deccc4f83bf378c1a5cef44b32cf8291dd08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
