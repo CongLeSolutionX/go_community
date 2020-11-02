@@ -172,7 +172,7 @@ func TestForeground(t *testing.T) {
 		t.Skipf("Can't test Foreground. Couldn't open /dev/tty: %s", err)
 	}
 
-	fpgrp := 0
+	fpgrp := int32(0)
 
 	errno := syscall.Ioctl(tty.Fd(), syscall.TIOCGPGRP, uintptr(unsafe.Pointer(&fpgrp)))
 	if errno != 0 {
