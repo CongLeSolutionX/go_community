@@ -16,6 +16,63 @@
       "message": "Thank you for the review, Keith! Comments addressed, PTAL.",
       "revId": "7b23ce498748601e3da2c5fbef4cbcbd99f2066d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a47a823d_256d0a70",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-02T22:25:11Z",
+      "side": 1,
+      "message": "10000",
+      "range": {
+        "startLine": 247,
+        "startChar": 40,
+        "endLine": 247,
+        "endChar": 44
+      },
+      "revId": "7b23ce498748601e3da2c5fbef4cbcbd99f2066d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48dd5a29_8e4117f2",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-02T22:25:11Z",
+      "side": 1,
+      "message": "I guess mentioning that \"regular\"\u003d\u003d\"not runtime\" would be useful here.",
+      "revId": "7b23ce498748601e3da2c5fbef4cbcbd99f2066d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73e90e14_d0a47d03",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-02T22:25:11Z",
+      "side": 1,
+      "message": "Don\u0027t we want something like:\n\nnframes :\u003d nregularframes\nif flags\u0026_TraceRuntimeFrames !\u003d 0 {\n    nframes \u003d totalframes\n}\n\nand then use nframes from here on out?\n\nFor that matter, maybe countframes should do that. It can base its returned value on that bit of the flags variable.",
+      "revId": "7b23ce498748601e3da2c5fbef4cbcbd99f2066d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
