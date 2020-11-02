@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8c74057_cb32a0f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T16:07:27Z",
+      "side": 1,
+      "message": "I realized I didn\u0027t fix the doc in extern.go. I will do that now.",
+      "revId": "613a2e5297e02ce4f3b6f216301bab72278ddf08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b35e887_1b91a416",
         "filename": "src/runtime/runtime1.go",
         "patchSetId": 1
@@ -14,6 +31,30 @@
       "writtenOn": "2020-11-02T16:03:50Z",
       "side": 1,
       "message": "I\u0027d argue we should just change this in `mem_linux.go` to always use `MADV_DONTNEED` and remove this variable altogether. But perhaps it\u0027s a little late for that for this release. Just changing the default is fine for now (feel free to just ack this comment).",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 364,
+        "endChar": 24
+      },
+      "revId": "613a2e5297e02ce4f3b6f216301bab72278ddf08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46681699_ed2291fe",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T16:07:27Z",
+      "side": 1,
+      "message": "I thought about that, but would rather have an easy way for users to back this out, just in case it has unexpected consequences. If we don\u0027t hear any problems, I\u0027m fine with hard-coding this in the future.",
+      "parentUuid": "5b35e887_1b91a416",
       "range": {
         "startLine": 356,
         "startChar": 2,
