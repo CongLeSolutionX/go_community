@@ -32,21 +32,56 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 )
 
 // Inlining budget parameters, gathered in one place
-const (
-	inlineMaxBudget       = 80
-	inlineExtraAppendCost = 0
-	// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
-	inlineExtraCallCost  = 57              // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
-	inlineExtraPanicCost = 1               // do not penalize inlining panics.
-	inlineExtraThrowCost = inlineMaxBudget // with current (2018-05/1.11) code, inlining runtime.throw does not help.
+// const (
+// 	inlineMaxBudget       = 80
+// 	inlineExtraAppendCost = 0
+// 	// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
+// 	inlineExtraCallCost  = 57              // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
+// 	inlineExtraPanicCost = 1               // do not penalize inlining panics.
+// 	inlineExtraThrowCost = inlineMaxBudget // with current (2018-05/1.11) code, inlining runtime.throw does not help.
 
-	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
-	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
-)
+// 	// These two knobs are intended to keep "return new(Thing).initialize()" inlineable and thus make the
+// 	// allocation visible in the caller, and perhaps not escape.
+
+// 	inlineAllocatorCallSize    = 60 // The number of nodes (not "budget") for which an allocator call penalty applies
+// 	inlineAllocatorCallPenalty = 20 // A function that allocates and could plausibly be inlined applies this penalty to any calls it makes.
+// 	inlineCalleeNoleakPenalty  = 20 // Be less aggressive about inlining functions that don't leak their parameters.
+
+// 	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
+// 	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
+// )
+
+// Inlining budget parameters, unchanged but now variable
+var inlineMaxBudget = getEnvInt("GO_INLMAXBUDGET", 80)
+var inlineExtraCallCost = getEnvInt("GO_INLCALLEXTRA", 57)
+var inlineExtraAppendCost = getEnvInt("GO_INLAPPENDEXTRA", 0)
+var inlineExtraThrowCost = getEnvInt("GO_INLTHROWEXTRA", 80)
+var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", 1)
+
+var inlineAllocatorCallSize = int(getEnvInt("GO_INLALLOCATORCALLSIZE", 0))  // The number of nodes (not "budget") for which an allocator call penalty applies
+var inlineAllocatorCallPenalty = getEnvInt("GO_INLALLOCATORCALLPENALTY", 0) // A function that allocates and could plausibly be inlined applies this penalty to any calls it makes.
+var inlineCalleeNoleakPenalty = getEnvInt("GO_INLCALLEENOLEAKPENALTY", 0)   // Be less aggressive about inlining functions that don't leak their parameters.
+
+var inlineBigFunctionNodes = int(getEnvInt("GO_INLBIGFUNCTION", 5000))
+var inlineBigFunctionMaxCost = getEnvInt("GO_INLBIGMAXBUDGET", 20)
+
+func getEnvInt(env string, def int32) int32 {
+	s := os.Getenv(env)
+	if s == "" {
+		return def
+	}
+	val, err := strconv.Atoi(s)
+	if err != nil {
+		panic("Non-numeric value " + s + " for environment variable " + env)
+	}
+	return int32(val)
+}
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
 // the ->sym can be re-used in the local package, so peel it off the receiver's type.
