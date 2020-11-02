@@ -16,6 +16,23 @@
       "message": "Also:\n\n\t$ cd cmd\n\t$ go get -d golang.org/x/sys\n\t$ go mod tidy\n\t$ go mod vendor\n\n(Will update description after SlowBots.)",
       "revId": "408a02d79c038460dc777c77041ce940a2bed2cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "548b606d_9cc78f3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-02T15:00:01Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on misc-compile-netbsd:\n\u003e See https://storage.googleapis.com/go-build-log/408a02d7/misc-compile-netbsd_e9069987.log\n\u003e \n\u003e Other builds still in progress; subsequent failure notices suppressed until final report. Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\nArgh, forgot a command. 😞",
+      "revId": "408a02d79c038460dc777c77041ce940a2bed2cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
