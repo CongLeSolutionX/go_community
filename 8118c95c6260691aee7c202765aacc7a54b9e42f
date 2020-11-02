@@ -68,6 +68,75 @@
       "message": "Cherry/Eric/Fannie-- Could I get a final review on this change? Thanks!\n",
       "revId": "8118c95c6260691aee7c202765aacc7a54b9e42f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57f5a112_93f29f0c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-02T15:17:52Z",
+      "side": 1,
+      "message": "Maybe align them like above to make it read better. Also below.",
+      "range": {
+        "startLine": 546,
+        "startChar": 0,
+        "endLine": 550,
+        "endChar": 80
+      },
+      "revId": "8118c95c6260691aee7c202765aacc7a54b9e42f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "481ab61a_9094b6f4",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-02T15:17:52Z",
+      "side": 1,
+      "message": "No need to write out the false field.",
+      "range": {
+        "startLine": 627,
+        "startChar": 137,
+        "endLine": 627,
+        "endChar": 155
+      },
+      "revId": "8118c95c6260691aee7c202765aacc7a54b9e42f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccfed5b2_6a51e26d",
+        "filename": "src/runtime/internal/atomic/bench_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-02T15:17:52Z",
+      "side": 1,
+      "message": "Cas, and Xchg. Since they are here, use the names in this package.",
+      "range": {
+        "startLine": 146,
+        "startChar": 14,
+        "endLine": 146,
+        "endChar": 28
+      },
+      "revId": "8118c95c6260691aee7c202765aacc7a54b9e42f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
