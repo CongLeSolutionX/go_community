@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "855f58f8_3d001c03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T13:52:52Z",
+      "side": 1,
+      "message": "This is an alternative to golang.org/cl/210979",
+      "revId": "1bdaa168364e6ef6364266d5c19a8551bbf51d73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
