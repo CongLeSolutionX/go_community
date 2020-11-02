@@ -163,6 +163,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30c87cd8_a8049910",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-02T16:06:30Z",
+      "side": 1,
+      "message": "This instruction has been included in the assembler since version 1.13. Do you want to change its behavior? Couldn\u0027t that introduce bugs in software already making use of it?\n\nAdded in 448089854a9, https://go-review.googlesource.com/c/go/+/157001",
+      "parentUuid": "ebde23a0_c332f502",
+      "range": {
+        "startLine": 793,
+        "startChar": 5,
+        "endLine": 793,
+        "endChar": 8
+      },
+      "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5b33581_f7ed2ace",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 6
@@ -376,6 +400,30 @@
       "side": 1,
       "message": "AtomicOr8/32 still marked as unsafePoint.",
       "parentUuid": "e57f1880_90a55f54",
+      "range": {
+        "startLine": 627,
+        "startChar": 137,
+        "endLine": 627,
+        "endChar": 154
+      },
+      "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f52f53d_74046799",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-02T16:06:30Z",
+      "side": 1,
+      "message": "Sorry about that... that was the result of merge conflicts the last two times I rebased the patch.",
+      "parentUuid": "be2d6c94_f93a11c1",
       "range": {
         "startLine": 627,
         "startChar": 137,
