@@ -18,6 +18,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6de2693_c1409f4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T16:10:03Z",
+      "side": 1,
+      "message": "PTAL, thanks.",
+      "revId": "613a2e5297e02ce4f3b6f216301bab72278ddf08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "570553e4_155aeb1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T16:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c74057_cb32a0f0",
+      "revId": "613a2e5297e02ce4f3b6f216301bab72278ddf08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b35e887_1b91a416",
