@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d839e284_bf6053c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T16:31:58Z",
+      "side": 1,
+      "message": "RELNOTE\u003dyes\n\n(I\u0027ll send a doc update, but just in case I forget...)",
+      "revId": "05e6d28849293266028c0bc9e9b0f8d0da38a2e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
