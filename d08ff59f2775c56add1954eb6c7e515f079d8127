@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5685f5e2_ae1fff28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-02T22:12:43Z",
+      "side": 1,
+      "message": "From a quick skim this looks very reasonable to me. One possible simplification: what about just sticking to the spanAllocStack type, and having a const that indicates stack spans must be physically aligned that triggers the new path in allocSpan? The const could just be set to true on openbsd generally to coincide with its MAP_STACK requirement.",
+      "revId": "d08ff59f2775c56add1954eb6c7e515f079d8127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
