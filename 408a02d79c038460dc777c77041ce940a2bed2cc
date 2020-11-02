@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06bef5d0_ebc940c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-02T14:48:35Z",
+      "side": 1,
+      "message": "Also:\n\n\t$ cd cmd\n\t$ go get -d golang.org/x/sys\n\t$ go mod tidy\n\t$ go mod vendor\n\n(Will update description after SlowBots.)",
+      "revId": "408a02d79c038460dc777c77041ce940a2bed2cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
