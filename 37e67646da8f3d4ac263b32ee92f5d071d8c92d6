@@ -187,6 +187,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb7a10d8_fde63b97",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-02T16:19:59Z",
+      "side": 1,
+      "message": "Given that the old behavior is just wrong, I think we should change that. If there is any code that depends on the buggy behavior, we should make it fail loud. I suppose removing LDAND and adding LDCLR would work.",
+      "parentUuid": "30c87cd8_a8049910",
+      "range": {
+        "startLine": 793,
+        "startChar": 5,
+        "endLine": 793,
+        "endChar": 8
+      },
+      "revId": "37e67646da8f3d4ac263b32ee92f5d071d8c92d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5b33581_f7ed2ace",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 6
