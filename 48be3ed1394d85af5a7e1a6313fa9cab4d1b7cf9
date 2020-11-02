@@ -16,6 +16,23 @@
       "message": "It seems this change broke all the longtest builders. Example log:\nhttps://build.golang.org/log/8075ceb990e9b8ec46b16eec231730509a4dc176",
       "revId": "48be3ed1394d85af5a7e1a6313fa9cab4d1b7cf9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08648e5d_dd5f60cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-02T15:18:47Z",
+      "side": 1,
+      "message": "Michael, this CL was reverted in CL 267037.\n\nPlease fix the problem and re-send.",
+      "revId": "48be3ed1394d85af5a7e1a6313fa9cab4d1b7cf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
