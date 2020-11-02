@@ -32,29 +32,61 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 )
 
 // Inlining budget parameters, gathered in one place
-const (
-	inlineMaxBudget       = 80
-	inlineExtraAppendCost = 0
-	// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
-	inlineExtraCallCost  = 57 // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
-	inlineExtraPanicCost = 1  // do not penalize inlining panics.
-	inlineExtraThrowCost = 40 // Updated value based on benchmarking 2020-11-8
+// const (
+// 	inlineMaxBudget       = 80
+// 	inlineExtraAppendCost = 0
+// 	// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
+// 	inlineExtraCallCost  = 57 // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
+// 	inlineExtraPanicCost = 1  // do not penalize inlining panics.
+// 	inlineExtraThrowCost = 40 // Updated value based on benchmarking 2020-11-8
 
-	// This knob is intended to keep "return new(Thing).initialize()" and fast-path wrappers inlineable.
-	// For small functions that call 1 other function, the allowed size of the inline is reduced by a
-	// a crude estimate of the function's size plus an adjustment (an accurate estimate requires no
-	// adjustment).
-	inlineSmallMidstackAdjust = 2
+// // This knob is intended to keep "return new(Thing).initialize()" and fast-path wrappers inlineable.
+// // For small functions that call 1 other function, the allowed size of the inline is reduced by a
+// // a crude estimate of the function's size plus an adjustment (an accurate estimate requires no
+// // adjustment).
+// inlineSmallMidstackAdjust = 2
 
-	inlineIfMaxBudget = 68 // OIF cost is max of arms, not sum, until the benefit exceeds this amount. (Chosen empirically, 100 is too large.)
+// 	inlineIfMaxBudget = 68 // OIF cost is max of arms, not sum, until the benefit exceeds this amount.
 
-	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
-	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
-)
+// 	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
+// 	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
+// )
+
+// Inlining budget parameters, unchanged but now variable
+var inlineMaxBudget = getEnvInt("GO_INLMAXBUDGET", 80)
+var inlineExtraCallCost = getEnvInt("GO_INLCALLEXTRA", 57)
+var inlineExtraAppendCost = getEnvInt("GO_INLAPPENDEXTRA", 0)
+var inlineExtraThrowCost = getEnvInt("GO_INLTHROWEXTRA", 40)
+var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", 1)
+
+// This knob is intended to keep "return new(Thing).initialize()" and fast-path wrappers inlineable.
+// For small functions that call 1 other function, the allowed size of the inline is reduced by a
+// a crude estimate of the function's size plus an adjustment (an accurate estimate requires no
+// adjustment).
+var inlineSmallMidstackAdjust = int(getEnvInt("GO_INLSMALLMIDSTACKADJUST", 2))
+
+var inlineIfMaxBudget = getEnvInt("GO_INLIFMAXBUDGET", 68)
+
+var inlineBigFunctionNodes = int(getEnvInt("GO_INLBIGFUNCTION", 5000))
+var inlineBigFunctionMaxCost = getEnvInt("GO_INLBIGMAXBUDGET", 20)
+
+func getEnvInt(env string, def int32) int32 {
+	s := os.Getenv(env)
+	if s == "" {
+		return def
+	}
+	val, err := strconv.Atoi(s)
+	if err != nil {
+		panic("Non-numeric value " + s + " for environment variable " + env)
+	}
+	return int32(val)
+}
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
 // the ->sym can be re-used in the local package, so peel it off the receiver's type.
@@ -621,11 +653,11 @@ func maxInlineCost(fn *Node) int32 {
 	}
 	// If fn has one call, then its no-inline cost is about nNodes + inlineExtraCallCost.
 	// If that is smaller
-	if nCalls == 1 && nNodes < inlineMaxBudget-inlineExtraCallCost {
+	if nCalls == 1 && int32(nNodes) < inlineMaxBudget-inlineExtraCallCost {
 		// Don't inline so much into little functions that contain allocations that they become not-inlineable themselves.
 		// Zero calls means no point setting this, two or more calls means this is not getting inlined anyway, modulo OIF-max-not-sum weighting.
 		// TODO this is a terribly crude metric.
-		return int32(inlineMaxBudget - nNodes - inlineSmallMidstackAdjust)
+		return int32(int(inlineMaxBudget) - nNodes - inlineSmallMidstackAdjust)
 	}
 	return inlineMaxBudget
 }
