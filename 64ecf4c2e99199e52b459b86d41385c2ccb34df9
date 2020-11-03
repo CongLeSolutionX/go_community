@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb70f974_75233326",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-11-03T09:02:27Z",
+      "side": 1,
+      "message": "Hi, Will you continue to complete this patch? If no, I will add these these instructions next, because someone needs these instructions, and I hope to support them as soon as possible.",
+      "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da5c8d56_e59095af",
