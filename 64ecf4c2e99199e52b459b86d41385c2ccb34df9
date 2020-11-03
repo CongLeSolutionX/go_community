@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11c5e2ef_96010a64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35325
+      },
+      "writtenOn": "2020-11-03T09:25:05Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I\u0027ve been so busy at work lately, I haven\u0027t had time to deal with these things. If someone needs to use these instructions urgently, you can do it.",
+      "parentUuid": "fb70f974_75233326",
+      "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da5c8d56_e59095af",
@@ -158,6 +176,24 @@
       "side": 1,
       "message": "@Heisenberg, Maybe you can refer to this patch https://go-review.googlesource.com/c/go/+/258397/6, it adds the C_UAUTO64K class, which is \"0 to 65520, 0 mod 16\". Hope it can provide some help for you to add a new class. Thank you.",
       "parentUuid": "0aecae67_b65a911e",
+      "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ffb4e13_dda7da3a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2197,
+      "author": {
+        "id": 35325
+      },
+      "writtenOn": "2020-11-03T09:25:05Z",
+      "side": 1,
+      "message": "Thank you for your help. No time to deal with it due to recent work. Thank you for your guidance.",
+      "parentUuid": "9707759b_fbd0d1f5",
       "revId": "64ecf4c2e99199e52b459b86d41385c2ccb34df9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
