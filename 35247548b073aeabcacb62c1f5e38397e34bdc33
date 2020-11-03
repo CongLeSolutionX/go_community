@@ -16,6 +16,23 @@
       "message": "Rebased to fix merge conflict in src/runtime/extern.go after merge of CL 267100.",
       "revId": "35247548b073aeabcacb62c1f5e38397e34bdc33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "357609a6_e8d46b40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-11-03T11:16:56Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on netbsd-amd64-9_0:\n\u003e See https://storage.googleapis.com/go-build-log/35247548/netbsd-amd64-9_0_2850edb0.log\n\nNetBSD failure looks like #42237\n",
+      "revId": "35247548b073aeabcacb62c1f5e38397e34bdc33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
