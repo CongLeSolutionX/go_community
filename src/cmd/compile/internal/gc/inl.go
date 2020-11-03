@@ -50,6 +50,8 @@ const (
 	// adjustment).
 	inlineSmallMidstackAdjust = 2
 
+	inlineIfMaxBudget = 68 // OIF cost is max of arms, not sum, until the benefit exceeds this amount. (Chosen empirically, 100 is too large.)
+
 	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
 	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
 )
@@ -213,6 +215,7 @@ func caninl(fn *Node, maxCost int32) {
 
 	visitor := hairyVisitor{
 		budget:        inlineMaxBudget,
+		ifMaxBudget:   inlineIfMaxBudget,
 		extraCallCost: cc,
 		maxInlineCost: maxCost,
 		usedLocals:    make(map[*Node]bool),
@@ -319,6 +322,7 @@ type hairyVisitor struct {
 	reason        string
 	usedLocals    map[*Node]bool
 	maxInlineCost int32
+	ifMaxBudget   int32
 	indent        int16
 	debug         bool
 	exits         bool
@@ -334,6 +338,12 @@ func (v *hairyVisitor) visitList(ll Nodes) bool {
 		}
 	}
 	return false
+}
+
+// done returns true if the visit can end early because the
+// budget has gone negative and exact costs are not needed.
+func (v *hairyVisitor) done() bool {
+	return v.budget < 0 && Debug.m < 2 && !logopt.Enabled()
 }
 
 func (v *hairyVisitor) visit(n *Node) bool {
@@ -430,6 +440,10 @@ func (v *hairyVisitor) visit(n *Node) bool {
 
 	case OPANIC:
 		v.budget -= inlineExtraPanicCost
+		v.exits = true
+
+	case ORETURN:
+		v.exits = true
 
 	case ORECOVER:
 		// recover matches the argument frame pointer to find
@@ -468,11 +482,71 @@ func (v *hairyVisitor) visit(n *Node) bool {
 		}
 
 	case OIF:
-		if Isconst(n.Left, CTBOOL) {
-			// This if and the condition cost nothing.
-			return v.visitList(n.Ninit) || v.visitList(n.Nbody) ||
-				v.visitList(n.Rlist)
+		ninit := v.visitList(n.Ninit)
+		var left bool
+		if !Isconst(n.Left, CTBOOL) {
+			v.budget--
+			left = v.visit(n.Left)
+			if v.done() {
+				return true
+			}
 		}
+
+		// The cost of an IF can be the max path length, not the sum of the path lengths.
+		// If an arm ends in an exit and does not exceed the budget, then its cost
+		// is not part of the max (because that path ended).
+
+		savedBudget, savedExits := v.budget, v.exits
+		v.exits = false
+
+		then := v.visitList(n.Nbody)
+		thenBudget, thenExits := v.budget, v.exits
+		if v.done() {
+			return true
+		}
+
+		v.budget = savedBudget
+		v.exits = false
+
+		els := v.visitList(n.Rlist)
+		if v.done() {
+			return true
+		}
+
+		// sumBudget is smaller than budget by the cost of the 'then' clause
+		// (budgets decrease, therefore then is smaller than saved)
+		sumBudget := v.budget - (savedBudget - thenBudget)
+
+		// Try minimum remaining budget for two arms == maximum cost.
+		// TODO investigate how this affects cost reporting in logging
+		if v.exits {
+			if thenExits {
+				v.budget = savedBudget
+			} else {
+				v.budget = thenBudget
+			}
+		} else if !thenExits && v.budget > thenBudget {
+			v.budget = thenBudget
+		}
+
+		// Update remaining ifMaxBudget.
+		// v.budget is local "maxBudget" which is larger (less subtracted) than sumBudget
+		ifMaxBudget := v.ifMaxBudget - (v.budget - sumBudget)
+		if ifMaxBudget >= 0 {
+			v.ifMaxBudget = ifMaxBudget
+		} else {
+			v.budget += ifMaxBudget
+			v.ifMaxBudget = 0
+		}
+
+		if v.done() {
+			return true
+		}
+
+		v.exits = v.exits && thenExits || savedExits
+
+		// Return true (cannot inline) if any subpart returned true.
+		return ninit || left || then || els
 
 	case ONAME:
 		if n.Class() == PAUTO {
@@ -484,7 +558,7 @@ func (v *hairyVisitor) visit(n *Node) bool {
 	v.budget--
 
 	// When debugging, don't stop early, to get full cost of inlining this function
-	if v.budget < 0 && Debug.m < 2 && !logopt.Enabled() {
+	if v.done() {
 		return true
 	}
 
