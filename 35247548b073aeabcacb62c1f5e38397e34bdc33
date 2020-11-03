@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efc7456a_49d9c439",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-11-03T11:03:30Z",
+      "side": 1,
+      "message": "Rebased to fix merge conflict in src/runtime/extern.go after merge of CL 267100.",
+      "revId": "35247548b073aeabcacb62c1f5e38397e34bdc33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
