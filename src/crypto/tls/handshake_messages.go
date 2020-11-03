@@ -92,6 +92,7 @@ type clientHelloMsg struct {
 	pskModes                         []uint8
 	pskIdentities                    []pskIdentity
 	pskBinders                       [][]byte
+	grease                           bool
 }
 
 func (m *clientHelloMsg) marshal() []byte {
@@ -121,6 +122,11 @@ func (m *clientHelloMsg) marshal() []byte {
 		bWithoutExtensions := *b
 
 		b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
+			if m.grease {
+				//RFC 8701, Section 3.1
+				b.AddUint16(grease())
+				b.AddUint16(0)
+			}
 			if len(m.serverName) > 0 {
 				// RFC 6066, Section 3
 				b.AddUint16(extensionServerName)
@@ -741,6 +747,11 @@ func (m *serverHelloMsg) unmarshal(data []byte) bool {
 		return false
 	}
 
+	//RFC 8701, Section 3.1
+	if containGrease(m.cipherSuite) {
+		return false
+	}
+
 	if s.Empty() {
 		// ServerHello is optionally followed by extension data
 		return true
@@ -827,6 +838,10 @@ func (m *serverHelloMsg) unmarshal(data []byte) bool {
 				return false
 			}
 		default:
+			//RFC 8701, Section 3.1
+			if containGrease(extension) {
+				return false
+			}
 			// Ignore unknown extensions.
 			continue
 		}
