@@ -52,6 +52,24 @@
       "parentUuid": "58436df4_8a0ad1b3",
       "revId": "d08ff59f2775c56add1954eb6c7e515f079d8127",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "459f1de9_719d0252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-11-03T14:25:26Z",
+      "side": 1,
+      "message": "not just heap fragmentation; you\u0027re also losing lockless page allocations for stacks and you have up to two extra frees on the allocation path that aren\u0027t super cheap.",
+      "parentUuid": "f9640bf9_f447d393",
+      "revId": "d08ff59f2775c56add1954eb6c7e515f079d8127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
