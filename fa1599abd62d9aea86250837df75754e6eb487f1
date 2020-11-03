@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47692a0f_f12c2781",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-03T14:15:22Z",
+      "side": 1,
+      "message": "The new blocks should be gated on typ \u003d\u003d spanAllocStack (PS 2 accidentally dropped this)",
+      "range": {
+        "startLine": 1119,
+        "startChar": 42,
+        "endLine": 1119,
+        "endChar": 45
+      },
+      "revId": "fa1599abd62d9aea86250837df75754e6eb487f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9879a634_99a7cd68",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-03T14:15:22Z",
+      "side": 1,
+      "message": "Like the other new conditionals, this could also be gated by pageSize \u003c physPageSize, since it\u0027s fine to use the page cache otherwise. Maybe in the block at the top of allocSpan declare\n\n\n  physPageAlign :\u003d physPageAlignedStacks \u0026\u0026 typ \u003d\u003d spanAllocStack \u0026\u0026 pageSize \u003c physPageSize\n\nand use it for all three conditionals?",
+      "range": {
+        "startLine": 1126,
+        "startChar": 5,
+        "endLine": 1126,
+        "endChar": 26
+      },
+      "revId": "fa1599abd62d9aea86250837df75754e6eb487f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e41f7f_b09c8116",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-03T14:15:22Z",
+      "side": 1,
+      "message": "Update the comment to say why we can\u0027t use the page cache in this case. Something like\n\n// We can\u0027t use the page cache for physically aligned stacks because it doesn\u0027t support aligned allocation.",
+      "revId": "fa1599abd62d9aea86250837df75754e6eb487f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f405cd3_12302a9c",
+        "filename": "src/runtime/os_openbsd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-03T14:15:22Z",
+      "side": 1,
+      "message": "I\u0027d actually prefer this constant to be declared in mheap.go (with value GOOS \u003d\u003d \"openbsd\"). In general, these per-OS/arch source files interfere with tools and refactoring, so it\u0027s nice to avoid using them when possible.",
+      "revId": "fa1599abd62d9aea86250837df75754e6eb487f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
