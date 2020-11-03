@@ -51,6 +51,23 @@
       "parentUuid": "ee57e9a0_7ec4ffa2",
       "revId": "f4dcff674bb091511b10c0ca9fcfc336d6700957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27ba89fd_40aa34f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-11-03T09:47:39Z",
+      "side": 1,
+      "message": "Since https://go-review.googlesource.com/c/go/+/264938 is waiting for 1.17, can I submit this?\n\nJay does have a valid concern about the changing format, but I replied above and I still think it\u0027s reasonable. We could always start defining a strict version format in the future, if we want, but it\u0027s not the case today.",
+      "revId": "f4dcff674bb091511b10c0ca9fcfc336d6700957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
