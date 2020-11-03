@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "927b7162_1a481868",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-03T16:58:10Z",
+      "side": 1,
+      "message": "Do all versions of OpenBSD we support have it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "2cc6ab29c3286bf1f39cc6ea5b32dc0ef9ab24cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a5522db_d9361229",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-03T16:58:10Z",
+      "side": 1,
+      "message": "TRY\u003dopenbsd-386,openbsd-amd64\n",
+      "revId": "2cc6ab29c3286bf1f39cc6ea5b32dc0ef9ab24cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
