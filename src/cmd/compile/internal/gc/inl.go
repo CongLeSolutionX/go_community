@@ -464,6 +464,10 @@ func (v *hairyVisitor) visit(n *Node) bool {
 
 	case OPANIC:
 		v.budget -= inlineExtraPanicCost
+		v.exits = true
+
+	case ORETURN:
+		v.exits = true
 
 	case ORECOVER:
 		// recover matches the argument frame pointer to find
@@ -502,11 +506,38 @@ func (v *hairyVisitor) visit(n *Node) bool {
 		}
 
 	case OIF:
-		if Isconst(n.Left, CTBOOL) {
-			// This if and the condition cost nothing.
-			return v.visitList(n.Ninit) || v.visitList(n.Nbody) ||
-				v.visitList(n.Rlist)
+		ninit := v.visitList(n.Ninit)
+		var left bool
+		if !Isconst(n.Left, CTBOOL) {
+			left = v.visit(n.Left)
 		}
+
+		savedBudget, savedExits := v.budget, v.exits
+		v.exits = false
+
+		then := v.visitList(n.Nbody)
+		thenBudget, thenExits := v.budget, v.exits
+
+		v.budget = savedBudget
+		v.exits = false
+
+		els := v.visitList(n.Rlist)
+		// Take minimum remaining budget for two arms == maximum cost.
+		// TODO investigate how this affects cost reporting in logging
+		if v.exits {
+			if thenExits {
+				v.budget = savedBudget
+			} else {
+				v.budget = thenBudget
+			}
+		} else if !thenExits && v.budget > thenBudget {
+			v.budget = thenBudget
+		}
+		v.budget--
+
+		v.exits = v.exits && thenExits || savedExits
+
+		return ninit || left || then || els
 
 	case ONAME:
 		if n.Class() == PAUTO {
