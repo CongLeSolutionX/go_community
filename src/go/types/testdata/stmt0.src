@@ -182,7 +182,7 @@ func sends() {
 	var x int
 	x <- /* ERROR "cannot send" */ x
 	rch <- /* ERROR "cannot send" */ x
-	ch <- "foo" /* ERROR "cannot convert" */
+	ch <- "foo" /* ERROR "cannot use .* in send" */
 	ch <- x
 }
 
@@ -381,13 +381,13 @@ func returns0() {
 func returns1(x float64) (int, *float64) {
 	return 0, &x
 	return /* ERROR wrong number of return values */
-	return "foo" /* ERROR "cannot convert" */, x /* ERROR "cannot use .* in return statement" */
+	return "foo" /* ERROR "cannot .* in return statement" */, x /* ERROR "cannot use .* in return statement" */
 	return /* ERROR wrong number of return values */ 0, &x, 1
 }
 
 func returns2() (a, b int) {
 	return
-	return 1, "foo" /* ERROR cannot convert */
+	return 1, "foo" /* ERROR cannot use .* in return statement */
 	return /* ERROR wrong number of return values */ 1, 2, 3
 	{
 		type a int
