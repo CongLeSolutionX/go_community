@@ -45,14 +45,17 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 			target = Default(x.typ)
 		}
 		if err := check.canConvertUntyped(x, target); err != nil {
-			var internalErr Error
-			msg := err.Error()
+			msg := check.sprintf("cannot use %s as %s value in %s", x, target, context)
 			code := _IncompatibleAssign
-			if errors.As(err, &internalErr) {
-				msg = internalErr.Msg
-				code = internalErr.go116code
+			var ierr Error
+			if errors.As(err, &ierr) {
+				// Preserve these inner errors, as they are informative.
+				if ierr.go116code == _TruncatedFloat || ierr.go116code == _NumericOverflow {
+					msg += ": " + ierr.Msg
+					code = ierr.go116code
+				}
 			}
-			check.errorf(x.pos(), code, "cannot use %s as %s value in %s: %v", x, target, context, msg)
+			check.error(x.pos(), code, msg)
 			x.mode = invalid
 			return
 		}
