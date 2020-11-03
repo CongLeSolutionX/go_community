@@ -336,6 +336,12 @@ func (v *hairyVisitor) visitList(ll Nodes) bool {
 	return false
 }
 
+// done returns true if the visit can end early because the
+// budget has gone negative and exact costs are not needed.
+func (v *hairyVisitor) done() bool {
+	return v.budget < 0 && Debug.m < 2 && !logopt.Enabled()
+}
+
 func (v *hairyVisitor) visit(n *Node) bool {
 	if n == nil {
 		return false
@@ -434,6 +440,10 @@ func (v *hairyVisitor) visit(n *Node) bool {
 
 	case OPANIC:
 		v.budget -= inlineExtraPanicCost
+		v.exits = true
+
+	case ORETURN:
+		v.exits = true
 
 	case ORECOVER:
 		// recover matches the argument frame pointer to find
@@ -472,11 +482,55 @@ func (v *hairyVisitor) visit(n *Node) bool {
 		}
 
 	case OIF:
-		if Isconst(n.Left, CTBOOL) {
-			// This if and the condition cost nothing.
-			return v.visitList(n.Ninit) || v.visitList(n.Nbody) ||
-				v.visitList(n.Rlist)
+		ninit := v.visitList(n.Ninit)
+		var left bool
+		if !Isconst(n.Left, CTBOOL) {
+			left = v.visit(n.Left)
+			if v.done() {
+				return true
+			}
 		}
+
+		// The cost of an IF is the max path length, not the sum of the path lengths.
+		// If an arm ends in an exit and does not exceed the budget, then its cost
+		// is not part of the max (because that path ended).
+
+		savedBudget, savedExits := v.budget, v.exits
+		v.exits = false
+
+		then := v.visitList(n.Nbody)
+		thenBudget, thenExits := v.budget, v.exits
+		if v.done() {
+			return true
+		}
+
+		v.budget = savedBudget
+		v.exits = false
+
+		els := v.visitList(n.Rlist)
+		if v.done() {
+			return true
+		}
+		// Take minimum remaining budget for two arms == maximum cost.
+		// TODO investigate how this affects cost reporting in logging
+		if v.exits {
+			if thenExits {
+				v.budget = savedBudget
+			} else {
+				v.budget = thenBudget
+			}
+		} else if !thenExits && v.budget > thenBudget {
+			v.budget = thenBudget
+		}
+		v.budget--
+		if v.done() {
+			return true
+		}
+
+		v.exits = v.exits && thenExits || savedExits
+
+		// Return true (cannot inline) if any subpart returned true.
+		return ninit || left || then || els
 
 	case ONAME:
 		if n.Class() == PAUTO {
@@ -488,7 +542,7 @@ func (v *hairyVisitor) visit(n *Node) bool {
 	v.budget--
 
 	// When debugging, don't stop early, to get full cost of inlining this function
-	if v.budget < 0 && Debug.m < 2 && !logopt.Enabled() {
+	if v.done() {
 		return true
 	}
 
