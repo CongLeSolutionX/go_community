@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "11ffee52_1a3fc6b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-11-04T16:54:36Z",
+      "side": 1,
+      "message": "Yes - the only two releases supported by OpenBSD are 6.7 and 6.8... the Go 386/amd64 builders are extremely out of date, however even 6.2 has __thread support providing clang is used (gcc does not, however we have defaultclang\u003dtrue on openbsd these days).",
+      "parentUuid": "927b7162_1a481868",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "2cc6ab29c3286bf1f39cc6ea5b32dc0ef9ab24cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9a5522db_d9361229",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
