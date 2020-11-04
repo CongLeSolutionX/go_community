@@ -5476,21 +5476,21 @@ type pMask []uint32
 // read returns true if P id's bit is set.
 func (p pMask) read(id uint32) bool {
 	word := id / 32
-	mask := uint32(1) << (id % 32)
+	mask := uint32(1) << (id & 31)
 	return (atomic.Load(&p[word]) & mask) != 0
 }
 
 // set sets P id's bit.
 func (p pMask) set(id int32) {
 	word := id / 32
-	mask := uint32(1) << (id % 32)
+	mask := uint32(1) << (id & 31)
 	atomic.Or(&p[word], mask)
 }
 
 // clear clears P id's bit.
 func (p pMask) clear(id int32) {
 	word := id / 32
-	mask := uint32(1) << (id % 32)
+	mask := uint32(1) << (id & 31)
 	atomic.And(&p[word], ^mask)
 }
 
@@ -5631,7 +5631,7 @@ retry:
 	h := atomic.LoadAcq(&_p_.runqhead) // load-acquire, synchronize with consumers
 	t := _p_.runqtail
 	if t-h < uint32(len(_p_.runq)) {
-		_p_.runq[t%uint32(len(_p_.runq))].set(gp)
+		_p_.runq[t&uint32(len(_p_.runq)-1)].set(gp)
 		atomic.StoreRel(&_p_.runqtail, t+1) // store-release, makes the item available for consumption
 		return
 	}
@@ -5654,7 +5654,7 @@ func runqputslow(_p_ *p, gp *g, h, t uint32) bool {
 		throw("runqputslow: queue is not full")
 	}
 	for i := uint32(0); i < n; i++ {
-		batch[i] = _p_.runq[(h+i)%uint32(len(_p_.runq))].ptr()
+		batch[i] = _p_.runq[(h+i)&uint32(len(_p_.runq)-1)].ptr()
 	}
 	if !atomic.CasRel(&_p_.runqhead, h, h+n) { // cas-release, commits consume
 		return false
@@ -5739,7 +5739,7 @@ func runqget(_p_ *p) (gp *g, inheritTime bool) {
 		if t == h {
 			return nil, false
 		}
-		gp := _p_.runq[h%uint32(len(_p_.runq))].ptr()
+		gp := _p_.runq[h&uint32(len(_p_.runq)-1)].ptr()
 		if atomic.CasRel(&_p_.runqhead, h, h+1) { // cas-release, commits consume
 			return gp, false
 		}
@@ -5793,8 +5793,8 @@ func runqgrab(_p_ *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool
 			continue
 		}
 		for i := uint32(0); i < n; i++ {
-			g := _p_.runq[(h+i)%uint32(len(_p_.runq))]
-			batch[(batchHead+i)%uint32(len(batch))] = g
+			g := _p_.runq[(h+i)&uint32(len(_p_.runq)-1)]
+			batch[(batchHead+i)&uint32(len(batch)-1)] = g
 		}
 		if atomic.CasRel(&_p_.runqhead, h, h+n) { // cas-release, commits consume
 			return n
@@ -5812,7 +5812,7 @@ func runqsteal(_p_, p2 *p, stealRunNextG bool) *g {
 		return nil
 	}
 	n--
-	gp := _p_.runq[(t+n)%uint32(len(_p_.runq))].ptr()
+	gp := _p_.runq[(t+n)&uint32(len(_p_.runq)-1)].ptr()
 	if n == 0 {
 		return gp
 	}
