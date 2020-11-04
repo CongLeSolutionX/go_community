@@ -5476,21 +5476,21 @@ type pMask []uint32
 // read returns true if P id's bit is set.
 func (p pMask) read(id uint32) bool {
 	word := id / 32
-	mask := uint32(1) << (id % 32)
+	mask := uint32(1) << (id & 31)
 	return (atomic.Load(&p[word]) & mask) != 0
 }
 
 // set sets P id's bit.
 func (p pMask) set(id int32) {
 	word := id / 32
-	mask := uint32(1) << (id % 32)
+	mask := uint32(1) << (id & 31)
 	atomic.Or(&p[word], mask)
 }
 
 // clear clears P id's bit.
 func (p pMask) clear(id int32) {
 	word := id / 32
-	mask := uint32(1) << (id % 32)
+	mask := uint32(1) << (id & 31)
 	atomic.And(&p[word], ^mask)
 }
 
