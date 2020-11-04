@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5a7152c_844e1adf",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3473,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-04T17:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab91157_d0ab2abf",
+      "range": {
+        "startLine": 3473,
+        "startChar": 45,
+        "endLine": 3473,
+        "endChar": 47
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5abcb6e_eb223824",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-11-04T16:49:47Z",
       "side": 1,
       "message": "Maybe rtyp.",
+      "range": {
+        "startLine": 3474,
+        "startChar": 45,
+        "endLine": 3474,
+        "endChar": 55
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d65312b0_2b1418b5",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3474,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-04T17:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5abcb6e_eb223824",
       "range": {
         "startLine": 3474,
         "startChar": 45,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b42cc5ab_fd1098d8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3476,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-04T17:57:25Z",
+      "side": 1,
+      "message": "gofmt removed the leading spacing when I ran it, plus I removed some of the line breaks.",
+      "parentUuid": "67bf80b4_feb163c0",
+      "range": {
+        "startLine": 3470,
+        "startChar": 0,
+        "endLine": 3476,
+        "endChar": 0
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e6d5745_27ebd16b",
@@ -100,6 +172,30 @@
       "writtenOn": "2020-11-04T16:49:47Z",
       "side": 1,
       "message": "\"Op\" seems not necessary.",
+      "range": {
+        "startLine": 3510,
+        "startChar": 1,
+        "endLine": 3510,
+        "endChar": 25
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45618769_44388cf9",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3510,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-04T17:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e6d5745_27ebd16b",
       "range": {
         "startLine": 3510,
         "startChar": 1,
@@ -127,6 +223,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03250963_c1228c89",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3537,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-04T17:57:25Z",
+      "side": 1,
+      "message": "I renamed it to atomicXchgXaddEmmitterARM64 and consolidated the functions.",
+      "parentUuid": "ccce2a51_8a296221",
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4745df72_275af27c",
@@ -140,6 +254,24 @@
       "writtenOn": "2020-11-04T16:49:47Z",
       "side": 1,
       "message": "Rarg1 can be clobbered when CAS fails, right? The register mask doesn\u0027t seem to address this. Alternatively, maybe you could use Rtmp here.",
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c80f66_473b6c73",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-04T17:57:25Z",
+      "side": 1,
+      "message": "That was a good catch. I went back to look at my reference implementation and it does use the temp register. I\u0027ve fixed it.",
+      "parentUuid": "4745df72_275af27c",
       "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
