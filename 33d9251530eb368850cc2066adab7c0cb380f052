@@ -16,6 +16,24 @@
       "message": "I am not familiar with how Go modules work enough to understand what is happening here.\n\nIf I followed what\n\ngo generate\n\ncalls, it calls\n\nGO111MODULE\u003don go run -mod\u003dreadonly golang.org/x/sys/windows/mkwinsyscal\n\nAnd this command runs OK for me. But how do I see the source files that I ran? I would like to compare these files with original files at golang.org/x/sys/windows.\n\nI tried running\n\ngo mod vendor\n\nbut it does nothing. This\n\nGOOS\u003dwindows go mod vendor\n\ndoes nothing too. What am I missing?\n\nThank you.\n\nAlex",
       "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd2b180_966c11ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-04T19:03:57Z",
+      "side": 1,
+      "message": "Alex,\n\nI can suggest a strategy that involves paying attention to two high-level steps:\n\n1. Determine what module version is being selected.\n2. Once you know the precise version in use, get to its code (in one of many possible ways).\n\n(They can also be combined, but I\u0027ll save that for the end.)\n\nTo determine the module version, given you know the relevant package is in golang.org/x/sys module, you can navigate to the relevant directory and:\n\n    # Important that current working directory is inside std module.\n    $ go list -mod\u003dreadonly -m golang.org/x/sys\n    golang.org/x/sys v0.0.0-20201101102859-da207088b7d1\n\nOr look at src/vendor/modules.txt where it says \"golang.org/x/sys v0.0.0-20201101102859-da207088b7d1\".\n\nNext, you can get to its code since you know the commit hash is da207088b7d1, e.g., https://github.com/golang/sys/tree/da207088b7d1/windows/mkwinsyscall.\n\nAlternatively, ask go list to tell you where the source code is on disk:\n\n    $ go list -mod\u003dreadonly -f \u0027{{.Dir}}\u0027 golang.org/x/sys/windows/mkwinsyscall\n    /Users/gopher/go/pkg/mod/golang.org/x/sys@v0.0.0-20201101102859-da207088b7d1/windows/mkwinsyscall\n    $ ls \"/Users/gopher/go/pkg/mod/golang.org/x/sys@v0.0.0-20201101102859-da207088b7d1/windows/mkwinsyscall\"\n    mkwinsyscall.go\n\nI hope this along with documentation at https://golang.org/cmd/go/ helps. If you have more questions, it might be a good idea to move this to a more suitable place to continue the conversation (https://golang.org/wiki/Questions), and please feel free to CC me about this as I\u0027m happy to help.",
+      "parentUuid": "7b8940e1_deec77ce",
+      "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
