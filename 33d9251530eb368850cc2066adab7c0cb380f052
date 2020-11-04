@@ -34,6 +34,24 @@
       "parentUuid": "7b8940e1_deec77ce",
       "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "129da551_c31f8b56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-04T20:07:55Z",
+      "side": 1,
+      "message": "\u003e \n\u003e I can suggest a strategy that involves paying attention to two high-level steps:\n\u003e \n\u003e 1. Determine what module version is being selected.\n\u003e 2. Once you know the precise version in use, get to its code (in one of many possible ways).\n\u003e \n\nThanks for answering my question.\n\nBut how do you propose I make changes to golang.org/x/sys/windows/mkwinsyscall file?\n\nIn the past I would just change files in $GOPATH and then run `go generate` command in $GOROOT/src/syscall directory.\n\nAlso, once I am happy with golang.org/x/sys/windows/mkwinsyscall changes, how do I make changed command permanent inside $GOROOT? Do I repeat steps described in this CL description?\n\nYou cannot reasonable expect people to remember these long winded command sequences.\n\n\u003e I hope this along with documentation at https://golang.org/cmd/go/ helps. If you have more questions, it might be a good idea to move this to a more suitable place to continue the conversation (https://golang.org/wiki/Questions), and please feel free to CC me about this as I\u0027m happy to help.\n\nMy questions are about this CL. I think what you designed is too complicated to use. And I consider myself advanced user in this area.\n\nThank you for consideration.\n\nAlex",
+      "parentUuid": "acd2b180_966c11ca",
+      "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
