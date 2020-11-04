@@ -16,6 +16,132 @@
       "message": "Could I get a trybot run and last reviews? Thanks!",
       "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab91157_d0ab2abf",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3473,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T16:49:47Z",
+      "side": 1,
+      "message": "t or typ.",
+      "range": {
+        "startLine": 3473,
+        "startChar": 45,
+        "endLine": 3473,
+        "endChar": 47
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5abcb6e_eb223824",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3474,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T16:49:47Z",
+      "side": 1,
+      "message": "Maybe rtyp.",
+      "range": {
+        "startLine": 3474,
+        "startChar": 45,
+        "endLine": 3474,
+        "endChar": 55
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67bf80b4_feb163c0",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3476,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T16:49:47Z",
+      "side": 1,
+      "message": "Is this formated by gofmt?\n\nI think it is more readable to put parameters on the same line.",
+      "range": {
+        "startLine": 3470,
+        "startChar": 0,
+        "endLine": 3476,
+        "endChar": 0
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e6d5745_27ebd16b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3510,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T16:49:47Z",
+      "side": 1,
+      "message": "\"Op\" seems not necessary.",
+      "range": {
+        "startLine": 3510,
+        "startChar": 1,
+        "endLine": 3510,
+        "endChar": 25
+      },
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccce2a51_8a296221",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3537,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T16:49:47Z",
+      "side": 1,
+      "message": "Does this differ from atomicXchgOpEmitterARM64? Looks the same.",
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4745df72_275af27c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T16:49:47Z",
+      "side": 1,
+      "message": "Rarg1 can be clobbered when CAS fails, right? The register mask doesn\u0027t seem to address this. Alternatively, maybe you could use Rtmp here.",
+      "revId": "7fce633abd2ec9b4799a80a7ac84cc8296e1f904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
