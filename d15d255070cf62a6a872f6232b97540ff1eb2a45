@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c749e558_43152841",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-04T21:58:57Z",
+      "side": 1,
+      "message": "RELNOTES\u003dyes (mention go help vcs)\n",
+      "revId": "d15d255070cf62a6a872f6232b97540ff1eb2a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "259f2e64_3e53352e",
