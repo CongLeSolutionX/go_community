@@ -120,6 +120,24 @@
       "message": "Derek, is this ready from your side to be submitted? (I got here from #42176.)",
       "revId": "4974c54bc450cbe2801dde5a70aa92f404485d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b982000_0ea40809",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2020-11-04T23:13:49Z",
+      "side": 1,
+      "message": "Yes, it is.",
+      "parentUuid": "2bed123f_74ace517",
+      "revId": "4974c54bc450cbe2801dde5a70aa92f404485d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
