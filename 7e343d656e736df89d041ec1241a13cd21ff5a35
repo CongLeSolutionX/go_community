@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bac6b421_c514e17d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-11-04T13:35:31Z",
+      "side": 1,
+      "message": "Can you reword this comment about clrlswi because it sounds like you are removing it from the assembler. Something like \"operand handling for clrlswi was not correct and that also has been fixed.\"",
+      "revId": "7e343d656e736df89d041ec1241a13cd21ff5a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f7480ac_ac1c0707",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2020-11-04T13:35:31Z",
+      "side": 1,
+      "message": "TRY\u003dppc64,ppc64le",
+      "revId": "7e343d656e736df89d041ec1241a13cd21ff5a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
