@@ -52,6 +52,24 @@
       "parentUuid": "acd2b180_966c11ca",
       "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "033b4f4c_84a73c19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-04T20:42:34Z",
+      "side": 1,
+      "message": "\u003e But how do you propose I make changes to golang.org/x/sys/windows/mkwinsyscall file?\n\nFor making changes, as commonly needed during development or for debugging, one approach I can suggest is to use a temporary replace directive that points to a working copy of golang.org/x/sys on your disk. For example:\n\n    $ go mod edit -replace\u003dgolang.org/x/sys\u003d$HOME/go/src/golang.org/x/sys\n    ... make changes in $HOME/go/src/golang.org/x/sys/windows/mkwinsyscall ...\n    ... use modified mkwinsyscall e.g. via go generate as needed ...\n    $ go mod edit -dropreplace\u003dgolang.org/x/sys\n\n\u003e Also, once I am happy with golang.org/x/sys/windows/mkwinsyscall changes, how do I make changed command permanent inside $GOROOT? Do I repeat steps described in this CL description?\n\nAssuming the mkwinsyscall change has been reviewed and submitted to the golang.org/x/sys module, then yes, the commands in this CL description will pull in the new version of mkwinsyscall in and regenerate relevant packages with it.\n\n\u003e You cannot reasonable expect people to remember these long winded command sequences.\n\nThe commands are written down in the GOROOT/src/README.vendor file, it\u0027s expected people who need to manage versions of dependencies in the Go standard library should reference it instead of having to memorize command sequences. There is definitely some additional complexity when it comes to managing dependencies in the standard library, as it is a special case. If you there\u0027s something that\u0027s missing, please file a report at golang.org/issue.\n\nYour perspective on this is appreciated as some of us may be too familiar with these workflows, so it is easy to overlook when something is under-documented. Thank you.",
+      "parentUuid": "129da551_c31f8b56",
+      "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
