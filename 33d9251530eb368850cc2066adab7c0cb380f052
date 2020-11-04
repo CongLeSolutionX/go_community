@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8940e1_deec77ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-04T06:28:22Z",
+      "side": 1,
+      "message": "I am not familiar with how Go modules work enough to understand what is happening here.\n\nIf I followed what\n\ngo generate\n\ncalls, it calls\n\nGO111MODULE\u003don go run -mod\u003dreadonly golang.org/x/sys/windows/mkwinsyscal\n\nAnd this command runs OK for me. But how do I see the source files that I ran? I would like to compare these files with original files at golang.org/x/sys/windows.\n\nI tried running\n\ngo mod vendor\n\nbut it does nothing. This\n\nGOOS\u003dwindows go mod vendor\n\ndoes nothing too. What am I missing?\n\nThank you.\n\nAlex",
+      "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
