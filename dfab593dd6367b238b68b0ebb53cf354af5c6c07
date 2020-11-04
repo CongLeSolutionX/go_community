@@ -16,6 +16,24 @@
       "message": "\u003e Patch Set 4: TryBot-Result-1\n\u003e \n\u003e 1 of 20 TryBots failed:\n\u003e Failed on (x/tools) linux-amd64: https://storage.googleapis.com/go-build-log/dfab593d/linux-amd64_09793a1b.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\nThis is a real test failure, due to error string matching in x/tools tests. I will fix it there.",
       "revId": "dfab593dd6367b238b68b0ebb53cf354af5c6c07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00d8bdc_0b414a54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-04T17:53:47Z",
+      "side": 1,
+      "message": "...but I\u0027ll wait to do so until this change is reviewed, to avoid churn in x/tools.",
+      "parentUuid": "8508458d_822d4a27",
+      "revId": "dfab593dd6367b238b68b0ebb53cf354af5c6c07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
