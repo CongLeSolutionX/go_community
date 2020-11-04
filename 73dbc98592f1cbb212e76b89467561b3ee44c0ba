@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ff1505_77c56712",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T21:35:00Z",
+      "side": 1,
+      "message": "TRY\u003darm64\n",
+      "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0baf4fbb_0a2ea065",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3470,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-04T21:35:00Z",
+      "side": 1,
+      "message": "Minor: it seems more readable if we make this line more compact, like\n\nfunc(op0, op1 ssa.Op, typ, rtyp types.EType, ...)\n\nAnd maybe locally define a type\n\ntype opEmitter func(s *state, ...)\n\nSo this can be\n\nmakeAtomicGuardedIntrinsicARM64 :\u003d func(op0, op1 ssa.Op, typ, rtyp types.EType, emit opEmitter) intrinsicBuilder",
+      "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
