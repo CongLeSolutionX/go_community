@@ -70,6 +70,30 @@
       },
       "revId": "2221cb77e8cebabe9922aa19f2844e8f37a5610e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98ae164_f9f282ec",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5479,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-11-04T15:30:02Z",
+      "side": 1,
+      "message": "Right, the compiler should optimize this case quite well. I spent a while when writing this ensuring it was written in a way that is emitted efficiently.\n\nThe core arithmetic in this function is generated completely identically before and after this CL:\n\n  444ec9:\t4c 8b 05 08 9a 3e 00 \tmov    0x3e9a08(%rip),%r8        # 82e8d8 \u003cruntime.idlepMask+0x8\u003e\n  444ed0:\t4c 8b 0d f9 99 3e 00 \tmov    0x3e99f9(%rip),%r9        # 82e8d0 \u003cruntime.idlepMask\u003e\n  444ed7:\t8b 84 24 b0 00 00 00 \tmov    0xb0(%rsp),%eax           # eax \u003d id\n  444ede:\t41 89 c2             \tmov    %eax,%r10d\n  444ee1:\tc1 e8 05             \tshr    $0x5,%eax                 # word \u003d id / 32\n  444ee4:\t4c 39 c0             \tcmp    %r8,%rax\n  444ee7:\t0f 83 30 05 00 00    \tjae    44541d \u003cruntime.findrunnable+0x119d\u003e\n  444eed:\t4d 8d 04 81          \tlea    (%r9,%rax,4),%r8\n  444ef1:\t45 8b 00             \tmov    (%r8),%r8d\n  444ef4:\t45 0f a3 d0          \tbt     %r10d,%r8d                # bit test of bit \u0027id\u0027\n\n\u0027bt\u0027 cleverly automatically masks for the lower bits, so it is completely eliminated. Other arches probably don\u0027t get that benefit, but as Martin says this should be covered by generic optimization. I believe these rules should do it: https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/ssa/gen/generic.rules;l\u003d1218-1222?q\u003dgeneric.rules\u0026ss\u003dgo",
+      "parentUuid": "757acacf_03438668",
+      "range": {
+        "startLine": 5479,
+        "startChar": 0,
+        "endLine": 5479,
+        "endChar": 31
+      },
+      "revId": "2221cb77e8cebabe9922aa19f2844e8f37a5610e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
