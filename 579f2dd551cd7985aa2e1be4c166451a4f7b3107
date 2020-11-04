@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b26cd5_5da00de3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-04T15:56:31Z",
+      "side": 1,
+      "message": "Sorry, but I haven\u0027t gotten comments from other reviewers here.",
+      "revId": "579f2dd551cd7985aa2e1be4c166451a4f7b3107",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
