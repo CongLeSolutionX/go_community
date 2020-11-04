@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5d2375_9b4d1609",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5479,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-04T08:37:14Z",
+      "side": 1,
+      "message": "Please provide benchmarks for this change that show the speedup because before and after this change the compiler seems to emit the same binary instructions on amd64 if I check only this line so there should not be any difference for the code itself. If there is a change in binary code I think this rather is a missed compiler rule for generic optimization.\n\nmovl    $1, AX\nshll    CX, AX",
+      "range": {
+        "startLine": 5479,
+        "startChar": 0,
+        "endLine": 5479,
+        "endChar": 31
+      },
+      "revId": "2221cb77e8cebabe9922aa19f2844e8f37a5610e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
