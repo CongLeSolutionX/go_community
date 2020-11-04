@@ -46,6 +46,30 @@
       },
       "revId": "2221cb77e8cebabe9922aa19f2844e8f37a5610e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "757acacf_03438668",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5479,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-04T09:52:59Z",
+      "side": 1,
+      "message": "You are right, the compiler has made optimization for such this case:\nBenchmarkModCalRemainders-12    \t1000000000\t         0.257 ns/op\nBenchmarkAndCalRemainders-12    \t1000000000\t         0.252 ns/op",
+      "parentUuid": "6e7673c4_4236acda",
+      "range": {
+        "startLine": 5479,
+        "startChar": 0,
+        "endLine": 5479,
+        "endChar": 31
+      },
+      "revId": "2221cb77e8cebabe9922aa19f2844e8f37a5610e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
