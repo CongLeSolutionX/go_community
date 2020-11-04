@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aba8da1a_687933b4",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-04T22:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259f2e64_3e53352e",
+      "revId": "d15d255070cf62a6a872f6232b97540ff1eb2a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72b6249d_2024623c",
@@ -48,6 +66,30 @@
       "writtenOn": "2020-10-30T19:27:28Z",
       "side": 1,
       "message": "This might be pedantic, but \"repository root path\" instead of \"import path\"? For example, GOVCS\u003dgithub.com/google/go-cmp/cmp:all would not match the repo root github.com/google/go-cmp, so it would prevent all downloads.",
+      "range": {
+        "startLine": 214,
+        "startChar": 50,
+        "endLine": 214,
+        "endChar": 61
+      },
+      "revId": "d15d255070cf62a6a872f6232b97540ff1eb2a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c27150_0195c181",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-04T22:12:51Z",
+      "side": 1,
+      "message": "Not pedantic, just precise. Thanks for pointing that out. Fixed.\n\n(But that specific example would fall back to public:git|hg,private:all for cmp.)",
+      "parentUuid": "72b6249d_2024623c",
       "range": {
         "startLine": 214,
         "startChar": 50,
@@ -75,6 +117,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36523a1e_a51c8568",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-04T22:12:51Z",
+      "side": 1,
+      "message": "I agree that it wouldn\u0027t hurt anything not to check.\nBut it seems worth checking just to catch and report an obvious mistake.\nWe could also check in GOPRIVATE and/or MatchPrefixPatterns but that\u0027s a bit late.\nI\u0027m OK leaving only GOVCS doing this check at least for Go 1.16.",
+      "parentUuid": "235468d8_098d2efb",
+      "revId": "d15d255070cf62a6a872f6232b97540ff1eb2a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f71b5e10_265af0c0",
@@ -88,6 +148,24 @@
       "writtenOn": "2020-10-30T19:27:28Z",
       "side": 1,
       "message": "Need a noun between what and root. Maybe just \"path\", since we don\u0027t know here whether we\u0027re looking for a module or package?",
+      "revId": "d15d255070cf62a6a872f6232b97540ff1eb2a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8d201bb_7dde22f5",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-04T22:12:51Z",
+      "side": 1,
+      "message": "It\u0027s maybe a little awkward, but like you say there\u0027s no easy fix.\nAnd \"for public github.com/google/cmp\" seems OK - public is an adjective.",
+      "parentUuid": "f71b5e10_265af0c0",
       "revId": "d15d255070cf62a6a872f6232b97540ff1eb2a45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
