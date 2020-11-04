@@ -6,6 +6,7 @@ package plugin_test
 
 import (
 	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -26,7 +27,7 @@ func overlayDir(dstRoot, srcRoot string) error {
 		return err
 	}
 
-	return filepath.Walk(srcRoot, func(srcPath string, info os.FileInfo, err error) error {
+	return filepath.WalkDir(srcRoot, func(srcPath string, info fs.DirEntry, err error) error {
 		if err != nil || srcPath == srcRoot {
 			return err
 		}
@@ -37,8 +38,8 @@ func overlayDir(dstRoot, srcRoot string) error {
 		}
 		dstPath := filepath.Join(dstRoot, suffix)
 
-		perm := info.Mode() & os.ModePerm
-		if info.Mode()&os.ModeSymlink != 0 {
+		perm := info.Type() & os.ModePerm
+		if info.Type()&fs.ModeSymlink != 0 {
 			info, err = os.Stat(srcPath)
 			if err != nil {
 				return err

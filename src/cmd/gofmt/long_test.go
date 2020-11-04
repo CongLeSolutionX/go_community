@@ -108,12 +108,12 @@ func testFiles(t *testing.T, filenames <-chan string, done chan<- int) {
 func genFilenames(t *testing.T, filenames chan<- string) {
 	defer close(filenames)
 
-	handleFile := func(filename string, fi fs.FileInfo, err error) error {
+	handleFile := func(filename string, d fs.DirEntry, err error) error {
 		if err != nil {
 			t.Error(err)
 			return nil
 		}
-		if isGoFile(fi) {
+		if isGoFile(d) {
 			filenames <- filename
 			nfiles++
 		}
@@ -130,7 +130,7 @@ func genFilenames(t *testing.T, filenames chan<- string) {
 	}
 
 	// otherwise, test all Go files under *root
-	filepath.Walk(*root, handleFile)
+	filepath.WalkDir(*root, handleFile)
 }
 
 func TestAll(t *testing.T) {

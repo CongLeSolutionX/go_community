@@ -88,8 +88,8 @@ func runVersion(ctx context.Context, cmd *base.Command, args []string) {
 
 // scanDir scans a directory for executables to run scanFile on.
 func scanDir(dir string) {
-	filepath.Walk(dir, func(path string, info fs.FileInfo, err error) error {
-		if info.Mode().IsRegular() || info.Mode()&fs.ModeSymlink != 0 {
+	filepath.WalkDir(dir, func(path string, info fs.DirEntry, err error) error {
+		if info.Type().IsRegular() || info.Type()&fs.ModeSymlink != 0 {
 			scanFile(path, info, *versionV)
 		}
 		return nil
