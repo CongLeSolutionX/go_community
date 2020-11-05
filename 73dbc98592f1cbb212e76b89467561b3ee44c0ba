@@ -35,6 +35,46 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17aa496_6868d027",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-05T03:14:46Z",
+      "side": 1,
+      "message": "I added a comment where I was a little confused. Thank you.",
+      "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca4b6945_8a0821bb",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-05T03:14:46Z",
+      "side": 1,
+      "message": "Why not load directly from (Rarg0)? The value stored in (Rarg0) is also equal to AND(Rarg1, Rout), right?",
+      "range": {
+        "startLine": 822,
+        "startChar": 2,
+        "endLine": 826,
+        "endChar": 17
+      },
+      "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0baf4fbb_0a2ea065",
