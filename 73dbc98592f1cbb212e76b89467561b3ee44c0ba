@@ -180,6 +180,24 @@
       "parentUuid": "0baf4fbb_0a2ea065",
       "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a426d56c_2961686d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3470,
+      "author": {
+        "id": 36159
+      },
+      "writtenOn": "2020-11-05T22:36:00Z",
+      "side": 1,
+      "message": "Ah, somehow I missed this comment. Yes, that does make that line much more manageable.",
+      "parentUuid": "abcbe7e2_5973ec9e",
+      "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
