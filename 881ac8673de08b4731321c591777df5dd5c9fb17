@@ -50,6 +50,24 @@
       "message": "GT isn\u0027t an obs-zone.  This should probably use UT instead.  Similarly a couple of lines down.",
       "revId": "881ac8673de08b4731321c591777df5dd5c9fb17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dcd3cb6_d7a834fb",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-11-05T02:24:58Z",
+      "side": 1,
+      "message": "So this test was blindly modified from the one above on line 254, but indeed it isn\u0027t an obsolete time zone, let me modify them. Also note that this case fails to parse, given that\nthe net/mail package doesn\u0027t recognize \"UT\" as an obsolete timezone.\n\nUpdated btw, thank you!",
+      "parentUuid": "ecb66a7e_ebb83380",
+      "revId": "881ac8673de08b4731321c591777df5dd5c9fb17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
