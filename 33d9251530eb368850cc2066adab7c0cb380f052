@@ -88,6 +88,24 @@
       "parentUuid": "033b4f4c_84a73c19",
       "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9f40f0d_add646b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-05T16:18:55Z",
+      "side": 1,
+      "message": "Re-running `go mod vendor` (per the error message) should fix that.",
+      "parentUuid": "b4ace084_1895ed11",
+      "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
