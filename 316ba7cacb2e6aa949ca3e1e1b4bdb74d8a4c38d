@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "589791f3_4b0d1989",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,28 @@
       "side": 1,
       "message": "Better to avoid \"fix\" in changes since it doesn\u0027t mean anything (many changes \"fix\" something).  Better to say something like\n\nnet/mail: avoid ParseDate confusion if weekday name includes \"T\"",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03af1c14_11fbf4fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-11-05T02:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589791f3_4b0d1989",
+      "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5646add2_d5962e7b",
         "filename": "src/net/mail/message.go",
@@ -31,10 +50,28 @@
       "side": 1,
       "message": "This is a simple change but I\u0027m not sure it\u0027s quite right either.  Dates can have trailing CFWS, which means that I can write\n\nFri, 21 Nov 1997 09:55:06 MDT (MDT)\n\nDoes the right thing happen?",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "562fc70b_ff08ac92",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-11-05T02:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5646add2_d5962e7b",
+      "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "2e6be415_a1be07ed",
         "filename": "src/net/mail/message_test.go",
@@ -48,10 +85,10 @@
       "side": 1,
       "message": "Not sure what \"From down below\" means",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a6cc8141_e9170747",
         "filename": "src/net/mail/message_test.go",
@@ -66,10 +103,10 @@
       "message": "Typo :) Should have said, \"From here and down\".",
       "parentUuid": "2e6be415_a1be07ed",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a7336704_105b5b77",
         "filename": "src/net/mail/message_test.go",
@@ -83,10 +120,10 @@
       "side": 1,
       "message": "Should this test be in TestDateParsing?",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "7b183e39_55408b15",
         "filename": "src/net/mail/message_test.go",
@@ -101,10 +138,10 @@
       "message": "I\u0027ve added one to TestDateParsing, but I was operating on the sequences that were added by the prior code to TestDateParsingCFWS.",
       "parentUuid": "a7336704_105b5b77",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "85cca441_79f2de18",
         "filename": "src/net/mail/message_test.go",
@@ -118,10 +155,10 @@
       "side": 1,
       "message": "Looks odd, since May 19, 2020, was not a Thursday.",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "b88c1b5e_e7919147",
         "filename": "src/net/mail/message_test.go",
@@ -136,8 +173,7 @@
       "message": "Sorry, it was \"Tue\" before but then I copied and pasted it to use \"Thu\" and accidentally left it on the 19th. Corrected to 21st. Thanks.",
       "parentUuid": "85cca441_79f2de18",
       "revId": "316ba7cacb2e6aa949ca3e1e1b4bdb74d8a4c38d",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
