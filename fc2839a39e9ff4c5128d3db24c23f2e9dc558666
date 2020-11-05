@@ -20,6 +20,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "907a0728_74e37634",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-05T23:40:37Z",
+      "side": 1,
+      "message": "It would be nice if this was documented at the OCASE enum entry in syntax.go.",
+      "range": {
+        "startLine": 1180,
+        "startChar": 15,
+        "endLine": 1180,
+        "endChar": 24
+      },
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e9561f6_372ec101",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-05T23:40:37Z",
+      "side": 1,
+      "message": "This will break importers built at old CLs, right? Do we need to update users of the gcimporter?\nA similar thing came up in https://go-review.googlesource.com/c/go/+/259300 . Maybe not relevant here as we\u0027re not backporting this. Just curious how exactly we deal with versioning of .o files. See Cherry\u0027s Oct 9 comments on that CL.",
+      "range": {
+        "startLine": 1180,
+        "startChar": 27,
+        "endLine": 1180,
+        "endChar": 33
+      },
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a0806d4_b0b54a9c",
         "filename": "test/fixedbugs/issue37837.dir/b.go",
         "patchSetId": 3
@@ -31,6 +77,24 @@
       "writtenOn": "2020-10-30T17:03:58Z",
       "side": 1,
       "message": "shart -\u003e short ? \n\nI\u0027m not sure what short variable is, I guess you mean the top-level pseudo variable?",
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28fbc11b_6d441171",
+        "filename": "test/fixedbugs/issue37837.dir/b.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-05T23:40:37Z",
+      "side": 1,
+      "message": "I think he means unnamed arguments and/or return values.",
+      "parentUuid": "5a0806d4_b0b54a9c",
       "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
