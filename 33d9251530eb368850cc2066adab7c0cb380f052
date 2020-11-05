@@ -106,6 +106,24 @@
       "parentUuid": "b4ace084_1895ed11",
       "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d6bbb5c_4934373b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-05T16:29:38Z",
+      "side": 1,
+      "message": "During local development, my personal preference is to temporarily tell the go command not to use the vendor directory:\n\n    GOFLAGS\u003d\u0027-mod\u003dreadonly\u0027 go generate\n    # or GOFLAGS\u003d\u0027-mod\u003dmod\u0027 go generate\n\nWhich should also work to fix that.",
+      "parentUuid": "d9f40f0d_add646b7",
+      "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
