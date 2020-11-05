@@ -264,6 +264,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7949719e_2be1869b",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-11-05T10:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4fe4daf_23c5a108",
+      "range": {
+        "startLine": 845,
+        "startChar": 0,
+        "endLine": 849,
+        "endChar": 2
+      },
+      "revId": "5aee7b1af157f1b9ea904eb3000a1b30b2181bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a41a31f_761c6673",
