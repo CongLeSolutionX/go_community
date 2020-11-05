@@ -70,6 +70,24 @@
       "parentUuid": "129da551_c31f8b56",
       "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ace084_1895ed11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-05T08:26:30Z",
+      "side": 1,
+      "message": "\u003e For making changes, as commonly needed during development or for debugging, one approach I can suggest is to use a temporary replace directive that points to a working copy of golang.org/x/sys on your disk. For example:\n\u003e \n\u003e     $ go mod edit -replace\u003dgolang.org/x/sys\u003d$HOME/go/src/golang.org/x/sys\n\u003e     ... make changes in $HOME/go/src/golang.org/x/sys/windows/mkwinsyscall ...\n\u003e     ... use modified mkwinsyscall e.g. via go generate as needed ...\n\u003e     $ go mod edit -dropreplace\u003dgolang.org/x/sys\n\u003e\n\nI tired that. What am I doing wrong?\n \n$ git diff\ndiff --git a/src/go.mod b/src/go.mod\nindex a56c61606f..6c9bf6676f 100644\n--- a/src/go.mod\n+++ b/src/go.mod\n@@ -8,3 +8,5 @@ require (\n        golang.org/x/sys v0.0.0-20201101102859-da207088b7d1 // indirect\n        golang.org/x/text v0.3.4-0.20200826142016-a8b467125457 // indirect\n )\n+\n+replace golang.org/x/sys \u003d\u003e /home/a/src/golang.org/x/sys\n$ go generate\ngo: inconsistent vendoring in /home/a/go/src:\n        golang.org/x/sys: is replaced in go.mod, but not marked as replaced in vendor/modules.txt\n\nrun \u0027go mod vendor\u0027 to sync, or use -mod\u003dmod or -mod\u003dreadonly to ignore the vendor directory\n$",
+      "parentUuid": "033b4f4c_84a73c19",
+      "revId": "33d9251530eb368850cc2066adab7c0cb380f052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
