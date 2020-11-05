@@ -123,6 +123,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0ad7553_01e36057",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-05T22:00:23Z",
+      "side": 1,
+      "message": "This is atomic operation. It would not be atomic if we do another load.",
+      "parentUuid": "834fd6ce_f1963514",
+      "range": {
+        "startLine": 822,
+        "startChar": 2,
+        "endLine": 826,
+        "endChar": 17
+      },
+      "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0baf4fbb_0a2ea065",
@@ -136,6 +160,24 @@
       "writtenOn": "2020-11-04T21:35:00Z",
       "side": 1,
       "message": "Minor: it seems more readable if we make this line more compact, like\n\nfunc(op0, op1 ssa.Op, typ, rtyp types.EType, ...)\n\nAnd maybe locally define a type\n\ntype opEmitter func(s *state, ...)\n\nSo this can be\n\nmakeAtomicGuardedIntrinsicARM64 :\u003d func(op0, op1 ssa.Op, typ, rtyp types.EType, emit opEmitter) intrinsicBuilder",
+      "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abcbe7e2_5973ec9e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3470,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-05T22:00:23Z",
+      "side": 1,
+      "message": "Address this comment, then we can submit. Thanks.",
+      "parentUuid": "0baf4fbb_0a2ea065",
       "revId": "73dbc98592f1cbb212e76b89467561b3ee44c0ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
