@@ -16,6 +16,40 @@
       "message": "Thanks for the review, Ian and Constantin. Ian, I\u0027ve addressed your changes, PTAL.",
       "revId": "881ac8673de08b4731321c591777df5dd5c9fb17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08b5dd06_98bae009",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-05T01:56:37Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "881ac8673de08b4731321c591777df5dd5c9fb17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecb66a7e_ebb83380",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-05T01:56:37Z",
+      "side": 1,
+      "message": "GT isn\u0027t an obs-zone.  This should probably use UT instead.  Similarly a couple of lines down.",
+      "revId": "881ac8673de08b4731321c591777df5dd5c9fb17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
