@@ -67,6 +67,23 @@
       "message": "Ping Filippo.\n\nI\u0027d like to get this in this week.\n",
       "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a423315c_32a025b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-05T15:45:31Z",
+      "side": 1,
+      "message": "If there\u0027s no further feedback I can merge this tomorrow and address any late feedback in subsequent CLs.",
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
