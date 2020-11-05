@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93360c40_6b17f127",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-05T22:26:42Z",
+      "side": 1,
+      "message": "Minor: I think it is better to put each field in its own line.",
+      "range": {
+        "startLine": 535,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 2
+      },
+      "revId": "05fd2dd3929a074b3889e379eaebac1a4f29ebab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
