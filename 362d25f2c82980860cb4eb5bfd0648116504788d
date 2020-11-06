@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6e27d41_21b632ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45258
+      },
+      "writtenOn": "2020-11-06T20:49:44Z",
+      "side": 1,
+      "message": "io/fs: add WalkDir\n\nThis commit is a copy of filepath.WalkDir adapted to use fs.FS\ninstead of the native OS file system. It is the last implementation\npiece of the io/fs proposal.\n\nThe original io/fs proposal was to adopt filepath.Walk, but we\nhave since introduced the more efficient filepath.WalkDir (#42027),\nso this CL adopts that more efficient option instead.\n\n(The changes in path/filepath bring the two copies more in line\nwith each other. The main change is unembedding the field\nin statDirEntry, so that the fs.DirEntry passed to the WalkDirFunc\nfor the root of the tree does not have any extra methods.)\n\nFor #41190.\n\nChange-Id: I9359dfcc110338c0ec64535f22cafb38d0b613a6\nReviewed-on: https://go-review.googlesource.com/c/go/+/243916\nTrust: Russ Cox \u003crsc@golang.org\u003e\nRun-TryBot: Russ Cox \u003crsc@golang.org\u003e\nTryBot-Result: Go Bot \u003cgobot@golang.org\u003e\nReviewed-by: Rob Pike \u003cr@golang.org",
+      "revId": "362d25f2c82980860cb4eb5bfd0648116504788d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
