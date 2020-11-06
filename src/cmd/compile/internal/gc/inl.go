@@ -693,6 +693,9 @@ func inlconv2list(n *Node) []*Node {
 
 func inlnodelist(l Nodes, maxCost, allocatorCallPenalty int32, inlMap map[*Node]bool) {
 	s := l.Slice()
+	if len(s) > 0 && s[len(s)-1] != nil && s[len(s)-1].Op == OPANIC {
+		return
+	}
 	for i := range s {
 		s[i] = inlnode(s[i], maxCost, allocatorCallPenalty, inlMap)
 	}
