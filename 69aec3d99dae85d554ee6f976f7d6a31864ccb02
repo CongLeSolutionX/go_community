@@ -91,6 +91,24 @@
       "parentUuid": "4b848646_48f5d8f2",
       "revId": "69aec3d99dae85d554ee6f976f7d6a31864ccb02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ccf392e_9ef00552",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-06T22:23:39Z",
+      "side": 1,
+      "message": "That makes sense, and I think \"fastOS\" doesn\u0027t capture that distinction well. It makes it sound like it\u0027s more about speed of operating systems instead of whether they\u0027re worth testing for bootstrapping ability.\n\nUnfortunately I don\u0027t have a great idea for a name (maybe \"testBootstrapping\"?), but if you can resolve this (and also make it work for unrelated things like doc tests), I think this CL can be good to get in.",
+      "parentUuid": "c800505d_3066491b",
+      "revId": "69aec3d99dae85d554ee6f976f7d6a31864ccb02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
