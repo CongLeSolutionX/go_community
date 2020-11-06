@@ -64,6 +64,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba499f99_0bdb455e",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-06T20:22:36Z",
+      "side": 1,
+      "message": "Dan documented that in golang.org/cl/266437.",
+      "parentUuid": "907a0728_74e37634",
+      "range": {
+        "startLine": 1180,
+        "startChar": 15,
+        "endLine": 1180,
+        "endChar": 24
+      },
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8779784_f7f3494a",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-06T20:22:36Z",
+      "side": 1,
+      "message": "\u003e This will break importers built at old CLs, right? Do we need to update users of the gcimporter?\n\nNo, inline bodies are part of the compiler-only extension data, not part of the ABI that gcimporter relies on. (Similar to how typeExt/methExt aren\u0027t visible to gcimporter.)\n\n\u003e Just curious how exactly we deal with versioning of .o files.\n\nThe export data has \"iexportVersion\" for versioning the export data that gcimporter depends on, but there\u0027s also compiler-specific data that only cmd/compile itself processes. The compiler-specific data is versioned via the compiler version number encoded in the .o file, and we require using the exact same compiler version for all compilation units.\n\nSee also \"Compiler-specific details\" at the top of iexport.go.",
+      "parentUuid": "6e9561f6_372ec101",
+      "range": {
+        "startLine": 1180,
+        "startChar": 27,
+        "endLine": 1180,
+        "endChar": 33
+      },
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a0806d4_b0b54a9c",
@@ -94,6 +142,24 @@
       "writtenOn": "2020-11-05T23:40:37Z",
       "side": 1,
       "message": "I think he means unnamed arguments and/or return values.",
+      "parentUuid": "5a0806d4_b0b54a9c",
+      "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d3e6d7c_92ba7200",
+        "filename": "test/fixedbugs/issue37837.dir/b.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-06T20:22:36Z",
+      "side": 1,
+      "message": "Oops, fixed.\n\n\"Short variable declaration\" is the Go spec\u0027s term for \":\u003d\". (As opposed to using \"var\" and \"\u003d\", which is just a \"variable declaration.\")",
       "parentUuid": "5a0806d4_b0b54a9c",
       "revId": "fc2839a39e9ff4c5128d3db24c23f2e9dc558666",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"

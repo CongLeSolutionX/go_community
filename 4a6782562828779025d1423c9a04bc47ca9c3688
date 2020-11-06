@@ -51,6 +51,24 @@
       "message": "Just wondering, should OTYPESW have a little extra cost, since there is are extra operations comparing types and converting the top value to the per-case variable with the correct type?",
       "revId": "4a6782562828779025d1423c9a04bc47ca9c3688",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d36a597a_144fa362",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-06T20:22:36Z",
+      "side": 0,
+      "message": "Perhaps. I think that\u0027s okay to fine tune in the future though.",
+      "parentUuid": "7d3c7cc6_e2cb5ab6",
+      "revId": "4a6782562828779025d1423c9a04bc47ca9c3688",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
