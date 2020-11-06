@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd58f73c_323590cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-11-06T16:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79313ea8_5efff5e5",
+      "revId": "1bc255083cd7dbc9802599de2ca98bb33f4fb019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bebca199_7824dbd4",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-06T13:26:24Z",
       "side": 1,
       "message": "Saparate paragraphs, and \"... before Write is called when the handshake has not yet completed.\"\n\nSame below.",
+      "revId": "1bc255083cd7dbc9802599de2ca98bb33f4fb019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f275cc9_bd9908de",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-11-06T16:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bebca199_7824dbd4",
       "revId": "1bc255083cd7dbc9802599de2ca98bb33f4fb019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1ca6a81_2f608adc",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-11-06T16:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f93ee21_26b44ae4",
+      "range": {
+        "startLine": 1239,
+        "startChar": 24,
+        "endLine": 1240,
+        "endChar": 33
+      },
+      "revId": "1bc255083cd7dbc9802599de2ca98bb33f4fb019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bcb492c_14713070",
@@ -75,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75188a58_a497dacf",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1311,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-11-06T16:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bcb492c_14713070",
+      "revId": "1bc255083cd7dbc9802599de2ca98bb33f4fb019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f52f933d_7e64425d",
@@ -88,6 +166,24 @@
       "writtenOn": "2020-11-06T13:26:24Z",
       "side": 1,
       "message": "Here ideally we\u0027d restore the previous deadline, but that does not look doable. Instead, we should at least make it reliably broken so applications will notice immediately if they try writing to the connection afterwards.\n\n    c.SetWriteDeadline(time.Now())",
+      "revId": "1bc255083cd7dbc9802599de2ca98bb33f4fb019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ad99c9_a445cf67",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-11-06T16:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f52f933d_7e64425d",
       "revId": "1bc255083cd7dbc9802599de2ca98bb33f4fb019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
