@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "950554a2_7c9aa4e3",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-06T19:08:36Z",
+      "side": 1,
+      "message": "In the left picture, b0 is not the dominator pb1, because there are other paths to get to pb1 without going through b0 (the other edges into sb1).\n\nSo I\u0027m not sure it makes sense to talk about this optimization in terms of dominators. Maybe there\u0027s something weaker you are using? Or do we need to require that sb1 has no other predecessors? Or that its other predecessors are themselves dominated by b0?",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad7cf696_d8da834f",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-06T19:08:36Z",
+      "side": 1,
+      "message": "There can\u0027t be any blocks here (unless b0 dominates them).",
+      "range": {
+        "startLine": 186,
+        "startChar": 14,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea08e9fe_50fb2348",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-06T19:08:36Z",
+      "side": 1,
+      "message": "There\u0027s no pb0 in the picture above. Why use it instead of just b?",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "253be8bc_62426ecf",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-06T19:08:36Z",
+      "side": 1,
+      "message": "It is possible (I think) that b0 \u003d\u003d pb0 \u003d\u003d pb1. Can this code handle that case?",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f410cfd_0d1669d3",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-06T19:08:36Z",
+      "side": 1,
+      "message": "This is a quadratic loop, which will make the compiler cubic in the worst case. I\u0027d rather not have that in the compiler. I feel like we can use the sparse dominator tree to find b0 without walking up the tree one step at a time. Some sort of least common ancestor computation. The register allocator does something similar to place spill code, see (s *regAllocState) makeSpill and friends. (It\u0027s not easy to use - it would be really nice if SparseTree or SparseTreeMap had a least-common ancestor computation but it doesn\u0027t currently.)",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23afb2d5_fd72a740",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-06T19:08:36Z",
+      "side": 1,
+      "message": "Needs a comment about what the arguments mean, and what it does.",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
