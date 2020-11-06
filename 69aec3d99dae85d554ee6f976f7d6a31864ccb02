@@ -73,6 +73,24 @@
       "message": "I have a slight worry about creating a \"fastOS\" abstraction. It seems adding/removing an OS from the list can get tests to fail because of missing capabilities (e.g., if an OS is fast OS but lacks exec) or succeed because coverage is reduced.\n\nI think I would be more okay with a \"fastBuilder\" abstraction:\n\n    fastBuilder :\u003d os.Getenv(\"GO_BUILDER_NAME\") !\u003d \"\" \u0026\u0026 goos !\u003d \"android\" \u0026\u0026 !t.iOS() \u0026\u0026 goos !\u003d \"js\" \u0026\u0026 goos !\u003d \"plan9\"\n\nBut some of the cases below should probably still check both that a builder is fast (via the var abstraction) and have the necessary capabilities.\n\nAs one data point, I think GOOS\u003djs should be one of our fastest builders/TryBots because it skips so many tests due to not having certain capabilities. It is sometimes slow (#35170) but I think that\u0027s due some problem somewhere, not an inherent property.",
       "revId": "69aec3d99dae85d554ee6f976f7d6a31864ccb02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c800505d_3066491b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-06T22:08:26Z",
+      "side": 1,
+      "message": "I think there is another distinction at play, too. For Android, iOS, and JS, we do not expect real users to ~ever use the toolchain on the target OS: we expect all programs to be cross-compiled from some other host OS. So on those OSs it is not meaningful to test bootstrapping the toolchain, because nobody actually does that.\n\nPlan 9 is similar in practice (because our builders are so underpowered and so often broken), but in theory it is of a fundamentally different kind (in that plan9 has code editors and a development toolchain that one can, at least theoretically, use on a local workstation).",
+      "parentUuid": "4b848646_48f5d8f2",
+      "revId": "69aec3d99dae85d554ee6f976f7d6a31864ccb02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
