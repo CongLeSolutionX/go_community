@@ -418,9 +418,9 @@ func (v *hairyVisitor) visit(n *Node) bool {
 			break
 		}
 
-		if fn := inlCallee(n.Left, v.maxInlineCost, v.allocatorCallPenalty); fn != nil && fn.Func.Inl != nil && fn.Func.Inl.Cost < v.maxInlineCost-v.allocatorCallPenalty {
+		if fn := inlCallee(n.Left, v.maxInlineCost, v.allocatorCallPenalty); fn != nil && fn.Func.Inl != nil && fn.Func.Inl.Cost < v.maxInlineCost-v.allocatorCallPenalty-escapeTweakedInlinePenalty(fn, false) {
 			if v.debug {
-				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", fn.funcname(), fn.Func.Inl.Cost, v.maxInlineCost-v.allocatorCallPenalty)
+				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", fn.funcname(), fn.Func.Inl.Cost, v.maxInlineCost-v.allocatorCallPenalty-escapeTweakedInlinePenalty(fn, true))
 			}
 			v.budget -= fn.Func.Inl.Cost
 			break
@@ -449,13 +449,13 @@ func (v *hairyVisitor) visit(n *Node) bool {
 				break
 			}
 		}
-		if inlfn := asNode(t.FuncType().Nname).Func; inlfn.Inl != nil && inlfn.Inl.Cost < v.maxInlineCost-v.allocatorCallPenalty {
+		if inlfn := asNode(t.FuncType().Nname).Func; inlfn.Inl != nil && inlfn.Inl.Cost < v.maxInlineCost-v.allocatorCallPenalty-escapeTweakedInlinePenalty(asNode(t.FuncType().Nname), v.debug) {
 			if v.debug {
 				asnode := asNode(t.FuncType().Nname)
 				nonNilDef := asnode.Name.Defn != nil
 				escAvail := nonNilDef && asnode.Name.Defn.Esc == EscFuncTagged
 				nNodes, nAllocs, nCalls := countNodes(asnode, 0, 0, 0)
-				Warnl(n.Pos, "modeling inlined call of %s, defined %v, escaped %v, nNodes %d, nAllocs %d, nCalls %d, cost %d, limit %d", n.Left.Sym.Name, nonNilDef, escAvail, nNodes, nAllocs, nCalls, inlfn.Inl.Cost, v.maxInlineCost-v.allocatorCallPenalty)
+				Warnl(n.Pos, "modeling inlined call of %s, defined %v, escaped %v, nNodes %d, nAllocs %d, nCalls %d, cost %d, limit %d", n.Left.Sym.Name, nonNilDef, escAvail, nNodes, nAllocs, nCalls, inlfn.Inl.Cost, v.maxInlineCost-v.allocatorCallPenalty-escapeTweakedInlinePenalty(asnode, true))
 			}
 			v.budget -= inlfn.Inl.Cost
 			break
@@ -646,7 +646,7 @@ func countNodes(n *Node, nN, nA, nC int) (int, int, int) {
 }
 
 // maxInlineCost returns the maximum cost of another function to be inlined into fn,
-// and a conditional penalty applied to callees.
+// and a conditional penalty applied to callees that do not escape their parameters.
 func maxInlineCost(fn *Node) (int32, int32) {
 	maxCost := int32(inlineMaxBudget)
 	nNodes, nAllocs, nCalls := countNodes(fn, 0, 0, 0)
@@ -1048,6 +1048,32 @@ func inlParam(t *types.Field, as *Node, inlvars map[*Node]*Node) *Node {
 
 var inlgen int
 
+func escapeTweakedInlinePenalty(fn *Node, debug bool) int32 {
+	if fn.Name.Defn != nil && fn.Name.Defn.Esc == EscFuncTagged {
+		leaks := 0 // count of parameters that are leaked
+		i := 0
+		for _, fs := range &types.RecvsParams {
+			for _, f := range fs(fn.Type).Fields().Slice() {
+				if !f.Type.HasPointers() {
+					continue
+				}
+				esc := ParseLeaks(f.Note)
+				if debug {
+					Warnl(fn.Pos, "Rcv/Param %d has note %s, esc.Heap() = %d", i, f.Note, esc.Heap())
+				}
+				if esc.Heap() <= 0 { // leaking content is okay
+					leaks++
+				}
+				i++
+			}
+		}
+		if leaks == 0 { // perhaps, count pointers, if they don't all leak, etc.
+			return inlineCalleeNoleakPenalty
+		}
+	}
+	return 0
+}
+
 // If n is a call, and fn is a function with an inlinable body,
 // return an OINLCALL.
 // On return ninit has the parameter assignments, the nbody is the
@@ -1064,7 +1090,10 @@ func mkinlcall(n, fn *Node, maxCost, allocatorCallPenalty int32, inlMap map[*Nod
 		return n
 	}
 
-	maxCost -= allocatorCallPenalty
+	// Peek at the escape information for the candidate function; if it does NOT leak parameters,
+	// make it less eligible for inlining.
+
+	maxCost -= allocatorCallPenalty + escapeTweakedInlinePenalty(fn, false)
 
 	if fn.Func.Inl.Cost > maxCost {
 		// The inlined function body is too big. Typically we use this check to restrict
