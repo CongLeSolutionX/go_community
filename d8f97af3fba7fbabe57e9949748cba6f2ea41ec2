@@ -84,6 +84,195 @@
       "message": "If there\u0027s no further feedback I can merge this tomorrow and address any late feedback in subsequent CLs.",
       "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "686236c3_0509a5ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "Sorry for the wait, this looks good, just a few comments to make sure function errors are always cleanly ignored.",
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a4f2b73_046b3d61",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "s.cert(c)",
+      "range": {
+        "startLine": 117,
+        "startChar": 20,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed8eeb39_a2a32123",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "This should be a continue. If the idea is supporting the case where a certificate disappeared from disk, it should be wired through everything to just silently ignore errors.\n\n(It would be a little better to wire the error through everything to surface it from Verify, but the current code does not deliver that, as findPotentialParents does not return an error, and the code in verify.go that does surface the error only runs on the values returned by findPotentialParents.)",
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deb3a0ed_76adfa5f",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "Likewise, no need for containsOrError as the code that uses it in verify.go is the very rare path for self-signed certificates.\n\ncontains should not panic but return false on failure.",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 1
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ed89dcf_34b652d9",
+        "filename": "src/crypto/x509/name_constraints_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2028,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "nit: can we move this next to mustCert?",
+      "range": {
+        "startLine": 2022,
+        "startChar": 0,
+        "endLine": 2028,
+        "endChar": 1
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbc85f2_aced1c72",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "Return the error. This is just test code, but an error will be more readable anyway.",
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3600808f_395baa9e",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "\"error fetching intermediate\"",
+      "range": {
+        "startLine": 765,
+        "startChar": 40,
+        "endLine": 765,
+        "endChar": 59
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68d21ae2_a20393e9",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "Let\u0027s just make findPotentialParents return []*Certificate, since it\u0027s only used here.",
+      "range": {
+        "startLine": 896,
+        "startChar": 36,
+        "endLine": 896,
+        "endChar": 56
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3042f026_7f71876b",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2942,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:46:00Z",
+      "side": 1,
+      "message": "I think this should compare allCerts, not just the subjects.",
+      "range": {
+        "startLine": 2937,
+        "startChar": 0,
+        "endLine": 2942,
+        "endChar": 2
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
