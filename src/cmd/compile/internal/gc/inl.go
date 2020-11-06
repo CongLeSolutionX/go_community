@@ -72,6 +72,7 @@ var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", 1)
 var inlineSmallMidstackAdjust = int(getEnvInt("GO_INLSMALLMIDSTACKADJUST", 2))
 
 var inlineIfMaxBudget = getEnvInt("GO_INLIFMAXBUDGET", 68)
+var inlineCalleeNoleakPenalty = getEnvInt("GO_INLCALLEENOLEAKPENALTY", 10)
 
 var inlineBigFunctionNodes = int(getEnvInt("GO_INLBIGFUNCTION", 5000))
 var inlineBigFunctionMaxCost = getEnvInt("GO_INLBIGMAXBUDGET", 20)
@@ -424,9 +425,9 @@ func (v *hairyVisitor) visit(n *Node) bool {
 			break
 		}
 
-		if fn := inlCallee(n.Left, v.maxInlineCost); fn != nil && fn.Func.Inl != nil && fn.Func.Inl.Cost < v.maxInlineCost {
+		if fn := inlCallee(n.Left, v.maxInlineCost); fn != nil && fn.Func.Inl != nil && fn.Func.Inl.Cost < v.maxInlineCost-escapeTweakedInlinePenalty(fn, false) {
 			if v.debug {
-				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", fn.funcname(), fn.Func.Inl.Cost, v.maxInlineCost)
+				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", fn.funcname(), fn.Func.Inl.Cost, v.maxInlineCost-escapeTweakedInlinePenalty(fn, true))
 			}
 			v.budget -= fn.Func.Inl.Cost
 			break
@@ -455,9 +456,10 @@ func (v *hairyVisitor) visit(n *Node) bool {
 				break
 			}
 		}
-		if inlfn := asNode(t.FuncType().Nname).Func; inlfn.Inl != nil && inlfn.Inl.Cost < v.maxInlineCost {
+		if inlfn := asNode(t.FuncType().Nname).Func; inlfn.Inl != nil && inlfn.Inl.Cost < v.maxInlineCost-escapeTweakedInlinePenalty(asNode(t.FuncType().Nname), v.debug) {
 			if v.debug {
-				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", n.Left.Sym.Name, inlfn.Inl.Cost, v.maxInlineCost)
+				asnode := asNode(t.FuncType().Nname)
+				Warnl(n.Pos, "modeling inlined call of %s, cost %d, limit %d", n.Left.Sym.Name, inlfn.Inl.Cost, v.maxInlineCost-escapeTweakedInlinePenalty(asnode, true))
 			}
 			v.budget -= inlfn.Inl.Cost
 			break
@@ -1048,6 +1050,32 @@ func inlParam(t *types.Field, as *Node, inlvars map[*Node]*Node) *Node {
 
 var inlgen int
 
+func escapeTweakedInlinePenalty(fn *Node, debug bool) int32 {
+	if fn.Name.Defn != nil && fn.Name.Defn.Esc == EscFuncTagged {
+		leaks := 0 // count of parameters that are leaked
+		i := 0
+		for _, fs := range &types.RecvsParams {
+			for _, f := range fs(fn.Type).Fields().Slice() {
+				if !f.Type.HasPointers() {
+					continue
+				}
+				esc := ParseLeaks(f.Note)
+				if debug {
+					Warnl(fn.Pos, "Rcv/Param %d has note %s, esc.Heap() = %d", i, f.Note, esc.Heap())
+				}
+				if esc.Heap() <= 0 { // leaking content is okay
+					leaks++
+				}
+				i++
+			}
+		}
+		if leaks == 0 { // perhaps, count pointers, if they don't all leak, etc.
+			return inlineCalleeNoleakPenalty
+		}
+	}
+	return 0
+}
+
 // If n is a call node (OCALLFUNC or OCALLMETH), and fn is an ONAME node for a
 // function with an inlinable body, return an OINLCALL node that can replace n.
 // The returned node's Ninit has the parameter assignments, the Nbody is the
@@ -1064,12 +1092,17 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 		return n
 	}
 
-	if fn.Func.Inl.Cost > maxCost {
+	// Peek at the escape information for the candidate function; if it does NOT leak parameters,
+	// make it less eligible for inlining.
+
+	fnPenalty := escapeTweakedInlinePenalty(fn, false)
+
+	if fn.Func.Inl.Cost > maxCost-fnPenalty {
 		// The inlined function body is too big. Typically we use this check to restrict
 		// inlining into very big functions.  See issue 26546 and 17566.
 		if logopt.Enabled() {
 			logopt.LogOpt(n.Pos, "cannotInlineCall", "inline", Curfn.funcname(),
-				fmt.Sprintf("cost %d of %s exceeds max large caller cost %d", fn.Func.Inl.Cost, fn.pkgFuncName(), maxCost))
+				fmt.Sprintf("cost %d of %s exceeds max large caller cost %d", fn.Func.Inl.Cost, fn.pkgFuncName(), maxCost-fnPenalty))
 		}
 		return n
 	}
