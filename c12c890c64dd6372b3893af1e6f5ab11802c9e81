@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5c90a69_aabc3e4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:53:28Z",
+      "side": 1,
+      "message": "LGTM. The haveSum change would be better folded into Cl 229917, while you rebase.",
+      "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9383fef_6f9606f2",
         "filename": "src/crypto/x509/cert_pool.go",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "writtenOn": "2020-10-26T16:09:19Z",
       "side": 1,
       "message": "Can contains be updated to use this in the same way it is being used in addCertFunc so we can always avoid the possibility of it triggering the getCert func?",
+      "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd31bdf6_47f27314",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-06T19:53:28Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "d9383fef_6f9606f2",
       "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
