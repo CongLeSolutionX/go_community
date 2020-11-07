@@ -51,6 +51,23 @@
       "parentUuid": "9756f67e_a2d633bf",
       "revId": "28e8ef98ddd0a2ad59e0dfdd5ffb6f9b7c011543",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee1d90b_118a27af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-11-07T03:18:11Z",
+      "side": 1,
+      "message": "This does not really follow all points of the new AssemblyPolicy but 1) it parallels the amd64 code, 2) it\u0027s pretty short and straightforward, 3) it\u0027s been open for a long time, and 4) makes a major difference in performance of AES-CTR. LGTM.",
+      "revId": "28e8ef98ddd0a2ad59e0dfdd5ffb6f9b7c011543",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
