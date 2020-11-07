@@ -2690,3 +2690,18 @@ func TestDirFS(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestWriteStringAlloc(t *testing.T) {
+	d := t.TempDir()
+	f, err := Create(filepath.Join(d, "whiteboard.txt"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	allocs := testing.AllocsPerRun(100, func() {
+		f.WriteString("I will not allocate when passed a string longer than 32 bytes.\n")
+	})
+	if allocs != 0 {
+		t.Errorf("expected 0 allocs for File.WriteString, got %v", allocs)
+	}
+}
