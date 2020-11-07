@@ -6,6 +6,10 @@
 // for debugging purposes. The code is customized for Node graphs
 // and may be used for an alternative view of the node structure.
 
+// +build ignore
+
+//go:build ignore
+
 package gc
 
 import (

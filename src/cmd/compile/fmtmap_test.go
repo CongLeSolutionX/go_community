@@ -167,7 +167,6 @@ var knownFormats = map[string]string{
 	"int8 %x":                                         "",
 	"interface{} %#v":                                 "",
 	"interface{} %T":                                  "",
-	"interface{} %p":                                  "",
 	"interface{} %q":                                  "",
 	"interface{} %s":                                  "",
 	"interface{} %v":                                  "",
