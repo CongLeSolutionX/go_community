@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bb80a68_a96cb439",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T15:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "284fedaf_27f2c419",
+      "revId": "15d83f6ded84c067f78c7d430d973bb2d17709ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3fa288a_f8488843",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-07T04:06:20Z",
       "side": 1,
       "message": "I think the performance of making these already []*Certificate would be the same (int vs pointer), and would save us the extra call to cert() below.",
+      "revId": "15d83f6ded84c067f78c7d430d973bb2d17709ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb92cd5f_6ddd6f35",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T15:57:46Z",
+      "side": 1,
+      "message": "Yeah, totally. Overlooked that yesterday. Done.",
+      "parentUuid": "f3fa288a_f8488843",
       "revId": "15d83f6ded84c067f78c7d430d973bb2d17709ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4ae15b_618868dd",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T15:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03087dca_c551019e",
+      "revId": "15d83f6ded84c067f78c7d430d973bb2d17709ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4d72396_fd41accb",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56b08003_4d15cb5a",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T15:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4d72396_fd41accb",
+      "revId": "15d83f6ded84c067f78c7d430d973bb2d17709ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97963d3d_c8a60408",
@@ -82,6 +154,24 @@
       "writtenOn": "2020-11-07T04:06:20Z",
       "side": 1,
       "message": "nit: \"intermediate\" rather than shadowing \"c\".",
+      "revId": "15d83f6ded84c067f78c7d430d973bb2d17709ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b64da66_52ad786f",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T15:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97963d3d_c8a60408",
       "revId": "15d83f6ded84c067f78c7d430d973bb2d17709ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
