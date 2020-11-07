@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdb77096_482dd279",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T15:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5c90a69_aabc3e4f",
+      "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9383fef_6f9606f2",
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "d9383fef_6f9606f2",
+      "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2baa609_95d132c1",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T15:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd31bdf6_47f27314",
       "revId": "c12c890c64dd6372b3893af1e6f5ab11802c9e81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
