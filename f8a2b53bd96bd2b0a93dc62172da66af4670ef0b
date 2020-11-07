@@ -16,6 +16,40 @@
       "message": "Kindly pinging you Ian to take a look, or help with a Trust+1",
       "revId": "f8a2b53bd96bd2b0a93dc62172da66af4670ef0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc05426_ee48d2c1",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-07T15:03:46Z",
+      "side": 1,
+      "message": "Please reflow this comment.  Having a short line here looks odd.  Thanks.",
+      "revId": "f8a2b53bd96bd2b0a93dc62172da66af4670ef0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c1d12fe_697eac44",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-07T15:03:46Z",
+      "side": 1,
+      "message": "Looking at this again I don\u0027t really understand it.  This is going to convert the helper PCs to helper names for every log call.  Some tests make a lot of log calls.  So this will save memory for some tests but use more memory for others.  Instead of memory allocation being linear in terms of Helper calls, it is linear in terms of Log calls.  On average I would expect that tests make more Log calls than Helper calls.  Why is this Cl the right tradeoff?",
+      "revId": "f8a2b53bd96bd2b0a93dc62172da66af4670ef0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
