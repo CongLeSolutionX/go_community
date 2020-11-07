@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2920236_6330b117",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-11-07T06:14:23Z",
+      "side": 0,
+      "message": "Was this change intentional? The commit message didn\u0027t mention partial calls.",
+      "revId": "362d25f2c82980860cb4eb5bfd0648116504788d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
