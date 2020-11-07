@@ -16,6 +16,23 @@
       "message": "TRY\u003daix,android,darwin,dragonfly,freebsd,illumos,js,linux,netbsd,openbsd,plan9,solaris,windows\n",
       "revId": "3778c2902dc26f0abcdab4edd4924da6092bd7fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e55c0d0_f6706886",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-07T02:26:13Z",
+      "side": 1,
+      "message": "Looks nice but we are technically in a release freeze.  Want to make an argument as to why we should do this?\n\nPerhaps also a test using testing.AllocsPerRun?",
+      "revId": "3778c2902dc26f0abcdab4edd4924da6092bd7fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
