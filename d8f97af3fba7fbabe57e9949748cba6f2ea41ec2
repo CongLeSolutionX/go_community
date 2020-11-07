@@ -126,6 +126,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "256f092a_1e0bbff5",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T03:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a4f2b73_046b3d61",
+      "range": {
+        "startLine": 117,
+        "startChar": 20,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed8eeb39_a2a32123",
@@ -143,6 +167,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56985de4_d99d7ef1",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T03:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8eeb39_a2a32123",
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "deb3a0ed_76adfa5f",
@@ -156,6 +198,30 @@
       "writtenOn": "2020-11-06T19:46:00Z",
       "side": 1,
       "message": "Likewise, no need for containsOrError as the code that uses it in verify.go is the very rare path for self-signed certificates.\n\ncontains should not panic but return false on failure.",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 1
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "963dda15_147fd637",
+        "filename": "src/crypto/x509/cert_pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T03:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deb3a0ed_76adfa5f",
       "range": {
         "startLine": 145,
         "startChar": 0,
@@ -189,6 +255,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5103c55_f9843694",
+        "filename": "src/crypto/x509/name_constraints_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2028,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T03:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ed89dcf_34b652d9",
+      "range": {
+        "startLine": 2022,
+        "startChar": 0,
+        "endLine": 2028,
+        "endChar": 1
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cbc85f2_aced1c72",
@@ -202,6 +292,24 @@
       "writtenOn": "2020-11-06T19:46:00Z",
       "side": 1,
       "message": "Return the error. This is just test code, but an error will be more readable anyway.",
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c02e13db_3438b958",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T03:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbc85f2_aced1c72",
       "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -229,6 +337,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4812ce7_c5bfb95b",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T03:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3600808f_395baa9e",
+      "range": {
+        "startLine": 765,
+        "startChar": 40,
+        "endLine": 765,
+        "endChar": 59
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68d21ae2_a20393e9",
@@ -242,6 +374,30 @@
       "writtenOn": "2020-11-06T19:46:00Z",
       "side": 1,
       "message": "Let\u0027s just make findPotentialParents return []*Certificate, since it\u0027s only used here.",
+      "range": {
+        "startLine": 896,
+        "startChar": 36,
+        "endLine": 896,
+        "endChar": 56
+      },
+      "revId": "d8f97af3fba7fbabe57e9949748cba6f2ea41ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ae626f_e394bb2f",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-11-07T03:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68d21ae2_a20393e9",
       "range": {
         "startLine": 896,
         "startChar": 36,
