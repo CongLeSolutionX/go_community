@@ -16,6 +16,24 @@
       "message": "Was this change intentional? The commit message didn\u0027t mention partial calls.",
       "revId": "362d25f2c82980860cb4eb5bfd0648116504788d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "852c6f8f_931c5555",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-11-08T16:44:27Z",
+      "side": 0,
+      "message": "This was intentional.  I had put this comment in a previous change that handled inlining of OCALLPART, but this is just the default handling for all unmentioned Ops (inlineable, budget of 1), so Matthew removed the case and the comment without changing any behavior.",
+      "parentUuid": "c2920236_6330b117",
+      "revId": "362d25f2c82980860cb4eb5bfd0648116504788d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
