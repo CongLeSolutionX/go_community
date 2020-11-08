@@ -6,6 +6,7 @@
 package loadpe
 
 import (
+	"bytes"
 	"cmd/internal/bio"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
@@ -357,6 +358,9 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 			continue
 		}
 		if pesym.SectionNumber == IMAGE_SYM_DEBUG {
+			continue
+		}
+		if pesym.SectionNumber == IMAGE_SYM_ABSOLUTE && bytes.Equal(pesym.Name[:], []byte("@feat.00")) {
 			continue
 		}
 		var sect *pe.Section
