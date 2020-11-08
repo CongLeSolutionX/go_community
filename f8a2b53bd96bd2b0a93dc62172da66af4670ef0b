@@ -50,6 +50,24 @@
       "message": "Looking at this again I don\u0027t really understand it.  This is going to convert the helper PCs to helper names for every log call.  Some tests make a lot of log calls.  So this will save memory for some tests but use more memory for others.  Instead of memory allocation being linear in terms of Helper calls, it is linear in terms of Log calls.  On average I would expect that tests make more Log calls than Helper calls.  Why is this Cl the right tradeoff?",
       "revId": "f8a2b53bd96bd2b0a93dc62172da66af4670ef0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a216b4a_104370c4",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 38590
+      },
+      "writtenOn": "2020-11-08T17:52:33Z",
+      "side": 1,
+      "message": "\u003e I would expect that tests make more Log calls than Helper calls\n\nTo investigate this, I instrumented the testing package to count the number of times Helper() and Log() methods were called when I ran \u0027go test ./...\u0027 in the Go source code tree.\n\n```\nTop callers of Log:\n\ndebug/gosym            TestPCLine              1076\ngo/internal/gcimporter TestImportStdLib         386\ncompress/flate         TestDeflateInflate       275\ncompress/flate         TestDeflateInflateString 132\nnet                    TestVariousDeadlines     114\n\nTop callers of Helper:\n\nmath/rand        TestNonStandardNormalValues   5808\ncontainer/heap   TestFix                       2041\nencoding/ascii85 TestEncoderBuffering          1702\nencoding/base64  TestDecode                     900\ncontainer/heap   Test                           737\n```\n\nOver all tests in the Go tree, Helper was called four times as often as Log.\n\n\u003e Instead of memory allocation being linear in terms of Helper calls, it is linear in terms of Log calls.\n\nMemory allocation for Log was already slightly worse than linear, because the output is saved until the end of the test.\n\nI think I\u0027ve said this already in the notes, but the reason I got started in this area was a test that called require.NoError from https://github.com/stretchr/testify, every time round a tight loop causing millions of calls to Helper.\n\nIn summary, this CI moves some overhead from Helper to Log, and this is the correct tradeoff because it is well-understood that making millions of Log calls will slow your program down, whereas it is surprising that calling Helper is slow.",
+      "parentUuid": "3c1d12fe_697eac44",
+      "revId": "f8a2b53bd96bd2b0a93dc62172da66af4670ef0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
