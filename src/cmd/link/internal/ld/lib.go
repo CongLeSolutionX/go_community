@@ -1808,7 +1808,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 				Errorf(nil, "%v", err)
 				return
 			}
-			if rsrc != 0 {
+			if rsrc != nil {
 				setpersrc(ctxt, rsrc)
 			}
 			ctxt.Textp = append(ctxt.Textp, textp...)
