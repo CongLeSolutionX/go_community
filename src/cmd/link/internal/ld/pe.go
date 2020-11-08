@@ -253,7 +253,7 @@ type Dll struct {
 }
 
 var (
-	rsrcsym     loader.Sym
+	rsrcsyms    []loader.Sym
 	PESECTHEADR int32
 	PEFILEHEADR int32
 	pe64        int
@@ -1508,46 +1508,52 @@ func (ctxt *Link) dope() {
 	initdynexport(ctxt)
 }
 
-func setpersrc(ctxt *Link, sym loader.Sym) {
-	if rsrcsym != 0 {
+func setpersrc(ctxt *Link, syms []loader.Sym) {
+	if len(rsrcsyms) != 0 {
 		Errorf(nil, "too many .rsrc sections")
 	}
-
-	rsrcsym = sym
+	rsrcsyms = syms
 }
 
 func addpersrc(ctxt *Link) {
-	if rsrcsym == 0 {
+	if len(rsrcsyms) == 0 {
 		return
 	}
 
-	data := ctxt.loader.Data(rsrcsym)
-	size := len(data)
-	h := pefile.addSection(".rsrc", size, size)
+	var size int64
+	for _, rsrcsym := range rsrcsyms {
+		size += ctxt.loader.SymSize(rsrcsym)
+	}
+	h := pefile.addSection(".rsrc", int(size), int(size))
 	h.characteristics = IMAGE_SCN_MEM_READ | IMAGE_SCN_CNT_INITIALIZED_DATA
 	h.checkOffset(ctxt.Out.Offset())
 
-	// relocation
-	relocs := ctxt.loader.Relocs(rsrcsym)
-	for i := 0; i < relocs.Count(); i++ {
-		r := relocs.At(i)
-		p := data[r.Off():]
-		val := uint32(int64(h.virtualAddress) + r.Add())
-
-		// 32-bit little-endian
-		p[0] = byte(val)
-
-		p[1] = byte(val >> 8)
-		p[2] = byte(val >> 16)
-		p[3] = byte(val >> 24)
+	for _, rsrcsym := range rsrcsyms {
+		// A split resource happens when the actual resource data and its relocations are
+		// split across multiple sections, denoted by a $01 or $02 at the end of the .rsrc
+		// section name.
+		splitResources := strings.Contains(ctxt.loader.SymName(rsrcsym), ".rsrc$")
+		relocs := ctxt.loader.Relocs(rsrcsym)
+		data := ctxt.loader.Data(rsrcsym)
+		for ri := 0; ri < relocs.Count(); ri++ {
+			r := relocs.At(ri)
+			p := data[r.Off():]
+			val := uint32(int64(h.virtualAddress) + r.Add())
+			if splitResources {
+				// If we're a split resource, the data begins at an offset given
+				// by its length, because the symbols are split between sections,
+				// so we add in the total length of the symbol's data as an offset,
+				// making the relocation calculation correct.
+				val += uint32(len(data))
+			}
+			binary.LittleEndian.PutUint32(p, val)
+		}
+		ctxt.Out.Write(data)
 	}
-
-	ctxt.Out.Write(data)
 	h.pad(ctxt.Out, uint32(size))
 
 	// update data directory
 	pefile.dataDirectory[pe.IMAGE_DIRECTORY_ENTRY_RESOURCE].VirtualAddress = h.virtualAddress
-
 	pefile.dataDirectory[pe.IMAGE_DIRECTORY_ENTRY_RESOURCE].Size = h.virtualSize
 }
 
