@@ -16,6 +16,24 @@
       "message": "https://go-review.googlesource.com/c/go/+/227159 was abandoned. Any reason @Michael?",
       "revId": "36724891f43791ea2d2bac885f701977758967dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a556fa8_f8589e35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2020-11-09T15:57:03Z",
+      "side": 1,
+      "message": "Hi, sorry about that, I\u0027ve been closing all my work-in-progress CLs that I don\u0027t think I will get around to finishing. Feel free to copy it and finish it off if you think it is valuable.",
+      "parentUuid": "810be5b2_ece2f840",
+      "revId": "36724891f43791ea2d2bac885f701977758967dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
