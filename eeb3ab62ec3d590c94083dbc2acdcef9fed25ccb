@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6574f1b_d8f6f1c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-09T19:35:16Z",
+      "side": 1,
+      "message": "Thank you. +1 so that Austin and Ian can take a look too.",
+      "revId": "eeb3ab62ec3d590c94083dbc2acdcef9fed25ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ddf7c5_8edcdabd",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-09T19:35:16Z",
+      "side": 1,
+      "message": "\u003e adds support\n\nI originally expected us to say something like \"adds early support\" to communicate that this is early support which will become more stable in future Go releases, for example until a builder is added and is passing (issue #39782). But maybe in this particular case there\u0027s good coverage from the existing AMD64 macOS builders and misc-compile builder to be able to skip that. If you think it\u0027s safe to say \"adds support\" in the current state, I\u0027m okay with that too. Given Apple Silicon is very new, I think people will understand what level of support to expect implicitly.\n\nAlso, are there any known issues? Past release notes have called those out (https://golang.org/doc/go1.9#known_issues, https://golang.org/doc/go1.11#ports), so we can do that if it\u0027s helpful.\n\nWhat approach do you think is better?",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "eeb3ab62ec3d590c94083dbc2acdcef9fed25ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a81f3faf_9336af46",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-09T19:35:16Z",
+      "side": 1,
+      "message": "Minor, I think we generally try to avoid such abbreviations in public facing documentation, so maybe replace this with \"known as\" or remove.",
+      "range": {
+        "startLine": 37,
+        "startChar": 60,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "eeb3ab62ec3d590c94083dbc2acdcef9fed25ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "781d5b13_ceef3199",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-09T19:35:16Z",
+      "side": 1,
+      "message": "s/i/u/",
+      "range": {
+        "startLine": 53,
+        "startChar": 66,
+        "endLine": 53,
+        "endChar": 67
+      },
+      "revId": "eeb3ab62ec3d590c94083dbc2acdcef9fed25ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
