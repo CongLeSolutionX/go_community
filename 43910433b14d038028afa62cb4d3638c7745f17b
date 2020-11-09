@@ -34,6 +34,24 @@
       "parentUuid": "9a7c82a9_0aaeaf89",
       "revId": "43910433b14d038028afa62cb4d3638c7745f17b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf56df1d_601f4bcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2020-11-09T16:13:01Z",
+      "side": 1,
+      "message": "Awesome, I\u0027ve added an entry.",
+      "parentUuid": "bee5a491_c098e2ce",
+      "revId": "43910433b14d038028afa62cb4d3638c7745f17b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
