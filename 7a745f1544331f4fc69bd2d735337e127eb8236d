@@ -99,6 +99,24 @@
       "parentUuid": "5878f753_00880eb1",
       "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95d86a36_f2842fad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2020-11-09T18:53:55Z",
+      "side": 1,
+      "message": "I\u0027ve tried creating a small repro program to trigger this, but it seems it may be a timing issue or something. The original program which triggered this segfault is github.com/openshift/origin when cross-building the oc command for Windows. It uses goversioninfo to create a .syso containing Windows version information. I\u0027ve done a similar thing with a small test program but cannot get this to reproduce. The main difference I see is that the oc build takes way longer then my small \"hello world\" program I wrote to reproduce.\n\nI\u0027d be happy to keep working on this with some guidance on how to better trigger this issue, or perhaps how to get down to the root cause which is that something in munmapping information that we still need later on.",
+      "parentUuid": "d37f51f0_482a7fdb",
+      "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
