@@ -16,6 +16,24 @@
       "message": "We\u0027re using perm in a call to os.MkdirAll at line 53, so if the type is ModeDir we really do need the full Mode bits here.",
       "revId": "ef97a86875cc673456a96968c807330eed6595f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57729875_a5b9f7d4",
+        "filename": "misc/reboot/overlaydir_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-09T15:48:26Z",
+      "side": 1,
+      "message": "Thanks, I thought I\u0027d reverted all these - missed misc/reboot.",
+      "parentUuid": "8fb65240_ca47eed2",
+      "revId": "ef97a86875cc673456a96968c807330eed6595f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
