@@ -85,6 +85,24 @@
       "message": "\u003e [...] can I submit this?\n\nFriendly ping. I know Jay is out this week, but I think the deadline to submit non-stabilization CLs is Monday morning.",
       "revId": "f4dcff674bb091511b10c0ca9fcfc336d6700957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd6069f_a3f31461",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-09T17:44:22Z",
+      "side": 1,
+      "message": "I think it\u0027s okay to submit this today.\n\nSounded like Russ expected this to be submitted for 1.16 and CL 264938 in 1.17.",
+      "parentUuid": "61d45922_575ddbb3",
+      "revId": "f4dcff674bb091511b10c0ca9fcfc336d6700957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
