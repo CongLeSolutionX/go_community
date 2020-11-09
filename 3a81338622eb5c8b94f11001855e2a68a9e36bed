@@ -33,6 +33,41 @@
       "message": "I just tried out this CL, and it doesn\u0027t appear to be working quite correctly.\n\npackage main\nfunc main() {\n    f()\n}\nfunc f() {\n    g()\n}\nfunc g() {\n    f()\n}\n\nWhen this crashes, it prints 200 frames total, 100 on each side of the \"stack frames omitted\" message. It should only print 100 total. It also prints runtime frames at the bottom, which it shouldn\u0027t (I think).\nWhat is going wrong here? And why did the test not catch it?",
       "revId": "3a81338622eb5c8b94f11001855e2a68a9e36bed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e91d6e73_21b510a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-11-09T19:14:31Z",
+      "side": 1,
+      "message": "\u003eWhen this crashes, it prints 200 frames total, 100 on each side of the \"stack frames omitted\" message.\n\nmain.main.func1()\n\t\u003cFILE\u003e:11 +0x35 fp\u003d0xc00010a3a0 sp\u003d0xc00010a398 pc\u003d0x1078eb5\n\nwould count as 1, hence 100 per side\n\n\u003eIt also prints runtime frames at the bottom, which it shouldn\u0027t (I think).\n\nIt should print out 3 bottom frames:\n\nmain.main()\n\t\u003cFILE\u003e:18 +0xb1 fp\u003d0xc00010bf88 sp\u003d0xc00010bf40 pc\u003d0x1078e51\nruntime.main()\n\t\u003cFILE\u003e:225 +0x256 fp\u003d0xc00010bfe0 sp\u003d0xc00010bf88 pc\u003d0x10322b6\nruntime.goexit()\n\t\u003cGO_PREFIX\u003e/runtime/asm_amd64.s:1367 +0x1 fp\u003d0xc00010bfe8 sp\u003d0xc00010bfe0 pc\u003d0x105ee41\n\n\u003eWhat is going wrong here? And why did the test not catch it?\n\nOne thing I noticed was that the counts were bad at the bottom from a change in the patchsets. I\u0027ve modified that code and the tests as well, sending a small follow-up CL.",
+      "parentUuid": "e5bdb62c_8816b89a",
+      "revId": "3a81338622eb5c8b94f11001855e2a68a9e36bed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20835ef1_ceb1fb2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-11-09T19:14:31Z",
+      "side": 1,
+      "message": "Thank you Keith for the follow-up, I\u0027ve answered your questions, but small follow up CL coming shortly :) ",
+      "revId": "3a81338622eb5c8b94f11001855e2a68a9e36bed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
