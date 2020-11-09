@@ -157,11 +157,21 @@ func (hs *serverHandshakeStateTLS13) processClientHello() error {
 		preferenceList = hs.clientHello.cipherSuites
 		supportedList = defaultCipherSuitesTLS13()
 	}
-	for _, suiteID := range preferenceList {
-		hs.suite = mutualCipherSuiteTLS13(supportedList, suiteID)
-		if hs.suite != nil {
-			break
-		}
+
+	// Unless both the server and client would prefer to use an AES-GCM cipher
+	// suite, we first try to select a cipher suite that is not AES-GCM before
+	// falling back to any mutual cipher suite.
+	prefersAESGCM := serverPrefersAESGCM && prefersAESGCM(hs.clientHello.cipherSuites)
+	if !prefersAESGCM {
+		hs.suite = selectCipherSuite13(preferenceList, supportedList, func(c *cipherSuiteTLS13) bool {
+			// All TLSv1.3 cipher suites are AEADs and TLSv1.3 has no
+			// legacy cipher suites so we only need to check for AES-GCM
+			// here.
+			return c.flags&suiteAESGCM == 0
+		})
+	}
+	if hs.suite == nil {
+		hs.suite = selectCipherSuite13(preferenceList, supportedList, anyCipherOk13)
 	}
 	if hs.suite == nil {
 		c.sendAlert(alertHandshakeFailure)
