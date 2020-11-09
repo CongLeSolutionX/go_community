@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "531195a3_1690db01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-09T16:56:42Z",
+      "side": 1,
+      "message": "No problem. Do I need to add \"R\u003dgo1.17\" to the commit message, or is that something for Gobot to pick up from your comment?",
+      "parentUuid": "92884529_d6db626a",
+      "revId": "a7f681b60529aff3a50b9e7cd2544f8f26514ac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23bb2505_d965eff6",
@@ -48,6 +66,24 @@
       "writtenOn": "2020-11-09T16:48:59Z",
       "side": 1,
       "message": "While we are here, maybe add a comment about which case is which.",
+      "revId": "a7f681b60529aff3a50b9e7cd2544f8f26514ac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd21e17b_db4dea9b",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1793,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-09T16:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23bb2505_d965eff6",
       "revId": "a7f681b60529aff3a50b9e7cd2544f8f26514ac3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
