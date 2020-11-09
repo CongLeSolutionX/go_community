@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b867f441_e73a908a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2020-11-09T16:50:48Z",
+      "side": 1,
+      "message": "I think this has the same inherent issue as the first iteration of 262857, where if the first preference is AES-GCM we throw out any other preferences further down the list in favor of ChaCha20. Given the rest of the preferences are going to be non-AEAD ciphers and we\u0027ll be exchanging one AEAD for another, probably faster, AEAD this seems fine, but becomes brittle if another non-ChaCha20 AEAD cipher is introduced which the client/server legitimately prefers (for whatever reason).\n\nI think this would be somewhat more robust if instead of flagging ciphers as aesgcm/chacha, we flagged them as aesgcm/aead (or just used the presence of the current aead field) and just picked the next non-AES-GCM AEAD cipher, rather than explicitly picking the next ChaCha20 cipher. This will of course just replicate the current behavior now, but will provide some future proofing that should be significantly less brittle.",
+      "revId": "bb1c6b12ad7b50dbc1df1e26614b37721fd0a981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
