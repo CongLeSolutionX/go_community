@@ -52,6 +52,24 @@
       "parentUuid": "9a556fa8_f8589e35",
       "revId": "36724891f43791ea2d2bac885f701977758967dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2713af44_bdd6b54e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-09T18:32:57Z",
+      "side": 1,
+      "message": "We can go with this CL then if you think it improves code.\nThe only thing I worry about is whether there exist ports that do 64-bit comparisons faster than 32-bit comparisons. (I don\u0027t think we have one of those, but I haven\u0027t looked.)",
+      "parentUuid": "28341ce3_78d25849",
+      "revId": "36724891f43791ea2d2bac885f701977758967dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
