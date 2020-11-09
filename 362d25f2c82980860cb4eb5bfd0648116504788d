@@ -33,6 +33,24 @@
       "message": "This comparison should be dropped from io/fs, since there is no fs.WalkFunc.",
       "revId": "362d25f2c82980860cb4eb5bfd0648116504788d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d0f0b3_c057a0d0",
+        "filename": "src/io/fs/walk.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-09T14:27:02Z",
+      "side": 1,
+      "message": "Thanks! CL 268417.",
+      "parentUuid": "70ab491c_71fa9b84",
+      "revId": "362d25f2c82980860cb4eb5bfd0648116504788d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
