@@ -135,6 +135,24 @@
       "parentUuid": "95d86a36_f2842fad",
       "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c56306d_b509abd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2020-11-09T20:52:20Z",
+      "side": 1,
+      "message": "Ack, SGTM.",
+      "parentUuid": "0f933e07_daadd310",
+      "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
