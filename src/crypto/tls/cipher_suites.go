@@ -147,6 +147,10 @@ const (
 	// suiteDefaultOff indicates that this cipher suite is not included by
 	// default.
 	suiteDefaultOff
+	// suiteAESGCM indicates that this cipher suite uses AES-GCM.
+	suiteAESGCM
+	// suiteChaCha indicates that this cipher suite uses ChaCha20-Poly1305.
+	suiteChaCha
 )
 
 // A cipherSuite is a specific combination of key agreement, cipher and MAC function.
@@ -167,20 +171,20 @@ type cipherSuite struct {
 var cipherSuites = []*cipherSuite{
 	// Ciphersuite order is chosen so that ECDHE comes before plain RSA and
 	// AEADs are the top preference.
-	{TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305, 32, 0, 12, ecdheRSAKA, suiteECDHE | suiteTLS12, nil, nil, aeadChaCha20Poly1305},
-	{TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305, 32, 0, 12, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteTLS12, nil, nil, aeadChaCha20Poly1305},
-	{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, 16, 0, 4, ecdheRSAKA, suiteECDHE | suiteTLS12, nil, nil, aeadAESGCM},
-	{TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, 16, 0, 4, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteTLS12, nil, nil, aeadAESGCM},
-	{TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, 32, 0, 4, ecdheRSAKA, suiteECDHE | suiteTLS12 | suiteSHA384, nil, nil, aeadAESGCM},
-	{TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, 32, 0, 4, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteTLS12 | suiteSHA384, nil, nil, aeadAESGCM},
+	{TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305, 32, 0, 12, ecdheRSAKA, suiteECDHE | suiteTLS12 | suiteChaCha, nil, nil, aeadChaCha20Poly1305},
+	{TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305, 32, 0, 12, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteTLS12 | suiteChaCha, nil, nil, aeadChaCha20Poly1305},
+	{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, 16, 0, 4, ecdheRSAKA, suiteECDHE | suiteTLS12 | suiteAESGCM, nil, nil, aeadAESGCM},
+	{TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, 16, 0, 4, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteTLS12 | suiteAESGCM, nil, nil, aeadAESGCM},
+	{TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, 32, 0, 4, ecdheRSAKA, suiteECDHE | suiteTLS12 | suiteSHA384 | suiteAESGCM, nil, nil, aeadAESGCM},
+	{TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, 32, 0, 4, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteTLS12 | suiteSHA384 | suiteAESGCM, nil, nil, aeadAESGCM},
 	{TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, 16, 32, 16, ecdheRSAKA, suiteECDHE | suiteTLS12 | suiteDefaultOff, cipherAES, macSHA256, nil},
 	{TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, 16, 20, 16, ecdheRSAKA, suiteECDHE, cipherAES, macSHA1, nil},
 	{TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, 16, 32, 16, ecdheECDSAKA, suiteECDHE | suiteECSign | suiteTLS12 | suiteDefaultOff, cipherAES, macSHA256, nil},
 	{TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, 16, 20, 16, ecdheECDSAKA, suiteECDHE | suiteECSign, cipherAES, macSHA1, nil},
 	{TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, 32, 20, 16, ecdheRSAKA, suiteECDHE, cipherAES, macSHA1, nil},
 	{TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, 32, 20, 16, ecdheECDSAKA, suiteECDHE | suiteECSign, cipherAES, macSHA1, nil},
-	{TLS_RSA_WITH_AES_128_GCM_SHA256, 16, 0, 4, rsaKA, suiteTLS12, nil, nil, aeadAESGCM},
-	{TLS_RSA_WITH_AES_256_GCM_SHA384, 32, 0, 4, rsaKA, suiteTLS12 | suiteSHA384, nil, nil, aeadAESGCM},
+	{TLS_RSA_WITH_AES_128_GCM_SHA256, 16, 0, 4, rsaKA, suiteTLS12 | suiteAESGCM, nil, nil, aeadAESGCM},
+	{TLS_RSA_WITH_AES_256_GCM_SHA384, 32, 0, 4, rsaKA, suiteTLS12 | suiteSHA384 | suiteAESGCM, nil, nil, aeadAESGCM},
 	{TLS_RSA_WITH_AES_128_CBC_SHA256, 16, 32, 16, rsaKA, suiteTLS12 | suiteDefaultOff, cipherAES, macSHA256, nil},
 	{TLS_RSA_WITH_AES_128_CBC_SHA, 16, 20, 16, rsaKA, 0, cipherAES, macSHA1, nil},
 	{TLS_RSA_WITH_AES_256_CBC_SHA, 32, 20, 16, rsaKA, 0, cipherAES, macSHA1, nil},
@@ -218,12 +222,14 @@ type cipherSuiteTLS13 struct {
 	keyLen int
 	aead   func(key, fixedNonce []byte) aead
 	hash   crypto.Hash
+	// flags is a bitmask of the suite* values, above.
+	flags int
 }
 
 var cipherSuitesTLS13 = []*cipherSuiteTLS13{
-	{TLS_AES_128_GCM_SHA256, 16, aeadAESGCMTLS13, crypto.SHA256},
-	{TLS_CHACHA20_POLY1305_SHA256, 32, aeadChaCha20Poly1305, crypto.SHA256},
-	{TLS_AES_256_GCM_SHA384, 32, aeadAESGCMTLS13, crypto.SHA384},
+	{TLS_AES_128_GCM_SHA256, 16, aeadAESGCMTLS13, crypto.SHA256, suiteAESGCM},
+	{TLS_CHACHA20_POLY1305_SHA256, 32, aeadChaCha20Poly1305, crypto.SHA256, suiteChaCha},
+	{TLS_AES_256_GCM_SHA384, 32, aeadAESGCMTLS13, crypto.SHA384, suiteAESGCM},
 }
 
 func cipherRC4(key, iv []byte, isRead bool) interface{} {
@@ -490,6 +496,21 @@ func cipherSuiteTLS13ByID(id uint16) *cipherSuiteTLS13 {
 		}
 	}
 	return nil
+}
+
+// prefersAESGCM reports whether the first supported cipher in the preference list
+// is an AES-GCM cipher, implying the peer has hardware support for it.
+func prefersAESGCM(ids []uint16) bool {
+	for _, id := range ids {
+		if c := cipherSuiteTLS13ByID(id); c != nil {
+			return c.flags&suiteAESGCM != 0
+		}
+		if c := cipherSuiteByID(id); c != nil {
+			return c.flags&suiteAESGCM != 0
+		}
+	}
+
+	return false
 }
 
 // A list of cipher suite IDs that are, or have been, implemented by this
