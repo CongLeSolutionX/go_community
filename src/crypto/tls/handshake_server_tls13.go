@@ -155,10 +155,26 @@ func (hs *serverHandshakeStateTLS13) processClientHello() error {
 		preferenceList = hs.clientHello.cipherSuites
 		supportedList = defaultCipherSuitesTLS13()
 	}
-	for _, suiteID := range preferenceList {
-		hs.suite = mutualCipherSuiteTLS13(supportedList, suiteID)
-		if hs.suite != nil {
-			break
+
+	// Unless both the server and client would prefer to use an AES-GCM cipher
+	// suite, we first try to select a cipher suite that is not AES-GCM before
+	// falling back to any mutual cipher suite.
+	prefersAESGCM := serverPrefersAESGCM && prefersAESGCM(hs.clientHello.cipherSuites)
+	if !prefersAESGCM {
+		for _, suiteID := range preferenceList {
+			suite := mutualCipherSuiteTLS13(supportedList, suiteID)
+			if suite != nil && suite.flags&suiteAESGCM == 0 {
+				hs.suite = suite
+				break
+			}
+		}
+	}
+	if hs.suite == nil {
+		for _, suiteID := range preferenceList {
+			hs.suite = mutualCipherSuiteTLS13(supportedList, suiteID)
+			if hs.suite != nil {
+				break
+			}
 		}
 	}
 	if hs.suite == nil {
