@@ -109,6 +109,24 @@
       "parentUuid": "c800505d_3066491b",
       "revId": "69aec3d99dae85d554ee6f976f7d6a31864ccb02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91a05209_5c33db6c",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2020-11-09T21:17:56Z",
+      "side": 1,
+      "message": "tcgoos? I think it might even be worth being explicit and adding those details to the comment, describing that running the toolchain on these goos is untested. It\u0027s nice, to me, to be assertive that these paths are possibly functional but unsupported.",
+      "parentUuid": "2ccf392e_9ef00552",
+      "revId": "69aec3d99dae85d554ee6f976f7d6a31864ccb02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
