@@ -117,6 +117,24 @@
       "parentUuid": "d37f51f0_482a7fdb",
       "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f933e07_daadd310",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-09T20:51:07Z",
+      "side": 1,
+      "message": "I think it is related to how the resource symbol is used in the program. If it is referenced in the program, and somehow (a part of its data) is copied to the output file (other than in the resource section), it can be unmapped. I\u0027m not familiar with PE enough to come up an example.\n\nIf it is not so easy to come up a test, I think this is fine for now. Thanks.",
+      "parentUuid": "95d86a36_f2842fad",
+      "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
