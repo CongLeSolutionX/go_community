@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "98dfe2ac_d88507e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2020-11-09T15:26:56Z",
+      "side": 1,
+      "message": "Would you like me to reword the commit and force push?",
+      "parentUuid": "4cd5601e_e495355a",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6a991fc9_471001c8",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-06T19:08:30Z",
       "side": 1,
       "message": "LGTM. \n\nIs it worth trying to add a test of some sort (on tip) for this?\n\n",
+      "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5878f753_00880eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2020-11-09T15:26:56Z",
+      "side": 1,
+      "message": "I can try to work on putting a test together for this. Should I send that as a separate CL or work it into this?",
+      "parentUuid": "6a991fc9_471001c8",
       "revId": "7a745f1544331f4fc69bd2d735337e127eb8236d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
