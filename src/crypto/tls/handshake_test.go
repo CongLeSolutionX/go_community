@@ -345,6 +345,10 @@ func runMain(m *testing.M) int {
 		TLS_CHACHA20_POLY1305_SHA256,
 		TLS_AES_256_GCM_SHA384,
 	}
+	// serverPrefersAESGCM is used in deciding whether to prefer AES-GCM or
+	// non-AES-GCM cipher suites, it changes based on the architecture. Force it
+	// to a server with AES acceleration for test consistency.
+	serverPrefersAESGCM = true
 
 	// Set up localPipe.
 	l, err := net.Listen("tcp", "127.0.0.1:0")
