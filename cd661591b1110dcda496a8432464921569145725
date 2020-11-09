@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69406633_a4c54044",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-09T20:08:31Z",
+      "side": 1,
+      "message": "Here\u0027s another test that doesn\u0027t seem to work (with or without this CL):\n\npackage main\n\nfunc main() {\n\tf(200)\n}\n\nfunc f(x int) {\n\tif x \u003d\u003d 0 {\n\t\tpanic(\"die\")\n\t}\n\tf(x - 1)\n}\n\nIt used to print ~100 frames. Now it just prints ~50 frames. No \"elided\" message or frames 150-200 or anything like that.\n\nI\u0027m starting to think we should roll back the previous CL and work on getting this right in 1.17.\n",
+      "revId": "cd661591b1110dcda496a8432464921569145725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
