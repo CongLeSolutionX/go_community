@@ -56,7 +56,7 @@ var SkipDir = errors.New("skip this directory")
 // after a failed ReadDir and reports the error from ReadDir.
 // (If ReadDir succeeds, there is no second call.)
 //
-// The differences between WalkDirFunc compared to WalkFunc are:
+// The differences between WalkDirFunc compared to filepath.WalkFunc are:
 //
 //   - The second argument has type fs.DirEntry instead of fs.FileInfo.
 //   - The function is called before reading a directory, to allow SkipDir
