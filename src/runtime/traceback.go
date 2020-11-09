@@ -794,7 +794,7 @@ func printtraceback(pc, sp, lr uintptr, gp *g, flags uint) {
 
 	if nframes <= _TracebackMaxFrames {
 		// In this case, we'll just print out from where we left off until the end.
-		gentraceback(pc, sp, lr, gp, nMaxFramesPerPrint /* skip */, nil, 1<<31-1, nil, nil, flags)
+		gentraceback(pc, sp, lr, gp, nMaxFramesPerPrint /* skip */, nil, nframes /* max */, nil, nil, flags)
 		return
 	}
 
@@ -807,7 +807,13 @@ func printtraceback(pc, sp, lr uintptr, gp *g, flags uint) {
 		println(elide, "stack frames omitted)\n")
 	}
 	skip := nframes - nMaxFramesPerPrint
-	_ = gentraceback(pc, sp, lr, gp, skip, nil, 1<<31-1 /* max int32 as the biggest frame number */, nil, nil, flags)
+	// We shall need the bottom 3 runtime frames:
+	//  * main.main()
+	//  * runtime.main()
+	//  * runtime.goexit()
+	// hence the increment of 3.
+	max := nframes + 3
+	_ = gentraceback(pc, sp, lr, gp, skip, nil, max, nil, nil, flags)
 }
 
 // printAncestorTraceback prints the traceback of the given ancestor.

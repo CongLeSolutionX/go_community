@@ -301,6 +301,9 @@ func TestStackOverflowTopAndBottomTraces(t *testing.T) {
 	// * "runtime.main"
 	// * "runtime.goexit"
 	// hence we need to decrement 3 counted lines.
+	if g, w := nTopHalf, 50; g != w {
+		t.Fatalf("len(topHalfStackTraces)=%d != %d", g, w)
+	}
 	if nTopHalf != nBottomHalf-3 {
 		t.Errorf("len(topHalfStackTraces)=%d len(bottomHalfStackTraces)-3=%d yet must be equal\n", nTopHalf, nBottomHalf-3)
 	}
