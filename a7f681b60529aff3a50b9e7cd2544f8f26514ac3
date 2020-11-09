@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eadb6965_467a31a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-09T17:34:32Z",
+      "side": 1,
+      "message": "You don\u0027t have to. I\u0027m not sure Gobot pick that up now.",
+      "parentUuid": "531195a3_1690db01",
+      "revId": "a7f681b60529aff3a50b9e7cd2544f8f26514ac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23bb2505_d965eff6",
