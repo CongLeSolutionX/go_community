@@ -303,7 +303,20 @@ func (hs *serverHandshakeState) pickCipherSuite() error {
 		supportedList = c.config.cipherSuites()
 	}
 
-	hs.suite = selectCipherSuite(preferenceList, supportedList, hs.cipherSuiteOk)
+	// Unless both the server and client would prefer to use an AES-GCM cipher
+	// suite, or the server has been configured with a specific preference
+	// order, we first try to select a ChaCha20-Poly1305 cipher suite before
+	// falling back to any mutual cipher suite.
+	prefersAESGCM := c.config.PreferServerCipherSuites && c.config.CipherSuites != nil ||
+		serverPrefersAESGCM && prefersAESGCM(hs.clientHello.cipherSuites)
+	if !prefersAESGCM {
+		hs.suite = selectCipherSuite(preferenceList, supportedList, func(c *cipherSuite) bool {
+			return c.flags&suiteChaCha != 0 && hs.cipherSuiteOk(c)
+		})
+	}
+	if hs.suite == nil {
+		hs.suite = selectCipherSuite(preferenceList, supportedList, hs.cipherSuiteOk)
+	}
 	if hs.suite == nil {
 		c.sendAlert(alertHandshakeFailure)
 		return errors.New("tls: no cipher suite supported by both client and server")
