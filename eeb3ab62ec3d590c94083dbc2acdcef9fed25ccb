@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e730c03_eb278e4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-09T21:30:03Z",
+      "side": 1,
+      "message": "You can also add \"For #40700.\" on the next line so this shows up in that tracking issue.",
+      "revId": "eeb3ab62ec3d590c94083dbc2acdcef9fed25ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d6574f1b_d8f6f1c2",
@@ -102,6 +119,30 @@
       "side": 1,
       "message": "I\u0027m not aware of any known issue. I think it is pretty much on parity with darwin/amd64 port (besides the builder). There will be bugs for sure, but I think it is fine to say \"adds support\". I don\u0027t expect a lot of work for the port to be done in future releases, other than fixing bugs.",
       "parentUuid": "f7ddf7c5_8edcdabd",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "eeb3ab62ec3d590c94083dbc2acdcef9fed25ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f28b1476_980179d3",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-09T21:30:03Z",
+      "side": 1,
+      "message": "Thanks, that sounds good to me.",
+      "parentUuid": "78650c82_de6f3720",
       "range": {
         "startLine": 37,
         "startChar": 10,
