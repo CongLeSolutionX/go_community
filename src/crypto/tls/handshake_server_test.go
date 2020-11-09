@@ -22,6 +22,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"golang.org/x/crypto/curve25519"
 )
 
 func testClientHello(t *testing.T, serverConfig *Config, m handshakeMessage) {
@@ -1717,5 +1719,261 @@ func TestServerHandshakeContextCancellation(t *testing.T) {
 	err = conn.Close()
 	if err == nil {
 		t.Error("Server connection was not closed when the context was canceled")
+	}
+}
+
+func TestCipherPrefersChaChaWithoutAESHardware(t *testing.T) {
+	// See runMain.
+	defer func() { serverPrefersAESGCM = true }()
+
+	tests := []struct {
+		name                     string
+		clientCiphers            []uint16
+		serverCiphers            []uint16
+		serverHasAESGCM          bool
+		preferServerCipherSuites bool
+		expectedCipher           uint16
+	}{
+		{
+			name: "server has hardware AES, client doesn't",
+			clientCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverHasAESGCM:          true,
+			preferServerCipherSuites: true,
+			expectedCipher:           TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+		},
+		{
+			name: "server strongly prefers AES-GCM, client doesn't",
+			clientCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverHasAESGCM:          true,
+			preferServerCipherSuites: true,
+			expectedCipher:           TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM, server doesn't have hardware AES",
+			clientCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverHasAESGCM: false,
+			expectedCipher:  TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+		},
+		{
+			name: "client prefers AES-GCM, server has hardware AES",
+			clientCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverHasAESGCM: true,
+			expectedCipher:  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM after grease, server has hardware AES",
+			clientCiphers: []uint16{
+				0x0A0A, // Grease (see RFC 8701).
+				0x1A1A, // Grease (see RFC 8701).
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverHasAESGCM: true,
+			expectedCipher:  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		},
+		{
+			name: "client prefers TLSv1.3 AES-GCM, server has hardware AES",
+			clientCiphers: []uint16{
+				TLS_AES_128_GCM_SHA256,
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverHasAESGCM: true,
+			expectedCipher:  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM and doesn't support ChaCha, server doesn't have hardware AES",
+			clientCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+			},
+			serverHasAESGCM: false,
+			expectedCipher:  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM over ChaCha, server doesn't have hardware AES",
+			clientCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TLS_RSA_WITH_AES_128_CBC_SHA,
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+			},
+			serverHasAESGCM: false,
+			expectedCipher:  TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+		},
+		{
+			name: "client supports multiple AES-GCM, server doesn't have hardware AES and doesn't support ChaCha",
+			clientCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+				TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+			},
+			serverCiphers: []uint16{
+				TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+				TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+			},
+			serverHasAESGCM: false,
+			expectedCipher:  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+		},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			serverPrefersAESGCM = tc.serverHasAESGCM
+			hs := &serverHandshakeState{
+				c: &Conn{
+					config: &Config{
+						PreferServerCipherSuites: tc.preferServerCipherSuites,
+						CipherSuites:             tc.serverCiphers,
+					},
+					vers: VersionTLS12,
+				},
+				clientHello: &clientHelloMsg{
+					cipherSuites: tc.clientCiphers,
+					vers:         VersionTLS12,
+				},
+				ecdheOk:      true,
+				rsaSignOk:    true,
+				rsaDecryptOk: true,
+			}
+			err := hs.pickCipherSuite()
+			if err != nil {
+				t.Errorf("pickCipherSuite failed: %s", err)
+			}
+			if tc.expectedCipher != hs.suite.id {
+				t.Errorf("unexpected cipher chosen: want %s, got %s", CipherSuiteName(tc.expectedCipher), CipherSuiteName(hs.suite.id))
+			}
+		})
+	}
+}
+
+func TestCipherPrefersChaChaWithoutAESHardwareTLSv13(t *testing.T) {
+	// See runMain.
+	defer func() { serverPrefersAESGCM = true }()
+
+	tests := []struct {
+		name                     string
+		clientCiphers            []uint16
+		serverHasAESGCM          bool
+		preferServerCipherSuites bool
+		expectedCipher           uint16
+	}{
+		{
+			name: "server has hardware AES, client doesn't",
+			clientCiphers: []uint16{
+				TLS_CHACHA20_POLY1305_SHA256,
+				TLS_AES_128_GCM_SHA256,
+			},
+			serverHasAESGCM:          true,
+			preferServerCipherSuites: true,
+			expectedCipher:           TLS_CHACHA20_POLY1305_SHA256,
+		},
+		{
+			name: "neither server nor client have hardware AES",
+			clientCiphers: []uint16{
+				TLS_CHACHA20_POLY1305_SHA256,
+				TLS_AES_128_GCM_SHA256,
+			},
+			serverHasAESGCM:          false,
+			preferServerCipherSuites: true,
+			expectedCipher:           TLS_CHACHA20_POLY1305_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM, server doesn't have hardware, prefer server ciphers",
+			clientCiphers: []uint16{
+				TLS_AES_128_GCM_SHA256,
+				TLS_CHACHA20_POLY1305_SHA256,
+			},
+			serverHasAESGCM:          false,
+			preferServerCipherSuites: true,
+			expectedCipher:           TLS_CHACHA20_POLY1305_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM, server doesn't",
+			clientCiphers: []uint16{
+				TLS_AES_128_GCM_SHA256,
+				TLS_CHACHA20_POLY1305_SHA256,
+			},
+			serverHasAESGCM: false,
+			expectedCipher:  TLS_CHACHA20_POLY1305_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM, server has hardware AES",
+			clientCiphers: []uint16{
+				TLS_AES_128_GCM_SHA256,
+				TLS_CHACHA20_POLY1305_SHA256,
+			},
+			serverHasAESGCM: true,
+			expectedCipher:  TLS_AES_128_GCM_SHA256,
+		},
+		{
+			name: "client prefers AES-GCM after grease, server has hardware AES",
+			clientCiphers: []uint16{
+				0x0A0A, // Grease (see RFC 8701).
+				0x1A1A, // Grease (see RFC 8701).
+				TLS_AES_128_GCM_SHA256,
+				TLS_CHACHA20_POLY1305_SHA256,
+			},
+			serverHasAESGCM: true,
+			expectedCipher:  TLS_AES_128_GCM_SHA256,
+		},
+		{
+			name: "client prefers TLSv1.2 AES-GCM, server has hardware AES",
+			clientCiphers: []uint16{
+				TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+				TLS_AES_128_GCM_SHA256,
+				TLS_CHACHA20_POLY1305_SHA256,
+			},
+			serverHasAESGCM: true,
+			expectedCipher:  TLS_AES_128_GCM_SHA256,
+		},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			serverPrefersAESGCM = tc.serverHasAESGCM
+			hs := &serverHandshakeStateTLS13{
+				c: &Conn{
+					config: &Config{
+						PreferServerCipherSuites: tc.preferServerCipherSuites,
+					},
+					vers: VersionTLS13,
+				},
+				clientHello: &clientHelloMsg{
+					cipherSuites:       tc.clientCiphers,
+					supportedVersions:  []uint16{VersionTLS13},
+					compressionMethods: []uint8{compressionNone},
+					keyShares:          []keyShare{{group: X25519, data: curve25519.Basepoint}},
+				},
+			}
+			err := hs.processClientHello()
+			if err != nil {
+				t.Errorf("processClientHello failed: %s", err)
+			}
+			if tc.expectedCipher != hs.suite.id {
+				t.Errorf("unexpected cipher chosen: want %s, got %s", CipherSuiteName(tc.expectedCipher), CipherSuiteName(hs.suite.id))
+			}
+		})
 	}
 }
