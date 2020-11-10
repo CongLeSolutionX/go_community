@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43de2c72_4926957f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2020-11-10T00:36:22Z",
+      "side": 1,
+      "message": "I think is done and ready to be reviewed and merged. I\u0027m pretty sure it correctly captures the logic described in #41181.",
+      "revId": "41479987e1177f2fdae79fd798ee3993253bfe5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
