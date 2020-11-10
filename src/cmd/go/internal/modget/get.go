@@ -480,13 +480,14 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	modload.WriteGoMod()
 	modload.DisallowWriteGoMod()
 
-	// Report warnings if any retracted versions are in the build list.
-	// This must be done after writing go.mod to avoid spurious '// indirect'
-	// comments. These functions read and write global state.
+	// Report changes and warn if any retracted versions are in the build list.
 	//
-	// TODO(golang.org/issue/40775): ListModules (called from reportRetractions)
-	// resets modload.loader, which contains information about direct dependencies
-	// that WriteGoMod uses. Refactor to avoid these kinds of global side effects.
+	// TODO(golang.org/issue/40775): reportRetractions must be called after
+	// WriteGoMod to avoid spurious '// indirect' comments. ListModules (called
+	// from reportRetractions) resets modload.loader, which contains information
+	// about direct dependencies that WriteGoMod uses. Refactor to avoid these
+	// kinds of global side effects.
+	r.reportChanges(queries)
 	reportRetractions(ctx)
 }
 
