@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e54fa4_bdf0c944",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-10T15:30:04Z",
+      "side": 1,
+      "message": "Thanks for the data.  How would you feel about retaining helperNames once it is created (and clearing it when there is a new Helper call) to avoid adding cost for tests that call Log a lot.",
+      "revId": "72f27b44a9f4944a1750dee5e3ed3abdfe8adaf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
