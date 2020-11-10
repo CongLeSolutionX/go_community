@@ -33,6 +33,42 @@
       "message": "They security team would like to get this change landed today if possible. Tom, if you can address the above comments I can review and approve. If you feel like you won\u0027t have the time let me know and I\u0027ll be happy to roll these changes back into 262857.",
       "revId": "bb1c6b12ad7b50dbc1df1e26614b37721fd0a981",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "621087a5_25f26573",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2020-11-10T00:17:04Z",
+      "side": 1,
+      "message": "Thinking it through that definitely seems sensible, thought it will only have an effect if new cipher suites are added to the server. I\u0027ve made that change and it\u0027s relatively neat.\n\nThe TLSv1.3 code isn\u0027t quite as elegant, but I didn\u0027t really want to introduce a selectCipherSuite13. I can if it would be preferable.\n\nI\u0027ve left the wording mentioning ChaCha20-Poly1305 in the go1.16 doc, but I\u0027ll try and update that to match the new implementation.",
+      "parentUuid": "b867f441_e73a908a",
+      "revId": "bb1c6b12ad7b50dbc1df1e26614b37721fd0a981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8791af26_6c1b16a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2020-11-10T00:17:04Z",
+      "side": 1,
+      "message": "It\u0027s just gone morning for me (timezones *shrugs*), but I\u0027m able to make changes for most of the day from here.",
+      "parentUuid": "ad162369_71457ea6",
+      "revId": "bb1c6b12ad7b50dbc1df1e26614b37721fd0a981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
