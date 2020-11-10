@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00139a25_ab016c9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-10T20:08:28Z",
+      "side": 1,
+      "message": "I\u0027m a little iffy on the heuristics, because I don\u0027t think they\u0027re semantically justified. I don\u0027t see any correctness issues with this CL though. So if it improves real world Go code, I\u0027m not opposed to it.",
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baeaa955_300072f1",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-10T20:08:28Z",
+      "side": 1,
+      "message": "nit: Looks like this can be \"const\"?",
+      "range": {
+        "startLine": 327,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 3
+      },
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0920dbd3_a2eb9023",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-10T20:08:28Z",
+      "side": 1,
+      "message": "nit: I don\u0027t think -1 is necessary here.",
+      "range": {
+        "startLine": 347,
+        "startChar": 18,
+        "endLine": 347,
+        "endChar": 22
+      },
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "824b3f9d_3fbee959",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-10T20:08:28Z",
+      "side": 1,
+      "message": "We should probably just replace this function with a call to inspectList.\n\n    var nNodes, nAllocs, nCalls int\n    inspectList(fn.Nbody, func(n *Node) bool {\n        nNodes++\n        switch n.Op {\n        case ONEW, ONEWOBJ:\n            nAllocs++\n        case OCALL, OCALLFUNC, OCALLMETH, OCALLINTER:\n            nCalls++\n        }\n        return true\n    })\n\nThat said, nAllocs here is a kinda iffy metric to use here, because we haven\u0027t yet run escape analysis so we don\u0027t know whether those ONEW expressions are actually going to heap allocate.",
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
