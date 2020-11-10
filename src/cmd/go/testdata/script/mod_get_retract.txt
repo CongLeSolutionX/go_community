@@ -34,7 +34,6 @@ stdout '^example.com/retract v1.0.0-bad$'
 cp go.mod.orig go.mod
 go mod edit -require example.com/retract/self/prev@v1.9.0
 go get -d -u .
-stderr '^go: warning: example.com/retract/self/prev@v1.9.0 is retracted: self$'
 go list -m example.com/retract/self/prev
 stdout '^example.com/retract/self/prev v1.9.0$'
 

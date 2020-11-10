@@ -8,8 +8,11 @@ go list -m -retracted -f '{{with .Retracted}}retracted{{end}}' example.com/retra
 # 'go list -m -u' should load retractions, too.
 go list -m -u -f '{{with .Retracted}}retracted{{end}}' example.com/retract/rename
 
-# 'go get' should warn about the retracted version.
+# 'go get' should warn about the retracted version if an argument resolves
+# to that version.
 go get -d
+! stderr retracted
+go get -d example.com/retract/rename@v1.0.0-bad
 stderr '^go: warning: example.com/retract/rename@v1.0.0-bad is retracted: bad$'
 
 # We can't upgrade, since this latest version has a different module path.
