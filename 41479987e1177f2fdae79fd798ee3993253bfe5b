@@ -33,6 +33,24 @@
       "message": "Hey Tom, sorry for the lag getting back to you on this. We went back and forth for a while today internally about what we actually want this functionality to look like and ended up deciding on something somewhat different from what is described in #41181, which we\u0027ve landed in 262857 (essentially only reordering adjacent AEADs in the preference list).\n\nSorry for asking you for changes and then going down a completely different path, but thanks for your comments which helped steer us in the right direction!",
       "revId": "41479987e1177f2fdae79fd798ee3993253bfe5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecdbd144_7956672c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2020-11-10T13:34:45Z",
+      "side": 1,
+      "message": "Well my motivation for opening this was mostly how gnarly the sorting code in 262857 was getting and this seemed much nicer. The use of sort.SliceStable really does make 262857 much better.\n\nI\u0027m glad I was able to help and nice to see that the change to aesgcmPreferred was inspired by this.",
+      "parentUuid": "36ba2451_ef104c5d",
+      "revId": "41479987e1177f2fdae79fd798ee3993253bfe5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
