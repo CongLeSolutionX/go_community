@@ -16,6 +16,23 @@
       "message": "TRY\u003dlinux-386-longtest, linux-amd64-longtest, windows-amd64-longtest\n",
       "revId": "2c7614e1d95c6c4ae65eddab9677605556ff6fb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94de7613_c5412f2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-11-10T20:54:37Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-386-longtest, linux-amd64-longtest, windows-amd64-longtest\n\n",
+      "revId": "2c7614e1d95c6c4ae65eddab9677605556ff6fb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
