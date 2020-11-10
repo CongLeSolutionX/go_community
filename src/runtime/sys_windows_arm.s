@@ -318,10 +318,14 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	// in cgocallback, but I have no way to test. See CL 258938,
 	// and callbackasm1 on amd64 and 386.
 	MOVM.DB.W [R4-R11, R14], (R13)	// push {r4-r11, lr}
-	SUB	$36, R13		// space for locals
+	SUB	$52, R13		// space for 'type args struct' (16) + arguments (4 * 8) + retval (4)
 
-	// save callback arguments to stack. We currently support up to 4 arguments
+	// save callback arguments to stack. We currently support up to 8 arguments
 	ADD	$16, R13, R4
+	MOVM.IA.W [R0-R3], (R4)
+	// the remaining 4 arguments are on the stack
+	ADD	$(4 * 9 + 52), R13, R5
+	MOVM.IA (R5), [R0-R3]
 	MOVM.IA	[R0-R3], (R4)
 
 	// load cbctxts[i]. The trampoline in zcallback_windows.s puts the callback
@@ -333,8 +337,8 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	MOVW	wincallbackcontext_argsize(R4), R5
 	MOVW	wincallbackcontext_gobody(R4), R4
 
-	// we currently support up to 4 arguments
-	CMP	$(4 * 4), R5
+	// we currently support up to 8 arguments
+	CMP	$(4 * 8), R5
 	BL.GT	runtime·abort(SB)
 
 	// extend argsize by size of return value
@@ -354,7 +358,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	SUB	$4, R1			// offset to return value
 	MOVW	R1<<0(R0), R0		// load return value
 
-	ADD	$36, R13		// free locals
+	ADD	$52, R13		// free locals
 	MOVM.IA.W (R13), [R4-R11, R15]	// pop {r4-r11, pc}
 
 // uint32 tstart_stdcall(M *newm);
