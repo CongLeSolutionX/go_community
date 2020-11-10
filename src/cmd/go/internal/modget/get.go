@@ -480,14 +480,14 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	modload.WriteGoMod()
 	modload.DisallowWriteGoMod()
 
-	// Report warnings if any retracted versions are in the build list.
-	// This must be done after writing go.mod to avoid spurious '// indirect'
-	// comments. These functions read and write global state.
+	// Report warnings if any queries resolved to retracted versions.
 	//
-	// TODO(golang.org/issue/40775): ListModules (called from reportRetractions)
-	// resets modload.loader, which contains information about direct dependencies
-	// that WriteGoMod uses. Refactor to avoid these kinds of global side effects.
-	reportRetractions(ctx)
+	// TODO(golang.org/issue/40775): reportRetractions must be called after
+	// WriteGoMod to avoid spurious '// indirect' comments. ListModules (called
+	// from reportRetractions) resets modload.loader, which contains information
+	// about direct dependencies that WriteGoMod uses. Refactor to avoid these
+	// kinds of global side effects.
+	r.reportRetractions(ctx)
 }
 
 // parseArgs parses command-line arguments and reports errors.
@@ -523,43 +523,6 @@ func parseArgs(ctx context.Context, rawArgs []string) []*query {
 	}
 
 	return queries
-}
-
-// reportRetractions prints warnings if any modules in the build list are
-// retracted.
-func reportRetractions(ctx context.Context) {
-	// Query for retractions of modules in the build list.
-	// Use modload.ListModules, since that provides information in the same format
-	// as 'go list -m'. Don't query for "all", since that's not allowed outside a
-	// module.
-	buildList := modload.LoadedModules()
-	args := make([]string, 0, len(buildList))
-	for _, m := range buildList {
-		if m.Version == "" {
-			// main module or dummy target module
-			continue
-		}
-		args = append(args, m.Path+"@"+m.Version)
-	}
-	listU := false
-	listVersions := false
-	listRetractions := true
-	mods := modload.ListModules(ctx, args, listU, listVersions, listRetractions)
-	retractPath := ""
-	for _, mod := range mods {
-		if len(mod.Retracted) > 0 {
-			if retractPath == "" {
-				retractPath = mod.Path
-			} else {
-				retractPath = "<module>"
-			}
-			rationale := modload.ShortRetractionRationale(mod.Retracted[0])
-			fmt.Fprintf(os.Stderr, "go: warning: %s@%s is retracted: %s\n", mod.Path, mod.Version, rationale)
-		}
-	}
-	if modload.HasModRoot() && retractPath != "" {
-		fmt.Fprintf(os.Stderr, "go: run 'go get %s@latest' to switch to the latest unretracted version\n", retractPath)
-	}
 }
 
 type resolver struct {
@@ -1592,6 +1555,43 @@ func (r *resolver) reportChanges(queries []*query) {
 	}
 
 	// TODO(#33284): Also print relevant upgrades.
+}
+
+// reportRetractions prints warnings if any resolved module versions are
+// retracted. This should be rare since queries like @latest already ignore
+// retracted versions. We don't load retractions for all modules in the build
+// list, since this may require a network fetch for each module that wasn't
+// explicitly resolved earlier.
+func (r *resolver) reportRetractions(ctx context.Context) {
+	paths := make([]string, 0, len(r.resolvedVersion))
+	for p := range r.resolvedVersion {
+		paths = append(paths, p)
+	}
+	sort.Strings(paths)
+	args := make([]string, len(paths))
+	for i, p := range paths {
+		args[i] = p + "@" + r.resolvedVersion[p].version
+	}
+
+	listU := false
+	listVersions := false
+	listRetractions := true
+	mods := modload.ListModules(ctx, args, listU, listVersions, listRetractions)
+	retractPath := ""
+	for _, mod := range mods {
+		if len(mod.Retracted) > 0 {
+			if retractPath == "" {
+				retractPath = mod.Path
+			} else {
+				retractPath = "<module>"
+			}
+			rationale := modload.ShortRetractionRationale(mod.Retracted[0])
+			fmt.Fprintf(os.Stderr, "go: warning: %s@%s is retracted: %s\n", mod.Path, mod.Version, rationale)
+		}
+	}
+	if modload.HasModRoot() && retractPath != "" {
+		fmt.Fprintf(os.Stderr, "go: run 'go get %s@latest' to switch to the latest unretracted version\n", retractPath)
+	}
 }
 
 // resolve records that module m must be at its indicated version (which may be
