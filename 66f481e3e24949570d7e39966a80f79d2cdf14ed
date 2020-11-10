@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a829ec_5be7f6ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32626
+      },
+      "writtenOn": "2020-11-10T19:36:53Z",
+      "side": 1,
+      "message": "The code looks good. Confirming it works with llvm resource compiler - together with other recent related patches.",
+      "revId": "66f481e3e24949570d7e39966a80f79d2cdf14ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
