@@ -16,6 +16,23 @@
       "message": "Last update was to the commit description only, but it looks like we need another bot run.",
       "revId": "af11039a274320e8d955b1a29f4fb53e2471fdcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6f08a40_0dd33402",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:49:24Z",
+      "side": 1,
+      "message": "Thanks for following up on this.",
+      "revId": "af11039a274320e8d955b1a29f4fb53e2471fdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
