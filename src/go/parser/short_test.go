@@ -56,161 +56,99 @@ var valids = []string{
 	`package p; type _ struct{ ([]byte) }`, // disallowed by type-checker
 
 	// type parameters
-	`package p; type T(type P) struct { P }`,
-	`package p; type T(type P comparable) struct { P }`,
-	`package p; type T(type P comparable(P)) struct { P }`,
-	`package p; type T(type P1, P2) struct { P1; f []P2 }`,
-	`package p; type _ []T(int)`,
-
-	`package p; type T[type P] struct { P }`,
-	`package p; type T[type P comparable] struct { P }`,
-	`package p; type T[type P comparable[P]] struct { P }`,
-	`package p; type T[type P1, P2] struct { P1; f []P2 }`,
-	`package p; type _[type] int; type _ []T[int]`,
+	`package p; type T[P any] struct { P }`,
+	`package p; type T[P comparable] struct { P }`,
+	`package p; type T[P comparable[P]] struct { P }`,
+	`package p; type T[P1, P2 any] struct { P1; f []P2 }`,
+	`package p; type _ []T[int]`,
 
 	`package p; var _ = func()T(nil)`,
-	`package p; func _(type)()`,
-	`package p; func _(type)()()`,
+	`package p; func _[T any]()`,
+	`package p; func _[T any]()()`,
 	`package p; func _(T (P))`,
 	`package p; func _(T []E)`,
 	`package p; func _(T [P]E)`,
-	`package p; func _(x T(P1, P2, P3))`,
-	`package p; func _(x p.T(Q))`,
-	`package p; func _(p.T(Q))`,
+	`package p; func _(x T[P1, P2, P3])`,
+	`package p; func _(x p.T[Q])`,
+	`package p; func _(p.T[Q])`,
 
-	`package p; var _ = func()T(nil)`,
-	`package p; func _[type]()`,
-	`package p; func _[type]()()`,
-	`package p; func _(T (P))`,
-	`package p; func _[type](); func _(T []E)`,
-	`package p; func _[type](); func _(T [P]E)`,
-	`package p; func _[type](); func _(x T[P1, P2, P3])`,
-	`package p; func _[type](); func _(x p.T[Q])`,
-	`package p; func _[type](); func _(p.T[Q])`,
-
-	`package p; type _[type] int; var _ T[chan int]`,
-	`package p; func f[A, B](); func _() { _ = f[int, int] }`,
+	`package p; var _ T[chan int]`,
+	`package p; func f[A, B any](); func _() { _ = f[int, int] }`,
 
 	// optional "type" keyword for generic types using square brackets
 	`package p; type _[A interface{},] struct{}`,
 	`package p; type _[A interface{}] struct{}`,
-	`package p; type _[A, B,] struct{}`,
-	`package p; type _[A, B] struct{}`,
-	`package p; type _[A,] struct{}`,
-	`package p; type _ [A+B]struct{}`, // this is an array!
-
-	`package p; type _[A]struct{}`,     // this is an array
-	`package p; type _[A] struct{ A }`, // this is not an array!
+	`package p; type _[A, B any,] struct{}`,
+	`package p; type _[A, B any] struct{}`,
+	`package p; type _[A any,] struct{}`,
+	`package p; type _ [A+B]struct{}`,      // this is an array!
+	`package p; type _[A any]struct{}`,     // this is an array
+	`package p; type _[A any] struct{ A }`, // this is not an array!
 
 	// optional "type" keyword for generic functions using square brackets
-	`package p; func _[]()`,
-	`package p; func _[T]()`,
-	`package p; func _[T](x T)`,
-	`package p; func _[T1, T2](x T)`,
+	`package p; func _[T any]()`,
+	`package p; func _[T any](x T)`,
+	`package p; func _[T1, T2 any](x T)`,
 
-	`package p; func _[](); func (R) _[]()`,
-	`package p; func _[](); func (R[P]) _[T]()`,
-	`package p; func _[](); func (_ R[P]) _[T](x T)`,
-	`package p; func _[](); func (_ R[P, Q]) _[T1, T2](x T)`,
-
-	// need for parentheses to disambiguate
-	`package p; var _ = [](T(int)){}`,
-	`package p; var _ = [10](T(int)){}`,
-	`package p; var _ = func()(T(int)){}`,
-	`package p; var _ = map[T(int)](T(int)){}`,
-	`package p; var _ = chan (T(int))(x)`,
-	`package p; func _((T(P)))`,
-	`package p; func _((T(P1, P2, P3)))`,
-
-	`package p; func _(type *P)()`,
-	`package p; func _(type *P B)()`,
-	`package p; func _(type P, *Q interface{})()`,
-
-	`package p; func _((T(P))) T(P)`,
-	`package p; func _(_ T(P), T (P)) T(P)`,
+	`package p; func (R) _()`,
+	`package p; func (R[P]) _[T any]()`,
+	`package p; func (_ R[P]) _[T any](x T)`,
+	`package p; func (_ R[P, Q]) _[T1, T2 any](x T)`,
 
 	// no need for parentheses to disambiguate
-	`package p; type _[type] int; var _ = []T[int]{}`,
-	`package p; type _[type] int; var _ = [10]T[int]{}`,
-	`package p; type _[type] int; var _ = func()T[int]{}`,
-	`package p; type _[type] int; var _ = map[T[int]]T[int]{}`,
-	`package p; type _[type] int; var _ = chan T[int](x)`,
-	`package p; type _[type] int; func _(T[P])`,
-	`package p; type _[type] int; func _(T[P1, P2, P3])`,
+	`package p; var _ = []T[int]{}`,
+	`package p; var _ = [10]T[int]{}`,
+	`package p; var _ = func()T[int]{}`,
+	`package p; var _ = map[T[int]]T[int]{}`,
+	`package p; var _ = chan T[int](x)`,
+	`package p; func _(T[P])`,
+	`package p; func _(T[P1, P2, P3])`,
+	`package p; func _(T[P]) T[P]`,
+	`package p; func _(_ T[P], T P) T[P]`,
 
-	`package p; type _[type] int; func _[type *P]()`,
-	`package p; type _[type] int; func _[type *P B]()`,
-	`package p; type _[type] int; func _[type P, *Q interface{}]()`,
-
-	`package p; type _[type] int; func _(T[P]) T[P]`,
-	`package p; type _[type] int; func _(_ T[P], T (P)) T[P]`,
+	`package p; func _[A, B any](a A) B`,
+	`package p; func _[A, B C](a A) B`,
+	`package p; func _[A, B C[A, B]](a A) B`,
 
 	// method type parameters (if methodTypeParamsOk)
-	`package p; func _(type A, B)(a A) B`,
-	`package p; func _(type A, B C)(a A) B`,
-	`package p; func _(type A, B C(A, B))(a A) B`,
-	`package p; func (T) _(type A, B)(a A) B`,
-	`package p; func (T) _(type A, B C)(a A) B`,
-	`package p; func (T) _(type A, B C(A, B))(a A) B`,
-	`package p; type _ interface { _(type A, B)(a A) B }`,
-	`package p; type _ interface { _(type A, B C)(a A) B }`,
-	`package p; type _ interface { _(type A, B C(A, B))(a A) B }`,
+	`package p; func (T) _[A, B any](a A) B`,
+	`package p; func (T) _[A, B C](a A) B`,
+	`package p; func (T) _[A, B C[A, B]](a A) B`,
 
-	`package p; type _[type] int; func _[type A, B](a A) B`,
-	`package p; type _[type] int; func _[type A, B C](a A) B`,
-	`package p; type _[type] int; func _[type A, B C[A, B]](a A) B`,
-	`package p; type _[type] int; func (T) _[type A, B](a A) B`,
-	`package p; type _[type] int; func (T) _[type A, B C](a A) B`,
-	`package p; type _[type] int; func (T) _[type A, B C[A, B]](a A) B`,
-	`package p; type _[type] int; type _ interface { _[type A, B](a A) B }`,
-	`package p; type _[type] int; type _ interface { _[type A, B C](a A) B }`,
-	`package p; type _[type] int; type _ interface { _[type A, B C[A, B]](a A) B }`,
+	// method type parameters are not permitted in interfaces.
+	`package p; type _[A, B any] interface { _(a A) B }`,
+	`package p; type _[A, B C[A, B]] interface { _(a A) B }`,
 
 	// type bounds
-	`package p; func _(type T1, T2 interface{})(x T1) T2`,
-	`package p; func _(type T1 interface{ m() }, T2, T3 interface{})(x T1, y T3) T2`,
+	`package p; func _[T1, T2 interface{}](x T1) T2`,
+	`package p; func _[T1 interface{ m() }, T2, T3 interface{}](x T1, y T3) T2`,
 
-	`package p; type _[type] int; func _[type T1, T2 interface{}](x T1) T2`,
-	`package p; type _[type] int; func _[type T1 interface{ m() }, T2, T3 interface{}](x T1, y T3) T2`,
-
-	// embedded types
-	`package p; type _ struct{ (T(P)) }`,
-	`package p; type _ struct{ (T(struct{a, b, c int})) }`,
+	// struct embedding
+	`package p; type _ struct{ T[P] }`,
+	`package p; type _ struct{ T[struct{a, b, c int}] }`,
 	`package p; type _ struct{ f [n]E }`,
 	`package p; type _ struct{ f [a+b+c+d]E }`,
-
-	`package p; type _[type] int; type _ struct{ T[P] }`,
-	`package p; type _[type] int; type _ struct{ T[struct{a, b, c int}] }`,
-	`package p; type _[type] int; type _ struct{ f [n]E }`,
-	`package p; type _[type] int; type _ struct{ f [a+b+c+d]E }`,
 
 	// interfaces with type lists
 	`package p; type _ interface{type int}`,
 	`package p; type _ interface{type int, float32; type bool; m(); type string;}`,
 
-	`package p; type _[type] int; type _ interface{type int}`,
-	`package p; type _[type] int; type _ interface{type int, float32; type bool; m(); type string;}`,
-
-	// interfaces with parenthesized embedded and possibly parameterized interfaces
-	`package p; type I1 interface{}; type I2 interface{ (I1) }`,
-	`package p; type I1(type T) interface{}; type I2 interface{ (I1(int)) }`,
-	`package p; type I1(type T) interface{}; type I2(type T) interface{ (I1(T)) }`,
-
-	`package p; type _[type] int; type I1 interface{}; type I2 interface{ (I1) }`,
-	`package p; type I1[type T] interface{}; type I2 interface{ I1[int] }`,
-	`package p; type I1[type T] interface{}; type I2[type T] interface{ I1[T] }`,
+	// interface embedding
+	`package p; type I1 interface{}; type I2 interface{ I1 }`,
+	`package p; type I1[T any] interface{}; type I2 interface{ I1[int] }`,
+	`package p; type I1[T any] interface{}; type I2[T any] interface{ I1[T] }`,
 }
 
 func TestValid(t *testing.T) {
 	for _, src := range valids {
-		checkErrors(t, src, src)
+		checkErrors(t, src, src, DeclarationErrors|AllErrors)
 	}
 }
 
 // TestSingle is useful to track down a problem with a single short test program.
 func TestSingle(t *testing.T) {
-	const src = `package p; var _ = T(P){}`
-	checkErrors(t, src, src)
+	const src = `package p; var _ = T[P]{}`
+	checkErrors(t, src, src, DeclarationErrors|AllErrors)
 }
 
 var invalids = []string{
@@ -236,7 +174,6 @@ var invalids = []string{
 	`package p; var a = chan /* ERROR "expected expression" */ int;`,
 	`package p; var a = []int{[ /* ERROR "expected expression" */ ]int};`,
 	`package p; var a = ( /* ERROR "expected expression" */ []int);`,
-	`package p; var a = a[[ /* ERROR "expected expression" */ ]int:[]int];`,
 	`package p; var a = <- /* ERROR "expected expression" */ chan int;`,
 	`package p; func f() { select { case _ <- chan /* ERROR "expected expression" */ int: } };`,
 	`package p; func f() { _ = (<-<- /* ERROR "expected 'chan'" */ chan int)(nil) };`,
@@ -262,12 +199,19 @@ var invalids = []string{
 	//`package p; func f(x func(), u v func /* ERROR "missing ','" */ ()){}`,
 
 	// type parameters
-	`package p; var _ func( /* ERROR "cannot have type parameters" */ type T)(T)`,
+	`package p; var _ func[ /* ERROR "cannot have type parameters" */ T any](T)`,
 	`package p; func _() (type /* ERROR "found 'type'" */ T)(T)`,
 	`package p; func (type /* ERROR "found 'type'" */ T)(T) _()`,
 	`package p; type _[A+B, /* ERROR "expected ']'" */ ] int`,
-	`package p; type _[type _] int; var _ = T[] /* ERROR "expected operand" */ {}`,
+	`package p; type _[_ any] int; var _ = T[] /* ERROR "expected operand" */ {}`,
 	`package p; type T[P any] = /* ERROR "cannot be alias" */ T0`,
+	`package p; func _[]/* ERROR "empty type parameter list" */()`,
+
+	// errors that could be improved
+	`package p; var a = a[[]int:[ /* ERROR "expected expression" */ ]int];`,                      // TODO: should this be on the ':'?
+	`package p; type _[A/* ERROR "all type parameters must be named" */,] struct{ A }`,           // TODO: a better location would be after the ']'
+	`package p; func _[type /* ERROR "all type parameters must be named" */P, *Q interface{}]()`, // TODO: this is confusing.
+	`package p; type I1 interface{}; type I2 interface{ (/* ERROR "expected 'IDENT'" */I1) }`,    // TODO: compiler error is 'syntax error: cannot parenthesize embedded type'
 
 	// issue 8656
 	`package p; func f() (a b string /* ERROR "missing ','" */ , ok bool)`,
@@ -296,6 +240,6 @@ var invalids = []string{
 
 func TestInvalid(t *testing.T) {
 	for _, src := range invalids {
-		checkErrors(t, src, src)
+		checkErrors(t, src, src, DeclarationErrors|AllErrors)
 	}
 }

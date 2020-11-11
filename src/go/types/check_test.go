@@ -71,7 +71,7 @@ func parseFiles(t *testing.T, filenames []string) ([]*ast.File, []error) {
 	var files []*ast.File
 	var errlist []error
 	for _, filename := range filenames {
-		file, err := parser.ParseFile(fset, filename, nil, parser.AllErrors|parser.UnifiedParamLists)
+		file, err := parser.ParseFile(fset, filename, nil, parser.AllErrors)
 		if file == nil {
 			t.Fatalf("%s: %s", filename, err)
 		}
