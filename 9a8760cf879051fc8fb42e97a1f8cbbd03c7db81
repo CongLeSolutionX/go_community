@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ec08811_e0c8bb97",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-11T22:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baeaa955_300072f1",
+      "range": {
+        "startLine": 327,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 3
+      },
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0920dbd3_a2eb9023",
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2436cfca_f5fc86a4",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-11T22:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0920dbd3_a2eb9023",
+      "range": {
+        "startLine": 347,
+        "startChar": 18,
+        "endLine": 347,
+        "endChar": 22
+      },
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "824b3f9d_3fbee959",
@@ -77,6 +125,24 @@
       "writtenOn": "2020-11-10T20:08:28Z",
       "side": 1,
       "message": "We should probably just replace this function with a call to inspectList.\n\n    var nNodes, nAllocs, nCalls int\n    inspectList(fn.Nbody, func(n *Node) bool {\n        nNodes++\n        switch n.Op {\n        case ONEW, ONEWOBJ:\n            nAllocs++\n        case OCALL, OCALLFUNC, OCALLMETH, OCALLINTER:\n            nCalls++\n        }\n        return true\n    })\n\nThat said, nAllocs here is a kinda iffy metric to use here, because we haven\u0027t yet run escape analysis so we don\u0027t know whether those ONEW expressions are actually going to heap allocate.",
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "908ea1e7_2cd2d4c4",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-11T22:23:30Z",
+      "side": 1,
+      "message": "Agreed that it is all iffy -- but the goal (like many compiler optimizations) is to be right enough.\nThe actual parameters turn out to be a relatively light touch (e.g., for small-node-count functions,\nreduce their internal inlining threshold by a little, if they perhaps allocate, if they contain only one call).\nAnd with the current phase ordering, we can\u0027t know for sure, since escape analysis happens afterwards.\n\nThis was also motivated by observing real regressions when the If-max-instead-of-sum change was tested.",
+      "parentUuid": "824b3f9d_3fbee959",
       "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
