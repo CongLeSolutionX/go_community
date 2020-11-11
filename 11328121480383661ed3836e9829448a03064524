@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "2ad9f175_2791300d",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Hi Marcel, do you have plans to fix the merge conflicts for inclusion into a future version of Go?",
       "revId": "11328121480383661ed3836e9829448a03064524",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "262b7ec0_fe601779",
         "filename": "/PATCHSET_LEVEL",
@@ -31,8 +32,25 @@
       "side": 1,
       "message": "Rebased to resolve merge conflicts.",
       "revId": "11328121480383661ed3836e9829448a03064524",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7fd0be6_41f7a95f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:47:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ad9f175_2791300d",
+      "revId": "11328121480383661ed3836e9829448a03064524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0279e93_86790880",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:47:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c578fc2_d2361375",
+      "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "453fda21_aff0cdc3",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-09-25T10:23:00Z",
       "side": 1,
       "message": "I think it is necessart to paste your benchstat results here.\n\nThe benchmark from CL 257317 avoids the internal overhead of test entity, which should be more accurate for the result I think.",
+      "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37551fc4_ae5a6e0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:47:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "453fda21_aff0cdc3",
       "revId": "7a00bf02148271abdc0cf15ed081c3cdd3bd3e4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
