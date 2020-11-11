@@ -1985,3 +1985,75 @@ func TestAESCipherReordering13(t *testing.T) {
 		})
 	}
 }
+
+// TestHandshakeContextHierarchy tests whether the contexts
+// available to GetClientCertificate and GetCertificate are
+// derived from the context provided to HandshakeContext, and
+// that those contexts are cancelled after HandshakeContext has
+// returned.
+func TestHandshakeContextHierarchy(t *testing.T) {
+	c, s := localPipe(t)
+	clientErr := make(chan error, 1)
+	clientConfig := testConfig.Clone()
+	serverConfig := testConfig.Clone()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	key := struct{}{}
+	ctx = context.WithValue(ctx, key, true)
+	go func() {
+		defer close(clientErr)
+		defer c.Close()
+
+		var innerCtx context.Context
+		clientConfig.Certificates = nil
+		clientConfig.GetClientCertificate = func(certificateRequest *CertificateRequestInfo) (*Certificate, error) {
+			if val, ok := certificateRequest.Context().Value(key).(bool); !ok || !val {
+				t.Errorf("GetClientCertificate context was not child of HandshakeContext")
+			}
+			innerCtx = certificateRequest.Context()
+			return &Certificate{
+				Certificate: [][]byte{testRSACertificate},
+				PrivateKey:  testRSAPrivateKey,
+			}, nil
+		}
+
+		cli := Client(c, clientConfig)
+		err := cli.HandshakeContext(ctx)
+		if err != nil {
+			clientErr <- err
+			return
+		}
+
+		select {
+		case <-innerCtx.Done():
+		default:
+			t.Errorf("GetClientCertificate context was not cancelled after HandshakeContext returned.")
+		}
+	}()
+	var innerCtx context.Context
+	serverConfig.Certificates = nil
+	serverConfig.ClientAuth = RequestClientCert
+	serverConfig.GetCertificate = func(clientHello *ClientHelloInfo) (*Certificate, error) {
+		if val, ok := clientHello.Context().Value(key).(bool); !ok || !val {
+			t.Errorf("GetClientCertificate context was not child of HandshakeContext")
+		}
+		innerCtx = clientHello.Context()
+		return &Certificate{
+			Certificate: [][]byte{testRSACertificate},
+			PrivateKey:  testRSAPrivateKey,
+		}, nil
+	}
+	conn := Server(s, serverConfig)
+	err := conn.HandshakeContext(ctx)
+	if err != nil {
+		t.Errorf("Unexpected server handshake error: %v", err)
+	}
+	select {
+	case <-innerCtx.Done():
+	default:
+		t.Errorf("GetCertificate context was not cancelled after HandshakeContext returned.")
+	}
+	if err := <-clientErr; err != nil {
+		t.Errorf("Unexpected client error: %v", err)
+	}
+}
