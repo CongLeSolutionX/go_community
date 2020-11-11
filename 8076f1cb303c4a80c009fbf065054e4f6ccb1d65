@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b09ddafd_8f930c2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-11-11T03:43:39Z",
+      "side": 1,
+      "message": "Maybe it should be\n\ncmd/link,debug/elf: mips32, add .gnu.attributes and .MIPS.abiflags sections\n\nsince you changed debug/elf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "8076f1cb303c4a80c009fbf065054e4f6ccb1d65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba67313a_0137d551",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-11-11T03:43:39Z",
+      "side": 1,
+      "message": "Does it means mips32 only?\nWill mips64 be affected on this settings since we can\u0027t tell the difference by ctx.IsMIPS().",
+      "range": {
+        "startLine": 583,
+        "startChar": 17,
+        "endLine": 583,
+        "endChar": 19
+      },
+      "revId": "8076f1cb303c4a80c009fbf065054e4f6ccb1d65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51bb7285_efb17274",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-11-11T03:43:39Z",
+      "side": 1,
+      "message": "Will this affect on ASE instructions?",
+      "range": {
+        "startLine": 594,
+        "startChar": 18,
+        "endLine": 594,
+        "endChar": 19
+      },
+      "revId": "8076f1cb303c4a80c009fbf065054e4f6ccb1d65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
