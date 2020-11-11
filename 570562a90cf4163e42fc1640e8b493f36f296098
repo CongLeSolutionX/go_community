@@ -16,6 +16,23 @@
       "message": "Patch 2 removes an instruction via auto increment.\n\nAlso adding Jordan to the reviewers as he wrote the original code of this function.",
       "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b29a2db_2690296a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32626
+      },
+      "writtenOn": "2020-11-11T12:53:37Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
