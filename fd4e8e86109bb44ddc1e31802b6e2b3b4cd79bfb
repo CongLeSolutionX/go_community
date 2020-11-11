@@ -50,6 +50,24 @@
       "message": "Mmm. That was not expected. This looks like a new failure, potentially to do with thread termination and cgo backed thread manipulation.\n\nI\u0027m going to partially revert the issue1435.go changes to not force thread termination and see if this passes TryBot\u0027s testing.\n\n\u003e Patch Set 2: TryBot-Result-1\n\u003e \n\u003e 2 of 23 SlowBots failed:\n\u003e Failed on linux-amd64: https://storage.googleapis.com/go-build-log/fd4e8e86/linux-amd64_038a24f9.log\n\u003e Failed on linux-386: https://storage.googleapis.com/go-build-log/fd4e8e86/linux-386_a3c5af8b.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.SlowBot builds that ran:\n\u003e * linux-amd64-nocgo\n\u003e * linux-ppc64-buildlet\n\n",
       "revId": "fd4e8e86109bb44ddc1e31802b6e2b3b4cd79bfb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "044c0f6c_a95c2c50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:49:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "01f61802_2941c40d",
+      "revId": "fd4e8e86109bb44ddc1e31802b6e2b3b4cd79bfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
