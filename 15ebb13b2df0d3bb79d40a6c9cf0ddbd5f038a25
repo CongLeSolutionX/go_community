@@ -16,6 +16,24 @@
       "message": "Instead of listing platforms explicitly, let\u0027s change this to:\n\n    [!buildmode:plugin] skip",
       "revId": "15ebb13b2df0d3bb79d40a6c9cf0ddbd5f038a25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dec6c32_dd5d74cf",
+        "filename": "src/cmd/go/testdata/script/build_plugin_non_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-11T15:06:48Z",
+      "side": 1,
+      "message": "I meant that all these conditions can be simplified to one statement. After this, the test shouldn\u0027t need to be updated when new platforms are added.\n\nSo replace L1-4 in the original file with:\n\n    # Plugins are not supported on all platforms.\n    [!buildmode:plugin] skip",
+      "parentUuid": "30850585_13320d4b",
+      "revId": "15ebb13b2df0d3bb79d40a6c9cf0ddbd5f038a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
