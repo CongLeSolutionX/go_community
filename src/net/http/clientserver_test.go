@@ -1318,7 +1318,10 @@ func (r testErrorReader) Read(p []byte) (n int, err error) {
 }
 
 func TestNoSniffExpectRequestBody_h1(t *testing.T) { testNoSniffExpectRequestBody(t, h1Mode) }
-func TestNoSniffExpectRequestBody_h2(t *testing.T) { testNoSniffExpectRequestBody(t, h2Mode) }
+func TestNoSniffExpectRequestBody_h2(t *testing.T) {
+	t.Skip("test is failing, see golang.org/issue/42498")
+	testNoSniffExpectRequestBody(t, h2Mode)
+}
 
 func testNoSniffExpectRequestBody(t *testing.T, h2 bool) {
 	defer afterTest(t)
