@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aee0dac9_fddc437c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-11T14:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "865ab5ec_e1760066",
+      "revId": "63dbe059e43b21902cf5477aebb633c9b59386ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95b485a5_338973d9",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-11-09T15:47:54Z",
       "side": 1,
       "message": "Should this also be updated s/WalkFuncs/WalkDirFuncs/, since WalkFunc exists only in path/filepath and not in this package?",
+      "range": {
+        "startLine": 12,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "63dbe059e43b21902cf5477aebb633c9b59386ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4dfb16_1422b2c9",
+        "filename": "src/io/fs/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-11T14:29:32Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "95b485a5_338973d9",
       "range": {
         "startLine": 12,
         "startChar": 42,
