@@ -1,6 +1,6 @@
-# Plugins are only supported on linux,cgo (!riscv64) and darwin,cgo.
+# Plugins are only supported on linux,cgo (!buildmode:plugin) and darwin,cgo.
 [!linux] [!darwin] skip
-[linux] [riscv64] skip
+[!buildmode:plugin] skip
 [!cgo] skip
 
 go build -n testdep
