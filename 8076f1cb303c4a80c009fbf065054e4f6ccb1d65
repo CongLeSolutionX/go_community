@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ceca3c4_3d62cfba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-11-11T11:57:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b09ddafd_8f930c2f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "8076f1cb303c4a80c009fbf065054e4f6ccb1d65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba67313a_0137d551",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "049a26f2_713706bd",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-11-11T11:57:49Z",
+      "side": 1,
+      "message": "ctx.IsMIPS() is for mips32 only.\nfor 64, we use ctx.IsMIPS64.",
+      "parentUuid": "ba67313a_0137d551",
+      "range": {
+        "startLine": 583,
+        "startChar": 17,
+        "endLine": 583,
+        "endChar": 19
+      },
+      "revId": "8076f1cb303c4a80c009fbf065054e4f6ccb1d65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51bb7285_efb17274",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-11-11T03:43:39Z",
       "side": 1,
       "message": "Will this affect on ASE instructions?",
+      "range": {
+        "startLine": 594,
+        "startChar": 18,
+        "endLine": 594,
+        "endChar": 19
+      },
+      "revId": "8076f1cb303c4a80c009fbf065054e4f6ccb1d65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eef8f07e_f8b699ac",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2020-11-11T11:57:49Z",
+      "side": 1,
+      "message": "Yes. it affect ASE. the bad/good news is that Go doesn\u0027t support any ASE yet.\nSo we can just set it to 0 here.\n\n/* Masks for the ases word of an ABI flags structure.  */\n\n#define AFL_ASE_DSP          0x00000001 /* DSP ASE.  */\n#define AFL_ASE_DSPR2        0x00000002 /* DSP R2 ASE.  */\n#define AFL_ASE_EVA          0x00000004 /* Enhanced VA Scheme.  */\n#define AFL_ASE_MCU          0x00000008 /* MCU (MicroController) ASE.  */\n#define AFL_ASE_MDMX         0x00000010 /* MDMX ASE.  */\n#define AFL_ASE_MIPS3D       0x00000020 /* MIPS-3D ASE.  */\n#define AFL_ASE_MT           0x00000040 /* MT ASE.  */\n#define AFL_ASE_SMARTMIPS    0x00000080 /* SmartMIPS ASE.  */\n#define AFL_ASE_VIRT         0x00000100 /* VZ ASE.  */\n#define AFL_ASE_MSA          0x00000200 /* MSA ASE.  */\n#define AFL_ASE_MIPS16       0x00000400 /* MIPS16 ASE.  */\n#define AFL_ASE_MICROMIPS    0x00000800 /* MICROMIPS ASE.  */\n#define AFL_ASE_XPA          0x00001000 /* XPA ASE.  */",
+      "parentUuid": "51bb7285_efb17274",
       "range": {
         "startLine": 594,
         "startChar": 18,
