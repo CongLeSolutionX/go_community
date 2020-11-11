@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e707f697_bd77c26b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32626
+      },
+      "writtenOn": "2020-11-11T06:00:43Z",
+      "side": 1,
+      "message": "This wipes some dust off the Windows ARM Go support.\n\nUntil Windows 10 ARM64 is supported by Go, the ARM is all we have to build machine code that runs natively on Windows 10 ARM64 without the x86 on ARM64 runtime emulation.",
+      "revId": "61104c6fddacdeb2ab3dd1184f0ac5012bf35022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
