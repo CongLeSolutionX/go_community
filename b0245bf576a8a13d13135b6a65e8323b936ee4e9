@@ -55,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d8cc6de9_7c320c4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9a8b601_3c80f3fb",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ce3fb8bf_f6bbc455",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -139,6 +157,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ab9961_f0bab83d",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6891a977_583298ef",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aea65b9a_1af14363",
@@ -170,6 +206,24 @@
       "side": 1,
       "message": "Using the \u0027testify\u0027 library, calling assert.NoError() every time round a loop is not rare.\nI did fix that specific issue - https://github.com/stretchr/testify/pull/933 - but a variant require.NoError() using the same library proved harder.\n\nSaving memory allocation; see other comment.",
       "parentUuid": "aea65b9a_1af14363",
+      "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0296791_d76fdda2",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-11T20:48:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "22078d23_9bfadf20",
       "revId": "b0245bf576a8a13d13135b6a65e8323b936ee4e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
