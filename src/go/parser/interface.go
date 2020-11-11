@@ -55,8 +55,7 @@ const (
 	Trace                                          // print a trace of parsed productions
 	DeclarationErrors                              // report declaration errors
 	SpuriousErrors                                 // same as AllErrors, for backward-compatibility
-	UseBrackets                                    // use square brackets with type parameters
-	UnifiedParamLists                              // use same syntax for type and ordinary parameter lists (implies UseBrackets)
+	ParseTypeParams                                // Placeholder. Will control the parsing of type parameters.
 	AllErrors         = SpuriousErrors             // report all errors (not just the first 10 on different lines)
 )
 
