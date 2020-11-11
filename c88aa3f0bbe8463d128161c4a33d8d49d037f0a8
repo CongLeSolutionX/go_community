@@ -34,6 +34,46 @@
       "parentUuid": "9c1e5af9_36b0bc78",
       "revId": "c88aa3f0bbe8463d128161c4a33d8d49d037f0a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47c87149_2b32ec4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-11-11T18:23:32Z",
+      "side": 1,
+      "message": "LGTM. \n\nI agree that this is a good candidate for back port. \n\nPulling in additional reviewers.",
+      "revId": "c88aa3f0bbe8463d128161c4a33d8d49d037f0a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f72f5b6_c0fd2807",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-11-11T18:23:32Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this guard -- I tried adding a panic if the guard fails, e.g. \n\n\tif lastlen \u003e 0 {\n\t\tdctxt.AddUint8(lines, dwarf.DW_LNS_advance_pc)\n\t\tdwarf.Uleb128put(dctxt, lines, int64(lastlen))\n\t} else {\n          panic(\"bad\")\n        }\n\nand I was able to run all.bash on linux/amd64 and linux/arm64 without any issues.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 17
+      },
+      "revId": "c88aa3f0bbe8463d128161c4a33d8d49d037f0a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
