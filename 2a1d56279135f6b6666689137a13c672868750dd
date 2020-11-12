@@ -16,6 +16,24 @@
       "message": "Does the assembler embed path information?\n(Do we need something akin to -trimpath for the assembler?)",
       "revId": "2a1d56279135f6b6666689137a13c672868750dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab63cd2f_f3ae769f",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-11-12T18:28:21Z",
+      "side": 1,
+      "message": "This is already covered by the trimpath function. It\u0027s called in asmArgs.",
+      "parentUuid": "411bfb02_9e248feb",
+      "revId": "2a1d56279135f6b6666689137a13c672868750dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
