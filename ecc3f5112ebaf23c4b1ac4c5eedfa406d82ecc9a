@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0465184c_225bf686",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2020-11-12T00:11:33Z",
+      "side": 1,
+      "message": "This change appears problematic for passing gofmt (see last two files):\n\n```\ngit-codereview: gofmt needs to format these files (run \u0027git gofmt\u0027):\n\tsrc/cmd/compile/internal/ssa/gen/genericOps.go\n\tsrc/os/executable_dragonfly.go\n\tsrc/os/executable_freebsd.go\n```",
+      "revId": "ecc3f5112ebaf23c4b1ac4c5eedfa406d82ecc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
