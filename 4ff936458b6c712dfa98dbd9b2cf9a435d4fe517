@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a4e6d2_27ef6e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-12T15:11:20Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-nocgo",
+      "revId": "4ff936458b6c712dfa98dbd9b2cf9a435d4fe517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
