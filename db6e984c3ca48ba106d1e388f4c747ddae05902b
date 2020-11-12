@@ -33,6 +33,24 @@
       "message": "Simplify to:\n\n  file, _ \u003d fsys.OverlayPath(file)",
       "revId": "db6e984c3ca48ba106d1e388f4c747ddae05902b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bf6cbc1_0b2f4113",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-11-12T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c43d7e6_e9bf1557",
+      "revId": "db6e984c3ca48ba106d1e388f4c747ddae05902b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
