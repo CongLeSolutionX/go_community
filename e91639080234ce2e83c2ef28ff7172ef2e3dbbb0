@@ -34,6 +34,23 @@
       "parentUuid": "b7cd9b3d_e90cb739",
       "revId": "e91639080234ce2e83c2ef28ff7172ef2e3dbbb0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f022f19_1b444949",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-11-12T13:27:24Z",
+      "side": 1,
+      "message": "TRY\u003dwindows-amd64,darwin-amd64\n\n",
+      "revId": "e91639080234ce2e83c2ef28ff7172ef2e3dbbb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
