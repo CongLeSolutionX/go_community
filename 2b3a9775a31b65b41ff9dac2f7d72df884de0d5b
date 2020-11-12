@@ -46,6 +46,30 @@
       },
       "revId": "2b3a9775a31b65b41ff9dac2f7d72df884de0d5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6013fe6_c49a1aa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-11-12T15:19:08Z",
+      "side": 1,
+      "message": "OK, looks like you are right -- I stand corrected.  Thanks.",
+      "parentUuid": "28825f68_bed1726c",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "2b3a9775a31b65b41ff9dac2f7d72df884de0d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
