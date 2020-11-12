@@ -16,6 +16,24 @@
       "message": "The merge conflict is easy to fix.  I did it locally, but I lack the git mastery and/or permissions to update the patch.  I need help.",
       "revId": "dae40262ba54211a44b94e5006fe36a9eca4760e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98d40ec5_25722e4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-12T14:05:49Z",
+      "side": 1,
+      "message": "Make the changes locally, then run \"git add\" to queue up the changes, \"git codereview change\" to incorporate the changes into your existing CL, and \"git codereview mail\" to upload the change to Gerrit.\n\nHope this helps.",
+      "parentUuid": "f0759511_7eb63881",
+      "revId": "dae40262ba54211a44b94e5006fe36a9eca4760e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
