@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc15be25_812b7d3f",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-12T16:48:06Z",
+      "side": 1,
+      "message": "I can record a list of module paths to check for retractions, but I\u0027m not sure I understand the situation well enough to write a test.\n\nIf I understand correctly, this would happen if we run \u0027go get a\u0027, and a imports b, and the module version in the build list providing b is retracted and not upgraded. Is that right?",
+      "parentUuid": "65857a55_ade06ebc",
+      "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6eef1cb8_d29fda83",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-12T03:27:48Z",
       "side": 1,
       "message": "We could also (rarely) end up with retracted modules in pkgMods here: if we are invoking findPackages due to an AmbiguousImportError, it is possible that one or more of the modules that provides the import is at a retracted version.\n\nThat information could turn out to be very important: if `go get` is going to terminate with an AmbiguousImportError involving both a retracted version and a non-retracted version, it seems important to tell the user which one is retracted so that they can resolve the ambiguity by removing that one instead of the other.",
+      "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "399ed74f_3053c04a",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-12T16:48:06Z",
+      "side": 1,
+      "message": "Also not sure I understand this one. Could you give an example?\n\n(by the way, should the path field of pathSet be set here? It doesn\u0027t look like it can be sorted below.)",
+      "parentUuid": "6eef1cb8_d29fda83",
       "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
