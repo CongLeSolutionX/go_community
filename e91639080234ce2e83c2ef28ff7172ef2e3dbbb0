@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7cd9b3d_e90cb739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-11-12T12:46:14Z",
+      "side": 1,
+      "message": "\nI\u0027m wondering whether it would be possible to add a test for this-- unless I\u0027m missing something, it would be kind of a tricky one to write. Probably best to do that in another patch.\n\nAlessandro, do you want me to submit this for you?\n\nTRY\u003dwindows-amd64,darwin-amd64",
+      "revId": "e91639080234ce2e83c2ef28ff7172ef2e3dbbb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
