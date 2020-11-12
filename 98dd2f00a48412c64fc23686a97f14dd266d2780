@@ -16,6 +16,24 @@
       "message": "The code could call __builtin_memset, which doesn\u0027t require \u003cstring.h\u003e.  But this is OK too if the compilers don\u0027t actually increase the size of the static segment.",
       "revId": "98dd2f00a48412c64fc23686a97f14dd266d2780",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b5dc31_e56c0b0c",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-12T14:36:12Z",
+      "side": 1,
+      "message": "It worries me slightly that the \"static\" trick seems like a much less obvious thing for the compilers to optimize, but they do, so maybe it doesn\u0027t matter.\n\nI tried replacing this with __builtin_memset and that produces identical code to the static trick (all binary sections except build-id and DWARF are byte-for-byte identical, and likewise for the section and segment tables).",
+      "parentUuid": "2c315c3b_866968d5",
+      "revId": "98dd2f00a48412c64fc23686a97f14dd266d2780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
