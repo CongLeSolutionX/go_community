@@ -114,6 +114,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67ce19b4_959c8037",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-12T17:18:46Z",
+      "side": 1,
+      "message": "number",
+      "range": {
+        "startLine": 535,
+        "startChar": 22,
+        "endLine": 535,
+        "endChar": 29
+      },
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c402ff6_59f8cca4",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-12T17:18:46Z",
+      "side": 1,
+      "message": "Why does this take the three counts and return the three counts? It doesn\u0027t return the number of nodes, allocations, and calls. It increments the input numbers by the counts.\nI think it would be clearer API-wise to just return the counts. The recursive callsites might get bigger\n\nxN, xA, xC :\u003d countNodes(n.Right)\nnN +\u003d xN\nnA +\u003d xA\nnC +\u003d xC\n\nbut the API is clearer.",
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "824b3f9d_3fbee959",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 4
@@ -142,6 +182,24 @@
       "writtenOn": "2020-11-11T22:23:30Z",
       "side": 1,
       "message": "Agreed that it is all iffy -- but the goal (like many compiler optimizations) is to be right enough.\nThe actual parameters turn out to be a relatively light touch (e.g., for small-node-count functions,\nreduce their internal inlining threshold by a little, if they perhaps allocate, if they contain only one call).\nAnd with the current phase ordering, we can\u0027t know for sure, since escape analysis happens afterwards.\n\nThis was also motivated by observing real regressions when the If-max-instead-of-sum change was tested.",
+      "parentUuid": "824b3f9d_3fbee959",
+      "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "804da9d5_dd039161",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-12T17:18:46Z",
+      "side": 1,
+      "message": "Yes, it seems that this is not tightly tied to actual allocations. In addition to what Matthew said, there are allocations not detected here. I think the big culprit would be OADDR of something, likely a OLITERAL. But again, only if the OADDR esacpes.",
       "parentUuid": "824b3f9d_3fbee959",
       "revId": "9a8760cf879051fc8fb42e97a1f8cbbd03c7db81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
