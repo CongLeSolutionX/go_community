@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65857a55_ade06ebc",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-12T03:27:48Z",
+      "side": 1,
+      "message": "Perhaps we should record u.Path somewhere in this case so that we check it for retractions.\n\n(It was queried as part of the `go get` operation — it just wasn\u0027t recorded in the resolvedVersion map because the package-to-module mapping may end up displaced by other queries.)",
+      "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eef1cb8_d29fda83",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-12T03:27:48Z",
+      "side": 1,
+      "message": "We could also (rarely) end up with retracted modules in pkgMods here: if we are invoking findPackages due to an AmbiguousImportError, it is possible that one or more of the modules that provides the import is at a retracted version.\n\nThat information could turn out to be very important: if `go get` is going to terminate with an AmbiguousImportError involving both a retracted version and a non-retracted version, it seems important to tell the user which one is retracted so that they can resolve the ambiguity by removing that one instead of the other.",
+      "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
