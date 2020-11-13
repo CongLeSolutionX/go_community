@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "766948a1_374db8ed",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-13T06:38:54Z",
+      "side": 1,
+      "message": "The first picture and second picture are the specail cases, which are one of the predecessors, pb0 or pb1, is the dominator b0. For them, we also need to require b0 is the dominator pb1 or pb0.",
+      "parentUuid": "950554a2_7c9aa4e3",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad7cf696_d8da834f",
         "filename": "src/cmd/compile/internal/ssa/phiopt.go",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2020-11-06T19:08:36Z",
       "side": 1,
       "message": "There can\u0027t be any blocks here (unless b0 dominates them).",
+      "range": {
+        "startLine": 186,
+        "startChar": 14,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dacd49e_cf0d5e11",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-13T06:38:54Z",
+      "side": 1,
+      "message": "I will change it. Thank you.",
+      "parentUuid": "ad7cf696_d8da834f",
       "range": {
         "startLine": 186,
         "startChar": 14,
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8dd8462_d5273419",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-13T06:38:54Z",
+      "side": 1,
+      "message": "In fact, pb0 is the b0 in the picture. Using it instead of b is to make the input parameters of the replace() function look consistent，and to be consistent with the words in the comments above. I will add the pb0 in the above picture. Thank you.",
+      "parentUuid": "ea08e9fe_50fb2348",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "253be8bc_62426ecf",
         "filename": "src/cmd/compile/internal/ssa/phiopt.go",
         "patchSetId": 2
@@ -71,6 +131,24 @@
       "writtenOn": "2020-11-06T19:08:36Z",
       "side": 1,
       "message": "It is possible (I think) that b0 \u003d\u003d pb0 \u003d\u003d pb1. Can this code handle that case?",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a86a75c7_da28e574",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-13T06:38:54Z",
+      "side": 1,
+      "message": "The pb0 cannot be equal to pb1, because len(b.Preds) is equal 2. Thank you.",
+      "parentUuid": "253be8bc_62426ecf",
       "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -94,6 +172,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96ccfef6_dffa9303",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-13T06:38:54Z",
+      "side": 1,
+      "message": "I will look into it. Thank you.",
+      "parentUuid": "9f410cfd_0d1669d3",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23afb2d5_fd72a740",
         "filename": "src/cmd/compile/internal/ssa/phiopt.go",
         "patchSetId": 2
@@ -105,6 +201,24 @@
       "writtenOn": "2020-11-06T19:08:36Z",
       "side": 1,
       "message": "Needs a comment about what the arguments mean, and what it does.",
+      "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed428db_644d6dce",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-11-13T06:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23afb2d5_fd72a740",
       "revId": "c8dc31bffd7fde3ec3738b3ac2c8a36fab62c9b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
