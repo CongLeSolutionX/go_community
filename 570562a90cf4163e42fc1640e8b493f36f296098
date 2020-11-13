@@ -68,6 +68,69 @@
       "parentUuid": "8e52c577_801aa347",
       "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "619f177c_44b1993d",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-13T16:49:00Z",
+      "side": 1,
+      "message": "This function is already not working because of this. I think we may want to address this first.",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c536ab8_81179d80",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-13T16:49:00Z",
+      "side": 1,
+      "message": "I think it is better to have some comment about the frame layout. Otherwise it is hard to track the numbers.\n\nI think this includes 4*8\u003d32 bytes for args, and 16 bytes for the args of cgocallback_gofunc? What is the rest 4 bytes?",
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "106507b9_c1551369",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-13T16:49:00Z",
+      "side": 1,
+      "message": "Maybe 4*9+52.",
+      "range": {
+        "startLine": 327,
+        "startChar": 6,
+        "endLine": 327,
+        "endChar": 8
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
