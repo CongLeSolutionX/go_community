@@ -304,6 +304,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ed232bb_4d4f5804",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-13T20:22:19Z",
+      "side": 1,
+      "message": "Carlos,\n\nThank you for your comment about the builder. But why we cannot buy windows/arm64 machine and use it as builder? Would that work?\n\nGo Team uses many machines provided by volunteers. windows/arm64 could be just one of them. No?",
+      "parentUuid": "981db648_21c0e8c1",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c536ab8_81179d80",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 2
