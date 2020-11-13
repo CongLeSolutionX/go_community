@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d8d07c_68c3ce65",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-13T20:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472da417_748e4887",
+      "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eef1cb8_d29fda83",
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "\u003e Also not sure I understand this one. Could you give an example?\n\nThe program initially depends on `example.com/retract/nested v1.9.0-bad`.\n\nThe user runs\n\n\tgo get example.com/retract/other@latest\n\n which resolves package `./other` in module `example.com/retract v1.0.0-good`.\n\nPackage `example.com/retract/other` imports package `example.com/retract/nested`, which is provided by both `example.com/retract v1.0.0-good` and `example.com/retract/nested v1.9.0-bad`.\n\nThe `go get` invocation will fail with an \"ambiguous import\" error. Ideally, that failure should also indicate that `example.com/retract/nested v1.9.0-bad` has been revoked. That will (hopefully) prompt the user to reissue the command as:\n\n\tgo get example.com/retract/other@latest example.com/retract/nested@none\n\n\n\u003e (by the way, should the path field of pathSet be set here? It doesn\u0027t look like it can be sorted below.)\n\nOoh, nice catch. `(*query).pathOnce` populates the `path` field, but we\u0027re not using `pathOnce` here. 😞",
       "parentUuid": "399ed74f_3053c04a",
+      "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f531831b_941e3bf0",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-13T20:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "affaa98b_8689261f",
       "revId": "83fa855f4bfef52d76a409a09b7faa9e591d651f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

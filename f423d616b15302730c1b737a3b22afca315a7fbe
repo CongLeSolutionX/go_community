@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8acc6dab_00e44154",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-13T20:22:21Z",
+      "side": 0,
+      "message": "These aren\u0027t referenced. It doesn\u0027t look like they can be used easily since their methods take a callback, but I think they should be accessing data cached in memory anyway.",
+      "revId": "f423d616b15302730c1b737a3b22afca315a7fbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

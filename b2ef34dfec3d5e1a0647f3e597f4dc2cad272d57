@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0751758_eae6926d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-13T20:22:21Z",
+      "side": 1,
+      "message": "I\u0027ve consolidated the module retraction logic with the package reloading, and extracted them into a new method. The tests should cover both cases you mentioned now. Thanks for pointing those out. PTAL.",
+      "revId": "b2ef34dfec3d5e1a0647f3e597f4dc2cad272d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
