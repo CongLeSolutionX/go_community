@@ -33,6 +33,23 @@
       "message": "LGTM",
       "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e52c577_801aa347",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-13T08:13:17Z",
+      "side": 1,
+      "message": "I do not know enough about arm assembler to review this.\n\nSorry.\n\nAlex",
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
