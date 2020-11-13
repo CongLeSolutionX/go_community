@@ -16,6 +16,57 @@
       "message": "Trybot failure is unrelated (it\u0027s issue #42599).",
       "revId": "0bacd06b6d7d99cb856a16141c7f3619b5378a83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d3bd91_03165be7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-13T22:00:42Z",
+      "side": 1,
+      "message": "Thanks for fixing this!",
+      "revId": "0bacd06b6d7d99cb856a16141c7f3619b5378a83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0d12b39_dde1c24b",
+        "filename": "src/cmd/go/testdata/script/ldflag.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-13T22:00:42Z",
+      "side": 1,
+      "message": "As a control case, let\u0027s verify that a file with a #cgo directive containing these flags does not compile (with or without CGO_LDFLAGS set).",
+      "revId": "0bacd06b6d7d99cb856a16141c7f3619b5378a83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56ddecfd_56fba9f7",
+        "filename": "src/cmd/go/testdata/script/ldflag.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-13T22:00:42Z",
+      "side": 1,
+      "message": "Any reason to put this in a separate module? If not, this package can be imported as \"ldflag/a\" instead.",
+      "revId": "0bacd06b6d7d99cb856a16141c7f3619b5378a83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
