@@ -64,9 +64,9 @@ import (
 const (
 	// The background scavenger is paced according to these parameters.
 	//
-	// scavengePercent represents the portion of mutator time we're willing
-	// to spend on scavenging in percent.
-	scavengePercent = 1 // 1%
+	// scavengePercent represents the portion of mutator time with a single CPU
+	// we're willing to spend on scavenging in percent.
+	scavengePercent = 0.01 // 1%
 
 	// retainExtraPercent represents the amount of memory over the heap goal
 	// that the scavenger should keep as a buffer space for the allocator.
@@ -270,16 +270,16 @@ func bgscavenge(c chan int) {
 	// the sleep or the critical time beyond what's expected. Assume no
 	// overhead to begin with.
 	//
-	// TODO(mknyszek): Consider making this based on total CPU time of the
-	// application (i.e. scavengePercent * GOMAXPROCS). This isn't really
-	// feasible now because the scavenger acquires the heap lock over the
-	// scavenging operation, which means scavenging effectively blocks
-	// allocators and isn't scalable. However, given a scalable allocator,
+	// Make the fraction based on total CPU time of the application
+	// by multiplying scavengePercent by GOMAXPROCS, given the fact that
+	// the scavenger acquires the heap lock over the scavenging operation,
+	// which means scavenging effectively blocks allocators and isn't scalable.
+	// However, given a scalable allocator,
 	// it makes sense to also make the scavenger scale with it; if you're
 	// allocating more frequently, then presumably you're also generating
 	// more work for the scavenger.
-	const idealFraction = scavengePercent / 100.0
-	scavengeEWMA := float64(idealFraction)
+	idealFraction := scavengePercent * float64(GOMAXPROCS(0))
+	scavengeEWMA := idealFraction
 
 	for {
 		released := uintptr(0)
@@ -360,7 +360,7 @@ func bgscavenge(c chan int) {
 		// much, then scavengeEMWA < idealFraction, so we'll adjust the sleep time
 		// down.
 		adjust := scavengeEWMA / idealFraction
-		sleepTime := int64(adjust * crit / (scavengePercent / 100.0))
+		sleepTime := int64(adjust * crit / scavengePercent)
 
 		// Go to sleep.
 		slept := scavengeSleep(sleepTime)
