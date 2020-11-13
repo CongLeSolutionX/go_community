@@ -70,6 +70,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c46546_b765d9ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-13T17:01:24Z",
+      "side": 1,
+      "message": "Thanks for the review. New version coming up shortly.",
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "619f177c_44b1993d",
@@ -83,6 +100,30 @@
       "writtenOn": "2020-11-13T16:49:00Z",
       "side": 1,
       "message": "This function is already not working because of this. I think we may want to address this first.",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "231e5179_a0fa0fa7",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-13T17:01:24Z",
+      "side": 1,
+      "message": "I don\u0027t really know what \"this\" is, and it doesn\u0027t seem like a reason to hold up actual bug fixes here that have been tested on real hardware.",
+      "parentUuid": "619f177c_44b1993d",
       "range": {
         "startLine": 317,
         "startChar": 0,
@@ -110,6 +151,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c37817e_9a45b684",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-13T17:01:24Z",
+      "side": 1,
+      "message": "It was 36 before, and I needed 16 more, so I added 16 to the original 36 to arrive at 52.\n\nIt looks to me like 16 bytes for cgocallback_gofunc + 32 for the C arguments + 4 for the return value.\n\nI\u0027ll make a comment about that in the source.",
+      "parentUuid": "8c536ab8_81179d80",
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "106507b9_c1551369",
@@ -123,6 +182,30 @@
       "writtenOn": "2020-11-13T16:49:00Z",
       "side": 1,
       "message": "Maybe 4*9+52.",
+      "range": {
+        "startLine": 327,
+        "startChar": 6,
+        "endLine": 327,
+        "endChar": 8
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0842202_8aae3d1e",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-13T17:01:24Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "106507b9_c1551369",
       "range": {
         "startLine": 327,
         "startChar": 6,
