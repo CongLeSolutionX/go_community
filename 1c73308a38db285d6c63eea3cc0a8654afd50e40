@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "719406db_4470009e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-11-13T15:04:34Z",
+      "side": 1,
+      "message": "Unfortunately one of the reasons we limit the scavenger to 1% of 1 CPU core (very roughly) is because it holds the heap lock across the scavenging operation. It\u0027s possible to have it not do that, but it\u0027s not trivial because scavenging can then race with the allocator, and if the user application picks up the memory while its actively being scavenged and for example, writes to it, it\u0027s possible for memory corruption (mostly unintended zeroing). Resolving that efficiently is not easy.\n\nIn the past I\u0027ve done this in two different ways, neither of which I\u0027m particularly happy with:\n1. Write down the memory region being scavenged somewhere and have the allocator wait if it turns out it just acquired that memory region.\n    * This has the advantage that we maintain our current allocation policy, but block allocation.\n    * Since we kind of do that today by holding the heap lock over the operation... maybe this would be OK? Last time I tried it it was somewhat messy to do, but theoretically should just be better than what we have today.\n2. Take the memory to be scavenged out of the allocation pool, scavenge it, then put it back in (that is, set it to \"in use\").\n    * This has the advantage that the allocator is none the wiser, and it\u0027s much simpler overall, but we\u0027re tweaking our allocation policy.\n    * Note that since we generally pick up 1 page at a time, we\u0027re breaking apart contiguous sections of memory! This could legitimately lead to more heap growths.\n\nOn another note, the scavenger could go a lot faster for the same CPU usage if the allocator organized the heap in terms of huge pages, since then it\u0027d be much more likely than today that a whole huge page is free (the scavenger is already aware-enough of huge pages). Personally, that\u0027s where I\u0027d like this to go next, since it opens up the world of a much more efficient scavenger. Acquiring a whole huge page for scavenging is also potentially less problematic with respect to problem (2), though we may still want to allow sub-huge-page scavenging. There\u0027s a lot of \"it depends\" in this area because I\u0027m not even 100% sure what a huge-page-aware allocator design would look like in Go yet (we have some indication, but it\u0027s hard to predict the future :)). It certainly will depend on where the rest of the allocator ends up.\n\nAnyway, all that to say that I don\u0027t feel ready to let the scavenger actually use 1% of CPU time yet. And, there\u0027s a lot more work to be done here.",
+      "revId": "1c73308a38db285d6c63eea3cc0a8654afd50e40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
