@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "daccaf6c_0481b89a",
         "filename": "/COMMIT_MSG",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "change \"swapping\" to \"swap\" per normal verb tense convention in commit messages",
       "revId": "0625d2100316d7affcd7c9d1129121240317de97",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9e26e3_5b2117a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-13T15:00:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daccaf6c_0481b89a",
+      "revId": "0625d2100316d7affcd7c9d1129121240317de97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
