@@ -328,6 +328,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d03876a5_b33ceed0",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2020-11-13T21:00:02Z",
+      "side": 1,
+      "message": "That\u0027s a great question Alex. We should move this discussion over to golang.org/issue/38607",
+      "parentUuid": "2ed232bb_4d4f5804",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c536ab8_81179d80",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 2
