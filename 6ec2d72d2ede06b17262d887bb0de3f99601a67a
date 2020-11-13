@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cf32324_12b170cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-13T02:53:03Z",
+      "side": 1,
+      "message": "I think I have to bail on this; I redid the benchmarks after the recursion \"fix\", and they\u0027re not as good, by more than the noise that I was normally seeing -- so something slightly wonky is going (recursively decreasing the inline budget is good?). Keith and I discussed (briefly) a better approach in one of the comments, that rather than guessing at one-size-fits-enough numbers, would by design avoid inlines that made their caller exceed the inlining threshold (the hoped-for policy is that this would result in inlined-fast-path and inlined top-level allocations).",
+      "revId": "6ec2d72d2ede06b17262d887bb0de3f99601a67a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
