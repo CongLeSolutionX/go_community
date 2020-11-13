@@ -280,6 +280,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "981db648_21c0e8c1",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-13T20:17:33Z",
+      "side": 1,
+      "message": "Hi Austin --\n\nHuh, that\u0027s pretty weird about _every binary_ crashing. I wonder if there are other regressions in 1.16? Did you try any 1.15 binaries? I\u0027ve been developing a 1.15-based windows/arm application (wireguard) for the last few weeks with great success, modulo the things I\u0027ve sent CLs for.\n\nIf you\u0027ve got some draft code of what you think the windows/arm situation should look like for this file, I can run it (on real hardware, rather than the VM) and see, and if there are problems maybe polish it if I can figure out what\u0027s going on, or revert back to you.",
+      "parentUuid": "01d277b9_8f936690",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c536ab8_81179d80",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 2
