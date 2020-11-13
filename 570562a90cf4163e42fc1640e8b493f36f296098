@@ -232,6 +232,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d034799_216ba4d2",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-13T18:42:08Z",
+      "side": 1,
+      "message": "Hi Jason. My understanding is that the releases team has been working with Microsoft for some time now to sort out the licenses to run windows/arm builders, but I don\u0027t know the status there.\n\nWhen I made the cgo change, I tried to fix the windows/arm port by running it in the windows/arm64 VM you sent us a while ago, but every windows/arm binary I tried to run crashed immediately, even from versions of Go where I thought windows/arm support was stable, so I figured I just didn\u0027t know what I was doing and that wasn\u0027t how you run windows/arm binaries.\n\nOn the technical side, with CL 258938, we\u0027re actually in a much *better* place to support windows/arm callbacks with any number of arguments because the frame layout doesn\u0027t have to be contiguous or compatible with Go\u0027s frame layout.",
+      "parentUuid": "4b7e4603_ea8c1e2f",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c536ab8_81179d80",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 2
