@@ -352,6 +352,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e450b1fa_b552bc1b",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-13T21:09:53Z",
+      "side": 1,
+      "message": "I was just trying a \"hello world\" binary, too. The behavior was really strange. It would appear to do nothing for many seconds and then I\u0027d get a crash dialog with no particular information (I don\u0027t remember the details, though I\u0027m sure I could reproduce it if that would be helpful). I tried building with every major Go version I think back to 1.13 and the binary did the exact same thing every time (I had to check I was in fact copying new binaries into the VM!).\n\nI can try writing a draft of the fix. Based on my experience doing this for the other platforms, I almost certainly won\u0027t get it right the first time, but maybe I can get it close enough for you to polish. I won\u0027t try to support more than the current 4 arguments; just to get it working first.",
+      "parentUuid": "d03876a5_b33ceed0",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c536ab8_81179d80",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 2
