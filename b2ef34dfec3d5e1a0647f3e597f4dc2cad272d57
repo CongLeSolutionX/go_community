@@ -16,6 +16,29 @@
       "message": "I\u0027ve consolidated the module retraction logic with the package reloading, and extracted them into a new method. The tests should cover both cases you mentioned now. Thanks for pointing those out. PTAL.",
       "revId": "b2ef34dfec3d5e1a0647f3e597f4dc2cad272d57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78f135bf_4dd5b282",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1548,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-13T21:07:47Z",
+      "side": 1,
+      "message": "Is this (or should it be) equivalent to `retractErr.Error()`? It\u0027s at least pretty similar.\n\n(If they\u0027re intentionally different, a comment here might be helpful.)",
+      "range": {
+        "startLine": 1545,
+        "startChar": 0,
+        "endLine": 1548,
+        "endChar": 5
+      },
+      "revId": "b2ef34dfec3d5e1a0647f3e597f4dc2cad272d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
