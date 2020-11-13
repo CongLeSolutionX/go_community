@@ -34,6 +34,24 @@
       "parentUuid": "0465184c_225bf686",
       "revId": "ecc3f5112ebaf23c4b1ac4c5eedfa406d82ecc9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf299cab_60f147a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-13T22:09:57Z",
+      "side": 1,
+      "message": "I\u0027ve fixed it in CL 269477.",
+      "parentUuid": "41811151_99558dc3",
+      "revId": "ecc3f5112ebaf23c4b1ac4c5eedfa406d82ecc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
