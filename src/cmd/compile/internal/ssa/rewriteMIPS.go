@@ -4465,7 +4465,7 @@ func rewriteValueMIPS_OpMIPSSRA(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
 	// match: (SRA x (MOVWconst [c]))
-	// cond: c >= 32
+	// cond: uint32(c) >= 32
 	// result: (SRAconst x [31])
 	for {
 		x := v_0
@@ -4473,7 +4473,7 @@ func rewriteValueMIPS_OpMIPSSRA(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(c >= 32) {
+		if !(uint32(c) >= 32) {
 			break
 		}
 		v.reset(OpMIPSSRAconst)
