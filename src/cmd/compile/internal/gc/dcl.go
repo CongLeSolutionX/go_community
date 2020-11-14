@@ -10,6 +10,7 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
+	"go/constant"
 	"strings"
 )
 
@@ -565,13 +566,8 @@ func structfield(n *Node) *types.Field {
 		f.Embedded = 0
 	}
 
-	switch u := n.Val().U.(type) {
-	case string:
-		f.Note = u
-	default:
-		yyerror("field tag must be a string")
-	case nil:
-		// no-op
+	if n.HasVal() {
+		f.Note = constant.StringVal(n.Val())
 	}
 
 	lineno = lno
@@ -656,7 +652,7 @@ func interfacefield(n *Node) *types.Field {
 		Fatalf("interfacefield: oops %v\n", n)
 	}
 
-	if n.Val().Ctype() != CTxxx {
+	if n.HasVal() {
 		yyerror("interface method cannot have annotation")
 	}
 

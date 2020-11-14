@@ -7,6 +7,7 @@ package constant
 import (
 	"fmt"
 	"go/token"
+	"math"
 	"math/big"
 	"strings"
 	"testing"
@@ -602,7 +603,7 @@ func TestMake(t *testing.T) {
 		false,
 		"hello",
 		int64(1),
-		big.NewInt(10),
+		new(big.Int).SetUint64(math.MaxUint64),
 		big.NewFloat(2.0),
 		big.NewRat(1, 3),
 	} {

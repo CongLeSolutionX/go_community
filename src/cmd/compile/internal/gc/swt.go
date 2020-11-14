@@ -7,6 +7,8 @@ package gc
 import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"go/constant"
+	"go/token"
 	"sort"
 )
 
@@ -400,7 +402,7 @@ func (s *exprSwitch) flush() {
 	}
 
 	sort.Slice(cc, func(i, j int) bool {
-		return compareOp(cc[i].lo.Val(), OLT, cc[j].lo.Val())
+		return constant.Compare(cc[i].lo.Val(), token.LSS, cc[j].lo.Val())
 	})
 
 	// Merge consecutive integer cases.

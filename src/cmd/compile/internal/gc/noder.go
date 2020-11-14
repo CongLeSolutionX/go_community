@@ -6,6 +6,9 @@ package gc
 
 import (
 	"fmt"
+	"go/constant"
+	"go/token"
+	"math/big"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -330,8 +333,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 		p.checkUnused(pragma)
 	}
 
-	val := p.basicLit(imp.Path)
-	ipkg := importfile(&val)
+	ipkg := importfile(p.basicLit(imp.Path))
 	if ipkg == nil {
 		if nerrors == 0 {
 			Fatalf("phase error in import")
@@ -823,7 +825,7 @@ func (p *noder) sum(x syntax.Expr) *Node {
 			chunks = append(chunks, nstr.StringVal())
 		} else {
 			if len(chunks) > 1 {
-				nstr.SetVal(Val{U: strings.Join(chunks, "")})
+				nstr.SetVal(constant.MakeString(strings.Join(chunks, "")))
 			}
 			nstr = nil
 			chunks = chunks[:0]
@@ -831,7 +833,7 @@ func (p *noder) sum(x syntax.Expr) *Node {
 		n = p.nod(add, OADD, n, r)
 	}
 	if len(chunks) > 1 {
-		nstr.SetVal(Val{U: strings.Join(chunks, "")})
+		nstr.SetVal(constant.MakeString(strings.Join(chunks, "")))
 	}
 
 	return n
@@ -1399,64 +1401,44 @@ func checkLangCompat(lit *syntax.BasicLit) {
 	}
 }
 
-func (p *noder) basicLit(lit *syntax.BasicLit) Val {
+func (p *noder) basicLit(lit *syntax.BasicLit) constant.Value {
 	// We don't use the errors of the conversion routines to determine
 	// if a literal string is valid because the conversion routines may
 	// accept a wider syntax than the language permits. Rely on lit.Bad
 	// instead.
-	switch s := lit.Value; lit.Kind {
-	case syntax.IntLit:
-		checkLangCompat(lit)
-		x := new(Mpint)
-		if !lit.Bad {
-			x.SetString(s)
-		}
-		return Val{U: x}
-
-	case syntax.FloatLit:
-		checkLangCompat(lit)
-		x := newMpflt()
-		if !lit.Bad {
-			x.SetString(s)
-		}
-		return Val{U: x}
-
-	case syntax.ImagLit:
-		checkLangCompat(lit)
-		x := newMpcmplx()
-		if !lit.Bad {
-			x.Imag.SetString(strings.TrimSuffix(s, "i"))
-		}
-		return Val{U: x}
-
-	case syntax.RuneLit:
-		x := new(Mpint)
-		if !lit.Bad {
-			u, _ := strconv.Unquote(s)
-			var r rune
-			if len(u) == 1 {
-				r = rune(u[0])
-			} else {
-				r, _ = utf8.DecodeRuneInString(u)
-			}
-			x.SetInt64(int64(r))
-		}
-		return Val{U: x}
-
-	case syntax.StringLit:
-		var x string
-		if !lit.Bad {
-			if len(s) > 0 && s[0] == '`' {
-				// strip carriage returns from raw string
-				s = strings.Replace(s, "\r", "", -1)
-			}
-			x, _ = strconv.Unquote(s)
-		}
-		return Val{U: x}
-
-	default:
-		panic("unhandled BasicLit kind")
+	if lit.Bad {
+		return constant.MakeUnknown()
 	}
+
+	switch lit.Kind {
+	case syntax.IntLit, syntax.FloatLit, syntax.ImagLit:
+		checkLangCompat(lit)
+	}
+
+	v := constant.MakeFromLiteral(lit.Value, tokenForLitKind[lit.Kind], 0)
+	if v.Kind() == constant.Unknown {
+		// TODO(mdempsky): Better error message?
+		p.yyerrorpos(lit.Pos(), "malformed constant: %s", lit.Value)
+	}
+
+	// Appeases toolstash.
+	// TODO(mdempsky): Remove?
+	if r, ok := constant.Val(v).(*big.Rat); ok {
+		var f big.Float
+		f.SetPrec(Mpprec)
+		f.SetRat(r)
+		v = constant.Make(&f)
+	}
+
+	return v
+}
+
+var tokenForLitKind = [...]token.Token{
+	syntax.IntLit:    token.INT,
+	syntax.RuneLit:   token.CHAR,
+	syntax.FloatLit:  token.FLOAT,
+	syntax.ImagLit:   token.IMAG,
+	syntax.StringLit: token.STRING,
 }
 
 func (p *noder) name(name *syntax.Name) *types.Sym {

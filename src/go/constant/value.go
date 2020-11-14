@@ -461,7 +461,9 @@ func Int64Val(x Value) (int64, bool) {
 	case int64Val:
 		return int64(x), true
 	case intVal:
-		return x.val.Int64(), false // not an int64Val and thus not exact
+		// TODO(mdempsky): Why is this also necessary when
+		// bootstrapping from Go 1.4?
+		return x.val.Int64(), x.val.IsInt64() // not an int64Val and thus not exact
 	case unknownVal:
 		return 0, false
 	default:
@@ -583,7 +585,9 @@ func Make(x interface{}) Value {
 	case int64:
 		return int64Val(x)
 	case *big.Int:
-		return intVal{x}
+		// TODO(mdempsky): Upstream this, or just fix users within cmd/compile?
+		// TODO(mdempsky): Use makeRat and makeFloat below too?
+		return makeInt(x)
 	case *big.Rat:
 		return ratVal{x}
 	case *big.Float:
