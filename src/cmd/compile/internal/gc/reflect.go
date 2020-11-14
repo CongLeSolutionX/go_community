@@ -1518,6 +1518,10 @@ func itabsym(it *obj.LSym, offset int64) *obj.LSym {
 
 // addsignat ensures that a runtime type descriptor is emitted for t.
 func addsignat(t *types.Type) {
+	if t == nil {
+		Fatalf("shouldn't happen; addsignat(nil)")
+	}
+
 	if _, ok := signatset[t]; !ok {
 		signatset[t] = struct{}{}
 		signatslice = append(signatslice, t)

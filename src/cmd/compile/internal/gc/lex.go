@@ -183,6 +183,70 @@ func (p *noder) pragcgo(pos syntax.Pos, text string) {
 	p.pragcgobuf = append(p.pragcgobuf, f)
 }
 
+// pragcgo is called concurrently if files are parsed concurrently.
+func (p *noder2) pragcgo(pos syntax.Pos, text string) {
+	f := pragmaFields(text)
+
+	verb := strings.TrimPrefix(f[0], "go:")
+	f[0] = verb
+
+	switch verb {
+	case "cgo_export_static", "cgo_export_dynamic":
+		switch {
+		case len(f) == 2 && !isQuoted(f[1]):
+		case len(f) == 3 && !isQuoted(f[1]) && !isQuoted(f[2]):
+		default:
+			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf(`usage: //go:%s local [remote]`, verb)})
+			return
+		}
+	case "cgo_import_dynamic":
+		switch {
+		case len(f) == 2 && !isQuoted(f[1]):
+		case len(f) == 3 && !isQuoted(f[1]) && !isQuoted(f[2]):
+		case len(f) == 4 && !isQuoted(f[1]) && !isQuoted(f[2]) && isQuoted(f[3]):
+			f[3] = strings.Trim(f[3], `"`)
+			if objabi.GOOS == "aix" && f[3] != "" {
+				// On Aix, library pattern must be "lib.a/object.o"
+				// or "lib.a/libname.so.X"
+				n := strings.Split(f[3], "/")
+				if len(n) != 2 || !strings.HasSuffix(n[0], ".a") || (!strings.HasSuffix(n[1], ".o") && !strings.Contains(n[1], ".so.")) {
+					p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_import_dynamic local [remote ["lib.a/object.o"]]`})
+					return
+				}
+			}
+		default:
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_import_dynamic local [remote ["library"]]`})
+			return
+		}
+	case "cgo_import_static":
+		switch {
+		case len(f) == 2 && !isQuoted(f[1]):
+		default:
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_import_static local`})
+			return
+		}
+	case "cgo_dynamic_linker":
+		switch {
+		case len(f) == 2 && isQuoted(f[1]):
+			f[1] = strings.Trim(f[1], `"`)
+		default:
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_dynamic_linker "path"`})
+			return
+		}
+	case "cgo_ldflag":
+		switch {
+		case len(f) == 2 && isQuoted(f[1]):
+			f[1] = strings.Trim(f[1], `"`)
+		default:
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_ldflag "arg"`})
+			return
+		}
+	default:
+		return
+	}
+	p.pragcgobuf = append(p.pragcgobuf, f)
+}
+
 // pragmaFields is similar to strings.FieldsFunc(s, isSpace)
 // but does not split when inside double quoted regions and always
 // splits before the start and after the end of a double quoted region.

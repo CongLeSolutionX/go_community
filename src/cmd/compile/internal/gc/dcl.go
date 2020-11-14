@@ -84,6 +84,9 @@ func declare(n *Node, ctxt Class) {
 		if s.Name == "main" && s.Pkg.Name == "main" {
 			yyerrorl(n.Pos, "cannot declare main - must be func")
 		}
+		if n.Op == OTYPE && n.Type == nil {
+			// Fatalf("externdcl with n.Type == nil: %v", n)
+		}
 		externdcl = append(externdcl, n)
 	} else {
 		if Curfn == nil && ctxt == PAUTO {

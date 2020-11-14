@@ -12,7 +12,7 @@ import (
 )
 
 // To enable tracing support (-t flag), set enableTrace to true.
-const enableTrace = false
+const enableTrace = true
 
 var trace bool
 var traceIndent []byte
@@ -23,16 +23,17 @@ func tracePrint(title string, n *Node) func(np **Node) {
 
 	// guard against nil
 	var pos, op string
-	var tc uint8
+	var tc, wd uint8
 	if n != nil {
 		pos = linestr(n.Pos)
 		op = n.Op.String()
 		tc = n.Typecheck()
+		wd = n.Walkdef()
 	}
 
 	skipDowidthForTracing = true
 	defer func() { skipDowidthForTracing = false }()
-	fmt.Printf("%s: %s%s %p %s %v tc=%d\n", pos, indent, title, n, op, n, tc)
+	fmt.Printf("%s: %s%s %p %s %v tc=%d wd=%d\n", pos, indent, title, n, op, n, tc, wd)
 	traceIndent = append(traceIndent, ". "...)
 
 	return func(np **Node) {
@@ -3579,7 +3580,7 @@ func typecheckdef(n *Node) {
 
 	n.SetWalkdef(2)
 
-	if n.Type != nil || n.Sym == nil { // builtin or no name
+	if (n.Type != nil && n.Type.Etype != TFORW) || n.Sym == nil { // builtin or no name
 		goto ret
 	}
 
@@ -3676,6 +3677,10 @@ func typecheckdef(n *Node) {
 		n.Name.Defn = typecheck(n.Name.Defn, ctxStmt) // fills in n.Type
 
 	case OTYPE:
+		if Debug.G != 0 {
+			break
+		}
+
 		if p := n.Name.Param; p.Alias() {
 			// Type alias declaration: Simply use the rhs type - no need
 			// to create a new type.
@@ -3699,8 +3704,8 @@ func typecheckdef(n *Node) {
 		// regular type declaration
 		defercheckwidth()
 		n.SetWalkdef(1)
-		setTypeNode(n, types.New(TFORW))
-		n.Type.Sym = n.Sym
+		// setTypeNode(n, types.New(TFORW))
+		// n.Type.Sym = n.Sym
 		nerrors0 := nerrors
 		typecheckdeftype(n)
 		if n.Type.Etype == TFORW && nerrors > nerrors0 {

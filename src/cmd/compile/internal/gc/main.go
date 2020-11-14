@@ -581,7 +581,6 @@ func Main(archInit func(*Arch)) {
 		if nerrors+nsavederrors != 0 {
 			errorexit()
 		}
-		return
 	}
 
 	finishUniverse()
@@ -1346,6 +1345,10 @@ func importfile(f *Val) *types.Pkg {
 }
 
 func pkgnotused(lineno src.XPos, path string, name string) {
+	if Debug.G != 0 {
+		return
+	}
+
 	// If the package was imported with a name other than the final
 	// import path element, show it explicitly in the error message.
 	// Note that this handles both renamed imports and imports of

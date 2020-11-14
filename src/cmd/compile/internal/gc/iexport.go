@@ -250,6 +250,13 @@ func iexport(out *bufio.Writer) {
 		p := &exporter{marked: make(map[*types.Type]bool)}
 		for _, n := range exportlist {
 			sym := n.Sym
+			if false {
+				var def *Node
+				if sym != nil {
+					def = asNode(sym.Def)
+				}
+				fmt.Println("exportlist", sym, def)
+			}
 			p.markType(asNode(sym.Def).Type)
 		}
 	}
@@ -452,6 +459,7 @@ func (p *iexporter) doDecl(n *Node) {
 
 	case OLITERAL:
 		// Constant.
+		lineno = n.Pos
 		n = typecheck(n, ctxExpr)
 		w.tag('C')
 		w.pos(n.Pos)
@@ -487,6 +495,8 @@ func (p *iexporter) doDecl(n *Node) {
 			w.typeExt(t)
 			break
 		}
+
+		// fmt.Println(n.Sym)
 
 		ms := t.Methods()
 		w.uint64(uint64(ms.Len()))
@@ -1464,7 +1474,7 @@ func (w *exportWriter) localIdent(s *types.Sym, v int32) {
 	}
 
 	if !types.IsExported(name) && s.Pkg != w.currPkg {
-		Fatalf("weird package in name: %v => %v, not %q", s, name, w.currPkg.Path)
+		Fatalf("weird package in name: %v => %v, not %q", s, s.Pkg.Path, w.currPkg.Path)
 	}
 
 	w.string(name)

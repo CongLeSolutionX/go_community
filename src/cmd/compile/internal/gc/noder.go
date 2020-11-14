@@ -29,40 +29,40 @@ import (
 // and its root represented by *Node is appended to xtop.
 // Returns the total count of parsed lines.
 func parseFiles(filenames []string, allowGenerics bool) (lines uint) {
-	noders := make([]*noder, 0, len(filenames))
-	// Limit the number of simultaneously open files.
-	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
-
-	for _, filename := range filenames {
-		p := &noder{
-			basemap: make(map[*syntax.PosBase]*src.PosBase),
-			err:     make(chan syntax.Error),
-		}
-		noders = append(noders, p)
-
-		go func(filename string) {
-			sem <- struct{}{}
-			defer func() { <-sem }()
-			defer close(p.err)
-			base := syntax.NewFileBase(filename)
-
-			f, err := os.Open(filename)
-			if err != nil {
-				p.error(syntax.Error{Msg: err.Error()})
-				return
-			}
-			defer f.Close()
-
-			mode := syntax.CheckBranches
-			if allowGenerics {
-				mode |= syntax.AllowGenerics
-			}
-			p.file, _ = syntax.Parse(base, f, p.error, p.pragma, mode) // errors are tracked via p.error
-		}(filename)
-	}
-
 	if allowGenerics {
-		nodersmap := make(map[string]*noder)
+		noders := make([]*noder2, 0, len(filenames))
+		// Limit the number of simultaneously open files.
+		sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
+
+		for _, filename := range filenames {
+			p := &noder2{
+				basemap: make(map[*syntax.PosBase]*src.PosBase),
+				err:     make(chan syntax.Error),
+			}
+			noders = append(noders, p)
+
+			go func(filename string) {
+				sem <- struct{}{}
+				defer func() { <-sem }()
+				defer close(p.err)
+				base := syntax.NewFileBase(filename)
+
+				f, err := os.Open(filename)
+				if err != nil {
+					p.error(syntax.Error{Msg: err.Error()})
+					return
+				}
+				defer f.Close()
+
+				mode := syntax.CheckBranches
+				if allowGenerics {
+					mode |= syntax.AllowGenerics
+				}
+				p.file, _ = syntax.Parse(base, f, p.error, p.pragma, mode) // errors are tracked via p.error
+			}(filename)
+		}
+
+		nodersmap := make(map[string]*noder2)
 		var files []*syntax.File
 		for _, p := range noders {
 			for e := range p.err {
@@ -97,8 +97,85 @@ func parseFiles(filenames []string, allowGenerics bool) (lines uint) {
 				packages: make(map[string]*types2.Package),
 			},
 		}
-		conf.Check(Ctxt.Pkgpath, files, nil)
+		info := types2.Info{
+			Types:      make(map[syntax.Expr]types2.TypeAndValue),
+			Inferred:   make(map[syntax.Expr]types2.Inferred),
+			Defs:       make(map[*syntax.Name]types2.Object),
+			Uses:       make(map[*syntax.Name]types2.Object),
+			Implicits:  make(map[syntax.Node]types2.Object),
+			Selections: make(map[*syntax.SelectorExpr]*types2.Selection),
+			Scopes:     make(map[syntax.Node]*types2.Scope),
+		}
+		pkg, err := conf.Check(Ctxt.Pkgpath, files, &info)
+		if err != nil {
+			Fatalf("err: %v", err)
+		}
+
+		defercheckwidth()
+		for _, p := range noders {
+			p.info = &info
+			p.pkg = pkg
+			p.node0()
+		}
+
+		for _, p := range noders {
+			p.node1()
+		}
+		resumecheckwidth()
+
+		for _, p := range noders {
+			p.node()
+			lines += p.file.EOF.Line()
+			p.file = nil // release memory
+
+			if nsyntaxerrors != 0 {
+				errorexit()
+			}
+			// Always run testdclstack here, even when debug_dclstack is not set, as a sanity measure.
+			testdclstack()
+		}
+
+		for _, n := range xtop {
+			if n.Op == ODCLTYPE && n.Left.Name.Param.Alias() {
+				// fmt.Printf("odcltype alias: %v (%p) = %v (%p) (plz be non-nil: %v, %p)\n", n.Left.Sym, n.Left.Sym, n.Left.Type, n.Left.Type, n.Left.Type.Nod, asNode(n.Left.Type.Nod))
+				n.Left.Sym.Def = n.Left.Type.Nod
+			}
+		}
+
+		localpkg.Height = myheight
 		return
+	}
+
+	noders := make([]*noder, 0, len(filenames))
+	// Limit the number of simultaneously open files.
+	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
+
+	for _, filename := range filenames {
+		p := &noder{
+			basemap: make(map[*syntax.PosBase]*src.PosBase),
+			err:     make(chan syntax.Error),
+		}
+		noders = append(noders, p)
+
+		go func(filename string) {
+			sem <- struct{}{}
+			defer func() { <-sem }()
+			defer close(p.err)
+			base := syntax.NewFileBase(filename)
+
+			f, err := os.Open(filename)
+			if err != nil {
+				p.error(syntax.Error{Msg: err.Error()})
+				return
+			}
+			defer f.Close()
+
+			mode := syntax.CheckBranches
+			if allowGenerics {
+				mode |= syntax.AllowGenerics
+			}
+			p.file, _ = syntax.Parse(base, f, p.error, p.pragma, mode) // errors are tracked via p.error
+		}(filename)
 	}
 
 	for _, p := range noders {
@@ -1750,6 +1827,8 @@ func safeArg(name string) bool {
 
 func mkname(sym *types.Sym) *Node {
 	n := oldname(sym)
+	// fmt.Printf("mkname(%v, %p) = %v, %p\n", sym, sym, n, n)
+	// Dump("mkname", n)
 	if n.Name != nil && n.Name.Pack != nil {
 		n.Name.Pack.Name.SetUsed(true)
 	}

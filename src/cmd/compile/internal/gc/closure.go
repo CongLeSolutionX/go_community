@@ -71,6 +71,67 @@ func (p *noder) funcLit(expr *syntax.FuncLit) *Node {
 	return clo
 }
 
+func (p *noder2) funcLit(expr *syntax.FuncLit) *Node {
+	xtype := p.typeExpr(expr.Type)
+	ntype := p.typeExpr(expr.Type)
+
+	xfunc := p.nod(expr, ODCLFUNC, nil, nil)
+	xfunc.Func.SetIsHiddenClosure(Curfn != nil)
+	xfunc.Func.Nname = newfuncnamel(p.pos(expr), nblank.Sym) // filled in by typecheckclosure
+	xfunc.Func.Nname.Name.Param.Ntype = xtype
+	xfunc.Func.Nname.Name.Defn = xfunc
+
+	clo := p.nod(expr, OCLOSURE, nil, nil)
+	clo.Func.Ntype = ntype
+
+	xfunc.Func.Closure = clo
+	clo.Func.Closure = xfunc
+
+	p.funcBody(xfunc, expr.Body)
+
+	// closure-specific variables are hanging off the
+	// ordinary ones in the symbol table; see oldname.
+	// unhook them.
+	// make the list of pointers for the closure call.
+	for _, v := range xfunc.Func.Cvars.Slice() {
+		// Unlink from v1; see comment in syntax.go type Param for these fields.
+		v1 := v.Name.Defn
+		v1.Name.Param.Innermost = v.Name.Param.Outer
+
+		// If the closure usage of v is not dense,
+		// we need to make it dense; now that we're out
+		// of the function in which v appeared,
+		// look up v.Sym in the enclosing function
+		// and keep it around for use in the compiled code.
+		//
+		// That is, suppose we just finished parsing the innermost
+		// closure f4 in this code:
+		//
+		//	func f() {
+		//		v := 1
+		//		func() { // f2
+		//			use(v)
+		//			func() { // f3
+		//				func() { // f4
+		//					use(v)
+		//				}()
+		//			}()
+		//		}()
+		//	}
+		//
+		// At this point v.Outer is f2's v; there is no f3's v.
+		// To construct the closure f4 from within f3,
+		// we need to use f3's v and in this case we need to create f3's v.
+		// We are now in the context of f3, so calling oldname(v.Sym)
+		// obtains f3's v, creating it if necessary (as it is in the example).
+		//
+		// capturevars will decide whether to use v directly or &v.
+		v.Name.Param.Outer = oldname(v.Sym)
+	}
+
+	return clo
+}
+
 func typecheckclosure(clo *Node, top int) {
 	xfunc := clo.Func.Closure
 	// Set current associated iota value, so iota can be used inside
