@@ -34,6 +34,24 @@
       "parentUuid": "719406db_4470009e",
       "revId": "1c73308a38db285d6c63eea3cc0a8654afd50e40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed33eb58_e89fa0b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2020-11-14T04:01:27Z",
+      "side": 1,
+      "message": "I hope I didn\u0027t make your patch feel unwelcome, I really appreciate you coming by and taking a look at the TODO.\n\nyour patch definitely has the right idea in general (AFAICT), and this change would have to be made to resolve the TODO eventually. if you did want to implement (1) above I would happily review it, or if you have other ideas in this area, I\u0027m very much open to them and open to discussing them here or in a GitHub issue or something!",
+      "parentUuid": "0e99ecb5_3acd270f",
+      "revId": "1c73308a38db285d6c63eea3cc0a8654afd50e40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
