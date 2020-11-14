@@ -215,7 +215,7 @@ func hasUniquePos(n *Node) bool {
 	switch n.Op {
 	case ONAME, OPACK:
 		return false
-	case OLITERAL, OTYPE:
+	case OLITERAL, ONIL, OTYPE:
 		if n.Sym != nil {
 			return false
 		}
@@ -431,7 +431,9 @@ func nodintconst(v int64) *Node {
 }
 
 func nodnil() *Node {
-	return nodlit(Val{new(NilVal)})
+	n := nod(ONIL, nil, nil)
+	n.Type = types.Types[TNIL]
+	return n
 }
 
 func nodbool(b bool) *Node {
@@ -472,7 +474,7 @@ func treecopy(n *Node, pos src.XPos) *Node {
 		// crashing (golang.org/issue/11361).
 		fallthrough
 
-	case ONAME, ONONAME, OLITERAL, OTYPE:
+	case ONAME, ONONAME, OLITERAL, ONIL, OTYPE:
 		return n
 
 	}
@@ -482,7 +484,7 @@ func treecopy(n *Node, pos src.XPos) *Node {
 func (n *Node) isNil() bool {
 	// Check n.Orig because constant propagation may produce typed nil constants,
 	// which don't exist in the Go spec.
-	return Isconst(n.Orig, CTNIL)
+	return n.Orig.Op == ONIL
 }
 
 func isptrto(t *types.Type, et types.EType) bool {
@@ -981,7 +983,7 @@ func calcHasCall(n *Node) bool {
 	}
 
 	switch n.Op {
-	case OLITERAL, ONAME, OTYPE:
+	case OLITERAL, ONIL, ONAME, OTYPE:
 		if n.HasCall() {
 			Fatalf("OLITERAL/ONAME/OTYPE should never have calls: %+v", n)
 		}
@@ -1100,7 +1102,7 @@ func safeexpr(n *Node, init *Nodes) *Node {
 	}
 
 	switch n.Op {
-	case ONAME, OLITERAL:
+	case ONAME, OLITERAL, ONIL:
 		return n
 
 	case ODOT, OLEN, OCAP:
@@ -1162,7 +1164,7 @@ func copyexpr(n *Node, t *types.Type, init *Nodes) *Node {
 // result may not be assignable.
 func cheapexpr(n *Node, init *Nodes) *Node {
 	switch n.Op {
-	case ONAME, OLITERAL:
+	case ONAME, OLITERAL, ONIL:
 		return n
 	}
 

@@ -567,9 +567,6 @@ func (v Val) vconv(s fmt.State, flag FmtFlag) {
 	case bool:
 		fmt.Fprint(s, u)
 
-	case *NilVal:
-		fmt.Fprint(s, "nil")
-
 	default:
 		fmt.Fprintf(s, "<ctype=%d>", v.Ctype())
 	}
@@ -1203,6 +1200,7 @@ var opprec = []int{
 	OMAPLIT:        8,
 	ONAME:          8,
 	ONEW:           8,
+	ONIL:           8,
 	ONONAME:        8,
 	OOFFSETOF:      8,
 	OPACK:          8,
@@ -1319,6 +1317,9 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 	case OPAREN:
 		mode.Fprintf(s, "(%v)", n.Left)
 
+	case ONIL:
+		fmt.Fprint(s, "nil")
+
 	case OLITERAL: // this is a bit of a mess
 		if mode == FErr {
 			if n.Orig != nil && n.Orig != n {
@@ -1329,10 +1330,6 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 				fmt.Fprint(s, smodeString(n.Sym, mode))
 				return
 			}
-		}
-		if n.Val().Ctype() == CTNIL && n.Orig != nil && n.Orig != n {
-			n.Orig.exprfmt(s, prec, mode)
-			return
 		}
 
 		needUnparen := false

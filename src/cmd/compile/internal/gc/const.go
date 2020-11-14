@@ -23,7 +23,6 @@ const (
 	CTCPLX
 	CTSTR
 	CTBOOL
-	CTNIL
 )
 
 type Val struct {
@@ -33,7 +32,6 @@ type Val struct {
 	// *Mpflt   float when Ctype() == CTFLT
 	// *Mpcplx  pair of floats when Ctype() == CTCPLX
 	// string   string when Ctype() == CTSTR
-	// *Nilval  when Ctype() == CTNIL
 	U interface{}
 }
 
@@ -44,8 +42,6 @@ func (v Val) Ctype() Ctype {
 		panic("unreachable")
 	case nil:
 		return CTxxx
-	case *NilVal:
-		return CTNIL
 	case bool:
 		return CTBOOL
 	case *Mpint:
@@ -67,8 +63,6 @@ func eqval(a, b Val) bool {
 	default:
 		Fatalf("unexpected Ctype for %T", a.U)
 		panic("unreachable")
-	case *NilVal:
-		return true
 	case bool:
 		y := b.U.(bool)
 		return x == y
@@ -95,8 +89,6 @@ func (v Val) Interface() interface{} {
 	default:
 		Fatalf("unexpected Interface for %T", v.U)
 		panic("unreachable")
-	case *NilVal:
-		return nil
 	case bool, string:
 		return x
 	case *Mpint:
@@ -107,8 +99,6 @@ func (v Val) Interface() interface{} {
 		return complex(x.Real.Float64(), x.Imag.Float64())
 	}
 }
-
-type NilVal struct{}
 
 // Int64Val returns n as an int64.
 // n must be an integer or rune constant.
@@ -241,7 +231,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 		return n
 	}
 
-	if n.Op == OLITERAL {
+	if n.Op == OLITERAL || n.Op == ONIL {
 		// Can't always set n.Type directly on OLITERAL nodes.
 		// See discussion on CL 20813.
 		n = n.rawcopy()
@@ -249,6 +239,9 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 
 	// Nil is technically not a constant, so handle it specially.
 	if n.Type.Etype == TNIL {
+		if n.Op != ONIL {
+			Fatalf("unexpected op: %v (%v)", n, n.Op)
+		}
 		if t == nil {
 			yyerror("use of untyped nil")
 			n.SetDiag(true)
@@ -1018,8 +1011,6 @@ func idealType(ct Ctype) *types.Type {
 		return types.UntypedFloat
 	case CTCPLX:
 		return types.UntypedComplex
-	case CTNIL:
-		return types.Types[TNIL]
 	}
 	Fatalf("unexpected Ctype: %v", ct)
 	return nil
@@ -1167,7 +1158,7 @@ func indexconst(n *Node) int64 {
 // Expressions derived from nil, like string([]byte(nil)), while they
 // may be known at compile time, are not Go language constants.
 func (n *Node) isGoConst() bool {
-	return n.Op == OLITERAL && n.Val().Ctype() != CTNIL
+	return n.Op == OLITERAL
 }
 
 func hascallchan(n *Node) bool {

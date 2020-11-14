@@ -466,7 +466,7 @@ func inlcopy(n *Node) *Node {
 	}
 
 	switch n.Op {
-	case ONAME, OTYPE, OLITERAL:
+	case ONAME, OTYPE, OLITERAL, ONIL:
 		return n
 	}
 
@@ -1318,7 +1318,7 @@ func (subst *inlsubst) node(n *Node) *Node {
 		}
 		return n
 
-	case OLITERAL, OTYPE:
+	case OLITERAL, ONIL, OTYPE:
 		// If n is a named constant or type, we can continue
 		// using it in the inline copy. Otherwise, make a copy
 		// so we can update the line number.
