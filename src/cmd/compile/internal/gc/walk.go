@@ -11,6 +11,8 @@ import (
 	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
+	"go/constant"
+	"go/token"
 	"strings"
 )
 
@@ -1001,7 +1003,7 @@ opswitch:
 						break opswitch
 					}
 				case TUINT64:
-					c := uint64(n.Right.Int64Val())
+					c := n.Right.Uint64Val()
 					if c < 1<<16 {
 						break opswitch
 					}
@@ -1061,7 +1063,7 @@ opswitch:
 		}
 
 		if Isconst(n.Right, CTINT) {
-			if n.Right.Val().U.(*Mpint).CmpInt64(0) < 0 || n.Right.Val().U.(*Mpint).Cmp(maxintval[TINT]) > 0 {
+			if v := n.Right.Val(); constant.Sign(v) < 0 || doesoverflow(v, types.Types[TINT]) {
 				yyerror("index out of bounds")
 			}
 		}
@@ -1191,7 +1193,7 @@ opswitch:
 		// Type checking guarantees that TIDEAL size is positive and fits in an int.
 		// The case of size overflow when converting TUINT or TUINTPTR to TINT
 		// will be handled by the negative range checks in makechan during runtime.
-		if size.Type.IsKind(TIDEAL) || maxintval[size.Type.Etype].Cmp(maxintval[TUINT]) <= 0 {
+		if size.Type.IsKind(TIDEAL) || constant.Compare(maxval[size.Type.Etype], token.LEQ, maxval[TUINT]) {
 			fnname = "makechan"
 			argtype = types.Types[TINT]
 		}
@@ -1222,7 +1224,7 @@ opswitch:
 			// Maximum key and elem size is 128 bytes, larger objects
 			// are stored with an indirection. So max bucket size is 2048+eps.
 			if !Isconst(hint, CTINT) ||
-				hint.Val().U.(*Mpint).CmpInt64(BUCKETSIZE) <= 0 {
+				constant.Compare(hint.Val(), token.LEQ, constant.MakeInt64(BUCKETSIZE)) {
 
 				// In case hint is larger than BUCKETSIZE runtime.makemap
 				// will allocate the buckets on the heap, see #20184
@@ -1255,7 +1257,7 @@ opswitch:
 			}
 		}
 
-		if Isconst(hint, CTINT) && hint.Val().U.(*Mpint).CmpInt64(BUCKETSIZE) <= 0 {
+		if Isconst(hint, CTINT) && constant.Compare(hint.Val(), token.LEQ, constant.MakeInt64(BUCKETSIZE)) {
 			// Handling make(map[any]any) and
 			// make(map[any]any, hint) where hint <= BUCKETSIZE
 			// special allows for faster map initialization and
@@ -1299,7 +1301,7 @@ opswitch:
 			// See checkmake call in TMAP case of OMAKE case in OpSwitch in typecheck1 function.
 			// The case of hint overflow when converting TUINT or TUINTPTR to TINT
 			// will be handled by the negative range checks in makemap during runtime.
-			if hint.Type.IsKind(TIDEAL) || maxintval[hint.Type.Etype].Cmp(maxintval[TUINT]) <= 0 {
+			if hint.Type.IsKind(TIDEAL) || constant.Compare(maxval[hint.Type.Etype], token.LEQ, maxval[TUINT]) {
 				fnname = "makemap"
 				argtype = types.Types[TINT]
 			}
@@ -1369,8 +1371,8 @@ opswitch:
 			// Type checking guarantees that TIDEAL len/cap are positive and fit in an int.
 			// The case of len or cap overflow when converting TUINT or TUINTPTR to TINT
 			// will be handled by the negative range checks in makeslice during runtime.
-			if (len.Type.IsKind(TIDEAL) || maxintval[len.Type.Etype].Cmp(maxintval[TUINT]) <= 0) &&
-				(cap.Type.IsKind(TIDEAL) || maxintval[cap.Type.Etype].Cmp(maxintval[TUINT]) <= 0) {
+			if (len.Type.IsKind(TIDEAL) || constant.Compare(maxval[len.Type.Etype], token.LEQ, maxval[TUINT])) &&
+				(cap.Type.IsKind(TIDEAL) || constant.Compare(maxval[cap.Type.Etype], token.LEQ, maxval[TUINT])) {
 				fnname = "makeslice"
 				argtype = types.Types[TINT]
 			}
@@ -1587,8 +1589,8 @@ opswitch:
 		n = typecheck(n, ctxExpr)
 		// Emit string symbol now to avoid emitting
 		// any concurrently during the backend.
-		if s, ok := n.Val().U.(string); ok {
-			_ = stringsym(n.Pos, s)
+		if v := n.Val(); v.Kind() == constant.String {
+			_ = stringsym(n.Pos, constant.StringVal(v))
 		}
 	}
 
@@ -1934,7 +1936,7 @@ func walkprint(nn *Node, init *Nodes) *Node {
 				n = defaultlit(n, types.Runetype)
 			}
 
-			switch n.Val().Ctype() {
+			switch n.Val().Kind() {
 			case CTINT:
 				n = defaultlit(n, types.Types[TINT64])
 
@@ -2849,7 +2851,7 @@ func isAppendOfMake(n *Node) bool {
 
 	// The care of overflow of the len argument to make will be handled by an explicit check of int(len) < 0 during runtime.
 	y := second.Left
-	if !Isconst(y, CTINT) && maxintval[y.Type.Etype].Cmp(maxintval[TUINT]) > 0 {
+	if !Isconst(y, CTINT) && constant.Compare(maxval[y.Type.Etype], token.GTR, maxval[TUINT]) {
 		return false
 	}
 
@@ -3837,17 +3839,14 @@ func candiscard(n *Node) bool {
 
 		// Discardable as long as we know it's not division by zero.
 	case ODIV, OMOD:
-		if Isconst(n.Right, CTINT) && n.Right.Val().U.(*Mpint).CmpInt64(0) != 0 {
-			break
-		}
-		if Isconst(n.Right, CTFLT) && n.Right.Val().U.(*Mpflt).CmpFloat64(0) != 0 {
+		if n.Right.Op == OLITERAL && constant.Sign(n.Right.Val()) != 0 {
 			break
 		}
 		return false
 
 		// Discardable as long as we know it won't fail because of a bad size.
 	case OMAKECHAN, OMAKEMAP:
-		if Isconst(n.Left, CTINT) && n.Left.Val().U.(*Mpint).CmpInt64(0) == 0 {
+		if Isconst(n.Left, CTINT) && constant.Sign(n.Left.Val()) == 0 {
 			break
 		}
 		return false
