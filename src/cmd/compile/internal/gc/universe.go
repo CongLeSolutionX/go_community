@@ -6,7 +6,11 @@
 
 package gc
 
-import "cmd/compile/internal/types"
+import (
+	"cmd/compile/internal/types"
+	"go/constant"
+	"go/token"
+)
 
 // builtinpkg is a fake package that declares the universe block.
 var builtinpkg *types.Pkg
@@ -206,8 +210,6 @@ func typeinit() {
 			okforand[et] = true
 			okforconst[et] = true
 			issimple[et] = true
-			minintval[et] = new(Mpint)
-			maxintval[et] = new(Mpint)
 		}
 
 		if isFloat[et] {
@@ -217,8 +219,6 @@ func typeinit() {
 			okforarith[et] = true
 			okforconst[et] = true
 			issimple[et] = true
-			minfltval[et] = newMpflt()
-			maxfltval[et] = newMpflt()
 		}
 
 		if isComplex[et] {
@@ -307,30 +307,35 @@ func typeinit() {
 	iscmp[OEQ] = true
 	iscmp[ONE] = true
 
-	maxintval[TINT8].SetString("0x7f")
-	minintval[TINT8].SetString("-0x80")
-	maxintval[TINT16].SetString("0x7fff")
-	minintval[TINT16].SetString("-0x8000")
-	maxintval[TINT32].SetString("0x7fffffff")
-	minintval[TINT32].SetString("-0x80000000")
-	maxintval[TINT64].SetString("0x7fffffffffffffff")
-	minintval[TINT64].SetString("-0x8000000000000000")
+	maxval[TINT8] = constant.MakeInt64(0x7f)
+	minval[TINT8] = constant.MakeInt64(-0x80)
+	maxval[TINT16] = constant.MakeInt64(0x7fff)
+	minval[TINT16] = constant.MakeInt64(-0x8000)
+	maxval[TINT32] = constant.MakeInt64(0x7fffffff)
+	minval[TINT32] = constant.MakeInt64(-0x80000000)
+	maxval[TINT64] = constant.MakeInt64(0x7fffffffffffffff)
+	minval[TINT64] = constant.MakeInt64(-0x8000000000000000)
 
-	maxintval[TUINT8].SetString("0xff")
-	maxintval[TUINT16].SetString("0xffff")
-	maxintval[TUINT32].SetString("0xffffffff")
-	maxintval[TUINT64].SetString("0xffffffffffffffff")
+	maxval[TUINT8] = constant.MakeUint64(0xff)
+	minval[TUINT8] = constant.MakeUint64(0)
+	maxval[TUINT16] = constant.MakeUint64(0xffff)
+	minval[TUINT16] = constant.MakeUint64(0)
+	maxval[TUINT32] = constant.MakeUint64(0xffffffff)
+	minval[TUINT32] = constant.MakeUint64(0)
+	maxval[TUINT64] = constant.MakeUint64(0xffffffffffffffff)
+	minval[TUINT64] = constant.MakeUint64(0)
 
 	// f is valid float if min < f < max.  (min and max are not themselves valid.)
-	maxfltval[TFLOAT32].SetString("33554431p103") // 2^24-1 p (127-23) + 1/2 ulp
-	minfltval[TFLOAT32].SetString("-33554431p103")
-	maxfltval[TFLOAT64].SetString("18014398509481983p970") // 2^53-1 p (1023-52) + 1/2 ulp
-	minfltval[TFLOAT64].SetString("-18014398509481983p970")
+	fv := func(s string) constant.Value { return constant.MakeFromLiteral(s, token.FLOAT, 0) }
+	maxval[TFLOAT32] = fv("33554431p103") // 2^24-1 p (127-23) + 1/2 ulp
+	minval[TFLOAT32] = fv("-33554431p103")
+	maxval[TFLOAT64] = fv("18014398509481983p970") // 2^53-1 p (1023-52) + 1/2 ulp
+	minval[TFLOAT64] = fv("-18014398509481983p970")
 
-	maxfltval[TCOMPLEX64] = maxfltval[TFLOAT32]
-	minfltval[TCOMPLEX64] = minfltval[TFLOAT32]
-	maxfltval[TCOMPLEX128] = maxfltval[TFLOAT64]
-	minfltval[TCOMPLEX128] = minfltval[TFLOAT64]
+	maxval[TCOMPLEX64] = maxval[TFLOAT32]
+	minval[TCOMPLEX64] = minval[TFLOAT32]
+	maxval[TCOMPLEX128] = maxval[TFLOAT64]
+	minval[TCOMPLEX128] = minval[TFLOAT64]
 
 	types.Types[TINTER] = types.New(TINTER) // empty interface
 
@@ -409,10 +414,8 @@ func lexinit1() {
 		}
 
 		simtype[s.etype] = sameas
-		minfltval[s.etype] = minfltval[sameas]
-		maxfltval[s.etype] = maxfltval[sameas]
-		minintval[s.etype] = minintval[sameas]
-		maxintval[s.etype] = maxintval[sameas]
+		minval[s.etype] = minval[sameas]
+		maxval[s.etype] = maxval[sameas]
 
 		t := types.New(s.etype)
 		t.Sym = s1
@@ -449,3 +452,9 @@ func finishUniverse() {
 	nodfp.SetClass(PPARAM)
 	nodfp.Name.SetUsed(true)
 }
+
+// minval and maxval defines the bounds for different numeric types.
+// For integer types, they're inclusive bounds (i.e., minval and maxval are representable).
+// For float types, they're exclusive bounds (i.e., minval and maxval are not representable).
+// For complex types, they're the bounds for the corresponding float component types.
+var minval, maxval [NTYPE]constant.Value

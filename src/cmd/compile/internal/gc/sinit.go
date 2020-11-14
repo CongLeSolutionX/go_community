@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"fmt"
+	"go/constant"
 )
 
 type InitEntry struct {
@@ -1116,20 +1117,13 @@ func isZero(n *Node) bool {
 		return true
 
 	case OLITERAL:
-		switch u := n.Val().U.(type) {
-		default:
-			Dump("unexpected literal", n)
-			Fatalf("isZero")
+		switch u := constant.Val(n.Val()).(type) {
 		case string:
 			return u == ""
 		case bool:
 			return !u
-		case *Mpint:
-			return u.CmpInt64(0) == 0
-		case *Mpflt:
-			return u.CmpFloat64(0) == 0
-		case *Mpcplx:
-			return u.Real.CmpFloat64(0) == 0 && u.Imag.CmpFloat64(0) == 0
+		default:
+			return constant.Sign(n.Val()) == 0
 		}
 
 	case OARRAYLIT:

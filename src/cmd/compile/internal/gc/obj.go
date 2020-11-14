@@ -249,33 +249,17 @@ func dumpGlobalConst(n *Node) {
 		return
 	}
 	// only export integer constants for now
-	switch t.Etype {
-	case TINT8:
-	case TINT16:
-	case TINT32:
-	case TINT64:
-	case TINT:
-	case TUINT8:
-	case TUINT16:
-	case TUINT32:
-	case TUINT64:
-	case TUINT:
-	case TUINTPTR:
-		// ok
-	case TIDEAL:
-		if !Isconst(n, CTINT) {
-			return
-		}
-		x := n.Val().U.(*Mpint)
-		if x.Cmp(minintval[TINT]) < 0 || x.Cmp(maxintval[TINT]) > 0 {
-			return
-		}
-		// Ideal integers we export as int (if they fit).
-		t = types.Types[TINT]
-	default:
+	if !t.IsInteger() {
 		return
 	}
-	Ctxt.DwarfIntConst(myimportpath, n.Sym.Name, typesymname(t), n.Int64Val())
+	if t.IsUntyped() {
+		// Export untyped integers as int (if they fit).
+		t = types.Types[TINT]
+		if doesoverflow(n.Val(), t) {
+			return
+		}
+	}
+	Ctxt.DwarfIntConst(myimportpath, n.Sym.Name, typesymname(t), n.ValueInterface().(int64))
 }
 
 func dumpglobls() {
@@ -594,6 +578,9 @@ func litsym(n, c *Node, wid int) {
 	if n.Sym == nil {
 		Fatalf("litsym nil n sym")
 	}
+	if !types.Identical(n.Type, c.Type) {
+		Fatalf("litsym: type mismatch: %v has type %v, but %v has type %v", n, n.Type, c, c.Type)
+	}
 	if c.Op == ONIL {
 		return
 	}
@@ -601,33 +588,30 @@ func litsym(n, c *Node, wid int) {
 		Fatalf("litsym c op %v", c.Op)
 	}
 	s := n.Sym.Linksym()
-	switch u := c.Val().U.(type) {
+	switch u := c.ValueInterface().(type) {
 	case bool:
 		i := int64(obj.Bool2int(u))
 		s.WriteInt(Ctxt, n.Xoffset, wid, i)
 
-	case *Mpint:
-		s.WriteInt(Ctxt, n.Xoffset, wid, u.Int64())
+	case int64:
+		s.WriteInt(Ctxt, n.Xoffset, wid, u)
 
-	case *Mpflt:
-		f := u.Float64()
+	case float64:
 		switch n.Type.Etype {
 		case TFLOAT32:
-			s.WriteFloat32(Ctxt, n.Xoffset, float32(f))
+			s.WriteFloat32(Ctxt, n.Xoffset, float32(u))
 		case TFLOAT64:
-			s.WriteFloat64(Ctxt, n.Xoffset, f)
+			s.WriteFloat64(Ctxt, n.Xoffset, u)
 		}
 
-	case *Mpcplx:
-		r := u.Real.Float64()
-		i := u.Imag.Float64()
+	case complex128:
 		switch n.Type.Etype {
 		case TCOMPLEX64:
-			s.WriteFloat32(Ctxt, n.Xoffset, float32(r))
-			s.WriteFloat32(Ctxt, n.Xoffset+4, float32(i))
+			s.WriteFloat32(Ctxt, n.Xoffset, float32(real(u)))
+			s.WriteFloat32(Ctxt, n.Xoffset+4, float32(imag(u)))
 		case TCOMPLEX128:
-			s.WriteFloat64(Ctxt, n.Xoffset, r)
-			s.WriteFloat64(Ctxt, n.Xoffset+8, i)
+			s.WriteFloat64(Ctxt, n.Xoffset, real(u))
+			s.WriteFloat64(Ctxt, n.Xoffset+8, imag(u))
 		}
 
 	case string:

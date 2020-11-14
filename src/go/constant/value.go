@@ -583,7 +583,9 @@ func Make(x interface{}) Value {
 	case int64:
 		return int64Val(x)
 	case *big.Int:
-		return intVal{x}
+		// TODO(mdempsky): Upstream this, or just fix users within cmd/compile?
+		// TODO(mdempsky): Use makeRat and makeFloat below too?
+		return makeInt(x)
 	case *big.Rat:
 		return ratVal{x}
 	case *big.Float:

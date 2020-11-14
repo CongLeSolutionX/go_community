@@ -15,6 +15,7 @@ import (
 	"cmd/internal/src"
 	"encoding/binary"
 	"fmt"
+	"go/constant"
 	"io"
 	"math/big"
 	"os"
@@ -364,27 +365,24 @@ func (r *importReader) doDecl(n *Node) {
 	}
 }
 
-func (p *importReader) value(typ *types.Type) (v Val) {
+func (p *importReader) value(typ *types.Type) constant.Value {
 	switch constTypeOf(typ) {
 	case CTBOOL:
-		v.U = p.bool()
+		return constant.MakeBool(p.bool())
 	case CTSTR:
-		v.U = p.string()
+		return constant.MakeString(p.string())
 	case CTINT:
-		x := new(Mpint)
-		p.mpint(&x.Val, typ)
-		v.U = x
+		var i big.Int
+		p.mpint(&i, typ)
+		return constant.Make(&i)
 	case CTFLT:
-		x := newMpflt()
-		p.float(x, typ)
-		v.U = x
+		return p.float(typ)
 	case CTCPLX:
-		x := newMpcmplx()
-		p.float(&x.Real, typ)
-		p.float(&x.Imag, typ)
-		v.U = x
+		return complexVal(p.float(typ), p.float(typ))
 	}
-	return
+
+	Fatalf("unexpected value type: %v", typ)
+	panic("unreachable")
 }
 
 func (p *importReader) mpint(x *big.Int, typ *types.Type) {
@@ -426,14 +424,15 @@ func (p *importReader) mpint(x *big.Int, typ *types.Type) {
 	}
 }
 
-func (p *importReader) float(x *Mpflt, typ *types.Type) {
+func (p *importReader) float(typ *types.Type) constant.Value {
 	var mant big.Int
 	p.mpint(&mant, typ)
-	m := x.Val.SetInt(&mant)
-	if m.Sign() == 0 {
-		return
+	var f big.Float
+	f.SetInt(&mant)
+	if f.Sign() != 0 {
+		f.SetMantExp(&f, int(p.int64()))
 	}
-	m.SetMantExp(m, int(p.int64()))
+	return constant.Make(&f)
 }
 
 func (r *importReader) ident() *types.Sym {

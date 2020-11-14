@@ -1277,7 +1277,7 @@ func (s *state) stmt(n *Node) {
 			// We're assigning a slicing operation back to its source.
 			// Don't write back fields we aren't changing. See issue #14855.
 			i, j, k := rhs.SliceBounds()
-			if i != nil && (i.Op == OLITERAL && i.Val().Ctype() == CTINT && i.Int64Val() == 0) {
+			if i != nil && (i.Op == OLITERAL && i.Val().Kind() == CTINT && i.Int64Val() == 0) {
 				// [0:...] is the same as [:...]
 				i = nil
 			}
@@ -2040,18 +2040,17 @@ func (s *state) expr(n *Node) *ssa.Value {
 			return s.constNil(t)
 		}
 	case OLITERAL:
-		switch u := n.Val().U.(type) {
-		case *Mpint:
-			i := u.Int64()
+		switch u := n.ValueInterface().(type) {
+		case int64:
 			switch n.Type.Size() {
 			case 1:
-				return s.constInt8(n.Type, int8(i))
+				return s.constInt8(n.Type, int8(u))
 			case 2:
-				return s.constInt16(n.Type, int16(i))
+				return s.constInt16(n.Type, int16(u))
 			case 4:
-				return s.constInt32(n.Type, int32(i))
+				return s.constInt32(n.Type, int32(u))
 			case 8:
-				return s.constInt64(n.Type, i)
+				return s.constInt64(n.Type, u)
 			default:
 				s.Fatalf("bad integer size %d", n.Type.Size())
 				return nil
@@ -2063,40 +2062,36 @@ func (s *state) expr(n *Node) *ssa.Value {
 			return s.entryNewValue0A(ssa.OpConstString, n.Type, u)
 		case bool:
 			return s.constBool(u)
-		case *Mpflt:
+		case float64:
 			switch n.Type.Size() {
 			case 4:
-				return s.constFloat32(n.Type, u.Float32())
+				return s.constFloat32(n.Type, u)
 			case 8:
-				return s.constFloat64(n.Type, u.Float64())
+				return s.constFloat64(n.Type, u)
 			default:
 				s.Fatalf("bad float size %d", n.Type.Size())
 				return nil
 			}
-		case *Mpcplx:
-			r := &u.Real
-			i := &u.Imag
+		case complex128:
 			switch n.Type.Size() {
 			case 8:
 				pt := types.Types[TFLOAT32]
 				return s.newValue2(ssa.OpComplexMake, n.Type,
-					s.constFloat32(pt, r.Float32()),
-					s.constFloat32(pt, i.Float32()))
+					s.constFloat32(pt, real(u)),
+					s.constFloat32(pt, imag(u)))
 			case 16:
 				pt := types.Types[TFLOAT64]
 				return s.newValue2(ssa.OpComplexMake, n.Type,
-					s.constFloat64(pt, r.Float64()),
-					s.constFloat64(pt, i.Float64()))
+					s.constFloat64(pt, real(u)),
+					s.constFloat64(pt, imag(u)))
 			default:
-				s.Fatalf("bad float size %d", n.Type.Size())
+				s.Fatalf("bad complex size %d", n.Type.Size())
 				return nil
 			}
-
 		default:
-			s.Fatalf("unhandled OLITERAL %v", n.Val().Ctype())
+			s.Fatalf("unhandled OLITERAL %T", u)
 			return nil
 		}
-
 	case OCONVNOP:
 		to := n.Type
 		from := n.Left.Type
