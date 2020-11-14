@@ -210,6 +210,7 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
+	"go/constant"
 	"io"
 	"math/big"
 	"sort"
@@ -749,7 +750,7 @@ func (w *exportWriter) param(f *types.Field) {
 	w.typ(f.Type)
 }
 
-func constTypeOf(typ *types.Type) Ctype {
+func constTypeOf(typ *types.Type) constant.Kind {
 	switch typ {
 	case types.UntypedInt, types.UntypedRune:
 		return CTINT
@@ -777,10 +778,8 @@ func constTypeOf(typ *types.Type) Ctype {
 	return 0
 }
 
-func (w *exportWriter) value(typ *types.Type, v Val) {
-	if vt := idealType(v.Ctype()); typ.IsUntyped() && typ != vt && !(typ == types.UntypedRune && vt == types.UntypedInt) {
-		Fatalf("exporter: untyped type mismatch, have: %v, want: %v", typ, vt)
-	}
+func (w *exportWriter) value(typ *types.Type, v constant.Value) {
+	constMatch(typ, v)
 	w.typ(typ)
 
 	// Each type has only one admissible constant representation,
@@ -790,17 +789,16 @@ func (w *exportWriter) value(typ *types.Type, v Val) {
 
 	switch constTypeOf(typ) {
 	case CTBOOL:
-		w.bool(v.U.(bool))
+		w.bool(constant.BoolVal(v))
 	case CTSTR:
-		w.string(v.U.(string))
+		w.string(constant.StringVal(v))
 	case CTINT:
-		w.mpint(&v.U.(*Mpint).Val, typ)
+		w.mpint(v, typ)
 	case CTFLT:
-		w.mpfloat(&v.U.(*Mpflt).Val, typ)
+		w.mpfloat(v, typ)
 	case CTCPLX:
-		x := v.U.(*Mpcplx)
-		w.mpfloat(&x.Real.Val, typ)
-		w.mpfloat(&x.Imag.Val, typ)
+		w.mpfloat(constant.Real(v), typ)
+		w.mpfloat(constant.Imag(v), typ)
 	}
 }
 
@@ -849,15 +847,19 @@ func intSize(typ *types.Type) (signed bool, maxBytes uint) {
 // single byte.
 //
 // TODO(mdempsky): Is this level of complexity really worthwhile?
-func (w *exportWriter) mpint(x *big.Int, typ *types.Type) {
+func (w *exportWriter) mpint(x constant.Value, typ *types.Type) {
 	signed, maxBytes := intSize(typ)
 
-	negative := x.Sign() < 0
+	negative := constant.Sign(x) < 0
 	if !signed && negative {
 		Fatalf("negative unsigned integer; type %v, value %v", typ, x)
 	}
 
-	b := x.Bytes()
+	b := constant.Bytes(x) // little endian
+	for i, j := 0, len(b)-1; i < j; i, j = i+1, j-1 {
+		b[i], b[j] = b[j], b[i]
+	}
+
 	if len(b) > 0 && b[0] == 0 {
 		Fatalf("leading zeros")
 	}
@@ -912,7 +914,9 @@ func (w *exportWriter) mpint(x *big.Int, typ *types.Type) {
 // mantissa is an integer. The value is written out as mantissa (as a
 // multi-precision integer) and then the exponent, except exponent is
 // omitted if mantissa is zero.
-func (w *exportWriter) mpfloat(f *big.Float, typ *types.Type) {
+func (w *exportWriter) mpfloat(v constant.Value, typ *types.Type) {
+	f := asBigFloat(v)
+
 	if f.IsInf() {
 		Fatalf("infinite constant")
 	}
@@ -930,7 +934,7 @@ func (w *exportWriter) mpfloat(f *big.Float, typ *types.Type) {
 	if acc != big.Exact {
 		Fatalf("mantissa scaling failed for %f (%s)", f, acc)
 	}
-	w.mpint(manti, typ)
+	w.mpint(constant.Make(manti), typ)
 	if manti.Sign() != 0 {
 		w.int64(exp)
 	}
@@ -1216,6 +1220,7 @@ func (w *exportWriter) expr(n *Node) {
 		w.typ(n.Type)
 
 	case OLITERAL:
+		lineno = n.Pos
 		w.op(OLITERAL)
 		w.pos(n.Pos)
 		w.value(n.Type, n.Val())

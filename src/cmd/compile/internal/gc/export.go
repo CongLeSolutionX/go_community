@@ -9,6 +9,7 @@ import (
 	"cmd/internal/bio"
 	"cmd/internal/src"
 	"fmt"
+	"go/constant"
 )
 
 var (
@@ -142,7 +143,7 @@ func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op Op, ctxt Class, t
 
 // importconst declares symbol s as an imported constant with type t and value val.
 // ipkg is the package being imported
-func importconst(ipkg *types.Pkg, pos src.XPos, s *types.Sym, t *types.Type, val Val) {
+func importconst(ipkg *types.Pkg, pos src.XPos, s *types.Sym, t *types.Type, val constant.Value) {
 	n := importobj(ipkg, pos, s, OLITERAL, PEXTERN, t)
 	if n == nil { // TODO: Check that value matches.
 		return
@@ -209,7 +210,7 @@ func dumpasmhdr() {
 		}
 		switch n.Op {
 		case OLITERAL:
-			t := n.Val().Ctype()
+			t := n.Val().Kind()
 			if t == CTFLT || t == CTCPLX {
 				break
 			}
