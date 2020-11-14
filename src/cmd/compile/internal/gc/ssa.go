@@ -4198,7 +4198,7 @@ func (s *state) openDeferRecord(n *Node) {
 		if fn.Op != ODOTINTER {
 			Fatalf("OCALLINTER: n.Left not an ODOTINTER: %v", fn.Op)
 		}
-		closure, rcvr := s.getClosureAndRcvr(fn)
+		_, closure, rcvr := s.getClosureAndRcvr(fn)
 		opendefer.closure = s.openDeferSave(nil, closure.Type, closure)
 		// Important to get the receiver type correct, so it is recognized
 		// as a pointer for GC purposes.
@@ -4432,10 +4432,10 @@ func (s *state) callAddr(n *Node, k callKind) *ssa.Value {
 // Returns the address of the return value (or nil if none).
 func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 	s.prevCall = nil
-	var sym *types.Sym     // target symbol (if static)
-	var closure *ssa.Value // ptr to closure to run (if dynamic)
-	var codeptr *ssa.Value // ptr to target code (if dynamic)
-	var rcvr *ssa.Value    // receiver to set
+	var sym *types.Sym        // target symbol (if static)
+	var closure *ssa.Value    // ptr to closure to run (if dynamic)
+	var codeptr *ssa.Value    // ptr to target code (if dynamic)
+	var rcvr, itab *ssa.Value // receiver to set
 	fn := n.Left
 	var ACArgs []ssa.Param
 	var ACResults []ssa.Param
@@ -4482,7 +4482,7 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		}
 		testLateExpansion = k != callDeferStack && ssa.LateCallExpansionEnabledWithin(s.f)
 		var iclosure *ssa.Value
-		iclosure, rcvr = s.getClosureAndRcvr(fn)
+		itab, iclosure, rcvr = s.getClosureAndRcvr(fn)
 		if k == callNormal {
 			codeptr = s.load(types.Types[TUINTPTR], iclosure)
 		} else {
@@ -4659,10 +4659,10 @@ func (s *state) call(n *Node, k callKind, returnResultAddr bool) *ssa.Value {
 		case codeptr != nil:
 			if testLateExpansion {
 				aux := ssa.InterfaceAuxCall(ACArgs, ACResults)
-				call = s.newValue1A(ssa.OpInterLECall, aux.LateExpansionResultType(), aux, codeptr)
+				call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, itab)
 				call.AddArgs(callArgs...)
 			} else {
-				call = s.newValue2A(ssa.OpInterCall, types.TypeMem, ssa.InterfaceAuxCall(ACArgs, ACResults), codeptr, s.mem())
+				call = s.newValue3A(ssa.OpClosureCall, types.TypeMem, ssa.InterfaceAuxCall(ACArgs, ACResults), codeptr, itab, s.mem())
 			}
 		case sym != nil:
 			if testLateExpansion {
@@ -4749,14 +4749,14 @@ func (s *state) getMethodClosure(fn *Node) *ssa.Value {
 
 // getClosureAndRcvr returns values for the appropriate closure and receiver of an
 // interface call
-func (s *state) getClosureAndRcvr(fn *Node) (*ssa.Value, *ssa.Value) {
+func (s *state) getClosureAndRcvr(fn *Node) (*ssa.Value, *ssa.Value, *ssa.Value) {
 	i := s.expr(fn.Left)
 	itab := s.newValue1(ssa.OpITab, types.Types[TUINTPTR], i)
 	s.nilCheck(itab)
 	itabidx := fn.Xoffset + 2*int64(Widthptr) + 8 // offset of fun field in runtime.itab
 	closure := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.UintptrPtr, itabidx, itab)
 	rcvr := s.newValue1(ssa.OpIData, s.f.Config.Types.BytePtr, i)
-	return closure, rcvr
+	return itab, closure, rcvr
 }
 
 // etypesign returns the signed-ness of e, for integer/pointer etypes.
