@@ -56,6 +56,46 @@
       },
       "revId": "cb7b32df48f5f6a50c9634ed17f20a38d10e2260",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786722fd_84862bd0",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-14T18:04:12Z",
+      "side": 1,
+      "message": "I don\u0027t think this rule is right (before or after this CL).\nThis assumes Go semantics of shifts, which is not what SRA does, or is specified to do.\nSRA doc in MIPSOps.go says \"shift amount is mod 32\", which I take to mean SRA of 33 is the same as SRA of 1 (not 31).\n\nWe should probably add to the SRAconst docs that the shift amount must be between 0 and 31 inclusive. (If that\u0027s indeed the proximal cause of the compiler failing.)",
+      "revId": "cb7b32df48f5f6a50c9634ed17f20a38d10e2260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e8fea7_d447f53a",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-14T18:04:12Z",
+      "side": 1,
+      "message": "I think the right fix is to use c\u002631 here (and the two previous rules).",
+      "range": {
+        "startLine": 573,
+        "startChar": 39,
+        "endLine": 573,
+        "endChar": 42
+      },
+      "revId": "cb7b32df48f5f6a50c9634ed17f20a38d10e2260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
