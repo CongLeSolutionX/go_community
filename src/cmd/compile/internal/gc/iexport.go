@@ -780,7 +780,7 @@ func constTypeOf(typ *types.Type) Ctype {
 }
 
 func (w *exportWriter) value(typ *types.Type, v Val) {
-	if vt := idealType(v.Ctype()); typ.IsUntyped() && typ != vt {
+	if vt := idealType(v.Ctype()); typ.IsUntyped() && typ != vt && !(typ == types.UntypedRune && vt == types.UntypedInt) {
 		Fatalf("exporter: untyped type mismatch, have: %v, want: %v", typ, vt)
 	}
 	w.typ(typ)

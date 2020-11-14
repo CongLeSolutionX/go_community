@@ -375,7 +375,6 @@ func (p *importReader) value() (typ *types.Type, v Val) {
 		v.U = p.string()
 	case CTINT:
 		x := new(Mpint)
-		x.Rune = typ == types.UntypedRune
 		p.mpint(&x.Val, typ)
 		v.U = x
 	case CTFLT:
