@@ -33,6 +33,23 @@
       "message": "Could someone please take a glance at this CL?",
       "revId": "1552f4e36fd511aebfcbde9bc47dd38a955e7982",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6189e72_4d8a3c72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-15T13:09:08Z",
+      "side": 1,
+      "message": "Similar to CL 227810 I dont think its a clear clarity improvement. If the channel type should be zero sized for performance (which is not the case here) then a new defined type like \"token\" might be better.\n\nThat said I dont think its worth the churn here. If the code is ever rewritten in can be changed with the rewrite.\n\nAt any rate any cl or modification would need to wait until february when the go tree reopens for non bug fixes.",
+      "revId": "1552f4e36fd511aebfcbde9bc47dd38a955e7982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
