@@ -17,7 +17,6 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
-	"cmd/internal/sys"
 	"flag"
 	"fmt"
 	"internal/goversion"
@@ -114,12 +113,6 @@ func hidePanic() {
 	}
 }
 
-// supportsDynlink reports whether or not the code generator for the given
-// architecture supports the -shared and -dynlink flags.
-func supportsDynlink(arch *sys.Arch) bool {
-	return arch.InFamily(sys.AMD64, sys.ARM, sys.ARM64, sys.I386, sys.PPC64, sys.RISCV64, sys.S390X)
-}
-
 // timing data for compiler phases
 var timings Timings
 
@@ -187,6 +180,28 @@ func Main(archInit func(*Arch)) {
 	gopkg = types.NewPkg("go", "")
 
 	ParseFlags()
+
+	thearch.LinkArch.Init(Ctxt)
+	startProfile()
+	if Flag.Race {
+		racepkg = types.NewPkg("runtime/race", "")
+	}
+	if Flag.MSan {
+		msanpkg = types.NewPkg("runtime/msan", "")
+	}
+	if Flag.Race || Flag.MSan {
+		instrumenting = true
+	}
+	if Flag.Dwarf {
+		dwarf.EnableLogging(Debug_gendwarfinl != 0)
+	}
+	if Debug_softfloat != 0 {
+		thearch.SoftFloat = true
+	}
+
+	if Flag.JSON != "" { // parse version,destination from json logging optimization.
+		logopt.LogJsonOption(Flag.JSON)
+	}
 
 	ssaDump = os.Getenv("GOSSAFUNC")
 	ssaDir = os.Getenv("GOSSADIR")
@@ -1025,7 +1040,7 @@ func IsAlias(sym *types.Sym) bool {
 // are compatible with concurrent compilation.
 func concurrentFlagOk() bool {
 	// TODO(rsc): Many of these are fine. Remove them.
-	return Flag.P == 0 &&
+	return Flag.Percent == 0 &&
 		Flag.E == 0 &&
 		Flag.K == 0 &&
 		Flag.L == 0 &&

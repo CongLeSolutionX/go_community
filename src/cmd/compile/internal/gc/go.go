@@ -196,18 +196,12 @@ var nblank *Node
 
 var typecheckok bool
 
-// Compiling the standard library
-
 // Whether we are adding any sort of code instrumentation, such as
 // when the race detector is enabled.
 var instrumenting bool
 
 // Whether we are tracking lexical scopes for DWARF.
 var trackScopes bool
-
-// Controls generation of DWARF inlined instance records. Zero
-// disables, 1 emits inlined routines but suppresses var info,
-// and 2 emits inlined routines with tracking of formals/locals.
 
 var Ctxt *obj.Link
 

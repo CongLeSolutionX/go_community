@@ -118,11 +118,11 @@ func (p *noder) yyerrorpos(pos syntax.Pos, format string, args ...interface{}) {
 
 // TODO(gri) Can we eliminate fileh in favor of absFilename?
 func fileh(name string) string {
-	return objabi.AbsFile("", name, Flag.TrimPrefix)
+	return objabi.AbsFile("", name, Flag.TrimPath)
 }
 
 func absFilename(name string) string {
-	return objabi.AbsFile(Ctxt.Pathname, name, Flag.TrimPrefix)
+	return objabi.AbsFile(Ctxt.Pathname, name, Flag.TrimPath)
 }
 
 // noder transforms package syntax's AST into a Node tree.
