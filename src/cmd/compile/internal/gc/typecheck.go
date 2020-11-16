@@ -281,7 +281,7 @@ func typecheck(n *Node, top int) (res *Node) {
 			yyerrorl(n.Pos, "constant definition loop%s", cycleTrace(cycleFor(n)))
 		}
 
-		if nsavederrors+nerrors == 0 {
+		if Errors() == 0 {
 			var trace string
 			for i := len(typecheck_tcstack) - 1; i >= 0; i-- {
 				x := typecheck_tcstack[i]
@@ -892,7 +892,7 @@ func typecheck1(n *Node, top int) (res *Node) {
 
 		t := n.Left.Type
 		if t == nil {
-			adderrorname(n)
+			UpdateErrorDot(n.Line(), n.Left.String(), n.String())
 			n.Type = nil
 			return n
 		}
@@ -3651,7 +3651,7 @@ func typecheckdef(n *Node) {
 			if n.SubOp() != 0 { // like OPRINTN
 				break
 			}
-			if nsavederrors+nerrors > 0 {
+			if Errors() > 0 {
 				// Can have undefined variables in x := foo
 				// that make x have an n.name.Defn == nil.
 				// If there are other errors anyway, don't
@@ -3696,9 +3696,9 @@ func typecheckdef(n *Node) {
 		n.SetWalkdef(1)
 		setTypeNode(n, types.New(TFORW))
 		n.Type.Sym = n.Sym
-		nerrors0 := nerrors
+		errorsBefore := Errors()
 		typecheckdeftype(n)
-		if n.Type.Etype == TFORW && nerrors > nerrors0 {
+		if n.Type.Etype == TFORW && Errors() > errorsBefore {
 			// Something went wrong during type-checking,
 			// but it was reported. Silence future errors.
 			n.Type.SetBroke(true)
