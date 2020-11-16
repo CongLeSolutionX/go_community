@@ -10,6 +10,7 @@ import (
 	"bufio"
 	"bytes"
 	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
 	"cmd/internal/bio"
 	"cmd/internal/dwarf"
@@ -110,7 +111,38 @@ func Main(archInit func(*Arch)) {
 	// pseudo-package used for methods with anonymous receivers
 	gopkg = types.NewPkg("go", "")
 
+	DebugSSA = ssa.PhaseOption
 	ParseFlags()
+
+	// Record flags that affect the build result. (And don't
+	// record flags that don't, since that would cause spurious
+	// changes in the binary.)
+	recordFlags("B", "N", "l", "msan", "race", "shared", "dynlink", "dwarflocationlists", "dwarfbasentries", "smallframes", "spectre")
+
+	if Flag.SmallFrames {
+		maxStackVarSize = 128 * 1024
+		maxImplicitStackVarSize = 16 * 1024
+	}
+
+	if Flag.Dwarf {
+		Ctxt.DebugInfo = debuginfo
+		Ctxt.GenAbstractFunc = genAbstractFunc
+		Ctxt.DwFixups = obj.NewDwarfFixupTable(Ctxt)
+	} else {
+		// turn off inline generation if no dwarf at all
+		Flag.GenDwarfInl = 0
+		Ctxt.Flag_locationlists = false
+	}
+
+	checkLang()
+
+	if Flag.SymABIs != "" {
+		readSymABIs(Flag.SymABIs, Ctxt.Pkgpath)
+	}
+	if ispkgin(omit_pkgs) {
+		Flag.Race = false
+		Flag.MSan = false
+	}
 
 	thearch.LinkArch.Init(Ctxt)
 	startProfile()
@@ -965,43 +997,6 @@ func clearImports() {
 
 func IsAlias(sym *types.Sym) bool {
 	return sym.Def != nil && asNode(sym.Def).Sym != sym
-}
-
-// concurrentFlagOk reports whether the current compiler flags
-// are compatible with concurrent compilation.
-func concurrentFlagOk() bool {
-	// TODO(rsc): Many of these are fine. Remove them.
-	return Flag.Percent == 0 &&
-		Flag.E == 0 &&
-		Flag.K == 0 &&
-		Flag.L == 0 &&
-		Flag.LowerH == 0 &&
-		Flag.LowerJ == 0 &&
-		Flag.LowerM == 0 &&
-		Flag.LowerR == 0
-}
-
-func concurrentBackendAllowed() bool {
-	if !concurrentFlagOk() {
-		return false
-	}
-
-	// Debug.S by itself is ok, because all printing occurs
-	// while writing the object file, and that is non-concurrent.
-	// Adding Debug_vlog, however, causes Debug.S to also print
-	// while flushing the plist, which happens concurrently.
-	if Ctxt.Debugvlog || Flag.LowerD != "" || Flag.Live > 0 {
-		return false
-	}
-	// TODO: Test and delete this condition.
-	if objabi.Fieldtrack_enabled != 0 {
-		return false
-	}
-	// TODO: fix races and enable the following flags
-	if Ctxt.Flag_shared || Ctxt.Flag_dynlink || Flag.Race {
-		return false
-	}
-	return true
 }
 
 // recordFlags records the specified command-line flags to be placed

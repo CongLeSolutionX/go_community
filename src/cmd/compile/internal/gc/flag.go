@@ -15,7 +15,6 @@ import (
 	"runtime"
 	"strings"
 
-	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 )
@@ -63,19 +62,19 @@ type CmdFlags struct {
 	W CountFlag    "help:\"debug parse tree after type checking\""
 
 	// V uses objabi.AddVersionFlag "help:\"\""
-	LowerC int       "help:\"concurrency during compilation (1 means no concurrency)\"` `help:\"\""
-	LowerD string    "help:\"enable debugging settings; try -d help\""
-	LowerE CountFlag "help:\"no limit on number of errors reported\""
-	LowerH CountFlag "help:\"halt on error\""
-	LowerJ CountFlag "help:\"debug runtime-initialized variables\""
-	LowerL CountFlag "help:\"disable inlining\""
-	LowerM CountFlag "help:\"print optimization decisions\""
-	LowerO string    "help:\"write output to `file`\""
-	LowerP *string   "help:\"set expected package import `path`\"" // &Ctxt.Pkgpath, set below
-	LowerR CountFlag "help:\"debug generated wrappers\""
-	LowerT bool      "help:\"enable tracing for debugging the compiler\""
-	LowerW CountFlag "help:\"debug type checking\""
-	LowerV *bool     "help:\"increase debug verbosity\""
+	LowerC int          "help:\"concurrency during compilation (1 means no concurrency)\"` `help:\"\""
+	LowerD func(string) "help:\"enable debugging settings; try -d help\""
+	LowerE CountFlag    "help:\"no limit on number of errors reported\""
+	LowerH CountFlag    "help:\"halt on error\""
+	LowerJ CountFlag    "help:\"debug runtime-initialized variables\""
+	LowerL CountFlag    "help:\"disable inlining\""
+	LowerM CountFlag    "help:\"print optimization decisions\""
+	LowerO string       "help:\"write output to `file`\""
+	LowerP *string      "help:\"set expected package import `path`\"" // &Ctxt.Pkgpath, set below
+	LowerR CountFlag    "help:\"debug generated wrappers\""
+	LowerT bool         "help:\"enable tracing for debugging the compiler\""
+	LowerW CountFlag    "help:\"debug type checking\""
+	LowerV *bool        "help:\"increase debug verbosity\""
 
 	// Special characters
 	Percent          int  "flag:\"%\" help:\"debug non-static initializers\""
@@ -137,6 +136,7 @@ func ParseFlags() {
 	Flag.I = addImportDir
 
 	Flag.LowerC = 1
+	Flag.LowerD = parseDebug
 	Flag.LowerP = &Ctxt.Pkgpath
 	Flag.LowerV = &Ctxt.Debugvlog
 
@@ -169,43 +169,18 @@ func ParseFlags() {
 	}
 	parseSpectre(Flag.Spectre) // left as string for recordFlags
 
-	// Record flags that affect the build result. (And don't
-	// record flags that don't, since that would cause spurious
-	// changes in the binary.)
-	recordFlags("B", "N", "l", "msan", "race", "shared", "dynlink", "dwarflocationlists", "dwarfbasentries", "smallframes", "spectre")
-
-	if Flag.SmallFrames {
-		maxStackVarSize = 128 * 1024
-		maxImplicitStackVarSize = 16 * 1024
-	}
-
 	Ctxt.Flag_shared = Ctxt.Flag_dynlink || Ctxt.Flag_shared
 	Ctxt.Flag_optimize = Flag.N == 0
 
 	Ctxt.Debugasm = int(Flag.S)
-	if Flag.Dwarf {
-		Ctxt.DebugInfo = debuginfo
-		Ctxt.GenAbstractFunc = genAbstractFunc
-		Ctxt.DwFixups = obj.NewDwarfFixupTable(Ctxt)
-	} else {
-		// turn off inline generation if no dwarf at all
-		Flag.GenDwarfInl = 0
-		Ctxt.Flag_locationlists = false
-	}
 
-	if flag.NArg() < 1 && Flag.LowerD != "help" && Flag.LowerD != "ssa/help" {
+	if flag.NArg() < 1 {
 		usage()
 	}
 
 	if Flag.GoVersion != "" && Flag.GoVersion != runtime.Version() {
 		fmt.Printf("compile: version %q does not match go tool version %q\n", runtime.Version(), Flag.GoVersion)
 		Exit(2)
-	}
-
-	checkLang()
-
-	if Flag.SymABIs != "" {
-		readSymABIs(Flag.SymABIs, Ctxt.Pkgpath)
 	}
 
 	if Flag.LowerO == "" {
@@ -235,10 +210,6 @@ func ParseFlags() {
 		// -race and -msan imply -d=checkptr for now.
 		Debug.Checkptr = 1
 	}
-	if ispkgin(omit_pkgs) {
-		Flag.Race = false
-		Flag.MSan = false
-	}
 
 	if Flag.CompilingRuntime && Flag.N != 0 {
 		log.Fatal("cannot disable optimizations while compiling runtime")
@@ -252,8 +223,6 @@ func ParseFlags() {
 	if Ctxt.Flag_locationlists && len(Ctxt.Arch.DWARFRegisters) == 0 {
 		log.Fatalf("location lists requested but register mapping not available on %v", Ctxt.Arch.Name)
 	}
-
-	parseDebug()
 
 	if Flag.CompilingRuntime {
 		// Runtime can't use -d=checkptr, at least not yet.
@@ -449,4 +418,41 @@ func parseSpectre(s string) {
 			log.Fatalf("GOARCH=%s does not support -spectre=index", objabi.GOARCH)
 		}
 	}
+}
+
+// concurrentFlagOk reports whether the current compiler flags
+// are compatible with concurrent compilation.
+func concurrentFlagOk() bool {
+	// TODO(rsc): Many of these are fine. Remove them.
+	return Flag.Percent == 0 &&
+		Flag.E == 0 &&
+		Flag.K == 0 &&
+		Flag.L == 0 &&
+		Flag.LowerH == 0 &&
+		Flag.LowerJ == 0 &&
+		Flag.LowerM == 0 &&
+		Flag.LowerR == 0
+}
+
+func concurrentBackendAllowed() bool {
+	if !concurrentFlagOk() {
+		return false
+	}
+
+	// Debug.S by itself is ok, because all printing occurs
+	// while writing the object file, and that is non-concurrent.
+	// Adding Debug_vlog, however, causes Debug.S to also print
+	// while flushing the plist, which happens concurrently.
+	if Ctxt.Debugvlog || Debug.Any() || Flag.Live > 0 {
+		return false
+	}
+	// TODO: Test and delete this condition.
+	if objabi.Fieldtrack_enabled != 0 {
+		return false
+	}
+	// TODO: fix races and enable the following flags
+	if Ctxt.Flag_shared || Ctxt.Flag_dynlink || Flag.Race {
+		return false
+	}
+	return true
 }
