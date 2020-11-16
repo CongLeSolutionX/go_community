@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "298d5ca4_9aa2ecd2",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPSOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-11-16T05:12:56Z",
+      "side": 1,
+      "message": "shift amount must be 0 through 31 inclusive",
+      "range": {
+        "startLine": 188,
+        "startChar": 92,
+        "endLine": 188,
+        "endChar": 114
+      },
+      "revId": "dab1b7da5633fa535808de53c660c6514818ab78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
