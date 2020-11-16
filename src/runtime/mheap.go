@@ -1332,6 +1332,10 @@ func (h *mheap) grow(npage uintptr) bool {
 	assertLockHeld(&h.lock)
 
 	// We must grow the heap in whole palloc chunks.
+	// We call sysMap below but note that because we
+	// round up to pallocChunkPages which is on the order
+	// of MiB (generally >= to the huge page size) we
+	// won't be calling it too much.
 	ask := alignUp(npage, pallocChunkPages) * pageSize
 
 	totalGrowth := uintptr(0)
@@ -1358,6 +1362,11 @@ func (h *mheap) grow(npage uintptr) bool {
 			// remains of the current space and switch to
 			// the new space. This should be rare.
 			if size := h.curArena.end - h.curArena.base; size != 0 {
+				// Transition this space from Reserved to Prepared since we'll
+				// be able to start using it any time.
+				sysMap(unsafe.Pointer(h.curArena.base), size, &memstats.heap_sys)
+				// Update the page allocator's structures to make this
+				// space ready for allocation.
 				h.pages.grow(h.curArena.base, size)
 				totalGrowth += size
 			}
@@ -1387,6 +1396,10 @@ func (h *mheap) grow(npage uintptr) bool {
 	// Grow into the current arena.
 	v := h.curArena.base
 	h.curArena.base = nBase
+	// Transition the space we're going to use from Reserved to Prepared.
+	sysMap(unsafe.Pointer(v), nBase-v, &memstats.heap_sys)
+	// Update the page allocator's structures to make this
+	// space ready for allocation.
 	h.pages.grow(v, nBase-v)
 	totalGrowth += nBase - v
 

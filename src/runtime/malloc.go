@@ -622,8 +622,8 @@ func mallocinit() {
 // heapArenaBytes. sysAlloc returns nil on failure.
 // There is no corresponding free function.
 //
-// sysAlloc returns a memory region in the Prepared state. This region must
-// be transitioned to Ready before use.
+// sysAlloc returns a memory region in the Reserved state. This region must
+// be transitioned to Prepared and then Ready before use.
 //
 // h must be locked.
 func (h *mheap) sysAlloc(n uintptr) (v unsafe.Pointer, size uintptr) {
@@ -724,9 +724,6 @@ func (h *mheap) sysAlloc(n uintptr) (v unsafe.Pointer, size uintptr) {
 	if uintptr(v)&(heapArenaBytes-1) != 0 {
 		throw("misrounded allocation in sysAlloc")
 	}
-
-	// Transition from Reserved to Prepared.
-	sysMap(v, size, &memstats.heap_sys)
 
 mapped:
 	// Create arena metadata.
