@@ -63,19 +63,19 @@ type CmdFlags struct {
 	W CountFlag    "help:\"debug parse tree after type checking\""
 
 	// V uses objabi.AddVersionFlag "help:\"\""
-	LowerC int       "help:\"concurrency during compilation (1 means no concurrency)\""
-	LowerD string    "help:\"enable debugging settings; try -d help\""
-	LowerE CountFlag "help:\"no limit on number of errors reported\""
-	LowerH CountFlag "help:\"halt on error\""
-	LowerJ CountFlag "help:\"debug runtime-initialized variables\""
-	LowerL CountFlag "help:\"disable inlining\""
-	LowerM CountFlag "help:\"print optimization decisions\""
-	LowerO string    "help:\"write output to `file`\""
-	LowerP *string   "help:\"set expected package import `path`\"" // &Ctxt.Pkgpath, set below
-	LowerR CountFlag "help:\"debug generated wrappers\""
-	LowerT bool      "help:\"enable tracing for debugging the compiler\""
-	LowerW CountFlag "help:\"debug type checking\""
-	LowerV *bool     "help:\"increase debug verbosity\""
+	LowerC int          "help:\"concurrency during compilation (1 means no concurrency)\""
+	LowerD func(string) "help:\"enable debugging settings; try -d help\""
+	LowerE CountFlag    "help:\"no limit on number of errors reported\""
+	LowerH CountFlag    "help:\"halt on error\""
+	LowerJ CountFlag    "help:\"debug runtime-initialized variables\""
+	LowerL CountFlag    "help:\"disable inlining\""
+	LowerM CountFlag    "help:\"print optimization decisions\""
+	LowerO string       "help:\"write output to `file`\""
+	LowerP *string      "help:\"set expected package import `path`\"" // &Ctxt.Pkgpath, set below
+	LowerR CountFlag    "help:\"debug generated wrappers\""
+	LowerT bool         "help:\"enable tracing for debugging the compiler\""
+	LowerW CountFlag    "help:\"debug type checking\""
+	LowerV *bool        "help:\"increase debug verbosity\""
 
 	// Special characters
 	Percent          int  "flag:\"%\" help:\"debug non-static initializers\""
@@ -137,6 +137,7 @@ func ParseFlags() {
 	Flag.I = addImportDir
 
 	Flag.LowerC = 1
+	Flag.LowerD = parseDebug
 	Flag.LowerP = &Ctxt.Pkgpath
 	Flag.LowerV = &Ctxt.Debugvlog
 
@@ -169,16 +170,11 @@ func ParseFlags() {
 	}
 	parseSpectre(Flag.Spectre) // left as string for recordFlags
 
-	if Flag.SmallFrames {
-		maxStackVarSize = 128 * 1024
-		maxImplicitStackVarSize = 16 * 1024
-	}
-
 	Ctxt.Flag_shared = Ctxt.Flag_dynlink || Ctxt.Flag_shared
 	Ctxt.Flag_optimize = Flag.N == 0
 	Ctxt.Debugasm = int(Flag.S)
 
-	if flag.NArg() < 1 && Flag.LowerD != "help" && Flag.LowerD != "ssa/help" {
+	if flag.NArg() < 1 {
 		usage()
 	}
 
@@ -227,8 +223,6 @@ func ParseFlags() {
 	if Ctxt.Flag_locationlists && len(Ctxt.Arch.DWARFRegisters) == 0 {
 		log.Fatalf("location lists requested but register mapping not available on %v", Ctxt.Arch.Name)
 	}
-
-	parseDebug()
 
 	if Flag.CompilingRuntime {
 		// Runtime can't use -d=checkptr, at least not yet.
@@ -337,7 +331,7 @@ func concurrentBackendAllowed() bool {
 	// while writing the object file, and that is non-concurrent.
 	// Adding Debug_vlog, however, causes Debug.S to also print
 	// while flushing the plist, which happens concurrently.
-	if Ctxt.Debugvlog || Flag.LowerD != "" || Flag.Live > 0 {
+	if Ctxt.Debugvlog || Debug.Any() || Flag.Live > 0 {
 		return false
 	}
 	// TODO: Test and delete this condition.
