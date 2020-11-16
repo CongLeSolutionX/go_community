@@ -1413,7 +1413,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	}
 
 	funcbody()
-	if debug_dclstack != 0 {
+	if Debug.DclStack != 0 {
 		testdclstack()
 	}
 
