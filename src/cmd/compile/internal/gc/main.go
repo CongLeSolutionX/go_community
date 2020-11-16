@@ -83,6 +83,8 @@ var debugtab = []struct {
 	{"defer", "print information about defer compilation", &Debug_defer},
 }
 
+var Debug struct{}
+
 const debugHelpHeader = `usage: -d arg[,arg]* and arg is <key>[=<value>]
 
 <key> is one of:
