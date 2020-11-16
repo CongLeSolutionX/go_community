@@ -85,7 +85,7 @@ func typecheckinl(fn *Node) {
 		return // typecheckinl on local function
 	}
 
-	if Flag.LowerM > 2 || Debug_export != 0 {
+	if Flag.LowerM > 2 || Debug.Export != 0 {
 		fmt.Printf("typecheck import [%v] %L { %#v }\n", fn.Sym, fn, asNodes(fn.Func.Inl.Body))
 	}
 
@@ -142,7 +142,7 @@ func caninl(fn *Node) {
 	}
 
 	// If marked "go:nocheckptr" and -d checkptr compilation, don't inline.
-	if Debug_checkptr != 0 && fn.Func.Pragma&NoCheckPtr != 0 {
+	if Debug.Checkptr != 0 && fn.Func.Pragma&NoCheckPtr != 0 {
 		reason = "marked go:nocheckptr"
 		return
 	}
@@ -601,7 +601,7 @@ func inlnode(n *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 	case OCALLMETH:
 		// Prevent inlining some reflect.Value methods when using checkptr,
 		// even when package reflect was compiled without it (#35073).
-		if s := n.Left.Sym; Debug_checkptr != 0 && isReflectPkg(s.Pkg) && (s.Name == "Value.UnsafeAddr" || s.Name == "Value.Pointer") {
+		if s := n.Left.Sym; Debug.Checkptr != 0 && isReflectPkg(s.Pkg) && (s.Name == "Value.UnsafeAddr" || s.Name == "Value.Pointer") {
 			return n
 		}
 	}
@@ -942,7 +942,7 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 	defer func() {
 		inlMap[fn] = false
 	}()
-	if Debug_typecheckinl == 0 {
+	if Debug.TypecheckInl == 0 {
 		typecheckinl(fn)
 	}
 

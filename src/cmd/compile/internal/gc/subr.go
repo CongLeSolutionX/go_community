@@ -183,7 +183,7 @@ func Warnl(line src.XPos, fmt_ string, args ...interface{}) {
 func Fatalf(fmt_ string, args ...interface{}) {
 	flusherrors()
 
-	if Debug_panic != 0 || nsavederrors+nerrors == 0 {
+	if Debug.Panic != 0 || nsavederrors+nerrors == 0 {
 		fmt.Printf("%v: internal compiler error: ", linestr(lineno))
 		fmt.Printf(fmt_, args...)
 		fmt.Printf("\n")
@@ -1584,7 +1584,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	}
 
 	funcbody()
-	if debug_dclstack != 0 {
+	if Debug.DclStack != 0 {
 		testdclstack()
 	}
 
