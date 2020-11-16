@@ -48,7 +48,7 @@ func hasUniquePos(n *Node) bool {
 	}
 
 	if !n.Pos.IsKnown() {
-		if Debug.K != 0 {
+		if Flag.K != 0 {
 			Warn("setlineno: unknown position (line 0)")
 		}
 		return false
@@ -1335,7 +1335,7 @@ func structargs(tl *types.Type, mustname bool) []*Node {
 //	method - M func (t T)(), a TFIELD type struct
 //	newnam - the eventual mangled name of this function
 func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
-	if false && Debug.r != 0 {
+	if false && Flag.LowerR != 0 {
 		fmt.Printf("genwrapper rcvrtype=%v method=%v newnam=%v\n", rcvr, method, newnam)
 	}
 
@@ -1408,7 +1408,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 		fn.Nbody.Append(call)
 	}
 
-	if false && Debug.r != 0 {
+	if false && Flag.LowerR != 0 {
 		dumplist("genwrapper body", fn.Nbody)
 	}
 
@@ -1549,7 +1549,7 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 		// the method does not exist for value types.
 		rcvr := tm.Type.Recv().Type
 		if rcvr.IsPtr() && !t0.IsPtr() && !followptr && !isifacemethod(tm.Type) {
-			if false && Debug.r != 0 {
+			if false && Flag.LowerR != 0 {
 				yyerror("interface pointer mismatch")
 			}
 
