@@ -448,6 +448,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52925dff_f5b15d8a",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 32626
+      },
+      "writtenOn": "2020-11-16T23:21:09Z",
+      "side": 1,
+      "message": "Austin, I remember having exactly the same experience with GOOS\u003dwindows and GOARCH\u003darm. Every binary crashed on Windows 10 ARM64.\n\nUntil I set GOARM\u003d7. Other than things Jason fixed and submitted CR here, it works.",
+      "parentUuid": "3ebfb412_6cafcb0c",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "570562a90cf4163e42fc1640e8b493f36f296098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c536ab8_81179d80",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 2
