@@ -99,16 +99,6 @@ var (
 
 var pragcgobuf [][]string
 
-// nerrors is the number of compiler errors reported
-// since the last call to saveerrors.
-var nerrors int
-
-// nsavederrors is the total number of compiler errors
-// reported before the last call to saveerrors.
-var nsavederrors int
-
-var nsyntaxerrors int
-
 var decldepth int32
 
 var localpkg *types.Pkg // package being compiled
