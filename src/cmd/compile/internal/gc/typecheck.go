@@ -3866,7 +3866,7 @@ func checkreturn(fn *Node) {
 }
 
 func deadcode(fn *Node) {
-	deadcodeslice(fn.Nbody)
+	deadcodeslice(&fn.Nbody)
 	deadcodefn(fn)
 }
 
@@ -3896,7 +3896,7 @@ func deadcodefn(fn *Node) {
 	fn.Nbody.Set([]*Node{nod(OEMPTY, nil, nil)})
 }
 
-func deadcodeslice(nn Nodes) {
+func deadcodeslice(nn *Nodes) {
 	var lastLabel = -1
 	for i, n := range nn.Slice() {
 		if n != nil && n.Op == OLABEL {
@@ -3938,12 +3938,12 @@ func deadcodeslice(nn Nodes) {
 			}
 		}
 
-		deadcodeslice(n.Ninit)
-		deadcodeslice(n.Nbody)
-		deadcodeslice(n.List)
-		deadcodeslice(n.Rlist)
+		deadcodeslice(&n.Ninit)
+		deadcodeslice(&n.Nbody)
+		deadcodeslice(&n.List)
+		deadcodeslice(&n.Rlist)
 		if cut {
-			*nn.slice = nn.Slice()[:i+1]
+			nn.Set(nn.Slice()[:i+1])
 			break
 		}
 	}
