@@ -84,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9df2f4c1_c89855c9",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-16T15:48:37Z",
+      "side": 1,
+      "message": "I think we still want to have this line corrected. I think we should not generate SRAconst with c not in 0\u003c\u003dc\u003c\u003d31. The other rule is just a safety guard.\n\nBesides, this rule, written as is, is actually confusing.",
+      "parentUuid": "58a59f2c_5f777558",
+      "range": {
+        "startLine": 99,
+        "startChar": 48,
+        "endLine": 99,
+        "endChar": 64
+      },
+      "revId": "cb7b32df48f5f6a50c9634ed17f20a38d10e2260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "786722fd_84862bd0",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 1
