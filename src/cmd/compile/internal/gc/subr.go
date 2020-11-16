@@ -141,13 +141,14 @@ func nod(op ir.Op, nleft, nright *ir.Node) *ir.Node {
 func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 	var n *ir.Node
 	switch op {
-	case ir.OCLOSURE, ir.ODCLFUNC:
+	case ir.ODCLFUNC:
 		var x struct {
 			n ir.Node
 			f ir.Func
 		}
 		n = &x.n
 		n.Func = &x.f
+		n.Func.Decl = n
 	case ir.ONAME:
 		base.Fatal("use newname instead")
 	case ir.OLABEL, ir.OPACK:

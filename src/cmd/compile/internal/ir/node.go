@@ -567,52 +567,57 @@ func (p *Param) SetEmbedFiles(list []string) {
 	*(*p.Extra).(*embedFileList) = list
 }
 
-// Functions
+// A Func corresponds to a single function in a Go program
+// (and vice versa: each function is denoted by exactly one *Func).
 //
-// A simple function declaration is represented as an ODCLFUNC node f
-// and an ONAME node n. They're linked to one another through
-// f.Func.Nname == n and n.Name.Defn == f. When functions are
-// referenced by name in an expression, the function's ONAME node is
-// used directly.
+// There are multiple nodes that represent a Func in the IR.
 //
-// Function names have n.Class() == PFUNC. This distinguishes them
-// from variables of function type.
+// The ONAME node (Func.Name) is used for plain references to it.
+// The ODCLFUNC node (Func.Decl) is used for its declaration code.
+// The OCLOSURE node (Func.Closure) is used for a reference to a
+// function literal.
 //
-// Confusingly, n.Func and f.Func both exist, but commonly point to
-// different Funcs. (Exception: an OCALLPART's Func does point to its
-// ODCLFUNC's Func.)
+// A Func for an imported function will have only an ONAME node.
+// A declared top-level function or method has an ONAME and an ODCLFUNC.
+// A function literal has an OCLOSURE and an ODCLFUNC; the latter
+// is the compiled form that accessed the captured variables from
+// a special data structure.
 //
-// A method declaration is represented like functions, except n.Sym
+// A method declaration is represented like functions, except f.Sym
 // will be the qualified method name (e.g., "T.m") and
 // f.Func.Shortname is the bare method name (e.g., "m").
 //
-// Method expressions are represented as ONAME/PFUNC nodes like
-// function names, but their Left and Right fields still point to the
-// type and method, respectively. They can be distinguished from
-// normal functions with isMethodExpression. Also, unlike function
-// name nodes, method expression nodes exist for each method
-// expression. The declaration ONAME can be accessed with
-// x.Type.Nname(), where x is the method expression ONAME node.
+// A method expression (T.M) is represented as an ONAME node
+// like a function name would be, but n.Left and n.Right point to
+// the type and method, respectively. A method expression can
+// be distinguished from a normal function ONAME by checking
+// n.IsMethodExpression. Unlike ordinary ONAME nodes, each
+// distinct mention of a method expression in the source code
+// constructs a fresh ONAME node.
+// TODO(rsc): Method expressions deserve their own opcode
+// instead of violating invariants of ONAME.
 //
-// Method values are represented by ODOTMETH/ODOTINTER when called
-// immediately, and OCALLPART otherwise. They are like method
-// expressions, except that for ODOTMETH/ODOTINTER the method name is
-// stored in Sym instead of Right.
+// A method value (t.M) is represented by represented by
+// ODOTMETH/ODOTINTER when it is called directly and by
+// OCALLPART otherwise. These are like method expressions,
+// except that for ODOTMETH/ODOTINTER, the method name
+// is stored in Sym instead of Right.
 //
-// Closures are represented by OCLOSURE node c. They link back and
-// forth with the ODCLFUNC via Func.Closure; that is, c.Func.Closure
-// == f and f.Func.Closure == c.
-//
-// Function bodies are stored in f.Nbody, and inline function bodies
-// are stored in n.Func.Inl. Pragmas are stored in f.Func.Pragma.
-//
-// Imported functions skip the ODCLFUNC, so n.Name.Defn is nil. They
-// also use Dcl instead of Inldcl.
-
-// Func holds Node fields used only with function-like nodes.
+// Each OCALLPART ends up being implemented as a new
+// function, a bit like a closure, with its own ODCLFUNC.
+// The OCALLPART has an n.Func, so the ODCLFUNC is
+// n.Func.Decl.
 type Func struct {
+	Enter Nodes // setup at start of function
+
+	Nname         *Node // ONAME node
+	Decl          *Node // ODCLFUNC node
+	Closure_      *Node // OCLOSURE node
+	ClosureEnter  Nodes // setup for closure body
+	ClosureType   *Node // syntax for closure representation type
+	ClosureCalled bool  // closure is only immediately called
+
 	Shortname *types.Sym
-	Enter     Nodes // for example, allocate and initialize memory for escaping parameters
 	Exit      Nodes
 	Cvars     Nodes   // closure params
 	Dcl       []*Node // autodcl for this func/closure
@@ -632,10 +637,6 @@ type Func struct {
 
 	FieldTrack map[*types.Sym]struct{}
 	DebugInfo  *ssa.FuncDebug
-	Ntype      *Node // signature
-	Top        int   // top context (ctxCallee, etc)
-	Closure    *Node // OCLOSURE <-> ODCLFUNC
-	Nname      *Node // The ONAME node associated with an ODCLFUNC (both have same Type)
 	LSym       *obj.LSym
 
 	Inl *Inline

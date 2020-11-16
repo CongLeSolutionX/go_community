@@ -1258,7 +1258,7 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 		}
 
 	case ir.OCLOSURE:
-		if n.Transient() && n.Func.Closure.Func.Cvars.Len() > 0 {
+		if n.Transient() && n.Func.Decl.Func.Cvars.Len() > 0 {
 			prealloc[n] = o.newTemp(closureType(n), false)
 		}
 

@@ -6967,7 +6967,7 @@ func (e *ssafn) StringData(s string) *obj.LSym {
 }
 
 func (e *ssafn) Auto(pos src.XPos, t *types.Type) ssa.GCNode {
-	n := tempAt(pos, e.curfn, t) // Note: adds new auto to e.curfn.Func.Dcl list
+	n := tempAt(pos, e.curfn, t) // Note: adds new auto to e.curfn.DclFunc().Dcl list
 	return n
 }
 

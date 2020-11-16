@@ -536,7 +536,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 		name = ir.BlankNode.Sym // filled in by typecheckfunc
 	}
 
-	f.Func.Nname = newfuncnamel(p.pos(fun.Name), name)
+	f.Func.Nname = newfuncnamel(p.pos(fun.Name), name, f.Func)
 	f.Func.Nname.Name.Defn = f
 	f.Func.Nname.Name.Param.Ntype = t
 

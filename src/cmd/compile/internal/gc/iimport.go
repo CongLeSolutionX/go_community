@@ -335,7 +335,7 @@ func (r *importReader) doDecl(n *ir.Node) {
 			f.Type = mtyp
 			ms[i] = f
 
-			m := newfuncnamel(mpos, methodSym(recv.Type, msym))
+			m := newfuncnamel(mpos, methodSym(recv.Type, msym), new(ir.Func))
 			m.Type = mtyp
 			m.SetClass(ir.PFUNC)
 			// methodSym already marked m.Sym as a function.

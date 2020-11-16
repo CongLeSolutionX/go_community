@@ -208,9 +208,13 @@ func newnoname(s *types.Sym) *ir.Node {
 
 // newfuncnamel generates a new name node for a function or method.
 // TODO(rsc): Use an ODCLFUNC node instead. See comment in CL 7360.
-func newfuncnamel(pos src.XPos, s *types.Sym) *ir.Node {
+func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) *ir.Node {
+	if fn.Nname != nil {
+		base.Fatal("newfuncnamel - already have name")
+	}
 	n := newnamel(pos, s)
-	n.Func = new(ir.Func)
+	n.Func = fn
+	fn.Nname = n
 	n.Func.SetIsHiddenClosure(Curfn != nil)
 	return n
 }
@@ -387,10 +391,8 @@ func funchdr(n *ir.Node) {
 
 	types.Markdcl()
 
-	if n.Func.Nname != nil {
+	if n.Func.Nname != nil && n.Func.Nname.Name.Param.Ntype != nil {
 		funcargs(n.Func.Nname.Name.Param.Ntype)
-	} else if n.Func.Ntype != nil {
-		funcargs(n.Func.Ntype)
 	} else {
 		funcargs2(n.Type)
 	}
@@ -973,7 +975,7 @@ func dclfunc(sym *types.Sym, tfn *ir.Node) *ir.Node {
 	}
 
 	fn := nod(ir.ODCLFUNC, nil, nil)
-	fn.Func.Nname = newfuncnamel(base.Pos, sym)
+	fn.Func.Nname = newfuncnamel(base.Pos, sym, fn.Func)
 	fn.Func.Nname.Name.Defn = fn
 	fn.Func.Nname.Name.Param.Ntype = tfn
 	setNodeNameFunc(fn.Func.Nname)
@@ -1038,7 +1040,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	case ir.ONAME:
 		callee = arg.Name.Defn
 	case ir.OCLOSURE:
-		callee = arg.Func.Closure
+		callee = arg.Func.Decl
 	default:
 		base.Fatal("expected ONAME or OCLOSURE node, got %+v", arg)
 	}
