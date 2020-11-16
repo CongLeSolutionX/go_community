@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65977871_306b3078",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-16T14:59:47Z",
+      "side": 1,
+      "message": "I turned the issue into a proposal for the API change.\n\nMarking temporary -2 pending the proposal.",
+      "revId": "42b1803c510ceda6f04d4c6b01f8ecd3b7166c6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
