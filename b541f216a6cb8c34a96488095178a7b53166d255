@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3a96ad_71f67f18",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-16T23:25:51Z",
+      "side": 1,
+      "message": "Bryan, I know you mentioned on the issue that queryImport might be a better place for these checks. However, QueryPatterns already needs a lot of knowledge of the main module, and we already skip requesting the latest version of the main module from the proxy below with modulePrefixesExcludingTarget. So this seems like the right place.",
+      "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5310eec_5b0231a9",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-16T23:25:51Z",
+      "side": 1,
+      "message": "I think this check was backward before: we should only return Target as modOnly if the query was \"upgrade\" or \"patch\".",
+      "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
