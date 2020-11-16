@@ -3954,7 +3954,7 @@ func deadcodeslice(nn Nodes) {
 		deadcodeslice(n.List)
 		deadcodeslice(n.Rlist)
 		if cut {
-			*nn.slice = nn.Slice()[:i+1]
+			nn.Set(nn.Slice()[:i+1])
 			break
 		}
 	}

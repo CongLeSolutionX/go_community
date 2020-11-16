@@ -416,17 +416,20 @@ func (n *Node) format(s fmt.State, verb rune, mode fmtMode) {
 	}
 }
 
+// EscFmt is set by the escape analysis code to add escape analysis details to the node print.
+var EscFmt func(n *Node, short bool) string
+
 // *Node details
 func (n *Node) jconv(s fmt.State, flag FmtFlag) {
-	c := flag & FmtShort
+	short := flag&FmtShort != 0
 
 	// Useful to see which nodes in an AST printout are actually identical
 	fmt.Fprintf(s, " p(%p)", n)
-	if c == 0 && n.Name != nil && n.Name.Vargen != 0 {
+	if !short && n.Name != nil && n.Name.Vargen != 0 {
 		fmt.Fprintf(s, " g(%d)", n.Name.Vargen)
 	}
 
-	if c == 0 && n.Name != nil && n.Name.Defn != nil {
+	if !short && n.Name != nil && n.Name.Defn != nil {
 		// Useful to see where Defn is set and what node it points to
 		fmt.Fprintf(s, " defn(%p)", n.Name.Defn)
 	}
@@ -442,7 +445,7 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 		fmt.Fprintf(s, " l(%s%d)", pfx, n.Pos.Line())
 	}
 
-	if c == 0 && n.Xoffset != BADWIDTH {
+	if !short && n.Xoffset != BADWIDTH {
 		fmt.Fprintf(s, " x(%d)", n.Xoffset)
 	}
 
@@ -454,30 +457,13 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 		fmt.Fprintf(s, " colas(%v)", n.Colas())
 	}
 
-	switch n.Esc {
-	case EscUnknown:
-		break
-
-	case EscHeap:
-		fmt.Fprint(s, " esc(h)")
-
-	case EscNone:
-		fmt.Fprint(s, " esc(no)")
-
-	case EscNever:
-		if c == 0 {
-			fmt.Fprint(s, " esc(N)")
+	if EscFmt != nil {
+		if esc := EscFmt(n, short); esc != "" {
+			fmt.Fprintf(s, " %s", esc)
 		}
-
-	default:
-		fmt.Fprintf(s, " esc(%d)", n.Esc)
 	}
 
-	if e, ok := n.Opt().(*EscLocation); ok && e.loopDepth != 0 {
-		fmt.Fprintf(s, " ld(%d)", e.loopDepth)
-	}
-
-	if c == 0 && n.Typecheck() != 0 {
+	if !short && n.Typecheck() != 0 {
 		fmt.Fprintf(s, " tc(%d)", n.Typecheck())
 	}
 
@@ -517,11 +503,11 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 		fmt.Fprint(s, " nonnil")
 	}
 
-	if c == 0 && n.HasCall() {
+	if !short && n.HasCall() {
 		fmt.Fprint(s, " hascall")
 	}
 
-	if c == 0 && n.Name != nil && n.Name.Used() {
+	if !short && n.Name != nil && n.Name.Used() {
 		fmt.Fprint(s, " used")
 	}
 }
