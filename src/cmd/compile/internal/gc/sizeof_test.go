@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/ir"
 	"reflect"
 	"testing"
 	"unsafe"
@@ -21,10 +22,10 @@ func TestSizeof(t *testing.T) {
 		_32bit uintptr     // size on 32bit platforms
 		_64bit uintptr     // size on 64bit platforms
 	}{
-		{Func{}, 124, 224},
-		{Name{}, 32, 56},
-		{Param{}, 24, 48},
-		{Node{}, 76, 128},
+		{ir.Func{}, 124, 224},
+		{ir.Name{}, 32, 56},
+		{ir.Param{}, 24, 48},
+		{ir.Node{}, 76, 128},
 	}
 
 	for _, tt := range tests {

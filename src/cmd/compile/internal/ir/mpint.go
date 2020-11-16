@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package ir
 
 import (
 	"fmt"
@@ -14,18 +14,18 @@ import (
 // implements integer arithmetic
 
 // Mpint represents an integer constant.
-type Mpint struct {
+type Int struct {
 	Val  big.Int
 	Ovf  bool // set if Val overflowed compiler limit (sticky)
 	Rune bool // set if syntax indicates default type rune
 }
 
-func (a *Mpint) SetOverflow() {
+func (a *Int) SetOverflow() {
 	a.Val.SetUint64(1) // avoid spurious div-zero errors
 	a.Ovf = true
 }
 
-func (a *Mpint) checkOverflow(extra int) bool {
+func (a *Int) CheckOverflow(extra int) bool {
 	// We don't need to be precise here, any reasonable upper limit would do.
 	// For now, use existing limit so we pass all the tests unchanged.
 	if a.Val.BitLen()+extra > Mpprec {
@@ -34,11 +34,11 @@ func (a *Mpint) checkOverflow(extra int) bool {
 	return a.Ovf
 }
 
-func (a *Mpint) Set(b *Mpint) {
+func (a *Int) Set(b *Int) {
 	a.Val.Set(&b.Val)
 }
 
-func (a *Mpint) SetFloat(b *Mpflt) bool {
+func (a *Int) SetFloat(b *Float) bool {
 	// avoid converting huge floating-point numbers to integers
 	// (2*Mpprec is large enough to permit all tests to pass)
 	if b.Val.MantExp(nil) > 2*Mpprec {
@@ -72,7 +72,7 @@ func (a *Mpint) SetFloat(b *Mpflt) bool {
 	return false
 }
 
-func (a *Mpint) Add(b *Mpint) {
+func (a *Int) Add(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Add")
@@ -83,12 +83,12 @@ func (a *Mpint) Add(b *Mpint) {
 
 	a.Val.Add(&a.Val, &b.Val)
 
-	if a.checkOverflow(0) {
+	if a.CheckOverflow(0) {
 		base.Error("constant addition overflow")
 	}
 }
 
-func (a *Mpint) Sub(b *Mpint) {
+func (a *Int) Sub(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Sub")
@@ -99,12 +99,12 @@ func (a *Mpint) Sub(b *Mpint) {
 
 	a.Val.Sub(&a.Val, &b.Val)
 
-	if a.checkOverflow(0) {
+	if a.CheckOverflow(0) {
 		base.Error("constant subtraction overflow")
 	}
 }
 
-func (a *Mpint) Mul(b *Mpint) {
+func (a *Int) Mul(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Mul")
@@ -115,12 +115,12 @@ func (a *Mpint) Mul(b *Mpint) {
 
 	a.Val.Mul(&a.Val, &b.Val)
 
-	if a.checkOverflow(0) {
+	if a.CheckOverflow(0) {
 		base.Error("constant multiplication overflow")
 	}
 }
 
-func (a *Mpint) Quo(b *Mpint) {
+func (a *Int) Quo(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Quo")
@@ -131,13 +131,13 @@ func (a *Mpint) Quo(b *Mpint) {
 
 	a.Val.Quo(&a.Val, &b.Val)
 
-	if a.checkOverflow(0) {
+	if a.CheckOverflow(0) {
 		// can only happen for div-0 which should be checked elsewhere
 		base.Error("constant division overflow")
 	}
 }
 
-func (a *Mpint) Rem(b *Mpint) {
+func (a *Int) Rem(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Rem")
@@ -148,13 +148,13 @@ func (a *Mpint) Rem(b *Mpint) {
 
 	a.Val.Rem(&a.Val, &b.Val)
 
-	if a.checkOverflow(0) {
+	if a.CheckOverflow(0) {
 		// should never happen
 		base.Error("constant modulo overflow")
 	}
 }
 
-func (a *Mpint) Or(b *Mpint) {
+func (a *Int) Or(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Or")
@@ -166,7 +166,7 @@ func (a *Mpint) Or(b *Mpint) {
 	a.Val.Or(&a.Val, &b.Val)
 }
 
-func (a *Mpint) And(b *Mpint) {
+func (a *Int) And(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint And")
@@ -178,7 +178,7 @@ func (a *Mpint) And(b *Mpint) {
 	a.Val.And(&a.Val, &b.Val)
 }
 
-func (a *Mpint) AndNot(b *Mpint) {
+func (a *Int) AndNot(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint AndNot")
@@ -190,7 +190,7 @@ func (a *Mpint) AndNot(b *Mpint) {
 	a.Val.AndNot(&a.Val, &b.Val)
 }
 
-func (a *Mpint) Xor(b *Mpint) {
+func (a *Int) Xor(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Xor")
@@ -202,7 +202,7 @@ func (a *Mpint) Xor(b *Mpint) {
 	a.Val.Xor(&a.Val, &b.Val)
 }
 
-func (a *Mpint) Lsh(b *Mpint) {
+func (a *Int) Lsh(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Lsh")
@@ -222,14 +222,14 @@ func (a *Mpint) Lsh(b *Mpint) {
 		return
 	}
 
-	if a.checkOverflow(int(s)) {
+	if a.CheckOverflow(int(s)) {
 		base.Error("constant shift overflow")
 		return
 	}
 	a.Val.Lsh(&a.Val, uint(s))
 }
 
-func (a *Mpint) Rsh(b *Mpint) {
+func (a *Int) Rsh(b *Int) {
 	if a.Ovf || b.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("ovf in Mpint Rsh")
@@ -252,22 +252,22 @@ func (a *Mpint) Rsh(b *Mpint) {
 	a.Val.Rsh(&a.Val, uint(s))
 }
 
-func (a *Mpint) Cmp(b *Mpint) int {
+func (a *Int) Cmp(b *Int) int {
 	return a.Val.Cmp(&b.Val)
 }
 
-func (a *Mpint) CmpInt64(c int64) int {
+func (a *Int) CmpInt64(c int64) int {
 	if c == 0 {
 		return a.Val.Sign() // common case shortcut
 	}
 	return a.Val.Cmp(big.NewInt(c))
 }
 
-func (a *Mpint) Neg() {
+func (a *Int) Neg() {
 	a.Val.Neg(&a.Val)
 }
 
-func (a *Mpint) Int64() int64 {
+func (a *Int) Int64() int64 {
 	if a.Ovf {
 		if base.Errors() == 0 {
 			base.Fatal("constant overflow")
@@ -278,11 +278,11 @@ func (a *Mpint) Int64() int64 {
 	return a.Val.Int64()
 }
 
-func (a *Mpint) SetInt64(c int64) {
+func (a *Int) SetInt64(c int64) {
 	a.Val.SetInt64(c)
 }
 
-func (a *Mpint) SetString(as string) {
+func (a *Int) SetString(as string) {
 	_, ok := a.Val.SetString(as, 0)
 	if !ok {
 		// The lexer checks for correct syntax of the literal
@@ -292,15 +292,15 @@ func (a *Mpint) SetString(as string) {
 		base.Fatal("malformed integer constant: %s", as)
 		return
 	}
-	if a.checkOverflow(0) {
+	if a.CheckOverflow(0) {
 		base.Error("constant too large: %s", as)
 	}
 }
 
-func (a *Mpint) GoString() string {
+func (a *Int) GoString() string {
 	return a.Val.String()
 }
 
-func (a *Mpint) String() string {
+func (a *Int) String() string {
 	return fmt.Sprintf("%#x", &a.Val)
 }

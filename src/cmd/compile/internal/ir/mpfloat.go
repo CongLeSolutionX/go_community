@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package ir
 
 import (
 	"fmt"
@@ -23,33 +23,33 @@ const (
 )
 
 // Mpflt represents a floating-point constant.
-type Mpflt struct {
+type Float struct {
 	Val big.Float
 }
 
 // Mpcplx represents a complex constant.
-type Mpcplx struct {
-	Real Mpflt
-	Imag Mpflt
+type Complex struct {
+	Real Float
+	Imag Float
 }
 
 // Use newMpflt (not new(Mpflt)!) to get the correct default precision.
-func newMpflt() *Mpflt {
-	var a Mpflt
+func NewFloat() *Float {
+	var a Float
 	a.Val.SetPrec(Mpprec)
 	return &a
 }
 
 // Use newMpcmplx (not new(Mpcplx)!) to get the correct default precision.
-func newMpcmplx() *Mpcplx {
-	var a Mpcplx
-	a.Real = *newMpflt()
-	a.Imag = *newMpflt()
+func NewComplex() *Complex {
+	var a Complex
+	a.Real = *NewFloat()
+	a.Imag = *NewFloat()
 	return &a
 }
 
-func (a *Mpflt) SetInt(b *Mpint) {
-	if b.checkOverflow(0) {
+func (a *Float) SetInt(b *Int) {
+	if b.CheckOverflow(0) {
 		// sign doesn't really matter but copy anyway
 		a.Val.SetInf(b.Val.Sign() < 0)
 		return
@@ -57,11 +57,11 @@ func (a *Mpflt) SetInt(b *Mpint) {
 	a.Val.SetInt(&b.Val)
 }
 
-func (a *Mpflt) Set(b *Mpflt) {
+func (a *Float) Set(b *Float) {
 	a.Val.Set(&b.Val)
 }
 
-func (a *Mpflt) Add(b *Mpflt) {
+func (a *Float) Add(b *Float) {
 	if Mpdebug {
 		fmt.Printf("\n%v + %v", a, b)
 	}
@@ -73,14 +73,14 @@ func (a *Mpflt) Add(b *Mpflt) {
 	}
 }
 
-func (a *Mpflt) AddFloat64(c float64) {
-	var b Mpflt
+func (a *Float) AddFloat64(c float64) {
+	var b Float
 
 	b.SetFloat64(c)
 	a.Add(&b)
 }
 
-func (a *Mpflt) Sub(b *Mpflt) {
+func (a *Float) Sub(b *Float) {
 	if Mpdebug {
 		fmt.Printf("\n%v - %v", a, b)
 	}
@@ -92,7 +92,7 @@ func (a *Mpflt) Sub(b *Mpflt) {
 	}
 }
 
-func (a *Mpflt) Mul(b *Mpflt) {
+func (a *Float) Mul(b *Float) {
 	if Mpdebug {
 		fmt.Printf("%v\n * %v\n", a, b)
 	}
@@ -104,14 +104,14 @@ func (a *Mpflt) Mul(b *Mpflt) {
 	}
 }
 
-func (a *Mpflt) MulFloat64(c float64) {
-	var b Mpflt
+func (a *Float) MulFloat64(c float64) {
+	var b Float
 
 	b.SetFloat64(c)
 	a.Mul(&b)
 }
 
-func (a *Mpflt) Quo(b *Mpflt) {
+func (a *Float) Quo(b *Float) {
 	if Mpdebug {
 		fmt.Printf("%v\n / %v\n", a, b)
 	}
@@ -123,18 +123,18 @@ func (a *Mpflt) Quo(b *Mpflt) {
 	}
 }
 
-func (a *Mpflt) Cmp(b *Mpflt) int {
+func (a *Float) Cmp(b *Float) int {
 	return a.Val.Cmp(&b.Val)
 }
 
-func (a *Mpflt) CmpFloat64(c float64) int {
+func (a *Float) CmpFloat64(c float64) int {
 	if c == 0 {
 		return a.Val.Sign() // common case shortcut
 	}
 	return a.Val.Cmp(big.NewFloat(c))
 }
 
-func (a *Mpflt) Float64() float64 {
+func (a *Float) Float64() float64 {
 	x, _ := a.Val.Float64()
 
 	// check for overflow
@@ -145,7 +145,7 @@ func (a *Mpflt) Float64() float64 {
 	return x + 0 // avoid -0 (should not be needed, but be conservative)
 }
 
-func (a *Mpflt) Float32() float64 {
+func (a *Float) Float32() float64 {
 	x32, _ := a.Val.Float32()
 	x := float64(x32)
 
@@ -157,7 +157,7 @@ func (a *Mpflt) Float32() float64 {
 	return x + 0 // avoid -0 (should not be needed, but be conservative)
 }
 
-func (a *Mpflt) SetFloat64(c float64) {
+func (a *Float) SetFloat64(c float64) {
 	if Mpdebug {
 		fmt.Printf("\nconst %g", c)
 	}
@@ -173,14 +173,14 @@ func (a *Mpflt) SetFloat64(c float64) {
 	}
 }
 
-func (a *Mpflt) Neg() {
+func (a *Float) Neg() {
 	// avoid -0
 	if a.Val.Sign() != 0 {
 		a.Val.Neg(&a.Val)
 	}
 }
 
-func (a *Mpflt) SetString(as string) {
+func (a *Float) SetString(as string) {
 	f, _, err := a.Val.Parse(as, 0)
 	if err != nil {
 		base.Error("malformed constant: %s (%v)", as, err)
@@ -200,11 +200,11 @@ func (a *Mpflt) SetString(as string) {
 	}
 }
 
-func (f *Mpflt) String() string {
+func (f *Float) String() string {
 	return f.Val.Text('b', 0)
 }
 
-func (fvp *Mpflt) GoString() string {
+func (fvp *Float) GoString() string {
 	// determine sign
 	sign := ""
 	f := &fvp.Val
@@ -258,8 +258,8 @@ func (fvp *Mpflt) GoString() string {
 
 // complex multiply v *= rv
 //	(a, b) * (c, d) = (a*c - b*d, b*c + a*d)
-func (v *Mpcplx) Mul(rv *Mpcplx) {
-	var ac, ad, bc, bd Mpflt
+func (v *Complex) Mul(rv *Complex) {
+	var ac, ad, bc, bd Float
 
 	ac.Set(&v.Real)
 	ac.Mul(&rv.Real) // ac
@@ -282,12 +282,12 @@ func (v *Mpcplx) Mul(rv *Mpcplx) {
 
 // complex divide v /= rv
 //	(a, b) / (c, d) = ((a*c + b*d), (b*c - a*d))/(c*c + d*d)
-func (v *Mpcplx) Div(rv *Mpcplx) bool {
+func (v *Complex) Div(rv *Complex) bool {
 	if rv.Real.CmpFloat64(0) == 0 && rv.Imag.CmpFloat64(0) == 0 {
 		return false
 	}
 
-	var ac, ad, bc, bd, cc_plus_dd Mpflt
+	var ac, ad, bc, bd, cc_plus_dd Float
 
 	cc_plus_dd.Set(&rv.Real)
 	cc_plus_dd.Mul(&rv.Real) // cc
@@ -327,11 +327,11 @@ func (v *Mpcplx) Div(rv *Mpcplx) bool {
 	return true
 }
 
-func (v *Mpcplx) String() string {
+func (v *Complex) String() string {
 	return fmt.Sprintf("(%s+%si)", v.Real.String(), v.Imag.String())
 }
 
-func (v *Mpcplx) GoString() string {
+func (v *Complex) GoString() string {
 	var re string
 	sre := v.Real.CmpFloat64(0)
 	if sre != 0 {

@@ -10,6 +10,7 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
@@ -141,7 +142,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 
 	// special cases
 	switch v := x.Interface().(type) {
-	case Nodes:
+	case ir.Nodes:
 		// unpack Nodes since reflect cannot look inside
 		// due to the unexported field in its struct
 		x = reflect.ValueOf(v.Slice())
@@ -151,7 +152,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 		return
 
 	case *types.Node:
-		x = reflect.ValueOf(asNode(v))
+		x = reflect.ValueOf(ir.AsNode(v))
 	}
 
 	switch x.Kind() {
@@ -202,7 +203,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 		typ := x.Type()
 
 		isNode := false
-		if n, ok := x.Interface().(Node); ok {
+		if n, ok := x.Interface().(ir.Node); ok {
 			isNode = true
 			p.printf("%s %s {", n.Op.String(), p.addr(x))
 		} else {
@@ -231,7 +232,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 					omitted = true
 					continue // exclude zero-valued fields
 				}
-				if n, ok := x.Interface().(Nodes); ok && n.Len() == 0 {
+				if n, ok := x.Interface().(ir.Nodes); ok && n.Len() == 0 {
 					omitted = true
 					continue // exclude empty Nodes slices
 				}

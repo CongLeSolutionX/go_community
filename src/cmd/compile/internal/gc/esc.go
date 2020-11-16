@@ -6,11 +6,12 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"fmt"
 )
 
-func escapes(all []*Node) {
+func escapes(all []*ir.Node) {
 	visitBottomUp(all, escapeFuncs)
 }
 
@@ -43,7 +44,7 @@ const (
 )
 
 // funcSym returns fn.Func.Nname.Sym if no nils are encountered along the way.
-func funcSym(fn *Node) *types.Sym {
+func funcSym(fn *ir.Node) *types.Sym {
 	if fn == nil || fn.Func.Nname == nil {
 		return nil
 	}
@@ -54,11 +55,11 @@ func funcSym(fn *Node) *types.Sym {
 // Walk hasn't generated (goto|label).Left.Sym.Label yet, so we'll cheat
 // and set it to one of the following two. Then in esc we'll clear it again.
 var (
-	looping    Node
-	nonlooping Node
+	looping    ir.Node
+	nonlooping ir.Node
 )
 
-func isSliceSelfAssign(dst, src *Node) bool {
+func isSliceSelfAssign(dst, src *ir.Node) bool {
 	// Detect the following special case.
 	//
 	//	func (b *Buffer) Foo() {
@@ -75,14 +76,14 @@ func isSliceSelfAssign(dst, src *Node) bool {
 	// when we evaluate it for dst and for src.
 
 	// dst is ONAME dereference.
-	if dst.Op != ODEREF && dst.Op != ODOTPTR || dst.Left.Op != ONAME {
+	if dst.Op != ir.ODEREF && dst.Op != ir.ODOTPTR || dst.Left.Op != ir.ONAME {
 		return false
 	}
 	// src is a slice operation.
 	switch src.Op {
-	case OSLICE, OSLICE3, OSLICESTR:
+	case ir.OSLICE, ir.OSLICE3, ir.OSLICESTR:
 		// OK.
-	case OSLICEARR, OSLICE3ARR:
+	case ir.OSLICEARR, ir.OSLICE3ARR:
 		// Since arrays are embedded into containing object,
 		// slice of non-pointer array will introduce a new pointer into b that was not already there
 		// (pointer to b itself). After such assignment, if b contents escape,
@@ -92,14 +93,14 @@ func isSliceSelfAssign(dst, src *Node) bool {
 		// Pointer to an array is OK since it's not stored inside b directly.
 		// For slicing an array (not pointer to array), there is an implicit OADDR.
 		// We check that to determine non-pointer array slicing.
-		if src.Left.Op == OADDR {
+		if src.Left.Op == ir.OADDR {
 			return false
 		}
 	default:
 		return false
 	}
 	// slice is applied to ONAME dereference.
-	if src.Left.Op != ODEREF && src.Left.Op != ODOTPTR || src.Left.Left.Op != ONAME {
+	if src.Left.Op != ir.ODEREF && src.Left.Op != ir.ODOTPTR || src.Left.Left.Op != ir.ONAME {
 		return false
 	}
 	// dst and src reference the same base ONAME.
@@ -108,7 +109,7 @@ func isSliceSelfAssign(dst, src *Node) bool {
 
 // isSelfAssign reports whether assignment from src to dst can
 // be ignored by the escape analysis as it's effectively a self-assignment.
-func isSelfAssign(dst, src *Node) bool {
+func isSelfAssign(dst, src *ir.Node) bool {
 	if isSliceSelfAssign(dst, src) {
 		return true
 	}
@@ -128,9 +129,9 @@ func isSelfAssign(dst, src *Node) bool {
 	}
 
 	switch dst.Op {
-	case ODOT, ODOTPTR:
+	case ir.ODOT, ir.ODOTPTR:
 		// Safe trailing accessors that are permitted to differ.
-	case OINDEX:
+	case ir.OINDEX:
 		if mayAffectMemory(dst.Right) || mayAffectMemory(src.Right) {
 			return false
 		}
@@ -145,7 +146,7 @@ func isSelfAssign(dst, src *Node) bool {
 // mayAffectMemory reports whether evaluation of n may affect the program's
 // memory state. If the expression can't affect memory state, then it can be
 // safely ignored by the escape analysis.
-func mayAffectMemory(n *Node) bool {
+func mayAffectMemory(n *ir.Node) bool {
 	// We may want to use a list of "memory safe" ops instead of generally
 	// "side-effect free", which would include all calls and other ops that can
 	// allocate or change global state. For now, it's safer to start with the latter.
@@ -153,16 +154,16 @@ func mayAffectMemory(n *Node) bool {
 	// We're ignoring things like division by zero, index out of range,
 	// and nil pointer dereference here.
 	switch n.Op {
-	case ONAME, OCLOSUREVAR, OLITERAL:
+	case ir.ONAME, ir.OCLOSUREVAR, ir.OLITERAL:
 		return false
 
 	// Left+Right group.
-	case OINDEX, OADD, OSUB, OOR, OXOR, OMUL, OLSH, ORSH, OAND, OANDNOT, ODIV, OMOD:
+	case ir.OINDEX, ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.ODIV, ir.OMOD:
 		return mayAffectMemory(n.Left) || mayAffectMemory(n.Right)
 
 	// Left group.
-	case ODOT, ODOTPTR, ODEREF, OCONVNOP, OCONV, OLEN, OCAP,
-		ONOT, OBITNOT, OPLUS, ONEG, OALIGNOF, OOFFSETOF, OSIZEOF:
+	case ir.ODOT, ir.ODOTPTR, ir.ODEREF, ir.OCONVNOP, ir.OCONV, ir.OLEN, ir.OCAP,
+		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG, ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
 		return mayAffectMemory(n.Left)
 
 	default:
@@ -172,13 +173,13 @@ func mayAffectMemory(n *Node) bool {
 
 // heapAllocReason returns the reason the given Node must be heap
 // allocated, or the empty string if it doesn't.
-func heapAllocReason(n *Node) string {
+func heapAllocReason(n *ir.Node) string {
 	if n.Type == nil {
 		return ""
 	}
 
 	// Parameters are always passed via the stack.
-	if n.Op == ONAME && (n.Class() == PPARAM || n.Class() == PPARAMOUT) {
+	if n.Op == ir.ONAME && (n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) {
 		return ""
 	}
 
@@ -186,18 +187,18 @@ func heapAllocReason(n *Node) string {
 		return "too large for stack"
 	}
 
-	if (n.Op == ONEW || n.Op == OPTRLIT) && n.Type.Elem().Width >= maxImplicitStackVarSize {
+	if (n.Op == ir.ONEW || n.Op == ir.OPTRLIT) && n.Type.Elem().Width >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
 
-	if n.Op == OCLOSURE && closureType(n).Size() >= maxImplicitStackVarSize {
+	if n.Op == ir.OCLOSURE && closureType(n).Size() >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
-	if n.Op == OCALLPART && partialCallType(n).Size() >= maxImplicitStackVarSize {
+	if n.Op == ir.OCALLPART && partialCallType(n).Size() >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
 
-	if n.Op == OMAKESLICE {
+	if n.Op == ir.OMAKESLICE {
 		r := n.Right
 		if r == nil {
 			r = n.Left
@@ -217,22 +218,22 @@ func heapAllocReason(n *Node) string {
 // by "increasing" the "value" of n.Esc to EscHeap.
 // Storage is allocated as necessary to allow the address
 // to be taken.
-func addrescapes(n *Node) {
+func addrescapes(n *ir.Node) {
 	switch n.Op {
 	default:
 		// Unexpected Op, probably due to a previous type error. Ignore.
 
-	case ODEREF, ODOTPTR:
+	case ir.ODEREF, ir.ODOTPTR:
 		// Nothing to do.
 
-	case ONAME:
+	case ir.ONAME:
 		if n == nodfp {
 			break
 		}
 
 		// if this is a tmpname (PAUTO), it was tagged by tmpname as not escaping.
 		// on PPARAM it means something different.
-		if n.Class() == PAUTO && n.Esc == EscNever {
+		if n.Class() == ir.PAUTO && n.Esc == EscNever {
 			break
 		}
 
@@ -242,7 +243,7 @@ func addrescapes(n *Node) {
 			break
 		}
 
-		if n.Class() != PPARAM && n.Class() != PPARAMOUT && n.Class() != PAUTO {
+		if n.Class() != ir.PPARAM && n.Class() != ir.PPARAMOUT && n.Class() != ir.PAUTO {
 			break
 		}
 
@@ -260,7 +261,7 @@ func addrescapes(n *Node) {
 		// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
 		oldfn := Curfn
 		Curfn = n.Name.Curfn
-		if Curfn.Func.Closure != nil && Curfn.Op == OCLOSURE {
+		if Curfn.Func.Closure != nil && Curfn.Op == ir.OCLOSURE {
 			Curfn = Curfn.Func.Closure
 		}
 		ln := base.Pos
@@ -274,7 +275,7 @@ func addrescapes(n *Node) {
 	// In &x[0], if x is a slice, then x does not
 	// escape--the pointer inside x does, but that
 	// is always a heap pointer anyway.
-	case ODOT, OINDEX, OPAREN, OCONVNOP:
+	case ir.ODOT, ir.OINDEX, ir.OPAREN, ir.OCONVNOP:
 		if !n.Left.Type.IsSlice() {
 			addrescapes(n.Left)
 		}
@@ -282,15 +283,15 @@ func addrescapes(n *Node) {
 }
 
 // moveToHeap records the parameter or local variable n as moved to the heap.
-func moveToHeap(n *Node) {
+func moveToHeap(n *ir.Node) {
 	if base.Flag.LowerR != 0 {
-		Dump("MOVE", n)
+		ir.Dump("MOVE", n)
 	}
 	if base.Flag.CompilingRuntime {
 		base.Error("%v escapes to heap, not allowed in runtime", n)
 	}
-	if n.Class() == PAUTOHEAP {
-		Dump("n", n)
+	if n.Class() == ir.PAUTOHEAP {
+		ir.Dump("n", n)
 		base.Fatal("double move to heap")
 	}
 
@@ -309,8 +310,8 @@ func moveToHeap(n *Node) {
 	// Parameters have a local stack copy used at function start/end
 	// in addition to the copy in the heap that may live longer than
 	// the function.
-	if n.Class() == PPARAM || n.Class() == PPARAMOUT {
-		if n.Xoffset == BADWIDTH {
+	if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
+		if n.Xoffset == types.BADWIDTH {
 			base.Fatal("addrescapes before param assignment")
 		}
 
@@ -323,7 +324,7 @@ func moveToHeap(n *Node) {
 		stackcopy.Xoffset = n.Xoffset
 		stackcopy.SetClass(n.Class())
 		stackcopy.Name.Param.Heapaddr = heapaddr
-		if n.Class() == PPARAMOUT {
+		if n.Class() == ir.PPARAMOUT {
 			// Make sure the pointer to the heap copy is kept live throughout the function.
 			// The function could panic at any point, and then a defer could recover.
 			// Thus, we need the pointer to the heap copy always available so the
@@ -345,7 +346,7 @@ func moveToHeap(n *Node) {
 			}
 			// Parameters are before locals, so can stop early.
 			// This limits the search even in functions with many local variables.
-			if d.Class() == PAUTO {
+			if d.Class() == ir.PAUTO {
 				break
 			}
 		}
@@ -356,7 +357,7 @@ func moveToHeap(n *Node) {
 	}
 
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.
-	n.SetClass(PAUTOHEAP)
+	n.SetClass(ir.PAUTOHEAP)
 	n.Xoffset = 0
 	n.Name.Param.Heapaddr = heapaddr
 	n.Esc = EscHeap
@@ -374,7 +375,7 @@ const unsafeUintptrTag = "unsafe-uintptr"
 // marked go:uintptrescapes.
 const uintptrEscapesTag = "uintptr-escapes"
 
-func (e *Escape) paramTag(fn *Node, narg int, f *types.Field) string {
+func (e *Escape) paramTag(fn *ir.Node, narg int, f *types.Field) string {
 	name := func() string {
 		if f.Sym != nil {
 			return f.Sym.Name
@@ -404,7 +405,7 @@ func (e *Escape) paramTag(fn *Node, narg int, f *types.Field) string {
 
 		// External functions are assumed unsafe, unless
 		// //go:noescape is given before the declaration.
-		if fn.Func.Pragma&Noescape != 0 {
+		if fn.Func.Pragma&ir.Noescape != 0 {
 			if base.Flag.LowerM != 0 && f.Sym != nil {
 				base.WarnAt(f.Pos, "%v does not escape", name())
 			}
@@ -418,7 +419,7 @@ func (e *Escape) paramTag(fn *Node, narg int, f *types.Field) string {
 		return esc.Encode()
 	}
 
-	if fn.Func.Pragma&UintptrEscapes != 0 {
+	if fn.Func.Pragma&ir.UintptrEscapes != 0 {
 		if f.Type.IsUintptr() {
 			if base.Flag.LowerM != 0 {
 				base.WarnAt(f.Pos, "marking %v as escaping uintptr", name())
@@ -444,7 +445,7 @@ func (e *Escape) paramTag(fn *Node, narg int, f *types.Field) string {
 		return esc.Encode()
 	}
 
-	n := asNode(f.Nname)
+	n := ir.AsNode(f.Nname)
 	loc := e.oldLoc(n)
 	esc := loc.paramEsc
 	esc.Optimize()
