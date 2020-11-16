@@ -22,6 +22,30 @@
       },
       "revId": "dab1b7da5633fa535808de53c660c6514818ab78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "430cc04b_1e17fccf",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPSOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-11-16T08:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "298d5ca4_9aa2ecd2",
+      "range": {
+        "startLine": 188,
+        "startChar": 92,
+        "endLine": 188,
+        "endChar": 114
+      },
+      "revId": "dab1b7da5633fa535808de53c660c6514818ab78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
