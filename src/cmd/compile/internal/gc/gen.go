@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
@@ -52,14 +53,14 @@ func autotmpname(n int) string {
 // make a new Node off the books
 func tempAt(pos src.XPos, curfn *Node, t *types.Type) *Node {
 	if curfn == nil {
-		Fatalf("no curfn for tempAt")
+		base.Fatal("no curfn for tempAt")
 	}
 	if curfn.Func.Closure != nil && curfn.Op == OCLOSURE {
 		Dump("tempAt", curfn)
-		Fatalf("adding tempAt to wrong closure function")
+		base.Fatal("adding tempAt to wrong closure function")
 	}
 	if t == nil {
-		Fatalf("tempAt called with nil type")
+		base.Fatal("tempAt called with nil type")
 	}
 
 	s := &types.Sym{
@@ -82,5 +83,5 @@ func tempAt(pos src.XPos, curfn *Node, t *types.Type) *Node {
 }
 
 func temp(t *types.Type) *Node {
-	return tempAt(lineno, Curfn, t)
+	return tempAt(base.Pos, Curfn, t)
 }

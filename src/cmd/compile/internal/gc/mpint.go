@@ -7,6 +7,8 @@ package gc
 import (
 	"fmt"
 	"math/big"
+
+	"cmd/compile/internal/base"
 )
 
 // implements integer arithmetic
@@ -72,8 +74,8 @@ func (a *Mpint) SetFloat(b *Mpflt) bool {
 
 func (a *Mpint) Add(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Add")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Add")
 		}
 		a.SetOverflow()
 		return
@@ -82,14 +84,14 @@ func (a *Mpint) Add(b *Mpint) {
 	a.Val.Add(&a.Val, &b.Val)
 
 	if a.checkOverflow(0) {
-		yyerror("constant addition overflow")
+		base.Error("constant addition overflow")
 	}
 }
 
 func (a *Mpint) Sub(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Sub")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Sub")
 		}
 		a.SetOverflow()
 		return
@@ -98,14 +100,14 @@ func (a *Mpint) Sub(b *Mpint) {
 	a.Val.Sub(&a.Val, &b.Val)
 
 	if a.checkOverflow(0) {
-		yyerror("constant subtraction overflow")
+		base.Error("constant subtraction overflow")
 	}
 }
 
 func (a *Mpint) Mul(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Mul")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Mul")
 		}
 		a.SetOverflow()
 		return
@@ -114,14 +116,14 @@ func (a *Mpint) Mul(b *Mpint) {
 	a.Val.Mul(&a.Val, &b.Val)
 
 	if a.checkOverflow(0) {
-		yyerror("constant multiplication overflow")
+		base.Error("constant multiplication overflow")
 	}
 }
 
 func (a *Mpint) Quo(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Quo")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Quo")
 		}
 		a.SetOverflow()
 		return
@@ -131,14 +133,14 @@ func (a *Mpint) Quo(b *Mpint) {
 
 	if a.checkOverflow(0) {
 		// can only happen for div-0 which should be checked elsewhere
-		yyerror("constant division overflow")
+		base.Error("constant division overflow")
 	}
 }
 
 func (a *Mpint) Rem(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Rem")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Rem")
 		}
 		a.SetOverflow()
 		return
@@ -148,14 +150,14 @@ func (a *Mpint) Rem(b *Mpint) {
 
 	if a.checkOverflow(0) {
 		// should never happen
-		yyerror("constant modulo overflow")
+		base.Error("constant modulo overflow")
 	}
 }
 
 func (a *Mpint) Or(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Or")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Or")
 		}
 		a.SetOverflow()
 		return
@@ -166,8 +168,8 @@ func (a *Mpint) Or(b *Mpint) {
 
 func (a *Mpint) And(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint And")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint And")
 		}
 		a.SetOverflow()
 		return
@@ -178,8 +180,8 @@ func (a *Mpint) And(b *Mpint) {
 
 func (a *Mpint) AndNot(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint AndNot")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint AndNot")
 		}
 		a.SetOverflow()
 		return
@@ -190,8 +192,8 @@ func (a *Mpint) AndNot(b *Mpint) {
 
 func (a *Mpint) Xor(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Xor")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Xor")
 		}
 		a.SetOverflow()
 		return
@@ -202,8 +204,8 @@ func (a *Mpint) Xor(b *Mpint) {
 
 func (a *Mpint) Lsh(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Lsh")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Lsh")
 		}
 		a.SetOverflow()
 		return
@@ -215,13 +217,13 @@ func (a *Mpint) Lsh(b *Mpint) {
 		if s < 0 {
 			msg = "invalid negative shift count"
 		}
-		yyerror("%s: %d", msg, s)
+		base.Error("%s: %d", msg, s)
 		a.SetInt64(0)
 		return
 	}
 
 	if a.checkOverflow(int(s)) {
-		yyerror("constant shift overflow")
+		base.Error("constant shift overflow")
 		return
 	}
 	a.Val.Lsh(&a.Val, uint(s))
@@ -229,8 +231,8 @@ func (a *Mpint) Lsh(b *Mpint) {
 
 func (a *Mpint) Rsh(b *Mpint) {
 	if a.Ovf || b.Ovf {
-		if Errors() == 0 {
-			Fatalf("ovf in Mpint Rsh")
+		if base.Errors() == 0 {
+			base.Fatal("ovf in Mpint Rsh")
 		}
 		a.SetOverflow()
 		return
@@ -238,7 +240,7 @@ func (a *Mpint) Rsh(b *Mpint) {
 
 	s := b.Int64()
 	if s < 0 {
-		yyerror("invalid negative shift count: %d", s)
+		base.Error("invalid negative shift count: %d", s)
 		if a.Val.Sign() < 0 {
 			a.SetInt64(-1)
 		} else {
@@ -267,8 +269,8 @@ func (a *Mpint) Neg() {
 
 func (a *Mpint) Int64() int64 {
 	if a.Ovf {
-		if Errors() == 0 {
-			Fatalf("constant overflow")
+		if base.Errors() == 0 {
+			base.Fatal("constant overflow")
 		}
 		return 0
 	}
@@ -287,11 +289,11 @@ func (a *Mpint) SetString(as string) {
 		// and reports detailed errors. Thus SetString should
 		// never fail (in theory it might run out of memory,
 		// but that wouldn't be reported as an error here).
-		Fatalf("malformed integer constant: %s", as)
+		base.Fatal("malformed integer constant: %s", as)
 		return
 	}
 	if a.checkOverflow(0) {
-		yyerror("constant too large: %s", as)
+		base.Error("constant too large: %s", as)
 	}
 }
 

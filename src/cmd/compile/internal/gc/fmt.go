@@ -6,6 +6,7 @@ package gc
 
 import (
 	"bytes"
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
@@ -46,7 +47,7 @@ func fmtFlag(s fmt.State, verb rune) FmtFlag {
 		flag |= FmtSign
 	}
 	if s.Flag(' ') {
-		Fatalf("FmtUnsigned in format string")
+		base.Fatal("FmtUnsigned in format string")
 	}
 	if _, ok := s.Precision(); ok {
 		flag |= FmtComma
@@ -337,7 +338,7 @@ func (m fmtMode) prepareArgs(args []interface{}) {
 			case Val, int32, int64, string, types.EType:
 				// OK: printing these types doesn't depend on mode
 			default:
-				Fatalf("mode.prepareArgs type %T", arg)
+				base.Fatal("mode.prepareArgs type %T", arg)
 			}
 		}
 	case FDbg:
@@ -356,7 +357,7 @@ func (m fmtMode) prepareArgs(args []interface{}) {
 			case Val, int32, int64, string, types.EType:
 				// OK: printing these types doesn't depend on mode
 			default:
-				Fatalf("mode.prepareArgs type %T", arg)
+				base.Fatal("mode.prepareArgs type %T", arg)
 			}
 		}
 	case FTypeId:
@@ -375,7 +376,7 @@ func (m fmtMode) prepareArgs(args []interface{}) {
 			case Val, int32, int64, string, types.EType:
 				// OK: printing these types doesn't depend on mode
 			default:
-				Fatalf("mode.prepareArgs type %T", arg)
+				base.Fatal("mode.prepareArgs type %T", arg)
 			}
 		}
 	case FTypeIdName:
@@ -394,11 +395,11 @@ func (m fmtMode) prepareArgs(args []interface{}) {
 			case Val, int32, int64, string, types.EType:
 				// OK: printing these types doesn't depend on mode
 			default:
-				Fatalf("mode.prepareArgs type %T", arg)
+				base.Fatal("mode.prepareArgs type %T", arg)
 			}
 		}
 	default:
-		Fatalf("mode.prepareArgs mode %d", m)
+		base.Fatal("mode.prepareArgs mode %d", m)
 	}
 }
 
@@ -946,7 +947,7 @@ func tconv2(b *bytes.Buffer, t *types.Type, flag FmtFlag, mode fmtMode, visited 
 			case mt.Hiter:
 				b.WriteString("map.iter[")
 			default:
-				Fatalf("unknown internal map type")
+				base.Fatal("unknown internal map type")
 			}
 			tconv2(b, m.Key(), 0, mode, visited)
 			b.WriteByte(']')
@@ -1522,7 +1523,7 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 
 	case OSLICEHEADER:
 		if n.List.Len() != 2 {
-			Fatalf("bad OSLICEHEADER list length %d", n.List.Len())
+			base.Fatal("bad OSLICEHEADER list length %d", n.List.Len())
 		}
 		mode.Fprintf(s, "sliceheader{%v,%v,%v}", n.Left, n.List.First(), n.List.Second())
 
@@ -1912,7 +1913,7 @@ func (n *Node) nconv(s fmt.State, flag FmtFlag, mode fmtMode) {
 		dumpdepth--
 
 	default:
-		Fatalf("unhandled %%N mode: %d", mode)
+		base.Fatal("unhandled %%N mode: %d", mode)
 	}
 }
 

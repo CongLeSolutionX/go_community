@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -45,7 +46,7 @@ func varEmbed(p *noder, names []*Node, typ *Node, exprs []*Node, embeds []Pragma
 		p.yyerrorpos(pos, "invalid go:embed: missing import \"embed\"")
 		return exprs
 	}
-	if Flag.Cfg.Embed.Patterns == nil {
+	if base.Flag.Cfg.Embed.Patterns == nil {
 		p.yyerrorpos(pos, "invalid go:embed: build system did not supply embed configuration")
 		return exprs
 	}
@@ -74,12 +75,12 @@ func varEmbed(p *noder, names []*Node, typ *Node, exprs []*Node, embeds []Pragma
 	var list []string
 	for _, e := range embeds {
 		for _, pattern := range e.Patterns {
-			files, ok := Flag.Cfg.Embed.Patterns[pattern]
+			files, ok := base.Flag.Cfg.Embed.Patterns[pattern]
 			if !ok {
 				p.yyerrorpos(e.Pos, "invalid go:embed: build system did not map pattern: %s", pattern)
 			}
 			for _, file := range files {
-				if Flag.Cfg.Embed.Files[file] == "" {
+				if base.Flag.Cfg.Embed.Files[file] == "" {
 					p.yyerrorpos(e.Pos, "invalid go:embed: build system did not map file: %s", file)
 					continue
 				}
@@ -128,7 +129,7 @@ func varEmbed(p *noder, names []*Node, typ *Node, exprs []*Node, embeds []Pragma
 // can't tell whether "string" and "byte" really mean "string" and "byte".
 // The result must be confirmed later, after type checking, using embedKind.
 func embedKindApprox(typ *Node) int {
-	if typ.Sym != nil && typ.Sym.Name == "FS" && (typ.Sym.Pkg.Path == "embed" || (typ.Sym.Pkg == localpkg && Ctxt.Pkgpath == "embed")) {
+	if typ.Sym != nil && typ.Sym.Name == "FS" && (typ.Sym.Pkg.Path == "embed" || (typ.Sym.Pkg == localpkg && base.Ctxt.Pkgpath == "embed")) {
 		return embedFiles
 	}
 	// These are not guaranteed to match only string and []byte -
@@ -146,7 +147,7 @@ func embedKindApprox(typ *Node) int {
 
 // embedKind determines the kind of embedding variable.
 func embedKind(typ *types.Type) int {
-	if typ.Sym != nil && typ.Sym.Name == "FS" && (typ.Sym.Pkg.Path == "embed" || (typ.Sym.Pkg == localpkg && Ctxt.Pkgpath == "embed")) {
+	if typ.Sym != nil && typ.Sym.Name == "FS" && (typ.Sym.Pkg.Path == "embed" || (typ.Sym.Pkg == localpkg && base.Ctxt.Pkgpath == "embed")) {
 		return embedFiles
 	}
 	if typ == types.Types[TSTRING] {
@@ -193,13 +194,13 @@ func initEmbed(v *Node) {
 	files := v.Name.Param.EmbedFiles()
 	switch kind := embedKind(v.Type); kind {
 	case embedUnknown:
-		yyerrorl(v.Pos, "go:embed cannot apply to var of type %v", v.Type)
+		base.ErrorAt(v.Pos, "go:embed cannot apply to var of type %v", v.Type)
 
 	case embedString, embedBytes:
 		file := files[0]
-		fsym, size, err := fileStringSym(v.Pos, Flag.Cfg.Embed.Files[file], kind == embedString, nil)
+		fsym, size, err := fileStringSym(v.Pos, base.Flag.Cfg.Embed.Files[file], kind == embedString, nil)
 		if err != nil {
-			yyerrorl(v.Pos, "embed %s: %v", file, err)
+			base.ErrorAt(v.Pos, "embed %s: %v", file, err)
 		}
 		sym := v.Sym.Linksym()
 		off := 0
@@ -210,7 +211,7 @@ func initEmbed(v *Node) {
 		}
 
 	case embedFiles:
-		slicedata := Ctxt.Lookup(`"".` + v.Sym.Name + `.files`)
+		slicedata := base.Ctxt.Lookup(`"".` + v.Sym.Name + `.files`)
 		off := 0
 		// []files pointed at by Files
 		off = dsymptr(slicedata, off, slicedata, 3*Widthptr) // []file, pointing just past slice
@@ -233,13 +234,13 @@ func initEmbed(v *Node) {
 				off = duintptr(slicedata, off, 0)
 				off += hashSize
 			} else {
-				fsym, size, err := fileStringSym(v.Pos, Flag.Cfg.Embed.Files[file], true, hash)
+				fsym, size, err := fileStringSym(v.Pos, base.Flag.Cfg.Embed.Files[file], true, hash)
 				if err != nil {
-					yyerrorl(v.Pos, "embed %s: %v", file, err)
+					base.ErrorAt(v.Pos, "embed %s: %v", file, err)
 				}
 				off = dsymptr(slicedata, off, fsym, 0) // data string
 				off = duintptr(slicedata, off, uint64(size))
-				off = int(slicedata.WriteBytes(Ctxt, int64(off), hash))
+				off = int(slicedata.WriteBytes(base.Ctxt, int64(off), hash))
 			}
 		}
 		ggloblsym(slicedata, int32(off), obj.RODATA|obj.LOCAL)

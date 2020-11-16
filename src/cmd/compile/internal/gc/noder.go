@@ -14,6 +14,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -64,8 +65,8 @@ func parseFiles(filenames []string) uint {
 		lines += p.file.Lines
 		p.file = nil // release memory
 
-		if SyntaxErrors() != 0 {
-			errorexit()
+		if base.SyntaxErrors() != 0 {
+			base.ErrorExit()
 		}
 		// Always run testdclstack here, even when debug_dclstack is not set, as a sanity measure.
 		testdclstack()
@@ -109,20 +110,20 @@ func (p *noder) makeSrcPosBase(b0 *syntax.PosBase) *src.PosBase {
 }
 
 func (p *noder) makeXPos(pos syntax.Pos) (_ src.XPos) {
-	return Ctxt.PosTable.XPos(src.MakePos(p.makeSrcPosBase(pos.Base()), pos.Line(), pos.Col()))
+	return base.Ctxt.PosTable.XPos(src.MakePos(p.makeSrcPosBase(pos.Base()), pos.Line(), pos.Col()))
 }
 
 func (p *noder) yyerrorpos(pos syntax.Pos, format string, args ...interface{}) {
-	yyerrorl(p.makeXPos(pos), format, args...)
+	base.ErrorAt(p.makeXPos(pos), format, args...)
 }
 
 // TODO(gri) Can we eliminate fileh in favor of absFilename?
 func fileh(name string) string {
-	return objabi.AbsFile("", name, Flag.TrimPath)
+	return objabi.AbsFile("", name, base.Flag.TrimPath)
 }
 
 func absFilename(name string) string {
-	return objabi.AbsFile(Ctxt.Pathname, name, Flag.TrimPath)
+	return objabi.AbsFile(base.Ctxt.Pathname, name, base.Flag.TrimPath)
 }
 
 // noder transforms package syntax's AST into a Node tree.
@@ -160,8 +161,8 @@ func (p *noder) funcBody(fn *Node, block *syntax.BlockStmt) {
 		}
 		fn.Nbody.Set(body)
 
-		lineno = p.makeXPos(block.Rbrace)
-		fn.Func.Endlineno = lineno
+		base.Pos = p.makeXPos(block.Rbrace)
+		fn.Func.Endlineno = base.Pos
 	}
 
 	funcbody()
@@ -191,7 +192,7 @@ func (p *noder) closeScope(pos syntax.Pos) {
 			// no variables were declared in this scope, so we can retract it.
 
 			if int(p.scope) != len(Curfn.Func.Parents) {
-				Fatalf("scope tracking inconsistency, no variables declared but scopes were not retracted")
+				base.Fatal("scope tracking inconsistency, no variables declared but scopes were not retracted")
 			}
 
 			p.scope = Curfn.Func.Parents[p.scope-1]
@@ -265,10 +266,10 @@ func (p *noder) node() {
 		} else {
 			// Use the default object symbol name if the
 			// user didn't provide one.
-			if Ctxt.Pkgpath == "" {
+			if base.Ctxt.Pkgpath == "" {
 				p.yyerrorpos(n.pos, "//go:linkname requires linkname argument or -p compiler flag")
 			} else {
-				s.Linkname = objabi.PathToPrefix(Ctxt.Pkgpath) + "." + n.local
+				s.Linkname = objabi.PathToPrefix(base.Ctxt.Pkgpath) + "." + n.local
 			}
 		}
 	}
@@ -286,7 +287,7 @@ func (p *noder) node() {
 	}
 
 	pragcgobuf = append(pragcgobuf, p.pragcgobuf...)
-	lineno = src.NoXPos
+	base.Pos = src.NoXPos
 	clearImports()
 }
 
@@ -331,8 +332,8 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	val := p.basicLit(imp.Path)
 	ipkg := importfile(&val)
 	if ipkg == nil {
-		if Errors() == 0 {
-			Fatalf("phase error in import")
+		if base.Errors() == 0 {
+			base.Fatal("phase error in import")
 		}
 		return
 	}
@@ -362,7 +363,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 		importdot(ipkg, pack)
 		return
 	case "init":
-		yyerrorl(pack.Pos, "cannot import package as init - init must be a func")
+		base.ErrorAt(pack.Pos, "cannot import package as init - init must be a func")
 		return
 	case "_":
 		return
@@ -436,7 +437,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
 		cs.typ, cs.values = typ, values
 	} else {
 		if typ != nil {
-			yyerror("const declaration cannot have type without expression")
+			base.Error("const declaration cannot have type without expression")
 		}
 		typ, values = cs.typ, cs.values
 	}
@@ -444,7 +445,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
 	nn := make([]*Node, 0, len(names))
 	for i, n := range names {
 		if i >= len(values) {
-			yyerror("missing value in const declaration")
+			base.Error("missing value in const declaration")
 			break
 		}
 		v := values[i]
@@ -463,7 +464,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
 	}
 
 	if len(values) > len(names) {
-		yyerror("extra expression in const declaration")
+		base.Error("extra expression in const declaration")
 	}
 
 	cs.iota++
@@ -492,7 +493,7 @@ func (p *noder) typeDecl(decl *syntax.TypeDecl) *Node {
 
 	nod := p.nod(decl, ODCLTYPE, n, nil)
 	if param.Alias() && !langSupported(1, 9, localpkg) {
-		yyerrorl(nod.Pos, "type aliases only supported as of -lang=go1.9")
+		base.ErrorAt(nod.Pos, "type aliases only supported as of -lang=go1.9")
 	}
 	return nod
 }
@@ -520,13 +521,13 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 		if name.Name == "init" {
 			name = renameinit()
 			if t.List.Len() > 0 || t.Rlist.Len() > 0 {
-				yyerrorl(f.Pos, "func init must have no arguments and no return values")
+				base.ErrorAt(f.Pos, "func init must have no arguments and no return values")
 			}
 		}
 
 		if localpkg.Name == "main" && name.Name == "main" {
 			if t.List.Len() > 0 || t.Rlist.Len() > 0 {
-				yyerrorl(f.Pos, "func main must have no arguments and no return values")
+				base.ErrorAt(f.Pos, "func main must have no arguments and no return values")
 			}
 		}
 	} else {
@@ -541,7 +542,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 	if pragma, ok := fun.Pragma.(*Pragma); ok {
 		f.Func.Pragma = pragma.Flag & FuncPragmas
 		if pragma.Flag&Systemstack != 0 && pragma.Flag&Nosplit != 0 {
-			yyerrorl(f.Pos, "go:nosplit and go:systemstack cannot be combined")
+			base.ErrorAt(f.Pos, "go:nosplit and go:systemstack cannot be combined")
 		}
 		pragma.Flag &^= FuncPragmas
 		p.checkUnused(pragma)
@@ -555,10 +556,10 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 
 	if fun.Body != nil {
 		if f.Func.Pragma&Noescape != 0 {
-			yyerrorl(f.Pos, "can only use //go:noescape with external func implementations")
+			base.ErrorAt(f.Pos, "can only use //go:noescape with external func implementations")
 		}
 	} else {
-		if Flag.Complete || strings.HasPrefix(f.funcname(), "init.") {
+		if base.Flag.Complete || strings.HasPrefix(f.funcname(), "init.") {
 			// Linknamed functions are allowed to have no body. Hopefully
 			// the linkname target has a body. See issue 23311.
 			isLinknamed := false
@@ -569,7 +570,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 				}
 			}
 			if !isLinknamed {
-				yyerrorl(f.Pos, "missing function body")
+				base.ErrorAt(f.Pos, "missing function body")
 			}
 		}
 	}
@@ -610,10 +611,10 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *Node {
 		if !dddOk {
 			// We mark these as syntax errors to get automatic elimination
 			// of multiple such errors per line (see yyerrorl in subr.go).
-			yyerror("syntax error: cannot use ... in receiver or result parameter list")
+			base.Error("syntax error: cannot use ... in receiver or result parameter list")
 		} else if !final {
 			if param.Name == nil {
-				yyerror("syntax error: cannot use ... with non-final parameter")
+				base.Error("syntax error: cannot use ... with non-final parameter")
 			} else {
 				p.yyerrorpos(param.Name.Pos(), "syntax error: cannot use ... with non-final parameter %s", param.Name.Value)
 			}
@@ -666,7 +667,7 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 			l[i] = p.wrapname(expr.ElemList[i], e)
 		}
 		n.List.Set(l)
-		lineno = p.makeXPos(expr.Rbrace)
+		base.Pos = p.makeXPos(expr.Rbrace)
 		return n
 	case *syntax.KeyValueExpr:
 		// use position of expr.Key rather than of expr (which has position of ':')
@@ -748,7 +749,7 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 		if expr.Lhs != nil {
 			n.Left = p.declName(expr.Lhs)
 			if n.Left.isBlank() {
-				yyerror("invalid variable name %v in type switch", n.Left)
+				base.Error("invalid variable name %v in type switch", n.Left)
 			}
 		}
 		return n
@@ -912,12 +913,12 @@ func (p *noder) packname(expr syntax.Expr) *types.Sym {
 		name := p.name(expr.X.(*syntax.Name))
 		def := asNode(name.Def)
 		if def == nil {
-			yyerror("undefined: %v", name)
+			base.Error("undefined: %v", name)
 			return name
 		}
 		var pkg *types.Pkg
 		if def.Op != OPACK {
-			yyerror("%v is not a package", name)
+			base.Error("%v is not a package", name)
 			pkg = localpkg
 		} else {
 			def.Name.SetUsed(true)
@@ -1022,7 +1023,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *Node {
 			op = OCONTINUE
 		case syntax.Fallthrough:
 			if !fallOK {
-				yyerror("fallthrough statement out of place")
+				base.Error("fallthrough statement out of place")
 			}
 			op = OFALL
 		case syntax.Goto:
@@ -1062,7 +1063,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *Node {
 					break
 				}
 				if asNode(ln.Sym.Def) != ln {
-					yyerror("%s is shadowed during return", ln.Sym.Name)
+					base.Error("%s is shadowed during return", ln.Sym.Name)
 				}
 			}
 		}
@@ -1134,7 +1135,7 @@ func (p *noder) assignList(expr syntax.Expr, defn *Node, colas bool) []*Node {
 	}
 
 	if !newOrErr {
-		yyerrorl(defn.Pos, "no new variables on left side of :=")
+		base.ErrorAt(defn.Pos, "no new variables on left side of :=")
 	}
 	return res
 }
@@ -1252,10 +1253,10 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *Node, rbrace 
 		n.Nbody.Set(p.stmtsFall(body, true))
 		if l := n.Nbody.Len(); l > 0 && n.Nbody.Index(l-1).Op == OFALL {
 			if tswitch != nil {
-				yyerror("cannot fallthrough in type switch")
+				base.Error("cannot fallthrough in type switch")
 			}
 			if i+1 == len(clauses) {
-				yyerror("cannot fallthrough final case in switch")
+				base.Error("cannot fallthrough final case in switch")
 			}
 		}
 
@@ -1374,7 +1375,7 @@ func checkLangCompat(lit *syntax.BasicLit) {
 	}
 	// len(s) > 2
 	if strings.Contains(s, "_") {
-		yyerrorv("go1.13", "underscores in numeric literals")
+		base.ErrorVers("go1.13", "underscores in numeric literals")
 		return
 	}
 	if s[0] != '0' {
@@ -1382,15 +1383,15 @@ func checkLangCompat(lit *syntax.BasicLit) {
 	}
 	radix := s[1]
 	if radix == 'b' || radix == 'B' {
-		yyerrorv("go1.13", "binary literals")
+		base.ErrorVers("go1.13", "binary literals")
 		return
 	}
 	if radix == 'o' || radix == 'O' {
-		yyerrorv("go1.13", "0o/0O-style octal literals")
+		base.ErrorVers("go1.13", "0o/0O-style octal literals")
 		return
 	}
 	if lit.Kind != syntax.IntLit && (radix == 'x' || radix == 'X') {
-		yyerrorv("go1.13", "hexadecimal floating-point literals")
+		base.ErrorVers("go1.13", "hexadecimal floating-point literals")
 	}
 }
 
@@ -1492,7 +1493,7 @@ func (p *noder) nodSym(orig syntax.Node, op Op, left *Node, sym *types.Sym) *Nod
 
 func (p *noder) pos(n syntax.Node) src.XPos {
 	// TODO(gri): orig.Pos() should always be known - fix package syntax
-	xpos := lineno
+	xpos := base.Pos
 	if pos := n.Pos(); pos.IsKnown() {
 		xpos = p.makeXPos(pos)
 	}
@@ -1501,7 +1502,7 @@ func (p *noder) pos(n syntax.Node) src.XPos {
 
 func (p *noder) setlineno(n syntax.Node) {
 	if n != nil {
-		lineno = p.pos(n)
+		base.Pos = p.pos(n)
 	}
 }
 
@@ -1637,7 +1638,7 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 		// For security, we disallow //go:cgo_* directives other
 		// than cgo_import_dynamic outside cgo-generated files.
 		// Exception: they are allowed in the standard library, for runtime and syscall.
-		if !isCgoGeneratedFile(pos) && !Flag.Std {
+		if !isCgoGeneratedFile(pos) && !base.Flag.Std {
 			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//%s only allowed in cgo-generated code", text)})
 		}
 		p.pragcgo(pos, text)
@@ -1649,10 +1650,10 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 		}
 		flag := pragmaFlag(verb)
 		const runtimePragmas = Systemstack | Nowritebarrier | Nowritebarrierrec | Yeswritebarrierrec
-		if !Flag.CompilingRuntime && flag&runtimePragmas != 0 {
+		if !base.Flag.CompilingRuntime && flag&runtimePragmas != 0 {
 			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//%s only allowed in runtime", verb)})
 		}
-		if flag == 0 && !allowedStdPragmas[verb] && Flag.Std {
+		if flag == 0 && !allowedStdPragmas[verb] && base.Flag.Std {
 			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//%s is not allowed in the standard library", verb)})
 		}
 		pragma.Flag |= flag

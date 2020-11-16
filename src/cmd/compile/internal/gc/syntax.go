@@ -7,6 +7,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -70,7 +71,7 @@ func (n *Node) SubOp() Op {
 	switch n.Op {
 	case OASOP, ONAME:
 	default:
-		Fatalf("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.Op)
 	}
 	return Op(n.aux)
 }
@@ -79,21 +80,21 @@ func (n *Node) SetSubOp(op Op) {
 	switch n.Op {
 	case OASOP, ONAME:
 	default:
-		Fatalf("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.Op)
 	}
 	n.aux = uint8(op)
 }
 
 func (n *Node) IndexMapLValue() bool {
 	if n.Op != OINDEXMAP {
-		Fatalf("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.Op)
 	}
 	return n.aux != 0
 }
 
 func (n *Node) SetIndexMapLValue(b bool) {
 	if n.Op != OINDEXMAP {
-		Fatalf("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.Op)
 	}
 	if b {
 		n.aux = 1
@@ -104,14 +105,14 @@ func (n *Node) SetIndexMapLValue(b bool) {
 
 func (n *Node) TChanDir() types.ChanDir {
 	if n.Op != OTCHAN {
-		Fatalf("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.Op)
 	}
 	return types.ChanDir(n.aux)
 }
 
 func (n *Node) SetTChanDir(dir types.ChanDir) {
 	if n.Op != OTCHAN {
-		Fatalf("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.Op)
 	}
 	n.aux = uint8(dir)
 }
@@ -200,7 +201,7 @@ func (n *Node) SetEmbedded(b bool)  { n.flags.set(nodeEmbedded, b) }
 // inserted before dereferencing. See state.exprPtr.
 func (n *Node) MarkNonNil() {
 	if !n.Type.IsPtr() && !n.Type.IsUnsafePtr() {
-		Fatalf("MarkNonNil(%v), type %v", n, n.Type)
+		base.Fatal("MarkNonNil(%v), type %v", n, n.Type)
 	}
 	n.flags.set(nodeNonNil, true)
 }
@@ -219,7 +220,7 @@ func (n *Node) SetBounded(b bool) {
 		// No length and cap checks needed
 		// since new slice and copied over slice data have same length.
 	default:
-		Fatalf("SetBounded(%v)", n)
+		base.Fatal("SetBounded(%v)", n)
 	}
 	n.flags.set(nodeBounded, b)
 }
@@ -227,7 +228,7 @@ func (n *Node) SetBounded(b bool) {
 // MarkReadonly indicates that n is an ONAME with readonly contents.
 func (n *Node) MarkReadonly() {
 	if n.Op != ONAME {
-		Fatalf("Node.MarkReadonly %v", n.Op)
+		base.Fatal("Node.MarkReadonly %v", n.Op)
 	}
 	n.Name.SetReadonly(true)
 	// Mark the linksym as readonly immediately
@@ -247,9 +248,9 @@ func (n *Node) Val() Val {
 // SetVal sets the Val for the node, which must not have been used with SetOpt.
 func (n *Node) SetVal(v Val) {
 	if n.HasOpt() {
-		Flag.LowerH = 1
+		base.Flag.LowerH = 1
 		Dump("have Opt", n)
-		Fatalf("have Opt")
+		base.Fatal("have Opt")
 	}
 	n.SetHasVal(true)
 	n.E = v.U
@@ -270,9 +271,9 @@ func (n *Node) SetOpt(x interface{}) {
 		return
 	}
 	if n.HasVal() {
-		Flag.LowerH = 1
+		base.Flag.LowerH = 1
 		Dump("have Val", n)
-		Fatalf("have Val")
+		base.Fatal("have Val")
 	}
 	n.SetHasOpt(true)
 	n.E = x
@@ -328,7 +329,7 @@ func (n *Node) pkgFuncName() string {
 	}
 	pkg := s.Pkg
 
-	p := Ctxt.Pkgpath
+	p := base.Ctxt.Pkgpath
 	if pkg != nil && pkg.Path != "" {
 		p = pkg.Path
 	}
@@ -714,8 +715,8 @@ func (f *Func) SetInstrumentBody(b bool)           { f.flags.set(funcInstrumentB
 func (f *Func) SetOpenCodedDeferDisallowed(b bool) { f.flags.set(funcOpenCodedDeferDisallowed, b) }
 
 func (f *Func) setWBPos(pos src.XPos) {
-	if Debug.WB != 0 {
-		Warnl(pos, "write barrier")
+	if base.Debug.WB != 0 {
+		base.WarnAt(pos, "write barrier")
 	}
 	if !f.WBPos.IsKnown() {
 		f.WBPos = pos

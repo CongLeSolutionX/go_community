@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"fmt"
@@ -95,7 +96,7 @@ func typecheckclosure(clo *Node, top int) {
 		if !n.Name.Captured() {
 			n.Name.SetCaptured(true)
 			if n.Name.Decldepth == 0 {
-				Fatalf("typecheckclosure: var %S does not have decldepth assigned", n)
+				base.Fatal("typecheckclosure: var %S does not have decldepth assigned", n)
 			}
 
 			// Ignore assignments to the variable in straightline code
@@ -165,8 +166,8 @@ var capturevarscomplete bool
 // We use value capturing for values <= 128 bytes that are never reassigned
 // after capturing (effectively constant).
 func capturevars(xfunc *Node) {
-	lno := lineno
-	lineno = xfunc.Pos
+	lno := base.Pos
+	base.Pos = xfunc.Pos
 
 	clo := xfunc.Func.Closure
 	cvars := xfunc.Func.Cvars.Slice()
@@ -198,7 +199,7 @@ func capturevars(xfunc *Node) {
 			outer = nod(OADDR, outer, nil)
 		}
 
-		if Flag.LowerM > 1 {
+		if base.Flag.LowerM > 1 {
 			var name *types.Sym
 			if v.Name.Curfn != nil && v.Name.Curfn.Func.Nname != nil {
 				name = v.Name.Curfn.Func.Nname.Sym
@@ -207,7 +208,7 @@ func capturevars(xfunc *Node) {
 			if v.Name.Byval() {
 				how = "value"
 			}
-			Warnl(v.Pos, "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym, outermost.Name.Addrtaken(), outermost.Name.Assigned(), int32(v.Type.Width))
+			base.WarnAt(v.Pos, "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym, outermost.Name.Addrtaken(), outermost.Name.Assigned(), int32(v.Type.Width))
 		}
 
 		outer = typecheck(outer, ctxExpr)
@@ -215,14 +216,14 @@ func capturevars(xfunc *Node) {
 	}
 
 	xfunc.Func.Cvars.Set(out)
-	lineno = lno
+	base.Pos = lno
 }
 
 // transformclosure is called in a separate phase after escape analysis.
 // It transform closure bodies to properly reference captured variables.
 func transformclosure(xfunc *Node) {
-	lno := lineno
-	lineno = xfunc.Pos
+	lno := base.Pos
+	base.Pos = xfunc.Pos
 	clo := xfunc.Func.Closure
 
 	if clo.Func.Top&ctxCallee != 0 {
@@ -322,7 +323,7 @@ func transformclosure(xfunc *Node) {
 		}
 	}
 
-	lineno = lno
+	base.Pos = lno
 }
 
 // hasemptycvars reports whether closure clo has an
@@ -335,16 +336,16 @@ func hasemptycvars(clo *Node) bool {
 // closuredebugruntimecheck applies boilerplate checks for debug flags
 // and compiling runtime
 func closuredebugruntimecheck(clo *Node) {
-	if Debug.Closure > 0 {
+	if base.Debug.Closure > 0 {
 		xfunc := clo.Func.Closure
 		if clo.Esc == EscHeap {
-			Warnl(clo.Pos, "heap closure, captured vars = %v", xfunc.Func.Cvars)
+			base.WarnAt(clo.Pos, "heap closure, captured vars = %v", xfunc.Func.Cvars)
 		} else {
-			Warnl(clo.Pos, "stack closure, captured vars = %v", xfunc.Func.Cvars)
+			base.WarnAt(clo.Pos, "stack closure, captured vars = %v", xfunc.Func.Cvars)
 		}
 	}
-	if Flag.CompilingRuntime && clo.Esc == EscHeap {
-		yyerrorl(clo.Pos, "heap-allocated closure, not allowed in runtime")
+	if base.Flag.CompilingRuntime && clo.Esc == EscHeap {
+		base.ErrorAt(clo.Pos, "heap-allocated closure, not allowed in runtime")
 	}
 }
 
@@ -385,8 +386,8 @@ func walkclosure(clo *Node, init *Nodes) *Node {
 
 	// If no closure vars, don't bother wrapping.
 	if hasemptycvars(clo) {
-		if Debug.Closure > 0 {
-			Warnl(clo.Pos, "closure converted to global")
+		if base.Debug.Closure > 0 {
+			base.WarnAt(clo.Pos, "closure converted to global")
 		}
 		return xfunc.Func.Nname
 	}
@@ -422,7 +423,7 @@ func typecheckpartialcall(fn *Node, sym *types.Sym) {
 		break
 
 	default:
-		Fatalf("invalid typecheckpartialcall")
+		base.Fatal("invalid typecheckpartialcall")
 	}
 
 	// Create top-level function.
@@ -446,13 +447,13 @@ func makepartialcall(fn *Node, t0 *types.Type, meth *types.Sym) *Node {
 	sym.SetUniq(true)
 
 	savecurfn := Curfn
-	saveLineNo := lineno
+	saveLineNo := base.Pos
 	Curfn = nil
 
 	// Set line number equal to the line number where the method is declared.
 	var m *types.Field
 	if lookdot0(meth, rcvrtype, &m, false) == 1 && m.Pos.IsKnown() {
-		lineno = m.Pos
+		base.Pos = m.Pos
 	}
 	// Note: !m.Pos.IsKnown() happens for method expressions where
 	// the method is implicitly declared. The Error method of the
@@ -509,7 +510,7 @@ func makepartialcall(fn *Node, t0 *types.Type, meth *types.Sym) *Node {
 	sym.Def = asTypesNode(xfunc)
 	xtop = append(xtop, xfunc)
 	Curfn = savecurfn
-	lineno = saveLineNo
+	base.Pos = saveLineNo
 
 	return xfunc
 }
@@ -576,14 +577,14 @@ func walkpartialcall(n *Node, init *Nodes) *Node {
 // referenced by method value n.
 func callpartMethod(n *Node) *types.Field {
 	if n.Op != OCALLPART {
-		Fatalf("expected OCALLPART, got %v", n)
+		base.Fatal("expected OCALLPART, got %v", n)
 	}
 
 	// TODO(mdempsky): Optimize this. If necessary,
 	// makepartialcall could save m for us somewhere.
 	var m *types.Field
 	if lookdot0(n.Right.Sym, n.Left.Type, &m, false) != 1 {
-		Fatalf("failed to find field for OCALLPART")
+		base.Fatal("failed to find field for OCALLPART")
 	}
 
 	return m
