@@ -39,7 +39,7 @@ var (
 
 // isRuntimePkg reports whether p is package runtime.
 func isRuntimePkg(p *types.Pkg) bool {
-	if compiling_runtime && p == localpkg {
+	if Flag.CompilingRuntime && p == localpkg {
 		return true
 	}
 	return p.Path == "runtime"
@@ -48,7 +48,7 @@ func isRuntimePkg(p *types.Pkg) bool {
 // isReflectPkg reports whether p is package reflect.
 func isReflectPkg(p *types.Pkg) bool {
 	if p == localpkg {
-		return myimportpath == "reflect"
+		return Ctxt.Pkgpath == "reflect"
 	}
 	return p.Path == "reflect"
 }
@@ -99,9 +99,6 @@ var (
 
 var pragcgobuf [][]string
 
-var outfile string
-var linkobj string
-
 // nerrors is the number of compiler errors reported
 // since the last call to saveerrors.
 var nerrors int
@@ -113,20 +110,6 @@ var nsavederrors int
 var nsyntaxerrors int
 
 var decldepth int32
-
-var nolocalimports bool
-
-// gc debug flags
-type DebugFlags struct {
-	P, B, C, E,
-	K, L, N, S,
-	W, e, h, j,
-	l, m, r, w int
-}
-
-var Debug DebugFlags
-
-var debugstr string
 
 var Debug_checknil int
 var Debug_typeassert int
@@ -154,12 +137,6 @@ var mappkg *types.Pkg // fake package for map zero value
 var gopkg *types.Pkg // pseudo-package for method symbols on anonymous receiver types
 
 var zerosize int64
-
-var myimportpath string
-
-var localimport string
-
-var asmhdr string
 
 var simtype [NTYPE]types.EType
 
@@ -219,22 +196,7 @@ var nblank *Node
 
 var typecheckok bool
 
-var compiling_runtime bool
-
 // Compiling the standard library
-var compiling_std bool
-
-var use_writebarrier bool
-
-var pure_go bool
-
-var flag_installsuffix string
-
-var flag_race bool
-
-var flag_msan bool
-
-var flagDWARF bool
 
 // Whether we are adding any sort of code instrumentation, such as
 // when the race detector is enabled.
@@ -246,13 +208,8 @@ var trackScopes bool
 // Controls generation of DWARF inlined instance records. Zero
 // disables, 1 emits inlined routines but suppresses var info,
 // and 2 emits inlined routines with tracking of formals/locals.
-var genDwarfInline int
-
-var debuglive int
 
 var Ctxt *obj.Link
-
-var writearchive bool
 
 var nodfp *Node
 

@@ -22,8 +22,8 @@ import (
 // "Portable" code generation.
 
 var (
-	nBackendWorkers int     // number of concurrent backend workers, set by a compiler flag
-	compilequeue    []*Node // functions waiting to be compiled
+	// number of concurrent backend workers, set by a compiler flag
+	compilequeue []*Node // functions waiting to be compiled
 )
 
 func emitptrargsmap(fn *Node) {
@@ -293,7 +293,7 @@ func compilenow(fn *Node) bool {
 	if fn.IsMethod() && isInlinableButNotInlined(fn) {
 		return false
 	}
-	return nBackendWorkers == 1 && Debug_compilelater == 0
+	return Flag.LowerC == 1 && Debug_compilelater == 0
 }
 
 // isInlinableButNotInlined returns true if 'fn' was marked as an
@@ -376,8 +376,8 @@ func compileFunctions() {
 		}
 		var wg sync.WaitGroup
 		Ctxt.InParallel = true
-		c := make(chan *Node, nBackendWorkers)
-		for i := 0; i < nBackendWorkers; i++ {
+		c := make(chan *Node, Flag.LowerC)
+		for i := 0; i < Flag.LowerC; i++ {
 			wg.Add(1)
 			go func(worker int) {
 				for fn := range c {
@@ -454,7 +454,7 @@ func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.S
 
 	scopes := assembleScopes(fnsym, fn, dwarfVars, varScopes)
 	var inlcalls dwarf.InlCalls
-	if genDwarfInline > 0 {
+	if Flag.GenDwarfInl > 0 {
 		inlcalls = assembleInlines(fnsym, dwarfVars)
 	}
 	return scopes, inlcalls
@@ -524,7 +524,7 @@ func createSimpleVar(fnsym *obj.LSym, n *Node) *dwarf.Var {
 	typename := dwarf.InfoPrefix + typesymname(n.Type)
 	delete(fnsym.Func().Autot, ngotype(n).Linksym())
 	inlIndex := 0
-	if genDwarfInline > 1 {
+	if Flag.GenDwarfInl > 1 {
 		if n.Name.InlFormal() || n.Name.InlLocal() {
 			inlIndex = posInlIndex(n.Pos) + 1
 			if n.Name.InlFormal() {
@@ -645,7 +645,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *Func, apDecls []*Node) ([]*Node, []*dw
 			}
 		}
 		inlIndex := 0
-		if genDwarfInline > 1 {
+		if Flag.GenDwarfInl > 1 {
 			if n.Name.InlFormal() || n.Name.InlLocal() {
 				inlIndex = posInlIndex(n.Pos) + 1
 				if n.Name.InlFormal() {
@@ -734,7 +734,7 @@ func createComplexVar(fnsym *obj.LSym, fn *Func, varID ssa.VarID) *dwarf.Var {
 	delete(fnsym.Func().Autot, gotype)
 	typename := dwarf.InfoPrefix + gotype.Name[len("type."):]
 	inlIndex := 0
-	if genDwarfInline > 1 {
+	if Flag.GenDwarfInl > 1 {
 		if n.Name.InlFormal() || n.Name.InlLocal() {
 			inlIndex = posInlIndex(n.Pos) + 1
 			if n.Name.InlFormal() {
