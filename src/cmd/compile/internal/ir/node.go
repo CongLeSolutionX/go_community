@@ -84,6 +84,8 @@ func (n *Node) Pos() src.XPos         { return n.pos }
 func (n *Node) SetPos(x src.XPos)     { n.pos = x }
 func (n *Node) Xoffset() int64        { return n.xoffset }
 func (n *Node) SetXoffset(x int64)    { n.xoffset = x }
+func (n *Node) GetEsc() uint16        { return n.Esc }
+func (n *Node) SetEsc(x uint16)       { n.Esc = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
