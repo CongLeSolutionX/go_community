@@ -59,12 +59,12 @@ func (s *InitSchedule) tryStaticInit(n *ir.Node) bool {
 	if n.Op != ir.OAS {
 		return false
 	}
-	if n.Left().IsBlank() && candiscard(n.Right) {
+	if n.Left().IsBlank() && candiscard(n.Right()) {
 		return true
 	}
 	lno := setlineno(n)
 	defer func() { base.Pos = lno }()
-	return s.staticassign(n.Left(), n.Right)
+	return s.staticassign(n.Left(), n.Right())
 }
 
 // like staticassign but we are copying an already
@@ -90,7 +90,7 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 		return false
 	}
 	orig := r
-	r = r.Name.Defn.Right
+	r = r.Name.Defn.Right()
 
 	for r.Op == ir.OCONVNOP && !types.Identical(r.Type, l.Type) {
 		r = r.Left()
@@ -130,7 +130,7 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 	case ir.OSLICELIT:
 		// copy slice
 		a := s.inittemps[r]
-		slicesym(l, a, r.Right.Int64Val())
+		slicesym(l, a, r.Right().Int64Val())
 		return true
 
 	case ir.OARRAYLIT, ir.OSTRUCTLIT:
@@ -215,7 +215,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 	case ir.OSLICELIT:
 		s.initplan(r)
 		// Init slice.
-		bound := r.Right.Int64Val()
+		bound := r.Right().Int64Val()
 		ta := types.NewArray(r.Type.Elem(), bound)
 		ta.SetNoalg(true)
 		a := staticname(ta)
@@ -410,7 +410,7 @@ func getdyn(n *ir.Node, top bool) initGenType {
 		if !top {
 			return initDynamic
 		}
-		if n.Right.Int64Val()/4 > int64(n.List.Len()) {
+		if n.Right().Int64Val()/4 > int64(n.List.Len()) {
 			// <25% of entries have explicit values.
 			// Very rough estimation, it takes 4 bytes of instructions
 			// to initialize 1 byte of result. So don't use a static
@@ -427,7 +427,7 @@ func getdyn(n *ir.Node, top bool) initGenType {
 	for _, n1 := range n.List.Slice() {
 		switch n1.Op {
 		case ir.OKEY:
-			n1 = n1.Right
+			n1 = n1.Right()
 		case ir.OSTRUCTKEY:
 			n1 = n1.Left()
 		}
@@ -447,7 +447,7 @@ func isStaticCompositeLiteral(n *ir.Node) bool {
 	case ir.OARRAYLIT:
 		for _, r := range n.List.Slice() {
 			if r.Op == ir.OKEY {
-				r = r.Right
+				r = r.Right()
 			}
 			if !isStaticCompositeLiteral(r) {
 				return false
@@ -514,7 +514,7 @@ func fixedlit(ctxt initContext, kind initKind, n *ir.Node, var_ *ir.Node, init *
 				if k < 0 {
 					base.Fatal("fixedlit: invalid index %v", r.Left())
 				}
-				r = r.Right
+				r = r.Right()
 			}
 			a := nod(ir.OINDEX, var_, nodintconst(k))
 			k++
@@ -584,14 +584,14 @@ func isSmallSliceLit(n *ir.Node) bool {
 		return false
 	}
 
-	r := n.Right
+	r := n.Right()
 
 	return smallintconst(r) && (n.Type.Elem().Width == 0 || r.Int64Val() <= smallArrayBytes/n.Type.Elem().Width)
 }
 
 func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 	// make an array type corresponding the number of elements we have
-	t := types.NewArray(n.Type.Elem(), n.Right.Int64Val())
+	t := types.NewArray(n.Type.Elem(), n.Right().Int64Val())
 	dowidth(t)
 
 	if ctxt == inNonInitFunction {
@@ -706,7 +706,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 			if index < 0 {
 				base.Fatal("slicelit: invalid index %v", value.Left())
 			}
-			value = value.Right
+			value = value.Right()
 		}
 		a := nod(ir.OINDEX, vauto, nodintconst(index))
 		a.SetBounded(true)
@@ -764,7 +764,7 @@ func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 	// The order pass already removed any dynamic (runtime-computed) entries.
 	// All remaining entries are static. Double-check that.
 	for _, r := range entries {
-		if !isStaticCompositeLiteral(r.Left()) || !isStaticCompositeLiteral(r.Right) {
+		if !isStaticCompositeLiteral(r.Left()) || !isStaticCompositeLiteral(r.Right()) {
 			base.Fatal("maplit: entry is not a literal: %v", r)
 		}
 	}
@@ -790,7 +790,7 @@ func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 		datae := nod(ir.OARRAYLIT, nil, nil)
 		for _, r := range entries {
 			datak.List.Append(r.Left())
-			datae.List.Append(r.Right)
+			datae.List.Append(r.Right())
 		}
 		fixedlit(inInitFunction, initKindStatic, datak, vstatk, init)
 		fixedlit(inInitFunction, initKindStatic, datae, vstate, init)
@@ -830,7 +830,7 @@ func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 	tmpelem := temp(m.Type.Elem())
 
 	for _, r := range entries {
-		index, elem := r.Left(), r.Right
+		index, elem := r.Left(), r.Right()
 
 		setlineno(index)
 		a := nod(ir.OAS, tmpkey, index)
@@ -876,10 +876,10 @@ func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 		}
 
 		var r *ir.Node
-		if n.Right != nil {
+		if n.Right() != nil {
 			// n.Right is stack temporary used as backing store.
-			init.Append(nod(ir.OAS, n.Right, nil)) // zero backing store, just in case (#18410)
-			r = nod(ir.OADDR, n.Right, nil)
+			init.Append(nod(ir.OAS, n.Right(), nil)) // zero backing store, just in case (#18410)
+			r = nod(ir.OADDR, n.Right(), nil)
 			r = typecheck(r, ctxExpr)
 		} else {
 			r = nod(ir.ONEW, nil, nil)
@@ -953,11 +953,11 @@ func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 }
 
 func oaslit(n *ir.Node, init *ir.Nodes) bool {
-	if n.Left() == nil || n.Right == nil {
+	if n.Left() == nil || n.Right() == nil {
 		// not a special composite literal assignment
 		return false
 	}
-	if n.Left().Type == nil || n.Right.Type == nil {
+	if n.Left().Type == nil || n.Right().Type == nil {
 		// not a special composite literal assignment
 		return false
 	}
@@ -965,26 +965,26 @@ func oaslit(n *ir.Node, init *ir.Nodes) bool {
 		// not a special composite literal assignment
 		return false
 	}
-	if !types.Identical(n.Left().Type, n.Right.Type) {
+	if !types.Identical(n.Left().Type, n.Right().Type) {
 		// not a special composite literal assignment
 		return false
 	}
 
-	switch n.Right.Op {
+	switch n.Right().Op {
 	default:
 		// not a special composite literal assignment
 		return false
 
 	case ir.OSTRUCTLIT, ir.OARRAYLIT, ir.OSLICELIT, ir.OMAPLIT:
-		if vmatch1(n.Left(), n.Right) {
+		if vmatch1(n.Left(), n.Right()) {
 			// not a special composite literal assignment
 			return false
 		}
-		anylit(n.Right, n.Left(), init)
+		anylit(n.Right(), n.Left(), init)
 	}
 
 	n.Op = ir.OEMPTY
-	n.Right = nil
+	n.SetRight(nil)
 	return true
 }
 
@@ -1021,7 +1021,7 @@ func stataddr(nam *ir.Node, n *ir.Node) bool {
 		if !stataddr(nam, n.Left()) {
 			break
 		}
-		l := getlit(n.Right)
+		l := getlit(n.Right())
 		if l < 0 {
 			break
 		}
@@ -1056,7 +1056,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 				if k < 0 {
 					base.Fatal("initplan arraylit: invalid index %v", a.Left())
 				}
-				a = a.Right
+				a = a.Right()
 			}
 			s.addvalue(p, k*n.Type.Elem().Width, a)
 			k++
@@ -1078,7 +1078,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 			if a.Op != ir.OKEY {
 				base.Fatal("initplan maplit")
 			}
-			s.addvalue(p, -1, a.Right)
+			s.addvalue(p, -1, a.Right())
 		}
 	}
 }
@@ -1129,7 +1129,7 @@ func isZero(n *ir.Node) bool {
 	case ir.OARRAYLIT:
 		for _, n1 := range n.List.Slice() {
 			if n1.Op == ir.OKEY {
-				n1 = n1.Right
+				n1 = n1.Right()
 			}
 			if !isZero(n1) {
 				return false
@@ -1164,11 +1164,11 @@ func genAsStatic(as *ir.Node) {
 	}
 
 	switch {
-	case as.Right.Op == ir.OLITERAL:
-		litsym(&nam, as.Right, int(as.Right.Type.Width))
-	case as.Right.Op == ir.ONAME && as.Right.Class() == ir.PFUNC:
-		pfuncsym(&nam, as.Right)
+	case as.Right().Op == ir.OLITERAL:
+		litsym(&nam, as.Right(), int(as.Right().Type.Width))
+	case as.Right().Op == ir.ONAME && as.Right().Class() == ir.PFUNC:
+		pfuncsym(&nam, as.Right())
 	default:
-		base.Fatal("genAsStatic: rhs %v", as.Right)
+		base.Fatal("genAsStatic: rhs %v", as.Right())
 	}
 }

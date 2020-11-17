@@ -411,7 +411,7 @@ func walkclosure(clo *ir.Node, init *ir.Nodes) *ir.Node {
 		if !types.Identical(typ, x.Type) {
 			panic("closure type does not match order's assigned type")
 		}
-		clos.Left().Right = x
+		clos.Left().SetRight(x)
 		delete(prealloc, clo)
 	}
 
@@ -431,7 +431,7 @@ func typecheckpartialcall(fn *ir.Node, sym *types.Sym) {
 	xfunc := makepartialcall(fn, fn.Type, sym)
 	xfunc.Func.SetWrapper(true)
 	fn.Op = ir.OCALLPART
-	fn.Right = newname(sym)
+	fn.SetRight(newname(sym))
 	fn.Type = xfunc.Type
 	fn.Func = xfunc.Func
 }
@@ -567,7 +567,7 @@ func walkpartialcall(n *ir.Node, init *ir.Nodes) *ir.Node {
 		if !types.Identical(typ, x.Type) {
 			panic("partial call type does not match order's assigned type")
 		}
-		clos.Left().Right = x
+		clos.Left().SetRight(x)
 		delete(prealloc, n)
 	}
 
@@ -584,7 +584,7 @@ func callpartMethod(n *ir.Node) *types.Field {
 	// TODO(mdempsky): Optimize this. If necessary,
 	// makepartialcall could save m for us somewhere.
 	var m *types.Field
-	if lookdot0(n.Right.Sym, n.Left().Type, &m, false) != 1 {
+	if lookdot0(n.Right().Sym, n.Left().Type, &m, false) != 1 {
 		base.Fatal("failed to find field for OCALLPART")
 	}
 

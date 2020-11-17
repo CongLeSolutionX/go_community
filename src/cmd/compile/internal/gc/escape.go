@@ -333,7 +333,7 @@ func (e *Escape) stmt(n *ir.Node) {
 	case ir.OFOR, ir.OFORUNTIL:
 		e.loopDepth++
 		e.discard(n.Left())
-		e.stmt(n.Right)
+		e.stmt(n.Right())
 		e.block(n.Nbody)
 		e.loopDepth--
 
@@ -347,13 +347,13 @@ func (e *Escape) stmt(n *ir.Node) {
 		// Right is evaluated outside the loop.
 		k := e.discardHole()
 		if len(ks) >= 2 {
-			if n.Right.Type.IsArray() {
+			if n.Right().Type.IsArray() {
 				k = ks[1].note(n, "range")
 			} else {
 				k = ks[1].deref(n, "range-deref")
 			}
 		}
-		e.expr(e.later(k), n.Right)
+		e.expr(e.later(k), n.Right())
 
 	case ir.OSWITCH:
 		typesw := n.Left() != nil && n.Left().Op == ir.OTYPESW
@@ -373,7 +373,7 @@ func (e *Escape) stmt(n *ir.Node) {
 		}
 
 		if typesw {
-			e.expr(e.teeHole(ks...), n.Left().Right)
+			e.expr(e.teeHole(ks...), n.Left().Right())
 		} else {
 			e.discard(n.Left())
 		}
@@ -384,19 +384,19 @@ func (e *Escape) stmt(n *ir.Node) {
 			e.block(cas.Nbody)
 		}
 	case ir.OSELRECV:
-		e.assign(n.Left(), n.Right, "selrecv", n)
+		e.assign(n.Left(), n.Right(), "selrecv", n)
 	case ir.OSELRECV2:
-		e.assign(n.Left(), n.Right, "selrecv", n)
+		e.assign(n.Left(), n.Right(), "selrecv", n)
 		e.assign(n.List.First(), nil, "selrecv", n)
 	case ir.ORECV:
 		// TODO(mdempsky): Consider e.discard(n.Left).
 		e.exprSkipInit(e.discardHole(), n) // already visited n.Ninit
 	case ir.OSEND:
 		e.discard(n.Left())
-		e.assignHeap(n.Right, "send", n)
+		e.assignHeap(n.Right(), "send", n)
 
 	case ir.OAS, ir.OASOP:
-		e.assign(n.Left(), n.Right, "assign", n)
+		e.assign(n.Left(), n.Right(), "assign", n)
 
 	case ir.OAS2:
 		for i, nl := range n.List.Slice() {
@@ -404,18 +404,18 @@ func (e *Escape) stmt(n *ir.Node) {
 		}
 
 	case ir.OAS2DOTTYPE: // v, ok = x.(type)
-		e.assign(n.List.First(), n.Right, "assign-pair-dot-type", n)
+		e.assign(n.List.First(), n.Right(), "assign-pair-dot-type", n)
 		e.assign(n.List.Second(), nil, "assign-pair-dot-type", n)
 	case ir.OAS2MAPR: // v, ok = m[k]
-		e.assign(n.List.First(), n.Right, "assign-pair-mapr", n)
+		e.assign(n.List.First(), n.Right(), "assign-pair-mapr", n)
 		e.assign(n.List.Second(), nil, "assign-pair-mapr", n)
 	case ir.OAS2RECV: // v, ok = <-ch
-		e.assign(n.List.First(), n.Right, "assign-pair-receive", n)
+		e.assign(n.List.First(), n.Right(), "assign-pair-receive", n)
 		e.assign(n.List.Second(), nil, "assign-pair-receive", n)
 
 	case ir.OAS2FUNC:
-		e.stmts(n.Right.Ninit)
-		e.call(e.addrs(n.List), n.Right, nil)
+		e.stmts(n.Right().Ninit)
+		e.call(e.addrs(n.List), n.Right(), nil)
 	case ir.ORETURN:
 		results := e.curfn.Type.Results().FieldSlice()
 		for i, v := range n.List.Slice() {
@@ -491,7 +491,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 		e.discard(n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE, ir.OANDAND, ir.OOROR:
 		e.discard(n.Left())
-		e.discard(n.Right)
+		e.discard(n.Right())
 
 	case ir.OADDR:
 		e.expr(k.addr(n, "address-of"), n.Left()) // "address-of"
@@ -510,10 +510,10 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 			// TODO(mdempsky): Fix why reason text.
 			e.expr(k.deref(n, "dot of pointer"), n.Left())
 		}
-		e.discard(n.Right)
+		e.discard(n.Right())
 	case ir.OINDEXMAP:
 		e.discard(n.Left())
-		e.discard(n.Right)
+		e.discard(n.Right())
 	case ir.OSLICE, ir.OSLICEARR, ir.OSLICE3, ir.OSLICE3ARR, ir.OSLICESTR:
 		e.expr(k.note(n, "slice"), n.Left())
 		low, high, max := n.SliceBounds()
@@ -553,7 +553,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 	case ir.OMAKESLICE:
 		e.spill(k, n)
 		e.discard(n.Left())
-		e.discard(n.Right)
+		e.discard(n.Right())
 	case ir.OMAKECHAN:
 		e.discard(n.Left())
 	case ir.OMAKEMAP:
@@ -591,7 +591,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 	case ir.OARRAYLIT:
 		for _, elt := range n.List.Slice() {
 			if elt.Op == ir.OKEY {
-				elt = elt.Right
+				elt = elt.Right()
 			}
 			e.expr(k.note(n, "array literal element"), elt)
 		}
@@ -602,7 +602,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 
 		for _, elt := range n.List.Slice() {
 			if elt.Op == ir.OKEY {
-				elt = elt.Right
+				elt = elt.Right()
 			}
 			e.expr(k.note(n, "slice-literal-element"), elt)
 		}
@@ -618,7 +618,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 		// Map keys and values are always stored in the heap.
 		for _, elt := range n.List.Slice() {
 			e.assignHeap(elt.Left(), "map literal key", n)
-			e.assignHeap(elt.Right, "map literal value", n)
+			e.assignHeap(elt.Right(), "map literal value", n)
 		}
 
 	case ir.OCLOSURE:
@@ -677,12 +677,12 @@ func (e *Escape) unsafeValue(k EscHole, n *ir.Node) {
 		e.unsafeValue(k, n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OAND, ir.OANDNOT:
 		e.unsafeValue(k, n.Left())
-		e.unsafeValue(k, n.Right)
+		e.unsafeValue(k, n.Right())
 	case ir.OLSH, ir.ORSH:
 		e.unsafeValue(k, n.Left())
 		// RHS need not be uintptr-typed (#32959) and can't meaningfully
 		// flow pointers anyway.
-		e.discard(n.Right)
+		e.discard(n.Right())
 	default:
 		e.exprSkipInit(e.discardHole(), n)
 	}
@@ -722,7 +722,7 @@ func (e *Escape) addr(n *ir.Node) EscHole {
 	case ir.ODOT:
 		k = e.addr(n.Left())
 	case ir.OINDEX:
-		e.discard(n.Right)
+		e.discard(n.Right())
 		if n.Left().Type.IsArray() {
 			k = e.addr(n.Left())
 		} else {
@@ -732,7 +732,7 @@ func (e *Escape) addr(n *ir.Node) EscHole {
 		e.discard(n)
 	case ir.OINDEXMAP:
 		e.discard(n.Left())
-		e.assignHeap(n.Right, "key of map put", n)
+		e.assignHeap(n.Right(), "key of map put", n)
 	}
 
 	if !n.Type.HasPointers() {
@@ -870,17 +870,17 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		argument(e.discardHole(), call.Left())
 
 		copiedK := e.discardHole()
-		if call.Right.Type.IsSlice() && call.Right.Type.Elem().HasPointers() {
+		if call.Right().Type.IsSlice() && call.Right().Type.Elem().HasPointers() {
 			copiedK = e.heapHole().deref(call, "copied slice")
 		}
-		argument(copiedK, call.Right)
+		argument(copiedK, call.Right())
 
 	case ir.OPANIC:
 		argument(e.heapHole(), call.Left())
 
 	case ir.OCOMPLEX:
 		argument(e.discardHole(), call.Left())
-		argument(e.discardHole(), call.Right)
+		argument(e.discardHole(), call.Right())
 	case ir.ODELETE, ir.OPRINT, ir.OPRINTN, ir.ORECOVER:
 		for _, arg := range call.List.Slice() {
 			argument(e.discardHole(), arg)

@@ -171,13 +171,13 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		}
 
 		n.SetLeft(convlit(n.Left(), ot))
-		n.Right = convlit(n.Right, ot)
-		if n.Left().Type == nil || n.Right.Type == nil {
+		n.SetRight(convlit(n.Right(), ot))
+		if n.Left().Type == nil || n.Right().Type == nil {
 			n.Type = nil
 			return n
 		}
-		if !types.Identical(n.Left().Type, n.Right.Type) {
-			base.Error("invalid operation: %v (mismatched types %v and %v)", n, n.Left().Type, n.Right.Type)
+		if !types.Identical(n.Left().Type, n.Right().Type) {
+			base.Error("invalid operation: %v (mismatched types %v and %v)", n, n.Left().Type, n.Right().Type)
 			n.Type = nil
 			return n
 		}
@@ -423,7 +423,7 @@ func tostr(v ir.Val) ir.Val {
 
 // evconst rewrites constant expressions into OLITERAL nodes.
 func evconst(n *ir.Node) {
-	nl, nr := n.Left(), n.Right
+	nl, nr := n.Left(), n.Right()
 
 	// Pick off just the opcodes that can be constant evaluated.
 	switch op := n.Op; op {
@@ -1067,7 +1067,7 @@ func hascallchan(n *ir.Node) bool {
 		return true
 	}
 
-	if hascallchan(n.Left()) || hascallchan(n.Right) {
+	if hascallchan(n.Left()) || hascallchan(n.Right()) {
 		return true
 	}
 	for _, n1 := range n.List.Slice() {

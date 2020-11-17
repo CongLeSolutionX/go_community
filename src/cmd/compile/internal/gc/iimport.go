@@ -861,7 +861,7 @@ func (r *importReader) node() *ir.Node {
 			n.SetLeft(npos(n.Pos, newnoname(s)))
 		}
 		nr, _ := r.exprsOrNil()
-		n.Right = nr
+		n.SetRight(nr)
 		return n
 
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
@@ -1005,10 +1005,10 @@ func (r *importReader) node() *ir.Node {
 		n.SetSubOp(r.op())
 		n.SetLeft(r.expr())
 		if !r.bool() {
-			n.Right = nodintconst(1)
+			n.SetRight(nodintconst(1))
 			n.SetImplicit(true)
 		} else {
-			n.Right = r.expr()
+			n.SetRight(r.expr())
 		}
 		return n
 
@@ -1045,14 +1045,14 @@ func (r *importReader) node() *ir.Node {
 		n.Ninit.Set(r.stmtList())
 		nl, nr := r.exprsOrNil()
 		n.SetLeft(nl)
-		n.Right = nr
+		n.SetRight(nr)
 		n.Nbody.Set(r.stmtList())
 		return n
 
 	case ir.ORANGE:
 		n := nodl(r.pos(), ir.ORANGE, nil, nil)
 		n.List.Set(r.stmtList())
-		n.Right = r.expr()
+		n.SetRight(r.expr())
 		n.Nbody.Set(r.stmtList())
 		return n
 

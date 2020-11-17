@@ -140,7 +140,7 @@ func embedKindApprox(typ *ir.Node) int {
 	if typ.Sym != nil && typ.Sym.Name == "string" && typ.Sym.Pkg == ir.LocalPkg {
 		return embedString
 	}
-	if typ.Op == ir.OTARRAY && typ.Left() == nil && typ.Right.Sym != nil && typ.Right.Sym.Name == "byte" && typ.Right.Sym.Pkg == ir.LocalPkg {
+	if typ.Op == ir.OTARRAY && typ.Left() == nil && typ.Right().Sym != nil && typ.Right().Sym.Name == "byte" && typ.Right().Sym.Pkg == ir.LocalPkg {
 		return embedBytes
 	}
 	return embedUnknown

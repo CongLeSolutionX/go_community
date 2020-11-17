@@ -27,7 +27,7 @@ type Node struct {
 	// Tree structure.
 	// Generic recursive walks should follow these fields.
 	left  *Node
-	Right *Node
+	right *Node
 	Ninit Nodes
 	Nbody Nodes
 	List  Nodes
@@ -74,12 +74,12 @@ func (n *Node) SetLeft(l *Node) {
 	n.left = l
 }
 
-func (n *Node) GetRight() *Node {
-	return n.Right
+func (n *Node) Right() *Node {
+	return n.right
 }
 
 func (n *Node) SetRight(l *Node) {
-	n.Right = l
+	n.right = l
 }
 
 func (n *Node) ResetAux() {
@@ -318,7 +318,7 @@ func (n *Node) MayBeShared() bool {
 
 // isMethodExpression reports whether n represents a method expression T.M.
 func (n *Node) IsMethodExpression() bool {
-	return n.Op == ONAME && n.Left() != nil && n.Left().Op == OTYPE && n.Right != nil && n.Right.Op == ONAME
+	return n.Op == ONAME && n.Left() != nil && n.Left().Op == OTYPE && n.Right() != nil && n.Right().Op == ONAME
 }
 
 // funcname returns the name (without the package) of the function n.
@@ -1104,7 +1104,7 @@ func Inspect(n *Node, f func(*Node) bool) {
 	}
 	InspectList(n.Ninit, f)
 	Inspect(n.Left(), f)
-	Inspect(n.Right, f)
+	Inspect(n.Right(), f)
 	InspectList(n.List, f)
 	InspectList(n.Nbody, f)
 	InspectList(n.Rlist, f)

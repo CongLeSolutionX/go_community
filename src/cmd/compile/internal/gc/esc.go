@@ -132,7 +132,7 @@ func isSelfAssign(dst, src *ir.Node) bool {
 	case ir.ODOT, ir.ODOTPTR:
 		// Safe trailing accessors that are permitted to differ.
 	case ir.OINDEX:
-		if mayAffectMemory(dst.Right) || mayAffectMemory(src.Right) {
+		if mayAffectMemory(dst.Right()) || mayAffectMemory(src.Right()) {
 			return false
 		}
 	default:
@@ -159,7 +159,7 @@ func mayAffectMemory(n *ir.Node) bool {
 
 	// Left+Right group.
 	case ir.OINDEX, ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.ODIV, ir.OMOD:
-		return mayAffectMemory(n.Left()) || mayAffectMemory(n.Right)
+		return mayAffectMemory(n.Left()) || mayAffectMemory(n.Right())
 
 	// Left group.
 	case ir.ODOT, ir.ODOTPTR, ir.ODEREF, ir.OCONVNOP, ir.OCONV, ir.OLEN, ir.OCAP,
@@ -199,7 +199,7 @@ func heapAllocReason(n *ir.Node) string {
 	}
 
 	if n.Op == ir.OMAKESLICE {
-		r := n.Right
+		r := n.Right()
 		if r == nil {
 			r = n.Left()
 		}

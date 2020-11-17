@@ -792,7 +792,7 @@ func hasCall(n *ir.Node) bool {
 	if n.Left() != nil && hasCall(n.Left()) {
 		return true
 	}
-	if n.Right != nil && hasCall(n.Right) {
+	if n.Right() != nil && hasCall(n.Right()) {
 		return true
 	}
 	for _, x := range n.Ninit.Slice() {

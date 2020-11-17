@@ -23,10 +23,10 @@ func typecheckswitch(n *ir.Node) {
 }
 
 func typecheckTypeSwitch(n *ir.Node) {
-	n.Left().Right = typecheck(n.Left().Right, ctxExpr)
-	t := n.Left().Right.Type
+	n.Left().SetRight(typecheck(n.Left().Right(), ctxExpr))
+	t := n.Left().Right().Type
 	if t != nil && !t.IsInterface() {
-		base.ErrorAt(n.Pos, "cannot type switch on non-interface value %L", n.Left().Right)
+		base.ErrorAt(n.Pos, "cannot type switch on non-interface value %L", n.Left().Right())
 		t = nil
 	}
 
@@ -70,13 +70,13 @@ func typecheckTypeSwitch(n *ir.Node) {
 			case !n1.Type.IsInterface() && !implements(n1.Type, t, &missing, &have, &ptr) && !missing.Broke():
 				if have != nil && !have.Broke() {
 					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
-						" (wrong type for %v method)\n\thave %v%S\n\twant %v%S", n.Left().Right, n1.Type, missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
+						" (wrong type for %v method)\n\thave %v%S\n\twant %v%S", n.Left().Right(), n1.Type, missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
 				} else if ptr != 0 {
 					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
-						" (%v method has pointer receiver)", n.Left().Right, n1.Type, missing.Sym)
+						" (%v method has pointer receiver)", n.Left().Right(), n1.Type, missing.Sym)
 				} else {
 					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
-						" (missing %v method)", n.Left().Right, n1.Type, missing.Sym)
+						" (missing %v method)", n.Left().Right(), n1.Type, missing.Sym)
 				}
 			}
 
@@ -498,7 +498,7 @@ func hasFall(stmts []*ir.Node) (bool, src.XPos) {
 // type switch.
 func walkTypeSwitch(sw *ir.Node) {
 	var s typeSwitch
-	s.facename = sw.Left().Right
+	s.facename = sw.Left().Right()
 	sw.SetLeft(nil)
 
 	s.facename = walkexpr(s.facename, &sw.Ninit)

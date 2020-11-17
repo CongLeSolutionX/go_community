@@ -621,7 +621,7 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *ir.Node {
 			}
 		}
 		typ.Op = ir.OTARRAY
-		typ.Right = typ.Left()
+		typ.SetRight(typ.Left())
 		typ.SetLeft(nil)
 		n.SetIsDDD(true)
 		if n.Left() != nil {
@@ -661,7 +661,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 	case *syntax.CompositeLit:
 		n := p.nod(expr, ir.OCOMPLIT, nil, nil)
 		if expr.Type != nil {
-			n.Right = p.expr(expr.Type)
+			n.SetRight(p.expr(expr.Type))
 		}
 		l := p.exprs(expr.ElemList)
 		for i, e := range l {
@@ -1007,7 +1007,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 		if len(lhs) == 1 && len(rhs) == 1 {
 			// common case
 			n.SetLeft(lhs[0])
-			n.Right = rhs[0]
+			n.SetRight(rhs[0])
 		} else {
 			n.Op = ir.OAS2
 			n.List.Set(lhs)
@@ -1191,7 +1191,7 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) *ir.Node {
 			n.SetLeft(p.expr(stmt.Cond))
 		}
 		if stmt.Post != nil {
-			n.Right = p.stmt(stmt.Post)
+			n.SetRight(p.stmt(stmt.Post))
 		}
 	}
 	n.Nbody.Set(p.blockStmt(stmt.Body))

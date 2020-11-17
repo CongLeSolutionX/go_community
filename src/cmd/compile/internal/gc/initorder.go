@@ -254,9 +254,9 @@ func collectDeps(n *ir.Node, transitive bool) ir.NodeSet {
 	d := initDeps{transitive: transitive}
 	switch n.Op {
 	case ir.OAS:
-		d.inspect(n.Right)
+		d.inspect(n.Right())
 	case ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2RECV:
-		d.inspect(n.Right)
+		d.inspect(n.Right())
 	case ir.ODCLFUNC:
 		d.inspectList(n.Nbody)
 	default:

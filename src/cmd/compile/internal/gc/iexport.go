@@ -1072,11 +1072,11 @@ func (w *exportWriter) stmt(n *ir.Node) {
 		// Don't export "v = <N>" initializing statements, hope they're always
 		// preceded by the DCL which will be re-parsed and typecheck to reproduce
 		// the "v = <N>" again.
-		if n.Right != nil {
+		if n.Right() != nil {
 			w.op(ir.OAS)
 			w.pos(n.Pos)
 			w.expr(n.Left())
-			w.expr(n.Right)
+			w.expr(n.Right())
 		}
 
 	case ir.OASOP:
@@ -1085,7 +1085,7 @@ func (w *exportWriter) stmt(n *ir.Node) {
 		w.op(n.SubOp())
 		w.expr(n.Left())
 		if w.bool(!n.Implicit()) {
-			w.expr(n.Right)
+			w.expr(n.Right())
 		}
 
 	case ir.OAS2:
@@ -1098,7 +1098,7 @@ func (w *exportWriter) stmt(n *ir.Node) {
 		w.op(ir.OAS2)
 		w.pos(n.Pos)
 		w.exprList(n.List)
-		w.exprList(ir.AsNodes([]*ir.Node{n.Right}))
+		w.exprList(ir.AsNodes([]*ir.Node{n.Right()}))
 
 	case ir.ORETURN:
 		w.op(ir.ORETURN)
@@ -1125,14 +1125,14 @@ func (w *exportWriter) stmt(n *ir.Node) {
 		w.op(ir.OFOR)
 		w.pos(n.Pos)
 		w.stmtList(n.Ninit)
-		w.exprsOrNil(n.Left(), n.Right)
+		w.exprsOrNil(n.Left(), n.Right())
 		w.stmtList(n.Nbody)
 
 	case ir.ORANGE:
 		w.op(ir.ORANGE)
 		w.pos(n.Pos)
 		w.stmtList(n.List)
-		w.expr(n.Right)
+		w.expr(n.Right())
 		w.stmtList(n.Nbody)
 
 	case ir.OSELECT, ir.OSWITCH:
@@ -1227,7 +1227,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 			w.op(ir.OXDOT)
 			w.pos(n.Pos)
 			w.expr(n.Left()) // n.Left.Op == OTYPE
-			w.selector(n.Right.Sym)
+			w.selector(n.Right().Sym)
 			break
 		}
 
@@ -1260,7 +1260,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 			s = n.Left().Sym
 		}
 		w.localIdent(s, 0) // declared pseudo-variable, if any
-		w.exprsOrNil(n.Right, nil)
+		w.exprsOrNil(n.Right(), nil)
 
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	// 	should have been resolved by typechecking - handled by default case
@@ -1291,7 +1291,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 	case ir.OKEY:
 		w.op(ir.OKEY)
 		w.pos(n.Pos)
-		w.exprsOrNil(n.Left(), n.Right)
+		w.exprsOrNil(n.Left(), n.Right())
 
 	// case OSTRUCTKEY:
 	//	unreachable - handled in case OSTRUCTLIT by elemList
@@ -1302,7 +1302,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.pos(n.Pos)
 		w.expr(n.Left())
 		// Right node should be ONAME
-		w.selector(n.Right.Sym)
+		w.selector(n.Right().Sym)
 
 	case ir.OXDOT, ir.ODOT, ir.ODOTPTR, ir.ODOTINTER, ir.ODOTMETH:
 		w.op(ir.OXDOT)
@@ -1320,7 +1320,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.op(ir.OINDEX)
 		w.pos(n.Pos)
 		w.expr(n.Left())
-		w.expr(n.Right)
+		w.expr(n.Right())
 
 	case ir.OSLICE, ir.OSLICESTR, ir.OSLICEARR:
 		w.op(ir.OSLICE)
@@ -1342,7 +1342,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.op(op)
 		w.pos(n.Pos)
 		w.expr(n.Left())
-		w.expr(n.Right)
+		w.expr(n.Right())
 		w.op(ir.OEND)
 
 	case ir.OCONV, ir.OCONVIFACE, ir.OCONVNOP, ir.OBYTES2STR, ir.ORUNES2STR, ir.OSTR2BYTES, ir.OSTR2RUNES, ir.ORUNESTR:
@@ -1385,9 +1385,9 @@ func (w *exportWriter) expr(n *ir.Node) {
 			w.op(ir.OEND)
 		case n.List.Len() != 0: // pre-typecheck
 			w.exprList(n.List) // emits terminating OEND
-		case n.Right != nil:
+		case n.Right() != nil:
 			w.expr(n.Left())
-			w.expr(n.Right)
+			w.expr(n.Right())
 			w.op(ir.OEND)
 		case n.Left() != nil && (n.Op == ir.OMAKESLICE || !n.Left().Type.IsUntyped()):
 			w.expr(n.Left())
@@ -1406,7 +1406,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.op(op)
 		w.pos(n.Pos)
 		w.expr(n.Left())
-		w.expr(n.Right)
+		w.expr(n.Right())
 
 	case ir.OADDSTR:
 		w.op(ir.OADDSTR)

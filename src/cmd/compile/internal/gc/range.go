@@ -40,9 +40,9 @@ func typecheckrange(n *ir.Node) {
 }
 
 func typecheckrangeExpr(n *ir.Node) {
-	n.Right = typecheck(n.Right, ctxExpr)
+	n.SetRight(typecheck(n.Right(), ctxExpr))
 
-	t := n.Right.Type
+	t := n.Right().Type
 	if t == nil {
 		return
 	}
@@ -63,7 +63,7 @@ func typecheckrangeExpr(n *ir.Node) {
 	toomany := false
 	switch t.Etype {
 	default:
-		base.ErrorAt(n.Pos, "cannot range over %L", n.Right)
+		base.ErrorAt(n.Pos, "cannot range over %L", n.Right())
 		return
 
 	case types.TARRAY, types.TSLICE:
@@ -76,7 +76,7 @@ func typecheckrangeExpr(n *ir.Node) {
 
 	case types.TCHAN:
 		if !t.ChanDir().CanRecv() {
-			base.ErrorAt(n.Pos, "invalid operation: range %v (receive from send-only type %v)", n.Right, n.Right.Type)
+			base.ErrorAt(n.Pos, "invalid operation: range %v (receive from send-only type %v)", n.Right(), n.Right().Type)
 			return
 		}
 
@@ -159,7 +159,7 @@ func cheapComputableIndex(width int64) bool {
 // the returned node.
 func walkrange(n *ir.Node) *ir.Node {
 	if isMapClear(n) {
-		m := n.Right
+		m := n.Right()
 		lno := setlineno(m)
 		n = mapClear(m)
 		base.Pos = lno
@@ -175,9 +175,9 @@ func walkrange(n *ir.Node) *ir.Node {
 
 	t := n.Type
 
-	a := n.Right
+	a := n.Right()
 	lno := setlineno(a)
-	n.Right = nil
+	n.SetRight(nil)
 
 	var v1, v2 *ir.Node
 	l := n.List.Len()
@@ -231,7 +231,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		init = append(init, nod(ir.OAS, hn, nod(ir.OLEN, ha, nil)))
 
 		n.SetLeft(nod(ir.OLT, hv1, hn))
-		n.Right = nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1)))
+		n.SetRight(nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1))))
 
 		// for range ha { body }
 		if v1 == nil {
@@ -314,7 +314,7 @@ func walkrange(n *ir.Node) *ir.Node {
 
 		fn = syslook("mapiternext")
 		fn = substArgTypes(fn, th)
-		n.Right = mkcall1(fn, nil, nil, nod(ir.OADDR, hit, nil))
+		n.SetRight(mkcall1(fn, nil, nil, nod(ir.OADDR, hit, nil)))
 
 		key := nodSym(ir.ODOT, hit, keysym)
 		key = nod(ir.ODEREF, key, nil)
@@ -348,7 +348,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		a := nod(ir.OAS2RECV, nil, nil)
 		a.SetTypecheck(1)
 		a.List.Set2(hv1, hb)
-		a.Right = nod(ir.ORECV, ha, nil)
+		a.SetRight(nod(ir.ORECV, ha, nil))
 		n.Left().Ninit.Set1(a)
 		if v1 == nil {
 			body = nil
@@ -445,7 +445,7 @@ func walkrange(n *ir.Node) *ir.Node {
 
 	n.SetLeft(typecheck(n.Left(), ctxExpr))
 	n.SetLeft(defaultlit(n.Left(), nil))
-	n.Right = typecheck(n.Right, ctxStmt)
+	n.SetRight(typecheck(n.Right(), ctxStmt))
 	typecheckslice(body, ctxStmt)
 	n.Nbody.Prepend(body...)
 
@@ -495,7 +495,7 @@ func isMapClear(n *ir.Node) bool {
 		return false
 	}
 
-	m := n.Right
+	m := n.Right()
 	if !samesafeexpr(stmt.List.First(), m) || !samesafeexpr(stmt.List.Second(), k) {
 		return false
 	}
@@ -552,12 +552,12 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 		return false
 	}
 
-	if !samesafeexpr(stmt.Left().Left(), a) || !samesafeexpr(stmt.Left().Right, v1) {
+	if !samesafeexpr(stmt.Left().Left(), a) || !samesafeexpr(stmt.Left().Right(), v1) {
 		return false
 	}
 
 	elemsize := n.Type.Elem().Width
-	if elemsize <= 0 || !isZero(stmt.Right) {
+	if elemsize <= 0 || !isZero(stmt.Right()) {
 		return false
 	}
 

@@ -163,7 +163,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 	}
 	n.Op = op
 	n.SetLeft(nleft)
-	n.Right = nright
+	n.SetRight(nright)
 	n.Pos = pos
 	n.Xoffset = types.BADWIDTH
 	n.Orig = n
@@ -253,7 +253,7 @@ func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
 	default:
 		m := n.SepCopy()
 		m.SetLeft(treecopy(n.Left(), pos))
-		m.Right = treecopy(n.Right, pos)
+		m.SetRight(treecopy(n.Right(), pos))
 		m.List.Set(listtreecopy(n.List.Slice(), pos))
 		if pos.IsKnown() {
 			m.Pos = pos
@@ -728,7 +728,7 @@ func calcHasCall(n *ir.Node) bool {
 	if n.Left() != nil && n.Left().HasCall() {
 		return true
 	}
-	if n.Right != nil && n.Right.HasCall() {
+	if n.Right() != nil && n.Right().HasCall() {
 		return true
 	}
 	return false
@@ -836,13 +836,13 @@ func safeexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
 
 	case ir.OINDEX, ir.OINDEXMAP:
 		l := safeexpr(n.Left(), init)
-		r := safeexpr(n.Right, init)
-		if l == n.Left() && r == n.Right {
+		r := safeexpr(n.Right(), init)
+		if l == n.Left() && r == n.Right() {
 			return n
 		}
 		a := n.Copy()
 		a.SetLeft(l)
-		a.Right = r
+		a.SetRight(r)
 		a = walkexpr(a, init)
 		return a
 

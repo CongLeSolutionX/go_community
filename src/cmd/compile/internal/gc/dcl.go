@@ -183,7 +183,7 @@ func variter(vl []*ir.Node, t *ir.Node, el []*ir.Node) []*ir.Node {
 			}
 			e = nod(ir.OAS, v, e)
 			init = append(init, e)
-			if e.Right != nil {
+			if e.Right() != nil {
 				v.Name.Defn = e
 			}
 		}
@@ -456,13 +456,13 @@ func funcarg(n *ir.Node, ctxt ir.Class) {
 		return
 	}
 
-	n.Right = newnamel(n.Pos, n.Sym)
-	n.Right.Name.Param.Ntype = n.Left()
-	n.Right.SetIsDDD(n.IsDDD())
-	declare(n.Right, ctxt)
+	n.SetRight(newnamel(n.Pos, n.Sym))
+	n.Right().Name.Param.Ntype = n.Left()
+	n.Right().SetIsDDD(n.IsDDD())
+	declare(n.Right(), ctxt)
 
 	vargen++
-	n.Right.Name.Vargen = int32(vargen)
+	n.Right().Name.Vargen = int32(vargen)
 }
 
 // Same as funcargs, except run over an already constructed TFUNC.
@@ -627,9 +627,9 @@ func tofunargs(l []*ir.Node, funarg types.Funarg) *types.Type {
 	for i, n := range l {
 		f := structfield(n)
 		f.SetIsDDD(n.IsDDD())
-		if n.Right != nil {
-			n.Right.Type = f.Type
-			f.Nname = ir.AsTypesNode(n.Right)
+		if n.Right() != nil {
+			n.Right().Type = f.Type
+			f.Nname = ir.AsTypesNode(n.Right())
 		}
 		if f.Broke() {
 			t.SetBroke(true)

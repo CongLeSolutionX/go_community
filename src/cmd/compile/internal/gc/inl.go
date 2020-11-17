@@ -445,7 +445,7 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 		return true
 	}
 
-	return v.visit(n.Left()) || v.visit(n.Right) ||
+	return v.visit(n.Left()) || v.visit(n.Right()) ||
 		v.visitList(n.List) || v.visitList(n.Rlist) ||
 		v.visitList(n.Ninit) || v.visitList(n.Nbody)
 }
@@ -476,7 +476,7 @@ func inlcopy(n *ir.Node) *ir.Node {
 		base.Fatal("unexpected Func: %v", m)
 	}
 	m.SetLeft(inlcopy(n.Left()))
-	m.Right = inlcopy(n.Right)
+	m.SetRight(inlcopy(n.Right()))
 	m.List.Set(inlcopylist(n.List.Slice()))
 	m.Rlist.Set(inlcopylist(n.Rlist.Slice()))
 	m.Ninit.Set(inlcopylist(n.Ninit.Slice()))
@@ -491,7 +491,7 @@ func countNodes(n *ir.Node) int {
 	}
 	cnt := 1
 	cnt += countNodes(n.Left())
-	cnt += countNodes(n.Right)
+	cnt += countNodes(n.Right())
 	for _, n1 := range n.Ninit.Slice() {
 		cnt += countNodes(n1)
 	}
@@ -622,18 +622,18 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 		n.SetLeft(inlconv2expr(n.Left()))
 	}
 
-	n.Right = inlnode(n.Right, maxCost, inlMap)
-	if n.Right != nil && n.Right.Op == ir.OINLCALL {
+	n.SetRight(inlnode(n.Right(), maxCost, inlMap))
+	if n.Right() != nil && n.Right().Op == ir.OINLCALL {
 		if n.Op == ir.OFOR || n.Op == ir.OFORUNTIL {
-			inlconv2stmt(n.Right)
+			inlconv2stmt(n.Right())
 		} else if n.Op == ir.OAS2FUNC {
-			n.Rlist.Set(inlconv2list(n.Right))
-			n.Right = nil
+			n.Rlist.Set(inlconv2list(n.Right()))
+			n.SetRight(nil)
 			n.Op = ir.OAS2
 			n.SetTypecheck(0)
 			n = typecheck(n, ctxStmt)
 		} else {
-			n.Right = inlconv2expr(n.Right)
+			n.SetRight(inlconv2expr(n.Right()))
 		}
 	}
 
@@ -696,7 +696,7 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 
 	case ir.OCALLMETH:
 		if base.Flag.LowerM > 3 {
-			fmt.Printf("%v:call to meth %L\n", n.Line(), n.Left().Right)
+			fmt.Printf("%v:call to meth %L\n", n.Line(), n.Left().Right())
 		}
 
 		// typecheck should have resolved ODOTMETH->type, whose nname points to the actual function.
@@ -772,7 +772,7 @@ func staticValue1(n *ir.Node) *ir.Node {
 FindRHS:
 	switch defn.Op {
 	case ir.OAS:
-		rhs = defn.Right
+		rhs = defn.Right()
 	case ir.OAS2:
 		for i, lhs := range defn.List.Slice() {
 			if lhs == n {
@@ -847,7 +847,7 @@ func (v *reassignVisitor) visit(n *ir.Node) *ir.Node {
 	if a := v.visit(n.Left()); a != nil {
 		return a
 	}
-	if a := v.visit(n.Right); a != nil {
+	if a := v.visit(n.Right()); a != nil {
 		return a
 	}
 	if a := v.visitList(n.List); a != nil {
@@ -1115,11 +1115,11 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		vas = nod(ir.OAS, nil, nil)
 		vas.SetLeft(inlParam(param, vas, inlvars))
 		if len(varargs) == 0 {
-			vas.Right = nodnil()
-			vas.Right.Type = param.Type
+			vas.SetRight(nodnil())
+			vas.Right().Type = param.Type
 		} else {
-			vas.Right = nod(ir.OCOMPLIT, nil, typenod(param.Type))
-			vas.Right.List.Set(varargs)
+			vas.SetRight(nod(ir.OCOMPLIT, nil, typenod(param.Type)))
+			vas.Right().List.Set(varargs)
 		}
 	}
 
@@ -1381,7 +1381,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 	}
 
 	m.SetLeft(subst.node(n.Left()))
-	m.Right = subst.node(n.Right)
+	m.SetRight(subst.node(n.Right()))
 	m.List.Set(subst.list(n.List))
 	m.Rlist.Set(subst.list(n.Rlist))
 	m.Ninit.Set(append(m.Ninit.Slice(), subst.list(n.Ninit)...))
