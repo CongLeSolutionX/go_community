@@ -207,7 +207,7 @@ type progeffectscache struct {
 // nor do we care about empty structs (handled by the pointer check),
 // nor do we care about the fake PAUTOHEAP variables.
 func livenessShouldTrack(n *ir.Node) bool {
-	return n.Op == ir.ONAME && (n.Class() == ir.PAUTO || n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Type().HasPointers()
+	return n.Op() == ir.ONAME && (n.Class() == ir.PAUTO || n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Type().HasPointers()
 }
 
 // getvariables returns the list of on-stack variables that we need to track
@@ -272,7 +272,7 @@ const (
 // If v does not affect any tracked variables, it returns -1, 0.
 func (lv *Liveness) valueEffects(v *ssa.Value) (int32, liveEffect) {
 	n, e := affectedNode(v)
-	if e == 0 || n == nil || n.Op != ir.ONAME { // cheapest checks first
+	if e == 0 || n == nil || n.Op() != ir.ONAME { // cheapest checks first
 		return -1, 0
 	}
 

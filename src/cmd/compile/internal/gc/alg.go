@@ -712,7 +712,7 @@ func geneq(t *types.Type) *obj.LSym {
 		var flatConds []*ir.Node
 		for _, c := range conds {
 			isCall := func(n *ir.Node) bool {
-				return n.Op == ir.OCALL || n.Op == ir.OCALLFUNC
+				return n.Op() == ir.OCALL || n.Op() == ir.OCALLFUNC
 			}
 			sort.SliceStable(c, func(i, j int) bool {
 				return !isCall(c[i]) && isCall(c[j])
@@ -786,7 +786,7 @@ func geneq(t *types.Type) *obj.LSym {
 }
 
 func hasCall(n *ir.Node) bool {
-	if n.Op == ir.OCALL || n.Op == ir.OCALLFUNC {
+	if n.Op() == ir.OCALL || n.Op() == ir.OCALLFUNC {
 		return true
 	}
 	if n.Left() != nil && hasCall(n.Left()) {

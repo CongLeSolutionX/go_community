@@ -107,7 +107,7 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		return n
 	}
 
-	if n.Op == ir.OLITERAL {
+	if n.Op() == ir.OLITERAL {
 		// Can't always set n.Type directly on OLITERAL nodes.
 		// See discussion on CL 20813.
 		n = n.RawCopy()
@@ -135,7 +135,7 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		t = defaultType(n.Type())
 	}
 
-	switch n.Op {
+	switch n.Op() {
 	default:
 		base.Fatal("unexpected untyped expression: %v", n)
 
@@ -149,7 +149,7 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		return n
 
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT, ir.OREAL, ir.OIMAG:
-		ot := operandType(n.Op, t)
+		ot := operandType(n.Op(), t)
 		if ot == nil {
 			n = defaultlit(n, nil)
 			break
@@ -164,7 +164,7 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		return n
 
 	case ir.OADD, ir.OSUB, ir.OMUL, ir.ODIV, ir.OMOD, ir.OOR, ir.OXOR, ir.OAND, ir.OANDNOT, ir.OOROR, ir.OANDAND, ir.OCOMPLEX:
-		ot := operandType(n.Op, t)
+		ot := operandType(n.Op(), t)
 		if ot == nil {
 			n = defaultlit(n, nil)
 			break
@@ -426,36 +426,36 @@ func evconst(n *ir.Node) {
 	nl, nr := n.Left(), n.Right()
 
 	// Pick off just the opcodes that can be constant evaluated.
-	switch op := n.Op; op {
+	switch op := n.Op(); op {
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
-		if nl.Op == ir.OLITERAL {
+		if nl.Op() == ir.OLITERAL {
 			setconst(n, unaryOp(op, nl.Val(), n.Type()))
 		}
 
 	case ir.OADD, ir.OSUB, ir.OMUL, ir.ODIV, ir.OMOD, ir.OOR, ir.OXOR, ir.OAND, ir.OANDNOT, ir.OOROR, ir.OANDAND:
-		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
+		if nl.Op() == ir.OLITERAL && nr.Op() == ir.OLITERAL {
 			setconst(n, binaryOp(nl.Val(), op, nr.Val()))
 		}
 
 	case ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE:
-		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
+		if nl.Op() == ir.OLITERAL && nr.Op() == ir.OLITERAL {
 			setboolconst(n, compareOp(nl.Val(), op, nr.Val()))
 		}
 
 	case ir.OLSH, ir.ORSH:
-		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
+		if nl.Op() == ir.OLITERAL && nr.Op() == ir.OLITERAL {
 			setconst(n, shiftOp(nl.Val(), op, nr.Val()))
 		}
 
 	case ir.OCONV, ir.ORUNESTR:
-		if okforconst[n.Type().Etype] && nl.Op == ir.OLITERAL {
+		if okforconst[n.Type().Etype] && nl.Op() == ir.OLITERAL {
 			setconst(n, convertVal(nl.Val(), n.Type(), true))
 		}
 
 	case ir.OCONVNOP:
-		if okforconst[n.Type().Etype] && nl.Op == ir.OLITERAL {
+		if okforconst[n.Type().Etype] && nl.Op() == ir.OLITERAL {
 			// set so n.Orig gets OCONV instead of OCONVNOP
-			n.Op = ir.OCONV
+			n.SetOp(ir.OCONV)
 			setconst(n, nl.Val())
 		}
 
@@ -481,7 +481,7 @@ func evconst(n *ir.Node) {
 		}
 
 		if len(s) == 1 && ir.IsConst(s[0], ir.CTSTR) {
-			n.Op = ir.OLITERAL
+			n.SetOp(ir.OLITERAL)
 			n.SetVal(s[0].Val())
 		} else {
 			n.List.Set(s)
@@ -503,7 +503,7 @@ func evconst(n *ir.Node) {
 		setintconst(n, evalunsafe(n))
 
 	case ir.OREAL, ir.OIMAG:
-		if nl.Op == ir.OLITERAL {
+		if nl.Op() == ir.OLITERAL {
 			var re, im *ir.Float
 			switch u := nl.Val().U.(type) {
 			case *ir.Int:
@@ -519,7 +519,7 @@ func evconst(n *ir.Node) {
 			default:
 				base.Fatal("impossible")
 			}
-			if n.Op == ir.OIMAG {
+			if n.Op() == ir.OIMAG {
 				if im == nil {
 					im = ir.NewFloat()
 				}
@@ -529,7 +529,7 @@ func evconst(n *ir.Node) {
 		}
 
 	case ir.OCOMPLEX:
-		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
+		if nl.Op() == ir.OLITERAL && nr.Op() == ir.OLITERAL {
 			// make it a complex literal
 			c := ir.NewComplex()
 			c.Real.Set(toflt(nl.Val()).U.(*ir.Float))
@@ -829,7 +829,7 @@ func setconst(n *ir.Node, v ir.Val) {
 	pos := n.Pos()
 	typ := n.Type()
 	*n = ir.Node{}
-	n.Op = ir.OLITERAL
+	n.SetOp(ir.OLITERAL)
 	n.SetPos(pos)
 	n.SetType(typ)
 	n.SetOrig(orig)
@@ -988,7 +988,7 @@ func defaultType(t *types.Type) *types.Type {
 }
 
 func smallintconst(n *ir.Node) bool {
-	if n.Op == ir.OLITERAL && ir.IsConst(n, ir.CTINT) && n.Type() != nil {
+	if n.Op() == ir.OLITERAL && ir.IsConst(n, ir.CTINT) && n.Type() != nil {
 		switch simtype[n.Type().Etype] {
 		case types.TINT8,
 			types.TUINT8,
@@ -1016,7 +1016,7 @@ func smallintconst(n *ir.Node) bool {
 // integer, or negative, it returns -1. If n is too large, it
 // returns -2.
 func indexconst(n *ir.Node) int64 {
-	if n.Op != ir.OLITERAL {
+	if n.Op() != ir.OLITERAL {
 		return -1
 	}
 
@@ -1038,14 +1038,14 @@ func indexconst(n *ir.Node) int64 {
 // Expressions derived from nil, like string([]byte(nil)), while they
 // may be known at compile time, are not Go language constants.
 func isGoConst(n *ir.Node) bool {
-	return n.Op == ir.OLITERAL && n.Val().Ctype() != ir.CTNIL
+	return n.Op() == ir.OLITERAL && n.Val().Ctype() != ir.CTNIL
 }
 
 func hascallchan(n *ir.Node) bool {
 	if n == nil {
 		return false
 	}
-	switch n.Op {
+	switch n.Op() {
 	case ir.OAPPEND,
 		ir.OCALL,
 		ir.OCALLFUNC,
@@ -1106,7 +1106,7 @@ type constSetKey struct {
 //
 // n must not be an untyped constant.
 func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
-	if n.Op == ir.OCONVIFACE && n.Implicit() {
+	if n.Op() == ir.OCONVIFACE && n.Implicit() {
 		n = n.Left()
 	}
 

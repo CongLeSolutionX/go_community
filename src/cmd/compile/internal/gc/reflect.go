@@ -1529,7 +1529,7 @@ func addsignat(t *types.Type) {
 func addsignats(dcls []*ir.Node) {
 	// copy types from dcl list to signatset
 	for _, n := range dcls {
-		if n.Op == ir.OTYPE {
+		if n.Op() == ir.OTYPE {
 			addsignat(n.Type())
 		}
 	}

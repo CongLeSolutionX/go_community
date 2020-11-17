@@ -431,7 +431,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		}
 	}
 
-	n.Op = translatedLoopOp
+	n.SetOp(translatedLoopOp)
 	typecheckslice(init, ctxStmt)
 
 	if ifGuard != nil {
@@ -472,7 +472,7 @@ func isMapClear(n *ir.Node) bool {
 		return false
 	}
 
-	if n.Op != ir.ORANGE || n.Type().Etype != types.TMAP || n.List.Len() != 1 {
+	if n.Op() != ir.ORANGE || n.Type().Etype != types.TMAP || n.List.Len() != 1 {
 		return false
 	}
 
@@ -491,7 +491,7 @@ func isMapClear(n *ir.Node) bool {
 	}
 
 	stmt := n.Nbody.First() // only stmt in body
-	if stmt == nil || stmt.Op != ir.ODELETE {
+	if stmt == nil || stmt.Op() != ir.ODELETE {
 		return false
 	}
 
@@ -548,7 +548,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	}
 
 	stmt := n.Nbody.First() // only stmt in body
-	if stmt.Op != ir.OAS || stmt.Left().Op != ir.OINDEX {
+	if stmt.Op() != ir.OAS || stmt.Left().Op() != ir.OINDEX {
 		return false
 	}
 
@@ -568,7 +568,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	// 	memclr{NoHeap,Has}Pointers(hp, hn)
 	// 	i = len(a) - 1
 	// }
-	n.Op = ir.OIF
+	n.SetOp(ir.OIF)
 
 	n.Nbody.Set(nil)
 	n.SetLeft(nod(ir.ONE, nod(ir.OLEN, a, nil), nodintconst(0)))

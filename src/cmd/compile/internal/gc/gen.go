@@ -31,13 +31,13 @@ func sysvar(name string) *obj.LSym {
 // isParamStackCopy reports whether this is the on-stack copy of a
 // function parameter that moved to the heap.
 func isParamStackCopy(n *ir.Node) bool {
-	return n.Op == ir.ONAME && (n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Name().Param.Heapaddr != nil
+	return n.Op() == ir.ONAME && (n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Name().Param.Heapaddr != nil
 }
 
 // isParamHeapCopy reports whether this is the on-heap copy of
 // a function parameter that moved to the heap.
 func isParamHeapCopy(n *ir.Node) bool {
-	return n.Op == ir.ONAME && n.Class() == ir.PAUTOHEAP && n.Name().Param.Stackcopy != nil
+	return n.Op() == ir.ONAME && n.Class() == ir.PAUTOHEAP && n.Name().Param.Stackcopy != nil
 }
 
 // autotmpname returns the name for an autotmp variable numbered n.
@@ -56,7 +56,7 @@ func tempAt(pos src.XPos, curfn *ir.Node, t *types.Type) *ir.Node {
 	if curfn == nil {
 		base.Fatal("no curfn for tempAt")
 	}
-	if curfn.Op == ir.OCLOSURE && curfn.Func() != nil {
+	if curfn.Op() == ir.OCLOSURE && curfn.Func() != nil {
 		ir.Dump("tempAt", curfn)
 		base.Fatal("adding tempAt to wrong closure function")
 	}

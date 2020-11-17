@@ -395,7 +395,7 @@ func (p *iexporter) stringOff(s string) uint64 {
 
 // pushDecl adds n to the declaration work queue, if not already present.
 func (p *iexporter) pushDecl(n *ir.Node) {
-	if n.Sym() == nil || ir.AsNode(n.Sym().Def) != n && n.Op != ir.OTYPE {
+	if n.Sym() == nil || ir.AsNode(n.Sym().Def) != n && n.Op() != ir.OTYPE {
 		base.Fatal("weird Sym: %v, %v", n, n.Sym())
 	}
 
@@ -427,7 +427,7 @@ func (p *iexporter) doDecl(n *ir.Node) {
 	w := p.newWriter()
 	w.setPkg(n.Sym().Pkg, false)
 
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME:
 		switch n.Class() {
 		case ir.PEXTERN:
@@ -1041,7 +1041,7 @@ func (w *exportWriter) stmtList(list ir.Nodes) {
 }
 
 func (w *exportWriter) node(n *ir.Node) {
-	if ir.OpPrec[n.Op] < 0 {
+	if ir.OpPrec[n.Op()] < 0 {
 		w.stmt(n)
 	} else {
 		w.expr(n)
@@ -1051,14 +1051,14 @@ func (w *exportWriter) node(n *ir.Node) {
 // Caution: stmt will emit more than one node for statement nodes n that have a non-empty
 // n.Ninit and where n cannot have a natural init section (such as in "if", "for", etc.).
 func (w *exportWriter) stmt(n *ir.Node) {
-	if n.Ninit.Len() > 0 && !ir.StmtWithInit(n.Op) {
+	if n.Ninit.Len() > 0 && !ir.StmtWithInit(n.Op()) {
 		// can't use stmtList here since we don't want the final OEND
 		for _, n := range n.Ninit.Slice() {
 			w.stmt(n)
 		}
 	}
 
-	switch op := n.Op; op {
+	switch op := n.Op(); op {
 	case ir.ODCL:
 		w.op(ir.ODCL)
 		w.pos(n.Left().Pos())
@@ -1163,17 +1163,17 @@ func (w *exportWriter) stmt(n *ir.Node) {
 		w.string(n.Sym().Name)
 
 	default:
-		base.Fatal("exporter: CANNOT EXPORT: %v\nPlease notify gri@\n", n.Op)
+		base.Fatal("exporter: CANNOT EXPORT: %v\nPlease notify gri@\n", n.Op())
 	}
 }
 
 func (w *exportWriter) caseList(sw *ir.Node) {
-	namedTypeSwitch := sw.Op == ir.OSWITCH && sw.Left() != nil && sw.Left().Op == ir.OTYPESW && sw.Left().Left() != nil
+	namedTypeSwitch := sw.Op() == ir.OSWITCH && sw.Left() != nil && sw.Left().Op() == ir.OTYPESW && sw.Left().Left() != nil
 
 	cases := sw.List.Slice()
 	w.uint64(uint64(len(cases)))
 	for _, cas := range cases {
-		if cas.Op != ir.OCASE {
+		if cas.Op() != ir.OCASE {
 			base.Fatal("expected OCASE, got %v", cas)
 		}
 		w.pos(cas.Pos())
@@ -1203,11 +1203,11 @@ func (w *exportWriter) expr(n *ir.Node) {
 	// }
 
 	// from exprfmt (fmt.go)
-	for n.Op == ir.OPAREN || n.Implicit() && (n.Op == ir.ODEREF || n.Op == ir.OADDR || n.Op == ir.ODOT || n.Op == ir.ODOTPTR) {
+	for n.Op() == ir.OPAREN || n.Implicit() && (n.Op() == ir.ODEREF || n.Op() == ir.OADDR || n.Op() == ir.ODOT || n.Op() == ir.ODOTPTR) {
 		n = n.Left()
 	}
 
-	switch op := n.Op; op {
+	switch op := n.Op(); op {
 	// expressions
 	// (somewhat closely following the structure of exprfmt in fmt.go)
 	case ir.OLITERAL:
@@ -1254,7 +1254,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.pos(n.Pos())
 		var s *types.Sym
 		if n.Left() != nil {
-			if n.Left().Op != ir.ONONAME {
+			if n.Left().Op() != ir.ONONAME {
 				base.Fatal("expected ONONAME, got %v", n.Left())
 			}
 			s = n.Left().Sym()
@@ -1389,7 +1389,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 			w.expr(n.Left())
 			w.expr(n.Right())
 			w.op(ir.OEND)
-		case n.Left() != nil && (n.Op == ir.OMAKESLICE || !n.Left().Type().IsUntyped()):
+		case n.Left() != nil && (n.Op() == ir.OMAKESLICE || !n.Left().Type().IsUntyped()):
 			w.expr(n.Left())
 			w.op(ir.OEND)
 		}
@@ -1419,7 +1419,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 
 	default:
 		base.Fatal("cannot export %v (%d) node\n"+
-			"\t==> please file an issue and assign to gri@", n.Op, int(n.Op))
+			"\t==> please file an issue and assign to gri@", n.Op(), int(n.Op()))
 	}
 }
 

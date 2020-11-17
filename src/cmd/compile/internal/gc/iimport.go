@@ -41,7 +41,7 @@ var (
 )
 
 func expandDecl(n *ir.Node) {
-	if n.Op != ir.ONONAME {
+	if n.Op() != ir.ONONAME {
 		return
 	}
 
@@ -281,8 +281,8 @@ func (r *importReader) setPkg() {
 }
 
 func (r *importReader) doDecl(n *ir.Node) {
-	if n.Op != ir.ONONAME {
-		base.Fatal("doDecl: unexpected Op for %v: %v", n.Sym(), n.Op)
+	if n.Op() != ir.ONONAME {
+		base.Fatal("doDecl: unexpected Op for %v: %v", n.Sym(), n.Op())
 	}
 
 	tag := r.byte()
@@ -514,11 +514,11 @@ func (r *importReader) typ1() *types.Type {
 		// types. Therefore, this must be a package-scope
 		// type.
 		n := ir.AsNode(r.qualifiedIdent().PkgDef())
-		if n.Op == ir.ONONAME {
+		if n.Op() == ir.ONONAME {
 			expandDecl(n)
 		}
-		if n.Op != ir.OTYPE {
-			base.Fatal("expected OTYPE, got %v: %v, %v", n.Op, n.Sym(), n)
+		if n.Op() != ir.OTYPE {
+			base.Fatal("expected OTYPE, got %v: %v, %v", n.Op(), n.Sym(), n)
 		}
 		return n.Type()
 	case pointerType:
@@ -776,7 +776,7 @@ func (r *importReader) stmtList() []*ir.Node {
 			break
 		}
 		// OBLOCK nodes may be created when importing ODCL nodes - unpack them
-		if n.Op == ir.OBLOCK {
+		if n.Op() == ir.OBLOCK {
 			list = append(list, n.List.Slice()...)
 		} else {
 			list = append(list, n)
@@ -787,7 +787,7 @@ func (r *importReader) stmtList() []*ir.Node {
 }
 
 func (r *importReader) caseList(sw *ir.Node) []*ir.Node {
-	namedTypeSwitch := sw.Op == ir.OSWITCH && sw.Left() != nil && sw.Left().Op == ir.OTYPESW && sw.Left().Left() != nil
+	namedTypeSwitch := sw.Op() == ir.OSWITCH && sw.Left() != nil && sw.Left().Op() == ir.OTYPESW && sw.Left().Left() != nil
 
 	cases := make([]*ir.Node, r.uint64())
 	for i := range cases {
@@ -822,7 +822,7 @@ func (r *importReader) exprList() []*ir.Node {
 
 func (r *importReader) expr() *ir.Node {
 	n := r.node()
-	if n != nil && n.Op == ir.OBLOCK {
+	if n != nil && n.Op() == ir.OBLOCK {
 		base.Fatal("unexpected block node: %v", n)
 	}
 	return n
@@ -926,7 +926,7 @@ func (r *importReader) node() *ir.Node {
 		n := nodl(r.pos(), op, r.expr(), nil)
 		low, high := r.exprsOrNil()
 		var max *ir.Node
-		if n.Op.IsSlice3() {
+		if n.Op().IsSlice3() {
 			max = r.expr()
 		}
 		n.SetSliceBounds(low, high, max)

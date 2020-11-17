@@ -156,7 +156,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 	// Reassign stack offsets of the locals that are used.
 	lastHasPtr := false
 	for i, n := range fn.Dcl {
-		if n.Op != ir.ONAME || n.Class() != ir.PAUTO {
+		if n.Op() != ir.ONAME || n.Class() != ir.PAUTO {
 			continue
 		}
 		if !n.Name().Used() {
@@ -409,7 +409,7 @@ func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.S
 	var apdecls []*ir.Node
 	// Populate decls for fn.
 	for _, n := range fn.Func().Dcl {
-		if n.Op != ir.ONAME { // might be OTYPE or OLITERAL
+		if n.Op() != ir.ONAME { // might be OTYPE or OLITERAL
 			continue
 		}
 		switch n.Class() {

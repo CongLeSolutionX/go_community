@@ -16,9 +16,9 @@ func typecheckselect(sel *ir.Node) {
 	lno := setlineno(sel)
 	typecheckslice(sel.Ninit.Slice(), ctxStmt)
 	for _, ncase := range sel.List.Slice() {
-		if ncase.Op != ir.OCASE {
+		if ncase.Op() != ir.OCASE {
 			setlineno(ncase)
-			base.Fatal("typecheckselect %v", ncase.Op)
+			base.Fatal("typecheckselect %v", ncase.Op())
 		}
 
 		if ncase.List.Len() == 0 {
@@ -35,10 +35,10 @@ func typecheckselect(sel *ir.Node) {
 			n := ncase.List.First()
 			ncase.SetLeft(n)
 			ncase.List.Set(nil)
-			switch n.Op {
+			switch n.Op() {
 			default:
 				pos := n.Pos()
-				if n.Op == ir.ONAME {
+				if n.Op() == ir.ONAME {
 					// We don't have the right position for ONAME nodes (see #15459 and
 					// others). Using ncase.Pos for now as it will provide the correct
 					// line number (assuming the expression follows the "case" keyword
@@ -51,25 +51,25 @@ func typecheckselect(sel *ir.Node) {
 			// remove implicit conversions; the eventual assignment
 			// will reintroduce them.
 			case ir.OAS:
-				if (n.Right().Op == ir.OCONVNOP || n.Right().Op == ir.OCONVIFACE) && n.Right().Implicit() {
+				if (n.Right().Op() == ir.OCONVNOP || n.Right().Op() == ir.OCONVIFACE) && n.Right().Implicit() {
 					n.SetRight(n.Right().Left())
 				}
 
-				if n.Right().Op != ir.ORECV {
+				if n.Right().Op() != ir.ORECV {
 					base.ErrorAt(n.Pos(), "select assignment must have receive on right hand side")
 					break
 				}
 
-				n.Op = ir.OSELRECV
+				n.SetOp(ir.OSELRECV)
 
 				// convert x, ok = <-c into OSELRECV2(x, <-c) with ntest=ok
 			case ir.OAS2RECV:
-				if n.Right().Op != ir.ORECV {
+				if n.Right().Op() != ir.ORECV {
 					base.ErrorAt(n.Pos(), "select assignment must have receive on right hand side")
 					break
 				}
 
-				n.Op = ir.OSELRECV2
+				n.SetOp(ir.OSELRECV2)
 				n.SetLeft(n.List.First())
 				n.List.Set1(n.List.Second())
 
@@ -127,19 +127,19 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 			n := cas.Left()
 			l = append(l, n.Ninit.Slice()...)
 			n.Ninit.Set(nil)
-			switch n.Op {
+			switch n.Op() {
 			default:
-				base.Fatal("select %v", n.Op)
+				base.Fatal("select %v", n.Op())
 
 			case ir.OSEND:
 				// already ok
 
 			case ir.OSELRECV, ir.OSELRECV2:
-				if n.Op == ir.OSELRECV || n.List.Len() == 0 {
+				if n.Op() == ir.OSELRECV || n.List.Len() == 0 {
 					if n.Left() == nil {
 						n = n.Right()
 					} else {
-						n.Op = ir.OAS
+						n.SetOp(ir.OAS)
 					}
 					break
 				}
@@ -149,7 +149,7 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 					n.SetLeft(ir.BlankNode)
 				}
 
-				n.Op = ir.OAS2
+				n.SetOp(ir.OAS2)
 				n.List.Prepend(n.Left())
 				n.Rlist.Set1(n.Right())
 				n.SetRight(nil)
@@ -176,14 +176,14 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 			dflt = cas
 			continue
 		}
-		switch n.Op {
+		switch n.Op() {
 		case ir.OSEND:
 			n.SetRight(nod(ir.OADDR, n.Right(), nil))
 			n.SetRight(typecheck(n.Right(), ctxExpr))
 
 		case ir.OSELRECV, ir.OSELRECV2:
-			if n.Op == ir.OSELRECV2 && n.List.Len() == 0 {
-				n.Op = ir.OSELRECV
+			if n.Op() == ir.OSELRECV2 && n.List.Len() == 0 {
+				n.SetOp(ir.OSELRECV)
 			}
 
 			if n.Left() != nil {
@@ -204,9 +204,9 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 		setlineno(n)
 		r := nod(ir.OIF, nil, nil)
 		r.Ninit.Set(cas.Ninit.Slice())
-		switch n.Op {
+		switch n.Op() {
 		default:
-			base.Fatal("select %v", n.Op)
+			base.Fatal("select %v", n.Op())
 
 		case ir.OSEND:
 			// if selectnbsend(c, v) { body } else { default body }
@@ -280,9 +280,9 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 
 		var i int
 		var c, elem *ir.Node
-		switch n.Op {
+		switch n.Op() {
 		default:
-			base.Fatal("select %v", n.Op)
+			base.Fatal("select %v", n.Op())
 		case ir.OSEND:
 			i = nsends
 			nsends++
@@ -346,7 +346,7 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 
 		r := nod(ir.OIF, cond, nil)
 
-		if n := cas.Left(); n != nil && n.Op == ir.OSELRECV2 {
+		if n := cas.Left(); n != nil && n.Op() == ir.OSELRECV2 {
 			x := nod(ir.OAS, n.List.First(), recvOK)
 			x = typecheck(x, ctxStmt)
 			r.Nbody.Append(x)

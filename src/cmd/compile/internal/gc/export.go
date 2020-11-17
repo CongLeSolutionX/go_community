@@ -88,7 +88,7 @@ func importsym(ipkg *types.Pkg, s *types.Sym, op ir.Op) *ir.Node {
 		s.SetPkgDef(ir.AsTypesNode(n))
 		s.Importdef = ipkg
 	}
-	if n.Op != ir.ONONAME && n.Op != op {
+	if n.Op() != ir.ONONAME && n.Op() != op {
 		redeclare(base.Pos, s, fmt.Sprintf("during import %q", ipkg.Path))
 	}
 	return n
@@ -99,12 +99,12 @@ func importsym(ipkg *types.Pkg, s *types.Sym, op ir.Op) *ir.Node {
 // ipkg is the package being imported
 func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 	n := importsym(ipkg, s, ir.OTYPE)
-	if n.Op != ir.OTYPE {
+	if n.Op() != ir.OTYPE {
 		t := types.New(types.TFORW)
 		t.Sym = s
 		t.Nod = ir.AsTypesNode(n)
 
-		n.Op = ir.OTYPE
+		n.SetOp(ir.OTYPE)
 		n.SetPos(pos)
 		n.SetType(t)
 		n.SetClass(ir.PEXTERN)
@@ -121,14 +121,14 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 // ipkg is the package being imported
 func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Class, t *types.Type) *ir.Node {
 	n := importsym(ipkg, s, op)
-	if n.Op != ir.ONONAME {
-		if n.Op == op && (n.Class() != ctxt || !types.Identical(n.Type(), t)) {
+	if n.Op() != ir.ONONAME {
+		if n.Op() == op && (n.Class() != ctxt || !types.Identical(n.Type(), t)) {
 			redeclare(base.Pos, s, fmt.Sprintf("during import %q", ipkg.Path))
 		}
 		return nil
 	}
 
-	n.Op = op
+	n.SetOp(op)
 	n.SetPos(pos)
 	n.SetClass(ctxt)
 	if ctxt == ir.PFUNC {
@@ -207,7 +207,7 @@ func dumpasmhdr() {
 		if n.Sym().IsBlank() {
 			continue
 		}
-		switch n.Op {
+		switch n.Op() {
 		case ir.OLITERAL:
 			t := n.Val().Ctype()
 			if t == ir.CTFLT || t == ir.CTCPLX {

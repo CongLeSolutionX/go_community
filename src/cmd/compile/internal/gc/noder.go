@@ -454,7 +454,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
 			v = treecopy(v, n.Pos())
 		}
 
-		n.Op = ir.OLITERAL
+		n.SetOp(ir.OLITERAL)
 		declare(n, dclcontext)
 
 		n.Name().Param.Ntype = typ
@@ -475,7 +475,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
 
 func (p *noder) typeDecl(decl *syntax.TypeDecl) *ir.Node {
 	n := p.declName(decl.Name)
-	n.Op = ir.OTYPE
+	n.SetOp(ir.OTYPE)
 	declare(n, dclcontext)
 
 	// decl.Type may be nil but in that case we got a syntax error during parsing
@@ -608,7 +608,7 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *ir.Node {
 	n := p.nodSym(param, ir.ODCLFIELD, typ, name)
 
 	// rewrite ...T parameter
-	if typ.Op == ir.ODDD {
+	if typ.Op() == ir.ODDD {
 		if !dddOk {
 			// We mark these as syntax errors to get automatic elimination
 			// of multiple such errors per line (see yyerrorl in subr.go).
@@ -620,7 +620,7 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *ir.Node {
 				p.yyerrorpos(param.Name.Pos(), "syntax error: cannot use ... with non-final parameter %s", param.Name.Value)
 			}
 		}
-		typ.Op = ir.OTARRAY
+		typ.SetOp(ir.OTARRAY)
 		typ.SetRight(typ.Left())
 		typ.SetLeft(nil)
 		n.SetIsDDD(true)
@@ -680,7 +680,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 	case *syntax.SelectorExpr:
 		// parser.new_dotname
 		obj := p.expr(expr.X)
-		if obj.Op == ir.OPACK {
+		if obj.Op() == ir.OPACK {
 			obj.Name().SetUsed(true)
 			return importName(obj.Name().Pkg.Lookup(expr.Sel.Value))
 		}
@@ -918,7 +918,7 @@ func (p *noder) packname(expr syntax.Expr) *types.Sym {
 			return name
 		}
 		var pkg *types.Pkg
-		if def.Op != ir.OPACK {
+		if def.Op() != ir.OPACK {
 			base.Error("%v is not a package", name)
 			pkg = ir.LocalPkg
 		} else {
@@ -958,7 +958,7 @@ func (p *noder) stmtsFall(stmts []syntax.Stmt, fallOK bool) []*ir.Node {
 	for i, stmt := range stmts {
 		s := p.stmtFall(stmt, fallOK && i+1 == len(stmts))
 		if s == nil {
-		} else if s.Op == ir.OBLOCK && s.Ninit.Len() == 0 {
+		} else if s.Op() == ir.OBLOCK && s.Ninit.Len() == 0 {
 			nodes = append(nodes, s.List.Slice()...)
 		} else {
 			nodes = append(nodes, s)
@@ -1009,7 +1009,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 			n.SetLeft(lhs[0])
 			n.SetRight(rhs[0])
 		} else {
-			n.Op = ir.OAS2
+			n.SetOp(ir.OAS2)
 			n.List.Set(lhs)
 			n.Rlist.Set(rhs)
 		}
@@ -1160,7 +1160,7 @@ func (p *noder) ifStmt(stmt *syntax.IfStmt) *ir.Node {
 	n.Nbody.Set(p.blockStmt(stmt.Then))
 	if stmt.Else != nil {
 		e := p.stmt(stmt.Else)
-		if e.Op == ir.OBLOCK && e.Ninit.Len() == 0 {
+		if e.Op() == ir.OBLOCK && e.Ninit.Len() == 0 {
 			n.Rlist.Set(e.List.Slice())
 		} else {
 			n.Rlist.Set1(e)
@@ -1210,7 +1210,7 @@ func (p *noder) switchStmt(stmt *syntax.SwitchStmt) *ir.Node {
 	}
 
 	tswitch := n.Left()
-	if tswitch != nil && tswitch.Op != ir.OTYPESW {
+	if tswitch != nil && tswitch.Op() != ir.OTYPESW {
 		tswitch = nil
 	}
 	n.List.Set(p.caseClauses(stmt.Body, tswitch, stmt.Rbrace))
@@ -1252,7 +1252,7 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 		}
 
 		n.Nbody.Set(p.stmtsFall(body, true))
-		if l := n.Nbody.Len(); l > 0 && n.Nbody.Index(l-1).Op == ir.OFALL {
+		if l := n.Nbody.Len(); l > 0 && n.Nbody.Index(l-1).Op() == ir.OFALL {
 			if tswitch != nil {
 				base.Error("cannot fallthrough in type switch")
 			}
@@ -1308,7 +1308,7 @@ func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) *ir.Node {
 	lhs.Name().Defn = ls
 	l := []*ir.Node{lhs}
 	if ls != nil {
-		if ls.Op == ir.OBLOCK && ls.Ninit.Len() == 0 {
+		if ls.Op() == ir.OBLOCK && ls.Ninit.Len() == 0 {
 			l = append(l, ls.List.Slice()...)
 		} else {
 			l = append(l, ls)
@@ -1469,7 +1469,7 @@ func (p *noder) mkname(name *syntax.Name) *ir.Node {
 func (p *noder) wrapname(n syntax.Node, x *ir.Node) *ir.Node {
 	// These nodes do not carry line numbers.
 	// Introduce a wrapper node to give them the correct line.
-	switch x.Op {
+	switch x.Op() {
 	case ir.OTYPE, ir.OLITERAL:
 		if x.Sym() == nil {
 			break

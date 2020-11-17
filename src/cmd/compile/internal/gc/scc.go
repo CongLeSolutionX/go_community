@@ -56,7 +56,7 @@ func visitBottomUp(list []*ir.Node, analyze func(list []*ir.Node, recursive bool
 	v.analyze = analyze
 	v.nodeID = make(map[*ir.Node]uint32)
 	for _, n := range list {
-		if n.Op == ir.ODCLFUNC && !n.Func().IsHiddenClosure() {
+		if n.Op() == ir.ODCLFUNC && !n.Func().IsHiddenClosure() {
 			v.visit(n)
 		}
 	}
@@ -76,7 +76,7 @@ func (v *bottomUpVisitor) visit(n *ir.Node) uint32 {
 	v.stack = append(v.stack, n)
 
 	ir.InspectList(n.Nbody, func(n *ir.Node) bool {
-		switch n.Op {
+		switch n.Op() {
 		case ir.ONAME:
 			if n.Class() == ir.PFUNC {
 				if n.IsMethodExpression() {
@@ -90,14 +90,14 @@ func (v *bottomUpVisitor) visit(n *ir.Node) uint32 {
 			}
 		case ir.ODOTMETH:
 			fn := ir.AsNode(n.Type().Nname())
-			if fn != nil && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name().Defn != nil {
+			if fn != nil && fn.Op() == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name().Defn != nil {
 				if m := v.visit(fn.Name().Defn); m < min {
 					min = m
 				}
 			}
 		case ir.OCALLPART:
 			fn := ir.AsNode(callpartMethod(n).Type.Nname())
-			if fn != nil && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name().Defn != nil {
+			if fn != nil && fn.Op() == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name().Defn != nil {
 				if m := v.visit(fn.Name().Defn); m < min {
 					min = m
 				}

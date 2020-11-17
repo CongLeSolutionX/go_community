@@ -187,7 +187,7 @@ func initssaconfig() {
 // interface call.
 func getParam(n *ir.Node, i int) *types.Field {
 	t := n.Left().Type()
-	if n.Op == ir.OCALLMETH {
+	if n.Op() == ir.OCALLMETH {
 		if i == 0 {
 			return t.Recv()
 		}
@@ -694,7 +694,7 @@ func (s *state) Debug_checknil() bool                                { return s.
 
 func ssaDummy(name string) *ir.Node {
 	n := new(ir.Node)
-	n.Op = ir.ONAME
+	n.SetOp(ir.ONAME)
 	n.SetSym(&types.Sym{Name: name})
 	return n
 }
@@ -1062,7 +1062,7 @@ func (s *state) stmtList(l ir.Nodes) {
 
 // stmt converts the statement n to SSA and adds it to s.
 func (s *state) stmt(n *ir.Node) {
-	if !(n.Op == ir.OVARKILL || n.Op == ir.OVARLIVE || n.Op == ir.OVARDEF) {
+	if !(n.Op() == ir.OVARKILL || n.Op() == ir.OVARLIVE || n.Op() == ir.OVARDEF) {
 		// OVARKILL, OVARLIVE, and OVARDEF are invisible to the programmer, so we don't use their line numbers to avoid confusion in debugging.
 		s.pushLine(n.Pos())
 		defer s.popLine()
@@ -1070,12 +1070,12 @@ func (s *state) stmt(n *ir.Node) {
 
 	// If s.curBlock is nil, and n isn't a label (which might have an associated goto somewhere),
 	// then this code is dead. Stop here.
-	if s.curBlock == nil && n.Op != ir.OLABEL {
+	if s.curBlock == nil && n.Op() != ir.OLABEL {
 		return
 	}
 
 	s.stmtList(n.Ninit)
-	switch n.Op {
+	switch n.Op() {
 
 	case ir.OBLOCK:
 		s.stmtList(n.List)
@@ -1093,7 +1093,7 @@ func (s *state) stmt(n *ir.Node) {
 
 	case ir.OCALLMETH, ir.OCALLINTER:
 		s.callResult(n, callNormal)
-		if n.Op == ir.OCALLFUNC && n.Left().Op == ir.ONAME && n.Left().Class() == ir.PFUNC {
+		if n.Op() == ir.OCALLFUNC && n.Left().Op() == ir.ONAME && n.Left().Class() == ir.PFUNC {
 			if fn := n.Left().Sym().Name; base.Flag.CompilingRuntime && fn == "throw" ||
 				n.Left().Sym().Pkg == Runtimepkg && (fn == "throwinit" || fn == "gopanic" || fn == "panicwrap" || fn == "block" || fn == "panicmakeslicelen" || fn == "panicmakeslicecap") {
 				m := s.mem()
@@ -1202,7 +1202,7 @@ func (s *state) stmt(n *ir.Node) {
 		b.AddEdgeTo(lab.target)
 
 	case ir.OAS:
-		if n.Left() == n.Right() && n.Left().Op == ir.ONAME {
+		if n.Left() == n.Right() && n.Left().Op() == ir.ONAME {
 			// An x=x assignment. No point in doing anything
 			// here. In addition, skipping this assignment
 			// prevents generating:
@@ -1216,7 +1216,7 @@ func (s *state) stmt(n *ir.Node) {
 		// Evaluate RHS.
 		rhs := n.Right()
 		if rhs != nil {
-			switch rhs.Op {
+			switch rhs.Op() {
 			case ir.OSTRUCTLIT, ir.OARRAYLIT, ir.OSLICELIT:
 				// All literals with nonzero fields have already been
 				// rewritten during walk. Any that remain are just T{}
@@ -1282,11 +1282,11 @@ func (s *state) stmt(n *ir.Node) {
 		}
 
 		var skip skipMask
-		if rhs != nil && (rhs.Op == ir.OSLICE || rhs.Op == ir.OSLICE3 || rhs.Op == ir.OSLICESTR) && samesafeexpr(rhs.Left(), n.Left()) {
+		if rhs != nil && (rhs.Op() == ir.OSLICE || rhs.Op() == ir.OSLICE3 || rhs.Op() == ir.OSLICESTR) && samesafeexpr(rhs.Left(), n.Left()) {
 			// We're assigning a slicing operation back to its source.
 			// Don't write back fields we aren't changing. See issue #14855.
 			i, j, k := rhs.SliceBounds()
-			if i != nil && (i.Op == ir.OLITERAL && i.Val().Ctype() == ir.CTINT && i.Int64Val() == 0) {
+			if i != nil && (i.Op() == ir.OLITERAL && i.Val().Ctype() == ir.CTINT && i.Int64Val() == 0) {
 				// [0:...] is the same as [:...]
 				i = nil
 			}
@@ -1374,7 +1374,7 @@ func (s *state) stmt(n *ir.Node) {
 		var to *ssa.Block
 		if n.Sym() == nil {
 			// plain break/continue
-			switch n.Op {
+			switch n.Op() {
 			case ir.OCONTINUE:
 				to = s.continueTo
 			case ir.OBREAK:
@@ -1384,7 +1384,7 @@ func (s *state) stmt(n *ir.Node) {
 			// labeled break/continue; look up the target
 			sym := n.Sym()
 			lab := s.label(sym)
-			switch n.Op {
+			switch n.Op() {
 			case ir.OCONTINUE:
 				to = lab.continueTarget
 			case ir.OBREAK:
@@ -1412,7 +1412,7 @@ func (s *state) stmt(n *ir.Node) {
 
 		// first, jump to condition test (OFOR) or body (OFORUNTIL)
 		b := s.endBlock()
-		if n.Op == ir.OFOR {
+		if n.Op() == ir.OFOR {
 			b.AddEdgeTo(bCond)
 			// generate code to test condition
 			s.startBlock(bCond)
@@ -1462,12 +1462,12 @@ func (s *state) stmt(n *ir.Node) {
 		if n.Right() != nil {
 			s.stmt(n.Right())
 		}
-		if n.Op == ir.OFOR {
+		if n.Op() == ir.OFOR {
 			if b := s.endBlock(); b != nil {
 				b.AddEdgeTo(bCond)
 				// It can happen that bIncr ends in a block containing only VARKILL,
 				// and that muddles the debugging experience.
-				if n.Op != ir.OFORUNTIL && b.Pos == src.NoXPos {
+				if n.Op() != ir.OFORUNTIL && b.Pos == src.NoXPos {
 					b.Pos = bCond.Pos
 				}
 			}
@@ -1548,7 +1548,7 @@ func (s *state) stmt(n *ir.Node) {
 		s.newValue1I(ssa.OpInlMark, types.TypeVoid, n.Xoffset(), s.mem())
 
 	default:
-		s.Fatalf("unhandled stmt %v", n.Op)
+		s.Fatalf("unhandled stmt %v", n.Op())
 	}
 }
 
@@ -2002,7 +2002,7 @@ func (s *state) ssaShiftOp(op ir.Op, t *types.Type, u *types.Type) ssa.Op {
 
 // expr converts the expression n to ssa, adds it to s and returns the ssa result.
 func (s *state) expr(n *ir.Node) *ssa.Value {
-	if !(n.Op == ir.ONAME || n.Op == ir.OLITERAL && n.Sym() != nil) {
+	if !(n.Op() == ir.ONAME || n.Op() == ir.OLITERAL && n.Sym() != nil) {
 		// ONAMEs and named OLITERALs have the line number
 		// of the decl, not the use. See issue 14742.
 		s.pushLine(n.Pos())
@@ -2010,7 +2010,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 	}
 
 	s.stmtList(n.Ninit)
-	switch n.Op {
+	switch n.Op() {
 	case ir.OBYTES2STRTMP:
 		slice := s.expr(n.Left())
 		ptr := s.newValue1(ssa.OpSlicePtr, s.f.Config.Types.BytePtr, slice)
@@ -2355,18 +2355,18 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 			r := s.newValueOrSfCall2(op, types.Types[types.TBOOL], s.newValue1(ssa.OpComplexReal, pt, a), s.newValue1(ssa.OpComplexReal, pt, b))
 			i := s.newValueOrSfCall2(op, types.Types[types.TBOOL], s.newValue1(ssa.OpComplexImag, pt, a), s.newValue1(ssa.OpComplexImag, pt, b))
 			c := s.newValue2(ssa.OpAndB, types.Types[types.TBOOL], r, i)
-			switch n.Op {
+			switch n.Op() {
 			case ir.OEQ:
 				return c
 			case ir.ONE:
 				return s.newValue1(ssa.OpNot, types.Types[types.TBOOL], c)
 			default:
-				s.Fatalf("ordered complex compare %v", n.Op)
+				s.Fatalf("ordered complex compare %v", n.Op())
 			}
 		}
 
 		// Convert OGE and OGT into OLE and OLT.
-		op := n.Op
+		op := n.Op()
 		switch op {
 		case ir.OGE:
 			op, a, b = ir.OLE, b, a
@@ -2413,10 +2413,10 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		}
 
 		if n.Type().IsFloat() {
-			return s.newValueOrSfCall2(s.ssaOp(n.Op, n.Type()), a.Type, a, b)
+			return s.newValueOrSfCall2(s.ssaOp(n.Op(), n.Type()), a.Type, a, b)
 		}
 
-		return s.newValue2(s.ssaOp(n.Op, n.Type()), a.Type, a, b)
+		return s.newValue2(s.ssaOp(n.Op(), n.Type()), a.Type, a, b)
 
 	case ir.ODIV:
 		a := s.expr(n.Left())
@@ -2462,7 +2462,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 			return s.newValue2(ssa.OpComplexMake, n.Type(), xreal, ximag)
 		}
 		if n.Type().IsFloat() {
-			return s.newValueOrSfCall2(s.ssaOp(n.Op, n.Type()), a.Type, a, b)
+			return s.newValueOrSfCall2(s.ssaOp(n.Op(), n.Type()), a.Type, a, b)
 		}
 		return s.intDivide(n, a, b)
 	case ir.OMOD:
@@ -2474,19 +2474,19 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		b := s.expr(n.Right())
 		if n.Type().IsComplex() {
 			pt := floatForComplex(n.Type())
-			op := s.ssaOp(n.Op, pt)
+			op := s.ssaOp(n.Op(), pt)
 			return s.newValue2(ssa.OpComplexMake, n.Type(),
 				s.newValueOrSfCall2(op, pt, s.newValue1(ssa.OpComplexReal, pt, a), s.newValue1(ssa.OpComplexReal, pt, b)),
 				s.newValueOrSfCall2(op, pt, s.newValue1(ssa.OpComplexImag, pt, a), s.newValue1(ssa.OpComplexImag, pt, b)))
 		}
 		if n.Type().IsFloat() {
-			return s.newValueOrSfCall2(s.ssaOp(n.Op, n.Type()), a.Type, a, b)
+			return s.newValueOrSfCall2(s.ssaOp(n.Op(), n.Type()), a.Type, a, b)
 		}
-		return s.newValue2(s.ssaOp(n.Op, n.Type()), a.Type, a, b)
+		return s.newValue2(s.ssaOp(n.Op(), n.Type()), a.Type, a, b)
 	case ir.OAND, ir.OOR, ir.OXOR:
 		a := s.expr(n.Left())
 		b := s.expr(n.Right())
-		return s.newValue2(s.ssaOp(n.Op, n.Type()), a.Type, a, b)
+		return s.newValue2(s.ssaOp(n.Op(), n.Type()), a.Type, a, b)
 	case ir.OANDNOT:
 		a := s.expr(n.Left())
 		b := s.expr(n.Right())
@@ -2501,7 +2501,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 			s.check(cmp, panicshift)
 			bt = bt.ToUnsigned()
 		}
-		return s.newValue2(s.ssaShiftOp(n.Op, n.Type(), bt), a.Type, a, b)
+		return s.newValue2(s.ssaShiftOp(n.Op(), n.Type(), bt), a.Type, a, b)
 	case ir.OANDAND, ir.OOROR:
 		// To implement OANDAND (and OOROR), we introduce a
 		// new temporary variable to hold the result. The
@@ -2529,10 +2529,10 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 
 		bRight := s.f.NewBlock(ssa.BlockPlain)
 		bResult := s.f.NewBlock(ssa.BlockPlain)
-		if n.Op == ir.OANDAND {
+		if n.Op() == ir.OANDAND {
 			b.AddEdgeTo(bRight)
 			b.AddEdgeTo(bResult)
-		} else if n.Op == ir.OOROR {
+		} else if n.Op() == ir.OOROR {
 			b.AddEdgeTo(bResult)
 			b.AddEdgeTo(bRight)
 		}
@@ -2556,18 +2556,18 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		a := s.expr(n.Left())
 		if n.Type().IsComplex() {
 			tp := floatForComplex(n.Type())
-			negop := s.ssaOp(n.Op, tp)
+			negop := s.ssaOp(n.Op(), tp)
 			return s.newValue2(ssa.OpComplexMake, n.Type(),
 				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexReal, tp, a)),
 				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexImag, tp, a)))
 		}
-		return s.newValue1(s.ssaOp(n.Op, n.Type()), a.Type, a)
+		return s.newValue1(s.ssaOp(n.Op(), n.Type()), a.Type, a)
 	case ir.ONOT, ir.OBITNOT:
 		a := s.expr(n.Left())
-		return s.newValue1(s.ssaOp(n.Op, n.Type()), a.Type, a)
+		return s.newValue1(s.ssaOp(n.Op(), n.Type()), a.Type, a)
 	case ir.OIMAG, ir.OREAL:
 		a := s.expr(n.Left())
-		return s.newValue1(s.ssaOp(n.Op, n.Left().Type()), n.Type(), a)
+		return s.newValue1(s.ssaOp(n.Op(), n.Left().Type()), n.Type(), a)
 	case ir.OPLUS:
 		return s.expr(n.Left())
 
@@ -2598,7 +2598,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		return s.load(n.Type(), p)
 
 	case ir.ODOT:
-		if n.Left().Op == ir.OSTRUCTLIT {
+		if n.Left().Op() == ir.OSTRUCTLIT {
 			// All literals with nonzero fields have already been
 			// rewritten during walk. Any that remain are just T{}
 			// or equivalents. Use the zero value.
@@ -2676,7 +2676,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		switch {
 		case n.Left().Type().IsSlice():
 			op := ssa.OpSliceLen
-			if n.Op == ir.OCAP {
+			if n.Op() == ir.OCAP {
 				op = ssa.OpSliceCap
 			}
 			return s.newValue1(op, types.Types[types.TINT], s.expr(n.Left()))
@@ -2777,7 +2777,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		return vv[0]
 
 	default:
-		s.Fatalf("unhandled expr %v", n.Op)
+		s.Fatalf("unhandled expr %v", n.Op())
 		return nil
 	}
 }
@@ -2870,7 +2870,7 @@ func (s *state) append(n *ir.Node, inplace bool) *ssa.Value {
 	r := s.rtcall(growslice, true, []*types.Type{pt, types.Types[types.TINT], types.Types[types.TINT]}, taddr, p, l, c, nl)
 
 	if inplace {
-		if sn.Op == ir.ONAME && sn.Class() != ir.PEXTERN {
+		if sn.Op() == ir.ONAME && sn.Class() != ir.PEXTERN {
 			// Tell liveness we're about to build a new slice
 			s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, sn, s.mem())
 		}
@@ -2947,7 +2947,7 @@ func (s *state) append(n *ir.Node, inplace bool) *ssa.Value {
 // This function is intended to handle && and || better than just calling
 // s.expr(cond) and branching on the result.
 func (s *state) condBranch(cond *ir.Node, yes, no *ssa.Block, likely int8) {
-	switch cond.Op {
+	switch cond.Op() {
 	case ir.OANDAND:
 		mid := s.f.NewBlock(ssa.BlockPlain)
 		s.stmtList(cond.Ninit)
@@ -2999,7 +2999,7 @@ const (
 // If deref is true and right == nil, just do left = 0.
 // skip indicates assignments (at the top level) that can be avoided.
 func (s *state) assign(left *ir.Node, right *ssa.Value, deref bool, skip skipMask) {
-	if left.Op == ir.ONAME && left.IsBlank() {
+	if left.Op() == ir.ONAME && left.IsBlank() {
 		return
 	}
 	t := left.Type()
@@ -3008,7 +3008,7 @@ func (s *state) assign(left *ir.Node, right *ssa.Value, deref bool, skip skipMas
 		if deref {
 			s.Fatalf("can SSA LHS %v but not RHS %s", left, right)
 		}
-		if left.Op == ir.ODOT {
+		if left.Op() == ir.ODOT {
 			// We're assigning to a field of an ssa-able value.
 			// We need to build a new structure with the new value for the
 			// field we're assigning and the old values for the other fields.
@@ -3043,7 +3043,7 @@ func (s *state) assign(left *ir.Node, right *ssa.Value, deref bool, skip skipMas
 			// TODO: do we need to update named values here?
 			return
 		}
-		if left.Op == ir.OINDEX && left.Left().Type().IsArray() {
+		if left.Op() == ir.OINDEX && left.Left().Type().IsArray() {
 			s.pushLine(left.Pos())
 			defer s.popLine()
 			// We're assigning to an element of an ssa-able array.
@@ -3077,7 +3077,7 @@ func (s *state) assign(left *ir.Node, right *ssa.Value, deref bool, skip skipMas
 
 	// If this assignment clobbers an entire local variable, then emit
 	// OpVarDef so liveness analysis knows the variable is redefined.
-	if base := clobberBase(left); base.Op == ir.ONAME && base.Class() != ir.PEXTERN && skip == 0 {
+	if base := clobberBase(left); base.Op() == ir.ONAME && base.Class() != ir.PEXTERN && skip == 0 {
 		s.vars[memVar] = s.newValue1Apos(ssa.OpVarDef, types.TypeMem, base, s.mem(), !base.IsAutoTmp())
 	}
 
@@ -4182,12 +4182,12 @@ func (s *state) intrinsicArgs(n *ir.Node) []*ssa.Value {
 	// Construct map of temps; see comments in s.call about the structure of n.
 	temps := map[*ir.Node]*ssa.Value{}
 	for _, a := range n.List.Slice() {
-		if a.Op != ir.OAS {
-			s.Fatalf("non-assignment as a temp function argument %v", a.Op)
+		if a.Op() != ir.OAS {
+			s.Fatalf("non-assignment as a temp function argument %v", a.Op())
 		}
 		l, r := a.Left(), a.Right()
-		if l.Op != ir.ONAME {
-			s.Fatalf("non-ONAME temp function argument %v", a.Op)
+		if l.Op() != ir.ONAME {
+			s.Fatalf("non-ONAME temp function argument %v", a.Op())
 		}
 		// Evaluate and store to "temporary".
 		// Walk ensures these temporaries are dead outside of n.
@@ -4228,18 +4228,18 @@ func (s *state) openDeferRecord(n *ir.Node) {
 		n: n,
 	}
 	fn := n.Left()
-	if n.Op == ir.OCALLFUNC {
+	if n.Op() == ir.OCALLFUNC {
 		// We must always store the function value in a stack slot for the
 		// runtime panic code to use. But in the defer exit code, we will
 		// call the function directly if it is a static function.
 		closureVal := s.expr(fn)
 		closure := s.openDeferSave(nil, fn.Type(), closureVal)
 		opendefer.closureNode = closure.Aux.(*ir.Node)
-		if !(fn.Op == ir.ONAME && fn.Class() == ir.PFUNC) {
+		if !(fn.Op() == ir.ONAME && fn.Class() == ir.PFUNC) {
 			opendefer.closure = closure
 		}
-	} else if n.Op == ir.OCALLMETH {
-		if fn.Op != ir.ODOTMETH {
+	} else if n.Op() == ir.OCALLMETH {
+		if fn.Op() != ir.ODOTMETH {
 			base.Fatal("OCALLMETH: n.Left not an ODOTMETH: %v", fn)
 		}
 		closureVal := s.getMethodClosure(fn)
@@ -4249,8 +4249,8 @@ func (s *state) openDeferRecord(n *ir.Node) {
 		closure := s.openDeferSave(nil, fn.Type(), closureVal)
 		opendefer.closureNode = closure.Aux.(*ir.Node)
 	} else {
-		if fn.Op != ir.ODOTINTER {
-			base.Fatal("OCALLINTER: n.Left not an ODOTINTER: %v", fn.Op)
+		if fn.Op() != ir.ODOTINTER {
+			base.Fatal("OCALLINTER: n.Left not an ODOTINTER: %v", fn.Op())
 		}
 		closure, rcvr := s.getClosureAndRcvr(fn)
 		opendefer.closure = s.openDeferSave(nil, closure.Type, closure)
@@ -4505,10 +4505,10 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 
 	testLateExpansion := false
 
-	switch n.Op {
+	switch n.Op() {
 	case ir.OCALLFUNC:
 		testLateExpansion = k != callDeferStack && ssa.LateCallExpansionEnabledWithin(s.f)
-		if k == callNormal && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC {
+		if k == callNormal && fn.Op() == ir.ONAME && fn.Class() == ir.PFUNC {
 			sym = fn.Sym()
 			break
 		}
@@ -4519,7 +4519,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 			s.maybeNilCheckClosure(closure, k)
 		}
 	case ir.OCALLMETH:
-		if fn.Op != ir.ODOTMETH {
+		if fn.Op() != ir.ODOTMETH {
 			s.Fatalf("OCALLMETH: n.Left not an ODOTMETH: %v", fn)
 		}
 		testLateExpansion = k != callDeferStack && ssa.LateCallExpansionEnabledWithin(s.f)
@@ -4531,8 +4531,8 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 		// Note: receiver is already present in n.Rlist, so we don't
 		// want to set it here.
 	case ir.OCALLINTER:
-		if fn.Op != ir.ODOTINTER {
-			s.Fatalf("OCALLINTER: n.Left not an ODOTINTER: %v", fn.Op)
+		if fn.Op() != ir.ODOTINTER {
+			s.Fatalf("OCALLINTER: n.Left not an ODOTINTER: %v", fn.Op())
 		}
 		testLateExpansion = k != callDeferStack && ssa.LateCallExpansionEnabledWithin(s.f)
 		var iclosure *ssa.Value
@@ -4592,7 +4592,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 			s.store(types.Types[types.TUINTPTR], p, rcvr)
 		}
 		// Set receiver (for method calls).
-		if n.Op == ir.OCALLMETH {
+		if n.Op() == ir.OCALLMETH {
 			f := ft.Recv()
 			s.storeArgWithBase(args[0], f.Type, addr, off+f.Offset)
 			args = args[1:]
@@ -4662,7 +4662,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 		// Write args.
 		t := n.Left().Type()
 		args := n.Rlist.Slice()
-		if n.Op == ir.OCALLMETH {
+		if n.Op() == ir.OCALLMETH {
 			f := t.Recv()
 			ACArg, arg := s.putArg(args[0], f.Type, argStart+f.Offset, testLateExpansion)
 			ACArgs = append(ACArgs, ACArg)
@@ -4727,7 +4727,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 				call = s.newValue1A(ssa.OpStaticCall, types.TypeMem, ssa.StaticAuxCall(sym.Linksym(), ACArgs, ACResults), s.mem())
 			}
 		default:
-			s.Fatalf("bad call type %v %v", n.Op, n)
+			s.Fatalf("bad call type %v %v", n.Op(), n)
 		}
 		call.AuxInt = stksize // Call operations carry the argsize of the callee along with them
 	}
@@ -4828,13 +4828,13 @@ func etypesign(e types.EType) int8 {
 // addr converts the address of the expression n to SSA, adds it to s and returns the SSA result.
 // The value that the returned Value represents is guaranteed to be non-nil.
 func (s *state) addr(n *ir.Node) *ssa.Value {
-	if n.Op != ir.ONAME {
+	if n.Op() != ir.ONAME {
 		s.pushLine(n.Pos())
 		defer s.popLine()
 	}
 
 	t := types.NewPtr(n.Type())
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME:
 		switch n.Class() {
 		case ir.PEXTERN:
@@ -4922,7 +4922,7 @@ func (s *state) addr(n *ir.Node) *ssa.Value {
 		}
 		return v.Args[0]
 	default:
-		s.Fatalf("unhandled addr %v", n.Op)
+		s.Fatalf("unhandled addr %v", n.Op())
 		return nil
 	}
 }
@@ -4933,10 +4933,10 @@ func (s *state) canSSA(n *ir.Node) bool {
 	if base.Flag.N != 0 {
 		return false
 	}
-	for n.Op == ir.ODOT || (n.Op == ir.OINDEX && n.Left().Type().IsArray()) {
+	for n.Op() == ir.ODOT || (n.Op() == ir.OINDEX && n.Left().Type().IsArray()) {
 		n = n.Left()
 	}
-	if n.Op != ir.ONAME {
+	if n.Op() != ir.ONAME {
 		return false
 	}
 	if n.Name().Addrtaken() {
@@ -5162,7 +5162,7 @@ func (s *state) intDivide(n *ir.Node, a, b *ssa.Value) *ssa.Value {
 		cmp := s.newValue2(s.ssaOp(ir.ONE, n.Type()), types.Types[types.TBOOL], b, s.zeroVal(n.Type()))
 		s.check(cmp, panicdivide)
 	}
-	return s.newValue2(s.ssaOp(n.Op, n.Type()), a.Type, a, b)
+	return s.newValue2(s.ssaOp(n.Op(), n.Type()), a.Type, a, b)
 }
 
 // rtcall issues a call to the given runtime function fn with the listed args.
@@ -5704,7 +5704,7 @@ func (s *state) referenceTypeBuiltin(n *ir.Node, x *ssa.Value) *ssa.Value {
 
 	b.AddEdgeTo(bElse)
 	s.startBlock(bElse)
-	switch n.Op {
+	switch n.Op() {
 	case ir.OLEN:
 		// length is stored in the first word for map/chan
 		s.vars[n] = s.load(lenType, x)
@@ -7070,7 +7070,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 	s := &types.Sym{Name: node.Sym().Name + suffix, Pkg: ir.LocalPkg}
 
 	n := new(ir.Node)
-	n.Op = ir.ONAME
+	n.SetOp(ir.ONAME)
 	n.SetName(new(ir.Name))
 	n.SetPos(parent.N.(*ir.Node).Pos())
 	n.SetOrig(n)
@@ -7153,10 +7153,10 @@ func (e *ssafn) MyImportPath() string {
 }
 
 func clobberBase(n *ir.Node) *ir.Node {
-	if n.Op == ir.ODOT && n.Left().Type().NumFields() == 1 {
+	if n.Op() == ir.ODOT && n.Left().Type().NumFields() == 1 {
 		return clobberBase(n.Left())
 	}
-	if n.Op == ir.OINDEX && n.Left().Type().IsArray() && n.Left().Type().NumElem() == 1 {
+	if n.Op() == ir.OINDEX && n.Left().Type().IsArray() && n.Left().Type().NumElem() == 1 {
 		return clobberBase(n.Left())
 	}
 	return n

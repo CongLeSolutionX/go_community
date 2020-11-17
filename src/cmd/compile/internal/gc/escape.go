@@ -181,7 +181,7 @@ func escFmt(n *ir.Node, short bool) string {
 // functions.
 func escapeFuncs(fns []*ir.Node, recursive bool) {
 	for _, fn := range fns {
-		if fn.Op != ir.ODCLFUNC {
+		if fn.Op() != ir.ODCLFUNC {
 			base.Fatal("unexpected node: %v", fn)
 		}
 	}
@@ -203,7 +203,7 @@ func escapeFuncs(fns []*ir.Node, recursive bool) {
 }
 
 func (e *Escape) initFunc(fn *ir.Node) {
-	if fn.Op != ir.ODCLFUNC || fn.Esc() != EscFuncUnknown {
+	if fn.Op() != ir.ODCLFUNC || fn.Esc() != EscFuncUnknown {
 		base.Fatal("unexpected node: %v", fn)
 	}
 	fn.SetEsc(EscFuncPlanned)
@@ -216,7 +216,7 @@ func (e *Escape) initFunc(fn *ir.Node) {
 
 	// Allocate locations for local variables.
 	for _, dcl := range fn.Func().Dcl {
-		if dcl.Op == ir.ONAME {
+		if dcl.Op() == ir.ONAME {
 			e.newLoc(dcl, false)
 		}
 	}
@@ -227,7 +227,7 @@ func (e *Escape) walkFunc(fn *ir.Node) {
 
 	// Identify labels that mark the head of an unstructured loop.
 	ir.InspectList(fn.Nbody, func(n *ir.Node) bool {
-		switch n.Op {
+		switch n.Op() {
 		case ir.OLABEL:
 			n.Sym().Label = ir.AsTypesNode(&nonlooping)
 
@@ -290,7 +290,7 @@ func (e *Escape) stmt(n *ir.Node) {
 
 	e.stmts(n.Ninit)
 
-	switch n.Op {
+	switch n.Op() {
 	default:
 		base.Fatal("unexpected stmt: %v", n)
 
@@ -356,7 +356,7 @@ func (e *Escape) stmt(n *ir.Node) {
 		e.expr(e.later(k), n.Right())
 
 	case ir.OSWITCH:
-		typesw := n.Left() != nil && n.Left().Op == ir.OTYPESW
+		typesw := n.Left() != nil && n.Left().Op() == ir.OTYPESW
 
 		var ks []EscHole
 		for _, cas := range n.List.Slice() { // cases
@@ -468,13 +468,13 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 	uintptrEscapesHack := k.uintptrEscapesHack
 	k.uintptrEscapesHack = false
 
-	if uintptrEscapesHack && n.Op == ir.OCONVNOP && n.Left().Type().IsUnsafePtr() {
+	if uintptrEscapesHack && n.Op() == ir.OCONVNOP && n.Left().Type().IsUnsafePtr() {
 		// nop
 	} else if k.derefs >= 0 && !n.Type().HasPointers() {
 		k = e.discardHole()
 	}
 
-	switch n.Op {
+	switch n.Op() {
 	default:
 		base.Fatal("unexpected expr: %v", n)
 
@@ -590,7 +590,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 
 	case ir.OARRAYLIT:
 		for _, elt := range n.List.Slice() {
-			if elt.Op == ir.OKEY {
+			if elt.Op() == ir.OKEY {
 				elt = elt.Right()
 			}
 			e.expr(k.note(n, "array literal element"), elt)
@@ -601,7 +601,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 		k.uintptrEscapesHack = uintptrEscapesHack // for ...uintptr parameters
 
 		for _, elt := range n.List.Slice() {
-			if elt.Op == ir.OKEY {
+			if elt.Op() == ir.OKEY {
 				elt = elt.Right()
 			}
 			e.expr(k.note(n, "slice-literal-element"), elt)
@@ -626,7 +626,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 
 		// Link addresses of captured variables to closure.
 		for _, v := range n.Func().Decl.Func().Cvars.Slice() {
-			if v.Op == ir.OXXX { // unnamed out argument; see dcl.go:/^funcargs
+			if v.Op() == ir.OXXX { // unnamed out argument; see dcl.go:/^funcargs
 				continue
 			}
 
@@ -660,7 +660,7 @@ func (e *Escape) unsafeValue(k EscHole, n *ir.Node) {
 
 	e.stmts(n.Ninit)
 
-	switch n.Op {
+	switch n.Op() {
 	case ir.OCONV, ir.OCONVNOP:
 		if n.Left().Type().IsUnsafePtr() {
 			e.expr(k, n.Left())
@@ -711,7 +711,7 @@ func (e *Escape) addr(n *ir.Node) EscHole {
 
 	k := e.heapHole()
 
-	switch n.Op {
+	switch n.Op() {
 	default:
 		base.Fatal("unexpected addr: %v", n)
 	case ir.ONAME:
@@ -759,7 +759,7 @@ func (e *Escape) assign(dst, src *ir.Node, why string, where *ir.Node) {
 	}
 
 	k := e.addr(dst)
-	if dst != nil && dst.Op == ir.ODOTPTR && isReflectHeaderDataField(dst) {
+	if dst != nil && dst.Op() == ir.ODOTPTR && isReflectHeaderDataField(dst) {
 		e.unsafeValue(e.heapHole().note(where, why), src)
 	} else {
 		if ignore {
@@ -777,7 +777,7 @@ func (e *Escape) assignHeap(src *ir.Node, why string, where *ir.Node) {
 // should contain the holes representing where the function callee's
 // results flows; where is the OGO/ODEFER context of the call, if any.
 func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
-	topLevelDefer := where != nil && where.Op == ir.ODEFER && e.loopDepth == 1
+	topLevelDefer := where != nil && where.Op() == ir.ODEFER && e.loopDepth == 1
 	if topLevelDefer {
 		// force stack allocation of defer record, unless
 		// open-coded defers are used (see ssa.go)
@@ -797,21 +797,21 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		e.expr(k.note(call, "call parameter"), arg)
 	}
 
-	switch call.Op {
+	switch call.Op() {
 	default:
-		base.Fatal("unexpected call op: %v", call.Op)
+		base.Fatal("unexpected call op: %v", call.Op())
 
 	case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER:
 		fixVariadicCall(call)
 
 		// Pick out the function callee, if statically known.
 		var fn *ir.Node
-		switch call.Op {
+		switch call.Op() {
 		case ir.OCALLFUNC:
 			switch v := staticValue(call.Left()); {
-			case v.Op == ir.ONAME && v.Class() == ir.PFUNC:
+			case v.Op() == ir.ONAME && v.Class() == ir.PFUNC:
 				fn = v
-			case v.Op == ir.OCLOSURE:
+			case v.Op() == ir.OCLOSURE:
 				fn = v.Func().Decl.Func().Nname
 			}
 		case ir.OCALLMETH:
@@ -1053,7 +1053,7 @@ func (e *Escape) later(k EscHole) EscHole {
 // canonicalNode returns the canonical *Node that n logically
 // represents.
 func canonicalNode(n *ir.Node) *ir.Node {
-	if n != nil && n.Op == ir.ONAME && n.Name().IsClosureVar() {
+	if n != nil && n.Op() == ir.ONAME && n.Name().IsClosureVar() {
 		n = n.Name().Defn
 		if n.Name().IsClosureVar() {
 			base.Fatal("still closure var")
@@ -1080,7 +1080,7 @@ func (e *Escape) newLoc(n *ir.Node, transient bool) *EscLocation {
 	}
 	e.allLocs = append(e.allLocs, loc)
 	if n != nil {
-		if n.Op == ir.ONAME && n.Name().Curfn != e.curfn {
+		if n.Op() == ir.ONAME && n.Name().Curfn != e.curfn {
 			base.Fatal("curfn mismatch: %v != %v", n.Name().Curfn, e.curfn)
 		}
 
@@ -1336,7 +1336,7 @@ func (e *Escape) explainLoc(l *EscLocation) string {
 		// TODO(mdempsky): Omit entirely.
 		return "{temp}"
 	}
-	if l.n.Op == ir.ONAME {
+	if l.n.Op() == ir.ONAME {
 		return fmt.Sprintf("%v", l.n)
 	}
 	return fmt.Sprintf("{storage for %v}", l.n)
@@ -1395,7 +1395,7 @@ func (e *Escape) outlives(l, other *EscLocation) bool {
 
 // containsClosure reports whether c is a closure contained within f.
 func containsClosure(f, c *ir.Node) bool {
-	if f.Op != ir.ODCLFUNC || c.Op != ir.ODCLFUNC {
+	if f.Op() != ir.ODCLFUNC || c.Op() != ir.ODCLFUNC {
 		base.Fatal("bad containsClosure: %v, %v", f, c)
 	}
 
@@ -1453,7 +1453,7 @@ func (e *Escape) finish(fns []*ir.Node) {
 		// Update n.Esc based on escape analysis results.
 
 		if loc.escapes {
-			if n.Op != ir.ONAME {
+			if n.Op() != ir.ONAME {
 				if base.Flag.LowerM != 0 {
 					base.WarnAt(n.Pos(), "%S escapes to heap", n)
 				}
@@ -1464,7 +1464,7 @@ func (e *Escape) finish(fns []*ir.Node) {
 			n.SetEsc(EscHeap)
 			addrescapes(n)
 		} else {
-			if base.Flag.LowerM != 0 && n.Op != ir.ONAME {
+			if base.Flag.LowerM != 0 && n.Op() != ir.ONAME {
 				base.WarnAt(n.Pos(), "%S does not escape", n)
 			}
 			n.SetEsc(EscNone)
@@ -1476,7 +1476,7 @@ func (e *Escape) finish(fns []*ir.Node) {
 }
 
 func (l *EscLocation) isName(c ir.Class) bool {
-	return l.n != nil && l.n.Op == ir.ONAME && l.n.Class() == c
+	return l.n != nil && l.n.Op() == ir.ONAME && l.n.Class() == c
 }
 
 const numEscResults = 7

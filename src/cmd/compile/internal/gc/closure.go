@@ -419,7 +419,7 @@ func walkclosure(clo *ir.Node, init *ir.Nodes) *ir.Node {
 }
 
 func typecheckpartialcall(fn *ir.Node, sym *types.Sym) {
-	switch fn.Op {
+	switch fn.Op() {
 	case ir.ODOTINTER, ir.ODOTMETH:
 		break
 
@@ -430,7 +430,7 @@ func typecheckpartialcall(fn *ir.Node, sym *types.Sym) {
 	// Create top-level function.
 	xfunc := makepartialcall(fn, fn.Type(), sym)
 	xfunc.Func().SetWrapper(true)
-	fn.Op = ir.OCALLPART
+	fn.SetOp(ir.OCALLPART)
 	fn.SetRight(newname(sym))
 	fn.SetType(xfunc.Type())
 	fn.SetFunc(xfunc.Func())
@@ -577,7 +577,7 @@ func walkpartialcall(n *ir.Node, init *ir.Nodes) *ir.Node {
 // callpartMethod returns the *types.Field representing the method
 // referenced by method value n.
 func callpartMethod(n *ir.Node) *types.Field {
-	if n.Op != ir.OCALLPART {
+	if n.Op() != ir.OCALLPART {
 		base.Fatal("expected OCALLPART, got %v", n)
 	}
 

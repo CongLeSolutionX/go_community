@@ -40,7 +40,7 @@ var (
 // whose Pos will point back to their declaration position rather than
 // their usage position.
 func hasUniquePos(n *ir.Node) bool {
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME, ir.OPACK:
 		return false
 	case ir.OLITERAL, ir.OTYPE:
@@ -161,7 +161,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 	default:
 		n = new(ir.Node)
 	}
-	n.Op = op
+	n.SetOp(op)
 	n.SetLeft(nleft)
 	n.SetRight(nright)
 	n.SetPos(pos)
@@ -193,7 +193,7 @@ func newnamel(pos src.XPos, s *types.Sym) *ir.Node {
 	n.SetName(&x.m)
 	n.Name().Param = &x.p
 
-	n.Op = ir.ONAME
+	n.SetOp(ir.ONAME)
 	n.SetPos(pos)
 	n.SetOrig(n)
 
@@ -249,7 +249,7 @@ func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
 		return nil
 	}
 
-	switch n.Op {
+	switch n.Op() {
 	default:
 		m := n.SepCopy()
 		m.SetLeft(treecopy(n.Left(), pos))
@@ -258,7 +258,7 @@ func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
 		if pos.IsKnown() {
 			m.SetPos(pos)
 		}
-		if m.Name() != nil && n.Op != ir.ODCLFIELD {
+		if m.Name() != nil && n.Op() != ir.ODCLFIELD {
 			ir.Dump("treecopy", n)
 			base.Fatal("treecopy Name")
 		}
@@ -595,7 +595,7 @@ func assignconvfn(n *ir.Node, t *types.Type, context func() string) *ir.Node {
 	// Convert ideal bool from comparison to plain bool
 	// if the next step is non-bool (like interface{}).
 	if n.Type() == types.UntypedBool && !t.IsBoolean() {
-		if n.Op == ir.ONAME || n.Op == ir.OLITERAL {
+		if n.Op() == ir.ONAME || n.Op() == ir.OLITERAL {
 			r := nod(ir.OCONVNOP, n, nil)
 			r.SetType(types.Types[types.TBOOL])
 			r.SetTypecheck(1)
@@ -644,14 +644,14 @@ func backingArrayPtrLen(n *ir.Node) (ptr, len *ir.Node) {
 // labeledControl returns the control flow Node (for, switch, select)
 // associated with the label n, if any.
 func labeledControl(n *ir.Node) *ir.Node {
-	if n.Op != ir.OLABEL {
-		base.Fatal("labeledControl %v", n.Op)
+	if n.Op() != ir.OLABEL {
+		base.Fatal("labeledControl %v", n.Op())
 	}
 	ctl := n.Name().Defn
 	if ctl == nil {
 		return nil
 	}
-	switch ctl.Op {
+	switch ctl.Op() {
 	case ir.OFOR, ir.OFORUNTIL, ir.OSWITCH, ir.OSELECT:
 		return ctl
 	}
@@ -690,7 +690,7 @@ func calcHasCall(n *ir.Node) bool {
 		return true
 	}
 
-	switch n.Op {
+	switch n.Op() {
 	case ir.OLITERAL, ir.ONAME, ir.OTYPE:
 		if n.HasCall() {
 			base.Fatal("OLITERAL/ONAME/OTYPE should never have calls: %+v", n)
@@ -809,7 +809,7 @@ func safeexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
 		init.AppendNodes(&n.Ninit)
 	}
 
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME, ir.OLITERAL:
 		return n
 
@@ -871,7 +871,7 @@ func copyexpr(n *ir.Node, t *types.Type, init *ir.Nodes) *ir.Node {
 // return side-effect free and cheap n, appending side effects to init.
 // result may not be assignable.
 func cheapexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME, ir.OLITERAL:
 		return n
 	}
@@ -1026,7 +1026,7 @@ func adddot(n *ir.Node) *ir.Node {
 		return n
 	}
 
-	if n.Left().Op == ir.OTYPE {
+	if n.Left().Op() == ir.OTYPE {
 		return n
 	}
 

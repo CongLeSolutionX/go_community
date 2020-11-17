@@ -77,7 +77,7 @@ func fninit(n []*ir.Node) {
 		s := lookupN("init.", i)
 		fn := ir.AsNode(s.Def).Name().Defn
 		// Skip init functions with empty bodies.
-		if fn.Nbody.Len() == 1 && fn.Nbody.First().Op == ir.OEMPTY {
+		if fn.Nbody.Len() == 1 && fn.Nbody.First().Op() == ir.OEMPTY {
 			continue
 		}
 		fns = append(fns, s.Linksym())

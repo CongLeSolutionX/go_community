@@ -236,7 +236,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op; op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.Left().Name().Param.Alias()) {
+		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.Left().Name().Param.Alias()) {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -248,7 +248,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top2")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op; op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.Left().Name().Param.Alias() {
+		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.Left().Name().Param.Alias() {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -259,7 +259,7 @@ func Main(archInit func(*Arch)) {
 	var fcount int64
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if n.Op == ir.ODCLFUNC {
+		if n.Op() == ir.ODCLFUNC {
 			Curfn = n
 			decldepth = 1
 			errorsBefore := base.Errors()
@@ -289,7 +289,7 @@ func Main(archInit func(*Arch)) {
 	// because variables captured by value do not escape.
 	timings.Start("fe", "capturevars")
 	for _, n := range xtop {
-		if n.Op == ir.ODCLFUNC && n.Func().Closure_ != nil {
+		if n.Op() == ir.ODCLFUNC && n.Func().Closure_ != nil {
 			Curfn = n
 			capturevars(n)
 		}
@@ -332,7 +332,7 @@ func Main(archInit func(*Arch)) {
 	}
 
 	for _, n := range xtop {
-		if n.Op == ir.ODCLFUNC {
+		if n.Op() == ir.ODCLFUNC {
 			devirtualize(n)
 		}
 	}
@@ -362,7 +362,7 @@ func Main(archInit func(*Arch)) {
 	// before walk reaches a call of a closure.
 	timings.Start("fe", "xclosures")
 	for _, n := range xtop {
-		if n.Op == ir.ODCLFUNC && n.Func().Closure_ != nil {
+		if n.Op() == ir.ODCLFUNC && n.Func().Closure_ != nil {
 			Curfn = n
 			transformclosure(n)
 		}
@@ -385,7 +385,7 @@ func Main(archInit func(*Arch)) {
 	fcount = 0
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if n.Op == ir.ODCLFUNC {
+		if n.Op() == ir.ODCLFUNC {
 			funccompile(n)
 			fcount++
 		}
@@ -413,7 +413,7 @@ func Main(archInit func(*Arch)) {
 	// Phase 9: Check external declarations.
 	timings.Start("be", "externaldcls")
 	for i, n := range externdcl {
-		if n.Op == ir.ONAME {
+		if n.Op() == ir.ONAME {
 			externdcl[i] = typecheck(externdcl[i], ctxExpr)
 		}
 	}
@@ -934,7 +934,7 @@ func clearImports() {
 		if n == nil {
 			continue
 		}
-		if n.Op == ir.OPACK {
+		if n.Op() == ir.OPACK {
 			// throw away top-level package name left over
 			// from previous file.
 			// leave s->block set to cause redeclaration

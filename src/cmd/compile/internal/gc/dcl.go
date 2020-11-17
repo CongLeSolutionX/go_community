@@ -92,10 +92,10 @@ func declare(n *ir.Node, ctxt ir.Class) {
 		if Curfn != nil && ctxt != ir.PFUNC {
 			Curfn.Func().Dcl = append(Curfn.Func().Dcl, n)
 		}
-		if n.Op == ir.OTYPE {
+		if n.Op() == ir.OTYPE {
 			declare_typegen++
 			gen = declare_typegen
-		} else if n.Op == ir.ONAME && ctxt == ir.PAUTO && !strings.Contains(s.Name, "·") {
+		} else if n.Op() == ir.ONAME && ctxt == ir.PAUTO && !strings.Contains(s.Name, "·") {
 			vargen++
 			gen = vargen
 		}
@@ -128,11 +128,11 @@ func declare(n *ir.Node, ctxt ir.Class) {
 }
 
 func addvar(n *ir.Node, t *types.Type, ctxt ir.Class) {
-	if n == nil || n.Sym() == nil || (n.Op != ir.ONAME && n.Op != ir.ONONAME) || t == nil {
+	if n == nil || n.Sym() == nil || (n.Op() != ir.ONAME && n.Op() != ir.ONONAME) || t == nil {
 		base.Fatal("addvar: n=%v t=%v nil", n, t)
 	}
 
-	n.Op = ir.ONAME
+	n.SetOp(ir.ONAME)
 	declare(n, ctxt)
 	n.SetType(t)
 }
@@ -149,7 +149,7 @@ func variter(vl []*ir.Node, t *ir.Node, el []*ir.Node) []*ir.Node {
 		as2.List.Set(vl)
 		as2.Rlist.Set1(e)
 		for _, v := range vl {
-			v.Op = ir.ONAME
+			v.SetOp(ir.ONAME)
 			declare(v, dclcontext)
 			v.Name().Param.Ntype = t
 			v.Name().Defn = as2
@@ -173,7 +173,7 @@ func variter(vl []*ir.Node, t *ir.Node, el []*ir.Node) []*ir.Node {
 			el = el[1:]
 		}
 
-		v.Op = ir.ONAME
+		v.SetOp(ir.ONAME)
 		declare(v, dclcontext)
 		v.Name().Param.Ntype = t
 
@@ -223,7 +223,7 @@ func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) *ir.Node {
 // being declared.
 func dclname(s *types.Sym) *ir.Node {
 	n := newname(s)
-	n.Op = ir.ONONAME // caller will correct it
+	n.SetOp(ir.ONONAME) // caller will correct it
 	return n
 }
 
@@ -269,7 +269,7 @@ func oldname(s *types.Sym) *ir.Node {
 		return newnoname(s)
 	}
 
-	if Curfn != nil && n.Op == ir.ONAME && n.Name().Curfn != nil && n.Name().Curfn != Curfn {
+	if Curfn != nil && n.Op() == ir.ONAME && n.Name().Curfn != nil && n.Name().Curfn != Curfn {
 		// Inner func is referring to var in outer func.
 		//
 		// TODO(rsc): If there is an outer variable x and we
@@ -312,7 +312,7 @@ func importName(sym *types.Sym) *ir.Node {
 
 // := declarations
 func colasname(n *ir.Node) bool {
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME,
 		ir.ONONAME,
 		ir.OPACK,
@@ -370,7 +370,7 @@ func colasdefn(left []*ir.Node, defn *ir.Node) {
 // declare the arguments in an
 // interface field declaration.
 func ifacedcl(n *ir.Node) {
-	if n.Op != ir.ODCLFIELD || n.Left() == nil {
+	if n.Op() != ir.ODCLFIELD || n.Left() == nil {
 		base.Fatal("ifacedcl")
 	}
 
@@ -399,8 +399,8 @@ func funchdr(n *ir.Node) {
 }
 
 func funcargs(nt *ir.Node) {
-	if nt.Op != ir.OTFUNC {
-		base.Fatal("funcargs %v", nt.Op)
+	if nt.Op() != ir.OTFUNC {
+		base.Fatal("funcargs %v", nt.Op())
 	}
 
 	// re-start the variable generation number
@@ -449,8 +449,8 @@ func funcargs(nt *ir.Node) {
 }
 
 func funcarg(n *ir.Node, ctxt ir.Class) {
-	if n.Op != ir.ODCLFIELD {
-		base.Fatal("funcarg %v", n.Op)
+	if n.Op() != ir.ODCLFIELD {
+		base.Fatal("funcarg %v", n.Op())
 	}
 	if n.Sym() == nil {
 		return
@@ -538,7 +538,7 @@ func structfield(n *ir.Node) *types.Field {
 	lno := base.Pos
 	base.Pos = n.Pos()
 
-	if n.Op != ir.ODCLFIELD {
+	if n.Op() != ir.ODCLFIELD {
 		base.Fatal("structfield: oops %v\n", n)
 	}
 
@@ -651,7 +651,7 @@ func interfacefield(n *ir.Node) *types.Field {
 	lno := base.Pos
 	base.Pos = n.Pos()
 
-	if n.Op != ir.ODCLFIELD {
+	if n.Op() != ir.ODCLFIELD {
 		base.Fatal("interfacefield: oops %v\n", n)
 	}
 
@@ -961,7 +961,7 @@ func makefuncsym(s *types.Sym) {
 
 // setNodeNameFunc marks a node as a function.
 func setNodeNameFunc(n *ir.Node) {
-	if n.Op != ir.ONAME || n.Class() != ir.Pxxx {
+	if n.Op() != ir.ONAME || n.Class() != ir.Pxxx {
 		base.Fatal("expected ONAME/Pxxx node, got %v", n)
 	}
 
@@ -970,7 +970,7 @@ func setNodeNameFunc(n *ir.Node) {
 }
 
 func dclfunc(sym *types.Sym, tfn *ir.Node) *ir.Node {
-	if tfn.Op != ir.OTFUNC {
+	if tfn.Op() != ir.OTFUNC {
 		base.Fatal("expected OTFUNC node, got %v", tfn)
 	}
 
@@ -1012,7 +1012,7 @@ func newNowritebarrierrecChecker() *nowritebarrierrecChecker {
 	// directly. This has to happen before transformclosure since
 	// it's a lot harder to work out the argument after.
 	for _, n := range xtop {
-		if n.Op != ir.ODCLFUNC {
+		if n.Op() != ir.ODCLFUNC {
 			continue
 		}
 		c.curfn = n
@@ -1023,11 +1023,11 @@ func newNowritebarrierrecChecker() *nowritebarrierrecChecker {
 }
 
 func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
-	if n.Op != ir.OCALLFUNC {
+	if n.Op() != ir.OCALLFUNC {
 		return true
 	}
 	fn := n.Left()
-	if fn == nil || fn.Op != ir.ONAME || fn.Class() != ir.PFUNC || fn.Name().Defn == nil {
+	if fn == nil || fn.Op() != ir.ONAME || fn.Class() != ir.PFUNC || fn.Name().Defn == nil {
 		return true
 	}
 	if !isRuntimePkg(fn.Sym().Pkg) || fn.Sym().Name != "systemstack" {
@@ -1036,7 +1036,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 
 	var callee *ir.Node
 	arg := n.List.First()
-	switch arg.Op {
+	switch arg.Op() {
 	case ir.ONAME:
 		callee = arg.Name().Defn
 	case ir.OCLOSURE:
@@ -1044,7 +1044,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	default:
 		base.Fatal("expected ONAME or OCLOSURE node, got %+v", arg)
 	}
-	if callee.Op != ir.ODCLFUNC {
+	if callee.Op() != ir.ODCLFUNC {
 		base.Fatal("expected ODCLFUNC node, got %+v", callee)
 	}
 	c.extraCalls[c.curfn] = append(c.extraCalls[c.curfn], nowritebarrierrecCall{callee, n.Pos()})
@@ -1060,7 +1060,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 //
 // This can be called concurrently for different from Nodes.
 func (c *nowritebarrierrecChecker) recordCall(from *ir.Node, to *obj.LSym, pos src.XPos) {
-	if from.Op != ir.ODCLFUNC {
+	if from.Op() != ir.ODCLFUNC {
 		base.Fatal("expected ODCLFUNC, got %v", from)
 	}
 	// We record this information on the *Func so this is
@@ -1089,7 +1089,7 @@ func (c *nowritebarrierrecChecker) check() {
 	var q ir.NodeQueue
 
 	for _, n := range xtop {
-		if n.Op != ir.ODCLFUNC {
+		if n.Op() != ir.ODCLFUNC {
 			continue
 		}
 

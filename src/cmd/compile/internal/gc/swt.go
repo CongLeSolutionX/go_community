@@ -15,7 +15,7 @@ import (
 // typecheckswitch typechecks a switch statement.
 func typecheckswitch(n *ir.Node) {
 	typecheckslice(n.Ninit.Slice(), ctxStmt)
-	if n.Left() != nil && n.Left().Op == ir.OTYPESW {
+	if n.Left() != nil && n.Left().Op() == ir.OTYPESW {
 		typecheckTypeSwitch(n)
 	} else {
 		typecheckExprSwitch(n)
@@ -65,7 +65,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 				} else {
 					nilCase = ncase
 				}
-			case n1.Op != ir.OTYPE:
+			case n1.Op() != ir.OTYPE:
 				base.ErrorAt(ncase.Pos(), "%L is not a type", n1)
 			case !n1.Type().IsInterface() && !implements(n1.Type(), t, &missing, &have, &ptr) && !missing.Broke():
 				if have != nil && !have.Broke() {
@@ -80,7 +80,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 				}
 			}
 
-			if n1.Op == ir.OTYPE {
+			if n1.Op() == ir.OTYPE {
 				ts.add(ncase.Pos(), n1.Type())
 			}
 		}
@@ -89,9 +89,9 @@ func typecheckTypeSwitch(n *ir.Node) {
 			// Assign the clause variable's type.
 			vt := t
 			if len(ls) == 1 {
-				if ls[0].Op == ir.OTYPE {
+				if ls[0].Op() == ir.OTYPE {
 					vt = ls[0].Type()
-				} else if ls[0].Op != ir.OLITERAL { // TODO(mdempsky): Should be !ls[0].isNil()
+				} else if ls[0].Op() != ir.OLITERAL { // TODO(mdempsky): Should be !ls[0].isNil()
 					// Invalid single-type case;
 					// mark variable as broken.
 					vt = nil
@@ -229,7 +229,7 @@ func walkswitch(sw *ir.Node) {
 		return // Was fatal, but eliminating every possible source of double-walking is hard
 	}
 
-	if sw.Left() != nil && sw.Left().Op == ir.OTYPESW {
+	if sw.Left() != nil && sw.Left().Op() == ir.OTYPESW {
 		walkTypeSwitch(sw)
 	} else {
 		walkExprSwitch(sw)
@@ -258,12 +258,12 @@ func walkExprSwitch(sw *ir.Node) {
 	// because walkexpr will lower the string
 	// conversion into a runtime call.
 	// See issue 24937 for more discussion.
-	if cond.Op == ir.OBYTES2STR && allCaseExprsAreSideEffectFree(sw) {
-		cond.Op = ir.OBYTES2STRTMP
+	if cond.Op() == ir.OBYTES2STR && allCaseExprsAreSideEffectFree(sw) {
+		cond.SetOp(ir.OBYTES2STRTMP)
 	}
 
 	cond = walkexpr(cond, &sw.Ninit)
-	if cond.Op != ir.OLITERAL {
+	if cond.Op() != ir.OLITERAL {
 		cond = copyexpr(cond, cond.Type(), &sw.Nbody)
 	}
 
@@ -330,7 +330,7 @@ type exprClause struct {
 
 func (s *exprSwitch) Add(pos src.XPos, expr, jmp *ir.Node) {
 	c := exprClause{pos: pos, lo: expr, hi: expr, jmp: jmp}
-	if okforcmp[s.exprname.Type().Etype] && expr.Op == ir.OLITERAL {
+	if okforcmp[s.exprname.Type().Etype] && expr.Op() == ir.OLITERAL {
 		s.clauses = append(s.clauses, c)
 		return
 	}
@@ -464,11 +464,11 @@ func allCaseExprsAreSideEffectFree(sw *ir.Node) bool {
 	// enough.
 
 	for _, ncase := range sw.List.Slice() {
-		if ncase.Op != ir.OCASE {
-			base.Fatal("switch string(byteslice) bad op: %v", ncase.Op)
+		if ncase.Op() != ir.OCASE {
+			base.Fatal("switch string(byteslice) bad op: %v", ncase.Op())
 		}
 		for _, v := range ncase.List.Slice() {
-			if v.Op != ir.OLITERAL {
+			if v.Op() != ir.OLITERAL {
 				return false
 			}
 		}
@@ -485,13 +485,13 @@ func hasFall(stmts []*ir.Node) (bool, src.XPos) {
 	// nodes will be at the end of the list.
 
 	i := len(stmts) - 1
-	for i >= 0 && stmts[i].Op == ir.OVARKILL {
+	for i >= 0 && stmts[i].Op() == ir.OVARKILL {
 		i--
 	}
 	if i < 0 {
 		return false, src.NoXPos
 	}
-	return stmts[i].Op == ir.OFALL, stmts[i].Pos()
+	return stmts[i].Op() == ir.OFALL, stmts[i].Pos()
 }
 
 // walkTypeSwitch generates an AST that implements sw, where sw is a
@@ -549,7 +549,7 @@ func walkTypeSwitch(sw *ir.Node) {
 		// we initialize the case variable as part of the type assertion.
 		// In other cases, we initialize it in the body.
 		var singleType *types.Type
-		if ncase.List.Len() == 1 && ncase.List.First().Op == ir.OTYPE {
+		if ncase.List.Len() == 1 && ncase.List.First().Op() == ir.OTYPE {
 			singleType = ncase.List.First().Type()
 		}
 		caseVarInitialized := false

@@ -86,7 +86,7 @@ func initOrder(l []*ir.Node) []*ir.Node {
 
 	// Process all package-level assignment in declaration order.
 	for _, n := range l {
-		switch n.Op {
+		switch n.Op() {
 		case ir.OAS, ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2RECV:
 			o.processAssign(n)
 			o.flushReady(s.staticInit)
@@ -100,7 +100,7 @@ func initOrder(l []*ir.Node) []*ir.Node {
 	// Check that all assignments are now Done; if not, there must
 	// have been a dependency cycle.
 	for _, n := range l {
-		switch n.Op {
+		switch n.Op() {
 		case ir.OAS, ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2RECV:
 			if n.Initorder() != InitDone {
 				// If there have already been errors
@@ -252,7 +252,7 @@ func reportInitLoopAndExit(l []*ir.Node) {
 // upon functions (but not variables).
 func collectDeps(n *ir.Node, transitive bool) ir.NodeSet {
 	d := initDeps{transitive: transitive}
-	switch n.Op {
+	switch n.Op() {
 	case ir.OAS:
 		d.inspect(n.Right())
 	case ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2RECV:
@@ -260,7 +260,7 @@ func collectDeps(n *ir.Node, transitive bool) ir.NodeSet {
 	case ir.ODCLFUNC:
 		d.inspectList(n.Nbody)
 	default:
-		base.Fatal("unexpected Op: %v", n.Op)
+		base.Fatal("unexpected Op: %v", n.Op())
 	}
 	return d.seen
 }
@@ -276,7 +276,7 @@ func (d *initDeps) inspectList(l ir.Nodes) { ir.InspectList(l, d.visit) }
 // visit calls foundDep on any package-level functions or variables
 // referenced by n, if any.
 func (d *initDeps) visit(n *ir.Node) bool {
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME:
 		if n.IsMethodExpression() {
 			d.foundDep(ir.AsNode(n.Type().FuncType().Nname))
@@ -347,13 +347,13 @@ func (s *declOrder) Pop() interface{} {
 // firstLHS returns the first expression on the left-hand side of
 // assignment n.
 func firstLHS(n *ir.Node) *ir.Node {
-	switch n.Op {
+	switch n.Op() {
 	case ir.OAS:
 		return n.Left()
 	case ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2RECV, ir.OAS2MAPR:
 		return n.List.First()
 	}
 
-	base.Fatal("unexpected Op: %v", n.Op)
+	base.Fatal("unexpected Op: %v", n.Op())
 	return nil
 }

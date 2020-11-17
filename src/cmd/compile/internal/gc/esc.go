@@ -76,11 +76,11 @@ func isSliceSelfAssign(dst, src *ir.Node) bool {
 	// when we evaluate it for dst and for src.
 
 	// dst is ONAME dereference.
-	if dst.Op != ir.ODEREF && dst.Op != ir.ODOTPTR || dst.Left().Op != ir.ONAME {
+	if dst.Op() != ir.ODEREF && dst.Op() != ir.ODOTPTR || dst.Left().Op() != ir.ONAME {
 		return false
 	}
 	// src is a slice operation.
-	switch src.Op {
+	switch src.Op() {
 	case ir.OSLICE, ir.OSLICE3, ir.OSLICESTR:
 		// OK.
 	case ir.OSLICEARR, ir.OSLICE3ARR:
@@ -93,14 +93,14 @@ func isSliceSelfAssign(dst, src *ir.Node) bool {
 		// Pointer to an array is OK since it's not stored inside b directly.
 		// For slicing an array (not pointer to array), there is an implicit OADDR.
 		// We check that to determine non-pointer array slicing.
-		if src.Left().Op == ir.OADDR {
+		if src.Left().Op() == ir.OADDR {
 			return false
 		}
 	default:
 		return false
 	}
 	// slice is applied to ONAME dereference.
-	if src.Left().Op != ir.ODEREF && src.Left().Op != ir.ODOTPTR || src.Left().Left().Op != ir.ONAME {
+	if src.Left().Op() != ir.ODEREF && src.Left().Op() != ir.ODOTPTR || src.Left().Left().Op() != ir.ONAME {
 		return false
 	}
 	// dst and src reference the same base ONAME.
@@ -124,11 +124,11 @@ func isSelfAssign(dst, src *ir.Node) bool {
 	//
 	// These assignments do not change assigned object lifetime.
 
-	if dst == nil || src == nil || dst.Op != src.Op {
+	if dst == nil || src == nil || dst.Op() != src.Op() {
 		return false
 	}
 
-	switch dst.Op {
+	switch dst.Op() {
 	case ir.ODOT, ir.ODOTPTR:
 		// Safe trailing accessors that are permitted to differ.
 	case ir.OINDEX:
@@ -153,7 +153,7 @@ func mayAffectMemory(n *ir.Node) bool {
 	//
 	// We're ignoring things like division by zero, index out of range,
 	// and nil pointer dereference here.
-	switch n.Op {
+	switch n.Op() {
 	case ir.ONAME, ir.OCLOSUREVAR, ir.OLITERAL:
 		return false
 
@@ -179,7 +179,7 @@ func heapAllocReason(n *ir.Node) string {
 	}
 
 	// Parameters are always passed via the stack.
-	if n.Op == ir.ONAME && (n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) {
+	if n.Op() == ir.ONAME && (n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) {
 		return ""
 	}
 
@@ -187,18 +187,18 @@ func heapAllocReason(n *ir.Node) string {
 		return "too large for stack"
 	}
 
-	if (n.Op == ir.ONEW || n.Op == ir.OPTRLIT) && n.Type().Elem().Width >= maxImplicitStackVarSize {
+	if (n.Op() == ir.ONEW || n.Op() == ir.OPTRLIT) && n.Type().Elem().Width >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
 
-	if n.Op == ir.OCLOSURE && closureType(n).Size() >= maxImplicitStackVarSize {
+	if n.Op() == ir.OCLOSURE && closureType(n).Size() >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
-	if n.Op == ir.OCALLPART && partialCallType(n).Size() >= maxImplicitStackVarSize {
+	if n.Op() == ir.OCALLPART && partialCallType(n).Size() >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
 
-	if n.Op == ir.OMAKESLICE {
+	if n.Op() == ir.OMAKESLICE {
 		r := n.Right()
 		if r == nil {
 			r = n.Left()
@@ -219,7 +219,7 @@ func heapAllocReason(n *ir.Node) string {
 // Storage is allocated as necessary to allow the address
 // to be taken.
 func addrescapes(n *ir.Node) {
-	switch n.Op {
+	switch n.Op() {
 	default:
 		// Unexpected Op, probably due to a previous type error. Ignore.
 
@@ -261,7 +261,7 @@ func addrescapes(n *ir.Node) {
 		// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
 		oldfn := Curfn
 		Curfn = n.Name().Curfn
-		if Curfn.Func().Closure_ != nil && Curfn.Op == ir.OCLOSURE {
+		if Curfn.Func().Closure_ != nil && Curfn.Op() == ir.OCLOSURE {
 			Curfn = Curfn.Func().Closure_
 		}
 		ln := base.Pos
