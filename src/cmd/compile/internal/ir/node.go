@@ -78,6 +78,8 @@ func (n *Node) Func() *Func           { return n.fn }
 func (n *Node) SetFunc(x *Func)       { n.fn = x }
 func (n *Node) Name() *Name           { return n.name }
 func (n *Node) SetName(x *Name)       { n.name = x }
+func (n *Node) GetSym() *types.Sym    { return n.Sym }
+func (n *Node) SetSym(x *types.Sym)   { n.Sym = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
