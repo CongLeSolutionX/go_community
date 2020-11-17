@@ -44,7 +44,7 @@ type Node struct {
 	name *Name
 
 	Sym *types.Sym  // various
-	E   interface{} // Opt or Val, see methods below
+	ext interface{} // Opt or Val, see methods below
 
 	// Various. Usually an offset into a struct. For example:
 	// - ONAME nodes that refer to local variables use it to identify their stack frame position.
@@ -258,7 +258,7 @@ func (n *Node) Val() Val {
 	if !n.HasVal() {
 		return Val{}
 	}
-	return Val{n.E}
+	return Val{n.ext}
 }
 
 // SetVal sets the Val for the node, which must not have been used with SetOpt.
@@ -269,7 +269,7 @@ func (n *Node) SetVal(v Val) {
 		base.Fatal("have Opt")
 	}
 	n.SetHasVal(true)
-	n.E = v.U
+	n.ext = v.U
 }
 
 // Opt returns the optimizer data for the node.
@@ -277,7 +277,7 @@ func (n *Node) Opt() interface{} {
 	if !n.HasOpt() {
 		return nil
 	}
-	return n.E
+	return n.ext
 }
 
 // SetOpt sets the optimizer data for the node, which must not have been used with SetVal.
@@ -292,7 +292,7 @@ func (n *Node) SetOpt(x interface{}) {
 		base.Fatal("have Val")
 	}
 	n.SetHasOpt(true)
-	n.E = x
+	n.ext = x
 }
 
 func (n *Node) Iota() int64 {
