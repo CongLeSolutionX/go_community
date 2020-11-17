@@ -249,7 +249,10 @@ noswitch:
 	MOVV	runtime·vdsoClockgettimeSym(SB), R25
 	BEQ	R25, fallback
 
+	MOVV	R25, R2
 	JAL	(R25)
+	// check on ret, see https://github.com/golang/go/issues/39046
+	BNE	R2, R0, fallback
 
 finish:
 	MOVV	0(R29), R3	// sec
@@ -311,6 +314,8 @@ noswitch:
 	BEQ	R25, fallback
 
 	JAL	(R25)
+	// check on ret, see https://github.com/golang/go/issues/39046
+	BNE	R2, R0, fallback
 
 finish:
 	MOVV	0(R29), R3	// sec
