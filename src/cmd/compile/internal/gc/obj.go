@@ -546,11 +546,11 @@ func dsymptrWeakOff(s *obj.LSym, off int, x *obj.LSym) int {
 // arr must be an ONAME. slicesym does not modify n.
 func slicesym(n, arr *ir.Node, lencap int64) {
 	s := n.Sym().Linksym()
-	off := n.Xoffset
+	off := n.Xoffset()
 	if arr.Op != ir.ONAME {
 		base.Fatal("slicesym non-name arr %v", arr)
 	}
-	s.WriteAddr(base.Ctxt, off, Widthptr, arr.Sym().Linksym(), arr.Xoffset)
+	s.WriteAddr(base.Ctxt, off, Widthptr, arr.Sym().Linksym(), arr.Xoffset())
 	s.WriteInt(base.Ctxt, off+sliceLenOffset, Widthptr, lencap)
 	s.WriteInt(base.Ctxt, off+sliceCapOffset, Widthptr, lencap)
 }
@@ -568,7 +568,7 @@ func addrsym(n, a *ir.Node) {
 		base.Fatal("addrsym a op %v", a.Op)
 	}
 	s := n.Sym().Linksym()
-	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, a.Sym().Linksym(), a.Xoffset)
+	s.WriteAddr(base.Ctxt, n.Xoffset(), Widthptr, a.Sym().Linksym(), a.Xoffset())
 }
 
 // pfuncsym writes the static address of f to n. f must be a global function.
@@ -584,7 +584,7 @@ func pfuncsym(n, f *ir.Node) {
 		base.Fatal("pfuncsym class not PFUNC %d", f.Class())
 	}
 	s := n.Sym().Linksym()
-	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, funcsym(f.Sym()).Linksym(), f.Xoffset)
+	s.WriteAddr(base.Ctxt, n.Xoffset(), Widthptr, funcsym(f.Sym()).Linksym(), f.Xoffset())
 }
 
 // litsym writes the static literal c to n.
@@ -603,18 +603,18 @@ func litsym(n, c *ir.Node, wid int) {
 	switch u := c.Val().U.(type) {
 	case bool:
 		i := int64(obj.Bool2int(u))
-		s.WriteInt(base.Ctxt, n.Xoffset, wid, i)
+		s.WriteInt(base.Ctxt, n.Xoffset(), wid, i)
 
 	case *ir.Int:
-		s.WriteInt(base.Ctxt, n.Xoffset, wid, u.Int64())
+		s.WriteInt(base.Ctxt, n.Xoffset(), wid, u.Int64())
 
 	case *ir.Float:
 		f := u.Float64()
 		switch n.Type().Etype {
 		case types.TFLOAT32:
-			s.WriteFloat32(base.Ctxt, n.Xoffset, float32(f))
+			s.WriteFloat32(base.Ctxt, n.Xoffset(), float32(f))
 		case types.TFLOAT64:
-			s.WriteFloat64(base.Ctxt, n.Xoffset, f)
+			s.WriteFloat64(base.Ctxt, n.Xoffset(), f)
 		}
 
 	case *ir.Complex:
@@ -622,17 +622,17 @@ func litsym(n, c *ir.Node, wid int) {
 		i := u.Imag.Float64()
 		switch n.Type().Etype {
 		case types.TCOMPLEX64:
-			s.WriteFloat32(base.Ctxt, n.Xoffset, float32(r))
-			s.WriteFloat32(base.Ctxt, n.Xoffset+4, float32(i))
+			s.WriteFloat32(base.Ctxt, n.Xoffset(), float32(r))
+			s.WriteFloat32(base.Ctxt, n.Xoffset()+4, float32(i))
 		case types.TCOMPLEX128:
-			s.WriteFloat64(base.Ctxt, n.Xoffset, r)
-			s.WriteFloat64(base.Ctxt, n.Xoffset+8, i)
+			s.WriteFloat64(base.Ctxt, n.Xoffset(), r)
+			s.WriteFloat64(base.Ctxt, n.Xoffset()+8, i)
 		}
 
 	case string:
 		symdata := stringsym(n.Pos(), u)
-		s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, symdata, 0)
-		s.WriteInt(base.Ctxt, n.Xoffset+int64(Widthptr), Widthptr, int64(len(u)))
+		s.WriteAddr(base.Ctxt, n.Xoffset(), Widthptr, symdata, 0)
+		s.WriteInt(base.Ctxt, n.Xoffset()+int64(Widthptr), Widthptr, int64(len(u)))
 
 	default:
 		base.Fatal("litsym unhandled OLITERAL %v", c)

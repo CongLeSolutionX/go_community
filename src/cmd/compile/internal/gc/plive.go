@@ -491,10 +491,10 @@ func (lv *Liveness) pointerMap(liveout bvec, vars []*ir.Node, args, locals bvec)
 		node := vars[i]
 		switch node.Class() {
 		case ir.PAUTO:
-			onebitwalktype1(node.Type(), node.Xoffset+lv.stkptrsize, locals)
+			onebitwalktype1(node.Type(), node.Xoffset()+lv.stkptrsize, locals)
 
 		case ir.PPARAM, ir.PPARAMOUT:
-			onebitwalktype1(node.Type(), node.Xoffset, args)
+			onebitwalktype1(node.Type(), node.Xoffset(), args)
 		}
 	}
 }
@@ -1168,7 +1168,7 @@ func (lv *Liveness) emit() (argsSym, liveSym *obj.LSym) {
 	for _, n := range lv.vars {
 		switch n.Class() {
 		case ir.PPARAM, ir.PPARAMOUT:
-			if maxArgNode == nil || n.Xoffset > maxArgNode.Xoffset {
+			if maxArgNode == nil || n.Xoffset() > maxArgNode.Xoffset() {
 				maxArgNode = n
 			}
 		}
@@ -1176,7 +1176,7 @@ func (lv *Liveness) emit() (argsSym, liveSym *obj.LSym) {
 	// Next, find the offset of the largest pointer in the largest node.
 	var maxArgs int64
 	if maxArgNode != nil {
-		maxArgs = maxArgNode.Xoffset + typeptrdata(maxArgNode.Type())
+		maxArgs = maxArgNode.Xoffset() + typeptrdata(maxArgNode.Type())
 	}
 
 	// Size locals bitmaps to be stkptrsize sized.

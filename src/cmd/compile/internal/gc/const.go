@@ -833,7 +833,7 @@ func setconst(n *ir.Node, v ir.Val) {
 	n.SetPos(pos)
 	n.SetType(typ)
 	n.SetOrig(orig)
-	n.Xoffset = types.BADWIDTH
+	n.SetXoffset(types.BADWIDTH)
 	n.SetVal(v)
 	if vt := idealType(v.Ctype()); n.Type().IsUntyped() && n.Type() != vt {
 		base.Fatal("untyped type mismatch, have: %v, want: %v", n.Type(), vt)

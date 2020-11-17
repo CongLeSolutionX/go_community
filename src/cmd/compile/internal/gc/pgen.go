@@ -75,7 +75,7 @@ func cmpstackvarlt(a, b *ir.Node) bool {
 	}
 
 	if a.Class() != ir.PAUTO {
-		return a.Xoffset < b.Xoffset
+		return a.Xoffset() < b.Xoffset()
 	}
 
 	if a.Name().Used() != b.Name().Used() {
@@ -187,7 +187,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		if thearch.LinkArch.InFamily(sys.MIPS, sys.MIPS64, sys.ARM, sys.ARM64, sys.PPC64, sys.S390X) {
 			s.stksize = Rnd(s.stksize, int64(Widthptr))
 		}
-		n.Xoffset = -s.stksize
+		n.SetXoffset(-s.stksize)
 	}
 
 	s.stksize = Rnd(s.stksize, int64(Widthreg))
@@ -502,7 +502,7 @@ func createSimpleVars(fnsym *obj.LSym, apDecls []*ir.Node) ([]*ir.Node, []*dwarf
 
 func createSimpleVar(fnsym *obj.LSym, n *ir.Node) *dwarf.Var {
 	var abbrev int
-	offs := n.Xoffset
+	offs := n.Xoffset()
 
 	switch n.Class() {
 	case ir.PAUTO:
@@ -659,7 +659,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 			Name:          n.Sym().Name,
 			IsReturnValue: isReturnValue,
 			Abbrev:        abbrev,
-			StackOffset:   int32(n.Xoffset),
+			StackOffset:   int32(n.Xoffset()),
 			Type:          base.Ctxt.Lookup(typename),
 			DeclFile:      declpos.RelFilename(),
 			DeclLine:      declpos.RelLine(),
@@ -713,7 +713,7 @@ func stackOffset(slot ssa.LocalSlot) int32 {
 	case ir.PPARAM, ir.PPARAMOUT:
 		off += base.Ctxt.FixedFrameSize()
 	}
-	return int32(off + n.Xoffset + slot.Off)
+	return int32(off + n.Xoffset() + slot.Off)
 }
 
 // createComplexVar builds a single DWARF variable entry and location list.

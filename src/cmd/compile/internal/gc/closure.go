@@ -292,7 +292,7 @@ func transformclosure(xfunc *ir.Node) {
 				cv.SetType(types.NewPtr(v.Type()))
 			}
 			offset = Rnd(offset, int64(cv.Type().Align))
-			cv.Xoffset = offset
+			cv.SetXoffset(offset)
 			offset += cv.Type().Width
 
 			if v.Name().Byval() && v.Type().Width <= int64(2*Widthptr) {
@@ -476,7 +476,7 @@ func makepartialcall(fn *ir.Node, t0 *types.Type, meth *types.Sym) *ir.Node {
 
 	cv := nod(ir.OCLOSUREVAR, nil, nil)
 	cv.SetType(rcvrtype)
-	cv.Xoffset = Rnd(int64(Widthptr), int64(cv.Type().Align))
+	cv.SetXoffset(Rnd(int64(Widthptr), int64(cv.Type().Align)))
 
 	ptr := newname(lookup(".this"))
 	declare(ptr, ir.PAUTO)

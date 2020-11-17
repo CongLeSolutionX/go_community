@@ -165,7 +165,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 	n.SetLeft(nleft)
 	n.SetRight(nright)
 	n.SetPos(pos)
-	n.Xoffset = types.BADWIDTH
+	n.SetXoffset(types.BADWIDTH)
 	n.SetOrig(n)
 	return n
 }
@@ -1581,8 +1581,8 @@ func itabType(itab *ir.Node) *ir.Node {
 	typ := nodSym(ir.ODOTPTR, itab, nil)
 	typ.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	typ.SetTypecheck(1)
-	typ.Xoffset = int64(Widthptr) // offset of _type in runtime.itab
-	typ.SetBounded(true)          // guaranteed not to fault
+	typ.SetXoffset(int64(Widthptr)) // offset of _type in runtime.itab
+	typ.SetBounded(true)            // guaranteed not to fault
 	return typ
 }
 

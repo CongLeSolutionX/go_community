@@ -67,7 +67,7 @@ func evalunsafe(n *ir.Node) int64 {
 				}
 				fallthrough
 			case ir.ODOT:
-				v += r.Xoffset
+				v += r.Xoffset()
 			default:
 				ir.Dump("unsafenmagic", n.Left())
 				base.Fatal("impossible %#v node after dot insertion", r.Op)

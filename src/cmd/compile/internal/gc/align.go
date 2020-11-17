@@ -130,10 +130,10 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 			// It's possible the ordering has changed and this is
 			// now the common case. I'm not sure.
 			if n.Name().Param.Stackcopy != nil {
-				n.Name().Param.Stackcopy.Xoffset = o
-				n.Xoffset = 0
+				n.Name().Param.Stackcopy.SetXoffset(o)
+				n.SetXoffset(0)
 			} else {
-				n.Xoffset = o
+				n.SetXoffset(o)
 			}
 		}
 

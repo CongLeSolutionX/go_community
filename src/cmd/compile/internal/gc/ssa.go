@@ -256,14 +256,14 @@ func (s *state) emitOpenDeferInfo() {
 		}
 	}
 	off = dvarint(x, off, maxargsize)
-	off = dvarint(x, off, -s.deferBitsTemp.Xoffset)
+	off = dvarint(x, off, -s.deferBitsTemp.Xoffset())
 	off = dvarint(x, off, int64(len(s.openDefers)))
 
 	// Write in reverse-order, for ease of running in that order at runtime
 	for i := len(s.openDefers) - 1; i >= 0; i-- {
 		r := s.openDefers[i]
 		off = dvarint(x, off, r.n.Left().Type().ArgWidth())
-		off = dvarint(x, off, -r.closureNode.Xoffset)
+		off = dvarint(x, off, -r.closureNode.Xoffset())
 		numArgs := len(r.argNodes)
 		if r.rcvrNode != nil {
 			// If there's an interface receiver, treat/place it as the first
@@ -273,13 +273,13 @@ func (s *state) emitOpenDeferInfo() {
 		}
 		off = dvarint(x, off, int64(numArgs))
 		if r.rcvrNode != nil {
-			off = dvarint(x, off, -r.rcvrNode.Xoffset)
+			off = dvarint(x, off, -r.rcvrNode.Xoffset())
 			off = dvarint(x, off, s.config.PtrSize)
 			off = dvarint(x, off, 0)
 		}
 		for j, arg := range r.argNodes {
 			f := getParam(r.n, j)
-			off = dvarint(x, off, -arg.Xoffset)
+			off = dvarint(x, off, -arg.Xoffset())
 			off = dvarint(x, off, f.Type.Size())
 			off = dvarint(x, off, f.Offset)
 		}
@@ -417,10 +417,10 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 		switch n.Class() {
 		case ir.PPARAM:
 			s.decladdrs[n] = s.entryNewValue2A(ssa.OpLocalAddr, types.NewPtr(n.Type()), n, s.sp, s.startmem)
-			args = append(args, ssa.Param{Type: n.Type(), Offset: int32(n.Xoffset)})
+			args = append(args, ssa.Param{Type: n.Type(), Offset: int32(n.Xoffset())})
 		case ir.PPARAMOUT:
 			s.decladdrs[n] = s.entryNewValue2A(ssa.OpLocalAddr, types.NewPtr(n.Type()), n, s.sp, s.startmem)
-			results = append(results, ssa.Param{Type: n.Type(), Offset: int32(n.Xoffset)})
+			results = append(results, ssa.Param{Type: n.Type(), Offset: int32(n.Xoffset())})
 			if s.canSSA(n) {
 				// Save ssa-able PPARAMOUT variables so we can
 				// store them back to the stack at the end of
@@ -1545,7 +1545,7 @@ func (s *state) stmt(n *ir.Node) {
 		s.nilCheck(p)
 
 	case ir.OINLMARK:
-		s.newValue1I(ssa.OpInlMark, types.TypeVoid, n.Xoffset, s.mem())
+		s.newValue1I(ssa.OpInlMark, types.TypeVoid, n.Xoffset(), s.mem())
 
 	default:
 		s.Fatalf("unhandled stmt %v", n.Op)
@@ -2577,13 +2577,13 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 	case ir.ORESULT:
 		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpInterLECall && s.prevCall.Op != ssa.OpClosureLECall {
 			// Do the old thing
-			addr := s.constOffPtrSP(types.NewPtr(n.Type()), n.Xoffset)
+			addr := s.constOffPtrSP(types.NewPtr(n.Type()), n.Xoffset())
 			return s.rawLoad(n.Type(), addr)
 		}
-		which := s.prevCall.Aux.(*ssa.AuxCall).ResultForOffset(n.Xoffset)
+		which := s.prevCall.Aux.(*ssa.AuxCall).ResultForOffset(n.Xoffset())
 		if which == -1 {
 			// Do the old thing // TODO: Panic instead.
-			addr := s.constOffPtrSP(types.NewPtr(n.Type()), n.Xoffset)
+			addr := s.constOffPtrSP(types.NewPtr(n.Type()), n.Xoffset())
 			return s.rawLoad(n.Type(), addr)
 		}
 		if canSSAType(n.Type()) {
@@ -2620,7 +2620,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 
 	case ir.ODOTPTR:
 		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos())
-		p = s.newValue1I(ssa.OpOffPtr, types.NewPtr(n.Type()), n.Xoffset, p)
+		p = s.newValue1I(ssa.OpOffPtr, types.NewPtr(n.Type()), n.Xoffset(), p)
 		return s.load(n.Type(), p)
 
 	case ir.OINDEX:
@@ -4807,7 +4807,7 @@ func (s *state) getClosureAndRcvr(fn *ir.Node) (*ssa.Value, *ssa.Value) {
 	i := s.expr(fn.Left())
 	itab := s.newValue1(ssa.OpITab, types.Types[types.TUINTPTR], i)
 	s.nilCheck(itab)
-	itabidx := fn.Xoffset + 2*int64(Widthptr) + 8 // offset of fun field in runtime.itab
+	itabidx := fn.Xoffset() + 2*int64(Widthptr) + 8 // offset of fun field in runtime.itab
 	closure := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.UintptrPtr, itabidx, itab)
 	rcvr := s.newValue1(ssa.OpIData, s.f.Config.Types.BytePtr, i)
 	return closure, rcvr
@@ -4841,8 +4841,8 @@ func (s *state) addr(n *ir.Node) *ssa.Value {
 			// global variable
 			v := s.entryNewValue1A(ssa.OpAddr, t, n.Sym().Linksym(), s.sb)
 			// TODO: Make OpAddr use AuxInt as well as Aux.
-			if n.Xoffset != 0 {
-				v = s.entryNewValue1I(ssa.OpOffPtr, v.Type, n.Xoffset, v)
+			if n.Xoffset() != 0 {
+				v = s.entryNewValue1I(ssa.OpOffPtr, v.Type, n.Xoffset(), v)
 			}
 			return v
 		case ir.PPARAM:
@@ -4871,12 +4871,12 @@ func (s *state) addr(n *ir.Node) *ssa.Value {
 	case ir.ORESULT:
 		// load return from callee
 		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpInterLECall && s.prevCall.Op != ssa.OpClosureLECall {
-			return s.constOffPtrSP(t, n.Xoffset)
+			return s.constOffPtrSP(t, n.Xoffset())
 		}
-		which := s.prevCall.Aux.(*ssa.AuxCall).ResultForOffset(n.Xoffset)
+		which := s.prevCall.Aux.(*ssa.AuxCall).ResultForOffset(n.Xoffset())
 		if which == -1 {
 			// Do the old thing // TODO: Panic instead.
-			return s.constOffPtrSP(t, n.Xoffset)
+			return s.constOffPtrSP(t, n.Xoffset())
 		}
 		x := s.newValue1I(ssa.OpSelectNAddr, t, which, s.prevCall)
 		return x
@@ -4900,12 +4900,12 @@ func (s *state) addr(n *ir.Node) *ssa.Value {
 		return s.exprPtr(n.Left(), n.Bounded(), n.Pos())
 	case ir.ODOT:
 		p := s.addr(n.Left())
-		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p)
+		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset(), p)
 	case ir.ODOTPTR:
 		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos())
-		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p)
+		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset(), p)
 	case ir.OCLOSUREVAR:
-		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset,
+		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset(),
 			s.entryNewValue0(ssa.OpGetClosurePtr, s.f.Config.Types.BytePtr))
 	case ir.OCONVNOP:
 		addr := s.addr(n.Left())
@@ -6070,8 +6070,8 @@ func (s *state) addNamedValue(n *ir.Node, v *ssa.Value) {
 		// from being assigned too early. See #14591 and #14762. TODO: allow this.
 		return
 	}
-	if n.Class() == ir.PAUTO && n.Xoffset != 0 {
-		s.Fatalf("AUTO var with offset %v %d", n, n.Xoffset)
+	if n.Class() == ir.PAUTO && n.Xoffset() != 0 {
+		s.Fatalf("AUTO var with offset %v %d", n, n.Xoffset())
 	}
 	loc := ssa.LocalSlot{N: n, Type: n.Type(), Off: 0}
 	values, ok := s.f.NamedValues[loc]
@@ -6195,7 +6195,7 @@ func (s *SSAGenState) DebugFriendlySetPosFrom(v *ssa.Value) {
 type byXoffset []*ir.Node
 
 func (s byXoffset) Len() int           { return len(s) }
-func (s byXoffset) Less(i, j int) bool { return s[i].Xoffset < s[j].Xoffset }
+func (s byXoffset) Less(i, j int) bool { return s[i].Xoffset() < s[j].Xoffset() }
 func (s byXoffset) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
 func emitStackObjects(e *ssafn, pp *Progs) {
@@ -6221,7 +6221,7 @@ func emitStackObjects(e *ssafn, pp *Progs) {
 		// Note: arguments and return values have non-negative Xoffset,
 		// in which case the offset is relative to argp.
 		// Locals have a negative Xoffset, in which case the offset is relative to varp.
-		off = duintptr(x, off, uint64(v.Xoffset))
+		off = duintptr(x, off, uint64(v.Xoffset()))
 		if !typesym(v.Type()).Siggen() {
 			e.Fatalf(v.Pos(), "stack object's type symbol not generated for type %s", v.Type())
 		}
@@ -6593,13 +6593,13 @@ func defframe(s *SSAGenState, e *ssafn) {
 		if n.Class() != ir.PAUTO {
 			e.Fatalf(n.Pos(), "needzero class %d", n.Class())
 		}
-		if n.Type().Size()%int64(Widthptr) != 0 || n.Xoffset%int64(Widthptr) != 0 || n.Type().Size() == 0 {
-			e.Fatalf(n.Pos(), "var %L has size %d offset %d", n, n.Type().Size(), n.Xoffset)
+		if n.Type().Size()%int64(Widthptr) != 0 || n.Xoffset()%int64(Widthptr) != 0 || n.Type().Size() == 0 {
+			e.Fatalf(n.Pos(), "var %L has size %d offset %d", n, n.Type().Size(), n.Xoffset())
 		}
 
-		if lo != hi && n.Xoffset+n.Type().Size() >= lo-int64(2*Widthreg) {
+		if lo != hi && n.Xoffset()+n.Type().Size() >= lo-int64(2*Widthreg) {
 			// Merge with range we already have.
-			lo = n.Xoffset
+			lo = n.Xoffset()
 			continue
 		}
 
@@ -6607,7 +6607,7 @@ func defframe(s *SSAGenState, e *ssafn) {
 		p = thearch.ZeroRange(pp, p, frame+lo, hi-lo, &state)
 
 		// Set new range.
-		lo = n.Xoffset
+		lo = n.Xoffset()
 		hi = lo + n.Type().Size()
 	}
 
@@ -6678,12 +6678,12 @@ func AddAux2(a *obj.Addr, v *ssa.Value, offset int64) {
 		if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
 			a.Name = obj.NAME_PARAM
 			a.Sym = n.Orig().Sym().Linksym()
-			a.Offset += n.Xoffset
+			a.Offset += n.Xoffset()
 			break
 		}
 		a.Name = obj.NAME_AUTO
 		a.Sym = n.Sym().Linksym()
-		a.Offset += n.Xoffset
+		a.Offset += n.Xoffset()
 	default:
 		v.Fatalf("aux in %s not implemented %#v", v, v.Aux)
 	}
@@ -6826,7 +6826,7 @@ func AddrAuto(a *obj.Addr, v *ssa.Value) {
 	a.Type = obj.TYPE_MEM
 	a.Sym = n.Sym().Linksym()
 	a.Reg = int16(thearch.REGSP)
-	a.Offset = n.Xoffset + off
+	a.Offset = n.Xoffset() + off
 	if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
 		a.Name = obj.NAME_PARAM
 	} else {
@@ -6842,7 +6842,7 @@ func (s *SSAGenState) AddrScratch(a *obj.Addr) {
 	a.Name = obj.NAME_AUTO
 	a.Sym = s.ScratchFpMem.Sym().Linksym()
 	a.Reg = int16(thearch.REGSP)
-	a.Offset = s.ScratchFpMem.Xoffset
+	a.Offset = s.ScratchFpMem.Xoffset()
 }
 
 // Call returns a new CALL instruction for the SSA value v.
@@ -6937,7 +6937,7 @@ func fieldIdx(n *ir.Node) int {
 			i++
 			continue
 		}
-		if t1.Offset != n.Xoffset {
+		if t1.Offset != n.Xoffset() {
 			panic("field offset doesn't match")
 		}
 		return i

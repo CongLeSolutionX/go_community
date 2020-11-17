@@ -104,7 +104,7 @@ func declare(n *ir.Node, ctxt ir.Class) {
 	}
 
 	if ctxt == ir.PAUTO {
-		n.Xoffset = 0
+		n.SetXoffset(0)
 	}
 
 	if s.Block == types.Block {
@@ -202,7 +202,7 @@ func newnoname(s *types.Sym) *ir.Node {
 	}
 	n := nod(ir.ONONAME, nil, nil)
 	n.SetSym(s)
-	n.Xoffset = 0
+	n.SetXoffset(0)
 	return n
 }
 

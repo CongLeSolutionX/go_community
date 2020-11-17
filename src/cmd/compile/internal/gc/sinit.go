@@ -139,7 +139,7 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 		n := l.Copy()
 		for i := range p.E {
 			e := &p.E[i]
-			n.Xoffset = l.Xoffset + e.Xoffset
+			n.SetXoffset(l.Xoffset() + e.Xoffset)
 			n.SetType(e.Expr.Type())
 			if e.Expr.Op == ir.OLITERAL {
 				litsym(n, e.Expr, int(n.Type().Width))
@@ -153,7 +153,7 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 			// copying someone else's computation.
 			rr := orig.SepCopy()
 			rr.SetType(ll.Type())
-			rr.Xoffset = rr.Xoffset + e.Xoffset
+			rr.SetXoffset(rr.Xoffset() + e.Xoffset)
 			setlineno(rr)
 			s.append(nod(ir.OAS, ll, rr))
 		}
@@ -232,7 +232,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 		n := l.Copy()
 		for i := range p.E {
 			e := &p.E[i]
-			n.Xoffset = l.Xoffset + e.Xoffset
+			n.SetXoffset(l.Xoffset() + e.Xoffset)
 			n.SetType(e.Expr.Type())
 			if e.Expr.Op == ir.OLITERAL {
 				litsym(n, e.Expr, int(n.Type().Width))
@@ -294,7 +294,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 
 		// Emit itab, advance offset.
 		addrsym(n, itab.Left()) // itab is an OADDR node
-		n.Xoffset = n.Xoffset + int64(Widthptr)
+		n.SetXoffset(n.Xoffset() + int64(Widthptr))
 
 		// Emit data.
 		if isdirectiface(val.Type()) {
@@ -1010,7 +1010,7 @@ func stataddr(nam *ir.Node, n *ir.Node) bool {
 		if !stataddr(nam, n.Left()) {
 			break
 		}
-		nam.Xoffset = nam.Xoffset + n.Xoffset
+		nam.SetXoffset(nam.Xoffset() + n.Xoffset())
 		nam.SetType(n.Type())
 		return true
 
@@ -1030,7 +1030,7 @@ func stataddr(nam *ir.Node, n *ir.Node) bool {
 		if n.Type().Width != 0 && thearch.MAXWIDTH/n.Type().Width <= int64(l) {
 			break
 		}
-		nam.Xoffset = nam.Xoffset + int64(l)*n.Type().Width
+		nam.SetXoffset(nam.Xoffset() + int64(l)*n.Type().Width)
 		nam.SetType(n.Type())
 		return true
 	}
@@ -1070,7 +1070,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 			if a.Sym().IsBlank() {
 				continue
 			}
-			s.addvalue(p, a.Xoffset, a.Left())
+			s.addvalue(p, a.Xoffset(), a.Left())
 		}
 
 	case ir.OMAPLIT:

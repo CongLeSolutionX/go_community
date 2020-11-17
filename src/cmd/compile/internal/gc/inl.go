@@ -1160,7 +1160,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	// Note issue 28603.
 	inlMark := nod(ir.OINLMARK, nil, nil)
 	inlMark.SetPos(n.Pos().WithIsStmt())
-	inlMark.Xoffset = int64(newIndex)
+	inlMark.SetXoffset(int64(newIndex))
 	ninit.Append(inlMark)
 
 	if base.Flag.GenDwarfInl > 0 {

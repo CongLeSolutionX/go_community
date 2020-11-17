@@ -126,12 +126,12 @@ func initOrder(l []*ir.Node) []*ir.Node {
 }
 
 func (o *InitOrder) processAssign(n *ir.Node) {
-	if n.Initorder() != InitNotStarted || n.Xoffset != types.BADWIDTH {
-		base.Fatal("unexpected state: %v, %v, %v", n, n.Initorder(), n.Xoffset)
+	if n.Initorder() != InitNotStarted || n.Xoffset() != types.BADWIDTH {
+		base.Fatal("unexpected state: %v, %v, %v", n, n.Initorder(), n.Xoffset())
 	}
 
 	n.SetInitorder(InitPending)
-	n.Xoffset = 0
+	n.SetXoffset(0)
 
 	// Compute number of variable dependencies and build the
 	// inverse dependency ("blocking") graph.
@@ -142,11 +142,11 @@ func (o *InitOrder) processAssign(n *ir.Node) {
 		if dep.Class() != ir.PEXTERN || defn.Initorder() == InitDone {
 			continue
 		}
-		n.Xoffset = n.Xoffset + 1
+		n.SetXoffset(n.Xoffset() + 1)
 		o.blocking[defn] = append(o.blocking[defn], n)
 	}
 
-	if n.Xoffset == 0 {
+	if n.Xoffset() == 0 {
 		heap.Push(&o.ready, n)
 	}
 }
@@ -157,20 +157,20 @@ func (o *InitOrder) processAssign(n *ir.Node) {
 func (o *InitOrder) flushReady(initialize func(*ir.Node)) {
 	for o.ready.Len() != 0 {
 		n := heap.Pop(&o.ready).(*ir.Node)
-		if n.Initorder() != InitPending || n.Xoffset != 0 {
-			base.Fatal("unexpected state: %v, %v, %v", n, n.Initorder(), n.Xoffset)
+		if n.Initorder() != InitPending || n.Xoffset() != 0 {
+			base.Fatal("unexpected state: %v, %v, %v", n, n.Initorder(), n.Xoffset())
 		}
 
 		initialize(n)
 		n.SetInitorder(InitDone)
-		n.Xoffset = types.BADWIDTH
+		n.SetXoffset(types.BADWIDTH)
 
 		blocked := o.blocking[n]
 		delete(o.blocking, n)
 
 		for _, m := range blocked {
-			m.Xoffset = m.Xoffset - 1
-			if m.Xoffset == 0 {
+			m.SetXoffset(m.Xoffset() - 1)
+			if m.Xoffset() == 0 {
 				heap.Push(&o.ready, m)
 			}
 		}

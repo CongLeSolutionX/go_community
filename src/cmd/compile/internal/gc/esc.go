@@ -311,7 +311,7 @@ func moveToHeap(n *ir.Node) {
 	// in addition to the copy in the heap that may live longer than
 	// the function.
 	if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
-		if n.Xoffset == types.BADWIDTH {
+		if n.Xoffset() == types.BADWIDTH {
 			base.Fatal("addrescapes before param assignment")
 		}
 
@@ -321,7 +321,7 @@ func moveToHeap(n *ir.Node) {
 		// so that analyses of the local (on-stack) variables use it.
 		stackcopy := newname(n.Sym())
 		stackcopy.SetType(n.Type())
-		stackcopy.Xoffset = n.Xoffset
+		stackcopy.SetXoffset(n.Xoffset())
 		stackcopy.SetClass(n.Class())
 		stackcopy.Name().Param.Heapaddr = heapaddr
 		if n.Class() == ir.PPARAMOUT {
@@ -358,7 +358,7 @@ func moveToHeap(n *ir.Node) {
 
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.
 	n.SetClass(ir.PAUTOHEAP)
-	n.Xoffset = 0
+	n.SetXoffset(0)
 	n.Name().Param.Heapaddr = heapaddr
 	n.Esc = EscHeap
 	if base.Flag.LowerM != 0 {

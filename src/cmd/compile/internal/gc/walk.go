@@ -1624,7 +1624,7 @@ func markUsedIfaceMethod(n *ir.Node) {
 	r.Sym = tsym
 	// n.Left.Xoffset is the method index * Widthptr (the offset of code pointer
 	// in itab).
-	midx := n.Left().Xoffset / int64(Widthptr)
+	midx := n.Left().Xoffset() / int64(Widthptr)
 	r.Add = ifaceMethodOffset(ityp, midx)
 	r.Type = objabi.R_USEIFACEMETHOD
 }
@@ -1780,7 +1780,7 @@ func ascompatet(nl ir.Nodes, nr *types.Type) []*ir.Node {
 		}
 
 		res := nod(ir.ORESULT, nil, nil)
-		res.Xoffset = base.Ctxt.FixedFrameSize() + r.Offset
+		res.SetXoffset(base.Ctxt.FixedFrameSize() + r.Offset)
 		res.SetType(r.Type)
 		res.SetTypecheck(1)
 

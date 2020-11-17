@@ -2416,7 +2416,7 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 	n.SetRight(newname(n.Sym()))
 	n.SetSym(methodSym(t, n.Sym()))
 	n.SetType(methodfunc(m.Type, n.Left().Type()))
-	n.Xoffset = 0
+	n.SetXoffset(0)
 	n.SetClass(ir.PFUNC)
 	// methodSym already marked n.Sym as a function.
 
@@ -2480,7 +2480,7 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 		if f1.Offset == types.BADWIDTH {
 			base.Fatal("lookdot badwidth %v %p", f1, f1)
 		}
-		n.Xoffset = f1.Offset
+		n.SetXoffset(f1.Offset)
 		n.SetType(f1.Type)
 		if objabi.Fieldtrack_enabled > 0 {
 			dotField[typeSymKey{t.Orig, s}] = f1
@@ -2547,7 +2547,7 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 		}
 
 		n.SetSym(methodSym(n.Left().Type(), f2.Sym))
-		n.Xoffset = f2.Offset
+		n.SetXoffset(f2.Offset)
 		n.SetType(f2.Type)
 		n.Op = ir.ODOTMETH
 
@@ -2916,7 +2916,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 				// No pushtype allowed here. Must name fields for that.
 				n1 = assignconv(n1, f.Type, "field value")
 				n1 = nodSym(ir.OSTRUCTKEY, n1, f.Sym)
-				n1.Xoffset = f.Offset
+				n1.SetXoffset(f.Offset)
 				ls[i] = n1
 			}
 			if len(ls) < t.NumFields() {
@@ -2997,7 +2997,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 					continue
 				}
 				fielddup(f.Sym.Name, hash)
-				l.Xoffset = f.Offset
+				l.SetXoffset(f.Offset)
 
 				// No pushtype allowed here. Tried and rejected.
 				l.SetLeft(typecheck(l.Left(), ctxExpr))
