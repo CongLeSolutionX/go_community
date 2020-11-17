@@ -211,7 +211,7 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 		case ir.OSEND:
 			// if selectnbsend(c, v) { body } else { default body }
 			ch := n.Left()
-			r.SetLeft(mkcall1(chanfn("selectnbsend", 2, ch.Type), types.Types[types.TBOOL], &r.Ninit, ch, n.Right()))
+			r.SetLeft(mkcall1(chanfn("selectnbsend", 2, ch.Type()), types.Types[types.TBOOL], &r.Ninit, ch, n.Right()))
 
 		case ir.OSELRECV:
 			// if selectnbrecv(&v, c) { body } else { default body }
@@ -220,7 +220,7 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 			if elem == nil {
 				elem = nodnil()
 			}
-			r.SetLeft(mkcall1(chanfn("selectnbrecv", 2, ch.Type), types.Types[types.TBOOL], &r.Ninit, elem, ch))
+			r.SetLeft(mkcall1(chanfn("selectnbrecv", 2, ch.Type()), types.Types[types.TBOOL], &r.Ninit, elem, ch))
 
 		case ir.OSELRECV2:
 			// if selectnbrecv2(&v, &received, c) { body } else { default body }
@@ -231,7 +231,7 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 			}
 			receivedp := nod(ir.OADDR, n.List.First(), nil)
 			receivedp = typecheck(receivedp, ctxExpr)
-			r.SetLeft(mkcall1(chanfn("selectnbrecv2", 2, ch.Type), types.Types[types.TBOOL], &r.Ninit, elem, receivedp, ch))
+			r.SetLeft(mkcall1(chanfn("selectnbrecv2", 2, ch.Type()), types.Types[types.TBOOL], &r.Ninit, elem, receivedp, ch))
 		}
 
 		r.SetLeft(typecheck(r.Left(), ctxExpr))
@@ -328,7 +328,7 @@ func walkselectcases(cases *ir.Nodes) []*ir.Node {
 	r = nod(ir.OAS2, nil, nil)
 	r.List.Set2(chosen, recvOK)
 	fn := syslook("selectgo")
-	r.Rlist.Set1(mkcall1(fn, fn.Type.Results(), nil, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), pc0, nodintconst(int64(nsends)), nodintconst(int64(nrecvs)), nodbool(dflt == nil)))
+	r.Rlist.Set1(mkcall1(fn, fn.Type().Results(), nil, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), pc0, nodintconst(int64(nsends)), nodintconst(int64(nrecvs)), nodbool(dflt == nil)))
 	r = typecheck(r, ctxStmt)
 	init = append(init, r)
 

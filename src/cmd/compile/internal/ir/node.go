@@ -34,7 +34,7 @@ type Node struct {
 	Rlist Nodes
 
 	// most nodes
-	Type *types.Type
+	typ  *types.Type
 	orig *Node // original form, for printing, and tracking copies of ONAMEs
 
 	// func
@@ -72,8 +72,8 @@ func (n *Node) Right() *Node          { return n.right }
 func (n *Node) SetRight(x *Node)      { n.right = x }
 func (n *Node) Orig() *Node           { return n.orig }
 func (n *Node) SetOrig(x *Node)       { n.orig = x }
-func (n *Node) GetType() *types.Type  { return n.Type }
-func (n *Node) SetType(x *types.Type) { n.Type = x }
+func (n *Node) Type() *types.Type     { return n.typ }
+func (n *Node) SetType(x *types.Type) { n.typ = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -212,8 +212,8 @@ func (n *Node) SetEmbedded(b bool)  { n.flags.set(nodeEmbedded, b) }
 // During conversion to SSA, non-nil pointers won't have nil checks
 // inserted before dereferencing. See state.exprPtr.
 func (n *Node) MarkNonNil() {
-	if !n.Type.IsPtr() && !n.Type.IsUnsafePtr() {
-		base.Fatal("MarkNonNil(%v), type %v", n, n.Type)
+	if !n.Type().IsPtr() && !n.Type().IsUnsafePtr() {
+		base.Fatal("MarkNonNil(%v), type %v", n, n.Type())
 	}
 	n.flags.set(nodeNonNil, true)
 }
@@ -1426,7 +1426,7 @@ func (n *Node) IsBlank() bool {
 // IsMethod reports whether n is a method.
 // n must be a function or a method.
 func (n *Node) IsMethod() bool {
-	return n.Type.Recv() != nil
+	return n.Type().Recv() != nil
 }
 
 // Line returns n's position as a string. If n has been inlined,
@@ -1436,7 +1436,7 @@ func (n *Node) Line() string {
 }
 
 func (n *Node) Typ() *types.Type {
-	return n.Type
+	return n.Type()
 }
 
 func (n *Node) StorageClass() ssa.StorageClass {

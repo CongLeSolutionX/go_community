@@ -576,16 +576,16 @@ func assignconv(n *ir.Node, t *types.Type, context string) *ir.Node {
 
 // Convert node n for assignment to type t.
 func assignconvfn(n *ir.Node, t *types.Type, context func() string) *ir.Node {
-	if n == nil || n.Type == nil || n.Type.Broke() {
+	if n == nil || n.Type() == nil || n.Type().Broke() {
 		return n
 	}
 
-	if t.Etype == types.TBLANK && n.Type.Etype == types.TNIL {
+	if t.Etype == types.TBLANK && n.Type().Etype == types.TNIL {
 		base.Error("use of untyped nil")
 	}
 
 	n = convlit1(n, t, false, context)
-	if n.Type == nil {
+	if n.Type() == nil {
 		return n
 	}
 	if t.Etype == types.TBLANK {
@@ -594,28 +594,28 @@ func assignconvfn(n *ir.Node, t *types.Type, context func() string) *ir.Node {
 
 	// Convert ideal bool from comparison to plain bool
 	// if the next step is non-bool (like interface{}).
-	if n.Type == types.UntypedBool && !t.IsBoolean() {
+	if n.Type() == types.UntypedBool && !t.IsBoolean() {
 		if n.Op == ir.ONAME || n.Op == ir.OLITERAL {
 			r := nod(ir.OCONVNOP, n, nil)
-			r.Type = types.Types[types.TBOOL]
+			r.SetType(types.Types[types.TBOOL])
 			r.SetTypecheck(1)
 			r.SetImplicit(true)
 			n = r
 		}
 	}
 
-	if types.Identical(n.Type, t) {
+	if types.Identical(n.Type(), t) {
 		return n
 	}
 
-	op, why := assignop(n.Type, t)
+	op, why := assignop(n.Type(), t)
 	if op == ir.OXXX {
 		base.Error("cannot use %L as type %v in %s%s", n, t, context(), why)
 		op = ir.OCONV
 	}
 
 	r := nod(op, n, nil)
-	r.Type = t
+	r.SetType(t)
 	r.SetTypecheck(1)
 	r.SetImplicit(true)
 	r.SetOrig(n.Orig())
@@ -631,13 +631,13 @@ func backingArrayPtrLen(n *ir.Node) (ptr, len *ir.Node) {
 		base.Fatal("backingArrayPtrLen not cheap: %v", n)
 	}
 	ptr = nod(ir.OSPTR, n, nil)
-	if n.Type.IsString() {
-		ptr.Type = types.Types[types.TUINT8].PtrTo()
+	if n.Type().IsString() {
+		ptr.SetType(types.Types[types.TUINT8].PtrTo())
 	} else {
-		ptr.Type = n.Type.Elem().PtrTo()
+		ptr.SetType(n.Type().Elem().PtrTo())
 	}
 	len = nod(ir.OLEN, n, nil)
-	len.Type = types.Types[types.TINT]
+	len.SetType(types.Types[types.TINT])
 	return ptr, len
 }
 
@@ -712,15 +712,15 @@ func calcHasCall(n *ir.Node) bool {
 	// When using soft-float, these ops might be rewritten to function calls
 	// so we ensure they are evaluated first.
 	case ir.OADD, ir.OSUB, ir.ONEG, ir.OMUL:
-		if thearch.SoftFloat && (isFloat[n.Type.Etype] || isComplex[n.Type.Etype]) {
+		if thearch.SoftFloat && (isFloat[n.Type().Etype] || isComplex[n.Type().Etype]) {
 			return true
 		}
 	case ir.OLT, ir.OEQ, ir.ONE, ir.OLE, ir.OGE, ir.OGT:
-		if thearch.SoftFloat && (isFloat[n.Left().Type.Etype] || isComplex[n.Left().Type.Etype]) {
+		if thearch.SoftFloat && (isFloat[n.Left().Type().Etype] || isComplex[n.Left().Type().Etype]) {
 			return true
 		}
 	case ir.OCONV:
-		if thearch.SoftFloat && ((isFloat[n.Type.Etype] || isComplex[n.Type.Etype]) || (isFloat[n.Left().Type.Etype] || isComplex[n.Left().Type.Etype])) {
+		if thearch.SoftFloat && ((isFloat[n.Type().Etype] || isComplex[n.Type().Etype]) || (isFloat[n.Left().Type().Etype] || isComplex[n.Left().Type().Etype])) {
 			return true
 		}
 	}
@@ -876,7 +876,7 @@ func cheapexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
 		return n
 	}
 
-	return copyexpr(n, n.Type, init)
+	return copyexpr(n, n.Type(), init)
 }
 
 // Code to resolve elided DOTs in embedded types.
@@ -1021,7 +1021,7 @@ func adddot(n *ir.Node) *ir.Node {
 	if n.Left().Diag() {
 		n.SetDiag(true)
 	}
-	t := n.Left().Type
+	t := n.Left().Type()
 	if t == nil {
 		return n
 	}
@@ -1243,7 +1243,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	fn := dclfunc(newnam, tfn)
 	fn.Func.SetDupok(true)
 
-	nthis := ir.AsNode(tfn.Type.Recv().Nname)
+	nthis := ir.AsNode(tfn.Type().Recv().Nname)
 
 	methodrcvr := method.Type.Recv().Type
 
@@ -1279,8 +1279,8 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	} else {
 		fn.Func.SetWrapper(true) // ignore frame for panic+recover matching
 		call := nod(ir.OCALL, dot, nil)
-		call.List.Set(paramNnames(tfn.Type))
-		call.SetIsDDD(tfn.Type.IsVariadic())
+		call.List.Set(paramNnames(tfn.Type()))
+		call.SetIsDDD(tfn.Type().IsVariadic())
 		if method.Type.NumResults() > 0 {
 			n := nod(ir.ORETURN, nil, nil)
 			n.List.Set1(call)
@@ -1328,13 +1328,13 @@ func hashmem(t *types.Type) *ir.Node {
 
 	n := newname(sym)
 	setNodeNameFunc(n)
-	n.Type = functype(nil, []*ir.Node{
+	n.SetType(functype(nil, []*ir.Node{
 		anonfield(types.NewPtr(t)),
 		anonfield(types.Types[types.TUINTPTR]),
 		anonfield(types.Types[types.TUINTPTR]),
 	}, []*ir.Node{
 		anonfield(types.Types[types.TUINTPTR]),
-	})
+	}))
 	return n
 }
 
@@ -1470,8 +1470,8 @@ func liststmt(l []*ir.Node) *ir.Node {
 }
 
 func ngotype(n *ir.Node) *types.Sym {
-	if n.Type != nil {
-		return typenamesym(n.Type)
+	if n.Type() != nil {
+		return typenamesym(n.Type())
 	}
 	return nil
 }
@@ -1485,7 +1485,7 @@ func addinit(n *ir.Node, init []*ir.Node) *ir.Node {
 	if n.MayBeShared() {
 		// Introduce OCONVNOP to hold init list.
 		n = nod(ir.OCONVNOP, n, nil)
-		n.Type = n.Left().Type
+		n.SetType(n.Left().Type())
 		n.SetTypecheck(1)
 	}
 
@@ -1579,7 +1579,7 @@ func isdirectiface(t *types.Type) bool {
 // itabType loads the _type field from a runtime.itab struct.
 func itabType(itab *ir.Node) *ir.Node {
 	typ := nodSym(ir.ODOTPTR, itab, nil)
-	typ.Type = types.NewPtr(types.Types[types.TUINT8])
+	typ.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	typ.SetTypecheck(1)
 	typ.Xoffset = int64(Widthptr) // offset of _type in runtime.itab
 	typ.SetBounded(true)          // guaranteed not to fault
@@ -1595,14 +1595,14 @@ func ifaceData(pos src.XPos, n *ir.Node, t *types.Type) *ir.Node {
 	}
 	ptr := nodlSym(pos, ir.OIDATA, n, nil)
 	if isdirectiface(t) {
-		ptr.Type = t
+		ptr.SetType(t)
 		ptr.SetTypecheck(1)
 		return ptr
 	}
-	ptr.Type = types.NewPtr(t)
+	ptr.SetType(types.NewPtr(t))
 	ptr.SetTypecheck(1)
 	ind := nodl(pos, ir.ODEREF, ptr, nil)
-	ind.Type = t
+	ind.SetType(t)
 	ind.SetTypecheck(1)
 	ind.SetBounded(true)
 	return ind

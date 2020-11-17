@@ -300,8 +300,8 @@ func genhash(t *types.Type) *obj.LSym {
 	tfn.Rlist.Set1(anonfield(types.Types[types.TUINTPTR]))
 
 	fn := dclfunc(sym, tfn)
-	np := ir.AsNode(tfn.Type.Params().Field(0).Nname)
-	nh := ir.AsNode(tfn.Type.Params().Field(1).Nname)
+	np := ir.AsNode(tfn.Type().Params().Field(0).Nname)
+	nh := ir.AsNode(tfn.Type().Params().Field(1).Nname)
 
 	switch t.Etype {
 	case types.TARRAY:
@@ -312,7 +312,7 @@ func genhash(t *types.Type) *obj.LSym {
 
 		n := nod(ir.ORANGE, nil, nod(ir.ODEREF, np, nil))
 		ni := newname(lookup("i"))
-		ni.Type = types.Types[types.TINT]
+		ni.SetType(types.Types[types.TINT])
 		n.List.Set1(ni)
 		n.SetColas(true)
 		colasdefn(n.List.Slice(), n)
@@ -432,12 +432,12 @@ func hashfor(t *types.Type) *ir.Node {
 
 	n := newname(sym)
 	setNodeNameFunc(n)
-	n.Type = functype(nil, []*ir.Node{
+	n.SetType(functype(nil, []*ir.Node{
 		anonfield(types.NewPtr(t)),
 		anonfield(types.Types[types.TUINTPTR]),
 	}, []*ir.Node{
 		anonfield(types.Types[types.TUINTPTR]),
-	})
+	}))
 	return n
 }
 
@@ -529,9 +529,9 @@ func geneq(t *types.Type) *obj.LSym {
 	tfn.Rlist.Set1(namedfield("r", types.Types[types.TBOOL]))
 
 	fn := dclfunc(sym, tfn)
-	np := ir.AsNode(tfn.Type.Params().Field(0).Nname)
-	nq := ir.AsNode(tfn.Type.Params().Field(1).Nname)
-	nr := ir.AsNode(tfn.Type.Results().Field(0).Nname)
+	np := ir.AsNode(tfn.Type().Params().Field(0).Nname)
+	nq := ir.AsNode(tfn.Type().Params().Field(1).Nname)
+	nr := ir.AsNode(tfn.Type().Results().Field(0).Nname)
 
 	// Label to jump to if an equality test fails.
 	neq := autolabel(".neq")
@@ -573,11 +573,11 @@ func geneq(t *types.Type) *obj.LSym {
 				// pi := p[i]
 				pi := nod(ir.OINDEX, np, i)
 				pi.SetBounded(true)
-				pi.Type = t.Elem()
+				pi.SetType(t.Elem())
 				// qi := q[i]
 				qi := nod(ir.OINDEX, nq, i)
 				qi.SetBounded(true)
-				qi.Type = t.Elem()
+				qi.SetType(t.Elem())
 				return eq(pi, qi)
 			}
 
@@ -849,7 +849,7 @@ func eqstring(s, t *ir.Node) (eqlen, eqmem *ir.Node) {
 
 	cmp := nod(ir.OEQ, slen, tlen)
 	cmp = typecheck(cmp, ctxExpr)
-	cmp.Type = types.Types[types.TBOOL]
+	cmp.SetType(types.Types[types.TBOOL])
 	return cmp, call
 }
 
@@ -860,13 +860,13 @@ func eqstring(s, t *ir.Node) (eqlen, eqmem *ir.Node) {
 // which can be used to construct interface equality comparison.
 // eqtab must be evaluated before eqdata, and shortcircuiting is required.
 func eqinterface(s, t *ir.Node) (eqtab, eqdata *ir.Node) {
-	if !types.Identical(s.Type, t.Type) {
-		base.Fatal("eqinterface %v %v", s.Type, t.Type)
+	if !types.Identical(s.Type(), t.Type()) {
+		base.Fatal("eqinterface %v %v", s.Type(), t.Type())
 	}
 	// func ifaceeq(tab *uintptr, x, y unsafe.Pointer) (ret bool)
 	// func efaceeq(typ *uintptr, x, y unsafe.Pointer) (ret bool)
 	var fn *ir.Node
-	if s.Type.IsEmptyInterface() {
+	if s.Type().IsEmptyInterface() {
 		fn = syslook("efaceeq")
 	} else {
 		fn = syslook("ifaceeq")
@@ -876,8 +876,8 @@ func eqinterface(s, t *ir.Node) (eqtab, eqdata *ir.Node) {
 	ttab := nod(ir.OITAB, t, nil)
 	sdata := nod(ir.OIDATA, s, nil)
 	tdata := nod(ir.OIDATA, t, nil)
-	sdata.Type = types.Types[types.TUNSAFEPTR]
-	tdata.Type = types.Types[types.TUNSAFEPTR]
+	sdata.SetType(types.Types[types.TUNSAFEPTR])
+	tdata.SetType(types.Types[types.TUNSAFEPTR])
 	sdata.SetTypecheck(1)
 	tdata.SetTypecheck(1)
 
@@ -887,7 +887,7 @@ func eqinterface(s, t *ir.Node) (eqtab, eqdata *ir.Node) {
 
 	cmp := nod(ir.OEQ, stab, ttab)
 	cmp = typecheck(cmp, ctxExpr)
-	cmp.Type = types.Types[types.TBOOL]
+	cmp.SetType(types.Types[types.TBOOL])
 	return cmp, call
 }
 
@@ -899,7 +899,7 @@ func eqmem(p *ir.Node, q *ir.Node, field *types.Sym, size int64) *ir.Node {
 	nx = typecheck(nx, ctxExpr)
 	ny = typecheck(ny, ctxExpr)
 
-	fn, needsize := eqmemfunc(size, nx.Type.Elem())
+	fn, needsize := eqmemfunc(size, nx.Type().Elem())
 	call := nod(ir.OCALL, fn, nil)
 	call.List.Append(nx)
 	call.List.Append(ny)

@@ -42,7 +42,7 @@ func typecheckrange(n *ir.Node) {
 func typecheckrangeExpr(n *ir.Node) {
 	n.SetRight(typecheck(n.Right(), ctxExpr))
 
-	t := n.Right().Type
+	t := n.Right().Type()
 	if t == nil {
 		return
 	}
@@ -57,7 +57,7 @@ func typecheckrangeExpr(n *ir.Node) {
 	if t.IsPtr() && t.Elem().IsArray() {
 		t = t.Elem()
 	}
-	n.Type = t
+	n.SetType(t)
 
 	var t1, t2 *types.Type
 	toomany := false
@@ -76,7 +76,7 @@ func typecheckrangeExpr(n *ir.Node) {
 
 	case types.TCHAN:
 		if !t.ChanDir().CanRecv() {
-			base.ErrorAt(n.Pos, "invalid operation: range %v (receive from send-only type %v)", n.Right(), n.Right().Type)
+			base.ErrorAt(n.Pos, "invalid operation: range %v (receive from send-only type %v)", n.Right(), n.Right().Type())
 			return
 		}
 
@@ -116,9 +116,9 @@ func typecheckrangeExpr(n *ir.Node) {
 
 	if v1 != nil {
 		if v1.Name != nil && v1.Name.Defn == n {
-			v1.Type = t1
-		} else if v1.Type != nil {
-			if op, why := assignop(t1, v1.Type); op == ir.OXXX {
+			v1.SetType(t1)
+		} else if v1.Type() != nil {
+			if op, why := assignop(t1, v1.Type()); op == ir.OXXX {
 				base.ErrorAt(n.Pos, "cannot assign type %v to %L in range%s", t1, v1, why)
 			}
 		}
@@ -127,9 +127,9 @@ func typecheckrangeExpr(n *ir.Node) {
 
 	if v2 != nil {
 		if v2.Name != nil && v2.Name.Defn == n {
-			v2.Type = t2
-		} else if v2.Type != nil {
-			if op, why := assignop(t2, v2.Type); op == ir.OXXX {
+			v2.SetType(t2)
+		} else if v2.Type() != nil {
+			if op, why := assignop(t2, v2.Type()); op == ir.OXXX {
 				base.ErrorAt(n.Pos, "cannot assign type %v to %L in range%s", t2, v2, why)
 			}
 		}
@@ -173,7 +173,7 @@ func walkrange(n *ir.Node) *ir.Node {
 	//	hb: hidden bool
 	//	a, v1, v2: not hidden aggregate, val 1, 2
 
-	t := n.Type
+	t := n.Type()
 
 	a := n.Right()
 	lno := setlineno(a)
@@ -245,7 +245,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		}
 
 		// for v1, v2 := range ha { body }
-		if cheapComputableIndex(n.Type.Elem().Width) {
+		if cheapComputableIndex(n.Type().Elem().Width) {
 			// v1, v2 = hv1, ha[hv1]
 			tmp := nod(ir.OINDEX, ha, hv1)
 			tmp.SetBounded(true)
@@ -274,7 +274,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		ifGuard.SetLeft(nod(ir.OLT, hv1, hn))
 		translatedLoopOp = ir.OFORUNTIL
 
-		hp := temp(types.NewPtr(n.Type.Elem()))
+		hp := temp(types.NewPtr(n.Type().Elem()))
 		tmp := nod(ir.OINDEX, ha, nodintconst(0))
 		tmp.SetBounded(true)
 		init = append(init, nod(ir.OAS, hp, nod(ir.OADDR, tmp, nil)))
@@ -301,7 +301,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		ha := a
 
 		hit := prealloc[n]
-		th := hit.Type
+		th := hit.Type()
 		n.SetLeft(nil)
 		keysym := th.Field(0).Sym  // depends on layout of iterator struct.  See reflect.go:hiter
 		elemsym := th.Field(1).Sym // ditto
@@ -413,7 +413,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		// hv2, hv1 = decoderune(ha, hv1)
 		eif.List.Set2(hv2, hv1)
 		fn := syslook("decoderune")
-		eif.Rlist.Set1(mkcall1(fn, fn.Type.Results(), nil, ha, hv1))
+		eif.Rlist.Set1(mkcall1(fn, fn.Type().Results(), nil, ha, hv1))
 
 		body = append(body, nif)
 
@@ -472,7 +472,7 @@ func isMapClear(n *ir.Node) bool {
 		return false
 	}
 
-	if n.Op != ir.ORANGE || n.Type.Etype != types.TMAP || n.List.Len() != 1 {
+	if n.Op != ir.ORANGE || n.Type().Etype != types.TMAP || n.List.Len() != 1 {
 		return false
 	}
 
@@ -501,7 +501,7 @@ func isMapClear(n *ir.Node) bool {
 	}
 
 	// Keys where equality is not reflexive can not be deleted from maps.
-	if !isreflexive(m.Type.Key()) {
+	if !isreflexive(m.Type().Key()) {
 		return false
 	}
 
@@ -510,7 +510,7 @@ func isMapClear(n *ir.Node) bool {
 
 // mapClear constructs a call to runtime.mapclear for the map m.
 func mapClear(m *ir.Node) *ir.Node {
-	t := m.Type
+	t := m.Type()
 
 	// instantiate mapclear(typ *type, hmap map[any]any)
 	fn := syslook("mapclear")
@@ -556,7 +556,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 		return false
 	}
 
-	elemsize := n.Type.Elem().Width
+	elemsize := n.Type().Elem().Width
 	if elemsize <= 0 || !isZero(stmt.Right()) {
 		return false
 	}
@@ -591,7 +591,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	n.Nbody.Append(nod(ir.OAS, hn, tmp))
 
 	var fn *ir.Node
-	if a.Type.Elem().HasPointers() {
+	if a.Type().Elem().HasPointers() {
 		// memclrHasPointers(hp, hn)
 		Curfn.Func.SetWBPos(stmt.Pos)
 		fn = mkcall("memclrHasPointers", nil, nil, hp, hn)
@@ -616,15 +616,15 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 
 // addptr returns (*T)(uintptr(p) + n).
 func addptr(p *ir.Node, n int64) *ir.Node {
-	t := p.Type
+	t := p.Type()
 
 	p = nod(ir.OCONVNOP, p, nil)
-	p.Type = types.Types[types.TUINTPTR]
+	p.SetType(types.Types[types.TUINTPTR])
 
 	p = nod(ir.OADD, p, nodintconst(n))
 
 	p = nod(ir.OCONVNOP, p, nil)
-	p.Type = t
+	p.SetType(t)
 
 	return p
 }

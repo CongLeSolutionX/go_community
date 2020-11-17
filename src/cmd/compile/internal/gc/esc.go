@@ -174,7 +174,7 @@ func mayAffectMemory(n *ir.Node) bool {
 // heapAllocReason returns the reason the given Node must be heap
 // allocated, or the empty string if it doesn't.
 func heapAllocReason(n *ir.Node) string {
-	if n.Type == nil {
+	if n.Type() == nil {
 		return ""
 	}
 
@@ -183,11 +183,11 @@ func heapAllocReason(n *ir.Node) string {
 		return ""
 	}
 
-	if n.Type.Width > maxStackVarSize {
+	if n.Type().Width > maxStackVarSize {
 		return "too large for stack"
 	}
 
-	if (n.Op == ir.ONEW || n.Op == ir.OPTRLIT) && n.Type.Elem().Width >= maxImplicitStackVarSize {
+	if (n.Op == ir.ONEW || n.Op == ir.OPTRLIT) && n.Type().Elem().Width >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
 
@@ -206,7 +206,7 @@ func heapAllocReason(n *ir.Node) string {
 		if !smallintconst(r) {
 			return "non-constant size"
 		}
-		if t := n.Type; t.Elem().Width != 0 && r.Int64Val() >= maxImplicitStackVarSize/t.Elem().Width {
+		if t := n.Type(); t.Elem().Width != 0 && r.Int64Val() >= maxImplicitStackVarSize/t.Elem().Width {
 			return "too large for stack"
 		}
 	}
@@ -276,7 +276,7 @@ func addrescapes(n *ir.Node) {
 	// escape--the pointer inside x does, but that
 	// is always a heap pointer anyway.
 	case ir.ODOT, ir.OINDEX, ir.OPAREN, ir.OCONVNOP:
-		if !n.Left().Type.IsSlice() {
+		if !n.Left().Type().IsSlice() {
 			addrescapes(n.Left())
 		}
 	}
@@ -297,7 +297,7 @@ func moveToHeap(n *ir.Node) {
 
 	// Allocate a local stack variable to hold the pointer to the heap copy.
 	// temp will add it to the function declaration list automatically.
-	heapaddr := temp(types.NewPtr(n.Type))
+	heapaddr := temp(types.NewPtr(n.Type()))
 	heapaddr.Sym = lookup("&" + n.Sym.Name)
 	heapaddr.Orig().Sym = heapaddr.Sym
 	heapaddr.Pos = n.Pos
@@ -320,7 +320,7 @@ func moveToHeap(n *ir.Node) {
 		// and substitute that copy into the function declaration list
 		// so that analyses of the local (on-stack) variables use it.
 		stackcopy := newname(n.Sym)
-		stackcopy.Type = n.Type
+		stackcopy.SetType(n.Type())
 		stackcopy.Xoffset = n.Xoffset
 		stackcopy.SetClass(n.Class())
 		stackcopy.Name.Param.Heapaddr = heapaddr
@@ -464,7 +464,7 @@ func (e *Escape) paramTag(fn *ir.Node, narg int, f *types.Field) string {
 		}
 		for i := 0; i < numEscResults; i++ {
 			if x := esc.Result(i); x >= 0 {
-				res := fn.Type.Results().Field(i).Sym
+				res := fn.Type().Results().Field(i).Sym
 				base.WarnAt(f.Pos, "leaking param: %v to result %v level=%d", name(), res, x)
 			}
 		}

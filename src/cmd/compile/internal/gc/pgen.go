@@ -34,25 +34,25 @@ func emitptrargsmap(fn *ir.Node) {
 	}
 	lsym := base.Ctxt.Lookup(fn.Func.LSym.Name + ".args_stackmap")
 
-	nptr := int(fn.Type.ArgWidth() / int64(Widthptr))
+	nptr := int(fn.Type().ArgWidth() / int64(Widthptr))
 	bv := bvalloc(int32(nptr) * 2)
 	nbitmap := 1
-	if fn.Type.NumResults() > 0 {
+	if fn.Type().NumResults() > 0 {
 		nbitmap = 2
 	}
 	off := duint32(lsym, 0, uint32(nbitmap))
 	off = duint32(lsym, off, uint32(bv.n))
 
 	if fn.IsMethod() {
-		onebitwalktype1(fn.Type.Recvs(), 0, bv)
+		onebitwalktype1(fn.Type().Recvs(), 0, bv)
 	}
-	if fn.Type.NumParams() > 0 {
-		onebitwalktype1(fn.Type.Params(), 0, bv)
+	if fn.Type().NumParams() > 0 {
+		onebitwalktype1(fn.Type().Params(), 0, bv)
 	}
 	off = dbvec(lsym, off, bv)
 
-	if fn.Type.NumResults() > 0 {
-		onebitwalktype1(fn.Type.Results(), 0, bv)
+	if fn.Type().NumResults() > 0 {
+		onebitwalktype1(fn.Type().Results(), 0, bv)
 		off = dbvec(lsym, off, bv)
 	}
 
@@ -82,8 +82,8 @@ func cmpstackvarlt(a, b *ir.Node) bool {
 		return a.Name.Used()
 	}
 
-	ap := a.Type.HasPointers()
-	bp := b.Type.HasPointers()
+	ap := a.Type().HasPointers()
+	bp := b.Type().HasPointers()
 	if ap != bp {
 		return ap
 	}
@@ -94,8 +94,8 @@ func cmpstackvarlt(a, b *ir.Node) bool {
 		return ap
 	}
 
-	if a.Type.Width != b.Type.Width {
-		return a.Type.Width > b.Type.Width
+	if a.Type().Width != b.Type().Width {
+		return a.Type().Width > b.Type().Width
 	}
 
 	return a.Sym.Name < b.Sym.Name
@@ -164,8 +164,8 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 			break
 		}
 
-		dowidth(n.Type)
-		w := n.Type.Width
+		dowidth(n.Type())
+		w := n.Type().Width
 		if w >= thearch.MAXWIDTH || w < 0 {
 			base.Fatal("bad width")
 		}
@@ -177,8 +177,8 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 			w = 1
 		}
 		s.stksize += w
-		s.stksize = Rnd(s.stksize, int64(n.Type.Align))
-		if n.Type.HasPointers() {
+		s.stksize = Rnd(s.stksize, int64(n.Type().Align))
+		if n.Type().HasPointers() {
 			s.stkptrsize = s.stksize
 			lastHasPtr = true
 		} else {
@@ -199,7 +199,7 @@ func funccompile(fn *ir.Node) {
 		base.Fatal("funccompile %v inside %v", fn.Func.Nname.Sym, Curfn.Func.Nname.Sym)
 	}
 
-	if fn.Type == nil {
+	if fn.Type() == nil {
 		if base.Errors() == 0 {
 			base.Fatal("funccompile missing type")
 		}
@@ -207,7 +207,7 @@ func funccompile(fn *ir.Node) {
 	}
 
 	// assign parameter offsets
-	dowidth(fn.Type)
+	dowidth(fn.Type())
 
 	if fn.Nbody.Len() == 0 {
 		// Initialize ABI wrappers if necessary.
@@ -264,7 +264,7 @@ func compile(fn *ir.Node) {
 		switch n.Class() {
 		case ir.PPARAM, ir.PPARAMOUT, ir.PAUTO:
 			if livenessShouldTrack(n) && n.Name.Addrtaken() {
-				dtypesym(n.Type)
+				dtypesym(n.Type())
 				// Also make sure we allocate a linker symbol
 				// for the stack object data, for the same reason.
 				if fn.Func.LSym.Func().StackObjects == nil {
@@ -319,9 +319,9 @@ const maxStackSize = 1 << 30
 func compileSSA(fn *ir.Node, worker int) {
 	f := buildssa(fn, worker)
 	// Note: check arg size to fix issue 25507.
-	if f.Frontend().(*ssafn).stksize >= maxStackSize || fn.Type.ArgWidth() >= maxStackSize {
+	if f.Frontend().(*ssafn).stksize >= maxStackSize || fn.Type().ArgWidth() >= maxStackSize {
 		largeStackFramesMu.Lock()
-		largeStackFrames = append(largeStackFrames, largeStack{locals: f.Frontend().(*ssafn).stksize, args: fn.Type.ArgWidth(), pos: fn.Pos})
+		largeStackFrames = append(largeStackFrames, largeStack{locals: f.Frontend().(*ssafn).stksize, args: fn.Type().ArgWidth(), pos: fn.Pos})
 		largeStackFramesMu.Unlock()
 		return
 	}
@@ -337,7 +337,7 @@ func compileSSA(fn *ir.Node, worker int) {
 	if pp.Text.To.Offset >= maxStackSize {
 		largeStackFramesMu.Lock()
 		locals := f.Frontend().(*ssafn).stksize
-		largeStackFrames = append(largeStackFrames, largeStack{locals: locals, args: fn.Type.ArgWidth(), callee: pp.Text.To.Offset - locals, pos: fn.Pos})
+		largeStackFrames = append(largeStackFrames, largeStack{locals: locals, args: fn.Type().ArgWidth(), callee: pp.Text.To.Offset - locals, pos: fn.Pos})
 		largeStackFramesMu.Unlock()
 		return
 	}
@@ -522,7 +522,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Node) *dwarf.Var {
 		base.Fatal("createSimpleVar unexpected class %v for node %v", n.Class(), n)
 	}
 
-	typename := dwarf.InfoPrefix + typesymname(n.Type)
+	typename := dwarf.InfoPrefix + typesymname(n.Type())
 	delete(fnsym.Func().Autot, ngotype(n).Linksym())
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
@@ -610,10 +610,10 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 			continue
 		}
 		c := n.Sym.Name[0]
-		if c == '.' || n.Type.IsUntyped() {
+		if c == '.' || n.Type().IsUntyped() {
 			continue
 		}
-		if n.Class() == ir.PPARAM && !canSSAType(n.Type) {
+		if n.Class() == ir.PPARAM && !canSSAType(n.Type()) {
 			// SSA-able args get location lists, and may move in and
 			// out of registers, so those are handled elsewhere.
 			// Autos and named output params seem to get handled
@@ -625,7 +625,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 			decls = append(decls, n)
 			continue
 		}
-		typename := dwarf.InfoPrefix + typesymname(n.Type)
+		typename := dwarf.InfoPrefix + typesymname(n.Type())
 		decls = append(decls, n)
 		abbrev := dwarf.DW_ABRV_AUTO_LOCLIST
 		isReturnValue := (n.Class() == ir.PPARAMOUT)
@@ -687,7 +687,7 @@ func preInliningDcls(fnsym *obj.LSym) []*ir.Node {
 		c := n.Sym.Name[0]
 		// Avoid reporting "_" parameters, since if there are more than
 		// one, it can result in a collision later on, as in #23179.
-		if unversion(n.Sym.Name) == "_" || c == '.' || n.Type.IsUntyped() {
+		if unversion(n.Sym.Name) == "_" || c == '.' || n.Type().IsUntyped() {
 			continue
 		}
 		rdcl = append(rdcl, n)

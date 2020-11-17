@@ -132,26 +132,26 @@ func lexinit() {
 	s.Def = ir.AsTypesNode(nodbool(true))
 	ir.AsNode(s.Def).Sym = lookup("true")
 	ir.AsNode(s.Def).Name = new(ir.Name)
-	ir.AsNode(s.Def).Type = types.UntypedBool
+	ir.AsNode(s.Def).SetType(types.UntypedBool)
 
 	s = ir.BuiltinPkg.Lookup("false")
 	s.Def = ir.AsTypesNode(nodbool(false))
 	ir.AsNode(s.Def).Sym = lookup("false")
 	ir.AsNode(s.Def).Name = new(ir.Name)
-	ir.AsNode(s.Def).Type = types.UntypedBool
+	ir.AsNode(s.Def).SetType(types.UntypedBool)
 
 	s = lookup("_")
 	s.Block = -100
 	s.Def = ir.AsTypesNode(newname(s))
 	types.Types[types.TBLANK] = types.New(types.TBLANK)
-	ir.AsNode(s.Def).Type = types.Types[types.TBLANK]
+	ir.AsNode(s.Def).SetType(types.Types[types.TBLANK])
 	ir.BlankNode = ir.AsNode(s.Def)
 
 	s = ir.BuiltinPkg.Lookup("_")
 	s.Block = -100
 	s.Def = ir.AsTypesNode(newname(s))
 	types.Types[types.TBLANK] = types.New(types.TBLANK)
-	ir.AsNode(s.Def).Type = types.Types[types.TBLANK]
+	ir.AsNode(s.Def).SetType(types.Types[types.TBLANK])
 
 	types.Types[types.TNIL] = types.New(types.TNIL)
 	s = ir.BuiltinPkg.Lookup("nil")
@@ -448,7 +448,7 @@ func finishUniverse() {
 	}
 
 	nodfp = newname(lookup(".fp"))
-	nodfp.Type = types.Types[types.TINT32]
+	nodfp.SetType(types.Types[types.TINT32])
 	nodfp.SetClass(ir.PPARAM)
 	nodfp.Name.SetUsed(true)
 }

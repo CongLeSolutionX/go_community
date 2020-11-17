@@ -297,10 +297,10 @@ func ggloblnod(nam *ir.Node) {
 	if nam.Name.Readonly() {
 		flags = obj.RODATA
 	}
-	if nam.Type != nil && !nam.Type.HasPointers() {
+	if nam.Type() != nil && !nam.Type().HasPointers() {
 		flags |= obj.NOPTR
 	}
-	base.Ctxt.Globl(s, nam.Type.Width, flags)
+	base.Ctxt.Globl(s, nam.Type().Width, flags)
 	if nam.Name.LibfuzzerExtraCounter() {
 		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
 	}

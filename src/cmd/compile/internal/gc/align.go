@@ -201,7 +201,7 @@ func findTypeLoop(t *types.Type, path *[]*types.Type) bool {
 		}
 
 		*path = append(*path, t)
-		if p := ir.AsNode(t.Nod).Name.Param; p != nil && findTypeLoop(p.Ntype.Type, path) {
+		if p := ir.AsNode(t.Nod).Name.Param; p != nil && findTypeLoop(p.Ntype.Type(), path) {
 			return true
 		}
 		*path = (*path)[:len(*path)-1]

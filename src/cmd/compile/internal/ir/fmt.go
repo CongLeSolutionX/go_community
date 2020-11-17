@@ -1025,7 +1025,7 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 
 	switch n.Op {
 	case ODCL:
-		mode.Fprintf(s, "var %v %v", n.Left().Sym, n.Left().Type)
+		mode.Fprintf(s, "var %v %v", n.Left().Sym, n.Left().Type())
 
 	case ODCLFIELD:
 		if n.Sym != nil {
@@ -1338,14 +1338,14 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 			n.Orig().exprfmt(s, prec, mode)
 			return
 		}
-		if n.Type != nil && !n.Type.IsUntyped() {
+		if n.Type() != nil && !n.Type().IsUntyped() {
 			// Need parens when type begins with what might
 			// be misinterpreted as a unary operator: * or <-.
-			if n.Type.IsPtr() || (n.Type.IsChan() && n.Type.ChanDir() == types.Crecv) {
-				mode.Fprintf(s, "(%v)(%v)", n.Type, n.Val())
+			if n.Type().IsPtr() || (n.Type().IsChan() && n.Type().ChanDir() == types.Crecv) {
+				mode.Fprintf(s, "(%v)(%v)", n.Type(), n.Val())
 				return
 			} else {
-				mode.Fprintf(s, "%v(%v)", n.Type, n.Val())
+				mode.Fprintf(s, "%v(%v)", n.Type(), n.Val())
 				return
 			}
 		}
@@ -1364,11 +1364,11 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 		fmt.Fprint(s, smodeString(n.Sym, mode))
 
 	case OTYPE:
-		if n.Type == nil && n.Sym != nil {
+		if n.Type() == nil && n.Sym != nil {
 			fmt.Fprint(s, smodeString(n.Sym, mode))
 			return
 		}
-		mode.Fprintf(s, "%v", n.Type)
+		mode.Fprintf(s, "%v", n.Type())
 
 	case OTARRAY:
 		if n.Left() != nil {
@@ -1411,10 +1411,10 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 			return
 		}
 		if n.Nbody.Len() != 0 {
-			mode.Fprintf(s, "%v { %v }", n.Type, n.Nbody)
+			mode.Fprintf(s, "%v { %v }", n.Type(), n.Nbody)
 			return
 		}
-		mode.Fprintf(s, "%v { %v }", n.Type, n.Func.Decl.Nbody)
+		mode.Fprintf(s, "%v { %v }", n.Type(), n.Func.Decl.Nbody)
 
 	case OCOMPLIT:
 		if mode == FErr {
@@ -1437,10 +1437,10 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 
 	case OSTRUCTLIT, OARRAYLIT, OSLICELIT, OMAPLIT:
 		if mode == FErr {
-			mode.Fprintf(s, "%v{%s}", n.Type, ellipsisIf(n.List.Len() != 0))
+			mode.Fprintf(s, "%v{%s}", n.Type(), ellipsisIf(n.List.Len() != 0))
 			return
 		}
-		mode.Fprintf(s, "(%v{ %.v })", n.Type, n.List)
+		mode.Fprintf(s, "(%v{ %.v })", n.Type(), n.List)
 
 	case OKEY:
 		if n.Left() != nil && n.Right() != nil {
@@ -1483,7 +1483,7 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 			mode.Fprintf(s, ".(%v)", n.Right())
 			return
 		}
-		mode.Fprintf(s, ".(%v)", n.Type)
+		mode.Fprintf(s, ".(%v)", n.Type())
 
 	case OINDEX, OINDEXMAP:
 		n.Left().exprfmt(s, nprec, mode)
@@ -1529,10 +1529,10 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 		OSTR2BYTES,
 		OSTR2RUNES,
 		ORUNESTR:
-		if n.Type == nil || n.Type.Sym == nil {
-			mode.Fprintf(s, "(%v)", n.Type)
+		if n.Type() == nil || n.Type().Sym == nil {
+			mode.Fprintf(s, "(%v)", n.Type())
 		} else {
-			mode.Fprintf(s, "%v", n.Type)
+			mode.Fprintf(s, "%v", n.Type())
 		}
 		if n.Left() != nil {
 			mode.Fprintf(s, "(%v)", n.Left())
@@ -1576,21 +1576,21 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 
 	case OMAKEMAP, OMAKECHAN, OMAKESLICE:
 		if n.List.Len() != 0 { // pre-typecheck
-			mode.Fprintf(s, "make(%v, %.v)", n.Type, n.List)
+			mode.Fprintf(s, "make(%v, %.v)", n.Type(), n.List)
 			return
 		}
 		if n.Right() != nil {
-			mode.Fprintf(s, "make(%v, %v, %v)", n.Type, n.Left(), n.Right())
+			mode.Fprintf(s, "make(%v, %v, %v)", n.Type(), n.Left(), n.Right())
 			return
 		}
-		if n.Left() != nil && (n.Op == OMAKESLICE || !n.Left().Type.IsUntyped()) {
-			mode.Fprintf(s, "make(%v, %v)", n.Type, n.Left())
+		if n.Left() != nil && (n.Op == OMAKESLICE || !n.Left().Type().IsUntyped()) {
+			mode.Fprintf(s, "make(%v, %v)", n.Type(), n.Left())
 			return
 		}
-		mode.Fprintf(s, "make(%v)", n.Type)
+		mode.Fprintf(s, "make(%v)", n.Type())
 
 	case OMAKESLICECOPY:
-		mode.Fprintf(s, "makeslicecopy(%v, %v, %v)", n.Type, n.Left(), n.Right())
+		mode.Fprintf(s, "makeslicecopy(%v, %v, %v)", n.Type(), n.Left(), n.Right())
 
 	case OPLUS, ONEG, OADDR, OBITNOT, ODEREF, ONOT, ORECV:
 		// Unary
@@ -1640,7 +1640,7 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 }
 
 func (n *Node) nodefmt(s fmt.State, flag FmtFlag, mode ToFmtMode) {
-	t := n.Type
+	t := n.Type()
 
 	// We almost always want the original.
 	// TODO(gri) Why the special case for OLITERAL?
@@ -1698,7 +1698,7 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 		} else {
 			mode.Fprintf(s, "%v%j", n.Op, n)
 		}
-		if recur && n.Type == nil && n.Name != nil && n.Name.Param != nil && n.Name.Param.Ntype != nil {
+		if recur && n.Type() == nil && n.Name != nil && n.Name.Param != nil && n.Name.Param.Ntype != nil {
 			indent(s)
 			mode.Fprintf(s, "%v-ntype%v", n.Op, n.Name.Param.Ntype)
 		}
@@ -1707,8 +1707,8 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 		mode.Fprintf(s, "%v-%v%j", n.Op, n.SubOp(), n)
 
 	case OTYPE:
-		mode.Fprintf(s, "%v %v%j type=%v", n.Op, n.Sym, n, n.Type)
-		if recur && n.Type == nil && n.Name != nil && n.Name.Param != nil && n.Name.Param.Ntype != nil {
+		mode.Fprintf(s, "%v %v%j type=%v", n.Op, n.Sym, n, n.Type())
+		if recur && n.Type() == nil && n.Name != nil && n.Name.Param != nil && n.Name.Param.Ntype != nil {
 			indent(s)
 			mode.Fprintf(s, "%v-ntype%v", n.Op, n.Name.Param.Ntype)
 		}
@@ -1721,8 +1721,8 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 		mode.Fprintf(s, " %v", n.Sym)
 	}
 
-	if n.Type != nil {
-		mode.Fprintf(s, " %v", n.Type)
+	if n.Type() != nil {
+		mode.Fprintf(s, " %v", n.Type())
 	}
 
 	if recur {

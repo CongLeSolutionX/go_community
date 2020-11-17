@@ -134,7 +134,7 @@ func addvar(n *ir.Node, t *types.Type, ctxt ir.Class) {
 
 	n.Op = ir.ONAME
 	declare(n, ctxt)
-	n.Type = t
+	n.SetType(t)
 }
 
 // declare variables from grammar
@@ -235,9 +235,9 @@ func typenodl(pos src.XPos, t *types.Type) *ir.Node {
 	// if we copied another type with *t = *u
 	// then t->nod might be out of date, so
 	// check t->nod->type too
-	if ir.AsNode(t.Nod) == nil || ir.AsNode(t.Nod).Type != t {
+	if ir.AsNode(t.Nod) == nil || ir.AsNode(t.Nod).Type() != t {
 		t.Nod = ir.AsTypesNode(nodl(pos, ir.OTYPE, nil, nil))
-		ir.AsNode(t.Nod).Type = t
+		ir.AsNode(t.Nod).SetType(t)
 		ir.AsNode(t.Nod).Sym = t.Sym
 	}
 
@@ -254,7 +254,7 @@ func namedfield(s string, typ *types.Type) *ir.Node {
 
 func symfield(s *types.Sym, typ *types.Type) *ir.Node {
 	n := nodSym(ir.ODCLFIELD, nil, s)
-	n.Type = typ
+	n.SetType(typ)
 	return n
 }
 
@@ -394,7 +394,7 @@ func funchdr(n *ir.Node) {
 	if n.Func.Nname != nil && n.Func.Nname.Name.Param.Ntype != nil {
 		funcargs(n.Func.Nname.Name.Param.Ntype)
 	} else {
-		funcargs2(n.Type)
+		funcargs2(n.Type())
 	}
 }
 
@@ -490,7 +490,7 @@ func funcarg2(f *types.Field, ctxt ir.Class) {
 	}
 	n := newnamel(f.Pos, f.Sym)
 	f.Nname = ir.AsTypesNode(n)
-	n.Type = f.Type
+	n.SetType(f.Type)
 	n.SetIsDDD(f.IsDDD())
 	declare(n, ctxt)
 }
@@ -548,17 +548,17 @@ func structfield(n *ir.Node) *types.Field {
 
 	if n.Left() != nil {
 		n.SetLeft(typecheck(n.Left(), ctxType))
-		n.Type = n.Left().Type
+		n.SetType(n.Left().Type())
 		n.SetLeft(nil)
 	}
 
-	f.Type = n.Type
+	f.Type = n.Type()
 	if f.Type == nil {
 		f.SetBroke(true)
 	}
 
 	if n.Embedded() {
-		checkembeddedtype(n.Type)
+		checkembeddedtype(n.Type())
 		f.Embedded = 1
 	} else {
 		f.Embedded = 0
@@ -628,7 +628,7 @@ func tofunargs(l []*ir.Node, funarg types.Funarg) *types.Type {
 		f := structfield(n)
 		f.SetIsDDD(n.IsDDD())
 		if n.Right() != nil {
-			n.Right().Type = f.Type
+			n.Right().SetType(f.Type)
 			f.Nname = ir.AsTypesNode(n.Right())
 		}
 		if f.Broke() {
@@ -666,14 +666,14 @@ func interfacefield(n *ir.Node) *types.Field {
 
 	if n.Left() != nil {
 		n.SetLeft(typecheck(n.Left(), ctxType))
-		n.Type = n.Left().Type
+		n.SetType(n.Left().Type())
 		n.SetLeft(nil)
 	}
 
 	f := types.NewField()
 	f.Pos = n.Pos
 	f.Sym = n.Sym
-	f.Type = n.Type
+	f.Type = n.Type()
 	if f.Type == nil {
 		f.SetBroke(true)
 	}

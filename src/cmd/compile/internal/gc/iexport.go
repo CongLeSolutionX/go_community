@@ -252,7 +252,7 @@ func iexport(out *bufio.Writer) {
 		p := &exporter{marked: make(map[*types.Type]bool)}
 		for _, n := range exportlist {
 			sym := n.Sym
-			p.markType(ir.AsNode(sym.Def).Type)
+			p.markType(ir.AsNode(sym.Def).Type())
 		}
 	}
 
@@ -434,7 +434,7 @@ func (p *iexporter) doDecl(n *ir.Node) {
 			// Variable.
 			w.tag('V')
 			w.pos(n.Pos)
-			w.typ(n.Type)
+			w.typ(n.Type())
 			w.varExt(n)
 
 		case ir.PFUNC:
@@ -445,7 +445,7 @@ func (p *iexporter) doDecl(n *ir.Node) {
 			// Function.
 			w.tag('F')
 			w.pos(n.Pos)
-			w.signature(n.Type)
+			w.signature(n.Type())
 			w.funcExt(n)
 
 		default:
@@ -457,14 +457,14 @@ func (p *iexporter) doDecl(n *ir.Node) {
 		n = typecheck(n, ctxExpr)
 		w.tag('C')
 		w.pos(n.Pos)
-		w.value(n.Type, n.Val())
+		w.value(n.Type(), n.Val())
 
 	case ir.OTYPE:
 		if IsAlias(n.Sym) {
 			// Alias.
 			w.tag('A')
 			w.pos(n.Pos)
-			w.typ(n.Type)
+			w.typ(n.Type())
 			break
 		}
 
@@ -472,7 +472,7 @@ func (p *iexporter) doDecl(n *ir.Node) {
 		w.tag('T')
 		w.pos(n.Pos)
 
-		underlying := n.Type.Orig
+		underlying := n.Type().Orig
 		if underlying == types.Errortype.Orig {
 			// For "type T error", use error as the
 			// underlying type instead of error's own
@@ -484,7 +484,7 @@ func (p *iexporter) doDecl(n *ir.Node) {
 		}
 		w.typ(underlying)
 
-		t := n.Type
+		t := n.Type()
 		if t.IsInterface() {
 			w.typeExt(t)
 			break
@@ -969,7 +969,7 @@ func (w *exportWriter) funcExt(n *ir.Node) {
 
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
-		for _, f := range fs(n.Type).FieldSlice() {
+		for _, f := range fs(n.Type()).FieldSlice() {
 			w.string(f.Note)
 		}
 	}
@@ -1063,7 +1063,7 @@ func (w *exportWriter) stmt(n *ir.Node) {
 		w.op(ir.ODCL)
 		w.pos(n.Left().Pos)
 		w.localName(n.Left())
-		w.typ(n.Left().Type)
+		w.typ(n.Left().Type())
 
 	// case ODCLFIELD:
 	//	unimplemented - handled by default case
@@ -1217,7 +1217,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		}
 		w.op(ir.OLITERAL)
 		w.pos(n.Pos)
-		w.value(n.Type, n.Val())
+		w.value(n.Type(), n.Val())
 
 	case ir.ONAME:
 		// Special case: explicit name of func (*T) method(...) is turned into pkg.(*T).method,
@@ -1247,7 +1247,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 
 	case ir.OTYPE:
 		w.op(ir.OTYPE)
-		w.typ(n.Type)
+		w.typ(n.Type())
 
 	case ir.OTYPESW:
 		w.op(ir.OTYPESW)
@@ -1279,13 +1279,13 @@ func (w *exportWriter) expr(n *ir.Node) {
 	case ir.OSTRUCTLIT:
 		w.op(ir.OSTRUCTLIT)
 		w.pos(n.Pos)
-		w.typ(n.Type)
+		w.typ(n.Type())
 		w.elemList(n.List) // special handling of field names
 
 	case ir.OARRAYLIT, ir.OSLICELIT, ir.OMAPLIT:
 		w.op(ir.OCOMPLIT)
 		w.pos(n.Pos)
-		w.typ(n.Type)
+		w.typ(n.Type())
 		w.exprList(n.List)
 
 	case ir.OKEY:
@@ -1314,7 +1314,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.op(ir.ODOTTYPE)
 		w.pos(n.Pos)
 		w.expr(n.Left())
-		w.typ(n.Type)
+		w.typ(n.Type())
 
 	case ir.OINDEX, ir.OINDEXMAP:
 		w.op(ir.OINDEX)
@@ -1349,7 +1349,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.op(ir.OCONV)
 		w.pos(n.Pos)
 		w.expr(n.Left())
-		w.typ(n.Type)
+		w.typ(n.Type())
 
 	case ir.OREAL, ir.OIMAG, ir.OAPPEND, ir.OCAP, ir.OCLOSE, ir.ODELETE, ir.OLEN, ir.OMAKE, ir.ONEW, ir.OPANIC, ir.ORECOVER, ir.OPRINT, ir.OPRINTN:
 		w.op(op)
@@ -1378,7 +1378,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 	case ir.OMAKEMAP, ir.OMAKECHAN, ir.OMAKESLICE:
 		w.op(op) // must keep separate from OMAKE for importer
 		w.pos(n.Pos)
-		w.typ(n.Type)
+		w.typ(n.Type())
 		switch {
 		default:
 			// empty list
@@ -1389,7 +1389,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 			w.expr(n.Left())
 			w.expr(n.Right())
 			w.op(ir.OEND)
-		case n.Left() != nil && (n.Op == ir.OMAKESLICE || !n.Left().Type.IsUntyped()):
+		case n.Left() != nil && (n.Op == ir.OMAKESLICE || !n.Left().Type().IsUntyped()):
 			w.expr(n.Left())
 			w.op(ir.OEND)
 		}

@@ -70,7 +70,7 @@ func tempAt(pos src.XPos, curfn *ir.Node, t *types.Type) *ir.Node {
 	}
 	n := newnamel(pos, s)
 	s.Def = ir.AsTypesNode(n)
-	n.Type = t
+	n.SetType(t)
 	n.SetClass(ir.PAUTO)
 	n.Esc = EscNever
 	n.Name.Curfn = curfn

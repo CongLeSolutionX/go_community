@@ -24,7 +24,7 @@ func typecheckswitch(n *ir.Node) {
 
 func typecheckTypeSwitch(n *ir.Node) {
 	n.Left().SetRight(typecheck(n.Left().Right(), ctxExpr))
-	t := n.Left().Right().Type
+	t := n.Left().Right().Type()
 	if t != nil && !t.IsInterface() {
 		base.ErrorAt(n.Pos, "cannot type switch on non-interface value %L", n.Left().Right())
 		t = nil
@@ -52,7 +52,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 		for i := range ls {
 			ls[i] = typecheck(ls[i], ctxExpr|ctxType)
 			n1 := ls[i]
-			if t == nil || n1.Type == nil {
+			if t == nil || n1.Type() == nil {
 				continue
 			}
 
@@ -67,21 +67,21 @@ func typecheckTypeSwitch(n *ir.Node) {
 				}
 			case n1.Op != ir.OTYPE:
 				base.ErrorAt(ncase.Pos, "%L is not a type", n1)
-			case !n1.Type.IsInterface() && !implements(n1.Type, t, &missing, &have, &ptr) && !missing.Broke():
+			case !n1.Type().IsInterface() && !implements(n1.Type(), t, &missing, &have, &ptr) && !missing.Broke():
 				if have != nil && !have.Broke() {
 					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
-						" (wrong type for %v method)\n\thave %v%S\n\twant %v%S", n.Left().Right(), n1.Type, missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
+						" (wrong type for %v method)\n\thave %v%S\n\twant %v%S", n.Left().Right(), n1.Type(), missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
 				} else if ptr != 0 {
 					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
-						" (%v method has pointer receiver)", n.Left().Right(), n1.Type, missing.Sym)
+						" (%v method has pointer receiver)", n.Left().Right(), n1.Type(), missing.Sym)
 				} else {
 					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
-						" (missing %v method)", n.Left().Right(), n1.Type, missing.Sym)
+						" (missing %v method)", n.Left().Right(), n1.Type(), missing.Sym)
 				}
 			}
 
 			if n1.Op == ir.OTYPE {
-				ts.add(ncase.Pos, n1.Type)
+				ts.add(ncase.Pos, n1.Type())
 			}
 		}
 
@@ -90,7 +90,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 			vt := t
 			if len(ls) == 1 {
 				if ls[0].Op == ir.OTYPE {
-					vt = ls[0].Type
+					vt = ls[0].Type()
 				} else if ls[0].Op != ir.OLITERAL { // TODO(mdempsky): Should be !ls[0].isNil()
 					// Invalid single-type case;
 					// mark variable as broken.
@@ -105,7 +105,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 			}
 
 			nvar := ncase.Rlist.First()
-			nvar.Type = vt
+			nvar.SetType(vt)
 			nvar = typecheck(nvar, ctxExpr|ctxAssign)
 			ncase.Rlist.SetFirst(nvar)
 		}
@@ -147,7 +147,7 @@ func typecheckExprSwitch(n *ir.Node) {
 	if n.Left() != nil {
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
-		t = n.Left().Type
+		t = n.Left().Type()
 	}
 
 	var nilonly string
@@ -187,22 +187,22 @@ func typecheckExprSwitch(n *ir.Node) {
 			ls[i] = typecheck(ls[i], ctxExpr)
 			ls[i] = defaultlit(ls[i], t)
 			n1 := ls[i]
-			if t == nil || n1.Type == nil {
+			if t == nil || n1.Type() == nil {
 				continue
 			}
 
 			if nilonly != "" && !n1.IsNil() {
 				base.ErrorAt(ncase.Pos, "invalid case %v in switch (can only compare %s %v to nil)", n1, nilonly, n.Left())
-			} else if t.IsInterface() && !n1.Type.IsInterface() && !IsComparable(n1.Type) {
+			} else if t.IsInterface() && !n1.Type().IsInterface() && !IsComparable(n1.Type()) {
 				base.ErrorAt(ncase.Pos, "invalid case %L in switch (incomparable type)", n1)
 			} else {
-				op1, _ := assignop(n1.Type, t)
-				op2, _ := assignop(t, n1.Type)
+				op1, _ := assignop(n1.Type(), t)
+				op2, _ := assignop(t, n1.Type())
 				if op1 == ir.OXXX && op2 == ir.OXXX {
 					if n.Left() != nil {
-						base.ErrorAt(ncase.Pos, "invalid case %v in switch on %v (mismatched types %v and %v)", n1, n.Left(), n1.Type, t)
+						base.ErrorAt(ncase.Pos, "invalid case %v in switch on %v (mismatched types %v and %v)", n1, n.Left(), n1.Type(), t)
 					} else {
-						base.ErrorAt(ncase.Pos, "invalid case %v in switch (mismatched types %v and bool)", n1, n1.Type)
+						base.ErrorAt(ncase.Pos, "invalid case %v in switch (mismatched types %v and bool)", n1, n1.Type())
 					}
 				}
 			}
@@ -213,7 +213,7 @@ func typecheckExprSwitch(n *ir.Node) {
 			//       case GOARCH == "arm" && GOARM == "5":
 			//       case GOARCH == "arm":
 			//     which would both evaluate to false for non-ARM compiles.
-			if !n1.Type.IsBoolean() {
+			if !n1.Type().IsBoolean() {
 				cs.add(ncase.Pos, n1, "case", "switch")
 			}
 		}
@@ -264,7 +264,7 @@ func walkExprSwitch(sw *ir.Node) {
 
 	cond = walkexpr(cond, &sw.Ninit)
 	if cond.Op != ir.OLITERAL {
-		cond = copyexpr(cond, cond.Type, &sw.Nbody)
+		cond = copyexpr(cond, cond.Type(), &sw.Nbody)
 	}
 
 	base.Pos = lno
@@ -330,7 +330,7 @@ type exprClause struct {
 
 func (s *exprSwitch) Add(pos src.XPos, expr, jmp *ir.Node) {
 	c := exprClause{pos: pos, lo: expr, hi: expr, jmp: jmp}
-	if okforcmp[s.exprname.Type.Etype] && expr.Op == ir.OLITERAL {
+	if okforcmp[s.exprname.Type().Etype] && expr.Op == ir.OLITERAL {
 		s.clauses = append(s.clauses, c)
 		return
 	}
@@ -357,7 +357,7 @@ func (s *exprSwitch) flush() {
 	// (e.g., sort.Slice doesn't need to invoke the less function
 	// when there's only a single slice element).
 
-	if s.exprname.Type.IsString() && len(cc) >= 2 {
+	if s.exprname.Type().IsString() && len(cc) >= 2 {
 		// Sort strings by length and then by value. It is
 		// much cheaper to compare lengths than values, and
 		// all we need here is consistency. We respect this
@@ -406,7 +406,7 @@ func (s *exprSwitch) flush() {
 	})
 
 	// Merge consecutive integer cases.
-	if s.exprname.Type.IsInteger() {
+	if s.exprname.Type().IsInteger() {
 		merged := cc[:1]
 		for _, c := range cc[1:] {
 			last := &merged[len(merged)-1]
@@ -444,7 +444,7 @@ func (c *exprClause) test(exprname *ir.Node) *ir.Node {
 	}
 
 	// Optimize "switch true { ...}" and "switch false { ... }".
-	if ir.IsConst(exprname, ir.CTBOOL) && !c.lo.Type.IsInterface() {
+	if ir.IsConst(exprname, ir.CTBOOL) && !c.lo.Type().IsInterface() {
 		if exprname.BoolVal() {
 			return c.lo
 		} else {
@@ -502,7 +502,7 @@ func walkTypeSwitch(sw *ir.Node) {
 	sw.SetLeft(nil)
 
 	s.facename = walkexpr(s.facename, &sw.Ninit)
-	s.facename = copyexpr(s.facename, s.facename.Type, &sw.Nbody)
+	s.facename = copyexpr(s.facename, s.facename.Type(), &sw.Nbody)
 	s.okname = temp(types.Types[types.TBOOL])
 
 	// Get interface descriptor word.
@@ -526,15 +526,15 @@ func walkTypeSwitch(sw *ir.Node) {
 
 	// Load hash from type or itab.
 	dotHash := nodSym(ir.ODOTPTR, itab, nil)
-	dotHash.Type = types.Types[types.TUINT32]
+	dotHash.SetType(types.Types[types.TUINT32])
 	dotHash.SetTypecheck(1)
-	if s.facename.Type.IsEmptyInterface() {
+	if s.facename.Type().IsEmptyInterface() {
 		dotHash.Xoffset = int64(2 * Widthptr) // offset of hash in runtime._type
 	} else {
 		dotHash.Xoffset = int64(2 * Widthptr) // offset of hash in runtime.itab
 	}
 	dotHash.SetBounded(true) // guaranteed not to fault
-	s.hashname = copyexpr(dotHash, dotHash.Type, &sw.Nbody)
+	s.hashname = copyexpr(dotHash, dotHash.Type(), &sw.Nbody)
 
 	br := nod(ir.OBREAK, nil, nil)
 	var defaultGoto, nilGoto *ir.Node
@@ -550,7 +550,7 @@ func walkTypeSwitch(sw *ir.Node) {
 		// In other cases, we initialize it in the body.
 		var singleType *types.Type
 		if ncase.List.Len() == 1 && ncase.List.First().Op == ir.OTYPE {
-			singleType = ncase.List.First().Type
+			singleType = ncase.List.First().Type()
 		}
 		caseVarInitialized := false
 
@@ -574,10 +574,10 @@ func walkTypeSwitch(sw *ir.Node) {
 			}
 
 			if singleType != nil && singleType.IsInterface() {
-				s.Add(ncase.Pos, n1.Type, caseVar, jmp)
+				s.Add(ncase.Pos, n1.Type(), caseVar, jmp)
 				caseVarInitialized = true
 			} else {
-				s.Add(ncase.Pos, n1.Type, nil, jmp)
+				s.Add(ncase.Pos, n1.Type(), nil, jmp)
 			}
 		}
 
@@ -651,7 +651,7 @@ func (s *typeSwitch) Add(pos src.XPos, typ *types.Type, caseVar, jmp *ir.Node) {
 	as := nodl(pos, ir.OAS2, nil, nil)
 	as.List.Set2(caseVar, s.okname) // cv, ok =
 	dot := nodl(pos, ir.ODOTTYPE, s.facename, nil)
-	dot.Type = typ // iface.(type)
+	dot.SetType(typ) // iface.(type)
 	as.Rlist.Set1(dot)
 	as = typecheck(as, ctxStmt)
 	as = walkexpr(as, &body)

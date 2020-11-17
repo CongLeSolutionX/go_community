@@ -55,7 +55,7 @@ const (
 func fnpkg(fn *ir.Node) *types.Pkg {
 	if fn.IsMethod() {
 		// method
-		rcvr := fn.Type.Recv().Type
+		rcvr := fn.Type().Recv().Type
 
 		if rcvr.IsPtr() {
 			rcvr = rcvr.Elem()
@@ -224,10 +224,10 @@ func caninl(fn *ir.Node) {
 
 	// hack, TODO, check for better way to link method nodes back to the thing with the ->inl
 	// this is so export can find the body of a method
-	fn.Type.FuncType().Nname = ir.AsTypesNode(n)
+	fn.Type().FuncType().Nname = ir.AsTypesNode(n)
 
 	if base.Flag.LowerM > 1 {
-		fmt.Printf("%v: can inline %#v with cost %d as: %#v { %#v }\n", fn.Line(), n, inlineMaxBudget-visitor.budget, fn.Type, ir.AsNodes(n.Func.Inl.Body))
+		fmt.Printf("%v: can inline %#v with cost %d as: %#v { %#v }\n", fn.Line(), n, inlineMaxBudget-visitor.budget, fn.Type(), ir.AsNodes(n.Func.Inl.Body))
 	} else if base.Flag.LowerM != 0 {
 		fmt.Printf("%v: can inline %v\n", fn.Line(), n)
 	}
@@ -268,7 +268,7 @@ func inlFlood(n *ir.Node) {
 			switch n.Class() {
 			case ir.PFUNC:
 				if n.IsMethodExpression() {
-					inlFlood(ir.AsNode(n.Type.Nname()))
+					inlFlood(ir.AsNode(n.Type().Nname()))
 				} else {
 					inlFlood(n)
 					exportsym(n)
@@ -278,7 +278,7 @@ func inlFlood(n *ir.Node) {
 			}
 
 		case ir.ODOTMETH:
-			fn := ir.AsNode(n.Type.Nname())
+			fn := ir.AsNode(n.Type().Nname())
 			inlFlood(fn)
 
 		case ir.OCALLPART:
@@ -355,7 +355,7 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 
 	// Call is okay if inlinable and we have the budget for the body.
 	case ir.OCALLMETH:
-		t := n.Left().Type
+		t := n.Left().Type()
 		if t == nil {
 			base.Fatal("no function type for [%p] %+v\n", n.Left(), n.Left())
 		}
@@ -700,15 +700,15 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 		}
 
 		// typecheck should have resolved ODOTMETH->type, whose nname points to the actual function.
-		if n.Left().Type == nil {
+		if n.Left().Type() == nil {
 			base.Fatal("no function type for [%p] %+v\n", n.Left(), n.Left())
 		}
 
-		if n.Left().Type.Nname() == nil {
-			base.Fatal("no function definition for [%p] %+v\n", n.Left().Type, n.Left().Type)
+		if n.Left().Type().Nname() == nil {
+			base.Fatal("no function definition for [%p] %+v\n", n.Left().Type(), n.Left().Type())
 		}
 
-		n = mkinlcall(n, ir.AsNode(n.Left().Type.FuncType().Nname), maxCost, inlMap)
+		n = mkinlcall(n, ir.AsNode(n.Left().Type().FuncType().Nname), maxCost, inlMap)
 	}
 
 	base.Pos = lno
@@ -722,11 +722,11 @@ func inlCallee(fn *ir.Node) *ir.Node {
 	switch {
 	case fn.Op == ir.ONAME && fn.Class() == ir.PFUNC:
 		if fn.IsMethodExpression() {
-			n := ir.AsNode(fn.Type.Nname())
+			n := ir.AsNode(fn.Type().Nname())
 			// Check that receiver type matches fn.Left.
 			// TODO(mdempsky): Handle implicit dereference
 			// of pointer receiver argument?
-			if n == nil || !types.Identical(n.Type.Recv().Type, fn.Left().Type) {
+			if n == nil || !types.Identical(n.Type().Recv().Type, fn.Left().Type()) {
 				return nil
 			}
 			return n
@@ -950,7 +950,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 
 	// We have a function node, and it has an inlineable body.
 	if base.Flag.LowerM > 1 {
-		fmt.Printf("%v: inlining call to %v %#v { %#v }\n", n.Line(), fn.Sym, fn.Type, ir.AsNodes(fn.Func.Inl.Body))
+		fmt.Printf("%v: inlining call to %v %#v { %#v }\n", n.Line(), fn.Sym, fn.Type(), ir.AsNodes(fn.Func.Inl.Body))
 	} else if base.Flag.LowerM != 0 {
 		fmt.Printf("%v: inlining call to %v\n", n.Line(), fn)
 	}
@@ -994,7 +994,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 					inlvars[v] = iv
 				} else {
 					addr := newname(lookup("&" + v.Sym.Name))
-					addr.Type = types.NewPtr(v.Type)
+					addr.SetType(types.NewPtr(v.Type()))
 					ia := typecheck(inlvar(addr), ctxExpr)
 					ninit.Append(nod(ir.ODCL, ia, nil))
 					ninit.Append(typecheck(nod(ir.OAS, ia, nod(ir.OADDR, o, nil)), ctxStmt))
@@ -1050,7 +1050,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 
 	// temporaries for return values.
 	var retvars []*ir.Node
-	for i, t := range fn.Type.Results().Fields().Slice() {
+	for i, t := range fn.Type().Results().Fields().Slice() {
 		var m *ir.Node
 		if n := ir.AsNode(t.Nname); n != nil && !n.IsBlank() && !strings.HasPrefix(n.Sym.Name, "~r") {
 			m = inlvar(n)
@@ -1091,10 +1091,10 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	// variadic parameter's temp name separately.
 	var vas *ir.Node
 
-	if recv := fn.Type.Recv(); recv != nil {
+	if recv := fn.Type().Recv(); recv != nil {
 		as.List.Append(inlParam(recv, as, inlvars))
 	}
-	for _, param := range fn.Type.Params().Fields().Slice() {
+	for _, param := range fn.Type().Params().Fields().Slice() {
 		// For ordinary parameters or variadic parameters in
 		// dotted calls, just add the variable to the
 		// assignment list, and we're done.
@@ -1116,7 +1116,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		vas.SetLeft(inlParam(param, vas, inlvars))
 		if len(varargs) == 0 {
 			vas.SetRight(nodnil())
-			vas.Right().Type = param.Type
+			vas.Right().SetType(param.Type)
 		} else {
 			vas.SetRight(nod(ir.OCOMPLIT, nil, typenod(param.Type)))
 			vas.Right().List.Set(varargs)
@@ -1198,7 +1198,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	call.Ninit.Set(ninit.Slice())
 	call.Nbody.Set(body)
 	call.Rlist.Set(retvars)
-	call.Type = n.Type
+	call.SetType(n.Type())
 	call.SetTypecheck(1)
 
 	// transitive inlining
@@ -1230,7 +1230,7 @@ func inlvar(var_ *ir.Node) *ir.Node {
 	}
 
 	n := newname(var_.Sym)
-	n.Type = var_.Type
+	n.SetType(var_.Type())
 	n.SetClass(ir.PAUTO)
 	n.Name.SetUsed(true)
 	n.Name.Curfn = Curfn // the calling function, not the called one
@@ -1243,7 +1243,7 @@ func inlvar(var_ *ir.Node) *ir.Node {
 // Synthesize a variable to store the inlined function's results in.
 func retvar(t *types.Field, i int) *ir.Node {
 	n := newname(lookupN("~R", i))
-	n.Type = t.Type
+	n.SetType(t.Type)
 	n.SetClass(ir.PAUTO)
 	n.Name.SetUsed(true)
 	n.Name.Curfn = Curfn // the calling function, not the called one
@@ -1255,7 +1255,7 @@ func retvar(t *types.Field, i int) *ir.Node {
 // when they come from a multiple return call.
 func argvar(t *types.Type, i int) *ir.Node {
 	n := newname(lookupN("~arg", i))
-	n.Type = t.Elem()
+	n.SetType(t.Elem())
 	n.SetClass(ir.PAUTO)
 	n.Name.SetUsed(true)
 	n.Name.Curfn = Curfn // the calling function, not the called one
@@ -1433,13 +1433,13 @@ func devirtualizeCall(call *ir.Node) {
 		return
 	}
 
-	typ := recv.Left().Type
+	typ := recv.Left().Type()
 	if typ.IsInterface() {
 		return
 	}
 
 	x := nodl(call.Left().Pos, ir.ODOTTYPE, call.Left().Left(), nil)
-	x.Type = typ
+	x.SetType(typ)
 	x = nodlSym(call.Left().Pos, ir.OXDOT, x, call.Left().Sym)
 	x = typecheck(x, ctxExpr|ctxCallee)
 	switch x.Op {
@@ -1470,12 +1470,12 @@ func devirtualizeCall(call *ir.Node) {
 	// Receiver parameter size may have changed; need to update
 	// call.Type to get correct stack offsets for result
 	// parameters.
-	checkwidth(x.Type)
-	switch ft := x.Type; ft.NumResults() {
+	checkwidth(x.Type())
+	switch ft := x.Type(); ft.NumResults() {
 	case 0:
 	case 1:
-		call.Type = ft.Results().Field(0).Type
+		call.SetType(ft.Results().Field(0).Type)
 	default:
-		call.Type = ft.Results()
+		call.SetType(ft.Results())
 	}
 }

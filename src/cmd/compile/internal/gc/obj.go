@@ -217,18 +217,18 @@ func addptabs() {
 		if s.Pkg.Name != "main" {
 			continue
 		}
-		if n.Type.Etype == types.TFUNC && n.Class() == ir.PFUNC {
+		if n.Type().Etype == types.TFUNC && n.Class() == ir.PFUNC {
 			// function
-			ptabs = append(ptabs, ptabEntry{s: s, t: ir.AsNode(s.Def).Type})
+			ptabs = append(ptabs, ptabEntry{s: s, t: ir.AsNode(s.Def).Type()})
 		} else {
 			// variable
-			ptabs = append(ptabs, ptabEntry{s: s, t: types.NewPtr(ir.AsNode(s.Def).Type)})
+			ptabs = append(ptabs, ptabEntry{s: s, t: types.NewPtr(ir.AsNode(s.Def).Type())})
 		}
 	}
 }
 
 func dumpGlobal(n *ir.Node) {
-	if n.Type == nil {
+	if n.Type() == nil {
 		base.Fatal("external %v nil type\n", n)
 	}
 	if n.Class() == ir.PFUNC {
@@ -237,13 +237,13 @@ func dumpGlobal(n *ir.Node) {
 	if n.Sym.Pkg != ir.LocalPkg {
 		return
 	}
-	dowidth(n.Type)
+	dowidth(n.Type())
 	ggloblnod(n)
 }
 
 func dumpGlobalConst(n *ir.Node) {
 	// only export typed constants
-	t := n.Type
+	t := n.Type()
 	if t == nil {
 		return
 	}
@@ -610,7 +610,7 @@ func litsym(n, c *ir.Node, wid int) {
 
 	case *ir.Float:
 		f := u.Float64()
-		switch n.Type.Etype {
+		switch n.Type().Etype {
 		case types.TFLOAT32:
 			s.WriteFloat32(base.Ctxt, n.Xoffset, float32(f))
 		case types.TFLOAT64:
@@ -620,7 +620,7 @@ func litsym(n, c *ir.Node, wid int) {
 	case *ir.Complex:
 		r := u.Real.Float64()
 		i := u.Imag.Float64()
-		switch n.Type.Etype {
+		switch n.Type().Etype {
 		case types.TCOMPLEX64:
 			s.WriteFloat32(base.Ctxt, n.Xoffset, float32(r))
 			s.WriteFloat32(base.Ctxt, n.Xoffset+4, float32(i))

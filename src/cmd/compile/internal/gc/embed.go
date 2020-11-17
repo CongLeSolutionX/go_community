@@ -193,9 +193,9 @@ func dumpembeds() {
 // which is either a string, a []byte, or an embed.FS.
 func initEmbed(v *ir.Node) {
 	files := v.Name.Param.EmbedFiles()
-	switch kind := embedKind(v.Type); kind {
+	switch kind := embedKind(v.Type()); kind {
 	case embedUnknown:
-		base.ErrorAt(v.Pos, "go:embed cannot apply to var of type %v", v.Type)
+		base.ErrorAt(v.Pos, "go:embed cannot apply to var of type %v", v.Type())
 
 	case embedString, embedBytes:
 		file := files[0]

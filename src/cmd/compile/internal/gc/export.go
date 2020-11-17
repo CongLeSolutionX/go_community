@@ -47,7 +47,7 @@ func autoexport(n *ir.Node, ctxt ir.Class) {
 	if (ctxt != ir.PEXTERN && ctxt != ir.PFUNC) || dclcontext != ir.PEXTERN {
 		return
 	}
-	if n.Type != nil && n.Type.IsKind(types.TFUNC) && n.IsMethod() {
+	if n.Type() != nil && n.Type().IsKind(types.TFUNC) && n.IsMethod() {
 		return
 	}
 
@@ -106,11 +106,11 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 
 		n.Op = ir.OTYPE
 		n.Pos = pos
-		n.Type = t
+		n.SetType(t)
 		n.SetClass(ir.PEXTERN)
 	}
 
-	t := n.Type
+	t := n.Type()
 	if t == nil {
 		base.Fatal("importtype %v", s)
 	}
@@ -122,7 +122,7 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Class, t *types.Type) *ir.Node {
 	n := importsym(ipkg, s, op)
 	if n.Op != ir.ONONAME {
-		if n.Op == op && (n.Class() != ctxt || !types.Identical(n.Type, t)) {
+		if n.Op == op && (n.Class() != ctxt || !types.Identical(n.Type(), t)) {
 			redeclare(base.Pos, s, fmt.Sprintf("during import %q", ipkg.Path))
 		}
 		return nil
@@ -134,7 +134,7 @@ func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Cl
 	if ctxt == ir.PFUNC {
 		n.Sym.SetFunc(true)
 	}
-	n.Type = t
+	n.SetType(t)
 	return n
 }
 
@@ -216,7 +216,7 @@ func dumpasmhdr() {
 			fmt.Fprintf(b, "#define const_%s %#v\n", n.Sym.Name, n.Val())
 
 		case ir.OTYPE:
-			t := n.Type
+			t := n.Type()
 			if !t.IsStruct() || t.StructType().Map != nil || t.IsFuncArgStruct() {
 				break
 			}

@@ -347,7 +347,7 @@ func (e *Escape) stmt(n *ir.Node) {
 		// Right is evaluated outside the loop.
 		k := e.discardHole()
 		if len(ks) >= 2 {
-			if n.Right().Type.IsArray() {
+			if n.Right().Type().IsArray() {
 				k = ks[1].note(n, "range")
 			} else {
 				k = ks[1].deref(n, "range-deref")
@@ -363,8 +363,8 @@ func (e *Escape) stmt(n *ir.Node) {
 			if typesw && n.Left().Left() != nil {
 				cv := cas.Rlist.First()
 				k := e.dcl(cv) // type switch variables have no ODCL.
-				if cv.Type.HasPointers() {
-					ks = append(ks, k.dotType(cv.Type, cas, "switch case"))
+				if cv.Type().HasPointers() {
+					ks = append(ks, k.dotType(cv.Type(), cas, "switch case"))
 				}
 			}
 
@@ -417,7 +417,7 @@ func (e *Escape) stmt(n *ir.Node) {
 		e.stmts(n.Right().Ninit)
 		e.call(e.addrs(n.List), n.Right(), nil)
 	case ir.ORETURN:
-		results := e.curfn.Type.Results().FieldSlice()
+		results := e.curfn.Type().Results().FieldSlice()
 		for i, v := range n.List.Slice() {
 			e.assign(ir.AsNode(results[i].Nname), v, "return", n)
 		}
@@ -468,9 +468,9 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 	uintptrEscapesHack := k.uintptrEscapesHack
 	k.uintptrEscapesHack = false
 
-	if uintptrEscapesHack && n.Op == ir.OCONVNOP && n.Left().Type.IsUnsafePtr() {
+	if uintptrEscapesHack && n.Op == ir.OCONVNOP && n.Left().Type().IsUnsafePtr() {
 		// nop
-	} else if k.derefs >= 0 && !n.Type.HasPointers() {
+	} else if k.derefs >= 0 && !n.Type().HasPointers() {
 		k = e.discardHole()
 	}
 
@@ -502,9 +502,9 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 	case ir.ODOTPTR:
 		e.expr(k.deref(n, "dot of pointer"), n.Left()) // "dot of pointer"
 	case ir.ODOTTYPE, ir.ODOTTYPE2:
-		e.expr(k.dotType(n.Type, n, "dot"), n.Left())
+		e.expr(k.dotType(n.Type(), n, "dot"), n.Left())
 	case ir.OINDEX:
-		if n.Left().Type.IsArray() {
+		if n.Left().Type().IsArray() {
 			e.expr(k.note(n, "fixed-array-index-of"), n.Left())
 		} else {
 			// TODO(mdempsky): Fix why reason text.
@@ -522,7 +522,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 		e.discard(max)
 
 	case ir.OCONV, ir.OCONVNOP:
-		if checkPtr(e.curfn, 2) && n.Type.IsUnsafePtr() && n.Left().Type.IsPtr() {
+		if checkPtr(e.curfn, 2) && n.Type().IsUnsafePtr() && n.Left().Type().IsPtr() {
 			// When -d=checkptr=2 is enabled, treat
 			// conversions to unsafe.Pointer as an
 			// escaping operation. This allows better
@@ -530,13 +530,13 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 			// easily detect object boundaries on the heap
 			// than the stack.
 			e.assignHeap(n.Left(), "conversion to unsafe.Pointer", n)
-		} else if n.Type.IsUnsafePtr() && n.Left().Type.IsUintptr() {
+		} else if n.Type().IsUnsafePtr() && n.Left().Type().IsUintptr() {
 			e.unsafeValue(k, n.Left())
 		} else {
 			e.expr(k, n.Left())
 		}
 	case ir.OCONVIFACE:
-		if !n.Left().Type.IsInterface() && !isdirectiface(n.Left().Type) {
+		if !n.Left().Type().IsInterface() && !isdirectiface(n.Left().Type()) {
 			k = e.spill(k, n)
 		}
 		e.expr(k.note(n, "interface-converted"), n.Left())
@@ -654,15 +654,15 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 // unsafeValue evaluates a uintptr-typed arithmetic expression looking
 // for conversions from an unsafe.Pointer.
 func (e *Escape) unsafeValue(k EscHole, n *ir.Node) {
-	if n.Type.Etype != types.TUINTPTR {
-		base.Fatal("unexpected type %v for %v", n.Type, n)
+	if n.Type().Etype != types.TUINTPTR {
+		base.Fatal("unexpected type %v for %v", n.Type(), n)
 	}
 
 	e.stmts(n.Ninit)
 
 	switch n.Op {
 	case ir.OCONV, ir.OCONVNOP:
-		if n.Left().Type.IsUnsafePtr() {
+		if n.Left().Type().IsUnsafePtr() {
 			e.expr(k, n.Left())
 		} else {
 			e.discard(n.Left())
@@ -723,7 +723,7 @@ func (e *Escape) addr(n *ir.Node) EscHole {
 		k = e.addr(n.Left())
 	case ir.OINDEX:
 		e.discard(n.Right())
-		if n.Left().Type.IsArray() {
+		if n.Left().Type().IsArray() {
 			k = e.addr(n.Left())
 		} else {
 			e.discard(n.Left())
@@ -735,7 +735,7 @@ func (e *Escape) addr(n *ir.Node) EscHole {
 		e.assignHeap(n.Right(), "key of map put", n)
 	}
 
-	if !n.Type.HasPointers() {
+	if !n.Type().HasPointers() {
 		k = e.discardHole()
 	}
 
@@ -815,16 +815,16 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 				fn = v.Func.Decl.Func.Nname
 			}
 		case ir.OCALLMETH:
-			fn = ir.AsNode(call.Left().Type.FuncType().Nname)
+			fn = ir.AsNode(call.Left().Type().FuncType().Nname)
 		}
 
-		fntype := call.Left().Type
+		fntype := call.Left().Type()
 		if fn != nil {
-			fntype = fn.Type
+			fntype = fn.Type()
 		}
 
 		if ks != nil && fn != nil && e.inMutualBatch(fn) {
-			for i, result := range fn.Type.Results().FieldSlice() {
+			for i, result := range fn.Type().Results().FieldSlice() {
 				e.expr(ks[i], ir.AsNode(result.Nname))
 			}
 		}
@@ -849,14 +849,14 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		// slice might be allocated, and all slice elements
 		// might flow to heap.
 		appendeeK := ks[0]
-		if args[0].Type.Elem().HasPointers() {
+		if args[0].Type().Elem().HasPointers() {
 			appendeeK = e.teeHole(appendeeK, e.heapHole().deref(call, "appendee slice"))
 		}
 		argument(appendeeK, args[0])
 
 		if call.IsDDD() {
 			appendedK := e.discardHole()
-			if args[1].Type.IsSlice() && args[1].Type.Elem().HasPointers() {
+			if args[1].Type().IsSlice() && args[1].Type().Elem().HasPointers() {
 				appendedK = e.heapHole().deref(call, "appended slice...")
 			}
 			argument(appendedK, args[1])
@@ -870,7 +870,7 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		argument(e.discardHole(), call.Left())
 
 		copiedK := e.discardHole()
-		if call.Right().Type.IsSlice() && call.Right().Type.Elem().HasPointers() {
+		if call.Right().Type().IsSlice() && call.Right().Type().Elem().HasPointers() {
 			copiedK = e.heapHole().deref(call, "copied slice")
 		}
 		argument(copiedK, call.Right())
@@ -1067,8 +1067,8 @@ func (e *Escape) newLoc(n *ir.Node, transient bool) *EscLocation {
 	if e.curfn == nil {
 		base.Fatal("e.curfn isn't set")
 	}
-	if n != nil && n.Type != nil && n.Type.NotInHeap() {
-		base.ErrorAt(n.Pos, "%v is incomplete (or unallocatable); stack allocation disallowed", n.Type)
+	if n != nil && n.Type() != nil && n.Type().NotInHeap() {
+		base.ErrorAt(n.Pos, "%v is incomplete (or unallocatable); stack allocation disallowed", n.Type())
 	}
 
 	n = canonicalNode(n)
@@ -1436,7 +1436,7 @@ func (e *Escape) finish(fns []*ir.Node) {
 
 		narg := 0
 		for _, fs := range &types.RecvsParams {
-			for _, f := range fs(fn.Type).Fields().Slice() {
+			for _, f := range fs(fn.Type()).Fields().Slice() {
 				narg++
 				f.Note = e.paramTag(fn, narg, f)
 			}

@@ -336,7 +336,7 @@ func (r *importReader) doDecl(n *ir.Node) {
 			ms[i] = f
 
 			m := newfuncnamel(mpos, methodSym(recv.Type, msym), new(ir.Func))
-			m.Type = mtyp
+			m.SetType(mtyp)
 			m.SetClass(ir.PFUNC)
 			// methodSym already marked m.Sym as a function.
 
@@ -520,7 +520,7 @@ func (r *importReader) typ1() *types.Type {
 		if n.Op != ir.OTYPE {
 			base.Fatal("expected OTYPE, got %v: %v, %v", n.Op, n.Sym, n)
 		}
-		return n.Type
+		return n.Type()
 	case pointerType:
 		return types.NewPtr(r.typ())
 	case sliceType:
@@ -674,7 +674,7 @@ func (r *importReader) funcExt(n *ir.Node) {
 
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
-		for _, f := range fs(n.Type).FieldSlice() {
+		for _, f := range fs(n.Type()).FieldSlice() {
 			f.Note = r.string()
 		}
 	}
@@ -746,9 +746,9 @@ func (r *importReader) doInline(n *ir.Node) {
 
 	if base.Flag.E > 0 && base.Flag.LowerM > 2 {
 		if base.Flag.LowerM > 3 {
-			fmt.Printf("inl body for %v %#v: %+v\n", n, n.Type, ir.AsNodes(n.Func.Inl.Body))
+			fmt.Printf("inl body for %v %#v: %+v\n", n, n.Type(), ir.AsNodes(n.Func.Inl.Body))
 		} else {
-			fmt.Printf("inl body for %v %#v: %v\n", n, n.Type, ir.AsNodes(n.Func.Inl.Body))
+			fmt.Printf("inl body for %v %#v: %v\n", n, n.Type(), ir.AsNodes(n.Func.Inl.Body))
 		}
 	}
 }
@@ -840,7 +840,7 @@ func (r *importReader) node() *ir.Node {
 		typ, val := r.value()
 
 		n := npos(pos, nodlit(val))
-		n.Type = typ
+		n.SetType(typ)
 		return n
 
 	case ir.ONONAME:
@@ -913,7 +913,7 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.ODOTTYPE:
 		n := nodl(r.pos(), ir.ODOTTYPE, r.expr(), nil)
-		n.Type = r.typ()
+		n.SetType(r.typ())
 		return n
 
 	// case OINDEX, OINDEXMAP, OSLICE, OSLICESTR, OSLICEARR, OSLICE3, OSLICE3ARR:
@@ -937,7 +937,7 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.OCONV:
 		n := nodl(r.pos(), ir.OCONV, r.expr(), nil)
-		n.Type = r.typ()
+		n.SetType(r.typ())
 		return n
 
 	case ir.OCOPY, ir.OCOMPLEX, ir.OREAL, ir.OIMAG, ir.OAPPEND, ir.OCAP, ir.OCLOSE, ir.ODELETE, ir.OLEN, ir.OMAKE, ir.ONEW, ir.OPANIC, ir.ORECOVER, ir.OPRINT, ir.OPRINTN:

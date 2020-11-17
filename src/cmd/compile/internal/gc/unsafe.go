@@ -15,7 +15,7 @@ func evalunsafe(n *ir.Node) int64 {
 	case ir.OALIGNOF, ir.OSIZEOF:
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
-		tr := n.Left().Type
+		tr := n.Left().Type()
 		if tr == nil {
 			return 0
 		}
@@ -39,7 +39,7 @@ func evalunsafe(n *ir.Node) int64 {
 		sbase := n.Left().Left()
 
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
-		if n.Left().Type == nil {
+		if n.Left().Type() == nil {
 			return 0
 		}
 		switch n.Left().Op {

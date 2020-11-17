@@ -207,7 +207,7 @@ type progeffectscache struct {
 // nor do we care about empty structs (handled by the pointer check),
 // nor do we care about the fake PAUTOHEAP variables.
 func livenessShouldTrack(n *ir.Node) bool {
-	return n.Op == ir.ONAME && (n.Class() == ir.PAUTO || n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Type.HasPointers()
+	return n.Op == ir.ONAME && (n.Class() == ir.PAUTO || n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Type().HasPointers()
 }
 
 // getvariables returns the list of on-stack variables that we need to track
@@ -297,7 +297,7 @@ func (lv *Liveness) valueEffects(v *ssa.Value) (int32, liveEffect) {
 	if e&(ssa.SymRead|ssa.SymAddr) != 0 {
 		effect |= uevar
 	}
-	if e&ssa.SymWrite != 0 && (!isfat(n.Type) || v.Op == ssa.OpVarDef) {
+	if e&ssa.SymWrite != 0 && (!isfat(n.Type()) || v.Op == ssa.OpVarDef) {
 		effect |= varkill
 	}
 
@@ -491,10 +491,10 @@ func (lv *Liveness) pointerMap(liveout bvec, vars []*ir.Node, args, locals bvec)
 		node := vars[i]
 		switch node.Class() {
 		case ir.PAUTO:
-			onebitwalktype1(node.Type, node.Xoffset+lv.stkptrsize, locals)
+			onebitwalktype1(node.Type(), node.Xoffset+lv.stkptrsize, locals)
 
 		case ir.PPARAM, ir.PPARAMOUT:
-			onebitwalktype1(node.Type, node.Xoffset, args)
+			onebitwalktype1(node.Type(), node.Xoffset, args)
 		}
 	}
 }
@@ -1176,7 +1176,7 @@ func (lv *Liveness) emit() (argsSym, liveSym *obj.LSym) {
 	// Next, find the offset of the largest pointer in the largest node.
 	var maxArgs int64
 	if maxArgNode != nil {
-		maxArgs = maxArgNode.Xoffset + typeptrdata(maxArgNode.Type)
+		maxArgs = maxArgNode.Xoffset + typeptrdata(maxArgNode.Type())
 	}
 
 	// Size locals bitmaps to be stkptrsize sized.

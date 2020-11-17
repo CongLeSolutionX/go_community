@@ -98,11 +98,11 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		base.Fatal("bad conversion to untyped: %v", t)
 	}
 
-	if n == nil || n.Type == nil {
+	if n == nil || n.Type() == nil {
 		// Allow sloppy callers.
 		return n
 	}
-	if !n.Type.IsUntyped() {
+	if !n.Type().IsUntyped() {
 		// Already typed; nothing to do.
 		return n
 	}
@@ -114,11 +114,11 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 	}
 
 	// Nil is technically not a constant, so handle it specially.
-	if n.Type.Etype == types.TNIL {
+	if n.Type().Etype == types.TNIL {
 		if t == nil {
 			base.Error("use of untyped nil")
 			n.SetDiag(true)
-			n.Type = nil
+			n.SetType(nil)
 			return n
 		}
 
@@ -127,12 +127,12 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 			return n
 		}
 
-		n.Type = t
+		n.SetType(t)
 		return n
 	}
 
 	if t == nil || !okforconst[t.Etype] {
-		t = defaultType(n.Type)
+		t = defaultType(n.Type())
 	}
 
 	switch n.Op {
@@ -145,7 +145,7 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 			break
 		}
 		n.SetVal(v)
-		n.Type = t
+		n.SetType(t)
 		return n
 
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT, ir.OREAL, ir.OIMAG:
@@ -156,11 +156,11 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		}
 
 		n.SetLeft(convlit(n.Left(), ot))
-		if n.Left().Type == nil {
-			n.Type = nil
+		if n.Left().Type() == nil {
+			n.SetType(nil)
 			return n
 		}
-		n.Type = t
+		n.SetType(t)
 		return n
 
 	case ir.OADD, ir.OSUB, ir.OMUL, ir.ODIV, ir.OMOD, ir.OOR, ir.OXOR, ir.OAND, ir.OANDNOT, ir.OOROR, ir.OANDAND, ir.OCOMPLEX:
@@ -172,32 +172,32 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 
 		n.SetLeft(convlit(n.Left(), ot))
 		n.SetRight(convlit(n.Right(), ot))
-		if n.Left().Type == nil || n.Right().Type == nil {
-			n.Type = nil
+		if n.Left().Type() == nil || n.Right().Type() == nil {
+			n.SetType(nil)
 			return n
 		}
-		if !types.Identical(n.Left().Type, n.Right().Type) {
-			base.Error("invalid operation: %v (mismatched types %v and %v)", n, n.Left().Type, n.Right().Type)
-			n.Type = nil
+		if !types.Identical(n.Left().Type(), n.Right().Type()) {
+			base.Error("invalid operation: %v (mismatched types %v and %v)", n, n.Left().Type(), n.Right().Type())
+			n.SetType(nil)
 			return n
 		}
 
-		n.Type = t
+		n.SetType(t)
 		return n
 
 	case ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE:
 		if !t.IsBoolean() {
 			break
 		}
-		n.Type = t
+		n.SetType(t)
 		return n
 
 	case ir.OLSH, ir.ORSH:
 		n.SetLeft(convlit1(n.Left(), t, explicit, nil))
-		n.Type = n.Left().Type
-		if n.Type != nil && !n.Type.IsInteger() {
-			base.Error("invalid operation: %v (shift of type %v)", n, n.Type)
-			n.Type = nil
+		n.SetType(n.Left().Type())
+		if n.Type() != nil && !n.Type().IsInteger() {
+			base.Error("invalid operation: %v (shift of type %v)", n, n.Type())
+			n.SetType(nil)
 		}
 		return n
 	}
@@ -214,7 +214,7 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		}
 		n.SetDiag(true)
 	}
-	n.Type = nil
+	n.SetType(nil)
 	return n
 }
 
@@ -429,7 +429,7 @@ func evconst(n *ir.Node) {
 	switch op := n.Op; op {
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
 		if nl.Op == ir.OLITERAL {
-			setconst(n, unaryOp(op, nl.Val(), n.Type))
+			setconst(n, unaryOp(op, nl.Val(), n.Type()))
 		}
 
 	case ir.OADD, ir.OSUB, ir.OMUL, ir.ODIV, ir.OMOD, ir.OOR, ir.OXOR, ir.OAND, ir.OANDNOT, ir.OOROR, ir.OANDAND:
@@ -448,12 +448,12 @@ func evconst(n *ir.Node) {
 		}
 
 	case ir.OCONV, ir.ORUNESTR:
-		if okforconst[n.Type.Etype] && nl.Op == ir.OLITERAL {
-			setconst(n, convertVal(nl.Val(), n.Type, true))
+		if okforconst[n.Type().Etype] && nl.Op == ir.OLITERAL {
+			setconst(n, convertVal(nl.Val(), n.Type(), true))
 		}
 
 	case ir.OCONVNOP:
-		if okforconst[n.Type.Etype] && nl.Op == ir.OLITERAL {
+		if okforconst[n.Type().Etype] && nl.Op == ir.OLITERAL {
 			// set so n.Orig gets OCONV instead of OCONVNOP
 			n.Op = ir.OCONV
 			setconst(n, nl.Val())
@@ -488,14 +488,14 @@ func evconst(n *ir.Node) {
 		}
 
 	case ir.OCAP, ir.OLEN:
-		switch nl.Type.Etype {
+		switch nl.Type().Etype {
 		case types.TSTRING:
 			if ir.IsConst(nl, ir.CTSTR) {
 				setintconst(n, int64(len(nl.StringVal())))
 			}
 		case types.TARRAY:
 			if !hascallchan(nl) {
-				setintconst(n, nl.Type.NumElem())
+				setintconst(n, nl.Type().NumElem())
 			}
 		}
 
@@ -815,7 +815,7 @@ func shiftOp(x ir.Val, op ir.Op, y ir.Val) ir.Val {
 func setconst(n *ir.Node, v ir.Val) {
 	// If constant folding failed, mark n as broken and give up.
 	if v.U == nil {
-		n.Type = nil
+		n.SetType(nil)
 		return
 	}
 
@@ -827,31 +827,31 @@ func setconst(n *ir.Node, v ir.Val) {
 
 	orig := n.Orig()
 	pos := n.Pos
-	typ := n.Type
+	typ := n.Type()
 	*n = ir.Node{}
 	n.Op = ir.OLITERAL
 	n.Pos = pos
-	n.Type = typ
+	n.SetType(typ)
 	n.SetOrig(orig)
 	n.Xoffset = types.BADWIDTH
 	n.SetVal(v)
-	if vt := idealType(v.Ctype()); n.Type.IsUntyped() && n.Type != vt {
-		base.Fatal("untyped type mismatch, have: %v, want: %v", n.Type, vt)
+	if vt := idealType(v.Ctype()); n.Type().IsUntyped() && n.Type() != vt {
+		base.Fatal("untyped type mismatch, have: %v, want: %v", n.Type(), vt)
 	}
 
 	// Check range.
 	lno := setlineno(n)
-	overflow(v, n.Type)
+	overflow(v, n.Type())
 	base.Pos = lno
 
-	if !n.Type.IsUntyped() {
+	if !n.Type().IsUntyped() {
 		switch v.Ctype() {
 		// Truncate precision for non-ideal float.
 		case ir.CTFLT:
-			n.SetVal(ir.Val{U: truncfltlit(v.U.(*ir.Float), n.Type)})
+			n.SetVal(ir.Val{U: truncfltlit(v.U.(*ir.Float), n.Type())})
 		// Truncate precision for non-ideal complex.
 		case ir.CTCPLX:
-			n.SetVal(ir.Val{U: trunccmplxlit(v.U.(*ir.Complex), n.Type)})
+			n.SetVal(ir.Val{U: trunccmplxlit(v.U.(*ir.Complex), n.Type())})
 		}
 	}
 }
@@ -870,7 +870,7 @@ func setintconst(n *ir.Node, v int64) {
 func nodlit(v ir.Val) *ir.Node {
 	n := nod(ir.OLITERAL, nil, nil)
 	n.SetVal(v)
-	n.Type = idealType(v.Ctype())
+	n.SetType(idealType(v.Ctype()))
 	return n
 }
 
@@ -902,16 +902,16 @@ func idealType(ct ir.Ctype) *types.Type {
 // The results of defaultlit2 MUST be assigned back to l and r, e.g.
 // 	n.Left, n.Right = defaultlit2(n.Left, n.Right, force)
 func defaultlit2(l *ir.Node, r *ir.Node, force bool) (*ir.Node, *ir.Node) {
-	if l.Type == nil || r.Type == nil {
+	if l.Type() == nil || r.Type() == nil {
 		return l, r
 	}
-	if !l.Type.IsUntyped() {
-		r = convlit(r, l.Type)
+	if !l.Type().IsUntyped() {
+		r = convlit(r, l.Type())
 		return l, r
 	}
 
-	if !r.Type.IsUntyped() {
-		l = convlit(l, r.Type)
+	if !r.Type().IsUntyped() {
+		l = convlit(l, r.Type())
 		return l, r
 	}
 
@@ -920,17 +920,17 @@ func defaultlit2(l *ir.Node, r *ir.Node, force bool) (*ir.Node, *ir.Node) {
 	}
 
 	// Can't mix bool with non-bool, string with non-string, or nil with anything (untyped).
-	if l.Type.IsBoolean() != r.Type.IsBoolean() {
+	if l.Type().IsBoolean() != r.Type().IsBoolean() {
 		return l, r
 	}
-	if l.Type.IsString() != r.Type.IsString() {
+	if l.Type().IsString() != r.Type().IsString() {
 		return l, r
 	}
 	if l.IsNil() || r.IsNil() {
 		return l, r
 	}
 
-	t := defaultType(mixUntyped(l.Type, r.Type))
+	t := defaultType(mixUntyped(l.Type(), r.Type()))
 	l = convlit(l, t)
 	r = convlit(r, t)
 	return l, r
@@ -988,8 +988,8 @@ func defaultType(t *types.Type) *types.Type {
 }
 
 func smallintconst(n *ir.Node) bool {
-	if n.Op == ir.OLITERAL && ir.IsConst(n, ir.CTINT) && n.Type != nil {
-		switch simtype[n.Type.Etype] {
+	if n.Op == ir.OLITERAL && ir.IsConst(n, ir.CTINT) && n.Type() != nil {
+		switch simtype[n.Type().Etype] {
 		case types.TINT8,
 			types.TUINT8,
 			types.TINT16,
@@ -1113,7 +1113,7 @@ func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
 	if !isGoConst(n) {
 		return
 	}
-	if n.Type.IsUntyped() {
+	if n.Type().IsUntyped() {
 		base.Fatal("%v is untyped", n)
 	}
 
@@ -1132,7 +1132,7 @@ func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
 	// #21866 by treating all type aliases like byte/uint8 and
 	// rune/int32.
 
-	typ := n.Type
+	typ := n.Type()
 	switch typ {
 	case types.Bytetype:
 		typ = types.Types[types.TUINT8]
