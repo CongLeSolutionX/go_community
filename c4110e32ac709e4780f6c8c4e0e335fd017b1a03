@@ -105,6 +105,24 @@
       "parentUuid": "3f28d21b_87396041",
       "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a131733_3cacb2e9",
+        "filename": "src/time/tick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2020-11-17T10:31:38Z",
+      "side": 1,
+      "message": "Done. Thanks for the suggestion. To be honest I feel this is still a\nlittle implicit (basically the key is the word \"after\" in \"will send\nthe time [...] after each tick\", since it implies that you\u0027ll have to\nwait a tick period before seeing the first send; but I can understand\nmy previous wording was OTOH too heavy.",
+      "parentUuid": "3bbb2f3e_42ce9dc0",
+      "revId": "c4110e32ac709e4780f6c8c4e0e335fd017b1a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
