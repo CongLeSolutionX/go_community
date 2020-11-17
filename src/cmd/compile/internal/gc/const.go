@@ -825,13 +825,15 @@ func setconst(n *ir.Node, v ir.Val) {
 		n.Orig = n.SepCopy()
 	}
 
-	*n = ir.Node{
-		Op:      ir.OLITERAL,
-		Pos:     n.Pos,
-		Orig:    n.Orig,
-		Type:    n.Type,
-		Xoffset: types.BADWIDTH,
-	}
+	orig := n.Orig
+	pos := n.Pos
+	typ := n.Type
+	*n = ir.Node{}
+	n.Op = ir.OLITERAL
+	n.Pos = pos
+	n.Type = typ
+	n.Orig = orig
+	n.Xoffset = types.BADWIDTH
 	n.SetVal(v)
 	if vt := idealType(v.Ctype()); n.Type.IsUntyped() && n.Type != vt {
 		base.Fatal("untyped type mismatch, have: %v, want: %v", n.Type, vt)
