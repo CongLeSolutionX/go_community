@@ -3408,32 +3408,32 @@ func typecheckfunc(n *ir.Node) {
 		defer tracePrint("typecheckfunc", n)(nil)
 	}
 
-	for _, ln := range n.Func.Dcl {
+	for _, ln := range n.Func().Dcl {
 		if ln.Op == ir.ONAME && (ln.Class() == ir.PPARAM || ln.Class() == ir.PPARAMOUT) {
 			ln.Name.Decldepth = 1
 		}
 	}
 
-	n.Func.Nname = typecheck(n.Func.Nname, ctxExpr|ctxAssign)
-	t := n.Func.Nname.Type()
+	n.Func().Nname = typecheck(n.Func().Nname, ctxExpr|ctxAssign)
+	t := n.Func().Nname.Type()
 	if t == nil {
 		return
 	}
 	n.SetType(t)
-	t.FuncType().Nname = ir.AsTypesNode(n.Func.Nname)
+	t.FuncType().Nname = ir.AsTypesNode(n.Func().Nname)
 	rcvr := t.Recv()
-	if rcvr != nil && n.Func.Shortname != nil {
-		m := addmethod(n.Func.Shortname, t, true, n.Func.Pragma&ir.Nointerface != 0)
+	if rcvr != nil && n.Func().Shortname != nil {
+		m := addmethod(n.Func().Shortname, t, true, n.Func().Pragma&ir.Nointerface != 0)
 		if m == nil {
 			return
 		}
 
-		n.Func.Nname.Sym = methodSym(rcvr.Type, n.Func.Shortname)
-		declare(n.Func.Nname, ir.PFUNC)
+		n.Func().Nname.Sym = methodSym(rcvr.Type, n.Func().Shortname)
+		declare(n.Func().Nname, ir.PFUNC)
 	}
 
-	if base.Ctxt.Flag_dynlink && !inimport && n.Func.Nname != nil {
-		makefuncsym(n.Func.Nname.Sym)
+	if base.Ctxt.Flag_dynlink && !inimport && n.Func().Nname != nil {
+		makefuncsym(n.Func().Nname.Sym)
 	}
 }
 
@@ -3873,7 +3873,7 @@ func checkreturn(fn *ir.Node) {
 	if fn.Type().NumResults() != 0 && fn.Nbody.Len() != 0 {
 		markbreaklist(fn.Nbody, nil)
 		if !isTermNodes(fn.Nbody) {
-			base.ErrorAt(fn.Func.Endlineno, "missing return at end of function")
+			base.ErrorAt(fn.Func().Endlineno, "missing return at end of function")
 		}
 	}
 }
@@ -4025,7 +4025,7 @@ func curpkg() *types.Pkg {
 	// TODO(mdempsky): Standardize on either ODCLFUNC or ONAME for
 	// Curfn, rather than mixing them.
 	if fn.Op == ir.ODCLFUNC {
-		fn = fn.Func.Nname
+		fn = fn.Func().Nname
 	}
 
 	return fnpkg(fn)

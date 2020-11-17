@@ -48,11 +48,11 @@ func fninit(n []*ir.Node) {
 		base.Pos = nf[0].Pos // prolog/epilog gets line number of first init stmt
 		initializers := lookup("init")
 		fn := dclfunc(initializers, nod(ir.OTFUNC, nil, nil))
-		for _, dcl := range dummyInitFn.Func.Dcl {
+		for _, dcl := range dummyInitFn.Func().Dcl {
 			dcl.Name.Curfn = fn
 		}
-		fn.Func.Dcl = append(fn.Func.Dcl, dummyInitFn.Func.Dcl...)
-		dummyInitFn.Func.Dcl = nil
+		fn.Func().Dcl = append(fn.Func().Dcl, dummyInitFn.Func().Dcl...)
+		dummyInitFn.Func().Dcl = nil
 
 		fn.Nbody.Set(nf)
 		funcbody()
@@ -64,7 +64,7 @@ func fninit(n []*ir.Node) {
 		xtop = append(xtop, fn)
 		fns = append(fns, initializers.Linksym())
 	}
-	if dummyInitFn.Func.Dcl != nil {
+	if dummyInitFn.Func().Dcl != nil {
 		// We only generate temps using dummyInitFn if there
 		// are package-scope initialization statements, so
 		// something's weird if we get here.

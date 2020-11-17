@@ -55,7 +55,7 @@ func expandDecl(n *ir.Node) {
 }
 
 func expandInline(fn *ir.Node) {
-	if fn.Func.Inl.Body != nil {
+	if fn.Func().Inl.Body != nil {
 		return
 	}
 
@@ -681,10 +681,10 @@ func (r *importReader) funcExt(n *ir.Node) {
 
 	// Inline body.
 	if u := r.uint64(); u > 0 {
-		n.Func.Inl = &ir.Inline{
+		n.Func().Inl = &ir.Inline{
 			Cost: int32(u - 1),
 		}
-		n.Func.Endlineno = r.pos()
+		n.Func().Endlineno = r.pos()
 	}
 }
 
@@ -724,7 +724,7 @@ func (r *importReader) typeExt(t *types.Type) {
 var typeSymIdx = make(map[*types.Type][2]int64)
 
 func (r *importReader) doInline(n *ir.Node) {
-	if len(n.Func.Inl.Body) != 0 {
+	if len(n.Func().Inl.Body) != 0 {
 		base.Fatal("%v already has inline body", n)
 	}
 
@@ -740,15 +740,15 @@ func (r *importReader) doInline(n *ir.Node) {
 		// functions).
 		body = []*ir.Node{}
 	}
-	n.Func.Inl.Body = body
+	n.Func().Inl.Body = body
 
 	importlist = append(importlist, n)
 
 	if base.Flag.E > 0 && base.Flag.LowerM > 2 {
 		if base.Flag.LowerM > 3 {
-			fmt.Printf("inl body for %v %#v: %+v\n", n, n.Type(), ir.AsNodes(n.Func.Inl.Body))
+			fmt.Printf("inl body for %v %#v: %+v\n", n, n.Type(), ir.AsNodes(n.Func().Inl.Body))
 		} else {
-			fmt.Printf("inl body for %v %#v: %v\n", n, n.Type(), ir.AsNodes(n.Func.Inl.Body))
+			fmt.Printf("inl body for %v %#v: %v\n", n, n.Type(), ir.AsNodes(n.Func().Inl.Body))
 		}
 	}
 }

@@ -241,8 +241,8 @@ func dvarint(x *obj.LSym, off int, v int64) int {
 //      - Size of the argument
 //      - Offset of where argument should be placed in the args frame when making call
 func (s *state) emitOpenDeferInfo() {
-	x := base.Ctxt.Lookup(s.curfn.Func.LSym.Name + ".opendefer")
-	s.curfn.Func.LSym.Func().OpenCodedDeferInfo = x
+	x := base.Ctxt.Lookup(s.curfn.Func().LSym.Name + ".opendefer")
+	s.curfn.Func().LSym.Func().OpenCodedDeferInfo = x
 	off := 0
 
 	// Compute maxargsize (max size of arguments for all defers)
@@ -297,9 +297,9 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	var astBuf *bytes.Buffer
 	if printssa {
 		astBuf = &bytes.Buffer{}
-		ir.FDumpList(astBuf, "buildssa-enter", fn.Func.Enter)
+		ir.FDumpList(astBuf, "buildssa-enter", fn.Func().Enter)
 		ir.FDumpList(astBuf, "buildssa-body", fn.Nbody)
-		ir.FDumpList(astBuf, "buildssa-exit", fn.Func.Exit)
+		ir.FDumpList(astBuf, "buildssa-exit", fn.Func().Exit)
 		if ssaDumpStdout {
 			fmt.Println("generating SSA for", name)
 			fmt.Print(astBuf.String())
@@ -310,8 +310,8 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	s.pushLine(fn.Pos)
 	defer s.popLine()
 
-	s.hasdefer = fn.Func.HasDefer()
-	if fn.Func.Pragma&ir.CgoUnsafeArgs != 0 {
+	s.hasdefer = fn.Func().HasDefer()
+	if fn.Func().Pragma&ir.CgoUnsafeArgs != 0 {
 		s.cgoUnsafeArgs = true
 	}
 
@@ -330,7 +330,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	s.f.Name = name
 	s.f.DebugTest = s.f.DebugHashMatch("GOSSAHASH")
 	s.f.PrintOrHtmlSSA = printssa
-	if fn.Func.Pragma&ir.Nosplit != 0 {
+	if fn.Func().Pragma&ir.Nosplit != 0 {
 		s.f.NoSplit = true
 	}
 	s.panics = map[funcLine]*ssa.Block{}
@@ -359,7 +359,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	s.fwdVars = map[*ir.Node]*ssa.Value{}
 	s.startmem = s.entryNewValue0(ssa.OpInitMem, types.TypeMem)
 
-	s.hasOpenDefers = base.Flag.N == 0 && s.hasdefer && !s.curfn.Func.OpenCodedDeferDisallowed()
+	s.hasOpenDefers = base.Flag.N == 0 && s.hasdefer && !s.curfn.Func().OpenCodedDeferDisallowed()
 	switch {
 	case s.hasOpenDefers && (base.Ctxt.Flag_shared || base.Ctxt.Flag_dynlink) && thearch.LinkArch.Name == "386":
 		// Don't support open-coded defers for 386 ONLY when using shared
@@ -368,7 +368,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 		// that we don't track correctly.
 		s.hasOpenDefers = false
 	}
-	if s.hasOpenDefers && s.curfn.Func.Exit.Len() > 0 {
+	if s.hasOpenDefers && s.curfn.Func().Exit.Len() > 0 {
 		// Skip doing open defers if there is any extra exit code (likely
 		// copying heap-allocated return values or race detection), since
 		// we will not generate that code in the case of the extra
@@ -376,7 +376,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 		s.hasOpenDefers = false
 	}
 	if s.hasOpenDefers &&
-		s.curfn.Func.NumReturns*s.curfn.Func.NumDefers > 15 {
+		s.curfn.Func().NumReturns*s.curfn.Func().NumDefers > 15 {
 		// Since we are generating defer calls at every exit for
 		// open-coded defers, skip doing open-coded defers if there are
 		// too many returns (especially if there are multiple defers).
@@ -413,7 +413,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	s.decladdrs = map[*ir.Node]*ssa.Value{}
 	var args []ssa.Param
 	var results []ssa.Param
-	for _, n := range fn.Func.Dcl {
+	for _, n := range fn.Func().Dcl {
 		switch n.Class() {
 		case ir.PPARAM:
 			s.decladdrs[n] = s.entryNewValue2A(ssa.OpLocalAddr, types.NewPtr(n.Type()), n, s.sp, s.startmem)
@@ -440,7 +440,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	}
 
 	// Populate SSAable arguments.
-	for _, n := range fn.Func.Dcl {
+	for _, n := range fn.Func().Dcl {
 		if n.Class() == ir.PPARAM && s.canSSA(n) {
 			v := s.newValue0A(ssa.OpArg, n.Type(), n)
 			s.vars[n] = v
@@ -449,12 +449,12 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	}
 
 	// Convert the AST-based IR to the SSA-based IR
-	s.stmtList(fn.Func.Enter)
+	s.stmtList(fn.Func().Enter)
 	s.stmtList(fn.Nbody)
 
 	// fallthrough to exit
 	if s.curBlock != nil {
-		s.pushLine(fn.Func.Endlineno)
+		s.pushLine(fn.Func().Endlineno)
 		s.exit()
 		s.popLine()
 	}
@@ -480,7 +480,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 func dumpSourcesColumn(writer *ssa.HTMLWriter, fn *ir.Node) {
 	// Read sources of target function fn.
 	fname := base.Ctxt.PosTable.Pos(fn.Pos).Filename()
-	targetFn, err := readFuncLines(fname, fn.Pos.Line(), fn.Func.Endlineno.Line())
+	targetFn, err := readFuncLines(fname, fn.Pos.Line(), fn.Func().Endlineno.Line())
 	if err != nil {
 		writer.Logf("cannot read sources for function %v: %v", fn, err)
 	}
@@ -491,9 +491,9 @@ func dumpSourcesColumn(writer *ssa.HTMLWriter, fn *ir.Node) {
 		var elno src.XPos
 		if fi.Name.Defn == nil {
 			// Endlineno is filled from exported data.
-			elno = fi.Func.Endlineno
+			elno = fi.Func().Endlineno
 		} else {
-			elno = fi.Name.Defn.Func.Endlineno
+			elno = fi.Name.Defn.Func().Endlineno
 		}
 		fname := base.Ctxt.PosTable.Pos(fi.Pos).Filename()
 		fnLines, err := readFuncLines(fname, fi.Pos.Line(), elno.Line())
@@ -969,7 +969,7 @@ func (s *state) newValueOrSfCall2(op ssa.Op, t *types.Type, arg0, arg1 *ssa.Valu
 }
 
 func (s *state) instrument(t *types.Type, addr *ssa.Value, wr bool) {
-	if !s.curfn.Func.InstrumentBody() {
+	if !s.curfn.Func().InstrumentBody() {
 		return
 	}
 
@@ -1571,7 +1571,7 @@ func (s *state) exit() *ssa.Block {
 
 	// Run exit code. Typically, this code copies heap-allocated PPARAMOUT
 	// variables back to the stack.
-	s.stmtList(s.curfn.Func.Exit)
+	s.stmtList(s.curfn.Func().Exit)
 
 	// Store SSAable PPARAMOUT variables back to stack locations.
 	for _, n := range s.returns {
@@ -5019,7 +5019,7 @@ func (s *state) exprPtr(n *ir.Node, bounded bool, lineno src.XPos) *ssa.Value {
 // Used only for automatically inserted nil checks,
 // not for user code like 'x != nil'.
 func (s *state) nilCheck(ptr *ssa.Value) {
-	if base.Debug.DisableNil != 0 || s.curfn.Func.NilCheckDisabled() {
+	if base.Debug.DisableNil != 0 || s.curfn.Func().NilCheckDisabled() {
 		return
 	}
 	s.newValue2(ssa.OpNilCheck, types.TypeVoid, ptr, s.mem())
@@ -6193,7 +6193,7 @@ func (s byXoffset) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
 func emitStackObjects(e *ssafn, pp *Progs) {
 	var vars []*ir.Node
-	for _, n := range e.curfn.Func.Dcl {
+	for _, n := range e.curfn.Func().Dcl {
 		if livenessShouldTrack(n) && n.Name.Addrtaken() {
 			vars = append(vars, n)
 		}
@@ -6207,7 +6207,7 @@ func emitStackObjects(e *ssafn, pp *Progs) {
 
 	// Populate the stack object data.
 	// Format must match runtime/stack.go:stackObjectRecord.
-	x := e.curfn.Func.LSym.Func().StackObjects
+	x := e.curfn.Func().LSym.Func().StackObjects
 	off := 0
 	off = duintptr(x, off, uint64(len(vars)))
 	for _, v := range vars {
@@ -6244,7 +6244,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 	s.livenessMap = liveness(e, f, pp)
 	emitStackObjects(e, pp)
 
-	openDeferInfo := e.curfn.Func.LSym.Func().OpenCodedDeferInfo
+	openDeferInfo := e.curfn.Func().LSym.Func().OpenCodedDeferInfo
 	if openDeferInfo != nil {
 		// This function uses open-coded defers -- write out the funcdata
 		// info that we computed at the end of genssa.
@@ -6449,7 +6449,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 				// some of the inline marks.
 				// Use this instruction instead.
 				p.Pos = p.Pos.WithIsStmt() // promote position to a statement
-				pp.curfn.Func.LSym.Func().AddInlMark(p, inlMarks[m])
+				pp.curfn.Func().LSym.Func().AddInlMark(p, inlMarks[m])
 				// Make the inline mark a real nop, so it doesn't generate any code.
 				m.As = obj.ANOP
 				m.Pos = src.NoXPos
@@ -6461,18 +6461,18 @@ func genssa(f *ssa.Func, pp *Progs) {
 		// Any unmatched inline marks now need to be added to the inlining tree (and will generate a nop instruction).
 		for _, p := range inlMarkList {
 			if p.As != obj.ANOP {
-				pp.curfn.Func.LSym.Func().AddInlMark(p, inlMarks[p])
+				pp.curfn.Func().LSym.Func().AddInlMark(p, inlMarks[p])
 			}
 		}
 	}
 
 	if base.Ctxt.Flag_locationlists {
-		e.curfn.Func.DebugInfo = ssa.BuildFuncDebug(base.Ctxt, f, base.Debug.LocationLists > 1, stackOffset)
+		e.curfn.Func().DebugInfo = ssa.BuildFuncDebug(base.Ctxt, f, base.Debug.LocationLists > 1, stackOffset)
 		bstart := s.bstart
 		// Note that at this moment, Prog.Pc is a sequence number; it's
 		// not a real PC until after assembly, so this mapping has to
 		// be done later.
-		e.curfn.Func.DebugInfo.GetPC = func(b, v ssa.ID) int64 {
+		e.curfn.Func().DebugInfo.GetPC = func(b, v ssa.ID) int64 {
 			switch v {
 			case ssa.BlockStart.ID:
 				if b == f.Entry.ID {
@@ -6481,7 +6481,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 				}
 				return bstart[b].Pc
 			case ssa.BlockEnd.ID:
-				return e.curfn.Func.LSym.Size
+				return e.curfn.Func().LSym.Size
 			default:
 				return valueToProgAfter[v].Pc
 			}
@@ -6579,7 +6579,7 @@ func defframe(s *SSAGenState, e *ssafn) {
 	var state uint32
 
 	// Iterate through declarations. They are sorted in decreasing Xoffset order.
-	for _, n := range e.curfn.Func.Dcl {
+	for _, n := range e.curfn.Func().Dcl {
 		if !n.Name.Needzero() {
 			continue
 		}
@@ -7076,7 +7076,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 	n.SetClass(ir.PAUTO)
 	n.Esc = EscNever
 	n.Name.Curfn = e.curfn
-	e.curfn.Func.Dcl = append(e.curfn.Func.Dcl, n)
+	e.curfn.Func().Dcl = append(e.curfn.Func().Dcl, n)
 	dowidth(t)
 	return ssa.LocalSlot{N: n, Type: t, Off: 0, SplitOf: parent, SplitOffset: offset}
 }
@@ -7139,7 +7139,7 @@ func (e *ssafn) Syslook(name string) *obj.LSym {
 }
 
 func (e *ssafn) SetWBPos(pos src.XPos) {
-	e.curfn.Func.SetWBPos(pos)
+	e.curfn.Func().SetWBPos(pos)
 }
 
 func (e *ssafn) MyImportPath() string {

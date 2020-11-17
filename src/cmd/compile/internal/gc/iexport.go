@@ -519,7 +519,7 @@ func (p *iexporter) doInline(f *ir.Node) {
 	w := p.newWriter()
 	w.setPkg(fnpkg(f), false)
 
-	w.stmtList(ir.AsNodes(f.Func.Inl.Body))
+	w.stmtList(ir.AsNodes(f.Func().Inl.Body))
 
 	p.inlineIndex[f] = w.flush()
 }
@@ -975,20 +975,20 @@ func (w *exportWriter) funcExt(n *ir.Node) {
 	}
 
 	// Inline body.
-	if n.Func.Inl != nil {
-		w.uint64(1 + uint64(n.Func.Inl.Cost))
-		if n.Func.ExportInline() {
+	if n.Func().Inl != nil {
+		w.uint64(1 + uint64(n.Func().Inl.Cost))
+		if n.Func().ExportInline() {
 			w.p.doInline(n)
 		}
 
 		// Endlineno for inlined function.
 		if n.Name.Defn != nil {
-			w.pos(n.Name.Defn.Func.Endlineno)
+			w.pos(n.Name.Defn.Func().Endlineno)
 		} else {
 			// When the exported node was defined externally,
 			// e.g. io exports atomic.(*Value).Load or bytes exports errors.New.
 			// Keep it as we don't distinguish this case in iimport.go.
-			w.pos(n.Func.Endlineno)
+			w.pos(n.Func().Endlineno)
 		}
 	} else {
 		w.uint64(0)

@@ -94,8 +94,8 @@ func autolabel(prefix string) *types.Sym {
 	if Curfn == nil {
 		base.Fatal("autolabel outside function")
 	}
-	n := fn.Func.Label
-	fn.Func.Label++
+	n := fn.Func().Label
+	fn.Func().Label++
 	return lookupN(prefix, int(n))
 }
 
@@ -147,8 +147,8 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 			f ir.Func
 		}
 		n = &x.n
-		n.Func = &x.f
-		n.Func.Decl = n
+		n.SetFunc(&x.f)
+		n.Func().Decl = n
 	case ir.ONAME:
 		base.Fatal("use newname instead")
 	case ir.OLABEL, ir.OPACK:
@@ -1241,7 +1241,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	tfn.Rlist.Set(structargs(method.Type.Results(), false))
 
 	fn := dclfunc(newnam, tfn)
-	fn.Func.SetDupok(true)
+	fn.Func().SetDupok(true)
 
 	nthis := ir.AsNode(tfn.Type().Recv().Nname)
 
@@ -1277,7 +1277,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 		fn.Nbody.Append(as)
 		fn.Nbody.Append(nodSym(ir.ORETJMP, nil, methodSym(methodrcvr, method.Sym)))
 	} else {
-		fn.Func.SetWrapper(true) // ignore frame for panic+recover matching
+		fn.Func().SetWrapper(true) // ignore frame for panic+recover matching
 		call := nod(ir.OCALL, dot, nil)
 		call.List.Set(paramNnames(tfn.Type()))
 		call.SetIsDDD(tfn.Type().IsVariadic())

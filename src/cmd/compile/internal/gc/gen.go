@@ -56,7 +56,7 @@ func tempAt(pos src.XPos, curfn *ir.Node, t *types.Type) *ir.Node {
 	if curfn == nil {
 		base.Fatal("no curfn for tempAt")
 	}
-	if curfn.Op == ir.OCLOSURE && curfn.Func != nil {
+	if curfn.Op == ir.OCLOSURE && curfn.Func() != nil {
 		ir.Dump("tempAt", curfn)
 		base.Fatal("adding tempAt to wrong closure function")
 	}
@@ -65,7 +65,7 @@ func tempAt(pos src.XPos, curfn *ir.Node, t *types.Type) *ir.Node {
 	}
 
 	s := &types.Sym{
-		Name: autotmpname(len(curfn.Func.Dcl)),
+		Name: autotmpname(len(curfn.Func().Dcl)),
 		Pkg:  ir.LocalPkg,
 	}
 	n := newnamel(pos, s)
@@ -76,7 +76,7 @@ func tempAt(pos src.XPos, curfn *ir.Node, t *types.Type) *ir.Node {
 	n.Name.Curfn = curfn
 	n.Name.SetUsed(true)
 	n.Name.SetAutoTemp(true)
-	curfn.Func.Dcl = append(curfn.Func.Dcl, n)
+	curfn.Func().Dcl = append(curfn.Func().Dcl, n)
 
 	dowidth(t)
 

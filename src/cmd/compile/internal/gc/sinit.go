@@ -257,7 +257,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 			}
 			// Closures with no captured variables are globals,
 			// so the assignment can be done at link time.
-			pfuncsym(l, r.Func.Decl.Func.Nname)
+			pfuncsym(l, r.Func().Decl.Func().Nname)
 			return true
 		}
 		closuredebugruntimecheck(r)

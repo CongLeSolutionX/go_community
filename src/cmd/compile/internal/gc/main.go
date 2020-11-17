@@ -289,7 +289,7 @@ func Main(archInit func(*Arch)) {
 	// because variables captured by value do not escape.
 	timings.Start("fe", "capturevars")
 	for _, n := range xtop {
-		if n.Op == ir.ODCLFUNC && n.Func.Closure_ != nil {
+		if n.Op == ir.ODCLFUNC && n.Func().Closure_ != nil {
 			Curfn = n
 			capturevars(n)
 		}
@@ -304,7 +304,7 @@ func Main(archInit func(*Arch)) {
 		// Typecheck imported function bodies if Flag.LowerL > 1,
 		// otherwise lazily when used or re-exported.
 		for _, n := range importlist {
-			if n.Func.Inl != nil {
+			if n.Func().Inl != nil {
 				typecheckinl(n)
 			}
 		}
@@ -323,7 +323,7 @@ func Main(archInit func(*Arch)) {
 					caninl(n)
 				} else {
 					if base.Flag.LowerM > 1 {
-						fmt.Printf("%v: cannot inline %v: recursive\n", n.Line(), n.Func.Nname)
+						fmt.Printf("%v: cannot inline %v: recursive\n", n.Line(), n.Func().Nname)
 					}
 				}
 				inlcalls(n)
@@ -362,7 +362,7 @@ func Main(archInit func(*Arch)) {
 	// before walk reaches a call of a closure.
 	timings.Start("fe", "xclosures")
 	for _, n := range xtop {
-		if n.Op == ir.ODCLFUNC && n.Func.Closure_ != nil {
+		if n.Op == ir.ODCLFUNC && n.Func().Closure_ != nil {
 			Curfn = n
 			transformclosure(n)
 		}
@@ -467,7 +467,7 @@ func Main(archInit func(*Arch)) {
 func numNonClosures(list []*ir.Node) int {
 	count := 0
 	for _, n := range list {
-		if n.Func.Closure_ == nil {
+		if n.Func().Closure_ == nil {
 			count++
 		}
 	}

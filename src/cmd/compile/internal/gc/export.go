@@ -161,9 +161,9 @@ func importfunc(ipkg *types.Pkg, pos src.XPos, s *types.Sym, t *types.Type) {
 		return
 	}
 
-	n.Func = &ir.Func{
+	n.SetFunc(&ir.Func{
 		Nname: n,
-	}
+	})
 	t.SetNname(ir.AsTypesNode(n))
 
 	if base.Flag.E != 0 {

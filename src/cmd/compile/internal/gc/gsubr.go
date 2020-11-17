@@ -181,10 +181,10 @@ func (pp *Progs) settext(fn *ir.Node) {
 	ptxt := pp.Prog(obj.ATEXT)
 	pp.Text = ptxt
 
-	fn.Func.LSym.Func().Text = ptxt
+	fn.Func().LSym.Func().Text = ptxt
 	ptxt.From.Type = obj.TYPE_MEM
 	ptxt.From.Name = obj.NAME_EXTERN
-	ptxt.From.Sym = fn.Func.LSym
+	ptxt.From.Sym = fn.Func().LSym
 }
 
 // initLSym defines f's obj.LSym and initializes it based on the

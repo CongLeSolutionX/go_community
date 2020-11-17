@@ -163,7 +163,7 @@ func (p *noder) funcBody(fn *ir.Node, block *syntax.BlockStmt) {
 		fn.Nbody.Set(body)
 
 		base.Pos = p.makeXPos(block.Rbrace)
-		fn.Func.Endlineno = base.Pos
+		fn.Func().Endlineno = base.Pos
 	}
 
 	funcbody()
@@ -174,9 +174,9 @@ func (p *noder) openScope(pos syntax.Pos) {
 	types.Markdcl()
 
 	if trackScopes {
-		Curfn.Func.Parents = append(Curfn.Func.Parents, p.scope)
-		p.scopeVars = append(p.scopeVars, len(Curfn.Func.Dcl))
-		p.scope = ir.ScopeID(len(Curfn.Func.Parents))
+		Curfn.Func().Parents = append(Curfn.Func().Parents, p.scope)
+		p.scopeVars = append(p.scopeVars, len(Curfn.Func().Dcl))
+		p.scope = ir.ScopeID(len(Curfn.Func().Parents))
 
 		p.markScope(pos)
 	}
@@ -189,29 +189,29 @@ func (p *noder) closeScope(pos syntax.Pos) {
 	if trackScopes {
 		scopeVars := p.scopeVars[len(p.scopeVars)-1]
 		p.scopeVars = p.scopeVars[:len(p.scopeVars)-1]
-		if scopeVars == len(Curfn.Func.Dcl) {
+		if scopeVars == len(Curfn.Func().Dcl) {
 			// no variables were declared in this scope, so we can retract it.
 
-			if int(p.scope) != len(Curfn.Func.Parents) {
+			if int(p.scope) != len(Curfn.Func().Parents) {
 				base.Fatal("scope tracking inconsistency, no variables declared but scopes were not retracted")
 			}
 
-			p.scope = Curfn.Func.Parents[p.scope-1]
-			Curfn.Func.Parents = Curfn.Func.Parents[:len(Curfn.Func.Parents)-1]
+			p.scope = Curfn.Func().Parents[p.scope-1]
+			Curfn.Func().Parents = Curfn.Func().Parents[:len(Curfn.Func().Parents)-1]
 
-			nmarks := len(Curfn.Func.Marks)
-			Curfn.Func.Marks[nmarks-1].Scope = p.scope
+			nmarks := len(Curfn.Func().Marks)
+			Curfn.Func().Marks[nmarks-1].Scope = p.scope
 			prevScope := ir.ScopeID(0)
 			if nmarks >= 2 {
-				prevScope = Curfn.Func.Marks[nmarks-2].Scope
+				prevScope = Curfn.Func().Marks[nmarks-2].Scope
 			}
-			if Curfn.Func.Marks[nmarks-1].Scope == prevScope {
-				Curfn.Func.Marks = Curfn.Func.Marks[:nmarks-1]
+			if Curfn.Func().Marks[nmarks-1].Scope == prevScope {
+				Curfn.Func().Marks = Curfn.Func().Marks[:nmarks-1]
 			}
 			return
 		}
 
-		p.scope = Curfn.Func.Parents[p.scope-1]
+		p.scope = Curfn.Func().Parents[p.scope-1]
 
 		p.markScope(pos)
 	}
@@ -219,10 +219,10 @@ func (p *noder) closeScope(pos syntax.Pos) {
 
 func (p *noder) markScope(pos syntax.Pos) {
 	xpos := p.makeXPos(pos)
-	if i := len(Curfn.Func.Marks); i > 0 && Curfn.Func.Marks[i-1].Pos == xpos {
-		Curfn.Func.Marks[i-1].Scope = p.scope
+	if i := len(Curfn.Func().Marks); i > 0 && Curfn.Func().Marks[i-1].Pos == xpos {
+		Curfn.Func().Marks[i-1].Scope = p.scope
 	} else {
-		Curfn.Func.Marks = append(Curfn.Func.Marks, ir.Mark{Pos: xpos, Scope: p.scope})
+		Curfn.Func().Marks = append(Curfn.Func().Marks, ir.Mark{Pos: xpos, Scope: p.scope})
 	}
 }
 
@@ -532,16 +532,16 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 			}
 		}
 	} else {
-		f.Func.Shortname = name
+		f.Func().Shortname = name
 		name = ir.BlankNode.Sym // filled in by typecheckfunc
 	}
 
-	f.Func.Nname = newfuncnamel(p.pos(fun.Name), name, f.Func)
-	f.Func.Nname.Name.Defn = f
-	f.Func.Nname.Name.Param.Ntype = t
+	f.Func().Nname = newfuncnamel(p.pos(fun.Name), name, f.Func())
+	f.Func().Nname.Name.Defn = f
+	f.Func().Nname.Name.Param.Ntype = t
 
 	if pragma, ok := fun.Pragma.(*Pragma); ok {
-		f.Func.Pragma = pragma.Flag & FuncPragmas
+		f.Func().Pragma = pragma.Flag & FuncPragmas
 		if pragma.Flag&ir.Systemstack != 0 && pragma.Flag&ir.Nosplit != 0 {
 			base.ErrorAt(f.Pos, "go:nosplit and go:systemstack cannot be combined")
 		}
@@ -550,13 +550,13 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 	}
 
 	if fun.Recv == nil {
-		declare(f.Func.Nname, ir.PFUNC)
+		declare(f.Func().Nname, ir.PFUNC)
 	}
 
 	p.funcBody(f, fun.Body)
 
 	if fun.Body != nil {
-		if f.Func.Pragma&ir.Noescape != 0 {
+		if f.Func().Pragma&ir.Noescape != 0 {
 			base.ErrorAt(f.Pos, "can only use //go:noescape with external func implementations")
 		}
 	} else {
@@ -1056,7 +1056,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 		n := p.nod(stmt, ir.ORETURN, nil, nil)
 		n.List.Set(results)
 		if n.List.Len() == 0 && Curfn != nil {
-			for _, ln := range Curfn.Func.Dcl {
+			for _, ln := range Curfn.Func().Dcl {
 				if ln.Class() == ir.PPARAM {
 					continue
 				}

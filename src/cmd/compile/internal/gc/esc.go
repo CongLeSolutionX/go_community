@@ -45,10 +45,10 @@ const (
 
 // funcSym returns fn.Func.Nname.Sym if no nils are encountered along the way.
 func funcSym(fn *ir.Node) *types.Sym {
-	if fn == nil || fn.Func.Nname == nil {
+	if fn == nil || fn.Func().Nname == nil {
 		return nil
 	}
-	return fn.Func.Nname.Sym
+	return fn.Func().Nname.Sym
 }
 
 // Mark labels that have no backjumps to them as not increasing e.loopdepth.
@@ -261,8 +261,8 @@ func addrescapes(n *ir.Node) {
 		// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
 		oldfn := Curfn
 		Curfn = n.Name.Curfn
-		if Curfn.Func.Closure_ != nil && Curfn.Op == ir.OCLOSURE {
-			Curfn = Curfn.Func.Closure_
+		if Curfn.Func().Closure_ != nil && Curfn.Op == ir.OCLOSURE {
+			Curfn = Curfn.Func().Closure_
 		}
 		ln := base.Pos
 		base.Pos = Curfn.Pos
@@ -338,9 +338,9 @@ func moveToHeap(n *ir.Node) {
 		// liveness and other analyses use the underlying stack slot
 		// and not the now-pseudo-variable n.
 		found := false
-		for i, d := range Curfn.Func.Dcl {
+		for i, d := range Curfn.Func().Dcl {
 			if d == n {
-				Curfn.Func.Dcl[i] = stackcopy
+				Curfn.Func().Dcl[i] = stackcopy
 				found = true
 				break
 			}
@@ -353,7 +353,7 @@ func moveToHeap(n *ir.Node) {
 		if !found {
 			base.Fatal("cannot find %v in local variable list", n)
 		}
-		Curfn.Func.Dcl = append(Curfn.Func.Dcl, n)
+		Curfn.Func().Dcl = append(Curfn.Func().Dcl, n)
 	}
 
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.
@@ -405,7 +405,7 @@ func (e *Escape) paramTag(fn *ir.Node, narg int, f *types.Field) string {
 
 		// External functions are assumed unsafe, unless
 		// //go:noescape is given before the declaration.
-		if fn.Func.Pragma&ir.Noescape != 0 {
+		if fn.Func().Pragma&ir.Noescape != 0 {
 			if base.Flag.LowerM != 0 && f.Sym != nil {
 				base.WarnAt(f.Pos, "%v does not escape", name())
 			}
@@ -419,7 +419,7 @@ func (e *Escape) paramTag(fn *ir.Node, narg int, f *types.Field) string {
 		return esc.Encode()
 	}
 
-	if fn.Func.Pragma&ir.UintptrEscapes != 0 {
+	if fn.Func().Pragma&ir.UintptrEscapes != 0 {
 		if f.Type.IsUintptr() {
 			if base.Flag.LowerM != 0 {
 				base.WarnAt(f.Pos, "marking %v as escaping uintptr", name())

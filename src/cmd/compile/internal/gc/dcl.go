@@ -90,7 +90,7 @@ func declare(n *ir.Node, ctxt ir.Class) {
 			base.Fatal("automatic outside function")
 		}
 		if Curfn != nil && ctxt != ir.PFUNC {
-			Curfn.Func.Dcl = append(Curfn.Func.Dcl, n)
+			Curfn.Func().Dcl = append(Curfn.Func().Dcl, n)
 		}
 		if n.Op == ir.OTYPE {
 			declare_typegen++
@@ -213,9 +213,9 @@ func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) *ir.Node {
 		base.Fatal("newfuncnamel - already have name")
 	}
 	n := newnamel(pos, s)
-	n.Func = fn
+	n.SetFunc(fn)
 	fn.Nname = n
-	n.Func.SetIsHiddenClosure(Curfn != nil)
+	n.Func().SetIsHiddenClosure(Curfn != nil)
 	return n
 }
 
@@ -290,7 +290,7 @@ func oldname(s *types.Sym) *ir.Node {
 			c.Name.Param.Outer = n.Name.Param.Innermost
 			n.Name.Param.Innermost = c
 
-			Curfn.Func.Cvars.Append(c)
+			Curfn.Func().Cvars.Append(c)
 		}
 
 		// return ref to closure var, not original
@@ -391,8 +391,8 @@ func funchdr(n *ir.Node) {
 
 	types.Markdcl()
 
-	if n.Func.Nname != nil && n.Func.Nname.Name.Param.Ntype != nil {
-		funcargs(n.Func.Nname.Name.Param.Ntype)
+	if n.Func().Nname != nil && n.Func().Nname.Name.Param.Ntype != nil {
+		funcargs(n.Func().Nname.Name.Param.Ntype)
 	} else {
 		funcargs2(n.Type())
 	}
@@ -975,12 +975,12 @@ func dclfunc(sym *types.Sym, tfn *ir.Node) *ir.Node {
 	}
 
 	fn := nod(ir.ODCLFUNC, nil, nil)
-	fn.Func.Nname = newfuncnamel(base.Pos, sym, fn.Func)
-	fn.Func.Nname.Name.Defn = fn
-	fn.Func.Nname.Name.Param.Ntype = tfn
-	setNodeNameFunc(fn.Func.Nname)
+	fn.Func().Nname = newfuncnamel(base.Pos, sym, fn.Func())
+	fn.Func().Nname.Name.Defn = fn
+	fn.Func().Nname.Name.Param.Ntype = tfn
+	setNodeNameFunc(fn.Func().Nname)
 	funchdr(fn)
-	fn.Func.Nname.Name.Param.Ntype = typecheck(fn.Func.Nname.Name.Param.Ntype, ctxType)
+	fn.Func().Nname.Name.Param.Ntype = typecheck(fn.Func().Nname.Name.Param.Ntype, ctxType)
 	return fn
 }
 
@@ -1040,7 +1040,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	case ir.ONAME:
 		callee = arg.Name.Defn
 	case ir.OCLOSURE:
-		callee = arg.Func.Decl
+		callee = arg.Func().Decl
 	default:
 		base.Fatal("expected ONAME or OCLOSURE node, got %+v", arg)
 	}
@@ -1065,7 +1065,7 @@ func (c *nowritebarrierrecChecker) recordCall(from *ir.Node, to *obj.LSym, pos s
 	}
 	// We record this information on the *Func so this is
 	// concurrent-safe.
-	fn := from.Func
+	fn := from.Func()
 	if fn.NWBRCalls == nil {
 		fn.NWBRCalls = new([]ir.SymAndPos)
 	}
@@ -1093,23 +1093,23 @@ func (c *nowritebarrierrecChecker) check() {
 			continue
 		}
 
-		symToFunc[n.Func.LSym] = n
+		symToFunc[n.Func().LSym] = n
 
 		// Make nowritebarrierrec functions BFS roots.
-		if n.Func.Pragma&ir.Nowritebarrierrec != 0 {
+		if n.Func().Pragma&ir.Nowritebarrierrec != 0 {
 			funcs[n] = nowritebarrierrecCall{}
 			q.PushRight(n)
 		}
 		// Check go:nowritebarrier functions.
-		if n.Func.Pragma&ir.Nowritebarrier != 0 && n.Func.WBPos.IsKnown() {
-			base.ErrorAt(n.Func.WBPos, "write barrier prohibited")
+		if n.Func().Pragma&ir.Nowritebarrier != 0 && n.Func().WBPos.IsKnown() {
+			base.ErrorAt(n.Func().WBPos, "write barrier prohibited")
 		}
 	}
 
 	// Perform a BFS of the call graph from all
 	// go:nowritebarrierrec functions.
 	enqueue := func(src, target *ir.Node, pos src.XPos) {
-		if target.Func.Pragma&ir.Yeswritebarrierrec != 0 {
+		if target.Func().Pragma&ir.Yeswritebarrierrec != 0 {
 			// Don't flow into this function.
 			return
 		}
@@ -1126,14 +1126,14 @@ func (c *nowritebarrierrecChecker) check() {
 		fn := q.PopLeft()
 
 		// Check fn.
-		if fn.Func.WBPos.IsKnown() {
+		if fn.Func().WBPos.IsKnown() {
 			var err bytes.Buffer
 			call := funcs[fn]
 			for call.target != nil {
-				fmt.Fprintf(&err, "\n\t%v: called by %v", base.FmtPos(call.lineno), call.target.Func.Nname)
+				fmt.Fprintf(&err, "\n\t%v: called by %v", base.FmtPos(call.lineno), call.target.Func().Nname)
 				call = funcs[call.target]
 			}
-			base.ErrorAt(fn.Func.WBPos, "write barrier prohibited by caller; %v%s", fn.Func.Nname, err.String())
+			base.ErrorAt(fn.Func().WBPos, "write barrier prohibited by caller; %v%s", fn.Func().Nname, err.String())
 			continue
 		}
 
@@ -1141,10 +1141,10 @@ func (c *nowritebarrierrecChecker) check() {
 		for _, callee := range c.extraCalls[fn] {
 			enqueue(fn, callee.target, callee.lineno)
 		}
-		if fn.Func.NWBRCalls == nil {
+		if fn.Func().NWBRCalls == nil {
 			continue
 		}
-		for _, callee := range *fn.Func.NWBRCalls {
+		for _, callee := range *fn.Func().NWBRCalls {
 			target := symToFunc[callee.Sym]
 			if target != nil {
 				enqueue(fn, target, callee.Pos)

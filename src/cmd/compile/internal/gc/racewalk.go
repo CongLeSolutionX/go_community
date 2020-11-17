@@ -61,12 +61,12 @@ func ispkgin(pkgs []string) bool {
 }
 
 func instrument(fn *ir.Node) {
-	if fn.Func.Pragma&ir.Norace != 0 {
+	if fn.Func().Pragma&ir.Norace != 0 {
 		return
 	}
 
 	if !base.Flag.Race || !ispkgin(norace_inst_pkgs) {
-		fn.Func.SetInstrumentBody(true)
+		fn.Func().SetInstrumentBody(true)
 	}
 
 	if base.Flag.Race {
@@ -74,8 +74,8 @@ func instrument(fn *ir.Node) {
 		base.Pos = src.NoXPos
 
 		if thearch.LinkArch.Arch.Family != sys.AMD64 {
-			fn.Func.Enter.Prepend(mkcall("racefuncenterfp", nil, nil))
-			fn.Func.Exit.Append(mkcall("racefuncexit", nil, nil))
+			fn.Func().Enter.Prepend(mkcall("racefuncenterfp", nil, nil))
+			fn.Func().Exit.Append(mkcall("racefuncexit", nil, nil))
 		} else {
 
 			// nodpc is the PC of the caller as extracted by
@@ -86,9 +86,9 @@ func instrument(fn *ir.Node) {
 			nodpc := nodfp.Copy()
 			nodpc.SetType(types.Types[types.TUINTPTR])
 			nodpc.Xoffset = int64(-Widthptr)
-			fn.Func.Dcl = append(fn.Func.Dcl, nodpc)
-			fn.Func.Enter.Prepend(mkcall("racefuncenter", nil, nil, nodpc))
-			fn.Func.Exit.Append(mkcall("racefuncexit", nil, nil))
+			fn.Func().Dcl = append(fn.Func().Dcl, nodpc)
+			fn.Func().Enter.Prepend(mkcall("racefuncenter", nil, nil, nodpc))
+			fn.Func().Exit.Append(mkcall("racefuncexit", nil, nil))
 		}
 		base.Pos = lno
 	}

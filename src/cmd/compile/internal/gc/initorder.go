@@ -289,7 +289,7 @@ func (d *initDeps) visit(n *ir.Node) bool {
 		}
 
 	case ir.OCLOSURE:
-		d.inspectList(n.Func.Decl.Nbody)
+		d.inspectList(n.Func().Decl.Nbody)
 
 	case ir.ODOTMETH, ir.OCALLPART:
 		d.foundDep(ir.AsNode(n.Type().FuncType().Nname))

@@ -56,7 +56,7 @@ func visitBottomUp(list []*ir.Node, analyze func(list []*ir.Node, recursive bool
 	v.analyze = analyze
 	v.nodeID = make(map[*ir.Node]uint32)
 	for _, n := range list {
-		if n.Op == ir.ODCLFUNC && !n.Func.IsHiddenClosure() {
+		if n.Op == ir.ODCLFUNC && !n.Func().IsHiddenClosure() {
 			v.visit(n)
 		}
 	}
@@ -103,14 +103,14 @@ func (v *bottomUpVisitor) visit(n *ir.Node) uint32 {
 				}
 			}
 		case ir.OCLOSURE:
-			if m := v.visit(n.Func.Decl); m < min {
+			if m := v.visit(n.Func().Decl); m < min {
 				min = m
 			}
 		}
 		return true
 	})
 
-	if (min == id || min == id+1) && !n.Func.IsHiddenClosure() {
+	if (min == id || min == id+1) && !n.Func().IsHiddenClosure() {
 		// This node is the root of a strongly connected component.
 
 		// The original min passed to visitcodelist was v.nodeID[n]+1.

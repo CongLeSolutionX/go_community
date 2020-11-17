@@ -29,10 +29,10 @@ var (
 )
 
 func emitptrargsmap(fn *ir.Node) {
-	if fn.FuncName() == "_" || fn.Func.Nname.Sym.Linkname != "" {
+	if fn.FuncName() == "_" || fn.Func().Nname.Sym.Linkname != "" {
 		return
 	}
-	lsym := base.Ctxt.Lookup(fn.Func.LSym.Name + ".args_stackmap")
+	lsym := base.Ctxt.Lookup(fn.Func().LSym.Name + ".args_stackmap")
 
 	nptr := int(fn.Type().ArgWidth() / int64(Widthptr))
 	bv := bvalloc(int32(nptr) * 2)
@@ -111,7 +111,7 @@ func (s byStackVar) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 func (s *ssafn) AllocFrame(f *ssa.Func) {
 	s.stksize = 0
 	s.stkptrsize = 0
-	fn := s.curfn.Func
+	fn := s.curfn.Func()
 
 	// Mark the PAUTO's unused.
 	for _, ln := range fn.Dcl {
@@ -196,7 +196,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 
 func funccompile(fn *ir.Node) {
 	if Curfn != nil {
-		base.Fatal("funccompile %v inside %v", fn.Func.Nname.Sym, Curfn.Func.Nname.Sym)
+		base.Fatal("funccompile %v inside %v", fn.Func().Nname.Sym, Curfn.Func().Nname.Sym)
 	}
 
 	if fn.Type() == nil {
@@ -211,7 +211,7 @@ func funccompile(fn *ir.Node) {
 
 	if fn.Nbody.Len() == 0 {
 		// Initialize ABI wrappers if necessary.
-		initLSym(fn.Func, false)
+		initLSym(fn.Func(), false)
 		emitptrargsmap(fn)
 		return
 	}
@@ -235,7 +235,7 @@ func compile(fn *ir.Node) {
 	// Set up the function's LSym early to avoid data races with the assemblers.
 	// Do this before walk, as walk needs the LSym to set attributes/relocations
 	// (e.g. in markTypeUsedInInterface).
-	initLSym(fn.Func, true)
+	initLSym(fn.Func(), true)
 
 	walk(fn)
 	if base.Errors() > errorsBefore {
@@ -260,15 +260,15 @@ func compile(fn *ir.Node) {
 	// be types of stack objects. We need to do this here
 	// because symbols must be allocated before the parallel
 	// phase of the compiler.
-	for _, n := range fn.Func.Dcl {
+	for _, n := range fn.Func().Dcl {
 		switch n.Class() {
 		case ir.PPARAM, ir.PPARAMOUT, ir.PAUTO:
 			if livenessShouldTrack(n) && n.Name.Addrtaken() {
 				dtypesym(n.Type())
 				// Also make sure we allocate a linker symbol
 				// for the stack object data, for the same reason.
-				if fn.Func.LSym.Func().StackObjects == nil {
-					fn.Func.LSym.Func().StackObjects = base.Ctxt.Lookup(fn.Func.LSym.Name + ".stkobj")
+				if fn.Func().LSym.Func().StackObjects == nil {
+					fn.Func().LSym.Func().StackObjects = base.Ctxt.Lookup(fn.Func().LSym.Name + ".stkobj")
 				}
 			}
 		}
@@ -301,7 +301,7 @@ func compilenow(fn *ir.Node) bool {
 // inline candidate but then never inlined (presumably because we
 // found no call sites).
 func isInlinableButNotInlined(fn *ir.Node) bool {
-	if fn.Func.Nname.Func.Inl == nil {
+	if fn.Func().Nname.Func().Inl == nil {
 		return false
 	}
 	if fn.Sym == nil {
@@ -344,7 +344,7 @@ func compileSSA(fn *ir.Node, worker int) {
 
 	pp.Flush() // assemble, fill in boilerplate, etc.
 	// fieldtrack must be called after pp.Flush. See issue 20014.
-	fieldtrack(pp.Text.From.Sym, fn.Func.FieldTrack)
+	fieldtrack(pp.Text.From.Sym, fn.Func().FieldTrack)
 }
 
 func init() {
@@ -400,15 +400,15 @@ func compileFunctions() {
 
 func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) {
 	fn := curfn.(*ir.Node)
-	if fn.Func.Nname != nil {
-		if expect := fn.Func.Nname.Sym.Linksym(); fnsym != expect {
+	if fn.Func().Nname != nil {
+		if expect := fn.Func().Nname.Sym.Linksym(); fnsym != expect {
 			base.Fatal("unexpected fnsym: %v != %v", fnsym, expect)
 		}
 	}
 
 	var apdecls []*ir.Node
 	// Populate decls for fn.
-	for _, n := range fn.Func.Dcl {
+	for _, n := range fn.Func().Dcl {
 		if n.Op != ir.ONAME { // might be OTYPE or OLITERAL
 			continue
 		}
@@ -429,7 +429,7 @@ func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.S
 		fnsym.Func().RecordAutoType(ngotype(n).Linksym())
 	}
 
-	decls, dwarfVars := createDwarfVars(fnsym, fn.Func, apdecls)
+	decls, dwarfVars := createDwarfVars(fnsym, fn.Func(), apdecls)
 
 	// For each type referenced by the functions auto vars but not
 	// already referenced by a dwarf var, attach a dummy relocation to
@@ -450,7 +450,7 @@ func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.S
 	var varScopes []ir.ScopeID
 	for _, decl := range decls {
 		pos := declPos(decl)
-		varScopes = append(varScopes, findScope(fn.Func.Marks, pos))
+		varScopes = append(varScopes, findScope(fn.Func().Marks, pos))
 	}
 
 	scopes := assembleScopes(fnsym, fn, dwarfVars, varScopes)
@@ -683,7 +683,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 func preInliningDcls(fnsym *obj.LSym) []*ir.Node {
 	fn := base.Ctxt.DwFixups.GetPrecursorFunc(fnsym).(*ir.Node)
 	var rdcl []*ir.Node
-	for _, n := range fn.Func.Inl.Dcl {
+	for _, n := range fn.Func().Inl.Dcl {
 		c := n.Sym.Name[0]
 		// Avoid reporting "_" parameters, since if there are more than
 		// one, it can result in a collision later on, as in #23179.

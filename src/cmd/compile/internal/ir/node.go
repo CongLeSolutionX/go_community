@@ -38,7 +38,7 @@ type Node struct {
 	orig *Node // original form, for printing, and tracking copies of ONAMEs
 
 	// func
-	Func *Func
+	fn *Func
 
 	// ONAME, OTYPE, OPACK, OLABEL, some OLITERAL
 	Name *Name
@@ -74,8 +74,8 @@ func (n *Node) Orig() *Node           { return n.orig }
 func (n *Node) SetOrig(x *Node)       { n.orig = x }
 func (n *Node) Type() *types.Type     { return n.typ }
 func (n *Node) SetType(x *types.Type) { n.typ = x }
-func (n *Node) GetFunc() *Func        { return n.Func }
-func (n *Node) SetFunc(x *Func)       { n.Func = x }
+func (n *Node) Func() *Func           { return n.fn }
+func (n *Node) SetFunc(x *Func)       { n.fn = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -318,10 +318,10 @@ func (n *Node) IsMethodExpression() bool {
 
 // funcname returns the name (without the package) of the function n.
 func (n *Node) FuncName() string {
-	if n == nil || n.Func == nil || n.Func.Nname == nil {
+	if n == nil || n.Func() == nil || n.Func().Nname == nil {
 		return "<nil>"
 	}
-	return n.Func.Nname.Sym.Name
+	return n.Func().Nname.Sym.Name
 }
 
 // pkgFuncName returns the name of the function referenced by n, with package prepended.
@@ -336,10 +336,10 @@ func (n *Node) PkgFuncName() string {
 	if n.Op == ONAME {
 		s = n.Sym
 	} else {
-		if n.Func == nil || n.Func.Nname == nil {
+		if n.Func() == nil || n.Func().Nname == nil {
 			return "<nil>"
 		}
-		s = n.Func.Nname.Sym
+		s = n.Func().Nname.Sym
 	}
 	pkg := s.Pkg
 

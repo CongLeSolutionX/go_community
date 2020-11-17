@@ -25,28 +25,28 @@ func walk(fn *ir.Node) {
 	errorsBefore := base.Errors()
 
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("\nbefore walk %v", Curfn.Func.Nname.Sym)
+		s := fmt.Sprintf("\nbefore walk %v", Curfn.Func().Nname.Sym)
 		ir.DumpList(s, Curfn.Nbody)
 	}
 
 	lno := base.Pos
 
 	// Final typecheck for any unused variables.
-	for i, ln := range fn.Func.Dcl {
+	for i, ln := range fn.Func().Dcl {
 		if ln.Op == ir.ONAME && (ln.Class() == ir.PAUTO || ln.Class() == ir.PAUTOHEAP) {
 			ln = typecheck(ln, ctxExpr|ctxAssign)
-			fn.Func.Dcl[i] = ln
+			fn.Func().Dcl[i] = ln
 		}
 	}
 
 	// Propagate the used flag for typeswitch variables up to the NONAME in its definition.
-	for _, ln := range fn.Func.Dcl {
+	for _, ln := range fn.Func().Dcl {
 		if ln.Op == ir.ONAME && (ln.Class() == ir.PAUTO || ln.Class() == ir.PAUTOHEAP) && ln.Name.Defn != nil && ln.Name.Defn.Op == ir.OTYPESW && ln.Name.Used() {
 			ln.Name.Defn.Left().Name.SetUsed(true)
 		}
 	}
 
-	for _, ln := range fn.Func.Dcl {
+	for _, ln := range fn.Func().Dcl {
 		if ln.Op != ir.ONAME || (ln.Class() != ir.PAUTO && ln.Class() != ir.PAUTOHEAP) || ln.Sym.Name[0] == '&' || ln.Name.Used() {
 			continue
 		}
@@ -67,15 +67,15 @@ func walk(fn *ir.Node) {
 	}
 	walkstmtlist(Curfn.Nbody.Slice())
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("after walk %v", Curfn.Func.Nname.Sym)
+		s := fmt.Sprintf("after walk %v", Curfn.Func().Nname.Sym)
 		ir.DumpList(s, Curfn.Nbody)
 	}
 
 	zeroResults()
 	heapmoves()
-	if base.Flag.W != 0 && Curfn.Func.Enter.Len() > 0 {
-		s := fmt.Sprintf("enter %v", Curfn.Func.Nname.Sym)
-		ir.DumpList(s, Curfn.Func.Enter)
+	if base.Flag.W != 0 && Curfn.Func().Enter.Len() > 0 {
+		s := fmt.Sprintf("enter %v", Curfn.Func().Nname.Sym)
+		ir.DumpList(s, Curfn.Func().Enter)
 	}
 }
 
@@ -86,7 +86,7 @@ func walkstmtlist(s []*ir.Node) {
 }
 
 func paramoutheap(fn *ir.Node) bool {
-	for _, ln := range fn.Func.Dcl {
+	for _, ln := range fn.Func().Dcl {
 		switch ln.Class() {
 		case ir.PPARAMOUT:
 			if isParamStackCopy(ln) || ln.Name.Addrtaken() {
@@ -205,18 +205,18 @@ func walkstmt(n *ir.Node) *ir.Node {
 		base.Error("case statement out of place")
 
 	case ir.ODEFER:
-		Curfn.Func.SetHasDefer(true)
-		Curfn.Func.NumDefers++
-		if Curfn.Func.NumDefers > maxOpenDefers {
+		Curfn.Func().SetHasDefer(true)
+		Curfn.Func().NumDefers++
+		if Curfn.Func().NumDefers > maxOpenDefers {
 			// Don't allow open-coded defers if there are more than
 			// 8 defers in the function, since we use a single
 			// byte to record active defers.
-			Curfn.Func.SetOpenCodedDeferDisallowed(true)
+			Curfn.Func().SetOpenCodedDeferDisallowed(true)
 		}
 		if n.Esc != EscNever {
 			// If n.Esc is not EscNever, then this defer occurs in a loop,
 			// so open-coded defers cannot be used in this function.
-			Curfn.Func.SetOpenCodedDeferDisallowed(true)
+			Curfn.Func().SetOpenCodedDeferDisallowed(true)
 		}
 		fallthrough
 	case ir.OGO:
@@ -266,7 +266,7 @@ func walkstmt(n *ir.Node) *ir.Node {
 		walkstmtlist(n.Rlist.Slice())
 
 	case ir.ORETURN:
-		Curfn.Func.NumReturns++
+		Curfn.Func().NumReturns++
 		if n.List.Len() == 0 {
 			break
 		}
@@ -275,7 +275,7 @@ func walkstmt(n *ir.Node) *ir.Node {
 			// so that reorder3 can fix up conflicts
 			var rl []*ir.Node
 
-			for _, ln := range Curfn.Func.Dcl {
+			for _, ln := range Curfn.Func().Dcl {
 				cl := ln.Class()
 				if cl == ir.PAUTO || cl == ir.PAUTOHEAP {
 					break
@@ -563,11 +563,11 @@ opswitch:
 			// transformclosure already did all preparation work.
 
 			// Prepend captured variables to argument list.
-			n.List.Prepend(n.Left().Func.ClosureEnter.Slice()...)
-			n.Left().Func.ClosureEnter.Set(nil)
+			n.List.Prepend(n.Left().Func().ClosureEnter.Slice()...)
+			n.Left().Func().ClosureEnter.Set(nil)
 
 			// Replace OCLOSURE with ONAME/PFUNC.
-			n.SetLeft(n.Left().Func.Decl.Func.Nname)
+			n.SetLeft(n.Left().Func().Decl.Func().Nname)
 
 			// Update type of OCALLFUNC node.
 			// Output arguments had not changed, but their offsets could.
@@ -795,8 +795,8 @@ opswitch:
 		fromType := n.Left().Type()
 		toType := n.Type()
 
-		if !fromType.IsInterface() && !Curfn.Func.Nname.IsBlank() { // skip unnamed functions (func _())
-			markTypeUsedInInterface(fromType, Curfn.Func.LSym)
+		if !fromType.IsInterface() && !Curfn.Func().Nname.IsBlank() { // skip unnamed functions (func _())
+			markTypeUsedInInterface(fromType, Curfn.Func().LSym)
 		}
 
 		// typeword generates the type word of the interface value.
@@ -1620,7 +1620,7 @@ func markTypeUsedInInterface(t *types.Type, from *obj.LSym) {
 func markUsedIfaceMethod(n *ir.Node) {
 	ityp := n.Left().Left().Type()
 	tsym := typenamesym(ityp).Linksym()
-	r := obj.Addrel(Curfn.Func.LSym)
+	r := obj.Addrel(Curfn.Func().LSym)
 	r.Sym = tsym
 	// n.Left.Xoffset is the method index * Widthptr (the offset of code pointer
 	// in itab).
@@ -2442,7 +2442,7 @@ func zeroResults() {
 			v = v.Name.Param.Stackcopy
 		}
 		// Zero the stack location containing f.
-		Curfn.Func.Enter.Append(nodl(Curfn.Pos, ir.OAS, v, nil))
+		Curfn.Func().Enter.Append(nodl(Curfn.Pos, ir.OAS, v, nil))
 	}
 }
 
@@ -2472,9 +2472,9 @@ func heapmoves() {
 	nn := paramstoheap(Curfn.Type().Recvs())
 	nn = append(nn, paramstoheap(Curfn.Type().Params())...)
 	nn = append(nn, paramstoheap(Curfn.Type().Results())...)
-	Curfn.Func.Enter.Append(nn...)
-	base.Pos = Curfn.Func.Endlineno
-	Curfn.Func.Exit.Append(returnsfromheap(Curfn.Type().Results())...)
+	Curfn.Func().Enter.Append(nn...)
+	base.Pos = Curfn.Func().Endlineno
+	Curfn.Func().Exit.Append(returnsfromheap(Curfn.Type().Results())...)
 	base.Pos = lno
 }
 
@@ -2775,7 +2775,7 @@ func appendslice(n *ir.Node, init *ir.Nodes) *ir.Node {
 
 		nptr2 := l2
 
-		Curfn.Func.SetWBPos(n.Pos)
+		Curfn.Func().SetWBPos(n.Pos)
 
 		// instantiate typedslicecopy(typ *type, dstPtr *any, dstLen int, srcPtr *any, srcLen int) int
 		fn := syslook("typedslicecopy")
@@ -2960,7 +2960,7 @@ func extendslice(n *ir.Node, init *ir.Nodes) *ir.Node {
 	hasPointers := elemtype.HasPointers()
 	if hasPointers {
 		clrname = "memclrHasPointers"
-		Curfn.Func.SetWBPos(n.Pos)
+		Curfn.Func().SetWBPos(n.Pos)
 	}
 
 	var clr ir.Nodes
@@ -3094,7 +3094,7 @@ func walkappend(n *ir.Node, init *ir.Nodes, dst *ir.Node) *ir.Node {
 //
 func copyany(n *ir.Node, init *ir.Nodes, runtimecall bool) *ir.Node {
 	if n.Left().Type().Elem().HasPointers() {
-		Curfn.Func.SetWBPos(n.Pos)
+		Curfn.Func().SetWBPos(n.Pos)
 		fn := writebarrierfn("typedslicecopy", n.Left().Type().Elem(), n.Right().Type().Elem())
 		n.SetLeft(cheapexpr(n.Left(), init))
 		ptrL, lenL := backingArrayPtrLen(n.Left())
@@ -3708,9 +3708,9 @@ func usemethod(n *ir.Node) {
 	//       (including global variables such as numImports - was issue #19028).
 	// Also need to check for reflect package itself (see Issue #38515).
 	if s := res0.Type.Sym; s != nil && s.Name == "Method" && isReflectPkg(s.Pkg) {
-		Curfn.Func.SetReflectMethod(true)
+		Curfn.Func().SetReflectMethod(true)
 		// The LSym is initialized at this point. We need to set the attribute on the LSym.
-		Curfn.Func.LSym.Set(obj.AttrReflectMethod, true)
+		Curfn.Func().LSym.Set(obj.AttrReflectMethod, true)
 	}
 }
 
@@ -3756,10 +3756,10 @@ func usefield(n *ir.Node) {
 	}
 
 	sym := tracksym(outer, field)
-	if Curfn.Func.FieldTrack == nil {
-		Curfn.Func.FieldTrack = make(map[*types.Sym]struct{})
+	if Curfn.Func().FieldTrack == nil {
+		Curfn.Func().FieldTrack = make(map[*types.Sym]struct{})
 	}
-	Curfn.Func.FieldTrack[sym] = struct{}{}
+	Curfn.Func().FieldTrack[sym] = struct{}{}
 }
 
 func candiscardlist(l ir.Nodes) bool {
@@ -3946,7 +3946,7 @@ func wrapCall(n *ir.Node, init *ir.Nodes) *ir.Node {
 	xtop = append(xtop, fn)
 
 	call = nod(ir.OCALL, nil, nil)
-	call.SetLeft(fn.Func.Nname)
+	call.SetLeft(fn.Func().Nname)
 	call.List.Set(n.List.Slice())
 	call = typecheck(call, ctxStmt)
 	call = walkexpr(call, init)
@@ -4085,5 +4085,5 @@ func walkCheckPtrArithmetic(n *ir.Node, init *ir.Nodes) *ir.Node {
 // function fn at a given level. See debugHelpFooter for defined
 // levels.
 func checkPtr(fn *ir.Node, level int) bool {
-	return base.Debug.Checkptr >= level && fn.Func.Pragma&ir.NoCheckPtr == 0
+	return base.Debug.Checkptr >= level && fn.Func().Pragma&ir.NoCheckPtr == 0
 }

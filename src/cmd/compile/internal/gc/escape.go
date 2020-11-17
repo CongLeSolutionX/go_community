@@ -215,7 +215,7 @@ func (e *Escape) initFunc(fn *ir.Node) {
 	e.loopDepth = 1
 
 	// Allocate locations for local variables.
-	for _, dcl := range fn.Func.Dcl {
+	for _, dcl := range fn.Func().Dcl {
 		if dcl.Op == ir.ONAME {
 			e.newLoc(dcl, false)
 		}
@@ -625,7 +625,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 		k = e.spill(k, n)
 
 		// Link addresses of captured variables to closure.
-		for _, v := range n.Func.Decl.Func.Cvars.Slice() {
+		for _, v := range n.Func().Decl.Func().Cvars.Slice() {
 			if v.Op == ir.OXXX { // unnamed out argument; see dcl.go:/^funcargs
 				continue
 			}
@@ -812,7 +812,7 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 			case v.Op == ir.ONAME && v.Class() == ir.PFUNC:
 				fn = v
 			case v.Op == ir.OCLOSURE:
-				fn = v.Func.Decl.Func.Nname
+				fn = v.Func().Decl.Func().Nname
 			}
 		case ir.OCALLMETH:
 			fn = ir.AsNode(call.Left().Type().FuncType().Nname)
@@ -1360,7 +1360,7 @@ func (e *Escape) outlives(l, other *EscLocation) bool {
 		//
 		//    var u int  // okay to stack allocate
 		//    *(func() *int { return &u }()) = 42
-		if containsClosure(other.curfn, l.curfn) && l.curfn.Func.Closure_.Func.ClosureCalled {
+		if containsClosure(other.curfn, l.curfn) && l.curfn.Func().Closure_.Func().ClosureCalled {
 			return false
 		}
 
@@ -1406,8 +1406,8 @@ func containsClosure(f, c *ir.Node) bool {
 
 	// Closures within function Foo are named like "Foo.funcN..."
 	// TODO(mdempsky): Better way to recognize this.
-	fn := f.Func.Nname.Sym.Name
-	cn := c.Func.Nname.Sym.Name
+	fn := f.Func().Nname.Sym.Name
+	cn := c.Func().Nname.Sym.Name
 	return len(cn) > len(fn) && cn[:len(fn)] == fn && cn[len(fn)] == '.'
 }
 
