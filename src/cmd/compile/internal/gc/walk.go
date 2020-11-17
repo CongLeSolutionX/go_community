@@ -54,10 +54,10 @@ func walk(fn *ir.Node) {
 			if defn.Left().Name().Used() {
 				continue
 			}
-			base.ErrorAt(defn.Left().Pos, "%v declared but not used", ln.Sym())
+			base.ErrorAt(defn.Left().Pos(), "%v declared but not used", ln.Sym())
 			defn.Left().Name().SetUsed(true) // suppress repeats
 		} else {
-			base.ErrorAt(ln.Pos, "%v declared but not used", ln.Sym())
+			base.ErrorAt(ln.Pos(), "%v declared but not used", ln.Sym())
 		}
 	}
 
@@ -887,7 +887,7 @@ opswitch:
 			init.Append(nif)
 
 			// Build the result.
-			e := nod(ir.OEFACE, tmp, ifaceData(n.Pos, c, types.NewPtr(types.Types[types.TUINT8])))
+			e := nod(ir.OEFACE, tmp, ifaceData(n.Pos(), c, types.NewPtr(types.Types[types.TUINT8])))
 			e.SetType(toType) // assign type manually, typecheck doesn't understand OEFACE.
 			e.SetTypecheck(1)
 			n = e
@@ -1590,7 +1590,7 @@ opswitch:
 		// Emit string symbol now to avoid emitting
 		// any concurrently during the backend.
 		if s, ok := n.Val().U.(string); ok {
-			_ = stringsym(n.Pos, s)
+			_ = stringsym(n.Pos(), s)
 		}
 	}
 
@@ -2442,7 +2442,7 @@ func zeroResults() {
 			v = v.Name().Param.Stackcopy
 		}
 		// Zero the stack location containing f.
-		Curfn.Func().Enter.Append(nodl(Curfn.Pos, ir.OAS, v, nil))
+		Curfn.Func().Enter.Append(nodl(Curfn.Pos(), ir.OAS, v, nil))
 	}
 }
 
@@ -2468,7 +2468,7 @@ func returnsfromheap(params *types.Type) []*ir.Node {
 // Enter and Exit lists.
 func heapmoves() {
 	lno := base.Pos
-	base.Pos = Curfn.Pos
+	base.Pos = Curfn.Pos()
 	nn := paramstoheap(Curfn.Type().Recvs())
 	nn = append(nn, paramstoheap(Curfn.Type().Params())...)
 	nn = append(nn, paramstoheap(Curfn.Type().Results())...)
@@ -2775,7 +2775,7 @@ func appendslice(n *ir.Node, init *ir.Nodes) *ir.Node {
 
 		nptr2 := l2
 
-		Curfn.Func().SetWBPos(n.Pos)
+		Curfn.Func().SetWBPos(n.Pos())
 
 		// instantiate typedslicecopy(typ *type, dstPtr *any, dstLen int, srcPtr *any, srcLen int) int
 		fn := syslook("typedslicecopy")
@@ -2960,7 +2960,7 @@ func extendslice(n *ir.Node, init *ir.Nodes) *ir.Node {
 	hasPointers := elemtype.HasPointers()
 	if hasPointers {
 		clrname = "memclrHasPointers"
-		Curfn.Func().SetWBPos(n.Pos)
+		Curfn.Func().SetWBPos(n.Pos())
 	}
 
 	var clr ir.Nodes
@@ -3094,7 +3094,7 @@ func walkappend(n *ir.Node, init *ir.Nodes, dst *ir.Node) *ir.Node {
 //
 func copyany(n *ir.Node, init *ir.Nodes, runtimecall bool) *ir.Node {
 	if n.Left().Type().Elem().HasPointers() {
-		Curfn.Func().SetWBPos(n.Pos)
+		Curfn.Func().SetWBPos(n.Pos())
 		fn := writebarrierfn("typedslicecopy", n.Left().Type().Elem(), n.Right().Type().Elem())
 		n.SetLeft(cheapexpr(n.Left(), init))
 		ptrL, lenL := backingArrayPtrLen(n.Left())
@@ -3238,7 +3238,7 @@ func walkcompare(n *ir.Node, init *ir.Nodes) *ir.Node {
 			eqtype = nod(andor, nonnil, match)
 		}
 		// Check for data equal.
-		eqdata := nod(eq, ifaceData(n.Pos, l, r.Type()), r)
+		eqdata := nod(eq, ifaceData(n.Pos(), l, r.Type()), r)
 		// Put it all together.
 		expr := nod(andor, eqtype, eqdata)
 		n = finishcompare(n, expr, init)

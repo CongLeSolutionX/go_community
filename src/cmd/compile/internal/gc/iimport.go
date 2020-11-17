@@ -797,7 +797,7 @@ func (r *importReader) caseList(sw *ir.Node) []*ir.Node {
 			// Note: per-case variables will have distinct, dotted
 			// names after import. That's okay: swt.go only needs
 			// Sym for diagnostics anyway.
-			caseVar := newnamel(cas.Pos, r.ident())
+			caseVar := newnamel(cas.Pos(), r.ident())
 			declare(caseVar, dclcontext)
 			cas.Rlist.Set1(caseVar)
 			caseVar.Name().Defn = sw.Left()
@@ -858,7 +858,7 @@ func (r *importReader) node() *ir.Node {
 	case ir.OTYPESW:
 		n := nodl(r.pos(), ir.OTYPESW, nil, nil)
 		if s := r.ident(); s != nil {
-			n.SetLeft(npos(n.Pos, newnoname(s)))
+			n.SetLeft(npos(n.Pos(), newnoname(s)))
 		}
 		nr, _ := r.exprsOrNil()
 		n.SetRight(nr)

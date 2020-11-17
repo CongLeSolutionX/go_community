@@ -49,7 +49,7 @@ func hasUniquePos(n *ir.Node) bool {
 		}
 	}
 
-	if !n.Pos.IsKnown() {
+	if !n.Pos().IsKnown() {
 		if base.Flag.K != 0 {
 			base.Warn("setlineno: unknown position (line 0)")
 		}
@@ -62,7 +62,7 @@ func hasUniquePos(n *ir.Node) bool {
 func setlineno(n *ir.Node) src.XPos {
 	lno := base.Pos
 	if n != nil && hasUniquePos(n) {
-		base.Pos = n.Pos
+		base.Pos = n.Pos()
 	}
 	return lno
 }
@@ -130,7 +130,7 @@ func importdot(opkg *types.Pkg, pack *ir.Node) {
 
 	if n == 0 {
 		// can't possibly be used - there were no symbols
-		base.ErrorAt(pack.Pos, "imported and not used: %q", opkg.Path)
+		base.ErrorAt(pack.Pos(), "imported and not used: %q", opkg.Path)
 	}
 }
 
@@ -164,7 +164,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 	n.Op = op
 	n.SetLeft(nleft)
 	n.SetRight(nright)
-	n.Pos = pos
+	n.SetPos(pos)
 	n.Xoffset = types.BADWIDTH
 	n.SetOrig(n)
 	return n
@@ -194,7 +194,7 @@ func newnamel(pos src.XPos, s *types.Sym) *ir.Node {
 	n.Name().Param = &x.p
 
 	n.Op = ir.ONAME
-	n.Pos = pos
+	n.SetPos(pos)
 	n.SetOrig(n)
 
 	n.SetSym(s)
@@ -256,7 +256,7 @@ func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
 		m.SetRight(treecopy(n.Right(), pos))
 		m.List.Set(listtreecopy(n.List.Slice(), pos))
 		if pos.IsKnown() {
-			m.Pos = pos
+			m.SetPos(pos)
 		}
 		if m.Name() != nil && n.Op != ir.ODCLFIELD {
 			ir.Dump("treecopy", n)
@@ -1186,7 +1186,7 @@ func structargs(tl *types.Type, mustname bool) []*ir.Node {
 			gen++
 		}
 		a := symfield(s, t.Type)
-		a.Pos = t.Pos
+		a.SetPos(t.Pos)
 		a.SetIsDDD(t.IsDDD())
 		args = append(args, a)
 	}
@@ -1464,7 +1464,7 @@ func liststmt(l []*ir.Node) *ir.Node {
 	n := nod(ir.OBLOCK, nil, nil)
 	n.List.Set(l)
 	if len(l) != 0 {
-		n.Pos = l[0].Pos
+		n.SetPos(l[0].Pos())
 	}
 	return n
 }
@@ -1612,8 +1612,8 @@ func ifaceData(pos src.XPos, n *ir.Node, t *types.Type) *ir.Node {
 // This is where t was declared or where it appeared as a type expression.
 func typePos(t *types.Type) src.XPos {
 	n := ir.AsNode(t.Nod)
-	if n == nil || !n.Pos.IsKnown() {
+	if n == nil || !n.Pos().IsKnown() {
 		base.Fatal("bad type: %v", t)
 	}
-	return n.Pos
+	return n.Pos()
 }

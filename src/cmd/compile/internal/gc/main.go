@@ -941,7 +941,7 @@ func clearImports() {
 			// errors if a conflicting top-level name is
 			// introduced by a different file.
 			if !n.Name().Used() && base.SyntaxErrors() == 0 {
-				unused = append(unused, importedPkg{n.Pos, n.Name().Pkg.Path, s.Name})
+				unused = append(unused, importedPkg{n.Pos(), n.Name().Pkg.Path, s.Name})
 			}
 			s.Def = nil
 			continue
@@ -950,7 +950,7 @@ func clearImports() {
 			// throw away top-level name left over
 			// from previous import . "x"
 			if n.Name() != nil && n.Name().Pack != nil && !n.Name().Pack.Name().Used() && base.SyntaxErrors() == 0 {
-				unused = append(unused, importedPkg{n.Name().Pack.Pos, n.Name().Pack.Name().Pkg.Path, ""})
+				unused = append(unused, importedPkg{n.Name().Pack.Pos(), n.Name().Pack.Name().Pkg.Path, ""})
 				n.Name().Pack.Name().SetUsed(true)
 			}
 			s.Def = nil

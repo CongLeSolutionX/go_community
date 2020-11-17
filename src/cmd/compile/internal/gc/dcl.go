@@ -72,21 +72,21 @@ func declare(n *ir.Node, ctxt ir.Class) {
 
 	// kludgy: typecheckok means we're past parsing. Eg genwrapper may declare out of package names later.
 	if !inimport && !typecheckok && s.Pkg != ir.LocalPkg {
-		base.ErrorAt(n.Pos, "cannot declare name %v", s)
+		base.ErrorAt(n.Pos(), "cannot declare name %v", s)
 	}
 
 	gen := 0
 	if ctxt == ir.PEXTERN {
 		if s.Name == "init" {
-			base.ErrorAt(n.Pos, "cannot declare init - must be func")
+			base.ErrorAt(n.Pos(), "cannot declare init - must be func")
 		}
 		if s.Name == "main" && s.Pkg.Name == "main" {
-			base.ErrorAt(n.Pos, "cannot declare main - must be func")
+			base.ErrorAt(n.Pos(), "cannot declare main - must be func")
 		}
 		externdcl = append(externdcl, n)
 	} else {
 		if Curfn == nil && ctxt == ir.PAUTO {
-			base.Pos = n.Pos
+			base.Pos = n.Pos()
 			base.Fatal("automatic outside function")
 		}
 		if Curfn != nil && ctxt != ir.PFUNC {
@@ -111,7 +111,7 @@ func declare(n *ir.Node, ctxt ir.Class) {
 		// functype will print errors about duplicate function arguments.
 		// Don't repeat the error here.
 		if ctxt != ir.PPARAM && ctxt != ir.PPARAMOUT {
-			redeclare(n.Pos, s, "in this block")
+			redeclare(n.Pos(), s, "in this block")
 		}
 	}
 
@@ -337,13 +337,13 @@ func colasdefn(left []*ir.Node, defn *ir.Node) {
 			continue
 		}
 		if !colasname(n) {
-			base.ErrorAt(defn.Pos, "non-name %v on left side of :=", n)
+			base.ErrorAt(defn.Pos(), "non-name %v on left side of :=", n)
 			nerr++
 			continue
 		}
 
 		if !n.Sym().Uniq() {
-			base.ErrorAt(defn.Pos, "%v repeated on left side of :=", n.Sym())
+			base.ErrorAt(defn.Pos(), "%v repeated on left side of :=", n.Sym())
 			n.SetDiag(true)
 			nerr++
 			continue
@@ -363,7 +363,7 @@ func colasdefn(left []*ir.Node, defn *ir.Node) {
 	}
 
 	if nnew == 0 && nerr == 0 {
-		base.ErrorAt(defn.Pos, "no new variables on left side of :=")
+		base.ErrorAt(defn.Pos(), "no new variables on left side of :=")
 	}
 }
 
@@ -456,7 +456,7 @@ func funcarg(n *ir.Node, ctxt ir.Class) {
 		return
 	}
 
-	n.SetRight(newnamel(n.Pos, n.Sym()))
+	n.SetRight(newnamel(n.Pos(), n.Sym()))
 	n.Right().Name().Param.Ntype = n.Left()
 	n.Right().SetIsDDD(n.IsDDD())
 	declare(n.Right(), ctxt)
@@ -536,14 +536,14 @@ func checkembeddedtype(t *types.Type) {
 
 func structfield(n *ir.Node) *types.Field {
 	lno := base.Pos
-	base.Pos = n.Pos
+	base.Pos = n.Pos()
 
 	if n.Op != ir.ODCLFIELD {
 		base.Fatal("structfield: oops %v\n", n)
 	}
 
 	f := types.NewField()
-	f.Pos = n.Pos
+	f.Pos = n.Pos()
 	f.Sym = n.Sym()
 
 	if n.Left() != nil {
@@ -649,7 +649,7 @@ func tofunargsfield(fields []*types.Field, funarg types.Funarg) *types.Type {
 
 func interfacefield(n *ir.Node) *types.Field {
 	lno := base.Pos
-	base.Pos = n.Pos
+	base.Pos = n.Pos()
 
 	if n.Op != ir.ODCLFIELD {
 		base.Fatal("interfacefield: oops %v\n", n)
@@ -671,7 +671,7 @@ func interfacefield(n *ir.Node) *types.Field {
 	}
 
 	f := types.NewField()
-	f.Pos = n.Pos
+	f.Pos = n.Pos()
 	f.Sym = n.Sym()
 	f.Type = n.Type()
 	if f.Type == nil {
@@ -1047,7 +1047,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	if callee.Op != ir.ODCLFUNC {
 		base.Fatal("expected ODCLFUNC node, got %+v", callee)
 	}
-	c.extraCalls[c.curfn] = append(c.extraCalls[c.curfn], nowritebarrierrecCall{callee, n.Pos})
+	c.extraCalls[c.curfn] = append(c.extraCalls[c.curfn], nowritebarrierrecCall{callee, n.Pos()})
 	return true
 }
 

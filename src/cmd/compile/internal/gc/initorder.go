@@ -197,7 +197,7 @@ func findInitLoopAndExit(n *ir.Node, path *[]*ir.Node) {
 	// There might be multiple loops involving n; by sorting
 	// references, we deterministically pick the one reported.
 	refers := collectDeps(n.Name().Defn, false).Sorted(func(ni, nj *ir.Node) bool {
-		return ni.Pos.Before(nj.Pos)
+		return ni.Pos().Before(nj.Pos())
 	})
 
 	*path = append(*path, n)
@@ -220,7 +220,7 @@ func reportInitLoopAndExit(l []*ir.Node) {
 	// the start.
 	i := -1
 	for j, n := range l {
-		if n.Class() == ir.PEXTERN && (i == -1 || n.Pos.Before(l[i].Pos)) {
+		if n.Class() == ir.PEXTERN && (i == -1 || n.Pos().Before(l[i].Pos())) {
 			i = j
 		}
 	}
@@ -242,7 +242,7 @@ func reportInitLoopAndExit(l []*ir.Node) {
 	}
 	fmt.Fprintf(&msg, "\t%v: %v", l[0].Line(), l[0])
 
-	base.ErrorAt(l[0].Pos, msg.String())
+	base.ErrorAt(l[0].Pos(), msg.String())
 	base.ErrorExit()
 }
 
@@ -331,9 +331,11 @@ func (d *initDeps) foundDep(n *ir.Node) {
 // but both OAS nodes use the "=" token's position as their Pos.
 type declOrder []*ir.Node
 
-func (s declOrder) Len() int           { return len(s) }
-func (s declOrder) Less(i, j int) bool { return firstLHS(s[i]).Pos.Before(firstLHS(s[j]).Pos) }
-func (s declOrder) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s declOrder) Len() int { return len(s) }
+func (s declOrder) Less(i, j int) bool {
+	return firstLHS(s[i]).Pos().Before(firstLHS(s[j]).Pos())
+}
+func (s declOrder) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
 
 func (s *declOrder) Push(x interface{}) { *s = append(*s, x.(*ir.Node)) }
 func (s *declOrder) Pop() interface{} {

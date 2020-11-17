@@ -45,7 +45,7 @@ func fninit(n []*ir.Node) {
 
 	// Make a function that contains all the initialization statements.
 	if len(nf) > 0 {
-		base.Pos = nf[0].Pos // prolog/epilog gets line number of first init stmt
+		base.Pos = nf[0].Pos() // prolog/epilog gets line number of first init stmt
 		initializers := lookup("init")
 		fn := dclfunc(initializers, nod(ir.OTFUNC, nil, nil))
 		for _, dcl := range dummyInitFn.Func().Dcl {

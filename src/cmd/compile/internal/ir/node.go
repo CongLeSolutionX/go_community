@@ -56,7 +56,7 @@ type Node struct {
 	// Possibly still more uses. If you find any, document them.
 	Xoffset int64
 
-	Pos src.XPos
+	pos src.XPos
 
 	flags bitset32
 
@@ -80,8 +80,8 @@ func (n *Node) Name() *Name           { return n.name }
 func (n *Node) SetName(x *Name)       { n.name = x }
 func (n *Node) Sym() *types.Sym       { return n.sym }
 func (n *Node) SetSym(x *types.Sym)   { n.sym = x }
-func (n *Node) GetPos() src.XPos      { return n.Pos }
-func (n *Node) SetPos(x src.XPos)     { n.Pos = x }
+func (n *Node) Pos() src.XPos         { return n.pos }
+func (n *Node) SetPos(x src.XPos)     { n.pos = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -1440,7 +1440,7 @@ func (n *Node) IsMethod() bool {
 // Line returns n's position as a string. If n has been inlined,
 // it uses the outermost position where n has been inlined.
 func (n *Node) Line() string {
-	return base.FmtPos(n.Pos)
+	return base.FmtPos(n.Pos())
 }
 
 func (n *Node) Typ() *types.Type {

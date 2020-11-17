@@ -307,7 +307,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	}
 
 	var s state
-	s.pushLine(fn.Pos)
+	s.pushLine(fn.Pos())
 	defer s.popLine()
 
 	s.hasdefer = fn.Func().HasDefer()
@@ -338,7 +338,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 
 	// Allocate starting block
 	s.f.Entry = s.f.NewBlock(ssa.BlockPlain)
-	s.f.Entry.Pos = fn.Pos
+	s.f.Entry.Pos = fn.Pos()
 
 	if printssa {
 		ssaDF := ssaDumpFile
@@ -479,8 +479,8 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 
 func dumpSourcesColumn(writer *ssa.HTMLWriter, fn *ir.Node) {
 	// Read sources of target function fn.
-	fname := base.Ctxt.PosTable.Pos(fn.Pos).Filename()
-	targetFn, err := readFuncLines(fname, fn.Pos.Line(), fn.Func().Endlineno.Line())
+	fname := base.Ctxt.PosTable.Pos(fn.Pos()).Filename()
+	targetFn, err := readFuncLines(fname, fn.Pos().Line(), fn.Func().Endlineno.Line())
 	if err != nil {
 		writer.Logf("cannot read sources for function %v: %v", fn, err)
 	}
@@ -495,8 +495,8 @@ func dumpSourcesColumn(writer *ssa.HTMLWriter, fn *ir.Node) {
 		} else {
 			elno = fi.Name().Defn.Func().Endlineno
 		}
-		fname := base.Ctxt.PosTable.Pos(fi.Pos).Filename()
-		fnLines, err := readFuncLines(fname, fi.Pos.Line(), elno.Line())
+		fname := base.Ctxt.PosTable.Pos(fi.Pos()).Filename()
+		fnLines, err := readFuncLines(fname, fi.Pos().Line(), elno.Line())
 		if err != nil {
 			writer.Logf("cannot read sources for inlined function %v: %v", fi, err)
 			continue
@@ -1064,7 +1064,7 @@ func (s *state) stmtList(l ir.Nodes) {
 func (s *state) stmt(n *ir.Node) {
 	if !(n.Op == ir.OVARKILL || n.Op == ir.OVARLIVE || n.Op == ir.OVARDEF) {
 		// OVARKILL, OVARLIVE, and OVARDEF are invisible to the programmer, so we don't use their line numbers to avoid confusion in debugging.
-		s.pushLine(n.Pos)
+		s.pushLine(n.Pos())
 		defer s.popLine()
 	}
 
@@ -1115,7 +1115,7 @@ func (s *state) stmt(n *ir.Node) {
 			} else {
 				defertype = "heap-allocated"
 			}
-			base.WarnAt(n.Pos, "%s defer", defertype)
+			base.WarnAt(n.Pos(), "%s defer", defertype)
 		}
 		if s.hasOpenDefers {
 			s.openDeferRecord(n.Left())
@@ -1237,12 +1237,12 @@ func (s *state) stmt(n *ir.Node) {
 				// so there's no need to attempt to prevent them.
 				if s.canSSA(n.Left()) {
 					if base.Debug.Append > 0 { // replicating old diagnostic message
-						base.WarnAt(n.Pos, "append: len-only update (in local slice)")
+						base.WarnAt(n.Pos(), "append: len-only update (in local slice)")
 					}
 					break
 				}
 				if base.Debug.Append > 0 {
-					base.WarnAt(n.Pos, "append: len-only update")
+					base.WarnAt(n.Pos(), "append: len-only update")
 				}
 				s.append(rhs, true)
 				return
@@ -1408,7 +1408,7 @@ func (s *state) stmt(n *ir.Node) {
 		bEnd := s.f.NewBlock(ssa.BlockPlain)
 
 		// ensure empty for loops have correct position; issue #30167
-		bBody.Pos = n.Pos
+		bBody.Pos = n.Pos()
 
 		// first, jump to condition test (OFOR) or body (OFORUNTIL)
 		b := s.endBlock()
@@ -2005,7 +2005,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 	if !(n.Op == ir.ONAME || n.Op == ir.OLITERAL && n.Sym() != nil) {
 		// ONAMEs and named OLITERALs have the line number
 		// of the decl, not the use. See issue 14742.
-		s.pushLine(n.Pos)
+		s.pushLine(n.Pos())
 		defer s.popLine()
 	}
 
@@ -2594,7 +2594,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		}
 
 	case ir.ODEREF:
-		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos)
+		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos())
 		return s.load(n.Type(), p)
 
 	case ir.ODOT:
@@ -2619,7 +2619,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		return s.newValue1I(ssa.OpStructSelect, n.Type(), int64(fieldIdx(n)), v)
 
 	case ir.ODOTPTR:
-		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos)
+		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos())
 		p = s.newValue1I(ssa.OpOffPtr, types.NewPtr(n.Type()), n.Xoffset, p)
 		return s.load(n.Type(), p)
 
@@ -3044,7 +3044,7 @@ func (s *state) assign(left *ir.Node, right *ssa.Value, deref bool, skip skipMas
 			return
 		}
 		if left.Op == ir.OINDEX && left.Left().Type().IsArray() {
-			s.pushLine(left.Pos)
+			s.pushLine(left.Pos())
 			defer s.popLine()
 			// We're assigning to an element of an ssa-able array.
 			// a[i] = v
@@ -4172,7 +4172,7 @@ func (s *state) intrinsicCall(n *ir.Node) *ssa.Value {
 		if x.Op == ssa.OpSelect0 || x.Op == ssa.OpSelect1 {
 			x = x.Args[0]
 		}
-		base.WarnAt(n.Pos, "intrinsic substitution for %v with %s", n.Left().Sym().Name, x.LongString())
+		base.WarnAt(n.Pos(), "intrinsic substitution for %v with %s", n.Left().Sym().Name, x.LongString())
 	}
 	return v
 }
@@ -4296,7 +4296,7 @@ func (s *state) openDeferSave(n *ir.Node, t *types.Type, val *ssa.Value) *ssa.Va
 	if canSSA {
 		pos = val.Pos
 	} else {
-		pos = n.Pos
+		pos = n.Pos()
 	}
 	argTemp := tempAt(pos.WithNotStmt(), s.curfn, t)
 	argTemp.Name().SetOpenDeferSlot(true)
@@ -4556,7 +4556,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 		testLateExpansion = ssa.LateCallExpansionEnabledWithin(s.f)
 		// Make a defer struct d on the stack.
 		t := deferstruct(stksize)
-		d := tempAt(n.Pos, s.curfn, t)
+		d := tempAt(n.Pos(), s.curfn, t)
 
 		s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, d, s.mem())
 		addr := s.addr(d)
@@ -4792,11 +4792,11 @@ func (s *state) getMethodClosure(fn *ir.Node) *ssa.Value {
 	// Make a PFUNC node out of that, then evaluate it.
 	// We get back an SSA value representing &sync.(*Mutex).Unlock·f.
 	// We can then pass that to defer or go.
-	n2 := newnamel(fn.Pos, fn.Sym())
+	n2 := newnamel(fn.Pos(), fn.Sym())
 	n2.Name().Curfn = s.curfn
 	n2.SetClass(ir.PFUNC)
 	// n2.Sym already existed, so it's already marked as a function.
-	n2.Pos = fn.Pos
+	n2.SetPos(fn.Pos())
 	n2.SetType(types.Types[types.TUINT8]) // dummy type for a static closure. Could use runtime.funcval if we had it.
 	return s.expr(n2)
 }
@@ -4829,7 +4829,7 @@ func etypesign(e types.EType) int8 {
 // The value that the returned Value represents is guaranteed to be non-nil.
 func (s *state) addr(n *ir.Node) *ssa.Value {
 	if n.Op != ir.ONAME {
-		s.pushLine(n.Pos)
+		s.pushLine(n.Pos())
 		defer s.popLine()
 	}
 
@@ -4897,12 +4897,12 @@ func (s *state) addr(n *ir.Node) *ssa.Value {
 			return s.newValue2(ssa.OpPtrIndex, types.NewPtr(n.Left().Type().Elem()), a, i)
 		}
 	case ir.ODEREF:
-		return s.exprPtr(n.Left(), n.Bounded(), n.Pos)
+		return s.exprPtr(n.Left(), n.Bounded(), n.Pos())
 	case ir.ODOT:
 		p := s.addr(n.Left())
 		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p)
 	case ir.ODOTPTR:
-		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos)
+		p := s.exprPtr(n.Left(), n.Bounded(), n.Pos())
 		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p)
 	case ir.OCLOSUREVAR:
 		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset,
@@ -5838,7 +5838,7 @@ func (s *state) dottype(n *ir.Node, commaok bool) (res, resok *ssa.Value) {
 			// Converting to an empty interface.
 			// Input could be an empty or nonempty interface.
 			if base.Debug.TypeAssert > 0 {
-				base.WarnAt(n.Pos, "type assertion inlined")
+				base.WarnAt(n.Pos(), "type assertion inlined")
 			}
 
 			// Get itab/type field from input.
@@ -5905,7 +5905,7 @@ func (s *state) dottype(n *ir.Node, commaok bool) (res, resok *ssa.Value) {
 		}
 		// converting to a nonempty interface needs a runtime call.
 		if base.Debug.TypeAssert > 0 {
-			base.WarnAt(n.Pos, "type assertion not inlined")
+			base.WarnAt(n.Pos(), "type assertion not inlined")
 		}
 		if n.Left().Type().IsEmptyInterface() {
 			if commaok {
@@ -5922,14 +5922,14 @@ func (s *state) dottype(n *ir.Node, commaok bool) (res, resok *ssa.Value) {
 	}
 
 	if base.Debug.TypeAssert > 0 {
-		base.WarnAt(n.Pos, "type assertion inlined")
+		base.WarnAt(n.Pos(), "type assertion inlined")
 	}
 
 	// Converting to a concrete type.
 	direct := isdirectiface(n.Type())
 	itab := s.newValue1(ssa.OpITab, byteptr, iface) // type word of interface
 	if base.Debug.TypeAssert > 0 {
-		base.WarnAt(n.Pos, "type assertion inlined")
+		base.WarnAt(n.Pos(), "type assertion inlined")
 	}
 	var targetITab *ssa.Value
 	if n.Left().Type().IsEmptyInterface() {
@@ -5945,7 +5945,7 @@ func (s *state) dottype(n *ir.Node, commaok bool) (res, resok *ssa.Value) {
 	if commaok && !canSSAType(n.Type()) {
 		// unSSAable type, use temporary.
 		// TODO: get rid of some of these temporaries.
-		tmp = tempAt(n.Pos, s.curfn, n.Type())
+		tmp = tempAt(n.Pos(), s.curfn, n.Type())
 		s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, tmp, s.mem())
 		addr = s.addr(tmp)
 	}
@@ -6223,7 +6223,7 @@ func emitStackObjects(e *ssafn, pp *Progs) {
 		// Locals have a negative Xoffset, in which case the offset is relative to varp.
 		off = duintptr(x, off, uint64(v.Xoffset))
 		if !typesym(v.Type()).Siggen() {
-			e.Fatalf(v.Pos, "stack object's type symbol not generated for type %s", v.Type())
+			e.Fatalf(v.Pos(), "stack object's type symbol not generated for type %s", v.Type())
 		}
 		off = dsymptr(x, off, dtypesym(v.Type()), 0)
 	}
@@ -6237,7 +6237,7 @@ func emitStackObjects(e *ssafn, pp *Progs) {
 
 	if base.Flag.Live != 0 {
 		for _, v := range vars {
-			base.WarnAt(v.Pos, "stack object %v %s", v, v.Type().String())
+			base.WarnAt(v.Pos(), "stack object %v %s", v, v.Type().String())
 		}
 	}
 }
@@ -6591,10 +6591,10 @@ func defframe(s *SSAGenState, e *ssafn) {
 			continue
 		}
 		if n.Class() != ir.PAUTO {
-			e.Fatalf(n.Pos, "needzero class %d", n.Class())
+			e.Fatalf(n.Pos(), "needzero class %d", n.Class())
 		}
 		if n.Type().Size()%int64(Widthptr) != 0 || n.Xoffset%int64(Widthptr) != 0 || n.Type().Size() == 0 {
-			e.Fatalf(n.Pos, "var %L has size %d offset %d", n, n.Type().Size(), n.Xoffset)
+			e.Fatalf(n.Pos(), "var %L has size %d offset %d", n, n.Type().Size(), n.Xoffset)
 		}
 
 		if lo != hi && n.Xoffset+n.Type().Size() >= lo-int64(2*Widthreg) {
@@ -6968,7 +6968,7 @@ func (e *ssafn) StringData(s string) *obj.LSym {
 	if e.strings == nil {
 		e.strings = make(map[string]*obj.LSym)
 	}
-	data := stringsym(e.curfn.Pos, s)
+	data := stringsym(e.curfn.Pos(), s)
 	e.strings[s] = data
 	return data
 }
@@ -7048,7 +7048,7 @@ func (e *ssafn) SplitArray(name ssa.LocalSlot) ssa.LocalSlot {
 	n := name.N.(*ir.Node)
 	at := name.Type
 	if at.NumElem() != 1 {
-		e.Fatalf(n.Pos, "bad array size")
+		e.Fatalf(n.Pos(), "bad array size")
 	}
 	et := at.Elem()
 	return e.SplitSlot(&name, "[0]", 0, et)
@@ -7072,7 +7072,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 	n := new(ir.Node)
 	n.Op = ir.ONAME
 	n.SetName(new(ir.Name))
-	n.Pos = parent.N.(*ir.Node).Pos
+	n.SetPos(parent.N.(*ir.Node).Pos())
 	n.SetOrig(n)
 
 	s.Def = ir.AsTypesNode(n)

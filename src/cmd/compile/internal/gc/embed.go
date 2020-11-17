@@ -112,7 +112,7 @@ func varEmbed(p *noder, names []*ir.Node, typ *ir.Node, exprs []*ir.Node, embeds
 	v := names[0]
 	if dclcontext != ir.PEXTERN {
 		numLocalEmbed++
-		v = newnamel(v.Pos, lookupN("embed.", numLocalEmbed))
+		v = newnamel(v.Pos(), lookupN("embed.", numLocalEmbed))
 		v.Sym().Def = ir.AsTypesNode(v)
 		v.Name().Param.Ntype = typ
 		v.SetClass(ir.PEXTERN)
@@ -195,13 +195,13 @@ func initEmbed(v *ir.Node) {
 	files := v.Name().Param.EmbedFiles()
 	switch kind := embedKind(v.Type()); kind {
 	case embedUnknown:
-		base.ErrorAt(v.Pos, "go:embed cannot apply to var of type %v", v.Type())
+		base.ErrorAt(v.Pos(), "go:embed cannot apply to var of type %v", v.Type())
 
 	case embedString, embedBytes:
 		file := files[0]
-		fsym, size, err := fileStringSym(v.Pos, base.Flag.Cfg.Embed.Files[file], kind == embedString, nil)
+		fsym, size, err := fileStringSym(v.Pos(), base.Flag.Cfg.Embed.Files[file], kind == embedString, nil)
 		if err != nil {
-			base.ErrorAt(v.Pos, "embed %s: %v", file, err)
+			base.ErrorAt(v.Pos(), "embed %s: %v", file, err)
 		}
 		sym := v.Sym().Linksym()
 		off := 0
@@ -227,7 +227,7 @@ func initEmbed(v *ir.Node) {
 		const hashSize = 16
 		hash := make([]byte, hashSize)
 		for _, file := range files {
-			off = dsymptr(slicedata, off, stringsym(v.Pos, file), 0) // file string
+			off = dsymptr(slicedata, off, stringsym(v.Pos(), file), 0) // file string
 			off = duintptr(slicedata, off, uint64(len(file)))
 			if strings.HasSuffix(file, "/") {
 				// entry for directory - no data
@@ -235,9 +235,9 @@ func initEmbed(v *ir.Node) {
 				off = duintptr(slicedata, off, 0)
 				off += hashSize
 			} else {
-				fsym, size, err := fileStringSym(v.Pos, base.Flag.Cfg.Embed.Files[file], true, hash)
+				fsym, size, err := fileStringSym(v.Pos(), base.Flag.Cfg.Embed.Files[file], true, hash)
 				if err != nil {
-					base.ErrorAt(v.Pos, "embed %s: %v", file, err)
+					base.ErrorAt(v.Pos(), "embed %s: %v", file, err)
 				}
 				off = dsymptr(slicedata, off, fsym, 0) // data string
 				off = duintptr(slicedata, off, uint64(size))

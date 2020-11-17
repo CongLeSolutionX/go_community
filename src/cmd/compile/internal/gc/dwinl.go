@@ -215,7 +215,7 @@ func makePreinlineDclMap(fnsym *obj.LSym) map[varPos]int {
 	dcl := preInliningDcls(fnsym)
 	m := make(map[varPos]int)
 	for i, n := range dcl {
-		pos := base.Ctxt.InnermostPos(n.Pos)
+		pos := base.Ctxt.InnermostPos(n.Pos())
 		vp := varPos{
 			DeclName: unversion(n.Sym().Name),
 			DeclFile: pos.RelFilename(),

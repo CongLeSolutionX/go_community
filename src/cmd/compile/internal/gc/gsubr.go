@@ -69,7 +69,7 @@ func newProgs(fn *ir.Node, worker int) *Progs {
 	pp.next = pp.NewProg()
 	pp.clearp(pp.next)
 
-	pp.pos = fn.Pos
+	pp.pos = fn.Pos()
 	pp.settext(fn)
 	// PCDATA tables implicitly start with index -1.
 	pp.prevLive = LivenessIndex{-1, false}

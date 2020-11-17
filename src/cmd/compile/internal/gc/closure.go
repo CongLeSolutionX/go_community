@@ -168,7 +168,7 @@ var capturevarscomplete bool
 // after capturing (effectively constant).
 func capturevars(xfunc *ir.Node) {
 	lno := base.Pos
-	base.Pos = xfunc.Pos
+	base.Pos = xfunc.Pos()
 
 	clo := xfunc.Func().Closure_
 	cvars := xfunc.Func().Cvars.Slice()
@@ -209,7 +209,7 @@ func capturevars(xfunc *ir.Node) {
 			if v.Name().Byval() {
 				how = "value"
 			}
-			base.WarnAt(v.Pos, "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym(), outermost.Name().Addrtaken(), outermost.Name().Assigned(), int32(v.Type().Width))
+			base.WarnAt(v.Pos(), "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym(), outermost.Name().Addrtaken(), outermost.Name().Assigned(), int32(v.Type().Width))
 		}
 
 		outer = typecheck(outer, ctxExpr)
@@ -224,7 +224,7 @@ func capturevars(xfunc *ir.Node) {
 // It transform closure bodies to properly reference captured variables.
 func transformclosure(xfunc *ir.Node) {
 	lno := base.Pos
-	base.Pos = xfunc.Pos
+	base.Pos = xfunc.Pos()
 	clo := xfunc.Func().Closure_
 
 	if clo.Func().ClosureCalled {
@@ -340,13 +340,13 @@ func closuredebugruntimecheck(clo *ir.Node) {
 	if base.Debug.Closure > 0 {
 		xfunc := clo.Func().Decl
 		if clo.Esc == EscHeap {
-			base.WarnAt(clo.Pos, "heap closure, captured vars = %v", xfunc.Func().Cvars)
+			base.WarnAt(clo.Pos(), "heap closure, captured vars = %v", xfunc.Func().Cvars)
 		} else {
-			base.WarnAt(clo.Pos, "stack closure, captured vars = %v", xfunc.Func().Cvars)
+			base.WarnAt(clo.Pos(), "stack closure, captured vars = %v", xfunc.Func().Cvars)
 		}
 	}
 	if base.Flag.CompilingRuntime && clo.Esc == EscHeap {
-		base.ErrorAt(clo.Pos, "heap-allocated closure, not allowed in runtime")
+		base.ErrorAt(clo.Pos(), "heap-allocated closure, not allowed in runtime")
 	}
 }
 
@@ -388,7 +388,7 @@ func walkclosure(clo *ir.Node, init *ir.Nodes) *ir.Node {
 	// If no closure vars, don't bother wrapping.
 	if hasemptycvars(clo) {
 		if base.Debug.Closure > 0 {
-			base.WarnAt(clo.Pos, "closure converted to global")
+			base.WarnAt(clo.Pos(), "closure converted to global")
 		}
 		return xfunc.Func().Nname
 	}

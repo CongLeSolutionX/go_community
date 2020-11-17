@@ -364,16 +364,16 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 		importdot(ipkg, pack)
 		return
 	case "init":
-		base.ErrorAt(pack.Pos, "cannot import package as init - init must be a func")
+		base.ErrorAt(pack.Pos(), "cannot import package as init - init must be a func")
 		return
 	case "_":
 		return
 	}
 	if my.Def != nil {
-		redeclare(pack.Pos, my, "as imported package name")
+		redeclare(pack.Pos(), my, "as imported package name")
 	}
 	my.Def = ir.AsTypesNode(pack)
-	my.Lastlineno = pack.Pos
+	my.Lastlineno = pack.Pos()
 	my.Block = 1 // at top level
 }
 
@@ -451,7 +451,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
 		}
 		v := values[i]
 		if decl.Values == nil {
-			v = treecopy(v, n.Pos)
+			v = treecopy(v, n.Pos())
 		}
 
 		n.Op = ir.OLITERAL
@@ -494,7 +494,7 @@ func (p *noder) typeDecl(decl *syntax.TypeDecl) *ir.Node {
 
 	nod := p.nod(decl, ir.ODCLTYPE, n, nil)
 	if param.Alias() && !langSupported(1, 9, ir.LocalPkg) {
-		base.ErrorAt(nod.Pos, "type aliases only supported as of -lang=go1.9")
+		base.ErrorAt(nod.Pos(), "type aliases only supported as of -lang=go1.9")
 	}
 	return nod
 }
@@ -509,7 +509,7 @@ func (p *noder) declNames(names []*syntax.Name) []*ir.Node {
 
 func (p *noder) declName(name *syntax.Name) *ir.Node {
 	n := dclname(p.name(name))
-	n.Pos = p.pos(name)
+	n.SetPos(p.pos(name))
 	return n
 }
 
@@ -522,13 +522,13 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 		if name.Name == "init" {
 			name = renameinit()
 			if t.List.Len() > 0 || t.Rlist.Len() > 0 {
-				base.ErrorAt(f.Pos, "func init must have no arguments and no return values")
+				base.ErrorAt(f.Pos(), "func init must have no arguments and no return values")
 			}
 		}
 
 		if ir.LocalPkg.Name == "main" && name.Name == "main" {
 			if t.List.Len() > 0 || t.Rlist.Len() > 0 {
-				base.ErrorAt(f.Pos, "func main must have no arguments and no return values")
+				base.ErrorAt(f.Pos(), "func main must have no arguments and no return values")
 			}
 		}
 	} else {
@@ -543,7 +543,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 	if pragma, ok := fun.Pragma.(*Pragma); ok {
 		f.Func().Pragma = pragma.Flag & FuncPragmas
 		if pragma.Flag&ir.Systemstack != 0 && pragma.Flag&ir.Nosplit != 0 {
-			base.ErrorAt(f.Pos, "go:nosplit and go:systemstack cannot be combined")
+			base.ErrorAt(f.Pos(), "go:nosplit and go:systemstack cannot be combined")
 		}
 		pragma.Flag &^= FuncPragmas
 		p.checkUnused(pragma)
@@ -557,7 +557,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 
 	if fun.Body != nil {
 		if f.Func().Pragma&ir.Noescape != 0 {
-			base.ErrorAt(f.Pos, "can only use //go:noescape with external func implementations")
+			base.ErrorAt(f.Pos(), "can only use //go:noescape with external func implementations")
 		}
 	} else {
 		if base.Flag.Complete || strings.HasPrefix(f.FuncName(), "init.") {
@@ -571,7 +571,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 				}
 			}
 			if !isLinknamed {
-				base.ErrorAt(f.Pos, "missing function body")
+				base.ErrorAt(f.Pos(), "missing function body")
 			}
 		}
 	}
@@ -685,7 +685,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 			return importName(obj.Name().Pkg.Lookup(expr.Sel.Value))
 		}
 		n := nodSym(ir.OXDOT, obj, p.name(expr.Sel))
-		n.Pos = p.pos(expr) // lineno may have been changed by p.expr(expr.X)
+		n.SetPos(p.pos(expr)) // lineno may have been changed by p.expr(expr.X)
 		return n
 	case *syntax.IndexExpr:
 		return p.nod(expr, ir.OINDEX, p.expr(expr.X), p.expr(expr.Index))
@@ -1136,7 +1136,7 @@ func (p *noder) assignList(expr syntax.Expr, defn *ir.Node, colas bool) []*ir.No
 	}
 
 	if !newOrErr {
-		base.ErrorAt(defn.Pos, "no new variables on left side of :=")
+		base.ErrorAt(defn.Pos(), "no new variables on left side of :=")
 	}
 	return res
 }
@@ -1488,7 +1488,7 @@ func (p *noder) nod(orig syntax.Node, op ir.Op, left, right *ir.Node) *ir.Node {
 
 func (p *noder) nodSym(orig syntax.Node, op ir.Op, left *ir.Node, sym *types.Sym) *ir.Node {
 	n := nodSym(op, left, sym)
-	n.Pos = p.pos(orig)
+	n.SetPos(p.pos(orig))
 	return n
 }
 

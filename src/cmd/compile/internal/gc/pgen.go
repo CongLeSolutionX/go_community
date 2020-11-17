@@ -321,7 +321,7 @@ func compileSSA(fn *ir.Node, worker int) {
 	// Note: check arg size to fix issue 25507.
 	if f.Frontend().(*ssafn).stksize >= maxStackSize || fn.Type().ArgWidth() >= maxStackSize {
 		largeStackFramesMu.Lock()
-		largeStackFrames = append(largeStackFrames, largeStack{locals: f.Frontend().(*ssafn).stksize, args: fn.Type().ArgWidth(), pos: fn.Pos})
+		largeStackFrames = append(largeStackFrames, largeStack{locals: f.Frontend().(*ssafn).stksize, args: fn.Type().ArgWidth(), pos: fn.Pos()})
 		largeStackFramesMu.Unlock()
 		return
 	}
@@ -337,7 +337,7 @@ func compileSSA(fn *ir.Node, worker int) {
 	if pp.Text.To.Offset >= maxStackSize {
 		largeStackFramesMu.Lock()
 		locals := f.Frontend().(*ssafn).stksize
-		largeStackFrames = append(largeStackFrames, largeStack{locals: locals, args: fn.Type().ArgWidth(), callee: pp.Text.To.Offset - locals, pos: fn.Pos})
+		largeStackFrames = append(largeStackFrames, largeStack{locals: locals, args: fn.Type().ArgWidth(), callee: pp.Text.To.Offset - locals, pos: fn.Pos()})
 		largeStackFramesMu.Unlock()
 		return
 	}
@@ -477,9 +477,9 @@ func declPos(decl *ir.Node) src.XPos {
 		//   case statement.
 		// This code is probably wrong for type switch variables that are also
 		// captured.
-		return decl.Name().Defn.Pos
+		return decl.Name().Defn.Pos()
 	}
-	return decl.Pos
+	return decl.Pos()
 }
 
 // createSimpleVars creates a DWARF entry for every variable declared in the
@@ -527,7 +527,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Node) *dwarf.Var {
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
 		if n.Name().InlFormal() || n.Name().InlLocal() {
-			inlIndex = posInlIndex(n.Pos) + 1
+			inlIndex = posInlIndex(n.Pos()) + 1
 			if n.Name().InlFormal() {
 				abbrev = dwarf.DW_ABRV_PARAM
 			}
@@ -648,13 +648,13 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 		inlIndex := 0
 		if base.Flag.GenDwarfInl > 1 {
 			if n.Name().InlFormal() || n.Name().InlLocal() {
-				inlIndex = posInlIndex(n.Pos) + 1
+				inlIndex = posInlIndex(n.Pos()) + 1
 				if n.Name().InlFormal() {
 					abbrev = dwarf.DW_ABRV_PARAM_LOCLIST
 				}
 			}
 		}
-		declpos := base.Ctxt.InnermostPos(n.Pos)
+		declpos := base.Ctxt.InnermostPos(n.Pos())
 		vars = append(vars, &dwarf.Var{
 			Name:          n.Sym().Name,
 			IsReturnValue: isReturnValue,
@@ -737,13 +737,13 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
 		if n.Name().InlFormal() || n.Name().InlLocal() {
-			inlIndex = posInlIndex(n.Pos) + 1
+			inlIndex = posInlIndex(n.Pos()) + 1
 			if n.Name().InlFormal() {
 				abbrev = dwarf.DW_ABRV_PARAM_LOCLIST
 			}
 		}
 	}
-	declpos := base.Ctxt.InnermostPos(n.Pos)
+	declpos := base.Ctxt.InnermostPos(n.Pos())
 	dvar := &dwarf.Var{
 		Name:          n.Sym().Name,
 		IsReturnValue: n.Class() == ir.PPARAMOUT,

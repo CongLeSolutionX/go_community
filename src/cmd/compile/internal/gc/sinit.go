@@ -253,7 +253,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 	case ir.OCLOSURE:
 		if hasemptycvars(r) {
 			if base.Debug.Closure > 0 {
-				base.WarnAt(r.Pos, "closure converted to global")
+				base.WarnAt(r.Pos(), "closure converted to global")
 			}
 			// Closures with no captured variables are globals,
 			// so the assignment can be done at link time.

@@ -311,7 +311,7 @@ func dowidth(t *types.Type) {
 
 	lno := base.Pos
 	if ir.AsNode(t.Nod) != nil {
-		base.Pos = ir.AsNode(t.Nod).Pos
+		base.Pos = ir.AsNode(t.Nod).Pos()
 	}
 
 	t.Width = -2

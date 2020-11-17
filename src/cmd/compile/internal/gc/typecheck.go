@@ -26,7 +26,7 @@ func tracePrint(title string, n *ir.Node) func(np **ir.Node) {
 	var pos, op string
 	var tc uint8
 	if n != nil {
-		pos = base.FmtPos(n.Pos)
+		pos = base.FmtPos(n.Pos())
 		op = n.Op.String()
 		tc = n.Typecheck()
 	}
@@ -49,7 +49,7 @@ func tracePrint(title string, n *ir.Node) func(np **ir.Node) {
 		var tc uint8
 		var typ *types.Type
 		if n != nil {
-			pos = base.FmtPos(n.Pos)
+			pos = base.FmtPos(n.Pos())
 			op = n.Op.String()
 			tc = n.Typecheck()
 			typ = n.Type()
@@ -264,14 +264,14 @@ func typecheck(n *ir.Node, top int) (res *ir.Node) {
 						// with aliases that we can't handle properly yet.
 						// Report an error rather than crashing later.
 						if n.Name() != nil && n.Name().Param.Alias() && n.Type() == nil {
-							base.Pos = n.Pos
+							base.Pos = n.Pos()
 							base.Fatal("cannot handle alias type declaration (issue #25838): %v", n)
 						}
 						base.Pos = lno
 						return n
 					}
 				}
-				base.ErrorAt(n.Pos, "invalid recursive type alias %v%s", n, cycleTrace(cycle))
+				base.ErrorAt(n.Pos(), "invalid recursive type alias %v%s", n, cycleTrace(cycle))
 			}
 
 		case ir.OLITERAL:
@@ -279,7 +279,7 @@ func typecheck(n *ir.Node, top int) (res *ir.Node) {
 				base.Error("%v is not a type", n)
 				break
 			}
-			base.ErrorAt(n.Pos, "constant definition loop%s", cycleTrace(cycleFor(n)))
+			base.ErrorAt(n.Pos(), "constant definition loop%s", cycleTrace(cycleFor(n)))
 		}
 
 		if base.Errors() == 0 {
@@ -1363,7 +1363,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 					// be more specific when the function
 					// name matches a predeclared function
 					base.Error("cannot call non-function %s (type %v), declared at %s",
-						name, t, base.FmtPos(l.Name().Defn.Pos))
+						name, t, base.FmtPos(l.Name().Defn.Pos()))
 				} else {
 					base.Error("cannot call non-function %s (type %v)", name, t)
 				}
@@ -2245,7 +2245,7 @@ func checkdefergo(n *ir.Node) {
 		if n.Left().Orig() != nil && n.Left().Orig().Op == ir.OCONV {
 			break
 		}
-		base.ErrorAt(n.Pos, "%s discards result of %v", what, n.Left())
+		base.ErrorAt(n.Pos(), "%s discards result of %v", what, n.Left())
 		return
 	}
 
@@ -2259,7 +2259,7 @@ func checkdefergo(n *ir.Node) {
 		// The syntax made sure it was a call, so this must be
 		// a conversion.
 		n.SetDiag(true)
-		base.ErrorAt(n.Pos, "%s requires function call, not conversion", what)
+		base.ErrorAt(n.Pos(), "%s requires function call, not conversion", what)
 	}
 }
 
@@ -2793,7 +2793,7 @@ func pushtype(n *ir.Node, t *types.Type) *ir.Node {
 		// For *T, return &T{...}.
 		n.SetRight(typenod(t.Elem()))
 
-		n = nodl(n.Pos, ir.OADDR, n, nil)
+		n = nodl(n.Pos(), ir.OADDR, n, nil)
 		n.SetImplicit(true)
 	}
 
@@ -2813,7 +2813,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 	}()
 
 	if n.Right() == nil {
-		base.ErrorAt(n.Pos, "missing type in composite literal")
+		base.ErrorAt(n.Pos(), "missing type in composite literal")
 		n.SetType(nil)
 		return n
 	}
@@ -3463,7 +3463,7 @@ func checkMapKeys() {
 	for _, n := range mapqueue {
 		k := n.Type().MapType().Key
 		if !k.Broke() && !IsComparable(k) {
-			base.ErrorAt(n.Pos, "invalid map key type %v", k)
+			base.ErrorAt(n.Pos(), "invalid map key type %v", k)
 		}
 	}
 	mapqueue = nil
@@ -3599,7 +3599,7 @@ func typecheckdef(n *ir.Node) {
 		n.Name().Defn = nil
 		if e == nil {
 			ir.Dump("typecheckdef nil defn", n)
-			base.ErrorAt(n.Pos, "xxx")
+			base.ErrorAt(n.Pos(), "xxx")
 		}
 
 		e = typecheck(e, ctxExpr)
@@ -3609,9 +3609,9 @@ func typecheckdef(n *ir.Node) {
 		if !isGoConst(e) {
 			if !e.Diag() {
 				if ir.IsConst(e, ir.CTNIL) {
-					base.ErrorAt(n.Pos, "const initializer cannot be nil")
+					base.ErrorAt(n.Pos(), "const initializer cannot be nil")
 				} else {
-					base.ErrorAt(n.Pos, "const initializer %v is not a constant", e)
+					base.ErrorAt(n.Pos(), "const initializer %v is not a constant", e)
 				}
 				e.SetDiag(true)
 			}
@@ -3621,12 +3621,12 @@ func typecheckdef(n *ir.Node) {
 		t := n.Type()
 		if t != nil {
 			if !okforconst[t.Etype] {
-				base.ErrorAt(n.Pos, "invalid constant type %v", t)
+				base.ErrorAt(n.Pos(), "invalid constant type %v", t)
 				goto ret
 			}
 
 			if !e.Type().IsUntyped() && !types.Identical(t, e.Type()) {
-				base.ErrorAt(n.Pos, "cannot use %L as type %v in const initializer", e, t)
+				base.ErrorAt(n.Pos(), "cannot use %L as type %v in const initializer", e, t)
 				goto ret
 			}
 

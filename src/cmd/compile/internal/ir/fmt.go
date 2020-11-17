@@ -435,15 +435,15 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 		fmt.Fprintf(s, " defn(%p)", n.Name().Defn)
 	}
 
-	if n.Pos.IsKnown() {
+	if n.Pos().IsKnown() {
 		pfx := ""
-		switch n.Pos.IsStmt() {
+		switch n.Pos().IsStmt() {
 		case src.PosNotStmt:
 			pfx = "_" // "-" would be confusing
 		case src.PosIsStmt:
 			pfx = "+"
 		}
-		fmt.Fprintf(s, " l(%s%d)", pfx, n.Pos.Line())
+		fmt.Fprintf(s, " l(%s%d)", pfx, n.Pos().Line())
 	}
 
 	if !short && n.Xoffset != types.BADWIDTH {

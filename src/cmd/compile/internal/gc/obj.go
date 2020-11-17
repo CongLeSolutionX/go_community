@@ -507,7 +507,7 @@ func slicebytes(nam *ir.Node, s string) {
 	if nam.Op != ir.ONAME {
 		base.Fatal("slicebytes %v", nam)
 	}
-	slicesym(nam, slicedata(nam.Pos, s), int64(len(s)))
+	slicesym(nam, slicedata(nam.Pos(), s), int64(len(s)))
 }
 
 func dstringdata(s *obj.LSym, off int, t string, pos src.XPos, what string) int {
@@ -630,7 +630,7 @@ func litsym(n, c *ir.Node, wid int) {
 		}
 
 	case string:
-		symdata := stringsym(n.Pos, u)
+		symdata := stringsym(n.Pos(), u)
 		s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, symdata, 0)
 		s.WriteInt(base.Ctxt, n.Xoffset+int64(Widthptr), Widthptr, int64(len(u)))
 

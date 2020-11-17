@@ -125,7 +125,7 @@ func caninl(fn *ir.Node) {
 					fmt.Printf("%v: cannot inline %v: %s\n", fn.Line(), fn.Func().Nname, reason)
 				}
 				if logopt.Enabled() {
-					logopt.LogOpt(fn.Pos, "cannotInlineFunction", "inline", fn.FuncName(), reason)
+					logopt.LogOpt(fn.Pos(), "cannotInlineFunction", "inline", fn.FuncName(), reason)
 				}
 			}
 		}()
@@ -232,7 +232,7 @@ func caninl(fn *ir.Node) {
 		fmt.Printf("%v: can inline %v\n", fn.Line(), n)
 	}
 	if logopt.Enabled() {
-		logopt.LogOpt(fn.Pos, "canInlineFunction", "inline", fn.FuncName(), fmt.Sprintf("cost: %d", inlineMaxBudget-visitor.budget))
+		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", fn.FuncName(), fmt.Sprintf("cost: %d", inlineMaxBudget-visitor.budget))
 	}
 }
 
@@ -901,7 +901,7 @@ var inlgen int
 func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 	if fn.Func().Inl == nil {
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos, "cannotInlineCall", "inline", Curfn.FuncName(),
+			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", Curfn.FuncName(),
 				fmt.Sprintf("%s cannot be inlined", fn.PkgFuncName()))
 		}
 		return n
@@ -910,7 +910,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		// The inlined function body is too big. Typically we use this check to restrict
 		// inlining into very big functions.  See issue 26546 and 17566.
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos, "cannotInlineCall", "inline", Curfn.FuncName(),
+			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", Curfn.FuncName(),
 				fmt.Sprintf("cost %d of %s exceeds max large caller cost %d", fn.Func().Inl.Cost, fn.PkgFuncName(), maxCost))
 		}
 		return n
@@ -919,7 +919,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	if fn == Curfn || fn.Name().Defn == Curfn {
 		// Can't recursively inline a function into itself.
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos, "cannotInlineCall", "inline", fmt.Sprintf("recursive call to %s", Curfn.FuncName()))
+			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", fmt.Sprintf("recursive call to %s", Curfn.FuncName()))
 		}
 		return n
 	}
@@ -1030,7 +1030,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 			} else {
 				inlf.Name().SetInlLocal(true)
 			}
-			inlf.Pos = ln.Pos
+			inlf.SetPos(ln.Pos())
 			inlfvars = append(inlfvars, inlf)
 		}
 	}
@@ -1068,7 +1068,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 			// were not part of the original callee.
 			if !strings.HasPrefix(m.Sym().Name, "~R") {
 				m.Name().SetInlFormal(true)
-				m.Pos = t.Pos
+				m.SetPos(t.Pos)
 				inlfvars = append(inlfvars, m)
 			}
 		}
@@ -1148,10 +1148,10 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	inlgen++
 
 	parent := -1
-	if b := base.Ctxt.PosTable.Pos(n.Pos).Base(); b != nil {
+	if b := base.Ctxt.PosTable.Pos(n.Pos()).Base(); b != nil {
 		parent = b.InliningIndex()
 	}
-	newIndex := base.Ctxt.InlTree.Add(parent, n.Pos, fn.Sym().Linksym())
+	newIndex := base.Ctxt.InlTree.Add(parent, n.Pos(), fn.Sym().Linksym())
 
 	// Add an inline mark just before the inlined body.
 	// This mark is inline in the code so that it's a reasonable spot
@@ -1159,7 +1159,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	// (in which case it could go at the end of the function instead).
 	// Note issue 28603.
 	inlMark := nod(ir.OINLMARK, nil, nil)
-	inlMark.Pos = n.Pos.WithIsStmt()
+	inlMark.SetPos(n.Pos().WithIsStmt())
 	inlMark.Xoffset = int64(newIndex)
 	ninit.Append(inlMark)
 
@@ -1188,7 +1188,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 
 	if base.Flag.GenDwarfInl > 0 {
 		for _, v := range inlfvars {
-			v.Pos = subst.updatedPos(v.Pos)
+			v.SetPos(subst.updatedPos(v.Pos()))
 		}
 	}
 
@@ -1364,7 +1364,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 
 	case ir.OGOTO, ir.OLABEL:
 		m := n.Copy()
-		m.Pos = subst.updatedPos(m.Pos)
+		m.SetPos(subst.updatedPos(m.Pos()))
 		m.Ninit.Set(nil)
 		p := fmt.Sprintf("%s·%d", n.Sym().Name, inlgen)
 		m.SetSym(lookup(p))
@@ -1373,7 +1373,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 	}
 
 	m := n.Copy()
-	m.Pos = subst.updatedPos(m.Pos)
+	m.SetPos(subst.updatedPos(m.Pos()))
 	m.Ninit.Set(nil)
 
 	if n.Op == ir.OCLOSURE {
@@ -1438,28 +1438,28 @@ func devirtualizeCall(call *ir.Node) {
 		return
 	}
 
-	x := nodl(call.Left().Pos, ir.ODOTTYPE, call.Left().Left(), nil)
+	x := nodl(call.Left().Pos(), ir.ODOTTYPE, call.Left().Left(), nil)
 	x.SetType(typ)
-	x = nodlSym(call.Left().Pos, ir.OXDOT, x, call.Left().Sym())
+	x = nodlSym(call.Left().Pos(), ir.OXDOT, x, call.Left().Sym())
 	x = typecheck(x, ctxExpr|ctxCallee)
 	switch x.Op {
 	case ir.ODOTMETH:
 		if base.Flag.LowerM != 0 {
-			base.WarnAt(call.Pos, "devirtualizing %v to %v", call.Left(), typ)
+			base.WarnAt(call.Pos(), "devirtualizing %v to %v", call.Left(), typ)
 		}
 		call.Op = ir.OCALLMETH
 		call.SetLeft(x)
 	case ir.ODOTINTER:
 		// Promoted method from embedded interface-typed field (#42279).
 		if base.Flag.LowerM != 0 {
-			base.WarnAt(call.Pos, "partially devirtualizing %v to %v", call.Left(), typ)
+			base.WarnAt(call.Pos(), "partially devirtualizing %v to %v", call.Left(), typ)
 		}
 		call.Op = ir.OCALLINTER
 		call.SetLeft(x)
 	default:
 		// TODO(mdempsky): Turn back into Fatalf after more testing.
 		if base.Flag.LowerM != 0 {
-			base.WarnAt(call.Pos, "failed to devirtualize %v (%v)", x, x.Op)
+			base.WarnAt(call.Pos(), "failed to devirtualize %v (%v)", x, x.Op)
 		}
 		return
 	}

@@ -24,12 +24,12 @@ func typecheckselect(sel *ir.Node) {
 		if ncase.List.Len() == 0 {
 			// default
 			if def != nil {
-				base.ErrorAt(ncase.Pos, "multiple defaults in select (first at %v)", def.Line())
+				base.ErrorAt(ncase.Pos(), "multiple defaults in select (first at %v)", def.Line())
 			} else {
 				def = ncase
 			}
 		} else if ncase.List.Len() > 1 {
-			base.ErrorAt(ncase.Pos, "select cases cannot be lists")
+			base.ErrorAt(ncase.Pos(), "select cases cannot be lists")
 		} else {
 			ncase.List.SetFirst(typecheck(ncase.List.First(), ctxStmt))
 			n := ncase.List.First()
@@ -37,13 +37,13 @@ func typecheckselect(sel *ir.Node) {
 			ncase.List.Set(nil)
 			switch n.Op {
 			default:
-				pos := n.Pos
+				pos := n.Pos()
 				if n.Op == ir.ONAME {
 					// We don't have the right position for ONAME nodes (see #15459 and
 					// others). Using ncase.Pos for now as it will provide the correct
 					// line number (assuming the expression follows the "case" keyword
 					// on the same line). This matches the approach before 1.10.
-					pos = ncase.Pos
+					pos = ncase.Pos()
 				}
 				base.ErrorAt(pos, "select case must be receive, send or assign recv")
 
@@ -56,7 +56,7 @@ func typecheckselect(sel *ir.Node) {
 				}
 
 				if n.Right().Op != ir.ORECV {
-					base.ErrorAt(n.Pos, "select assignment must have receive on right hand side")
+					base.ErrorAt(n.Pos(), "select assignment must have receive on right hand side")
 					break
 				}
 
@@ -65,7 +65,7 @@ func typecheckselect(sel *ir.Node) {
 				// convert x, ok = <-c into OSELRECV2(x, <-c) with ntest=ok
 			case ir.OAS2RECV:
 				if n.Right().Op != ir.ORECV {
-					base.ErrorAt(n.Pos, "select assignment must have receive on right hand side")
+					base.ErrorAt(n.Pos(), "select assignment must have receive on right hand side")
 					break
 				}
 
@@ -75,7 +75,7 @@ func typecheckselect(sel *ir.Node) {
 
 				// convert <-c into OSELRECV(N, <-c)
 			case ir.ORECV:
-				n = nodl(n.Pos, ir.OSELRECV, nil, n)
+				n = nodl(n.Pos(), ir.OSELRECV, nil, n)
 
 				n.SetTypecheck(1)
 				ncase.SetLeft(n)

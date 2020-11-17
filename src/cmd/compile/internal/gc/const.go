@@ -826,11 +826,11 @@ func setconst(n *ir.Node, v ir.Val) {
 	}
 
 	orig := n.Orig()
-	pos := n.Pos
+	pos := n.Pos()
 	typ := n.Type()
 	*n = ir.Node{}
 	n.Op = ir.OLITERAL
-	n.Pos = pos
+	n.SetPos(pos)
 	n.SetType(typ)
 	n.SetOrig(orig)
 	n.Xoffset = types.BADWIDTH
@@ -1142,7 +1142,7 @@ func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
 	k := constSetKey{typ, n.Val().Interface()}
 
 	if hasUniquePos(n) {
-		pos = n.Pos
+		pos = n.Pos()
 	}
 
 	if s.m == nil {

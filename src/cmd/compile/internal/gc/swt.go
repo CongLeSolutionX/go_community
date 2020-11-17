@@ -26,7 +26,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 	n.Left().SetRight(typecheck(n.Left().Right(), ctxExpr))
 	t := n.Left().Right().Type()
 	if t != nil && !t.IsInterface() {
-		base.ErrorAt(n.Pos, "cannot type switch on non-interface value %L", n.Left().Right())
+		base.ErrorAt(n.Pos(), "cannot type switch on non-interface value %L", n.Left().Right())
 		t = nil
 	}
 
@@ -34,7 +34,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 	// declaration itself. So if there are no cases, we won't
 	// notice that it went unused.
 	if v := n.Left().Left(); v != nil && !v.IsBlank() && n.List.Len() == 0 {
-		base.ErrorAt(v.Pos, "%v declared but not used", v.Sym())
+		base.ErrorAt(v.Pos(), "%v declared but not used", v.Sym())
 	}
 
 	var defCase, nilCase *ir.Node
@@ -43,7 +43,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 		ls := ncase.List.Slice()
 		if len(ls) == 0 { // default:
 			if defCase != nil {
-				base.ErrorAt(ncase.Pos, "multiple defaults in switch (first at %v)", defCase.Line())
+				base.ErrorAt(ncase.Pos(), "multiple defaults in switch (first at %v)", defCase.Line())
 			} else {
 				defCase = ncase
 			}
@@ -61,27 +61,27 @@ func typecheckTypeSwitch(n *ir.Node) {
 			switch {
 			case n1.IsNil(): // case nil:
 				if nilCase != nil {
-					base.ErrorAt(ncase.Pos, "multiple nil cases in type switch (first at %v)", nilCase.Line())
+					base.ErrorAt(ncase.Pos(), "multiple nil cases in type switch (first at %v)", nilCase.Line())
 				} else {
 					nilCase = ncase
 				}
 			case n1.Op != ir.OTYPE:
-				base.ErrorAt(ncase.Pos, "%L is not a type", n1)
+				base.ErrorAt(ncase.Pos(), "%L is not a type", n1)
 			case !n1.Type().IsInterface() && !implements(n1.Type(), t, &missing, &have, &ptr) && !missing.Broke():
 				if have != nil && !have.Broke() {
-					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
+					base.ErrorAt(ncase.Pos(), "impossible type switch case: %L cannot have dynamic type %v"+
 						" (wrong type for %v method)\n\thave %v%S\n\twant %v%S", n.Left().Right(), n1.Type(), missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
 				} else if ptr != 0 {
-					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
+					base.ErrorAt(ncase.Pos(), "impossible type switch case: %L cannot have dynamic type %v"+
 						" (%v method has pointer receiver)", n.Left().Right(), n1.Type(), missing.Sym)
 				} else {
-					base.ErrorAt(ncase.Pos, "impossible type switch case: %L cannot have dynamic type %v"+
+					base.ErrorAt(ncase.Pos(), "impossible type switch case: %L cannot have dynamic type %v"+
 						" (missing %v method)", n.Left().Right(), n1.Type(), missing.Sym)
 				}
 			}
 
 			if n1.Op == ir.OTYPE {
-				ts.add(ncase.Pos, n1.Type())
+				ts.add(ncase.Pos(), n1.Type())
 			}
 		}
 
@@ -162,9 +162,9 @@ func typecheckExprSwitch(n *ir.Node) {
 
 		case !IsComparable(t):
 			if t.IsStruct() {
-				base.ErrorAt(n.Pos, "cannot switch on %L (struct containing %v cannot be compared)", n.Left(), IncomparableField(t).Type)
+				base.ErrorAt(n.Pos(), "cannot switch on %L (struct containing %v cannot be compared)", n.Left(), IncomparableField(t).Type)
 			} else {
-				base.ErrorAt(n.Pos, "cannot switch on %L", n.Left())
+				base.ErrorAt(n.Pos(), "cannot switch on %L", n.Left())
 			}
 			t = nil
 		}
@@ -176,7 +176,7 @@ func typecheckExprSwitch(n *ir.Node) {
 		ls := ncase.List.Slice()
 		if len(ls) == 0 { // default:
 			if defCase != nil {
-				base.ErrorAt(ncase.Pos, "multiple defaults in switch (first at %v)", defCase.Line())
+				base.ErrorAt(ncase.Pos(), "multiple defaults in switch (first at %v)", defCase.Line())
 			} else {
 				defCase = ncase
 			}
@@ -192,17 +192,17 @@ func typecheckExprSwitch(n *ir.Node) {
 			}
 
 			if nilonly != "" && !n1.IsNil() {
-				base.ErrorAt(ncase.Pos, "invalid case %v in switch (can only compare %s %v to nil)", n1, nilonly, n.Left())
+				base.ErrorAt(ncase.Pos(), "invalid case %v in switch (can only compare %s %v to nil)", n1, nilonly, n.Left())
 			} else if t.IsInterface() && !n1.Type().IsInterface() && !IsComparable(n1.Type()) {
-				base.ErrorAt(ncase.Pos, "invalid case %L in switch (incomparable type)", n1)
+				base.ErrorAt(ncase.Pos(), "invalid case %L in switch (incomparable type)", n1)
 			} else {
 				op1, _ := assignop(n1.Type(), t)
 				op2, _ := assignop(t, n1.Type())
 				if op1 == ir.OXXX && op2 == ir.OXXX {
 					if n.Left() != nil {
-						base.ErrorAt(ncase.Pos, "invalid case %v in switch on %v (mismatched types %v and %v)", n1, n.Left(), n1.Type(), t)
+						base.ErrorAt(ncase.Pos(), "invalid case %v in switch on %v (mismatched types %v and %v)", n1, n.Left(), n1.Type(), t)
 					} else {
-						base.ErrorAt(ncase.Pos, "invalid case %v in switch (mismatched types %v and bool)", n1, n1.Type())
+						base.ErrorAt(ncase.Pos(), "invalid case %v in switch (mismatched types %v and bool)", n1, n1.Type())
 					}
 				}
 			}
@@ -214,7 +214,7 @@ func typecheckExprSwitch(n *ir.Node) {
 			//       case GOARCH == "arm":
 			//     which would both evaluate to false for non-ARM compiles.
 			if !n1.Type().IsBoolean() {
-				cs.add(ncase.Pos, n1, "case", "switch")
+				cs.add(ncase.Pos(), n1, "case", "switch")
 			}
 		}
 
@@ -277,7 +277,7 @@ func walkExprSwitch(sw *ir.Node) {
 	var body ir.Nodes
 	for _, ncase := range sw.List.Slice() {
 		label := autolabel(".s")
-		jmp := npos(ncase.Pos, nodSym(ir.OGOTO, nil, label))
+		jmp := npos(ncase.Pos(), nodSym(ir.OGOTO, nil, label))
 
 		// Process case dispatch.
 		if ncase.List.Len() == 0 {
@@ -288,15 +288,15 @@ func walkExprSwitch(sw *ir.Node) {
 		}
 
 		for _, n1 := range ncase.List.Slice() {
-			s.Add(ncase.Pos, n1, jmp)
+			s.Add(ncase.Pos(), n1, jmp)
 		}
 
 		// Process body.
-		body.Append(npos(ncase.Pos, nodSym(ir.OLABEL, nil, label)))
+		body.Append(npos(ncase.Pos(), nodSym(ir.OLABEL, nil, label)))
 		body.Append(ncase.Nbody.Slice()...)
 		if fall, pos := hasFall(ncase.Nbody.Slice()); !fall {
 			br := nod(ir.OBREAK, nil, nil)
-			br.Pos = pos
+			br.SetPos(pos)
 			body.Append(br)
 		}
 	}
@@ -304,7 +304,7 @@ func walkExprSwitch(sw *ir.Node) {
 
 	if defaultGoto == nil {
 		br := nod(ir.OBREAK, nil, nil)
-		br.Pos = br.Pos.WithNotStmt()
+		br.SetPos(br.Pos().WithNotStmt())
 		defaultGoto = br
 	}
 
@@ -491,7 +491,7 @@ func hasFall(stmts []*ir.Node) (bool, src.XPos) {
 	if i < 0 {
 		return false, src.NoXPos
 	}
-	return stmts[i].Op == ir.OFALL, stmts[i].Pos
+	return stmts[i].Op == ir.OFALL, stmts[i].Pos()
 }
 
 // walkTypeSwitch generates an AST that implements sw, where sw is a
@@ -555,7 +555,7 @@ func walkTypeSwitch(sw *ir.Node) {
 		caseVarInitialized := false
 
 		label := autolabel(".s")
-		jmp := npos(ncase.Pos, nodSym(ir.OGOTO, nil, label))
+		jmp := npos(ncase.Pos(), nodSym(ir.OGOTO, nil, label))
 
 		if ncase.List.Len() == 0 { // default:
 			if defaultGoto != nil {
@@ -574,14 +574,14 @@ func walkTypeSwitch(sw *ir.Node) {
 			}
 
 			if singleType != nil && singleType.IsInterface() {
-				s.Add(ncase.Pos, n1.Type(), caseVar, jmp)
+				s.Add(ncase.Pos(), n1.Type(), caseVar, jmp)
 				caseVarInitialized = true
 			} else {
-				s.Add(ncase.Pos, n1.Type(), nil, jmp)
+				s.Add(ncase.Pos(), n1.Type(), nil, jmp)
 			}
 		}
 
-		body.Append(npos(ncase.Pos, nodSym(ir.OLABEL, nil, label)))
+		body.Append(npos(ncase.Pos(), nodSym(ir.OLABEL, nil, label)))
 		if caseVar != nil && !caseVarInitialized {
 			val := s.facename
 			if singleType != nil {
@@ -589,11 +589,11 @@ func walkTypeSwitch(sw *ir.Node) {
 				if singleType.IsInterface() {
 					base.Fatal("singleType interface should have been handled in Add")
 				}
-				val = ifaceData(ncase.Pos, s.facename, singleType)
+				val = ifaceData(ncase.Pos(), s.facename, singleType)
 			}
 			l := []*ir.Node{
-				nodl(ncase.Pos, ir.ODCL, caseVar, nil),
-				nodl(ncase.Pos, ir.OAS, caseVar, val),
+				nodl(ncase.Pos(), ir.ODCL, caseVar, nil),
+				nodl(ncase.Pos(), ir.OAS, caseVar, val),
 			}
 			typecheckslice(l, ctxStmt)
 			body.Append(l...)

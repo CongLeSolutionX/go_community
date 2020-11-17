@@ -265,7 +265,7 @@ func addrescapes(n *ir.Node) {
 			Curfn = Curfn.Func().Closure_
 		}
 		ln := base.Pos
-		base.Pos = Curfn.Pos
+		base.Pos = Curfn.Pos()
 		moveToHeap(n)
 		Curfn = oldfn
 		base.Pos = ln
@@ -300,7 +300,7 @@ func moveToHeap(n *ir.Node) {
 	heapaddr := temp(types.NewPtr(n.Type()))
 	heapaddr.SetSym(lookup("&" + n.Sym().Name))
 	heapaddr.Orig().SetSym(heapaddr.Sym())
-	heapaddr.Pos = n.Pos
+	heapaddr.SetPos(n.Pos())
 
 	// Unset AutoTemp to persist the &foo variable name through SSA to
 	// liveness analysis.
@@ -362,7 +362,7 @@ func moveToHeap(n *ir.Node) {
 	n.Name().Param.Heapaddr = heapaddr
 	n.Esc = EscHeap
 	if base.Flag.LowerM != 0 {
-		base.WarnAt(n.Pos, "moved to heap: %v", n)
+		base.WarnAt(n.Pos(), "moved to heap: %v", n)
 	}
 }
 

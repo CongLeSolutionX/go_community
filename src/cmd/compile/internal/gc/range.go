@@ -63,7 +63,7 @@ func typecheckrangeExpr(n *ir.Node) {
 	toomany := false
 	switch t.Etype {
 	default:
-		base.ErrorAt(n.Pos, "cannot range over %L", n.Right())
+		base.ErrorAt(n.Pos(), "cannot range over %L", n.Right())
 		return
 
 	case types.TARRAY, types.TSLICE:
@@ -76,7 +76,7 @@ func typecheckrangeExpr(n *ir.Node) {
 
 	case types.TCHAN:
 		if !t.ChanDir().CanRecv() {
-			base.ErrorAt(n.Pos, "invalid operation: range %v (receive from send-only type %v)", n.Right(), n.Right().Type())
+			base.ErrorAt(n.Pos(), "invalid operation: range %v (receive from send-only type %v)", n.Right(), n.Right().Type())
 			return
 		}
 
@@ -92,7 +92,7 @@ func typecheckrangeExpr(n *ir.Node) {
 	}
 
 	if n.List.Len() > 2 || toomany {
-		base.ErrorAt(n.Pos, "too many variables in range")
+		base.ErrorAt(n.Pos(), "too many variables in range")
 	}
 
 	var v1, v2 *ir.Node
@@ -119,7 +119,7 @@ func typecheckrangeExpr(n *ir.Node) {
 			v1.SetType(t1)
 		} else if v1.Type() != nil {
 			if op, why := assignop(t1, v1.Type()); op == ir.OXXX {
-				base.ErrorAt(n.Pos, "cannot assign type %v to %L in range%s", t1, v1, why)
+				base.ErrorAt(n.Pos(), "cannot assign type %v to %L in range%s", t1, v1, why)
 			}
 		}
 		checkassign(n, v1)
@@ -130,7 +130,7 @@ func typecheckrangeExpr(n *ir.Node) {
 			v2.SetType(t2)
 		} else if v2.Type() != nil {
 			if op, why := assignop(t2, v2.Type()); op == ir.OXXX {
-				base.ErrorAt(n.Pos, "cannot assign type %v to %L in range%s", t2, v2, why)
+				base.ErrorAt(n.Pos(), "cannot assign type %v to %L in range%s", t2, v2, why)
 			}
 		}
 		checkassign(n, v2)
@@ -593,7 +593,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	var fn *ir.Node
 	if a.Type().Elem().HasPointers() {
 		// memclrHasPointers(hp, hn)
-		Curfn.Func().SetWBPos(stmt.Pos)
+		Curfn.Func().SetWBPos(stmt.Pos())
 		fn = mkcall("memclrHasPointers", nil, nil, hp, hn)
 	} else {
 		// memclrNoHeapPointers(hp, hn)
