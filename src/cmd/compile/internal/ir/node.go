@@ -74,6 +74,14 @@ func (n *Node) SetLeft(l *Node) {
 	n.left = l
 }
 
+func (n *Node) GetRight() *Node {
+	return n.Right
+}
+
+func (n *Node) SetRight(l *Node) {
+	n.Right = l
+}
+
 func (n *Node) ResetAux() {
 	n.aux = 0
 }

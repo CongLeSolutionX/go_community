@@ -860,7 +860,8 @@ func (r *importReader) node() *ir.Node {
 		if s := r.ident(); s != nil {
 			n.SetLeft(npos(n.Pos, newnoname(s)))
 		}
-		n.Right, _ = r.exprsOrNil()
+		nr, _ := r.exprsOrNil()
+		n.Right = nr
 		return n
 
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:

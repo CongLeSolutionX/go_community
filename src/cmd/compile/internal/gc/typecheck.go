@@ -3027,7 +3027,8 @@ func typecheckarraylit(elemType *types.Type, bound int64, elts []*ir.Node, ctx s
 	var key, length int64
 	for i, elt := range elts {
 		setlineno(elt)
-		vp := &elts[i]
+		r := elts[i]
+		updateR := func(r *ir.Node) { elts[i] = r }
 		if elt.Op == ir.OKEY {
 			elt.SetLeft(typecheck(elt.Left(), ctxExpr))
 			key = indexconst(elt.Left())
@@ -3042,13 +3043,13 @@ func typecheckarraylit(elemType *types.Type, bound int64, elts []*ir.Node, ctx s
 				}
 				key = -(1 << 30) // stay negative for a while
 			}
-			vp = &elt.Right
+			r = elt.Right
+			updateR = elt.SetRight
 		}
 
-		r := *vp
 		r = pushtype(r, elemType)
 		r = typecheck(r, ctxExpr)
-		*vp = assignconv(r, elemType, ctx)
+		updateR(assignconv(r, elemType, ctx))
 
 		if key >= 0 {
 			if indices != nil {
