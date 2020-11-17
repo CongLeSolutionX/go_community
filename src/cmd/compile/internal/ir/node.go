@@ -74,6 +74,8 @@ func (n *Node) Orig() *Node           { return n.orig }
 func (n *Node) SetOrig(x *Node)       { n.orig = x }
 func (n *Node) Type() *types.Type     { return n.typ }
 func (n *Node) SetType(x *types.Type) { n.typ = x }
+func (n *Node) GetFunc() *Func        { return n.Func }
+func (n *Node) SetFunc(x *Func)       { n.Func = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
