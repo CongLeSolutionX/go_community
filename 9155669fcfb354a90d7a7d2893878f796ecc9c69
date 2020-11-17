@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc589362_a89b20d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-17T17:32:31Z",
+      "side": 1,
+      "message": "Fine with the logic, would wonder if we should bias names in new code more towards accessibility.",
+      "revId": "9155669fcfb354a90d7a7d2893878f796ecc9c69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076e25b4_320d63f0",
+        "filename": "src/cmd/compile/internal/gc/dwinl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-17T17:32:31Z",
+      "side": 1,
+      "message": "\"par\" is \"parent\", yes?  I might just use the whole word.  Or maybe parentIdx?\n\nNot sure if we should be camelCasing fname and fnsize, pranges, cranges, inlcalls for screen-reader accessibility, but maybe?",
+      "range": {
+        "startLine": 409,
+        "startChar": 76,
+        "endLine": 409,
+        "endChar": 79
+      },
+      "revId": "9155669fcfb354a90d7a7d2893878f796ecc9c69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
