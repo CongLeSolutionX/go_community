@@ -29,7 +29,7 @@ var (
 )
 
 func emitptrargsmap(fn *ir.Node) {
-	if fn.FuncName() == "_" || fn.Func().Nname.Sym.Linkname != "" {
+	if fn.FuncName() == "_" || fn.Func().Nname.Sym().Linkname != "" {
 		return
 	}
 	lsym := base.Ctxt.Lookup(fn.Func().LSym.Name + ".args_stackmap")
@@ -98,7 +98,7 @@ func cmpstackvarlt(a, b *ir.Node) bool {
 		return a.Type().Width > b.Type().Width
 	}
 
-	return a.Sym.Name < b.Sym.Name
+	return a.Sym().Name < b.Sym().Name
 }
 
 // byStackvar implements sort.Interface for []*Node using cmpstackvarlt.
@@ -196,7 +196,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 
 func funccompile(fn *ir.Node) {
 	if Curfn != nil {
-		base.Fatal("funccompile %v inside %v", fn.Func().Nname.Sym, Curfn.Func().Nname.Sym)
+		base.Fatal("funccompile %v inside %v", fn.Func().Nname.Sym(), Curfn.Func().Nname.Sym())
 	}
 
 	if fn.Type() == nil {
@@ -304,10 +304,10 @@ func isInlinableButNotInlined(fn *ir.Node) bool {
 	if fn.Func().Nname.Func().Inl == nil {
 		return false
 	}
-	if fn.Sym == nil {
+	if fn.Sym() == nil {
 		return true
 	}
-	return !fn.Sym.Linksym().WasInlined()
+	return !fn.Sym().Linksym().WasInlined()
 }
 
 const maxStackSize = 1 << 30
@@ -401,7 +401,7 @@ func compileFunctions() {
 func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) {
 	fn := curfn.(*ir.Node)
 	if fn.Func().Nname != nil {
-		if expect := fn.Func().Nname.Sym.Linksym(); fnsym != expect {
+		if expect := fn.Func().Nname.Sym().Linksym(); fnsym != expect {
 			base.Fatal("unexpected fnsym: %v != %v", fnsym, expect)
 		}
 	}
@@ -535,7 +535,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Node) *dwarf.Var {
 	}
 	declpos := base.Ctxt.InnermostPos(declPos(n))
 	return &dwarf.Var{
-		Name:          n.Sym.Name,
+		Name:          n.Sym().Name,
 		IsReturnValue: n.Class() == ir.PPARAMOUT,
 		IsInlFormal:   n.Name().InlFormal(),
 		Abbrev:        abbrev,
@@ -609,7 +609,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 		if _, found := selected[n]; found {
 			continue
 		}
-		c := n.Sym.Name[0]
+		c := n.Sym().Name[0]
 		if c == '.' || n.Type().IsUntyped() {
 			continue
 		}
@@ -656,7 +656,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 		}
 		declpos := base.Ctxt.InnermostPos(n.Pos)
 		vars = append(vars, &dwarf.Var{
-			Name:          n.Sym.Name,
+			Name:          n.Sym().Name,
 			IsReturnValue: isReturnValue,
 			Abbrev:        abbrev,
 			StackOffset:   int32(n.Xoffset),
@@ -684,10 +684,10 @@ func preInliningDcls(fnsym *obj.LSym) []*ir.Node {
 	fn := base.Ctxt.DwFixups.GetPrecursorFunc(fnsym).(*ir.Node)
 	var rdcl []*ir.Node
 	for _, n := range fn.Func().Inl.Dcl {
-		c := n.Sym.Name[0]
+		c := n.Sym().Name[0]
 		// Avoid reporting "_" parameters, since if there are more than
 		// one, it can result in a collision later on, as in #23179.
-		if unversion(n.Sym.Name) == "_" || c == '.' || n.Type().IsUntyped() {
+		if unversion(n.Sym().Name) == "_" || c == '.' || n.Type().IsUntyped() {
 			continue
 		}
 		rdcl = append(rdcl, n)
@@ -745,7 +745,7 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 	}
 	declpos := base.Ctxt.InnermostPos(n.Pos)
 	dvar := &dwarf.Var{
-		Name:          n.Sym.Name,
+		Name:          n.Sym().Name,
 		IsReturnValue: n.Class() == ir.PPARAMOUT,
 		IsInlFormal:   n.Name().InlFormal(),
 		Abbrev:        abbrev,

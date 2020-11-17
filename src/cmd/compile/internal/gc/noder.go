@@ -356,7 +356,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	}
 
 	pack := p.nod(imp, ir.OPACK, nil, nil)
-	pack.Sym = my
+	pack.SetSym(my)
 	pack.Name().Pkg = ipkg
 
 	switch my.Name {
@@ -533,7 +533,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 		}
 	} else {
 		f.Func().Shortname = name
-		name = ir.BlankNode.Sym // filled in by typecheckfunc
+		name = ir.BlankNode.Sym() // filled in by typecheckfunc
 	}
 
 	f.Func().Nname = newfuncnamel(p.pos(fun.Name), name, f.Func())
@@ -800,7 +800,7 @@ func (p *noder) sum(x syntax.Expr) *ir.Node {
 	chunks := make([]string, 0, 1)
 
 	n := p.expr(x)
-	if ir.IsConst(n, ir.CTSTR) && n.Sym == nil {
+	if ir.IsConst(n, ir.CTSTR) && n.Sym() == nil {
 		nstr = n
 		chunks = append(chunks, nstr.StringVal())
 	}
@@ -809,7 +809,7 @@ func (p *noder) sum(x syntax.Expr) *ir.Node {
 		add := adds[i]
 
 		r := p.expr(add.Y)
-		if ir.IsConst(r, ir.CTSTR) && r.Sym == nil {
+		if ir.IsConst(r, ir.CTSTR) && r.Sym() == nil {
 			if nstr != nil {
 				// Collapse r into nstr instead of adding to n.
 				chunks = append(chunks, r.StringVal())
@@ -1034,7 +1034,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 		}
 		n := p.nod(stmt, op, nil, nil)
 		if stmt.Label != nil {
-			n.Sym = p.name(stmt.Label)
+			n.SetSym(p.name(stmt.Label))
 		}
 		return n
 	case *syntax.CallStmt:
@@ -1063,8 +1063,8 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 				if ln.Class() != ir.PPARAMOUT {
 					break
 				}
-				if ir.AsNode(ln.Sym.Def) != ln {
-					base.Error("%s is shadowed during return", ln.Sym.Name)
+				if ir.AsNode(ln.Sym().Def) != ln {
+					base.Error("%s is shadowed during return", ln.Sym().Name)
 				}
 			}
 		}
@@ -1233,7 +1233,7 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 			n.List.Set(p.exprList(clause.Cases))
 		}
 		if tswitch != nil && tswitch.Left() != nil {
-			nn := newname(tswitch.Left().Sym)
+			nn := newname(tswitch.Left().Sym())
 			declare(nn, dclcontext)
 			n.Rlist.Set1(nn)
 			// keep track of the instances for reporting unused
@@ -1471,7 +1471,7 @@ func (p *noder) wrapname(n syntax.Node, x *ir.Node) *ir.Node {
 	// Introduce a wrapper node to give them the correct line.
 	switch x.Op {
 	case ir.OTYPE, ir.OLITERAL:
-		if x.Sym == nil {
+		if x.Sym() == nil {
 			break
 		}
 		fallthrough

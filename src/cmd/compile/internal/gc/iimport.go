@@ -68,12 +68,12 @@ func expandInline(fn *ir.Node) {
 }
 
 func importReaderFor(n *ir.Node, importers map[*types.Sym]iimporterAndOffset) *importReader {
-	x, ok := importers[n.Sym]
+	x, ok := importers[n.Sym()]
 	if !ok {
 		return nil
 	}
 
-	return x.p.newReader(x.off, n.Sym.Pkg)
+	return x.p.newReader(x.off, n.Sym().Pkg)
 }
 
 type intReader struct {
@@ -282,7 +282,7 @@ func (r *importReader) setPkg() {
 
 func (r *importReader) doDecl(n *ir.Node) {
 	if n.Op != ir.ONONAME {
-		base.Fatal("doDecl: unexpected Op for %v: %v", n.Sym, n.Op)
+		base.Fatal("doDecl: unexpected Op for %v: %v", n.Sym(), n.Op)
 	}
 
 	tag := r.byte()
@@ -292,23 +292,23 @@ func (r *importReader) doDecl(n *ir.Node) {
 	case 'A':
 		typ := r.typ()
 
-		importalias(r.p.ipkg, pos, n.Sym, typ)
+		importalias(r.p.ipkg, pos, n.Sym(), typ)
 
 	case 'C':
 		typ, val := r.value()
 
-		importconst(r.p.ipkg, pos, n.Sym, typ, val)
+		importconst(r.p.ipkg, pos, n.Sym(), typ, val)
 
 	case 'F':
 		typ := r.signature(nil)
 
-		importfunc(r.p.ipkg, pos, n.Sym, typ)
+		importfunc(r.p.ipkg, pos, n.Sym(), typ)
 		r.funcExt(n)
 
 	case 'T':
 		// Types can be recursive. We need to setup a stub
 		// declaration before recursing.
-		t := importtype(r.p.ipkg, pos, n.Sym)
+		t := importtype(r.p.ipkg, pos, n.Sym())
 
 		// We also need to defer width calculations until
 		// after the underlying type has been assigned.
@@ -357,7 +357,7 @@ func (r *importReader) doDecl(n *ir.Node) {
 	case 'V':
 		typ := r.typ()
 
-		importvar(r.p.ipkg, pos, n.Sym, typ)
+		importvar(r.p.ipkg, pos, n.Sym(), typ)
 		r.varExt(n)
 
 	default:
@@ -518,7 +518,7 @@ func (r *importReader) typ1() *types.Type {
 			expandDecl(n)
 		}
 		if n.Op != ir.OTYPE {
-			base.Fatal("expected OTYPE, got %v: %v, %v", n.Op, n.Sym, n)
+			base.Fatal("expected OTYPE, got %v: %v, %v", n.Op, n.Sym(), n)
 		}
 		return n.Type()
 	case pointerType:
@@ -664,13 +664,13 @@ func (r *importReader) byte() byte {
 // Compiler-specific extensions.
 
 func (r *importReader) varExt(n *ir.Node) {
-	r.linkname(n.Sym)
-	r.symIdx(n.Sym)
+	r.linkname(n.Sym())
+	r.symIdx(n.Sym())
 }
 
 func (r *importReader) funcExt(n *ir.Node) {
-	r.linkname(n.Sym)
-	r.symIdx(n.Sym)
+	r.linkname(n.Sym())
+	r.symIdx(n.Sym())
 
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
@@ -1075,7 +1075,7 @@ func (r *importReader) node() *ir.Node {
 		pos := r.pos()
 		left, _ := r.exprsOrNil()
 		if left != nil {
-			left = newname(left.Sym)
+			left = newname(left.Sym())
 		}
 		return nodl(pos, op, left, nil)
 
@@ -1084,7 +1084,7 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.OGOTO, ir.OLABEL:
 		n := nodl(r.pos(), op, nil, nil)
-		n.Sym = lookup(r.string())
+		n.SetSym(lookup(r.string()))
 		return n
 
 	case ir.OEND:

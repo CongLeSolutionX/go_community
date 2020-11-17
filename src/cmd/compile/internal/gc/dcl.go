@@ -68,7 +68,7 @@ func declare(n *ir.Node, ctxt ir.Class) {
 		n.SetName(new(ir.Name))
 	}
 
-	s := n.Sym
+	s := n.Sym()
 
 	// kludgy: typecheckok means we're past parsing. Eg genwrapper may declare out of package names later.
 	if !inimport && !typecheckok && s.Pkg != ir.LocalPkg {
@@ -121,14 +121,14 @@ func declare(n *ir.Node, ctxt ir.Class) {
 	n.Name().Vargen = int32(gen)
 	n.SetClass(ctxt)
 	if ctxt == ir.PFUNC {
-		n.Sym.SetFunc(true)
+		n.Sym().SetFunc(true)
 	}
 
 	autoexport(n, ctxt)
 }
 
 func addvar(n *ir.Node, t *types.Type, ctxt ir.Class) {
-	if n == nil || n.Sym == nil || (n.Op != ir.ONAME && n.Op != ir.ONONAME) || t == nil {
+	if n == nil || n.Sym() == nil || (n.Op != ir.ONAME && n.Op != ir.ONONAME) || t == nil {
 		base.Fatal("addvar: n=%v t=%v nil", n, t)
 	}
 
@@ -201,7 +201,7 @@ func newnoname(s *types.Sym) *ir.Node {
 		base.Fatal("newnoname nil")
 	}
 	n := nod(ir.ONONAME, nil, nil)
-	n.Sym = s
+	n.SetSym(s)
 	n.Xoffset = 0
 	return n
 }
@@ -238,7 +238,7 @@ func typenodl(pos src.XPos, t *types.Type) *ir.Node {
 	if ir.AsNode(t.Nod) == nil || ir.AsNode(t.Nod).Type() != t {
 		t.Nod = ir.AsTypesNode(nodl(pos, ir.OTYPE, nil, nil))
 		ir.AsNode(t.Nod).SetType(t)
-		ir.AsNode(t.Nod).Sym = t.Sym
+		ir.AsNode(t.Nod).SetSym(t.Sym)
 	}
 
 	return ir.AsNode(t.Nod)
@@ -318,7 +318,7 @@ func colasname(n *ir.Node) bool {
 		ir.OPACK,
 		ir.OTYPE,
 		ir.OLITERAL:
-		return n.Sym != nil
+		return n.Sym() != nil
 	}
 
 	return false
@@ -326,8 +326,8 @@ func colasname(n *ir.Node) bool {
 
 func colasdefn(left []*ir.Node, defn *ir.Node) {
 	for _, n := range left {
-		if n.Sym != nil {
-			n.Sym.SetUniq(true)
+		if n.Sym() != nil {
+			n.Sym().SetUniq(true)
 		}
 	}
 
@@ -342,20 +342,20 @@ func colasdefn(left []*ir.Node, defn *ir.Node) {
 			continue
 		}
 
-		if !n.Sym.Uniq() {
-			base.ErrorAt(defn.Pos, "%v repeated on left side of :=", n.Sym)
+		if !n.Sym().Uniq() {
+			base.ErrorAt(defn.Pos, "%v repeated on left side of :=", n.Sym())
 			n.SetDiag(true)
 			nerr++
 			continue
 		}
 
-		n.Sym.SetUniq(false)
-		if n.Sym.Block == types.Block {
+		n.Sym().SetUniq(false)
+		if n.Sym().Block == types.Block {
 			continue
 		}
 
 		nnew++
-		n = newname(n.Sym)
+		n = newname(n.Sym())
 		declare(n, dclcontext)
 		n.Name().Defn = defn
 		defn.Ninit.Append(nod(ir.ODCL, n, nil))
@@ -374,7 +374,7 @@ func ifacedcl(n *ir.Node) {
 		base.Fatal("ifacedcl")
 	}
 
-	if n.Sym.IsBlank() {
+	if n.Sym().IsBlank() {
 		base.Error("methods must have a unique non-blank name")
 	}
 }
@@ -426,19 +426,19 @@ func funcargs(nt *ir.Node) {
 	// declare the out arguments.
 	gen := nt.List.Len()
 	for _, n := range nt.Rlist.Slice() {
-		if n.Sym == nil {
+		if n.Sym() == nil {
 			// Name so that escape analysis can track it. ~r stands for 'result'.
-			n.Sym = lookupN("~r", gen)
+			n.SetSym(lookupN("~r", gen))
 			gen++
 		}
-		if n.Sym.IsBlank() {
+		if n.Sym().IsBlank() {
 			// Give it a name so we can assign to it during return. ~b stands for 'blank'.
 			// The name must be different from ~r above because if you have
 			//	func f() (_ int)
 			//	func g() int
 			// f is allowed to use a plain 'return' with no arguments, while g is not.
 			// So the two cases must be distinguished.
-			n.Sym = lookupN("~b", gen)
+			n.SetSym(lookupN("~b", gen))
 			gen++
 		}
 
@@ -452,11 +452,11 @@ func funcarg(n *ir.Node, ctxt ir.Class) {
 	if n.Op != ir.ODCLFIELD {
 		base.Fatal("funcarg %v", n.Op)
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		return
 	}
 
-	n.SetRight(newnamel(n.Pos, n.Sym))
+	n.SetRight(newnamel(n.Pos, n.Sym()))
 	n.Right().Name().Param.Ntype = n.Left()
 	n.Right().SetIsDDD(n.IsDDD())
 	declare(n.Right(), ctxt)
@@ -544,7 +544,7 @@ func structfield(n *ir.Node) *types.Field {
 
 	f := types.NewField()
 	f.Pos = n.Pos
-	f.Sym = n.Sym
+	f.Sym = n.Sym()
 
 	if n.Left() != nil {
 		n.SetLeft(typecheck(n.Left(), ctxType))
@@ -672,7 +672,7 @@ func interfacefield(n *ir.Node) *types.Field {
 
 	f := types.NewField()
 	f.Pos = n.Pos
-	f.Sym = n.Sym
+	f.Sym = n.Sym()
 	f.Type = n.Type()
 	if f.Type == nil {
 		f.SetBroke(true)
@@ -966,7 +966,7 @@ func setNodeNameFunc(n *ir.Node) {
 	}
 
 	n.SetClass(ir.PFUNC)
-	n.Sym.SetFunc(true)
+	n.Sym().SetFunc(true)
 }
 
 func dclfunc(sym *types.Sym, tfn *ir.Node) *ir.Node {
@@ -1030,7 +1030,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	if fn == nil || fn.Op != ir.ONAME || fn.Class() != ir.PFUNC || fn.Name().Defn == nil {
 		return true
 	}
-	if !isRuntimePkg(fn.Sym.Pkg) || fn.Sym.Name != "systemstack" {
+	if !isRuntimePkg(fn.Sym().Pkg) || fn.Sym().Name != "systemstack" {
 		return true
 	}
 

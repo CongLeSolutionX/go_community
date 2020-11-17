@@ -77,7 +77,7 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 		pfuncsym(l, r)
 		return true
 	}
-	if r.Class() != ir.PEXTERN || r.Sym.Pkg != ir.LocalPkg {
+	if r.Class() != ir.PEXTERN || r.Sym().Pkg != ir.LocalPkg {
 		return false
 	}
 	if r.Name().Defn == nil { // probably zeroed but perhaps supplied externally and of unknown value
@@ -280,7 +280,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 			return ir.IsConst(val, ir.CTNIL)
 		}
 
-		markTypeUsedInInterface(val.Type(), l.Sym.Linksym())
+		markTypeUsedInInterface(val.Type(), l.Sym().Linksym())
 
 		var itab *ir.Node
 		if l.Type().IsEmptyInterface() {
@@ -365,7 +365,7 @@ func staticname(t *types.Type) *ir.Node {
 	n := newname(lookup(fmt.Sprintf("%s%d", obj.StaticNamePref, statuniqgen)))
 	statuniqgen++
 	addvar(n, t, ir.PEXTERN)
-	n.Sym.Linksym().Set(obj.AttrLocal, true)
+	n.Sym().Linksym().Set(obj.AttrLocal, true)
 	return n
 }
 
@@ -373,7 +373,7 @@ func staticname(t *types.Type) *ir.Node {
 func readonlystaticname(t *types.Type) *ir.Node {
 	n := staticname(t)
 	n.MarkReadonly()
-	n.Sym.Linksym().Set(obj.AttrContentAddressable, true)
+	n.Sym().Linksym().Set(obj.AttrContentAddressable, true)
 	return n
 }
 
@@ -528,11 +528,11 @@ func fixedlit(ctxt initContext, kind initKind, n *ir.Node, var_ *ir.Node, init *
 			if r.Op != ir.OSTRUCTKEY {
 				base.Fatal("fixedlit: rhs not OSTRUCTKEY: %v", r)
 			}
-			if r.Sym.IsBlank() || isBlank {
+			if r.Sym().IsBlank() || isBlank {
 				return ir.BlankNode, r.Left()
 			}
 			setlineno(r)
-			return nodSym(ir.ODOT, var_, r.Sym), r.Left()
+			return nodSym(ir.ODOT, var_, r.Sym()), r.Left()
 		}
 	default:
 		base.Fatal("fixedlit bad op: %v", n.Op)
@@ -1067,7 +1067,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 			if a.Op != ir.OSTRUCTKEY {
 				base.Fatal("initplan structlit")
 			}
-			if a.Sym.IsBlank() {
+			if a.Sym().IsBlank() {
 				continue
 			}
 			s.addvalue(p, a.Xoffset, a.Left())

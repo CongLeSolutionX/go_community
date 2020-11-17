@@ -47,7 +47,7 @@ func TestCmpstackvar(t *testing.T) {
 	nod := func(xoffset int64, t *types.Type, s *types.Sym, nam *ir.Name) ir.Node {
 		n := new(ir.Node)
 		n.SetType(t)
-		n.Sym = s
+		n.SetSym(s)
 		n.Xoffset = xoffset
 		n.SetName(nam)
 		return *n
@@ -163,7 +163,7 @@ func TestStackvarSort(t *testing.T) {
 	nod := func(xoffset int64, t *types.Type, s *types.Sym) ir.Node {
 		n := new(ir.Node)
 		n.SetType(t)
-		n.Sym = s
+		n.SetSym(s)
 		n.Xoffset = xoffset
 		return *n
 	}

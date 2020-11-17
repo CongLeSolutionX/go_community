@@ -217,13 +217,13 @@ func makePreinlineDclMap(fnsym *obj.LSym) map[varPos]int {
 	for i, n := range dcl {
 		pos := base.Ctxt.InnermostPos(n.Pos)
 		vp := varPos{
-			DeclName: unversion(n.Sym.Name),
+			DeclName: unversion(n.Sym().Name),
 			DeclFile: pos.RelFilename(),
 			DeclLine: pos.RelLine(),
 			DeclCol:  pos.Col(),
 		}
 		if _, found := m[vp]; found {
-			base.Fatal("child dcl collision on symbol %s within %v\n", n.Sym.Name, fnsym.Name)
+			base.Fatal("child dcl collision on symbol %s within %v\n", n.Sym().Name, fnsym.Name)
 		}
 		m[vp] = i
 	}

@@ -199,7 +199,7 @@ func initLSym(f *ir.Func, hasBody bool) {
 	}
 
 	if nam := f.Nname; !nam.IsBlank() {
-		f.LSym = nam.Sym.Linksym()
+		f.LSym = nam.Sym().Linksym()
 		if f.Pragma&ir.Systemstack != 0 {
 			f.LSym.Set(obj.AttrCFunc, true)
 		}
@@ -221,7 +221,7 @@ func initLSym(f *ir.Func, hasBody bool) {
 			}
 		}
 
-		isLinknameExported := nam.Sym.Linkname != "" && (hasBody || hasDefABI)
+		isLinknameExported := nam.Sym().Linkname != "" && (hasBody || hasDefABI)
 		if abi, ok := symabiRefs[f.LSym.Name]; (ok && abi == obj.ABI0) || isLinknameExported {
 			// Either 1) this symbol is definitely
 			// referenced as ABI0 from this package; or 2)
@@ -281,7 +281,7 @@ func initLSym(f *ir.Func, hasBody bool) {
 	// See test/recover.go for test cases and src/reflect/value.go
 	// for the actual functions being considered.
 	if base.Ctxt.Pkgpath == "reflect" {
-		switch f.Nname.Sym.Name {
+		switch f.Nname.Sym().Name {
 		case "callReflect", "callMethod":
 			flag |= obj.WRAPPER
 		}
@@ -291,7 +291,7 @@ func initLSym(f *ir.Func, hasBody bool) {
 }
 
 func ggloblnod(nam *ir.Node) {
-	s := nam.Sym.Linksym()
+	s := nam.Sym().Linksym()
 	s.Gotype = ngotype(nam).Linksym()
 	flags := 0
 	if nam.Name().Readonly() {
@@ -304,7 +304,7 @@ func ggloblnod(nam *ir.Node) {
 	if nam.Name().LibfuzzerExtraCounter() {
 		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
 	}
-	if nam.Sym.Linkname != "" {
+	if nam.Sym().Linkname != "" {
 		// Make sure linkname'd symbol is non-package. When a symbol is
 		// both imported and linkname'd, s.Pkg may not set to "_" in
 		// types.Sym.Linksym because LSym already exists. Set it here.

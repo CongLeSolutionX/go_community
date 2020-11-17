@@ -89,7 +89,7 @@ func resolve(n *ir.Node) (res *ir.Node) {
 		defer tracePrint("resolve", n)(&res)
 	}
 
-	if n.Sym.Pkg != ir.LocalPkg {
+	if n.Sym().Pkg != ir.LocalPkg {
 		if inimport {
 			base.Fatal("recursive inimport")
 		}
@@ -99,7 +99,7 @@ func resolve(n *ir.Node) (res *ir.Node) {
 		return n
 	}
 
-	r := ir.AsNode(n.Sym.Def)
+	r := ir.AsNode(n.Sym().Def)
 	if r == nil {
 		return n
 	}
@@ -332,12 +332,12 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	switch n.Op {
 	case ir.OLITERAL, ir.ONAME, ir.ONONAME, ir.OTYPE:
-		if n.Sym == nil {
+		if n.Sym() == nil {
 			break
 		}
 
 		if n.Op == ir.ONAME && n.SubOp() != 0 && top&ctxCallee == 0 {
-			base.Error("use of builtin %v not in function call", n.Sym)
+			base.Error("use of builtin %v not in function call", n.Sym())
 			n.SetType(nil)
 			return n
 		}
@@ -391,7 +391,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		ok |= ctxExpr
 
 	case ir.OPACK:
-		base.Error("use of package %v without selector", n.Sym)
+		base.Error("use of package %v without selector", n.Sym())
 		n.SetType(nil)
 		return n
 
@@ -898,7 +898,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			return n
 		}
 
-		s := n.Sym
+		s := n.Sym()
 
 		if n.Left().Op == ir.OTYPE {
 			n = typecheckMethodExpr(n)
@@ -919,7 +919,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			checkwidth(t)
 		}
 
-		if n.Sym.IsBlank() {
+		if n.Sym().IsBlank() {
 			base.Error("cannot refer to blank field or method")
 			n.SetType(nil)
 			return n
@@ -937,13 +937,13 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 			case lookdot(n, t, 1) != nil:
 				// Field or method matches by name, but it is not exported.
-				base.Error("%v undefined (cannot refer to unexported field or method %v)", n, n.Sym)
+				base.Error("%v undefined (cannot refer to unexported field or method %v)", n, n.Sym())
 
 			default:
 				if mt := lookdot(n, t, 2); mt != nil && visible(mt.Sym) { // Case-insensitive lookup.
-					base.Error("%v undefined (type %v has no field or method %v, but does have %v)", n, n.Left().Type(), n.Sym, mt.Sym)
+					base.Error("%v undefined (type %v has no field or method %v, but does have %v)", n, n.Left().Type(), n.Sym(), mt.Sym)
 				} else {
-					base.Error("%v undefined (type %v has no field or method %v)", n, n.Left().Type(), n.Sym)
+					base.Error("%v undefined (type %v has no field or method %v)", n, n.Left().Type(), n.Sym())
 				}
 			}
 			n.SetType(nil)
@@ -1381,7 +1381,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		if t.NumResults() == 1 {
 			n.SetType(l.Type().Results().Field(0).Type)
 
-			if n.Op == ir.OCALLFUNC && n.Left().Op == ir.ONAME && isRuntimePkg(n.Left().Sym.Pkg) && n.Left().Sym.Name == "getg" {
+			if n.Op == ir.OCALLFUNC && n.Left().Op == ir.ONAME && isRuntimePkg(n.Left().Sym().Pkg) && n.Left().Sym().Name == "getg" {
 				// Emit code for runtime.getg() directly instead of calling function.
 				// Most such rewrites (for example the similar one for math.Sqrt) should be done in walk,
 				// so that the ordering pass can make sure to preserve the semantics of the original code
@@ -1979,7 +1979,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	case ir.OLABEL:
 		ok |= ctxStmt
 		decldepth++
-		if n.Sym.IsBlank() {
+		if n.Sym().IsBlank() {
 			// Empty identifier is valid but useless.
 			// Eliminate now to simplify life later.
 			// See issues 7538, 11589, 11593.
@@ -2370,7 +2370,7 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 	} else {
 		mt := methtype(t)
 		if mt == nil {
-			base.Error("%v undefined (type %v has no method %v)", n, t, n.Sym)
+			base.Error("%v undefined (type %v has no method %v)", n, t, n.Sym())
 			n.SetType(nil)
 			return n
 		}
@@ -2389,7 +2389,7 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 		}
 	}
 
-	s := n.Sym
+	s := n.Sym()
 	m := lookdot1(n, s, t, ms, 0)
 	if m == nil {
 		if lookdot1(n, s, t, ms, 1) != nil {
@@ -2413,8 +2413,8 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 	if n.Name() == nil {
 		n.SetName(new(ir.Name))
 	}
-	n.SetRight(newname(n.Sym))
-	n.Sym = methodSym(t, n.Sym)
+	n.SetRight(newname(n.Sym()))
+	n.SetSym(methodSym(t, n.Sym()))
 	n.SetType(methodfunc(m.Type, n.Left().Type()))
 	n.Xoffset = 0
 	n.SetClass(ir.PFUNC)
@@ -2422,7 +2422,7 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 
 	// Issue 25065. Make sure that we emit the symbol for a local method.
 	if base.Ctxt.Flag_dynlink && !inimport && (t.Sym == nil || t.Sym.Pkg == ir.LocalPkg) {
-		makefuncsym(n.Sym)
+		makefuncsym(n.Sym())
 	}
 
 	return n
@@ -2453,7 +2453,7 @@ type typeSymKey struct {
 var dotField = map[typeSymKey]*types.Field{}
 
 func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
-	s := n.Sym
+	s := n.Sym()
 
 	dowidth(t)
 	var f1 *types.Field
@@ -2475,7 +2475,7 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 			return f1
 		}
 		if f2 != nil {
-			base.Error("%v is both field and method", n.Sym)
+			base.Error("%v is both field and method", n.Sym())
 		}
 		if f1.Offset == types.BADWIDTH {
 			base.Fatal("lookdot badwidth %v %p", f1, f1)
@@ -2517,7 +2517,7 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 				n.Left().SetImplicit(true)
 				n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 			} else if tt.IsPtr() && tt.Elem().IsPtr() && types.Identical(derefall(tt), derefall(rcvr)) {
-				base.Error("calling method %v with receiver %L requires explicit dereference", n.Sym, n.Left())
+				base.Error("calling method %v with receiver %L requires explicit dereference", n.Sym(), n.Left())
 				for tt.IsPtr() {
 					// Stop one level early for method with pointer receiver.
 					if rcvr.IsPtr() && !tt.Elem().IsPtr() {
@@ -2546,7 +2546,7 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 			return nil
 		}
 
-		n.Sym = methodSym(n.Left().Type(), f2.Sym)
+		n.SetSym(methodSym(n.Left().Type(), f2.Sym))
 		n.Xoffset = f2.Offset
 		n.SetType(f2.Type)
 		n.Op = ir.ODOTMETH
@@ -2941,7 +2941,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 					// the field to the right of the dot,
 					// so s will be non-nil, but an OXDOT
 					// is never a valid struct literal key.
-					if key.Sym == nil || key.Op == ir.OXDOT || key.Sym.IsBlank() {
+					if key.Sym() == nil || key.Op == ir.OXDOT || key.Sym().IsBlank() {
 						base.Error("invalid field name %v in struct initializer", key)
 						l.SetLeft(typecheck(l.Left(), ctxExpr))
 						continue
@@ -2950,14 +2950,14 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 					// Sym might have resolved to name in other top-level
 					// package, because of import dot. Redirect to correct sym
 					// before we do the lookup.
-					s := key.Sym
+					s := key.Sym()
 					if s.Pkg != ir.LocalPkg && types.IsExported(s.Name) {
 						s1 := lookup(s.Name)
 						if s1.Origpkg == s.Pkg {
 							s = s1
 						}
 					}
-					l.Sym = s
+					l.SetSym(s)
 				}
 
 				if l.Op != ir.OSTRUCTKEY {
@@ -2969,22 +2969,22 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 					continue
 				}
 
-				f := lookdot1(nil, l.Sym, t, t.Fields(), 0)
+				f := lookdot1(nil, l.Sym(), t, t.Fields(), 0)
 				if f == nil {
-					if ci := lookdot1(nil, l.Sym, t, t.Fields(), 2); ci != nil { // Case-insensitive lookup.
+					if ci := lookdot1(nil, l.Sym(), t, t.Fields(), 2); ci != nil { // Case-insensitive lookup.
 						if visible(ci.Sym) {
-							base.Error("unknown field '%v' in struct literal of type %v (but does have %v)", l.Sym, t, ci.Sym)
-						} else if nonexported(l.Sym) && l.Sym.Name == ci.Sym.Name { // Ensure exactness before the suggestion.
-							base.Error("cannot refer to unexported field '%v' in struct literal of type %v", l.Sym, t)
+							base.Error("unknown field '%v' in struct literal of type %v (but does have %v)", l.Sym(), t, ci.Sym)
+						} else if nonexported(l.Sym()) && l.Sym().Name == ci.Sym.Name { // Ensure exactness before the suggestion.
+							base.Error("cannot refer to unexported field '%v' in struct literal of type %v", l.Sym(), t)
 						} else {
-							base.Error("unknown field '%v' in struct literal of type %v", l.Sym, t)
+							base.Error("unknown field '%v' in struct literal of type %v", l.Sym(), t)
 						}
 						continue
 					}
 					var f *types.Field
-					p, _ := dotpath(l.Sym, t, &f, true)
+					p, _ := dotpath(l.Sym(), t, &f, true)
 					if p == nil || f.IsMethod() {
-						base.Error("unknown field '%v' in struct literal of type %v", l.Sym, t)
+						base.Error("unknown field '%v' in struct literal of type %v", l.Sym(), t)
 						continue
 					}
 					// dotpath returns the parent embedded types in reverse order.
@@ -2992,7 +2992,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 					for ei := len(p) - 1; ei >= 0; ei-- {
 						ep = append(ep, p[ei].field.Sym.Name)
 					}
-					ep = append(ep, l.Sym.Name)
+					ep = append(ep, l.Sym().Name)
 					base.Error("cannot use promoted field %v in struct literal of type %v", strings.Join(ep, "."), t)
 					continue
 				}
@@ -3148,7 +3148,7 @@ func checkassign(stmt *ir.Node, n *ir.Node) {
 		base.Error("cannot assign to struct field %v in map", n)
 	case (n.Op == ir.OINDEX && n.Left().Type().IsString()) || n.Op == ir.OSLICESTR:
 		base.Error("cannot assign to %v (strings are immutable)", n)
-	case n.Op == ir.OLITERAL && n.Sym != nil && isGoConst(n):
+	case n.Op == ir.OLITERAL && n.Sym() != nil && isGoConst(n):
 		base.Error("cannot assign to %v (declared const)", n)
 	default:
 		base.Error("cannot assign to %v", n)
@@ -3187,7 +3187,7 @@ func samesafeexpr(l *ir.Node, r *ir.Node) bool {
 		return l == r
 
 	case ir.ODOT, ir.ODOTPTR:
-		return l.Sym != nil && r.Sym != nil && l.Sym == r.Sym && samesafeexpr(l.Left(), r.Left())
+		return l.Sym() != nil && r.Sym() != nil && l.Sym() == r.Sym() && samesafeexpr(l.Left(), r.Left())
 
 	case ir.ODEREF, ir.OCONVNOP,
 		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG:
@@ -3428,12 +3428,12 @@ func typecheckfunc(n *ir.Node) {
 			return
 		}
 
-		n.Func().Nname.Sym = methodSym(rcvr.Type, n.Func().Shortname)
+		n.Func().Nname.SetSym(methodSym(rcvr.Type, n.Func().Shortname))
 		declare(n.Func().Nname, ir.PFUNC)
 	}
 
 	if base.Ctxt.Flag_dynlink && !inimport && n.Func().Nname != nil {
-		makefuncsym(n.Func().Nname.Sym)
+		makefuncsym(n.Func().Nname.Sym())
 	}
 }
 
@@ -3485,7 +3485,7 @@ func setUnderlying(t, underlying *types.Type) {
 
 	// Restore unnecessarily clobbered attributes.
 	t.Nod = ir.AsTypesNode(n)
-	t.Sym = n.Sym
+	t.Sym = n.Sym()
 	if n.Name() != nil {
 		t.Vargen = n.Name().Vargen
 	}
@@ -3551,7 +3551,7 @@ func typecheckdef(n *ir.Node) {
 
 			// Note: adderrorname looks for this string and
 			// adds context about the outer expression
-			base.ErrorAt(base.Pos, "undefined: %v", n.Sym)
+			base.ErrorAt(base.Pos, "undefined: %v", n.Sym())
 		}
 		base.Pos = lno
 		return
@@ -3568,7 +3568,7 @@ func typecheckdef(n *ir.Node) {
 		fmt.Printf("typecheckdef loop:")
 		for i := len(typecheckdefstack) - 1; i >= 0; i-- {
 			n := typecheckdefstack[i]
-			fmt.Printf(" %v", n.Sym)
+			fmt.Printf(" %v", n.Sym())
 		}
 		fmt.Printf("\n")
 		base.Fatal("typecheckdef loop")
@@ -3576,7 +3576,7 @@ func typecheckdef(n *ir.Node) {
 
 	n.SetWalkdef(2)
 
-	if n.Type() != nil || n.Sym == nil { // builtin or no name
+	if n.Type() != nil || n.Sym() == nil { // builtin or no name
 		goto ret
 	}
 
@@ -3661,7 +3661,7 @@ func typecheckdef(n *ir.Node) {
 				break
 			}
 
-			base.Fatal("var without type, init: %v", n.Sym)
+			base.Fatal("var without type, init: %v", n.Sym())
 		}
 
 		if n.Name().Defn.Op == ir.ONAME {
@@ -3687,7 +3687,7 @@ func typecheckdef(n *ir.Node) {
 				// For package-level type aliases, set n.Sym.Def so we can identify
 				// it as a type alias during export. See also #31959.
 				if n.Name().Curfn == nil {
-					n.Sym.Def = ir.AsTypesNode(p.Ntype)
+					n.Sym().Def = ir.AsTypesNode(p.Ntype)
 				}
 			}
 			break
@@ -3697,7 +3697,7 @@ func typecheckdef(n *ir.Node) {
 		defercheckwidth()
 		n.SetWalkdef(1)
 		setTypeNode(n, types.New(types.TFORW))
-		n.Type().Sym = n.Sym
+		n.Type().Sym = n.Sym()
 		errorsBefore := base.Errors()
 		typecheckdeftype(n)
 		if n.Type().Etype == types.TFORW && base.Errors() > errorsBefore {
@@ -3763,12 +3763,12 @@ func markbreak(n *ir.Node, implicit *ir.Node) {
 
 	switch n.Op {
 	case ir.OBREAK:
-		if n.Sym == nil {
+		if n.Sym() == nil {
 			if implicit != nil {
 				implicit.SetHasBreak(true)
 			}
 		} else {
-			lab := ir.AsNode(n.Sym.Label)
+			lab := ir.AsNode(n.Sym().Label)
 			if lab != nil {
 				lab.SetHasBreak(true)
 			}
@@ -3796,9 +3796,9 @@ func markbreaklist(l ir.Nodes, implicit *ir.Node) {
 		if n.Op == ir.OLABEL && i+1 < len(s) && n.Name().Defn == s[i+1] {
 			switch n.Name().Defn.Op {
 			case ir.OFOR, ir.OFORUNTIL, ir.OSWITCH, ir.OTYPESW, ir.OSELECT, ir.ORANGE:
-				n.Sym.Label = ir.AsTypesNode(n.Name().Defn)
+				n.Sym().Label = ir.AsTypesNode(n.Name().Defn)
 				markbreak(n.Name().Defn, n.Name().Defn)
-				n.Sym.Label = nil
+				n.Sym().Label = nil
 				i++
 				continue
 			}

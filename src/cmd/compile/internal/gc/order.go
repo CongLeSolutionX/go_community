@@ -53,7 +53,7 @@ type Order struct {
 // described in the comment at the top of the file.
 func order(fn *ir.Node) {
 	if base.Flag.W > 1 {
-		s := fmt.Sprintf("\nbefore order %v", fn.Func().Nname.Sym)
+		s := fmt.Sprintf("\nbefore order %v", fn.Func().Nname.Sym())
 		ir.DumpList(s, fn.Nbody)
 	}
 
@@ -361,14 +361,14 @@ func orderMakeSliceCopy(s []*ir.Node) {
 	if copyn.Left().Op != ir.ONAME {
 		return
 	}
-	if asn.Left().Sym != copyn.Left().Sym {
+	if asn.Left().Sym() != copyn.Left().Sym() {
 		return
 	}
 	if copyn.Right().Op != ir.ONAME {
 		return
 	}
 
-	if copyn.Left().Sym == copyn.Right().Sym {
+	if copyn.Left().Sym() == copyn.Right().Sym() {
 		return
 	}
 

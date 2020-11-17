@@ -251,7 +251,7 @@ func iexport(out *bufio.Writer) {
 		// TODO(mdempsky): Separate from bexport logic.
 		p := &exporter{marked: make(map[*types.Type]bool)}
 		for _, n := range exportlist {
-			sym := n.Sym
+			sym := n.Sym()
 			p.markType(ir.AsNode(sym.Def).Type())
 		}
 	}
@@ -329,7 +329,7 @@ func (w *exportWriter) writeIndex(index map[*ir.Node]uint64, mainIndex bool) {
 	}
 
 	for n := range index {
-		pkgObjs[n.Sym.Pkg] = append(pkgObjs[n.Sym.Pkg], n)
+		pkgObjs[n.Sym().Pkg] = append(pkgObjs[n.Sym().Pkg], n)
 	}
 
 	var pkgs []*types.Pkg
@@ -337,7 +337,7 @@ func (w *exportWriter) writeIndex(index map[*ir.Node]uint64, mainIndex bool) {
 		pkgs = append(pkgs, pkg)
 
 		sort.Slice(objs, func(i, j int) bool {
-			return objs[i].Sym.Name < objs[j].Sym.Name
+			return objs[i].Sym().Name < objs[j].Sym().Name
 		})
 	}
 
@@ -356,7 +356,7 @@ func (w *exportWriter) writeIndex(index map[*ir.Node]uint64, mainIndex bool) {
 		objs := pkgObjs[pkg]
 		w.uint64(uint64(len(objs)))
 		for _, n := range objs {
-			w.string(n.Sym.Name)
+			w.string(n.Sym().Name)
 			w.uint64(index[n])
 		}
 	}
@@ -395,12 +395,12 @@ func (p *iexporter) stringOff(s string) uint64 {
 
 // pushDecl adds n to the declaration work queue, if not already present.
 func (p *iexporter) pushDecl(n *ir.Node) {
-	if n.Sym == nil || ir.AsNode(n.Sym.Def) != n && n.Op != ir.OTYPE {
-		base.Fatal("weird Sym: %v, %v", n, n.Sym)
+	if n.Sym() == nil || ir.AsNode(n.Sym().Def) != n && n.Op != ir.OTYPE {
+		base.Fatal("weird Sym: %v, %v", n, n.Sym())
 	}
 
 	// Don't export predeclared declarations.
-	if n.Sym.Pkg == ir.BuiltinPkg || n.Sym.Pkg == unsafepkg {
+	if n.Sym().Pkg == ir.BuiltinPkg || n.Sym().Pkg == unsafepkg {
 		return
 	}
 
@@ -425,7 +425,7 @@ type exportWriter struct {
 
 func (p *iexporter) doDecl(n *ir.Node) {
 	w := p.newWriter()
-	w.setPkg(n.Sym.Pkg, false)
+	w.setPkg(n.Sym().Pkg, false)
 
 	switch n.Op {
 	case ir.ONAME:
@@ -460,7 +460,7 @@ func (p *iexporter) doDecl(n *ir.Node) {
 		w.value(n.Type(), n.Val())
 
 	case ir.OTYPE:
-		if IsAlias(n.Sym) {
+		if IsAlias(n.Sym()) {
 			// Alias.
 			w.tag('A')
 			w.pos(n.Pos)
@@ -574,7 +574,7 @@ func (w *exportWriter) qualifiedIdent(n *ir.Node) {
 	// Ensure any referenced declarations are written out too.
 	w.p.pushDecl(n)
 
-	s := n.Sym
+	s := n.Sym()
 	w.string(s.Name)
 	w.pkg(s.Pkg)
 }
@@ -959,13 +959,13 @@ func (w *exportWriter) string(s string) { w.uint64(w.p.stringOff(s)) }
 // Compiler-specific extensions.
 
 func (w *exportWriter) varExt(n *ir.Node) {
-	w.linkname(n.Sym)
-	w.symIdx(n.Sym)
+	w.linkname(n.Sym())
+	w.symIdx(n.Sym())
 }
 
 func (w *exportWriter) funcExt(n *ir.Node) {
-	w.linkname(n.Sym)
-	w.symIdx(n.Sym)
+	w.linkname(n.Sym())
+	w.symIdx(n.Sym())
 
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
@@ -1160,7 +1160,7 @@ func (w *exportWriter) stmt(n *ir.Node) {
 	case ir.OGOTO, ir.OLABEL:
 		w.op(op)
 		w.pos(n.Pos)
-		w.string(n.Sym.Name)
+		w.string(n.Sym().Name)
 
 	default:
 		base.Fatal("exporter: CANNOT EXPORT: %v\nPlease notify gri@\n", n.Op)
@@ -1227,7 +1227,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 			w.op(ir.OXDOT)
 			w.pos(n.Pos)
 			w.expr(n.Left()) // n.Left.Op == OTYPE
-			w.selector(n.Right().Sym)
+			w.selector(n.Right().Sym())
 			break
 		}
 
@@ -1257,7 +1257,7 @@ func (w *exportWriter) expr(n *ir.Node) {
 			if n.Left().Op != ir.ONONAME {
 				base.Fatal("expected ONONAME, got %v", n.Left())
 			}
-			s = n.Left().Sym
+			s = n.Left().Sym()
 		}
 		w.localIdent(s, 0) // declared pseudo-variable, if any
 		w.exprsOrNil(n.Right(), nil)
@@ -1302,13 +1302,13 @@ func (w *exportWriter) expr(n *ir.Node) {
 		w.pos(n.Pos)
 		w.expr(n.Left())
 		// Right node should be ONAME
-		w.selector(n.Right().Sym)
+		w.selector(n.Right().Sym())
 
 	case ir.OXDOT, ir.ODOT, ir.ODOTPTR, ir.ODOTINTER, ir.ODOTMETH:
 		w.op(ir.OXDOT)
 		w.pos(n.Pos)
 		w.expr(n.Left())
-		w.selector(n.Sym)
+		w.selector(n.Sym())
 
 	case ir.ODOTTYPE, ir.ODOTTYPE2:
 		w.op(ir.ODOTTYPE)
@@ -1447,7 +1447,7 @@ func (w *exportWriter) exprsOrNil(a, b *ir.Node) {
 func (w *exportWriter) elemList(list ir.Nodes) {
 	w.uint64(uint64(list.Len()))
 	for _, n := range list.Slice() {
-		w.selector(n.Sym)
+		w.selector(n.Sym())
 		w.expr(n.Left())
 	}
 }
@@ -1465,7 +1465,7 @@ func (w *exportWriter) localName(n *ir.Node) {
 		v = n.Name().Vargen
 	}
 
-	w.localIdent(n.Sym, v)
+	w.localIdent(n.Sym(), v)
 }
 
 func (w *exportWriter) localIdent(s *types.Sym, v int32) {

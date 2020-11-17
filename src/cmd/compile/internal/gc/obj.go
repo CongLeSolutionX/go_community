@@ -203,7 +203,7 @@ func addptabs() {
 		return
 	}
 	for _, exportn := range exportlist {
-		s := exportn.Sym
+		s := exportn.Sym()
 		n := ir.AsNode(s.Def)
 		if n == nil {
 			continue
@@ -234,7 +234,7 @@ func dumpGlobal(n *ir.Node) {
 	if n.Class() == ir.PFUNC {
 		return
 	}
-	if n.Sym.Pkg != ir.LocalPkg {
+	if n.Sym().Pkg != ir.LocalPkg {
 		return
 	}
 	dowidth(n.Type())
@@ -247,7 +247,7 @@ func dumpGlobalConst(n *ir.Node) {
 	if t == nil {
 		return
 	}
-	if n.Sym.Pkg != ir.LocalPkg {
+	if n.Sym().Pkg != ir.LocalPkg {
 		return
 	}
 	// only export integer constants for now
@@ -277,7 +277,7 @@ func dumpGlobalConst(n *ir.Node) {
 	default:
 		return
 	}
-	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym.Name, typesymname(t), n.Int64Val())
+	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, typesymname(t), n.Int64Val())
 }
 
 func dumpglobls() {
@@ -428,7 +428,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 		if readonly {
 			sym = stringsym(pos, string(data))
 		} else {
-			sym = slicedata(pos, string(data)).Sym.Linksym()
+			sym = slicedata(pos, string(data)).Sym().Linksym()
 		}
 		if len(hash) > 0 {
 			sum := sha256.Sum256(data)
@@ -476,7 +476,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 	} else {
 		// Emit a zero-length data symbol
 		// and then fix up length and content to use file.
-		symdata = slicedata(pos, "").Sym.Linksym()
+		symdata = slicedata(pos, "").Sym().Linksym()
 		symdata.Size = size
 		symdata.Type = objabi.SNOPTRDATA
 		info := symdata.NewFileInfo()
@@ -545,12 +545,12 @@ func dsymptrWeakOff(s *obj.LSym, off int, x *obj.LSym) int {
 // slicesym writes a static slice symbol {&arr, lencap, lencap} to n.
 // arr must be an ONAME. slicesym does not modify n.
 func slicesym(n, arr *ir.Node, lencap int64) {
-	s := n.Sym.Linksym()
+	s := n.Sym().Linksym()
 	off := n.Xoffset
 	if arr.Op != ir.ONAME {
 		base.Fatal("slicesym non-name arr %v", arr)
 	}
-	s.WriteAddr(base.Ctxt, off, Widthptr, arr.Sym.Linksym(), arr.Xoffset)
+	s.WriteAddr(base.Ctxt, off, Widthptr, arr.Sym().Linksym(), arr.Xoffset)
 	s.WriteInt(base.Ctxt, off+sliceLenOffset, Widthptr, lencap)
 	s.WriteInt(base.Ctxt, off+sliceCapOffset, Widthptr, lencap)
 }
@@ -561,14 +561,14 @@ func addrsym(n, a *ir.Node) {
 	if n.Op != ir.ONAME {
 		base.Fatal("addrsym n op %v", n.Op)
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		base.Fatal("addrsym nil n sym")
 	}
 	if a.Op != ir.ONAME {
 		base.Fatal("addrsym a op %v", a.Op)
 	}
-	s := n.Sym.Linksym()
-	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, a.Sym.Linksym(), a.Xoffset)
+	s := n.Sym().Linksym()
+	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, a.Sym().Linksym(), a.Xoffset)
 }
 
 // pfuncsym writes the static address of f to n. f must be a global function.
@@ -577,14 +577,14 @@ func pfuncsym(n, f *ir.Node) {
 	if n.Op != ir.ONAME {
 		base.Fatal("pfuncsym n op %v", n.Op)
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		base.Fatal("pfuncsym nil n sym")
 	}
 	if f.Class() != ir.PFUNC {
 		base.Fatal("pfuncsym class not PFUNC %d", f.Class())
 	}
-	s := n.Sym.Linksym()
-	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, funcsym(f.Sym).Linksym(), f.Xoffset)
+	s := n.Sym().Linksym()
+	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, funcsym(f.Sym()).Linksym(), f.Xoffset)
 }
 
 // litsym writes the static literal c to n.
@@ -596,10 +596,10 @@ func litsym(n, c *ir.Node, wid int) {
 	if c.Op != ir.OLITERAL {
 		base.Fatal("litsym c op %v", c.Op)
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		base.Fatal("litsym nil n sym")
 	}
-	s := n.Sym.Linksym()
+	s := n.Sym().Linksym()
 	switch u := c.Val().U.(type) {
 	case bool:
 		i := int64(obj.Bool2int(u))

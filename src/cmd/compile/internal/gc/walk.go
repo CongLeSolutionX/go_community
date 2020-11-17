@@ -25,7 +25,7 @@ func walk(fn *ir.Node) {
 	errorsBefore := base.Errors()
 
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("\nbefore walk %v", Curfn.Func().Nname.Sym)
+		s := fmt.Sprintf("\nbefore walk %v", Curfn.Func().Nname.Sym())
 		ir.DumpList(s, Curfn.Nbody)
 	}
 
@@ -47,17 +47,17 @@ func walk(fn *ir.Node) {
 	}
 
 	for _, ln := range fn.Func().Dcl {
-		if ln.Op != ir.ONAME || (ln.Class() != ir.PAUTO && ln.Class() != ir.PAUTOHEAP) || ln.Sym.Name[0] == '&' || ln.Name().Used() {
+		if ln.Op != ir.ONAME || (ln.Class() != ir.PAUTO && ln.Class() != ir.PAUTOHEAP) || ln.Sym().Name[0] == '&' || ln.Name().Used() {
 			continue
 		}
 		if defn := ln.Name().Defn; defn != nil && defn.Op == ir.OTYPESW {
 			if defn.Left().Name().Used() {
 				continue
 			}
-			base.ErrorAt(defn.Left().Pos, "%v declared but not used", ln.Sym)
+			base.ErrorAt(defn.Left().Pos, "%v declared but not used", ln.Sym())
 			defn.Left().Name().SetUsed(true) // suppress repeats
 		} else {
-			base.ErrorAt(ln.Pos, "%v declared but not used", ln.Sym)
+			base.ErrorAt(ln.Pos, "%v declared but not used", ln.Sym())
 		}
 	}
 
@@ -67,14 +67,14 @@ func walk(fn *ir.Node) {
 	}
 	walkstmtlist(Curfn.Nbody.Slice())
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("after walk %v", Curfn.Func().Nname.Sym)
+		s := fmt.Sprintf("after walk %v", Curfn.Func().Nname.Sym())
 		ir.DumpList(s, Curfn.Nbody)
 	}
 
 	zeroResults()
 	heapmoves()
 	if base.Flag.W != 0 && Curfn.Func().Enter.Len() > 0 {
-		s := fmt.Sprintf("enter %v", Curfn.Func().Nname.Sym)
+		s := fmt.Sprintf("enter %v", Curfn.Func().Nname.Sym())
 		ir.DumpList(s, Curfn.Func().Enter)
 	}
 }
@@ -116,7 +116,7 @@ func walkstmt(n *ir.Node) *ir.Node {
 	switch n.Op {
 	default:
 		if n.Op == ir.ONAME {
-			base.Error("%v is not a top level statement", n.Sym)
+			base.Error("%v is not a top level statement", n.Sym())
 		} else {
 			base.Error("%v is not a top level statement", n.Op)
 		}
@@ -2060,7 +2060,7 @@ func isReflectHeaderDataField(l *ir.Node) bool {
 		return false
 	}
 
-	if tsym == nil || l.Sym.Name != "Data" || tsym.Pkg.Path != "reflect" {
+	if tsym == nil || l.Sym().Name != "Data" || tsym.Pkg.Path != "reflect" {
 		return false
 	}
 	return tsym.Name == "SliceHeader" || tsym.Name == "StringHeader"
@@ -2398,7 +2398,7 @@ func paramstoheap(params *types.Type) []*ir.Node {
 	var nn []*ir.Node
 	for _, t := range params.Fields().Slice() {
 		v := ir.AsNode(t.Nname)
-		if v != nil && v.Sym != nil && strings.HasPrefix(v.Sym.Name, "~r") { // unnamed result
+		if v != nil && v.Sym() != nil && strings.HasPrefix(v.Sym().Name, "~r") { // unnamed result
 			v = nil
 		}
 		if v == nil {
@@ -3726,7 +3726,7 @@ func usefield(n *ir.Node) {
 	case ir.ODOT, ir.ODOTPTR:
 		break
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		// No field name.  This DOTPTR was built by the compiler for access
 		// to runtime data structures.  Ignore.
 		return
@@ -3736,9 +3736,9 @@ func usefield(n *ir.Node) {
 	if t.IsPtr() {
 		t = t.Elem()
 	}
-	field := dotField[typeSymKey{t.Orig, n.Sym}]
+	field := dotField[typeSymKey{t.Orig, n.Sym()}]
 	if field == nil {
-		base.Fatal("usefield %v %v without paramfld", n.Left().Type(), n.Sym)
+		base.Fatal("usefield %v %v without paramfld", n.Left().Type(), n.Sym())
 	}
 	if !strings.Contains(field.Note, "go:\"track\"") {
 		return

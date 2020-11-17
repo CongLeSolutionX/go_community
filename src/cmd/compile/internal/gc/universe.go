@@ -130,13 +130,13 @@ func lexinit() {
 
 	s := ir.BuiltinPkg.Lookup("true")
 	s.Def = ir.AsTypesNode(nodbool(true))
-	ir.AsNode(s.Def).Sym = lookup("true")
+	ir.AsNode(s.Def).SetSym(lookup("true"))
 	ir.AsNode(s.Def).SetName(new(ir.Name))
 	ir.AsNode(s.Def).SetType(types.UntypedBool)
 
 	s = ir.BuiltinPkg.Lookup("false")
 	s.Def = ir.AsTypesNode(nodbool(false))
-	ir.AsNode(s.Def).Sym = lookup("false")
+	ir.AsNode(s.Def).SetSym(lookup("false"))
 	ir.AsNode(s.Def).SetName(new(ir.Name))
 	ir.AsNode(s.Def).SetType(types.UntypedBool)
 
@@ -158,12 +158,12 @@ func lexinit() {
 	var v ir.Val
 	v.U = new(ir.NilVal)
 	s.Def = ir.AsTypesNode(nodlit(v))
-	ir.AsNode(s.Def).Sym = s
+	ir.AsNode(s.Def).SetSym(s)
 	ir.AsNode(s.Def).SetName(new(ir.Name))
 
 	s = ir.BuiltinPkg.Lookup("iota")
 	s.Def = ir.AsTypesNode(nod(ir.OIOTA, nil, nil))
-	ir.AsNode(s.Def).Sym = s
+	ir.AsNode(s.Def).SetSym(s)
 	ir.AsNode(s.Def).SetName(new(ir.Name))
 }
 

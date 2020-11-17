@@ -48,7 +48,7 @@ func funcSym(fn *ir.Node) *types.Sym {
 	if fn == nil || fn.Func().Nname == nil {
 		return nil
 	}
-	return fn.Func().Nname.Sym
+	return fn.Func().Nname.Sym()
 }
 
 // Mark labels that have no backjumps to them as not increasing e.loopdepth.
@@ -298,8 +298,8 @@ func moveToHeap(n *ir.Node) {
 	// Allocate a local stack variable to hold the pointer to the heap copy.
 	// temp will add it to the function declaration list automatically.
 	heapaddr := temp(types.NewPtr(n.Type()))
-	heapaddr.Sym = lookup("&" + n.Sym.Name)
-	heapaddr.Orig().Sym = heapaddr.Sym
+	heapaddr.SetSym(lookup("&" + n.Sym().Name))
+	heapaddr.Orig().SetSym(heapaddr.Sym())
 	heapaddr.Pos = n.Pos
 
 	// Unset AutoTemp to persist the &foo variable name through SSA to
@@ -319,7 +319,7 @@ func moveToHeap(n *ir.Node) {
 		// Preserve a copy so we can still write code referring to the original,
 		// and substitute that copy into the function declaration list
 		// so that analyses of the local (on-stack) variables use it.
-		stackcopy := newname(n.Sym)
+		stackcopy := newname(n.Sym())
 		stackcopy.SetType(n.Type())
 		stackcopy.Xoffset = n.Xoffset
 		stackcopy.SetClass(n.Class())

@@ -44,7 +44,7 @@ func hasUniquePos(n *ir.Node) bool {
 	case ir.ONAME, ir.OPACK:
 		return false
 	case ir.OLITERAL, ir.OTYPE:
-		if n.Sym != nil {
+		if n.Sym() != nil {
 			return false
 		}
 	}
@@ -197,7 +197,7 @@ func newnamel(pos src.XPos, s *types.Sym) *ir.Node {
 	n.Pos = pos
 	n.SetOrig(n)
 
-	n.Sym = s
+	n.SetSym(s)
 	return n
 }
 
@@ -211,7 +211,7 @@ func nodSym(op ir.Op, left *ir.Node, sym *types.Sym) *ir.Node {
 // and the Sym field set to sym. This is for ODOT and friends.
 func nodlSym(pos src.XPos, op ir.Op, left *ir.Node, sym *types.Sym) *ir.Node {
 	n := nodl(pos, op, left, nil)
-	n.Sym = sym
+	n.SetSym(sym)
 	return n
 }
 
@@ -1030,7 +1030,7 @@ func adddot(n *ir.Node) *ir.Node {
 		return n
 	}
 
-	s := n.Sym
+	s := n.Sym()
 	if s == nil {
 		return n
 	}

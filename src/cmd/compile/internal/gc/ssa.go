@@ -695,7 +695,7 @@ func (s *state) Debug_checknil() bool                                { return s.
 func ssaDummy(name string) *ir.Node {
 	n := new(ir.Node)
 	n.Op = ir.ONAME
-	n.Sym = &types.Sym{Name: name}
+	n.SetSym(&types.Sym{Name: name})
 	return n
 }
 
@@ -1094,8 +1094,8 @@ func (s *state) stmt(n *ir.Node) {
 	case ir.OCALLMETH, ir.OCALLINTER:
 		s.callResult(n, callNormal)
 		if n.Op == ir.OCALLFUNC && n.Left().Op == ir.ONAME && n.Left().Class() == ir.PFUNC {
-			if fn := n.Left().Sym.Name; base.Flag.CompilingRuntime && fn == "throw" ||
-				n.Left().Sym.Pkg == Runtimepkg && (fn == "throwinit" || fn == "gopanic" || fn == "panicwrap" || fn == "block" || fn == "panicmakeslicelen" || fn == "panicmakeslicecap") {
+			if fn := n.Left().Sym().Name; base.Flag.CompilingRuntime && fn == "throw" ||
+				n.Left().Sym().Pkg == Runtimepkg && (fn == "throwinit" || fn == "gopanic" || fn == "panicwrap" || fn == "block" || fn == "panicmakeslicelen" || fn == "panicmakeslicecap") {
 				m := s.mem()
 				b := s.endBlock()
 				b.Kind = ssa.BlockExit
@@ -1168,7 +1168,7 @@ func (s *state) stmt(n *ir.Node) {
 		}
 
 	case ir.OLABEL:
-		sym := n.Sym
+		sym := n.Sym()
 		lab := s.label(sym)
 
 		// Associate label with its control flow node, if any
@@ -1190,7 +1190,7 @@ func (s *state) stmt(n *ir.Node) {
 		s.startBlock(lab.target)
 
 	case ir.OGOTO:
-		sym := n.Sym
+		sym := n.Sym()
 
 		lab := s.label(sym)
 		if lab.target == nil {
@@ -1368,11 +1368,11 @@ func (s *state) stmt(n *ir.Node) {
 		s.stmtList(n.List)
 		b := s.exit()
 		b.Kind = ssa.BlockRetJmp // override BlockRet
-		b.Aux = n.Sym.Linksym()
+		b.Aux = n.Sym().Linksym()
 
 	case ir.OCONTINUE, ir.OBREAK:
 		var to *ssa.Block
-		if n.Sym == nil {
+		if n.Sym() == nil {
 			// plain break/continue
 			switch n.Op {
 			case ir.OCONTINUE:
@@ -1382,7 +1382,7 @@ func (s *state) stmt(n *ir.Node) {
 			}
 		} else {
 			// labeled break/continue; look up the target
-			sym := n.Sym
+			sym := n.Sym()
 			lab := s.label(sym)
 			switch n.Op {
 			case ir.OCONTINUE:
@@ -2002,7 +2002,7 @@ func (s *state) ssaShiftOp(op ir.Op, t *types.Type, u *types.Type) ssa.Op {
 
 // expr converts the expression n to ssa, adds it to s and returns the ssa result.
 func (s *state) expr(n *ir.Node) *ssa.Value {
-	if !(n.Op == ir.ONAME || n.Op == ir.OLITERAL && n.Sym != nil) {
+	if !(n.Op == ir.ONAME || n.Op == ir.OLITERAL && n.Sym() != nil) {
 		// ONAMEs and named OLITERALs have the line number
 		// of the decl, not the use. See issue 14742.
 		s.pushLine(n.Pos)
@@ -2022,12 +2022,12 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		len := s.newValue1(ssa.OpStringLen, types.Types[types.TINT], str)
 		return s.newValue3(ssa.OpSliceMake, n.Type(), ptr, len, len)
 	case ir.OCFUNC:
-		aux := n.Left().Sym.Linksym()
+		aux := n.Left().Sym().Linksym()
 		return s.entryNewValue1A(ssa.OpAddr, n.Type(), aux, s.sb)
 	case ir.ONAME:
 		if n.Class() == ir.PFUNC {
 			// "value" of a function is the address of the function's closure
-			sym := funcsym(n.Sym).Linksym()
+			sym := funcsym(n.Sym()).Linksym()
 			return s.entryNewValue1A(ssa.OpAddr, types.NewPtr(n.Type()), sym, s.sb)
 		}
 		if s.canSSA(n) {
@@ -4158,12 +4158,12 @@ func isIntrinsicCall(n *ir.Node) bool {
 	if n == nil || n.Left() == nil {
 		return false
 	}
-	return findIntrinsic(n.Left().Sym) != nil
+	return findIntrinsic(n.Left().Sym()) != nil
 }
 
 // intrinsicCall converts a call to a recognized intrinsic function into the intrinsic SSA operation.
 func (s *state) intrinsicCall(n *ir.Node) *ssa.Value {
-	v := findIntrinsic(n.Left().Sym)(s, n, s.intrinsicArgs(n))
+	v := findIntrinsic(n.Left().Sym())(s, n, s.intrinsicArgs(n))
 	if ssa.IntrinsicsDebug > 0 {
 		x := v
 		if x == nil {
@@ -4172,7 +4172,7 @@ func (s *state) intrinsicCall(n *ir.Node) *ssa.Value {
 		if x.Op == ssa.OpSelect0 || x.Op == ssa.OpSelect1 {
 			x = x.Args[0]
 		}
-		base.WarnAt(n.Pos, "intrinsic substitution for %v with %s", n.Left().Sym.Name, x.LongString())
+		base.WarnAt(n.Pos, "intrinsic substitution for %v with %s", n.Left().Sym().Name, x.LongString())
 	}
 	return v
 }
@@ -4435,7 +4435,7 @@ func (s *state) openDeferExit() {
 				call = s.newValue3A(ssa.OpClosureCall, types.TypeMem, aux, codeptr, v, s.mem())
 			}
 		} else {
-			aux := ssa.StaticAuxCall(fn.Sym.Linksym(), ACArgs, ACResults)
+			aux := ssa.StaticAuxCall(fn.Sym().Linksym(), ACArgs, ACResults)
 			if testLateExpansion {
 				callArgs = append(callArgs, s.mem())
 				call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
@@ -4509,7 +4509,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 	case ir.OCALLFUNC:
 		testLateExpansion = k != callDeferStack && ssa.LateCallExpansionEnabledWithin(s.f)
 		if k == callNormal && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC {
-			sym = fn.Sym
+			sym = fn.Sym()
 			break
 		}
 		closure = s.expr(fn)
@@ -4524,7 +4524,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 		}
 		testLateExpansion = k != callDeferStack && ssa.LateCallExpansionEnabledWithin(s.f)
 		if k == callNormal {
-			sym = fn.Sym
+			sym = fn.Sym()
 			break
 		}
 		closure = s.getMethodClosure(fn)
@@ -4792,7 +4792,7 @@ func (s *state) getMethodClosure(fn *ir.Node) *ssa.Value {
 	// Make a PFUNC node out of that, then evaluate it.
 	// We get back an SSA value representing &sync.(*Mutex).Unlock·f.
 	// We can then pass that to defer or go.
-	n2 := newnamel(fn.Pos, fn.Sym)
+	n2 := newnamel(fn.Pos, fn.Sym())
 	n2.Name().Curfn = s.curfn
 	n2.SetClass(ir.PFUNC)
 	// n2.Sym already existed, so it's already marked as a function.
@@ -4839,7 +4839,7 @@ func (s *state) addr(n *ir.Node) *ssa.Value {
 		switch n.Class() {
 		case ir.PEXTERN:
 			// global variable
-			v := s.entryNewValue1A(ssa.OpAddr, t, n.Sym.Linksym(), s.sb)
+			v := s.entryNewValue1A(ssa.OpAddr, t, n.Sym().Linksym(), s.sb)
 			// TODO: Make OpAddr use AuxInt as well as Aux.
 			if n.Xoffset != 0 {
 				v = s.entryNewValue1I(ssa.OpOffPtr, v.Type, n.Xoffset, v)
@@ -4966,7 +4966,7 @@ func (s *state) canSSA(n *ir.Node) bool {
 			return false
 		}
 	}
-	if n.Class() == ir.PPARAM && n.Sym != nil && n.Sym.Name == ".this" {
+	if n.Class() == ir.PPARAM && n.Sym() != nil && n.Sym().Name == ".this" {
 		// wrappers generated by genwrapper need to update
 		// the .this pointer in place.
 		// TODO: treat as a PPARAMOUT?
@@ -6677,12 +6677,12 @@ func AddAux2(a *obj.Addr, v *ssa.Value, offset int64) {
 	case *ir.Node:
 		if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
 			a.Name = obj.NAME_PARAM
-			a.Sym = n.Orig().Sym.Linksym()
+			a.Sym = n.Orig().Sym().Linksym()
 			a.Offset += n.Xoffset
 			break
 		}
 		a.Name = obj.NAME_AUTO
-		a.Sym = n.Sym.Linksym()
+		a.Sym = n.Sym().Linksym()
 		a.Offset += n.Xoffset
 	default:
 		v.Fatalf("aux in %s not implemented %#v", v, v.Aux)
@@ -6824,7 +6824,7 @@ func AutoVar(v *ssa.Value) (*ir.Node, int64) {
 func AddrAuto(a *obj.Addr, v *ssa.Value) {
 	n, off := AutoVar(v)
 	a.Type = obj.TYPE_MEM
-	a.Sym = n.Sym.Linksym()
+	a.Sym = n.Sym().Linksym()
 	a.Reg = int16(thearch.REGSP)
 	a.Offset = n.Xoffset + off
 	if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
@@ -6840,7 +6840,7 @@ func (s *SSAGenState) AddrScratch(a *obj.Addr) {
 	}
 	a.Type = obj.TYPE_MEM
 	a.Name = obj.NAME_AUTO
-	a.Sym = s.ScratchFpMem.Sym.Linksym()
+	a.Sym = s.ScratchFpMem.Sym().Linksym()
 	a.Reg = int16(thearch.REGSP)
 	a.Offset = s.ScratchFpMem.Xoffset
 }
@@ -6926,7 +6926,7 @@ func (s *SSAGenState) UseArgs(n int64) {
 // fieldIdx finds the index of the field referred to by the ODOT node n.
 func fieldIdx(n *ir.Node) int {
 	t := n.Left().Type()
-	f := n.Sym
+	f := n.Sym()
 	if !t.IsStruct() {
 		panic("ODOT's LHS is not a struct")
 	}
@@ -7067,7 +7067,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 		return ssa.LocalSlot{N: node, Type: t, Off: parent.Off + offset}
 	}
 
-	s := &types.Sym{Name: node.Sym.Name + suffix, Pkg: ir.LocalPkg}
+	s := &types.Sym{Name: node.Sym().Name + suffix, Pkg: ir.LocalPkg}
 
 	n := new(ir.Node)
 	n.Op = ir.ONAME
@@ -7077,7 +7077,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 
 	s.Def = ir.AsTypesNode(n)
 	ir.AsNode(s.Def).Name().SetUsed(true)
-	n.Sym = s
+	n.SetSym(s)
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
 	n.Esc = EscNever

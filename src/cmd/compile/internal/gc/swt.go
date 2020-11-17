@@ -34,7 +34,7 @@ func typecheckTypeSwitch(n *ir.Node) {
 	// declaration itself. So if there are no cases, we won't
 	// notice that it went unused.
 	if v := n.Left().Left(); v != nil && !v.IsBlank() && n.List.Len() == 0 {
-		base.ErrorAt(v.Pos, "%v declared but not used", v.Sym)
+		base.ErrorAt(v.Pos, "%v declared but not used", v.Sym())
 	}
 
 	var defCase, nilCase *ir.Node

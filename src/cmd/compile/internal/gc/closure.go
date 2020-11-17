@@ -18,7 +18,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) *ir.Node {
 
 	xfunc := p.nod(expr, ir.ODCLFUNC, nil, nil)
 	xfunc.Func().SetIsHiddenClosure(Curfn != nil)
-	xfunc.Func().Nname = newfuncnamel(p.pos(expr), ir.BlankNode.Sym, xfunc.Func()) // filled in by typecheckclosure
+	xfunc.Func().Nname = newfuncnamel(p.pos(expr), ir.BlankNode.Sym(), xfunc.Func()) // filled in by typecheckclosure
 	xfunc.Func().Nname.Name().Param.Ntype = xtype
 	xfunc.Func().Nname.Name().Defn = xfunc
 
@@ -67,7 +67,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) *ir.Node {
 		// obtains f3's v, creating it if necessary (as it is in the example).
 		//
 		// capturevars will decide whether to use v directly or &v.
-		v.Name().Param.Outer = oldname(v.Sym)
+		v.Name().Param.Outer = oldname(v.Sym())
 	}
 
 	return clo
@@ -108,7 +108,7 @@ func typecheckclosure(clo *ir.Node, top int) {
 		}
 	}
 
-	xfunc.Func().Nname.Sym = closurename(Curfn)
+	xfunc.Func().Nname.SetSym(closurename(Curfn))
 	setNodeNameFunc(xfunc.Func().Nname)
 	xfunc = typecheck(xfunc, ctxStmt)
 
@@ -203,13 +203,13 @@ func capturevars(xfunc *ir.Node) {
 		if base.Flag.LowerM > 1 {
 			var name *types.Sym
 			if v.Name().Curfn != nil && v.Name().Curfn.Func().Nname != nil {
-				name = v.Name().Curfn.Func().Nname.Sym
+				name = v.Name().Curfn.Func().Nname.Sym()
 			}
 			how := "ref"
 			if v.Name().Byval() {
 				how = "value"
 			}
-			base.WarnAt(v.Pos, "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym, outermost.Name().Addrtaken(), outermost.Name().Assigned(), int32(v.Type().Width))
+			base.WarnAt(v.Pos, "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym(), outermost.Name().Addrtaken(), outermost.Name().Assigned(), int32(v.Type().Width))
 		}
 
 		outer = typecheck(outer, ctxExpr)
@@ -255,7 +255,7 @@ func transformclosure(xfunc *ir.Node) {
 				// we introduce function param &v *T
 				// and v remains PAUTOHEAP with &v heapaddr
 				// (accesses will implicitly deref &v).
-				addr := newname(lookup("&" + v.Sym.Name))
+				addr := newname(lookup("&" + v.Sym().Name))
 				addr.SetType(types.NewPtr(v.Type()))
 				v.Name().Param.Heapaddr = addr
 				v = addr
@@ -267,7 +267,7 @@ func transformclosure(xfunc *ir.Node) {
 			fld := types.NewField()
 			fld.Nname = ir.AsTypesNode(v)
 			fld.Type = v.Type()
-			fld.Sym = v.Sym
+			fld.Sym = v.Sym()
 			params = append(params, fld)
 		}
 
@@ -303,7 +303,7 @@ func transformclosure(xfunc *ir.Node) {
 			} else {
 				// Declare variable holding addresses taken from closure
 				// and initialize in entry prologue.
-				addr := newname(lookup("&" + v.Sym.Name))
+				addr := newname(lookup("&" + v.Sym().Name))
 				addr.SetType(types.NewPtr(v.Type()))
 				addr.SetClass(ir.PAUTO)
 				addr.Name().SetUsed(true)
@@ -375,7 +375,7 @@ func closureType(clo *ir.Node) *types.Type {
 		if !v.Name().Byval() {
 			typ = types.NewPtr(typ)
 		}
-		fields = append(fields, symfield(v.Sym, typ))
+		fields = append(fields, symfield(v.Sym(), typ))
 	}
 	typ := tostruct(fields)
 	typ.SetNoalg(true)
@@ -584,7 +584,7 @@ func callpartMethod(n *ir.Node) *types.Field {
 	// TODO(mdempsky): Optimize this. If necessary,
 	// makepartialcall could save m for us somewhere.
 	var m *types.Field
-	if lookdot0(n.Right().Sym, n.Left().Type(), &m, false) != 1 {
+	if lookdot0(n.Right().Sym(), n.Left().Type(), &m, false) != 1 {
 		base.Fatal("failed to find field for OCALLPART")
 	}
 

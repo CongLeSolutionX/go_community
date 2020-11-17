@@ -1024,7 +1024,7 @@ func (lv *Liveness) printbvec(printed bool, name string, live bvec) bool {
 		if !live.Get(int32(i)) {
 			continue
 		}
-		fmt.Printf("%s%s", comma, n.Sym.Name)
+		fmt.Printf("%s%s", comma, n.Sym().Name)
 		comma = ","
 	}
 	return true
@@ -1042,7 +1042,7 @@ func (lv *Liveness) printeffect(printed bool, name string, pos int32, x bool) bo
 	}
 	fmt.Printf("%s=", name)
 	if x {
-		fmt.Printf("%s", lv.vars[pos].Sym.Name)
+		fmt.Printf("%s", lv.vars[pos].Sym().Name)
 	}
 
 	return true

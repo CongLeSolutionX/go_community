@@ -61,13 +61,13 @@ func fnpkg(fn *ir.Node) *types.Pkg {
 			rcvr = rcvr.Elem()
 		}
 		if rcvr.Sym == nil {
-			base.Fatal("receiver with no sym: [%v] %L  (%v)", fn.Sym, fn, rcvr)
+			base.Fatal("receiver with no sym: [%v] %L  (%v)", fn.Sym(), fn, rcvr)
 		}
 		return rcvr.Sym.Pkg
 	}
 
 	// non-method
-	return fn.Sym.Pkg
+	return fn.Sym().Pkg
 }
 
 // Lazy typechecking of imported bodies. For local functions, caninl will set ->typecheck
@@ -88,7 +88,7 @@ func typecheckinl(fn *ir.Node) {
 	}
 
 	if base.Flag.LowerM > 2 || base.Debug.Export != 0 {
-		fmt.Printf("typecheck import [%v] %L { %#v }\n", fn.Sym, fn, ir.AsNodes(fn.Func().Inl.Body))
+		fmt.Printf("typecheck import [%v] %L { %#v }\n", fn.Sym(), fn, ir.AsNodes(fn.Func().Inl.Body))
 	}
 
 	savefn := Curfn
@@ -328,8 +328,8 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 		// because getcaller{pc,sp} expect a pointer to the caller's first argument.
 		//
 		// runtime.throw is a "cheap call" like panic in normal code.
-		if n.Left().Op == ir.ONAME && n.Left().Class() == ir.PFUNC && isRuntimePkg(n.Left().Sym.Pkg) {
-			fn := n.Left().Sym.Name
+		if n.Left().Op == ir.ONAME && n.Left().Class() == ir.PFUNC && isRuntimePkg(n.Left().Sym().Pkg) {
+			fn := n.Left().Sym().Name
 			if fn == "getcallerpc" || fn == "getcallersp" {
 				v.reason = "call to " + fn
 				return true
@@ -362,8 +362,8 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 		if t.Nname() == nil {
 			base.Fatal("no function definition for [%p] %+v\n", t, t)
 		}
-		if isRuntimePkg(n.Left().Sym.Pkg) {
-			fn := n.Left().Sym.Name
+		if isRuntimePkg(n.Left().Sym().Pkg) {
+			fn := n.Left().Sym().Name
 			if fn == "heapBits.nextArena" {
 				// Special case: explicitly allow
 				// mid-stack inlining of
@@ -419,7 +419,7 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 		}
 
 	case ir.OBREAK, ir.OCONTINUE:
-		if n.Sym != nil {
+		if n.Sym() != nil {
 			// Should have short-circuited due to labeledControl above.
 			base.Fatal("unexpected labeled break/continue: %v", n)
 		}
@@ -603,7 +603,7 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 	case ir.OCALLMETH:
 		// Prevent inlining some reflect.Value methods when using checkptr,
 		// even when package reflect was compiled without it (#35073).
-		if s := n.Left().Sym; base.Debug.Checkptr != 0 && isReflectPkg(s.Pkg) && (s.Name == "Value.UnsafeAddr" || s.Name == "Value.Pointer") {
+		if s := n.Left().Sym(); base.Debug.Checkptr != 0 && isReflectPkg(s.Pkg) && (s.Name == "Value.UnsafeAddr" || s.Name == "Value.Pointer") {
 			return n
 		}
 	}
@@ -924,7 +924,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		return n
 	}
 
-	if instrumenting && isRuntimePkg(fn.Sym.Pkg) {
+	if instrumenting && isRuntimePkg(fn.Sym().Pkg) {
 		// Runtime package must not be instrumented.
 		// Instrument skips runtime package. However, some runtime code can be
 		// inlined into other packages and instrumented there. To avoid this,
@@ -950,7 +950,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 
 	// We have a function node, and it has an inlineable body.
 	if base.Flag.LowerM > 1 {
-		fmt.Printf("%v: inlining call to %v %#v { %#v }\n", n.Line(), fn.Sym, fn.Type(), ir.AsNodes(fn.Func().Inl.Body))
+		fmt.Printf("%v: inlining call to %v %#v { %#v }\n", n.Line(), fn.Sym(), fn.Type(), ir.AsNodes(fn.Func().Inl.Body))
 	} else if base.Flag.LowerM != 0 {
 		fmt.Printf("%v: inlining call to %v\n", n.Line(), fn)
 	}
@@ -993,7 +993,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 					ninit.Append(typecheck(nod(ir.OAS, iv, o), ctxStmt))
 					inlvars[v] = iv
 				} else {
-					addr := newname(lookup("&" + v.Sym.Name))
+					addr := newname(lookup("&" + v.Sym().Name))
 					addr.SetType(types.NewPtr(v.Type()))
 					ia := typecheck(inlvar(addr), ctxExpr)
 					ninit.Append(nod(ir.ODCL, ia, nil))
@@ -1052,7 +1052,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	var retvars []*ir.Node
 	for i, t := range fn.Type().Results().Fields().Slice() {
 		var m *ir.Node
-		if n := ir.AsNode(t.Nname); n != nil && !n.IsBlank() && !strings.HasPrefix(n.Sym.Name, "~r") {
+		if n := ir.AsNode(t.Nname); n != nil && !n.IsBlank() && !strings.HasPrefix(n.Sym().Name, "~r") {
 			m = inlvar(n)
 			m = typecheck(m, ctxExpr)
 			inlvars[n] = m
@@ -1066,7 +1066,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 			// Don't update the src.Pos on a return variable if it
 			// was manufactured by the inliner (e.g. "~R2"); such vars
 			// were not part of the original callee.
-			if !strings.HasPrefix(m.Sym.Name, "~R") {
+			if !strings.HasPrefix(m.Sym().Name, "~R") {
 				m.Name().SetInlFormal(true)
 				m.Pos = t.Pos
 				inlfvars = append(inlfvars, m)
@@ -1151,7 +1151,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	if b := base.Ctxt.PosTable.Pos(n.Pos).Base(); b != nil {
 		parent = b.InliningIndex()
 	}
-	newIndex := base.Ctxt.InlTree.Add(parent, n.Pos, fn.Sym.Linksym())
+	newIndex := base.Ctxt.InlTree.Add(parent, n.Pos, fn.Sym().Linksym())
 
 	// Add an inline mark just before the inlined body.
 	// This mark is inline in the code so that it's a reasonable spot
@@ -1164,9 +1164,9 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	ninit.Append(inlMark)
 
 	if base.Flag.GenDwarfInl > 0 {
-		if !fn.Sym.Linksym().WasInlined() {
-			base.Ctxt.DwFixups.SetPrecursorFunc(fn.Sym.Linksym(), fn)
-			fn.Sym.Linksym().Set(obj.AttrWasInlined, true)
+		if !fn.Sym().Linksym().WasInlined() {
+			base.Ctxt.DwFixups.SetPrecursorFunc(fn.Sym().Linksym(), fn)
+			fn.Sym().Linksym().Set(obj.AttrWasInlined, true)
 		}
 	}
 
@@ -1229,7 +1229,7 @@ func inlvar(var_ *ir.Node) *ir.Node {
 		fmt.Printf("inlvar %+v\n", var_)
 	}
 
-	n := newname(var_.Sym)
+	n := newname(var_.Sym())
 	n.SetType(var_.Type())
 	n.SetClass(ir.PAUTO)
 	n.Name().SetUsed(true)
@@ -1323,7 +1323,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 		// If n is a named constant or type, we can continue
 		// using it in the inline copy. Otherwise, make a copy
 		// so we can update the line number.
-		if n.Sym != nil {
+		if n.Sym() != nil {
 			return n
 		}
 
@@ -1366,8 +1366,8 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 		m := n.Copy()
 		m.Pos = subst.updatedPos(m.Pos)
 		m.Ninit.Set(nil)
-		p := fmt.Sprintf("%s·%d", n.Sym.Name, inlgen)
-		m.Sym = lookup(p)
+		p := fmt.Sprintf("%s·%d", n.Sym().Name, inlgen)
+		m.SetSym(lookup(p))
 
 		return m
 	}
@@ -1440,7 +1440,7 @@ func devirtualizeCall(call *ir.Node) {
 
 	x := nodl(call.Left().Pos, ir.ODOTTYPE, call.Left().Left(), nil)
 	x.SetType(typ)
-	x = nodlSym(call.Left().Pos, ir.OXDOT, x, call.Left().Sym)
+	x = nodlSym(call.Left().Pos, ir.OXDOT, x, call.Left().Sym())
 	x = typecheck(x, ctxExpr|ctxCallee)
 	switch x.Op {
 	case ir.ODOTMETH:

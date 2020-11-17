@@ -229,13 +229,13 @@ func (e *Escape) walkFunc(fn *ir.Node) {
 	ir.InspectList(fn.Nbody, func(n *ir.Node) bool {
 		switch n.Op {
 		case ir.OLABEL:
-			n.Sym.Label = ir.AsTypesNode(&nonlooping)
+			n.Sym().Label = ir.AsTypesNode(&nonlooping)
 
 		case ir.OGOTO:
 			// If we visited the label before the goto,
 			// then this is a looping label.
-			if n.Sym.Label == ir.AsTypesNode(&nonlooping) {
-				n.Sym.Label = ir.AsTypesNode(&looping)
+			if n.Sym().Label == ir.AsTypesNode(&nonlooping) {
+				n.Sym().Label = ir.AsTypesNode(&looping)
 			}
 		}
 
@@ -310,7 +310,7 @@ func (e *Escape) stmt(n *ir.Node) {
 		}
 
 	case ir.OLABEL:
-		switch ir.AsNode(n.Sym.Label) {
+		switch ir.AsNode(n.Sym().Label) {
 		case &nonlooping:
 			if base.Flag.LowerM > 2 {
 				fmt.Printf("%v:%v non-looping label\n", base.FmtPos(base.Pos), n)
@@ -323,7 +323,7 @@ func (e *Escape) stmt(n *ir.Node) {
 		default:
 			base.Fatal("label missing tag")
 		}
-		n.Sym.Label = nil
+		n.Sym().Label = nil
 
 	case ir.OIF:
 		e.discard(n.Left())
@@ -1406,8 +1406,8 @@ func containsClosure(f, c *ir.Node) bool {
 
 	// Closures within function Foo are named like "Foo.funcN..."
 	// TODO(mdempsky): Better way to recognize this.
-	fn := f.Func().Nname.Sym.Name
-	cn := c.Func().Nname.Sym.Name
+	fn := f.Func().Nname.Sym().Name
+	cn := c.Func().Nname.Sym().Name
 	return len(cn) > len(fn) && cn[:len(fn)] == fn && cn[len(fn)] == '.'
 }
 

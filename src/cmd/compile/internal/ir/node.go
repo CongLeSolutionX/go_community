@@ -43,7 +43,7 @@ type Node struct {
 	// ONAME, OTYPE, OPACK, OLABEL, some OLITERAL
 	name *Name
 
-	Sym *types.Sym  // various
+	sym *types.Sym  // various
 	ext interface{} // Opt or Val, see methods below
 
 	// Various. Usually an offset into a struct. For example:
@@ -78,8 +78,8 @@ func (n *Node) Func() *Func           { return n.fn }
 func (n *Node) SetFunc(x *Func)       { n.fn = x }
 func (n *Node) Name() *Name           { return n.name }
 func (n *Node) SetName(x *Name)       { n.name = x }
-func (n *Node) GetSym() *types.Sym    { return n.Sym }
-func (n *Node) SetSym(x *types.Sym)   { n.Sym = x }
+func (n *Node) Sym() *types.Sym       { return n.sym }
+func (n *Node) SetSym(x *types.Sym)   { n.sym = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -136,7 +136,7 @@ func (n *Node) SetTChanDir(dir types.ChanDir) {
 }
 
 func (n *Node) IsSynthetic() bool {
-	name := n.Sym.Name
+	name := n.Sym().Name
 	return name[0] == '.' || name[0] == '~'
 }
 
@@ -252,7 +252,7 @@ func (n *Node) MarkReadonly() {
 	// Mark the linksym as readonly immediately
 	// so that the SSA backend can use this information.
 	// It will be overridden later during dumpglobls.
-	n.Sym.Linksym().Type = objabi.SRODATA
+	n.Sym().Linksym().Type = objabi.SRODATA
 }
 
 // Val returns the Val for the node.
@@ -325,7 +325,7 @@ func (n *Node) FuncName() string {
 	if n == nil || n.Func() == nil || n.Func().Nname == nil {
 		return "<nil>"
 	}
-	return n.Func().Nname.Sym.Name
+	return n.Func().Nname.Sym().Name
 }
 
 // pkgFuncName returns the name of the function referenced by n, with package prepended.
@@ -338,12 +338,12 @@ func (n *Node) PkgFuncName() string {
 		return "<nil>"
 	}
 	if n.Op == ONAME {
-		s = n.Sym
+		s = n.Sym()
 	} else {
 		if n.Func() == nil || n.Func().Nname == nil {
 			return "<nil>"
 		}
-		s = n.Func().Nname.Sym
+		s = n.Func().Nname.Sym()
 	}
 	pkg := s.Pkg
 
@@ -1257,7 +1257,7 @@ func OrigSym(s *types.Sym) *types.Sym {
 			return nil
 		case 'b': // originally the blank identifier _
 			// TODO(mdempsky): Does s.Pkg matter here?
-			return BlankNode.Sym
+			return BlankNode.Sym()
 		}
 		return s
 	}
@@ -1426,7 +1426,7 @@ func (n *Node) IsBlank() bool {
 	if n == nil {
 		return false
 	}
-	return n.Sym.IsBlank()
+	return n.Sym().IsBlank()
 }
 
 // IsMethod reports whether n is a method.
