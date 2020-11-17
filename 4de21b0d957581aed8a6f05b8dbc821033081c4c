@@ -22,6 +22,30 @@
       },
       "revId": "4de21b0d957581aed8a6f05b8dbc821033081c4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b73bd42_673f312c",
+        "filename": "src/runtime/sys_linux_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-11-17T11:53:16Z",
+      "side": 1,
+      "message": "The Kernel didn\u0027t change r4 and r5 after call but I set them for safe.\ndone.",
+      "parentUuid": "cb3ad64d_d63038ea",
+      "range": {
+        "startLine": 254,
+        "startChar": 13,
+        "endLine": 254,
+        "endChar": 21
+      },
+      "revId": "4de21b0d957581aed8a6f05b8dbc821033081c4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
