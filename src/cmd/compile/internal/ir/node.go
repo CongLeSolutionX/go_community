@@ -82,6 +82,8 @@ func (n *Node) Sym() *types.Sym       { return n.sym }
 func (n *Node) SetSym(x *types.Sym)   { n.sym = x }
 func (n *Node) Pos() src.XPos         { return n.pos }
 func (n *Node) SetPos(x src.XPos)     { n.pos = x }
+func (n *Node) GetXoffset() int64     { return n.Xoffset }
+func (n *Node) SetXoffset(x int64)    { n.Xoffset = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -300,11 +302,11 @@ func (n *Node) SetOpt(x interface{}) {
 }
 
 func (n *Node) Iota() int64 {
-	return n.Xoffset
+	return n.GetXoffset()
 }
 
 func (n *Node) SetIota(x int64) {
-	n.Xoffset = x
+	n.SetXoffset(x)
 }
 
 // mayBeShared reports whether n may occur in multiple places in the AST.

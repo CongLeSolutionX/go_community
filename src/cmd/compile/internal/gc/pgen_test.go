@@ -48,7 +48,7 @@ func TestCmpstackvar(t *testing.T) {
 		n := new(ir.Node)
 		n.SetType(t)
 		n.SetSym(s)
-		n.Xoffset = xoffset
+		n.SetXoffset(xoffset)
 		n.SetName(nam)
 		return *n
 	}
@@ -164,7 +164,7 @@ func TestStackvarSort(t *testing.T) {
 		n := new(ir.Node)
 		n.SetType(t)
 		n.SetSym(s)
-		n.Xoffset = xoffset
+		n.SetXoffset(xoffset)
 		return *n
 	}
 	inp := []*ir.Node{

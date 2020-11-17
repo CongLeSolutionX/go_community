@@ -446,8 +446,8 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 		fmt.Fprintf(s, " l(%s%d)", pfx, n.Pos().Line())
 	}
 
-	if !short && n.Xoffset != types.BADWIDTH {
-		fmt.Fprintf(s, " x(%d)", n.Xoffset)
+	if !short && n.GetXoffset() != types.BADWIDTH {
+		fmt.Fprintf(s, " x(%d)", n.GetXoffset())
 	}
 
 	if n.Class() != 0 {
@@ -1073,7 +1073,7 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 		mode.Fprintf(s, "retjmp %v", n.Sym())
 
 	case OINLMARK:
-		mode.Fprintf(s, "inlmark %d", n.Xoffset)
+		mode.Fprintf(s, "inlmark %d", n.GetXoffset())
 
 	case OGO:
 		mode.Fprintf(s, "go %v", n.Left())

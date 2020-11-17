@@ -153,7 +153,7 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 			// copying someone else's computation.
 			rr := orig.SepCopy()
 			rr.SetType(ll.Type())
-			rr.Xoffset += e.Xoffset
+			rr.Xoffset = rr.Xoffset + e.Xoffset
 			setlineno(rr)
 			s.append(nod(ir.OAS, ll, rr))
 		}
@@ -294,7 +294,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 
 		// Emit itab, advance offset.
 		addrsym(n, itab.Left()) // itab is an OADDR node
-		n.Xoffset += int64(Widthptr)
+		n.Xoffset = n.Xoffset + int64(Widthptr)
 
 		// Emit data.
 		if isdirectiface(val.Type()) {
@@ -1010,7 +1010,7 @@ func stataddr(nam *ir.Node, n *ir.Node) bool {
 		if !stataddr(nam, n.Left()) {
 			break
 		}
-		nam.Xoffset += n.Xoffset
+		nam.Xoffset = nam.Xoffset + n.Xoffset
 		nam.SetType(n.Type())
 		return true
 
@@ -1030,7 +1030,7 @@ func stataddr(nam *ir.Node, n *ir.Node) bool {
 		if n.Type().Width != 0 && thearch.MAXWIDTH/n.Type().Width <= int64(l) {
 			break
 		}
-		nam.Xoffset += int64(l) * n.Type().Width
+		nam.Xoffset = nam.Xoffset + int64(l)*n.Type().Width
 		nam.SetType(n.Type())
 		return true
 	}
@@ -1095,7 +1095,7 @@ func (s *InitSchedule) addvalue(p *InitPlan, xoffset int64, n *ir.Node) {
 		q := s.initplans[n]
 		for _, qe := range q.E {
 			// qe is a copy; we are not modifying entries in q.E
-			qe.Xoffset += xoffset
+			qe.Xoffset = qe.Xoffset + xoffset
 			p.E = append(p.E, qe)
 		}
 		return
