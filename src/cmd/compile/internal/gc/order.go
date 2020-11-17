@@ -349,7 +349,7 @@ func orderMakeSliceCopy(s []*ir.Node) {
 	if maken == nil || maken.Op != ir.OMAKESLICE {
 		return
 	}
-	if maken.Esc == EscNone {
+	if maken.Esc() == EscNone {
 		return
 	}
 	if maken.Left() == nil || maken.Right() != nil {

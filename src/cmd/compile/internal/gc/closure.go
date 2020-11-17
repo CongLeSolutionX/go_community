@@ -339,13 +339,13 @@ func hasemptycvars(clo *ir.Node) bool {
 func closuredebugruntimecheck(clo *ir.Node) {
 	if base.Debug.Closure > 0 {
 		xfunc := clo.Func().Decl
-		if clo.Esc == EscHeap {
+		if clo.Esc() == EscHeap {
 			base.WarnAt(clo.Pos(), "heap closure, captured vars = %v", xfunc.Func().Cvars)
 		} else {
 			base.WarnAt(clo.Pos(), "stack closure, captured vars = %v", xfunc.Func().Cvars)
 		}
 	}
-	if base.Flag.CompilingRuntime && clo.Esc == EscHeap {
+	if base.Flag.CompilingRuntime && clo.Esc() == EscHeap {
 		base.ErrorAt(clo.Pos(), "heap-allocated closure, not allowed in runtime")
 	}
 }
@@ -397,11 +397,11 @@ func walkclosure(clo *ir.Node, init *ir.Nodes) *ir.Node {
 	typ := closureType(clo)
 
 	clos := nod(ir.OCOMPLIT, nil, typenod(typ))
-	clos.Esc = clo.Esc
+	clos.SetEsc(clo.Esc())
 	clos.List.Set(append([]*ir.Node{nod(ir.OCFUNC, xfunc.Func().Nname, nil)}, clo.Func().ClosureEnter.Slice()...))
 
 	clos = nod(ir.OADDR, clos, nil)
-	clos.Esc = clo.Esc
+	clos.SetEsc(clo.Esc())
 
 	// Force type conversion from *struct to the func type.
 	clos = convnop(clos, clo.Type())
@@ -553,11 +553,11 @@ func walkpartialcall(n *ir.Node, init *ir.Nodes) *ir.Node {
 	typ := partialCallType(n)
 
 	clos := nod(ir.OCOMPLIT, nil, typenod(typ))
-	clos.Esc = n.Esc
+	clos.SetEsc(n.Esc())
 	clos.List.Set2(nod(ir.OCFUNC, n.Func().Nname, nil), n.Left())
 
 	clos = nod(ir.OADDR, clos, nil)
-	clos.Esc = n.Esc
+	clos.SetEsc(n.Esc())
 
 	// Force type conversion from *struct to the func type.
 	clos = convnop(clos, n.Type())

@@ -72,7 +72,7 @@ func tempAt(pos src.XPos, curfn *ir.Node, t *types.Type) *ir.Node {
 	s.Def = ir.AsTypesNode(n)
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
-	n.Esc = EscNever
+	n.SetEsc(EscNever)
 	n.Name().Curfn = curfn
 	n.Name().SetUsed(true)
 	n.Name().SetAutoTemp(true)

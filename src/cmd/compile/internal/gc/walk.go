@@ -213,7 +213,7 @@ func walkstmt(n *ir.Node) *ir.Node {
 			// byte to record active defers.
 			Curfn.Func().SetOpenCodedDeferDisallowed(true)
 		}
-		if n.Esc != EscNever {
+		if n.Esc() != EscNever {
 			// If n.Esc is not EscNever, then this defer occurs in a loop,
 			// so open-coded defers cannot be used in this function.
 			Curfn.Func().SetOpenCodedDeferDisallowed(true)
@@ -850,7 +850,7 @@ opswitch:
 		case n.Left().Class() == ir.PEXTERN && n.Left().Name() != nil && n.Left().Name().Readonly():
 			// n.Left is a readonly global; use it directly.
 			value = n.Left()
-		case !fromType.IsInterface() && n.Esc == EscNone && fromType.Width <= 1024:
+		case !fromType.IsInterface() && n.Esc() == EscNone && fromType.Width <= 1024:
 			// n.Left does not escape. Use a stack temporary initialized to n.Left.
 			value = temp(fromType)
 			init.Append(typecheck(nod(ir.OAS, value, n.Left()), ctxStmt))
@@ -1151,7 +1151,7 @@ opswitch:
 		if n.Type().Elem().NotInHeap() {
 			base.Error("%v can't be allocated in Go; it is incomplete (or unallocatable)", n.Type().Elem())
 		}
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			if n.Type().Elem().Width >= maxImplicitStackVarSize {
 				base.Fatal("large ONEW with EscNone: %v", n)
 			}
@@ -1207,7 +1207,7 @@ opswitch:
 
 		// var h *hmap
 		var h *ir.Node
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			// Allocate hmap on stack.
 
 			// var hv hmap
@@ -1265,7 +1265,7 @@ opswitch:
 			// For hint <= BUCKETSIZE overLoadFactor(hint, 0) is false
 			// and no buckets will be allocated by makemap. Therefore,
 			// no buckets need to be allocated in this code path.
-			if n.Esc == EscNone {
+			if n.Esc() == EscNone {
 				// Only need to initialize h.hash0 since
 				// hmap h has been allocated on the stack already.
 				// h.hash0 = fastrand()
@@ -1284,7 +1284,7 @@ opswitch:
 				n = mkcall1(fn, n.Type(), init)
 			}
 		} else {
-			if n.Esc != EscNone {
+			if n.Esc() != EscNone {
 				h = nodnil()
 			}
 			// Map initialization with a variable or large hint is
@@ -1322,7 +1322,7 @@ opswitch:
 		if t.Elem().NotInHeap() {
 			base.Error("%v can't be allocated in Go; it is incomplete (or unallocatable)", t.Elem())
 		}
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			if why := heapAllocReason(n); why != "" {
 				base.Fatal("%v has EscNone, but %v", n, why)
 			}
@@ -1391,7 +1391,7 @@ opswitch:
 		}
 
 	case ir.OMAKESLICECOPY:
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			base.Fatal("OMAKESLICECOPY with EscNone: %v", n)
 		}
 
@@ -1449,7 +1449,7 @@ opswitch:
 
 	case ir.ORUNESTR:
 		a := nodnil()
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			t := types.NewArray(types.Types[types.TUINT8], 4)
 			a = nod(ir.OADDR, temp(t), nil)
 		}
@@ -1458,7 +1458,7 @@ opswitch:
 
 	case ir.OBYTES2STR, ir.ORUNES2STR:
 		a := nodnil()
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			// Create temporary buffer for string on stack.
 			t := types.NewArray(types.Types[types.TUINT8], tmpstringbufsize)
 			a = nod(ir.OADDR, temp(t), nil)
@@ -1493,7 +1493,7 @@ opswitch:
 			// Allocate a [n]byte of the right size.
 			t := types.NewArray(types.Types[types.TUINT8], int64(len(sc)))
 			var a *ir.Node
-			if n.Esc == EscNone && len(sc) <= int(maxImplicitStackVarSize) {
+			if n.Esc() == EscNone && len(sc) <= int(maxImplicitStackVarSize) {
 				a = nod(ir.OADDR, temp(t), nil)
 			} else {
 				a = callnew(t)
@@ -1519,7 +1519,7 @@ opswitch:
 		}
 
 		a := nodnil()
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			// Create temporary buffer for slice on stack.
 			t := types.NewArray(types.Types[types.TUINT8], tmpstringbufsize)
 			a = nod(ir.OADDR, temp(t), nil)
@@ -1539,7 +1539,7 @@ opswitch:
 
 	case ir.OSTR2RUNES:
 		a := nodnil()
-		if n.Esc == EscNone {
+		if n.Esc() == EscNone {
 			// Create temporary buffer for slice on stack.
 			t := types.NewArray(types.Types[types.TINT32], tmpstringbufsize)
 			a = nod(ir.OADDR, temp(t), nil)
@@ -2648,7 +2648,7 @@ func addstr(n *ir.Node, init *ir.Nodes) *ir.Node {
 	}
 
 	buf := nodnil()
-	if n.Esc == EscNone {
+	if n.Esc() == EscNone {
 		sz := int64(0)
 		for _, n1 := range n.List.Slice() {
 			if n1.Op == ir.OLITERAL {
@@ -2686,7 +2686,7 @@ func addstr(n *ir.Node, init *ir.Nodes) *ir.Node {
 		}
 		slice.List.Set(args[1:]) // skip buf arg
 		args = []*ir.Node{buf, slice}
-		slice.Esc = EscNone
+		slice.SetEsc(EscNone)
 	}
 
 	cat := syslook(fn)
@@ -4072,7 +4072,7 @@ func walkCheckPtrArithmetic(n *ir.Node, init *ir.Nodes) *ir.Node {
 	n = cheapexpr(n, init)
 
 	slice := mkdotargslice(types.NewSlice(types.Types[types.TUNSAFEPTR]), originals)
-	slice.Esc = EscNone
+	slice.SetEsc(EscNone)
 
 	init.Append(mkcall("checkptrArithmetic", nil, init, convnop(n, types.Types[types.TUNSAFEPTR]), slice))
 	// TODO(khr): Mark backing store of slice as dead. This will allow us to reuse

@@ -666,7 +666,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 		}
 
 		a = nod(ir.OADDR, x, nil)
-	} else if n.Esc == EscNone {
+	} else if n.Esc() == EscNone {
 		a = temp(t)
 		if vstat == nil {
 			a = nod(ir.OAS, temp(t), nil)
@@ -755,7 +755,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 	// make the map var
 	a := nod(ir.OMAKE, nil, nil)
-	a.Esc = n.Esc
+	a.SetEsc(n.Esc())
 	a.List.Set2(typenod(n.Type()), nodintconst(int64(n.List.Len())))
 	litas(m, a, init)
 
@@ -885,7 +885,7 @@ func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 			r = nod(ir.ONEW, nil, nil)
 			r.SetTypecheck(1)
 			r.SetType(t)
-			r.Esc = n.Esc
+			r.SetEsc(n.Esc())
 		}
 
 		r = walkexpr(r, init)

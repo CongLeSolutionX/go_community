@@ -149,7 +149,7 @@ func init() {
 // escFmt is called from node printing to print information about escape analysis results.
 func escFmt(n *ir.Node, short bool) string {
 	text := ""
-	switch n.Esc {
+	switch n.Esc() {
 	case EscUnknown:
 		break
 
@@ -165,7 +165,7 @@ func escFmt(n *ir.Node, short bool) string {
 		}
 
 	default:
-		text = fmt.Sprintf("esc(%d)", n.Esc)
+		text = fmt.Sprintf("esc(%d)", n.Esc())
 	}
 
 	if e, ok := n.Opt().(*EscLocation); ok && e.loopDepth != 0 {
@@ -203,10 +203,10 @@ func escapeFuncs(fns []*ir.Node, recursive bool) {
 }
 
 func (e *Escape) initFunc(fn *ir.Node) {
-	if fn.Op != ir.ODCLFUNC || fn.Esc != EscFuncUnknown {
+	if fn.Op != ir.ODCLFUNC || fn.Esc() != EscFuncUnknown {
 		base.Fatal("unexpected node: %v", fn)
 	}
-	fn.Esc = EscFuncPlanned
+	fn.SetEsc(EscFuncPlanned)
 	if base.Flag.LowerM > 3 {
 		ir.Dump("escAnalyze", fn)
 	}
@@ -223,7 +223,7 @@ func (e *Escape) initFunc(fn *ir.Node) {
 }
 
 func (e *Escape) walkFunc(fn *ir.Node) {
-	fn.Esc = EscFuncStarted
+	fn.SetEsc(EscFuncStarted)
 
 	// Identify labels that mark the head of an unstructured loop.
 	ir.InspectList(fn.Nbody, func(n *ir.Node) bool {
@@ -781,7 +781,7 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 	if topLevelDefer {
 		// force stack allocation of defer record, unless
 		// open-coded defers are used (see ssa.go)
-		where.Esc = EscNever
+		where.SetEsc(EscNever)
 	}
 
 	argument := func(k EscHole, arg *ir.Node) {
@@ -936,8 +936,8 @@ func (e *Escape) tagHole(ks []EscHole, fn *ir.Node, param *types.Field) EscHole 
 // should be incorporated directly into the flow graph instead of
 // relying on its escape analysis tagging.
 func (e *Escape) inMutualBatch(fn *ir.Node) bool {
-	if fn.Name().Defn != nil && fn.Name().Defn.Esc < EscFuncTagged {
-		if fn.Name().Defn.Esc == EscFuncUnknown {
+	if fn.Name().Defn != nil && fn.Name().Defn.Esc() < EscFuncTagged {
+		if fn.Name().Defn.Esc() == EscFuncUnknown {
 			base.Fatal("graph inconsistency")
 		}
 		return true
@@ -1432,7 +1432,7 @@ func (l *EscLocation) leakTo(sink *EscLocation, derefs int) {
 func (e *Escape) finish(fns []*ir.Node) {
 	// Record parameter tags for package export data.
 	for _, fn := range fns {
-		fn.Esc = EscFuncTagged
+		fn.SetEsc(EscFuncTagged)
 
 		narg := 0
 		for _, fs := range &types.RecvsParams {
@@ -1461,13 +1461,13 @@ func (e *Escape) finish(fns []*ir.Node) {
 					logopt.LogOpt(n.Pos(), "escape", "escape", e.curfn.FuncName())
 				}
 			}
-			n.Esc = EscHeap
+			n.SetEsc(EscHeap)
 			addrescapes(n)
 		} else {
 			if base.Flag.LowerM != 0 && n.Op != ir.ONAME {
 				base.WarnAt(n.Pos(), "%S does not escape", n)
 			}
-			n.Esc = EscNone
+			n.SetEsc(EscNone)
 			if loc.transient {
 				n.SetTransient(true)
 			}

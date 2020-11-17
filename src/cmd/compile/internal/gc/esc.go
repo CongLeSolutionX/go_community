@@ -233,7 +233,7 @@ func addrescapes(n *ir.Node) {
 
 		// if this is a tmpname (PAUTO), it was tagged by tmpname as not escaping.
 		// on PPARAM it means something different.
-		if n.Class() == ir.PAUTO && n.Esc == EscNever {
+		if n.Class() == ir.PAUTO && n.Esc() == EscNever {
 			break
 		}
 
@@ -360,7 +360,7 @@ func moveToHeap(n *ir.Node) {
 	n.SetClass(ir.PAUTOHEAP)
 	n.SetXoffset(0)
 	n.Name().Param.Heapaddr = heapaddr
-	n.Esc = EscHeap
+	n.SetEsc(EscHeap)
 	if base.Flag.LowerM != 0 {
 		base.WarnAt(n.Pos(), "moved to heap: %v", n)
 	}

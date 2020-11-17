@@ -1110,7 +1110,7 @@ func (s *state) stmt(n *ir.Node) {
 			var defertype string
 			if s.hasOpenDefers {
 				defertype = "open-coded"
-			} else if n.Esc == EscNever {
+			} else if n.Esc() == EscNever {
 				defertype = "stack-allocated"
 			} else {
 				defertype = "heap-allocated"
@@ -1121,7 +1121,7 @@ func (s *state) stmt(n *ir.Node) {
 			s.openDeferRecord(n.Left())
 		} else {
 			d := callDefer
-			if n.Esc == EscNever {
+			if n.Esc() == EscNever {
 				d = callDeferStack
 			}
 			s.callResult(n.Left(), d)
@@ -7080,7 +7080,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 	n.SetSym(s)
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
-	n.Esc = EscNever
+	n.SetEsc(EscNever)
 	n.Name().Curfn = e.curfn
 	e.curfn.Func().Dcl = append(e.curfn.Func().Dcl, n)
 	dowidth(t)
