@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb3ad64d_d63038ea",
+        "filename": "src/runtime/sys_linux_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 29707
+      },
+      "writtenOn": "2020-11-17T11:12:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure that R4 and R5 would be valid at this point. They need to be recalculated before invoking fallback path. At that point you might even zero out runtime.vdsoClockgettimeSym, so we take fallback directly next time. Hope this helps.",
+      "range": {
+        "startLine": 254,
+        "startChar": 13,
+        "endLine": 254,
+        "endChar": 21
+      },
+      "revId": "4de21b0d957581aed8a6f05b8dbc821033081c4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
