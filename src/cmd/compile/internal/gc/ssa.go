@@ -6670,7 +6670,7 @@ func AddAux2(a *obj.Addr, v *ssa.Value, offset int64) {
 	case *ir.Node:
 		if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
 			a.Name = obj.NAME_PARAM
-			a.Sym = n.Orig.Sym.Linksym()
+			a.Sym = n.Orig().Sym.Linksym()
 			a.Offset += n.Xoffset
 			break
 		}
@@ -7067,7 +7067,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 		Op:   ir.ONAME,
 		Pos:  parent.N.(*ir.Node).Pos,
 	}
-	n.Orig = n
+	n.SetOrig(n)
 
 	s.Def = ir.AsTypesNode(n)
 	ir.AsNode(s.Def).Name.SetUsed(true)

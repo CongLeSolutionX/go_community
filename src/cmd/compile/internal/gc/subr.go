@@ -166,7 +166,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 	n.SetRight(nright)
 	n.Pos = pos
 	n.Xoffset = types.BADWIDTH
-	n.Orig = n
+	n.SetOrig(n)
 	return n
 }
 
@@ -195,7 +195,7 @@ func newnamel(pos src.XPos, s *types.Sym) *ir.Node {
 
 	n.Op = ir.ONAME
 	n.Pos = pos
-	n.Orig = n
+	n.SetOrig(n)
 
 	n.Sym = s
 	return n
@@ -618,7 +618,7 @@ func assignconvfn(n *ir.Node, t *types.Type, context func() string) *ir.Node {
 	r.Type = t
 	r.SetTypecheck(1)
 	r.SetImplicit(true)
-	r.Orig = n.Orig
+	r.SetOrig(n.Orig())
 	return r
 }
 

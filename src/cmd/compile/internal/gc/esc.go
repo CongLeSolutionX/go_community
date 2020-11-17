@@ -299,7 +299,7 @@ func moveToHeap(n *ir.Node) {
 	// temp will add it to the function declaration list automatically.
 	heapaddr := temp(types.NewPtr(n.Type))
 	heapaddr.Sym = lookup("&" + n.Sym.Name)
-	heapaddr.Orig.Sym = heapaddr.Sym
+	heapaddr.Orig().Sym = heapaddr.Sym
 	heapaddr.Pos = n.Pos
 
 	// Unset AutoTemp to persist the &foo variable name through SSA to

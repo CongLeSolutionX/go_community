@@ -35,7 +35,7 @@ type Node struct {
 
 	// most nodes
 	Type *types.Type
-	Orig *Node // original form, for printing, and tracking copies of ONAMEs
+	orig *Node // original form, for printing, and tracking copies of ONAMEs
 
 	// func
 	Func *Func
@@ -70,8 +70,8 @@ func (n *Node) Left() *Node      { return n.left }
 func (n *Node) SetLeft(x *Node)  { n.left = x }
 func (n *Node) Right() *Node     { return n.right }
 func (n *Node) SetRight(x *Node) { n.right = x }
-func (n *Node) GetOrig() *Node   { return n.Orig }
-func (n *Node) SetOrig(x *Node)  { n.Orig = x }
+func (n *Node) Orig() *Node      { return n.orig }
+func (n *Node) SetOrig(x *Node)  { n.orig = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -1388,7 +1388,7 @@ func (n *Node) RawCopy() *Node {
 // Orig pointing to itself.
 func (n *Node) SepCopy() *Node {
 	copy := *n
-	copy.Orig = &copy
+	copy.SetOrig(&copy)
 	return &copy
 }
 
@@ -1401,8 +1401,8 @@ func (n *Node) SepCopy() *Node {
 // messages; see issues #26855, #27765).
 func (n *Node) Copy() *Node {
 	copy := *n
-	if n.Orig == n {
-		copy.Orig = &copy
+	if n.Orig() == n {
+		copy.SetOrig(&copy)
 	}
 	return &copy
 }
@@ -1411,7 +1411,7 @@ func (n *Node) Copy() *Node {
 func (n *Node) IsNil() bool {
 	// Check n.Orig because constant propagation may produce typed nil constants,
 	// which don't exist in the Go spec.
-	return IsConst(n.Orig, CTNIL)
+	return IsConst(n.Orig(), CTNIL)
 }
 
 func (n *Node) IsBlank() bool {

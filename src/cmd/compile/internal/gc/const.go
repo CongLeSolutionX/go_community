@@ -473,7 +473,7 @@ func evconst(n *ir.Node) {
 				}
 
 				nl := *s[i1]
-				nl.Orig = &nl
+				nl.SetOrig(&nl)
 				nl.SetVal(ir.Val{U: strings.Join(strs, "")})
 				s[i1] = &nl
 				s = append(s[:i1+1], s[i2:]...)
@@ -821,18 +821,18 @@ func setconst(n *ir.Node, v ir.Val) {
 
 	// Ensure n.Orig still points to a semantically-equivalent
 	// expression after we rewrite n into a constant.
-	if n.Orig == n {
-		n.Orig = n.SepCopy()
+	if n.Orig() == n {
+		n.SetOrig(n.SepCopy())
 	}
 
-	orig := n.Orig
+	orig := n.Orig()
 	pos := n.Pos
 	typ := n.Type
 	*n = ir.Node{}
 	n.Op = ir.OLITERAL
 	n.Pos = pos
 	n.Type = typ
-	n.Orig = orig
+	n.SetOrig(orig)
 	n.Xoffset = types.BADWIDTH
 	n.SetVal(v)
 	if vt := idealType(v.Ctype()); n.Type.IsUntyped() && n.Type != vt {
