@@ -357,7 +357,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 
 	pack := p.nod(imp, ir.OPACK, nil, nil)
 	pack.Sym = my
-	pack.Name.Pkg = ipkg
+	pack.Name().Pkg = ipkg
 
 	switch my.Name {
 	case ".":
@@ -457,8 +457,8 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
 		n.Op = ir.OLITERAL
 		declare(n, dclcontext)
 
-		n.Name.Param.Ntype = typ
-		n.Name.Defn = v
+		n.Name().Param.Ntype = typ
+		n.Name().Defn = v
 		n.SetIota(cs.iota)
 
 		nn = append(nn, p.nod(decl, ir.ODCLCONST, n, nil))
@@ -481,7 +481,7 @@ func (p *noder) typeDecl(decl *syntax.TypeDecl) *ir.Node {
 	// decl.Type may be nil but in that case we got a syntax error during parsing
 	typ := p.typeExprOrNil(decl.Type)
 
-	param := n.Name.Param
+	param := n.Name().Param
 	param.Ntype = typ
 	param.SetAlias(decl.Alias)
 	if pragma, ok := decl.Pragma.(*Pragma); ok {
@@ -537,8 +537,8 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 	}
 
 	f.Func().Nname = newfuncnamel(p.pos(fun.Name), name, f.Func())
-	f.Func().Nname.Name.Defn = f
-	f.Func().Nname.Name.Param.Ntype = t
+	f.Func().Nname.Name().Defn = f
+	f.Func().Nname.Name().Param.Ntype = t
 
 	if pragma, ok := fun.Pragma.(*Pragma); ok {
 		f.Func().Pragma = pragma.Flag & FuncPragmas
@@ -681,8 +681,8 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 		// parser.new_dotname
 		obj := p.expr(expr.X)
 		if obj.Op == ir.OPACK {
-			obj.Name.SetUsed(true)
-			return importName(obj.Name.Pkg.Lookup(expr.Sel.Value))
+			obj.Name().SetUsed(true)
+			return importName(obj.Name().Pkg.Lookup(expr.Sel.Value))
 		}
 		n := nodSym(ir.OXDOT, obj, p.name(expr.Sel))
 		n.Pos = p.pos(expr) // lineno may have been changed by p.expr(expr.X)
@@ -906,8 +906,8 @@ func (p *noder) packname(expr syntax.Expr) *types.Sym {
 	switch expr := expr.(type) {
 	case *syntax.Name:
 		name := p.name(expr)
-		if n := oldname(name); n.Name != nil && n.Name.Pack != nil {
-			n.Name.Pack.Name.SetUsed(true)
+		if n := oldname(name); n.Name() != nil && n.Name().Pack != nil {
+			n.Name().Pack.Name().SetUsed(true)
 		}
 		return name
 	case *syntax.SelectorExpr:
@@ -922,8 +922,8 @@ func (p *noder) packname(expr syntax.Expr) *types.Sym {
 			base.Error("%v is not a package", name)
 			pkg = ir.LocalPkg
 		} else {
-			def.Name.SetUsed(true)
-			pkg = def.Name.Pkg
+			def.Name().SetUsed(true)
+			pkg = def.Name().Pkg
 		}
 		return pkg.Lookup(expr.Sel.Value)
 	}
@@ -1130,7 +1130,7 @@ func (p *noder) assignList(expr syntax.Expr, defn *ir.Node, colas bool) []*ir.No
 		newOrErr = true
 		n := newname(sym)
 		declare(n, dclcontext)
-		n.Name.Defn = defn
+		n.Name().Defn = defn
 		defn.Ninit.Append(nod(ir.ODCL, n, nil))
 		res[i] = n
 	}
@@ -1237,7 +1237,7 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 			declare(nn, dclcontext)
 			n.Rlist.Set1(nn)
 			// keep track of the instances for reporting unused
-			nn.Name.Defn = tswitch
+			nn.Name().Defn = tswitch
 		}
 
 		// Trim trailing empty statements. We omit them from
@@ -1305,7 +1305,7 @@ func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) *ir.Node {
 		ls = p.stmtFall(label.Stmt, fallOK)
 	}
 
-	lhs.Name.Defn = ls
+	lhs.Name().Defn = ls
 	l := []*ir.Node{lhs}
 	if ls != nil {
 		if ls.Op == ir.OBLOCK && ls.Ninit.Len() == 0 {
@@ -1688,8 +1688,8 @@ func safeArg(name string) bool {
 
 func mkname(sym *types.Sym) *ir.Node {
 	n := oldname(sym)
-	if n.Name != nil && n.Name.Pack != nil {
-		n.Name.Pack.Name.SetUsed(true)
+	if n.Name() != nil && n.Name().Pack != nil {
+		n.Name().Pack.Name().SetUsed(true)
 	}
 	return n
 }

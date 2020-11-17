@@ -238,8 +238,8 @@ func addrescapes(n *ir.Node) {
 		}
 
 		// If a closure reference escapes, mark the outer variable as escaping.
-		if n.Name.IsClosureVar() {
-			addrescapes(n.Name.Defn)
+		if n.Name().IsClosureVar() {
+			addrescapes(n.Name().Defn)
 			break
 		}
 
@@ -260,7 +260,7 @@ func addrescapes(n *ir.Node) {
 		// then we're analyzing the inner closure but we need to move x to the
 		// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
 		oldfn := Curfn
-		Curfn = n.Name.Curfn
+		Curfn = n.Name().Curfn
 		if Curfn.Func().Closure_ != nil && Curfn.Op == ir.OCLOSURE {
 			Curfn = Curfn.Func().Closure_
 		}
@@ -305,7 +305,7 @@ func moveToHeap(n *ir.Node) {
 	// Unset AutoTemp to persist the &foo variable name through SSA to
 	// liveness analysis.
 	// TODO(mdempsky/drchase): Cleaner solution?
-	heapaddr.Name.SetAutoTemp(false)
+	heapaddr.Name().SetAutoTemp(false)
 
 	// Parameters have a local stack copy used at function start/end
 	// in addition to the copy in the heap that may live longer than
@@ -323,16 +323,16 @@ func moveToHeap(n *ir.Node) {
 		stackcopy.SetType(n.Type())
 		stackcopy.Xoffset = n.Xoffset
 		stackcopy.SetClass(n.Class())
-		stackcopy.Name.Param.Heapaddr = heapaddr
+		stackcopy.Name().Param.Heapaddr = heapaddr
 		if n.Class() == ir.PPARAMOUT {
 			// Make sure the pointer to the heap copy is kept live throughout the function.
 			// The function could panic at any point, and then a defer could recover.
 			// Thus, we need the pointer to the heap copy always available so the
 			// post-deferreturn code can copy the return value back to the stack.
 			// See issue 16095.
-			heapaddr.Name.SetIsOutputParamHeapAddr(true)
+			heapaddr.Name().SetIsOutputParamHeapAddr(true)
 		}
-		n.Name.Param.Stackcopy = stackcopy
+		n.Name().Param.Stackcopy = stackcopy
 
 		// Substitute the stackcopy into the function variable list so that
 		// liveness and other analyses use the underlying stack slot
@@ -359,7 +359,7 @@ func moveToHeap(n *ir.Node) {
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.
 	n.SetClass(ir.PAUTOHEAP)
 	n.Xoffset = 0
-	n.Name.Param.Heapaddr = heapaddr
+	n.Name().Param.Heapaddr = heapaddr
 	n.Esc = EscHeap
 	if base.Flag.LowerM != 0 {
 		base.WarnAt(n.Pos, "moved to heap: %v", n)

@@ -631,11 +631,11 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 			}
 
 			k := k
-			if !v.Name.Byval() {
+			if !v.Name().Byval() {
 				k = k.addr(v, "reference")
 			}
 
-			e.expr(k.note(n, "captured by a closure"), v.Name.Defn)
+			e.expr(k.note(n, "captured by a closure"), v.Name().Defn)
 		}
 
 	case ir.ORUNES2STR, ir.OBYTES2STR, ir.OSTR2RUNES, ir.OSTR2BYTES, ir.ORUNESTR:
@@ -936,8 +936,8 @@ func (e *Escape) tagHole(ks []EscHole, fn *ir.Node, param *types.Field) EscHole 
 // should be incorporated directly into the flow graph instead of
 // relying on its escape analysis tagging.
 func (e *Escape) inMutualBatch(fn *ir.Node) bool {
-	if fn.Name.Defn != nil && fn.Name.Defn.Esc < EscFuncTagged {
-		if fn.Name.Defn.Esc == EscFuncUnknown {
+	if fn.Name().Defn != nil && fn.Name().Defn.Esc < EscFuncTagged {
+		if fn.Name().Defn.Esc == EscFuncUnknown {
 			base.Fatal("graph inconsistency")
 		}
 		return true
@@ -1053,9 +1053,9 @@ func (e *Escape) later(k EscHole) EscHole {
 // canonicalNode returns the canonical *Node that n logically
 // represents.
 func canonicalNode(n *ir.Node) *ir.Node {
-	if n != nil && n.Op == ir.ONAME && n.Name.IsClosureVar() {
-		n = n.Name.Defn
-		if n.Name.IsClosureVar() {
+	if n != nil && n.Op == ir.ONAME && n.Name().IsClosureVar() {
+		n = n.Name().Defn
+		if n.Name().IsClosureVar() {
 			base.Fatal("still closure var")
 		}
 	}
@@ -1080,8 +1080,8 @@ func (e *Escape) newLoc(n *ir.Node, transient bool) *EscLocation {
 	}
 	e.allLocs = append(e.allLocs, loc)
 	if n != nil {
-		if n.Op == ir.ONAME && n.Name.Curfn != e.curfn {
-			base.Fatal("curfn mismatch: %v != %v", n.Name.Curfn, e.curfn)
+		if n.Op == ir.ONAME && n.Name().Curfn != e.curfn {
+			base.Fatal("curfn mismatch: %v != %v", n.Name().Curfn, e.curfn)
 		}
 
 		if n.HasOpt() {
@@ -1417,7 +1417,7 @@ func (l *EscLocation) leakTo(sink *EscLocation, derefs int) {
 	// into the escape analysis tag, then record a return leak.
 	if sink.isName(ir.PPARAMOUT) && sink.curfn == l.curfn {
 		// TODO(mdempsky): Eliminate dependency on Vargen here.
-		ri := int(sink.n.Name.Vargen) - 1
+		ri := int(sink.n.Name().Vargen) - 1
 		if ri < numEscResults {
 			// Leak to result parameter.
 			l.paramEsc.AddResult(ri, derefs)

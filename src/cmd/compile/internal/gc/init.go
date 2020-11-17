@@ -49,7 +49,7 @@ func fninit(n []*ir.Node) {
 		initializers := lookup("init")
 		fn := dclfunc(initializers, nod(ir.OTFUNC, nil, nil))
 		for _, dcl := range dummyInitFn.Func().Dcl {
-			dcl.Name.Curfn = fn
+			dcl.Name().Curfn = fn
 		}
 		fn.Func().Dcl = append(fn.Func().Dcl, dummyInitFn.Func().Dcl...)
 		dummyInitFn.Func().Dcl = nil
@@ -75,7 +75,7 @@ func fninit(n []*ir.Node) {
 	// Record user init functions.
 	for i := 0; i < renameinitgen; i++ {
 		s := lookupN("init.", i)
-		fn := ir.AsNode(s.Def).Name.Defn
+		fn := ir.AsNode(s.Def).Name().Defn
 		// Skip init functions with empty bodies.
 		if fn.Nbody.Len() == 1 && fn.Nbody.First().Op == ir.OEMPTY {
 			continue

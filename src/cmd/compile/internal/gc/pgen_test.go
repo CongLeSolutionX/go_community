@@ -27,18 +27,18 @@ func typeWithPointers() *types.Type {
 }
 
 func markUsed(n *ir.Node) *ir.Node {
-	n.Name.SetUsed(true)
+	n.Name().SetUsed(true)
 	return n
 }
 
 func markNeedZero(n *ir.Node) *ir.Node {
-	n.Name.SetNeedzero(true)
+	n.Name().SetNeedzero(true)
 	return n
 }
 
 func nodeWithClass(n ir.Node, c ir.Class) *ir.Node {
 	n.SetClass(c)
-	n.Name = new(ir.Name)
+	n.SetName(new(ir.Name))
 	return &n
 }
 
@@ -49,7 +49,7 @@ func TestCmpstackvar(t *testing.T) {
 		n.SetType(t)
 		n.Sym = s
 		n.Xoffset = xoffset
-		n.Name = nam
+		n.SetName(nam)
 		return *n
 	}
 	testdata := []struct {

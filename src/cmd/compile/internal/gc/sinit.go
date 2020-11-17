@@ -80,17 +80,17 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 	if r.Class() != ir.PEXTERN || r.Sym.Pkg != ir.LocalPkg {
 		return false
 	}
-	if r.Name.Defn == nil { // probably zeroed but perhaps supplied externally and of unknown value
+	if r.Name().Defn == nil { // probably zeroed but perhaps supplied externally and of unknown value
 		return false
 	}
-	if r.Name.Defn.Op != ir.OAS {
+	if r.Name().Defn.Op != ir.OAS {
 		return false
 	}
 	if r.Type().IsString() { // perhaps overwritten by cmd/link -X (#34675)
 		return false
 	}
 	orig := r
-	r = r.Name.Defn.Right()
+	r = r.Name().Defn.Right()
 
 	for r.Op == ir.OCONVNOP && !types.Identical(r.Type(), l.Type()) {
 		r = r.Left()

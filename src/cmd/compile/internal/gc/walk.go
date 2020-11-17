@@ -41,21 +41,21 @@ func walk(fn *ir.Node) {
 
 	// Propagate the used flag for typeswitch variables up to the NONAME in its definition.
 	for _, ln := range fn.Func().Dcl {
-		if ln.Op == ir.ONAME && (ln.Class() == ir.PAUTO || ln.Class() == ir.PAUTOHEAP) && ln.Name.Defn != nil && ln.Name.Defn.Op == ir.OTYPESW && ln.Name.Used() {
-			ln.Name.Defn.Left().Name.SetUsed(true)
+		if ln.Op == ir.ONAME && (ln.Class() == ir.PAUTO || ln.Class() == ir.PAUTOHEAP) && ln.Name().Defn != nil && ln.Name().Defn.Op == ir.OTYPESW && ln.Name().Used() {
+			ln.Name().Defn.Left().Name().SetUsed(true)
 		}
 	}
 
 	for _, ln := range fn.Func().Dcl {
-		if ln.Op != ir.ONAME || (ln.Class() != ir.PAUTO && ln.Class() != ir.PAUTOHEAP) || ln.Sym.Name[0] == '&' || ln.Name.Used() {
+		if ln.Op != ir.ONAME || (ln.Class() != ir.PAUTO && ln.Class() != ir.PAUTOHEAP) || ln.Sym.Name[0] == '&' || ln.Name().Used() {
 			continue
 		}
-		if defn := ln.Name.Defn; defn != nil && defn.Op == ir.OTYPESW {
-			if defn.Left().Name.Used() {
+		if defn := ln.Name().Defn; defn != nil && defn.Op == ir.OTYPESW {
+			if defn.Left().Name().Used() {
 				continue
 			}
 			base.ErrorAt(defn.Left().Pos, "%v declared but not used", ln.Sym)
-			defn.Left().Name.SetUsed(true) // suppress repeats
+			defn.Left().Name().SetUsed(true) // suppress repeats
 		} else {
 			base.ErrorAt(ln.Pos, "%v declared but not used", ln.Sym)
 		}
@@ -89,7 +89,7 @@ func paramoutheap(fn *ir.Node) bool {
 	for _, ln := range fn.Func().Dcl {
 		switch ln.Class() {
 		case ir.PPARAMOUT:
-			if isParamStackCopy(ln) || ln.Name.Addrtaken() {
+			if isParamStackCopy(ln) || ln.Name().Addrtaken() {
 				return true
 			}
 
@@ -192,7 +192,7 @@ func walkstmt(n *ir.Node) *ir.Node {
 			if prealloc[v] == nil {
 				prealloc[v] = callnew(v.Type())
 			}
-			nn := nod(ir.OAS, v.Name.Param.Heapaddr, prealloc[v])
+			nn := nod(ir.OAS, v.Name().Param.Heapaddr, prealloc[v])
 			nn.SetColas(true)
 			nn = typecheck(nn, ctxStmt)
 			return walkstmt(nn)
@@ -282,7 +282,7 @@ func walkstmt(n *ir.Node) *ir.Node {
 				}
 				if cl == ir.PPARAMOUT {
 					if isParamStackCopy(ln) {
-						ln = walkexpr(typecheck(nod(ir.ODEREF, ln.Name.Param.Heapaddr, nil), ctxExpr), nil)
+						ln = walkexpr(typecheck(nod(ir.ODEREF, ln.Name().Param.Heapaddr, nil), ctxExpr), nil)
 					}
 					rl = append(rl, ln)
 				}
@@ -310,7 +310,7 @@ func walkstmt(n *ir.Node) *ir.Node {
 		for i, nl := range lhs.FieldSlice() {
 			nname := ir.AsNode(nl.Nname)
 			if isParamHeapCopy(nname) {
-				nname = nname.Name.Param.Stackcopy
+				nname = nname.Name().Param.Stackcopy
 			}
 			a := nod(ir.OAS, nname, rhs[i])
 			res[i] = convas(a, &n.Ninit)
@@ -452,7 +452,7 @@ func walkexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
 	}
 
 	if n.Op == ir.ONAME && n.Class() == ir.PAUTOHEAP {
-		nn := nod(ir.ODEREF, n.Name.Param.Heapaddr, nil)
+		nn := nod(ir.ODEREF, n.Name().Param.Heapaddr, nil)
 		nn = typecheck(nn, ctxExpr)
 		nn = walkexpr(nn, init)
 		nn.Left().MarkNonNil()
@@ -847,7 +847,7 @@ opswitch:
 			}
 			value = nod(ir.OINDEX, staticuint64s, index)
 			value.SetBounded(true)
-		case n.Left().Class() == ir.PEXTERN && n.Left().Name != nil && n.Left().Name.Readonly():
+		case n.Left().Class() == ir.PEXTERN && n.Left().Name() != nil && n.Left().Name().Readonly():
 			// n.Left is a readonly global; use it directly.
 			value = n.Left()
 		case !fromType.IsInterface() && n.Esc == EscNone && fromType.Width <= 1024:
@@ -2236,7 +2236,7 @@ func aliased(r *ir.Node, all []*ir.Node) bool {
 			continue
 
 		case ir.PAUTO, ir.PPARAM, ir.PPARAMOUT:
-			if l.Name.Addrtaken() {
+			if l.Name().Addrtaken() {
 				memwrite = true
 				continue
 			}
@@ -2284,7 +2284,7 @@ func varexpr(n *ir.Node) bool {
 	case ir.ONAME:
 		switch n.Class() {
 		case ir.PAUTO, ir.PPARAM, ir.PPARAMOUT:
-			if !n.Name.Addrtaken() {
+			if !n.Name().Addrtaken() {
 				return true
 			}
 		}
@@ -2405,7 +2405,7 @@ func paramstoheap(params *types.Type) []*ir.Node {
 			continue
 		}
 
-		if stackcopy := v.Name.Param.Stackcopy; stackcopy != nil {
+		if stackcopy := v.Name().Param.Stackcopy; stackcopy != nil {
 			nn = append(nn, walkstmt(nod(ir.ODCL, v, nil)))
 			if stackcopy.Class() == ir.PPARAM {
 				nn = append(nn, walkstmt(typecheck(nod(ir.OAS, v, stackcopy), ctxStmt)))
@@ -2426,7 +2426,7 @@ func paramstoheap(params *types.Type) []*ir.Node {
 func zeroResults() {
 	for _, f := range Curfn.Type().Results().Fields().Slice() {
 		v := ir.AsNode(f.Nname)
-		if v != nil && v.Name.Param.Heapaddr != nil {
+		if v != nil && v.Name().Param.Heapaddr != nil {
 			// The local which points to the return value is the
 			// thing that needs zeroing. This is already handled
 			// by a Needzero annotation in plive.go:livenessepilogue.
@@ -2439,7 +2439,7 @@ func zeroResults() {
 			// I don't think the zeroing below matters.
 			// The stack return value will never be marked as live anywhere in the function.
 			// It is not written to until deferreturn returns.
-			v = v.Name.Param.Stackcopy
+			v = v.Name().Param.Stackcopy
 		}
 		// Zero the stack location containing f.
 		Curfn.Func().Enter.Append(nodl(Curfn.Pos, ir.OAS, v, nil))
@@ -2455,7 +2455,7 @@ func returnsfromheap(params *types.Type) []*ir.Node {
 		if v == nil {
 			continue
 		}
-		if stackcopy := v.Name.Param.Stackcopy; stackcopy != nil && stackcopy.Class() == ir.PPARAMOUT {
+		if stackcopy := v.Name().Param.Stackcopy; stackcopy != nil && stackcopy.Class() == ir.PPARAMOUT {
 			nn = append(nn, walkstmt(typecheck(nod(ir.OAS, stackcopy, v), ctxStmt)))
 		}
 	}

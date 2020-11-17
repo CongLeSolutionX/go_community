@@ -393,7 +393,7 @@ func (o *Order) edge() {
 	// Create a new uint8 counter to be allocated in section
 	// __libfuzzer_extra_counters.
 	counter := staticname(types.Types[types.TUINT8])
-	counter.Name.SetLibfuzzerExtraCounter(true)
+	counter.Name().SetLibfuzzerExtraCounter(true)
 
 	// counter += 1
 	incr := nod(ir.OASOP, counter, nodintconst(1))
@@ -491,7 +491,7 @@ func (o *Order) call(n *ir.Node) {
 		if arg.Op == ir.OCONVNOP && arg.Left().Type().IsUnsafePtr() {
 			x := o.copyExpr(arg.Left(), arg.Left().Type(), false)
 			arg.SetLeft(x)
-			x.Name.SetAddrtaken(true) // ensure SSA keeps the x variable
+			x.Name().SetAddrtaken(true) // ensure SSA keeps the x variable
 			n.Nbody.Append(typecheck(nod(ir.OVARLIVE, x, nil), ctxStmt))
 		}
 	}

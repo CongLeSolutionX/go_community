@@ -218,7 +218,7 @@ func caninl(fn *ir.Node) {
 
 	n.Func().Inl = &ir.Inline{
 		Cost: inlineMaxBudget - visitor.budget,
-		Dcl:  inlcopylist(pruneUnusedAutos(n.Name.Defn.Func().Dcl, &visitor)),
+		Dcl:  inlcopylist(pruneUnusedAutos(n.Name().Defn.Func().Dcl, &visitor)),
 		Body: inlcopylist(fn.Nbody.Slice()),
 	}
 
@@ -759,11 +759,11 @@ func staticValue(n *ir.Node) *ir.Node {
 // that is initialized and never reassigned, staticValue1 returns the initializer
 // expression. Otherwise, it returns nil.
 func staticValue1(n *ir.Node) *ir.Node {
-	if n.Op != ir.ONAME || n.Class() != ir.PAUTO || n.Name.Addrtaken() {
+	if n.Op != ir.ONAME || n.Class() != ir.PAUTO || n.Name().Addrtaken() {
 		return nil
 	}
 
-	defn := n.Name.Defn
+	defn := n.Name().Defn
 	if defn == nil {
 		return nil
 	}
@@ -807,10 +807,10 @@ func reassigned(n *ir.Node) (bool, *ir.Node) {
 		base.Fatal("reassigned %v", n)
 	}
 	// no way to reliably check for no-reassignment of globals, assume it can be
-	if n.Name.Curfn == nil {
+	if n.Name().Curfn == nil {
 		return true, nil
 	}
-	f := n.Name.Curfn
+	f := n.Name().Curfn
 	// There just might be a good reason for this although this can be pretty surprising:
 	// local variables inside a closure have Curfn pointing to the OCLOSURE node instead
 	// of the corresponding ODCLFUNC.
@@ -834,12 +834,12 @@ func (v *reassignVisitor) visit(n *ir.Node) *ir.Node {
 	}
 	switch n.Op {
 	case ir.OAS:
-		if n.Left() == v.name && n != v.name.Name.Defn {
+		if n.Left() == v.name && n != v.name.Name().Defn {
 			return n
 		}
 	case ir.OAS2, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2DOTTYPE:
 		for _, p := range n.List.Slice() {
-			if p == v.name && n != v.name.Name.Defn {
+			if p == v.name && n != v.name.Name().Defn {
 				return n
 			}
 		}
@@ -885,7 +885,7 @@ func inlParam(t *types.Field, as *ir.Node, inlvars map[*ir.Node]*ir.Node) *ir.No
 		base.Fatal("missing inlvar for %v", n)
 	}
 	as.Ninit.Append(nod(ir.ODCL, inlvar, nil))
-	inlvar.Name.Defn = as
+	inlvar.Name().Defn = as
 	return inlvar
 }
 
@@ -916,7 +916,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		return n
 	}
 
-	if fn == Curfn || fn.Name.Defn == Curfn {
+	if fn == Curfn || fn.Name().Defn == Curfn {
 		// Can't recursively inline a function into itself.
 		if logopt.Enabled() {
 			logopt.LogOpt(n.Pos, "cannotInlineCall", "inline", fmt.Sprintf("recursive call to %s", Curfn.FuncName()))
@@ -971,23 +971,23 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	var inlfvars []*ir.Node
 
 	// Handle captured variables when inlining closures.
-	if fn.Name.Defn != nil {
-		if c := fn.Name.Defn.Func().Closure_; c != nil {
+	if fn.Name().Defn != nil {
+		if c := fn.Name().Defn.Func().Closure_; c != nil {
 			for _, v := range c.Func().Decl.Func().Cvars.Slice() {
 				if v.Op == ir.OXXX {
 					continue
 				}
 
-				o := v.Name.Param.Outer
+				o := v.Name().Param.Outer
 				// make sure the outer param matches the inlining location
 				// NB: if we enabled inlining of functions containing OCLOSURE or refined
 				// the reassigned check via some sort of copy propagation this would most
 				// likely need to be changed to a loop to walk up to the correct Param
-				if o == nil || (o.Name.Curfn != Curfn && o.Name.Curfn.Func().Closure_ != Curfn) {
+				if o == nil || (o.Name().Curfn != Curfn && o.Name().Curfn.Func().Closure_ != Curfn) {
 					base.Fatal("%v: unresolvable capture %v %v\n", n.Line(), fn, v)
 				}
 
-				if v.Name.Byval() {
+				if v.Name().Byval() {
 					iv := typecheck(inlvar(v), ctxExpr)
 					ninit.Append(nod(ir.ODCL, iv, nil))
 					ninit.Append(typecheck(nod(ir.OAS, iv, o), ctxStmt))
@@ -1026,9 +1026,9 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		inlvars[ln] = inlf
 		if base.Flag.GenDwarfInl > 0 {
 			if ln.Class() == ir.PPARAM {
-				inlf.Name.SetInlFormal(true)
+				inlf.Name().SetInlFormal(true)
 			} else {
-				inlf.Name.SetInlLocal(true)
+				inlf.Name().SetInlLocal(true)
 			}
 			inlf.Pos = ln.Pos
 			inlfvars = append(inlfvars, inlf)
@@ -1067,7 +1067,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 			// was manufactured by the inliner (e.g. "~R2"); such vars
 			// were not part of the original callee.
 			if !strings.HasPrefix(m.Sym.Name, "~R") {
-				m.Name.SetInlFormal(true)
+				m.Name().SetInlFormal(true)
 				m.Pos = t.Pos
 				inlfvars = append(inlfvars, m)
 			}
@@ -1232,9 +1232,9 @@ func inlvar(var_ *ir.Node) *ir.Node {
 	n := newname(var_.Sym)
 	n.SetType(var_.Type())
 	n.SetClass(ir.PAUTO)
-	n.Name.SetUsed(true)
-	n.Name.Curfn = Curfn // the calling function, not the called one
-	n.Name.SetAddrtaken(var_.Name.Addrtaken())
+	n.Name().SetUsed(true)
+	n.Name().Curfn = Curfn // the calling function, not the called one
+	n.Name().SetAddrtaken(var_.Name().Addrtaken())
 
 	Curfn.Func().Dcl = append(Curfn.Func().Dcl, n)
 	return n
@@ -1245,8 +1245,8 @@ func retvar(t *types.Field, i int) *ir.Node {
 	n := newname(lookupN("~R", i))
 	n.SetType(t.Type)
 	n.SetClass(ir.PAUTO)
-	n.Name.SetUsed(true)
-	n.Name.Curfn = Curfn // the calling function, not the called one
+	n.Name().SetUsed(true)
+	n.Name().Curfn = Curfn // the calling function, not the called one
 	Curfn.Func().Dcl = append(Curfn.Func().Dcl, n)
 	return n
 }
@@ -1257,8 +1257,8 @@ func argvar(t *types.Type, i int) *ir.Node {
 	n := newname(lookupN("~arg", i))
 	n.SetType(t.Elem())
 	n.SetClass(ir.PAUTO)
-	n.Name.SetUsed(true)
-	n.Name.Curfn = Curfn // the calling function, not the called one
+	n.Name().SetUsed(true)
+	n.Name().Curfn = Curfn // the calling function, not the called one
 	Curfn.Func().Dcl = append(Curfn.Func().Dcl, n)
 	return n
 }
@@ -1348,7 +1348,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 			if subst.delayretvars {
 				for _, n := range as.List.Slice() {
 					as.Ninit.Append(nod(ir.ODCL, n, nil))
-					n.Name.Defn = as
+					n.Name().Defn = as
 				}
 			}
 

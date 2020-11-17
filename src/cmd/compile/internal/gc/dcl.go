@@ -63,9 +63,9 @@ func declare(n *ir.Node, ctxt ir.Class) {
 		return
 	}
 
-	if n.Name == nil {
+	if n.Name() == nil {
 		// named OLITERAL needs Name; most OLITERALs don't.
-		n.Name = new(ir.Name)
+		n.SetName(new(ir.Name))
 	}
 
 	s := n.Sym
@@ -100,7 +100,7 @@ func declare(n *ir.Node, ctxt ir.Class) {
 			gen = vargen
 		}
 		types.Pushdcl(s)
-		n.Name.Curfn = Curfn
+		n.Name().Curfn = Curfn
 	}
 
 	if ctxt == ir.PAUTO {
@@ -118,7 +118,7 @@ func declare(n *ir.Node, ctxt ir.Class) {
 	s.Block = types.Block
 	s.Lastlineno = base.Pos
 	s.Def = ir.AsTypesNode(n)
-	n.Name.Vargen = int32(gen)
+	n.Name().Vargen = int32(gen)
 	n.SetClass(ctxt)
 	if ctxt == ir.PFUNC {
 		n.Sym.SetFunc(true)
@@ -151,8 +151,8 @@ func variter(vl []*ir.Node, t *ir.Node, el []*ir.Node) []*ir.Node {
 		for _, v := range vl {
 			v.Op = ir.ONAME
 			declare(v, dclcontext)
-			v.Name.Param.Ntype = t
-			v.Name.Defn = as2
+			v.Name().Param.Ntype = t
+			v.Name().Defn = as2
 			if Curfn != nil {
 				init = append(init, nod(ir.ODCL, v, nil))
 			}
@@ -175,7 +175,7 @@ func variter(vl []*ir.Node, t *ir.Node, el []*ir.Node) []*ir.Node {
 
 		v.Op = ir.ONAME
 		declare(v, dclcontext)
-		v.Name.Param.Ntype = t
+		v.Name().Param.Ntype = t
 
 		if e != nil || Curfn != nil || v.IsBlank() {
 			if Curfn != nil {
@@ -184,7 +184,7 @@ func variter(vl []*ir.Node, t *ir.Node, el []*ir.Node) []*ir.Node {
 			e = nod(ir.OAS, v, e)
 			init = append(init, e)
 			if e.Right() != nil {
-				v.Name.Defn = e
+				v.Name().Defn = e
 			}
 		}
 	}
@@ -269,26 +269,26 @@ func oldname(s *types.Sym) *ir.Node {
 		return newnoname(s)
 	}
 
-	if Curfn != nil && n.Op == ir.ONAME && n.Name.Curfn != nil && n.Name.Curfn != Curfn {
+	if Curfn != nil && n.Op == ir.ONAME && n.Name().Curfn != nil && n.Name().Curfn != Curfn {
 		// Inner func is referring to var in outer func.
 		//
 		// TODO(rsc): If there is an outer variable x and we
 		// are parsing x := 5 inside the closure, until we get to
 		// the := it looks like a reference to the outer x so we'll
 		// make x a closure variable unnecessarily.
-		c := n.Name.Param.Innermost
-		if c == nil || c.Name.Curfn != Curfn {
+		c := n.Name().Param.Innermost
+		if c == nil || c.Name().Curfn != Curfn {
 			// Do not have a closure var for the active closure yet; make one.
 			c = newname(s)
 			c.SetClass(ir.PAUTOHEAP)
-			c.Name.SetIsClosureVar(true)
+			c.Name().SetIsClosureVar(true)
 			c.SetIsDDD(n.IsDDD())
-			c.Name.Defn = n
+			c.Name().Defn = n
 
 			// Link into list of active closure variables.
 			// Popped from list in func funcLit.
-			c.Name.Param.Outer = n.Name.Param.Innermost
-			n.Name.Param.Innermost = c
+			c.Name().Param.Outer = n.Name().Param.Innermost
+			n.Name().Param.Innermost = c
 
 			Curfn.Func().Cvars.Append(c)
 		}
@@ -357,7 +357,7 @@ func colasdefn(left []*ir.Node, defn *ir.Node) {
 		nnew++
 		n = newname(n.Sym)
 		declare(n, dclcontext)
-		n.Name.Defn = defn
+		n.Name().Defn = defn
 		defn.Ninit.Append(nod(ir.ODCL, n, nil))
 		left[i] = n
 	}
@@ -391,8 +391,8 @@ func funchdr(n *ir.Node) {
 
 	types.Markdcl()
 
-	if n.Func().Nname != nil && n.Func().Nname.Name.Param.Ntype != nil {
-		funcargs(n.Func().Nname.Name.Param.Ntype)
+	if n.Func().Nname != nil && n.Func().Nname.Name().Param.Ntype != nil {
+		funcargs(n.Func().Nname.Name().Param.Ntype)
 	} else {
 		funcargs2(n.Type())
 	}
@@ -457,12 +457,12 @@ func funcarg(n *ir.Node, ctxt ir.Class) {
 	}
 
 	n.SetRight(newnamel(n.Pos, n.Sym))
-	n.Right().Name.Param.Ntype = n.Left()
+	n.Right().Name().Param.Ntype = n.Left()
 	n.Right().SetIsDDD(n.IsDDD())
 	declare(n.Right(), ctxt)
 
 	vargen++
-	n.Right().Name.Vargen = int32(vargen)
+	n.Right().Name().Vargen = int32(vargen)
 }
 
 // Same as funcargs, except run over an already constructed TFUNC.
@@ -976,11 +976,11 @@ func dclfunc(sym *types.Sym, tfn *ir.Node) *ir.Node {
 
 	fn := nod(ir.ODCLFUNC, nil, nil)
 	fn.Func().Nname = newfuncnamel(base.Pos, sym, fn.Func())
-	fn.Func().Nname.Name.Defn = fn
-	fn.Func().Nname.Name.Param.Ntype = tfn
+	fn.Func().Nname.Name().Defn = fn
+	fn.Func().Nname.Name().Param.Ntype = tfn
 	setNodeNameFunc(fn.Func().Nname)
 	funchdr(fn)
-	fn.Func().Nname.Name.Param.Ntype = typecheck(fn.Func().Nname.Name.Param.Ntype, ctxType)
+	fn.Func().Nname.Name().Param.Ntype = typecheck(fn.Func().Nname.Name().Param.Ntype, ctxType)
 	return fn
 }
 
@@ -1027,7 +1027,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 		return true
 	}
 	fn := n.Left()
-	if fn == nil || fn.Op != ir.ONAME || fn.Class() != ir.PFUNC || fn.Name.Defn == nil {
+	if fn == nil || fn.Op != ir.ONAME || fn.Class() != ir.PFUNC || fn.Name().Defn == nil {
 		return true
 	}
 	if !isRuntimePkg(fn.Sym.Pkg) || fn.Sym.Name != "systemstack" {
@@ -1038,7 +1038,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	arg := n.List.First()
 	switch arg.Op {
 	case ir.ONAME:
-		callee = arg.Name.Defn
+		callee = arg.Name().Defn
 	case ir.OCLOSURE:
 		callee = arg.Func().Decl
 	default:

@@ -82,23 +82,23 @@ func (v *bottomUpVisitor) visit(n *ir.Node) uint32 {
 				if n.IsMethodExpression() {
 					n = ir.AsNode(n.Type().Nname())
 				}
-				if n != nil && n.Name.Defn != nil {
-					if m := v.visit(n.Name.Defn); m < min {
+				if n != nil && n.Name().Defn != nil {
+					if m := v.visit(n.Name().Defn); m < min {
 						min = m
 					}
 				}
 			}
 		case ir.ODOTMETH:
 			fn := ir.AsNode(n.Type().Nname())
-			if fn != nil && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name.Defn != nil {
-				if m := v.visit(fn.Name.Defn); m < min {
+			if fn != nil && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name().Defn != nil {
+				if m := v.visit(fn.Name().Defn); m < min {
 					min = m
 				}
 			}
 		case ir.OCALLPART:
 			fn := ir.AsNode(callpartMethod(n).Type.Nname())
-			if fn != nil && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name.Defn != nil {
-				if m := v.visit(fn.Name.Defn); m < min {
+			if fn != nil && fn.Op == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name().Defn != nil {
+				if m := v.visit(fn.Name().Defn); m < min {
 					min = m
 				}
 			}

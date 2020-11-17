@@ -236,7 +236,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op; op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.Left().Name.Param.Alias()) {
+		if op := n.Op; op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.Left().Name().Param.Alias()) {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -248,7 +248,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top2")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op; op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.Left().Name.Param.Alias() {
+		if op := n.Op; op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.Left().Name().Param.Alias() {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -940,8 +940,8 @@ func clearImports() {
 			// leave s->block set to cause redeclaration
 			// errors if a conflicting top-level name is
 			// introduced by a different file.
-			if !n.Name.Used() && base.SyntaxErrors() == 0 {
-				unused = append(unused, importedPkg{n.Pos, n.Name.Pkg.Path, s.Name})
+			if !n.Name().Used() && base.SyntaxErrors() == 0 {
+				unused = append(unused, importedPkg{n.Pos, n.Name().Pkg.Path, s.Name})
 			}
 			s.Def = nil
 			continue
@@ -949,9 +949,9 @@ func clearImports() {
 		if IsAlias(s) {
 			// throw away top-level name left over
 			// from previous import . "x"
-			if n.Name != nil && n.Name.Pack != nil && !n.Name.Pack.Name.Used() && base.SyntaxErrors() == 0 {
-				unused = append(unused, importedPkg{n.Name.Pack.Pos, n.Name.Pack.Name.Pkg.Path, ""})
-				n.Name.Pack.Name.SetUsed(true)
+			if n.Name() != nil && n.Name().Pack != nil && !n.Name().Pack.Name().Used() && base.SyntaxErrors() == 0 {
+				unused = append(unused, importedPkg{n.Name().Pack.Pos, n.Name().Pack.Name().Pkg.Path, ""})
+				n.Name().Pack.Name().SetUsed(true)
 			}
 			s.Def = nil
 			continue

@@ -282,7 +282,7 @@ func (lv *Liveness) valueEffects(v *ssa.Value) (int32, liveEffect) {
 	// variable" ICEs (issue 19632).
 	switch v.Op {
 	case ssa.OpVarDef, ssa.OpVarKill, ssa.OpVarLive, ssa.OpKeepAlive:
-		if !n.Name.Used() {
+		if !n.Name().Used() {
 			return -1, 0
 		}
 	}
@@ -791,11 +791,11 @@ func (lv *Liveness) epilogue() {
 	if lv.fn.Func().HasDefer() {
 		for i, n := range lv.vars {
 			if n.Class() == ir.PPARAMOUT {
-				if n.Name.IsOutputParamHeapAddr() {
+				if n.Name().IsOutputParamHeapAddr() {
 					// Just to be paranoid.  Heap addresses are PAUTOs.
 					base.Fatal("variable %v both output param and heap output param", n)
 				}
-				if n.Name.Param.Heapaddr != nil {
+				if n.Name().Param.Heapaddr != nil {
 					// If this variable moved to the heap, then
 					// its stack copy is not live.
 					continue
@@ -803,21 +803,21 @@ func (lv *Liveness) epilogue() {
 				// Note: zeroing is handled by zeroResults in walk.go.
 				livedefer.Set(int32(i))
 			}
-			if n.Name.IsOutputParamHeapAddr() {
+			if n.Name().IsOutputParamHeapAddr() {
 				// This variable will be overwritten early in the function
 				// prologue (from the result of a mallocgc) but we need to
 				// zero it in case that malloc causes a stack scan.
-				n.Name.SetNeedzero(true)
+				n.Name().SetNeedzero(true)
 				livedefer.Set(int32(i))
 			}
-			if n.Name.OpenDeferSlot() {
+			if n.Name().OpenDeferSlot() {
 				// Open-coded defer args slots must be live
 				// everywhere in a function, since a panic can
 				// occur (almost) anywhere. Because it is live
 				// everywhere, it must be zeroed on entry.
 				livedefer.Set(int32(i))
 				// It was already marked as Needzero when created.
-				if !n.Name.Needzero() {
+				if !n.Name().Needzero() {
 					base.Fatal("all pointer-containing defer arg slots should have Needzero set")
 				}
 			}

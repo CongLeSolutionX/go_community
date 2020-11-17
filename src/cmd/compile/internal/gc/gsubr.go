@@ -294,14 +294,14 @@ func ggloblnod(nam *ir.Node) {
 	s := nam.Sym.Linksym()
 	s.Gotype = ngotype(nam).Linksym()
 	flags := 0
-	if nam.Name.Readonly() {
+	if nam.Name().Readonly() {
 		flags = obj.RODATA
 	}
 	if nam.Type() != nil && !nam.Type().HasPointers() {
 		flags |= obj.NOPTR
 	}
 	base.Ctxt.Globl(s, nam.Type().Width, flags)
-	if nam.Name.LibfuzzerExtraCounter() {
+	if nam.Name().LibfuzzerExtraCounter() {
 		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
 	}
 	if nam.Sym.Linkname != "" {

@@ -136,7 +136,7 @@ func (o *InitOrder) processAssign(n *ir.Node) {
 	// Compute number of variable dependencies and build the
 	// inverse dependency ("blocking") graph.
 	for dep := range collectDeps(n, true) {
-		defn := dep.Name.Defn
+		defn := dep.Name().Defn
 		// Skip dependencies on functions (PFUNC) and
 		// variables already initialized (InitDone).
 		if dep.Class() != ir.PEXTERN || defn.Initorder() == InitDone {
@@ -196,14 +196,14 @@ func findInitLoopAndExit(n *ir.Node, path *[]*ir.Node) {
 
 	// There might be multiple loops involving n; by sorting
 	// references, we deterministically pick the one reported.
-	refers := collectDeps(n.Name.Defn, false).Sorted(func(ni, nj *ir.Node) bool {
+	refers := collectDeps(n.Name().Defn, false).Sorted(func(ni, nj *ir.Node) bool {
 		return ni.Pos.Before(nj.Pos)
 	})
 
 	*path = append(*path, n)
 	for _, ref := range refers {
 		// Short-circuit variables that were initialized.
-		if ref.Class() == ir.PEXTERN && ref.Name.Defn.Initorder() == InitDone {
+		if ref.Class() == ir.PEXTERN && ref.Name().Defn.Initorder() == InitDone {
 			continue
 		}
 
@@ -309,7 +309,7 @@ func (d *initDeps) foundDep(n *ir.Node) {
 
 	// Names without definitions aren't interesting as far as
 	// initialization ordering goes.
-	if n.Name.Defn == nil {
+	if n.Name().Defn == nil {
 		return
 	}
 
@@ -318,7 +318,7 @@ func (d *initDeps) foundDep(n *ir.Node) {
 	}
 	d.seen.Add(n)
 	if d.transitive && n.Class() == ir.PFUNC {
-		d.inspectList(n.Name.Defn.Nbody)
+		d.inspectList(n.Name().Defn.Nbody)
 	}
 }
 

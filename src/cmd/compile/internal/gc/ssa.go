@@ -489,11 +489,11 @@ func dumpSourcesColumn(writer *ssa.HTMLWriter, fn *ir.Node) {
 	var inlFns []*ssa.FuncLines
 	for _, fi := range ssaDumpInlined {
 		var elno src.XPos
-		if fi.Name.Defn == nil {
+		if fi.Name().Defn == nil {
 			// Endlineno is filled from exported data.
 			elno = fi.Func().Endlineno
 		} else {
-			elno = fi.Name.Defn.Func().Endlineno
+			elno = fi.Name().Defn.Func().Endlineno
 		}
 		fname := base.Ctxt.PosTable.Pos(fi.Pos).Filename()
 		fnLines, err := readFuncLines(fname, fi.Pos.Line(), elno.Line())
@@ -1523,7 +1523,7 @@ func (s *state) stmt(n *ir.Node) {
 
 	case ir.OVARLIVE:
 		// Insert a varlive op to record that a variable is still live.
-		if !n.Left().Name.Addrtaken() {
+		if !n.Left().Name().Addrtaken() {
 			s.Fatalf("VARLIVE variable %v must have Addrtaken set", n.Left())
 		}
 		switch n.Left().Class() {
@@ -4292,7 +4292,7 @@ func (s *state) openDeferSave(n *ir.Node, t *types.Type, val *ssa.Value) *ssa.Va
 		pos = n.Pos
 	}
 	argTemp := tempAt(pos.WithNotStmt(), s.curfn, t)
-	argTemp.Name.SetOpenDeferSlot(true)
+	argTemp.Name().SetOpenDeferSlot(true)
 	var addrArgTemp *ssa.Value
 	// Use OpVarLive to make sure stack slots for the args, etc. are not
 	// removed by dead-store elimination
@@ -4318,7 +4318,7 @@ func (s *state) openDeferSave(n *ir.Node, t *types.Type, val *ssa.Value) *ssa.Va
 		// Therefore, we must make sure it is zeroed out in the entry
 		// block if it contains pointers, else GC may wrongly follow an
 		// uninitialized pointer value.
-		argTemp.Name.SetNeedzero(true)
+		argTemp.Name().SetNeedzero(true)
 	}
 	if !canSSA {
 		a := s.addr(n)
@@ -4786,7 +4786,7 @@ func (s *state) getMethodClosure(fn *ir.Node) *ssa.Value {
 	// We get back an SSA value representing &sync.(*Mutex).Unlock·f.
 	// We can then pass that to defer or go.
 	n2 := newnamel(fn.Pos, fn.Sym)
-	n2.Name.Curfn = s.curfn
+	n2.Name().Curfn = s.curfn
 	n2.SetClass(ir.PFUNC)
 	// n2.Sym already existed, so it's already marked as a function.
 	n2.Pos = fn.Pos
@@ -4932,7 +4932,7 @@ func (s *state) canSSA(n *ir.Node) bool {
 	if n.Op != ir.ONAME {
 		return false
 	}
-	if n.Name.Addrtaken() {
+	if n.Name().Addrtaken() {
 		return false
 	}
 	if isParamHeapCopy(n) {
@@ -6194,7 +6194,7 @@ func (s byXoffset) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 func emitStackObjects(e *ssafn, pp *Progs) {
 	var vars []*ir.Node
 	for _, n := range e.curfn.Func().Dcl {
-		if livenessShouldTrack(n) && n.Name.Addrtaken() {
+		if livenessShouldTrack(n) && n.Name().Addrtaken() {
 			vars = append(vars, n)
 		}
 	}
@@ -6580,7 +6580,7 @@ func defframe(s *SSAGenState, e *ssafn) {
 
 	// Iterate through declarations. They are sorted in decreasing Xoffset order.
 	for _, n := range e.curfn.Func().Dcl {
-		if !n.Name.Needzero() {
+		if !n.Name().Needzero() {
 			continue
 		}
 		if n.Class() != ir.PAUTO {
@@ -7055,7 +7055,7 @@ func (e *ssafn) DerefItab(it *obj.LSym, offset int64) *obj.LSym {
 func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t *types.Type) ssa.LocalSlot {
 	node := parent.N.(*ir.Node)
 
-	if node.Class() != ir.PAUTO || node.Name.Addrtaken() {
+	if node.Class() != ir.PAUTO || node.Name().Addrtaken() {
 		// addressed things and non-autos retain their parents (i.e., cannot truly be split)
 		return ssa.LocalSlot{N: node, Type: t, Off: parent.Off + offset}
 	}
@@ -7064,17 +7064,17 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 
 	n := new(ir.Node)
 	n.Op = ir.ONAME
-	n.Name = new(ir.Name)
+	n.SetName(new(ir.Name))
 	n.Pos = parent.N.(*ir.Node).Pos
 	n.SetOrig(n)
 
 	s.Def = ir.AsTypesNode(n)
-	ir.AsNode(s.Def).Name.SetUsed(true)
+	ir.AsNode(s.Def).Name().SetUsed(true)
 	n.Sym = s
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
 	n.Esc = EscNever
-	n.Name.Curfn = e.curfn
+	n.Name().Curfn = e.curfn
 	e.curfn.Func().Dcl = append(e.curfn.Func().Dcl, n)
 	dowidth(t)
 	return ssa.LocalSlot{N: n, Type: t, Off: 0, SplitOf: parent, SplitOffset: offset}

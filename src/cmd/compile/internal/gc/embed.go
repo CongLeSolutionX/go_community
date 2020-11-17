@@ -114,13 +114,13 @@ func varEmbed(p *noder, names []*ir.Node, typ *ir.Node, exprs []*ir.Node, embeds
 		numLocalEmbed++
 		v = newnamel(v.Pos, lookupN("embed.", numLocalEmbed))
 		v.Sym.Def = ir.AsTypesNode(v)
-		v.Name.Param.Ntype = typ
+		v.Name().Param.Ntype = typ
 		v.SetClass(ir.PEXTERN)
 		externdcl = append(externdcl, v)
 		exprs = []*ir.Node{v}
 	}
 
-	v.Name.Param.SetEmbedFiles(list)
+	v.Name().Param.SetEmbedFiles(list)
 	embedlist = append(embedlist, v)
 	return exprs
 }
@@ -192,7 +192,7 @@ func dumpembeds() {
 // initEmbed emits the init data for a //go:embed variable,
 // which is either a string, a []byte, or an embed.FS.
 func initEmbed(v *ir.Node) {
-	files := v.Name.Param.EmbedFiles()
+	files := v.Name().Param.EmbedFiles()
 	switch kind := embedKind(v.Type()); kind {
 	case embedUnknown:
 		base.ErrorAt(v.Pos, "go:embed cannot apply to var of type %v", v.Type())

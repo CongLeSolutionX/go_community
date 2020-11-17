@@ -982,8 +982,8 @@ func (w *exportWriter) funcExt(n *ir.Node) {
 		}
 
 		// Endlineno for inlined function.
-		if n.Name.Defn != nil {
-			w.pos(n.Name.Defn.Func().Endlineno)
+		if n.Name().Defn != nil {
+			w.pos(n.Name().Defn.Func().Endlineno)
 		} else {
 			// When the exported node was defined externally,
 			// e.g. io exports atomic.(*Value).Load or bytes exports errors.New.
@@ -1461,8 +1461,8 @@ func (w *exportWriter) localName(n *ir.Node) {
 	// PPARAM/PPARAMOUT, because we only want to include vargen in
 	// non-param names.
 	var v int32
-	if n.Class() == ir.PAUTO || (n.Class() == ir.PAUTOHEAP && n.Name.Param.Stackcopy == nil) {
-		v = n.Name.Vargen
+	if n.Class() == ir.PAUTO || (n.Class() == ir.PAUTOHEAP && n.Name().Param.Stackcopy == nil) {
+		v = n.Name().Vargen
 	}
 
 	w.localIdent(n.Sym, v)

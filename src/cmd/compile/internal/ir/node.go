@@ -41,7 +41,7 @@ type Node struct {
 	fn *Func
 
 	// ONAME, OTYPE, OPACK, OLABEL, some OLITERAL
-	Name *Name
+	name *Name
 
 	Sym *types.Sym  // various
 	E   interface{} // Opt or Val, see methods below
@@ -76,8 +76,8 @@ func (n *Node) Type() *types.Type     { return n.typ }
 func (n *Node) SetType(x *types.Type) { n.typ = x }
 func (n *Node) Func() *Func           { return n.fn }
 func (n *Node) SetFunc(x *Func)       { n.fn = x }
-func (n *Node) GetName() *Name        { return n.Name }
-func (n *Node) SetName(x *Name)       { n.Name = x }
+func (n *Node) Name() *Name           { return n.name }
+func (n *Node) SetName(x *Name)       { n.name = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -144,7 +144,7 @@ func (n *Node) IsAutoTmp() bool {
 	if n == nil || n.Op != ONAME {
 		return false
 	}
-	return n.Name.AutoTemp()
+	return n.Name().AutoTemp()
 }
 
 const (
@@ -246,7 +246,7 @@ func (n *Node) MarkReadonly() {
 	if n.Op != ONAME {
 		base.Fatal("Node.MarkReadonly %v", n.Op)
 	}
-	n.Name.SetReadonly(true)
+	n.Name().SetReadonly(true)
 	// Mark the linksym as readonly immediately
 	// so that the SSA backend can use this information.
 	// It will be overridden later during dumpglobls.

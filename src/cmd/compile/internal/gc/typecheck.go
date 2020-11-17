@@ -258,12 +258,12 @@ func typecheck(n *ir.Node, top int) (res *ir.Node) {
 				// are substituted.
 				cycle := cycleFor(n)
 				for _, n1 := range cycle {
-					if n1.Name != nil && !n1.Name.Param.Alias() {
+					if n1.Name() != nil && !n1.Name().Param.Alias() {
 						// Cycle is ok. But if n is an alias type and doesn't
 						// have a type yet, we have a recursive type declaration
 						// with aliases that we can't handle properly yet.
 						// Report an error rather than crashing later.
-						if n.Name != nil && n.Name.Param.Alias() && n.Type() == nil {
+						if n.Name() != nil && n.Name().Param.Alias() && n.Type() == nil {
 							base.Pos = n.Pos
 							base.Fatal("cannot handle alias type declaration (issue #25838): %v", n)
 						}
@@ -369,8 +369,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		ok |= ctxExpr
 
 	case ir.ONAME:
-		if n.Name.Decldepth == 0 {
-			n.Name.Decldepth = decldepth
+		if n.Name().Decldepth == 0 {
+			n.Name().Decldepth = decldepth
 		}
 		if n.SubOp() != 0 {
 			ok |= ctxCallee
@@ -385,7 +385,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 				return n
 			}
 
-			n.Name.SetUsed(true)
+			n.Name().SetUsed(true)
 		}
 
 		ok |= ctxExpr
@@ -852,13 +852,13 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 				if r.Orig() != r {
 					base.Fatal("found non-orig name node %v", r) // TODO(mdempsky): What does this mean?
 				}
-				r.Name.SetAddrtaken(true)
-				if r.Name.IsClosureVar() && !capturevarscomplete {
+				r.Name().SetAddrtaken(true)
+				if r.Name().IsClosureVar() && !capturevarscomplete {
 					// Mark the original variable as Addrtaken so that capturevars
 					// knows not to pass it by value.
 					// But if the capturevars phase is complete, don't touch it,
 					// in case l.Name's containing function has not yet been compiled.
-					r.Name.Defn.Name.SetAddrtaken(true)
+					r.Name().Defn.Name().SetAddrtaken(true)
 				}
 			}
 			n.SetLeft(defaultlit(n.Left(), nil))
@@ -1359,11 +1359,11 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.Op = ir.OCALLFUNC
 			if t.Etype != types.TFUNC {
 				name := l.String()
-				if isBuiltinFuncName(name) && l.Name.Defn != nil {
+				if isBuiltinFuncName(name) && l.Name().Defn != nil {
 					// be more specific when the function
 					// name matches a predeclared function
 					base.Error("cannot call non-function %s (type %v), declared at %s",
-						name, t, base.FmtPos(l.Name.Defn.Pos))
+						name, t, base.FmtPos(l.Name().Defn.Pos))
 				} else {
 					base.Error("cannot call non-function %s (type %v)", name, t)
 				}
@@ -1959,7 +1959,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 		// Code that creates temps does not bother to set defn, so do it here.
 		if n.Left().Op == ir.ONAME && n.Left().IsAutoTmp() {
-			n.Left().Name.Defn = n
+			n.Left().Name().Defn = n
 		}
 
 	case ir.OAS2:
@@ -2410,8 +2410,8 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 	}
 
 	n.Op = ir.ONAME
-	if n.Name == nil {
-		n.Name = new(ir.Name)
+	if n.Name() == nil {
+		n.SetName(new(ir.Name))
 	}
 	n.SetRight(newname(n.Sym))
 	n.Sym = methodSym(t, n.Sym)
@@ -3120,12 +3120,12 @@ func checklvalue(n *ir.Node, verb string) {
 
 func checkassign(stmt *ir.Node, n *ir.Node) {
 	// Variables declared in ORANGE are assigned on every iteration.
-	if n.Name == nil || n.Name.Defn != stmt || stmt.Op == ir.ORANGE {
+	if n.Name() == nil || n.Name().Defn != stmt || stmt.Op == ir.ORANGE {
 		r := outervalue(n)
 		if r.Op == ir.ONAME {
-			r.Name.SetAssigned(true)
-			if r.Name.IsClosureVar() {
-				r.Name.Defn.Name.SetAssigned(true)
+			r.Name().SetAssigned(true)
+			if r.Name().IsClosureVar() {
+				r.Name().Defn.Name().SetAssigned(true)
 			}
 		}
 	}
@@ -3226,7 +3226,7 @@ func typecheckas(n *ir.Node) {
 	// so that the conversion below happens).
 	n.SetLeft(resolve(n.Left()))
 
-	if n.Left().Name == nil || n.Left().Name.Defn != n || n.Left().Name.Param.Ntype != nil {
+	if n.Left().Name() == nil || n.Left().Name().Defn != n || n.Left().Name().Param.Ntype != nil {
 		n.SetLeft(typecheck(n.Left(), ctxExpr|ctxAssign))
 	}
 
@@ -3245,7 +3245,7 @@ func typecheckas(n *ir.Node) {
 		}
 	}
 
-	if n.Left().Name != nil && n.Left().Name.Defn == n && n.Left().Name.Param.Ntype == nil {
+	if n.Left().Name() != nil && n.Left().Name().Defn == n && n.Left().Name().Param.Ntype == nil {
 		n.SetRight(defaultlit(n.Right(), nil))
 		n.Left().SetType(n.Right().Type())
 	}
@@ -3281,7 +3281,7 @@ func typecheckas2(n *ir.Node) {
 		n1 = resolve(n1)
 		ls[i1] = n1
 
-		if n1.Name == nil || n1.Name.Defn != n || n1.Name.Param.Ntype != nil {
+		if n1.Name() == nil || n1.Name().Defn != n || n1.Name().Param.Ntype != nil {
 			ls[i1] = typecheck(ls[i1], ctxExpr|ctxAssign)
 		}
 	}
@@ -3306,7 +3306,7 @@ func typecheckas2(n *ir.Node) {
 			if nl.Type() != nil && nr.Type() != nil {
 				rs[il] = assignconv(nr, nl.Type(), "assignment")
 			}
-			if nl.Name != nil && nl.Name.Defn == n && nl.Name.Param.Ntype == nil {
+			if nl.Name() != nil && nl.Name().Defn == n && nl.Name().Param.Ntype == nil {
 				rs[il] = defaultlit(rs[il], nil)
 				nl.SetType(rs[il].Type())
 			}
@@ -3340,7 +3340,7 @@ func typecheckas2(n *ir.Node) {
 				if f.Type != nil && l.Type() != nil {
 					checkassignto(f.Type, l)
 				}
-				if l.Name != nil && l.Name.Defn == n && l.Name.Param.Ntype == nil {
+				if l.Name() != nil && l.Name().Defn == n && l.Name().Param.Ntype == nil {
 					l.SetType(f.Type)
 				}
 			}
@@ -3369,14 +3369,14 @@ func typecheckas2(n *ir.Node) {
 			if l.Type() != nil {
 				checkassignto(r.Type(), l)
 			}
-			if l.Name != nil && l.Name.Defn == n {
+			if l.Name() != nil && l.Name().Defn == n {
 				l.SetType(r.Type())
 			}
 			l := n.List.Second()
 			if l.Type() != nil && !l.Type().IsBoolean() {
 				checkassignto(types.Types[types.TBOOL], l)
 			}
-			if l.Name != nil && l.Name.Defn == n && l.Name.Param.Ntype == nil {
+			if l.Name() != nil && l.Name().Defn == n && l.Name().Param.Ntype == nil {
 				l.SetType(types.Types[types.TBOOL])
 			}
 			goto out
@@ -3410,7 +3410,7 @@ func typecheckfunc(n *ir.Node) {
 
 	for _, ln := range n.Func().Dcl {
 		if ln.Op == ir.ONAME && (ln.Class() == ir.PPARAM || ln.Class() == ir.PPARAMOUT) {
-			ln.Name.Decldepth = 1
+			ln.Name().Decldepth = 1
 		}
 	}
 
@@ -3486,8 +3486,8 @@ func setUnderlying(t, underlying *types.Type) {
 	// Restore unnecessarily clobbered attributes.
 	t.Nod = ir.AsTypesNode(n)
 	t.Sym = n.Sym
-	if n.Name != nil {
-		t.Vargen = n.Name.Vargen
+	if n.Name() != nil {
+		t.Vargen = n.Name().Vargen
 	}
 	t.Cache = cache
 	t.SetDeferwidth(false)
@@ -3501,7 +3501,7 @@ func setUnderlying(t, underlying *types.Type) {
 	}
 
 	// Propagate go:notinheap pragma from the Name to the Type.
-	if n.Name != nil && n.Name.Param != nil && n.Name.Param.Pragma()&ir.NotInHeap != 0 {
+	if n.Name() != nil && n.Name().Param != nil && n.Name().Param.Pragma()&ir.NotInHeap != 0 {
 		t.SetNotInHeap(true)
 	}
 
@@ -3524,8 +3524,8 @@ func typecheckdeftype(n *ir.Node) {
 	}
 
 	n.SetTypecheck(1)
-	n.Name.Param.Ntype = typecheck(n.Name.Param.Ntype, ctxType)
-	t := n.Name.Param.Ntype.Type()
+	n.Name().Param.Ntype = typecheck(n.Name().Param.Ntype, ctxType)
+	t := n.Name().Param.Ntype.Type()
 	if t == nil {
 		n.SetDiag(true)
 		n.SetType(nil)
@@ -3585,18 +3585,18 @@ func typecheckdef(n *ir.Node) {
 		base.Fatal("typecheckdef %v", n.Op)
 
 	case ir.OLITERAL:
-		if n.Name.Param.Ntype != nil {
-			n.Name.Param.Ntype = typecheck(n.Name.Param.Ntype, ctxType)
-			n.SetType(n.Name.Param.Ntype.Type())
-			n.Name.Param.Ntype = nil
+		if n.Name().Param.Ntype != nil {
+			n.Name().Param.Ntype = typecheck(n.Name().Param.Ntype, ctxType)
+			n.SetType(n.Name().Param.Ntype.Type())
+			n.Name().Param.Ntype = nil
 			if n.Type() == nil {
 				n.SetDiag(true)
 				goto ret
 			}
 		}
 
-		e := n.Name.Defn
-		n.Name.Defn = nil
+		e := n.Name().Defn
+		n.Name().Defn = nil
 		if e == nil {
 			ir.Dump("typecheckdef nil defn", n)
 			base.ErrorAt(n.Pos, "xxx")
@@ -3637,9 +3637,9 @@ func typecheckdef(n *ir.Node) {
 		n.SetType(e.Type())
 
 	case ir.ONAME:
-		if n.Name.Param.Ntype != nil {
-			n.Name.Param.Ntype = typecheck(n.Name.Param.Ntype, ctxType)
-			n.SetType(n.Name.Param.Ntype.Type())
+		if n.Name().Param.Ntype != nil {
+			n.Name().Param.Ntype = typecheck(n.Name().Param.Ntype, ctxType)
+			n.SetType(n.Name().Param.Ntype.Type())
 			if n.Type() == nil {
 				n.SetDiag(true)
 				goto ret
@@ -3649,7 +3649,7 @@ func typecheckdef(n *ir.Node) {
 		if n.Type() != nil {
 			break
 		}
-		if n.Name.Defn == nil {
+		if n.Name().Defn == nil {
 			if n.SubOp() != 0 { // like OPRINTN
 				break
 			}
@@ -3664,16 +3664,16 @@ func typecheckdef(n *ir.Node) {
 			base.Fatal("var without type, init: %v", n.Sym)
 		}
 
-		if n.Name.Defn.Op == ir.ONAME {
-			n.Name.Defn = typecheck(n.Name.Defn, ctxExpr)
-			n.SetType(n.Name.Defn.Type())
+		if n.Name().Defn.Op == ir.ONAME {
+			n.Name().Defn = typecheck(n.Name().Defn, ctxExpr)
+			n.SetType(n.Name().Defn.Type())
 			break
 		}
 
-		n.Name.Defn = typecheck(n.Name.Defn, ctxStmt) // fills in n.Type
+		n.Name().Defn = typecheck(n.Name().Defn, ctxStmt) // fills in n.Type
 
 	case ir.OTYPE:
-		if p := n.Name.Param; p.Alias() {
+		if p := n.Name().Param; p.Alias() {
 			// Type alias declaration: Simply use the rhs type - no need
 			// to create a new type.
 			// If we have a syntax error, p.Ntype may be nil.
@@ -3686,7 +3686,7 @@ func typecheckdef(n *ir.Node) {
 				}
 				// For package-level type aliases, set n.Sym.Def so we can identify
 				// it as a type alias during export. See also #31959.
-				if n.Name.Curfn == nil {
+				if n.Name().Curfn == nil {
 					n.Sym.Def = ir.AsTypesNode(p.Ntype)
 				}
 			}
@@ -3793,11 +3793,11 @@ func markbreaklist(l ir.Nodes, implicit *ir.Node) {
 		if n == nil {
 			continue
 		}
-		if n.Op == ir.OLABEL && i+1 < len(s) && n.Name.Defn == s[i+1] {
-			switch n.Name.Defn.Op {
+		if n.Op == ir.OLABEL && i+1 < len(s) && n.Name().Defn == s[i+1] {
+			switch n.Name().Defn.Op {
 			case ir.OFOR, ir.OFORUNTIL, ir.OSWITCH, ir.OTYPESW, ir.OSELECT, ir.ORANGE:
-				n.Sym.Label = ir.AsTypesNode(n.Name.Defn)
-				markbreak(n.Name.Defn, n.Name.Defn)
+				n.Sym.Label = ir.AsTypesNode(n.Name().Defn)
+				markbreak(n.Name().Defn, n.Name().Defn)
 				n.Sym.Label = nil
 				i++
 				continue

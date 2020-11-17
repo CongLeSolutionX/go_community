@@ -800,7 +800,7 @@ func (r *importReader) caseList(sw *ir.Node) []*ir.Node {
 			caseVar := newnamel(cas.Pos, r.ident())
 			declare(caseVar, dclcontext)
 			cas.Rlist.Set1(caseVar)
-			caseVar.Name.Defn = sw.Left()
+			caseVar.Name().Defn = sw.Left()
 		}
 		cas.Nbody.Set(r.stmtList())
 		cases[i] = cas

@@ -426,13 +426,13 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 
 	// Useful to see which nodes in an AST printout are actually identical
 	fmt.Fprintf(s, " p(%p)", n)
-	if !short && n.Name != nil && n.Name.Vargen != 0 {
-		fmt.Fprintf(s, " g(%d)", n.Name.Vargen)
+	if !short && n.Name() != nil && n.Name().Vargen != 0 {
+		fmt.Fprintf(s, " g(%d)", n.Name().Vargen)
 	}
 
-	if !short && n.Name != nil && n.Name.Defn != nil {
+	if !short && n.Name() != nil && n.Name().Defn != nil {
 		// Useful to see where Defn is set and what node it points to
-		fmt.Fprintf(s, " defn(%p)", n.Name.Defn)
+		fmt.Fprintf(s, " defn(%p)", n.Name().Defn)
 	}
 
 	if n.Pos.IsKnown() {
@@ -481,19 +481,19 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 	}
 
 	if n.Op == ONAME {
-		if n.Name.Addrtaken() {
+		if n.Name().Addrtaken() {
 			fmt.Fprint(s, " addrtaken")
 		}
-		if n.Name.Assigned() {
+		if n.Name().Assigned() {
 			fmt.Fprint(s, " assigned")
 		}
-		if n.Name.IsClosureVar() {
+		if n.Name().IsClosureVar() {
 			fmt.Fprint(s, " closurevar")
 		}
-		if n.Name.Captured() {
+		if n.Name().Captured() {
 			fmt.Fprint(s, " captured")
 		}
-		if n.Name.IsOutputParamHeapAddr() {
+		if n.Name().IsOutputParamHeapAddr() {
 			fmt.Fprint(s, " outputparamheapaddr")
 		}
 	}
@@ -508,7 +508,7 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 		fmt.Fprint(s, " hascall")
 	}
 
-	if !short && n.Name != nil && n.Name.Used() {
+	if !short && n.Name() != nil && n.Name().Used() {
 		fmt.Fprint(s, " used")
 	}
 }
@@ -1651,7 +1651,7 @@ func (n *Node) nodefmt(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 	if flag&FmtLong != 0 && t != nil {
 		if t.Etype == types.TNIL {
 			fmt.Fprint(s, "nil")
-		} else if n.Op == ONAME && n.Name.AutoTemp() {
+		} else if n.Op == ONAME && n.Name().AutoTemp() {
 			mode.Fprintf(s, "%v value", t)
 		} else {
 			mode.Fprintf(s, "%v (type %v)", n, t)
@@ -1698,9 +1698,9 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 		} else {
 			mode.Fprintf(s, "%v%j", n.Op, n)
 		}
-		if recur && n.Type() == nil && n.Name != nil && n.Name.Param != nil && n.Name.Param.Ntype != nil {
+		if recur && n.Type() == nil && n.Name() != nil && n.Name().Param != nil && n.Name().Param.Ntype != nil {
 			indent(s)
-			mode.Fprintf(s, "%v-ntype%v", n.Op, n.Name.Param.Ntype)
+			mode.Fprintf(s, "%v-ntype%v", n.Op, n.Name().Param.Ntype)
 		}
 
 	case OASOP:
@@ -1708,9 +1708,9 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 
 	case OTYPE:
 		mode.Fprintf(s, "%v %v%j type=%v", n.Op, n.Sym, n, n.Type())
-		if recur && n.Type() == nil && n.Name != nil && n.Name.Param != nil && n.Name.Param.Ntype != nil {
+		if recur && n.Type() == nil && n.Name() != nil && n.Name().Param != nil && n.Name().Param.Ntype != nil {
 			indent(s)
-			mode.Fprintf(s, "%v-ntype%v", n.Op, n.Name.Param.Ntype)
+			mode.Fprintf(s, "%v-ntype%v", n.Op, n.Name().Param.Ntype)
 		}
 	}
 

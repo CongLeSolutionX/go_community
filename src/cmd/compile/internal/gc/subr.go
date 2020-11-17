@@ -119,11 +119,11 @@ func importdot(opkg *types.Pkg, pack *ir.Node) {
 
 		s1.Def = s.Def
 		s1.Block = s.Block
-		if ir.AsNode(s1.Def).Name == nil {
+		if ir.AsNode(s1.Def).Name() == nil {
 			ir.Dump("s1def", ir.AsNode(s1.Def))
 			base.Fatal("missing Name")
 		}
-		ir.AsNode(s1.Def).Name.Pack = pack
+		ir.AsNode(s1.Def).Name().Pack = pack
 		s1.Origpkg = opkg
 		n++
 	}
@@ -157,7 +157,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 			m ir.Name
 		}
 		n = &x.n
-		n.Name = &x.m
+		n.SetName(&x.m)
 	default:
 		n = new(ir.Node)
 	}
@@ -173,7 +173,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 // newname returns a new ONAME Node associated with symbol s.
 func newname(s *types.Sym) *ir.Node {
 	n := newnamel(base.Pos, s)
-	n.Name.Curfn = Curfn
+	n.Name().Curfn = Curfn
 	return n
 }
 
@@ -190,8 +190,8 @@ func newnamel(pos src.XPos, s *types.Sym) *ir.Node {
 		p ir.Param
 	}
 	n := &x.n
-	n.Name = &x.m
-	n.Name.Param = &x.p
+	n.SetName(&x.m)
+	n.Name().Param = &x.p
 
 	n.Op = ir.ONAME
 	n.Pos = pos
@@ -258,7 +258,7 @@ func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
 		if pos.IsKnown() {
 			m.Pos = pos
 		}
-		if m.Name != nil && n.Op != ir.ODCLFIELD {
+		if m.Name() != nil && n.Op != ir.ODCLFIELD {
 			ir.Dump("treecopy", n)
 			base.Fatal("treecopy Name")
 		}
@@ -647,7 +647,7 @@ func labeledControl(n *ir.Node) *ir.Node {
 	if n.Op != ir.OLABEL {
 		base.Fatal("labeledControl %v", n.Op)
 	}
-	ctl := n.Name.Defn
+	ctl := n.Name().Defn
 	if ctl == nil {
 		return nil
 	}
