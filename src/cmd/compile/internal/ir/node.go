@@ -66,6 +66,14 @@ type Node struct {
 	aux uint8
 }
 
+func (n *Node) GetLeft() *Node {
+	return n.Left
+}
+
+func (n *Node) SetLeft(l *Node) {
+	n.Left = l
+}
+
 func (n *Node) ResetAux() {
 	n.aux = 0
 }

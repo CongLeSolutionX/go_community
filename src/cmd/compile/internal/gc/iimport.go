@@ -1042,7 +1042,9 @@ func (r *importReader) node() *ir.Node {
 	case ir.OFOR:
 		n := nodl(r.pos(), ir.OFOR, nil, nil)
 		n.Ninit.Set(r.stmtList())
-		n.Left, n.Right = r.exprsOrNil()
+		nl, nr := r.exprsOrNil()
+		n.Left = nl
+		n.Right = nr
 		n.Nbody.Set(r.stmtList())
 		return n
 
@@ -1056,7 +1058,8 @@ func (r *importReader) node() *ir.Node {
 	case ir.OSELECT, ir.OSWITCH:
 		n := nodl(r.pos(), op, nil, nil)
 		n.Ninit.Set(r.stmtList())
-		n.Left, _ = r.exprsOrNil()
+		nl, _ := r.exprsOrNil()
+		n.Left = nl
 		n.List.Set(r.caseList(n))
 		return n
 
