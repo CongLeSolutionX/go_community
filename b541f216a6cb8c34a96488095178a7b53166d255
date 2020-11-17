@@ -76,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f53f854c_da9612ef",
+        "filename": "src/cmd/go/testdata/script/mod_query_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-17T16:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36836c03_7f6570c5",
+      "range": {
+        "startLine": 1,
+        "startChar": 20,
+        "endLine": 1,
+        "endChar": 44
+      },
+      "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75c44783_2a201ca7",
@@ -89,6 +113,30 @@
       "writtenOn": "2020-11-17T16:04:24Z",
       "side": 1,
       "message": "(optional) It might be a bit more realistic to show resolving a commit to a pseudo-version or version. (I\u0027m not sure when else one would execute a command like this one.)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b6aa927_2d8c1579",
+        "filename": "src/cmd/go/testdata/script/mod_query_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-17T16:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75c44783_2a201ca7",
       "range": {
         "startLine": 13,
         "startChar": 0,
