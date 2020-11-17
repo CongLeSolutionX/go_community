@@ -1691,8 +1691,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.SetType(nil)
 			return n
 		}
-		var why string
-		n.Op, why = convertop(n.Left().Op == ir.OLITERAL, t, n.Type())
+		op, why := convertop(n.Left().Op == ir.OLITERAL, t, n.Type())
+		n.Op = op
 		if n.Op == ir.OXXX {
 			if !n.Diag() && !n.Type().Broke() && !n.Left().Diag() {
 				base.Error("cannot convert %L to type %v%s", n.Left(), n.Type(), why)

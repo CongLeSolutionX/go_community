@@ -86,39 +86,41 @@ func (n *Node) Xoffset() int64        { return n.xoffset }
 func (n *Node) SetXoffset(x int64)    { n.xoffset = x }
 func (n *Node) Esc() uint16           { return n.esc }
 func (n *Node) SetEsc(x uint16)       { n.esc = x }
+func (n *Node) GetOp() Op             { return n.Op }
+func (n *Node) SetOp(x Op)            { n.Op = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
 }
 
 func (n *Node) SubOp() Op {
-	switch n.Op {
+	switch n.GetOp() {
 	case OASOP, ONAME:
 	default:
-		base.Fatal("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.GetOp())
 	}
 	return Op(n.aux)
 }
 
 func (n *Node) SetSubOp(op Op) {
-	switch n.Op {
+	switch n.GetOp() {
 	case OASOP, ONAME:
 	default:
-		base.Fatal("unexpected op: %v", n.Op)
+		base.Fatal("unexpected op: %v", n.GetOp())
 	}
 	n.aux = uint8(op)
 }
 
 func (n *Node) IndexMapLValue() bool {
-	if n.Op != OINDEXMAP {
-		base.Fatal("unexpected op: %v", n.Op)
+	if n.GetOp() != OINDEXMAP {
+		base.Fatal("unexpected op: %v", n.GetOp())
 	}
 	return n.aux != 0
 }
 
 func (n *Node) SetIndexMapLValue(b bool) {
-	if n.Op != OINDEXMAP {
-		base.Fatal("unexpected op: %v", n.Op)
+	if n.GetOp() != OINDEXMAP {
+		base.Fatal("unexpected op: %v", n.GetOp())
 	}
 	if b {
 		n.aux = 1
@@ -128,15 +130,15 @@ func (n *Node) SetIndexMapLValue(b bool) {
 }
 
 func (n *Node) TChanDir() types.ChanDir {
-	if n.Op != OTCHAN {
-		base.Fatal("unexpected op: %v", n.Op)
+	if n.GetOp() != OTCHAN {
+		base.Fatal("unexpected op: %v", n.GetOp())
 	}
 	return types.ChanDir(n.aux)
 }
 
 func (n *Node) SetTChanDir(dir types.ChanDir) {
-	if n.Op != OTCHAN {
-		base.Fatal("unexpected op: %v", n.Op)
+	if n.GetOp() != OTCHAN {
+		base.Fatal("unexpected op: %v", n.GetOp())
 	}
 	n.aux = uint8(dir)
 }
@@ -149,7 +151,7 @@ func (n *Node) IsSynthetic() bool {
 // IsAutoTmp indicates if n was created by the compiler as a temporary,
 // based on the setting of the .AutoTemp flag in n's Name.
 func (n *Node) IsAutoTmp() bool {
-	if n == nil || n.Op != ONAME {
+	if n == nil || n.GetOp() != ONAME {
 		return false
 	}
 	return n.Name().AutoTemp()
@@ -235,7 +237,7 @@ func (n *Node) MarkNonNil() {
 // When n is a dereferencing operation, n does not need nil checks.
 // When n is a makeslice+copy operation, n does not need length and cap checks.
 func (n *Node) SetBounded(b bool) {
-	switch n.Op {
+	switch n.GetOp() {
 	case OINDEX, OSLICE, OSLICEARR, OSLICE3, OSLICE3ARR, OSLICESTR:
 		// No bounds checks needed.
 	case ODOTPTR, ODEREF:
@@ -251,8 +253,8 @@ func (n *Node) SetBounded(b bool) {
 
 // MarkReadonly indicates that n is an ONAME with readonly contents.
 func (n *Node) MarkReadonly() {
-	if n.Op != ONAME {
-		base.Fatal("Node.MarkReadonly %v", n.Op)
+	if n.GetOp() != ONAME {
+		base.Fatal("Node.MarkReadonly %v", n.GetOp())
 	}
 	n.Name().SetReadonly(true)
 	// Mark the linksym as readonly immediately
@@ -314,7 +316,7 @@ func (n *Node) SetIota(x int64) {
 // mayBeShared reports whether n may occur in multiple places in the AST.
 // Extra care must be taken when mutating such a node.
 func (n *Node) MayBeShared() bool {
-	switch n.Op {
+	switch n.GetOp() {
 	case ONAME, OLITERAL, OTYPE:
 		return true
 	}
@@ -323,7 +325,7 @@ func (n *Node) MayBeShared() bool {
 
 // isMethodExpression reports whether n represents a method expression T.M.
 func (n *Node) IsMethodExpression() bool {
-	return n.Op == ONAME && n.Left() != nil && n.Left().Op == OTYPE && n.Right() != nil && n.Right().Op == ONAME
+	return n.GetOp() == ONAME && n.Left() != nil && n.Left().GetOp() == OTYPE && n.Right() != nil && n.Right().GetOp() == ONAME
 }
 
 // funcname returns the name (without the package) of the function n.
@@ -343,7 +345,7 @@ func (n *Node) PkgFuncName() string {
 	if n == nil {
 		return "<nil>"
 	}
-	if n.Op == ONAME {
+	if n.GetOp() == ONAME {
 		s = n.Sym()
 	} else {
 		if n.Func() == nil || n.Func().Nname == nil {
@@ -1283,7 +1285,7 @@ func (n *Node) SliceBounds() (low, high, max *Node) {
 		return nil, nil, nil
 	}
 
-	switch n.Op {
+	switch n.GetOp() {
 	case OSLICE, OSLICEARR, OSLICESTR:
 		s := n.List.Slice()
 		return s[0], s[1], nil
@@ -1291,17 +1293,17 @@ func (n *Node) SliceBounds() (low, high, max *Node) {
 		s := n.List.Slice()
 		return s[0], s[1], s[2]
 	}
-	base.Fatal("SliceBounds op %v: %v", n.Op, n)
+	base.Fatal("SliceBounds op %v: %v", n.GetOp(), n)
 	return nil, nil, nil
 }
 
 // SetSliceBounds sets n's slice bounds, where n is a slice expression.
 // n must be a slice expression. If max is non-nil, n must be a full slice expression.
 func (n *Node) SetSliceBounds(low, high, max *Node) {
-	switch n.Op {
+	switch n.GetOp() {
 	case OSLICE, OSLICEARR, OSLICESTR:
 		if max != nil {
-			base.Fatal("SetSliceBounds %v given three bounds", n.Op)
+			base.Fatal("SetSliceBounds %v given three bounds", n.GetOp())
 		}
 		s := n.List.Slice()
 		if s == nil {
@@ -1328,7 +1330,7 @@ func (n *Node) SetSliceBounds(low, high, max *Node) {
 		s[2] = max
 		return
 	}
-	base.Fatal("SetSliceBounds op %v: %v", n.Op, n)
+	base.Fatal("SetSliceBounds op %v: %v", n.GetOp(), n)
 }
 
 // IsSlice3 reports whether o is a slice3 op (OSLICE3, OSLICE3ARR).

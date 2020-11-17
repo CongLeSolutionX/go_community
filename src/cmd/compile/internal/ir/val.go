@@ -109,7 +109,7 @@ func (v Val) Interface() interface{} {
 type NilVal struct{}
 
 func ConstType(n *Node) Ctype {
-	if n == nil || n.Op != OLITERAL {
+	if n == nil || n.GetOp() != OLITERAL {
 		return CTxxx
 	}
 	return n.Val().Ctype()
