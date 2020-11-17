@@ -63,6 +63,29 @@
       },
       "revId": "9155669fcfb354a90d7a7d2893878f796ecc9c69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12131cca_820490df",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-17T21:01:05Z",
+      "side": 1,
+      "message": "Does it care which is src and which is dst? It seems to me that it just merges the two lists and returns the result, not merging one into the other.",
+      "range": {
+        "startLine": 104,
+        "startChar": 33,
+        "endLine": 104,
+        "endChar": 68
+      },
+      "revId": "9155669fcfb354a90d7a7d2893878f796ecc9c69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
