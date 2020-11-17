@@ -99,17 +99,12 @@ TEXT runtime·read(SB),NOSPLIT,$-4
 
 // func pipe() (r, w int32, errno int32)
 TEXT runtime·pipe(SB),NOSPLIT,$8-12
-	MOVL	$42, AX
+	MOVL	$542, AX
+	LEAL	r+0(FP), BX
+	MOVL	BX, 4(SP)
+	MOVL	$0, 8(SP)
 	INT	$0x80
-	JAE	ok
-	MOVL	$0, r+0(FP)
-	MOVL	$0, w+4(FP)
 	MOVL	AX, errno+8(FP)
-	RET
-ok:
-	MOVL	AX, r+0(FP)
-	MOVL	DX, w+4(FP)
-	MOVL	$0, errno+8(FP)
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)

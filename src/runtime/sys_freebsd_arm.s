@@ -20,7 +20,6 @@
 #define SYS_close (SYS_BASE + 6)
 #define SYS_getpid (SYS_BASE + 20)
 #define SYS_kill (SYS_BASE + 37)
-#define SYS_pipe (SYS_BASE + 42)
 #define SYS_sigaltstack (SYS_BASE + 53)
 #define SYS_munmap (SYS_BASE + 73)
 #define SYS_madvise (SYS_BASE + 75)
@@ -123,19 +122,11 @@ TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0
 
 // func pipe() (r, w int32, errno int32)
 TEXT runtime·pipe(SB),NOSPLIT,$0-12
-	MOVW	$SYS_pipe, R7
+	MOVW	$r+0(FP), R0
+	MOVW	$0, R1
+	MOVW	$SYS_pipe2, R7
 	SWI	$0
-	BCC	ok
-	MOVW	$0, R1
-	MOVW	R1, r+0(FP)
-	MOVW	R1, w+4(FP)
 	MOVW	R0, errno+8(FP)
-	RET
-ok:
-	MOVW	R0, r+0(FP)
-	MOVW	R1, w+4(FP)
-	MOVW	$0, R1
-	MOVW	R1, errno+8(FP)
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)

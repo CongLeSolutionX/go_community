@@ -99,17 +99,10 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 
 // func pipe() (r, w int32, errno int32)
 TEXT runtime·pipe(SB),NOSPLIT,$0-12
-	MOVL	$42, AX
+	LEAQ	r+0(FP), DI
+	MOVL	$542, AX
 	SYSCALL
-	JCC	ok
-	MOVL	$0, r+0(FP)
-	MOVL	$0, w+4(FP)
 	MOVL	AX, errno+8(FP)
-	RET
-ok:
-	MOVL	AX, r+0(FP)
-	MOVL	DX, w+4(FP)
-	MOVL	$0, errno+8(FP)
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)
