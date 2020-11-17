@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "719800d0_fe41b074",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-17T16:04:24Z",
+      "side": 1,
+      "message": "Ah, yeah, skipping the proxy for trivial cases can be very important.",
+      "parentUuid": "2b3a96ad_71f67f18",
+      "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c5310eec_5b0231a9",
         "filename": "src/cmd/go/internal/modload/query.go",
         "patchSetId": 1
@@ -31,6 +49,52 @@
       "writtenOn": "2020-11-16T23:25:51Z",
       "side": 1,
       "message": "I think this check was backward before: we should only return Target as modOnly if the query was \"upgrade\" or \"patch\".",
+      "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36836c03_7f6570c5",
+        "filename": "src/cmd/go/testdata/script/mod_query_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-17T16:04:24Z",
+      "side": 1,
+      "message": "(missing noun)",
+      "range": {
+        "startLine": 1,
+        "startChar": 20,
+        "endLine": 1,
+        "endChar": 44
+      },
+      "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75c44783_2a201ca7",
+        "filename": "src/cmd/go/testdata/script/mod_query_main.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-11-17T16:04:24Z",
+      "side": 1,
+      "message": "(optional) It might be a bit more realistic to show resolving a commit to a pseudo-version or version. (I\u0027m not sure when else one would execute a command like this one.)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 30
+      },
       "revId": "b541f216a6cb8c34a96488095178a7b53166d255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
