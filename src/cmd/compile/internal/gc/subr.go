@@ -162,7 +162,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 		n = new(ir.Node)
 	}
 	n.Op = op
-	n.Left = nleft
+	n.SetLeft(nleft)
 	n.Right = nright
 	n.Pos = pos
 	n.Xoffset = types.BADWIDTH
@@ -252,7 +252,7 @@ func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
 	switch n.Op {
 	default:
 		m := n.SepCopy()
-		m.Left = treecopy(n.Left, pos)
+		m.SetLeft(treecopy(n.Left(), pos))
 		m.Right = treecopy(n.Right, pos)
 		m.List.Set(listtreecopy(n.List.Slice(), pos))
 		if pos.IsKnown() {
@@ -716,16 +716,16 @@ func calcHasCall(n *ir.Node) bool {
 			return true
 		}
 	case ir.OLT, ir.OEQ, ir.ONE, ir.OLE, ir.OGE, ir.OGT:
-		if thearch.SoftFloat && (isFloat[n.Left.Type.Etype] || isComplex[n.Left.Type.Etype]) {
+		if thearch.SoftFloat && (isFloat[n.Left().Type.Etype] || isComplex[n.Left().Type.Etype]) {
 			return true
 		}
 	case ir.OCONV:
-		if thearch.SoftFloat && ((isFloat[n.Type.Etype] || isComplex[n.Type.Etype]) || (isFloat[n.Left.Type.Etype] || isComplex[n.Left.Type.Etype])) {
+		if thearch.SoftFloat && ((isFloat[n.Type.Etype] || isComplex[n.Type.Etype]) || (isFloat[n.Left().Type.Etype] || isComplex[n.Left().Type.Etype])) {
 			return true
 		}
 	}
 
-	if n.Left != nil && n.Left.HasCall() {
+	if n.Left() != nil && n.Left().HasCall() {
 		return true
 	}
 	if n.Right != nil && n.Right.HasCall() {
@@ -814,34 +814,34 @@ func safeexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
 		return n
 
 	case ir.ODOT, ir.OLEN, ir.OCAP:
-		l := safeexpr(n.Left, init)
-		if l == n.Left {
+		l := safeexpr(n.Left(), init)
+		if l == n.Left() {
 			return n
 		}
 		r := n.Copy()
-		r.Left = l
+		r.SetLeft(l)
 		r = typecheck(r, ctxExpr)
 		r = walkexpr(r, init)
 		return r
 
 	case ir.ODOTPTR, ir.ODEREF:
-		l := safeexpr(n.Left, init)
-		if l == n.Left {
+		l := safeexpr(n.Left(), init)
+		if l == n.Left() {
 			return n
 		}
 		a := n.Copy()
-		a.Left = l
+		a.SetLeft(l)
 		a = walkexpr(a, init)
 		return a
 
 	case ir.OINDEX, ir.OINDEXMAP:
-		l := safeexpr(n.Left, init)
+		l := safeexpr(n.Left(), init)
 		r := safeexpr(n.Right, init)
-		if l == n.Left && r == n.Right {
+		if l == n.Left() && r == n.Right {
 			return n
 		}
 		a := n.Copy()
-		a.Left = l
+		a.SetLeft(l)
 		a.Right = r
 		a = walkexpr(a, init)
 		return a
@@ -1017,16 +1017,16 @@ func dotpath(s *types.Sym, t *types.Type, save **types.Field, ignorecase bool) (
 // will give shortest unique addressing.
 // modify the tree with missing type names.
 func adddot(n *ir.Node) *ir.Node {
-	n.Left = typecheck(n.Left, ctxType|ctxExpr)
-	if n.Left.Diag() {
+	n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
+	if n.Left().Diag() {
 		n.SetDiag(true)
 	}
-	t := n.Left.Type
+	t := n.Left().Type
 	if t == nil {
 		return n
 	}
 
-	if n.Left.Op == ir.OTYPE {
+	if n.Left().Op == ir.OTYPE {
 		return n
 	}
 
@@ -1039,12 +1039,12 @@ func adddot(n *ir.Node) *ir.Node {
 	case path != nil:
 		// rebuild elided dots
 		for c := len(path) - 1; c >= 0; c-- {
-			n.Left = nodSym(ir.ODOT, n.Left, path[c].field.Sym)
-			n.Left.SetImplicit(true)
+			n.SetLeft(nodSym(ir.ODOT, n.Left(), path[c].field.Sym))
+			n.Left().SetImplicit(true)
 		}
 	case ambig:
 		base.Error("ambiguous selector %v", n)
-		n.Left = nil
+		n.SetLeft(nil)
 	}
 
 	return n
@@ -1236,7 +1236,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	dclcontext = ir.PEXTERN
 
 	tfn := nod(ir.OTFUNC, nil, nil)
-	tfn.Left = namedfield(".this", rcvr)
+	tfn.SetLeft(namedfield(".this", rcvr))
 	tfn.List.Set(structargs(method.Type.Params(), true))
 	tfn.Rlist.Set(structargs(method.Type.Results(), false))
 
@@ -1251,7 +1251,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	if rcvr.IsPtr() && rcvr.Elem() == methodrcvr {
 		// generating wrapper from *T to T.
 		n := nod(ir.OIF, nil, nil)
-		n.Left = nod(ir.OEQ, nthis, nodnil())
+		n.SetLeft(nod(ir.OEQ, nthis, nodnil()))
 		call := nod(ir.OCALL, syslook("panicwrap"), nil)
 		n.Nbody.Set1(call)
 		fn.Nbody.Append(n)
@@ -1268,7 +1268,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	// value for that function.
 	if !instrumenting && rcvr.IsPtr() && methodrcvr.IsPtr() && method.Embedded != 0 && !isifacemethod(method.Type) && !(thearch.LinkArch.Name == "ppc64le" && base.Ctxt.Flag_dynlink) {
 		// generate tail call: adjust pointer receiver and jump to embedded method.
-		dot = dot.Left // skip final .M
+		dot = dot.Left() // skip final .M
 		// TODO(mdempsky): Remove dependency on dotlist.
 		if !dotlist[0].field.Type.IsPtr() {
 			dot = nod(ir.OADDR, dot, nil)
@@ -1485,7 +1485,7 @@ func addinit(n *ir.Node, init []*ir.Node) *ir.Node {
 	if n.MayBeShared() {
 		// Introduce OCONVNOP to hold init list.
 		n = nod(ir.OCONVNOP, n, nil)
-		n.Type = n.Left.Type
+		n.Type = n.Left().Type
 		n.SetTypecheck(1)
 	}
 

@@ -789,7 +789,7 @@ func hasCall(n *ir.Node) bool {
 	if n.Op == ir.OCALL || n.Op == ir.OCALLFUNC {
 		return true
 	}
-	if n.Left != nil && hasCall(n.Left) {
+	if n.Left() != nil && hasCall(n.Left()) {
 		return true
 	}
 	if n.Right != nil && hasCall(n.Right) {

@@ -76,7 +76,7 @@ func isSliceSelfAssign(dst, src *ir.Node) bool {
 	// when we evaluate it for dst and for src.
 
 	// dst is ONAME dereference.
-	if dst.Op != ir.ODEREF && dst.Op != ir.ODOTPTR || dst.Left.Op != ir.ONAME {
+	if dst.Op != ir.ODEREF && dst.Op != ir.ODOTPTR || dst.Left().Op != ir.ONAME {
 		return false
 	}
 	// src is a slice operation.
@@ -93,18 +93,18 @@ func isSliceSelfAssign(dst, src *ir.Node) bool {
 		// Pointer to an array is OK since it's not stored inside b directly.
 		// For slicing an array (not pointer to array), there is an implicit OADDR.
 		// We check that to determine non-pointer array slicing.
-		if src.Left.Op == ir.OADDR {
+		if src.Left().Op == ir.OADDR {
 			return false
 		}
 	default:
 		return false
 	}
 	// slice is applied to ONAME dereference.
-	if src.Left.Op != ir.ODEREF && src.Left.Op != ir.ODOTPTR || src.Left.Left.Op != ir.ONAME {
+	if src.Left().Op != ir.ODEREF && src.Left().Op != ir.ODOTPTR || src.Left().Left().Op != ir.ONAME {
 		return false
 	}
 	// dst and src reference the same base ONAME.
-	return dst.Left == src.Left.Left
+	return dst.Left() == src.Left().Left()
 }
 
 // isSelfAssign reports whether assignment from src to dst can
@@ -140,7 +140,7 @@ func isSelfAssign(dst, src *ir.Node) bool {
 	}
 
 	// The expression prefix must be both "safe" and identical.
-	return samesafeexpr(dst.Left, src.Left)
+	return samesafeexpr(dst.Left(), src.Left())
 }
 
 // mayAffectMemory reports whether evaluation of n may affect the program's
@@ -159,12 +159,12 @@ func mayAffectMemory(n *ir.Node) bool {
 
 	// Left+Right group.
 	case ir.OINDEX, ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.ODIV, ir.OMOD:
-		return mayAffectMemory(n.Left) || mayAffectMemory(n.Right)
+		return mayAffectMemory(n.Left()) || mayAffectMemory(n.Right)
 
 	// Left group.
 	case ir.ODOT, ir.ODOTPTR, ir.ODEREF, ir.OCONVNOP, ir.OCONV, ir.OLEN, ir.OCAP,
 		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG, ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
-		return mayAffectMemory(n.Left)
+		return mayAffectMemory(n.Left())
 
 	default:
 		return true
@@ -201,7 +201,7 @@ func heapAllocReason(n *ir.Node) string {
 	if n.Op == ir.OMAKESLICE {
 		r := n.Right
 		if r == nil {
-			r = n.Left
+			r = n.Left()
 		}
 		if !smallintconst(r) {
 			return "non-constant size"
@@ -276,8 +276,8 @@ func addrescapes(n *ir.Node) {
 	// escape--the pointer inside x does, but that
 	// is always a heap pointer anyway.
 	case ir.ODOT, ir.OINDEX, ir.OPAREN, ir.OCONVNOP:
-		if !n.Left.Type.IsSlice() {
-			addrescapes(n.Left)
+		if !n.Left().Type.IsSlice() {
+			addrescapes(n.Left())
 		}
 	}
 }

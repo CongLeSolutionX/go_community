@@ -230,7 +230,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		init = append(init, nod(ir.OAS, hv1, nil))
 		init = append(init, nod(ir.OAS, hn, nod(ir.OLEN, ha, nil)))
 
-		n.Left = nod(ir.OLT, hv1, hn)
+		n.SetLeft(nod(ir.OLT, hv1, hn))
 		n.Right = nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1)))
 
 		// for range ha { body }
@@ -271,7 +271,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		// elimination on the index variable (see #20711).
 		// Enhance the prove pass to understand this.
 		ifGuard = nod(ir.OIF, nil, nil)
-		ifGuard.Left = nod(ir.OLT, hv1, hn)
+		ifGuard.SetLeft(nod(ir.OLT, hv1, hn))
 		translatedLoopOp = ir.OFORUNTIL
 
 		hp := temp(types.NewPtr(n.Type.Elem()))
@@ -302,7 +302,7 @@ func walkrange(n *ir.Node) *ir.Node {
 
 		hit := prealloc[n]
 		th := hit.Type
-		n.Left = nil
+		n.SetLeft(nil)
 		keysym := th.Field(0).Sym  // depends on layout of iterator struct.  See reflect.go:hiter
 		elemsym := th.Field(1).Sym // ditto
 
@@ -310,7 +310,7 @@ func walkrange(n *ir.Node) *ir.Node {
 
 		fn = substArgTypes(fn, t.Key(), t.Elem(), th)
 		init = append(init, mkcall1(fn, nil, nil, typename(t), ha, nod(ir.OADDR, hit, nil)))
-		n.Left = nod(ir.ONE, nodSym(ir.ODOT, hit, keysym), nodnil())
+		n.SetLeft(nod(ir.ONE, nodSym(ir.ODOT, hit, keysym), nodnil()))
 
 		fn = syslook("mapiternext")
 		fn = substArgTypes(fn, th)
@@ -335,7 +335,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		// order.stmt arranged for a copy of the channel variable.
 		ha := a
 
-		n.Left = nil
+		n.SetLeft(nil)
 
 		hv1 := temp(t.Elem())
 		hv1.SetTypecheck(1)
@@ -344,12 +344,12 @@ func walkrange(n *ir.Node) *ir.Node {
 		}
 		hb := temp(types.Types[types.TBOOL])
 
-		n.Left = nod(ir.ONE, hb, nodbool(false))
+		n.SetLeft(nod(ir.ONE, hb, nodbool(false)))
 		a := nod(ir.OAS2RECV, nil, nil)
 		a.SetTypecheck(1)
 		a.List.Set2(hv1, hb)
 		a.Right = nod(ir.ORECV, ha, nil)
-		n.Left.Ninit.Set1(a)
+		n.Left().Ninit.Set1(a)
 		if v1 == nil {
 			body = nil
 		} else {
@@ -387,7 +387,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		init = append(init, nod(ir.OAS, hv1, nil))
 
 		// hv1 < len(ha)
-		n.Left = nod(ir.OLT, hv1, nod(ir.OLEN, ha, nil))
+		n.SetLeft(nod(ir.OLT, hv1, nod(ir.OLEN, ha, nil)))
 
 		if v1 != nil {
 			// hv1t = hv1
@@ -401,7 +401,7 @@ func walkrange(n *ir.Node) *ir.Node {
 
 		// if hv2 < utf8.RuneSelf
 		nif := nod(ir.OIF, nil, nil)
-		nif.Left = nod(ir.OLT, hv2, nodintconst(utf8.RuneSelf))
+		nif.SetLeft(nod(ir.OLT, hv2, nodintconst(utf8.RuneSelf)))
 
 		// hv1++
 		nif.Nbody.Set1(nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1))))
@@ -441,10 +441,10 @@ func walkrange(n *ir.Node) *ir.Node {
 		n.Ninit.Append(init...)
 	}
 
-	typecheckslice(n.Left.Ninit.Slice(), ctxStmt)
+	typecheckslice(n.Left().Ninit.Slice(), ctxStmt)
 
-	n.Left = typecheck(n.Left, ctxExpr)
-	n.Left = defaultlit(n.Left, nil)
+	n.SetLeft(typecheck(n.Left(), ctxExpr))
+	n.SetLeft(defaultlit(n.Left(), nil))
 	n.Right = typecheck(n.Right, ctxStmt)
 	typecheckslice(body, ctxStmt)
 	n.Nbody.Prepend(body...)
@@ -548,11 +548,11 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	}
 
 	stmt := n.Nbody.First() // only stmt in body
-	if stmt.Op != ir.OAS || stmt.Left.Op != ir.OINDEX {
+	if stmt.Op != ir.OAS || stmt.Left().Op != ir.OINDEX {
 		return false
 	}
 
-	if !samesafeexpr(stmt.Left.Left, a) || !samesafeexpr(stmt.Left.Right, v1) {
+	if !samesafeexpr(stmt.Left().Left(), a) || !samesafeexpr(stmt.Left().Right, v1) {
 		return false
 	}
 
@@ -571,7 +571,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	n.Op = ir.OIF
 
 	n.Nbody.Set(nil)
-	n.Left = nod(ir.ONE, nod(ir.OLEN, a, nil), nodintconst(0))
+	n.SetLeft(nod(ir.ONE, nod(ir.OLEN, a, nil), nodintconst(0)))
 
 	// hp = &a[0]
 	hp := temp(types.Types[types.TUNSAFEPTR])
@@ -607,8 +607,8 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 
 	n.Nbody.Append(v1)
 
-	n.Left = typecheck(n.Left, ctxExpr)
-	n.Left = defaultlit(n.Left, nil)
+	n.SetLeft(typecheck(n.Left(), ctxExpr))
+	n.SetLeft(defaultlit(n.Left(), nil))
 	typecheckslice(n.Nbody.Slice(), ctxStmt)
 	n = walkstmt(n)
 	return true

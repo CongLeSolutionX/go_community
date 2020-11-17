@@ -347,7 +347,7 @@ func (s *declOrder) Pop() interface{} {
 func firstLHS(n *ir.Node) *ir.Node {
 	switch n.Op {
 	case ir.OAS:
-		return n.Left
+		return n.Left()
 	case ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2RECV, ir.OAS2MAPR:
 		return n.List.First()
 	}

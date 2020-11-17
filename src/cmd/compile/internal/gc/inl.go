@@ -328,8 +328,8 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 		// because getcaller{pc,sp} expect a pointer to the caller's first argument.
 		//
 		// runtime.throw is a "cheap call" like panic in normal code.
-		if n.Left.Op == ir.ONAME && n.Left.Class() == ir.PFUNC && isRuntimePkg(n.Left.Sym.Pkg) {
-			fn := n.Left.Sym.Name
+		if n.Left().Op == ir.ONAME && n.Left().Class() == ir.PFUNC && isRuntimePkg(n.Left().Sym.Pkg) {
+			fn := n.Left().Sym.Name
 			if fn == "getcallerpc" || fn == "getcallersp" {
 				v.reason = "call to " + fn
 				return true
@@ -345,7 +345,7 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 			break
 		}
 
-		if fn := inlCallee(n.Left); fn != nil && fn.Func.Inl != nil {
+		if fn := inlCallee(n.Left()); fn != nil && fn.Func.Inl != nil {
 			v.budget -= fn.Func.Inl.Cost
 			break
 		}
@@ -355,15 +355,15 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 
 	// Call is okay if inlinable and we have the budget for the body.
 	case ir.OCALLMETH:
-		t := n.Left.Type
+		t := n.Left().Type
 		if t == nil {
-			base.Fatal("no function type for [%p] %+v\n", n.Left, n.Left)
+			base.Fatal("no function type for [%p] %+v\n", n.Left(), n.Left())
 		}
 		if t.Nname() == nil {
 			base.Fatal("no function definition for [%p] %+v\n", t, t)
 		}
-		if isRuntimePkg(n.Left.Sym.Pkg) {
-			fn := n.Left.Sym.Name
+		if isRuntimePkg(n.Left().Sym.Pkg) {
+			fn := n.Left().Sym.Name
 			if fn == "heapBits.nextArena" {
 				// Special case: explicitly allow
 				// mid-stack inlining of
@@ -425,7 +425,7 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 		}
 
 	case ir.OIF:
-		if ir.IsConst(n.Left, ir.CTBOOL) {
+		if ir.IsConst(n.Left(), ir.CTBOOL) {
 			// This if and the condition cost nothing.
 			return v.visitList(n.Ninit) || v.visitList(n.Nbody) ||
 				v.visitList(n.Rlist)
@@ -445,7 +445,7 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 		return true
 	}
 
-	return v.visit(n.Left) || v.visit(n.Right) ||
+	return v.visit(n.Left()) || v.visit(n.Right) ||
 		v.visitList(n.List) || v.visitList(n.Rlist) ||
 		v.visitList(n.Ninit) || v.visitList(n.Nbody)
 }
@@ -475,7 +475,7 @@ func inlcopy(n *ir.Node) *ir.Node {
 	if n.Op != ir.OCALLPART && m.Func != nil {
 		base.Fatal("unexpected Func: %v", m)
 	}
-	m.Left = inlcopy(n.Left)
+	m.SetLeft(inlcopy(n.Left()))
 	m.Right = inlcopy(n.Right)
 	m.List.Set(inlcopylist(n.List.Slice()))
 	m.Rlist.Set(inlcopylist(n.Rlist.Slice()))
@@ -490,7 +490,7 @@ func countNodes(n *ir.Node) int {
 		return 0
 	}
 	cnt := 1
-	cnt += countNodes(n.Left)
+	cnt += countNodes(n.Left())
 	cnt += countNodes(n.Right)
 	for _, n1 := range n.Ninit.Slice() {
 		cnt += countNodes(n1)
@@ -591,9 +591,9 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 
 	switch n.Op {
 	case ir.ODEFER, ir.OGO:
-		switch n.Left.Op {
+		switch n.Left().Op {
 		case ir.OCALLFUNC, ir.OCALLMETH:
-			n.Left.SetNoInline(true)
+			n.Left().SetNoInline(true)
 		}
 
 	// TODO do them here (or earlier),
@@ -603,7 +603,7 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 	case ir.OCALLMETH:
 		// Prevent inlining some reflect.Value methods when using checkptr,
 		// even when package reflect was compiled without it (#35073).
-		if s := n.Left.Sym; base.Debug.Checkptr != 0 && isReflectPkg(s.Pkg) && (s.Name == "Value.UnsafeAddr" || s.Name == "Value.Pointer") {
+		if s := n.Left().Sym; base.Debug.Checkptr != 0 && isReflectPkg(s.Pkg) && (s.Name == "Value.UnsafeAddr" || s.Name == "Value.Pointer") {
 			return n
 		}
 	}
@@ -617,9 +617,9 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 		}
 	}
 
-	n.Left = inlnode(n.Left, maxCost, inlMap)
-	if n.Left != nil && n.Left.Op == ir.OINLCALL {
-		n.Left = inlconv2expr(n.Left)
+	n.SetLeft(inlnode(n.Left(), maxCost, inlMap))
+	if n.Left() != nil && n.Left().Op == ir.OINLCALL {
+		n.SetLeft(inlconv2expr(n.Left()))
 	}
 
 	n.Right = inlnode(n.Right, maxCost, inlMap)
@@ -685,30 +685,30 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 	switch n.Op {
 	case ir.OCALLFUNC:
 		if base.Flag.LowerM > 3 {
-			fmt.Printf("%v:call to func %+v\n", n.Line(), n.Left)
+			fmt.Printf("%v:call to func %+v\n", n.Line(), n.Left())
 		}
 		if isIntrinsicCall(n) {
 			break
 		}
-		if fn := inlCallee(n.Left); fn != nil && fn.Func.Inl != nil {
+		if fn := inlCallee(n.Left()); fn != nil && fn.Func.Inl != nil {
 			n = mkinlcall(n, fn, maxCost, inlMap)
 		}
 
 	case ir.OCALLMETH:
 		if base.Flag.LowerM > 3 {
-			fmt.Printf("%v:call to meth %L\n", n.Line(), n.Left.Right)
+			fmt.Printf("%v:call to meth %L\n", n.Line(), n.Left().Right)
 		}
 
 		// typecheck should have resolved ODOTMETH->type, whose nname points to the actual function.
-		if n.Left.Type == nil {
-			base.Fatal("no function type for [%p] %+v\n", n.Left, n.Left)
+		if n.Left().Type == nil {
+			base.Fatal("no function type for [%p] %+v\n", n.Left(), n.Left())
 		}
 
-		if n.Left.Type.Nname() == nil {
-			base.Fatal("no function definition for [%p] %+v\n", n.Left.Type, n.Left.Type)
+		if n.Left().Type.Nname() == nil {
+			base.Fatal("no function definition for [%p] %+v\n", n.Left().Type, n.Left().Type)
 		}
 
-		n = mkinlcall(n, ir.AsNode(n.Left.Type.FuncType().Nname), maxCost, inlMap)
+		n = mkinlcall(n, ir.AsNode(n.Left().Type.FuncType().Nname), maxCost, inlMap)
 	}
 
 	base.Pos = lno
@@ -726,7 +726,7 @@ func inlCallee(fn *ir.Node) *ir.Node {
 			// Check that receiver type matches fn.Left.
 			// TODO(mdempsky): Handle implicit dereference
 			// of pointer receiver argument?
-			if n == nil || !types.Identical(n.Type.Recv().Type, fn.Left.Type) {
+			if n == nil || !types.Identical(n.Type.Recv().Type, fn.Left().Type) {
 				return nil
 			}
 			return n
@@ -743,7 +743,7 @@ func inlCallee(fn *ir.Node) *ir.Node {
 func staticValue(n *ir.Node) *ir.Node {
 	for {
 		if n.Op == ir.OCONVNOP {
-			n = n.Left
+			n = n.Left()
 			continue
 		}
 
@@ -834,7 +834,7 @@ func (v *reassignVisitor) visit(n *ir.Node) *ir.Node {
 	}
 	switch n.Op {
 	case ir.OAS:
-		if n.Left == v.name && n != v.name.Name.Defn {
+		if n.Left() == v.name && n != v.name.Name.Defn {
 			return n
 		}
 	case ir.OAS2, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2DOTTYPE:
@@ -844,7 +844,7 @@ func (v *reassignVisitor) visit(n *ir.Node) *ir.Node {
 			}
 		}
 	}
-	if a := v.visit(n.Left); a != nil {
+	if a := v.visit(n.Left()); a != nil {
 		return a
 	}
 	if a := v.visit(n.Right); a != nil {
@@ -1080,10 +1080,10 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	as := nod(ir.OAS2, nil, nil)
 	as.SetColas(true)
 	if n.Op == ir.OCALLMETH {
-		if n.Left.Left == nil {
+		if n.Left().Left() == nil {
 			base.Fatal("method call without receiver: %+v", n)
 		}
-		as.Rlist.Append(n.Left.Left)
+		as.Rlist.Append(n.Left().Left())
 	}
 	as.Rlist.Append(n.List.Slice()...)
 
@@ -1113,7 +1113,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		varargs := as.List.Slice()[x:]
 
 		vas = nod(ir.OAS, nil, nil)
-		vas.Left = inlParam(param, vas, inlvars)
+		vas.SetLeft(inlParam(param, vas, inlvars))
 		if len(varargs) == 0 {
 			vas.Right = nodnil()
 			vas.Right.Type = param.Type
@@ -1380,7 +1380,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 		base.Fatal("cannot inline function containing closure: %+v", n)
 	}
 
-	m.Left = subst.node(n.Left)
+	m.SetLeft(subst.node(n.Left()))
 	m.Right = subst.node(n.Right)
 	m.List.Set(subst.list(n.List))
 	m.Rlist.Set(subst.list(n.Rlist))
@@ -1428,34 +1428,34 @@ func devirtualize(fn *ir.Node) {
 }
 
 func devirtualizeCall(call *ir.Node) {
-	recv := staticValue(call.Left.Left)
+	recv := staticValue(call.Left().Left())
 	if recv.Op != ir.OCONVIFACE {
 		return
 	}
 
-	typ := recv.Left.Type
+	typ := recv.Left().Type
 	if typ.IsInterface() {
 		return
 	}
 
-	x := nodl(call.Left.Pos, ir.ODOTTYPE, call.Left.Left, nil)
+	x := nodl(call.Left().Pos, ir.ODOTTYPE, call.Left().Left(), nil)
 	x.Type = typ
-	x = nodlSym(call.Left.Pos, ir.OXDOT, x, call.Left.Sym)
+	x = nodlSym(call.Left().Pos, ir.OXDOT, x, call.Left().Sym)
 	x = typecheck(x, ctxExpr|ctxCallee)
 	switch x.Op {
 	case ir.ODOTMETH:
 		if base.Flag.LowerM != 0 {
-			base.WarnAt(call.Pos, "devirtualizing %v to %v", call.Left, typ)
+			base.WarnAt(call.Pos, "devirtualizing %v to %v", call.Left(), typ)
 		}
 		call.Op = ir.OCALLMETH
-		call.Left = x
+		call.SetLeft(x)
 	case ir.ODOTINTER:
 		// Promoted method from embedded interface-typed field (#42279).
 		if base.Flag.LowerM != 0 {
-			base.WarnAt(call.Pos, "partially devirtualizing %v to %v", call.Left, typ)
+			base.WarnAt(call.Pos, "partially devirtualizing %v to %v", call.Left(), typ)
 		}
 		call.Op = ir.OCALLINTER
-		call.Left = x
+		call.SetLeft(x)
 	default:
 		// TODO(mdempsky): Turn back into Fatalf after more testing.
 		if base.Flag.LowerM != 0 {

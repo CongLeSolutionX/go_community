@@ -305,8 +305,8 @@ func (e *Escape) stmt(n *ir.Node) {
 
 	case ir.ODCL:
 		// Record loop depth at declaration.
-		if !n.Left.IsBlank() {
-			e.dcl(n.Left)
+		if !n.Left().IsBlank() {
+			e.dcl(n.Left())
 		}
 
 	case ir.OLABEL:
@@ -326,13 +326,13 @@ func (e *Escape) stmt(n *ir.Node) {
 		n.Sym.Label = nil
 
 	case ir.OIF:
-		e.discard(n.Left)
+		e.discard(n.Left())
 		e.block(n.Nbody)
 		e.block(n.Rlist)
 
 	case ir.OFOR, ir.OFORUNTIL:
 		e.loopDepth++
-		e.discard(n.Left)
+		e.discard(n.Left())
 		e.stmt(n.Right)
 		e.block(n.Nbody)
 		e.loopDepth--
@@ -356,11 +356,11 @@ func (e *Escape) stmt(n *ir.Node) {
 		e.expr(e.later(k), n.Right)
 
 	case ir.OSWITCH:
-		typesw := n.Left != nil && n.Left.Op == ir.OTYPESW
+		typesw := n.Left() != nil && n.Left().Op == ir.OTYPESW
 
 		var ks []EscHole
 		for _, cas := range n.List.Slice() { // cases
-			if typesw && n.Left.Left != nil {
+			if typesw && n.Left().Left() != nil {
 				cv := cas.Rlist.First()
 				k := e.dcl(cv) // type switch variables have no ODCL.
 				if cv.Type.HasPointers() {
@@ -373,30 +373,30 @@ func (e *Escape) stmt(n *ir.Node) {
 		}
 
 		if typesw {
-			e.expr(e.teeHole(ks...), n.Left.Right)
+			e.expr(e.teeHole(ks...), n.Left().Right)
 		} else {
-			e.discard(n.Left)
+			e.discard(n.Left())
 		}
 
 	case ir.OSELECT:
 		for _, cas := range n.List.Slice() {
-			e.stmt(cas.Left)
+			e.stmt(cas.Left())
 			e.block(cas.Nbody)
 		}
 	case ir.OSELRECV:
-		e.assign(n.Left, n.Right, "selrecv", n)
+		e.assign(n.Left(), n.Right, "selrecv", n)
 	case ir.OSELRECV2:
-		e.assign(n.Left, n.Right, "selrecv", n)
+		e.assign(n.Left(), n.Right, "selrecv", n)
 		e.assign(n.List.First(), nil, "selrecv", n)
 	case ir.ORECV:
 		// TODO(mdempsky): Consider e.discard(n.Left).
 		e.exprSkipInit(e.discardHole(), n) // already visited n.Ninit
 	case ir.OSEND:
-		e.discard(n.Left)
+		e.discard(n.Left())
 		e.assignHeap(n.Right, "send", n)
 
 	case ir.OAS, ir.OASOP:
-		e.assign(n.Left, n.Right, "assign", n)
+		e.assign(n.Left(), n.Right, "assign", n)
 
 	case ir.OAS2:
 		for i, nl := range n.List.Slice() {
@@ -424,8 +424,8 @@ func (e *Escape) stmt(n *ir.Node) {
 	case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER, ir.OCLOSE, ir.OCOPY, ir.ODELETE, ir.OPANIC, ir.OPRINT, ir.OPRINTN, ir.ORECOVER:
 		e.call(nil, n, nil)
 	case ir.OGO, ir.ODEFER:
-		e.stmts(n.Left.Ninit)
-		e.call(nil, n.Left, n)
+		e.stmts(n.Left().Ninit)
+		e.call(nil, n.Left(), n)
 
 	case ir.ORETJMP:
 		// TODO(mdempsky): What do? esc.go just ignores it.
@@ -468,7 +468,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 	uintptrEscapesHack := k.uintptrEscapesHack
 	k.uintptrEscapesHack = false
 
-	if uintptrEscapesHack && n.Op == ir.OCONVNOP && n.Left.Type.IsUnsafePtr() {
+	if uintptrEscapesHack && n.Op == ir.OCONVNOP && n.Left().Type.IsUnsafePtr() {
 		// nop
 	} else if k.derefs >= 0 && !n.Type.HasPointers() {
 		k = e.discardHole()
@@ -488,61 +488,61 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 		e.flow(k, e.oldLoc(n))
 
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
-		e.discard(n.Left)
+		e.discard(n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE, ir.OANDAND, ir.OOROR:
-		e.discard(n.Left)
+		e.discard(n.Left())
 		e.discard(n.Right)
 
 	case ir.OADDR:
-		e.expr(k.addr(n, "address-of"), n.Left) // "address-of"
+		e.expr(k.addr(n, "address-of"), n.Left()) // "address-of"
 	case ir.ODEREF:
-		e.expr(k.deref(n, "indirection"), n.Left) // "indirection"
+		e.expr(k.deref(n, "indirection"), n.Left()) // "indirection"
 	case ir.ODOT, ir.ODOTMETH, ir.ODOTINTER:
-		e.expr(k.note(n, "dot"), n.Left)
+		e.expr(k.note(n, "dot"), n.Left())
 	case ir.ODOTPTR:
-		e.expr(k.deref(n, "dot of pointer"), n.Left) // "dot of pointer"
+		e.expr(k.deref(n, "dot of pointer"), n.Left()) // "dot of pointer"
 	case ir.ODOTTYPE, ir.ODOTTYPE2:
-		e.expr(k.dotType(n.Type, n, "dot"), n.Left)
+		e.expr(k.dotType(n.Type, n, "dot"), n.Left())
 	case ir.OINDEX:
-		if n.Left.Type.IsArray() {
-			e.expr(k.note(n, "fixed-array-index-of"), n.Left)
+		if n.Left().Type.IsArray() {
+			e.expr(k.note(n, "fixed-array-index-of"), n.Left())
 		} else {
 			// TODO(mdempsky): Fix why reason text.
-			e.expr(k.deref(n, "dot of pointer"), n.Left)
+			e.expr(k.deref(n, "dot of pointer"), n.Left())
 		}
 		e.discard(n.Right)
 	case ir.OINDEXMAP:
-		e.discard(n.Left)
+		e.discard(n.Left())
 		e.discard(n.Right)
 	case ir.OSLICE, ir.OSLICEARR, ir.OSLICE3, ir.OSLICE3ARR, ir.OSLICESTR:
-		e.expr(k.note(n, "slice"), n.Left)
+		e.expr(k.note(n, "slice"), n.Left())
 		low, high, max := n.SliceBounds()
 		e.discard(low)
 		e.discard(high)
 		e.discard(max)
 
 	case ir.OCONV, ir.OCONVNOP:
-		if checkPtr(e.curfn, 2) && n.Type.IsUnsafePtr() && n.Left.Type.IsPtr() {
+		if checkPtr(e.curfn, 2) && n.Type.IsUnsafePtr() && n.Left().Type.IsPtr() {
 			// When -d=checkptr=2 is enabled, treat
 			// conversions to unsafe.Pointer as an
 			// escaping operation. This allows better
 			// runtime instrumentation, since we can more
 			// easily detect object boundaries on the heap
 			// than the stack.
-			e.assignHeap(n.Left, "conversion to unsafe.Pointer", n)
-		} else if n.Type.IsUnsafePtr() && n.Left.Type.IsUintptr() {
-			e.unsafeValue(k, n.Left)
+			e.assignHeap(n.Left(), "conversion to unsafe.Pointer", n)
+		} else if n.Type.IsUnsafePtr() && n.Left().Type.IsUintptr() {
+			e.unsafeValue(k, n.Left())
 		} else {
-			e.expr(k, n.Left)
+			e.expr(k, n.Left())
 		}
 	case ir.OCONVIFACE:
-		if !n.Left.Type.IsInterface() && !isdirectiface(n.Left.Type) {
+		if !n.Left().Type.IsInterface() && !isdirectiface(n.Left().Type) {
 			k = e.spill(k, n)
 		}
-		e.expr(k.note(n, "interface-converted"), n.Left)
+		e.expr(k.note(n, "interface-converted"), n.Left())
 
 	case ir.ORECV:
-		e.discard(n.Left)
+		e.discard(n.Left())
 
 	case ir.OCALLMETH, ir.OCALLFUNC, ir.OCALLINTER, ir.OLEN, ir.OCAP, ir.OCOMPLEX, ir.OREAL, ir.OIMAG, ir.OAPPEND, ir.OCOPY:
 		e.call([]EscHole{k}, n, nil)
@@ -552,13 +552,13 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 
 	case ir.OMAKESLICE:
 		e.spill(k, n)
-		e.discard(n.Left)
+		e.discard(n.Left())
 		e.discard(n.Right)
 	case ir.OMAKECHAN:
-		e.discard(n.Left)
+		e.discard(n.Left())
 	case ir.OMAKEMAP:
 		e.spill(k, n)
-		e.discard(n.Left)
+		e.discard(n.Left())
 
 	case ir.ORECOVER:
 		// nop
@@ -583,10 +583,10 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 		}
 		paramK := e.tagHole(ks, ir.AsNode(m.Type.Nname()), m.Type.Recv())
 
-		e.expr(e.teeHole(paramK, closureK), n.Left)
+		e.expr(e.teeHole(paramK, closureK), n.Left())
 
 	case ir.OPTRLIT:
-		e.expr(e.spill(k, n), n.Left)
+		e.expr(e.spill(k, n), n.Left())
 
 	case ir.OARRAYLIT:
 		for _, elt := range n.List.Slice() {
@@ -609,7 +609,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 
 	case ir.OSTRUCTLIT:
 		for _, elt := range n.List.Slice() {
-			e.expr(k.note(n, "struct literal element"), elt.Left)
+			e.expr(k.note(n, "struct literal element"), elt.Left())
 		}
 
 	case ir.OMAPLIT:
@@ -617,7 +617,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 
 		// Map keys and values are always stored in the heap.
 		for _, elt := range n.List.Slice() {
-			e.assignHeap(elt.Left, "map literal key", n)
+			e.assignHeap(elt.Left(), "map literal key", n)
 			e.assignHeap(elt.Right, "map literal value", n)
 		}
 
@@ -640,7 +640,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *ir.Node) {
 
 	case ir.ORUNES2STR, ir.OBYTES2STR, ir.OSTR2RUNES, ir.OSTR2BYTES, ir.ORUNESTR:
 		e.spill(k, n)
-		e.discard(n.Left)
+		e.discard(n.Left())
 
 	case ir.OADDSTR:
 		e.spill(k, n)
@@ -662,24 +662,24 @@ func (e *Escape) unsafeValue(k EscHole, n *ir.Node) {
 
 	switch n.Op {
 	case ir.OCONV, ir.OCONVNOP:
-		if n.Left.Type.IsUnsafePtr() {
-			e.expr(k, n.Left)
+		if n.Left().Type.IsUnsafePtr() {
+			e.expr(k, n.Left())
 		} else {
-			e.discard(n.Left)
+			e.discard(n.Left())
 		}
 	case ir.ODOTPTR:
 		if isReflectHeaderDataField(n) {
-			e.expr(k.deref(n, "reflect.Header.Data"), n.Left)
+			e.expr(k.deref(n, "reflect.Header.Data"), n.Left())
 		} else {
-			e.discard(n.Left)
+			e.discard(n.Left())
 		}
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT:
-		e.unsafeValue(k, n.Left)
+		e.unsafeValue(k, n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OAND, ir.OANDNOT:
-		e.unsafeValue(k, n.Left)
+		e.unsafeValue(k, n.Left())
 		e.unsafeValue(k, n.Right)
 	case ir.OLSH, ir.ORSH:
-		e.unsafeValue(k, n.Left)
+		e.unsafeValue(k, n.Left())
 		// RHS need not be uintptr-typed (#32959) and can't meaningfully
 		// flow pointers anyway.
 		e.discard(n.Right)
@@ -720,18 +720,18 @@ func (e *Escape) addr(n *ir.Node) EscHole {
 		}
 		k = e.oldLoc(n).asHole()
 	case ir.ODOT:
-		k = e.addr(n.Left)
+		k = e.addr(n.Left())
 	case ir.OINDEX:
 		e.discard(n.Right)
-		if n.Left.Type.IsArray() {
-			k = e.addr(n.Left)
+		if n.Left().Type.IsArray() {
+			k = e.addr(n.Left())
 		} else {
-			e.discard(n.Left)
+			e.discard(n.Left())
 		}
 	case ir.ODEREF, ir.ODOTPTR:
 		e.discard(n)
 	case ir.OINDEXMAP:
-		e.discard(n.Left)
+		e.discard(n.Left())
 		e.assignHeap(n.Right, "key of map put", n)
 	}
 
@@ -808,17 +808,17 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		var fn *ir.Node
 		switch call.Op {
 		case ir.OCALLFUNC:
-			switch v := staticValue(call.Left); {
+			switch v := staticValue(call.Left()); {
 			case v.Op == ir.ONAME && v.Class() == ir.PFUNC:
 				fn = v
 			case v.Op == ir.OCLOSURE:
 				fn = v.Func.Decl.Func.Nname
 			}
 		case ir.OCALLMETH:
-			fn = ir.AsNode(call.Left.Type.FuncType().Nname)
+			fn = ir.AsNode(call.Left().Type.FuncType().Nname)
 		}
 
-		fntype := call.Left.Type
+		fntype := call.Left().Type
 		if fn != nil {
 			fntype = fn.Type
 		}
@@ -830,10 +830,10 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		}
 
 		if r := fntype.Recv(); r != nil {
-			argument(e.tagHole(ks, fn, r), call.Left.Left)
+			argument(e.tagHole(ks, fn, r), call.Left().Left())
 		} else {
 			// Evaluate callee function expression.
-			argument(e.discardHole(), call.Left)
+			argument(e.discardHole(), call.Left())
 		}
 
 		args := call.List.Slice()
@@ -867,7 +867,7 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		}
 
 	case ir.OCOPY:
-		argument(e.discardHole(), call.Left)
+		argument(e.discardHole(), call.Left())
 
 		copiedK := e.discardHole()
 		if call.Right.Type.IsSlice() && call.Right.Type.Elem().HasPointers() {
@@ -876,17 +876,17 @@ func (e *Escape) call(ks []EscHole, call, where *ir.Node) {
 		argument(copiedK, call.Right)
 
 	case ir.OPANIC:
-		argument(e.heapHole(), call.Left)
+		argument(e.heapHole(), call.Left())
 
 	case ir.OCOMPLEX:
-		argument(e.discardHole(), call.Left)
+		argument(e.discardHole(), call.Left())
 		argument(e.discardHole(), call.Right)
 	case ir.ODELETE, ir.OPRINT, ir.OPRINTN, ir.ORECOVER:
 		for _, arg := range call.List.Slice() {
 			argument(e.discardHole(), arg)
 		}
 	case ir.OLEN, ir.OCAP, ir.OREAL, ir.OIMAG, ir.OCLOSE:
-		argument(e.discardHole(), call.Left)
+		argument(e.discardHole(), call.Left())
 	}
 }
 

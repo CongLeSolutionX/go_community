@@ -411,7 +411,7 @@ func walkclosure(clo *ir.Node, init *ir.Nodes) *ir.Node {
 		if !types.Identical(typ, x.Type) {
 			panic("closure type does not match order's assigned type")
 		}
-		clos.Left.Right = x
+		clos.Left().Right = x
 		delete(prealloc, clo)
 	}
 
@@ -439,7 +439,7 @@ func typecheckpartialcall(fn *ir.Node, sym *types.Sym) {
 // makepartialcall returns a DCLFUNC node representing the wrapper function (*-fm) needed
 // for partial calls.
 func makepartialcall(fn *ir.Node, t0 *types.Type, meth *types.Sym) *ir.Node {
-	rcvrtype := fn.Left.Type
+	rcvrtype := fn.Left().Type
 	sym := methodSymSuffix(rcvrtype, meth, "-fm")
 
 	if sym.Uniq() {
@@ -522,7 +522,7 @@ func makepartialcall(fn *ir.Node, t0 *types.Type, meth *types.Sym) *ir.Node {
 func partialCallType(n *ir.Node) *types.Type {
 	t := tostruct([]*ir.Node{
 		namedfield("F", types.Types[types.TUINTPTR]),
-		namedfield("R", n.Left.Type),
+		namedfield("R", n.Left().Type),
 	})
 	t.SetNoalg(true)
 	return t
@@ -536,13 +536,13 @@ func walkpartialcall(n *ir.Node, init *ir.Nodes) *ir.Node {
 	//
 	// Like walkclosure above.
 
-	if n.Left.Type.IsInterface() {
+	if n.Left().Type.IsInterface() {
 		// Trigger panic for method on nil interface now.
 		// Otherwise it happens in the wrapper and is confusing.
-		n.Left = cheapexpr(n.Left, init)
-		n.Left = walkexpr(n.Left, nil)
+		n.SetLeft(cheapexpr(n.Left(), init))
+		n.SetLeft(walkexpr(n.Left(), nil))
 
-		tab := nod(ir.OITAB, n.Left, nil)
+		tab := nod(ir.OITAB, n.Left(), nil)
 		tab = typecheck(tab, ctxExpr)
 
 		c := nod(ir.OCHECKNIL, tab, nil)
@@ -554,7 +554,7 @@ func walkpartialcall(n *ir.Node, init *ir.Nodes) *ir.Node {
 
 	clos := nod(ir.OCOMPLIT, nil, typenod(typ))
 	clos.Esc = n.Esc
-	clos.List.Set2(nod(ir.OCFUNC, n.Func.Nname, nil), n.Left)
+	clos.List.Set2(nod(ir.OCFUNC, n.Func.Nname, nil), n.Left())
 
 	clos = nod(ir.OADDR, clos, nil)
 	clos.Esc = n.Esc
@@ -567,7 +567,7 @@ func walkpartialcall(n *ir.Node, init *ir.Nodes) *ir.Node {
 		if !types.Identical(typ, x.Type) {
 			panic("partial call type does not match order's assigned type")
 		}
-		clos.Left.Right = x
+		clos.Left().Right = x
 		delete(prealloc, n)
 	}
 
@@ -584,7 +584,7 @@ func callpartMethod(n *ir.Node) *types.Field {
 	// TODO(mdempsky): Optimize this. If necessary,
 	// makepartialcall could save m for us somewhere.
 	var m *types.Field
-	if lookdot0(n.Right.Sym, n.Left.Type, &m, false) != 1 {
+	if lookdot0(n.Right.Sym, n.Left().Type, &m, false) != 1 {
 		base.Fatal("failed to find field for OCALLPART")
 	}
 

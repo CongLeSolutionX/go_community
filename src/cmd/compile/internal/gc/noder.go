@@ -582,7 +582,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 func (p *noder) signature(recv *syntax.Field, typ *syntax.FuncType) *ir.Node {
 	n := p.nod(typ, ir.OTFUNC, nil, nil)
 	if recv != nil {
-		n.Left = p.param(recv, false, false)
+		n.SetLeft(p.param(recv, false, false))
 	}
 	n.List.Set(p.params(typ.ParamList, true))
 	n.Rlist.Set(p.params(typ.ResultList, false))
@@ -621,11 +621,11 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *ir.Node {
 			}
 		}
 		typ.Op = ir.OTARRAY
-		typ.Right = typ.Left
-		typ.Left = nil
+		typ.Right = typ.Left()
+		typ.SetLeft(nil)
 		n.SetIsDDD(true)
-		if n.Left != nil {
-			n.Left.SetIsDDD(true)
+		if n.Left() != nil {
+			n.Left().SetIsDDD(true)
 		}
 	}
 
@@ -748,9 +748,9 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 	case *syntax.TypeSwitchGuard:
 		n := p.nod(expr, ir.OTYPESW, nil, p.expr(expr.X))
 		if expr.Lhs != nil {
-			n.Left = p.declName(expr.Lhs)
-			if n.Left.IsBlank() {
-				base.Error("invalid variable name %v in type switch", n.Left)
+			n.SetLeft(p.declName(expr.Lhs))
+			if n.Left().IsBlank() {
+				base.Error("invalid variable name %v in type switch", n.Left())
 			}
 		}
 		return n
@@ -890,7 +890,7 @@ func (p *noder) interfaceType(expr *syntax.InterfaceType) *ir.Node {
 		} else {
 			mname := p.name(method.Name)
 			sig := p.typeExpr(method.Type)
-			sig.Left = fakeRecv()
+			sig.SetLeft(fakeRecv())
 			n = p.nodSym(method, ir.ODCLFIELD, sig, mname)
 			ifacedcl(n)
 		}
@@ -944,7 +944,7 @@ func (p *noder) embedded(typ syntax.Expr) *ir.Node {
 	n.SetEmbedded(true)
 
 	if isStar {
-		n.Left = p.nod(op, ir.ODEREF, n.Left, nil)
+		n.SetLeft(p.nod(op, ir.ODEREF, n.Left(), nil))
 	}
 	return n
 }
@@ -1006,7 +1006,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 
 		if len(lhs) == 1 && len(rhs) == 1 {
 			// common case
-			n.Left = lhs[0]
+			n.SetLeft(lhs[0])
 			n.Right = rhs[0]
 		} else {
 			n.Op = ir.OAS2
@@ -1155,7 +1155,7 @@ func (p *noder) ifStmt(stmt *syntax.IfStmt) *ir.Node {
 		n.Ninit.Set1(p.stmt(stmt.Init))
 	}
 	if stmt.Cond != nil {
-		n.Left = p.expr(stmt.Cond)
+		n.SetLeft(p.expr(stmt.Cond))
 	}
 	n.Nbody.Set(p.blockStmt(stmt.Then))
 	if stmt.Else != nil {
@@ -1188,7 +1188,7 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) *ir.Node {
 			n.Ninit.Set1(p.stmt(stmt.Init))
 		}
 		if stmt.Cond != nil {
-			n.Left = p.expr(stmt.Cond)
+			n.SetLeft(p.expr(stmt.Cond))
 		}
 		if stmt.Post != nil {
 			n.Right = p.stmt(stmt.Post)
@@ -1206,10 +1206,10 @@ func (p *noder) switchStmt(stmt *syntax.SwitchStmt) *ir.Node {
 		n.Ninit.Set1(p.stmt(stmt.Init))
 	}
 	if stmt.Tag != nil {
-		n.Left = p.expr(stmt.Tag)
+		n.SetLeft(p.expr(stmt.Tag))
 	}
 
-	tswitch := n.Left
+	tswitch := n.Left()
 	if tswitch != nil && tswitch.Op != ir.OTYPESW {
 		tswitch = nil
 	}
@@ -1232,8 +1232,8 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 		if clause.Cases != nil {
 			n.List.Set(p.exprList(clause.Cases))
 		}
-		if tswitch != nil && tswitch.Left != nil {
-			nn := newname(tswitch.Left.Sym)
+		if tswitch != nil && tswitch.Left() != nil {
+			nn := newname(tswitch.Left().Sym)
 			declare(nn, dclcontext)
 			n.Rlist.Set1(nn)
 			// keep track of the instances for reporting unused

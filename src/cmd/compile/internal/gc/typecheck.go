@@ -220,7 +220,7 @@ func typecheck(n *ir.Node, top int) (res *ir.Node) {
 
 	// Skip over parens.
 	for n.Op == ir.OPAREN {
-		n = n.Left
+		n = n.Left()
 	}
 
 	// Resolve definition of name and value of iota lazily.
@@ -415,9 +415,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		}
 
 		var t *types.Type
-		if n.Left == nil {
+		if n.Left() == nil {
 			t = types.NewSlice(r.Type)
-		} else if n.Left.Op == ir.ODDD {
+		} else if n.Left().Op == ir.ODDD {
 			if !n.Diag() {
 				n.SetDiag(true)
 				base.Error("use of [...] array outside of array literal")
@@ -425,8 +425,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.Type = nil
 			return n
 		} else {
-			n.Left = indexlit(typecheck(n.Left, ctxExpr))
-			l := n.Left
+			n.SetLeft(indexlit(typecheck(n.Left(), ctxExpr)))
+			l := n.Left()
 			if ir.ConstType(l) != ir.CTINT {
 				switch {
 				case l.Type == nil:
@@ -457,15 +457,15 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		}
 
 		setTypeNode(n, t)
-		n.Left = nil
+		n.SetLeft(nil)
 		n.Right = nil
 		checkwidth(t)
 
 	case ir.OTMAP:
 		ok |= ctxType
-		n.Left = typecheck(n.Left, ctxType)
+		n.SetLeft(typecheck(n.Left(), ctxType))
 		n.Right = typecheck(n.Right, ctxType)
-		l := n.Left
+		l := n.Left()
 		r := n.Right
 		if l.Type == nil || r.Type == nil {
 			n.Type = nil
@@ -480,13 +480,13 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 		setTypeNode(n, types.NewMap(l.Type, r.Type))
 		mapqueue = append(mapqueue, n) // check map keys when all types are settled
-		n.Left = nil
+		n.SetLeft(nil)
 		n.Right = nil
 
 	case ir.OTCHAN:
 		ok |= ctxType
-		n.Left = typecheck(n.Left, ctxType)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxType))
+		l := n.Left()
 		if l.Type == nil {
 			n.Type = nil
 			return n
@@ -496,7 +496,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		}
 
 		setTypeNode(n, types.NewChan(l.Type, n.TChanDir()))
-		n.Left = nil
+		n.SetLeft(nil)
 		n.ResetAux()
 
 	case ir.OTSTRUCT:
@@ -510,15 +510,15 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OTFUNC:
 		ok |= ctxType
-		setTypeNode(n, functype(n.Left, n.List.Slice(), n.Rlist.Slice()))
-		n.Left = nil
+		setTypeNode(n, functype(n.Left(), n.List.Slice(), n.Rlist.Slice()))
+		n.SetLeft(nil)
 		n.List.Set(nil)
 		n.Rlist.Set(nil)
 
 	// type or expr
 	case ir.ODEREF:
-		n.Left = typecheck(n.Left, ctxExpr|ctxType)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr|ctxType))
+		l := n.Left()
 		t := l.Type
 		if t == nil {
 			n.Type = nil
@@ -527,7 +527,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		if l.Op == ir.OTYPE {
 			ok |= ctxType
 			setTypeNode(n, types.NewPtr(l.Type))
-			n.Left = nil
+			n.SetLeft(nil)
 			// Ensure l.Type gets dowidth'd for the backend. Issue 20174.
 			checkwidth(l.Type)
 			break
@@ -535,7 +535,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 		if !t.IsPtr() {
 			if top&(ctxExpr|ctxStmt) != 0 {
-				base.Error("invalid indirect of %L", n.Left)
+				base.Error("invalid indirect of %L", n.Left())
 				n.Type = nil
 				return n
 			}
@@ -572,11 +572,11 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		var r *ir.Node
 		if n.Op == ir.OASOP {
 			ok |= ctxStmt
-			n.Left = typecheck(n.Left, ctxExpr)
+			n.SetLeft(typecheck(n.Left(), ctxExpr))
 			n.Right = typecheck(n.Right, ctxExpr)
-			l = n.Left
+			l = n.Left()
 			r = n.Right
-			checkassign(n, n.Left)
+			checkassign(n, n.Left())
 			if l.Type == nil || r.Type == nil {
 				n.Type = nil
 				return n
@@ -590,9 +590,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			op = n.SubOp()
 		} else {
 			ok |= ctxExpr
-			n.Left = typecheck(n.Left, ctxExpr)
+			n.SetLeft(typecheck(n.Left(), ctxExpr))
 			n.Right = typecheck(n.Right, ctxExpr)
-			l = n.Left
+			l = n.Left()
 			r = n.Right
 			if l.Type == nil || r.Type == nil {
 				n.Type = nil
@@ -635,8 +635,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		// can't be used with "&&" than to report that "x == x" (type untyped bool)
 		// can't be converted to int (see issue #41500).
 		if n.Op == ir.OANDAND || n.Op == ir.OOROR {
-			if !n.Left.Type.IsBoolean() {
-				base.Error("invalid operation: %v (operator %v not defined on %s)", n, n.Op, typekind(n.Left.Type))
+			if !n.Left().Type.IsBoolean() {
+				base.Error("invalid operation: %v (operator %v not defined on %s)", n, n.Op, typekind(n.Left().Type))
 				n.Type = nil
 				return n
 			}
@@ -650,7 +650,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		// ideal mixed with non-ideal
 		l, r = defaultlit2(l, r, false)
 
-		n.Left = l
+		n.SetLeft(l)
 		n.Right = r
 		if l.Type == nil || r.Type == nil {
 			n.Type = nil
@@ -688,7 +688,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 						l = nod(aop, l, nil)
 						l.Type = r.Type
 						l.SetTypecheck(1)
-						n.Left = l
+						n.SetLeft(l)
 					}
 
 					t = r.Type
@@ -781,7 +781,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			t = types.UntypedBool
 			if n.Op != ir.OLITERAL {
 				l, r = defaultlit2(l, r, true)
-				n.Left = l
+				n.SetLeft(l)
 				n.Right = r
 			}
 		}
@@ -800,7 +800,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			} else {
 				n.List.Append(r)
 			}
-			n.Left = nil
+			n.SetLeft(nil)
 			n.Right = nil
 		}
 
@@ -816,8 +816,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OBITNOT, ir.ONEG, ir.ONOT, ir.OPLUS:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		l := n.Left()
 		t := l.Type
 		if t == nil {
 			n.Type = nil
@@ -835,19 +835,19 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	case ir.OADDR:
 		ok |= ctxExpr
 
-		n.Left = typecheck(n.Left, ctxExpr)
-		if n.Left.Type == nil {
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		if n.Left().Type == nil {
 			n.Type = nil
 			return n
 		}
 
-		switch n.Left.Op {
+		switch n.Left().Op {
 		case ir.OARRAYLIT, ir.OMAPLIT, ir.OSLICELIT, ir.OSTRUCTLIT:
 			n.Op = ir.OPTRLIT
 
 		default:
-			checklvalue(n.Left, "take the address of")
-			r := outervalue(n.Left)
+			checklvalue(n.Left(), "take the address of")
+			r := outervalue(n.Left())
 			if r.Op == ir.ONAME {
 				if r.Orig != r {
 					base.Fatal("found non-orig name node %v", r) // TODO(mdempsky): What does this mean?
@@ -861,14 +861,14 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 					r.Name.Defn.Name.SetAddrtaken(true)
 				}
 			}
-			n.Left = defaultlit(n.Left, nil)
-			if n.Left.Type == nil {
+			n.SetLeft(defaultlit(n.Left(), nil))
+			if n.Left().Type == nil {
 				n.Type = nil
 				return n
 			}
 		}
 
-		n.Type = types.NewPtr(n.Left.Type)
+		n.Type = types.NewPtr(n.Left().Type)
 
 	case ir.OCOMPLIT:
 		ok |= ctxExpr
@@ -881,26 +881,26 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		if n.Op == ir.OXDOT {
 			n = adddot(n)
 			n.Op = ir.ODOT
-			if n.Left == nil {
+			if n.Left() == nil {
 				n.Type = nil
 				return n
 			}
 		}
 
-		n.Left = typecheck(n.Left, ctxExpr|ctxType)
+		n.SetLeft(typecheck(n.Left(), ctxExpr|ctxType))
 
-		n.Left = defaultlit(n.Left, nil)
+		n.SetLeft(defaultlit(n.Left(), nil))
 
-		t := n.Left.Type
+		t := n.Left().Type
 		if t == nil {
-			base.UpdateErrorDot(n.Line(), n.Left.String(), n.String())
+			base.UpdateErrorDot(n.Line(), n.Left().String(), n.String())
 			n.Type = nil
 			return n
 		}
 
 		s := n.Sym
 
-		if n.Left.Op == ir.OTYPE {
+		if n.Left().Op == ir.OTYPE {
 			n = typecheckMethodExpr(n)
 			if n.Type == nil {
 				return n
@@ -929,11 +929,11 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			// Legitimate field or method lookup failed, try to explain the error
 			switch {
 			case t.IsEmptyInterface():
-				base.Error("%v undefined (type %v is interface with no methods)", n, n.Left.Type)
+				base.Error("%v undefined (type %v is interface with no methods)", n, n.Left().Type)
 
 			case t.IsPtr() && t.Elem().IsInterface():
 				// Pointer to interface is almost always a mistake.
-				base.Error("%v undefined (type %v is pointer to interface, not interface)", n, n.Left.Type)
+				base.Error("%v undefined (type %v is pointer to interface, not interface)", n, n.Left().Type)
 
 			case lookdot(n, t, 1) != nil:
 				// Field or method matches by name, but it is not exported.
@@ -941,9 +941,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 			default:
 				if mt := lookdot(n, t, 2); mt != nil && visible(mt.Sym) { // Case-insensitive lookup.
-					base.Error("%v undefined (type %v has no field or method %v, but does have %v)", n, n.Left.Type, n.Sym, mt.Sym)
+					base.Error("%v undefined (type %v has no field or method %v, but does have %v)", n, n.Left().Type, n.Sym, mt.Sym)
 				} else {
-					base.Error("%v undefined (type %v has no field or method %v)", n, n.Left.Type, n.Sym)
+					base.Error("%v undefined (type %v has no field or method %v)", n, n.Left().Type, n.Sym)
 				}
 			}
 			n.Type = nil
@@ -965,9 +965,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.ODOTTYPE:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		l := n.Left()
 		t := l.Type
 		if t == nil {
 			n.Type = nil
@@ -1010,10 +1010,10 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OINDEX:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		n.Left = implicitstar(n.Left)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		n.SetLeft(implicitstar(n.Left()))
+		l := n.Left()
 		n.Right = typecheck(n.Right, ctxExpr)
 		r := n.Right
 		t := l.Type
@@ -1052,8 +1052,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 					base.Error("invalid %s index %v (index must be non-negative)", why, n.Right)
 				} else if t.IsArray() && x >= t.NumElem() {
 					base.Error("invalid array index %v (out of bounds for %d-element array)", n.Right, t.NumElem())
-				} else if ir.IsConst(n.Left, ir.CTSTR) && x >= int64(len(n.Left.StringVal())) {
-					base.Error("invalid string index %v (out of bounds for %d-byte string)", n.Right, len(n.Left.StringVal()))
+				} else if ir.IsConst(n.Left(), ir.CTSTR) && x >= int64(len(n.Left().StringVal())) {
+					base.Error("invalid string index %v (out of bounds for %d-byte string)", n.Right, len(n.Left().StringVal()))
 				} else if n.Right.Val().U.(*ir.Int).Cmp(maxintval[types.TINT]) > 0 {
 					base.Error("invalid %s index %v (index too large)", why, n.Right)
 				}
@@ -1068,9 +1068,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.ORECV:
 		ok |= ctxStmt | ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		l := n.Left()
 		t := l.Type
 		if t == nil {
 			n.Type = nil
@@ -1092,10 +1092,10 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OSEND:
 		ok |= ctxStmt
-		n.Left = typecheck(n.Left, ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.Right = typecheck(n.Right, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		t := n.Left.Type
+		n.SetLeft(defaultlit(n.Left(), nil))
+		t := n.Left().Type
 		if t == nil {
 			n.Type = nil
 			return n
@@ -1135,7 +1135,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			base.Fatal("invalid type %v for OSLICEHEADER", n.Type)
 		}
 
-		if n.Left == nil || n.Left.Type == nil || !n.Left.Type.IsUnsafePtr() {
+		if n.Left() == nil || n.Left().Type == nil || !n.Left().Type.IsUnsafePtr() {
 			base.Fatal("need unsafe.Pointer for OSLICEHEADER")
 		}
 
@@ -1143,7 +1143,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			base.Fatal("expected 2 params (len, cap) for OSLICEHEADER, got %d", x)
 		}
 
-		n.Left = typecheck(n.Left, ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		l := typecheck(n.List.First(), ctxExpr)
 		c := typecheck(n.List.Second(), ctxExpr)
 		l = defaultlit(l, types.Types[types.TINT])
@@ -1181,7 +1181,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			base.Fatal("invalid type %v for OMAKESLICECOPY", n.Type)
 		}
 
-		if n.Left == nil {
+		if n.Left() == nil {
 			base.Fatal("missing len argument for OMAKESLICECOPY")
 		}
 
@@ -1189,53 +1189,53 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			base.Fatal("missing slice argument to copy for OMAKESLICECOPY")
 		}
 
-		n.Left = typecheck(n.Left, ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.Right = typecheck(n.Right, ctxExpr)
 
-		n.Left = defaultlit(n.Left, types.Types[types.TINT])
+		n.SetLeft(defaultlit(n.Left(), types.Types[types.TINT]))
 
-		if !n.Left.Type.IsInteger() && n.Type.Etype != types.TIDEAL {
+		if !n.Left().Type.IsInteger() && n.Type.Etype != types.TIDEAL {
 			base.Error("non-integer len argument in OMAKESLICECOPY")
 		}
 
-		if ir.IsConst(n.Left, ir.CTINT) {
-			if n.Left.Val().U.(*ir.Int).Cmp(maxintval[types.TINT]) > 0 {
+		if ir.IsConst(n.Left(), ir.CTINT) {
+			if n.Left().Val().U.(*ir.Int).Cmp(maxintval[types.TINT]) > 0 {
 				base.Fatal("len for OMAKESLICECOPY too large")
 			}
-			if n.Left.Int64Val() < 0 {
+			if n.Left().Int64Val() < 0 {
 				base.Fatal("len for OMAKESLICECOPY must be non-negative")
 			}
 		}
 
 	case ir.OSLICE, ir.OSLICE3:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		low, high, max := n.SliceBounds()
 		hasmax := n.Op.IsSlice3()
 		low = typecheck(low, ctxExpr)
 		high = typecheck(high, ctxExpr)
 		max = typecheck(max, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
+		n.SetLeft(defaultlit(n.Left(), nil))
 		low = indexlit(low)
 		high = indexlit(high)
 		max = indexlit(max)
 		n.SetSliceBounds(low, high, max)
-		l := n.Left
+		l := n.Left()
 		if l.Type == nil {
 			n.Type = nil
 			return n
 		}
 		if l.Type.IsArray() {
-			if !islvalue(n.Left) {
+			if !islvalue(n.Left()) {
 				base.Error("invalid operation %v (slice of unaddressable value)", n)
 				n.Type = nil
 				return n
 			}
 
-			n.Left = nod(ir.OADDR, n.Left, nil)
-			n.Left.SetImplicit(true)
-			n.Left = typecheck(n.Left, ctxExpr)
-			l = n.Left
+			n.SetLeft(nod(ir.OADDR, n.Left(), nil))
+			n.Left().SetImplicit(true)
+			n.SetLeft(typecheck(n.Left(), ctxExpr))
+			l = n.Left()
 		}
 		t := l.Type
 		var tp *types.Type
@@ -1284,12 +1284,12 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	// call and call like
 	case ir.OCALL:
 		typecheckslice(n.Ninit.Slice(), ctxStmt) // imported rewritten f(g()) calls (#30907)
-		n.Left = typecheck(n.Left, ctxExpr|ctxType|ctxCallee)
-		if n.Left.Diag() {
+		n.SetLeft(typecheck(n.Left(), ctxExpr|ctxType|ctxCallee))
+		if n.Left().Diag() {
 			n.SetDiag(true)
 		}
 
-		l := n.Left
+		l := n.Left()
 
 		if l.Op == ir.ONAME && l.SubOp() != 0 {
 			if n.IsDDD() && l.SubOp() != ir.OAPPEND {
@@ -1298,14 +1298,14 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 			// builtin: OLEN, OCAP, etc.
 			n.Op = l.SubOp()
-			n.Left = n.Right
+			n.SetLeft(n.Right)
 			n.Right = nil
 			n = typecheck1(n, top)
 			return n
 		}
 
-		n.Left = defaultlit(n.Left, nil)
-		l = n.Left
+		n.SetLeft(defaultlit(n.Left(), nil))
+		l = n.Left()
 		if l.Op == ir.OTYPE {
 			if n.IsDDD() {
 				if !l.Type.Broke() {
@@ -1318,7 +1318,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			ok |= ctxExpr
 
 			// turn CALL(type, arg) into CONV(arg) w/ type
-			n.Left = nil
+			n.SetLeft(nil)
 
 			n.Op = ir.OCONV
 			n.Type = l.Type
@@ -1351,7 +1351,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			// It isn't necessary, so just do a sanity check.
 			tp := t.Recv().Type
 
-			if l.Left == nil || !types.Identical(l.Left.Type, tp) {
+			if l.Left() == nil || !types.Identical(l.Left().Type, tp) {
 				base.Fatal("method receiver")
 			}
 
@@ -1372,7 +1372,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			}
 		}
 
-		typecheckaste(ir.OCALL, n.Left, n.IsDDD(), t.Params(), n.List, func() string { return fmt.Sprintf("argument to %v", n.Left) })
+		typecheckaste(ir.OCALL, n.Left(), n.IsDDD(), t.Params(), n.List, func() string { return fmt.Sprintf("argument to %v", n.Left()) })
 		ok |= ctxStmt
 		if t.NumResults() == 0 {
 			break
@@ -1381,7 +1381,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		if t.NumResults() == 1 {
 			n.Type = l.Type.Results().Field(0).Type
 
-			if n.Op == ir.OCALLFUNC && n.Left.Op == ir.ONAME && isRuntimePkg(n.Left.Sym.Pkg) && n.Left.Sym.Name == "getg" {
+			if n.Op == ir.OCALLFUNC && n.Left().Op == ir.ONAME && isRuntimePkg(n.Left().Sym.Pkg) && n.Left().Sym.Name == "getg" {
 				// Emit code for runtime.getg() directly instead of calling function.
 				// Most such rewrites (for example the similar one for math.Sqrt) should be done in walk,
 				// so that the ordering pass can make sure to preserve the semantics of the original code
@@ -1417,10 +1417,10 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			return n
 		}
 
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		n.Left = implicitstar(n.Left)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		n.SetLeft(implicitstar(n.Left()))
+		l := n.Left()
 		t := l.Type
 		if t == nil {
 			n.Type = nil
@@ -1448,8 +1448,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			return n
 		}
 
-		n.Left = typecheck(n.Left, ctxExpr)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		l := n.Left()
 		t := l.Type
 		if t == nil {
 			n.Type = nil
@@ -1477,7 +1477,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.Type = nil
 			return n
 		}
-		l := n.Left
+		l := n.Left()
 		r := n.Right
 		if l.Type == nil || r.Type == nil {
 			n.Type = nil
@@ -1488,7 +1488,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.Type = nil
 			return n
 		}
-		n.Left = l
+		n.SetLeft(l)
 		n.Right = r
 
 		if !types.Identical(l.Type, r.Type) {
@@ -1520,9 +1520,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.Type = nil
 			return n
 		}
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		l := n.Left
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		l := n.Left()
 		t := l.Type
 		if t == nil {
 			n.Type = nil
@@ -1642,32 +1642,32 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			return n
 		}
 		n.Type = types.Types[types.TINT]
-		if n.Left.Type == nil || n.Right.Type == nil {
+		if n.Left().Type == nil || n.Right.Type == nil {
 			n.Type = nil
 			return n
 		}
-		n.Left = defaultlit(n.Left, nil)
+		n.SetLeft(defaultlit(n.Left(), nil))
 		n.Right = defaultlit(n.Right, nil)
-		if n.Left.Type == nil || n.Right.Type == nil {
+		if n.Left().Type == nil || n.Right.Type == nil {
 			n.Type = nil
 			return n
 		}
 
 		// copy([]byte, string)
-		if n.Left.Type.IsSlice() && n.Right.Type.IsString() {
-			if types.Identical(n.Left.Type.Elem(), types.Bytetype) {
+		if n.Left().Type.IsSlice() && n.Right.Type.IsString() {
+			if types.Identical(n.Left().Type.Elem(), types.Bytetype) {
 				break
 			}
-			base.Error("arguments to copy have different element types: %L and string", n.Left.Type)
+			base.Error("arguments to copy have different element types: %L and string", n.Left().Type)
 			n.Type = nil
 			return n
 		}
 
-		if !n.Left.Type.IsSlice() || !n.Right.Type.IsSlice() {
-			if !n.Left.Type.IsSlice() && !n.Right.Type.IsSlice() {
-				base.Error("arguments to copy must be slices; have %L, %L", n.Left.Type, n.Right.Type)
-			} else if !n.Left.Type.IsSlice() {
-				base.Error("first argument to copy should be slice; have %L", n.Left.Type)
+		if !n.Left().Type.IsSlice() || !n.Right.Type.IsSlice() {
+			if !n.Left().Type.IsSlice() && !n.Right.Type.IsSlice() {
+				base.Error("arguments to copy must be slices; have %L, %L", n.Left().Type, n.Right.Type)
+			} else if !n.Left().Type.IsSlice() {
+				base.Error("first argument to copy should be slice; have %L", n.Left().Type)
 			} else {
 				base.Error("second argument to copy should be slice or string; have %L", n.Right.Type)
 			}
@@ -1675,8 +1675,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			return n
 		}
 
-		if !types.Identical(n.Left.Type.Elem(), n.Right.Type.Elem()) {
-			base.Error("arguments to copy have different element types: %L and %L", n.Left.Type, n.Right.Type)
+		if !types.Identical(n.Left().Type.Elem(), n.Right.Type.Elem()) {
+			base.Error("arguments to copy have different element types: %L and %L", n.Left().Type, n.Right.Type)
 			n.Type = nil
 			return n
 		}
@@ -1684,18 +1684,18 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	case ir.OCONV:
 		ok |= ctxExpr
 		checkwidth(n.Type) // ensure width is calculated for backend
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = convlit1(n.Left, n.Type, true, nil)
-		t := n.Left.Type
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(convlit1(n.Left(), n.Type, true, nil))
+		t := n.Left().Type
 		if t == nil || n.Type == nil {
 			n.Type = nil
 			return n
 		}
 		var why string
-		n.Op, why = convertop(n.Left.Op == ir.OLITERAL, t, n.Type)
+		n.Op, why = convertop(n.Left().Op == ir.OLITERAL, t, n.Type)
 		if n.Op == ir.OXXX {
-			if !n.Diag() && !n.Type.Broke() && !n.Left.Diag() {
-				base.Error("cannot convert %L to type %v%s", n.Left, n.Type, why)
+			if !n.Diag() && !n.Type.Broke() && !n.Left().Diag() {
+				base.Error("cannot convert %L to type %v%s", n.Left(), n.Type, why)
 				n.SetDiag(true)
 			}
 			n.Op = ir.OCONV
@@ -1720,7 +1720,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			break
 
 		case ir.OSTR2RUNES:
-			if n.Left.Op == ir.OLITERAL {
+			if n.Left().Op == ir.OLITERAL {
 				n = stringtoruneslit(n)
 			}
 		}
@@ -1781,7 +1781,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 				return n
 			}
 
-			n.Left = l
+			n.SetLeft(l)
 			n.Right = r
 			n.Op = ir.OMAKESLICE
 
@@ -1799,9 +1799,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 					n.Type = nil
 					return n
 				}
-				n.Left = l
+				n.SetLeft(l)
 			} else {
-				n.Left = nodintconst(0)
+				n.SetLeft(nodintconst(0))
 			}
 			n.Op = ir.OMAKEMAP
 
@@ -1820,9 +1820,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 					n.Type = nil
 					return n
 				}
-				n.Left = l
+				n.SetLeft(l)
 			} else {
-				n.Left = nodintconst(0)
+				n.SetLeft(nodintconst(0))
 			}
 			n.Op = ir.OMAKECHAN
 		}
@@ -1858,7 +1858,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			return n
 		}
 
-		n.Left = l
+		n.SetLeft(l)
 		n.Type = types.NewPtr(t)
 
 	case ir.OPRINT, ir.OPRINTN:
@@ -1880,9 +1880,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.Type = nil
 			return n
 		}
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, types.Types[types.TINTER])
-		if n.Left.Type == nil {
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), types.Types[types.TINTER]))
+		if n.Left().Type == nil {
 			n.Type = nil
 			return n
 		}
@@ -1906,8 +1906,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OITAB:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
-		t := n.Left.Type
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		t := n.Left().Type
 		if t == nil {
 			n.Type = nil
 			return n
@@ -1924,8 +1924,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OSPTR:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
-		t := n.Left.Type
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		t := n.Left().Type
 		if t == nil {
 			n.Type = nil
 			return n
@@ -1944,12 +1944,12 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OCFUNC:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.Type = types.Types[types.TUINTPTR]
 
 	case ir.OCONVNOP:
 		ok |= ctxExpr
-		n.Left = typecheck(n.Left, ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
 
 	// statements
 	case ir.OAS:
@@ -1958,8 +1958,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		typecheckas(n)
 
 		// Code that creates temps does not bother to set defn, so do it here.
-		if n.Left.Op == ir.ONAME && n.Left.IsAutoTmp() {
-			n.Left.Name.Defn = n
+		if n.Left().Op == ir.ONAME && n.Left().IsAutoTmp() {
+			n.Left().Name.Defn = n
 		}
 
 	case ir.OAS2:
@@ -1984,31 +1984,31 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			// Eliminate now to simplify life later.
 			// See issues 7538, 11589, 11593.
 			n.Op = ir.OEMPTY
-			n.Left = nil
+			n.SetLeft(nil)
 		}
 
 	case ir.ODEFER:
 		ok |= ctxStmt
-		n.Left = typecheck(n.Left, ctxStmt|ctxExpr)
-		if !n.Left.Diag() {
+		n.SetLeft(typecheck(n.Left(), ctxStmt|ctxExpr))
+		if !n.Left().Diag() {
 			checkdefergo(n)
 		}
 
 	case ir.OGO:
 		ok |= ctxStmt
-		n.Left = typecheck(n.Left, ctxStmt|ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxStmt|ctxExpr))
 		checkdefergo(n)
 
 	case ir.OFOR, ir.OFORUNTIL:
 		ok |= ctxStmt
 		typecheckslice(n.Ninit.Slice(), ctxStmt)
 		decldepth++
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		if n.Left != nil {
-			t := n.Left.Type
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		if n.Left() != nil {
+			t := n.Left().Type
 			if t != nil && !t.IsBoolean() {
-				base.Error("non-bool %L used as for condition", n.Left)
+				base.Error("non-bool %L used as for condition", n.Left())
 			}
 		}
 		n.Right = typecheck(n.Right, ctxStmt)
@@ -2021,12 +2021,12 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	case ir.OIF:
 		ok |= ctxStmt
 		typecheckslice(n.Ninit.Slice(), ctxStmt)
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		if n.Left != nil {
-			t := n.Left.Type
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		if n.Left() != nil {
+			t := n.Left().Type
 			if t != nil && !t.IsBoolean() {
-				base.Error("non-bool %L used as if condition", n.Left)
+				base.Error("non-bool %L used as if condition", n.Left())
 			}
 		}
 		typecheckslice(n.Nbody.Slice(), ctxStmt)
@@ -2072,12 +2072,12 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.ODCLCONST:
 		ok |= ctxStmt
-		n.Left = typecheck(n.Left, ctxExpr)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
 
 	case ir.ODCLTYPE:
 		ok |= ctxStmt
-		n.Left = typecheck(n.Left, ctxType)
-		checkwidth(n.Left.Type)
+		n.SetLeft(typecheck(n.Left(), ctxType))
+		checkwidth(n.Left().Type)
 	}
 
 	t := n.Type
@@ -2216,7 +2216,7 @@ func checkdefergo(n *ir.Node) {
 		what = "go"
 	}
 
-	switch n.Left.Op {
+	switch n.Left().Op {
 	// ok
 	case ir.OCALLINTER,
 		ir.OCALLMETH,
@@ -2242,16 +2242,16 @@ func checkdefergo(n *ir.Node) {
 		ir.ONEW,
 		ir.OREAL,
 		ir.OLITERAL: // conversion or unsafe.Alignof, Offsetof, Sizeof
-		if n.Left.Orig != nil && n.Left.Orig.Op == ir.OCONV {
+		if n.Left().Orig != nil && n.Left().Orig.Op == ir.OCONV {
 			break
 		}
-		base.ErrorAt(n.Pos, "%s discards result of %v", what, n.Left)
+		base.ErrorAt(n.Pos, "%s discards result of %v", what, n.Left())
 		return
 	}
 
 	// type is broken or missing, most likely a method call on a broken type
 	// we will warn about the broken type elsewhere. no need to emit a potentially confusing error
-	if n.Left.Type == nil || n.Left.Type.Broke() {
+	if n.Left().Type == nil || n.Left().Type.Broke() {
 		return
 	}
 
@@ -2285,7 +2285,7 @@ func implicitstar(n *ir.Node) *ir.Node {
 }
 
 func onearg(n *ir.Node, f string, args ...interface{}) bool {
-	if n.Left != nil {
+	if n.Left() != nil {
 		return true
 	}
 	if n.List.Len() == 0 {
@@ -2297,18 +2297,18 @@ func onearg(n *ir.Node, f string, args ...interface{}) bool {
 	if n.List.Len() > 1 {
 		p := fmt.Sprintf(f, args...)
 		base.Error("too many arguments to %s: %v", p, n)
-		n.Left = n.List.First()
+		n.SetLeft(n.List.First())
 		n.List.Set(nil)
 		return false
 	}
 
-	n.Left = n.List.First()
+	n.SetLeft(n.List.First())
 	n.List.Set(nil)
 	return true
 }
 
 func twoarg(n *ir.Node) bool {
-	if n.Left != nil {
+	if n.Left() != nil {
 		return true
 	}
 	if n.List.Len() != 2 {
@@ -2319,7 +2319,7 @@ func twoarg(n *ir.Node) bool {
 		}
 		return false
 	}
-	n.Left = n.List.First()
+	n.SetLeft(n.List.First())
 	n.Right = n.List.Second()
 	n.List.Set(nil)
 	return true
@@ -2361,7 +2361,7 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 		defer tracePrint("typecheckMethodExpr", n)(&res)
 	}
 
-	t := n.Left.Type
+	t := n.Left().Type
 
 	// Compute the method set for t.
 	var ms *types.Fields
@@ -2415,7 +2415,7 @@ func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
 	}
 	n.Right = newname(n.Sym)
 	n.Sym = methodSym(t, n.Sym)
-	n.Type = methodfunc(m.Type, n.Left.Type)
+	n.Type = methodfunc(m.Type, n.Left().Type)
 	n.Xoffset = 0
 	n.SetClass(ir.PFUNC)
 	// methodSym already marked n.Sym as a function.
@@ -2462,7 +2462,7 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 	}
 
 	var f2 *types.Field
-	if n.Left.Type == t || n.Left.Type.Sym == nil {
+	if n.Left().Type == t || n.Left().Type.Sym == nil {
 		mt := methtype(t)
 		if mt != nil {
 			f2 = lookdot1(n, s, mt, mt.Methods(), dostrcmp)
@@ -2486,10 +2486,10 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 			dotField[typeSymKey{t.Orig, s}] = f1
 		}
 		if t.IsInterface() {
-			if n.Left.Type.IsPtr() {
-				n.Left = nod(ir.ODEREF, n.Left, nil) // implicitstar
-				n.Left.SetImplicit(true)
-				n.Left = typecheck(n.Left, ctxExpr)
+			if n.Left().Type.IsPtr() {
+				n.SetLeft(nod(ir.ODEREF, n.Left(), nil)) // implicitstar
+				n.Left().SetImplicit(true)
+				n.SetLeft(typecheck(n.Left(), ctxExpr))
 			}
 
 			n.Op = ir.ODOTINTER
@@ -2503,29 +2503,29 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 			// Already in the process of diagnosing an error.
 			return f2
 		}
-		tt := n.Left.Type
+		tt := n.Left().Type
 		dowidth(tt)
 		rcvr := f2.Type.Recv().Type
 		if !types.Identical(rcvr, tt) {
 			if rcvr.IsPtr() && types.Identical(rcvr.Elem(), tt) {
-				checklvalue(n.Left, "call pointer method on")
-				n.Left = nod(ir.OADDR, n.Left, nil)
-				n.Left.SetImplicit(true)
-				n.Left = typecheck(n.Left, ctxType|ctxExpr)
+				checklvalue(n.Left(), "call pointer method on")
+				n.SetLeft(nod(ir.OADDR, n.Left(), nil))
+				n.Left().SetImplicit(true)
+				n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 			} else if tt.IsPtr() && (!rcvr.IsPtr() || rcvr.IsPtr() && rcvr.Elem().NotInHeap()) && types.Identical(tt.Elem(), rcvr) {
-				n.Left = nod(ir.ODEREF, n.Left, nil)
-				n.Left.SetImplicit(true)
-				n.Left = typecheck(n.Left, ctxType|ctxExpr)
+				n.SetLeft(nod(ir.ODEREF, n.Left(), nil))
+				n.Left().SetImplicit(true)
+				n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 			} else if tt.IsPtr() && tt.Elem().IsPtr() && types.Identical(derefall(tt), derefall(rcvr)) {
-				base.Error("calling method %v with receiver %L requires explicit dereference", n.Sym, n.Left)
+				base.Error("calling method %v with receiver %L requires explicit dereference", n.Sym, n.Left())
 				for tt.IsPtr() {
 					// Stop one level early for method with pointer receiver.
 					if rcvr.IsPtr() && !tt.Elem().IsPtr() {
 						break
 					}
-					n.Left = nod(ir.ODEREF, n.Left, nil)
-					n.Left.SetImplicit(true)
-					n.Left = typecheck(n.Left, ctxType|ctxExpr)
+					n.SetLeft(nod(ir.ODEREF, n.Left(), nil))
+					n.Left().SetImplicit(true)
+					n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 					tt = tt.Elem()
 				}
 			} else {
@@ -2534,19 +2534,19 @@ func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
 		}
 
 		pll := n
-		ll := n.Left
-		for ll.Left != nil && (ll.Op == ir.ODOT || ll.Op == ir.ODOTPTR || ll.Op == ir.ODEREF) {
+		ll := n.Left()
+		for ll.Left() != nil && (ll.Op == ir.ODOT || ll.Op == ir.ODOTPTR || ll.Op == ir.ODEREF) {
 			pll = ll
-			ll = ll.Left
+			ll = ll.Left()
 		}
 		if pll.Implicit() && ll.Type.IsPtr() && ll.Type.Sym != nil && ir.AsNode(ll.Type.Sym.Def) != nil && ir.AsNode(ll.Type.Sym.Def).Op == ir.OTYPE {
 			// It is invalid to automatically dereference a named pointer type when selecting a method.
 			// Make n.Left == ll to clarify error message.
-			n.Left = ll
+			n.SetLeft(ll)
 			return nil
 		}
 
-		n.Sym = methodSym(n.Left.Type, f2.Sym)
+		n.Sym = methodSym(n.Left().Type, f2.Sym)
 		n.Xoffset = f2.Offset
 		n.Type = f2.Type
 		n.Op = ir.ODOTMETH
@@ -2824,7 +2824,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 	setlineno(n.Right)
 
 	// Need to handle [...]T arrays specially.
-	if n.Right.Op == ir.OTARRAY && n.Right.Left != nil && n.Right.Left.Op == ir.ODDD {
+	if n.Right.Op == ir.OTARRAY && n.Right.Left() != nil && n.Right.Left().Op == ir.ODDD {
 		n.Right.Right = typecheck(n.Right.Right, ctxType)
 		if n.Right.Right.Type == nil {
 			n.Type = nil
@@ -2873,11 +2873,11 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 				continue
 			}
 
-			r := l.Left
+			r := l.Left()
 			r = pushtype(r, t.Key())
 			r = typecheck(r, ctxExpr)
-			l.Left = assignconv(r, t.Key(), "map key")
-			cs.add(base.Pos, l.Left, "key", "map literal")
+			l.SetLeft(assignconv(r, t.Key(), "map key"))
+			cs.add(base.Pos, l.Left(), "key", "map literal")
 
 			r = l.Right
 			r = pushtype(r, t.Elem())
@@ -2931,10 +2931,10 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 				setlineno(l)
 
 				if l.Op == ir.OKEY {
-					key := l.Left
+					key := l.Left()
 
 					l.Op = ir.OSTRUCTKEY
-					l.Left = l.Right
+					l.SetLeft(l.Right)
 					l.Right = nil
 
 					// An OXDOT uses the Sym field to hold
@@ -2943,7 +2943,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 					// is never a valid struct literal key.
 					if key.Sym == nil || key.Op == ir.OXDOT || key.Sym.IsBlank() {
 						base.Error("invalid field name %v in struct initializer", key)
-						l.Left = typecheck(l.Left, ctxExpr)
+						l.SetLeft(typecheck(l.Left(), ctxExpr))
 						continue
 					}
 
@@ -3000,8 +3000,8 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 				l.Xoffset = f.Offset
 
 				// No pushtype allowed here. Tried and rejected.
-				l.Left = typecheck(l.Left, ctxExpr)
-				l.Left = assignconv(l.Left, f.Type, "field value")
+				l.SetLeft(typecheck(l.Left(), ctxExpr))
+				l.SetLeft(assignconv(l.Left(), f.Type, "field value"))
 			}
 		}
 
@@ -3029,16 +3029,16 @@ func typecheckarraylit(elemType *types.Type, bound int64, elts []*ir.Node, ctx s
 		setlineno(elt)
 		vp := &elts[i]
 		if elt.Op == ir.OKEY {
-			elt.Left = typecheck(elt.Left, ctxExpr)
-			key = indexconst(elt.Left)
+			elt.SetLeft(typecheck(elt.Left(), ctxExpr))
+			key = indexconst(elt.Left())
 			if key < 0 {
-				if !elt.Left.Diag() {
+				if !elt.Left().Diag() {
 					if key == -2 {
 						base.Error("index too large")
 					} else {
 						base.Error("index must be non-negative integer constant")
 					}
-					elt.Left.SetDiag(true)
+					elt.Left().SetDiag(true)
 				}
 				key = -(1 << 30) // stay negative for a while
 			}
@@ -3088,10 +3088,10 @@ func nonexported(sym *types.Sym) bool {
 func islvalue(n *ir.Node) bool {
 	switch n.Op {
 	case ir.OINDEX:
-		if n.Left.Type != nil && n.Left.Type.IsArray() {
-			return islvalue(n.Left)
+		if n.Left().Type != nil && n.Left().Type.IsArray() {
+			return islvalue(n.Left())
 		}
-		if n.Left.Type != nil && n.Left.Type.IsString() {
+		if n.Left().Type != nil && n.Left().Type.IsString() {
 			return false
 		}
 		fallthrough
@@ -3099,7 +3099,7 @@ func islvalue(n *ir.Node) bool {
 		return true
 
 	case ir.ODOT:
-		return islvalue(n.Left)
+		return islvalue(n.Left())
 
 	case ir.ONAME:
 		if n.Class() == ir.PFUNC {
@@ -3143,9 +3143,9 @@ func checkassign(stmt *ir.Node, n *ir.Node) {
 	}
 
 	switch {
-	case n.Op == ir.ODOT && n.Left.Op == ir.OINDEXMAP:
+	case n.Op == ir.ODOT && n.Left().Op == ir.OINDEXMAP:
 		base.Error("cannot assign to struct field %v in map", n)
-	case (n.Op == ir.OINDEX && n.Left.Type.IsString()) || n.Op == ir.OSLICESTR:
+	case (n.Op == ir.OINDEX && n.Left().Type.IsString()) || n.Op == ir.OSLICESTR:
 		base.Error("cannot assign to %v (strings are immutable)", n)
 	case n.Op == ir.OLITERAL && n.Sym != nil && isGoConst(n):
 		base.Error("cannot assign to %v (declared const)", n)
@@ -3186,20 +3186,20 @@ func samesafeexpr(l *ir.Node, r *ir.Node) bool {
 		return l == r
 
 	case ir.ODOT, ir.ODOTPTR:
-		return l.Sym != nil && r.Sym != nil && l.Sym == r.Sym && samesafeexpr(l.Left, r.Left)
+		return l.Sym != nil && r.Sym != nil && l.Sym == r.Sym && samesafeexpr(l.Left(), r.Left())
 
 	case ir.ODEREF, ir.OCONVNOP,
 		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG:
-		return samesafeexpr(l.Left, r.Left)
+		return samesafeexpr(l.Left(), r.Left())
 
 	case ir.OCONV:
 		// Some conversions can't be reused, such as []byte(str).
 		// Allow only numeric-ish types. This is a bit conservative.
-		return issimple[l.Type.Etype] && samesafeexpr(l.Left, r.Left)
+		return issimple[l.Type.Etype] && samesafeexpr(l.Left(), r.Left())
 
 	case ir.OINDEX, ir.OINDEXMAP,
 		ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.ODIV, ir.OMOD:
-		return samesafeexpr(l.Left, r.Left) && samesafeexpr(l.Right, r.Right)
+		return samesafeexpr(l.Left(), r.Left()) && samesafeexpr(l.Right, r.Right)
 
 	case ir.OLITERAL:
 		return ir.Eqval(l.Val(), r.Val())
@@ -3223,30 +3223,30 @@ func typecheckas(n *ir.Node) {
 	// if the variable has a type (ntype) then typechecking
 	// will not look at defn, so it is okay (and desirable,
 	// so that the conversion below happens).
-	n.Left = resolve(n.Left)
+	n.SetLeft(resolve(n.Left()))
 
-	if n.Left.Name == nil || n.Left.Name.Defn != n || n.Left.Name.Param.Ntype != nil {
-		n.Left = typecheck(n.Left, ctxExpr|ctxAssign)
+	if n.Left().Name == nil || n.Left().Name.Defn != n || n.Left().Name.Param.Ntype != nil {
+		n.SetLeft(typecheck(n.Left(), ctxExpr|ctxAssign))
 	}
 
 	// Use ctxMultiOK so we can emit an "N variables but M values" error
 	// to be consistent with typecheckas2 (#26616).
 	n.Right = typecheck(n.Right, ctxExpr|ctxMultiOK)
-	checkassign(n, n.Left)
+	checkassign(n, n.Left())
 	if n.Right != nil && n.Right.Type != nil {
 		if n.Right.Type.IsFuncArgStruct() {
-			base.Error("assignment mismatch: 1 variable but %v returns %d values", n.Right.Left, n.Right.Type.NumFields())
+			base.Error("assignment mismatch: 1 variable but %v returns %d values", n.Right.Left(), n.Right.Type.NumFields())
 			// Multi-value RHS isn't actually valid for OAS; nil out
 			// to indicate failed typechecking.
 			n.Right.Type = nil
-		} else if n.Left.Type != nil {
-			n.Right = assignconv(n.Right, n.Left.Type, "assignment")
+		} else if n.Left().Type != nil {
+			n.Right = assignconv(n.Right, n.Left().Type, "assignment")
 		}
 	}
 
-	if n.Left.Name != nil && n.Left.Name.Defn == n && n.Left.Name.Param.Ntype == nil {
+	if n.Left().Name != nil && n.Left().Name.Defn == n && n.Left().Name.Param.Ntype == nil {
 		n.Right = defaultlit(n.Right, nil)
-		n.Left.Type = n.Right.Type
+		n.Left().Type = n.Right.Type
 	}
 
 	// second half of dance.
@@ -3254,11 +3254,11 @@ func typecheckas(n *ir.Node) {
 	// just to get it over with.  see dance above.
 	n.SetTypecheck(1)
 
-	if n.Left.Typecheck() == 0 {
-		n.Left = typecheck(n.Left, ctxExpr|ctxAssign)
+	if n.Left().Typecheck() == 0 {
+		n.SetLeft(typecheck(n.Left(), ctxExpr|ctxAssign))
 	}
-	if !n.Left.IsBlank() {
-		checkwidth(n.Left.Type) // ensure width is calculated for backend
+	if !n.Left().IsBlank() {
+		checkwidth(n.Left().Type) // ensure width is calculated for backend
 	}
 }
 
@@ -3387,7 +3387,7 @@ mismatch:
 	default:
 		base.Error("assignment mismatch: %d variables but %d values", cl, cr)
 	case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER:
-		base.Error("assignment mismatch: %d variables but %v returns %d values", cl, r.Left, cr)
+		base.Error("assignment mismatch: %d variables but %v returns %d values", cl, r.Left(), cr)
 	}
 
 	// second half of dance
@@ -3439,13 +3439,13 @@ func typecheckfunc(n *ir.Node) {
 // The result of stringtoruneslit MUST be assigned back to n, e.g.
 // 	n.Left = stringtoruneslit(n.Left)
 func stringtoruneslit(n *ir.Node) *ir.Node {
-	if n.Left.Op != ir.OLITERAL || n.Left.Val().Ctype() != ir.CTSTR {
+	if n.Left().Op != ir.OLITERAL || n.Left().Val().Ctype() != ir.CTSTR {
 		base.Fatal("stringtoarraylit %v", n)
 	}
 
 	var l []*ir.Node
 	i := 0
-	for _, r := range n.Left.StringVal() {
+	for _, r := range n.Left().StringVal() {
 		l = append(l, nod(ir.OKEY, nodintconst(int64(i)), nodintconst(int64(r))))
 		i++
 	}
@@ -3776,7 +3776,7 @@ func markbreak(n *ir.Node, implicit *ir.Node) {
 		implicit = n
 		fallthrough
 	default:
-		markbreak(n.Left, implicit)
+		markbreak(n.Left(), implicit)
 		markbreak(n.Right, implicit)
 		markbreaklist(n.Ninit, implicit)
 		markbreaklist(n.Nbody, implicit)
@@ -3833,7 +3833,7 @@ func isTermNode(n *ir.Node) bool {
 		return true
 
 	case ir.OFOR, ir.OFORUNTIL:
-		if n.Left != nil {
+		if n.Left() != nil {
 			return false
 		}
 		if n.HasBreak() {
@@ -3893,11 +3893,11 @@ func deadcodefn(fn *ir.Node) {
 		}
 		switch n.Op {
 		case ir.OIF:
-			if !ir.IsConst(n.Left, ir.CTBOOL) || n.Nbody.Len() > 0 || n.Rlist.Len() > 0 {
+			if !ir.IsConst(n.Left(), ir.CTBOOL) || n.Nbody.Len() > 0 || n.Rlist.Len() > 0 {
 				return
 			}
 		case ir.OFOR:
-			if !ir.IsConst(n.Left, ir.CTBOOL) || n.Left.BoolVal() {
+			if !ir.IsConst(n.Left(), ir.CTBOOL) || n.Left().BoolVal() {
 				return
 			}
 		default:
@@ -3924,10 +3924,10 @@ func deadcodeslice(nn ir.Nodes) {
 			continue
 		}
 		if n.Op == ir.OIF {
-			n.Left = deadcodeexpr(n.Left)
-			if ir.IsConst(n.Left, ir.CTBOOL) {
+			n.SetLeft(deadcodeexpr(n.Left()))
+			if ir.IsConst(n.Left(), ir.CTBOOL) {
 				var body ir.Nodes
-				if n.Left.BoolVal() {
+				if n.Left().BoolVal() {
 					n.Rlist = ir.Nodes{}
 					body = n.Nbody
 				} else {
@@ -3967,21 +3967,21 @@ func deadcodeexpr(n *ir.Node) *ir.Node {
 	// producing a constant 'if' condition.
 	switch n.Op {
 	case ir.OANDAND:
-		n.Left = deadcodeexpr(n.Left)
+		n.SetLeft(deadcodeexpr(n.Left()))
 		n.Right = deadcodeexpr(n.Right)
-		if ir.IsConst(n.Left, ir.CTBOOL) {
-			if n.Left.BoolVal() {
+		if ir.IsConst(n.Left(), ir.CTBOOL) {
+			if n.Left().BoolVal() {
 				return n.Right // true && x => x
 			} else {
-				return n.Left // false && x => false
+				return n.Left() // false && x => false
 			}
 		}
 	case ir.OOROR:
-		n.Left = deadcodeexpr(n.Left)
+		n.SetLeft(deadcodeexpr(n.Left()))
 		n.Right = deadcodeexpr(n.Right)
-		if ir.IsConst(n.Left, ir.CTBOOL) {
-			if n.Left.BoolVal() {
-				return n.Left // true || x => true
+		if ir.IsConst(n.Left(), ir.CTBOOL) {
+			if n.Left().BoolVal() {
+				return n.Left() // true || x => true
 			} else {
 				return n.Right // false || x => x
 			}

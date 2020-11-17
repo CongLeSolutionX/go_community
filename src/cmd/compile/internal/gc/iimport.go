@@ -787,7 +787,7 @@ func (r *importReader) stmtList() []*ir.Node {
 }
 
 func (r *importReader) caseList(sw *ir.Node) []*ir.Node {
-	namedTypeSwitch := sw.Op == ir.OSWITCH && sw.Left != nil && sw.Left.Op == ir.OTYPESW && sw.Left.Left != nil
+	namedTypeSwitch := sw.Op == ir.OSWITCH && sw.Left() != nil && sw.Left().Op == ir.OTYPESW && sw.Left().Left() != nil
 
 	cases := make([]*ir.Node, r.uint64())
 	for i := range cases {
@@ -800,7 +800,7 @@ func (r *importReader) caseList(sw *ir.Node) []*ir.Node {
 			caseVar := newnamel(cas.Pos, r.ident())
 			declare(caseVar, dclcontext)
 			cas.Rlist.Set1(caseVar)
-			caseVar.Name.Defn = sw.Left
+			caseVar.Name.Defn = sw.Left()
 		}
 		cas.Nbody.Set(r.stmtList())
 		cases[i] = cas
@@ -858,7 +858,7 @@ func (r *importReader) node() *ir.Node {
 	case ir.OTYPESW:
 		n := nodl(r.pos(), ir.OTYPESW, nil, nil)
 		if s := r.ident(); s != nil {
-			n.Left = npos(n.Pos, newnoname(s))
+			n.SetLeft(npos(n.Pos, newnoname(s)))
 		}
 		n.Right, _ = r.exprsOrNil()
 		return n
@@ -953,7 +953,7 @@ func (r *importReader) node() *ir.Node {
 	case ir.OCALL:
 		n := nodl(r.pos(), ir.OCALL, nil, nil)
 		n.Ninit.Set(r.stmtList())
-		n.Left = r.expr()
+		n.SetLeft(r.expr())
 		n.List.Set(r.exprList())
 		n.SetIsDDD(r.bool())
 		return n
@@ -1002,7 +1002,7 @@ func (r *importReader) node() *ir.Node {
 	case ir.OASOP:
 		n := nodl(r.pos(), ir.OASOP, nil, nil)
 		n.SetSubOp(r.op())
-		n.Left = r.expr()
+		n.SetLeft(r.expr())
 		if !r.bool() {
 			n.Right = nodintconst(1)
 			n.SetImplicit(true)
@@ -1034,7 +1034,7 @@ func (r *importReader) node() *ir.Node {
 	case ir.OIF:
 		n := nodl(r.pos(), ir.OIF, nil, nil)
 		n.Ninit.Set(r.stmtList())
-		n.Left = r.expr()
+		n.SetLeft(r.expr())
 		n.Nbody.Set(r.stmtList())
 		n.Rlist.Set(r.stmtList())
 		return n
@@ -1043,7 +1043,7 @@ func (r *importReader) node() *ir.Node {
 		n := nodl(r.pos(), ir.OFOR, nil, nil)
 		n.Ninit.Set(r.stmtList())
 		nl, nr := r.exprsOrNil()
-		n.Left = nl
+		n.SetLeft(nl)
 		n.Right = nr
 		n.Nbody.Set(r.stmtList())
 		return n
@@ -1059,7 +1059,7 @@ func (r *importReader) node() *ir.Node {
 		n := nodl(r.pos(), op, nil, nil)
 		n.Ninit.Set(r.stmtList())
 		nl, _ := r.exprsOrNil()
-		n.Left = nl
+		n.SetLeft(nl)
 		n.List.Set(r.caseList(n))
 		return n
 

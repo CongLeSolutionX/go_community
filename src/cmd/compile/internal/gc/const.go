@@ -155,8 +155,8 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 			break
 		}
 
-		n.Left = convlit(n.Left, ot)
-		if n.Left.Type == nil {
+		n.SetLeft(convlit(n.Left(), ot))
+		if n.Left().Type == nil {
 			n.Type = nil
 			return n
 		}
@@ -170,14 +170,14 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 			break
 		}
 
-		n.Left = convlit(n.Left, ot)
+		n.SetLeft(convlit(n.Left(), ot))
 		n.Right = convlit(n.Right, ot)
-		if n.Left.Type == nil || n.Right.Type == nil {
+		if n.Left().Type == nil || n.Right.Type == nil {
 			n.Type = nil
 			return n
 		}
-		if !types.Identical(n.Left.Type, n.Right.Type) {
-			base.Error("invalid operation: %v (mismatched types %v and %v)", n, n.Left.Type, n.Right.Type)
+		if !types.Identical(n.Left().Type, n.Right.Type) {
+			base.Error("invalid operation: %v (mismatched types %v and %v)", n, n.Left().Type, n.Right.Type)
 			n.Type = nil
 			return n
 		}
@@ -193,8 +193,8 @@ func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *
 		return n
 
 	case ir.OLSH, ir.ORSH:
-		n.Left = convlit1(n.Left, t, explicit, nil)
-		n.Type = n.Left.Type
+		n.SetLeft(convlit1(n.Left(), t, explicit, nil))
+		n.Type = n.Left().Type
 		if n.Type != nil && !n.Type.IsInteger() {
 			base.Error("invalid operation: %v (shift of type %v)", n, n.Type)
 			n.Type = nil
@@ -423,7 +423,7 @@ func tostr(v ir.Val) ir.Val {
 
 // evconst rewrites constant expressions into OLITERAL nodes.
 func evconst(n *ir.Node) {
-	nl, nr := n.Left, n.Right
+	nl, nr := n.Left(), n.Right
 
 	// Pick off just the opcodes that can be constant evaluated.
 	switch op := n.Op; op {
@@ -1067,7 +1067,7 @@ func hascallchan(n *ir.Node) bool {
 		return true
 	}
 
-	if hascallchan(n.Left) || hascallchan(n.Right) {
+	if hascallchan(n.Left()) || hascallchan(n.Right) {
 		return true
 	}
 	for _, n1 := range n.List.Slice() {
@@ -1105,7 +1105,7 @@ type constSetKey struct {
 // n must not be an untyped constant.
 func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
 	if n.Op == ir.OCONVIFACE && n.Implicit() {
-		n = n.Left
+		n = n.Left()
 	}
 
 	if !isGoConst(n) {

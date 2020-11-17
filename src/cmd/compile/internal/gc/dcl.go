@@ -370,7 +370,7 @@ func colasdefn(left []*ir.Node, defn *ir.Node) {
 // declare the arguments in an
 // interface field declaration.
 func ifacedcl(n *ir.Node) {
-	if n.Op != ir.ODCLFIELD || n.Left == nil {
+	if n.Op != ir.ODCLFIELD || n.Left() == nil {
 		base.Fatal("ifacedcl")
 	}
 
@@ -413,8 +413,8 @@ func funcargs(nt *ir.Node) {
 	vargen = nt.Rlist.Len()
 
 	// declare the receiver and in arguments.
-	if nt.Left != nil {
-		funcarg(nt.Left, ir.PPARAM)
+	if nt.Left() != nil {
+		funcarg(nt.Left(), ir.PPARAM)
 	}
 	for _, n := range nt.List.Slice() {
 		funcarg(n, ir.PPARAM)
@@ -457,7 +457,7 @@ func funcarg(n *ir.Node, ctxt ir.Class) {
 	}
 
 	n.Right = newnamel(n.Pos, n.Sym)
-	n.Right.Name.Param.Ntype = n.Left
+	n.Right.Name.Param.Ntype = n.Left()
 	n.Right.SetIsDDD(n.IsDDD())
 	declare(n.Right, ctxt)
 
@@ -546,10 +546,10 @@ func structfield(n *ir.Node) *types.Field {
 	f.Pos = n.Pos
 	f.Sym = n.Sym
 
-	if n.Left != nil {
-		n.Left = typecheck(n.Left, ctxType)
-		n.Type = n.Left.Type
-		n.Left = nil
+	if n.Left() != nil {
+		n.SetLeft(typecheck(n.Left(), ctxType))
+		n.Type = n.Left().Type
+		n.SetLeft(nil)
 	}
 
 	f.Type = n.Type
@@ -664,10 +664,10 @@ func interfacefield(n *ir.Node) *types.Field {
 	// If Sym != nil, then Sym is MethodName and Left is Signature.
 	// Otherwise, Left is InterfaceTypeName.
 
-	if n.Left != nil {
-		n.Left = typecheck(n.Left, ctxType)
-		n.Type = n.Left.Type
-		n.Left = nil
+	if n.Left() != nil {
+		n.SetLeft(typecheck(n.Left(), ctxType))
+		n.Type = n.Left().Type
+		n.SetLeft(nil)
 	}
 
 	f := types.NewField()
@@ -1026,7 +1026,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	if n.Op != ir.OCALLFUNC {
 		return true
 	}
-	fn := n.Left
+	fn := n.Left()
 	if fn == nil || fn.Op != ir.ONAME || fn.Class() != ir.PFUNC || fn.Name.Defn == nil {
 		return true
 	}

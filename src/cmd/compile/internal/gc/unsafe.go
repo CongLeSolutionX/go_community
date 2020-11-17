@@ -13,9 +13,9 @@ import (
 func evalunsafe(n *ir.Node) int64 {
 	switch n.Op {
 	case ir.OALIGNOF, ir.OSIZEOF:
-		n.Left = typecheck(n.Left, ctxExpr)
-		n.Left = defaultlit(n.Left, nil)
-		tr := n.Left.Type
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetLeft(defaultlit(n.Left(), nil))
+		tr := n.Left().Type
 		if tr == nil {
 			return 0
 		}
@@ -27,7 +27,7 @@ func evalunsafe(n *ir.Node) int64 {
 
 	case ir.OOFFSETOF:
 		// must be a selector.
-		if n.Left.Op != ir.OXDOT {
+		if n.Left().Op != ir.OXDOT {
 			base.Error("invalid expression %v", n)
 			return 0
 		}
@@ -35,14 +35,14 @@ func evalunsafe(n *ir.Node) int64 {
 		// Remember base of selector to find it back after dot insertion.
 		// Since r->left may be mutated by typechecking, check it explicitly
 		// first to track it correctly.
-		n.Left.Left = typecheck(n.Left.Left, ctxExpr)
-		sbase := n.Left.Left
+		n.Left().SetLeft(typecheck(n.Left().Left(), ctxExpr))
+		sbase := n.Left().Left()
 
-		n.Left = typecheck(n.Left, ctxExpr)
-		if n.Left.Type == nil {
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		if n.Left().Type == nil {
 			return 0
 		}
-		switch n.Left.Op {
+		switch n.Left().Op {
 		case ir.ODOT, ir.ODOTPTR:
 			break
 		case ir.OCALLPART:
@@ -55,21 +55,21 @@ func evalunsafe(n *ir.Node) int64 {
 
 		// Sum offsets for dots until we reach sbase.
 		var v int64
-		for r := n.Left; r != sbase; r = r.Left {
+		for r := n.Left(); r != sbase; r = r.Left() {
 			switch r.Op {
 			case ir.ODOTPTR:
 				// For Offsetof(s.f), s may itself be a pointer,
 				// but accessing f must not otherwise involve
 				// indirection via embedded pointer types.
-				if r.Left != sbase {
-					base.Error("invalid expression %v: selector implies indirection of embedded %v", n, r.Left)
+				if r.Left() != sbase {
+					base.Error("invalid expression %v: selector implies indirection of embedded %v", n, r.Left())
 					return 0
 				}
 				fallthrough
 			case ir.ODOT:
 				v += r.Xoffset
 			default:
-				ir.Dump("unsafenmagic", n.Left)
+				ir.Dump("unsafenmagic", n.Left())
 				base.Fatal("impossible %#v node after dot insertion", r.Op)
 			}
 		}
