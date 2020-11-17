@@ -66,12 +66,14 @@ type Node struct {
 	aux uint8
 }
 
-func (n *Node) Left() *Node      { return n.left }
-func (n *Node) SetLeft(x *Node)  { n.left = x }
-func (n *Node) Right() *Node     { return n.right }
-func (n *Node) SetRight(x *Node) { n.right = x }
-func (n *Node) Orig() *Node      { return n.orig }
-func (n *Node) SetOrig(x *Node)  { n.orig = x }
+func (n *Node) Left() *Node           { return n.left }
+func (n *Node) SetLeft(x *Node)       { n.left = x }
+func (n *Node) Right() *Node          { return n.right }
+func (n *Node) SetRight(x *Node)      { n.right = x }
+func (n *Node) Orig() *Node           { return n.orig }
+func (n *Node) SetOrig(x *Node)       { n.orig = x }
+func (n *Node) GetType() *types.Type  { return n.Type }
+func (n *Node) SetType(x *types.Type) { n.Type = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
