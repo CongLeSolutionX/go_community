@@ -7062,11 +7062,10 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 
 	s := &types.Sym{Name: node.Sym.Name + suffix, Pkg: ir.LocalPkg}
 
-	n := &ir.Node{
-		Name: new(ir.Name),
-		Op:   ir.ONAME,
-		Pos:  parent.N.(*ir.Node).Pos,
-	}
+	n := new(ir.Node)
+	n.Op = ir.ONAME
+	n.Name = new(ir.Name)
+	n.Pos = parent.N.(*ir.Node).Pos
 	n.SetOrig(n)
 
 	s.Def = ir.AsTypesNode(n)

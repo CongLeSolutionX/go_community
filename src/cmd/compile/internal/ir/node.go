@@ -76,6 +76,8 @@ func (n *Node) Type() *types.Type     { return n.typ }
 func (n *Node) SetType(x *types.Type) { n.typ = x }
 func (n *Node) Func() *Func           { return n.fn }
 func (n *Node) SetFunc(x *Func)       { n.fn = x }
+func (n *Node) GetName() *Name        { return n.Name }
+func (n *Node) SetName(x *Name)       { n.Name = x }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
