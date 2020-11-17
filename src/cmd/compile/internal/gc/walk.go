@@ -2970,7 +2970,7 @@ func extendslice(n *ir.Node, init *ir.Nodes) *ir.Node {
 	if hasPointers {
 		// if l1ptr == sptr
 		nifclr := nod(ir.OIF, nod(ir.OEQ, l1ptr, sptr), nil)
-		nifclr.Nbody = clr
+		nifclr.Nbody.Set(clr.Slice())
 		nodes = append(nodes, nifclr)
 	} else {
 		nodes = append(nodes, clr.Slice()...)

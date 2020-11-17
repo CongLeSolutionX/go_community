@@ -89,6 +89,19 @@ func (n *Node) SetEsc(x uint16)       { n.esc = x }
 func (n *Node) Op() Op                { return n.op }
 func (n *Node) SetOp(x Op)            { n.op = x }
 
+func (n *Node) GetNinit() Nodes  { return n.Ninit }
+func (n *Node) SetNinit(x Nodes) { n.Ninit = x }
+func (n *Node) PtrNinit() *Nodes { return &n.Ninit }
+func (n *Node) GetNbody() Nodes  { return n.Nbody }
+func (n *Node) SetNbody(x Nodes) { n.Nbody = x }
+func (n *Node) PtrNbody() *Nodes { return &n.Nbody }
+func (n *Node) GetList() Nodes   { return n.List }
+func (n *Node) SetList(x Nodes)  { n.List = x }
+func (n *Node) PtrList() *Nodes  { return &n.List }
+func (n *Node) GetRlist() Nodes  { return n.Rlist }
+func (n *Node) SetRlist(x Nodes) { n.Rlist = x }
+func (n *Node) PtrRlist() *Nodes { return &n.Rlist }
+
 func (n *Node) ResetAux() {
 	n.aux = 0
 }

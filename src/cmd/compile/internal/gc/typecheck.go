@@ -3929,10 +3929,10 @@ func deadcodeslice(nn ir.Nodes) {
 			if ir.IsConst(n.Left(), ir.CTBOOL) {
 				var body ir.Nodes
 				if n.Left().BoolVal() {
-					n.Rlist = ir.Nodes{}
+					n.Rlist.Set(nil)
 					body = n.Nbody
 				} else {
-					n.Nbody = ir.Nodes{}
+					n.Nbody.Set(nil)
 					body = n.Rlist
 				}
 				// If "then" or "else" branch ends with panic or return statement,
