@@ -47,7 +47,7 @@ type Progs struct {
 	next      *obj.Prog  // next Prog
 	pc        int64      // virtual PC; count of Progs
 	pos       src.XPos   // position to use for new Progs
-	curfn     *ir.Node   // fn these Progs are for
+	curfn     ir.INode   // fn these Progs are for
 	progcache []obj.Prog // local progcache
 	cacheidx  int        // first free element of progcache
 
@@ -57,7 +57,7 @@ type Progs struct {
 
 // newProgs returns a new Progs for fn.
 // worker indicates which of the backend workers will use the Progs.
-func newProgs(fn *ir.Node, worker int) *Progs {
+func newProgs(fn ir.INode, worker int) *Progs {
 	pp := new(Progs)
 	if base.Ctxt.CanReuseProgs() {
 		sz := len(sharedProgArray) / base.Flag.LowerC
@@ -174,7 +174,7 @@ func (pp *Progs) Appendpp(p *obj.Prog, as obj.As, ftype obj.AddrType, freg int16
 	return q
 }
 
-func (pp *Progs) settext(fn *ir.Node) {
+func (pp *Progs) settext(fn ir.INode) {
 	if pp.Text != nil {
 		base.Fatal("Progs.settext called twice")
 	}
@@ -290,7 +290,7 @@ func initLSym(f *ir.Func, hasBody bool) {
 	base.Ctxt.InitTextSym(f.LSym, flag)
 }
 
-func ggloblnod(nam *ir.Node) {
+func ggloblnod(nam ir.INode) {
 	s := nam.Sym().Linksym()
 	s.Gotype = ngotype(nam).Linksym()
 	flags := 0

@@ -351,7 +351,7 @@ func methodfunc(f *types.Type, receiver *types.Type) *types.Type {
 	if receiver != nil {
 		inLen++
 	}
-	in := make([]*ir.Node, 0, inLen)
+	in := make([]ir.INode, 0, inLen)
 
 	if receiver != nil {
 		d := anonfield(receiver)
@@ -365,7 +365,7 @@ func methodfunc(f *types.Type, receiver *types.Type) *types.Type {
 	}
 
 	outLen := f.Results().Fields().Len()
-	out := make([]*ir.Node, 0, outLen)
+	out := make([]ir.INode, 0, outLen)
 	for _, t := range f.Results().Fields().Slice() {
 		d := anonfield(t.Type)
 		out = append(out, d)
@@ -1000,7 +1000,7 @@ func typenamesym(t *types.Type) *types.Sym {
 	return s
 }
 
-func typename(t *types.Type) *ir.Node {
+func typename(t *types.Type) ir.INode {
 	s := typenamesym(t)
 	if s.Def == nil {
 		n := newnamel(src.NoXPos, s)
@@ -1016,7 +1016,7 @@ func typename(t *types.Type) *ir.Node {
 	return n
 }
 
-func itabname(t, itype *types.Type) *ir.Node {
+func itabname(t, itype *types.Type) ir.INode {
 	if t == nil || (t.IsPtr() && t.Elem() == nil) || t.IsUntyped() || !itype.IsInterface() || itype.IsEmptyInterface() {
 		base.Fatal("itabname(%v, %v)", t, itype)
 	}
@@ -1526,7 +1526,7 @@ func addsignat(t *types.Type) {
 	}
 }
 
-func addsignats(dcls []*ir.Node) {
+func addsignats(dcls []ir.INode) {
 	// copy types from dcl list to signatset
 	for _, n := range dcls {
 		if n.Op() == ir.OTYPE {
@@ -1632,7 +1632,7 @@ func dumpbasictypes() {
 		// The latter is the type of an auto-generated wrapper.
 		dtypesym(types.NewPtr(types.Errortype))
 
-		dtypesym(functype(nil, []*ir.Node{anonfield(types.Errortype)}, []*ir.Node{anonfield(types.Types[types.TSTRING])}))
+		dtypesym(functype(nil, []ir.INode{anonfield(types.Errortype)}, []ir.INode{anonfield(types.Types[types.TSTRING])}))
 
 		// add paths for runtime and main, which 6l imports implicitly.
 		dimportpath(Runtimepkg)
@@ -1877,7 +1877,7 @@ func (p *GCProg) emit(t *types.Type, offset int64) {
 
 // zeroaddr returns the address of a symbol with at least
 // size bytes of zeros.
-func zeroaddr(size int64) *ir.Node {
+func zeroaddr(size int64) ir.INode {
 	if size >= 1<<31 {
 		base.Fatal("map elem too big %d", size)
 	}

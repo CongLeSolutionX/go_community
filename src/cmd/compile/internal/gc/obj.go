@@ -227,7 +227,7 @@ func addptabs() {
 	}
 }
 
-func dumpGlobal(n *ir.Node) {
+func dumpGlobal(n ir.INode) {
 	if n.Type() == nil {
 		base.Fatal("external %v nil type\n", n)
 	}
@@ -241,7 +241,7 @@ func dumpGlobal(n *ir.Node) {
 	ggloblnod(n)
 }
 
-func dumpGlobalConst(n *ir.Node) {
+func dumpGlobalConst(n ir.INode) {
 	// only export typed constants
 	t := n.Type()
 	if t == nil {
@@ -489,7 +489,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 
 var slicedataGen int
 
-func slicedata(pos src.XPos, s string) *ir.Node {
+func slicedata(pos src.XPos, s string) ir.INode {
 	slicedataGen++
 	symname := fmt.Sprintf(".gobytes.%d", slicedataGen)
 	sym := ir.LocalPkg.Lookup(symname)
@@ -503,7 +503,7 @@ func slicedata(pos src.XPos, s string) *ir.Node {
 	return symnode
 }
 
-func slicebytes(nam *ir.Node, s string) {
+func slicebytes(nam ir.INode, s string) {
 	if nam.Op() != ir.ONAME {
 		base.Fatal("slicebytes %v", nam)
 	}
@@ -544,7 +544,7 @@ func dsymptrWeakOff(s *obj.LSym, off int, x *obj.LSym) int {
 
 // slicesym writes a static slice symbol {&arr, lencap, lencap} to n.
 // arr must be an ONAME. slicesym does not modify n.
-func slicesym(n, arr *ir.Node, lencap int64) {
+func slicesym(n, arr ir.INode, lencap int64) {
 	s := n.Sym().Linksym()
 	off := n.Xoffset()
 	if arr.Op() != ir.ONAME {
@@ -557,7 +557,7 @@ func slicesym(n, arr *ir.Node, lencap int64) {
 
 // addrsym writes the static address of a to n. a must be an ONAME.
 // Neither n nor a is modified.
-func addrsym(n, a *ir.Node) {
+func addrsym(n, a ir.INode) {
 	if n.Op() != ir.ONAME {
 		base.Fatal("addrsym n op %v", n.Op())
 	}
@@ -573,7 +573,7 @@ func addrsym(n, a *ir.Node) {
 
 // pfuncsym writes the static address of f to n. f must be a global function.
 // Neither n nor f is modified.
-func pfuncsym(n, f *ir.Node) {
+func pfuncsym(n, f ir.INode) {
 	if n.Op() != ir.ONAME {
 		base.Fatal("pfuncsym n op %v", n.Op())
 	}
@@ -589,7 +589,7 @@ func pfuncsym(n, f *ir.Node) {
 
 // litsym writes the static literal c to n.
 // Neither n nor c is modified.
-func litsym(n, c *ir.Node, wid int) {
+func litsym(n, c ir.INode, wid int) {
 	if n.Op() != ir.ONAME {
 		base.Fatal("litsym n op %v", n.Op())
 	}

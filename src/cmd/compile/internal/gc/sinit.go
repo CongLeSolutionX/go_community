@@ -14,7 +14,7 @@ import (
 
 type InitEntry struct {
 	Xoffset int64    // struct, array only
-	Expr    *ir.Node // bytes of run-time computed expressions
+	Expr    ir.INode // bytes of run-time computed expressions
 }
 
 type InitPlan struct {
@@ -28,18 +28,18 @@ type InitPlan struct {
 type InitSchedule struct {
 	// out is the ordered list of dynamic initialization
 	// statements.
-	out []*ir.Node
+	out []ir.INode
 
-	initplans map[*ir.Node]*InitPlan
-	inittemps map[*ir.Node]*ir.Node
+	initplans map[ir.INode]*InitPlan
+	inittemps map[ir.INode]ir.INode
 }
 
-func (s *InitSchedule) append(n *ir.Node) {
+func (s *InitSchedule) append(n ir.INode) {
 	s.out = append(s.out, n)
 }
 
 // staticInit adds an initialization statement n to the schedule.
-func (s *InitSchedule) staticInit(n *ir.Node) {
+func (s *InitSchedule) staticInit(n ir.INode) {
 	if !s.tryStaticInit(n) {
 		if base.Flag.Percent != 0 {
 			ir.Dump("nonstatic", n)
@@ -50,7 +50,7 @@ func (s *InitSchedule) staticInit(n *ir.Node) {
 
 // tryStaticInit attempts to statically execute an initialization
 // statement and reports whether it succeeded.
-func (s *InitSchedule) tryStaticInit(n *ir.Node) bool {
+func (s *InitSchedule) tryStaticInit(n ir.INode) bool {
 	// Only worry about simple "l = r" assignments. Multiple
 	// variable/expression OAS2 assignments have already been
 	// replaced by multiple simple OAS assignments, and the other
@@ -69,7 +69,7 @@ func (s *InitSchedule) tryStaticInit(n *ir.Node) bool {
 
 // like staticassign but we are copying an already
 // initialized value r.
-func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
+func (s *InitSchedule) staticcopy(l ir.INode, r ir.INode) bool {
 	if r.Op() != ir.ONAME {
 		return false
 	}
@@ -164,7 +164,7 @@ func (s *InitSchedule) staticcopy(l *ir.Node, r *ir.Node) bool {
 	return false
 }
 
-func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
+func (s *InitSchedule) staticassign(l ir.INode, r ir.INode) bool {
 	for r.Op() == ir.OCONVNOP {
 		r = r.Left()
 	}
@@ -282,7 +282,7 @@ func (s *InitSchedule) staticassign(l *ir.Node, r *ir.Node) bool {
 
 		markTypeUsedInInterface(val.Type(), l.Sym().Linksym())
 
-		var itab *ir.Node
+		var itab ir.INode
 		if l.Type().IsEmptyInterface() {
 			itab = typename(val.Type())
 		} else {
@@ -360,7 +360,7 @@ var statuniqgen int // name generator for static temps
 
 // staticname returns a name backed by a (writable) static data symbol.
 // Use readonlystaticname for read-only node.
-func staticname(t *types.Type) *ir.Node {
+func staticname(t *types.Type) ir.INode {
 	// Don't use lookupN; it interns the resulting string, but these are all unique.
 	n := newname(lookup(fmt.Sprintf("%s%d", obj.StaticNamePref, statuniqgen)))
 	statuniqgen++
@@ -370,18 +370,18 @@ func staticname(t *types.Type) *ir.Node {
 }
 
 // readonlystaticname returns a name backed by a (writable) static data symbol.
-func readonlystaticname(t *types.Type) *ir.Node {
+func readonlystaticname(t *types.Type) ir.INode {
 	n := staticname(t)
 	n.MarkReadonly()
 	n.Sym().Linksym().Set(obj.AttrContentAddressable, true)
 	return n
 }
 
-func isSimpleName(n *ir.Node) bool {
+func isSimpleName(n ir.INode) bool {
 	return n.Op() == ir.ONAME && n.Class() != ir.PAUTOHEAP && n.Class() != ir.PEXTERN
 }
 
-func litas(l *ir.Node, r *ir.Node, init *ir.Nodes) {
+func litas(l ir.INode, r ir.INode, init *ir.Nodes) {
 	a := nod(ir.OAS, l, r)
 	a = typecheck(a, ctxStmt)
 	a = walkexpr(a, init)
@@ -398,7 +398,7 @@ const (
 
 // getdyn calculates the initGenType for n.
 // If top is false, getdyn is recursing.
-func getdyn(n *ir.Node, top bool) initGenType {
+func getdyn(n ir.INode, top bool) initGenType {
 	switch n.Op() {
 	default:
 		if isGoConst(n) {
@@ -440,7 +440,7 @@ func getdyn(n *ir.Node, top bool) initGenType {
 }
 
 // isStaticCompositeLiteral reports whether n is a compile-time constant.
-func isStaticCompositeLiteral(n *ir.Node) bool {
+func isStaticCompositeLiteral(n ir.INode) bool {
 	switch n.Op() {
 	case ir.OSLICELIT:
 		return false
@@ -502,13 +502,13 @@ const (
 
 // fixedlit handles struct, array, and slice literals.
 // TODO: expand documentation.
-func fixedlit(ctxt initContext, kind initKind, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
+func fixedlit(ctxt initContext, kind initKind, n ir.INode, var_ ir.INode, init *ir.Nodes) {
 	isBlank := var_ == ir.BlankNode
-	var splitnode func(*ir.Node) (a *ir.Node, value *ir.Node)
+	var splitnode func(ir.INode) (a ir.INode, value ir.INode)
 	switch n.Op() {
 	case ir.OARRAYLIT, ir.OSLICELIT:
 		var k int64
-		splitnode = func(r *ir.Node) (*ir.Node, *ir.Node) {
+		splitnode = func(r ir.INode) (ir.INode, ir.INode) {
 			if r.Op() == ir.OKEY {
 				k = indexconst(r.Left())
 				if k < 0 {
@@ -524,7 +524,7 @@ func fixedlit(ctxt initContext, kind initKind, n *ir.Node, var_ *ir.Node, init *
 			return a, r
 		}
 	case ir.OSTRUCTLIT:
-		splitnode = func(r *ir.Node) (*ir.Node, *ir.Node) {
+		splitnode = func(r ir.INode) (ir.INode, ir.INode) {
 			if r.Op() != ir.OSTRUCTKEY {
 				base.Fatal("fixedlit: rhs not OSTRUCTKEY: %v", r)
 			}
@@ -569,7 +569,7 @@ func fixedlit(ctxt initContext, kind initKind, n *ir.Node, var_ *ir.Node, init *
 		case initKindStatic:
 			genAsStatic(a)
 		case initKindDynamic, initKindLocalCode:
-			a = orderStmtInPlace(a, map[string][]*ir.Node{})
+			a = orderStmtInPlace(a, map[string][]ir.INode{})
 			a = walkstmt(a)
 			init.Append(a)
 		default:
@@ -579,7 +579,7 @@ func fixedlit(ctxt initContext, kind initKind, n *ir.Node, var_ *ir.Node, init *
 	}
 }
 
-func isSmallSliceLit(n *ir.Node) bool {
+func isSmallSliceLit(n ir.INode) bool {
 	if n.Op() != ir.OSLICELIT {
 		return false
 	}
@@ -589,7 +589,7 @@ func isSmallSliceLit(n *ir.Node) bool {
 	return smallintconst(r) && (n.Type().Elem().Width == 0 || r.Int64Val() <= smallArrayBytes/n.Type().Elem().Width)
 }
 
-func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
+func slicelit(ctxt initContext, n ir.INode, var_ ir.INode, init *ir.Nodes) {
 	// make an array type corresponding the number of elements we have
 	t := types.NewArray(n.Type().Elem(), n.Right().Int64Val())
 	dowidth(t)
@@ -632,7 +632,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 
 	// if the literal contains constants,
 	// make static initialized array (1),(2)
-	var vstat *ir.Node
+	var vstat ir.INode
 
 	mode := getdyn(n, true)
 	if mode&initConst != 0 && !isSmallSliceLit(n) {
@@ -648,7 +648,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 	vauto := temp(types.NewPtr(t))
 
 	// set auto to point at new temp or heap (3 assign)
-	var a *ir.Node
+	var a ir.INode
 	if x := prealloc[n]; x != nil {
 		// temp allocated during order.go for dddarg
 		if !types.Identical(t, x.Type()) {
@@ -738,7 +738,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 		a = nod(ir.OAS, a, value)
 
 		a = typecheck(a, ctxStmt)
-		a = orderStmtInPlace(a, map[string][]*ir.Node{})
+		a = orderStmtInPlace(a, map[string][]ir.INode{})
 		a = walkstmt(a)
 		init.Append(a)
 	}
@@ -747,12 +747,12 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 	a = nod(ir.OAS, var_, nod(ir.OSLICE, vauto, nil))
 
 	a = typecheck(a, ctxStmt)
-	a = orderStmtInPlace(a, map[string][]*ir.Node{})
+	a = orderStmtInPlace(a, map[string][]ir.INode{})
 	a = walkstmt(a)
 	init.Append(a)
 }
 
-func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
+func maplit(n ir.INode, m ir.INode, init *ir.Nodes) {
 	// make the map var
 	a := nod(ir.OMAKE, nil, nil)
 	a.SetEsc(n.Esc())
@@ -859,7 +859,7 @@ func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 	init.Append(a)
 }
 
-func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
+func anylit(n ir.INode, var_ ir.INode, init *ir.Nodes) {
 	t := n.Type()
 	switch n.Op() {
 	default:
@@ -875,7 +875,7 @@ func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 			base.Fatal("anylit: not ptr")
 		}
 
-		var r *ir.Node
+		var r ir.INode
 		if n.Right() != nil {
 			// n.Right is stack temporary used as backing store.
 			init.Append(nod(ir.OAS, n.Right(), nil)) // zero backing store, just in case (#18410)
@@ -952,7 +952,7 @@ func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 	}
 }
 
-func oaslit(n *ir.Node, init *ir.Nodes) bool {
+func oaslit(n ir.INode, init *ir.Nodes) bool {
 	if n.Left() == nil || n.Right() == nil {
 		// not a special composite literal assignment
 		return false
@@ -988,7 +988,7 @@ func oaslit(n *ir.Node, init *ir.Nodes) bool {
 	return true
 }
 
-func getlit(lit *ir.Node) int {
+func getlit(lit ir.INode) int {
 	if smallintconst(lit) {
 		return int(lit.Int64Val())
 	}
@@ -996,14 +996,14 @@ func getlit(lit *ir.Node) int {
 }
 
 // stataddr sets nam to the static address of n and reports whether it succeeded.
-func stataddr(nam *ir.Node, n *ir.Node) bool {
+func stataddr(nam ir.INode, n ir.INode) bool {
 	if n == nil {
 		return false
 	}
 
 	switch n.Op() {
 	case ir.ONAME:
-		*nam = *n
+		nam.CopyFrom(n)
 		return true
 
 	case ir.ODOT:
@@ -1038,7 +1038,7 @@ func stataddr(nam *ir.Node, n *ir.Node) bool {
 	return false
 }
 
-func (s *InitSchedule) initplan(n *ir.Node) {
+func (s *InitSchedule) initplan(n ir.INode) {
 	if s.initplans[n] != nil {
 		return
 	}
@@ -1083,7 +1083,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 	}
 }
 
-func (s *InitSchedule) addvalue(p *InitPlan, xoffset int64, n *ir.Node) {
+func (s *InitSchedule) addvalue(p *InitPlan, xoffset int64, n ir.INode) {
 	// special case: zero can be dropped entirely
 	if isZero(n) {
 		return
@@ -1105,7 +1105,7 @@ func (s *InitSchedule) addvalue(p *InitPlan, xoffset int64, n *ir.Node) {
 	p.E = append(p.E, InitEntry{Xoffset: xoffset, Expr: n})
 }
 
-func isZero(n *ir.Node) bool {
+func isZero(n ir.INode) bool {
 	switch n.Op() {
 	case ir.OLITERAL:
 		switch u := n.Val().U.(type) {
@@ -1149,11 +1149,11 @@ func isZero(n *ir.Node) bool {
 	return false
 }
 
-func isvaluelit(n *ir.Node) bool {
+func isvaluelit(n ir.INode) bool {
 	return n.Op() == ir.OARRAYLIT || n.Op() == ir.OSTRUCTLIT
 }
 
-func genAsStatic(as *ir.Node) {
+func genAsStatic(as ir.INode) {
 	if as.Left().Type() == nil {
 		base.Fatal("genAsStatic as.Left not typechecked")
 	}

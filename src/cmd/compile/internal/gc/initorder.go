@@ -64,7 +64,7 @@ const (
 type InitOrder struct {
 	// blocking maps initialization assignments to the assignments
 	// that depend on it.
-	blocking map[*ir.Node][]*ir.Node
+	blocking map[ir.INode][]ir.INode
 
 	// ready is the queue of Pending initialization assignments
 	// that are ready for initialization.
@@ -75,13 +75,13 @@ type InitOrder struct {
 // package-level declarations (in declaration order) and outputs the
 // corresponding list of statements to include in the init() function
 // body.
-func initOrder(l []*ir.Node) []*ir.Node {
+func initOrder(l []ir.INode) []ir.INode {
 	s := InitSchedule{
-		initplans: make(map[*ir.Node]*InitPlan),
-		inittemps: make(map[*ir.Node]*ir.Node),
+		initplans: make(map[ir.INode]*InitPlan),
+		inittemps: make(map[ir.INode]ir.INode),
 	}
 	o := InitOrder{
-		blocking: make(map[*ir.Node][]*ir.Node),
+		blocking: make(map[ir.INode][]ir.INode),
 	}
 
 	// Process all package-level assignment in declaration order.
@@ -110,7 +110,7 @@ func initOrder(l []*ir.Node) []*ir.Node {
 				// first.
 				base.ExitIfErrors()
 
-				findInitLoopAndExit(firstLHS(n), new([]*ir.Node))
+				findInitLoopAndExit(firstLHS(n), new([]ir.INode))
 				base.Fatal("initialization unfinished, but failed to identify loop")
 			}
 		}
@@ -125,7 +125,7 @@ func initOrder(l []*ir.Node) []*ir.Node {
 	return s.out
 }
 
-func (o *InitOrder) processAssign(n *ir.Node) {
+func (o *InitOrder) processAssign(n ir.INode) {
 	if n.Initorder() != InitNotStarted || n.Xoffset() != types.BADWIDTH {
 		base.Fatal("unexpected state: %v, %v, %v", n, n.Initorder(), n.Xoffset())
 	}
@@ -154,9 +154,9 @@ func (o *InitOrder) processAssign(n *ir.Node) {
 // flushReady repeatedly applies initialize to the earliest (in
 // declaration order) assignment ready for initialization and updates
 // the inverse dependency ("blocking") graph.
-func (o *InitOrder) flushReady(initialize func(*ir.Node)) {
+func (o *InitOrder) flushReady(initialize func(ir.INode)) {
 	for o.ready.Len() != 0 {
-		n := heap.Pop(&o.ready).(*ir.Node)
+		n := heap.Pop(&o.ready).(ir.INode)
 		if n.Initorder() != InitPending || n.Xoffset() != 0 {
 			base.Fatal("unexpected state: %v, %v, %v", n, n.Initorder(), n.Xoffset())
 		}
@@ -183,7 +183,7 @@ func (o *InitOrder) flushReady(initialize func(*ir.Node)) {
 // path points to a slice used for tracking the sequence of
 // variables/functions visited. Using a pointer to a slice allows the
 // slice capacity to grow and limit reallocations.
-func findInitLoopAndExit(n *ir.Node, path *[]*ir.Node) {
+func findInitLoopAndExit(n ir.INode, path *[]ir.INode) {
 	// We implement a simple DFS loop-finding algorithm. This
 	// could be faster, but initialization cycles are rare.
 
@@ -196,7 +196,7 @@ func findInitLoopAndExit(n *ir.Node, path *[]*ir.Node) {
 
 	// There might be multiple loops involving n; by sorting
 	// references, we deterministically pick the one reported.
-	refers := collectDeps(n.Name().Defn, false).Sorted(func(ni, nj *ir.Node) bool {
+	refers := collectDeps(n.Name().Defn, false).Sorted(func(ni, nj ir.INode) bool {
 		return ni.Pos().Before(nj.Pos())
 	})
 
@@ -215,7 +215,7 @@ func findInitLoopAndExit(n *ir.Node, path *[]*ir.Node) {
 // reportInitLoopAndExit reports and initialization loop as an error
 // and exits. However, if l is not actually an initialization loop, it
 // simply returns instead.
-func reportInitLoopAndExit(l []*ir.Node) {
+func reportInitLoopAndExit(l []ir.INode) {
 	// Rotate loop so that the earliest variable declaration is at
 	// the start.
 	i := -1
@@ -250,7 +250,7 @@ func reportInitLoopAndExit(l []*ir.Node) {
 // variables that declaration n depends on. If transitive is true,
 // then it also includes the transitive dependencies of any depended
 // upon functions (but not variables).
-func collectDeps(n *ir.Node, transitive bool) ir.NodeSet {
+func collectDeps(n ir.INode, transitive bool) ir.NodeSet {
 	d := initDeps{transitive: transitive}
 	switch n.Op() {
 	case ir.OAS:
@@ -270,12 +270,12 @@ type initDeps struct {
 	seen       ir.NodeSet
 }
 
-func (d *initDeps) inspect(n *ir.Node)     { ir.Inspect(n, d.visit) }
+func (d *initDeps) inspect(n ir.INode)     { ir.Inspect(n, d.visit) }
 func (d *initDeps) inspectList(l ir.Nodes) { ir.InspectList(l, d.visit) }
 
 // visit calls foundDep on any package-level functions or variables
 // referenced by n, if any.
-func (d *initDeps) visit(n *ir.Node) bool {
+func (d *initDeps) visit(n ir.INode) bool {
 	switch n.Op() {
 	case ir.ONAME:
 		if n.IsMethodExpression() {
@@ -300,7 +300,7 @@ func (d *initDeps) visit(n *ir.Node) bool {
 
 // foundDep records that we've found a dependency on n by adding it to
 // seen.
-func (d *initDeps) foundDep(n *ir.Node) {
+func (d *initDeps) foundDep(n ir.INode) {
 	// Can happen with method expressions involving interface
 	// types; e.g., fixedbugs/issue4495.go.
 	if n == nil {
@@ -329,7 +329,7 @@ func (d *initDeps) foundDep(n *ir.Node) {
 // an OAS node's Pos may not be unique. For example, given the
 // declaration "var a, b = f(), g()", "a" must be ordered before "b",
 // but both OAS nodes use the "=" token's position as their Pos.
-type declOrder []*ir.Node
+type declOrder []ir.INode
 
 func (s declOrder) Len() int { return len(s) }
 func (s declOrder) Less(i, j int) bool {
@@ -337,7 +337,7 @@ func (s declOrder) Less(i, j int) bool {
 }
 func (s declOrder) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
 
-func (s *declOrder) Push(x interface{}) { *s = append(*s, x.(*ir.Node)) }
+func (s *declOrder) Push(x interface{}) { *s = append(*s, x.(ir.INode)) }
 func (s *declOrder) Pop() interface{} {
 	n := (*s)[len(*s)-1]
 	*s = (*s)[:len(*s)-1]
@@ -346,7 +346,7 @@ func (s *declOrder) Pop() interface{} {
 
 // firstLHS returns the first expression on the left-hand side of
 // assignment n.
-func firstLHS(n *ir.Node) *ir.Node {
+func firstLHS(n ir.INode) ir.INode {
 	switch n.Op() {
 	case ir.OAS:
 		return n.Left()

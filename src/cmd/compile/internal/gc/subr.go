@@ -39,7 +39,7 @@ var (
 // It's primarily used to distinguish references to named objects,
 // whose Pos will point back to their declaration position rather than
 // their usage position.
-func hasUniquePos(n *ir.Node) bool {
+func hasUniquePos(n ir.INode) bool {
 	switch n.Op() {
 	case ir.ONAME, ir.OPACK:
 		return false
@@ -59,7 +59,7 @@ func hasUniquePos(n *ir.Node) bool {
 	return true
 }
 
-func setlineno(n *ir.Node) src.XPos {
+func setlineno(n ir.INode) src.XPos {
 	lno := base.Pos
 	if n != nil && hasUniquePos(n) {
 		base.Pos = n.Pos()
@@ -101,7 +101,7 @@ func autolabel(prefix string) *types.Sym {
 
 // find all the exported symbols in package opkg
 // and make them available in the current package
-func importdot(opkg *types.Pkg, pack *ir.Node) {
+func importdot(opkg *types.Pkg, pack ir.INode) {
 	n := 0
 	for _, s := range opkg.Syms {
 		if s.Def == nil {
@@ -134,12 +134,12 @@ func importdot(opkg *types.Pkg, pack *ir.Node) {
 	}
 }
 
-func nod(op ir.Op, nleft, nright *ir.Node) *ir.Node {
+func nod(op ir.Op, nleft, nright ir.INode) ir.INode {
 	return nodl(base.Pos, op, nleft, nright)
 }
 
-func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
-	var n *ir.Node
+func nodl(pos src.XPos, op ir.Op, nleft, nright ir.INode) ir.INode {
+	var n ir.INode
 	switch op {
 	case ir.ODCLFUNC:
 		var x struct {
@@ -171,7 +171,7 @@ func nodl(pos src.XPos, op ir.Op, nleft, nright *ir.Node) *ir.Node {
 }
 
 // newname returns a new ONAME Node associated with symbol s.
-func newname(s *types.Sym) *ir.Node {
+func newname(s *types.Sym) ir.INode {
 	n := newnamel(base.Pos, s)
 	n.Name().Curfn = Curfn
 	return n
@@ -179,7 +179,7 @@ func newname(s *types.Sym) *ir.Node {
 
 // newnamel returns a new ONAME Node associated with symbol s at position pos.
 // The caller is responsible for setting n.Name.Curfn.
-func newnamel(pos src.XPos, s *types.Sym) *ir.Node {
+func newnamel(pos src.XPos, s *types.Sym) ir.INode {
 	if s == nil {
 		base.Fatal("newnamel nil")
 	}
@@ -203,13 +203,13 @@ func newnamel(pos src.XPos, s *types.Sym) *ir.Node {
 
 // nodSym makes a Node with Op op and with the Left field set to left
 // and the Sym field set to sym. This is for ODOT and friends.
-func nodSym(op ir.Op, left *ir.Node, sym *types.Sym) *ir.Node {
+func nodSym(op ir.Op, left ir.INode, sym *types.Sym) ir.INode {
 	return nodlSym(base.Pos, op, left, sym)
 }
 
 // nodlSym makes a Node with position Pos, with Op op, and with the Left field set to left
 // and the Sym field set to sym. This is for ODOT and friends.
-func nodlSym(pos src.XPos, op ir.Op, left *ir.Node, sym *types.Sym) *ir.Node {
+func nodlSym(pos src.XPos, op ir.Op, left ir.INode, sym *types.Sym) ir.INode {
 	n := nodl(pos, op, left, nil)
 	n.SetSym(sym)
 	return n
@@ -222,21 +222,21 @@ func (x methcmp) Len() int           { return len(x) }
 func (x methcmp) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
 func (x methcmp) Less(i, j int) bool { return x[i].Sym.Less(x[j].Sym) }
 
-func nodintconst(v int64) *ir.Node {
+func nodintconst(v int64) ir.INode {
 	u := new(ir.Int)
 	u.SetInt64(v)
 	return nodlit(ir.Val{U: u})
 }
 
-func nodnil() *ir.Node {
+func nodnil() ir.INode {
 	return nodlit(ir.Val{U: new(ir.NilVal)})
 }
 
-func nodbool(b bool) *ir.Node {
+func nodbool(b bool) ir.INode {
 	return nodlit(ir.Val{U: b})
 }
 
-func nodstr(s string) *ir.Node {
+func nodstr(s string) ir.INode {
 	return nodlit(ir.Val{U: s})
 }
 
@@ -244,7 +244,7 @@ func nodstr(s string) *ir.Node {
 // ONAME, OLITERAL, OTYPE, and ONONAME leaves.
 // If pos.IsKnown(), it sets the source position of newly
 // allocated nodes to pos.
-func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
+func treecopy(n ir.INode, pos src.XPos) ir.INode {
 	if n == nil {
 		return nil
 	}
@@ -570,12 +570,12 @@ func convertop(srcConstant bool, src, dst *types.Type) (ir.Op, string) {
 	return ir.OXXX, ""
 }
 
-func assignconv(n *ir.Node, t *types.Type, context string) *ir.Node {
+func assignconv(n ir.INode, t *types.Type, context string) ir.INode {
 	return assignconvfn(n, t, func() string { return context })
 }
 
 // Convert node n for assignment to type t.
-func assignconvfn(n *ir.Node, t *types.Type, context func() string) *ir.Node {
+func assignconvfn(n ir.INode, t *types.Type, context func() string) ir.INode {
 	if n == nil || n.Type() == nil || n.Type().Broke() {
 		return n
 	}
@@ -624,7 +624,7 @@ func assignconvfn(n *ir.Node, t *types.Type, context func() string) *ir.Node {
 
 // backingArrayPtrLen extracts the pointer and length from a slice or string.
 // This constructs two nodes referring to n, so n must be a cheapexpr.
-func backingArrayPtrLen(n *ir.Node) (ptr, len *ir.Node) {
+func backingArrayPtrLen(n ir.INode) (ptr, len ir.INode) {
 	var init ir.Nodes
 	c := cheapexpr(n, &init)
 	if c != n || init.Len() != 0 {
@@ -643,7 +643,7 @@ func backingArrayPtrLen(n *ir.Node) (ptr, len *ir.Node) {
 
 // labeledControl returns the control flow Node (for, switch, select)
 // associated with the label n, if any.
-func labeledControl(n *ir.Node) *ir.Node {
+func labeledControl(n ir.INode) ir.INode {
 	if n.Op() != ir.OLABEL {
 		base.Fatal("labeledControl %v", n.Op())
 	}
@@ -658,7 +658,7 @@ func labeledControl(n *ir.Node) *ir.Node {
 	return nil
 }
 
-func syslook(name string) *ir.Node {
+func syslook(name string) ir.INode {
 	s := Runtimepkg.Lookup(name)
 	if s == nil || s.Def == nil {
 		base.Fatal("syslook: can't find runtime.%s", name)
@@ -677,14 +677,14 @@ func typehash(t *types.Type) uint32 {
 
 // updateHasCall checks whether expression n contains any function
 // calls and sets the n.HasCall flag if so.
-func updateHasCall(n *ir.Node) {
+func updateHasCall(n ir.INode) {
 	if n == nil {
 		return
 	}
 	n.SetHasCall(calcHasCall(n))
 }
 
-func calcHasCall(n *ir.Node) bool {
+func calcHasCall(n ir.INode) bool {
 	if n.Ninit().Len() != 0 {
 		// TODO(mdempsky): This seems overly conservative.
 		return true
@@ -799,7 +799,7 @@ func brrev(op ir.Op) ir.Op {
 
 // return side effect-free n, appending side effects to init.
 // result is assignable if n is.
-func safeexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
+func safeexpr(n ir.INode, init *ir.Nodes) ir.INode {
 	if n == nil {
 		return nil
 	}
@@ -859,7 +859,7 @@ func safeexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
 	return cheapexpr(n, init)
 }
 
-func copyexpr(n *ir.Node, t *types.Type, init *ir.Nodes) *ir.Node {
+func copyexpr(n ir.INode, t *types.Type, init *ir.Nodes) ir.INode {
 	l := temp(t)
 	a := nod(ir.OAS, l, n)
 	a = typecheck(a, ctxStmt)
@@ -870,7 +870,7 @@ func copyexpr(n *ir.Node, t *types.Type, init *ir.Nodes) *ir.Node {
 
 // return side-effect free and cheap n, appending side effects to init.
 // result may not be assignable.
-func cheapexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
+func cheapexpr(n ir.INode, init *ir.Nodes) ir.INode {
 	switch n.Op() {
 	case ir.ONAME, ir.OLITERAL:
 		return n
@@ -1016,7 +1016,7 @@ func dotpath(s *types.Sym, t *types.Type, save **types.Field, ignorecase bool) (
 // find missing fields that
 // will give shortest unique addressing.
 // modify the tree with missing type names.
-func adddot(n *ir.Node) *ir.Node {
+func adddot(n ir.INode) ir.INode {
 	n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 	if n.Left().Diag() {
 		n.SetDiag(true)
@@ -1175,8 +1175,8 @@ func expandmeth(t *types.Type) {
 }
 
 // Given funarg struct list, return list of ODCLFIELD Node fn args.
-func structargs(tl *types.Type, mustname bool) []*ir.Node {
-	var args []*ir.Node
+func structargs(tl *types.Type, mustname bool) []ir.INode {
+	var args []ir.INode
 	gen := 0
 	for _, t := range tl.Fields().Slice() {
 		s := t.Sym
@@ -1309,30 +1309,30 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	if rcvr.IsPtr() && rcvr.Elem() == method.Type.Recv().Type && rcvr.Elem().Sym != nil {
 		inlcalls(fn)
 	}
-	escapeFuncs([]*ir.Node{fn}, false)
+	escapeFuncs([]ir.INode{fn}, false)
 
 	Curfn = nil
 	xtop = append(xtop, fn)
 }
 
-func paramNnames(ft *types.Type) []*ir.Node {
-	args := make([]*ir.Node, ft.NumParams())
+func paramNnames(ft *types.Type) []ir.INode {
+	args := make([]ir.INode, ft.NumParams())
 	for i, f := range ft.Params().FieldSlice() {
 		args[i] = ir.AsNode(f.Nname)
 	}
 	return args
 }
 
-func hashmem(t *types.Type) *ir.Node {
+func hashmem(t *types.Type) ir.INode {
 	sym := Runtimepkg.Lookup("memhash")
 
 	n := newname(sym)
 	setNodeNameFunc(n)
-	n.SetType(functype(nil, []*ir.Node{
+	n.SetType(functype(nil, []ir.INode{
 		anonfield(types.NewPtr(t)),
 		anonfield(types.Types[types.TUINTPTR]),
 		anonfield(types.Types[types.TUINTPTR]),
-	}, []*ir.Node{
+	}, []ir.INode{
 		anonfield(types.Types[types.TUINTPTR]),
 	}))
 	return n
@@ -1452,15 +1452,15 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 	return true
 }
 
-func listtreecopy(l []*ir.Node, pos src.XPos) []*ir.Node {
-	var out []*ir.Node
+func listtreecopy(l []ir.INode, pos src.XPos) []ir.INode {
+	var out []ir.INode
 	for _, n := range l {
 		out = append(out, treecopy(n, pos))
 	}
 	return out
 }
 
-func liststmt(l []*ir.Node) *ir.Node {
+func liststmt(l []ir.INode) ir.INode {
 	n := nod(ir.OBLOCK, nil, nil)
 	n.PtrList().Set(l)
 	if len(l) != 0 {
@@ -1469,7 +1469,7 @@ func liststmt(l []*ir.Node) *ir.Node {
 	return n
 }
 
-func ngotype(n *ir.Node) *types.Sym {
+func ngotype(n ir.INode) *types.Sym {
 	if n.Type() != nil {
 		return typenamesym(n.Type())
 	}
@@ -1478,7 +1478,7 @@ func ngotype(n *ir.Node) *types.Sym {
 
 // The result of addinit MUST be assigned back to n, e.g.
 // 	n.Left = addinit(n.Left, init)
-func addinit(n *ir.Node, init []*ir.Node) *ir.Node {
+func addinit(n ir.INode, init []ir.INode) ir.INode {
 	if len(init) == 0 {
 		return n
 	}
@@ -1577,7 +1577,7 @@ func isdirectiface(t *types.Type) bool {
 }
 
 // itabType loads the _type field from a runtime.itab struct.
-func itabType(itab *ir.Node) *ir.Node {
+func itabType(itab ir.INode) ir.INode {
 	typ := nodSym(ir.ODOTPTR, itab, nil)
 	typ.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	typ.SetTypecheck(1)
@@ -1589,7 +1589,7 @@ func itabType(itab *ir.Node) *ir.Node {
 // ifaceData loads the data field from an interface.
 // The concrete type must be known to have type t.
 // It follows the pointer if !isdirectiface(t).
-func ifaceData(pos src.XPos, n *ir.Node, t *types.Type) *ir.Node {
+func ifaceData(pos src.XPos, n ir.INode, t *types.Type) ir.INode {
 	if t.IsInterface() {
 		base.Fatal("ifaceData interface: %v", t)
 	}

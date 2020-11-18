@@ -11,7 +11,7 @@ import (
 	"fmt"
 )
 
-func escapes(all []*ir.Node) {
+func escapes(all []ir.INode) {
 	visitBottomUp(all, escapeFuncs)
 }
 
@@ -44,7 +44,7 @@ const (
 )
 
 // funcSym returns fn.Func.Nname.Sym if no nils are encountered along the way.
-func funcSym(fn *ir.Node) *types.Sym {
+func funcSym(fn ir.INode) *types.Sym {
 	if fn == nil || fn.Func().Nname == nil {
 		return nil
 	}
@@ -59,7 +59,7 @@ var (
 	nonlooping ir.Node
 )
 
-func isSliceSelfAssign(dst, src *ir.Node) bool {
+func isSliceSelfAssign(dst, src ir.INode) bool {
 	// Detect the following special case.
 	//
 	//	func (b *Buffer) Foo() {
@@ -109,7 +109,7 @@ func isSliceSelfAssign(dst, src *ir.Node) bool {
 
 // isSelfAssign reports whether assignment from src to dst can
 // be ignored by the escape analysis as it's effectively a self-assignment.
-func isSelfAssign(dst, src *ir.Node) bool {
+func isSelfAssign(dst, src ir.INode) bool {
 	if isSliceSelfAssign(dst, src) {
 		return true
 	}
@@ -146,7 +146,7 @@ func isSelfAssign(dst, src *ir.Node) bool {
 // mayAffectMemory reports whether evaluation of n may affect the program's
 // memory state. If the expression can't affect memory state, then it can be
 // safely ignored by the escape analysis.
-func mayAffectMemory(n *ir.Node) bool {
+func mayAffectMemory(n ir.INode) bool {
 	// We may want to use a list of "memory safe" ops instead of generally
 	// "side-effect free", which would include all calls and other ops that can
 	// allocate or change global state. For now, it's safer to start with the latter.
@@ -173,7 +173,7 @@ func mayAffectMemory(n *ir.Node) bool {
 
 // heapAllocReason returns the reason the given Node must be heap
 // allocated, or the empty string if it doesn't.
-func heapAllocReason(n *ir.Node) string {
+func heapAllocReason(n ir.INode) string {
 	if n.Type() == nil {
 		return ""
 	}
@@ -218,7 +218,7 @@ func heapAllocReason(n *ir.Node) string {
 // by "increasing" the "value" of n.Esc to EscHeap.
 // Storage is allocated as necessary to allow the address
 // to be taken.
-func addrescapes(n *ir.Node) {
+func addrescapes(n ir.INode) {
 	switch n.Op() {
 	default:
 		// Unexpected Op, probably due to a previous type error. Ignore.
@@ -283,7 +283,7 @@ func addrescapes(n *ir.Node) {
 }
 
 // moveToHeap records the parameter or local variable n as moved to the heap.
-func moveToHeap(n *ir.Node) {
+func moveToHeap(n ir.INode) {
 	if base.Flag.LowerR != 0 {
 		ir.Dump("MOVE", n)
 	}
@@ -375,7 +375,7 @@ const unsafeUintptrTag = "unsafe-uintptr"
 // marked go:uintptrescapes.
 const uintptrEscapesTag = "uintptr-escapes"
 
-func (e *Escape) paramTag(fn *ir.Node, narg int, f *types.Field) string {
+func (e *Escape) paramTag(fn ir.INode, narg int, f *types.Field) string {
 	name := func() string {
 		if f.Sym != nil {
 			return f.Sym.Name

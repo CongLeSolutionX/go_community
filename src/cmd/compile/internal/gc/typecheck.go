@@ -19,7 +19,7 @@ const enableTrace = false
 var traceIndent []byte
 var skipDowidthForTracing bool
 
-func tracePrint(title string, n *ir.Node) func(np **ir.Node) {
+func tracePrint(title string, n ir.INode) func(np *ir.INode) {
 	indent := traceIndent
 
 	// guard against nil
@@ -36,7 +36,7 @@ func tracePrint(title string, n *ir.Node) func(np **ir.Node) {
 	fmt.Printf("%s: %s%s %p %s %v tc=%d\n", pos, indent, title, n, op, n, tc)
 	traceIndent = append(traceIndent, ". "...)
 
-	return func(np **ir.Node) {
+	return func(np *ir.INode) {
 		traceIndent = traceIndent[:len(traceIndent)-2]
 
 		// if we have a result, use that
@@ -76,10 +76,10 @@ const (
 // marks variables that escape the local frame.
 // rewrites n.Op to be more specific in some cases.
 
-var typecheckdefstack []*ir.Node
+var typecheckdefstack []ir.INode
 
 // resolve ONONAME to definition, if any.
-func resolve(n *ir.Node) (res *ir.Node) {
+func resolve(n ir.INode) (res ir.INode) {
 	if n == nil || n.Op() != ir.ONONAME {
 		return n
 	}
@@ -114,7 +114,7 @@ func resolve(n *ir.Node) (res *ir.Node) {
 	return r
 }
 
-func typecheckslice(l []*ir.Node, top int) {
+func typecheckslice(l []ir.INode, top int) {
 	for i := range l {
 		l[i] = typecheck(l[i], top)
 	}
@@ -165,7 +165,7 @@ func typekind(t *types.Type) string {
 	return fmt.Sprintf("etype=%d", et)
 }
 
-func cycleFor(start *ir.Node) []*ir.Node {
+func cycleFor(start ir.INode) []ir.INode {
 	// Find the start node in typecheck_tcstack.
 	// We know that it must exist because each time we mark
 	// a node with n.SetTypecheck(2) we push it on the stack,
@@ -178,7 +178,7 @@ func cycleFor(start *ir.Node) []*ir.Node {
 	}
 
 	// collect all nodes with same Op
-	var cycle []*ir.Node
+	var cycle []ir.INode
 	for _, n := range typecheck_tcstack[i:] {
 		if n.Op() == start.Op() {
 			cycle = append(cycle, n)
@@ -188,7 +188,7 @@ func cycleFor(start *ir.Node) []*ir.Node {
 	return cycle
 }
 
-func cycleTrace(cycle []*ir.Node) string {
+func cycleTrace(cycle []ir.INode) string {
 	var s string
 	for i, n := range cycle {
 		s += fmt.Sprintf("\n\t%v: %v uses %v", n.Line(), n, cycle[(i+1)%len(cycle)])
@@ -196,12 +196,12 @@ func cycleTrace(cycle []*ir.Node) string {
 	return s
 }
 
-var typecheck_tcstack []*ir.Node
+var typecheck_tcstack []ir.INode
 
 // typecheck type checks node n.
 // The result of typecheck MUST be assigned back to n, e.g.
 // 	n.Left = typecheck(n.Left, top)
-func typecheck(n *ir.Node, top int) (res *ir.Node) {
+func typecheck(n ir.INode, top int) (res ir.INode) {
 	// cannot type check until all the source has been parsed
 	if !typecheckok {
 		base.Fatal("early typecheck")
@@ -316,7 +316,7 @@ func typecheck(n *ir.Node, top int) (res *ir.Node) {
 // value of type int (see also checkmake for comparison).
 // The result of indexlit MUST be assigned back to n, e.g.
 // 	n.Left = indexlit(n.Left)
-func indexlit(n *ir.Node) *ir.Node {
+func indexlit(n ir.INode) ir.INode {
 	if n != nil && n.Type() != nil && n.Type().Etype == types.TIDEAL {
 		return defaultlit(n, types.Types[types.TINT])
 	}
@@ -325,7 +325,7 @@ func indexlit(n *ir.Node) *ir.Node {
 
 // The result of typecheck1 MUST be assigned back to n, e.g.
 // 	n.Left = typecheck1(n.Left, top)
-func typecheck1(n *ir.Node, top int) (res *ir.Node) {
+func typecheck1(n ir.INode, top int) (res ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheck1", n)(&res)
 	}
@@ -567,9 +567,9 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		ir.OOROR,
 		ir.OSUB,
 		ir.OXOR:
-		var l *ir.Node
+		var l ir.INode
 		var op ir.Op
-		var r *ir.Node
+		var r ir.INode
 		if n.Op() == ir.OASOP {
 			ok |= ctxStmt
 			n.SetLeft(typecheck(n.Left(), ctxExpr))
@@ -1760,7 +1760,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			l = args[i]
 			i++
 			l = typecheck(l, ctxExpr)
-			var r *ir.Node
+			var r ir.INode
 			if i < len(args) {
 				r = args[i]
 				i++
@@ -2127,7 +2127,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	return n
 }
 
-func typecheckargs(n *ir.Node) {
+func typecheckargs(n ir.INode) {
 	if n.List().Len() != 1 || n.IsDDD() {
 		typecheckslice(n.List().Slice(), ctxExpr)
 		return
@@ -2172,7 +2172,7 @@ func typecheckargs(n *ir.Node) {
 	n.PtrNinit().Append(as)
 }
 
-func checksliceindex(l *ir.Node, r *ir.Node, tp *types.Type) bool {
+func checksliceindex(l ir.INode, r ir.INode, tp *types.Type) bool {
 	t := r.Type()
 	if t == nil {
 		return false
@@ -2201,7 +2201,7 @@ func checksliceindex(l *ir.Node, r *ir.Node, tp *types.Type) bool {
 	return true
 }
 
-func checksliceconst(lo *ir.Node, hi *ir.Node) bool {
+func checksliceconst(lo ir.INode, hi ir.INode) bool {
 	if lo != nil && hi != nil && lo.Op() == ir.OLITERAL && hi.Op() == ir.OLITERAL && lo.Val().U.(*ir.Int).Cmp(hi.Val().U.(*ir.Int)) > 0 {
 		base.Error("invalid slice index: %v > %v", lo, hi)
 		return false
@@ -2210,7 +2210,7 @@ func checksliceconst(lo *ir.Node, hi *ir.Node) bool {
 	return true
 }
 
-func checkdefergo(n *ir.Node) {
+func checkdefergo(n ir.INode) {
 	what := "defer"
 	if n.Op() == ir.OGO {
 		what = "go"
@@ -2265,7 +2265,7 @@ func checkdefergo(n *ir.Node) {
 
 // The result of implicitstar MUST be assigned back to n, e.g.
 // 	n.Left = implicitstar(n.Left)
-func implicitstar(n *ir.Node) *ir.Node {
+func implicitstar(n ir.INode) ir.INode {
 	// insert implicit * if needed for fixed array
 	t := n.Type()
 	if t == nil || !t.IsPtr() {
@@ -2284,7 +2284,7 @@ func implicitstar(n *ir.Node) *ir.Node {
 	return n
 }
 
-func onearg(n *ir.Node, f string, args ...interface{}) bool {
+func onearg(n ir.INode, f string, args ...interface{}) bool {
 	if n.Left() != nil {
 		return true
 	}
@@ -2307,7 +2307,7 @@ func onearg(n *ir.Node, f string, args ...interface{}) bool {
 	return true
 }
 
-func twoarg(n *ir.Node) bool {
+func twoarg(n ir.INode) bool {
 	if n.Left() != nil {
 		return true
 	}
@@ -2325,7 +2325,7 @@ func twoarg(n *ir.Node) bool {
 	return true
 }
 
-func lookdot1(errnode *ir.Node, s *types.Sym, t *types.Type, fs *types.Fields, dostrcmp int) *types.Field {
+func lookdot1(errnode ir.INode, s *types.Sym, t *types.Type, fs *types.Fields, dostrcmp int) *types.Field {
 	var r *types.Field
 	for _, f := range fs.Slice() {
 		if dostrcmp != 0 && f.Sym.Name == s.Name {
@@ -2356,7 +2356,7 @@ func lookdot1(errnode *ir.Node, s *types.Sym, t *types.Type, fs *types.Fields, d
 
 // typecheckMethodExpr checks selector expressions (ODOT) where the
 // base expression is a type expression (OTYPE).
-func typecheckMethodExpr(n *ir.Node) (res *ir.Node) {
+func typecheckMethodExpr(n ir.INode) (res ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheckMethodExpr", n)(&res)
 	}
@@ -2452,7 +2452,7 @@ type typeSymKey struct {
 // It is a cache for use during usefield in walk.go, only enabled when field tracking.
 var dotField = map[typeSymKey]*types.Field{}
 
-func lookdot(n *ir.Node, t *types.Type, dostrcmp int) *types.Field {
+func lookdot(n ir.INode, t *types.Type, dostrcmp int) *types.Field {
 	s := n.Sym()
 
 	dowidth(t)
@@ -2577,7 +2577,7 @@ func hasddd(t *types.Type) bool {
 }
 
 // typecheck assignment: type list = expression list
-func typecheckaste(op ir.Op, call *ir.Node, isddd bool, tstruct *types.Type, nl ir.Nodes, desc func() string) {
+func typecheckaste(op ir.Op, call ir.INode, isddd bool, tstruct *types.Type, nl ir.Nodes, desc func() string) {
 	var t *types.Type
 	var i int
 
@@ -2588,7 +2588,7 @@ func typecheckaste(op ir.Op, call *ir.Node, isddd bool, tstruct *types.Type, nl 
 		return
 	}
 
-	var n *ir.Node
+	var n ir.INode
 	if nl.Len() == 1 {
 		n = nl.First()
 	}
@@ -2779,7 +2779,7 @@ func iscomptype(t *types.Type) bool {
 
 // pushtype adds elided type information for composite literals if
 // appropriate, and returns the resulting expression.
-func pushtype(n *ir.Node, t *types.Type) *ir.Node {
+func pushtype(n ir.INode, t *types.Type) ir.INode {
 	if n == nil || n.Op() != ir.OCOMPLIT || n.Right() != nil {
 		return n
 	}
@@ -2802,7 +2802,7 @@ func pushtype(n *ir.Node, t *types.Type) *ir.Node {
 
 // The result of typecheckcomplit MUST be assigned back to n, e.g.
 // 	n.Left = typecheckcomplit(n.Left)
-func typecheckcomplit(n *ir.Node) (res *ir.Node) {
+func typecheckcomplit(n ir.INode) (res ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheckcomplit", n)(&res)
 	}
@@ -3013,7 +3013,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 }
 
 // typecheckarraylit type-checks a sequence of slice/array literal elements.
-func typecheckarraylit(elemType *types.Type, bound int64, elts []*ir.Node, ctx string) int64 {
+func typecheckarraylit(elemType *types.Type, bound int64, elts []ir.INode, ctx string) int64 {
 	// If there are key/value pairs, create a map to keep seen
 	// keys so we can check for duplicate indices.
 	var indices map[int64]bool
@@ -3028,7 +3028,7 @@ func typecheckarraylit(elemType *types.Type, bound int64, elts []*ir.Node, ctx s
 	for i, elt := range elts {
 		setlineno(elt)
 		r := elts[i]
-		updateR := func(r *ir.Node) { elts[i] = r }
+		updateR := func(r ir.INode) { elts[i] = r }
 		if elt.Op() == ir.OKEY {
 			elt.SetLeft(typecheck(elt.Left(), ctxExpr))
 			key = indexconst(elt.Left())
@@ -3086,7 +3086,7 @@ func nonexported(sym *types.Sym) bool {
 }
 
 // lvalue etc
-func islvalue(n *ir.Node) bool {
+func islvalue(n ir.INode) bool {
 	switch n.Op() {
 	case ir.OINDEX:
 		if n.Left().Type() != nil && n.Left().Type().IsArray() {
@@ -3112,13 +3112,13 @@ func islvalue(n *ir.Node) bool {
 	return false
 }
 
-func checklvalue(n *ir.Node, verb string) {
+func checklvalue(n ir.INode, verb string) {
 	if !islvalue(n) {
 		base.Error("cannot %s %v", verb, n)
 	}
 }
 
-func checkassign(stmt *ir.Node, n *ir.Node) {
+func checkassign(stmt ir.INode, n ir.INode) {
 	// Variables declared in ORANGE are assigned on every iteration.
 	if n.Name() == nil || n.Name().Defn != stmt || stmt.Op() == ir.ORANGE {
 		r := outervalue(n)
@@ -3156,7 +3156,7 @@ func checkassign(stmt *ir.Node, n *ir.Node) {
 	n.SetType(nil)
 }
 
-func checkassignlist(stmt *ir.Node, l ir.Nodes) {
+func checkassignlist(stmt ir.INode, l ir.Nodes) {
 	for _, n := range l.Slice() {
 		checkassign(stmt, n)
 	}
@@ -3177,7 +3177,7 @@ func checkassignlist(stmt *ir.Node, l ir.Nodes) {
 // currently OK, since the only place samesafeexpr gets used on an
 // lvalue expression is for OSLICE and OAPPEND optimizations, and it
 // is correct in those settings.
-func samesafeexpr(l *ir.Node, r *ir.Node) bool {
+func samesafeexpr(l ir.INode, r ir.INode) bool {
 	if l.Op() != r.Op() || !types.Identical(l.Type(), r.Type()) {
 		return false
 	}
@@ -3212,7 +3212,7 @@ func samesafeexpr(l *ir.Node, r *ir.Node) bool {
 // type check assignment.
 // if this assignment is the definition of a var on the left side,
 // fill in the var's type.
-func typecheckas(n *ir.Node) {
+func typecheckas(n ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheckas", n)(nil)
 	}
@@ -3263,14 +3263,14 @@ func typecheckas(n *ir.Node) {
 	}
 }
 
-func checkassignto(src *types.Type, dst *ir.Node) {
+func checkassignto(src *types.Type, dst ir.INode) {
 	if op, why := assignop(src, dst.Type()); op == ir.OXXX {
 		base.Error("cannot assign %v to %L in multiple assignment%s", src, dst, why)
 		return
 	}
 }
 
-func typecheckas2(n *ir.Node) {
+func typecheckas2(n ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheckas2", n)(nil)
 	}
@@ -3295,8 +3295,8 @@ func typecheckas2(n *ir.Node) {
 	}
 	checkassignlist(n, n.List())
 
-	var l *ir.Node
-	var r *ir.Node
+	var l ir.INode
+	var r ir.INode
 	if cl == cr {
 		// easy
 		ls := n.List().Slice()
@@ -3403,7 +3403,7 @@ out:
 }
 
 // type check function definition
-func typecheckfunc(n *ir.Node) {
+func typecheckfunc(n ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheckfunc", n)(nil)
 	}
@@ -3439,12 +3439,12 @@ func typecheckfunc(n *ir.Node) {
 
 // The result of stringtoruneslit MUST be assigned back to n, e.g.
 // 	n.Left = stringtoruneslit(n.Left)
-func stringtoruneslit(n *ir.Node) *ir.Node {
+func stringtoruneslit(n ir.INode) ir.INode {
 	if n.Left().Op() != ir.OLITERAL || n.Left().Val().Ctype() != ir.CTSTR {
 		base.Fatal("stringtoarraylit %v", n)
 	}
 
-	var l []*ir.Node
+	var l []ir.INode
 	i := 0
 	for _, r := range n.Left().StringVal() {
 		l = append(l, nod(ir.OKEY, nodintconst(int64(i)), nodintconst(int64(r))))
@@ -3457,7 +3457,7 @@ func stringtoruneslit(n *ir.Node) *ir.Node {
 	return nn
 }
 
-var mapqueue []*ir.Node
+var mapqueue []ir.INode
 
 func checkMapKeys() {
 	for _, n := range mapqueue {
@@ -3518,7 +3518,7 @@ func setUnderlying(t, underlying *types.Type) {
 	}
 }
 
-func typecheckdeftype(n *ir.Node) {
+func typecheckdeftype(n ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheckdeftype", n)(nil)
 	}
@@ -3538,7 +3538,7 @@ func typecheckdeftype(n *ir.Node) {
 	}
 }
 
-func typecheckdef(n *ir.Node) {
+func typecheckdef(n ir.INode) {
 	if enableTrace && base.Flag.LowerT {
 		defer tracePrint("typecheckdef", n)(nil)
 	}
@@ -3723,7 +3723,7 @@ ret:
 	n.SetWalkdef(1)
 }
 
-func checkmake(t *types.Type, arg string, np **ir.Node) bool {
+func checkmake(t *types.Type, arg string, np *ir.INode) bool {
 	n := *np
 	if !n.Type().IsInteger() && n.Type().Etype != types.TIDEAL {
 		base.Error("non-integer %s argument in make(%v) - %v", arg, t, n.Type())
@@ -3756,7 +3756,7 @@ func checkmake(t *types.Type, arg string, np **ir.Node) bool {
 	return true
 }
 
-func markbreak(n *ir.Node, implicit *ir.Node) {
+func markbreak(n ir.INode, implicit ir.INode) {
 	if n == nil {
 		return
 	}
@@ -3786,7 +3786,7 @@ func markbreak(n *ir.Node, implicit *ir.Node) {
 	}
 }
 
-func markbreaklist(l ir.Nodes, implicit *ir.Node) {
+func markbreaklist(l ir.Nodes, implicit ir.INode) {
 	s := l.Slice()
 	for i := 0; i < len(s); i++ {
 		n := s[i]
@@ -3820,7 +3820,7 @@ func isTermNodes(l ir.Nodes) bool {
 
 // Isterminating reports whether the node n, the last one in a
 // statement list, is a terminating statement.
-func isTermNode(n *ir.Node) bool {
+func isTermNode(n ir.INode) bool {
 	switch n.Op() {
 	// NOTE: OLABEL is treated as a separate statement,
 	// not a separate prefix, so skipping to the last statement
@@ -3869,7 +3869,7 @@ func isTermNode(n *ir.Node) bool {
 }
 
 // checkreturn makes sure that fn terminates appropriately.
-func checkreturn(fn *ir.Node) {
+func checkreturn(fn ir.INode) {
 	if fn.Type().NumResults() != 0 && fn.Nbody().Len() != 0 {
 		markbreaklist(fn.Nbody(), nil)
 		if !isTermNodes(fn.Nbody()) {
@@ -3878,12 +3878,12 @@ func checkreturn(fn *ir.Node) {
 	}
 }
 
-func deadcode(fn *ir.Node) {
+func deadcode(fn ir.INode) {
 	deadcodeslice(fn.Nbody())
 	deadcodefn(fn)
 }
 
-func deadcodefn(fn *ir.Node) {
+func deadcodefn(fn ir.INode) {
 	if fn.Nbody().Len() == 0 {
 		return
 	}
@@ -3906,7 +3906,7 @@ func deadcodefn(fn *ir.Node) {
 		}
 	}
 
-	fn.PtrNbody().Set([]*ir.Node{nod(ir.OEMPTY, nil, nil)})
+	fn.PtrNbody().Set([]ir.INode{nod(ir.OEMPTY, nil, nil)})
 }
 
 func deadcodeslice(nn ir.Nodes) {
@@ -3962,7 +3962,7 @@ func deadcodeslice(nn ir.Nodes) {
 	}
 }
 
-func deadcodeexpr(n *ir.Node) *ir.Node {
+func deadcodeexpr(n ir.INode) ir.INode {
 	// Perform dead-code elimination on short-circuited boolean
 	// expressions involving constants with the intent of
 	// producing a constant 'if' condition.
@@ -3992,7 +3992,7 @@ func deadcodeexpr(n *ir.Node) *ir.Node {
 }
 
 // setTypeNode sets n to an OTYPE node representing t.
-func setTypeNode(n *ir.Node, t *types.Type) {
+func setTypeNode(n ir.INode, t *types.Type) {
 	n.SetOp(ir.OTYPE)
 	n.SetType(t)
 	n.Type().Nod = ir.AsTypesNode(n)

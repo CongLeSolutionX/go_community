@@ -33,13 +33,13 @@ type Sym struct {
 	Name string // object name
 
 	// saved and restored by dcopy
-	Def        *Node    // definition: ONAME OTYPE OPACK or OLITERAL
+	Def        IRNode   // definition: ONAME OTYPE OPACK or OLITERAL
 	Block      int32    // blocknumber to catch redeclaration
 	Lastlineno src.XPos // last declaration for diagnostic
 
 	flags   bitset8
-	Label   *Node // corresponding label (ephemeral)
-	Origpkg *Pkg  // original package for . import
+	Label   IRNode // corresponding label (ephemeral)
+	Origpkg *Pkg   // original package for . import
 }
 
 const (

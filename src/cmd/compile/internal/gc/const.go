@@ -76,8 +76,8 @@ func trunccmplxlit(oldv *ir.Complex, t *types.Type) *ir.Complex {
 }
 
 // TODO(mdempsky): Replace these with better APIs.
-func convlit(n *ir.Node, t *types.Type) *ir.Node    { return convlit1(n, t, false, nil) }
-func defaultlit(n *ir.Node, t *types.Type) *ir.Node { return convlit1(n, t, false, nil) }
+func convlit(n ir.INode, t *types.Type) ir.INode    { return convlit1(n, t, false, nil) }
+func defaultlit(n ir.INode, t *types.Type) ir.INode { return convlit1(n, t, false, nil) }
 
 // convlit1 converts an untyped expression n to type t. If n already
 // has a type, convlit1 has no effect.
@@ -90,7 +90,7 @@ func defaultlit(n *ir.Node, t *types.Type) *ir.Node { return convlit1(n, t, fals
 //
 // If there's an error converting n to t, context is used in the error
 // message.
-func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *ir.Node {
+func convlit1(n ir.INode, t *types.Type, explicit bool, context func() string) ir.INode {
 	if explicit && t == nil {
 		base.Fatal("explicit conversion missing type")
 	}
@@ -422,7 +422,7 @@ func tostr(v ir.Val) ir.Val {
 }
 
 // evconst rewrites constant expressions into OLITERAL nodes.
-func evconst(n *ir.Node) {
+func evconst(n ir.INode) {
 	nl, nr := n.Left(), n.Right()
 
 	// Pick off just the opcodes that can be constant evaluated.
@@ -472,10 +472,10 @@ func evconst(n *ir.Node) {
 					i2++
 				}
 
-				nl := *s[i1]
-				nl.SetOrig(&nl)
+				nl := s[i1].RawCopy()
+				nl.SetOrig(nl)
 				nl.SetVal(ir.Val{U: strings.Join(strs, "")})
-				s[i1] = &nl
+				s[i1] = nl
 				s = append(s[:i1+1], s[i2:]...)
 			}
 		}
@@ -812,7 +812,7 @@ func shiftOp(x ir.Val, op ir.Op, y ir.Val) ir.Val {
 }
 
 // setconst rewrites n as an OLITERAL with value v.
-func setconst(n *ir.Node, v ir.Val) {
+func setconst(n ir.INode, v ir.Val) {
 	// If constant folding failed, mark n as broken and give up.
 	if v.U == nil {
 		n.SetType(nil)
@@ -828,7 +828,7 @@ func setconst(n *ir.Node, v ir.Val) {
 	orig := n.Orig()
 	pos := n.Pos()
 	typ := n.Type()
-	*n = ir.Node{}
+	n.Clear()
 	n.SetOp(ir.OLITERAL)
 	n.SetPos(pos)
 	n.SetType(typ)
@@ -856,18 +856,18 @@ func setconst(n *ir.Node, v ir.Val) {
 	}
 }
 
-func setboolconst(n *ir.Node, v bool) {
+func setboolconst(n ir.INode, v bool) {
 	setconst(n, ir.Val{U: v})
 }
 
-func setintconst(n *ir.Node, v int64) {
+func setintconst(n ir.INode, v int64) {
 	u := new(ir.Int)
 	u.SetInt64(v)
 	setconst(n, ir.Val{U: u})
 }
 
 // nodlit returns a new untyped constant with value v.
-func nodlit(v ir.Val) *ir.Node {
+func nodlit(v ir.Val) ir.INode {
 	n := nod(ir.OLITERAL, nil, nil)
 	n.SetVal(v)
 	n.SetType(idealType(v.Ctype()))
@@ -901,7 +901,7 @@ func idealType(ct ir.Ctype) *types.Type {
 // force means must assign concrete (non-ideal) type.
 // The results of defaultlit2 MUST be assigned back to l and r, e.g.
 // 	n.Left, n.Right = defaultlit2(n.Left, n.Right, force)
-func defaultlit2(l *ir.Node, r *ir.Node, force bool) (*ir.Node, *ir.Node) {
+func defaultlit2(l ir.INode, r ir.INode, force bool) (ir.INode, ir.INode) {
 	if l.Type() == nil || r.Type() == nil {
 		return l, r
 	}
@@ -987,7 +987,7 @@ func defaultType(t *types.Type) *types.Type {
 	return nil
 }
 
-func smallintconst(n *ir.Node) bool {
+func smallintconst(n ir.INode) bool {
 	if n.Op() == ir.OLITERAL && ir.IsConst(n, ir.CTINT) && n.Type() != nil {
 		switch simtype[n.Type().Etype] {
 		case types.TINT8,
@@ -1015,7 +1015,7 @@ func smallintconst(n *ir.Node) bool {
 // If n is not a constant expression, not representable as an
 // integer, or negative, it returns -1. If n is too large, it
 // returns -2.
-func indexconst(n *ir.Node) int64 {
+func indexconst(n ir.INode) int64 {
 	if n.Op() != ir.OLITERAL {
 		return -1
 	}
@@ -1037,11 +1037,11 @@ func indexconst(n *ir.Node) int64 {
 //
 // Expressions derived from nil, like string([]byte(nil)), while they
 // may be known at compile time, are not Go language constants.
-func isGoConst(n *ir.Node) bool {
+func isGoConst(n ir.INode) bool {
 	return n.Op() == ir.OLITERAL && n.Val().Ctype() != ir.CTNIL
 }
 
-func hascallchan(n *ir.Node) bool {
+func hascallchan(n ir.INode) bool {
 	if n == nil {
 		return false
 	}
@@ -1105,7 +1105,7 @@ type constSetKey struct {
 // where are used in the error message.
 //
 // n must not be an untyped constant.
-func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
+func (s *constSet) add(pos src.XPos, n ir.INode, what, where string) {
 	if n.Op() == ir.OCONVIFACE && n.Implicit() {
 		n = n.Left()
 	}
@@ -1162,7 +1162,7 @@ func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
 // the latter is non-obvious.
 //
 // TODO(mdempsky): This could probably be a fmt.go flag.
-func nodeAndVal(n *ir.Node) string {
+func nodeAndVal(n ir.INode) string {
 	show := n.String()
 	val := n.Val().Interface()
 	if s := fmt.Sprintf("%#v", val); show != s {

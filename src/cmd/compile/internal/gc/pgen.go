@@ -25,10 +25,10 @@ import (
 
 var (
 	// number of concurrent backend workers, set by a compiler flag
-	compilequeue []*ir.Node // functions waiting to be compiled
+	compilequeue []ir.INode // functions waiting to be compiled
 )
 
-func emitptrargsmap(fn *ir.Node) {
+func emitptrargsmap(fn ir.INode) {
 	if ir.FuncName(fn) == "_" || fn.Func().Nname.Sym().Linkname != "" {
 		return
 	}
@@ -69,7 +69,7 @@ func emitptrargsmap(fn *ir.Node) {
 // really means, in memory, things with pointers needing zeroing at
 // the top of the stack and increasing in size.
 // Non-autos sort on offset.
-func cmpstackvarlt(a, b *ir.Node) bool {
+func cmpstackvarlt(a, b ir.INode) bool {
 	if (a.Class() == ir.PAUTO) != (b.Class() == ir.PAUTO) {
 		return b.Class() == ir.PAUTO
 	}
@@ -102,7 +102,7 @@ func cmpstackvarlt(a, b *ir.Node) bool {
 }
 
 // byStackvar implements sort.Interface for []*Node using cmpstackvarlt.
-type byStackVar []*ir.Node
+type byStackVar []ir.INode
 
 func (s byStackVar) Len() int           { return len(s) }
 func (s byStackVar) Less(i, j int) bool { return cmpstackvarlt(s[i], s[j]) }
@@ -122,14 +122,14 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 
 	for _, l := range f.RegAlloc {
 		if ls, ok := l.(ssa.LocalSlot); ok {
-			ls.N.(*ir.Node).Name().SetUsed(true)
+			ls.N.(ir.INode).Name().SetUsed(true)
 		}
 	}
 
 	scratchUsed := false
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
-			if n, ok := v.Aux.(*ir.Node); ok {
+			if n, ok := v.Aux.(ir.INode); ok {
 				switch n.Class() {
 				case ir.PPARAM, ir.PPARAMOUT:
 					// Don't modify nodfp; it is a global.
@@ -194,7 +194,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 	s.stkptrsize = Rnd(s.stkptrsize, int64(Widthreg))
 }
 
-func funccompile(fn *ir.Node) {
+func funccompile(fn ir.INode) {
 	if Curfn != nil {
 		base.Fatal("funccompile %v inside %v", fn.Func().Nname.Sym(), Curfn.Func().Nname.Sym())
 	}
@@ -225,7 +225,7 @@ func funccompile(fn *ir.Node) {
 	dclcontext = ir.PEXTERN
 }
 
-func compile(fn *ir.Node) {
+func compile(fn ir.INode) {
 	errorsBefore := base.Errors()
 	order(fn)
 	if base.Errors() > errorsBefore {
@@ -285,7 +285,7 @@ func compile(fn *ir.Node) {
 // If functions are not compiled immediately,
 // they are enqueued in compilequeue,
 // which is drained by compileFunctions.
-func compilenow(fn *ir.Node) bool {
+func compilenow(fn ir.INode) bool {
 	// Issue 38068: if this function is a method AND an inline
 	// candidate AND was not inlined (yet), put it onto the compile
 	// queue instead of compiling it immediately. This is in case we
@@ -300,7 +300,7 @@ func compilenow(fn *ir.Node) bool {
 // isInlinableButNotInlined returns true if 'fn' was marked as an
 // inline candidate but then never inlined (presumably because we
 // found no call sites).
-func isInlinableButNotInlined(fn *ir.Node) bool {
+func isInlinableButNotInlined(fn ir.INode) bool {
 	if fn.Func().Nname.Func().Inl == nil {
 		return false
 	}
@@ -316,7 +316,7 @@ const maxStackSize = 1 << 30
 // uses it to generate a plist,
 // and flushes that plist to machine code.
 // worker indicates which of the backend workers is doing the processing.
-func compileSSA(fn *ir.Node, worker int) {
+func compileSSA(fn ir.INode, worker int) {
 	f := buildssa(fn, worker)
 	// Note: check arg size to fix issue 25507.
 	if f.Frontend().(*ssafn).stksize >= maxStackSize || fn.Type().ArgWidth() >= maxStackSize {
@@ -361,7 +361,7 @@ func compileFunctions() {
 		sizeCalculationDisabled = true // not safe to calculate sizes concurrently
 		if race.Enabled {
 			// Randomize compilation order to try to shake out races.
-			tmp := make([]*ir.Node, len(compilequeue))
+			tmp := make([]ir.INode, len(compilequeue))
 			perm := rand.Perm(len(compilequeue))
 			for i, v := range perm {
 				tmp[v] = compilequeue[i]
@@ -377,7 +377,7 @@ func compileFunctions() {
 		}
 		var wg sync.WaitGroup
 		base.Ctxt.InParallel = true
-		c := make(chan *ir.Node, base.Flag.LowerC)
+		c := make(chan ir.INode, base.Flag.LowerC)
 		for i := 0; i < base.Flag.LowerC; i++ {
 			wg.Add(1)
 			go func(worker int) {
@@ -399,14 +399,14 @@ func compileFunctions() {
 }
 
 func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) {
-	fn := curfn.(*ir.Node)
+	fn := curfn.(ir.INode)
 	if fn.Func().Nname != nil {
 		if expect := fn.Func().Nname.Sym().Linksym(); fnsym != expect {
 			base.Fatal("unexpected fnsym: %v != %v", fnsym, expect)
 		}
 	}
 
-	var apdecls []*ir.Node
+	var apdecls []ir.INode
 	// Populate decls for fn.
 	for _, n := range fn.Func().Dcl {
 		if n.Op() != ir.ONAME { // might be OTYPE or OLITERAL
@@ -461,7 +461,7 @@ func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.S
 	return scopes, inlcalls
 }
 
-func declPos(decl *ir.Node) src.XPos {
+func declPos(decl ir.INode) src.XPos {
 	if decl.Name().Defn != nil && (decl.Name().Captured() || decl.Name().Byval()) {
 		// It's not clear which position is correct for captured variables here:
 		// * decl.Pos is the wrong position for captured variables, in the inner
@@ -484,10 +484,10 @@ func declPos(decl *ir.Node) src.XPos {
 
 // createSimpleVars creates a DWARF entry for every variable declared in the
 // function, claiming that they are permanently on the stack.
-func createSimpleVars(fnsym *obj.LSym, apDecls []*ir.Node) ([]*ir.Node, []*dwarf.Var, map[*ir.Node]bool) {
+func createSimpleVars(fnsym *obj.LSym, apDecls []ir.INode) ([]ir.INode, []*dwarf.Var, map[ir.INode]bool) {
 	var vars []*dwarf.Var
-	var decls []*ir.Node
-	selected := make(map[*ir.Node]bool)
+	var decls []ir.INode
+	selected := make(map[ir.INode]bool)
 	for _, n := range apDecls {
 		if n.IsAutoTmp() {
 			continue
@@ -500,7 +500,7 @@ func createSimpleVars(fnsym *obj.LSym, apDecls []*ir.Node) ([]*ir.Node, []*dwarf
 	return decls, vars, selected
 }
 
-func createSimpleVar(fnsym *obj.LSym, n *ir.Node) *dwarf.Var {
+func createSimpleVar(fnsym *obj.LSym, n ir.INode) *dwarf.Var {
 	var abbrev int
 	offs := n.Xoffset()
 
@@ -551,19 +551,19 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Node) *dwarf.Var {
 
 // createComplexVars creates recomposed DWARF vars with location lists,
 // suitable for describing optimized code.
-func createComplexVars(fnsym *obj.LSym, fn *ir.Func) ([]*ir.Node, []*dwarf.Var, map[*ir.Node]bool) {
+func createComplexVars(fnsym *obj.LSym, fn *ir.Func) ([]ir.INode, []*dwarf.Var, map[ir.INode]bool) {
 	debugInfo := fn.DebugInfo
 
 	// Produce a DWARF variable entry for each user variable.
-	var decls []*ir.Node
+	var decls []ir.INode
 	var vars []*dwarf.Var
-	ssaVars := make(map[*ir.Node]bool)
+	ssaVars := make(map[ir.INode]bool)
 
 	for varID, dvar := range debugInfo.Vars {
-		n := dvar.(*ir.Node)
+		n := dvar.(ir.INode)
 		ssaVars[n] = true
 		for _, slot := range debugInfo.VarSlots[varID] {
-			ssaVars[debugInfo.Slots[slot].N.(*ir.Node)] = true
+			ssaVars[debugInfo.Slots[slot].N.(ir.INode)] = true
 		}
 
 		if dvar := createComplexVar(fnsym, fn, ssa.VarID(varID)); dvar != nil {
@@ -577,11 +577,11 @@ func createComplexVars(fnsym *obj.LSym, fn *ir.Func) ([]*ir.Node, []*dwarf.Var, 
 
 // createDwarfVars process fn, returning a list of DWARF variables and the
 // Nodes they represent.
-func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.Node, []*dwarf.Var) {
+func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []ir.INode) ([]ir.INode, []*dwarf.Var) {
 	// Collect a raw list of DWARF vars.
 	var vars []*dwarf.Var
-	var decls []*ir.Node
-	var selected map[*ir.Node]bool
+	var decls []ir.INode
+	var selected map[ir.INode]bool
 	if base.Ctxt.Flag_locationlists && base.Ctxt.Flag_optimize && fn.DebugInfo != nil {
 		decls, vars, selected = createComplexVars(fnsym, fn)
 	} else {
@@ -680,9 +680,9 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Node) ([]*ir.No
 // function that is not local to the package being compiled, then the
 // names of the variables may have been "versioned" to avoid conflicts
 // with local vars; disregard this versioning when sorting.
-func preInliningDcls(fnsym *obj.LSym) []*ir.Node {
-	fn := base.Ctxt.DwFixups.GetPrecursorFunc(fnsym).(*ir.Node)
-	var rdcl []*ir.Node
+func preInliningDcls(fnsym *obj.LSym) []ir.INode {
+	fn := base.Ctxt.DwFixups.GetPrecursorFunc(fnsym).(ir.INode)
+	var rdcl []ir.INode
 	for _, n := range fn.Func().Inl.Dcl {
 		c := n.Sym().Name[0]
 		// Avoid reporting "_" parameters, since if there are more than
@@ -699,7 +699,7 @@ func preInliningDcls(fnsym *obj.LSym) []*ir.Node {
 // stack pointer, suitable for use in a DWARF location entry. This has nothing
 // to do with its offset in the user variable.
 func stackOffset(slot ssa.LocalSlot) int32 {
-	n := slot.N.(*ir.Node)
+	n := slot.N.(ir.INode)
 	var off int64
 	switch n.Class() {
 	case ir.PAUTO:
@@ -719,7 +719,7 @@ func stackOffset(slot ssa.LocalSlot) int32 {
 // createComplexVar builds a single DWARF variable entry and location list.
 func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var {
 	debug := fn.DebugInfo
-	n := debug.Vars[varID].(*ir.Node)
+	n := debug.Vars[varID].(ir.INode)
 
 	var abbrev int
 	switch n.Class() {

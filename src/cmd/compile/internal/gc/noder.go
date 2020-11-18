@@ -150,7 +150,7 @@ type noder struct {
 	lastCloseScopePos syntax.Pos
 }
 
-func (p *noder) funcBody(fn *ir.Node, block *syntax.BlockStmt) {
+func (p *noder) funcBody(fn ir.INode, block *syntax.BlockStmt) {
 	oldScope := p.scope
 	p.scope = 0
 	funchdr(fn)
@@ -158,7 +158,7 @@ func (p *noder) funcBody(fn *ir.Node, block *syntax.BlockStmt) {
 	if block != nil {
 		body := p.stmts(block.List)
 		if body == nil {
-			body = []*ir.Node{nod(ir.OEMPTY, nil, nil)}
+			body = []ir.INode{nod(ir.OEMPTY, nil, nil)}
 		}
 		fn.PtrNbody().Set(body)
 
@@ -292,7 +292,7 @@ func (p *noder) node() {
 	clearImports()
 }
 
-func (p *noder) decls(decls []syntax.Decl) (l []*ir.Node) {
+func (p *noder) decls(decls []syntax.Decl) (l []ir.INode) {
 	var cs constState
 
 	for _, decl := range decls {
@@ -377,11 +377,11 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	my.Block = 1 // at top level
 }
 
-func (p *noder) varDecl(decl *syntax.VarDecl) []*ir.Node {
+func (p *noder) varDecl(decl *syntax.VarDecl) []ir.INode {
 	names := p.declNames(decl.NameList)
 	typ := p.typeExprOrNil(decl.Type)
 
-	var exprs []*ir.Node
+	var exprs []ir.INode
 	if decl.Values != nil {
 		exprs = p.exprList(decl.Values)
 	}
@@ -413,12 +413,12 @@ func (p *noder) varDecl(decl *syntax.VarDecl) []*ir.Node {
 // constant declarations are handled correctly (e.g., issue 15550).
 type constState struct {
 	group  *syntax.Group
-	typ    *ir.Node
-	values []*ir.Node
+	typ    ir.INode
+	values []ir.INode
 	iota   int64
 }
 
-func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
+func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.INode {
 	if decl.Group == nil || decl.Group != cs.group {
 		*cs = constState{
 			group: decl.Group,
@@ -432,7 +432,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
 	names := p.declNames(decl.NameList)
 	typ := p.typeExprOrNil(decl.Type)
 
-	var values []*ir.Node
+	var values []ir.INode
 	if decl.Values != nil {
 		values = p.exprList(decl.Values)
 		cs.typ, cs.values = typ, values
@@ -443,7 +443,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
 		typ, values = cs.typ, cs.values
 	}
 
-	nn := make([]*ir.Node, 0, len(names))
+	nn := make([]ir.INode, 0, len(names))
 	for i, n := range names {
 		if i >= len(values) {
 			base.Error("missing value in const declaration")
@@ -473,7 +473,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*ir.Node {
 	return nn
 }
 
-func (p *noder) typeDecl(decl *syntax.TypeDecl) *ir.Node {
+func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.INode {
 	n := p.declName(decl.Name)
 	n.SetOp(ir.OTYPE)
 	declare(n, dclcontext)
@@ -499,21 +499,21 @@ func (p *noder) typeDecl(decl *syntax.TypeDecl) *ir.Node {
 	return nod
 }
 
-func (p *noder) declNames(names []*syntax.Name) []*ir.Node {
-	nodes := make([]*ir.Node, 0, len(names))
+func (p *noder) declNames(names []*syntax.Name) []ir.INode {
+	nodes := make([]ir.INode, 0, len(names))
 	for _, name := range names {
 		nodes = append(nodes, p.declName(name))
 	}
 	return nodes
 }
 
-func (p *noder) declName(name *syntax.Name) *ir.Node {
+func (p *noder) declName(name *syntax.Name) ir.INode {
 	n := dclname(p.name(name))
 	n.SetPos(p.pos(name))
 	return n
 }
 
-func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
+func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.INode {
 	name := p.name(fun.Name)
 	t := p.signature(fun.Recv, fun.Type)
 	f := p.nod(fun, ir.ODCLFUNC, nil, nil)
@@ -579,7 +579,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 	return f
 }
 
-func (p *noder) signature(recv *syntax.Field, typ *syntax.FuncType) *ir.Node {
+func (p *noder) signature(recv *syntax.Field, typ *syntax.FuncType) ir.INode {
 	n := p.nod(typ, ir.OTFUNC, nil, nil)
 	if recv != nil {
 		n.SetLeft(p.param(recv, false, false))
@@ -589,8 +589,8 @@ func (p *noder) signature(recv *syntax.Field, typ *syntax.FuncType) *ir.Node {
 	return n
 }
 
-func (p *noder) params(params []*syntax.Field, dddOk bool) []*ir.Node {
-	nodes := make([]*ir.Node, 0, len(params))
+func (p *noder) params(params []*syntax.Field, dddOk bool) []ir.INode {
+	nodes := make([]ir.INode, 0, len(params))
 	for i, param := range params {
 		p.setlineno(param)
 		nodes = append(nodes, p.param(param, dddOk, i+1 == len(params)))
@@ -598,7 +598,7 @@ func (p *noder) params(params []*syntax.Field, dddOk bool) []*ir.Node {
 	return nodes
 }
 
-func (p *noder) param(param *syntax.Field, dddOk, final bool) *ir.Node {
+func (p *noder) param(param *syntax.Field, dddOk, final bool) ir.INode {
 	var name *types.Sym
 	if param.Name != nil {
 		name = p.name(param.Name)
@@ -632,22 +632,22 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *ir.Node {
 	return n
 }
 
-func (p *noder) exprList(expr syntax.Expr) []*ir.Node {
+func (p *noder) exprList(expr syntax.Expr) []ir.INode {
 	if list, ok := expr.(*syntax.ListExpr); ok {
 		return p.exprs(list.ElemList)
 	}
-	return []*ir.Node{p.expr(expr)}
+	return []ir.INode{p.expr(expr)}
 }
 
-func (p *noder) exprs(exprs []syntax.Expr) []*ir.Node {
-	nodes := make([]*ir.Node, 0, len(exprs))
+func (p *noder) exprs(exprs []syntax.Expr) []ir.INode {
+	nodes := make([]ir.INode, 0, len(exprs))
 	for _, expr := range exprs {
 		nodes = append(nodes, p.expr(expr))
 	}
 	return nodes
 }
 
-func (p *noder) expr(expr syntax.Expr) *ir.Node {
+func (p *noder) expr(expr syntax.Expr) ir.INode {
 	p.setlineno(expr)
 	switch expr := expr.(type) {
 	case nil, *syntax.BadExpr:
@@ -695,7 +695,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 			op = ir.OSLICE3
 		}
 		n := p.nod(expr, op, p.expr(expr.X), nil)
-		var index [3]*ir.Node
+		var index [3]ir.INode
 		for i, x := range &expr.Index {
 			if x != nil {
 				index[i] = p.expr(x)
@@ -721,7 +721,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 		return n
 
 	case *syntax.ArrayType:
-		var len *ir.Node
+		var len ir.INode
 		if expr.Len != nil {
 			len = p.expr(expr.Len)
 		} else {
@@ -761,7 +761,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 // sum efficiently handles very large summation expressions (such as
 // in issue #16394). In particular, it avoids left recursion and
 // collapses string literals.
-func (p *noder) sum(x syntax.Expr) *ir.Node {
+func (p *noder) sum(x syntax.Expr) ir.INode {
 	// While we need to handle long sums with asymptotic
 	// efficiency, the vast majority of sums are very small: ~95%
 	// have only 2 or 3 operands, and ~99% of string literals are
@@ -796,7 +796,7 @@ func (p *noder) sum(x syntax.Expr) *ir.Node {
 	// handle correctly. For now, we avoid these problems by
 	// treating named string constants the same as non-constant
 	// operands.
-	var nstr *ir.Node
+	var nstr ir.INode
 	chunks := make([]string, 0, 1)
 
 	n := p.expr(x)
@@ -834,12 +834,12 @@ func (p *noder) sum(x syntax.Expr) *ir.Node {
 	return n
 }
 
-func (p *noder) typeExpr(typ syntax.Expr) *ir.Node {
+func (p *noder) typeExpr(typ syntax.Expr) ir.INode {
 	// TODO(mdempsky): Be stricter? typecheck should handle errors anyway.
 	return p.expr(typ)
 }
 
-func (p *noder) typeExprOrNil(typ syntax.Expr) *ir.Node {
+func (p *noder) typeExprOrNil(typ syntax.Expr) ir.INode {
 	if typ != nil {
 		return p.expr(typ)
 	}
@@ -858,11 +858,11 @@ func (p *noder) chanDir(dir syntax.ChanDir) types.ChanDir {
 	panic("unhandled ChanDir")
 }
 
-func (p *noder) structType(expr *syntax.StructType) *ir.Node {
-	l := make([]*ir.Node, 0, len(expr.FieldList))
+func (p *noder) structType(expr *syntax.StructType) ir.INode {
+	l := make([]ir.INode, 0, len(expr.FieldList))
 	for i, field := range expr.FieldList {
 		p.setlineno(field)
-		var n *ir.Node
+		var n ir.INode
 		if field.Name == nil {
 			n = p.embedded(field.Type)
 		} else {
@@ -880,11 +880,11 @@ func (p *noder) structType(expr *syntax.StructType) *ir.Node {
 	return n
 }
 
-func (p *noder) interfaceType(expr *syntax.InterfaceType) *ir.Node {
-	l := make([]*ir.Node, 0, len(expr.MethodList))
+func (p *noder) interfaceType(expr *syntax.InterfaceType) ir.INode {
+	l := make([]ir.INode, 0, len(expr.MethodList))
 	for _, method := range expr.MethodList {
 		p.setlineno(method)
-		var n *ir.Node
+		var n ir.INode
 		if method.Name == nil {
 			n = p.nodSym(method, ir.ODCLFIELD, importName(p.packname(method.Type)), nil)
 		} else {
@@ -930,7 +930,7 @@ func (p *noder) packname(expr syntax.Expr) *types.Sym {
 	panic(fmt.Sprintf("unexpected packname: %#v", expr))
 }
 
-func (p *noder) embedded(typ syntax.Expr) *ir.Node {
+func (p *noder) embedded(typ syntax.Expr) ir.INode {
 	op, isStar := typ.(*syntax.Operation)
 	if isStar {
 		if op.Op != syntax.Mul || op.Y != nil {
@@ -949,12 +949,12 @@ func (p *noder) embedded(typ syntax.Expr) *ir.Node {
 	return n
 }
 
-func (p *noder) stmts(stmts []syntax.Stmt) []*ir.Node {
+func (p *noder) stmts(stmts []syntax.Stmt) []ir.INode {
 	return p.stmtsFall(stmts, false)
 }
 
-func (p *noder) stmtsFall(stmts []syntax.Stmt, fallOK bool) []*ir.Node {
-	var nodes []*ir.Node
+func (p *noder) stmtsFall(stmts []syntax.Stmt, fallOK bool) []ir.INode {
+	var nodes []ir.INode
 	for i, stmt := range stmts {
 		s := p.stmtFall(stmt, fallOK && i+1 == len(stmts))
 		if s == nil {
@@ -967,11 +967,11 @@ func (p *noder) stmtsFall(stmts []syntax.Stmt, fallOK bool) []*ir.Node {
 	return nodes
 }
 
-func (p *noder) stmt(stmt syntax.Stmt) *ir.Node {
+func (p *noder) stmt(stmt syntax.Stmt) ir.INode {
 	return p.stmtFall(stmt, false)
 }
 
-func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
+func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.INode {
 	p.setlineno(stmt)
 	switch stmt := stmt.(type) {
 	case *syntax.EmptyStmt:
@@ -1049,7 +1049,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 		}
 		return p.nod(stmt, op, p.expr(stmt.Call), nil)
 	case *syntax.ReturnStmt:
-		var results []*ir.Node
+		var results []ir.INode
 		if stmt.Results != nil {
 			results = p.exprList(stmt.Results)
 		}
@@ -1081,7 +1081,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 	panic("unhandled Stmt")
 }
 
-func (p *noder) assignList(expr syntax.Expr, defn *ir.Node, colas bool) []*ir.Node {
+func (p *noder) assignList(expr syntax.Expr, defn ir.INode, colas bool) []ir.INode {
 	if !colas {
 		return p.exprList(expr)
 	}
@@ -1095,7 +1095,7 @@ func (p *noder) assignList(expr syntax.Expr, defn *ir.Node, colas bool) []*ir.No
 		exprs = []syntax.Expr{expr}
 	}
 
-	res := make([]*ir.Node, len(exprs))
+	res := make([]ir.INode, len(exprs))
 	seen := make(map[*types.Sym]bool, len(exprs))
 
 	newOrErr := false
@@ -1141,14 +1141,14 @@ func (p *noder) assignList(expr syntax.Expr, defn *ir.Node, colas bool) []*ir.No
 	return res
 }
 
-func (p *noder) blockStmt(stmt *syntax.BlockStmt) []*ir.Node {
+func (p *noder) blockStmt(stmt *syntax.BlockStmt) []ir.INode {
 	p.openScope(stmt.Pos())
 	nodes := p.stmts(stmt.List)
 	p.closeScope(stmt.Rbrace)
 	return nodes
 }
 
-func (p *noder) ifStmt(stmt *syntax.IfStmt) *ir.Node {
+func (p *noder) ifStmt(stmt *syntax.IfStmt) ir.INode {
 	p.openScope(stmt.Pos())
 	n := p.nod(stmt, ir.OIF, nil, nil)
 	if stmt.Init != nil {
@@ -1170,9 +1170,9 @@ func (p *noder) ifStmt(stmt *syntax.IfStmt) *ir.Node {
 	return n
 }
 
-func (p *noder) forStmt(stmt *syntax.ForStmt) *ir.Node {
+func (p *noder) forStmt(stmt *syntax.ForStmt) ir.INode {
 	p.openScope(stmt.Pos())
-	var n *ir.Node
+	var n ir.INode
 	if r, ok := stmt.Init.(*syntax.RangeClause); ok {
 		if stmt.Cond != nil || stmt.Post != nil {
 			panic("unexpected RangeClause")
@@ -1199,7 +1199,7 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) *ir.Node {
 	return n
 }
 
-func (p *noder) switchStmt(stmt *syntax.SwitchStmt) *ir.Node {
+func (p *noder) switchStmt(stmt *syntax.SwitchStmt) ir.INode {
 	p.openScope(stmt.Pos())
 	n := p.nod(stmt, ir.OSWITCH, nil, nil)
 	if stmt.Init != nil {
@@ -1219,8 +1219,8 @@ func (p *noder) switchStmt(stmt *syntax.SwitchStmt) *ir.Node {
 	return n
 }
 
-func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbrace syntax.Pos) []*ir.Node {
-	nodes := make([]*ir.Node, 0, len(clauses))
+func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch ir.INode, rbrace syntax.Pos) []ir.INode {
+	nodes := make([]ir.INode, 0, len(clauses))
 	for i, clause := range clauses {
 		p.setlineno(clause)
 		if i > 0 {
@@ -1269,14 +1269,14 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 	return nodes
 }
 
-func (p *noder) selectStmt(stmt *syntax.SelectStmt) *ir.Node {
+func (p *noder) selectStmt(stmt *syntax.SelectStmt) ir.INode {
 	n := p.nod(stmt, ir.OSELECT, nil, nil)
 	n.PtrList().Set(p.commClauses(stmt.Body, stmt.Rbrace))
 	return n
 }
 
-func (p *noder) commClauses(clauses []*syntax.CommClause, rbrace syntax.Pos) []*ir.Node {
-	nodes := make([]*ir.Node, 0, len(clauses))
+func (p *noder) commClauses(clauses []*syntax.CommClause, rbrace syntax.Pos) []ir.INode {
+	nodes := make([]ir.INode, 0, len(clauses))
 	for i, clause := range clauses {
 		p.setlineno(clause)
 		if i > 0 {
@@ -1297,16 +1297,16 @@ func (p *noder) commClauses(clauses []*syntax.CommClause, rbrace syntax.Pos) []*
 	return nodes
 }
 
-func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) *ir.Node {
+func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) ir.INode {
 	lhs := p.nodSym(label, ir.OLABEL, nil, p.name(label.Label))
 
-	var ls *ir.Node
+	var ls ir.INode
 	if label.Stmt != nil { // TODO(mdempsky): Should always be present.
 		ls = p.stmtFall(label.Stmt, fallOK)
 	}
 
 	lhs.Name().Defn = ls
-	l := []*ir.Node{lhs}
+	l := []ir.INode{lhs}
 	if ls != nil {
 		if ls.Op() == ir.OBLOCK && ls.Ninit().Len() == 0 {
 			l = append(l, ls.List().Slice()...)
@@ -1461,12 +1461,12 @@ func (p *noder) name(name *syntax.Name) *types.Sym {
 	return lookup(name.Value)
 }
 
-func (p *noder) mkname(name *syntax.Name) *ir.Node {
+func (p *noder) mkname(name *syntax.Name) ir.INode {
 	// TODO(mdempsky): Set line number?
 	return mkname(p.name(name))
 }
 
-func (p *noder) wrapname(n syntax.Node, x *ir.Node) *ir.Node {
+func (p *noder) wrapname(n syntax.Node, x ir.INode) ir.INode {
 	// These nodes do not carry line numbers.
 	// Introduce a wrapper node to give them the correct line.
 	switch x.Op() {
@@ -1482,11 +1482,11 @@ func (p *noder) wrapname(n syntax.Node, x *ir.Node) *ir.Node {
 	return x
 }
 
-func (p *noder) nod(orig syntax.Node, op ir.Op, left, right *ir.Node) *ir.Node {
+func (p *noder) nod(orig syntax.Node, op ir.Op, left, right ir.INode) ir.INode {
 	return nodl(p.pos(orig), op, left, right)
 }
 
-func (p *noder) nodSym(orig syntax.Node, op ir.Op, left *ir.Node, sym *types.Sym) *ir.Node {
+func (p *noder) nodSym(orig syntax.Node, op ir.Op, left ir.INode, sym *types.Sym) ir.INode {
 	n := nodSym(op, left, sym)
 	n.SetPos(p.pos(orig))
 	return n
@@ -1686,7 +1686,7 @@ func safeArg(name string) bool {
 	return '0' <= c && c <= '9' || 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || c == '.' || c == '_' || c == '/' || c >= utf8.RuneSelf
 }
 
-func mkname(sym *types.Sym) *ir.Node {
+func mkname(sym *types.Sym) ir.INode {
 	n := oldname(sym)
 	if n.Name() != nil && n.Name().Pack != nil {
 		n.Name().Pack.Name().SetUsed(true)
