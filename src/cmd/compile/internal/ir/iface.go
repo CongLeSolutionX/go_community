@@ -114,132 +114,151 @@ type INode interface {
 	Xoffset() int64
 }
 
-// TrivNode is an embeddable Node implementation
+type defaultNode struct {
+	minimalNode
+}
+
+// minimalNode is an embeddable Node implementation
 // that takes up no space and supplies any otherwise unimplemented methods
 // needed to satisfy INode.
 // The methods mostly panic.
-type TrivNode struct {
+type minimalNode struct {
 	pos       src.XPos
 	orig      INode
 	esc       uint16
 	typecheck uint8
 }
 
-func (n *TrivNode) BoolVal() bool                 { panic("unavailable") }
-func (n *TrivNode) Bounded() bool                 { return false }
-func (n *TrivNode) CanBeAnSSASym()                { panic("unavailable") }
-func (n *TrivNode) CanInt64() bool                { return false }
-func (n *TrivNode) Class() Class                  { panic("unavailable") }
-func (n *TrivNode) Colas() bool                   { return false }
-func (n *TrivNode) CopyFrom(INode)                { panic("unavailable") }
-func (n *TrivNode) Diag() bool                    { return false }
-func (n *TrivNode) Embedded() bool                { return false }
-func (n *TrivNode) Esc() uint16                   { return n.esc }
-func (n *TrivNode) Format(s fmt.State, verb rune) { panic("unavailable") }
-func (n *TrivNode) Func() *Func                   { panic("unavailable") }
-func (n *TrivNode) Nbody() Nodes                  { return Nodes{} }
-func (n *TrivNode) Ninit() Nodes                  { return Nodes{} }
-func (n *TrivNode) Rlist() Nodes                  { return Nodes{} }
-func (n *TrivNode) HasBreak() bool                { return false }
-func (n *TrivNode) HasCall() bool                 { return false }
-func (n *TrivNode) HasVal() bool                  { return false }
-func (n *TrivNode) Implicit() bool                { return false }
-func (n *TrivNode) IndexMapLValue() bool          { return false }
-func (n *TrivNode) Initorder() uint8              { panic("unavailable") }
-func (n *TrivNode) Int64Val() int64               { panic("unavailable") }
-func (n *TrivNode) Iota() int64                   { panic("unavailable") }
-func (n *TrivNode) IsAutoTmp() bool               { return false }
-func (n *TrivNode) IsBlank() bool                 { return false }
-func (n *TrivNode) IsDDD() bool                   { return false }
-func (n *TrivNode) IsMethod() bool                { return false }
-func (n *TrivNode) IsNil() bool                   { return false }
-func (n *TrivNode) IsSynthetic() bool             { return false }
-func (n *TrivNode) Left() INode                   { return nil }
-func (n *TrivNode) Likely() bool                  { panic("unavailable") }
-func (n *TrivNode) Line() string                  { panic("unavailable") }
-func (n *TrivNode) List() Nodes                   { return Nodes{} }
-func (n *TrivNode) MarkNonNil()                   { panic("unavailable") }
-func (n *TrivNode) MarkReadonly()                 { panic("unavailable") }
-func (n *TrivNode) MayBeShared() bool             { return false }
-func (n *TrivNode) Name() *Name                   { return nil }
-func (n *TrivNode) NoInline() bool                { panic("unavailable") }
-func (n *TrivNode) NonNil() bool                  { panic("unavailable") }
-func (n *TrivNode) Opt() interface{}              { panic("unavailable") }
-func (n *TrivNode) Orig() INode                   { return n.orig }
-func (n *TrivNode) Pos() src.XPos                 { return n.pos }
-func (n *TrivNode) PtrList() *Nodes               { return nil }
-func (n *TrivNode) PtrNbody() *Nodes              { return nil }
-func (n *TrivNode) PtrNinit() *Nodes              { return nil }
-func (n *TrivNode) PtrRlist() *Nodes              { return nil }
-func (n *TrivNode) ResetAux()                     { panic("unavailable") }
-func (n *TrivNode) Right() INode                  { return nil }
-func (n *TrivNode) SetBounded(b bool)             { panic("unavailable") }
-func (n *TrivNode) SetClass(b Class)              { panic("unavailable") }
-func (n *TrivNode) SetColas(b bool)               { panic("unavailable") }
-func (n *TrivNode) SetDiag(b bool)                { panic("unavailable") }
-func (n *TrivNode) SetEmbedded(b bool)            { panic("unavailable") }
-func (n *TrivNode) SetEsc(x uint16)               { n.esc = x }
-func (n *TrivNode) SetFunc(x *Func)               { panic("unavailable") }
-func (n *TrivNode) SetHasBreak(b bool)            { panic("unavailable") }
-func (n *TrivNode) SetHasCall(b bool) {
+func (n *minimalNode) BoolVal() bool                 { panic("unavailable") }
+func (n *minimalNode) Bounded() bool                 { return false }
+func (n *minimalNode) CanBeAnSSASym()                { panic("unavailable") }
+func (n *minimalNode) CanInt64() bool                { return false }
+func (n *minimalNode) Class() Class                  { panic("unavailable") }
+func (n *minimalNode) Colas() bool                   { return false }
+func (n *minimalNode) CopyFrom(INode)                { panic("unavailable") }
+func (n *minimalNode) Diag() bool                    { return false }
+func (n *minimalNode) Embedded() bool                { return false }
+func (n *minimalNode) Esc() uint16                   { return n.esc }
+func (n *minimalNode) Format(s fmt.State, verb rune) { panic("unavailable") }
+func (n *minimalNode) Func() *Func                   { panic("unavailable") }
+func (n *minimalNode) Nbody() Nodes                  { return Nodes{} }
+func (n *minimalNode) Ninit() Nodes                  { return Nodes{} }
+func (n *minimalNode) Rlist() Nodes                  { return Nodes{} }
+func (n *minimalNode) HasBreak() bool                { return false }
+func (n *minimalNode) HasCall() bool                 { return false }
+func (n *minimalNode) HasVal() bool                  { return false }
+func (n *minimalNode) Implicit() bool                { return false }
+func (n *minimalNode) IndexMapLValue() bool          { return false }
+func (n *minimalNode) Initorder() uint8              { panic("unavailable") }
+func (n *minimalNode) Int64Val() int64               { panic("unavailable") }
+func (n *minimalNode) Iota() int64                   { panic("unavailable") }
+func (n *minimalNode) IsAutoTmp() bool               { return false }
+func (n *minimalNode) IsBlank() bool                 { return false }
+func (n *minimalNode) IsDDD() bool                   { return false }
+func (n *minimalNode) IsMethod() bool                { return false }
+func (n *minimalNode) IsNil() bool                   { return false }
+func (n *minimalNode) IsSynthetic() bool             { return false }
+func (n *minimalNode) Left() INode                   { return nil }
+func (n *minimalNode) Likely() bool                  { panic("unavailable") }
+func (n *minimalNode) Line() string                  { panic("unavailable") }
+func (n *minimalNode) List() Nodes                   { return Nodes{} }
+func (n *minimalNode) MarkNonNil()                   { panic("unavailable") }
+func (n *minimalNode) MarkReadonly()                 { panic("unavailable") }
+func (n *minimalNode) MayBeShared() bool             { return false }
+func (n *minimalNode) Name() *Name                   { return nil }
+func (n *minimalNode) NoInline() bool                { panic("unavailable") }
+func (n *minimalNode) NonNil() bool                  { panic("unavailable") }
+func (n *minimalNode) Opt() interface{}              { panic("unavailable") }
+func (n *minimalNode) Orig() INode                   { return n.orig }
+func (n *minimalNode) Pos() src.XPos                 { return n.pos }
+func (n *minimalNode) PtrList() *Nodes               { return nil }
+func (n *minimalNode) PtrNbody() *Nodes              { return nil }
+func (n *minimalNode) PtrNinit() *Nodes              { return nil }
+func (n *minimalNode) PtrRlist() *Nodes              { return nil }
+func (n *minimalNode) ResetAux()                     { panic("unavailable") }
+func (n *minimalNode) Right() INode                  { return nil }
+func (n *minimalNode) SetBounded(b bool)             { panic("unavailable") }
+func (n *minimalNode) SetClass(b Class)              { panic("unavailable") }
+func (n *minimalNode) SetColas(b bool)               { panic("unavailable") }
+func (n *minimalNode) SetDiag(b bool)                { panic("unavailable") }
+func (n *minimalNode) SetEmbedded(b bool)            { panic("unavailable") }
+func (n *minimalNode) SetEsc(x uint16)               { n.esc = x }
+func (n *minimalNode) SetFunc(x *Func)               { panic("unavailable") }
+func (n *minimalNode) SetHasBreak(b bool)            { panic("unavailable") }
+func (n *minimalNode) SetHasCall(b bool) {
 	if b {
 		panic("unavailable")
 	}
 }
-func (n *TrivNode) SetHasVal(b bool)         { panic("unavailable") }
-func (n *TrivNode) SetImplicit(b bool)       { panic("unavailable") }
-func (n *TrivNode) SetIndexMapLValue(b bool) { panic("unavailable") }
-func (n *TrivNode) SetInitorder(b uint8)     { panic("unavailable") }
-func (n *TrivNode) SetIota(x int64)          { panic("unavailable") }
-func (n *TrivNode) SetIsDDD(b bool)          { panic("unavailable") }
-func (n *TrivNode) SetLeft(x INode) {
+func (n *minimalNode) SetHasVal(b bool)         { panic("unavailable") }
+func (n *minimalNode) SetImplicit(b bool)       { panic("unavailable") }
+func (n *minimalNode) SetIndexMapLValue(b bool) { panic("unavailable") }
+func (n *minimalNode) SetInitorder(b uint8)     { panic("unavailable") }
+func (n *minimalNode) SetIota(x int64)          { panic("unavailable") }
+func (n *minimalNode) SetIsDDD(b bool)          { panic("unavailable") }
+func (n *minimalNode) SetLeft(x INode) {
 	if x != nil {
 		panic("unavailable")
 	}
 }
-func (n *TrivNode) SetLikely(b bool)     { panic("unavailable") }
-func (n *TrivNode) SetList(x Nodes)      { panic("unavailable") }
-func (n *TrivNode) SetNbody(x Nodes)     { panic("unavailable") }
-func (n *TrivNode) SetNinit(x Nodes)     { panic("unavailable") }
-func (n *TrivNode) SetNoInline(b bool)   { panic("unavailable") }
-func (n *TrivNode) SetOp(x Op)           { panic("unavailable") }
-func (n *TrivNode) SetOpt(x interface{}) { panic("unavailable") }
-func (n *TrivNode) SetOrig(x INode) {
+func (n *minimalNode) SetLikely(b bool)     { panic("unavailable") }
+func (n *minimalNode) SetList(x Nodes)      { panic("unavailable") }
+func (n *minimalNode) SetNbody(x Nodes)     { panic("unavailable") }
+func (n *minimalNode) SetNinit(x Nodes)     { panic("unavailable") }
+func (n *minimalNode) SetNoInline(b bool)   { panic("unavailable") }
+func (n *minimalNode) SetOp(x Op)           { panic("unavailable") }
+func (n *minimalNode) SetOpt(x interface{}) { panic("unavailable") }
+func (n *minimalNode) SetOrig(x INode) {
 	n.orig = x
 }
-func (n *TrivNode) SetPos(x src.XPos) { n.pos = x }
-func (n *TrivNode) SetRight(x INode) {
+func (n *minimalNode) SetPos(x src.XPos) { n.pos = x }
+func (n *minimalNode) SetRight(x INode) {
 	if x != nil {
 		panic("unavailable")
 	}
 }
-func (n *TrivNode) SetRlist(x Nodes)                    { panic("unavailable") }
-func (n *TrivNode) SetSliceBounds(low, high, max INode) { panic("unavailable") }
-func (n *TrivNode) SetSubOp(op Op)                      { panic("unavailable: SetSubOp " + op.String()) }
-func (n *TrivNode) SetSym(x *types.Sym)                 { panic("unavailable") }
-func (n *TrivNode) SetTChanDir(dir types.ChanDir)       { panic("unavailable") }
-func (n *TrivNode) SetTransient(b bool)                 { panic("unavailable") }
-func (n *TrivNode) SetType(x *types.Type)               { panic("unavailable") }
-func (n *TrivNode) SetTypecheck(b uint8)                { n.typecheck = b }
-func (n *TrivNode) SetVal(v Val)                        { panic("unavailable") }
-func (n *TrivNode) SetWalkdef(b uint8)                  { panic("unavailable") }
-func (n *TrivNode) SetXoffset(x int64) {
+func (n *minimalNode) SetRlist(x Nodes)                    { panic("unavailable") }
+func (n *minimalNode) SetSliceBounds(low, high, max INode) { panic("unavailable") }
+func (n *minimalNode) SetSubOp(op Op)                      { panic("unavailable: SetSubOp " + op.String()) }
+func (n *minimalNode) SetSym(x *types.Sym)                 { panic("unavailable") }
+func (n *minimalNode) SetTChanDir(dir types.ChanDir)       { panic("unavailable") }
+func (n *minimalNode) SetTransient(b bool)                 { panic("unavailable") }
+func (n *minimalNode) SetType(x *types.Type)               { panic("unavailable") }
+func (n *minimalNode) SetTypecheck(b uint8)                { n.typecheck = b }
+func (n *minimalNode) SetVal(v Val)                        { panic("unavailable") }
+func (n *minimalNode) SetWalkdef(b uint8)                  { panic("unavailable") }
+func (n *minimalNode) SetXoffset(x int64) {
 	if x != types.BADWIDTH {
 		panic("unavailable")
 	}
 }
 
-func (n *TrivNode) SliceBounds() (low, high, max INode) { panic("unavailable") }
-func (n *TrivNode) StorageClass() ssa.StorageClass      { panic("unavailable") }
-func (n *TrivNode) String() string                      { panic("unavailable") }
-func (n *TrivNode) StringVal() string                   { panic("unavailable") }
-func (n *TrivNode) SubOp() Op                           { panic("unavailable") }
-func (n *TrivNode) Sym() *types.Sym                     { panic("unavailable") }
-func (n *TrivNode) TChanDir() types.ChanDir             { panic("unavailable") }
-func (n *TrivNode) Transient() bool                     { panic("unavailable") }
-func (n *TrivNode) Typ() *types.Type                    { return nil }
-func (n *TrivNode) Type() *types.Type                   { return nil }
-func (n *TrivNode) Typecheck() uint8                    { return n.typecheck }
-func (n *TrivNode) Val() Val                            { panic("unavailable") }
-func (n *TrivNode) Walkdef() uint8                      { panic("unavailable") }
-func (n *TrivNode) Xoffset() int64                      { panic("unavailable") }
+func (n *minimalNode) SliceBounds() (low, high, max INode) { panic("unavailable") }
+func (n *minimalNode) StorageClass() ssa.StorageClass      { panic("unavailable") }
+func (n *minimalNode) String() string                      { panic("unavailable") }
+func (n *minimalNode) StringVal() string                   { panic("unavailable") }
+func (n *minimalNode) SubOp() Op                           { panic("unavailable") }
+func (n *minimalNode) Sym() *types.Sym                     { panic("unavailable") }
+func (n *minimalNode) TChanDir() types.ChanDir             { panic("unavailable") }
+func (n *minimalNode) Transient() bool                     { panic("unavailable") }
+func (n *minimalNode) Typ() *types.Type                    { return nil }
+func (n *minimalNode) Type() *types.Type                   { return nil }
+func (n *minimalNode) Typecheck() uint8                    { return n.typecheck }
+func (n *minimalNode) Val() Val                            { panic("unavailable") }
+func (n *minimalNode) Walkdef() uint8                      { panic("unavailable") }
+func (n *minimalNode) Xoffset() int64                      { panic("unavailable") }
+
+type nodeFieldOpt struct{ opt interface{} }
+
+func (n *nodeFieldOpt) Opt() interface{}     { return n.opt }
+func (n *nodeFieldOpt) SetOpt(x interface{}) { n.opt = x }
+
+type nodeFieldType struct{ typ *types.Type }
+
+func (n *nodeFieldType) Type() *types.Type     { return n.typ }
+func (n *nodeFieldType) SetType(x *types.Type) { n.typ = x }
+
+type nodeFieldTransient struct{ transient bool }
+
+func (n *nodeFieldTransient) Transient() bool     { return n.transient }
+func (n *nodeFieldTransient) SetTransient(x bool) { n.transient = x }

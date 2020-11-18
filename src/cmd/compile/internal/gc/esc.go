@@ -191,7 +191,7 @@ func heapAllocReason(n ir.INode) string {
 		return "too large for stack"
 	}
 
-	if n.Op() == ir.OCLOSURE && closureType(n).Size() >= maxImplicitStackVarSize {
+	if n.Op() == ir.OCLOSURE && closureType(n.(*ir.Closure)).Size() >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
 	if n.Op() == ir.OCALLPART && partialCallType(n).Size() >= maxImplicitStackVarSize {

@@ -70,6 +70,7 @@ var badForNode = [OEND]bool{
 	ODCLCONST: true,
 	ODCLFUNC:  true,
 	ODCLTYPE:  true,
+	OCLOSURE:  true,
 }
 
 func (n *node) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
@@ -936,6 +937,8 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 		n = newDclConst(nleft.(*Name))
 	case ODCLTYPE:
 		n = newDclType(nleft.(*Name))
+	case OCLOSURE:
+		n = new(Closure)
 	case OCONTINUE:
 		n = new(ContinueStmt)
 	case ONONAME, OLITERAL, OTYPE:

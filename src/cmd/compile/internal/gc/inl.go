@@ -968,7 +968,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 	// Handle captured variables when inlining closures.
 	if fn.Name().Defn != nil {
 		if c := fn.Name().Defn.Func().Closure; c != nil {
-			for _, v := range c.Func().Decl.Func().Cvars.Slice() {
+			for _, v := range c.Func().Cvars.Slice() {
 				if v.Op() == ir.OXXX {
 					continue
 				}

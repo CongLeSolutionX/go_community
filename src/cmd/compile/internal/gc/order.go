@@ -1258,7 +1258,8 @@ func (o *Order) expr(n, lhs ir.INode) ir.INode {
 		}
 
 	case ir.OCLOSURE:
-		if n.Transient() && n.Func().Decl.Func().Cvars.Len() > 0 {
+		n := n.(*ir.Closure)
+		if n.Transient() && n.Func().Cvars.Len() > 0 {
 			prealloc[n] = o.newTemp(closureType(n), false)
 		}
 

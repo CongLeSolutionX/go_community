@@ -291,7 +291,7 @@ func Main(archInit func(*Arch)) {
 	for _, n := range xtop {
 		if n.Op() == ir.ODCLFUNC && n.Func().Closure != nil {
 			Curfn = n
-			capturevars(n)
+			capturevars(n.(*ir.DclFunc))
 		}
 	}
 	capturevarscomplete = true
@@ -364,7 +364,7 @@ func Main(archInit func(*Arch)) {
 	for _, n := range xtop {
 		if n.Op() == ir.ODCLFUNC && n.Func().Closure != nil {
 			Curfn = n
-			transformclosure(n)
+			transformclosure(n.(*ir.DclFunc))
 		}
 	}
 

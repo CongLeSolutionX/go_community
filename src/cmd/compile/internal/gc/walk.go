@@ -567,7 +567,7 @@ opswitch:
 			n.Left().Func().ClosureEnter.Set(nil)
 
 			// Replace OCLOSURE with ONAME/PFUNC.
-			n.SetLeft(n.Left().Func().Decl.Func().Name)
+			n.SetLeft(n.Left().Func().Name)
 
 			// Update type of OCALLFUNC node.
 			// Output arguments had not changed, but their offsets could.
@@ -1569,7 +1569,7 @@ opswitch:
 		n = mkcall1(chanfn("chansend1", 2, n.Left().Type()), nil, init, n.Left(), n1)
 
 	case ir.OCLOSURE:
-		n = walkclosure(n, init)
+		n = walkclosure(n.(*ir.Closure), init)
 
 	case ir.OCALLPART:
 		n = walkpartialcall(n, init)
