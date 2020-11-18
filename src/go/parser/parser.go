@@ -491,6 +491,50 @@ func (p *parser) advance(to map[token.Token]bool) {
 	}
 }
 
+// advanceToClosingOrSemi advances to the given right token closing the current
+// delimited context, or the next semicolon, whichever occurs first. In other
+// words, it advances to the next instance of the right delimitter or semicolon,
+// unless a matching left delimiter is encountered, in which case it ensures
+// that the closing delimiter is balanced:
+//
+// For example, using '@' to denote a zero width parser position, we advance
+// 'type _ interface { foo@! }' to 'type _ interface { foo! @}', and
+// 'type _ interface { foo@{} }' to 'type _ interface { foo{} @}'.
+//
+// It is a bug to call this method with a right token that is not '}', ')', or
+// ']'.
+func (p *parser) advanceToClosingOrSemi(right token.Token) {
+	// left := p.tok
+	var left token.Token
+	switch right {
+	case token.RBRACE:
+		left = token.LBRACE
+	case token.RPAREN:
+		left = token.LPAREN
+	case token.RBRACK:
+		left = token.LBRACK
+	default:
+		panic(fmt.Sprintf("can't match %s", right))
+	}
+	// p.next()
+	for open := 1; ; p.next() {
+		switch p.tok {
+		case left:
+			open++
+		case right:
+			open--
+			if open == 0 {
+				return
+			}
+		case token.EOF, token.SEMICOLON:
+			return
+		}
+		// if inLine && p.tok == token.SEMICOLON {
+		// 	return
+		// }
+	}
+}
+
 var stmtStart = map[token.Token]bool{
 	token.BREAK:       true,
 	token.CONST:       true,
@@ -706,12 +750,22 @@ func (p *parser) parseArrayFieldOrTypeInstance(x *ast.Ident) (*ast.Ident, ast.Ex
 	//           list such as T[P,]? (We do in parseTypeInstance).
 	lbrack := p.expect(token.LBRACK)
 	var args []ast.Expr
+	var firstComma token.Pos
+	// TODO(rfindley): consider changing parseRhsOrType so that this function variable
+	// is not needed.
+	argparser := p.parseRhsOrType
+	if p.mode&ParseTypeParams == 0 {
+		argparser = p.parseRhs
+	}
 	if p.tok != token.RBRACK {
 		p.exprLev++
-		args = append(args, p.parseRhsOrType())
+		args = append(args, argparser())
 		for p.tok == token.COMMA {
+			if !firstComma.IsValid() {
+				firstComma = p.pos
+			}
 			p.next()
-			args = append(args, p.parseRhsOrType())
+			args = append(args, argparser())
 		}
 		p.exprLev--
 	}
@@ -730,6 +784,15 @@ func (p *parser) parseArrayFieldOrTypeInstance(x *ast.Ident) (*ast.Ident, ast.Ex
 			// x [P]E
 			return x, &ast.ArrayType{Lbrack: lbrack, Len: args[0], Elt: elt}
 		}
+		if p.mode&ParseTypeParams == 0 {
+			p.error(rbrack, "missing element type in array type expression")
+			return nil, &ast.BadExpr{From: args[0].Pos(), To: args[0].End()}
+		}
+	}
+
+	if p.mode&ParseTypeParams == 0 {
+		p.error(firstComma, "expected ']', found ','")
+		return x, &ast.BadExpr{From: args[0].Pos(), To: args[len(args)-1].End()}
 	}
 
 	// x[P], x[P1, P2], ...
@@ -1020,7 +1083,7 @@ func (p *parser) parseParameters(scope *ast.Scope, acceptTParams bool) (tparams,
 		defer un(trace(p, "Parameters"))
 	}
 
-	if acceptTParams && p.tok == token.LBRACK {
+	if p.mode&ParseTypeParams != 0 && acceptTParams && p.tok == token.LBRACK {
 		opening := p.pos
 		p.next()
 		// [T any](params) syntax
@@ -1095,6 +1158,11 @@ func (p *parser) parseMethodSpec(scope *ast.Scope) *ast.Field {
 	if ident, _ := x.(*ast.Ident); ident != nil {
 		switch p.tok {
 		case token.LBRACK:
+			if p.mode&ParseTypeParams == 0 {
+				p.error(p.pos, "unexpected '[' in method declaration")
+				p.advanceToClosingOrSemi(token.RBRACE)
+				break
+			}
 			// generic method or embedded instantiated type
 			lbrack := p.pos
 			p.next()
@@ -1170,9 +1238,13 @@ func (p *parser) parseInterfaceType() *ast.InterfaceType {
 L:
 	for {
 		switch p.tok {
-		case token.IDENT, token.LPAREN:
+		// case token.IDENT, token.LPAREN:
+		case token.IDENT:
 			list = append(list, p.parseMethodSpec(scope))
 		case token.TYPE:
+			if p.mode&ParseTypeParams == 0 {
+				break L
+			}
 			// all types in a type list share the same field name "type"
 			// (since type is a keyword, a Go program cannot have that field name)
 			name := []*ast.Ident{{NamePos: p.pos, Name: "type"}}
@@ -1186,6 +1258,8 @@ L:
 			break L
 		}
 	}
+	// TODO(rfindley): the error produced here could be improved, since we're
+	// technically expecting an identifier OR a brace here.
 	rbrace := p.expect(token.RBRACE)
 
 	return &ast.InterfaceType{
@@ -1242,9 +1316,22 @@ func (p *parser) parseTypeInstance(typ ast.Expr) ast.Expr {
 		defer un(trace(p, "TypeInstance"))
 	}
 
-	opening := p.expect(token.LBRACK)
+	if p.mode&ParseTypeParams == 0 {
+		if p.tok == token.LBRACK {
+			p.error(p.pos, "unexpected '[' in type expression")
+			p.next()
+			p.advanceToClosingOrSemi(token.RBRACK)
+			if p.tok == token.RBRACK {
+				p.next()
+			}
+			return &ast.BadExpr{From: typ.Pos(), To: p.pos}
+		}
+		return typ
+	}
 
+	opening := p.expect(token.LBRACK)
 	p.exprLev++
+
 	var list []ast.Expr
 	for p.tok != token.RBRACK && p.tok != token.EOF {
 		list = append(list, p.parseType())
@@ -1669,7 +1756,8 @@ func (p *parser) checkExpr(x ast.Expr) ast.Expr {
 	case *ast.BinaryExpr:
 	default:
 		// all other nodes are not proper expressions
-		p.errorExpected(x.Pos(), "expression")
+		// p.errorExpected(x.Pos(), "expression")
+		p.errorExpected(x.Pos(), fmt.Sprintf("expression, but got %T", x))
 		x = &ast.BadExpr{From: x.Pos(), To: p.safePos(x.End())}
 	}
 	return x
@@ -2662,7 +2750,7 @@ func (p *parser) parseTypeSpec(doc *ast.CommentGroup, _ token.Pos, _ token.Token
 			p.exprLev++
 			x := p.parseExpr(true) // we don't know yet if we're a lhs or rhs expr
 			p.exprLev--
-			if name0, _ := x.(*ast.Ident); name0 != nil && p.tok != token.RBRACK {
+			if name0, _ := x.(*ast.Ident); name0 != nil && p.tok != token.RBRACK && p.mode&ParseTypeParams != 0 {
 				// generic type [T any];
 				p.parseGenericType(spec, lbrack, name0, token.RBRACK)
 			} else {
