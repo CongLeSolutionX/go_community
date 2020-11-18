@@ -90,7 +90,13 @@ func (n *Node) SetXoffset(x int64)    { n.xoffset = x }
 func (n *Node) Esc() uint16           { return n.esc }
 func (n *Node) SetEsc(x uint16)       { n.esc = x }
 func (n *Node) Op() Op                { return n.op }
-func (n *Node) SetOp(x Op)            { n.op = x }
+func (n *Node) SetOp(x Op) {
+	switch x {
+	case OCONTINUE:
+		panic("unavailable")
+	}
+	n.op = x
+}
 
 func (n *Node) Ninit() Nodes     { return n.ninit }
 func (n *Node) SetNinit(x Nodes) { n.ninit = x }
@@ -1025,6 +1031,9 @@ func (n Nodes) Second() INode {
 // This takes ownership of the slice.
 func (n *Nodes) Set(s []INode) {
 	if len(s) == 0 {
+		if n == nil {
+			return
+		}
 		n.slice = nil
 	} else {
 		// Copy s and take address of t rather than s to avoid
@@ -1511,6 +1520,7 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 			f Func
 		}
 		n = &x.n
+		n.SetOp(op)
 		n.SetFunc(&x.f)
 		n.Func().Decl = n
 	case ONAME:
@@ -1521,15 +1531,49 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 			m Name
 		}
 		n = &x.n
+		n.SetOp(op)
 		n.SetName(&x.m)
+	case OCONTINUE:
+		n = new(ContinueStmt)
 	default:
 		n = new(Node)
+		n.SetOp(op)
 	}
-	n.SetOp(op)
 	n.SetLeft(nleft)
 	n.SetRight(nright)
 	n.SetPos(pos)
 	n.SetXoffset(types.BADWIDTH)
 	n.SetOrig(n)
 	return n
+}
+
+type ContinueStmt struct {
+	TrivNode
+	Label *types.Sym // label
+}
+
+func (*ContinueStmt) Op() Op                  { return OCONTINUE }
+func (n *ContinueStmt) Sym() *types.Sym       { return n.Label }
+func (n *ContinueStmt) SetSym(sym *types.Sym) { n.Label = sym }
+func (n *ContinueStmt) RawCopy() INode {
+	m := *n
+	return &m
+}
+func (n *ContinueStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
+func (n *ContinueStmt) String() string                { return fmt.Sprint(n) }
+
+// TODO make a function calling RawCopy
+func (n *ContinueStmt) Copy() INode {
+	copy := *n
+	if n.Orig() == n {
+		copy.SetOrig(&copy)
+	}
+	return &copy
+}
+
+// TODO: make a function calling RawCopy
+func (n *ContinueStmt) SepCopy() INode {
+	copy := *n
+	copy.SetOrig(&copy)
+	return &copy
 }

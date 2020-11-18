@@ -472,9 +472,6 @@ func inlcopy(n ir.INode) ir.INode {
 	}
 
 	m := n.Copy()
-	if n.Op() != ir.OCALLPART && m.Func() != nil {
-		base.Fatal("unexpected Func: %v", m)
-	}
 	m.SetLeft(inlcopy(n.Left()))
 	m.SetRight(inlcopy(n.Right()))
 	m.PtrList().Set(inlcopylist(n.List().Slice()))
