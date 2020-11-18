@@ -963,6 +963,12 @@ func mkinlcall(n, fn *Node, maxCost int32, inlMap map[*Node]bool) *Node {
 
 	ninit := n.Ninit
 
+	// Evaluate the function callee expression for side effects,
+	// if necessary (#42703).
+	if n.Op == OCALLFUNC && n.Left.Op != ONAME {
+		ninit.Append(typecheck(nod(OAS, nblank, n.Left), ctxStmt))
+	}
+
 	// Make temp names to use instead of the originals.
 	inlvars := make(map[*Node]*Node)
 
