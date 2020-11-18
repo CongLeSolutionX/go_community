@@ -465,7 +465,7 @@ opswitch:
 		ir.Dump("walk", n)
 		base.Fatal("walkexpr: switch 1 unknown op %+S", n)
 
-	case ir.ONONAME, ir.OEMPTY, ir.OGETG, ir.ONEWOBJ:
+	case ir.ONONAME, ir.OEMPTY, ir.OGETG, ir.ONEWOBJ, ir.OMETHEXPR:
 
 	case ir.OTYPE, ir.ONAME, ir.OLITERAL:
 		// TODO(mdempsky): Just return n; see discussion on CL 38655.

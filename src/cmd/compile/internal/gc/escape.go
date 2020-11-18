@@ -478,7 +478,7 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.INode) {
 	default:
 		base.Fatal("unexpected expr: %v", n)
 
-	case ir.OLITERAL, ir.OGETG, ir.OCLOSUREVAR, ir.OTYPE:
+	case ir.OLITERAL, ir.OGETG, ir.OCLOSUREVAR, ir.OTYPE, ir.OMETHEXPR:
 		// nop
 
 	case ir.ONAME:

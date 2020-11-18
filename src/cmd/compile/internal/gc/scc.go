@@ -77,11 +77,15 @@ func (v *bottomUpVisitor) visit(n ir.INode) uint32 {
 
 	ir.InspectList(n.Nbody(), func(n ir.INode) bool {
 		switch n.Op() {
+		case ir.OMETHEXPR:
+			n = ir.AsNode(n.Type().Nname())
+			if n != nil && n.Name().Defn != nil {
+				if m := v.visit(n.Name().Defn); m < min {
+					min = m
+				}
+			}
 		case ir.ONAME:
 			if n.Class() == ir.PFUNC {
-				if n.IsMethodExpression() {
-					n = ir.AsNode(n.Type().Nname())
-				}
 				if n != nil && n.Name().Defn != nil {
 					if m := v.visit(n.Name().Defn); m < min {
 						min = m

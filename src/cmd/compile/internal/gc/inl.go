@@ -264,15 +264,14 @@ func inlFlood(n ir.INode) {
 	// because after inlining they might be callable.
 	ir.InspectList(ir.AsNodes(n.Func().Inl.Body), func(n ir.INode) bool {
 		switch n.Op() {
+		case ir.OMETHEXPR:
+			inlFlood(ir.AsNode(n.Type().Nname()))
+
 		case ir.ONAME:
 			switch n.Class() {
 			case ir.PFUNC:
-				if n.IsMethodExpression() {
-					inlFlood(ir.AsNode(n.Type().Nname()))
-				} else {
-					inlFlood(n)
-					exportsym(n)
-				}
+				inlFlood(n)
+				exportsym(n)
 			case ir.PEXTERN:
 				exportsym(n)
 			}
@@ -717,17 +716,16 @@ func inlnode(n ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode {
 func inlCallee(fn ir.INode) ir.INode {
 	fn = staticValue(fn)
 	switch {
-	case fn.Op() == ir.ONAME && fn.Class() == ir.PFUNC:
-		if fn.IsMethodExpression() {
-			n := ir.AsNode(fn.Type().Nname())
-			// Check that receiver type matches fn.Left.
-			// TODO(mdempsky): Handle implicit dereference
-			// of pointer receiver argument?
-			if n == nil || !types.Identical(n.Type().Recv().Type, fn.Left().Type()) {
-				return nil
-			}
-			return n
+	case fn.Op() == ir.OMETHEXPR:
+		n := ir.AsNode(fn.Type().Nname())
+		// Check that receiver type matches fn.Left.
+		// TODO(mdempsky): Handle implicit dereference
+		// of pointer receiver argument?
+		if n == nil || !types.Identical(n.Type().Recv().Type, fn.Left().Type()) {
+			return nil
 		}
+		return n
+	case fn.Op() == ir.ONAME && fn.Class() == ir.PFUNC:
 		return fn
 	case fn.Op() == ir.OCLOSURE:
 		c := fn.Func().Decl

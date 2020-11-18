@@ -2407,7 +2407,7 @@ func typecheckMethodExpr(n ir.INode) (res ir.INode) {
 		return n
 	}
 
-	n.SetOp(ir.ONAME)
+	n.SetOp(ir.OMETHEXPR)
 	if n.Name() == nil {
 		n.SetName(new(ir.Name))
 	}
@@ -2675,7 +2675,7 @@ notenough:
 			// call is the expression being called, not the overall call.
 			// Method expressions have the form T.M, and the compiler has
 			// rewritten those to ONAME nodes but left T in Left.
-			if call.IsMethodExpression() {
+			if call.Op() == ir.OMETHEXPR {
 				base.Error("not enough arguments in call to method expression %v%s", call, details)
 			} else {
 				base.Error("not enough arguments in call to %v%s", call, details)

@@ -42,7 +42,6 @@ type INode interface {
 	IsBlank() bool
 	IsDDD() bool
 	IsMethod() bool
-	IsMethodExpression() bool
 	IsNil() bool
 	IsSynthetic() bool
 	Left() INode
@@ -162,7 +161,6 @@ func (n *TrivNode) IsAutoTmp() bool               { panic("unavailable") }
 func (n *TrivNode) IsBlank() bool                 { panic("unavailable") }
 func (n *TrivNode) IsDDD() bool                   { panic("unavailable") }
 func (n *TrivNode) IsMethod() bool                { panic("unavailable") }
-func (n *TrivNode) IsMethodExpression() bool      { panic("unavailable") }
 func (n *TrivNode) IsNil() bool                   { panic("unavailable") }
 func (n *TrivNode) IsSynthetic() bool             { panic("unavailable") }
 func (n *TrivNode) Left() INode                   { return nil }

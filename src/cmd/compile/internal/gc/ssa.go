@@ -2021,6 +2021,9 @@ func (s *state) expr(n ir.INode) *ssa.Value {
 	case ir.OCFUNC:
 		aux := n.Left().Sym().Linksym()
 		return s.entryNewValue1A(ssa.OpAddr, n.Type(), aux, s.sb)
+	case ir.OMETHEXPR:
+		sym := funcsym(n.Sym()).Linksym()
+		return s.entryNewValue1A(ssa.OpAddr, types.NewPtr(n.Type()), sym, s.sb)
 	case ir.ONAME:
 		if n.Class() == ir.PFUNC {
 			// "value" of a function is the address of the function's closure
