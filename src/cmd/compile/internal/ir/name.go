@@ -505,3 +505,24 @@ func (*LabelNode) Op() Op                { return OLABEL }
 func (l *LabelNode) RawCopy() INode      { copy := *l; return &copy }
 func (l *LabelNode) Sym() *types.Sym     { return l.sym }
 func (l *LabelNode) SetSym(x *types.Sym) { l.sym = x }
+
+// A DclConst is a node for a constant declaration.
+type DclConst struct {
+	TrivNode
+	name *Name // returned as Left
+}
+
+func newDclConst(name *Name) *DclConst {
+	return &DclConst{name: name}
+}
+
+func (*DclConst) Op() Op           { return ODCLCONST }
+func (d *DclConst) RawCopy() INode { copy := *d; return &copy }
+func (d *DclConst) Left() INode {
+	return d.name
+}
+func (d *DclConst) SetLeft(x INode) {
+	if x != d.name {
+		panic("DclConst SetLeft")
+	}
+}
