@@ -787,12 +787,11 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 		}
 
 		if et == types.TSTRING && n.Op() == ir.OADD {
-			// create OADDSTR node with list of strings in x + y + z + (w + v) + ...
-			n.SetOp(ir.OADDSTR)
-
+			// create or update OADDSTR node with list of strings in x + y + z + (w + v) + ...
 			if l.Op() == ir.OADDSTR {
-				n.PtrList().Set(l.List().Slice())
+				n = l
 			} else {
+				n = ir.Nod(ir.OADDSTR, nil, nil)
 				n.PtrList().Set1(l)
 			}
 			if r.Op() == ir.OADDSTR {
@@ -800,8 +799,6 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 			} else {
 				n.PtrList().Append(r)
 			}
-			n.SetLeft(nil)
-			n.SetRight(nil)
 		}
 
 		if (op == ir.ODIV || op == ir.OMOD) && ir.IsConst(r, ir.CTINT) {
