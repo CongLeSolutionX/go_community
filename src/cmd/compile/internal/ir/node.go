@@ -70,6 +70,8 @@ var badForNode = [OEND]bool{
 	OCONTINUE: true,
 	ONONAME:   true,
 	OLITERAL:  true,
+	OPACK:     true,
+	OLABEL:    true,
 }
 
 func (n *node) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
@@ -85,8 +87,8 @@ func (n *node) Type() *types.Type     { return n.typ }
 func (n *node) SetType(x *types.Type) { n.typ = x }
 func (n *node) Func() *Func           { return n.fn }
 func (n *node) SetFunc(x *Func)       { n.fn = x }
-func (n *node) Name() *Name           { return n.name }
-func (n *node) SetName(x *Name)       { n.name = x }
+func (n *node) Name() *Name           { return nil }
+func (n *node) SetName(x *Name)       { panic("unavailable") }
 func (n *node) Sym() *types.Sym       { return n.sym }
 func (n *node) SetSym(x *types.Sym)   { n.sym = x }
 func (n *node) Pos() src.XPos         { return n.pos }
@@ -375,9 +377,9 @@ func PkgFuncName(n INode) string {
 func (n *node) CanBeAnSSASym() {
 }
 
-// Name holds Node fields used only by named nodes (ONAME, OTYPE, OPACK, OLABEL, some OLITERAL).
+// Name holds Node fields used only by named nodes (ONAME, OTYPE, some OLITERAL).
 type Name struct {
-	Pack      INode      // real package for import . names
+	Pack      *PackNode  // real package for import . names
 	Pkg       *types.Pkg // pkg for OPACK nodes
 	Defn      INode      // initializing assignment
 	Curfn     INode      // function for local variables
@@ -1453,16 +1455,6 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 		n.SetOp(op)
 		n.SetFunc(&x.f)
 		n.Func().Decl = n
-	case ONAME:
-		base.Fatal("use newname instead")
-	case OLABEL, OPACK:
-		var x struct {
-			n node
-			m Name
-		}
-		n = &x.n
-		n.SetOp(op)
-		n.SetName(&x.m)
 	case OCONTINUE:
 		n = new(ContinueStmt)
 	case ONONAME, OLITERAL:
@@ -1788,3 +1780,45 @@ func (n *NameNode) IsNil() bool {
 func (n *NameNode) Typ() *types.Type {
 	return n.Type()
 }
+
+// A PackNode is an INode for the name of an imported package.
+type PackNode struct {
+	TrivNode
+	sym  *types.Sym
+	Used bool
+	Pkg  *types.Pkg
+}
+
+func NewPackNode(pos src.XPos, sym *types.Sym, pkg *types.Pkg) *PackNode {
+	p := &PackNode{sym: sym, Pkg: pkg}
+	p.SetPos(pos)
+	return p
+}
+
+func (p *PackNode) RawCopy() INode                { panic("can't copy PackNode") }
+func (p *PackNode) Format(s fmt.State, verb rune) { FmtNode(p, s, verb) }
+func (p *PackNode) String() string                { return fmt.Sprint(p) }
+
+func (*PackNode) Op() Op            { return OPACK }
+func (p *PackNode) Sym() *types.Sym { return p.sym }
+
+// A LabelNode is an INode for the name of an imported package.
+type LabelNode struct {
+	TrivNode
+	sym  *types.Sym
+	Defn INode // statement being labeled
+}
+
+func NewLabelNode(pos src.XPos, sym *types.Sym) *LabelNode {
+	l := &LabelNode{sym: sym}
+	l.SetPos(pos)
+	return l
+}
+
+func (l *LabelNode) RawCopy() INode                { copy := *l; return &copy }
+func (l *LabelNode) Format(s fmt.State, verb rune) { FmtNode(l, s, verb) }
+func (l *LabelNode) String() string                { return fmt.Sprint(l) }
+
+func (*LabelNode) Op() Op                { return OLABEL }
+func (l *LabelNode) Sym() *types.Sym     { return l.sym }
+func (l *LabelNode) SetSym(x *types.Sym) { l.sym = x }

@@ -166,7 +166,7 @@ func (n *TrivNode) List() Nodes                   { return Nodes{} }
 func (n *TrivNode) MarkNonNil()                   { panic("unavailable") }
 func (n *TrivNode) MarkReadonly()                 { panic("unavailable") }
 func (n *TrivNode) MayBeShared() bool             { return false }
-func (n *TrivNode) Name() *Name                   { panic("unavailable") }
+func (n *TrivNode) Name() *Name                   { return nil }
 func (n *TrivNode) NoInline() bool                { panic("unavailable") }
 func (n *TrivNode) NonNil() bool                  { panic("unavailable") }
 func (n *TrivNode) Opt() interface{}              { panic("unavailable") }

@@ -292,7 +292,7 @@ func walkExprSwitch(sw ir.INode) {
 		}
 
 		// Process body.
-		body.Append(npos(ncase.Pos(), nodSym(ir.OLABEL, nil, label)))
+		body.Append(npos(ncase.Pos(), ir.NewLabelNode(base.Pos, label)))
 		body.Append(ncase.Nbody().Slice()...)
 		if fall, pos := hasFall(ncase.Nbody().Slice()); !fall {
 			br := ir.Nod(ir.OBREAK, nil, nil)
@@ -580,7 +580,7 @@ func walkTypeSwitch(sw ir.INode) {
 			}
 		}
 
-		body.Append(npos(ncase.Pos(), nodSym(ir.OLABEL, nil, label)))
+		body.Append(npos(ncase.Pos(), ir.NewLabelNode(base.Pos, label)))
 		if caseVar != nil && !caseVarInitialized {
 			val := s.facename
 			if singleType != nil {
