@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d8d12864_768652a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-18T21:57:49Z",
+      "side": 1,
+      "message": "Yeah, it seems this can be useful, and I\u0027m a bit surprised that there wasn\u0027t an easy way to get the Field from an ODOT/ODOTPTR node. In gc/ssa.go, function fieldIdx is used to find the Field.",
+      "range": {
+        "startLine": 24,
+        "startChar": 17,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "a95ac179e97ea53efe7b8da98a195a833f7ff3b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bea61b52_82480aba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
