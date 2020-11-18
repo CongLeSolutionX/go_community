@@ -1897,6 +1897,7 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 
 	case ir.OCLOSURE:
 		ok |= ctxExpr
+		n := n.(*ir.Closure)
 		typecheckclosure(n, top)
 		if n.Type() == nil {
 			return n

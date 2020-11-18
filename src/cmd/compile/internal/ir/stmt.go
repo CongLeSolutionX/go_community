@@ -7,7 +7,7 @@ package ir
 import "cmd/compile/internal/types"
 
 type ContinueStmt struct {
-	TrivNode
+	defaultNode
 	Label *types.Sym // label
 }
 

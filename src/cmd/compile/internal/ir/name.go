@@ -472,7 +472,7 @@ func (n *Name) SetEmbedFiles(list []string) {
 
 // A PackNode is an INode for the name of an imported package.
 type PackNode struct {
-	TrivNode
+	defaultNode
 	sym  *types.Sym
 	Used bool
 	Pkg  *types.Pkg
@@ -490,7 +490,7 @@ func (p *PackNode) Sym() *types.Sym { return p.sym }
 
 // A LabelNode is an INode for the name of an imported package.
 type LabelNode struct {
-	TrivNode
+	defaultNode
 	sym  *types.Sym
 	Defn INode // statement being labeled
 }
@@ -508,7 +508,7 @@ func (l *LabelNode) SetSym(x *types.Sym) { l.sym = x }
 
 // A DclConst is a node for a constant declaration.
 type DclConst struct {
-	TrivNode
+	defaultNode
 	name *Name // returned as Left
 }
 
@@ -529,7 +529,7 @@ func (d *DclConst) SetLeft(x INode) {
 
 // A DclType is a node for a type declaration.
 type DclType struct {
-	TrivNode
+	defaultNode
 	name *Name // returned as Left
 }
 

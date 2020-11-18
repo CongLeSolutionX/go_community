@@ -200,7 +200,7 @@ func (f *Func) SetWBPos(pos src.XPos) {
 }
 
 type DclFunc struct {
-	TrivNode
+	defaultNode
 	f     *Func
 	nbody Nodes
 	typ   *types.Type
@@ -223,6 +223,20 @@ func (n *DclFunc) Type() *types.Type     { return n.typ }
 func (n *DclFunc) SetType(x *types.Type) { n.typ = x }
 func (n *DclFunc) Iota() int64           { return n.iota }
 func (n *DclFunc) SetIota(x int64)       { n.iota = x }
+
+// A Closure is the OCLOSURE node.
+type Closure struct {
+	defaultNode
+	fn *Func
+	nodeFieldOpt
+	nodeFieldType
+	nodeFieldTransient
+}
+
+func (*Closure) Op() Op            { return OCLOSURE }
+func (c *Closure) RawCopy() INode  { copy := *c; return &copy }
+func (c *Closure) Func() *Func     { return c.fn }
+func (c *Closure) SetFunc(x *Func) { c.fn = x }
 
 // FuncName returns the name (without the package) of the function n.
 func FuncName(n INode) string {

@@ -251,13 +251,14 @@ func (s *InitSchedule) staticassign(l ir.INode, r ir.INode) bool {
 		break
 
 	case ir.OCLOSURE:
+		r := r.(*ir.Closure)
 		if hasemptycvars(r) {
 			if base.Debug.Closure > 0 {
 				base.WarnAt(r.Pos(), "closure converted to global")
 			}
 			// Closures with no captured variables are globals,
 			// so the assignment can be done at link time.
-			pfuncsym(l, r.Func().Decl.Func().Name)
+			pfuncsym(l, r.Func().Name)
 			return true
 		}
 		closuredebugruntimecheck(r)
