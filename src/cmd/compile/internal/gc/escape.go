@@ -569,7 +569,7 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.INode) {
 
 		closureK := e.spill(k, n)
 
-		m := callpartMethod(n)
+		m := callpartMethod(n.(*ir.CallPart))
 
 		// We don't know how the method value will be called
 		// later, so conservatively assume the result

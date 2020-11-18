@@ -953,7 +953,7 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 			if top&ctxCallee != 0 {
 				ok |= ctxCallee
 			} else {
-				typecheckpartialcall(n, s)
+				n = typecheckpartialcall(n, s)
 				ok |= ctxExpr
 			}
 

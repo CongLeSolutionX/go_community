@@ -22,7 +22,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.INode {
 	dcl.Func().Name.Ntype = xtype
 	dcl.Func().Name.Defn = dcl
 
-	clo := p.nod(expr, ir.OCLOSURE, nil, nil)
+	clo := p.nod(expr, ir.OCLOSURE, nil, nil).(*ir.Closure)
 	clo.SetFunc(dcl.Func())
 	clo.Func().ClosureType = ntype
 
@@ -373,7 +373,7 @@ func closureType(clo *ir.Closure) *types.Type {
 	fields := []ir.INode{
 		namedfield(".F", types.Types[types.TUINTPTR]),
 	}
-	for _, v := range clo.Func().Cvars.Slice() {
+	for _, v := range clo.Func().Decl.Func().Cvars.Slice() {
 		typ := v.Type()
 		if !v.Name().Byval() {
 			typ = types.NewPtr(typ)
@@ -421,7 +421,7 @@ func walkclosure(clo *ir.Closure, init *ir.Nodes) ir.INode {
 	return walkexpr(clos, init)
 }
 
-func typecheckpartialcall(fn ir.INode, sym *types.Sym) {
+func typecheckpartialcall(fn ir.INode, sym *types.Sym) ir.INode {
 	switch fn.Op() {
 	case ir.ODOTINTER, ir.ODOTMETH:
 		break
@@ -433,10 +433,10 @@ func typecheckpartialcall(fn ir.INode, sym *types.Sym) {
 	// Create top-level function.
 	dcl := makepartialcall(fn, fn.Type(), sym)
 	dcl.Func().SetWrapper(true)
-	fn.SetOp(ir.OCALLPART)
-	fn.SetRight(NewName(sym))
-	fn.SetType(dcl.Type())
-	fn.SetFunc(dcl.Func())
+	n := ir.Nod(ir.OCALLPART, fn.Left(), NewName(sym)).(*ir.CallPart)
+	n.SetType(dcl.Type())
+	n.SetFunc(dcl.Func())
+	return n
 }
 
 // makepartialcall returns a DCLFUNC node representing the wrapper function (*-fm) needed
@@ -531,7 +531,7 @@ func partialCallType(n ir.INode) *types.Type {
 	return t
 }
 
-func walkpartialcall(n ir.INode, init *ir.Nodes) ir.INode {
+func walkpartialcall(n *ir.CallPart, init *ir.Nodes) ir.INode {
 	// Create closure in the form of a composite literal.
 	// For x.M with receiver (x) type T, the generated code looks like:
 	//
@@ -579,11 +579,7 @@ func walkpartialcall(n ir.INode, init *ir.Nodes) ir.INode {
 
 // callpartMethod returns the *types.Field representing the method
 // referenced by method value n.
-func callpartMethod(n ir.INode) *types.Field {
-	if n.Op() != ir.OCALLPART {
-		base.Fatal("expected OCALLPART, got %v", n)
-	}
-
+func callpartMethod(n *ir.CallPart) *types.Field {
 	// TODO(mdempsky): Optimize this. If necessary,
 	// makepartialcall could save m for us somewhere.
 	var m *types.Field
