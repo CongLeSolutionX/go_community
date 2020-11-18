@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "def843aa_d7ec61a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-18T23:11:07Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not sure I understand this.\n\n\u003e The default expected behavior is a conditional return from a subroutine.\n\nWhat is the actual behavior? How do they differ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7551dba4_82904146",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-18T23:11:07Z",
+      "side": 1,
+      "message": "Thanks for the CL. We\u0027re in the release freeze. This will wait for the next release.\n\nR\u003dgo1.17",
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3549f1_59fa4862",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2871,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-18T23:11:07Z",
+      "side": 1,
+      "message": "Can you use GetFrom3 here?",
+      "range": {
+        "startLine": 2871,
+        "startChar": 2,
+        "endLine": 2871,
+        "endChar": 22
+      },
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
