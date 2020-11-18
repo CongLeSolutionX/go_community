@@ -136,7 +136,7 @@ func (s *InitSchedule) staticcopy(l ir.INode, r ir.INode) bool {
 	case ir.OARRAYLIT, ir.OSTRUCTLIT:
 		p := s.initplans[r]
 
-		n := l.Copy()
+		n := ir.Copy(l)
 		for i := range p.E {
 			e := &p.E[i]
 			n.SetXoffset(l.Xoffset() + e.Xoffset)
@@ -145,13 +145,13 @@ func (s *InitSchedule) staticcopy(l ir.INode, r ir.INode) bool {
 				litsym(n, e.Expr, int(n.Type().Width))
 				continue
 			}
-			ll := n.SepCopy()
+			ll := ir.SepCopy(n)
 			if s.staticcopy(ll, e.Expr) {
 				continue
 			}
 			// Requires computation, but we're
 			// copying someone else's computation.
-			rr := orig.SepCopy()
+			rr := ir.SepCopy(orig)
 			rr.SetType(ll.Type())
 			rr.SetXoffset(rr.Xoffset() + e.Xoffset)
 			setlineno(rr)
@@ -229,7 +229,7 @@ func (s *InitSchedule) staticassign(l ir.INode, r ir.INode) bool {
 		s.initplan(r)
 
 		p := s.initplans[r]
-		n := l.Copy()
+		n := ir.Copy(l)
 		for i := range p.E {
 			e := &p.E[i]
 			n.SetXoffset(l.Xoffset() + e.Xoffset)
@@ -239,7 +239,7 @@ func (s *InitSchedule) staticassign(l ir.INode, r ir.INode) bool {
 				continue
 			}
 			setlineno(e.Expr)
-			a := n.SepCopy()
+			a := ir.SepCopy(n)
 			if !s.staticassign(a, e.Expr) {
 				s.append(ir.Nod(ir.OAS, a, e.Expr))
 			}
@@ -290,7 +290,7 @@ func (s *InitSchedule) staticassign(l ir.INode, r ir.INode) bool {
 		}
 
 		// Create a copy of l to modify while we emit data.
-		n := l.Copy()
+		n := ir.Copy(l)
 
 		// Emit itab, advance offset.
 		addrsym(n, itab.Left()) // itab is an OADDR node
@@ -305,7 +305,7 @@ func (s *InitSchedule) staticassign(l ir.INode, r ir.INode) bool {
 			// Copy val directly into n.
 			n.SetType(val.Type())
 			setlineno(val)
-			a := n.SepCopy()
+			a := ir.SepCopy(n)
 			if !s.staticassign(a, val) {
 				s.append(ir.Nod(ir.OAS, a, val))
 			}

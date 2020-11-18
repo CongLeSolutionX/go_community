@@ -3959,7 +3959,7 @@ func wrapCall(n ir.INode, init *ir.Nodes) ir.INode {
 // The result of substArgTypes MUST be assigned back to old, e.g.
 // 	n.Left = substArgTypes(n.Left, t1, t2)
 func substArgTypes(old ir.INode, types_ ...*types.Type) ir.INode {
-	n := old.Copy()
+	n := ir.Copy(old)
 
 	for _, t := range types_ {
 		dowidth(t)

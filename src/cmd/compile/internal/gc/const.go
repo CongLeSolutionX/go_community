@@ -498,7 +498,7 @@ func evalConst(n ir.INode) ir.INode {
 				newList = append(newList, s[i])
 			}
 		}
-		n = n.Copy()
+		n = ir.Copy(n)
 		n.PtrList().Set(newList)
 		return n
 

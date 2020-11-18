@@ -191,7 +191,7 @@ func treecopy(n ir.INode, pos src.XPos) ir.INode {
 
 	switch n.Op() {
 	default:
-		m := n.SepCopy()
+		m := ir.SepCopy(n)
 		m.SetLeft(treecopy(n.Left(), pos))
 		m.SetRight(treecopy(n.Right(), pos))
 		m.PtrList().Set(listtreecopy(n.List().Slice(), pos))
@@ -758,7 +758,7 @@ func safeexpr(n ir.INode, init *ir.Nodes) ir.INode {
 		if l == n.Left() {
 			return n
 		}
-		r := n.Copy()
+		r := ir.Copy(n)
 		r.SetLeft(l)
 		r = typecheck(r, ctxExpr)
 		r = walkexpr(r, init)
@@ -769,7 +769,7 @@ func safeexpr(n ir.INode, init *ir.Nodes) ir.INode {
 		if l == n.Left() {
 			return n
 		}
-		a := n.Copy()
+		a := ir.Copy(n)
 		a.SetLeft(l)
 		a = walkexpr(a, init)
 		return a
@@ -780,7 +780,7 @@ func safeexpr(n ir.INode, init *ir.Nodes) ir.INode {
 		if l == n.Left() && r == n.Right() {
 			return n
 		}
-		a := n.Copy()
+		a := ir.Copy(n)
 		a.SetLeft(l)
 		a.SetRight(r)
 		a = walkexpr(a, init)

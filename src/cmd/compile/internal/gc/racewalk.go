@@ -83,7 +83,7 @@ func instrument(fn ir.INode) {
 			// This only works for amd64. This will not
 			// work on arm or others that might support
 			// race in the future.
-			nodpc := nodfp.Copy()
+			nodpc := ir.Copy(nodfp)
 			nodpc.SetType(types.Types[types.TUINTPTR])
 			nodpc.SetXoffset(int64(-Widthptr))
 			fn.Func().Dcl = append(fn.Func().Dcl, nodpc)

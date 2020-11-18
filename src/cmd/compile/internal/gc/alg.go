@@ -844,7 +844,7 @@ func eqstring(s, t ir.INode) (eqlen, eqmem ir.INode) {
 	fn := syslook("memequal")
 	fn = substArgTypes(fn, types.Types[types.TUINT8], types.Types[types.TUINT8])
 	call := ir.Nod(ir.OCALL, fn, nil)
-	call.PtrList().Append(sptr, tptr, slen.Copy())
+	call.PtrList().Append(sptr, tptr, ir.Copy(slen))
 	call = typecheck(call, ctxExpr|ctxMultiOK)
 
 	cmp := ir.Nod(ir.OEQ, slen, tlen)

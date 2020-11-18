@@ -20,7 +20,6 @@ type INode interface {
 	CanInt64() bool
 	Class() Class
 	Colas() bool
-	Copy() INode
 	Diag() bool
 	Embedded() bool
 	Esc() uint16
@@ -65,7 +64,6 @@ type INode interface {
 	RawCopy() INode
 	ResetAux()
 	Right() INode
-	SepCopy() INode
 	SetBounded(b bool)
 	SetClass(b Class)
 	SetColas(b bool)
@@ -119,7 +117,6 @@ type INode interface {
 	Val() Val
 	Walkdef() uint8
 	Xoffset() int64
-	Clear()
 }
 
 // TrivNode is an embeddable Node implementation
@@ -132,7 +129,6 @@ type TrivNode struct {
 	typecheck uint8
 }
 
-func (n *TrivNode) Clear()                        { panic("unavailable") }
 func (n *TrivNode) BoolVal() bool                 { panic("unavailable") }
 func (n *TrivNode) Bounded() bool                 { panic("unavailable") }
 func (n *TrivNode) CanBeAnSSASym()                { panic("unavailable") }
@@ -180,10 +176,8 @@ func (n *TrivNode) PtrList() *Nodes               { return nil }
 func (n *TrivNode) PtrNbody() *Nodes              { return nil }
 func (n *TrivNode) PtrNinit() *Nodes              { return nil }
 func (n *TrivNode) PtrRlist() *Nodes              { return nil }
-func (n *TrivNode) RawCopy() INode                { panic("unavailable") }
 func (n *TrivNode) ResetAux()                     { panic("unavailable") }
 func (n *TrivNode) Right() INode                  { return nil }
-func (n *TrivNode) SepCopy() INode                { panic("unavailable") }
 func (n *TrivNode) SetBounded(b bool)             { panic("unavailable") }
 func (n *TrivNode) SetClass(b Class)              { panic("unavailable") }
 func (n *TrivNode) SetColas(b bool)               { panic("unavailable") }
@@ -224,7 +218,7 @@ func (n *TrivNode) SetRight(x INode) {
 }
 func (n *TrivNode) SetRlist(x Nodes)                    { panic("unavailable") }
 func (n *TrivNode) SetSliceBounds(low, high, max INode) { panic("unavailable") }
-func (n *TrivNode) SetSubOp(op Op)                      { panic("unavailable") }
+func (n *TrivNode) SetSubOp(op Op)                      { panic("unavailable: SetSubOp " + op.String()) }
 func (n *TrivNode) SetSym(x *types.Sym)                 { panic("unavailable") }
 func (n *TrivNode) SetTChanDir(dir types.ChanDir)       { panic("unavailable") }
 func (n *TrivNode) SetTransient(b bool)                 { panic("unavailable") }

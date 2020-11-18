@@ -128,7 +128,7 @@ func (o *Order) cheapExpr(n ir.INode) ir.INode {
 		if l == n.Left() {
 			return n
 		}
-		a := n.SepCopy()
+		a := ir.SepCopy(n)
 		a.SetLeft(l)
 		return typecheck(a, ctxExpr)
 	}
@@ -153,7 +153,7 @@ func (o *Order) safeExpr(n ir.INode) ir.INode {
 		if l == n.Left() {
 			return n
 		}
-		a := n.SepCopy()
+		a := ir.SepCopy(n)
 		a.SetLeft(l)
 		return typecheck(a, ctxExpr)
 
@@ -162,7 +162,7 @@ func (o *Order) safeExpr(n ir.INode) ir.INode {
 		if l == n.Left() {
 			return n
 		}
-		a := n.SepCopy()
+		a := ir.SepCopy(n)
 		a.SetLeft(l)
 		return typecheck(a, ctxExpr)
 
@@ -177,7 +177,7 @@ func (o *Order) safeExpr(n ir.INode) ir.INode {
 		if l == n.Left() && r == n.Right() {
 			return n
 		}
-		a := n.SepCopy()
+		a := ir.SepCopy(n)
 		a.SetLeft(l)
 		a.SetRight(r)
 		return typecheck(a, ctxExpr)

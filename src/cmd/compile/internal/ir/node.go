@@ -66,6 +66,12 @@ type node struct {
 	aux uint8
 }
 
+var badForNode = [OEND]bool{
+	OCONTINUE: true,
+	ONONAME:   true,
+	OLITERAL:  true,
+}
+
 func (n *node) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *node) String() string                { return fmt.Sprint(n) }
 
@@ -90,12 +96,11 @@ func (n *node) SetXoffset(x int64)    { n.xoffset = x }
 func (n *node) Esc() uint16           { return n.esc }
 func (n *node) SetEsc(x uint16)       { n.esc = x }
 func (n *node) Op() Op                { return n.op }
-func (n *node) SetOp(x Op) {
-	switch x {
-	case OCONTINUE:
-		panic("unavailable")
+func (n *node) SetOp(op Op) {
+	if badForNode[op] {
+		panic("unavailable SetOp " + op.String())
 	}
-	n.op = x
+	n.op = op
 }
 
 func (n *node) Ninit() Nodes     { return n.ninit }
@@ -172,12 +177,7 @@ func (n *node) IsSynthetic() bool {
 
 // IsAutoTmp indicates if n was created by the compiler as a temporary,
 // based on the setting of the .AutoTemp flag in n's Name.
-func (n *node) IsAutoTmp() bool {
-	if n == nil || n.Op() != ONAME {
-		return false
-	}
-	return n.Name().AutoTemp()
-}
+func (n *node) IsAutoTmp() bool { return false }
 
 const (
 	nodeClass, _     = iota, 1 << iota // PPARAM, PAUTO, PEXTERN, etc; three bits; first in the list because frequently accessed
@@ -274,16 +274,7 @@ func (n *node) SetBounded(b bool) {
 }
 
 // MarkReadonly indicates that n is an ONAME with readonly contents.
-func (n *node) MarkReadonly() {
-	if n.Op() != ONAME {
-		base.Fatal("Node.MarkReadonly %v", n.Op())
-	}
-	n.Name().SetReadonly(true)
-	// Mark the linksym as readonly immediately
-	// so that the SSA backend can use this information.
-	// It will be overridden later during dumpglobls.
-	n.Sym().Linksym().Type = objabi.SRODATA
-}
+func (n *node) MarkReadonly() { panic("unavailable") }
 
 // Val returns the Val for the node.
 func (n *node) Val() Val {
@@ -338,13 +329,10 @@ func (n *node) SetIota(x int64) {
 // mayBeShared reports whether n may occur in multiple places in the AST.
 // Extra care must be taken when mutating such a node.
 func (n *node) MayBeShared() bool {
-	switch n.Op() {
-	case ONAME, OLITERAL, OTYPE:
-		return true
-	}
 	return false
 }
 
+// TODO(rsc): make toplevel
 // funcname returns the name (without the package) of the function n.
 func FuncName(n INode) string {
 	if n == nil || n.Func() == nil || n.Func().Nname == nil {
@@ -353,6 +341,7 @@ func FuncName(n INode) string {
 	return n.Func().Nname.Sym().Name
 }
 
+// TODO(rsc): make toplevel
 // pkgFuncName returns the name of the function referenced by n, with package prepended.
 // This differs from the compiler's internal convention where local functions lack a package
 // because the ultimate consumer of this is a human looking at an IDE; package is only empty
@@ -1377,43 +1366,10 @@ func IsConst(n INode, ct Ctype) bool {
 	return t == ct || (ct == CTINT && t == CTRUNE)
 }
 
-// Int64Val returns n as an int64.
-// n must be an integer or rune constant.
-func (n *node) Int64Val() int64 {
-	if !IsConst(n, CTINT) {
-		base.Fatal("Int64Val(%v)", n)
-	}
-	return n.Val().U.(*Int).Int64()
-}
-
-// CanInt64 reports whether it is safe to call Int64Val() on n.
-func (n *node) CanInt64() bool {
-	if !IsConst(n, CTINT) {
-		return false
-	}
-
-	// if the value inside n cannot be represented as an int64, the
-	// return value of Int64 is undefined
-	return n.Val().U.(*Int).CmpInt64(n.Int64Val()) == 0
-}
-
-// BoolVal returns n as a bool.
-// n must be a boolean constant.
-func (n *node) BoolVal() bool {
-	if !IsConst(n, CTBOOL) {
-		base.Fatal("BoolVal(%v)", n)
-	}
-	return n.Val().U.(bool)
-}
-
-// StringVal returns the value of a literal string Node as a string.
-// n must be a string constant.
-func (n *node) StringVal() string {
-	if !IsConst(n, CTSTR) {
-		base.Fatal("StringVal(%v)", n)
-	}
-	return n.Val().U.(string)
-}
+func (n *node) CanInt64() bool    { return false }
+func (n *node) Int64Val() int64   { panic("unavailable") }
+func (n *node) BoolVal() bool     { panic("unavailable") }
+func (n *node) StringVal() string { panic("unavailable") }
 
 // rawcopy returns a shallow copy of n.
 // Note: copy or sepcopy (rather than rawcopy) is usually the
@@ -1423,31 +1379,27 @@ func (n *node) RawCopy() INode {
 	return &copy
 }
 
-func (n *node) Clear() {
-	*n = node{}
-}
-
-// sepcopy returns a separate shallow copy of n, with the copy's
+// SepCopy returns a separate shallow copy of n, with the copy's
 // Orig pointing to itself.
-func (n *node) SepCopy() INode {
-	copy := *n
-	copy.SetOrig(&copy)
-	return &copy
+func SepCopy(n INode) INode {
+	copy := n.RawCopy()
+	copy.SetOrig(copy)
+	return copy
 }
 
-// copy returns shallow copy of n and adjusts the copy's Orig if
+// Copy returns shallow copy of n and adjusts the copy's Orig if
 // necessary: In general, if n.Orig points to itself, the copy's
 // Orig should point to itself as well. Otherwise, if n is modified,
 // the copy's Orig node appears modified, too, and then doesn't
 // represent the original node anymore.
 // (This caused the wrong complit Op to be used when printing error
 // messages; see issues #26855, #27765).
-func (n *node) Copy() INode {
-	copy := *n
+func Copy(n INode) INode {
+	copy := n.RawCopy()
 	if n.Orig() == n {
-		copy.SetOrig(&copy)
+		copy.SetOrig(copy)
 	}
-	return &copy
+	return copy
 }
 
 // isNil reports whether n represents the universal untyped zero value "nil".
@@ -1460,6 +1412,9 @@ func (n *node) IsNil() bool {
 func (n *node) IsBlank() bool {
 	if n == nil {
 		return false
+	}
+	if n.Sym().IsBlank() {
+		panic("node is blank")
 	}
 	return n.Sym().IsBlank()
 }
@@ -1480,19 +1435,7 @@ func (n *node) Typ() *types.Type {
 	return n.Type()
 }
 
-func (n *node) StorageClass() ssa.StorageClass {
-	switch n.Class() {
-	case PPARAM:
-		return ssa.ClassParam
-	case PPARAMOUT:
-		return ssa.ClassParamOut
-	case PAUTO:
-		return ssa.ClassAuto
-	default:
-		base.Fatal("untranslatable storage class for %v: %s", n, n.Class())
-		return 0
-	}
-}
+func (n *node) StorageClass() ssa.StorageClass { panic("unavailable") }
 
 func Nod(op Op, nleft, nright INode) INode {
 	return NodAt(base.Pos, op, nleft, nright)
@@ -1522,6 +1465,8 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 		n.SetName(&x.m)
 	case OCONTINUE:
 		n = new(ContinueStmt)
+	case ONONAME, OLITERAL:
+		n = newNameNode(op)
 	default:
 		n = new(node)
 		n.SetOp(op)
@@ -1549,20 +1494,74 @@ func (n *ContinueStmt) RawCopy() INode {
 func (n *ContinueStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *ContinueStmt) String() string                { return fmt.Sprint(n) }
 
-// TODO make a function calling RawCopy
-func (n *ContinueStmt) Copy() INode {
-	copy := *n
-	if n.Orig() == n {
-		copy.SetOrig(&copy)
-	}
-	return &copy
+type NameNode struct {
+	op        Op
+	sym       *types.Sym
+	typ       *types.Type
+	diag      bool
+	hasCall   bool
+	pos       src.XPos
+	typecheck uint8
+	orig      INode
+	esc       uint16
+	nonNil    bool
+
+	opt      interface{}
+	hasOpt   bool
+	implicit bool
+	readonly bool
+	ninit    Nodes
+	fn       *Func
+	xoffset  int64
+	class    Class
+	subop    Op
+	val      Val
+	m        Name
+	p        Param
+	isDDD    bool
+	iota     int64
+	walkdef  uint8
 }
 
-// TODO: make a function calling RawCopy
-func (n *ContinueStmt) SepCopy() INode {
-	copy := *n
-	copy.SetOrig(&copy)
-	return &copy
+func (n *NameNode) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
+func (n *NameNode) String() string                { return fmt.Sprint(n) }
+
+func (n *NameNode) Op() Op                { return n.op }
+func (n *NameNode) Sym() *types.Sym       { return n.sym }
+func (n *NameNode) SetSym(x *types.Sym)   { n.sym = x }
+func (n *NameNode) Type() *types.Type     { return n.typ }
+func (n *NameNode) SetType(x *types.Type) { n.typ = x }
+func (n *NameNode) SubOp() Op             { return n.subop }
+func (n *NameNode) SetSubOp(x Op)         { n.subop = x }
+func (n *NameNode) Val() Val              { return n.val }
+func (n *NameNode) SetVal(x Val)          { n.val = x }
+func (n *NameNode) Class() Class          { return n.class }
+func (n *NameNode) SetClass(x Class)      { n.class = x }
+func (n *NameNode) Func() *Func           { return n.fn }
+func (n *NameNode) SetFunc(x *Func)       { n.fn = x }
+func (n *NameNode) Xoffset() int64        { return n.xoffset }
+func (n *NameNode) SetXoffset(x int64)    { n.xoffset = x }
+func (n *NameNode) IsDDD() bool           { return n.isDDD }
+func (n *NameNode) SetIsDDD(x bool)       { n.isDDD = x }
+func (n *NameNode) Diag() bool            { return n.diag }
+func (n *NameNode) SetDiag(x bool)        { n.diag = x }
+func (n *NameNode) Iota() int64           { return n.iota }
+func (n *NameNode) SetIota(x int64)       { n.iota = x }
+func (n *NameNode) Walkdef() uint8        { return n.walkdef }
+func (n *NameNode) SetWalkdef(x uint8)    { n.walkdef = x }
+func (n *NameNode) Ninit() Nodes          { return n.ninit }
+func (n *NameNode) PtrNinit() *Nodes      { return &n.ninit }
+func (n *NameNode) HasCall() bool         { return n.hasCall }
+func (n *NameNode) SetHasCall(x bool)     { n.hasCall = x }
+
+func (n *NameNode) Name() *Name { return &n.m }
+func (n *NameNode) SetName(x *Name) {
+	panic("cannot SetName")
+}
+
+func (n *NameNode) RawCopy() INode {
+	m := *n
+	return &m
 }
 
 // newnamel returns a new ONAME Node associated with symbol s at position pos.
@@ -1572,19 +1571,220 @@ func NewNameAt(pos src.XPos, s *types.Sym) INode {
 		base.Fatal("newnamel nil")
 	}
 
-	var x struct {
-		n node
-		m Name
-		p Param
-	}
-	n := &x.n
-	n.SetName(&x.m)
-	n.Name().Param = &x.p
-
+	n := new(NameNode)
+	n.Name().Param = &n.p
 	n.SetOp(ONAME)
 	n.SetPos(pos)
 	n.SetOrig(n)
-
 	n.SetSym(s)
 	return n
+}
+
+func newNameNode(op Op) INode {
+	n := new(NameNode)
+	n.SetOp(op)
+	return n
+}
+
+func (n *NameNode) SetOp(op Op) {
+	switch op {
+	default:
+		panic("cannot NameNode SetOp " + op.String())
+	case OLITERAL, ONAME, ONONAME, OTYPE: // TODO: SetOp(OTYPE) should be removed
+		// ok
+		n.op = op
+	}
+}
+
+func (n *NameNode) IsAutoTmp() bool {
+	return n.op == ONAME && n.Name().AutoTemp()
+}
+
+// Int64Val returns n as an int64.
+// n must be an integer or rune constant.
+func (n *NameNode) Int64Val() int64 {
+	if !IsConst(n, CTINT) {
+		base.Fatal("Int64Val(%v)", n)
+	}
+	return n.Val().U.(*Int).Int64()
+}
+
+// CanInt64 reports whether it is safe to call Int64Val() on n.
+func (n *NameNode) CanInt64() bool {
+	if !IsConst(n, CTINT) {
+		return false
+	}
+
+	// if the value inside n cannot be represented as an int64, the
+	// return value of Int64 is undefined
+	return n.Val().U.(*Int).CmpInt64(n.Int64Val()) == 0
+}
+
+// BoolVal returns n as a bool.
+// n must be a boolean constant.
+func (n *NameNode) BoolVal() bool {
+	if !IsConst(n, CTBOOL) {
+		base.Fatal("BoolVal(%v)", n)
+	}
+	return n.Val().U.(bool)
+}
+
+// StringVal returns the value of a literal string Node as a string.
+// n must be a string constant.
+func (n *NameNode) StringVal() string {
+	if !IsConst(n, CTSTR) {
+		base.Fatal("StringVal(%v)", n)
+	}
+	return n.Val().U.(string)
+}
+
+func (n *NameNode) Bounded() bool        { panic("unavailable") }
+func (n *NameNode) CanBeAnSSASym()       { panic("unavailable") }
+func (n *NameNode) Colas() bool          { panic("unavailable") }
+func (n *NameNode) CopyFrom(INode)       { panic("unavailable") }
+func (n *NameNode) Embedded() bool       { panic("unavailable") }
+func (n *NameNode) Esc() uint16          { return n.esc }
+func (n *NameNode) FuncName() string     { panic("unavailable") }
+func (n *NameNode) Nbody() Nodes         { return Nodes{} }
+func (n *NameNode) Rlist() Nodes         { return Nodes{} }
+func (n *NameNode) HasBreak() bool       { panic("unavailable") }
+func (n *NameNode) HasOpt() bool         { return n.hasOpt }
+func (n *NameNode) HasVal() bool         { return n.val.U != nil }
+func (n *NameNode) Implicit() bool       { return n.implicit }
+func (n *NameNode) IndexMapLValue() bool { panic("unavailable") }
+func (n *NameNode) Initorder() uint8     { panic("unavailable") }
+func (n *NameNode) IsSynthetic() bool {
+	name := n.Sym().Name
+	return name[0] == '.' || name[0] == '~'
+}
+
+func (n *NameNode) Left() INode  { return nil }
+func (n *NameNode) Likely() bool { panic("unavailable") }
+func (n *NameNode) Line() string { panic("unavailable") }
+func (n *NameNode) List() Nodes  { return Nodes{} }
+func (n *NameNode) MarkNonNil() {
+	if !n.Type().IsPtr() && !n.Type().IsUnsafePtr() {
+		base.Fatal("MarkNonNil(%v), type %v", n, n.Type())
+	}
+	n.nonNil = true
+}
+func (n *NameNode) MarkReadonly() {
+	if n.Op() != ONAME {
+		base.Fatal("Node.MarkReadonly %v", n.Op())
+	}
+	n.Name().SetReadonly(true)
+	// Mark the linksym as readonly immediately
+	// so that the SSA backend can use this information.
+	// It will be overridden later during dumpglobls.
+	n.Sym().Linksym().Type = objabi.SRODATA
+}
+func (n *NameNode) MayBeShared() bool { return true }
+func (n *NameNode) NoInline() bool    { panic("unavailable") }
+func (n *NameNode) NonNil() bool      { return n.nonNil }
+func (n *NameNode) Opt() interface{}  { return n.opt }
+func (n *NameNode) Orig() INode       { return n.orig }
+func (n *NameNode) PkgFuncName() string {
+	var s *types.Sym
+	if n == nil {
+		return "<nil>"
+	}
+	if n.Op() == ONAME {
+		s = n.Sym()
+	} else {
+		if n.Func() == nil || n.Func().Nname == nil {
+			return "<nil>"
+		}
+		s = n.Func().Nname.Sym()
+	}
+	pkg := s.Pkg
+
+	p := base.Ctxt.Pkgpath
+	if pkg != nil && pkg.Path != "" {
+		p = pkg.Path
+	}
+	if p == "" {
+		return s.Name
+	}
+	return p + "." + s.Name
+}
+func (n *NameNode) Pos() src.XPos            { return n.pos }
+func (n *NameNode) PtrList() *Nodes          { return nil }
+func (n *NameNode) PtrNbody() *Nodes         { return nil }
+func (n *NameNode) PtrRlist() *Nodes         { return nil }
+func (n *NameNode) ResetAux()                { panic("unavailable") }
+func (n *NameNode) Right() INode             { return nil }
+func (n *NameNode) SetBounded(b bool)        { panic("unavailable") }
+func (n *NameNode) SetColas(b bool)          { panic("unavailable") }
+func (n *NameNode) SetEmbedded(b bool)       { panic("unavailable") }
+func (n *NameNode) SetEsc(x uint16)          { n.esc = x }
+func (n *NameNode) SetHasBreak(b bool)       { panic("unavailable") }
+func (n *NameNode) SetHasOpt(b bool)         { panic("unavailable") }
+func (n *NameNode) SetHasVal(b bool)         { panic("unavailable") }
+func (n *NameNode) SetImplicit(b bool)       { n.implicit = b }
+func (n *NameNode) SetIndexMapLValue(b bool) { panic("unavailable") }
+func (n *NameNode) SetInitorder(b uint8)     { panic("unavailable") }
+func (n *NameNode) SetLeft(x INode) {
+	if x != nil {
+		panic("unavailable")
+	}
+}
+func (n *NameNode) SetLikely(b bool)     { panic("unavailable") }
+func (n *NameNode) SetList(x Nodes)      { panic("unavailable") }
+func (n *NameNode) SetNbody(x Nodes)     { panic("unavailable") }
+func (n *NameNode) SetNinit(x Nodes)     { panic("unavailable") }
+func (n *NameNode) SetNoInline(b bool)   { panic("unavailable") }
+func (n *NameNode) SetOpt(x interface{}) { n.opt = x; n.hasOpt = true }
+func (n *NameNode) SetOrig(x INode)      { n.orig = x }
+func (n *NameNode) SetPos(x src.XPos)    { n.pos = x }
+func (n *NameNode) SetRight(x INode) {
+	if x != nil {
+		panic("unavailable")
+	}
+}
+func (n *NameNode) SetRlist(x Nodes)                    { panic("unavailable") }
+func (n *NameNode) SetSliceBounds(low, high, max INode) { panic("unavailable") }
+func (n *NameNode) SetTChanDir(dir types.ChanDir)       { panic("unavailable") }
+func (n *NameNode) SetTransient(b bool)                 { panic("unavailable") }
+func (n *NameNode) SetTypecheck(b uint8)                { n.typecheck = b }
+
+func (n *NameNode) SliceBounds() (low, high, max INode) { panic("unavailable") }
+func (n *NameNode) StorageClass() ssa.StorageClass {
+	switch n.Class() {
+	case PPARAM:
+		return ssa.ClassParam
+	case PPARAMOUT:
+		return ssa.ClassParamOut
+	case PAUTO:
+		return ssa.ClassAuto
+	default:
+		base.Fatal("untranslatable storage class for %v: %s", n, n.Class())
+		return 0
+	}
+}
+func (n *NameNode) TChanDir() types.ChanDir { panic("unavailable") }
+func (n *NameNode) Transient() bool         { panic("unavailable") }
+func (n *NameNode) Typecheck() uint8        { return n.typecheck }
+
+func (n *NameNode) IsBlank() bool {
+	if n == nil {
+		return false
+	}
+	return n.Sym().IsBlank()
+}
+
+// IsMethod reports whether n is a method.
+// n must be a function or a method.
+func (n *NameNode) IsMethod() bool {
+	return n.Type().Recv() != nil
+}
+
+// isNil reports whether n represents the universal untyped zero value "nil".
+func (n *NameNode) IsNil() bool {
+	// Check n.Orig because constant propagation may produce typed nil constants,
+	// which don't exist in the Go spec.
+	return IsConst(n.Orig(), CTNIL)
+}
+
+func (n *NameNode) Typ() *types.Type {
+	return n.Type()
 }
