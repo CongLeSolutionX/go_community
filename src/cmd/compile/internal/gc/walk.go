@@ -514,7 +514,7 @@ opswitch:
 		}
 		if t.IsArray() {
 			safeexpr(n.Left(), init)
-			setintconst(n, t.NumElem())
+			n = origIntConst(n, t.NumElem())
 			n.SetTypecheck(1)
 		}
 
@@ -1581,7 +1581,7 @@ opswitch:
 	// walk of y%1 may have replaced it by 0.
 	// Check whether n with its updated args is itself now a constant.
 	t := n.Type()
-	evconst(n)
+	n = evalConst(n)
 	if n.Type() != t {
 		base.Fatal("evconst changed Type: %v had type %v, now %v", n, t, n.Type())
 	}

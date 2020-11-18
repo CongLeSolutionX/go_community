@@ -387,14 +387,13 @@ func (s *exprSwitch) flush() {
 		runs = append(runs, cc[start:])
 
 		// Perform two-level binary search.
-		nlen := ir.Nod(ir.OLEN, s.exprname, nil)
 		binarySearch(len(runs), &s.done,
 			func(i int) ir.INode {
-				return ir.Nod(ir.OLE, nlen, nodintconst(runLen(runs[i-1])))
+				return ir.Nod(ir.OLE, ir.Nod(ir.OLEN, s.exprname, nil), nodintconst(runLen(runs[i-1])))
 			},
 			func(i int, nif ir.INode) {
 				run := runs[i]
-				nif.SetLeft(ir.Nod(ir.OEQ, nlen, nodintconst(runLen(run))))
+				nif.SetLeft(ir.Nod(ir.OEQ, ir.Nod(ir.OLEN, s.exprname, nil), nodintconst(runLen(run))))
 				s.search(run, nif.PtrNbody())
 			},
 		)
