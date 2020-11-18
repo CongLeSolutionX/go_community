@@ -130,35 +130,35 @@ type TrivNode struct {
 }
 
 func (n *TrivNode) BoolVal() bool                 { panic("unavailable") }
-func (n *TrivNode) Bounded() bool                 { panic("unavailable") }
+func (n *TrivNode) Bounded() bool                 { return false }
 func (n *TrivNode) CanBeAnSSASym()                { panic("unavailable") }
-func (n *TrivNode) CanInt64() bool                { panic("unavailable") }
+func (n *TrivNode) CanInt64() bool                { return false }
 func (n *TrivNode) Class() Class                  { panic("unavailable") }
-func (n *TrivNode) Colas() bool                   { panic("unavailable") }
+func (n *TrivNode) Colas() bool                   { return false }
 func (n *TrivNode) CopyFrom(INode)                { panic("unavailable") }
-func (n *TrivNode) Diag() bool                    { panic("unavailable") }
-func (n *TrivNode) Embedded() bool                { panic("unavailable") }
+func (n *TrivNode) Diag() bool                    { return false }
+func (n *TrivNode) Embedded() bool                { return false }
 func (n *TrivNode) Esc() uint16                   { panic("unavailable") }
 func (n *TrivNode) Format(s fmt.State, verb rune) { panic("unavailable") }
 func (n *TrivNode) Func() *Func                   { panic("unavailable") }
 func (n *TrivNode) Nbody() Nodes                  { return Nodes{} }
 func (n *TrivNode) Ninit() Nodes                  { return Nodes{} }
 func (n *TrivNode) Rlist() Nodes                  { return Nodes{} }
-func (n *TrivNode) HasBreak() bool                { panic("unavailable") }
-func (n *TrivNode) HasCall() bool                 { panic("unavailable") }
-func (n *TrivNode) HasOpt() bool                  { panic("unavailable") }
-func (n *TrivNode) HasVal() bool                  { panic("unavailable") }
-func (n *TrivNode) Implicit() bool                { panic("unavailable") }
-func (n *TrivNode) IndexMapLValue() bool          { panic("unavailable") }
+func (n *TrivNode) HasBreak() bool                { return false }
+func (n *TrivNode) HasCall() bool                 { return false }
+func (n *TrivNode) HasOpt() bool                  { return false }
+func (n *TrivNode) HasVal() bool                  { return false }
+func (n *TrivNode) Implicit() bool                { return false }
+func (n *TrivNode) IndexMapLValue() bool          { return false }
 func (n *TrivNode) Initorder() uint8              { panic("unavailable") }
 func (n *TrivNode) Int64Val() int64               { panic("unavailable") }
 func (n *TrivNode) Iota() int64                   { panic("unavailable") }
-func (n *TrivNode) IsAutoTmp() bool               { panic("unavailable") }
-func (n *TrivNode) IsBlank() bool                 { panic("unavailable") }
-func (n *TrivNode) IsDDD() bool                   { panic("unavailable") }
-func (n *TrivNode) IsMethod() bool                { panic("unavailable") }
-func (n *TrivNode) IsNil() bool                   { panic("unavailable") }
-func (n *TrivNode) IsSynthetic() bool             { panic("unavailable") }
+func (n *TrivNode) IsAutoTmp() bool               { return false }
+func (n *TrivNode) IsBlank() bool                 { return false }
+func (n *TrivNode) IsDDD() bool                   { return false }
+func (n *TrivNode) IsMethod() bool                { return false }
+func (n *TrivNode) IsNil() bool                   { return false }
+func (n *TrivNode) IsSynthetic() bool             { return false }
 func (n *TrivNode) Left() INode                   { return nil }
 func (n *TrivNode) Likely() bool                  { panic("unavailable") }
 func (n *TrivNode) Line() string                  { panic("unavailable") }
@@ -186,14 +186,18 @@ func (n *TrivNode) SetEmbedded(b bool)            { panic("unavailable") }
 func (n *TrivNode) SetEsc(x uint16)               { panic("unavailable") }
 func (n *TrivNode) SetFunc(x *Func)               { panic("unavailable") }
 func (n *TrivNode) SetHasBreak(b bool)            { panic("unavailable") }
-func (n *TrivNode) SetHasCall(b bool)             { panic("unavailable") }
-func (n *TrivNode) SetHasOpt(b bool)              { panic("unavailable") }
-func (n *TrivNode) SetHasVal(b bool)              { panic("unavailable") }
-func (n *TrivNode) SetImplicit(b bool)            { panic("unavailable") }
-func (n *TrivNode) SetIndexMapLValue(b bool)      { panic("unavailable") }
-func (n *TrivNode) SetInitorder(b uint8)          { panic("unavailable") }
-func (n *TrivNode) SetIota(x int64)               { panic("unavailable") }
-func (n *TrivNode) SetIsDDD(b bool)               { panic("unavailable") }
+func (n *TrivNode) SetHasCall(b bool) {
+	if b {
+		panic("unavailable")
+	}
+}
+func (n *TrivNode) SetHasOpt(b bool)         { panic("unavailable") }
+func (n *TrivNode) SetHasVal(b bool)         { panic("unavailable") }
+func (n *TrivNode) SetImplicit(b bool)       { panic("unavailable") }
+func (n *TrivNode) SetIndexMapLValue(b bool) { panic("unavailable") }
+func (n *TrivNode) SetInitorder(b uint8)     { panic("unavailable") }
+func (n *TrivNode) SetIota(x int64)          { panic("unavailable") }
+func (n *TrivNode) SetIsDDD(b bool)          { panic("unavailable") }
 func (n *TrivNode) SetLeft(x INode) {
 	if x != nil {
 		panic("unavailable")
