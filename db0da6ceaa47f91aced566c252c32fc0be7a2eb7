@@ -16,6 +16,23 @@
       "message": "Thank you for this PR. I would encourage you to wait until the discussion in https://github.com/golang/go/issues/42574 is complete.\n\nIf you do wish to proceed with this change, I would expect to see a test case that asserts in the change you are trying to make.",
       "revId": "db0da6ceaa47f91aced566c252c32fc0be7a2eb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8382d820_2a337c91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-11-18T07:58:07Z",
+      "side": 1,
+      "message": "Sorry, but this breaks backwards compatibility. The RFC 3339 format was clearly documented and I\u0027m sure there will be a significant number of programs breaking due to this change.\n\nI\u0027ve responded in the issue, let\u0027s continue there.",
+      "revId": "db0da6ceaa47f91aced566c252c32fc0be7a2eb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
