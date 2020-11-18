@@ -33,6 +33,24 @@
       "message": "Maybe note here that any CONVNOP in n.Left were added by addinit() during inlconv2expr() or inlconv2list().",
       "revId": "7536a29b146e17e0c2ac06eeb4d0146c19922eb9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c380d500_8152edd5",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-18T22:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6182e18_3e9b0014",
+      "revId": "7536a29b146e17e0c2ac06eeb4d0146c19922eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
