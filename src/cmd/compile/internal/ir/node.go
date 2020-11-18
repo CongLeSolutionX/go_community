@@ -14,8 +14,6 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
-	"cmd/internal/obj"
-	"cmd/internal/objabi"
 	"cmd/internal/src"
 )
 
@@ -40,11 +38,8 @@ type node struct {
 	// func
 	fn *Func
 
-	// ONAME, OTYPE, OPACK, OLABEL, some OLITERAL
-	name *Name
-
-	sym *types.Sym  // various
-	ext interface{} // Opt or Val, see methods below
+	sym *types.Sym // various
+	opt interface{}
 
 	// Various. Usually an offset into a struct. For example:
 	// - ONAME nodes that refer to local variables use it to identify their stack frame position.
@@ -88,7 +83,6 @@ func (n *node) SetType(x *types.Type) { n.typ = x }
 func (n *node) Func() *Func           { return n.fn }
 func (n *node) SetFunc(x *Func)       { n.fn = x }
 func (n *node) Name() *Name           { return nil }
-func (n *node) SetName(x *Name)       { panic("unavailable") }
 func (n *node) Sym() *types.Sym       { return n.sym }
 func (n *node) SetSym(x *types.Sym)   { n.sym = x }
 func (n *node) Pos() src.XPos         { return n.pos }
@@ -182,12 +176,7 @@ func (n *node) IsSynthetic() bool {
 func (n *node) IsAutoTmp() bool { return false }
 
 const (
-	nodeClass, _     = iota, 1 << iota // PPARAM, PAUTO, PEXTERN, etc; three bits; first in the list because frequently accessed
-	_, _                               // second nodeClass bit
-	_, _                               // third nodeClass bit
-	nodeWalkdef, _                     // tracks state during typecheckdef; 2 == loop detected; two bits
-	_, _                               // second nodeWalkdef bit
-	nodeTypecheck, _                   // tracks state during typechecking; 2 == loop detected; two bits
+	nodeTypecheck, _ = iota, 1 << iota // tracks state during typechecking; 2 == loop detected; two bits
 	_, _                               // second nodeTypecheck bit
 	nodeInitorder, _                   // tracks state during init1; two bits
 	_, _                               // second nodeInitorder bit
@@ -202,13 +191,11 @@ const (
 	_, nodeBounded   // bounds check unnecessary
 	_, nodeHasCall   // expression contains a function call
 	_, nodeLikely    // if statement condition likely
-	_, nodeHasVal    // node.E contains a Val
-	_, nodeHasOpt    // node.E contains an Opt
 	_, nodeEmbedded  // ODCLFIELD embedded type
 )
 
-func (n *node) Class() Class     { return Class(n.flags.get3(nodeClass)) }
-func (n *node) Walkdef() uint8   { return n.flags.get2(nodeWalkdef) }
+func (n *node) Class() Class     { panic("unavailable in " + n.Op().String()) }
+func (n *node) Walkdef() uint8   { panic("unavailable in " + n.Op().String()) }
 func (n *node) Typecheck() uint8 { return n.flags.get2(nodeTypecheck) }
 func (n *node) Initorder() uint8 { return n.flags.get2(nodeInitorder) }
 
@@ -223,12 +210,10 @@ func (n *node) Transient() bool { return n.flags&nodeTransient != 0 }
 func (n *node) Bounded() bool   { return n.flags&nodeBounded != 0 }
 func (n *node) HasCall() bool   { return n.flags&nodeHasCall != 0 }
 func (n *node) Likely() bool    { return n.flags&nodeLikely != 0 }
-func (n *node) HasVal() bool    { return n.flags&nodeHasVal != 0 }
-func (n *node) HasOpt() bool    { return n.flags&nodeHasOpt != 0 }
 func (n *node) Embedded() bool  { return n.flags&nodeEmbedded != 0 }
 
-func (n *node) SetClass(b Class)     { n.flags.set3(nodeClass, uint8(b)) }
-func (n *node) SetWalkdef(b uint8)   { n.flags.set2(nodeWalkdef, b) }
+func (n *node) SetClass(b Class)     { panic("unavailable in " + n.Op().String()) }
+func (n *node) SetWalkdef(b uint8)   { panic("unavailable in " + n.Op().String()) }
 func (n *node) SetTypecheck(b uint8) { n.flags.set2(nodeTypecheck, b) }
 func (n *node) SetInitorder(b uint8) { n.flags.set2(nodeInitorder, b) }
 
@@ -241,8 +226,6 @@ func (n *node) SetColas(b bool)     { n.flags.set(nodeColas, b) }
 func (n *node) SetTransient(b bool) { n.flags.set(nodeTransient, b) }
 func (n *node) SetHasCall(b bool)   { n.flags.set(nodeHasCall, b) }
 func (n *node) SetLikely(b bool)    { n.flags.set(nodeLikely, b) }
-func (n *node) SetHasVal(b bool)    { n.flags.set(nodeHasVal, b) }
-func (n *node) SetHasOpt(b bool)    { n.flags.set(nodeHasOpt, b) }
 func (n *node) SetEmbedded(b bool)  { n.flags.set(nodeEmbedded, b) }
 
 // MarkNonNil marks a pointer n as being guaranteed non-nil,
@@ -275,49 +258,18 @@ func (n *node) SetBounded(b bool) {
 	n.flags.set(nodeBounded, b)
 }
 
-// MarkReadonly indicates that n is an ONAME with readonly contents.
 func (n *node) MarkReadonly() { panic("unavailable") }
-
-// Val returns the Val for the node.
-func (n *node) Val() Val {
-	if !n.HasVal() {
-		return Val{}
-	}
-	return Val{n.ext}
-}
-
-// SetVal sets the Val for the node, which must not have been used with SetOpt.
-func (n *node) SetVal(v Val) {
-	if n.HasOpt() {
-		base.Flag.LowerH = 1
-		Dump("have Opt", n)
-		base.Fatal("have Opt")
-	}
-	n.SetHasVal(true)
-	n.ext = v.U
-}
+func (n *node) Val() Val      { panic("unavailable") }
+func (n *node) SetVal(v Val)  { panic("unavailable") }
 
 // Opt returns the optimizer data for the node.
 func (n *node) Opt() interface{} {
-	if !n.HasOpt() {
-		return nil
-	}
-	return n.ext
+	return n.opt
 }
 
-// SetOpt sets the optimizer data for the node, which must not have been used with SetVal.
-// SetOpt(nil) is ignored for Vals to simplify call sites that are clearing Opts.
+// SetOpt sets the optimizer data for the node.
 func (n *node) SetOpt(x interface{}) {
-	if x == nil && n.HasVal() {
-		return
-	}
-	if n.HasVal() {
-		base.Flag.LowerH = 1
-		Dump("have Val", n)
-		base.Fatal("have Val")
-	}
-	n.SetHasOpt(true)
-	n.ext = x
+	n.opt = x
 }
 
 func (n *node) Iota() int64 {
@@ -375,382 +327,6 @@ func PkgFuncName(n INode) string {
 
 // The compiler needs *Node to be assignable to cmd/compile/internal/ssa.Sym.
 func (n *node) CanBeAnSSASym() {
-}
-
-// Name holds Node fields used only by named nodes (ONAME, OTYPE, some OLITERAL).
-type Name struct {
-	Pack      *PackNode  // real package for import . names
-	Pkg       *types.Pkg // pkg for OPACK nodes
-	Defn      INode      // initializing assignment
-	Curfn     INode      // function for local variables
-	Param     *Param     // additional fields for ONAME, OTYPE
-	Decldepth int32      // declaration loop depth, increased for every loop or label
-	Vargen    int32      // unique name for ONAME within a function.  Function outputs are numbered starting at one.
-	flags     bitset16
-}
-
-const (
-	nameCaptured = 1 << iota // is the variable captured by a closure
-	nameReadonly
-	nameByval                 // is the variable captured by value or by reference
-	nameNeedzero              // if it contains pointers, needs to be zeroed on function entry
-	nameAutoTemp              // is the variable a temporary (implies no dwarf info. reset if escapes to heap)
-	nameUsed                  // for variable declared and not used error
-	nameIsClosureVar          // PAUTOHEAP closure pseudo-variable; original at n.Name.Defn
-	nameIsOutputParamHeapAddr // pointer to a result parameter's heap copy
-	nameAssigned              // is the variable ever assigned to
-	nameAddrtaken             // address taken, even if not moved to heap
-	nameInlFormal             // PAUTO created by inliner, derived from callee formal
-	nameInlLocal              // PAUTO created by inliner, derived from callee local
-	nameOpenDeferSlot         // if temporary var storing info for open-coded defers
-	nameLibfuzzerExtraCounter // if PEXTERN should be assigned to __libfuzzer_extra_counters section
-)
-
-func (n *Name) Captured() bool              { return n.flags&nameCaptured != 0 }
-func (n *Name) Readonly() bool              { return n.flags&nameReadonly != 0 }
-func (n *Name) Byval() bool                 { return n.flags&nameByval != 0 }
-func (n *Name) Needzero() bool              { return n.flags&nameNeedzero != 0 }
-func (n *Name) AutoTemp() bool              { return n.flags&nameAutoTemp != 0 }
-func (n *Name) Used() bool                  { return n.flags&nameUsed != 0 }
-func (n *Name) IsClosureVar() bool          { return n.flags&nameIsClosureVar != 0 }
-func (n *Name) IsOutputParamHeapAddr() bool { return n.flags&nameIsOutputParamHeapAddr != 0 }
-func (n *Name) Assigned() bool              { return n.flags&nameAssigned != 0 }
-func (n *Name) Addrtaken() bool             { return n.flags&nameAddrtaken != 0 }
-func (n *Name) InlFormal() bool             { return n.flags&nameInlFormal != 0 }
-func (n *Name) InlLocal() bool              { return n.flags&nameInlLocal != 0 }
-func (n *Name) OpenDeferSlot() bool         { return n.flags&nameOpenDeferSlot != 0 }
-func (n *Name) LibfuzzerExtraCounter() bool { return n.flags&nameLibfuzzerExtraCounter != 0 }
-
-func (n *Name) SetCaptured(b bool)              { n.flags.set(nameCaptured, b) }
-func (n *Name) SetReadonly(b bool)              { n.flags.set(nameReadonly, b) }
-func (n *Name) SetByval(b bool)                 { n.flags.set(nameByval, b) }
-func (n *Name) SetNeedzero(b bool)              { n.flags.set(nameNeedzero, b) }
-func (n *Name) SetAutoTemp(b bool)              { n.flags.set(nameAutoTemp, b) }
-func (n *Name) SetUsed(b bool)                  { n.flags.set(nameUsed, b) }
-func (n *Name) SetIsClosureVar(b bool)          { n.flags.set(nameIsClosureVar, b) }
-func (n *Name) SetIsOutputParamHeapAddr(b bool) { n.flags.set(nameIsOutputParamHeapAddr, b) }
-func (n *Name) SetAssigned(b bool)              { n.flags.set(nameAssigned, b) }
-func (n *Name) SetAddrtaken(b bool)             { n.flags.set(nameAddrtaken, b) }
-func (n *Name) SetInlFormal(b bool)             { n.flags.set(nameInlFormal, b) }
-func (n *Name) SetInlLocal(b bool)              { n.flags.set(nameInlLocal, b) }
-func (n *Name) SetOpenDeferSlot(b bool)         { n.flags.set(nameOpenDeferSlot, b) }
-func (n *Name) SetLibfuzzerExtraCounter(b bool) { n.flags.set(nameLibfuzzerExtraCounter, b) }
-
-type Param struct {
-	Ntype    INode
-	Heapaddr INode // temp holding heap address of param
-
-	// ONAME PAUTOHEAP
-	Stackcopy INode // the PPARAM/PPARAMOUT on-stack slot (moved func params only)
-
-	// ONAME closure linkage
-	// Consider:
-	//
-	//	func f() {
-	//		x := 1 // x1
-	//		func() {
-	//			use(x) // x2
-	//			func() {
-	//				use(x) // x3
-	//				--- parser is here ---
-	//			}()
-	//		}()
-	//	}
-	//
-	// There is an original declaration of x and then a chain of mentions of x
-	// leading into the current function. Each time x is mentioned in a new closure,
-	// we create a variable representing x for use in that specific closure,
-	// since the way you get to x is different in each closure.
-	//
-	// Let's number the specific variables as shown in the code:
-	// x1 is the original x, x2 is when mentioned in the closure,
-	// and x3 is when mentioned in the closure in the closure.
-	//
-	// We keep these linked (assume N > 1):
-	//
-	//   - x1.Defn = original declaration statement for x (like most variables)
-	//   - x1.Innermost = current innermost closure x (in this case x3), or nil for none
-	//   - x1.IsClosureVar() = false
-	//
-	//   - xN.Defn = x1, N > 1
-	//   - xN.IsClosureVar() = true, N > 1
-	//   - x2.Outer = nil
-	//   - xN.Outer = x(N-1), N > 2
-	//
-	//
-	// When we look up x in the symbol table, we always get x1.
-	// Then we can use x1.Innermost (if not nil) to get the x
-	// for the innermost known closure function,
-	// but the first reference in a closure will find either no x1.Innermost
-	// or an x1.Innermost with .Funcdepth < Funcdepth.
-	// In that case, a new xN must be created, linked in with:
-	//
-	//     xN.Defn = x1
-	//     xN.Outer = x1.Innermost
-	//     x1.Innermost = xN
-	//
-	// When we finish the function, we'll process its closure variables
-	// and find xN and pop it off the list using:
-	//
-	//     x1 := xN.Defn
-	//     x1.Innermost = xN.Outer
-	//
-	// We leave x1.Innermost set so that we can still get to the original
-	// variable quickly. Not shown here, but once we're
-	// done parsing a function and no longer need xN.Outer for the
-	// lexical x reference links as described above, funcLit
-	// recomputes xN.Outer as the semantic x reference link tree,
-	// even filling in x in intermediate closures that might not
-	// have mentioned it along the way to inner closures that did.
-	// See funcLit for details.
-	//
-	// During the eventual compilation, then, for closure variables we have:
-	//
-	//     xN.Defn = original variable
-	//     xN.Outer = variable captured in next outward scope
-	//                to make closure where xN appears
-	//
-	// Because of the sharding of pieces of the node, x.Defn means x.Name.Defn
-	// and x.Innermost/Outer means x.Name.Param.Innermost/Outer.
-	Innermost INode
-	Outer     INode
-
-	// OTYPE & ONAME //go:embed info,
-	// sharing storage to reduce gc.Param size.
-	// Extra is nil, or else *Extra is a *paramType or an *embedFileList.
-	Extra *interface{}
-}
-
-type paramType struct {
-	flag  PragmaFlag
-	alias bool
-}
-
-type embedFileList []string
-
-// Pragma returns the PragmaFlag for p, which must be for an OTYPE.
-func (p *Param) Pragma() PragmaFlag {
-	if p.Extra == nil {
-		return 0
-	}
-	return (*p.Extra).(*paramType).flag
-}
-
-// SetPragma sets the PragmaFlag for p, which must be for an OTYPE.
-func (p *Param) SetPragma(flag PragmaFlag) {
-	if p.Extra == nil {
-		if flag == 0 {
-			return
-		}
-		p.Extra = new(interface{})
-		*p.Extra = &paramType{flag: flag}
-		return
-	}
-	(*p.Extra).(*paramType).flag = flag
-}
-
-// Alias reports whether p, which must be for an OTYPE, is a type alias.
-func (p *Param) Alias() bool {
-	if p.Extra == nil {
-		return false
-	}
-	t, ok := (*p.Extra).(*paramType)
-	if !ok {
-		return false
-	}
-	return t.alias
-}
-
-// SetAlias sets whether p, which must be for an OTYPE, is a type alias.
-func (p *Param) SetAlias(alias bool) {
-	if p.Extra == nil {
-		if !alias {
-			return
-		}
-		p.Extra = new(interface{})
-		*p.Extra = &paramType{alias: alias}
-		return
-	}
-	(*p.Extra).(*paramType).alias = alias
-}
-
-// EmbedFiles returns the list of embedded files for p,
-// which must be for an ONAME var.
-func (p *Param) EmbedFiles() []string {
-	if p.Extra == nil {
-		return nil
-	}
-	return *(*p.Extra).(*embedFileList)
-}
-
-// SetEmbedFiles sets the list of embedded files for p,
-// which must be for an ONAME var.
-func (p *Param) SetEmbedFiles(list []string) {
-	if p.Extra == nil {
-		if len(list) == 0 {
-			return
-		}
-		f := embedFileList(list)
-		p.Extra = new(interface{})
-		*p.Extra = &f
-		return
-	}
-	*(*p.Extra).(*embedFileList) = list
-}
-
-// A Func corresponds to a single function in a Go program
-// (and vice versa: each function is denoted by exactly one *Func).
-//
-// There are multiple nodes that represent a Func in the IR.
-//
-// The ONAME node (Func.Name) is used for plain references to it.
-// The ODCLFUNC node (Func.Decl) is used for its declaration code.
-// The OCLOSURE node (Func.Closure) is used for a reference to a
-// function literal.
-//
-// A Func for an imported function will have only an ONAME node.
-// A declared top-level function or method has an ONAME and an ODCLFUNC.
-// A function literal has an OCLOSURE and an ODCLFUNC; the latter
-// is the compiled form that accessed the captured variables from
-// a special data structure.
-//
-// A method declaration is represented like functions, except f.Sym
-// will be the qualified method name (e.g., "T.m") and
-// f.Func.Shortname is the bare method name (e.g., "m").
-//
-// A method expression (T.M) is represented as an OMETHEXPR node,
-// in which n.Left and n.Right point to the type and method, respectively.
-// Each distinct mention of a method expression in the source code
-// constructs a fresh node.
-//
-// A method value (t.M) is represented by represented by
-// ODOTMETH/ODOTINTER when it is called directly and by
-// OCALLPART otherwise. These are like method expressions,
-// except that for ODOTMETH/ODOTINTER, the method name
-// is stored in Sym instead of Right.
-//
-// Each OCALLPART ends up being implemented as a new
-// function, a bit like a closure, with its own ODCLFUNC.
-// The OCALLPART has an n.Func, so the ODCLFUNC is
-// n.Func.Decl.
-type Func struct {
-	Enter Nodes // setup at start of function
-
-	Nname         INode // ONAME node
-	Decl          INode // ODCLFUNC node
-	Closure_      INode // OCLOSURE node
-	ClosureEnter  Nodes // setup for closure body
-	ClosureType   INode // syntax for closure representation type
-	ClosureCalled bool  // closure is only immediately called
-
-	Shortname *types.Sym
-	Exit      Nodes
-	Cvars     Nodes   // closure params
-	Dcl       []INode // autodcl for this func/closure
-
-	// Parents records the parent scope of each scope within a
-	// function. The root scope (0) has no parent, so the i'th
-	// scope's parent is stored at Parents[i-1].
-	Parents []ScopeID
-
-	// Marks records scope boundary changes.
-	Marks []Mark
-
-	// Closgen tracks how many closures have been generated within
-	// this function. Used by closurename for creating unique
-	// function names.
-	Closgen int
-
-	FieldTrack map[*types.Sym]struct{}
-	DebugInfo  *ssa.FuncDebug
-	LSym       *obj.LSym
-
-	Inl *Inline
-
-	Label int32 // largest auto-generated label in this function
-
-	Endlineno src.XPos
-	WBPos     src.XPos // position of first write barrier; see SetWBPos
-
-	Pragma PragmaFlag // go:xxx function annotations
-
-	flags      bitset16
-	NumDefers  int // number of defer calls in the function
-	NumReturns int // number of explicit returns in the function
-
-	// nwbrCalls records the LSyms of functions called by this
-	// function for go:nowritebarrierrec analysis. Only filled in
-	// if nowritebarrierrecCheck != nil.
-	NWBRCalls *[]SymAndPos
-}
-
-// An Inline holds fields used for function bodies that can be inlined.
-type Inline struct {
-	Cost int32 // heuristic cost of inlining this function
-
-	// Copies of Func.Dcl and Nbody for use during inlining.
-	Dcl  []INode
-	Body []INode
-}
-
-// A Mark represents a scope boundary.
-type Mark struct {
-	// Pos is the position of the token that marks the scope
-	// change.
-	Pos src.XPos
-
-	// Scope identifies the innermost scope to the right of Pos.
-	Scope ScopeID
-}
-
-// A ScopeID represents a lexical scope within a function.
-type ScopeID int32
-
-const (
-	funcDupok         = 1 << iota // duplicate definitions ok
-	funcWrapper                   // is method wrapper
-	funcNeedctxt                  // function uses context register (has closure variables)
-	funcReflectMethod             // function calls reflect.Type.Method or MethodByName
-	funcIsHiddenClosure
-	funcHasDefer                 // contains a defer statement
-	funcNilCheckDisabled         // disable nil checks when compiling this function
-	funcInlinabilityChecked      // inliner has already determined whether the function is inlinable
-	funcExportInline             // include inline body in export data
-	funcInstrumentBody           // add race/msan instrumentation during SSA construction
-	funcOpenCodedDeferDisallowed // can't do open-coded defers
-)
-
-func (f *Func) Dupok() bool                    { return f.flags&funcDupok != 0 }
-func (f *Func) Wrapper() bool                  { return f.flags&funcWrapper != 0 }
-func (f *Func) Needctxt() bool                 { return f.flags&funcNeedctxt != 0 }
-func (f *Func) ReflectMethod() bool            { return f.flags&funcReflectMethod != 0 }
-func (f *Func) IsHiddenClosure() bool          { return f.flags&funcIsHiddenClosure != 0 }
-func (f *Func) HasDefer() bool                 { return f.flags&funcHasDefer != 0 }
-func (f *Func) NilCheckDisabled() bool         { return f.flags&funcNilCheckDisabled != 0 }
-func (f *Func) InlinabilityChecked() bool      { return f.flags&funcInlinabilityChecked != 0 }
-func (f *Func) ExportInline() bool             { return f.flags&funcExportInline != 0 }
-func (f *Func) InstrumentBody() bool           { return f.flags&funcInstrumentBody != 0 }
-func (f *Func) OpenCodedDeferDisallowed() bool { return f.flags&funcOpenCodedDeferDisallowed != 0 }
-
-func (f *Func) SetDupok(b bool)                    { f.flags.set(funcDupok, b) }
-func (f *Func) SetWrapper(b bool)                  { f.flags.set(funcWrapper, b) }
-func (f *Func) SetNeedctxt(b bool)                 { f.flags.set(funcNeedctxt, b) }
-func (f *Func) SetReflectMethod(b bool)            { f.flags.set(funcReflectMethod, b) }
-func (f *Func) SetIsHiddenClosure(b bool)          { f.flags.set(funcIsHiddenClosure, b) }
-func (f *Func) SetHasDefer(b bool)                 { f.flags.set(funcHasDefer, b) }
-func (f *Func) SetNilCheckDisabled(b bool)         { f.flags.set(funcNilCheckDisabled, b) }
-func (f *Func) SetInlinabilityChecked(b bool)      { f.flags.set(funcInlinabilityChecked, b) }
-func (f *Func) SetExportInline(b bool)             { f.flags.set(funcExportInline, b) }
-func (f *Func) SetInstrumentBody(b bool)           { f.flags.set(funcInstrumentBody, b) }
-func (f *Func) SetOpenCodedDeferDisallowed(b bool) { f.flags.set(funcOpenCodedDeferDisallowed, b) }
-
-func (f *Func) SetWBPos(pos src.XPos) {
-	if base.Debug.WB != 0 {
-		base.WarnAt(pos, "write barrier")
-	}
-	if !f.WBPos.IsKnown() {
-		f.WBPos = pos
-	}
 }
 
 //go:generate stringer -type=Op -trimprefix=O
@@ -1203,57 +779,6 @@ func (s NodeSet) Sorted(less func(INode, INode) bool) []INode {
 	return res
 }
 
-// The Class of a variable/function describes the "storage class"
-// of a variable or function. During parsing, storage classes are
-// called declaration contexts.
-type Class uint8
-
-//go:generate stringer -type=Class
-const (
-	Pxxx      Class = iota // no class; used during ssa conversion to indicate pseudo-variables
-	PEXTERN                // global variables
-	PAUTO                  // local variables
-	PAUTOHEAP              // local variables or parameters moved to heap
-	PPARAM                 // input arguments
-	PPARAMOUT              // output results
-	PFUNC                  // global functions
-
-	// Careful: Class is stored in three bits in Node.flags.
-	_ = uint((1 << 3) - iota) // static assert for iota <= (1 << 3)
-)
-
-type PragmaFlag int16
-
-const (
-	// Func pragmas.
-	Nointerface    PragmaFlag = 1 << iota
-	Noescape                  // func parameters don't escape
-	Norace                    // func must not have race detector annotations
-	Nosplit                   // func should not execute on separate stack
-	Noinline                  // func should not be inlined
-	NoCheckPtr                // func should not be instrumented by checkptr
-	CgoUnsafeArgs             // treat a pointer to one arg as a pointer to them all
-	UintptrEscapes            // pointers converted to uintptr escape
-
-	// Runtime-only func pragmas.
-	// See ../../../../runtime/README.md for detailed descriptions.
-	Systemstack        // func must run on system stack
-	Nowritebarrier     // emit compiler error instead of write barrier
-	Nowritebarrierrec  // error on write barrier in this or recursive callees
-	Yeswritebarrierrec // cancels Nowritebarrierrec in this function and callees
-
-	// Runtime and cgo type pragmas
-	NotInHeap // values of this type must not be heap allocated
-
-	// Go command pragmas
-	GoBuildPragma
-)
-
-type SymAndPos struct {
-	Sym *obj.LSym // LSym of callee
-	Pos src.XPos  // line of call
-}
-
 func AsNode(n types.IRNode) INode {
 	if n == nil {
 		return nil
@@ -1457,8 +982,8 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 		n.Func().Decl = n
 	case OCONTINUE:
 		n = new(ContinueStmt)
-	case ONONAME, OLITERAL:
-		n = newNameNode(op)
+	case ONONAME, OLITERAL, OTYPE:
+		n = newName(op)
 	default:
 		n = new(node)
 		n.SetOp(op)
@@ -1470,355 +995,3 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 	n.SetOrig(n)
 	return n
 }
-
-type ContinueStmt struct {
-	TrivNode
-	Label *types.Sym // label
-}
-
-func (*ContinueStmt) Op() Op                  { return OCONTINUE }
-func (n *ContinueStmt) Sym() *types.Sym       { return n.Label }
-func (n *ContinueStmt) SetSym(sym *types.Sym) { n.Label = sym }
-func (n *ContinueStmt) RawCopy() INode {
-	m := *n
-	return &m
-}
-func (n *ContinueStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
-func (n *ContinueStmt) String() string                { return fmt.Sprint(n) }
-
-type NameNode struct {
-	op        Op
-	sym       *types.Sym
-	typ       *types.Type
-	diag      bool
-	hasCall   bool
-	pos       src.XPos
-	typecheck uint8
-	orig      INode
-	esc       uint16
-	nonNil    bool
-
-	opt      interface{}
-	hasOpt   bool
-	implicit bool
-	readonly bool
-	ninit    Nodes
-	fn       *Func
-	xoffset  int64
-	class    Class
-	subop    Op
-	val      Val
-	m        Name
-	p        Param
-	isDDD    bool
-	iota     int64
-	walkdef  uint8
-}
-
-func (n *NameNode) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
-func (n *NameNode) String() string                { return fmt.Sprint(n) }
-
-func (n *NameNode) Op() Op                { return n.op }
-func (n *NameNode) Sym() *types.Sym       { return n.sym }
-func (n *NameNode) SetSym(x *types.Sym)   { n.sym = x }
-func (n *NameNode) Type() *types.Type     { return n.typ }
-func (n *NameNode) SetType(x *types.Type) { n.typ = x }
-func (n *NameNode) SubOp() Op             { return n.subop }
-func (n *NameNode) SetSubOp(x Op)         { n.subop = x }
-func (n *NameNode) Val() Val              { return n.val }
-func (n *NameNode) SetVal(x Val)          { n.val = x }
-func (n *NameNode) Class() Class          { return n.class }
-func (n *NameNode) SetClass(x Class)      { n.class = x }
-func (n *NameNode) Func() *Func           { return n.fn }
-func (n *NameNode) SetFunc(x *Func)       { n.fn = x }
-func (n *NameNode) Xoffset() int64        { return n.xoffset }
-func (n *NameNode) SetXoffset(x int64)    { n.xoffset = x }
-func (n *NameNode) IsDDD() bool           { return n.isDDD }
-func (n *NameNode) SetIsDDD(x bool)       { n.isDDD = x }
-func (n *NameNode) Diag() bool            { return n.diag }
-func (n *NameNode) SetDiag(x bool)        { n.diag = x }
-func (n *NameNode) Iota() int64           { return n.iota }
-func (n *NameNode) SetIota(x int64)       { n.iota = x }
-func (n *NameNode) Walkdef() uint8        { return n.walkdef }
-func (n *NameNode) SetWalkdef(x uint8)    { n.walkdef = x }
-func (n *NameNode) Ninit() Nodes          { return n.ninit }
-func (n *NameNode) PtrNinit() *Nodes      { return &n.ninit }
-func (n *NameNode) HasCall() bool         { return n.hasCall }
-func (n *NameNode) SetHasCall(x bool)     { n.hasCall = x }
-
-func (n *NameNode) Name() *Name { return &n.m }
-func (n *NameNode) SetName(x *Name) {
-	panic("cannot SetName")
-}
-
-func (n *NameNode) RawCopy() INode {
-	m := *n
-	return &m
-}
-
-// newnamel returns a new ONAME Node associated with symbol s at position pos.
-// The caller is responsible for setting n.Name.Curfn.
-func NewNameAt(pos src.XPos, s *types.Sym) INode {
-	if s == nil {
-		base.Fatal("newnamel nil")
-	}
-
-	n := new(NameNode)
-	n.Name().Param = &n.p
-	n.SetOp(ONAME)
-	n.SetPos(pos)
-	n.SetOrig(n)
-	n.SetSym(s)
-	return n
-}
-
-func newNameNode(op Op) INode {
-	n := new(NameNode)
-	n.SetOp(op)
-	return n
-}
-
-func (n *NameNode) SetOp(op Op) {
-	switch op {
-	default:
-		panic("cannot NameNode SetOp " + op.String())
-	case OLITERAL, ONAME, ONONAME, OTYPE: // TODO: SetOp(OTYPE) should be removed
-		// ok
-		n.op = op
-	}
-}
-
-func (n *NameNode) IsAutoTmp() bool {
-	return n.op == ONAME && n.Name().AutoTemp()
-}
-
-// Int64Val returns n as an int64.
-// n must be an integer or rune constant.
-func (n *NameNode) Int64Val() int64 {
-	if !IsConst(n, CTINT) {
-		base.Fatal("Int64Val(%v)", n)
-	}
-	return n.Val().U.(*Int).Int64()
-}
-
-// CanInt64 reports whether it is safe to call Int64Val() on n.
-func (n *NameNode) CanInt64() bool {
-	if !IsConst(n, CTINT) {
-		return false
-	}
-
-	// if the value inside n cannot be represented as an int64, the
-	// return value of Int64 is undefined
-	return n.Val().U.(*Int).CmpInt64(n.Int64Val()) == 0
-}
-
-// BoolVal returns n as a bool.
-// n must be a boolean constant.
-func (n *NameNode) BoolVal() bool {
-	if !IsConst(n, CTBOOL) {
-		base.Fatal("BoolVal(%v)", n)
-	}
-	return n.Val().U.(bool)
-}
-
-// StringVal returns the value of a literal string Node as a string.
-// n must be a string constant.
-func (n *NameNode) StringVal() string {
-	if !IsConst(n, CTSTR) {
-		base.Fatal("StringVal(%v)", n)
-	}
-	return n.Val().U.(string)
-}
-
-func (n *NameNode) Bounded() bool        { panic("unavailable") }
-func (n *NameNode) CanBeAnSSASym()       { panic("unavailable") }
-func (n *NameNode) Colas() bool          { panic("unavailable") }
-func (n *NameNode) CopyFrom(INode)       { panic("unavailable") }
-func (n *NameNode) Embedded() bool       { panic("unavailable") }
-func (n *NameNode) Esc() uint16          { return n.esc }
-func (n *NameNode) FuncName() string     { panic("unavailable") }
-func (n *NameNode) Nbody() Nodes         { return Nodes{} }
-func (n *NameNode) Rlist() Nodes         { return Nodes{} }
-func (n *NameNode) HasBreak() bool       { panic("unavailable") }
-func (n *NameNode) HasOpt() bool         { return n.hasOpt }
-func (n *NameNode) HasVal() bool         { return n.val.U != nil }
-func (n *NameNode) Implicit() bool       { return n.implicit }
-func (n *NameNode) IndexMapLValue() bool { panic("unavailable") }
-func (n *NameNode) Initorder() uint8     { panic("unavailable") }
-func (n *NameNode) IsSynthetic() bool {
-	name := n.Sym().Name
-	return name[0] == '.' || name[0] == '~'
-}
-
-func (n *NameNode) Left() INode  { return nil }
-func (n *NameNode) Likely() bool { panic("unavailable") }
-func (n *NameNode) Line() string { panic("unavailable") }
-func (n *NameNode) List() Nodes  { return Nodes{} }
-func (n *NameNode) MarkNonNil() {
-	if !n.Type().IsPtr() && !n.Type().IsUnsafePtr() {
-		base.Fatal("MarkNonNil(%v), type %v", n, n.Type())
-	}
-	n.nonNil = true
-}
-func (n *NameNode) MarkReadonly() {
-	if n.Op() != ONAME {
-		base.Fatal("Node.MarkReadonly %v", n.Op())
-	}
-	n.Name().SetReadonly(true)
-	// Mark the linksym as readonly immediately
-	// so that the SSA backend can use this information.
-	// It will be overridden later during dumpglobls.
-	n.Sym().Linksym().Type = objabi.SRODATA
-}
-func (n *NameNode) MayBeShared() bool { return true }
-func (n *NameNode) NoInline() bool    { panic("unavailable") }
-func (n *NameNode) NonNil() bool      { return n.nonNil }
-func (n *NameNode) Opt() interface{}  { return n.opt }
-func (n *NameNode) Orig() INode       { return n.orig }
-func (n *NameNode) PkgFuncName() string {
-	var s *types.Sym
-	if n == nil {
-		return "<nil>"
-	}
-	if n.Op() == ONAME {
-		s = n.Sym()
-	} else {
-		if n.Func() == nil || n.Func().Nname == nil {
-			return "<nil>"
-		}
-		s = n.Func().Nname.Sym()
-	}
-	pkg := s.Pkg
-
-	p := base.Ctxt.Pkgpath
-	if pkg != nil && pkg.Path != "" {
-		p = pkg.Path
-	}
-	if p == "" {
-		return s.Name
-	}
-	return p + "." + s.Name
-}
-func (n *NameNode) Pos() src.XPos            { return n.pos }
-func (n *NameNode) PtrList() *Nodes          { return nil }
-func (n *NameNode) PtrNbody() *Nodes         { return nil }
-func (n *NameNode) PtrRlist() *Nodes         { return nil }
-func (n *NameNode) ResetAux()                { panic("unavailable") }
-func (n *NameNode) Right() INode             { return nil }
-func (n *NameNode) SetBounded(b bool)        { panic("unavailable") }
-func (n *NameNode) SetColas(b bool)          { panic("unavailable") }
-func (n *NameNode) SetEmbedded(b bool)       { panic("unavailable") }
-func (n *NameNode) SetEsc(x uint16)          { n.esc = x }
-func (n *NameNode) SetHasBreak(b bool)       { panic("unavailable") }
-func (n *NameNode) SetHasOpt(b bool)         { panic("unavailable") }
-func (n *NameNode) SetHasVal(b bool)         { panic("unavailable") }
-func (n *NameNode) SetImplicit(b bool)       { n.implicit = b }
-func (n *NameNode) SetIndexMapLValue(b bool) { panic("unavailable") }
-func (n *NameNode) SetInitorder(b uint8)     { panic("unavailable") }
-func (n *NameNode) SetLeft(x INode) {
-	if x != nil {
-		panic("unavailable")
-	}
-}
-func (n *NameNode) SetLikely(b bool)     { panic("unavailable") }
-func (n *NameNode) SetList(x Nodes)      { panic("unavailable") }
-func (n *NameNode) SetNbody(x Nodes)     { panic("unavailable") }
-func (n *NameNode) SetNinit(x Nodes)     { panic("unavailable") }
-func (n *NameNode) SetNoInline(b bool)   { panic("unavailable") }
-func (n *NameNode) SetOpt(x interface{}) { n.opt = x; n.hasOpt = true }
-func (n *NameNode) SetOrig(x INode)      { n.orig = x }
-func (n *NameNode) SetPos(x src.XPos)    { n.pos = x }
-func (n *NameNode) SetRight(x INode) {
-	if x != nil {
-		panic("unavailable")
-	}
-}
-func (n *NameNode) SetRlist(x Nodes)                    { panic("unavailable") }
-func (n *NameNode) SetSliceBounds(low, high, max INode) { panic("unavailable") }
-func (n *NameNode) SetTChanDir(dir types.ChanDir)       { panic("unavailable") }
-func (n *NameNode) SetTransient(b bool)                 { panic("unavailable") }
-func (n *NameNode) SetTypecheck(b uint8)                { n.typecheck = b }
-
-func (n *NameNode) SliceBounds() (low, high, max INode) { panic("unavailable") }
-func (n *NameNode) StorageClass() ssa.StorageClass {
-	switch n.Class() {
-	case PPARAM:
-		return ssa.ClassParam
-	case PPARAMOUT:
-		return ssa.ClassParamOut
-	case PAUTO:
-		return ssa.ClassAuto
-	default:
-		base.Fatal("untranslatable storage class for %v: %s", n, n.Class())
-		return 0
-	}
-}
-func (n *NameNode) TChanDir() types.ChanDir { panic("unavailable") }
-func (n *NameNode) Transient() bool         { panic("unavailable") }
-func (n *NameNode) Typecheck() uint8        { return n.typecheck }
-
-func (n *NameNode) IsBlank() bool {
-	if n == nil {
-		return false
-	}
-	return n.Sym().IsBlank()
-}
-
-// IsMethod reports whether n is a method.
-// n must be a function or a method.
-func (n *NameNode) IsMethod() bool {
-	return n.Type().Recv() != nil
-}
-
-// isNil reports whether n represents the universal untyped zero value "nil".
-func (n *NameNode) IsNil() bool {
-	// Check n.Orig because constant propagation may produce typed nil constants,
-	// which don't exist in the Go spec.
-	return IsConst(n.Orig(), CTNIL)
-}
-
-func (n *NameNode) Typ() *types.Type {
-	return n.Type()
-}
-
-// A PackNode is an INode for the name of an imported package.
-type PackNode struct {
-	TrivNode
-	sym  *types.Sym
-	Used bool
-	Pkg  *types.Pkg
-}
-
-func NewPackNode(pos src.XPos, sym *types.Sym, pkg *types.Pkg) *PackNode {
-	p := &PackNode{sym: sym, Pkg: pkg}
-	p.SetPos(pos)
-	return p
-}
-
-func (p *PackNode) RawCopy() INode                { panic("can't copy PackNode") }
-func (p *PackNode) Format(s fmt.State, verb rune) { FmtNode(p, s, verb) }
-func (p *PackNode) String() string                { return fmt.Sprint(p) }
-
-func (*PackNode) Op() Op            { return OPACK }
-func (p *PackNode) Sym() *types.Sym { return p.sym }
-
-// A LabelNode is an INode for the name of an imported package.
-type LabelNode struct {
-	TrivNode
-	sym  *types.Sym
-	Defn INode // statement being labeled
-}
-
-func NewLabelNode(pos src.XPos, sym *types.Sym) *LabelNode {
-	l := &LabelNode{sym: sym}
-	l.SetPos(pos)
-	return l
-}
-
-func (l *LabelNode) RawCopy() INode                { copy := *l; return &copy }
-func (l *LabelNode) Format(s fmt.State, verb rune) { FmtNode(l, s, verb) }
-func (l *LabelNode) String() string                { return fmt.Sprint(l) }
-
-func (*LabelNode) Op() Op                { return OLABEL }
-func (l *LabelNode) Sym() *types.Sym     { return l.sym }
-func (l *LabelNode) SetSym(x *types.Sym) { l.sym = x }

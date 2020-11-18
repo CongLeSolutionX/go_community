@@ -31,13 +31,13 @@ func sysvar(name string) *obj.LSym {
 // isParamStackCopy reports whether this is the on-stack copy of a
 // function parameter that moved to the heap.
 func isParamStackCopy(n ir.INode) bool {
-	return n.Op() == ir.ONAME && (n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Name().Param.Heapaddr != nil
+	return n.Op() == ir.ONAME && (n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT) && n.Name().Heapaddr != nil
 }
 
 // isParamHeapCopy reports whether this is the on-heap copy of
 // a function parameter that moved to the heap.
 func isParamHeapCopy(n ir.INode) bool {
-	return n.Op() == ir.ONAME && n.Class() == ir.PAUTOHEAP && n.Name().Param.Stackcopy != nil
+	return n.Op() == ir.ONAME && n.Class() == ir.PAUTOHEAP && n.Name().Stackcopy != nil
 }
 
 // autotmpname returns the name for an autotmp variable numbered n.

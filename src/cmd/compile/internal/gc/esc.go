@@ -323,7 +323,7 @@ func moveToHeap(n ir.INode) {
 		stackcopy.SetType(n.Type())
 		stackcopy.SetXoffset(n.Xoffset())
 		stackcopy.SetClass(n.Class())
-		stackcopy.Name().Param.Heapaddr = heapaddr
+		stackcopy.Name().Heapaddr = heapaddr
 		if n.Class() == ir.PPARAMOUT {
 			// Make sure the pointer to the heap copy is kept live throughout the function.
 			// The function could panic at any point, and then a defer could recover.
@@ -332,7 +332,7 @@ func moveToHeap(n ir.INode) {
 			// See issue 16095.
 			heapaddr.Name().SetIsOutputParamHeapAddr(true)
 		}
-		n.Name().Param.Stackcopy = stackcopy
+		n.Name().Stackcopy = stackcopy
 
 		// Substitute the stackcopy into the function variable list so that
 		// liveness and other analyses use the underlying stack slot
@@ -359,7 +359,7 @@ func moveToHeap(n ir.INode) {
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.
 	n.SetClass(ir.PAUTOHEAP)
 	n.SetXoffset(0)
-	n.Name().Param.Heapaddr = heapaddr
+	n.Name().Heapaddr = heapaddr
 	n.SetEsc(EscHeap)
 	if base.Flag.LowerM != 0 {
 		base.WarnAt(n.Pos(), "moved to heap: %v", n)

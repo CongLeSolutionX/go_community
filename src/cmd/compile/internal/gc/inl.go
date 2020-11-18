@@ -973,7 +973,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 					continue
 				}
 
-				o := v.Name().Param.Outer
+				o := v.Name().Outer
 				// make sure the outer param matches the inlining location
 				// NB: if we enabled inlining of functions containing OCLOSURE or refined
 				// the reassigned check via some sort of copy propagation this would most

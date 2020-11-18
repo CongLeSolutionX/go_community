@@ -160,7 +160,6 @@ func lexinit() {
 	s = ir.BuiltinPkg.Lookup("iota")
 	s.Def = ir.AsTypesNode(ir.Nod(ir.OIOTA, nil, nil))
 	ir.AsNode(s.Def).SetSym(s)
-	//	ir.AsNode(s.Def).SetName(new(ir.Name))
 }
 
 func typeinit() {

@@ -454,7 +454,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.INode {
 		n.SetOp(ir.OLITERAL)
 		declare(n, dclcontext)
 
-		n.Name().Param.Ntype = typ
+		n.Name().Ntype = typ
 		n.Name().Defn = v
 		n.SetIota(cs.iota)
 
@@ -478,7 +478,7 @@ func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.INode {
 	// decl.Type may be nil but in that case we got a syntax error during parsing
 	typ := p.typeExprOrNil(decl.Type)
 
-	param := n.Name().Param
+	param := n.Name()
 	param.Ntype = typ
 	param.SetAlias(decl.Alias)
 	if pragma, ok := decl.Pragma.(*Pragma); ok {
@@ -535,7 +535,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.INode {
 
 	f.Func().Nname = newfuncnamel(p.pos(fun.Name), name, f.Func())
 	f.Func().Nname.Name().Defn = f
-	f.Func().Nname.Name().Param.Ntype = t
+	f.Func().Nname.Name().Ntype = t
 
 	if pragma, ok := fun.Pragma.(*Pragma); ok {
 		f.Func().Pragma = pragma.Flag & FuncPragmas
@@ -867,7 +867,7 @@ func (p *noder) structType(expr *syntax.StructType) ir.INode {
 			n = p.nodSym(field, ir.ODCLFIELD, p.typeExpr(field.Type), p.name(field.Name))
 		}
 		if i < len(expr.TagList) && expr.TagList[i] != nil {
-			n.SetVal(p.basicLit(expr.TagList[i]))
+			n.SetOpt(p.basicLit(expr.TagList[i]).U.(string))
 		}
 		l = append(l, n)
 	}

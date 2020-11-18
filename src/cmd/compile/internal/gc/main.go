@@ -236,7 +236,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.Left().Name().Param.Alias()) {
+		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.Left().Name().Alias()) {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -248,7 +248,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top2")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.Left().Name().Param.Alias() {
+		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.Left().Name().Alias() {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
