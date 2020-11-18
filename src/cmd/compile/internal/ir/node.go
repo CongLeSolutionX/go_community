@@ -35,9 +35,6 @@ type node struct {
 	typ  *types.Type
 	orig INode // original form, for printing, and tracking copies of ONAMEs
 
-	// func
-	fn *Func
-
 	sym *types.Sym // various
 	opt interface{}
 
@@ -71,6 +68,7 @@ var badForNode = [OEND]bool{
 	ODCLFUNC:  true,
 	ODCLTYPE:  true,
 	OCLOSURE:  true,
+	OCALLPART: true,
 }
 
 func (n *node) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
@@ -84,8 +82,7 @@ func (n *node) Orig() INode           { return n.orig }
 func (n *node) SetOrig(x INode)       { n.orig = x }
 func (n *node) Type() *types.Type     { return n.typ }
 func (n *node) SetType(x *types.Type) { n.typ = x }
-func (n *node) Func() *Func           { return n.fn }
-func (n *node) SetFunc(x *Func)       { n.fn = x }
+func (n *node) Func() *Func           { return nil }
 func (n *node) Name() *Name           { return nil }
 func (n *node) Sym() *types.Sym       { return n.sym }
 func (n *node) SetSym(x *types.Sym)   { n.sym = x }
@@ -939,6 +936,8 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 		n = newDclType(nleft.(*Name))
 	case OCLOSURE:
 		n = new(Closure)
+	case OCALLPART:
+		n = new(CallPart)
 	case OCONTINUE:
 		n = new(ContinueStmt)
 	case ONONAME, OLITERAL, OTYPE:

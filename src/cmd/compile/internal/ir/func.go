@@ -238,6 +238,22 @@ func (c *Closure) RawCopy() INode  { copy := *c; return &copy }
 func (c *Closure) Func() *Func     { return c.fn }
 func (c *Closure) SetFunc(x *Func) { c.fn = x }
 
+// A CallPart is the OCALLPART node.
+type CallPart struct {
+	defaultNode
+	fn *Func
+	nodeFieldLeft
+	nodeFieldRight
+	nodeFieldType
+	nodeFieldOpt
+	nodeFieldTransient
+}
+
+func (*CallPart) Op() Op            { return OCALLPART }
+func (c *CallPart) RawCopy() INode  { copy := *c; return &copy }
+func (c *CallPart) Func() *Func     { return c.fn }
+func (c *CallPart) SetFunc(x *Func) { c.fn = x }
+
 // FuncName returns the name (without the package) of the function n.
 func FuncName(n INode) string {
 	if n == nil || n.Func() == nil || n.Func().Name == nil {

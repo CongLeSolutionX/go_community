@@ -100,7 +100,7 @@ func (v *bottomUpVisitor) visit(n ir.INode) uint32 {
 				}
 			}
 		case ir.OCALLPART:
-			fn := ir.AsNode(callpartMethod(n).Type.Nname())
+			fn := ir.AsNode(callpartMethod(n.(*ir.CallPart)).Type.Nname())
 			if fn != nil && fn.Op() == ir.ONAME && fn.Class() == ir.PFUNC && fn.Name().Defn != nil {
 				if m := v.visit(fn.Name().Defn); m < min {
 					min = m

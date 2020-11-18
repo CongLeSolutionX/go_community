@@ -68,7 +68,6 @@ type INode interface {
 	SetDiag(b bool)
 	SetEmbedded(b bool)
 	SetEsc(x uint16)
-	SetFunc(x *Func)
 	SetHasBreak(b bool)
 	SetHasCall(b bool)
 	SetImplicit(b bool)
@@ -183,7 +182,6 @@ func (n *minimalNode) SetColas(b bool)               { panic("unavailable") }
 func (n *minimalNode) SetDiag(b bool)                { panic("unavailable") }
 func (n *minimalNode) SetEmbedded(b bool)            { panic("unavailable") }
 func (n *minimalNode) SetEsc(x uint16)               { n.esc = x }
-func (n *minimalNode) SetFunc(x *Func)               { panic("unavailable") }
 func (n *minimalNode) SetHasBreak(b bool)            { panic("unavailable") }
 func (n *minimalNode) SetHasCall(b bool) {
 	if b {
@@ -248,6 +246,11 @@ func (n *minimalNode) Val() Val                            { panic("unavailable"
 func (n *minimalNode) Walkdef() uint8                      { panic("unavailable") }
 func (n *minimalNode) Xoffset() int64                      { panic("unavailable") }
 
+type nodeFieldOp struct{ op Op }
+
+func (n *nodeFieldOp) Op() Op     { return n.op }
+func (n *nodeFieldOp) SetOp(x Op) { n.op = x }
+
 type nodeFieldOpt struct{ opt interface{} }
 
 func (n *nodeFieldOpt) Opt() interface{}     { return n.opt }
@@ -262,3 +265,60 @@ type nodeFieldTransient struct{ transient bool }
 
 func (n *nodeFieldTransient) Transient() bool     { return n.transient }
 func (n *nodeFieldTransient) SetTransient(x bool) { n.transient = x }
+
+type nodeFieldIsDDD struct{ isddd bool }
+
+func (n *nodeFieldIsDDD) IsDDD() bool     { return n.isddd }
+func (n *nodeFieldIsDDD) SetIsDDD(x bool) { n.isddd = x }
+
+type nodeFieldLeft struct{ left INode }
+
+func (n *nodeFieldLeft) Left() INode     { return n.left }
+func (n *nodeFieldLeft) SetLeft(x INode) { n.left = x }
+
+type nodeFieldRight struct{ right INode }
+
+func (n *nodeFieldRight) Right() INode     { return n.right }
+func (n *nodeFieldRight) SetRight(x INode) { n.right = x }
+
+type nodeFieldList struct{ list Nodes }
+
+func (n *nodeFieldList) List() Nodes     { return n.list }
+func (n *nodeFieldList) PtrList() *Nodes { return &n.list }
+
+type nodeFieldRlist struct{ rlist Nodes }
+
+func (n *nodeFieldRlist) Rlist() Nodes     { return n.rlist }
+func (n *nodeFieldRlist) PtrRlist() *Nodes { return &n.rlist }
+
+type nodeFieldNoInline struct{ noinline bool }
+
+func (n *nodeFieldNoInline) NoInline() bool     { return n.noinline }
+func (n *nodeFieldNoInline) SetNoInline(x bool) { n.noinline = x }
+
+type nodeFieldHasCall struct{ hasCall bool }
+
+func (n *nodeFieldHasCall) HasCall() bool     { return n.hasCall }
+func (n *nodeFieldHasCall) SetHasCall(x bool) { n.hasCall = x }
+
+type nodeFieldNonNil struct{ nonNil bool }
+
+func (n *nodeFieldNonNil) NonNil() bool { return n.nonNil }
+func (n *nodeFieldNonNil) MarkNonNil()  { n.nonNil = true }
+
+type nodeFieldNinit struct{ ninit Nodes }
+
+func (n *nodeFieldNinit) Ninit() Nodes     { return n.ninit }
+func (n *nodeFieldNinit) PtrNinit() *Nodes { return &n.ninit }
+
+type nodeFieldNbody struct{ nbody Nodes }
+
+func (n *nodeFieldNbody) Nbody() Nodes     { return n.nbody }
+func (n *nodeFieldNbody) PtrNbody() *Nodes { return &n.nbody }
+func (n *nodeFieldNbody) SetNbody(x Nodes) { n.nbody = x }
+
+type nodeFieldBounded struct{ bounded bool }
+
+func (n *nodeFieldBounded) Bounded() bool     { return n.bounded }
+func (n *nodeFieldBounded) PtrBounded() *bool { return &n.bounded }
+func (n *nodeFieldBounded) SetBounded(x bool) { n.bounded = x }
