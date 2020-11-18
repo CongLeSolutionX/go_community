@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e587652a_79b6811c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-11-18T21:56:41Z",
+      "side": 1,
+      "message": "Thanks for fixing this!\n",
+      "revId": "7536a29b146e17e0c2ac06eeb4d0146c19922eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6182e18_3e9b0014",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-11-18T21:56:41Z",
+      "side": 1,
+      "message": "Maybe note here that any CONVNOP in n.Left were added by addinit() during inlconv2expr() or inlconv2list().",
+      "revId": "7536a29b146e17e0c2ac06eeb4d0146c19922eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
