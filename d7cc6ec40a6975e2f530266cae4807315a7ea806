@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "318abe7b_abc4c19f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-11-18T23:40:55Z",
+      "side": 1,
+      "message": "Historically, the bclr form is used as a conditional function return. Oddly, this assumption also holds for the bclrl form.  It is preferable to use bcctrl when calling a function pointer, but hints can be provided for more obscure usage.\n\nIn essence, The predictor stacks lr values when calling most branch + link instructions (excepting bclr) to pair with the return (blr or bclr).  The current usage ensures we thoroughly confuse the predictor.\n\nNotably, the ISA specifically states not to use bclrl in this manner.  However based on the numbers, the BH hint seems to be honored on power9 (I need to test power8 to confirm).",
+      "parentUuid": "def843aa_d7ec61a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7551dba4_82904146",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-11-18T23:11:07Z",
       "side": 1,
       "message": "Can you use GetFrom3 here?",
+      "range": {
+        "startLine": 2871,
+        "startChar": 2,
+        "endLine": 2871,
+        "endChar": 22
+      },
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52f0312_1736ca73",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2871,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-11-18T23:40:55Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "df3549f1_59fa4862",
       "range": {
         "startLine": 2871,
         "startChar": 2,
