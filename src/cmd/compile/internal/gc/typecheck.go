@@ -2141,7 +2141,7 @@ func typecheckargs(n ir.INode) {
 
 	// Save n as n.Orig for fmt.go.
 	if n.Orig() == n {
-		n.SetOrig(n.SepCopy())
+		n.SetOrig(ir.SepCopy(n))
 	}
 
 	as := ir.Nod(ir.OAS2, nil, nil)
@@ -2817,7 +2817,7 @@ func typecheckcomplit(n ir.INode) (res ir.INode) {
 	}
 
 	// Save original node (including n.Right)
-	n.SetOrig(n.Copy())
+	n.SetOrig(ir.Copy(n))
 
 	setlineno(n.Right())
 

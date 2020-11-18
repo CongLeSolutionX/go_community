@@ -470,7 +470,7 @@ func inlcopy(n ir.INode) ir.INode {
 		return n
 	}
 
-	m := n.Copy()
+	m := ir.Copy(n)
 	m.SetLeft(inlcopy(n.Left()))
 	m.SetRight(inlcopy(n.Right()))
 	m.PtrList().Set(inlcopylist(n.List().Slice()))
@@ -1358,7 +1358,7 @@ func (subst *inlsubst) node(n ir.INode) ir.INode {
 		return m
 
 	case ir.OGOTO, ir.OLABEL:
-		m := n.Copy()
+		m := ir.Copy(n)
 		m.SetPos(subst.updatedPos(m.Pos()))
 		m.PtrNinit().Set(nil)
 		p := fmt.Sprintf("%s·%d", n.Sym().Name, inlgen)
@@ -1367,7 +1367,7 @@ func (subst *inlsubst) node(n ir.INode) ir.INode {
 		return m
 	}
 
-	m := n.Copy()
+	m := ir.Copy(n)
 	m.SetPos(subst.updatedPos(m.Pos()))
 	m.PtrNinit().Set(nil)
 
