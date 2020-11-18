@@ -198,7 +198,7 @@ func initLSym(f *ir.Func, hasBody bool) {
 		base.Fatal("Func.initLSym called twice")
 	}
 
-	if nam := f.Nname; !nam.IsBlank() {
+	if nam := f.Name; !nam.IsBlank() {
 		f.LSym = nam.Sym().Linksym()
 		if f.Pragma&ir.Systemstack != 0 {
 			f.LSym.Set(obj.AttrCFunc, true)
@@ -281,7 +281,7 @@ func initLSym(f *ir.Func, hasBody bool) {
 	// See test/recover.go for test cases and src/reflect/value.go
 	// for the actual functions being considered.
 	if base.Ctxt.Pkgpath == "reflect" {
-		switch f.Nname.Sym().Name {
+		switch f.Name.Sym().Name {
 		case "callReflect", "callMethod":
 			flag |= obj.WRAPPER
 		}

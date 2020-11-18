@@ -3408,13 +3408,13 @@ func typecheckfunc(n ir.INode) {
 		}
 	}
 
-	n.Func().Nname = typecheck(n.Func().Nname, ctxExpr|ctxAssign)
-	t := n.Func().Nname.Type()
+	n.Func().Name = typecheck(n.Func().Name, ctxExpr|ctxAssign).(*ir.Name)
+	t := n.Func().Name.Type()
 	if t == nil {
 		return
 	}
 	n.SetType(t)
-	t.FuncType().Nname = ir.AsTypesNode(n.Func().Nname)
+	t.FuncType().Nname = ir.AsTypesNode(n.Func().Name)
 	rcvr := t.Recv()
 	if rcvr != nil && n.Func().Shortname != nil {
 		m := addmethod(n.Func().Shortname, t, true, n.Func().Pragma&ir.Nointerface != 0)
@@ -3422,12 +3422,12 @@ func typecheckfunc(n ir.INode) {
 			return
 		}
 
-		n.Func().Nname.SetSym(methodSym(rcvr.Type, n.Func().Shortname))
-		declare(n.Func().Nname, ir.PFUNC)
+		n.Func().Name.SetSym(methodSym(rcvr.Type, n.Func().Shortname))
+		declare(n.Func().Name, ir.PFUNC)
 	}
 
-	if base.Ctxt.Flag_dynlink && !inimport && n.Func().Nname != nil {
-		makefuncsym(n.Func().Nname.Sym())
+	if base.Ctxt.Flag_dynlink && !inimport && n.Func().Name != nil {
+		makefuncsym(n.Func().Name.Sym())
 	}
 }
 
@@ -4022,7 +4022,7 @@ func curpkg() *types.Pkg {
 	// TODO(mdempsky): Standardize on either ODCLFUNC or ONAME for
 	// Curfn, rather than mixing them.
 	if fn.Op() == ir.ODCLFUNC {
-		fn = fn.Func().Nname
+		fn = fn.Func().Name
 	}
 
 	return fnpkg(fn)

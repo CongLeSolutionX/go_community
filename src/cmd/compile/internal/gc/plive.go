@@ -891,7 +891,7 @@ func (lv *Liveness) epilogue() {
 				if n.Class() == ir.PPARAM {
 					continue // ok
 				}
-				base.Fatal("bad live variable at entry of %v: %L", lv.fn.Func().Nname, n)
+				base.Fatal("bad live variable at entry of %v: %L", lv.fn.Func().Name, n)
 			}
 
 			// Record live variables.
@@ -922,7 +922,7 @@ func (lv *Liveness) epilogue() {
 	// input parameters.
 	for j, n := range lv.vars {
 		if n.Class() != ir.PPARAM && lv.stackMaps[0].Get(int32(j)) {
-			lv.f.Fatalf("%v %L recorded as live on entry", lv.fn.Func().Nname, n)
+			lv.f.Fatalf("%v %L recorded as live on entry", lv.fn.Func().Name, n)
 		}
 	}
 }
@@ -980,7 +980,7 @@ func (lv *Liveness) showlive(v *ssa.Value, live bvec) {
 		return
 	}
 
-	pos := lv.fn.Func().Nname.Pos()
+	pos := lv.fn.Func().Name.Pos()
 	if v != nil {
 		pos = v.Pos
 	}
@@ -1090,7 +1090,7 @@ func (lv *Liveness) printDebug() {
 
 		if b == lv.f.Entry {
 			live := lv.stackMaps[0]
-			fmt.Printf("(%s) function entry\n", base.FmtPos(lv.fn.Func().Nname.Pos()))
+			fmt.Printf("(%s) function entry\n", base.FmtPos(lv.fn.Func().Name.Pos()))
 			fmt.Printf("\tlive=")
 			printed = false
 			for j, n := range lv.vars {

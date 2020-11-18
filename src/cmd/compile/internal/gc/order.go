@@ -53,7 +53,7 @@ type Order struct {
 // described in the comment at the top of the file.
 func order(fn ir.INode) {
 	if base.Flag.W > 1 {
-		s := fmt.Sprintf("\nbefore order %v", fn.Func().Nname.Sym())
+		s := fmt.Sprintf("\nbefore order %v", fn.Func().Name.Sym())
 		ir.DumpList(s, fn.Nbody())
 	}
 

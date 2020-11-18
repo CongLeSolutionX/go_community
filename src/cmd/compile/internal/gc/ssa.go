@@ -4793,7 +4793,7 @@ func (s *state) getMethodClosure(fn ir.INode) *ssa.Value {
 	// We get back an SSA value representing &sync.(*Mutex).Unlock·f.
 	// We can then pass that to defer or go.
 	n2 := ir.NewNameAt(fn.Pos(), fn.Sym())
-	n2.Name().Curfn = s.curfn
+	n2.Curfn = s.curfn
 	n2.SetClass(ir.PFUNC)
 	// n2.Sym already existed, so it's already marked as a function.
 	n2.SetPos(fn.Pos())
@@ -7078,7 +7078,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
 	n.SetEsc(EscNever)
-	n.Name().Curfn = e.curfn
+	n.Curfn = e.curfn
 	e.curfn.Func().Dcl = append(e.curfn.Func().Dcl, n)
 	dowidth(t)
 	return ssa.LocalSlot{N: n, Type: t, Off: 0, SplitOf: parent, SplitOffset: offset}

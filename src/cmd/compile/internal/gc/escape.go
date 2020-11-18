@@ -812,7 +812,7 @@ func (e *Escape) call(ks []EscHole, call, where ir.INode) {
 			case v.Op() == ir.ONAME && v.Class() == ir.PFUNC:
 				fn = v
 			case v.Op() == ir.OCLOSURE:
-				fn = v.Func().Decl.Func().Nname
+				fn = v.Func().Decl.Func().Name
 			}
 		case ir.OCALLMETH:
 			fn = ir.AsNode(call.Left().Type().FuncType().Nname)
@@ -1359,7 +1359,7 @@ func (e *Escape) outlives(l, other *EscLocation) bool {
 		//
 		//    var u int  // okay to stack allocate
 		//    *(func() *int { return &u }()) = 42
-		if containsClosure(other.curfn, l.curfn) && l.curfn.Func().Closure_.Func().ClosureCalled {
+		if containsClosure(other.curfn, l.curfn) && l.curfn.Func().Closure.Func().ClosureCalled {
 			return false
 		}
 
@@ -1405,8 +1405,8 @@ func containsClosure(f, c ir.INode) bool {
 
 	// Closures within function Foo are named like "Foo.funcN..."
 	// TODO(mdempsky): Better way to recognize this.
-	fn := f.Func().Nname.Sym().Name
-	cn := c.Func().Nname.Sym().Name
+	fn := f.Func().Name.Sym().Name
+	cn := c.Func().Name.Sym().Name
 	return len(cn) > len(fn) && cn[:len(fn)] == fn && cn[len(fn)] == '.'
 }
 

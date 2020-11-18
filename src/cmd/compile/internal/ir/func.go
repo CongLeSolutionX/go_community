@@ -50,12 +50,12 @@ import (
 type Func struct {
 	Enter Nodes // setup at start of function
 
-	Nname         INode // ONAME node
-	Decl          INode // ODCLFUNC node
-	Closure_      INode // OCLOSURE node
-	ClosureEnter  Nodes // setup for closure body
-	ClosureType   INode // syntax for closure representation type
-	ClosureCalled bool  // closure is only immediately called
+	Name          *Name    // ONAME node
+	Decl          *DclFunc // ODCLFUNC node
+	Closure       INode    // OCLOSURE node
+	ClosureEnter  Nodes    // setup for closure body
+	ClosureType   INode    // syntax for closure representation type
+	ClosureCalled bool     // closure is only immediately called
 
 	Shortname *types.Sym
 	Exit      Nodes
@@ -197,4 +197,66 @@ func (f *Func) SetWBPos(pos src.XPos) {
 	if !f.WBPos.IsKnown() {
 		f.WBPos = pos
 	}
+}
+
+type DclFunc struct {
+	TrivNode
+	f     *Func
+	nbody Nodes
+	typ   *types.Type
+	iota  int64
+}
+
+func newDclFunc() *DclFunc {
+	d := new(DclFunc)
+	d.f = new(Func)
+	d.f.Decl = d
+	return d
+}
+
+func (*DclFunc) Op() Op                  { return ODCLFUNC }
+func (n *DclFunc) Func() *Func           { return n.f }
+func (n *DclFunc) RawCopy() INode        { copy := *n; return &copy }
+func (n *DclFunc) Nbody() Nodes          { return n.nbody }
+func (n *DclFunc) PtrNbody() *Nodes      { return &n.nbody }
+func (n *DclFunc) Type() *types.Type     { return n.typ }
+func (n *DclFunc) SetType(x *types.Type) { n.typ = x }
+func (n *DclFunc) Iota() int64           { return n.iota }
+func (n *DclFunc) SetIota(x int64)       { n.iota = x }
+
+// FuncName returns the name (without the package) of the function n.
+func FuncName(n INode) string {
+	if n == nil || n.Func() == nil || n.Func().Name == nil {
+		return "<nil>"
+	}
+	return n.Func().Name.Sym().Name
+}
+
+// PkgFuncName returns the name of the function referenced by n, with package prepended.
+// This differs from the compiler's internal convention where local functions lack a package
+// because the ultimate consumer of this is a human looking at an IDE; package is only empty
+// if the compilation package is actually the empty string.
+func PkgFuncName(n INode) string {
+	var s *types.Sym
+	if n == nil {
+		return "<nil>"
+	}
+	if n.Op() == ONAME {
+		s = n.Sym()
+	} else {
+		if n.Func() == nil || n.Func().Name == nil {
+			return "<nil>"
+		}
+		s = n.Func().Name.Sym()
+	}
+	pkg := s.Pkg
+
+	p := base.Ctxt.Pkgpath
+	if pkg != nil && pkg.Path != "" {
+		p = pkg.Path
+	}
+	if p == "" {
+		return s.Name
+	}
+	return p + "." + s.Name
 }

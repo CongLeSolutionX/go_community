@@ -272,57 +272,13 @@ func (n *node) SetOpt(x interface{}) {
 	n.opt = x
 }
 
-func (n *node) Iota() int64 {
-	return n.Xoffset()
-}
-
-func (n *node) SetIota(x int64) {
-	n.SetXoffset(x)
-}
+func (n *node) Iota() int64     { panic("unavailable") }
+func (n *node) SetIota(x int64) { panic("unavailable") }
 
 // mayBeShared reports whether n may occur in multiple places in the AST.
 // Extra care must be taken when mutating such a node.
 func (n *node) MayBeShared() bool {
 	return false
-}
-
-// TODO(rsc): make toplevel
-// funcname returns the name (without the package) of the function n.
-func FuncName(n INode) string {
-	if n == nil || n.Func() == nil || n.Func().Nname == nil {
-		return "<nil>"
-	}
-	return n.Func().Nname.Sym().Name
-}
-
-// TODO(rsc): make toplevel
-// pkgFuncName returns the name of the function referenced by n, with package prepended.
-// This differs from the compiler's internal convention where local functions lack a package
-// because the ultimate consumer of this is a human looking at an IDE; package is only empty
-// if the compilation package is actually the empty string.
-func PkgFuncName(n INode) string {
-	var s *types.Sym
-	if n == nil {
-		return "<nil>"
-	}
-	if n.Op() == ONAME {
-		s = n.Sym()
-	} else {
-		if n.Func() == nil || n.Func().Nname == nil {
-			return "<nil>"
-		}
-		s = n.Func().Nname.Sym()
-	}
-	pkg := s.Pkg
-
-	p := base.Ctxt.Pkgpath
-	if pkg != nil && pkg.Path != "" {
-		p = pkg.Path
-	}
-	if p == "" {
-		return s.Name
-	}
-	return p + "." + s.Name
 }
 
 // The compiler needs *Node to be assignable to cmd/compile/internal/ssa.Sym.
@@ -972,21 +928,14 @@ func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
 	var n INode
 	switch op {
 	case ODCLFUNC:
-		var x struct {
-			n node
-			f Func
-		}
-		n = &x.n
-		n.SetOp(op)
-		n.SetFunc(&x.f)
-		n.Func().Decl = n
+		n = newDclFunc()
 	case OCONTINUE:
 		n = new(ContinueStmt)
 	case ONONAME, OLITERAL, OTYPE:
 		n = newName(op)
 	default:
 		n = new(node)
-		n.SetOp(op)
+		n.SetOp(op) // crashes if badForNod[op]
 	}
 	n.SetLeft(nleft)
 	n.SetRight(nright)

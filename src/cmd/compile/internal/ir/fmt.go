@@ -1719,8 +1719,8 @@ func nodeDump(n INode, s fmt.State, flag FmtFlag, mode ToFmtMode) {
 		}
 	}
 
-	if n.Op() == OCLOSURE && n.Func().Decl != nil && n.Func().Decl.Func().Nname.Sym() != nil {
-		mode.Fprintf(s, " fnName %v", n.Func().Decl.Func().Nname.Sym())
+	if n.Op() == OCLOSURE && n.Func().Decl != nil && n.Func().Decl.Func().Name.Sym() != nil {
+		mode.Fprintf(s, " fnName %v", n.Func().Decl.Func().Name.Sym())
 	}
 	if n.Sym() != nil && n.Op() != ONAME {
 		mode.Fprintf(s, " %v", n.Sym())

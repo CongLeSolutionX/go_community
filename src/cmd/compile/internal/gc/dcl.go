@@ -203,13 +203,13 @@ func newnoname(s *types.Sym) ir.INode {
 
 // newfuncnamel generates a new name node for a function or method.
 // TODO(rsc): Use an ODCLFUNC node instead. See comment in CL 7360.
-func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) ir.INode {
-	if fn.Nname != nil {
+func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) *ir.Name {
+	if fn.Name != nil {
 		base.Fatal("newfuncnamel - already have name")
 	}
 	n := ir.NewNameAt(pos, s)
 	n.SetFunc(fn)
-	fn.Nname = n
+	fn.Name = n
 	n.Func().SetIsHiddenClosure(Curfn != nil)
 	return n
 }
@@ -386,8 +386,8 @@ func funchdr(n ir.INode) {
 
 	types.Markdcl()
 
-	if n.Func().Nname != nil && n.Func().Nname.Name().Ntype != nil {
-		funcargs(n.Func().Nname.Name().Ntype)
+	if n.Func().Name != nil && n.Func().Name.Ntype != nil {
+		funcargs(n.Func().Name.Ntype)
 	} else {
 		funcargs2(n.Type())
 	}
@@ -970,12 +970,12 @@ func dclfunc(sym *types.Sym, tfn ir.INode) ir.INode {
 	}
 
 	fn := ir.Nod(ir.ODCLFUNC, nil, nil)
-	fn.Func().Nname = newfuncnamel(base.Pos, sym, fn.Func())
-	fn.Func().Nname.Name().Defn = fn
-	fn.Func().Nname.Name().Ntype = tfn
-	setNodeNameFunc(fn.Func().Nname)
+	fn.Func().Name = newfuncnamel(base.Pos, sym, fn.Func())
+	fn.Func().Name.Defn = fn
+	fn.Func().Name.Ntype = tfn
+	setNodeNameFunc(fn.Func().Name)
 	funchdr(fn)
-	fn.Func().Nname.Name().Ntype = typecheck(fn.Func().Nname.Name().Ntype, ctxType)
+	fn.Func().Name.Ntype = typecheck(fn.Func().Name.Ntype, ctxType)
 	return fn
 }
 
@@ -1125,10 +1125,10 @@ func (c *nowritebarrierrecChecker) check() {
 			var err bytes.Buffer
 			call := funcs[fn]
 			for call.target != nil {
-				fmt.Fprintf(&err, "\n\t%v: called by %v", base.FmtPos(call.lineno), call.target.Func().Nname)
+				fmt.Fprintf(&err, "\n\t%v: called by %v", base.FmtPos(call.lineno), call.target.Func().Name)
 				call = funcs[call.target]
 			}
-			base.ErrorAt(fn.Func().WBPos, "write barrier prohibited by caller; %v%s", fn.Func().Nname, err.String())
+			base.ErrorAt(fn.Func().WBPos, "write barrier prohibited by caller; %v%s", fn.Func().Name, err.String())
 			continue
 		}
 
