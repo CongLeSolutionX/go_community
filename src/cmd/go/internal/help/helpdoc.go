@@ -526,7 +526,7 @@ General-purpose environment variables:
 		Comma-separated list of glob patterns (in the syntax of Go's path.Match)
 		of module path prefixes that should always be fetched directly
 		or that should not be compared against the checksum database.
-		See 'go help module-private'.
+		See 'go help private'.
 	GOROOT
 		The root of the go tree.
 	GOSUMDB
@@ -582,8 +582,8 @@ Architecture-specific environment variables:
 		For GOARCH=arm, the ARM architecture for which to compile.
 		Valid values are 5, 6, 7.
 	GO386
-		For GOARCH=386, the floating point instruction set.
-		Valid values are 387, sse2.
+		For GOARCH=386, how to implement floating point instructions.
+		Valid values are sse2 (default), softfloat.
 	GOMIPS
 		For GOARCH=mips{,le}, whether to use floating point instructions.
 		Valid values are hardfloat (default), softfloat.
