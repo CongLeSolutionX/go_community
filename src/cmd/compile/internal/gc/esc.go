@@ -55,8 +55,8 @@ func funcSym(fn ir.INode) *types.Sym {
 // Walk hasn't generated (goto|label).Left.Sym.Label yet, so we'll cheat
 // and set it to one of the following two. Then in esc we'll clear it again.
 var (
-	looping    ir.Node
-	nonlooping ir.Node
+	looping    = ir.Nod(ir.OXXX, nil, nil)
+	nonlooping = ir.Nod(ir.OXXX, nil, nil)
 )
 
 func isSliceSelfAssign(dst, src ir.INode) bool {

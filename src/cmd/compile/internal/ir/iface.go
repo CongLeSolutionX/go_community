@@ -121,7 +121,6 @@ type INode interface {
 	Walkdef() uint8
 	Xoffset() int64
 	Clear()
-	CopyFrom(INode)
 }
 
 // TrivNode is an embeddable Node implementation

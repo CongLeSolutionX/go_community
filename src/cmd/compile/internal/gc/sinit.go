@@ -181,9 +181,9 @@ func (s *InitSchedule) staticassign(l ir.INode, r ir.INode) bool {
 		return true
 
 	case ir.OADDR:
-		var nam ir.Node
+		var nam ir.INode
 		if stataddr(&nam, r.Left()) {
-			addrsym(l, &nam)
+			addrsym(l, nam)
 			return true
 		}
 		fallthrough
@@ -603,11 +603,11 @@ func slicelit(ctxt initContext, n ir.INode, var_ ir.INode, init *ir.Nodes) {
 
 		// copy static to slice
 		var_ = typecheck(var_, ctxExpr|ctxAssign)
-		var nam ir.Node
+		var nam ir.INode
 		if !stataddr(&nam, var_) || nam.Class() != ir.PEXTERN {
 			base.Fatal("slicelit: %v", var_)
 		}
-		slicesym(&nam, vstat, t.NumElem())
+		slicesym(nam, vstat, t.NumElem())
 		return
 	}
 
@@ -996,22 +996,22 @@ func getlit(lit ir.INode) int {
 }
 
 // stataddr sets nam to the static address of n and reports whether it succeeded.
-func stataddr(nam ir.INode, n ir.INode) bool {
+func stataddr(nam *ir.INode, n ir.INode) bool {
 	if n == nil {
 		return false
 	}
 
 	switch n.Op() {
 	case ir.ONAME:
-		nam.CopyFrom(n)
+		*nam = n.RawCopy()
 		return true
 
 	case ir.ODOT:
 		if !stataddr(nam, n.Left()) {
 			break
 		}
-		nam.SetXoffset(nam.Xoffset() + n.Xoffset())
-		nam.SetType(n.Type())
+		(*nam).SetXoffset((*nam).Xoffset() + n.Xoffset())
+		(*nam).SetType(n.Type())
 		return true
 
 	case ir.OINDEX:
@@ -1030,8 +1030,8 @@ func stataddr(nam ir.INode, n ir.INode) bool {
 		if n.Type().Width != 0 && thearch.MAXWIDTH/n.Type().Width <= int64(l) {
 			break
 		}
-		nam.SetXoffset(nam.Xoffset() + int64(l)*n.Type().Width)
-		nam.SetType(n.Type())
+		(*nam).SetXoffset((*nam).Xoffset() + int64(l)*n.Type().Width)
+		(*nam).SetType(n.Type())
 		return true
 	}
 
@@ -1158,16 +1158,16 @@ func genAsStatic(as ir.INode) {
 		base.Fatal("genAsStatic as.Left not typechecked")
 	}
 
-	var nam ir.Node
+	var nam ir.INode
 	if !stataddr(&nam, as.Left()) || (nam.Class() != ir.PEXTERN && as.Left() != ir.BlankNode) {
 		base.Fatal("genAsStatic: lhs %v", as.Left())
 	}
 
 	switch {
 	case as.Right().Op() == ir.OLITERAL:
-		litsym(&nam, as.Right(), int(as.Right().Type().Width))
+		litsym(nam, as.Right(), int(as.Right().Type().Width))
 	case as.Right().Op() == ir.ONAME && as.Right().Class() == ir.PFUNC:
-		pfuncsym(&nam, as.Right())
+		pfuncsym(nam, as.Right())
 	default:
 		base.Fatal("genAsStatic: rhs %v", as.Right())
 	}

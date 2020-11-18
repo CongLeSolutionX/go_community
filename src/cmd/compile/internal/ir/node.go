@@ -1436,10 +1436,6 @@ func (n *Node) Clear() {
 	*n = Node{}
 }
 
-func (n *Node) CopyFrom(m INode) {
-	*n = *m.(*Node)
-}
-
 // sepcopy returns a separate shallow copy of n, with the copy's
 // Orig pointing to itself.
 func (n *Node) SepCopy() INode {

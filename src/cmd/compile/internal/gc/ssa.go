@@ -693,10 +693,7 @@ func (s *state) Warnl(pos src.XPos, msg string, args ...interface{}) { s.f.Warnl
 func (s *state) Debug_checknil() bool                                { return s.f.Frontend().Debug_checknil() }
 
 func ssaDummy(name string) ir.INode {
-	n := new(ir.Node)
-	n.SetOp(ir.ONAME)
-	n.SetSym(&types.Sym{Name: name})
-	return n
+	return newname(&types.Sym{Name: name})
 }
 
 var (
@@ -7069,15 +7066,9 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 
 	s := &types.Sym{Name: node.Sym().Name + suffix, Pkg: ir.LocalPkg}
 
-	n := new(ir.Node)
-	n.SetOp(ir.ONAME)
-	n.SetName(new(ir.Name))
-	n.SetPos(parent.N.(ir.INode).Pos())
-	n.SetOrig(n)
-
+	n := newnamel(parent.N.(ir.INode).Pos(), s)
 	s.Def = ir.AsTypesNode(n)
 	ir.AsNode(s.Def).Name().SetUsed(true)
-	n.SetSym(s)
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
 	n.SetEsc(EscNever)

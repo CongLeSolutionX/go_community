@@ -229,13 +229,13 @@ func (e *Escape) walkFunc(fn ir.INode) {
 	ir.InspectList(fn.Nbody(), func(n ir.INode) bool {
 		switch n.Op() {
 		case ir.OLABEL:
-			n.Sym().Label = ir.AsTypesNode(&nonlooping)
+			n.Sym().Label = ir.AsTypesNode(nonlooping)
 
 		case ir.OGOTO:
 			// If we visited the label before the goto,
 			// then this is a looping label.
-			if n.Sym().Label == ir.AsTypesNode(&nonlooping) {
-				n.Sym().Label = ir.AsTypesNode(&looping)
+			if n.Sym().Label == ir.AsTypesNode(nonlooping) {
+				n.Sym().Label = ir.AsTypesNode(looping)
 			}
 		}
 
@@ -311,11 +311,11 @@ func (e *Escape) stmt(n ir.INode) {
 
 	case ir.OLABEL:
 		switch ir.AsNode(n.Sym().Label) {
-		case &nonlooping:
+		case nonlooping:
 			if base.Flag.LowerM > 2 {
 				fmt.Printf("%v:%v non-looping label\n", base.FmtPos(base.Pos), n)
 			}
-		case &looping:
+		case looping:
 			if base.Flag.LowerM > 2 {
 				fmt.Printf("%v: %v looping label\n", base.FmtPos(base.Pos), n)
 			}

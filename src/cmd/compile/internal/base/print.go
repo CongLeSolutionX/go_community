@@ -57,6 +57,9 @@ func addErrorMsg(pos src.XPos, format string, args ...interface{}) {
 
 // FmtPos formats pos as a file:line string.
 func FmtPos(pos src.XPos) string {
+	if Ctxt == nil {
+		return "???"
+	}
 	return Ctxt.OutermostPos(pos).Format(Flag.C == 0, Flag.L == 1)
 }
 
@@ -70,7 +73,9 @@ func (x byPos) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
 // FlushErrors sorts errors seen so far by line number, prints them to stdout,
 // and empties the errors array.
 func FlushErrors() {
-	Ctxt.Bso.Flush()
+	if Ctxt != nil {
+		Ctxt.Bso.Flush()
+	}
 	if len(errorMsgs) == 0 {
 		return
 	}
