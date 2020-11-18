@@ -19,7 +19,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.INode {
 	xfunc := p.nod(expr, ir.ODCLFUNC, nil, nil)
 	xfunc.Func().SetIsHiddenClosure(Curfn != nil)
 	xfunc.Func().Nname = newfuncnamel(p.pos(expr), ir.BlankNode.Sym(), xfunc.Func()) // filled in by typecheckclosure
-	xfunc.Func().Nname.Name().Param.Ntype = xtype
+	xfunc.Func().Nname.Name().Ntype = xtype
 	xfunc.Func().Nname.Name().Defn = xfunc
 
 	clo := p.nod(expr, ir.OCLOSURE, nil, nil)
@@ -37,7 +37,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.INode {
 	for _, v := range xfunc.Func().Cvars.Slice() {
 		// Unlink from v1; see comment in syntax.go type Param for these fields.
 		v1 := v.Name().Defn
-		v1.Name().Param.Innermost = v.Name().Param.Outer
+		v1.Name().Innermost = v.Name().Outer
 
 		// If the closure usage of v is not dense,
 		// we need to make it dense; now that we're out
@@ -67,7 +67,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.INode {
 		// obtains f3's v, creating it if necessary (as it is in the example).
 		//
 		// capturevars will decide whether to use v directly or &v.
-		v.Name().Param.Outer = oldname(v.Sym())
+		v.Name().Outer = oldname(v.Sym())
 	}
 
 	return clo
@@ -189,7 +189,7 @@ func capturevars(xfunc ir.INode) {
 		// so that the outer frame also grabs them and knows they escape.
 		dowidth(v.Type())
 
-		outer := v.Name().Param.Outer
+		outer := v.Name().Outer
 		outermost := v.Name().Defn
 
 		// out parameters will be assigned to implicitly upon return.
@@ -257,7 +257,7 @@ func transformclosure(xfunc ir.INode) {
 				// (accesses will implicitly deref &v).
 				addr := NewName(lookup("&" + v.Sym().Name))
 				addr.SetType(types.NewPtr(v.Type()))
-				v.Name().Param.Heapaddr = addr
+				v.Name().Heapaddr = addr
 				v = addr
 			}
 
@@ -309,7 +309,7 @@ func transformclosure(xfunc ir.INode) {
 				addr.Name().SetUsed(true)
 				addr.Name().Curfn = xfunc
 				xfunc.Func().Dcl = append(xfunc.Func().Dcl, addr)
-				v.Name().Param.Heapaddr = addr
+				v.Name().Heapaddr = addr
 				if v.Name().Byval() {
 					cv = ir.Nod(ir.OADDR, cv, nil)
 				}

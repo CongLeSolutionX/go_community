@@ -639,7 +639,7 @@ func createDwarfVars(fnsym *obj.LSym, fn *ir.Func, apDecls []ir.INode) ([]ir.INo
 			// misleading location for the param (we want pointer-to-heap
 			// and not stack).
 			// TODO(thanm): generate a better location expression
-			stackcopy := n.Name().Param.Stackcopy
+			stackcopy := n.Name().Stackcopy
 			if stackcopy != nil && (stackcopy.Class() == ir.PPARAM || stackcopy.Class() == ir.PPARAMOUT) {
 				abbrev = dwarf.DW_ABRV_PARAM_LOCLIST
 				isReturnValue = (stackcopy.Class() == ir.PPARAMOUT)

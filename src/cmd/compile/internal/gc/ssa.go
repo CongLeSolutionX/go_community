@@ -6057,6 +6057,9 @@ func (s *state) mem() *ssa.Value {
 }
 
 func (s *state) addNamedValue(n ir.INode, v *ssa.Value) {
+	if n.Name() == nil {
+		return
+	}
 	if n.Class() == ir.Pxxx {
 		// Don't track our dummy nodes (memVar etc.).
 		return

@@ -30,8 +30,6 @@ type INode interface {
 	Rlist() Nodes
 	HasBreak() bool
 	HasCall() bool
-	HasOpt() bool
-	HasVal() bool
 	Implicit() bool
 	IndexMapLValue() bool
 	Initorder() uint8
@@ -73,8 +71,6 @@ type INode interface {
 	SetFunc(x *Func)
 	SetHasBreak(b bool)
 	SetHasCall(b bool)
-	SetHasOpt(b bool)
-	SetHasVal(b bool)
 	SetImplicit(b bool)
 	SetIndexMapLValue(b bool)
 	SetInitorder(b uint8)
@@ -83,7 +79,6 @@ type INode interface {
 	SetLeft(x INode)
 	SetLikely(b bool)
 	SetList(x Nodes)
-	SetName(x *Name)
 	SetNbody(x Nodes)
 	SetNinit(x Nodes)
 	SetNoInline(b bool)
@@ -146,7 +141,6 @@ func (n *TrivNode) Ninit() Nodes                  { return Nodes{} }
 func (n *TrivNode) Rlist() Nodes                  { return Nodes{} }
 func (n *TrivNode) HasBreak() bool                { return false }
 func (n *TrivNode) HasCall() bool                 { return false }
-func (n *TrivNode) HasOpt() bool                  { return false }
 func (n *TrivNode) HasVal() bool                  { return false }
 func (n *TrivNode) Implicit() bool                { return false }
 func (n *TrivNode) IndexMapLValue() bool          { return false }
@@ -191,7 +185,6 @@ func (n *TrivNode) SetHasCall(b bool) {
 		panic("unavailable")
 	}
 }
-func (n *TrivNode) SetHasOpt(b bool)         { panic("unavailable") }
 func (n *TrivNode) SetHasVal(b bool)         { panic("unavailable") }
 func (n *TrivNode) SetImplicit(b bool)       { panic("unavailable") }
 func (n *TrivNode) SetIndexMapLValue(b bool) { panic("unavailable") }
@@ -205,7 +198,6 @@ func (n *TrivNode) SetLeft(x INode) {
 }
 func (n *TrivNode) SetLikely(b bool)     { panic("unavailable") }
 func (n *TrivNode) SetList(x Nodes)      { panic("unavailable") }
-func (n *TrivNode) SetName(x *Name)      { panic("unavailable") }
 func (n *TrivNode) SetNbody(x Nodes)     { panic("unavailable") }
 func (n *TrivNode) SetNinit(x Nodes)     { panic("unavailable") }
 func (n *TrivNode) SetNoInline(b bool)   { panic("unavailable") }

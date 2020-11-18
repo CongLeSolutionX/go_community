@@ -192,7 +192,7 @@ func walkstmt(n ir.INode) ir.INode {
 			if prealloc[v] == nil {
 				prealloc[v] = callnew(v.Type())
 			}
-			nn := ir.Nod(ir.OAS, v.Name().Param.Heapaddr, prealloc[v])
+			nn := ir.Nod(ir.OAS, v.Name().Heapaddr, prealloc[v])
 			nn.SetColas(true)
 			nn = typecheck(nn, ctxStmt)
 			return walkstmt(nn)
@@ -282,7 +282,7 @@ func walkstmt(n ir.INode) ir.INode {
 				}
 				if cl == ir.PPARAMOUT {
 					if isParamStackCopy(ln) {
-						ln = walkexpr(typecheck(ir.Nod(ir.ODEREF, ln.Name().Param.Heapaddr, nil), ctxExpr), nil)
+						ln = walkexpr(typecheck(ir.Nod(ir.ODEREF, ln.Name().Heapaddr, nil), ctxExpr), nil)
 					}
 					rl = append(rl, ln)
 				}
@@ -310,7 +310,7 @@ func walkstmt(n ir.INode) ir.INode {
 		for i, nl := range lhs.FieldSlice() {
 			nname := ir.AsNode(nl.Nname)
 			if isParamHeapCopy(nname) {
-				nname = nname.Name().Param.Stackcopy
+				nname = nname.Name().Stackcopy
 			}
 			a := ir.Nod(ir.OAS, nname, rhs[i])
 			res[i] = convas(a, n.PtrNinit())
@@ -452,7 +452,7 @@ func walkexpr(n ir.INode, init *ir.Nodes) ir.INode {
 	}
 
 	if n.Op() == ir.ONAME && n.Class() == ir.PAUTOHEAP {
-		nn := ir.Nod(ir.ODEREF, n.Name().Param.Heapaddr, nil)
+		nn := ir.Nod(ir.ODEREF, n.Name().Heapaddr, nil)
 		nn = typecheck(nn, ctxExpr)
 		nn = walkexpr(nn, init)
 		nn.Left().MarkNonNil()
@@ -847,7 +847,7 @@ opswitch:
 			}
 			value = ir.Nod(ir.OINDEX, staticuint64s, index)
 			value.SetBounded(true)
-		case n.Left().Class() == ir.PEXTERN && n.Left().Name() != nil && n.Left().Name().Readonly():
+		case n.Left().Name() != nil && n.Left().Class() == ir.PEXTERN && n.Left().Name().Readonly():
 			// n.Left is a readonly global; use it directly.
 			value = n.Left()
 		case !fromType.IsInterface() && n.Esc() == EscNone && fromType.Width <= 1024:
@@ -2405,7 +2405,7 @@ func paramstoheap(params *types.Type) []ir.INode {
 			continue
 		}
 
-		if stackcopy := v.Name().Param.Stackcopy; stackcopy != nil {
+		if stackcopy := v.Name().Stackcopy; stackcopy != nil {
 			nn = append(nn, walkstmt(ir.Nod(ir.ODCL, v, nil)))
 			if stackcopy.Class() == ir.PPARAM {
 				nn = append(nn, walkstmt(typecheck(ir.Nod(ir.OAS, v, stackcopy), ctxStmt)))
@@ -2426,7 +2426,7 @@ func paramstoheap(params *types.Type) []ir.INode {
 func zeroResults() {
 	for _, f := range Curfn.Type().Results().Fields().Slice() {
 		v := ir.AsNode(f.Nname)
-		if v != nil && v.Name().Param.Heapaddr != nil {
+		if v != nil && v.Name().Heapaddr != nil {
 			// The local which points to the return value is the
 			// thing that needs zeroing. This is already handled
 			// by a Needzero annotation in plive.go:livenessepilogue.
@@ -2439,7 +2439,7 @@ func zeroResults() {
 			// I don't think the zeroing below matters.
 			// The stack return value will never be marked as live anywhere in the function.
 			// It is not written to until deferreturn returns.
-			v = v.Name().Param.Stackcopy
+			v = v.Name().Stackcopy
 		}
 		// Zero the stack location containing f.
 		Curfn.Func().Enter.Append(ir.NodAt(Curfn.Pos(), ir.OAS, v, nil))
@@ -2455,7 +2455,7 @@ func returnsfromheap(params *types.Type) []ir.INode {
 		if v == nil {
 			continue
 		}
-		if stackcopy := v.Name().Param.Stackcopy; stackcopy != nil && stackcopy.Class() == ir.PPARAMOUT {
+		if stackcopy := v.Name().Stackcopy; stackcopy != nil && stackcopy.Class() == ir.PPARAMOUT {
 			nn = append(nn, walkstmt(typecheck(ir.Nod(ir.OAS, stackcopy, v), ctxStmt)))
 		}
 	}
