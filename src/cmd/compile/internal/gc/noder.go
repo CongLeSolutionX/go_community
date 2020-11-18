@@ -533,9 +533,9 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.INode {
 		name = ir.BlankNode.Sym() // filled in by typecheckfunc
 	}
 
-	f.Func().Nname = newfuncnamel(p.pos(fun.Name), name, f.Func())
-	f.Func().Nname.Name().Defn = f
-	f.Func().Nname.Name().Ntype = t
+	f.Func().Name = newfuncnamel(p.pos(fun.Name), name, f.Func())
+	f.Func().Name.Defn = f
+	f.Func().Name.Ntype = t
 
 	if pragma, ok := fun.Pragma.(*Pragma); ok {
 		f.Func().Pragma = pragma.Flag & FuncPragmas
@@ -547,7 +547,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.INode {
 	}
 
 	if fun.Recv == nil {
-		declare(f.Func().Nname, ir.PFUNC)
+		declare(f.Func().Name, ir.PFUNC)
 	}
 
 	p.funcBody(f, fun.Body)

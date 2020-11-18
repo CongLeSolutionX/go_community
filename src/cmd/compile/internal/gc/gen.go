@@ -73,9 +73,9 @@ func tempAt(pos src.XPos, curfn ir.INode, t *types.Type) ir.INode {
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
 	n.SetEsc(EscNever)
-	n.Name().Curfn = curfn
-	n.Name().SetUsed(true)
-	n.Name().SetAutoTemp(true)
+	n.Curfn = curfn
+	n.SetUsed(true)
+	n.SetAutoTemp(true)
 	curfn.Func().Dcl = append(curfn.Func().Dcl, n)
 
 	dowidth(t)

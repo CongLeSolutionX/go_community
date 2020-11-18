@@ -800,7 +800,7 @@ func (r *importReader) caseList(sw ir.INode) []ir.INode {
 			caseVar := ir.NewNameAt(cas.Pos(), r.ident())
 			declare(caseVar, dclcontext)
 			cas.PtrRlist().Set1(caseVar)
-			caseVar.Name().Defn = sw.Left()
+			caseVar.Defn = sw.Left()
 		}
 		cas.PtrNbody().Set(r.stmtList())
 		cases[i] = cas

@@ -73,7 +73,7 @@ func dumpexport(bout *bio.Writer) {
 	}
 }
 
-func importsym(ipkg *types.Pkg, s *types.Sym, op ir.Op) ir.INode {
+func importsym(ipkg *types.Pkg, s *types.Sym, op ir.Op) *ir.Name {
 	n := ir.AsNode(s.PkgDef())
 	if n == nil {
 		// iimport should have created a stub ONONAME
@@ -91,7 +91,7 @@ func importsym(ipkg *types.Pkg, s *types.Sym, op ir.Op) ir.INode {
 	if n.Op() != ir.ONONAME && n.Op() != op {
 		redeclare(base.Pos, s, fmt.Sprintf("during import %q", ipkg.Path))
 	}
-	return n
+	return n.(*ir.Name)
 }
 
 // importtype returns the named type declared by symbol s.
@@ -119,7 +119,7 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 
 // importobj declares symbol s as an imported object representable by op.
 // ipkg is the package being imported
-func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Class, t *types.Type) ir.INode {
+func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Class, t *types.Type) *ir.Name {
 	n := importsym(ipkg, s, op)
 	if n.Op() != ir.ONONAME {
 		if n.Op() == op && (n.Class() != ctxt || !types.Identical(n.Type(), t)) {
@@ -162,7 +162,7 @@ func importfunc(ipkg *types.Pkg, pos src.XPos, s *types.Sym, t *types.Type) {
 	}
 
 	n.SetFunc(&ir.Func{
-		Nname: n,
+		Name: n,
 	})
 	t.SetNname(ir.AsTypesNode(n))
 

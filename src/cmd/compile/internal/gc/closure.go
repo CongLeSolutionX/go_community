@@ -16,25 +16,25 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.INode {
 	xtype := p.typeExpr(expr.Type)
 	ntype := p.typeExpr(expr.Type)
 
-	xfunc := p.nod(expr, ir.ODCLFUNC, nil, nil)
-	xfunc.Func().SetIsHiddenClosure(Curfn != nil)
-	xfunc.Func().Nname = newfuncnamel(p.pos(expr), ir.BlankNode.Sym(), xfunc.Func()) // filled in by typecheckclosure
-	xfunc.Func().Nname.Name().Ntype = xtype
-	xfunc.Func().Nname.Name().Defn = xfunc
+	dcl := p.nod(expr, ir.ODCLFUNC, nil, nil).(*ir.DclFunc)
+	dcl.Func().SetIsHiddenClosure(Curfn != nil)
+	dcl.Func().Name = newfuncnamel(p.pos(expr), ir.BlankNode.Sym(), dcl.Func()) // filled in by typecheckclosure
+	dcl.Func().Name.Ntype = xtype
+	dcl.Func().Name.Defn = dcl
 
 	clo := p.nod(expr, ir.OCLOSURE, nil, nil)
-	clo.SetFunc(xfunc.Func())
+	clo.SetFunc(dcl.Func())
 	clo.Func().ClosureType = ntype
 
-	xfunc.Func().Closure_ = clo
+	dcl.Func().Closure = clo
 
-	p.funcBody(xfunc, expr.Body)
+	p.funcBody(dcl, expr.Body)
 
 	// closure-specific variables are hanging off the
 	// ordinary ones in the symbol table; see oldname.
 	// unhook them.
 	// make the list of pointers for the closure call.
-	for _, v := range xfunc.Func().Cvars.Slice() {
+	for _, v := range dcl.Func().Cvars.Slice() {
 		// Unlink from v1; see comment in syntax.go type Param for these fields.
 		v1 := v.Name().Defn
 		v1.Name().Innermost = v.Name().Outer
@@ -74,25 +74,28 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.INode {
 }
 
 func typecheckclosure(clo ir.INode, top int) {
-	xfunc := clo.Func().Decl
+	dcl := clo.Func().Decl
 	// Set current associated iota value, so iota can be used inside
 	// function in ConstSpec, see issue #22344
 	if x := getIotaValue(); x >= 0 {
-		xfunc.SetIota(x)
+		if dcl == nil {
+			panic("missing " + clo.Op().String())
+		}
+		dcl.SetIota(x)
 	}
 
 	clo.Func().ClosureType = typecheck(clo.Func().ClosureType, ctxType)
 	clo.SetType(clo.Func().ClosureType.Type())
 	clo.Func().ClosureCalled = top&ctxCallee != 0
 
-	// Do not typecheck xfunc twice, otherwise, we will end up pushing
-	// xfunc to xtop multiple times, causing initLSym called twice.
+	// Do not typecheck dcl twice, otherwise, we will end up pushing
+	// dcl to xtop multiple times, causing initLSym called twice.
 	// See #30709
-	if xfunc.Typecheck() == 1 {
+	if dcl.Typecheck() == 1 {
 		return
 	}
 
-	for _, ln := range xfunc.Func().Cvars.Slice() {
+	for _, ln := range dcl.Func().Cvars.Slice() {
 		n := ln.Name().Defn
 		if !n.Name().Captured() {
 			n.Name().SetCaptured(true)
@@ -108,9 +111,9 @@ func typecheckclosure(clo ir.INode, top int) {
 		}
 	}
 
-	xfunc.Func().Nname.SetSym(closurename(Curfn))
-	setNodeNameFunc(xfunc.Func().Nname)
-	xfunc = typecheck(xfunc, ctxStmt)
+	dcl.Func().Name.SetSym(closurename(Curfn))
+	setNodeNameFunc(dcl.Func().Name)
+	dcl = typecheck(dcl, ctxStmt).(*ir.DclFunc)
 
 	// Type check the body now, but only if we're inside a function.
 	// At top level (in a variable initialization: curfn==nil) we're not
@@ -118,15 +121,15 @@ func typecheckclosure(clo ir.INode, top int) {
 	// underlying closure function we create is added to xtop.
 	if Curfn != nil && clo.Type() != nil {
 		oldfn := Curfn
-		Curfn = xfunc
+		Curfn = dcl
 		olddd := decldepth
 		decldepth = 1
-		typecheckslice(xfunc.Nbody().Slice(), ctxStmt)
+		typecheckslice(dcl.Nbody().Slice(), ctxStmt)
 		decldepth = olddd
 		Curfn = oldfn
 	}
 
-	xtop = append(xtop, xfunc)
+	xtop = append(xtop, dcl)
 }
 
 // globClosgen is like Func.Closgen, but for the global scope.
@@ -140,7 +143,7 @@ func closurename(outerfunc ir.INode) *types.Sym {
 	gen := &globClosgen
 
 	if outerfunc != nil {
-		if outerfunc.Func().Closure_ != nil {
+		if outerfunc.Func().Closure != nil {
 			prefix = ""
 		}
 
@@ -149,7 +152,7 @@ func closurename(outerfunc ir.INode) *types.Sym {
 		// There may be multiple functions named "_". In those
 		// cases, we can't use their individual Closgens as it
 		// would lead to name clashes.
-		if !outerfunc.Func().Nname.IsBlank() {
+		if !outerfunc.Func().Name.IsBlank() {
 			gen = &outerfunc.Func().Closgen
 		}
 	}
@@ -170,7 +173,7 @@ func capturevars(xfunc ir.INode) {
 	lno := base.Pos
 	base.Pos = xfunc.Pos()
 
-	clo := xfunc.Func().Closure_
+	clo := xfunc.Func().Closure
 	cvars := xfunc.Func().Cvars.Slice()
 	out := cvars[:0]
 	for _, v := range cvars {
@@ -202,8 +205,8 @@ func capturevars(xfunc ir.INode) {
 
 		if base.Flag.LowerM > 1 {
 			var name *types.Sym
-			if v.Name().Curfn != nil && v.Name().Curfn.Func().Nname != nil {
-				name = v.Name().Curfn.Func().Nname.Sym()
+			if v.Name().Curfn != nil && v.Name().Curfn.Func().Name != nil {
+				name = v.Name().Curfn.Func().Name.Sym()
 			}
 			how := "ref"
 			if v.Name().Byval() {
@@ -225,7 +228,7 @@ func capturevars(xfunc ir.INode) {
 func transformclosure(xfunc ir.INode) {
 	lno := base.Pos
 	base.Pos = xfunc.Pos()
-	clo := xfunc.Func().Closure_
+	clo := xfunc.Func().Closure
 
 	if clo.Func().ClosureCalled {
 		// If the closure is directly called, we transform it to a plain function call
@@ -244,7 +247,7 @@ func transformclosure(xfunc ir.INode) {
 		//	}(byval, &byref, 42)
 
 		// f is ONAME of the actual function.
-		f := xfunc.Func().Nname
+		f := xfunc.Func().Name
 
 		// We are going to insert captured variables before input args.
 		var params []*types.Field
@@ -390,7 +393,7 @@ func walkclosure(clo ir.INode, init *ir.Nodes) ir.INode {
 		if base.Debug.Closure > 0 {
 			base.WarnAt(clo.Pos(), "closure converted to global")
 		}
-		return xfunc.Func().Nname
+		return xfunc.Func().Name
 	}
 	closuredebugruntimecheck(clo)
 
@@ -398,7 +401,7 @@ func walkclosure(clo ir.INode, init *ir.Nodes) ir.INode {
 
 	clos := ir.Nod(ir.OCOMPLIT, nil, typenod(typ))
 	clos.SetEsc(clo.Esc())
-	clos.PtrList().Set(append([]ir.INode{ir.Nod(ir.OCFUNC, xfunc.Func().Nname, nil)}, clo.Func().ClosureEnter.Slice()...))
+	clos.PtrList().Set(append([]ir.INode{ir.Nod(ir.OCFUNC, xfunc.Func().Name, nil)}, clo.Func().ClosureEnter.Slice()...))
 
 	clos = ir.Nod(ir.OADDR, clos, nil)
 	clos.SetEsc(clo.Esc())
@@ -554,7 +557,7 @@ func walkpartialcall(n ir.INode, init *ir.Nodes) ir.INode {
 
 	clos := ir.Nod(ir.OCOMPLIT, nil, typenod(typ))
 	clos.SetEsc(n.Esc())
-	clos.PtrList().Set2(ir.Nod(ir.OCFUNC, n.Func().Nname, nil), n.Left())
+	clos.PtrList().Set2(ir.Nod(ir.OCFUNC, n.Func().Name, nil), n.Left())
 
 	clos = ir.Nod(ir.OADDR, clos, nil)
 	clos.SetEsc(n.Esc())

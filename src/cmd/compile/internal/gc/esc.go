@@ -45,10 +45,10 @@ const (
 
 // funcSym returns fn.Func.Nname.Sym if no nils are encountered along the way.
 func funcSym(fn ir.INode) *types.Sym {
-	if fn == nil || fn.Func().Nname == nil {
+	if fn == nil || fn.Func().Name == nil {
 		return nil
 	}
-	return fn.Func().Nname.Sym()
+	return fn.Func().Name.Sym()
 }
 
 // Mark labels that have no backjumps to them as not increasing e.loopdepth.
@@ -261,8 +261,8 @@ func addrescapes(n ir.INode) {
 		// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
 		oldfn := Curfn
 		Curfn = n.Name().Curfn
-		if Curfn.Func().Closure_ != nil && Curfn.Op() == ir.OCLOSURE {
-			Curfn = Curfn.Func().Closure_
+		if Curfn.Func().Closure != nil && Curfn.Op() == ir.OCLOSURE {
+			Curfn = Curfn.Func().Closure
 		}
 		ln := base.Pos
 		base.Pos = Curfn.Pos()

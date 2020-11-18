@@ -25,7 +25,7 @@ func walk(fn ir.INode) {
 	errorsBefore := base.Errors()
 
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("\nbefore walk %v", Curfn.Func().Nname.Sym())
+		s := fmt.Sprintf("\nbefore walk %v", Curfn.Func().Name.Sym())
 		ir.DumpList(s, Curfn.Nbody())
 	}
 
@@ -67,14 +67,14 @@ func walk(fn ir.INode) {
 	}
 	walkstmtlist(Curfn.Nbody().Slice())
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("after walk %v", Curfn.Func().Nname.Sym())
+		s := fmt.Sprintf("after walk %v", Curfn.Func().Name.Sym())
 		ir.DumpList(s, Curfn.Nbody())
 	}
 
 	zeroResults()
 	heapmoves()
 	if base.Flag.W != 0 && Curfn.Func().Enter.Len() > 0 {
-		s := fmt.Sprintf("enter %v", Curfn.Func().Nname.Sym())
+		s := fmt.Sprintf("enter %v", Curfn.Func().Name.Sym())
 		ir.DumpList(s, Curfn.Func().Enter)
 	}
 }
@@ -567,7 +567,7 @@ opswitch:
 			n.Left().Func().ClosureEnter.Set(nil)
 
 			// Replace OCLOSURE with ONAME/PFUNC.
-			n.SetLeft(n.Left().Func().Decl.Func().Nname)
+			n.SetLeft(n.Left().Func().Decl.Func().Name)
 
 			// Update type of OCALLFUNC node.
 			// Output arguments had not changed, but their offsets could.
@@ -795,7 +795,7 @@ opswitch:
 		fromType := n.Left().Type()
 		toType := n.Type()
 
-		if !fromType.IsInterface() && !Curfn.Func().Nname.IsBlank() { // skip unnamed functions (func _())
+		if !fromType.IsInterface() && !Curfn.Func().Name.IsBlank() { // skip unnamed functions (func _())
 			markTypeUsedInInterface(fromType, Curfn.Func().LSym)
 		}
 
@@ -3946,7 +3946,7 @@ func wrapCall(n ir.INode, init *ir.Nodes) ir.INode {
 	xtop = append(xtop, fn)
 
 	call = ir.Nod(ir.OCALL, nil, nil)
-	call.SetLeft(fn.Func().Nname)
+	call.SetLeft(fn.Func().Name)
 	call.PtrList().Set(n.List().Slice())
 	call = typecheck(call, ctxStmt)
 	call = walkexpr(call, init)

@@ -29,7 +29,7 @@ var (
 )
 
 func emitptrargsmap(fn ir.INode) {
-	if ir.FuncName(fn) == "_" || fn.Func().Nname.Sym().Linkname != "" {
+	if ir.FuncName(fn) == "_" || fn.Func().Name.Sym().Linkname != "" {
 		return
 	}
 	lsym := base.Ctxt.Lookup(fn.Func().LSym.Name + ".args_stackmap")
@@ -196,7 +196,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 
 func funccompile(fn ir.INode) {
 	if Curfn != nil {
-		base.Fatal("funccompile %v inside %v", fn.Func().Nname.Sym(), Curfn.Func().Nname.Sym())
+		base.Fatal("funccompile %v inside %v", fn.Func().Name.Sym(), Curfn.Func().Name.Sym())
 	}
 
 	if fn.Type() == nil {
@@ -301,7 +301,7 @@ func compilenow(fn ir.INode) bool {
 // inline candidate but then never inlined (presumably because we
 // found no call sites).
 func isInlinableButNotInlined(fn ir.INode) bool {
-	if fn.Func().Nname.Func().Inl == nil {
+	if fn.Func().Name.Func().Inl == nil {
 		return false
 	}
 	if fn.Sym() == nil {
@@ -400,8 +400,8 @@ func compileFunctions() {
 
 func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) {
 	fn := curfn.(ir.INode)
-	if fn.Func().Nname != nil {
-		if expect := fn.Func().Nname.Sym().Linksym(); fnsym != expect {
+	if fn.Func().Name != nil {
+		if expect := fn.Func().Name.Sym().Linksym(); fnsym != expect {
 			base.Fatal("unexpected fnsym: %v != %v", fnsym, expect)
 		}
 	}

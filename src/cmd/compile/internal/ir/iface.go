@@ -121,6 +121,7 @@ type INode interface {
 type TrivNode struct {
 	pos       src.XPos
 	orig      INode
+	esc       uint16
 	typecheck uint8
 }
 
@@ -133,7 +134,7 @@ func (n *TrivNode) Colas() bool                   { return false }
 func (n *TrivNode) CopyFrom(INode)                { panic("unavailable") }
 func (n *TrivNode) Diag() bool                    { return false }
 func (n *TrivNode) Embedded() bool                { return false }
-func (n *TrivNode) Esc() uint16                   { panic("unavailable") }
+func (n *TrivNode) Esc() uint16                   { return n.esc }
 func (n *TrivNode) Format(s fmt.State, verb rune) { panic("unavailable") }
 func (n *TrivNode) Func() *Func                   { panic("unavailable") }
 func (n *TrivNode) Nbody() Nodes                  { return Nodes{} }
@@ -177,7 +178,7 @@ func (n *TrivNode) SetClass(b Class)              { panic("unavailable") }
 func (n *TrivNode) SetColas(b bool)               { panic("unavailable") }
 func (n *TrivNode) SetDiag(b bool)                { panic("unavailable") }
 func (n *TrivNode) SetEmbedded(b bool)            { panic("unavailable") }
-func (n *TrivNode) SetEsc(x uint16)               { panic("unavailable") }
+func (n *TrivNode) SetEsc(x uint16)               { n.esc = x }
 func (n *TrivNode) SetFunc(x *Func)               { panic("unavailable") }
 func (n *TrivNode) SetHasBreak(b bool)            { panic("unavailable") }
 func (n *TrivNode) SetHasCall(b bool) {

@@ -188,7 +188,7 @@ func (n *Name) RawCopy() INode {
 
 // newnamel returns a new ONAME Node associated with symbol s at position pos.
 // The caller is responsible for setting n.Name.Curfn.
-func NewNameAt(pos src.XPos, s *types.Sym) INode {
+func NewNameAt(pos src.XPos, s *types.Sym) *Name {
 	if s == nil {
 		base.Fatal("newnamel nil")
 	}
@@ -266,7 +266,6 @@ func (n *Name) CopyFrom(INode)                { panic("unavailable") }
 func (n *Name) Embedded() bool                { panic("unavailable") }
 func (n *Name) Esc() uint16                   { return n.esc }
 func (n *Name) Format(s fmt.State, verb rune) { panic("unavailable") }
-func (n *Name) FuncName() string              { panic("unavailable") }
 func (n *Name) Nbody() Nodes                  { return Nodes{} }
 func (n *Name) Rlist() Nodes                  { return Nodes{} }
 func (n *Name) HasBreak() bool                { panic("unavailable") }
@@ -298,35 +297,11 @@ func (n *Name) MarkReadonly() {
 	// It will be overridden later during dumpglobls.
 	n.Sym().Linksym().Type = objabi.SRODATA
 }
-func (n *Name) MayBeShared() bool { return true }
-func (n *Name) NoInline() bool    { panic("unavailable") }
-func (n *Name) NonNil() bool      { return n.nonNil }
-func (n *Name) Opt() interface{}  { return n.opt }
-func (n *Name) Orig() INode       { return n.orig }
-func (n *Name) PkgFuncName() string {
-	var s *types.Sym
-	if n == nil {
-		return "<nil>"
-	}
-	if n.Op() == ONAME {
-		s = n.Sym()
-	} else {
-		if n.Func() == nil || n.Func().Nname == nil {
-			return "<nil>"
-		}
-		s = n.Func().Nname.Sym()
-	}
-	pkg := s.Pkg
-
-	p := base.Ctxt.Pkgpath
-	if pkg != nil && pkg.Path != "" {
-		p = pkg.Path
-	}
-	if p == "" {
-		return s.Name
-	}
-	return p + "." + s.Name
-}
+func (n *Name) MayBeShared() bool        { return true }
+func (n *Name) NoInline() bool           { panic("unavailable") }
+func (n *Name) NonNil() bool             { return n.nonNil }
+func (n *Name) Opt() interface{}         { return n.opt }
+func (n *Name) Orig() INode              { return n.orig }
 func (n *Name) Pos() src.XPos            { return n.pos }
 func (n *Name) PtrList() *Nodes          { return nil }
 func (n *Name) PtrNbody() *Nodes         { return nil }

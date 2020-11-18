@@ -113,7 +113,7 @@ func caninl(fn ir.INode) {
 	if fn.Op() != ir.ODCLFUNC {
 		base.Fatal("caninl %v", fn)
 	}
-	if fn.Func().Nname == nil {
+	if fn.Func().Name == nil {
 		base.Fatal("caninl no nname %+v", fn)
 	}
 
@@ -122,7 +122,7 @@ func caninl(fn ir.INode) {
 		defer func() {
 			if reason != "" {
 				if base.Flag.LowerM > 1 {
-					fmt.Printf("%v: cannot inline %v: %s\n", fn.Line(), fn.Func().Nname, reason)
+					fmt.Printf("%v: cannot inline %v: %s\n", fn.Line(), fn.Func().Name, reason)
 				}
 				if logopt.Enabled() {
 					logopt.LogOpt(fn.Pos(), "cannotInlineFunction", "inline", ir.FuncName(fn), reason)
@@ -182,7 +182,7 @@ func caninl(fn ir.INode) {
 		base.Fatal("caninl on non-typechecked function %v", fn)
 	}
 
-	n := fn.Func().Nname
+	n := fn.Func().Name
 	if n.Func().InlinabilityChecked() {
 		return
 	}
@@ -218,7 +218,7 @@ func caninl(fn ir.INode) {
 
 	n.Func().Inl = &ir.Inline{
 		Cost: inlineMaxBudget - visitor.budget,
-		Dcl:  inlcopylist(pruneUnusedAutos(n.Name().Defn.Func().Dcl, &visitor)),
+		Dcl:  inlcopylist(pruneUnusedAutos(n.Defn.Func().Dcl, &visitor)),
 		Body: inlcopylist(fn.Nbody().Slice()),
 	}
 
@@ -730,7 +730,7 @@ func inlCallee(fn ir.INode) ir.INode {
 	case fn.Op() == ir.OCLOSURE:
 		c := fn.Func().Decl
 		caninl(c)
-		return c.Func().Nname
+		return c.Func().Name
 	}
 	return nil
 }
@@ -967,7 +967,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 
 	// Handle captured variables when inlining closures.
 	if fn.Name().Defn != nil {
-		if c := fn.Name().Defn.Func().Closure_; c != nil {
+		if c := fn.Name().Defn.Func().Closure; c != nil {
 			for _, v := range c.Func().Decl.Func().Cvars.Slice() {
 				if v.Op() == ir.OXXX {
 					continue
@@ -978,7 +978,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 				// NB: if we enabled inlining of functions containing OCLOSURE or refined
 				// the reassigned check via some sort of copy propagation this would most
 				// likely need to be changed to a loop to walk up to the correct Param
-				if o == nil || (o.Name().Curfn != Curfn && o.Name().Curfn.Func().Closure_ != Curfn) {
+				if o == nil || (o.Name().Curfn != Curfn && o.Name().Curfn.Func().Closure != Curfn) {
 					base.Fatal("%v: unresolvable capture %v %v\n", n.Line(), fn, v)
 				}
 
