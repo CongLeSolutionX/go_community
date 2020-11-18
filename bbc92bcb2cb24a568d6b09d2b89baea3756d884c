@@ -33,6 +33,24 @@
       "message": "Or just\n    var Pipe \u003d pipe\nIt\u0027s fine either way.",
       "revId": "bbc92bcb2cb24a568d6b09d2b89baea3756d884c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e49fa6_82a2b39b",
+        "filename": "src/runtime/export_pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-11-18T15:33:42Z",
+      "side": 1,
+      "message": "Ack, changed to the slightly shorter\n\n  var Pipe \u003d pipe",
+      "parentUuid": "3f42e466_34ac032a",
+      "revId": "bbc92bcb2cb24a568d6b09d2b89baea3756d884c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
