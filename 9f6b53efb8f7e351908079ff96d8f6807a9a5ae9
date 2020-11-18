@@ -33,6 +33,24 @@
       "message": "Thanks, but there is something not right here.  In the runtime package, for freebsd, the only time we ever call the runtime.pipe function is if the runtime.pipe2 function returns ENOSYS.  So having pipe call pipe2 is just going to wind up returning ENOSYS.\n\nAh, I see, the issue is complaining about tests, which do indeed call runtime.pipe directly.  Maybe we should adjust the test code so that on systems where we use nbpipe_pipe2.go runtime.Pipe calls pipe2(0) and then, on ENOSYS, pipe.  Or something like that.",
       "revId": "9f6b53efb8f7e351908079ff96d8f6807a9a5ae9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c37bb834_1ec82c39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2020-11-18T08:03:51Z",
+      "side": 1,
+      "message": "Agree, adjusting the test code sounds like the better solution.",
+      "parentUuid": "8a2a3b8c_8a7a31d1",
+      "revId": "9f6b53efb8f7e351908079ff96d8f6807a9a5ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
