@@ -526,3 +526,24 @@ func (d *DclConst) SetLeft(x INode) {
 		panic("DclConst SetLeft")
 	}
 }
+
+// A DclType is a node for a type declaration.
+type DclType struct {
+	TrivNode
+	name *Name // returned as Left
+}
+
+func newDclType(name *Name) *DclType {
+	return &DclType{name: name}
+}
+
+func (*DclType) Op() Op           { return ODCLTYPE }
+func (d *DclType) RawCopy() INode { copy := *d; return &copy }
+func (d *DclType) Left() INode {
+	return d.name
+}
+func (d *DclType) SetLeft(x INode) {
+	if x != d.name {
+		panic("DclType SetLeft")
+	}
+}
