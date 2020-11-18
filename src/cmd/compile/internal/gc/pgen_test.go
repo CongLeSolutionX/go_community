@@ -42,7 +42,7 @@ func TestCmpstackvar(t *testing.T) {
 		if s == nil {
 			s = &types.Sym{Name: "."}
 		}
-		n := newname(s)
+		n := NewName(s)
 		n.SetType(t)
 		n.SetXoffset(xoffset)
 		n.SetClass(cl)
@@ -157,7 +157,7 @@ func TestCmpstackvar(t *testing.T) {
 
 func TestStackvarSort(t *testing.T) {
 	nod := func(xoffset int64, t *types.Type, s *types.Sym, cl ir.Class) ir.INode {
-		n := newname(s)
+		n := NewName(s)
 		n.SetType(t)
 		n.SetXoffset(xoffset)
 		n.SetClass(cl)

@@ -1128,7 +1128,7 @@ func (p *noder) assignList(expr syntax.Expr, defn ir.INode, colas bool) []ir.INo
 		}
 
 		newOrErr = true
-		n := newname(sym)
+		n := NewName(sym)
 		declare(n, dclcontext)
 		n.Name().Defn = defn
 		defn.PtrNinit().Append(ir.Nod(ir.ODCL, n, nil))
@@ -1233,7 +1233,7 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch ir.INode, rbra
 			n.PtrList().Set(p.exprList(clause.Cases))
 		}
 		if tswitch != nil && tswitch.Left() != nil {
-			nn := newname(tswitch.Left().Sym())
+			nn := NewName(tswitch.Left().Sym())
 			declare(nn, dclcontext)
 			n.PtrRlist().Set1(nn)
 			// keep track of the instances for reporting unused

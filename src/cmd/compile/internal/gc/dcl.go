@@ -212,7 +212,7 @@ func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) ir.INode {
 	if fn.Nname != nil {
 		base.Fatal("newfuncnamel - already have name")
 	}
-	n := newnamel(pos, s)
+	n := ir.NewNameAt(pos, s)
 	n.SetFunc(fn)
 	fn.Nname = n
 	n.Func().SetIsHiddenClosure(Curfn != nil)
@@ -222,7 +222,7 @@ func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) ir.INode {
 // this generates a new name node for a name
 // being declared.
 func dclname(s *types.Sym) ir.INode {
-	n := newname(s)
+	n := NewName(s)
 	n.SetOp(ir.ONONAME) // caller will correct it
 	return n
 }
@@ -279,7 +279,7 @@ func oldname(s *types.Sym) ir.INode {
 		c := n.Name().Param.Innermost
 		if c == nil || c.Name().Curfn != Curfn {
 			// Do not have a closure var for the active closure yet; make one.
-			c = newname(s)
+			c = NewName(s)
 			c.SetClass(ir.PAUTOHEAP)
 			c.Name().SetIsClosureVar(true)
 			c.SetIsDDD(n.IsDDD())
@@ -355,7 +355,7 @@ func colasdefn(left []ir.INode, defn ir.INode) {
 		}
 
 		nnew++
-		n = newname(n.Sym())
+		n = NewName(n.Sym())
 		declare(n, dclcontext)
 		n.Name().Defn = defn
 		defn.PtrNinit().Append(ir.Nod(ir.ODCL, n, nil))
@@ -456,7 +456,7 @@ func funcarg(n ir.INode, ctxt ir.Class) {
 		return
 	}
 
-	n.SetRight(newnamel(n.Pos(), n.Sym()))
+	n.SetRight(ir.NewNameAt(n.Pos(), n.Sym()))
 	n.Right().Name().Param.Ntype = n.Left()
 	n.Right().SetIsDDD(n.IsDDD())
 	declare(n.Right(), ctxt)
@@ -488,7 +488,7 @@ func funcarg2(f *types.Field, ctxt ir.Class) {
 	if f.Sym == nil {
 		return
 	}
-	n := newnamel(f.Pos, f.Sym)
+	n := ir.NewNameAt(f.Pos, f.Sym)
 	f.Nname = ir.AsTypesNode(n)
 	n.SetType(f.Type)
 	n.SetIsDDD(f.IsDDD())

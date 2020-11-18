@@ -114,13 +114,13 @@ func lexinit() {
 
 	for _, s := range &builtinFuncs {
 		s2 := ir.BuiltinPkg.Lookup(s.name)
-		s2.Def = ir.AsTypesNode(newname(s2))
+		s2.Def = ir.AsTypesNode(NewName(s2))
 		ir.AsNode(s2.Def).SetSubOp(s.op)
 	}
 
 	for _, s := range &unsafeFuncs {
 		s2 := unsafepkg.Lookup(s.name)
-		s2.Def = ir.AsTypesNode(newname(s2))
+		s2.Def = ir.AsTypesNode(NewName(s2))
 		ir.AsNode(s2.Def).SetSubOp(s.op)
 	}
 
@@ -142,14 +142,14 @@ func lexinit() {
 
 	s = lookup("_")
 	s.Block = -100
-	s.Def = ir.AsTypesNode(newname(s))
+	s.Def = ir.AsTypesNode(NewName(s))
 	types.Types[types.TBLANK] = types.New(types.TBLANK)
 	ir.AsNode(s.Def).SetType(types.Types[types.TBLANK])
 	ir.BlankNode = ir.AsNode(s.Def)
 
 	s = ir.BuiltinPkg.Lookup("_")
 	s.Block = -100
-	s.Def = ir.AsTypesNode(newname(s))
+	s.Def = ir.AsTypesNode(NewName(s))
 	types.Types[types.TBLANK] = types.New(types.TBLANK)
 	ir.AsNode(s.Def).SetType(types.Types[types.TBLANK])
 
@@ -447,7 +447,7 @@ func finishUniverse() {
 		s1.Block = s.Block
 	}
 
-	nodfp = newname(lookup(".fp"))
+	nodfp = NewName(lookup(".fp"))
 	nodfp.SetType(types.Types[types.TINT32])
 	nodfp.SetClass(ir.PPARAM)
 	nodfp.Name().SetUsed(true)

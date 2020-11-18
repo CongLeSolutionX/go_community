@@ -319,7 +319,7 @@ func moveToHeap(n ir.INode) {
 		// Preserve a copy so we can still write code referring to the original,
 		// and substitute that copy into the function declaration list
 		// so that analyses of the local (on-stack) variables use it.
-		stackcopy := newname(n.Sym())
+		stackcopy := NewName(n.Sym())
 		stackcopy.SetType(n.Type())
 		stackcopy.SetXoffset(n.Xoffset())
 		stackcopy.SetClass(n.Class())

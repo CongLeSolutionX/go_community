@@ -817,12 +817,12 @@ opswitch:
 		}
 
 		if staticuint64s == nil {
-			staticuint64s = newname(Runtimepkg.Lookup("staticuint64s"))
+			staticuint64s = NewName(Runtimepkg.Lookup("staticuint64s"))
 			staticuint64s.SetClass(ir.PEXTERN)
 			// The actual type is [256]uint64, but we use [256*8]uint8 so we can address
 			// individual bytes.
 			staticuint64s.SetType(types.NewArray(types.Types[types.TUINT8], 256*8))
-			zerobase = newname(Runtimepkg.Lookup("zerobase"))
+			zerobase = NewName(Runtimepkg.Lookup("zerobase"))
 			zerobase.SetClass(ir.PEXTERN)
 			zerobase.SetType(types.Types[types.TUINTPTR])
 		}
@@ -3174,7 +3174,7 @@ func eqfor(t *types.Type) (n ir.INode, needsize bool) {
 		return n, true
 	case ASPECIAL:
 		sym := typesymprefix(".eq", t)
-		n := newname(sym)
+		n := NewName(sym)
 		setNodeNameFunc(n)
 		n.SetType(functype(nil, []ir.INode{
 			anonfield(types.NewPtr(t)),

@@ -135,33 +135,9 @@ func importdot(opkg *types.Pkg, pack ir.INode) {
 }
 
 // newname returns a new ONAME Node associated with symbol s.
-func newname(s *types.Sym) ir.INode {
-	n := newnamel(base.Pos, s)
+func NewName(s *types.Sym) ir.INode {
+	n := ir.NewNameAt(base.Pos, s)
 	n.Name().Curfn = Curfn
-	return n
-}
-
-// newnamel returns a new ONAME Node associated with symbol s at position pos.
-// The caller is responsible for setting n.Name.Curfn.
-func newnamel(pos src.XPos, s *types.Sym) ir.INode {
-	if s == nil {
-		base.Fatal("newnamel nil")
-	}
-
-	var x struct {
-		n ir.Node
-		m ir.Name
-		p ir.Param
-	}
-	n := &x.n
-	n.SetName(&x.m)
-	n.Name().Param = &x.p
-
-	n.SetOp(ir.ONAME)
-	n.SetPos(pos)
-	n.SetOrig(n)
-
-	n.SetSym(s)
 	return n
 }
 
@@ -1290,7 +1266,7 @@ func paramNnames(ft *types.Type) []ir.INode {
 func hashmem(t *types.Type) ir.INode {
 	sym := Runtimepkg.Lookup("memhash")
 
-	n := newname(sym)
+	n := NewName(sym)
 	setNodeNameFunc(n)
 	n.SetType(functype(nil, []ir.INode{
 		anonfield(types.NewPtr(t)),

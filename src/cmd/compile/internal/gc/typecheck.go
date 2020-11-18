@@ -2413,7 +2413,7 @@ func typecheckMethodExpr(n ir.INode) (res ir.INode) {
 	if n.Name() == nil {
 		n.SetName(new(ir.Name))
 	}
-	n.SetRight(newname(n.Sym()))
+	n.SetRight(NewName(n.Sym()))
 	n.SetSym(methodSym(t, n.Sym()))
 	n.SetType(methodfunc(m.Type, n.Left().Type()))
 	n.SetXoffset(0)

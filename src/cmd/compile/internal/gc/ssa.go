@@ -693,7 +693,7 @@ func (s *state) Warnl(pos src.XPos, msg string, args ...interface{}) { s.f.Warnl
 func (s *state) Debug_checknil() bool                                { return s.f.Frontend().Debug_checknil() }
 
 func ssaDummy(name string) ir.INode {
-	return newname(&types.Sym{Name: name})
+	return NewName(&types.Sym{Name: name})
 }
 
 var (
@@ -4789,7 +4789,7 @@ func (s *state) getMethodClosure(fn ir.INode) *ssa.Value {
 	// Make a PFUNC node out of that, then evaluate it.
 	// We get back an SSA value representing &sync.(*Mutex).Unlock·f.
 	// We can then pass that to defer or go.
-	n2 := newnamel(fn.Pos(), fn.Sym())
+	n2 := ir.NewNameAt(fn.Pos(), fn.Sym())
 	n2.Name().Curfn = s.curfn
 	n2.SetClass(ir.PFUNC)
 	// n2.Sym already existed, so it's already marked as a function.
@@ -7066,7 +7066,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 
 	s := &types.Sym{Name: node.Sym().Name + suffix, Pkg: ir.LocalPkg}
 
-	n := newnamel(parent.N.(ir.INode).Pos(), s)
+	n := ir.NewNameAt(parent.N.(ir.INode).Pos(), s)
 	s.Def = ir.AsTypesNode(n)
 	ir.AsNode(s.Def).Name().SetUsed(true)
 	n.SetType(t)

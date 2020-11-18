@@ -493,7 +493,7 @@ func slicedata(pos src.XPos, s string) ir.INode {
 	slicedataGen++
 	symname := fmt.Sprintf(".gobytes.%d", slicedataGen)
 	sym := ir.LocalPkg.Lookup(symname)
-	symnode := newname(sym)
+	symnode := NewName(sym)
 	sym.Def = ir.AsTypesNode(symnode)
 
 	lsym := sym.Linksym()

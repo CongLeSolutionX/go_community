@@ -68,7 +68,7 @@ func tempAt(pos src.XPos, curfn ir.INode, t *types.Type) ir.INode {
 		Name: autotmpname(len(curfn.Func().Dcl)),
 		Pkg:  ir.LocalPkg,
 	}
-	n := newnamel(pos, s)
+	n := ir.NewNameAt(pos, s)
 	s.Def = ir.AsTypesNode(n)
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)

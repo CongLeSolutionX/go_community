@@ -89,7 +89,7 @@ func fninit(n []ir.INode) {
 
 	// Make an .inittask structure.
 	sym := lookup(".inittask")
-	nn := newname(sym)
+	nn := NewName(sym)
 	nn.SetType(types.Types[types.TUINT8]) // dummy type
 	nn.SetClass(ir.PEXTERN)
 	sym.Def = ir.AsTypesNode(nn)

@@ -255,7 +255,7 @@ func transformclosure(xfunc ir.INode) {
 				// we introduce function param &v *T
 				// and v remains PAUTOHEAP with &v heapaddr
 				// (accesses will implicitly deref &v).
-				addr := newname(lookup("&" + v.Sym().Name))
+				addr := NewName(lookup("&" + v.Sym().Name))
 				addr.SetType(types.NewPtr(v.Type()))
 				v.Name().Param.Heapaddr = addr
 				v = addr
@@ -303,7 +303,7 @@ func transformclosure(xfunc ir.INode) {
 			} else {
 				// Declare variable holding addresses taken from closure
 				// and initialize in entry prologue.
-				addr := newname(lookup("&" + v.Sym().Name))
+				addr := NewName(lookup("&" + v.Sym().Name))
 				addr.SetType(types.NewPtr(v.Type()))
 				addr.SetClass(ir.PAUTO)
 				addr.Name().SetUsed(true)
@@ -431,7 +431,7 @@ func typecheckpartialcall(fn ir.INode, sym *types.Sym) {
 	xfunc := makepartialcall(fn, fn.Type(), sym)
 	xfunc.Func().SetWrapper(true)
 	fn.SetOp(ir.OCALLPART)
-	fn.SetRight(newname(sym))
+	fn.SetRight(NewName(sym))
 	fn.SetType(xfunc.Type())
 	fn.SetFunc(xfunc.Func())
 }
@@ -478,7 +478,7 @@ func makepartialcall(fn ir.INode, t0 *types.Type, meth *types.Sym) ir.INode {
 	cv.SetType(rcvrtype)
 	cv.SetXoffset(Rnd(int64(Widthptr), int64(cv.Type().Align)))
 
-	ptr := newname(lookup(".this"))
+	ptr := NewName(lookup(".this"))
 	declare(ptr, ir.PAUTO)
 	ptr.Name().SetUsed(true)
 	var body []ir.INode

@@ -112,7 +112,7 @@ func varEmbed(p *noder, names []ir.INode, typ ir.INode, exprs []ir.INode, embeds
 	v := names[0]
 	if dclcontext != ir.PEXTERN {
 		numLocalEmbed++
-		v = newnamel(v.Pos(), lookupN("embed.", numLocalEmbed))
+		v = ir.NewNameAt(v.Pos(), lookupN("embed.", numLocalEmbed))
 		v.Sym().Def = ir.AsTypesNode(v)
 		v.Name().Param.Ntype = typ
 		v.SetClass(ir.PEXTERN)

@@ -990,7 +990,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 					ninit.Append(typecheck(ir.Nod(ir.OAS, iv, o), ctxStmt))
 					inlvars[v] = iv
 				} else {
-					addr := newname(lookup("&" + v.Sym().Name))
+					addr := NewName(lookup("&" + v.Sym().Name))
 					addr.SetType(types.NewPtr(v.Type()))
 					ia := typecheck(inlvar(addr), ctxExpr)
 					ninit.Append(ir.Nod(ir.ODCL, ia, nil))
@@ -1226,7 +1226,7 @@ func inlvar(var_ ir.INode) ir.INode {
 		fmt.Printf("inlvar %+v\n", var_)
 	}
 
-	n := newname(var_.Sym())
+	n := NewName(var_.Sym())
 	n.SetType(var_.Type())
 	n.SetClass(ir.PAUTO)
 	n.Name().SetUsed(true)
@@ -1239,7 +1239,7 @@ func inlvar(var_ ir.INode) ir.INode {
 
 // Synthesize a variable to store the inlined function's results in.
 func retvar(t *types.Field, i int) ir.INode {
-	n := newname(lookupN("~R", i))
+	n := NewName(lookupN("~R", i))
 	n.SetType(t.Type)
 	n.SetClass(ir.PAUTO)
 	n.Name().SetUsed(true)
@@ -1251,7 +1251,7 @@ func retvar(t *types.Field, i int) ir.INode {
 // Synthesize a variable to store the inlined function's arguments
 // when they come from a multiple return call.
 func argvar(t *types.Type, i int) ir.INode {
-	n := newname(lookupN("~arg", i))
+	n := NewName(lookupN("~arg", i))
 	n.SetType(t.Elem())
 	n.SetClass(ir.PAUTO)
 	n.Name().SetUsed(true)

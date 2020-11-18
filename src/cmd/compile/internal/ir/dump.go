@@ -6,23 +6,23 @@
 // for debugging purposes. The code is customized for Node graphs
 // and may be used for an alternative view of the node structure.
 
-package gc
+package ir
 
 import (
-	"cmd/compile/internal/base"
-	"cmd/compile/internal/ir"
-	"cmd/compile/internal/types"
-	"cmd/internal/src"
 	"fmt"
 	"io"
 	"os"
 	"reflect"
 	"regexp"
+
+	"cmd/compile/internal/base"
+	"cmd/compile/internal/types"
+	"cmd/internal/src"
 )
 
 // dump is like fdump but prints to stderr.
-func dump(root interface{}, filter string, depth int) {
-	fdump(os.Stderr, root, filter, depth)
+func DumpAny(root interface{}, filter string, depth int) {
+	FDumpAny(os.Stderr, root, filter, depth)
 }
 
 // fdump prints the structure of a rooted data structure
@@ -42,7 +42,7 @@ func dump(root interface{}, filter string, depth int) {
 // rather than their type; struct fields with zero values or
 // non-matching field names are omitted, and "…" means recursion
 // depth has been reached or struct fields have been omitted.
-func fdump(w io.Writer, root interface{}, filter string, depth int) {
+func FDumpAny(w io.Writer, root interface{}, filter string, depth int) {
 	if root == nil {
 		fmt.Fprintln(w, "nil")
 		return
@@ -142,7 +142,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 
 	// special cases
 	switch v := x.Interface().(type) {
-	case ir.Nodes:
+	case Nodes:
 		// unpack Nodes since reflect cannot look inside
 		// due to the unexported field in its struct
 		x = reflect.ValueOf(v.Slice())
@@ -200,7 +200,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 		typ := x.Type()
 
 		isNode := false
-		if n, ok := x.Interface().(ir.Node); ok {
+		if n, ok := x.Interface().(Node); ok {
 			isNode = true
 			p.printf("%s %s {", n.Op().String(), p.addr(x))
 		} else {
@@ -229,7 +229,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 					omitted = true
 					continue // exclude zero-valued fields
 				}
-				if n, ok := x.Interface().(ir.Nodes); ok && n.Len() == 0 {
+				if n, ok := x.Interface().(Nodes); ok && n.Len() == 0 {
 					omitted = true
 					continue // exclude empty Nodes slices
 				}

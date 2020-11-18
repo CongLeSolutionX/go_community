@@ -1573,3 +1573,27 @@ func (n *ContinueStmt) SepCopy() INode {
 	copy.SetOrig(&copy)
 	return &copy
 }
+
+// newnamel returns a new ONAME Node associated with symbol s at position pos.
+// The caller is responsible for setting n.Name.Curfn.
+func NewNameAt(pos src.XPos, s *types.Sym) INode {
+	if s == nil {
+		base.Fatal("newnamel nil")
+	}
+
+	var x struct {
+		n Node
+		m Name
+		p Param
+	}
+	n := &x.n
+	n.SetName(&x.m)
+	n.Name().Param = &x.p
+
+	n.SetOp(ONAME)
+	n.SetPos(pos)
+	n.SetOrig(n)
+
+	n.SetSym(s)
+	return n
+}

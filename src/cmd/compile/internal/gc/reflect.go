@@ -1003,7 +1003,7 @@ func typenamesym(t *types.Type) *types.Sym {
 func typename(t *types.Type) ir.INode {
 	s := typenamesym(t)
 	if s.Def == nil {
-		n := newnamel(src.NoXPos, s)
+		n := ir.NewNameAt(src.NoXPos, s)
 		n.SetType(types.Types[types.TUINT8])
 		n.SetClass(ir.PEXTERN)
 		n.SetTypecheck(1)
@@ -1022,7 +1022,7 @@ func itabname(t, itype *types.Type) ir.INode {
 	}
 	s := itabpkg.Lookup(t.ShortString() + "," + itype.ShortString())
 	if s.Def == nil {
-		n := newname(s)
+		n := NewName(s)
 		n.SetType(types.Types[types.TUINT8])
 		n.SetClass(ir.PEXTERN)
 		n.SetTypecheck(1)
@@ -1886,7 +1886,7 @@ func zeroaddr(size int64) ir.INode {
 	}
 	s := mappkg.Lookup("zero")
 	if s.Def == nil {
-		x := newname(s)
+		x := NewName(s)
 		x.SetType(types.Types[types.TUINT8])
 		x.SetClass(ir.PEXTERN)
 		x.SetTypecheck(1)

@@ -311,7 +311,7 @@ func genhash(t *types.Type) *obj.LSym {
 		hashel := hashfor(t.Elem())
 
 		n := ir.Nod(ir.ORANGE, nil, ir.Nod(ir.ODEREF, np, nil))
-		ni := newname(lookup("i"))
+		ni := NewName(lookup("i"))
 		ni.SetType(types.Types[types.TINT])
 		n.PtrList().Set1(ni)
 		n.SetColas(true)
@@ -430,7 +430,7 @@ func hashfor(t *types.Type) ir.INode {
 		sym = typesymprefix(".hash", t)
 	}
 
-	n := newname(sym)
+	n := NewName(sym)
 	setNodeNameFunc(n)
 	n.SetType(functype(nil, []ir.INode{
 		anonfield(types.NewPtr(t)),
