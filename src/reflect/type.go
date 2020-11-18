@@ -50,13 +50,13 @@ type Type interface {
 	// It panics if i is not in the range [0, NumMethod()).
 	//
 	// For a non-interface type T or *T, the returned Method's Type and Func
-	// fields describe a function whose first argument is the receiver.
+	// fields describe a function whose first argument is the receiver,
+	// and only exported methods are accessible.
 	//
 	// For an interface type, the returned Method's Type field gives the
 	// method signature, without a receiver, and the Func field is nil.
 	//
-	// Only exported methods are accessible and they are sorted in
-	// lexicographic order.
+	// Methods are sorted in lexicographic order.
 	Method(int) Method
 
 	// MethodByName returns the method with that name in the type's
@@ -69,7 +69,9 @@ type Type interface {
 	// method signature, without a receiver, and the Func field is nil.
 	MethodByName(string) (Method, bool)
 
-	// NumMethod returns the number of exported methods in the type's method set.
+	// NumMethod returns the number of methods accessible using Method.
+	//
+	// Note that NumMethod counts unexported methods only for interface types.
 	NumMethod() int
 
 	// Name returns the type's name within its package for a defined type.
@@ -1130,6 +1132,9 @@ func (tag StructTag) Lookup(key string) (value string, ok bool) {
 	// When modifying this code, also update the validateStructTag code
 	// in cmd/vet/structtag.go.
 
+	// keyFound indicates that such key on the left side has already been found.
+	var keyFound bool
+
 	for tag != "" {
 		// Skip leading space.
 		i := 0
@@ -1149,11 +1154,29 @@ func (tag StructTag) Lookup(key string) (value string, ok bool) {
 		for i < len(tag) && tag[i] > ' ' && tag[i] != ':' && tag[i] != '"' && tag[i] != 0x7f {
 			i++
 		}
-		if i == 0 || i+1 >= len(tag) || tag[i] != ':' || tag[i+1] != '"' {
+		if i == 0 || i+1 >= len(tag) || tag[i] < ' ' || tag[i] == 0x7f {
 			break
 		}
 		name := string(tag[:i])
-		tag = tag[i+1:]
+		tag = tag[i:]
+
+		// If we found a space char here - assume that we have a tag with
+		// multiple keys.
+		if tag[0] == ' ' {
+			if name == key {
+				keyFound = true
+			}
+			continue
+		}
+
+		// Spaces were filtered above so we assume that here we have
+		// only valid tag value started with `:"`.
+		if tag[0] != ':' || tag[1] != '"' {
+			break
+		}
+
+		// Remove the colon leaving tag at the start of the quoted string.
+		tag = tag[1:]
 
 		// Scan quoted string to find value.
 		i = 1
@@ -1169,7 +1192,7 @@ func (tag StructTag) Lookup(key string) (value string, ok bool) {
 		qvalue := string(tag[:i+1])
 		tag = tag[i+1:]
 
-		if key == name {
+		if key == name || keyFound {
 			value, err := strconv.Unquote(qvalue)
 			if err != nil {
 				break
