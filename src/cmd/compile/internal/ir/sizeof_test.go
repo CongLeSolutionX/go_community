@@ -2,10 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package ir
 
 import (
-	"cmd/compile/internal/ir"
 	"reflect"
 	"testing"
 	"unsafe"
@@ -22,10 +21,10 @@ func TestSizeof(t *testing.T) {
 		_32bit uintptr     // size on 32bit platforms
 		_64bit uintptr     // size on 64bit platforms
 	}{
-		{ir.Func{}, 124, 224},
-		{ir.Name{}, 32, 56},
-		{ir.Param{}, 24, 48},
-		{ir.Node{}, 76, 128},
+		{Func{}, 124, 224},
+		{Name{}, 32, 56},
+		{Param{}, 24, 48},
+		{node{}, 76, 128},
 	}
 
 	for _, tt := range tests {
