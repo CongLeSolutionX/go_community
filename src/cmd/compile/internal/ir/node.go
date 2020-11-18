@@ -28,10 +28,10 @@ type Node struct {
 	// Generic recursive walks should follow these fields.
 	left  *Node
 	right *Node
-	Ninit Nodes
-	Nbody Nodes
-	List  Nodes
-	Rlist Nodes
+	ninit Nodes
+	nbody Nodes
+	list  Nodes
+	rlist Nodes
 
 	// most nodes
 	typ  *types.Type
@@ -89,18 +89,18 @@ func (n *Node) SetEsc(x uint16)       { n.esc = x }
 func (n *Node) Op() Op                { return n.op }
 func (n *Node) SetOp(x Op)            { n.op = x }
 
-func (n *Node) GetNinit() Nodes  { return n.Ninit }
-func (n *Node) SetNinit(x Nodes) { n.Ninit = x }
-func (n *Node) PtrNinit() *Nodes { return &n.Ninit }
-func (n *Node) GetNbody() Nodes  { return n.Nbody }
-func (n *Node) SetNbody(x Nodes) { n.Nbody = x }
-func (n *Node) PtrNbody() *Nodes { return &n.Nbody }
-func (n *Node) GetList() Nodes   { return n.List }
-func (n *Node) SetList(x Nodes)  { n.List = x }
-func (n *Node) PtrList() *Nodes  { return &n.List }
-func (n *Node) GetRlist() Nodes  { return n.Rlist }
-func (n *Node) SetRlist(x Nodes) { n.Rlist = x }
-func (n *Node) PtrRlist() *Nodes { return &n.Rlist }
+func (n *Node) Ninit() Nodes     { return n.ninit }
+func (n *Node) SetNinit(x Nodes) { n.ninit = x }
+func (n *Node) PtrNinit() *Nodes { return &n.ninit }
+func (n *Node) Nbody() Nodes     { return n.nbody }
+func (n *Node) SetNbody(x Nodes) { n.nbody = x }
+func (n *Node) PtrNbody() *Nodes { return &n.nbody }
+func (n *Node) List() Nodes      { return n.list }
+func (n *Node) SetList(x Nodes)  { n.list = x }
+func (n *Node) PtrList() *Nodes  { return &n.list }
+func (n *Node) Rlist() Nodes     { return n.rlist }
+func (n *Node) SetRlist(x Nodes) { n.rlist = x }
+func (n *Node) PtrRlist() *Nodes { return &n.rlist }
 
 func (n *Node) ResetAux() {
 	n.aux = 0
@@ -1122,12 +1122,12 @@ func Inspect(n *Node, f func(*Node) bool) {
 	if n == nil || !f(n) {
 		return
 	}
-	InspectList(n.Ninit, f)
+	InspectList(n.ninit, f)
 	Inspect(n.Left(), f)
 	Inspect(n.Right(), f)
-	InspectList(n.List, f)
-	InspectList(n.Nbody, f)
-	InspectList(n.Rlist, f)
+	InspectList(n.list, f)
+	InspectList(n.nbody, f)
+	InspectList(n.rlist, f)
 }
 
 func InspectList(l Nodes, f func(*Node) bool) {
@@ -1294,16 +1294,16 @@ func OrigSym(s *types.Sym) *types.Sym {
 // SliceBounds returns n's slice bounds: low, high, and max in expr[low:high:max].
 // n must be a slice expression. max is nil if n is a simple slice expression.
 func (n *Node) SliceBounds() (low, high, max *Node) {
-	if n.List.Len() == 0 {
+	if n.list.Len() == 0 {
 		return nil, nil, nil
 	}
 
 	switch n.Op() {
 	case OSLICE, OSLICEARR, OSLICESTR:
-		s := n.List.Slice()
+		s := n.list.Slice()
 		return s[0], s[1], nil
 	case OSLICE3, OSLICE3ARR:
-		s := n.List.Slice()
+		s := n.list.Slice()
 		return s[0], s[1], s[2]
 	}
 	base.Fatal("SliceBounds op %v: %v", n.Op(), n)
@@ -1318,24 +1318,24 @@ func (n *Node) SetSliceBounds(low, high, max *Node) {
 		if max != nil {
 			base.Fatal("SetSliceBounds %v given three bounds", n.Op())
 		}
-		s := n.List.Slice()
+		s := n.list.Slice()
 		if s == nil {
 			if low == nil && high == nil {
 				return
 			}
-			n.List.Set2(low, high)
+			n.PtrList().Set2(low, high)
 			return
 		}
 		s[0] = low
 		s[1] = high
 		return
 	case OSLICE3, OSLICE3ARR:
-		s := n.List.Slice()
+		s := n.list.Slice()
 		if s == nil {
 			if low == nil && high == nil && max == nil {
 				return
 			}
-			n.List.Set3(low, high, max)
+			n.PtrList().Set3(low, high, max)
 			return
 		}
 		s[0] = low

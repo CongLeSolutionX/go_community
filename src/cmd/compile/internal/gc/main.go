@@ -263,10 +263,10 @@ func Main(archInit func(*Arch)) {
 			Curfn = n
 			decldepth = 1
 			errorsBefore := base.Errors()
-			typecheckslice(Curfn.Nbody.Slice(), ctxStmt)
+			typecheckslice(Curfn.Nbody().Slice(), ctxStmt)
 			checkreturn(Curfn)
 			if base.Errors() > errorsBefore {
-				Curfn.Nbody.Set(nil) // type errors; do not compile
+				Curfn.PtrNbody().Set(nil) // type errors; do not compile
 			}
 			// Now that we've checked whether n terminates,
 			// we can eliminate some obviously dead code.

@@ -146,8 +146,8 @@ func variter(vl []*ir.Node, t *ir.Node, el []*ir.Node) []*ir.Node {
 	if len(el) == 1 && len(vl) > 1 {
 		e := el[0]
 		as2 := nod(ir.OAS2, nil, nil)
-		as2.List.Set(vl)
-		as2.Rlist.Set1(e)
+		as2.PtrList().Set(vl)
+		as2.PtrRlist().Set1(e)
 		for _, v := range vl {
 			v.SetOp(ir.ONAME)
 			declare(v, dclcontext)
@@ -358,7 +358,7 @@ func colasdefn(left []*ir.Node, defn *ir.Node) {
 		n = newname(n.Sym())
 		declare(n, dclcontext)
 		n.Name().Defn = defn
-		defn.Ninit.Append(nod(ir.ODCL, n, nil))
+		defn.PtrNinit().Append(nod(ir.ODCL, n, nil))
 		left[i] = n
 	}
 
@@ -410,13 +410,13 @@ func funcargs(nt *ir.Node) {
 	// TODO(mdempsky): This is ugly, and only necessary because
 	// esc.go uses Vargen to figure out result parameters' index
 	// within the result tuple.
-	vargen = nt.Rlist.Len()
+	vargen = nt.Rlist().Len()
 
 	// declare the receiver and in arguments.
 	if nt.Left() != nil {
 		funcarg(nt.Left(), ir.PPARAM)
 	}
-	for _, n := range nt.List.Slice() {
+	for _, n := range nt.List().Slice() {
 		funcarg(n, ir.PPARAM)
 	}
 
@@ -424,8 +424,8 @@ func funcargs(nt *ir.Node) {
 	vargen = 0
 
 	// declare the out arguments.
-	gen := nt.List.Len()
-	for _, n := range nt.Rlist.Slice() {
+	gen := nt.List().Len()
+	for _, n := range nt.Rlist().Slice() {
 		if n.Sym() == nil {
 			// Name so that escape analysis can track it. ~r stands for 'result'.
 			n.SetSym(lookupN("~r", gen))
@@ -1035,7 +1035,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(n *ir.Node) bool {
 	}
 
 	var callee *ir.Node
-	arg := n.List.First()
+	arg := n.List().First()
 	switch arg.Op() {
 	case ir.ONAME:
 		callee = arg.Name().Defn

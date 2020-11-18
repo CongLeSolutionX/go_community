@@ -254,7 +254,7 @@ func treecopy(n *ir.Node, pos src.XPos) *ir.Node {
 		m := n.SepCopy()
 		m.SetLeft(treecopy(n.Left(), pos))
 		m.SetRight(treecopy(n.Right(), pos))
-		m.List.Set(listtreecopy(n.List.Slice(), pos))
+		m.PtrList().Set(listtreecopy(n.List().Slice(), pos))
 		if pos.IsKnown() {
 			m.SetPos(pos)
 		}
@@ -685,7 +685,7 @@ func updateHasCall(n *ir.Node) {
 }
 
 func calcHasCall(n *ir.Node) bool {
-	if n.Ninit.Len() != 0 {
+	if n.Ninit().Len() != 0 {
 		// TODO(mdempsky): This seems overly conservative.
 		return true
 	}
@@ -804,9 +804,9 @@ func safeexpr(n *ir.Node, init *ir.Nodes) *ir.Node {
 		return nil
 	}
 
-	if n.Ninit.Len() != 0 {
-		walkstmtlist(n.Ninit.Slice())
-		init.AppendNodes(&n.Ninit)
+	if n.Ninit().Len() != 0 {
+		walkstmtlist(n.Ninit().Slice())
+		init.AppendNodes(n.PtrNinit())
 	}
 
 	switch n.Op() {
@@ -1237,8 +1237,8 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 
 	tfn := nod(ir.OTFUNC, nil, nil)
 	tfn.SetLeft(namedfield(".this", rcvr))
-	tfn.List.Set(structargs(method.Type.Params(), true))
-	tfn.Rlist.Set(structargs(method.Type.Results(), false))
+	tfn.PtrList().Set(structargs(method.Type.Params(), true))
+	tfn.PtrRlist().Set(structargs(method.Type.Results(), false))
 
 	fn := dclfunc(newnam, tfn)
 	fn.Func().SetDupok(true)
@@ -1253,8 +1253,8 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 		n := nod(ir.OIF, nil, nil)
 		n.SetLeft(nod(ir.OEQ, nthis, nodnil()))
 		call := nod(ir.OCALL, syslook("panicwrap"), nil)
-		n.Nbody.Set1(call)
-		fn.Nbody.Append(n)
+		n.PtrNbody().Set1(call)
+		fn.PtrNbody().Append(n)
 	}
 
 	dot := adddot(nodSym(ir.OXDOT, nthis, method.Sym))
@@ -1274,23 +1274,23 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 			dot = nod(ir.OADDR, dot, nil)
 		}
 		as := nod(ir.OAS, nthis, convnop(dot, rcvr))
-		fn.Nbody.Append(as)
-		fn.Nbody.Append(nodSym(ir.ORETJMP, nil, methodSym(methodrcvr, method.Sym)))
+		fn.PtrNbody().Append(as)
+		fn.PtrNbody().Append(nodSym(ir.ORETJMP, nil, methodSym(methodrcvr, method.Sym)))
 	} else {
 		fn.Func().SetWrapper(true) // ignore frame for panic+recover matching
 		call := nod(ir.OCALL, dot, nil)
-		call.List.Set(paramNnames(tfn.Type()))
+		call.PtrList().Set(paramNnames(tfn.Type()))
 		call.SetIsDDD(tfn.Type().IsVariadic())
 		if method.Type.NumResults() > 0 {
 			n := nod(ir.ORETURN, nil, nil)
-			n.List.Set1(call)
+			n.PtrList().Set1(call)
 			call = n
 		}
-		fn.Nbody.Append(call)
+		fn.PtrNbody().Append(call)
 	}
 
 	if false && base.Flag.LowerR != 0 {
-		ir.DumpList("genwrapper body", fn.Nbody)
+		ir.DumpList("genwrapper body", fn.Nbody())
 	}
 
 	funcbody()
@@ -1301,7 +1301,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	fn = typecheck(fn, ctxStmt)
 
 	Curfn = fn
-	typecheckslice(fn.Nbody.Slice(), ctxStmt)
+	typecheckslice(fn.Nbody().Slice(), ctxStmt)
 
 	// Inline calls within (*T).M wrappers. This is safe because we only
 	// generate those wrappers within the same compilation unit as (T).M.
@@ -1462,7 +1462,7 @@ func listtreecopy(l []*ir.Node, pos src.XPos) []*ir.Node {
 
 func liststmt(l []*ir.Node) *ir.Node {
 	n := nod(ir.OBLOCK, nil, nil)
-	n.List.Set(l)
+	n.PtrList().Set(l)
 	if len(l) != 0 {
 		n.SetPos(l[0].Pos())
 	}
@@ -1489,7 +1489,7 @@ func addinit(n *ir.Node, init []*ir.Node) *ir.Node {
 		n.SetTypecheck(1)
 	}
 
-	n.Ninit.Prepend(init...)
+	n.PtrNinit().Prepend(init...)
 	n.SetHasCall(true)
 	return n
 }

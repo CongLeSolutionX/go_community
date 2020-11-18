@@ -173,7 +173,7 @@ func caninl(fn *ir.Node) {
 	}
 
 	// If fn has no body (is defined outside of Go), cannot inline it.
-	if fn.Nbody.Len() == 0 {
+	if fn.Nbody().Len() == 0 {
 		reason = "no function body"
 		return
 	}
@@ -207,7 +207,7 @@ func caninl(fn *ir.Node) {
 		extraCallCost: cc,
 		usedLocals:    make(map[*ir.Node]bool),
 	}
-	if visitor.visitList(fn.Nbody) {
+	if visitor.visitList(fn.Nbody()) {
 		reason = visitor.reason
 		return
 	}
@@ -219,7 +219,7 @@ func caninl(fn *ir.Node) {
 	n.Func().Inl = &ir.Inline{
 		Cost: inlineMaxBudget - visitor.budget,
 		Dcl:  inlcopylist(pruneUnusedAutos(n.Name().Defn.Func().Dcl, &visitor)),
-		Body: inlcopylist(fn.Nbody.Slice()),
+		Body: inlcopylist(fn.Nbody().Slice()),
 	}
 
 	// hack, TODO, check for better way to link method nodes back to the thing with the ->inl
@@ -427,8 +427,8 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 	case ir.OIF:
 		if ir.IsConst(n.Left(), ir.CTBOOL) {
 			// This if and the condition cost nothing.
-			return v.visitList(n.Ninit) || v.visitList(n.Nbody) ||
-				v.visitList(n.Rlist)
+			return v.visitList(n.Ninit()) || v.visitList(n.Nbody()) ||
+				v.visitList(n.Rlist())
 		}
 
 	case ir.ONAME:
@@ -446,8 +446,8 @@ func (v *hairyVisitor) visit(n *ir.Node) bool {
 	}
 
 	return v.visit(n.Left()) || v.visit(n.Right()) ||
-		v.visitList(n.List) || v.visitList(n.Rlist) ||
-		v.visitList(n.Ninit) || v.visitList(n.Nbody)
+		v.visitList(n.List()) || v.visitList(n.Rlist()) ||
+		v.visitList(n.Ninit()) || v.visitList(n.Nbody())
 }
 
 // Inlcopy and inlcopylist recursively copy the body of a function.
@@ -477,10 +477,10 @@ func inlcopy(n *ir.Node) *ir.Node {
 	}
 	m.SetLeft(inlcopy(n.Left()))
 	m.SetRight(inlcopy(n.Right()))
-	m.List.Set(inlcopylist(n.List.Slice()))
-	m.Rlist.Set(inlcopylist(n.Rlist.Slice()))
-	m.Ninit.Set(inlcopylist(n.Ninit.Slice()))
-	m.Nbody.Set(inlcopylist(n.Nbody.Slice()))
+	m.PtrList().Set(inlcopylist(n.List().Slice()))
+	m.PtrRlist().Set(inlcopylist(n.Rlist().Slice()))
+	m.PtrNinit().Set(inlcopylist(n.Ninit().Slice()))
+	m.PtrNbody().Set(inlcopylist(n.Nbody().Slice()))
 
 	return m
 }
@@ -492,16 +492,16 @@ func countNodes(n *ir.Node) int {
 	cnt := 1
 	cnt += countNodes(n.Left())
 	cnt += countNodes(n.Right())
-	for _, n1 := range n.Ninit.Slice() {
+	for _, n1 := range n.Ninit().Slice() {
 		cnt += countNodes(n1)
 	}
-	for _, n1 := range n.Nbody.Slice() {
+	for _, n1 := range n.Nbody().Slice() {
 		cnt += countNodes(n1)
 	}
-	for _, n1 := range n.List.Slice() {
+	for _, n1 := range n.List().Slice() {
 		cnt += countNodes(n1)
 	}
-	for _, n1 := range n.Rlist.Slice() {
+	for _, n1 := range n.Rlist().Slice() {
 		cnt += countNodes(n1)
 	}
 	return cnt
@@ -535,18 +535,18 @@ func inlconv2stmt(n *ir.Node) {
 	n.SetOp(ir.OBLOCK)
 
 	// n->ninit stays
-	n.List.Set(n.Nbody.Slice())
+	n.PtrList().Set(n.Nbody().Slice())
 
-	n.Nbody.Set(nil)
-	n.Rlist.Set(nil)
+	n.PtrNbody().Set(nil)
+	n.PtrRlist().Set(nil)
 }
 
 // Turn an OINLCALL into a single valued expression.
 // The result of inlconv2expr MUST be assigned back to n, e.g.
 // 	n.Left = inlconv2expr(n.Left)
 func inlconv2expr(n *ir.Node) *ir.Node {
-	r := n.Rlist.First()
-	return addinit(r, append(n.Ninit.Slice(), n.Nbody.Slice()...))
+	r := n.Rlist().First()
+	return addinit(r, append(n.Ninit().Slice(), n.Nbody().Slice()...))
 }
 
 // Turn the rlist (with the return values) of the OINLCALL in
@@ -555,12 +555,12 @@ func inlconv2expr(n *ir.Node) *ir.Node {
 // order will be preserved Used in return, oas2func and call
 // statements.
 func inlconv2list(n *ir.Node) []*ir.Node {
-	if n.Op() != ir.OINLCALL || n.Rlist.Len() == 0 {
+	if n.Op() != ir.OINLCALL || n.Rlist().Len() == 0 {
 		base.Fatal("inlconv2list %+v\n", n)
 	}
 
-	s := n.Rlist.Slice()
-	s[0] = addinit(s[0], append(n.Ninit.Slice(), n.Nbody.Slice()...))
+	s := n.Rlist().Slice()
+	s[0] = addinit(s[0], append(n.Ninit().Slice(), n.Nbody().Slice()...))
 	return s
 }
 
@@ -610,8 +610,8 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 
 	lno := setlineno(n)
 
-	inlnodelist(n.Ninit, maxCost, inlMap)
-	for _, n1 := range n.Ninit.Slice() {
+	inlnodelist(n.Ninit(), maxCost, inlMap)
+	for _, n1 := range n.Ninit().Slice() {
 		if n1.Op() == ir.OINLCALL {
 			inlconv2stmt(n1)
 		}
@@ -627,7 +627,7 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 		if n.Op() == ir.OFOR || n.Op() == ir.OFORUNTIL {
 			inlconv2stmt(n.Right())
 		} else if n.Op() == ir.OAS2FUNC {
-			n.Rlist.Set(inlconv2list(n.Right()))
+			n.PtrRlist().Set(inlconv2list(n.Right()))
 			n.SetRight(nil)
 			n.SetOp(ir.OAS2)
 			n.SetTypecheck(0)
@@ -637,15 +637,15 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 		}
 	}
 
-	inlnodelist(n.List, maxCost, inlMap)
+	inlnodelist(n.List(), maxCost, inlMap)
 	if n.Op() == ir.OBLOCK {
-		for _, n2 := range n.List.Slice() {
+		for _, n2 := range n.List().Slice() {
 			if n2.Op() == ir.OINLCALL {
 				inlconv2stmt(n2)
 			}
 		}
 	} else {
-		s := n.List.Slice()
+		s := n.List().Slice()
 		for i1, n1 := range s {
 			if n1 != nil && n1.Op() == ir.OINLCALL {
 				s[i1] = inlconv2expr(s[i1])
@@ -653,8 +653,8 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 		}
 	}
 
-	inlnodelist(n.Rlist, maxCost, inlMap)
-	s := n.Rlist.Slice()
+	inlnodelist(n.Rlist(), maxCost, inlMap)
+	s := n.Rlist().Slice()
 	for i1, n1 := range s {
 		if n1.Op() == ir.OINLCALL {
 			if n.Op() == ir.OIF {
@@ -665,8 +665,8 @@ func inlnode(n *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 		}
 	}
 
-	inlnodelist(n.Nbody, maxCost, inlMap)
-	for _, n := range n.Nbody.Slice() {
+	inlnodelist(n.Nbody(), maxCost, inlMap)
+	for _, n := range n.Nbody().Slice() {
 		if n.Op() == ir.OINLCALL {
 			inlconv2stmt(n)
 		}
@@ -774,9 +774,9 @@ FindRHS:
 	case ir.OAS:
 		rhs = defn.Right()
 	case ir.OAS2:
-		for i, lhs := range defn.List.Slice() {
+		for i, lhs := range defn.List().Slice() {
 			if lhs == n {
-				rhs = defn.Rlist.Index(i)
+				rhs = defn.Rlist().Index(i)
 				break FindRHS
 			}
 		}
@@ -820,7 +820,7 @@ func reassigned(n *ir.Node) (bool, *ir.Node) {
 		f = f.Func().Decl
 	}
 	v := reassignVisitor{name: n}
-	a := v.visitList(f.Nbody)
+	a := v.visitList(f.Nbody())
 	return a != nil, a
 }
 
@@ -838,7 +838,7 @@ func (v *reassignVisitor) visit(n *ir.Node) *ir.Node {
 			return n
 		}
 	case ir.OAS2, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2DOTTYPE:
-		for _, p := range n.List.Slice() {
+		for _, p := range n.List().Slice() {
 			if p == v.name && n != v.name.Name().Defn {
 				return n
 			}
@@ -850,16 +850,16 @@ func (v *reassignVisitor) visit(n *ir.Node) *ir.Node {
 	if a := v.visit(n.Right()); a != nil {
 		return a
 	}
-	if a := v.visitList(n.List); a != nil {
+	if a := v.visitList(n.List()); a != nil {
 		return a
 	}
-	if a := v.visitList(n.Rlist); a != nil {
+	if a := v.visitList(n.Rlist()); a != nil {
 		return a
 	}
-	if a := v.visitList(n.Ninit); a != nil {
+	if a := v.visitList(n.Ninit()); a != nil {
 		return a
 	}
-	if a := v.visitList(n.Nbody); a != nil {
+	if a := v.visitList(n.Nbody()); a != nil {
 		return a
 	}
 	return nil
@@ -884,7 +884,7 @@ func inlParam(t *types.Field, as *ir.Node, inlvars map[*ir.Node]*ir.Node) *ir.No
 	if inlvar == nil {
 		base.Fatal("missing inlvar for %v", n)
 	}
-	as.Ninit.Append(nod(ir.ODCL, inlvar, nil))
+	as.PtrNinit().Append(nod(ir.ODCL, inlvar, nil))
 	inlvar.Name().Defn = as
 	return inlvar
 }
@@ -962,7 +962,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		ssaDumpInlined = append(ssaDumpInlined, fn)
 	}
 
-	ninit := n.Ninit
+	ninit := n.Ninit()
 
 	// Make temp names to use instead of the originals.
 	inlvars := make(map[*ir.Node]*ir.Node)
@@ -1083,34 +1083,34 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		if n.Left().Left() == nil {
 			base.Fatal("method call without receiver: %+v", n)
 		}
-		as.Rlist.Append(n.Left().Left())
+		as.PtrRlist().Append(n.Left().Left())
 	}
-	as.Rlist.Append(n.List.Slice()...)
+	as.PtrRlist().Append(n.List().Slice()...)
 
 	// For non-dotted calls to variadic functions, we assign the
 	// variadic parameter's temp name separately.
 	var vas *ir.Node
 
 	if recv := fn.Type().Recv(); recv != nil {
-		as.List.Append(inlParam(recv, as, inlvars))
+		as.PtrList().Append(inlParam(recv, as, inlvars))
 	}
 	for _, param := range fn.Type().Params().Fields().Slice() {
 		// For ordinary parameters or variadic parameters in
 		// dotted calls, just add the variable to the
 		// assignment list, and we're done.
 		if !param.IsDDD() || n.IsDDD() {
-			as.List.Append(inlParam(param, as, inlvars))
+			as.PtrList().Append(inlParam(param, as, inlvars))
 			continue
 		}
 
 		// Otherwise, we need to collect the remaining values
 		// to pass as a slice.
 
-		x := as.List.Len()
-		for as.List.Len() < as.Rlist.Len() {
-			as.List.Append(argvar(param.Type, as.List.Len()))
+		x := as.List().Len()
+		for as.List().Len() < as.Rlist().Len() {
+			as.PtrList().Append(argvar(param.Type, as.List().Len()))
 		}
-		varargs := as.List.Slice()[x:]
+		varargs := as.List().Slice()[x:]
 
 		vas = nod(ir.OAS, nil, nil)
 		vas.SetLeft(inlParam(param, vas, inlvars))
@@ -1119,11 +1119,11 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 			vas.Right().SetType(param.Type)
 		} else {
 			vas.SetRight(nod(ir.OCOMPLIT, nil, typenod(param.Type)))
-			vas.Right().List.Set(varargs)
+			vas.Right().PtrList().Set(varargs)
 		}
 	}
 
-	if as.Rlist.Len() != 0 {
+	if as.Rlist().Len() != 0 {
 		as = typecheck(as, ctxStmt)
 		ninit.Append(as)
 	}
@@ -1195,9 +1195,9 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	//dumplist("ninit post", ninit);
 
 	call := nod(ir.OINLCALL, nil, nil)
-	call.Ninit.Set(ninit.Slice())
-	call.Nbody.Set(body)
-	call.Rlist.Set(retvars)
+	call.PtrNinit().Set(ninit.Slice())
+	call.PtrNbody().Set(body)
+	call.PtrRlist().Set(retvars)
 	call.SetType(n.Type())
 	call.SetTypecheck(1)
 
@@ -1207,8 +1207,8 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	// instead we emit the things that the body needs
 	// and each use must redo the inlining.
 	// luckily these are small.
-	inlnodelist(call.Nbody, maxCost, inlMap)
-	for _, n := range call.Nbody.Slice() {
+	inlnodelist(call.Nbody(), maxCost, inlMap)
+	for _, n := range call.Nbody().Slice() {
 		if n.Op() == ir.OINLCALL {
 			inlconv2stmt(n)
 		}
@@ -1332,31 +1332,31 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 	//		dump("Return before substitution", n);
 	case ir.ORETURN:
 		m := nodSym(ir.OGOTO, nil, subst.retlabel)
-		m.Ninit.Set(subst.list(n.Ninit))
+		m.PtrNinit().Set(subst.list(n.Ninit()))
 
-		if len(subst.retvars) != 0 && n.List.Len() != 0 {
+		if len(subst.retvars) != 0 && n.List().Len() != 0 {
 			as := nod(ir.OAS2, nil, nil)
 
 			// Make a shallow copy of retvars.
 			// Otherwise OINLCALL.Rlist will be the same list,
 			// and later walk and typecheck may clobber it.
 			for _, n := range subst.retvars {
-				as.List.Append(n)
+				as.PtrList().Append(n)
 			}
-			as.Rlist.Set(subst.list(n.List))
+			as.PtrRlist().Set(subst.list(n.List()))
 
 			if subst.delayretvars {
-				for _, n := range as.List.Slice() {
-					as.Ninit.Append(nod(ir.ODCL, n, nil))
+				for _, n := range as.List().Slice() {
+					as.PtrNinit().Append(nod(ir.ODCL, n, nil))
 					n.Name().Defn = as
 				}
 			}
 
 			as = typecheck(as, ctxStmt)
-			m.Ninit.Append(as)
+			m.PtrNinit().Append(as)
 		}
 
-		typecheckslice(m.Ninit.Slice(), ctxStmt)
+		typecheckslice(m.Ninit().Slice(), ctxStmt)
 		m = typecheck(m, ctxStmt)
 
 		//		dump("Return after substitution", m);
@@ -1365,7 +1365,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 	case ir.OGOTO, ir.OLABEL:
 		m := n.Copy()
 		m.SetPos(subst.updatedPos(m.Pos()))
-		m.Ninit.Set(nil)
+		m.PtrNinit().Set(nil)
 		p := fmt.Sprintf("%s·%d", n.Sym().Name, inlgen)
 		m.SetSym(lookup(p))
 
@@ -1374,7 +1374,7 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 
 	m := n.Copy()
 	m.SetPos(subst.updatedPos(m.Pos()))
-	m.Ninit.Set(nil)
+	m.PtrNinit().Set(nil)
 
 	if n.Op() == ir.OCLOSURE {
 		base.Fatal("cannot inline function containing closure: %+v", n)
@@ -1382,10 +1382,10 @@ func (subst *inlsubst) node(n *ir.Node) *ir.Node {
 
 	m.SetLeft(subst.node(n.Left()))
 	m.SetRight(subst.node(n.Right()))
-	m.List.Set(subst.list(n.List))
-	m.Rlist.Set(subst.list(n.Rlist))
-	m.Ninit.Set(append(m.Ninit.Slice(), subst.list(n.Ninit)...))
-	m.Nbody.Set(subst.list(n.Nbody))
+	m.PtrList().Set(subst.list(n.List()))
+	m.PtrRlist().Set(subst.list(n.Rlist()))
+	m.PtrNinit().Set(append(m.Ninit().Slice(), subst.list(n.Ninit())...))
+	m.PtrNbody().Set(subst.list(n.Nbody()))
 
 	return m
 }
@@ -1419,7 +1419,7 @@ func pruneUnusedAutos(ll []*ir.Node, vis *hairyVisitor) []*ir.Node {
 // concrete-type method calls where applicable.
 func devirtualize(fn *ir.Node) {
 	Curfn = fn
-	ir.InspectList(fn.Nbody, func(n *ir.Node) bool {
+	ir.InspectList(fn.Nbody(), func(n *ir.Node) bool {
 		if n.Op() == ir.OCALLINTER {
 			devirtualizeCall(n)
 		}

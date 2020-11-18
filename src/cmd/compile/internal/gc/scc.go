@@ -75,7 +75,7 @@ func (v *bottomUpVisitor) visit(n *ir.Node) uint32 {
 	min := v.visitgen
 	v.stack = append(v.stack, n)
 
-	ir.InspectList(n.Nbody, func(n *ir.Node) bool {
+	ir.InspectList(n.Nbody(), func(n *ir.Node) bool {
 		switch n.Op() {
 		case ir.ONAME:
 			if n.Class() == ir.PFUNC {

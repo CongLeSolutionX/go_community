@@ -777,7 +777,7 @@ func (r *importReader) stmtList() []*ir.Node {
 		}
 		// OBLOCK nodes may be created when importing ODCL nodes - unpack them
 		if n.Op() == ir.OBLOCK {
-			list = append(list, n.List.Slice()...)
+			list = append(list, n.List().Slice()...)
 		} else {
 			list = append(list, n)
 		}
@@ -792,17 +792,17 @@ func (r *importReader) caseList(sw *ir.Node) []*ir.Node {
 	cases := make([]*ir.Node, r.uint64())
 	for i := range cases {
 		cas := nodl(r.pos(), ir.OCASE, nil, nil)
-		cas.List.Set(r.stmtList())
+		cas.PtrList().Set(r.stmtList())
 		if namedTypeSwitch {
 			// Note: per-case variables will have distinct, dotted
 			// names after import. That's okay: swt.go only needs
 			// Sym for diagnostics anyway.
 			caseVar := newnamel(cas.Pos(), r.ident())
 			declare(caseVar, dclcontext)
-			cas.Rlist.Set1(caseVar)
+			cas.PtrRlist().Set1(caseVar)
 			caseVar.Name().Defn = sw.Left()
 		}
-		cas.Nbody.Set(r.stmtList())
+		cas.PtrNbody().Set(r.stmtList())
 		cases[i] = cas
 	}
 	return cases
@@ -878,7 +878,7 @@ func (r *importReader) node() *ir.Node {
 		savedlineno := base.Pos
 		base.Pos = r.pos()
 		n := nodl(base.Pos, ir.OCOMPLIT, nil, typenod(r.typ()))
-		n.List.Set(r.elemList()) // special handling of field names
+		n.PtrList().Set(r.elemList()) // special handling of field names
 		base.Pos = savedlineno
 		return n
 
@@ -887,7 +887,7 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.OCOMPLIT:
 		n := nodl(r.pos(), ir.OCOMPLIT, nil, typenod(r.typ()))
-		n.List.Set(r.exprList())
+		n.PtrList().Set(r.exprList())
 		return n
 
 	case ir.OKEY:
@@ -942,7 +942,7 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.OCOPY, ir.OCOMPLEX, ir.OREAL, ir.OIMAG, ir.OAPPEND, ir.OCAP, ir.OCLOSE, ir.ODELETE, ir.OLEN, ir.OMAKE, ir.ONEW, ir.OPANIC, ir.ORECOVER, ir.OPRINT, ir.OPRINTN:
 		n := npos(r.pos(), builtinCall(op))
-		n.List.Set(r.exprList())
+		n.PtrList().Set(r.exprList())
 		if op == ir.OAPPEND {
 			n.SetIsDDD(r.bool())
 		}
@@ -953,16 +953,16 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.OCALL:
 		n := nodl(r.pos(), ir.OCALL, nil, nil)
-		n.Ninit.Set(r.stmtList())
+		n.PtrNinit().Set(r.stmtList())
 		n.SetLeft(r.expr())
-		n.List.Set(r.exprList())
+		n.PtrList().Set(r.exprList())
 		n.SetIsDDD(r.bool())
 		return n
 
 	case ir.OMAKEMAP, ir.OMAKECHAN, ir.OMAKESLICE:
 		n := npos(r.pos(), builtinCall(ir.OMAKE))
-		n.List.Append(typenod(r.typ()))
-		n.List.Append(r.exprList()...)
+		n.PtrList().Append(typenod(r.typ()))
+		n.PtrList().Append(r.exprList()...)
 		return n
 
 	// unary expressions
@@ -1017,13 +1017,13 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.OAS2:
 		n := nodl(r.pos(), ir.OAS2, nil, nil)
-		n.List.Set(r.exprList())
-		n.Rlist.Set(r.exprList())
+		n.PtrList().Set(r.exprList())
+		n.PtrRlist().Set(r.exprList())
 		return n
 
 	case ir.ORETURN:
 		n := nodl(r.pos(), ir.ORETURN, nil, nil)
-		n.List.Set(r.exprList())
+		n.PtrList().Set(r.exprList())
 		return n
 
 	// case ORETJMP:
@@ -1034,34 +1034,34 @@ func (r *importReader) node() *ir.Node {
 
 	case ir.OIF:
 		n := nodl(r.pos(), ir.OIF, nil, nil)
-		n.Ninit.Set(r.stmtList())
+		n.PtrNinit().Set(r.stmtList())
 		n.SetLeft(r.expr())
-		n.Nbody.Set(r.stmtList())
-		n.Rlist.Set(r.stmtList())
+		n.PtrNbody().Set(r.stmtList())
+		n.PtrRlist().Set(r.stmtList())
 		return n
 
 	case ir.OFOR:
 		n := nodl(r.pos(), ir.OFOR, nil, nil)
-		n.Ninit.Set(r.stmtList())
+		n.PtrNinit().Set(r.stmtList())
 		nl, nr := r.exprsOrNil()
 		n.SetLeft(nl)
 		n.SetRight(nr)
-		n.Nbody.Set(r.stmtList())
+		n.PtrNbody().Set(r.stmtList())
 		return n
 
 	case ir.ORANGE:
 		n := nodl(r.pos(), ir.ORANGE, nil, nil)
-		n.List.Set(r.stmtList())
+		n.PtrList().Set(r.stmtList())
 		n.SetRight(r.expr())
-		n.Nbody.Set(r.stmtList())
+		n.PtrNbody().Set(r.stmtList())
 		return n
 
 	case ir.OSELECT, ir.OSWITCH:
 		n := nodl(r.pos(), op, nil, nil)
-		n.Ninit.Set(r.stmtList())
+		n.PtrNinit().Set(r.stmtList())
 		nl, _ := r.exprsOrNil()
 		n.SetLeft(nl)
-		n.List.Set(r.caseList(n))
+		n.PtrList().Set(r.caseList(n))
 		return n
 
 	// case OCASE:

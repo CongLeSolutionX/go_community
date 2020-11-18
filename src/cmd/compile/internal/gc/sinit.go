@@ -410,7 +410,7 @@ func getdyn(n *ir.Node, top bool) initGenType {
 		if !top {
 			return initDynamic
 		}
-		if n.Right().Int64Val()/4 > int64(n.List.Len()) {
+		if n.Right().Int64Val()/4 > int64(n.List().Len()) {
 			// <25% of entries have explicit values.
 			// Very rough estimation, it takes 4 bytes of instructions
 			// to initialize 1 byte of result. So don't use a static
@@ -424,7 +424,7 @@ func getdyn(n *ir.Node, top bool) initGenType {
 	}
 
 	var mode initGenType
-	for _, n1 := range n.List.Slice() {
+	for _, n1 := range n.List().Slice() {
 		switch n1.Op() {
 		case ir.OKEY:
 			n1 = n1.Right()
@@ -445,7 +445,7 @@ func isStaticCompositeLiteral(n *ir.Node) bool {
 	case ir.OSLICELIT:
 		return false
 	case ir.OARRAYLIT:
-		for _, r := range n.List.Slice() {
+		for _, r := range n.List().Slice() {
 			if r.Op() == ir.OKEY {
 				r = r.Right()
 			}
@@ -455,7 +455,7 @@ func isStaticCompositeLiteral(n *ir.Node) bool {
 		}
 		return true
 	case ir.OSTRUCTLIT:
-		for _, r := range n.List.Slice() {
+		for _, r := range n.List().Slice() {
 			if r.Op() != ir.OSTRUCTKEY {
 				base.Fatal("isStaticCompositeLiteral: rhs not OSTRUCTKEY: %v", r)
 			}
@@ -538,7 +538,7 @@ func fixedlit(ctxt initContext, kind initKind, n *ir.Node, var_ *ir.Node, init *
 		base.Fatal("fixedlit bad op: %v", n.Op())
 	}
 
-	for _, r := range n.List.Slice() {
+	for _, r := range n.List().Slice() {
 		a, value := splitnode(r)
 		if a == ir.BlankNode && candiscard(value) {
 			continue
@@ -680,7 +680,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 		a = nod(ir.OADDR, a, nil)
 	} else {
 		a = nod(ir.ONEW, nil, nil)
-		a.List.Set1(typenod(t))
+		a.PtrList().Set1(typenod(t))
 	}
 
 	a = nod(ir.OAS, vauto, a)
@@ -700,7 +700,7 @@ func slicelit(ctxt initContext, n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 
 	// put dynamics into array (5)
 	var index int64
-	for _, value := range n.List.Slice() {
+	for _, value := range n.List().Slice() {
 		if value.Op() == ir.OKEY {
 			index = indexconst(value.Left())
 			if index < 0 {
@@ -756,10 +756,10 @@ func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 	// make the map var
 	a := nod(ir.OMAKE, nil, nil)
 	a.SetEsc(n.Esc())
-	a.List.Set2(typenod(n.Type()), nodintconst(int64(n.List.Len())))
+	a.PtrList().Set2(typenod(n.Type()), nodintconst(int64(n.List().Len())))
 	litas(m, a, init)
 
-	entries := n.List.Slice()
+	entries := n.List().Slice()
 
 	// The order pass already removed any dynamic (runtime-computed) entries.
 	// All remaining entries are static. Double-check that.
@@ -789,8 +789,8 @@ func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 		datak := nod(ir.OARRAYLIT, nil, nil)
 		datae := nod(ir.OARRAYLIT, nil, nil)
 		for _, r := range entries {
-			datak.List.Append(r.Left())
-			datae.List.Append(r.Right())
+			datak.PtrList().Append(r.Left())
+			datae.PtrList().Append(r.Right())
 		}
 		fixedlit(inInitFunction, initKindStatic, datak, vstatk, init)
 		fixedlit(inInitFunction, initKindStatic, datae, vstate, init)
@@ -813,8 +813,8 @@ func maplit(n *ir.Node, m *ir.Node, init *ir.Nodes) {
 		body := nod(ir.OAS, lhs, rhs)
 
 		loop := nod(ir.OFOR, cond, incr)
-		loop.Nbody.Set1(body)
-		loop.Ninit.Set1(zero)
+		loop.PtrNbody().Set1(body)
+		loop.PtrNinit().Set1(zero)
 
 		loop = typecheck(loop, ctxStmt)
 		loop = walkstmt(loop)
@@ -903,7 +903,7 @@ func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 			base.Fatal("anylit: not struct/array")
 		}
 
-		if isSimpleName(var_) && n.List.Len() > 4 {
+		if isSimpleName(var_) && n.List().Len() > 4 {
 			// lay out static data
 			vstat := readonlystaticname(t)
 
@@ -932,7 +932,7 @@ func anylit(n *ir.Node, var_ *ir.Node, init *ir.Nodes) {
 			components = int64(t.NumFields())
 		}
 		// initialization of an array or struct with unspecified components (missing fields or arrays)
-		if isSimpleName(var_) || int64(n.List.Len()) < components {
+		if isSimpleName(var_) || int64(n.List().Len()) < components {
 			a := nod(ir.OAS, var_, nil)
 			a = typecheck(a, ctxStmt)
 			a = walkexpr(a, init)
@@ -1050,7 +1050,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 
 	case ir.OARRAYLIT, ir.OSLICELIT:
 		var k int64
-		for _, a := range n.List.Slice() {
+		for _, a := range n.List().Slice() {
 			if a.Op() == ir.OKEY {
 				k = indexconst(a.Left())
 				if k < 0 {
@@ -1063,7 +1063,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 		}
 
 	case ir.OSTRUCTLIT:
-		for _, a := range n.List.Slice() {
+		for _, a := range n.List().Slice() {
 			if a.Op() != ir.OSTRUCTKEY {
 				base.Fatal("initplan structlit")
 			}
@@ -1074,7 +1074,7 @@ func (s *InitSchedule) initplan(n *ir.Node) {
 		}
 
 	case ir.OMAPLIT:
-		for _, a := range n.List.Slice() {
+		for _, a := range n.List().Slice() {
 			if a.Op() != ir.OKEY {
 				base.Fatal("initplan maplit")
 			}
@@ -1127,7 +1127,7 @@ func isZero(n *ir.Node) bool {
 		}
 
 	case ir.OARRAYLIT:
-		for _, n1 := range n.List.Slice() {
+		for _, n1 := range n.List().Slice() {
 			if n1.Op() == ir.OKEY {
 				n1 = n1.Right()
 			}
@@ -1138,7 +1138,7 @@ func isZero(n *ir.Node) bool {
 		return true
 
 	case ir.OSTRUCTLIT:
-		for _, n1 := range n.List.Slice() {
+		for _, n1 := range n.List().Slice() {
 			if !isZero(n1.Left()) {
 				return false
 			}

@@ -298,7 +298,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 	if printssa {
 		astBuf = &bytes.Buffer{}
 		ir.FDumpList(astBuf, "buildssa-enter", fn.Func().Enter)
-		ir.FDumpList(astBuf, "buildssa-body", fn.Nbody)
+		ir.FDumpList(astBuf, "buildssa-body", fn.Nbody())
 		ir.FDumpList(astBuf, "buildssa-exit", fn.Func().Exit)
 		if ssaDumpStdout {
 			fmt.Println("generating SSA for", name)
@@ -450,7 +450,7 @@ func buildssa(fn *ir.Node, worker int) *ssa.Func {
 
 	// Convert the AST-based IR to the SSA-based IR
 	s.stmtList(fn.Func().Enter)
-	s.stmtList(fn.Nbody)
+	s.stmtList(fn.Nbody())
 
 	// fallthrough to exit
 	if s.curBlock != nil {
@@ -1074,11 +1074,11 @@ func (s *state) stmt(n *ir.Node) {
 		return
 	}
 
-	s.stmtList(n.Ninit)
+	s.stmtList(n.Ninit())
 	switch n.Op() {
 
 	case ir.OBLOCK:
-		s.stmtList(n.List)
+		s.stmtList(n.List())
 
 	// No-ops
 	case ir.OEMPTY, ir.ODCLCONST, ir.ODCLTYPE, ir.OFALL:
@@ -1146,8 +1146,8 @@ func (s *state) stmt(n *ir.Node) {
 			deref = true
 			res = res.Args[0]
 		}
-		s.assign(n.List.First(), res, deref, 0)
-		s.assign(n.List.Second(), resok, false, 0)
+		s.assign(n.List().First(), res, deref, 0)
+		s.assign(n.List().Second(), resok, false, 0)
 		return
 
 	case ir.OAS2FUNC:
@@ -1156,10 +1156,10 @@ func (s *state) stmt(n *ir.Node) {
 			s.Fatalf("non-intrinsic AS2FUNC not expanded %v", n.Right())
 		}
 		v := s.intrinsicCall(n.Right())
-		v1 := s.newValue1(ssa.OpSelect0, n.List.First().Type(), v)
-		v2 := s.newValue1(ssa.OpSelect1, n.List.Second().Type(), v)
-		s.assign(n.List.First(), v1, false, 0)
-		s.assign(n.List.Second(), v2, false, 0)
+		v1 := s.newValue1(ssa.OpSelect0, n.List().First().Type(), v)
+		v2 := s.newValue1(ssa.OpSelect1, n.List().Second().Type(), v)
+		s.assign(n.List().First(), v1, false, 0)
+		s.assign(n.List().Second(), v2, false, 0)
 		return
 
 	case ir.ODCL:
@@ -1229,7 +1229,7 @@ func (s *state) stmt(n *ir.Node) {
 				// Check whether we're writing the result of an append back to the same slice.
 				// If so, we handle it specially to avoid write barriers on the fast
 				// (non-growth) path.
-				if !samesafeexpr(n.Left(), rhs.List.First()) || base.Flag.N != 0 {
+				if !samesafeexpr(n.Left(), rhs.List().First()) || base.Flag.N != 0 {
 					break
 				}
 				// If the slice can be SSA'd, it'll be on the stack,
@@ -1315,11 +1315,11 @@ func (s *state) stmt(n *ir.Node) {
 
 	case ir.OIF:
 		if ir.IsConst(n.Left(), ir.CTBOOL) {
-			s.stmtList(n.Left().Ninit)
+			s.stmtList(n.Left().Ninit())
 			if n.Left().BoolVal() {
-				s.stmtList(n.Nbody)
+				s.stmtList(n.Nbody())
 			} else {
-				s.stmtList(n.Rlist)
+				s.stmtList(n.Rlist())
 			}
 			break
 		}
@@ -1330,29 +1330,29 @@ func (s *state) stmt(n *ir.Node) {
 			likely = 1
 		}
 		var bThen *ssa.Block
-		if n.Nbody.Len() != 0 {
+		if n.Nbody().Len() != 0 {
 			bThen = s.f.NewBlock(ssa.BlockPlain)
 		} else {
 			bThen = bEnd
 		}
 		var bElse *ssa.Block
-		if n.Rlist.Len() != 0 {
+		if n.Rlist().Len() != 0 {
 			bElse = s.f.NewBlock(ssa.BlockPlain)
 		} else {
 			bElse = bEnd
 		}
 		s.condBranch(n.Left(), bThen, bElse, likely)
 
-		if n.Nbody.Len() != 0 {
+		if n.Nbody().Len() != 0 {
 			s.startBlock(bThen)
-			s.stmtList(n.Nbody)
+			s.stmtList(n.Nbody())
 			if b := s.endBlock(); b != nil {
 				b.AddEdgeTo(bEnd)
 			}
 		}
-		if n.Rlist.Len() != 0 {
+		if n.Rlist().Len() != 0 {
 			s.startBlock(bElse)
-			s.stmtList(n.Rlist)
+			s.stmtList(n.Rlist())
 			if b := s.endBlock(); b != nil {
 				b.AddEdgeTo(bEnd)
 			}
@@ -1360,12 +1360,12 @@ func (s *state) stmt(n *ir.Node) {
 		s.startBlock(bEnd)
 
 	case ir.ORETURN:
-		s.stmtList(n.List)
+		s.stmtList(n.List())
 		b := s.exit()
 		b.Pos = s.lastPos.WithIsStmt()
 
 	case ir.ORETJMP:
-		s.stmtList(n.List)
+		s.stmtList(n.List())
 		b := s.exit()
 		b.Kind = ssa.BlockRetJmp // override BlockRet
 		b.Aux = n.Sym().Linksym()
@@ -1442,7 +1442,7 @@ func (s *state) stmt(n *ir.Node) {
 
 		// generate body
 		s.startBlock(bBody)
-		s.stmtList(n.Nbody)
+		s.stmtList(n.Nbody())
 
 		// tear down continue/break
 		s.continueTo = prevContinue
@@ -1478,7 +1478,7 @@ func (s *state) stmt(n *ir.Node) {
 			s.condBranch(n.Left(), bLateIncr, bEnd, 1)
 			// generate late increment
 			s.startBlock(bLateIncr)
-			s.stmtList(n.List)
+			s.stmtList(n.List())
 			s.endBlock().AddEdgeTo(bBody)
 		}
 
@@ -1498,7 +1498,7 @@ func (s *state) stmt(n *ir.Node) {
 		}
 
 		// generate body code
-		s.stmtList(n.Nbody)
+		s.stmtList(n.Nbody())
 
 		s.breakTo = prevBreak
 		if lab != nil {
@@ -2009,7 +2009,7 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 		defer s.popLine()
 	}
 
-	s.stmtList(n.Ninit)
+	s.stmtList(n.Ninit())
 	switch n.Op() {
 	case ir.OBYTES2STRTMP:
 		slice := s.expr(n.Left())
@@ -2711,8 +2711,8 @@ func (s *state) expr(n *ir.Node) *ssa.Value {
 
 	case ir.OSLICEHEADER:
 		p := s.expr(n.Left())
-		l := s.expr(n.List.First())
-		c := s.expr(n.List.Second())
+		l := s.expr(n.List().First())
+		c := s.expr(n.List().Second())
 		return s.newValue3(ssa.OpSliceMake, n.Type(), p, l, c)
 
 	case ir.OSLICE, ir.OSLICEARR, ir.OSLICE3, ir.OSLICE3ARR:
@@ -2826,7 +2826,7 @@ func (s *state) append(n *ir.Node, inplace bool) *ssa.Value {
 	pt := types.NewPtr(et)
 
 	// Evaluate slice
-	sn := n.List.First() // the slice node is the first in the list
+	sn := n.List().First() // the slice node is the first in the list
 
 	var slice, addr *ssa.Value
 	if inplace {
@@ -2841,7 +2841,7 @@ func (s *state) append(n *ir.Node, inplace bool) *ssa.Value {
 	assign := s.f.NewBlock(ssa.BlockPlain)
 
 	// Decide if we need to grow
-	nargs := int64(n.List.Len() - 1)
+	nargs := int64(n.List().Len() - 1)
 	p := s.newValue1(ssa.OpSlicePtr, pt, slice)
 	l := s.newValue1(ssa.OpSliceLen, types.Types[types.TINT], slice)
 	c := s.newValue1(ssa.OpSliceCap, types.Types[types.TINT], slice)
@@ -2907,7 +2907,7 @@ func (s *state) append(n *ir.Node, inplace bool) *ssa.Value {
 		store bool
 	}
 	args := make([]argRec, 0, nargs)
-	for _, n := range n.List.Slice()[1:] {
+	for _, n := range n.List().Slice()[1:] {
 		if canSSAType(n.Type()) {
 			args = append(args, argRec{v: s.expr(n), store: true})
 		} else {
@@ -2950,7 +2950,7 @@ func (s *state) condBranch(cond *ir.Node, yes, no *ssa.Block, likely int8) {
 	switch cond.Op() {
 	case ir.OANDAND:
 		mid := s.f.NewBlock(ssa.BlockPlain)
-		s.stmtList(cond.Ninit)
+		s.stmtList(cond.Ninit())
 		s.condBranch(cond.Left(), mid, no, max8(likely, 0))
 		s.startBlock(mid)
 		s.condBranch(cond.Right(), yes, no, likely)
@@ -2963,7 +2963,7 @@ func (s *state) condBranch(cond *ir.Node, yes, no *ssa.Block, likely int8) {
 		// OANDAND and OOROR nodes (if it ever has such info).
 	case ir.OOROR:
 		mid := s.f.NewBlock(ssa.BlockPlain)
-		s.stmtList(cond.Ninit)
+		s.stmtList(cond.Ninit())
 		s.condBranch(cond.Left(), yes, mid, min8(likely, 0))
 		s.startBlock(mid)
 		s.condBranch(cond.Right(), yes, no, likely)
@@ -2972,7 +2972,7 @@ func (s *state) condBranch(cond *ir.Node, yes, no *ssa.Block, likely int8) {
 		// If likely==1, then we don't have enough info to decide
 		// the likelihood of the first branch.
 	case ir.ONOT:
-		s.stmtList(cond.Ninit)
+		s.stmtList(cond.Ninit())
 		s.condBranch(cond.Left(), no, yes, -likely)
 		return
 	}
@@ -4181,7 +4181,7 @@ func (s *state) intrinsicCall(n *ir.Node) *ssa.Value {
 func (s *state) intrinsicArgs(n *ir.Node) []*ssa.Value {
 	// Construct map of temps; see comments in s.call about the structure of n.
 	temps := map[*ir.Node]*ssa.Value{}
-	for _, a := range n.List.Slice() {
+	for _, a := range n.List().Slice() {
 		if a.Op() != ir.OAS {
 			s.Fatalf("non-assignment as a temp function argument %v", a.Op())
 		}
@@ -4193,8 +4193,8 @@ func (s *state) intrinsicArgs(n *ir.Node) []*ssa.Value {
 		// Walk ensures these temporaries are dead outside of n.
 		temps[l] = s.expr(r)
 	}
-	args := make([]*ssa.Value, n.Rlist.Len())
-	for i, n := range n.Rlist.Slice() {
+	args := make([]*ssa.Value, n.Rlist().Len())
+	for i, n := range n.Rlist().Slice() {
 		// Store a value to an argument slot.
 		if x, ok := temps[n]; ok {
 			// This is a previously computed temporary.
@@ -4219,7 +4219,7 @@ func (s *state) openDeferRecord(n *ir.Node) {
 	// once.mutex'. Such a statement will create a mapping in s.vars[] from
 	// the autotmp name to the evaluated SSA arg value, but won't do any
 	// stores to the stack.
-	s.stmtList(n.List)
+	s.stmtList(n.List())
 
 	var args []*ssa.Value
 	var argNodes []*ir.Node
@@ -4260,7 +4260,7 @@ func (s *state) openDeferRecord(n *ir.Node) {
 		opendefer.closureNode = opendefer.closure.Aux.(*ir.Node)
 		opendefer.rcvrNode = opendefer.rcvr.Aux.(*ir.Node)
 	}
-	for _, argn := range n.Rlist.Slice() {
+	for _, argn := range n.Rlist().Slice() {
 		var v *ssa.Value
 		if canSSAType(argn.Type()) {
 			v = s.openDeferSave(nil, argn.Type(), s.expr(argn))
@@ -4549,7 +4549,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 	// Run all assignments of temps.
 	// The temps are introduced to avoid overwriting argument
 	// slots when arguments themselves require function calls.
-	s.stmtList(n.List)
+	s.stmtList(n.List())
 
 	var call *ssa.Value
 	if k == callDeferStack {
@@ -4584,7 +4584,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 		// Then, store all the arguments of the defer call.
 		ft := fn.Type()
 		off := t.FieldOff(12)
-		args := n.Rlist.Slice()
+		args := n.Rlist().Slice()
 
 		// Set receiver (for interface calls). Always a pointer.
 		if rcvr != nil {
@@ -4661,7 +4661,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 
 		// Write args.
 		t := n.Left().Type()
-		args := n.Rlist.Slice()
+		args := n.Rlist().Slice()
 		if n.Op() == ir.OCALLMETH {
 			f := t.Recv()
 			ACArg, arg := s.putArg(args[0], f.Type, argStart+f.Offset, testLateExpansion)
@@ -4738,7 +4738,7 @@ func (s *state) call(n *ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 		s.vars[memVar] = call
 	}
 	// Insert OVARLIVE nodes
-	s.stmtList(n.Nbody)
+	s.stmtList(n.Nbody())
 
 	// Finish block for defers
 	if k == callDefer || k == callDeferStack {
@@ -5937,7 +5937,7 @@ func (s *state) dottype(n *ir.Node, commaok bool) (res, resok *ssa.Value) {
 		targetITab = target
 	} else {
 		// Looking for pointer to itab for target type and source interface.
-		targetITab = s.expr(n.List.First())
+		targetITab = s.expr(n.List().First())
 	}
 
 	var tmp *ir.Node    // temporary for use with large types

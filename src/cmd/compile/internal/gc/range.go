@@ -27,7 +27,7 @@ func typecheckrange(n *ir.Node) {
 
 	// second half of dance, the first half being typecheckrangeExpr
 	n.SetTypecheck(1)
-	ls := n.List.Slice()
+	ls := n.List().Slice()
 	for i1, n1 := range ls {
 		if n1.Typecheck() == 0 {
 			ls[i1] = typecheck(ls[i1], ctxExpr|ctxAssign)
@@ -35,7 +35,7 @@ func typecheckrange(n *ir.Node) {
 	}
 
 	decldepth++
-	typecheckslice(n.Nbody.Slice(), ctxStmt)
+	typecheckslice(n.Nbody().Slice(), ctxStmt)
 	decldepth--
 }
 
@@ -47,7 +47,7 @@ func typecheckrangeExpr(n *ir.Node) {
 		return
 	}
 	// delicate little dance.  see typecheckas2
-	ls := n.List.Slice()
+	ls := n.List().Slice()
 	for i1, n1 := range ls {
 		if n1.Name() == nil || n1.Name().Defn != n {
 			ls[i1] = typecheck(ls[i1], ctxExpr|ctxAssign)
@@ -82,7 +82,7 @@ func typecheckrangeExpr(n *ir.Node) {
 
 		t1 = t.Elem()
 		t2 = nil
-		if n.List.Len() == 2 {
+		if n.List().Len() == 2 {
 			toomany = true
 		}
 
@@ -91,16 +91,16 @@ func typecheckrangeExpr(n *ir.Node) {
 		t2 = types.Runetype
 	}
 
-	if n.List.Len() > 2 || toomany {
+	if n.List().Len() > 2 || toomany {
 		base.ErrorAt(n.Pos(), "too many variables in range")
 	}
 
 	var v1, v2 *ir.Node
-	if n.List.Len() != 0 {
-		v1 = n.List.First()
+	if n.List().Len() != 0 {
+		v1 = n.List().First()
 	}
-	if n.List.Len() > 1 {
-		v2 = n.List.Second()
+	if n.List().Len() > 1 {
+		v2 = n.List().Second()
 	}
 
 	// this is not only an optimization but also a requirement in the spec.
@@ -109,7 +109,7 @@ func typecheckrangeExpr(n *ir.Node) {
 	// present."
 	if v2.IsBlank() {
 		if v1 != nil {
-			n.List.Set1(v1)
+			n.PtrList().Set1(v1)
 		}
 		v2 = nil
 	}
@@ -180,13 +180,13 @@ func walkrange(n *ir.Node) *ir.Node {
 	n.SetRight(nil)
 
 	var v1, v2 *ir.Node
-	l := n.List.Len()
+	l := n.List().Len()
 	if l > 0 {
-		v1 = n.List.First()
+		v1 = n.List().First()
 	}
 
 	if l > 1 {
-		v2 = n.List.Second()
+		v2 = n.List().Second()
 	}
 
 	if v2.IsBlank() {
@@ -203,7 +203,7 @@ func walkrange(n *ir.Node) *ir.Node {
 
 	// n.List has no meaning anymore, clear it
 	// to avoid erroneous processing by racewalk.
-	n.List.Set(nil)
+	n.PtrList().Set(nil)
 
 	var ifGuard *ir.Node
 
@@ -252,8 +252,8 @@ func walkrange(n *ir.Node) *ir.Node {
 			// Use OAS2 to correctly handle assignments
 			// of the form "v1, a[v1] := range".
 			a := nod(ir.OAS2, nil, nil)
-			a.List.Set2(v1, v2)
-			a.Rlist.Set2(hv1, tmp)
+			a.PtrList().Set2(v1, v2)
+			a.PtrRlist().Set2(hv1, tmp)
 			body = []*ir.Node{a}
 			break
 		}
@@ -282,8 +282,8 @@ func walkrange(n *ir.Node) *ir.Node {
 		// Use OAS2 to correctly handle assignments
 		// of the form "v1, a[v1] := range".
 		a := nod(ir.OAS2, nil, nil)
-		a.List.Set2(v1, v2)
-		a.Rlist.Set2(hv1, nod(ir.ODEREF, hp, nil))
+		a.PtrList().Set2(v1, v2)
+		a.PtrRlist().Set2(hv1, nod(ir.ODEREF, hp, nil))
 		body = append(body, a)
 
 		// Advance pointer as part of the late increment.
@@ -293,7 +293,7 @@ func walkrange(n *ir.Node) *ir.Node {
 		// end of the allocation.
 		a = nod(ir.OAS, hp, addptr(hp, t.Elem().Width))
 		a = typecheck(a, ctxStmt)
-		n.List.Set1(a)
+		n.PtrList().Set1(a)
 
 	case types.TMAP:
 		// order.stmt allocated the iterator for us.
@@ -326,8 +326,8 @@ func walkrange(n *ir.Node) *ir.Node {
 			elem := nodSym(ir.ODOT, hit, elemsym)
 			elem = nod(ir.ODEREF, elem, nil)
 			a := nod(ir.OAS2, nil, nil)
-			a.List.Set2(v1, v2)
-			a.Rlist.Set2(key, elem)
+			a.PtrList().Set2(v1, v2)
+			a.PtrRlist().Set2(key, elem)
 			body = []*ir.Node{a}
 		}
 
@@ -347,9 +347,9 @@ func walkrange(n *ir.Node) *ir.Node {
 		n.SetLeft(nod(ir.ONE, hb, nodbool(false)))
 		a := nod(ir.OAS2RECV, nil, nil)
 		a.SetTypecheck(1)
-		a.List.Set2(hv1, hb)
+		a.PtrList().Set2(hv1, hb)
 		a.SetRight(nod(ir.ORECV, ha, nil))
-		n.Left().Ninit.Set1(a)
+		n.Left().PtrNinit().Set1(a)
 		if v1 == nil {
 			body = nil
 		} else {
@@ -404,16 +404,16 @@ func walkrange(n *ir.Node) *ir.Node {
 		nif.SetLeft(nod(ir.OLT, hv2, nodintconst(utf8.RuneSelf)))
 
 		// hv1++
-		nif.Nbody.Set1(nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1))))
+		nif.PtrNbody().Set1(nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1))))
 
 		// } else {
 		eif := nod(ir.OAS2, nil, nil)
-		nif.Rlist.Set1(eif)
+		nif.PtrRlist().Set1(eif)
 
 		// hv2, hv1 = decoderune(ha, hv1)
-		eif.List.Set2(hv2, hv1)
+		eif.PtrList().Set2(hv2, hv1)
 		fn := syslook("decoderune")
-		eif.Rlist.Set1(mkcall1(fn, fn.Type().Results(), nil, ha, hv1))
+		eif.PtrRlist().Set1(mkcall1(fn, fn.Type().Results(), nil, ha, hv1))
 
 		body = append(body, nif)
 
@@ -421,8 +421,8 @@ func walkrange(n *ir.Node) *ir.Node {
 			if v2 != nil {
 				// v1, v2 = hv1t, hv2
 				a := nod(ir.OAS2, nil, nil)
-				a.List.Set2(v1, v2)
-				a.Rlist.Set2(hv1t, hv2)
+				a.PtrList().Set2(v1, v2)
+				a.PtrRlist().Set2(hv1t, hv2)
 				body = append(body, a)
 			} else {
 				// v1 = hv1t
@@ -435,22 +435,22 @@ func walkrange(n *ir.Node) *ir.Node {
 	typecheckslice(init, ctxStmt)
 
 	if ifGuard != nil {
-		ifGuard.Ninit.Append(init...)
+		ifGuard.PtrNinit().Append(init...)
 		ifGuard = typecheck(ifGuard, ctxStmt)
 	} else {
-		n.Ninit.Append(init...)
+		n.PtrNinit().Append(init...)
 	}
 
-	typecheckslice(n.Left().Ninit.Slice(), ctxStmt)
+	typecheckslice(n.Left().Ninit().Slice(), ctxStmt)
 
 	n.SetLeft(typecheck(n.Left(), ctxExpr))
 	n.SetLeft(defaultlit(n.Left(), nil))
 	n.SetRight(typecheck(n.Right(), ctxStmt))
 	typecheckslice(body, ctxStmt)
-	n.Nbody.Prepend(body...)
+	n.PtrNbody().Prepend(body...)
 
 	if ifGuard != nil {
-		ifGuard.Nbody.Set1(n)
+		ifGuard.PtrNbody().Set1(n)
 		n = ifGuard
 	}
 
@@ -472,11 +472,11 @@ func isMapClear(n *ir.Node) bool {
 		return false
 	}
 
-	if n.Op() != ir.ORANGE || n.Type().Etype != types.TMAP || n.List.Len() != 1 {
+	if n.Op() != ir.ORANGE || n.Type().Etype != types.TMAP || n.List().Len() != 1 {
 		return false
 	}
 
-	k := n.List.First()
+	k := n.List().First()
 	if k == nil || k.IsBlank() {
 		return false
 	}
@@ -486,17 +486,17 @@ func isMapClear(n *ir.Node) bool {
 		return false
 	}
 
-	if n.Nbody.Len() != 1 {
+	if n.Nbody().Len() != 1 {
 		return false
 	}
 
-	stmt := n.Nbody.First() // only stmt in body
+	stmt := n.Nbody().First() // only stmt in body
 	if stmt == nil || stmt.Op() != ir.ODELETE {
 		return false
 	}
 
 	m := n.Right()
-	if !samesafeexpr(stmt.List.First(), m) || !samesafeexpr(stmt.List.Second(), k) {
+	if !samesafeexpr(stmt.List().First(), m) || !samesafeexpr(stmt.List().Second(), k) {
 		return false
 	}
 
@@ -543,11 +543,11 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 		return false
 	}
 
-	if n.Nbody.Len() != 1 || n.Nbody.First() == nil {
+	if n.Nbody().Len() != 1 || n.Nbody().First() == nil {
 		return false
 	}
 
-	stmt := n.Nbody.First() // only stmt in body
+	stmt := n.Nbody().First() // only stmt in body
 	if stmt.Op() != ir.OAS || stmt.Left().Op() != ir.OINDEX {
 		return false
 	}
@@ -570,7 +570,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	// }
 	n.SetOp(ir.OIF)
 
-	n.Nbody.Set(nil)
+	n.PtrNbody().Set(nil)
 	n.SetLeft(nod(ir.ONE, nod(ir.OLEN, a, nil), nodintconst(0)))
 
 	// hp = &a[0]
@@ -580,7 +580,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	tmp.SetBounded(true)
 	tmp = nod(ir.OADDR, tmp, nil)
 	tmp = convnop(tmp, types.Types[types.TUNSAFEPTR])
-	n.Nbody.Append(nod(ir.OAS, hp, tmp))
+	n.PtrNbody().Append(nod(ir.OAS, hp, tmp))
 
 	// hn = len(a) * sizeof(elem(a))
 	hn := temp(types.Types[types.TUINTPTR])
@@ -588,7 +588,7 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 	tmp = nod(ir.OLEN, a, nil)
 	tmp = nod(ir.OMUL, tmp, nodintconst(elemsize))
 	tmp = conv(tmp, types.Types[types.TUINTPTR])
-	n.Nbody.Append(nod(ir.OAS, hn, tmp))
+	n.PtrNbody().Append(nod(ir.OAS, hn, tmp))
 
 	var fn *ir.Node
 	if a.Type().Elem().HasPointers() {
@@ -600,16 +600,16 @@ func arrayClear(n, v1, v2, a *ir.Node) bool {
 		fn = mkcall("memclrNoHeapPointers", nil, nil, hp, hn)
 	}
 
-	n.Nbody.Append(fn)
+	n.PtrNbody().Append(fn)
 
 	// i = len(a) - 1
 	v1 = nod(ir.OAS, v1, nod(ir.OSUB, nod(ir.OLEN, a, nil), nodintconst(1)))
 
-	n.Nbody.Append(v1)
+	n.PtrNbody().Append(v1)
 
 	n.SetLeft(typecheck(n.Left(), ctxExpr))
 	n.SetLeft(defaultlit(n.Left(), nil))
-	typecheckslice(n.Nbody.Slice(), ctxStmt)
+	typecheckslice(n.Nbody().Slice(), ctxStmt)
 	n = walkstmt(n)
 	return true
 }

@@ -121,7 +121,7 @@ func typecheckclosure(clo *ir.Node, top int) {
 		Curfn = xfunc
 		olddd := decldepth
 		decldepth = 1
-		typecheckslice(xfunc.Nbody.Slice(), ctxStmt)
+		typecheckslice(xfunc.Nbody().Slice(), ctxStmt)
 		decldepth = olddd
 		Curfn = oldfn
 	}
@@ -398,7 +398,7 @@ func walkclosure(clo *ir.Node, init *ir.Nodes) *ir.Node {
 
 	clos := nod(ir.OCOMPLIT, nil, typenod(typ))
 	clos.SetEsc(clo.Esc())
-	clos.List.Set(append([]*ir.Node{nod(ir.OCFUNC, xfunc.Func().Nname, nil)}, clo.Func().ClosureEnter.Slice()...))
+	clos.PtrList().Set(append([]*ir.Node{nod(ir.OCFUNC, xfunc.Func().Nname, nil)}, clo.Func().ClosureEnter.Slice()...))
 
 	clos = nod(ir.OADDR, clos, nil)
 	clos.SetEsc(clo.Esc())
@@ -463,8 +463,8 @@ func makepartialcall(fn *ir.Node, t0 *types.Type, meth *types.Sym) *ir.Node {
 	// case. See issue 29389.
 
 	tfn := nod(ir.OTFUNC, nil, nil)
-	tfn.List.Set(structargs(t0.Params(), true))
-	tfn.Rlist.Set(structargs(t0.Results(), false))
+	tfn.PtrList().Set(structargs(t0.Params(), true))
+	tfn.PtrRlist().Set(structargs(t0.Results(), false))
 
 	xfunc := dclfunc(sym, tfn)
 	xfunc.Func().SetDupok(true)
@@ -491,23 +491,23 @@ func makepartialcall(fn *ir.Node, t0 *types.Type, meth *types.Sym) *ir.Node {
 	}
 
 	call := nod(ir.OCALL, nodSym(ir.OXDOT, ptr, meth), nil)
-	call.List.Set(paramNnames(tfn.Type()))
+	call.PtrList().Set(paramNnames(tfn.Type()))
 	call.SetIsDDD(tfn.Type().IsVariadic())
 	if t0.NumResults() != 0 {
 		n := nod(ir.ORETURN, nil, nil)
-		n.List.Set1(call)
+		n.PtrList().Set1(call)
 		call = n
 	}
 	body = append(body, call)
 
-	xfunc.Nbody.Set(body)
+	xfunc.PtrNbody().Set(body)
 	funcbody()
 
 	xfunc = typecheck(xfunc, ctxStmt)
 	// Need to typecheck the body of the just-generated wrapper.
 	// typecheckslice() requires that Curfn is set when processing an ORETURN.
 	Curfn = xfunc
-	typecheckslice(xfunc.Nbody.Slice(), ctxStmt)
+	typecheckslice(xfunc.Nbody().Slice(), ctxStmt)
 	sym.Def = ir.AsTypesNode(xfunc)
 	xtop = append(xtop, xfunc)
 	Curfn = savecurfn
@@ -554,7 +554,7 @@ func walkpartialcall(n *ir.Node, init *ir.Nodes) *ir.Node {
 
 	clos := nod(ir.OCOMPLIT, nil, typenod(typ))
 	clos.SetEsc(n.Esc())
-	clos.List.Set2(nod(ir.OCFUNC, n.Func().Nname, nil), n.Left())
+	clos.PtrList().Set2(nod(ir.OCFUNC, n.Func().Nname, nil), n.Left())
 
 	clos = nod(ir.OADDR, clos, nil)
 	clos.SetEsc(n.Esc())

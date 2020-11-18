@@ -209,7 +209,7 @@ func funccompile(fn *ir.Node) {
 	// assign parameter offsets
 	dowidth(fn.Type())
 
-	if fn.Nbody.Len() == 0 {
+	if fn.Nbody().Len() == 0 {
 		// Initialize ABI wrappers if necessary.
 		initLSym(fn.Func(), false)
 		emitptrargsmap(fn)
@@ -372,7 +372,7 @@ func compileFunctions() {
 			// since they're most likely to be the slowest.
 			// This helps avoid stragglers.
 			sort.Slice(compilequeue, func(i, j int) bool {
-				return compilequeue[i].Nbody.Len() > compilequeue[j].Nbody.Len()
+				return compilequeue[i].Nbody().Len() > compilequeue[j].Nbody().Len()
 			})
 		}
 		var wg sync.WaitGroup

@@ -501,19 +501,19 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OTSTRUCT:
 		ok |= ctxType
-		setTypeNode(n, tostruct(n.List.Slice()))
-		n.List.Set(nil)
+		setTypeNode(n, tostruct(n.List().Slice()))
+		n.PtrList().Set(nil)
 
 	case ir.OTINTER:
 		ok |= ctxType
-		setTypeNode(n, tointerface(n.List.Slice()))
+		setTypeNode(n, tointerface(n.List().Slice()))
 
 	case ir.OTFUNC:
 		ok |= ctxType
-		setTypeNode(n, functype(n.Left(), n.List.Slice(), n.Rlist.Slice()))
+		setTypeNode(n, functype(n.Left(), n.List().Slice(), n.Rlist().Slice()))
 		n.SetLeft(nil)
-		n.List.Set(nil)
-		n.Rlist.Set(nil)
+		n.PtrList().Set(nil)
+		n.PtrRlist().Set(nil)
 
 	// type or expr
 	case ir.ODEREF:
@@ -791,14 +791,14 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			n.SetOp(ir.OADDSTR)
 
 			if l.Op() == ir.OADDSTR {
-				n.List.Set(l.List.Slice())
+				n.PtrList().Set(l.List().Slice())
 			} else {
-				n.List.Set1(l)
+				n.PtrList().Set1(l)
 			}
 			if r.Op() == ir.OADDSTR {
-				n.List.AppendNodes(&r.List)
+				n.PtrList().AppendNodes(r.PtrList())
 			} else {
-				n.List.Append(r)
+				n.PtrList().Append(r)
 			}
 			n.SetLeft(nil)
 			n.SetRight(nil)
@@ -1139,13 +1139,13 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			base.Fatal("need unsafe.Pointer for OSLICEHEADER")
 		}
 
-		if x := n.List.Len(); x != 2 {
+		if x := n.List().Len(); x != 2 {
 			base.Fatal("expected 2 params (len, cap) for OSLICEHEADER, got %d", x)
 		}
 
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
-		l := typecheck(n.List.First(), ctxExpr)
-		c := typecheck(n.List.Second(), ctxExpr)
+		l := typecheck(n.List().First(), ctxExpr)
+		c := typecheck(n.List().Second(), ctxExpr)
 		l = defaultlit(l, types.Types[types.TINT])
 		c = defaultlit(c, types.Types[types.TINT])
 
@@ -1161,8 +1161,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			base.Fatal("len larger than cap for OSLICEHEADER")
 		}
 
-		n.List.SetFirst(l)
-		n.List.SetSecond(c)
+		n.List().SetFirst(l)
+		n.List().SetSecond(c)
 
 	case ir.OMAKESLICECOPY:
 		// Errors here are Fatalf instead of yyerror because only the compiler
@@ -1283,7 +1283,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	// call and call like
 	case ir.OCALL:
-		typecheckslice(n.Ninit.Slice(), ctxStmt) // imported rewritten f(g()) calls (#30907)
+		typecheckslice(n.Ninit().Slice(), ctxStmt) // imported rewritten f(g()) calls (#30907)
 		n.SetLeft(typecheck(n.Left(), ctxExpr|ctxType|ctxCallee))
 		if n.Left().Diag() {
 			n.SetDiag(true)
@@ -1372,7 +1372,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			}
 		}
 
-		typecheckaste(ir.OCALL, n.Left(), n.IsDDD(), t.Params(), n.List, func() string { return fmt.Sprintf("argument to %v", n.Left()) })
+		typecheckaste(ir.OCALL, n.Left(), n.IsDDD(), t.Params(), n.List(), func() string { return fmt.Sprintf("argument to %v", n.Left()) })
 		ok |= ctxStmt
 		if t.NumResults() == 0 {
 			break
@@ -1545,7 +1545,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	case ir.ODELETE:
 		ok |= ctxStmt
 		typecheckargs(n)
-		args := n.List
+		args := n.List()
 		if args.Len() == 0 {
 			base.Error("missing arguments to delete")
 			n.SetType(nil)
@@ -1577,7 +1577,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	case ir.OAPPEND:
 		ok |= ctxExpr
 		typecheckargs(n)
-		args := n.List
+		args := n.List()
 		if args.Len() == 0 {
 			base.Error("missing arguments to append")
 			n.SetType(nil)
@@ -1727,14 +1727,14 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OMAKE:
 		ok |= ctxExpr
-		args := n.List.Slice()
+		args := n.List().Slice()
 		if len(args) == 0 {
 			base.Error("missing argument to make")
 			n.SetType(nil)
 			return n
 		}
 
-		n.List.Set(nil)
+		n.PtrList().Set(nil)
 		l := args[0]
 		l = typecheck(l, ctxType)
 		t := l.Type()
@@ -1838,7 +1838,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.ONEW:
 		ok |= ctxExpr
-		args := n.List
+		args := n.List()
 		if args.Len() == 0 {
 			base.Error("missing argument to new")
 			n.SetType(nil)
@@ -1864,7 +1864,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 	case ir.OPRINT, ir.OPRINTN:
 		ok |= ctxStmt
 		typecheckargs(n)
-		ls := n.List.Slice()
+		ls := n.List().Slice()
 		for i1, n1 := range ls {
 			// Special case for print: int constant is int64, not int.
 			if ir.IsConst(n1, ir.CTINT) {
@@ -1889,7 +1889,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.ORECOVER:
 		ok |= ctxExpr | ctxStmt
-		if n.List.Len() != 0 {
+		if n.List().Len() != 0 {
 			base.Error("too many arguments to recover")
 			n.SetType(nil)
 			return n
@@ -2001,7 +2001,7 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 
 	case ir.OFOR, ir.OFORUNTIL:
 		ok |= ctxStmt
-		typecheckslice(n.Ninit.Slice(), ctxStmt)
+		typecheckslice(n.Ninit().Slice(), ctxStmt)
 		decldepth++
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
@@ -2013,14 +2013,14 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 		}
 		n.SetRight(typecheck(n.Right(), ctxStmt))
 		if n.Op() == ir.OFORUNTIL {
-			typecheckslice(n.List.Slice(), ctxStmt)
+			typecheckslice(n.List().Slice(), ctxStmt)
 		}
-		typecheckslice(n.Nbody.Slice(), ctxStmt)
+		typecheckslice(n.Nbody().Slice(), ctxStmt)
 		decldepth--
 
 	case ir.OIF:
 		ok |= ctxStmt
-		typecheckslice(n.Ninit.Slice(), ctxStmt)
+		typecheckslice(n.Ninit().Slice(), ctxStmt)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
 		if n.Left() != nil {
@@ -2029,8 +2029,8 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 				base.Error("non-bool %L used as if condition", n.Left())
 			}
 		}
-		typecheckslice(n.Nbody.Slice(), ctxStmt)
-		typecheckslice(n.Rlist.Slice(), ctxStmt)
+		typecheckslice(n.Nbody().Slice(), ctxStmt)
+		typecheckslice(n.Rlist().Slice(), ctxStmt)
 
 	case ir.ORETURN:
 		ok |= ctxStmt
@@ -2041,10 +2041,10 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 			return n
 		}
 
-		if Curfn.Type().FuncType().Outnamed && n.List.Len() == 0 {
+		if Curfn.Type().FuncType().Outnamed && n.List().Len() == 0 {
 			break
 		}
-		typecheckaste(ir.ORETURN, nil, false, Curfn.Type().Results(), n.List, func() string { return "return argument" })
+		typecheckaste(ir.ORETURN, nil, false, Curfn.Type().Results(), n.List(), func() string { return "return argument" })
 
 	case ir.ORETJMP:
 		ok |= ctxStmt
@@ -2128,13 +2128,13 @@ func typecheck1(n *ir.Node, top int) (res *ir.Node) {
 }
 
 func typecheckargs(n *ir.Node) {
-	if n.List.Len() != 1 || n.IsDDD() {
-		typecheckslice(n.List.Slice(), ctxExpr)
+	if n.List().Len() != 1 || n.IsDDD() {
+		typecheckslice(n.List().Slice(), ctxExpr)
 		return
 	}
 
-	typecheckslice(n.List.Slice(), ctxExpr|ctxMultiOK)
-	t := n.List.First().Type()
+	typecheckslice(n.List().Slice(), ctxExpr|ctxMultiOK)
+	t := n.List().First().Type()
 	if t == nil || !t.IsFuncArgStruct() {
 		return
 	}
@@ -2147,7 +2147,7 @@ func typecheckargs(n *ir.Node) {
 	}
 
 	as := nod(ir.OAS2, nil, nil)
-	as.Rlist.AppendNodes(&n.List)
+	as.PtrRlist().AppendNodes(n.PtrList())
 
 	// If we're outside of function context, then this call will
 	// be executed during the generated init function. However,
@@ -2160,16 +2160,16 @@ func typecheckargs(n *ir.Node) {
 	}
 	for _, f := range t.FieldSlice() {
 		t := temp(f.Type)
-		as.Ninit.Append(nod(ir.ODCL, t, nil))
-		as.List.Append(t)
-		n.List.Append(t)
+		as.PtrNinit().Append(nod(ir.ODCL, t, nil))
+		as.PtrList().Append(t)
+		n.PtrList().Append(t)
 	}
 	if static {
 		Curfn = nil
 	}
 
 	as = typecheck(as, ctxStmt)
-	n.Ninit.Append(as)
+	n.PtrNinit().Append(as)
 }
 
 func checksliceindex(l *ir.Node, r *ir.Node, tp *types.Type) bool {
@@ -2288,22 +2288,22 @@ func onearg(n *ir.Node, f string, args ...interface{}) bool {
 	if n.Left() != nil {
 		return true
 	}
-	if n.List.Len() == 0 {
+	if n.List().Len() == 0 {
 		p := fmt.Sprintf(f, args...)
 		base.Error("missing argument to %s: %v", p, n)
 		return false
 	}
 
-	if n.List.Len() > 1 {
+	if n.List().Len() > 1 {
 		p := fmt.Sprintf(f, args...)
 		base.Error("too many arguments to %s: %v", p, n)
-		n.SetLeft(n.List.First())
-		n.List.Set(nil)
+		n.SetLeft(n.List().First())
+		n.PtrList().Set(nil)
 		return false
 	}
 
-	n.SetLeft(n.List.First())
-	n.List.Set(nil)
+	n.SetLeft(n.List().First())
+	n.PtrList().Set(nil)
 	return true
 }
 
@@ -2311,17 +2311,17 @@ func twoarg(n *ir.Node) bool {
 	if n.Left() != nil {
 		return true
 	}
-	if n.List.Len() != 2 {
-		if n.List.Len() < 2 {
+	if n.List().Len() != 2 {
+		if n.List().Len() < 2 {
 			base.Error("not enough arguments in call to %v", n)
 		} else {
 			base.Error("too many arguments in call to %v", n)
 		}
 		return false
 	}
-	n.SetLeft(n.List.First())
-	n.SetRight(n.List.Second())
-	n.List.Set(nil)
+	n.SetLeft(n.List().First())
+	n.SetRight(n.List().Second())
+	n.PtrList().Set(nil)
 	return true
 }
 
@@ -2832,7 +2832,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 		}
 		elemType := n.Right().Right().Type()
 
-		length := typecheckarraylit(elemType, -1, n.List.Slice(), "array literal")
+		length := typecheckarraylit(elemType, -1, n.List().Slice(), "array literal")
 
 		n.SetOp(ir.OARRAYLIT)
 		n.SetType(types.NewArray(elemType, length))
@@ -2854,21 +2854,21 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 		n.SetType(nil)
 
 	case types.TARRAY:
-		typecheckarraylit(t.Elem(), t.NumElem(), n.List.Slice(), "array literal")
+		typecheckarraylit(t.Elem(), t.NumElem(), n.List().Slice(), "array literal")
 		n.SetOp(ir.OARRAYLIT)
 		n.SetRight(nil)
 
 	case types.TSLICE:
-		length := typecheckarraylit(t.Elem(), -1, n.List.Slice(), "slice literal")
+		length := typecheckarraylit(t.Elem(), -1, n.List().Slice(), "slice literal")
 		n.SetOp(ir.OSLICELIT)
 		n.SetRight(nodintconst(length))
 
 	case types.TMAP:
 		var cs constSet
-		for i3, l := range n.List.Slice() {
+		for i3, l := range n.List().Slice() {
 			setlineno(l)
 			if l.Op() != ir.OKEY {
-				n.List.SetIndex(i3, typecheck(l, ctxExpr))
+				n.List().SetIndex(i3, typecheck(l, ctxExpr))
 				base.Error("missing key in map literal")
 				continue
 			}
@@ -2893,9 +2893,9 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 		dowidth(t)
 
 		errored := false
-		if n.List.Len() != 0 && nokeys(n.List) {
+		if n.List().Len() != 0 && nokeys(n.List()) {
 			// simple list of variables
-			ls := n.List.Slice()
+			ls := n.List().Slice()
 			for i, n1 := range ls {
 				setlineno(n1)
 				n1 = typecheck(n1, ctxExpr)
@@ -2926,7 +2926,7 @@ func typecheckcomplit(n *ir.Node) (res *ir.Node) {
 			hash := make(map[string]bool)
 
 			// keyed list
-			ls := n.List.Slice()
+			ls := n.List().Slice()
 			for i, l := range ls {
 				setlineno(l)
 
@@ -3275,7 +3275,7 @@ func typecheckas2(n *ir.Node) {
 		defer tracePrint("typecheckas2", n)(nil)
 	}
 
-	ls := n.List.Slice()
+	ls := n.List().Slice()
 	for i1, n1 := range ls {
 		// delicate little dance.
 		n1 = resolve(n1)
@@ -3286,21 +3286,21 @@ func typecheckas2(n *ir.Node) {
 		}
 	}
 
-	cl := n.List.Len()
-	cr := n.Rlist.Len()
+	cl := n.List().Len()
+	cr := n.Rlist().Len()
 	if cl > 1 && cr == 1 {
-		n.Rlist.SetFirst(typecheck(n.Rlist.First(), ctxExpr|ctxMultiOK))
+		n.Rlist().SetFirst(typecheck(n.Rlist().First(), ctxExpr|ctxMultiOK))
 	} else {
-		typecheckslice(n.Rlist.Slice(), ctxExpr)
+		typecheckslice(n.Rlist().Slice(), ctxExpr)
 	}
-	checkassignlist(n, n.List)
+	checkassignlist(n, n.List())
 
 	var l *ir.Node
 	var r *ir.Node
 	if cl == cr {
 		// easy
-		ls := n.List.Slice()
-		rs := n.Rlist.Slice()
+		ls := n.List().Slice()
+		rs := n.Rlist().Slice()
 		for il, nl := range ls {
 			nr := rs[il]
 			if nl.Type() != nil && nr.Type() != nil {
@@ -3315,8 +3315,8 @@ func typecheckas2(n *ir.Node) {
 		goto out
 	}
 
-	l = n.List.First()
-	r = n.Rlist.First()
+	l = n.List().First()
+	r = n.Rlist().First()
 
 	// x,y,z = f()
 	if cr == 1 {
@@ -3334,8 +3334,8 @@ func typecheckas2(n *ir.Node) {
 			}
 			n.SetOp(ir.OAS2FUNC)
 			n.SetRight(r)
-			n.Rlist.Set(nil)
-			for i, l := range n.List.Slice() {
+			n.PtrRlist().Set(nil)
+			for i, l := range n.List().Slice() {
 				f := r.Type().Field(i)
 				if f.Type != nil && l.Type() != nil {
 					checkassignto(f.Type, l)
@@ -3365,14 +3365,14 @@ func typecheckas2(n *ir.Node) {
 				r.SetOp(ir.ODOTTYPE2)
 			}
 			n.SetRight(r)
-			n.Rlist.Set(nil)
+			n.PtrRlist().Set(nil)
 			if l.Type() != nil {
 				checkassignto(r.Type(), l)
 			}
 			if l.Name() != nil && l.Name().Defn == n {
 				l.SetType(r.Type())
 			}
-			l := n.List.Second()
+			l := n.List().Second()
 			if l.Type() != nil && !l.Type().IsBoolean() {
 				checkassignto(types.Types[types.TBOOL], l)
 			}
@@ -3394,7 +3394,7 @@ mismatch:
 	// second half of dance
 out:
 	n.SetTypecheck(1)
-	ls = n.List.Slice()
+	ls = n.List().Slice()
 	for i1, n1 := range ls {
 		if n1.Typecheck() == 0 {
 			ls[i1] = typecheck(ls[i1], ctxExpr|ctxAssign)
@@ -3452,7 +3452,7 @@ func stringtoruneslit(n *ir.Node) *ir.Node {
 	}
 
 	nn := nod(ir.OCOMPLIT, nil, typenod(n.Type()))
-	nn.List.Set(l)
+	nn.PtrList().Set(l)
 	nn = typecheck(nn, ctxExpr)
 	return nn
 }
@@ -3779,10 +3779,10 @@ func markbreak(n *ir.Node, implicit *ir.Node) {
 	default:
 		markbreak(n.Left(), implicit)
 		markbreak(n.Right(), implicit)
-		markbreaklist(n.Ninit, implicit)
-		markbreaklist(n.Nbody, implicit)
-		markbreaklist(n.List, implicit)
-		markbreaklist(n.Rlist, implicit)
+		markbreaklist(n.Ninit(), implicit)
+		markbreaklist(n.Nbody(), implicit)
+		markbreaklist(n.List(), implicit)
+		markbreaklist(n.Rlist(), implicit)
 	}
 }
 
@@ -3828,7 +3828,7 @@ func isTermNode(n *ir.Node) bool {
 	// skipping over the label. No case OLABEL here.
 
 	case ir.OBLOCK:
-		return isTermNodes(n.List)
+		return isTermNodes(n.List())
 
 	case ir.OGOTO, ir.ORETURN, ir.ORETJMP, ir.OPANIC, ir.OFALL:
 		return true
@@ -3843,18 +3843,18 @@ func isTermNode(n *ir.Node) bool {
 		return true
 
 	case ir.OIF:
-		return isTermNodes(n.Nbody) && isTermNodes(n.Rlist)
+		return isTermNodes(n.Nbody()) && isTermNodes(n.Rlist())
 
 	case ir.OSWITCH, ir.OTYPESW, ir.OSELECT:
 		if n.HasBreak() {
 			return false
 		}
 		def := false
-		for _, n1 := range n.List.Slice() {
-			if !isTermNodes(n1.Nbody) {
+		for _, n1 := range n.List().Slice() {
+			if !isTermNodes(n1.Nbody()) {
 				return false
 			}
-			if n1.List.Len() == 0 { // default
+			if n1.List().Len() == 0 { // default
 				def = true
 			}
 		}
@@ -3870,31 +3870,31 @@ func isTermNode(n *ir.Node) bool {
 
 // checkreturn makes sure that fn terminates appropriately.
 func checkreturn(fn *ir.Node) {
-	if fn.Type().NumResults() != 0 && fn.Nbody.Len() != 0 {
-		markbreaklist(fn.Nbody, nil)
-		if !isTermNodes(fn.Nbody) {
+	if fn.Type().NumResults() != 0 && fn.Nbody().Len() != 0 {
+		markbreaklist(fn.Nbody(), nil)
+		if !isTermNodes(fn.Nbody()) {
 			base.ErrorAt(fn.Func().Endlineno, "missing return at end of function")
 		}
 	}
 }
 
 func deadcode(fn *ir.Node) {
-	deadcodeslice(fn.Nbody)
+	deadcodeslice(fn.Nbody())
 	deadcodefn(fn)
 }
 
 func deadcodefn(fn *ir.Node) {
-	if fn.Nbody.Len() == 0 {
+	if fn.Nbody().Len() == 0 {
 		return
 	}
 
-	for _, n := range fn.Nbody.Slice() {
-		if n.Ninit.Len() > 0 {
+	for _, n := range fn.Nbody().Slice() {
+		if n.Ninit().Len() > 0 {
 			return
 		}
 		switch n.Op() {
 		case ir.OIF:
-			if !ir.IsConst(n.Left(), ir.CTBOOL) || n.Nbody.Len() > 0 || n.Rlist.Len() > 0 {
+			if !ir.IsConst(n.Left(), ir.CTBOOL) || n.Nbody().Len() > 0 || n.Rlist().Len() > 0 {
 				return
 			}
 		case ir.OFOR:
@@ -3906,7 +3906,7 @@ func deadcodefn(fn *ir.Node) {
 		}
 	}
 
-	fn.Nbody.Set([]*ir.Node{nod(ir.OEMPTY, nil, nil)})
+	fn.PtrNbody().Set([]*ir.Node{nod(ir.OEMPTY, nil, nil)})
 }
 
 func deadcodeslice(nn ir.Nodes) {
@@ -3929,11 +3929,11 @@ func deadcodeslice(nn ir.Nodes) {
 			if ir.IsConst(n.Left(), ir.CTBOOL) {
 				var body ir.Nodes
 				if n.Left().BoolVal() {
-					n.Rlist.Set(nil)
-					body = n.Nbody
+					n.PtrRlist().Set(nil)
+					body = n.Nbody()
 				} else {
-					n.Nbody.Set(nil)
-					body = n.Rlist
+					n.PtrNbody().Set(nil)
+					body = n.Rlist()
 				}
 				// If "then" or "else" branch ends with panic or return statement,
 				// it is safe to remove all statements after this node.
@@ -3951,10 +3951,10 @@ func deadcodeslice(nn ir.Nodes) {
 			}
 		}
 
-		deadcodeslice(n.Ninit)
-		deadcodeslice(n.Nbody)
-		deadcodeslice(n.List)
-		deadcodeslice(n.Rlist)
+		deadcodeslice(n.Ninit())
+		deadcodeslice(n.Nbody())
+		deadcodeslice(n.List())
+		deadcodeslice(n.Rlist())
 		if cut {
 			nn.Set(nn.Slice()[:i+1])
 			break

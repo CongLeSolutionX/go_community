@@ -54,10 +54,10 @@ type Order struct {
 func order(fn *ir.Node) {
 	if base.Flag.W > 1 {
 		s := fmt.Sprintf("\nbefore order %v", fn.Func().Nname.Sym())
-		ir.DumpList(s, fn.Nbody)
+		ir.DumpList(s, fn.Nbody())
 	}
 
-	orderBlock(&fn.Nbody, map[string][]*ir.Node{})
+	orderBlock(fn.PtrNbody(), map[string][]*ir.Node{})
 }
 
 // newTemp allocates a new temporary with the given type,
@@ -255,13 +255,13 @@ func mapKeyReplaceStrConv(n *ir.Node) bool {
 		n.SetOp(ir.OBYTES2STRTMP)
 		replaced = true
 	case ir.OSTRUCTLIT:
-		for _, elem := range n.List.Slice() {
+		for _, elem := range n.List().Slice() {
 			if mapKeyReplaceStrConv(elem.Left()) {
 				replaced = true
 			}
 		}
 	case ir.OARRAYLIT:
-		for _, elem := range n.List.Slice() {
+		for _, elem := range n.List().Slice() {
 			if elem.Op() == ir.OKEY {
 				elem = elem.Right()
 			}
@@ -451,19 +451,19 @@ func (o *Order) init(n *ir.Node) {
 	if n.MayBeShared() {
 		// For concurrency safety, don't mutate potentially shared nodes.
 		// First, ensure that no work is required here.
-		if n.Ninit.Len() > 0 {
+		if n.Ninit().Len() > 0 {
 			base.Fatal("order.init shared node with ninit")
 		}
 		return
 	}
-	o.stmtList(n.Ninit)
-	n.Ninit.Set(nil)
+	o.stmtList(n.Ninit())
+	n.PtrNinit().Set(nil)
 }
 
 // call orders the call expression n.
 // n.Op is OCALLMETH/OCALLFUNC/OCALLINTER or a builtin like OCOPY.
 func (o *Order) call(n *ir.Node) {
-	if n.Ninit.Len() > 0 {
+	if n.Ninit().Len() > 0 {
 		// Caller should have already called o.init(n).
 		base.Fatal("%v with unexpected ninit", n.Op())
 	}
@@ -472,13 +472,13 @@ func (o *Order) call(n *ir.Node) {
 	if n.Op() != ir.OCALLFUNC && n.Op() != ir.OCALLMETH && n.Op() != ir.OCALLINTER {
 		n.SetLeft(o.expr(n.Left(), nil))
 		n.SetRight(o.expr(n.Right(), nil))
-		o.exprList(n.List)
+		o.exprList(n.List())
 		return
 	}
 
 	fixVariadicCall(n)
 	n.SetLeft(o.expr(n.Left(), nil))
-	o.exprList(n.List)
+	o.exprList(n.List())
 
 	if n.Op() == ir.OCALLINTER {
 		return
@@ -492,15 +492,15 @@ func (o *Order) call(n *ir.Node) {
 			x := o.copyExpr(arg.Left(), arg.Left().Type(), false)
 			arg.SetLeft(x)
 			x.Name().SetAddrtaken(true) // ensure SSA keeps the x variable
-			n.Nbody.Append(typecheck(nod(ir.OVARLIVE, x, nil), ctxStmt))
+			n.PtrNbody().Append(typecheck(nod(ir.OVARLIVE, x, nil), ctxStmt))
 		}
 	}
 
 	// Check for "unsafe-uintptr" tag provided by escape analysis.
 	for i, param := range n.Left().Type().Params().FieldSlice() {
 		if param.Note == unsafeUintptrTag || param.Note == uintptrEscapesTag {
-			if arg := n.List.Index(i); arg.Op() == ir.OSLICELIT {
-				for _, elt := range arg.List.Slice() {
+			if arg := n.List().Index(i); arg.Op() == ir.OSLICELIT {
+				for _, elt := range arg.List().Slice() {
 					keepAlive(elt)
 				}
 			} else {
@@ -535,7 +535,7 @@ func (o *Order) mapAssign(n *ir.Node) {
 			// Make sure we evaluate the RHS before starting the map insert.
 			// We need to make sure the RHS won't panic.  See issue 22881.
 			if n.Right().Op() == ir.OAPPEND {
-				s := n.Right().List.Slice()[1:]
+				s := n.Right().List().Slice()[1:]
 				for i, n := range s {
 					s[i] = o.cheapExpr(n)
 				}
@@ -547,7 +547,7 @@ func (o *Order) mapAssign(n *ir.Node) {
 
 	case ir.OAS2, ir.OAS2DOTTYPE, ir.OAS2MAPR, ir.OAS2FUNC:
 		var post []*ir.Node
-		for i, m := range n.List.Slice() {
+		for i, m := range n.List().Slice() {
 			switch {
 			case m.Op() == ir.OINDEXMAP:
 				if !m.Left().IsAutoTmp() {
@@ -559,7 +559,7 @@ func (o *Order) mapAssign(n *ir.Node) {
 				fallthrough
 			case instrumenting && n.Op() == ir.OAS2FUNC && !m.IsBlank():
 				t := o.newTemp(m.Type(), false)
-				n.List.SetIndex(i, t)
+				n.List().SetIndex(i, t)
 				a := nod(ir.OAS, m, t)
 				a = typecheck(a, ctxStmt)
 				post = append(post, a)
@@ -627,15 +627,15 @@ func (o *Order) stmt(n *ir.Node) {
 
 	case ir.OAS2:
 		t := o.markTemp()
-		o.exprList(n.List)
-		o.exprList(n.Rlist)
+		o.exprList(n.List())
+		o.exprList(n.Rlist())
 		o.mapAssign(n)
 		o.cleanTemp(t)
 
 	// Special: avoid copy of func call n.Right
 	case ir.OAS2FUNC:
 		t := o.markTemp()
-		o.exprList(n.List)
+		o.exprList(n.List())
 		o.init(n.Right())
 		o.call(n.Right())
 		o.as2(n)
@@ -649,7 +649,7 @@ func (o *Order) stmt(n *ir.Node) {
 	//           and make sure OINDEXMAP is not copied out.
 	case ir.OAS2DOTTYPE, ir.OAS2RECV, ir.OAS2MAPR:
 		t := o.markTemp()
-		o.exprList(n.List)
+		o.exprList(n.List())
 
 		switch r := n.Right(); r.Op() {
 		case ir.ODOTTYPE2, ir.ORECV:
@@ -669,7 +669,7 @@ func (o *Order) stmt(n *ir.Node) {
 
 	// Special: does not save n onto out.
 	case ir.OBLOCK, ir.OEMPTY:
-		o.stmtList(n.List)
+		o.stmtList(n.List())
 
 	// Special: n->left is not an expression; save as is.
 	case ir.OBREAK,
@@ -699,8 +699,8 @@ func (o *Order) stmt(n *ir.Node) {
 		t := o.markTemp()
 		n.SetLeft(o.expr(n.Left(), nil))
 		n.SetRight(o.expr(n.Right(), nil))
-		o.exprList(n.List)
-		o.exprList(n.Rlist)
+		o.exprList(n.List())
+		o.exprList(n.Rlist())
 		o.out = append(o.out, n)
 		o.cleanTemp(t)
 
@@ -714,9 +714,9 @@ func (o *Order) stmt(n *ir.Node) {
 
 	case ir.ODELETE:
 		t := o.markTemp()
-		n.List.SetFirst(o.expr(n.List.First(), nil))
-		n.List.SetSecond(o.expr(n.List.Second(), nil))
-		n.List.SetSecond(o.mapKeyTemp(n.List.First().Type(), n.List.Second()))
+		n.List().SetFirst(o.expr(n.List().First(), nil))
+		n.List().SetSecond(o.expr(n.List().Second(), nil))
+		n.List().SetSecond(o.mapKeyTemp(n.List().First().Type(), n.List().Second()))
 		o.out = append(o.out, n)
 		o.cleanTemp(t)
 
@@ -725,8 +725,8 @@ func (o *Order) stmt(n *ir.Node) {
 	case ir.OFOR:
 		t := o.markTemp()
 		n.SetLeft(o.exprInPlace(n.Left()))
-		n.Nbody.Prepend(o.cleanTempNoPop(t)...)
-		orderBlock(&n.Nbody, o.free)
+		n.PtrNbody().Prepend(o.cleanTempNoPop(t)...)
+		orderBlock(n.PtrNbody(), o.free)
 		n.SetRight(orderStmtInPlace(n.Right(), o.free))
 		o.out = append(o.out, n)
 		o.cleanTemp(t)
@@ -736,11 +736,11 @@ func (o *Order) stmt(n *ir.Node) {
 	case ir.OIF:
 		t := o.markTemp()
 		n.SetLeft(o.exprInPlace(n.Left()))
-		n.Nbody.Prepend(o.cleanTempNoPop(t)...)
-		n.Rlist.Prepend(o.cleanTempNoPop(t)...)
+		n.PtrNbody().Prepend(o.cleanTempNoPop(t)...)
+		n.PtrRlist().Prepend(o.cleanTempNoPop(t)...)
 		o.popTemp(t)
-		orderBlock(&n.Nbody, o.free)
-		orderBlock(&n.Rlist, o.free)
+		orderBlock(n.PtrNbody(), o.free)
+		orderBlock(n.PtrRlist(), o.free)
 		o.out = append(o.out, n)
 
 	// Special: argument will be converted to interface using convT2E
@@ -781,7 +781,7 @@ func (o *Order) stmt(n *ir.Node) {
 			base.Fatal("order.stmt range %v", n.Type())
 
 		case types.TARRAY, types.TSLICE:
-			if n.List.Len() < 2 || n.List.Second().IsBlank() {
+			if n.List().Len() < 2 || n.List().Second().IsBlank() {
 				// for i := range x will only use x once, to compute len(x).
 				// No need to copy it.
 				break
@@ -820,15 +820,15 @@ func (o *Order) stmt(n *ir.Node) {
 			// hiter contains pointers and needs to be zeroed.
 			prealloc[n] = o.newTemp(hiter(n.Type()), true)
 		}
-		o.exprListInPlace(n.List)
+		o.exprListInPlace(n.List())
 		if orderBody {
-			orderBlock(&n.Nbody, o.free)
+			orderBlock(n.PtrNbody(), o.free)
 		}
 		o.out = append(o.out, n)
 		o.cleanTemp(t)
 
 	case ir.ORETURN:
-		o.exprList(n.List)
+		o.exprList(n.List())
 		o.out = append(o.out, n)
 
 	// Special: clean case temporaries in each block entry.
@@ -843,7 +843,7 @@ func (o *Order) stmt(n *ir.Node) {
 	case ir.OSELECT:
 		t := o.markTemp()
 
-		for _, n2 := range n.List.Slice() {
+		for _, n2 := range n.List().Slice() {
 			if n2.Op() != ir.OCASE {
 				base.Fatal("order select case %v", n2.Op())
 			}
@@ -852,7 +852,7 @@ func (o *Order) stmt(n *ir.Node) {
 
 			// Append any new body prologue to ninit.
 			// The next loop will insert ninit into nbody.
-			if n2.Ninit.Len() != 0 {
+			if n2.Ninit().Len() != 0 {
 				base.Fatal("order select ninit")
 			}
 			if r == nil {
@@ -870,19 +870,19 @@ func (o *Order) stmt(n *ir.Node) {
 			case ir.OSELRECV, ir.OSELRECV2:
 				if r.Colas() {
 					i := 0
-					if r.Ninit.Len() != 0 && r.Ninit.First().Op() == ir.ODCL && r.Ninit.First().Left() == r.Left() {
+					if r.Ninit().Len() != 0 && r.Ninit().First().Op() == ir.ODCL && r.Ninit().First().Left() == r.Left() {
 						i++
 					}
-					if i < r.Ninit.Len() && r.Ninit.Index(i).Op() == ir.ODCL && r.List.Len() != 0 && r.Ninit.Index(i).Left() == r.List.First() {
+					if i < r.Ninit().Len() && r.Ninit().Index(i).Op() == ir.ODCL && r.List().Len() != 0 && r.Ninit().Index(i).Left() == r.List().First() {
 						i++
 					}
-					if i >= r.Ninit.Len() {
-						r.Ninit.Set(nil)
+					if i >= r.Ninit().Len() {
+						r.PtrNinit().Set(nil)
 					}
 				}
 
-				if r.Ninit.Len() != 0 {
-					ir.DumpList("ninit", r.Ninit)
+				if r.Ninit().Len() != 0 {
+					ir.DumpList("ninit", r.Ninit())
 					base.Fatal("ninit on select recv")
 				}
 
@@ -915,36 +915,36 @@ func (o *Order) stmt(n *ir.Node) {
 					if r.Colas() {
 						tmp2 := nod(ir.ODCL, tmp1, nil)
 						tmp2 = typecheck(tmp2, ctxStmt)
-						n2.Ninit.Append(tmp2)
+						n2.PtrNinit().Append(tmp2)
 					}
 
 					r.SetLeft(o.newTemp(r.Right().Left().Type().Elem(), r.Right().Left().Type().Elem().HasPointers()))
 					tmp2 := nod(ir.OAS, tmp1, r.Left())
 					tmp2 = typecheck(tmp2, ctxStmt)
-					n2.Ninit.Append(tmp2)
+					n2.PtrNinit().Append(tmp2)
 				}
 
-				if r.List.Len() != 0 && r.List.First().IsBlank() {
-					r.List.Set(nil)
+				if r.List().Len() != 0 && r.List().First().IsBlank() {
+					r.PtrList().Set(nil)
 				}
-				if r.List.Len() != 0 {
-					tmp1 := r.List.First()
+				if r.List().Len() != 0 {
+					tmp1 := r.List().First()
 					if r.Colas() {
 						tmp2 := nod(ir.ODCL, tmp1, nil)
 						tmp2 = typecheck(tmp2, ctxStmt)
-						n2.Ninit.Append(tmp2)
+						n2.PtrNinit().Append(tmp2)
 					}
 
-					r.List.Set1(o.newTemp(types.Types[types.TBOOL], false))
-					tmp2 := okas(tmp1, r.List.First())
+					r.PtrList().Set1(o.newTemp(types.Types[types.TBOOL], false))
+					tmp2 := okas(tmp1, r.List().First())
 					tmp2 = typecheck(tmp2, ctxStmt)
-					n2.Ninit.Append(tmp2)
+					n2.PtrNinit().Append(tmp2)
 				}
-				orderBlock(&n2.Ninit, o.free)
+				orderBlock(n2.PtrNinit(), o.free)
 
 			case ir.OSEND:
-				if r.Ninit.Len() != 0 {
-					ir.DumpList("ninit", r.Ninit)
+				if r.Ninit().Len() != 0 {
+					ir.DumpList("ninit", r.Ninit())
 					base.Fatal("ninit on select send")
 				}
 
@@ -964,14 +964,14 @@ func (o *Order) stmt(n *ir.Node) {
 		// Now that we have accumulated all the temporaries, clean them.
 		// Also insert any ninit queued during the previous loop.
 		// (The temporary cleaning must follow that ninit work.)
-		for _, n3 := range n.List.Slice() {
-			orderBlock(&n3.Nbody, o.free)
-			n3.Nbody.Prepend(o.cleanTempNoPop(t)...)
+		for _, n3 := range n.List().Slice() {
+			orderBlock(n3.PtrNbody(), o.free)
+			n3.PtrNbody().Prepend(o.cleanTempNoPop(t)...)
 
 			// TODO(mdempsky): Is this actually necessary?
 			// walkselect appears to walk Ninit.
-			n3.Nbody.Prepend(n3.Ninit.Slice()...)
-			n3.Ninit.Set(nil)
+			n3.PtrNbody().Prepend(n3.Ninit().Slice()...)
+			n3.PtrNinit().Set(nil)
 		}
 
 		o.out = append(o.out, n)
@@ -1002,17 +1002,17 @@ func (o *Order) stmt(n *ir.Node) {
 	case ir.OSWITCH:
 		if base.Debug.Libfuzzer != 0 && !hasDefaultCase(n) {
 			// Add empty "default:" case for instrumentation.
-			n.List.Append(nod(ir.OCASE, nil, nil))
+			n.PtrList().Append(nod(ir.OCASE, nil, nil))
 		}
 
 		t := o.markTemp()
 		n.SetLeft(o.expr(n.Left(), nil))
-		for _, ncas := range n.List.Slice() {
+		for _, ncas := range n.List().Slice() {
 			if ncas.Op() != ir.OCASE {
 				base.Fatal("order switch case %v", ncas.Op())
 			}
-			o.exprListInPlace(ncas.List)
-			orderBlock(&ncas.Nbody, o.free)
+			o.exprListInPlace(ncas.List())
+			orderBlock(ncas.PtrNbody(), o.free)
 		}
 
 		o.out = append(o.out, n)
@@ -1023,11 +1023,11 @@ func (o *Order) stmt(n *ir.Node) {
 }
 
 func hasDefaultCase(n *ir.Node) bool {
-	for _, ncas := range n.List.Slice() {
+	for _, ncas := range n.List().Slice() {
 		if ncas.Op() != ir.OCASE {
 			base.Fatal("expected case, found %v", ncas.Op())
 		}
-		if ncas.List.Len() == 0 {
+		if ncas.List().Len() == 0 {
 			return true
 		}
 	}
@@ -1073,17 +1073,17 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 	default:
 		n.SetLeft(o.expr(n.Left(), nil))
 		n.SetRight(o.expr(n.Right(), nil))
-		o.exprList(n.List)
-		o.exprList(n.Rlist)
+		o.exprList(n.List())
+		o.exprList(n.Rlist())
 
 	// Addition of strings turns into a function call.
 	// Allocate a temporary to hold the strings.
 	// Fewer than 5 strings use direct runtime helpers.
 	case ir.OADDSTR:
-		o.exprList(n.List)
+		o.exprList(n.List())
 
-		if n.List.Len() > 5 {
-			t := types.NewArray(types.Types[types.TSTRING], int64(n.List.Len()))
+		if n.List().Len() > 5 {
+			t := types.NewArray(types.Types[types.TSTRING], int64(n.List().Len()))
 			prealloc[n] = o.newTemp(t, false)
 		}
 
@@ -1097,13 +1097,13 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 		hasbyte := false
 
 		haslit := false
-		for _, n1 := range n.List.Slice() {
+		for _, n1 := range n.List().Slice() {
 			hasbyte = hasbyte || n1.Op() == ir.OBYTES2STR
 			haslit = haslit || n1.Op() == ir.OLITERAL && len(n1.StringVal()) != 0
 		}
 
 		if haslit && hasbyte {
-			for _, n2 := range n.List.Slice() {
+			for _, n2 := range n.List().Slice() {
 				if n2.Op() == ir.OBYTES2STR {
 					n2.SetOp(ir.OBYTES2STRTMP)
 				}
@@ -1193,9 +1193,9 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 		// If left-hand side doesn't cause a short-circuit, issue right-hand side.
 		nif := nod(ir.OIF, r, nil)
 		if n.Op() == ir.OANDAND {
-			nif.Nbody.Set(gen)
+			nif.PtrNbody().Set(gen)
 		} else {
-			nif.Rlist.Set(gen)
+			nif.PtrRlist().Set(gen)
 		}
 		o.out = append(o.out, nif)
 		n = r
@@ -1233,13 +1233,13 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 	case ir.OAPPEND:
 		// Check for append(x, make([]T, y)...) .
 		if isAppendOfMake(n) {
-			n.List.SetFirst(o.expr(n.List.First(), nil))                 // order x
-			n.List.Second().SetLeft(o.expr(n.List.Second().Left(), nil)) // order y
+			n.List().SetFirst(o.expr(n.List().First(), nil))                 // order x
+			n.List().Second().SetLeft(o.expr(n.List().Second().Left(), nil)) // order y
 		} else {
-			o.exprList(n.List)
+			o.exprList(n.List())
 		}
 
-		if lhs == nil || lhs.Op() != ir.ONAME && !samesafeexpr(lhs, n.List.First()) {
+		if lhs == nil || lhs.Op() != ir.ONAME && !samesafeexpr(lhs, n.List().First()) {
 			n = o.copyExpr(n, n.Type(), false)
 		}
 
@@ -1265,8 +1265,8 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 	case ir.OSLICELIT, ir.OCALLPART:
 		n.SetLeft(o.expr(n.Left(), nil))
 		n.SetRight(o.expr(n.Right(), nil))
-		o.exprList(n.List)
-		o.exprList(n.Rlist)
+		o.exprList(n.List())
+		o.exprList(n.Rlist())
 		if n.Transient() {
 			var t *types.Type
 			switch n.Op() {
@@ -1327,7 +1327,7 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 		// Without this special case, order would otherwise compute all
 		// the keys and values before storing any of them to the map.
 		// See issue 26552.
-		entries := n.List.Slice()
+		entries := n.List().Slice()
 		statics := entries[:0]
 		var dynamics []*ir.Node
 		for _, r := range entries {
@@ -1350,7 +1350,7 @@ func (o *Order) expr(n, lhs *ir.Node) *ir.Node {
 
 			statics = append(statics, r)
 		}
-		n.List.Set(statics)
+		n.PtrList().Set(statics)
 
 		if len(dynamics) == 0 {
 			break
@@ -1395,10 +1395,10 @@ func okas(ok, val *ir.Node) *ir.Node {
 func (o *Order) as2(n *ir.Node) {
 	tmplist := []*ir.Node{}
 	left := []*ir.Node{}
-	for ni, l := range n.List.Slice() {
+	for ni, l := range n.List().Slice() {
 		if !l.IsBlank() {
 			tmp := o.newTemp(l.Type(), l.Type().HasPointers())
-			n.List.SetIndex(ni, tmp)
+			n.List().SetIndex(ni, tmp)
 			tmplist = append(tmplist, tmp)
 			left = append(left, l)
 		}
@@ -1407,8 +1407,8 @@ func (o *Order) as2(n *ir.Node) {
 	o.out = append(o.out, n)
 
 	as := nod(ir.OAS2, nil, nil)
-	as.List.Set(left)
-	as.Rlist.Set(tmplist)
+	as.PtrList().Set(left)
+	as.PtrRlist().Set(tmplist)
 	as = typecheck(as, ctxStmt)
 	o.stmt(as)
 }
@@ -1417,27 +1417,27 @@ func (o *Order) as2(n *ir.Node) {
 // Just like as2, this also adds temporaries to ensure left-to-right assignment.
 func (o *Order) okAs2(n *ir.Node) {
 	var tmp1, tmp2 *ir.Node
-	if !n.List.First().IsBlank() {
+	if !n.List().First().IsBlank() {
 		typ := n.Right().Type()
 		tmp1 = o.newTemp(typ, typ.HasPointers())
 	}
 
-	if !n.List.Second().IsBlank() {
+	if !n.List().Second().IsBlank() {
 		tmp2 = o.newTemp(types.Types[types.TBOOL], false)
 	}
 
 	o.out = append(o.out, n)
 
 	if tmp1 != nil {
-		r := nod(ir.OAS, n.List.First(), tmp1)
+		r := nod(ir.OAS, n.List().First(), tmp1)
 		r = typecheck(r, ctxStmt)
 		o.mapAssign(r)
-		n.List.SetFirst(tmp1)
+		n.List().SetFirst(tmp1)
 	}
 	if tmp2 != nil {
-		r := okas(n.List.Second(), tmp2)
+		r := okas(n.List().Second(), tmp2)
 		r = typecheck(r, ctxStmt)
 		o.mapAssign(r)
-		n.List.SetSecond(tmp2)
+		n.List().SetSecond(tmp2)
 	}
 }

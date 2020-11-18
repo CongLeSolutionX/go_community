@@ -1007,10 +1007,10 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 	// block starting with the init statements.
 
 	// if we can just say "for" n->ninit; ... then do so
-	simpleinit := n.Ninit.Len() == 1 && n.Ninit.First().Ninit.Len() == 0 && StmtWithInit(n.Op())
+	simpleinit := n.ninit.Len() == 1 && n.ninit.First().ninit.Len() == 0 && StmtWithInit(n.Op())
 
 	// otherwise, print the inits as separate statements
-	complexinit := n.Ninit.Len() != 0 && !simpleinit && (mode != FErr)
+	complexinit := n.ninit.Len() != 0 && !simpleinit && (mode != FErr)
 
 	// but if it was for if/for/switch, put in an extra surrounding block to limit the scope
 	extrablock := complexinit && StmtWithInit(n.Op())
@@ -1020,7 +1020,7 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 	}
 
 	if complexinit {
-		mode.Fprintf(s, " %v; ", n.Ninit)
+		mode.Fprintf(s, " %v; ", n.ninit)
 	}
 
 	switch n.Op() {
@@ -1058,16 +1058,16 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 
 	case OAS2:
 		if n.Colas() && !complexinit {
-			mode.Fprintf(s, "%.v := %.v", n.List, n.Rlist)
+			mode.Fprintf(s, "%.v := %.v", n.list, n.rlist)
 			break
 		}
 		fallthrough
 
 	case OAS2DOTTYPE, OAS2FUNC, OAS2MAPR, OAS2RECV:
-		mode.Fprintf(s, "%.v = %v", n.List, n.Right())
+		mode.Fprintf(s, "%.v = %v", n.list, n.Right())
 
 	case ORETURN:
-		mode.Fprintf(s, "return %.v", n.List)
+		mode.Fprintf(s, "return %.v", n.list)
 
 	case ORETJMP:
 		mode.Fprintf(s, "retjmp %v", n.Sym())
@@ -1083,12 +1083,12 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 
 	case OIF:
 		if simpleinit {
-			mode.Fprintf(s, "if %v; %v { %v }", n.Ninit.First(), n.Left(), n.Nbody)
+			mode.Fprintf(s, "if %v; %v { %v }", n.ninit.First(), n.Left(), n.nbody)
 		} else {
-			mode.Fprintf(s, "if %v { %v }", n.Left(), n.Nbody)
+			mode.Fprintf(s, "if %v { %v }", n.Left(), n.nbody)
 		}
-		if n.Rlist.Len() != 0 {
-			mode.Fprintf(s, " else { %v }", n.Rlist)
+		if n.rlist.Len() != 0 {
+			mode.Fprintf(s, " else { %v }", n.rlist)
 		}
 
 	case OFOR, OFORUNTIL:
@@ -1103,7 +1103,7 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 
 		fmt.Fprint(s, opname)
 		if simpleinit {
-			mode.Fprintf(s, " %v;", n.Ninit.First())
+			mode.Fprintf(s, " %v;", n.ninit.First())
 		} else if n.Right() != nil {
 			fmt.Fprint(s, " ;")
 		}
@@ -1118,11 +1118,11 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 			fmt.Fprint(s, ";")
 		}
 
-		if n.Op() == OFORUNTIL && n.List.Len() != 0 {
-			mode.Fprintf(s, "; %v", n.List)
+		if n.Op() == OFORUNTIL && n.list.Len() != 0 {
+			mode.Fprintf(s, "; %v", n.list)
 		}
 
-		mode.Fprintf(s, " { %v }", n.Nbody)
+		mode.Fprintf(s, " { %v }", n.nbody)
 
 	case ORANGE:
 		if mode == FErr {
@@ -1130,12 +1130,12 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 			break
 		}
 
-		if n.List.Len() == 0 {
-			mode.Fprintf(s, "for range %v { %v }", n.Right(), n.Nbody)
+		if n.list.Len() == 0 {
+			mode.Fprintf(s, "for range %v { %v }", n.Right(), n.nbody)
 			break
 		}
 
-		mode.Fprintf(s, "for %.v = range %v { %v }", n.List, n.Right(), n.Nbody)
+		mode.Fprintf(s, "for %.v = range %v { %v }", n.list, n.Right(), n.nbody)
 
 	case OSELECT, OSWITCH:
 		if mode == FErr {
@@ -1145,21 +1145,21 @@ func (n *Node) stmtfmt(s fmt.State, mode ToFmtMode) {
 
 		mode.Fprintf(s, "%#v", n.Op())
 		if simpleinit {
-			mode.Fprintf(s, " %v;", n.Ninit.First())
+			mode.Fprintf(s, " %v;", n.ninit.First())
 		}
 		if n.Left() != nil {
 			mode.Fprintf(s, " %v ", n.Left())
 		}
 
-		mode.Fprintf(s, " { %v }", n.List)
+		mode.Fprintf(s, " { %v }", n.list)
 
 	case OCASE:
-		if n.List.Len() != 0 {
-			mode.Fprintf(s, "case %.v", n.List)
+		if n.list.Len() != 0 {
+			mode.Fprintf(s, "case %.v", n.list)
 		} else {
 			fmt.Fprint(s, "default")
 		}
-		mode.Fprintf(s, ": %v", n.Nbody)
+		mode.Fprintf(s, ": %v", n.nbody)
 
 	case OBREAK, OCONTINUE, OGOTO, OFALL:
 		if n.Sym() != nil {
@@ -1410,11 +1410,11 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 			fmt.Fprint(s, "func literal")
 			return
 		}
-		if n.Nbody.Len() != 0 {
-			mode.Fprintf(s, "%v { %v }", n.Type(), n.Nbody)
+		if n.nbody.Len() != 0 {
+			mode.Fprintf(s, "%v { %v }", n.Type(), n.nbody)
 			return
 		}
-		mode.Fprintf(s, "%v { %v }", n.Type(), n.Func().Decl.Nbody)
+		mode.Fprintf(s, "%v { %v }", n.Type(), n.Func().Decl.nbody)
 
 	case OCOMPLIT:
 		if mode == FErr {
@@ -1423,24 +1423,24 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 				return
 			}
 			if n.Right() != nil {
-				mode.Fprintf(s, "%v{%s}", n.Right(), ellipsisIf(n.List.Len() != 0))
+				mode.Fprintf(s, "%v{%s}", n.Right(), ellipsisIf(n.list.Len() != 0))
 				return
 			}
 
 			fmt.Fprint(s, "composite literal")
 			return
 		}
-		mode.Fprintf(s, "(%v{ %.v })", n.Right(), n.List)
+		mode.Fprintf(s, "(%v{ %.v })", n.Right(), n.list)
 
 	case OPTRLIT:
 		mode.Fprintf(s, "&%v", n.Left())
 
 	case OSTRUCTLIT, OARRAYLIT, OSLICELIT, OMAPLIT:
 		if mode == FErr {
-			mode.Fprintf(s, "%v{%s}", n.Type(), ellipsisIf(n.List.Len() != 0))
+			mode.Fprintf(s, "%v{%s}", n.Type(), ellipsisIf(n.list.Len() != 0))
 			return
 		}
-		mode.Fprintf(s, "(%v{ %.v })", n.Type(), n.List)
+		mode.Fprintf(s, "(%v{ %.v })", n.Type(), n.list)
 
 	case OKEY:
 		if n.Left() != nil && n.Right() != nil {
@@ -1509,16 +1509,16 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 		fmt.Fprint(s, "]")
 
 	case OSLICEHEADER:
-		if n.List.Len() != 2 {
-			base.Fatal("bad OSLICEHEADER list length %d", n.List.Len())
+		if n.list.Len() != 2 {
+			base.Fatal("bad OSLICEHEADER list length %d", n.list.Len())
 		}
-		mode.Fprintf(s, "sliceheader{%v,%v,%v}", n.Left(), n.List.First(), n.List.Second())
+		mode.Fprintf(s, "sliceheader{%v,%v,%v}", n.Left(), n.list.First(), n.list.Second())
 
 	case OCOMPLEX, OCOPY:
 		if n.Left() != nil {
 			mode.Fprintf(s, "%#v(%v, %v)", n.Op(), n.Left(), n.Right())
 		} else {
-			mode.Fprintf(s, "%#v(%.v)", n.Op(), n.List)
+			mode.Fprintf(s, "%#v(%.v)", n.Op(), n.list)
 		}
 
 	case OCONV,
@@ -1537,7 +1537,7 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 		if n.Left() != nil {
 			mode.Fprintf(s, "(%v)", n.Left())
 		} else {
-			mode.Fprintf(s, "(%.v)", n.List)
+			mode.Fprintf(s, "(%.v)", n.list)
 		}
 
 	case OREAL,
@@ -1561,22 +1561,22 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 			return
 		}
 		if n.IsDDD() {
-			mode.Fprintf(s, "%#v(%.v...)", n.Op(), n.List)
+			mode.Fprintf(s, "%#v(%.v...)", n.Op(), n.list)
 			return
 		}
-		mode.Fprintf(s, "%#v(%.v)", n.Op(), n.List)
+		mode.Fprintf(s, "%#v(%.v)", n.Op(), n.list)
 
 	case OCALL, OCALLFUNC, OCALLINTER, OCALLMETH, OGETG:
 		n.Left().exprfmt(s, nprec, mode)
 		if n.IsDDD() {
-			mode.Fprintf(s, "(%.v...)", n.List)
+			mode.Fprintf(s, "(%.v...)", n.list)
 			return
 		}
-		mode.Fprintf(s, "(%.v)", n.List)
+		mode.Fprintf(s, "(%.v)", n.list)
 
 	case OMAKEMAP, OMAKECHAN, OMAKESLICE:
-		if n.List.Len() != 0 { // pre-typecheck
-			mode.Fprintf(s, "make(%v, %.v)", n.Type(), n.List)
+		if n.list.Len() != 0 { // pre-typecheck
+			mode.Fprintf(s, "make(%v, %.v)", n.Type(), n.list)
 			return
 		}
 		if n.Right() != nil {
@@ -1626,7 +1626,7 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 		n.Right().exprfmt(s, nprec+1, mode)
 
 	case OADDSTR:
-		for i, n1 := range n.List.Slice() {
+		for i, n1 := range n.list.Slice() {
 			if i != 0 {
 				fmt.Fprint(s, " + ")
 			}
@@ -1679,8 +1679,8 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 			return
 		}
 
-		if n.Ninit.Len() != 0 {
-			mode.Fprintf(s, "%v-init%v", n.Op(), n.Ninit)
+		if n.ninit.Len() != 0 {
+			mode.Fprintf(s, "%v-init%v", n.Op(), n.ninit)
 			indent(s)
 		}
 	}
@@ -1732,7 +1732,7 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 		if n.Right() != nil {
 			mode.Fprintf(s, "%v", n.Right())
 		}
-		if n.Op() == OCLOSURE && n.Func() != nil && n.Func().Decl != nil && n.Func().Decl.Nbody.Len() != 0 {
+		if n.Op() == OCLOSURE && n.Func() != nil && n.Func().Decl != nil && n.Func().Decl.nbody.Len() != 0 {
 			indent(s)
 			// The function associated with a closure
 			mode.Fprintf(s, "%v-clofunc%v", n.Op(), n.Func().Decl)
@@ -1742,19 +1742,19 @@ func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 			// The dcls for a func or closure
 			mode.Fprintf(s, "%v-dcl%v", n.Op(), AsNodes(n.Func().Dcl))
 		}
-		if n.List.Len() != 0 {
+		if n.list.Len() != 0 {
 			indent(s)
-			mode.Fprintf(s, "%v-list%v", n.Op(), n.List)
+			mode.Fprintf(s, "%v-list%v", n.Op(), n.list)
 		}
 
-		if n.Rlist.Len() != 0 {
+		if n.rlist.Len() != 0 {
 			indent(s)
-			mode.Fprintf(s, "%v-rlist%v", n.Op(), n.Rlist)
+			mode.Fprintf(s, "%v-rlist%v", n.Op(), n.rlist)
 		}
 
-		if n.Nbody.Len() != 0 {
+		if n.nbody.Len() != 0 {
 			indent(s)
-			mode.Fprintf(s, "%v-body%v", n.Op(), n.Nbody)
+			mode.Fprintf(s, "%v-body%v", n.Op(), n.nbody)
 		}
 	}
 }

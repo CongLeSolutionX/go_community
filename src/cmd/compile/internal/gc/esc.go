@@ -383,7 +383,7 @@ func (e *Escape) paramTag(fn *ir.Node, narg int, f *types.Field) string {
 		return fmt.Sprintf("arg#%d", narg)
 	}
 
-	if fn.Nbody.Len() == 0 {
+	if fn.Nbody().Len() == 0 {
 		// Assume that uintptr arguments must be held live across the call.
 		// This is most important for syscall.Syscall.
 		// See golang.org/issue/13372.

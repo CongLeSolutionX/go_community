@@ -258,7 +258,7 @@ func collectDeps(n *ir.Node, transitive bool) ir.NodeSet {
 	case ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2RECV:
 		d.inspect(n.Right())
 	case ir.ODCLFUNC:
-		d.inspectList(n.Nbody)
+		d.inspectList(n.Nbody())
 	default:
 		base.Fatal("unexpected Op: %v", n.Op())
 	}
@@ -289,7 +289,7 @@ func (d *initDeps) visit(n *ir.Node) bool {
 		}
 
 	case ir.OCLOSURE:
-		d.inspectList(n.Func().Decl.Nbody)
+		d.inspectList(n.Func().Decl.Nbody())
 
 	case ir.ODOTMETH, ir.OCALLPART:
 		d.foundDep(ir.AsNode(n.Type().FuncType().Nname))
@@ -318,7 +318,7 @@ func (d *initDeps) foundDep(n *ir.Node) {
 	}
 	d.seen.Add(n)
 	if d.transitive && n.Class() == ir.PFUNC {
-		d.inspectList(n.Name().Defn.Nbody)
+		d.inspectList(n.Name().Defn.Nbody())
 	}
 }
 
@@ -351,7 +351,7 @@ func firstLHS(n *ir.Node) *ir.Node {
 	case ir.OAS:
 		return n.Left()
 	case ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2RECV, ir.OAS2MAPR:
-		return n.List.First()
+		return n.List().First()
 	}
 
 	base.Fatal("unexpected Op: %v", n.Op())

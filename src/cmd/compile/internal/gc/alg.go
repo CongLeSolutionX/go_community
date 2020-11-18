@@ -293,11 +293,11 @@ func genhash(t *types.Type) *obj.LSym {
 
 	// func sym(p *T, h uintptr) uintptr
 	tfn := nod(ir.OTFUNC, nil, nil)
-	tfn.List.Set2(
+	tfn.PtrList().Set2(
 		namedfield("p", types.NewPtr(t)),
 		namedfield("h", types.Types[types.TUINTPTR]),
 	)
-	tfn.Rlist.Set1(anonfield(types.Types[types.TUINTPTR]))
+	tfn.PtrRlist().Set1(anonfield(types.Types[types.TUINTPTR]))
 
 	fn := dclfunc(sym, tfn)
 	np := ir.AsNode(tfn.Type().Params().Field(0).Nname)
@@ -313,10 +313,10 @@ func genhash(t *types.Type) *obj.LSym {
 		n := nod(ir.ORANGE, nil, nod(ir.ODEREF, np, nil))
 		ni := newname(lookup("i"))
 		ni.SetType(types.Types[types.TINT])
-		n.List.Set1(ni)
+		n.PtrList().Set1(ni)
 		n.SetColas(true)
-		colasdefn(n.List.Slice(), n)
-		ni = n.List.First()
+		colasdefn(n.List().Slice(), n)
+		ni = n.List().First()
 
 		// h = hashel(&p[i], h)
 		call := nod(ir.OCALL, hashel, nil)
@@ -324,11 +324,11 @@ func genhash(t *types.Type) *obj.LSym {
 		nx := nod(ir.OINDEX, np, ni)
 		nx.SetBounded(true)
 		na := nod(ir.OADDR, nx, nil)
-		call.List.Append(na)
-		call.List.Append(nh)
-		n.Nbody.Append(nod(ir.OAS, nh, call))
+		call.PtrList().Append(na)
+		call.PtrList().Append(nh)
+		n.PtrNbody().Append(nod(ir.OAS, nh, call))
 
-		fn.Nbody.Append(n)
+		fn.PtrNbody().Append(n)
 
 	case types.TSTRUCT:
 		// Walk the struct using memhash for runs of AMEM
@@ -348,9 +348,9 @@ func genhash(t *types.Type) *obj.LSym {
 				call := nod(ir.OCALL, hashel, nil)
 				nx := nodSym(ir.OXDOT, np, f.Sym) // TODO: fields from other packages?
 				na := nod(ir.OADDR, nx, nil)
-				call.List.Append(na)
-				call.List.Append(nh)
-				fn.Nbody.Append(nod(ir.OAS, nh, call))
+				call.PtrList().Append(na)
+				call.PtrList().Append(nh)
+				fn.PtrNbody().Append(nod(ir.OAS, nh, call))
 				i++
 				continue
 			}
@@ -363,21 +363,21 @@ func genhash(t *types.Type) *obj.LSym {
 			call := nod(ir.OCALL, hashel, nil)
 			nx := nodSym(ir.OXDOT, np, f.Sym) // TODO: fields from other packages?
 			na := nod(ir.OADDR, nx, nil)
-			call.List.Append(na)
-			call.List.Append(nh)
-			call.List.Append(nodintconst(size))
-			fn.Nbody.Append(nod(ir.OAS, nh, call))
+			call.PtrList().Append(na)
+			call.PtrList().Append(nh)
+			call.PtrList().Append(nodintconst(size))
+			fn.PtrNbody().Append(nod(ir.OAS, nh, call))
 
 			i = next
 		}
 	}
 
 	r := nod(ir.ORETURN, nil, nil)
-	r.List.Append(nh)
-	fn.Nbody.Append(r)
+	r.PtrList().Append(nh)
+	fn.PtrNbody().Append(r)
 
 	if base.Flag.LowerR != 0 {
-		ir.DumpList("genhash body", fn.Nbody)
+		ir.DumpList("genhash body", fn.Nbody())
 	}
 
 	funcbody()
@@ -386,7 +386,7 @@ func genhash(t *types.Type) *obj.LSym {
 	fn = typecheck(fn, ctxStmt)
 
 	Curfn = fn
-	typecheckslice(fn.Nbody.Slice(), ctxStmt)
+	typecheckslice(fn.Nbody().Slice(), ctxStmt)
 	Curfn = nil
 
 	if base.Debug.DclStack != 0 {
@@ -522,11 +522,11 @@ func geneq(t *types.Type) *obj.LSym {
 
 	// func sym(p, q *T) bool
 	tfn := nod(ir.OTFUNC, nil, nil)
-	tfn.List.Set2(
+	tfn.PtrList().Set2(
 		namedfield("p", types.NewPtr(t)),
 		namedfield("q", types.NewPtr(t)),
 	)
-	tfn.Rlist.Set1(namedfield("r", types.Types[types.TBOOL]))
+	tfn.PtrRlist().Set1(namedfield("r", types.Types[types.TBOOL]))
 
 	fn := dclfunc(sym, tfn)
 	np := ir.AsNode(tfn.Type().Params().Field(0).Nname)
@@ -590,11 +590,11 @@ func geneq(t *types.Type) *obj.LSym {
 				for i := int64(0); i < nelem; i++ {
 					// if check {} else { goto neq }
 					nif := nod(ir.OIF, checkIdx(nodintconst(i)), nil)
-					nif.Rlist.Append(nodSym(ir.OGOTO, nil, neq))
-					fn.Nbody.Append(nif)
+					nif.PtrRlist().Append(nodSym(ir.OGOTO, nil, neq))
+					fn.PtrNbody().Append(nif)
 				}
 				if last {
-					fn.Nbody.Append(nod(ir.OAS, nr, checkIdx(nodintconst(nelem))))
+					fn.PtrNbody().Append(nod(ir.OAS, nr, checkIdx(nodintconst(nelem))))
 				}
 			} else {
 				// Generate a for loop.
@@ -604,14 +604,14 @@ func geneq(t *types.Type) *obj.LSym {
 				cond := nod(ir.OLT, i, nodintconst(nelem))
 				post := nod(ir.OAS, i, nod(ir.OADD, i, nodintconst(1)))
 				loop := nod(ir.OFOR, cond, post)
-				loop.Ninit.Append(init)
+				loop.PtrNinit().Append(init)
 				// if eq(pi, qi) {} else { goto neq }
 				nif := nod(ir.OIF, checkIdx(i), nil)
-				nif.Rlist.Append(nodSym(ir.OGOTO, nil, neq))
-				loop.Nbody.Append(nif)
-				fn.Nbody.Append(loop)
+				nif.PtrRlist().Append(nodSym(ir.OGOTO, nil, neq))
+				loop.PtrNbody().Append(nif)
+				fn.PtrNbody().Append(loop)
 				if last {
-					fn.Nbody.Append(nod(ir.OAS, nr, nodbool(true)))
+					fn.PtrNbody().Append(nod(ir.OAS, nr, nodbool(true)))
 				}
 			}
 		}
@@ -721,42 +721,42 @@ func geneq(t *types.Type) *obj.LSym {
 		}
 
 		if len(flatConds) == 0 {
-			fn.Nbody.Append(nod(ir.OAS, nr, nodbool(true)))
+			fn.PtrNbody().Append(nod(ir.OAS, nr, nodbool(true)))
 		} else {
 			for _, c := range flatConds[:len(flatConds)-1] {
 				// if cond {} else { goto neq }
 				n := nod(ir.OIF, c, nil)
-				n.Rlist.Append(nodSym(ir.OGOTO, nil, neq))
-				fn.Nbody.Append(n)
+				n.PtrRlist().Append(nodSym(ir.OGOTO, nil, neq))
+				fn.PtrNbody().Append(n)
 			}
-			fn.Nbody.Append(nod(ir.OAS, nr, flatConds[len(flatConds)-1]))
+			fn.PtrNbody().Append(nod(ir.OAS, nr, flatConds[len(flatConds)-1]))
 		}
 	}
 
 	// ret:
 	//   return
 	ret := autolabel(".ret")
-	fn.Nbody.Append(nodSym(ir.OLABEL, nil, ret))
-	fn.Nbody.Append(nod(ir.ORETURN, nil, nil))
+	fn.PtrNbody().Append(nodSym(ir.OLABEL, nil, ret))
+	fn.PtrNbody().Append(nod(ir.ORETURN, nil, nil))
 
 	// neq:
 	//   r = false
 	//   return (or goto ret)
-	fn.Nbody.Append(nodSym(ir.OLABEL, nil, neq))
-	fn.Nbody.Append(nod(ir.OAS, nr, nodbool(false)))
+	fn.PtrNbody().Append(nodSym(ir.OLABEL, nil, neq))
+	fn.PtrNbody().Append(nod(ir.OAS, nr, nodbool(false)))
 	if EqCanPanic(t) || hasCall(fn) {
 		// Epilogue is large, so share it with the equal case.
-		fn.Nbody.Append(nodSym(ir.OGOTO, nil, ret))
+		fn.PtrNbody().Append(nodSym(ir.OGOTO, nil, ret))
 	} else {
 		// Epilogue is small, so don't bother sharing.
-		fn.Nbody.Append(nod(ir.ORETURN, nil, nil))
+		fn.PtrNbody().Append(nod(ir.ORETURN, nil, nil))
 	}
 	// TODO(khr): the epilogue size detection condition above isn't perfect.
 	// We should really do a generic CL that shares epilogues across
 	// the board. See #24936.
 
 	if base.Flag.LowerR != 0 {
-		ir.DumpList("geneq body", fn.Nbody)
+		ir.DumpList("geneq body", fn.Nbody())
 	}
 
 	funcbody()
@@ -765,7 +765,7 @@ func geneq(t *types.Type) *obj.LSym {
 	fn = typecheck(fn, ctxStmt)
 
 	Curfn = fn
-	typecheckslice(fn.Nbody.Slice(), ctxStmt)
+	typecheckslice(fn.Nbody().Slice(), ctxStmt)
 	Curfn = nil
 
 	if base.Debug.DclStack != 0 {
@@ -795,22 +795,22 @@ func hasCall(n *ir.Node) bool {
 	if n.Right() != nil && hasCall(n.Right()) {
 		return true
 	}
-	for _, x := range n.Ninit.Slice() {
+	for _, x := range n.Ninit().Slice() {
 		if hasCall(x) {
 			return true
 		}
 	}
-	for _, x := range n.Nbody.Slice() {
+	for _, x := range n.Nbody().Slice() {
 		if hasCall(x) {
 			return true
 		}
 	}
-	for _, x := range n.List.Slice() {
+	for _, x := range n.List().Slice() {
 		if hasCall(x) {
 			return true
 		}
 	}
-	for _, x := range n.Rlist.Slice() {
+	for _, x := range n.Rlist().Slice() {
 		if hasCall(x) {
 			return true
 		}
@@ -844,7 +844,7 @@ func eqstring(s, t *ir.Node) (eqlen, eqmem *ir.Node) {
 	fn := syslook("memequal")
 	fn = substArgTypes(fn, types.Types[types.TUINT8], types.Types[types.TUINT8])
 	call := nod(ir.OCALL, fn, nil)
-	call.List.Append(sptr, tptr, slen.Copy())
+	call.PtrList().Append(sptr, tptr, slen.Copy())
 	call = typecheck(call, ctxExpr|ctxMultiOK)
 
 	cmp := nod(ir.OEQ, slen, tlen)
@@ -882,7 +882,7 @@ func eqinterface(s, t *ir.Node) (eqtab, eqdata *ir.Node) {
 	tdata.SetTypecheck(1)
 
 	call := nod(ir.OCALL, fn, nil)
-	call.List.Append(stab, sdata, tdata)
+	call.PtrList().Append(stab, sdata, tdata)
 	call = typecheck(call, ctxExpr|ctxMultiOK)
 
 	cmp := nod(ir.OEQ, stab, ttab)
@@ -901,10 +901,10 @@ func eqmem(p *ir.Node, q *ir.Node, field *types.Sym, size int64) *ir.Node {
 
 	fn, needsize := eqmemfunc(size, nx.Type().Elem())
 	call := nod(ir.OCALL, fn, nil)
-	call.List.Append(nx)
-	call.List.Append(ny)
+	call.PtrList().Append(nx)
+	call.PtrList().Append(ny)
 	if needsize {
-		call.List.Append(nodintconst(size))
+		call.PtrList().Append(nodintconst(size))
 	}
 
 	return call

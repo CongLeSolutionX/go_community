@@ -461,7 +461,7 @@ func evconst(n *ir.Node) {
 
 	case ir.OADDSTR:
 		// Merge adjacent constants in the argument list.
-		s := n.List.Slice()
+		s := n.List().Slice()
 		for i1 := 0; i1 < len(s); i1++ {
 			if ir.IsConst(s[i1], ir.CTSTR) && i1+1 < len(s) && ir.IsConst(s[i1+1], ir.CTSTR) {
 				// merge from i1 up to but not including i2
@@ -484,7 +484,7 @@ func evconst(n *ir.Node) {
 			n.SetOp(ir.OLITERAL)
 			n.SetVal(s[0].Val())
 		} else {
-			n.List.Set(s)
+			n.PtrList().Set(s)
 		}
 
 	case ir.OCAP, ir.OLEN:
@@ -1072,12 +1072,12 @@ func hascallchan(n *ir.Node) bool {
 	if hascallchan(n.Left()) || hascallchan(n.Right()) {
 		return true
 	}
-	for _, n1 := range n.List.Slice() {
+	for _, n1 := range n.List().Slice() {
 		if hascallchan(n1) {
 			return true
 		}
 	}
-	for _, n2 := range n.Rlist.Slice() {
+	for _, n2 := range n.Rlist().Slice() {
 		if hascallchan(n2) {
 			return true
 		}

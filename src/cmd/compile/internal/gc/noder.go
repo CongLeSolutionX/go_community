@@ -160,7 +160,7 @@ func (p *noder) funcBody(fn *ir.Node, block *syntax.BlockStmt) {
 		if body == nil {
 			body = []*ir.Node{nod(ir.OEMPTY, nil, nil)}
 		}
-		fn.Nbody.Set(body)
+		fn.PtrNbody().Set(body)
 
 		base.Pos = p.makeXPos(block.Rbrace)
 		fn.Func().Endlineno = base.Pos
@@ -521,13 +521,13 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 	if fun.Recv == nil {
 		if name.Name == "init" {
 			name = renameinit()
-			if t.List.Len() > 0 || t.Rlist.Len() > 0 {
+			if t.List().Len() > 0 || t.Rlist().Len() > 0 {
 				base.ErrorAt(f.Pos(), "func init must have no arguments and no return values")
 			}
 		}
 
 		if ir.LocalPkg.Name == "main" && name.Name == "main" {
-			if t.List.Len() > 0 || t.Rlist.Len() > 0 {
+			if t.List().Len() > 0 || t.Rlist().Len() > 0 {
 				base.ErrorAt(f.Pos(), "func main must have no arguments and no return values")
 			}
 		}
@@ -584,8 +584,8 @@ func (p *noder) signature(recv *syntax.Field, typ *syntax.FuncType) *ir.Node {
 	if recv != nil {
 		n.SetLeft(p.param(recv, false, false))
 	}
-	n.List.Set(p.params(typ.ParamList, true))
-	n.Rlist.Set(p.params(typ.ResultList, false))
+	n.PtrList().Set(p.params(typ.ParamList, true))
+	n.PtrRlist().Set(p.params(typ.ResultList, false))
 	return n
 }
 
@@ -667,7 +667,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 		for i, e := range l {
 			l[i] = p.wrapname(expr.ElemList[i], e)
 		}
-		n.List.Set(l)
+		n.PtrList().Set(l)
 		base.Pos = p.makeXPos(expr.Rbrace)
 		return n
 	case *syntax.KeyValueExpr:
@@ -716,7 +716,7 @@ func (p *noder) expr(expr syntax.Expr) *ir.Node {
 		return p.nod(expr, p.binOp(expr.Op), x, p.expr(expr.Y))
 	case *syntax.CallExpr:
 		n := p.nod(expr, ir.OCALL, p.expr(expr.Fun), nil)
-		n.List.Set(p.exprs(expr.ArgList))
+		n.PtrList().Set(p.exprs(expr.ArgList))
 		n.SetIsDDD(expr.HasDots)
 		return n
 
@@ -876,7 +876,7 @@ func (p *noder) structType(expr *syntax.StructType) *ir.Node {
 
 	p.setlineno(expr)
 	n := p.nod(expr, ir.OTSTRUCT, nil, nil)
-	n.List.Set(l)
+	n.PtrList().Set(l)
 	return n
 }
 
@@ -898,7 +898,7 @@ func (p *noder) interfaceType(expr *syntax.InterfaceType) *ir.Node {
 	}
 
 	n := p.nod(expr, ir.OTINTER, nil, nil)
-	n.List.Set(l)
+	n.PtrList().Set(l)
 	return n
 }
 
@@ -958,8 +958,8 @@ func (p *noder) stmtsFall(stmts []syntax.Stmt, fallOK bool) []*ir.Node {
 	for i, stmt := range stmts {
 		s := p.stmtFall(stmt, fallOK && i+1 == len(stmts))
 		if s == nil {
-		} else if s.Op() == ir.OBLOCK && s.Ninit.Len() == 0 {
-			nodes = append(nodes, s.List.Slice()...)
+		} else if s.Op() == ir.OBLOCK && s.Ninit().Len() == 0 {
+			nodes = append(nodes, s.List().Slice()...)
 		} else {
 			nodes = append(nodes, s)
 		}
@@ -1010,8 +1010,8 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 			n.SetRight(rhs[0])
 		} else {
 			n.SetOp(ir.OAS2)
-			n.List.Set(lhs)
-			n.Rlist.Set(rhs)
+			n.PtrList().Set(lhs)
+			n.PtrRlist().Set(rhs)
 		}
 		return n
 
@@ -1054,8 +1054,8 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) *ir.Node {
 			results = p.exprList(stmt.Results)
 		}
 		n := p.nod(stmt, ir.ORETURN, nil, nil)
-		n.List.Set(results)
-		if n.List.Len() == 0 && Curfn != nil {
+		n.PtrList().Set(results)
+		if n.List().Len() == 0 && Curfn != nil {
 			for _, ln := range Curfn.Func().Dcl {
 				if ln.Class() == ir.PPARAM {
 					continue
@@ -1131,7 +1131,7 @@ func (p *noder) assignList(expr syntax.Expr, defn *ir.Node, colas bool) []*ir.No
 		n := newname(sym)
 		declare(n, dclcontext)
 		n.Name().Defn = defn
-		defn.Ninit.Append(nod(ir.ODCL, n, nil))
+		defn.PtrNinit().Append(nod(ir.ODCL, n, nil))
 		res[i] = n
 	}
 
@@ -1152,18 +1152,18 @@ func (p *noder) ifStmt(stmt *syntax.IfStmt) *ir.Node {
 	p.openScope(stmt.Pos())
 	n := p.nod(stmt, ir.OIF, nil, nil)
 	if stmt.Init != nil {
-		n.Ninit.Set1(p.stmt(stmt.Init))
+		n.PtrNinit().Set1(p.stmt(stmt.Init))
 	}
 	if stmt.Cond != nil {
 		n.SetLeft(p.expr(stmt.Cond))
 	}
-	n.Nbody.Set(p.blockStmt(stmt.Then))
+	n.PtrNbody().Set(p.blockStmt(stmt.Then))
 	if stmt.Else != nil {
 		e := p.stmt(stmt.Else)
-		if e.Op() == ir.OBLOCK && e.Ninit.Len() == 0 {
-			n.Rlist.Set(e.List.Slice())
+		if e.Op() == ir.OBLOCK && e.Ninit().Len() == 0 {
+			n.PtrRlist().Set(e.List().Slice())
 		} else {
-			n.Rlist.Set1(e)
+			n.PtrRlist().Set1(e)
 		}
 	}
 	p.closeAnotherScope()
@@ -1180,12 +1180,12 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) *ir.Node {
 
 		n = p.nod(r, ir.ORANGE, nil, p.expr(r.X))
 		if r.Lhs != nil {
-			n.List.Set(p.assignList(r.Lhs, n, r.Def))
+			n.PtrList().Set(p.assignList(r.Lhs, n, r.Def))
 		}
 	} else {
 		n = p.nod(stmt, ir.OFOR, nil, nil)
 		if stmt.Init != nil {
-			n.Ninit.Set1(p.stmt(stmt.Init))
+			n.PtrNinit().Set1(p.stmt(stmt.Init))
 		}
 		if stmt.Cond != nil {
 			n.SetLeft(p.expr(stmt.Cond))
@@ -1194,7 +1194,7 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) *ir.Node {
 			n.SetRight(p.stmt(stmt.Post))
 		}
 	}
-	n.Nbody.Set(p.blockStmt(stmt.Body))
+	n.PtrNbody().Set(p.blockStmt(stmt.Body))
 	p.closeAnotherScope()
 	return n
 }
@@ -1203,7 +1203,7 @@ func (p *noder) switchStmt(stmt *syntax.SwitchStmt) *ir.Node {
 	p.openScope(stmt.Pos())
 	n := p.nod(stmt, ir.OSWITCH, nil, nil)
 	if stmt.Init != nil {
-		n.Ninit.Set1(p.stmt(stmt.Init))
+		n.PtrNinit().Set1(p.stmt(stmt.Init))
 	}
 	if stmt.Tag != nil {
 		n.SetLeft(p.expr(stmt.Tag))
@@ -1213,7 +1213,7 @@ func (p *noder) switchStmt(stmt *syntax.SwitchStmt) *ir.Node {
 	if tswitch != nil && tswitch.Op() != ir.OTYPESW {
 		tswitch = nil
 	}
-	n.List.Set(p.caseClauses(stmt.Body, tswitch, stmt.Rbrace))
+	n.PtrList().Set(p.caseClauses(stmt.Body, tswitch, stmt.Rbrace))
 
 	p.closeScope(stmt.Rbrace)
 	return n
@@ -1230,12 +1230,12 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 
 		n := p.nod(clause, ir.OCASE, nil, nil)
 		if clause.Cases != nil {
-			n.List.Set(p.exprList(clause.Cases))
+			n.PtrList().Set(p.exprList(clause.Cases))
 		}
 		if tswitch != nil && tswitch.Left() != nil {
 			nn := newname(tswitch.Left().Sym())
 			declare(nn, dclcontext)
-			n.Rlist.Set1(nn)
+			n.PtrRlist().Set1(nn)
 			// keep track of the instances for reporting unused
 			nn.Name().Defn = tswitch
 		}
@@ -1251,8 +1251,8 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 			body = body[:len(body)-1]
 		}
 
-		n.Nbody.Set(p.stmtsFall(body, true))
-		if l := n.Nbody.Len(); l > 0 && n.Nbody.Index(l-1).Op() == ir.OFALL {
+		n.PtrNbody().Set(p.stmtsFall(body, true))
+		if l := n.Nbody().Len(); l > 0 && n.Nbody().Index(l-1).Op() == ir.OFALL {
 			if tswitch != nil {
 				base.Error("cannot fallthrough in type switch")
 			}
@@ -1271,7 +1271,7 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.Node, rbra
 
 func (p *noder) selectStmt(stmt *syntax.SelectStmt) *ir.Node {
 	n := p.nod(stmt, ir.OSELECT, nil, nil)
-	n.List.Set(p.commClauses(stmt.Body, stmt.Rbrace))
+	n.PtrList().Set(p.commClauses(stmt.Body, stmt.Rbrace))
 	return n
 }
 
@@ -1286,9 +1286,9 @@ func (p *noder) commClauses(clauses []*syntax.CommClause, rbrace syntax.Pos) []*
 
 		n := p.nod(clause, ir.OCASE, nil, nil)
 		if clause.Comm != nil {
-			n.List.Set1(p.stmt(clause.Comm))
+			n.PtrList().Set1(p.stmt(clause.Comm))
 		}
-		n.Nbody.Set(p.stmts(clause.Body))
+		n.PtrNbody().Set(p.stmts(clause.Body))
 		nodes = append(nodes, n)
 	}
 	if len(clauses) > 0 {
@@ -1308,8 +1308,8 @@ func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) *ir.Node {
 	lhs.Name().Defn = ls
 	l := []*ir.Node{lhs}
 	if ls != nil {
-		if ls.Op() == ir.OBLOCK && ls.Ninit.Len() == 0 {
-			l = append(l, ls.List.Slice()...)
+		if ls.Op() == ir.OBLOCK && ls.Ninit().Len() == 0 {
+			l = append(l, ls.List().Slice()...)
 		} else {
 			l = append(l, ls)
 		}
