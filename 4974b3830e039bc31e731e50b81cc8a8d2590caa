@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e16095d_190c138c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "LGTM but there\u0027s a couple of things you may want to address (ignore the ones where I say \"not now\").\n\nI think in the longer run we want to copy more code structure (as possible) from the syntax parser.",
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "702d2220_4b9cbf79",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "Ok for now, but note that in the syntax parser I was able to replace this code by (parse)qualifiedName which takes care of the type instance parsing.\n\nSee dev.typeparams or dev.go2go branch; look for parser.go:2513 (parser.qualifiedName).\n\nNo need to do this now.",
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cd7133d_5f25a978",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "It probably does.\nYou might be able to get away with copying and adjusting the code parser.fieldDecl from the syntax parser.\nAnother CL.",
+      "range": {
+        "startLine": 772,
+        "startChar": 16,
+        "endLine": 772,
+        "endChar": 23
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21e162ab_fa71bf5d",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "see parser.paramDeclOrNil in syntax package\n\n(no need to do in this CL)",
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb763a0_a75bbc3b",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "this is not a prototype anymore",
+      "range": {
+        "startLine": 1111,
+        "startChar": 23,
+        "endLine": 1111,
+        "endChar": 24
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a48cdf_de0f998c",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "replace with parseFuncType?",
+      "range": {
+        "startLine": 1129,
+        "startChar": 10,
+        "endLine": 1129,
+        "endChar": 11
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8376300f_25586479",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "In the syntax package a type instance is represented with an index expression. If there\u0027s more then one type argument, I use a new expression type ListExpr which contains a list of expressions.\n\nShould perhaps do the same here. This way we can get rid of the Brackets field from calls, and all type instances are uniformly represented as IndexExpr nodes.\n\nNot this CL.",
+      "range": {
+        "startLine": 1254,
+        "startChar": 78,
+        "endLine": 1254,
+        "endChar": 86
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d14b4bf_f7a9c341",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "all the places where you parser a type name you need to check for an opening [ \u003d\u003e replace this with a parseQualifiedIdent function",
+      "range": {
+        "startLine": 1261,
+        "startChar": 11,
+        "endLine": 1261,
+        "endChar": 24
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd06eed7_e0740c0a",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2664,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "this is not a prototype anymore",
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "225964bd_5bb96dba",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2678,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "can\u0027t you leave the parenthesis parsing to parseType()? (It already can handle parenthesized types)",
+      "range": {
+        "startLine": 2678,
+        "startChar": 2,
+        "endLine": 2678,
+        "endChar": 8
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d642c402_f6261f22",
+        "filename": "src/go/parser/short_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "comment needs to be adjusted or removed",
+      "range": {
+        "startLine": 78,
+        "startChar": 14,
+        "endLine": 78,
+        "endChar": 18
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2011c18_235fd87b",
+        "filename": "src/go/parser/short_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 88,
+        "startChar": 20,
+        "endLine": 88,
+        "endChar": 27
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbbea7a_e0e34c3e",
+        "filename": "src/go/parser/short_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-18T22:12:14Z",
+      "side": 1,
+      "message": "does this flag still exist? (haven\u0027t read parser.go yet)",
+      "range": {
+        "startLine": 113,
+        "startChar": 31,
+        "endLine": 113,
+        "endChar": 49
+      },
+      "revId": "4974b3830e039bc31e731e50b81cc8a8d2590caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
