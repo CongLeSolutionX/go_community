@@ -9,7 +9,7 @@ import (
 	"cmd/compile/internal/ir"
 )
 
-// evalunsafe evaluates a package unsafe operation and returns the result.
+// evalunsafe typechecks and evaluates a package unsafe operation and returns the result.
 func evalunsafe(n ir.INode) int64 {
 	switch n.Op() {
 	case ir.OALIGNOF, ir.OSIZEOF:

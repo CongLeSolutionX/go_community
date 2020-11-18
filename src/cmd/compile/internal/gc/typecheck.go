@@ -289,6 +289,7 @@ func typecheck(n ir.INode, top int) (res ir.INode) {
 				trace += fmt.Sprintf("\n\t%v %v", x.Line(), x)
 			}
 			base.Error("typechecking loop involving %v%s", n, trace)
+			base.FlushErrors()
 		}
 
 		base.Pos = lno
@@ -777,7 +778,7 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 		}
 
 		if iscmp[n.Op()] {
-			evconst(n)
+			n = evalConst(n)
 			t = types.UntypedBool
 			if n.Op() != ir.OLITERAL {
 				l, r = defaultlit2(l, r, true)
@@ -2089,7 +2090,7 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 		}
 	}
 
-	evconst(n)
+	n = evalConst(n)
 	if n.Op() == ir.OTYPE && top&ctxType == 0 {
 		if !n.Type().Broke() {
 			base.Error("type %v is not an expression", n.Type())

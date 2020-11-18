@@ -421,86 +421,101 @@ func tostr(v ir.Val) ir.Val {
 	return v
 }
 
-// evconst rewrites constant expressions into OLITERAL nodes.
-func evconst(n ir.INode) {
+// evalConst does constant evaluation on n,
+// returning the rewritten result.
+// If n is not a constant, evalConst returns n.
+func evalConst(n ir.INode) ir.INode {
 	nl, nr := n.Left(), n.Right()
 
 	// Pick off just the opcodes that can be constant evaluated.
 	switch op := n.Op(); op {
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
 		if nl.Op() == ir.OLITERAL {
-			setconst(n, unaryOp(op, nl.Val(), n.Type()))
+			return origConst(n, unaryOp(op, nl.Val(), n.Type()))
 		}
 
 	case ir.OADD, ir.OSUB, ir.OMUL, ir.ODIV, ir.OMOD, ir.OOR, ir.OXOR, ir.OAND, ir.OANDNOT, ir.OOROR, ir.OANDAND:
 		if nl.Op() == ir.OLITERAL && nr.Op() == ir.OLITERAL {
-			setconst(n, binaryOp(nl.Val(), op, nr.Val()))
+			return origConst(n, binaryOp(nl.Val(), op, nr.Val()))
 		}
 
 	case ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE:
 		if nl.Op() == ir.OLITERAL && nr.Op() == ir.OLITERAL {
-			setboolconst(n, compareOp(nl.Val(), op, nr.Val()))
+			return origBoolConst(n, compareOp(nl.Val(), op, nr.Val()))
 		}
 
 	case ir.OLSH, ir.ORSH:
 		if nl.Op() == ir.OLITERAL && nr.Op() == ir.OLITERAL {
-			setconst(n, shiftOp(nl.Val(), op, nr.Val()))
+			return origConst(n, shiftOp(nl.Val(), op, nr.Val()))
 		}
 
 	case ir.OCONV, ir.ORUNESTR:
 		if okforconst[n.Type().Etype] && nl.Op() == ir.OLITERAL {
-			setconst(n, convertVal(nl.Val(), n.Type(), true))
+			return origConst(n, convertVal(nl.Val(), n.Type(), true))
 		}
 
 	case ir.OCONVNOP:
 		if okforconst[n.Type().Etype] && nl.Op() == ir.OLITERAL {
 			// set so n.Orig gets OCONV instead of OCONVNOP
 			n.SetOp(ir.OCONV)
-			setconst(n, nl.Val())
+			return origConst(n, nl.Val())
 		}
 
 	case ir.OADDSTR:
 		// Merge adjacent constants in the argument list.
 		s := n.List().Slice()
-		for i1 := 0; i1 < len(s); i1++ {
-			if ir.IsConst(s[i1], ir.CTSTR) && i1+1 < len(s) && ir.IsConst(s[i1+1], ir.CTSTR) {
-				// merge from i1 up to but not including i2
+		need := 0
+		for i := 0; i < len(s); i++ {
+			if i == 0 || !ir.IsConst(s[i-1], ir.CTSTR) || !ir.IsConst(s[i], ir.CTSTR) {
+				need++
+			}
+		}
+		if need == len(s) {
+			return n
+		}
+		if need == 1 {
+			var strs []string
+			for _, c := range s {
+				strs = append(strs, c.StringVal())
+			}
+			return origConst(n, ir.Val{U: strings.Join(strs, "")})
+		}
+		newList := make([]ir.INode, 0, need)
+		for i := 0; i < len(s); i++ {
+			if ir.IsConst(s[i], ir.CTSTR) && i+1 < len(s) && ir.IsConst(s[i+1], ir.CTSTR) {
+				// merge from i up to but not including i2
 				var strs []string
-				i2 := i1
+				i2 := i
 				for i2 < len(s) && ir.IsConst(s[i2], ir.CTSTR) {
 					strs = append(strs, s[i2].StringVal())
 					i2++
 				}
-
-				nl := s[i1].RawCopy()
+				nl := origConst(s[i], ir.Val{U: strings.Join(strs, "")})
 				nl.SetOrig(nl)
-				nl.SetVal(ir.Val{U: strings.Join(strs, "")})
-				s[i1] = nl
-				s = append(s[:i1+1], s[i2:]...)
+				newList = append(newList, nl)
+				i = i2 - 1
+			} else {
+				newList = append(newList, s[i])
 			}
 		}
-
-		if len(s) == 1 && ir.IsConst(s[0], ir.CTSTR) {
-			n.SetOp(ir.OLITERAL)
-			n.SetVal(s[0].Val())
-		} else {
-			n.PtrList().Set(s)
-		}
+		n = n.Copy()
+		n.PtrList().Set(newList)
+		return n
 
 	case ir.OCAP, ir.OLEN:
 		switch nl.Type().Etype {
 		case types.TSTRING:
 			if ir.IsConst(nl, ir.CTSTR) {
-				setintconst(n, int64(len(nl.StringVal())))
+				return origIntConst(n, int64(len(nl.StringVal())))
 			}
 		case types.TARRAY:
 			if !hascallchan(nl) {
-				setintconst(n, nl.Type().NumElem())
+				return origIntConst(n, nl.Type().NumElem())
 			}
 		}
 
 	case ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
-		setintconst(n, evalunsafe(n))
+		return origIntConst(n, evalunsafe(n))
 
 	case ir.OREAL, ir.OIMAG:
 		if nl.Op() == ir.OLITERAL {
@@ -525,7 +540,7 @@ func evconst(n ir.INode) {
 				}
 				re = im
 			}
-			setconst(n, ir.Val{U: re})
+			return origConst(n, ir.Val{U: re})
 		}
 
 	case ir.OCOMPLEX:
@@ -534,9 +549,11 @@ func evconst(n ir.INode) {
 			c := ir.NewComplex()
 			c.Real.Set(toflt(nl.Val()).U.(*ir.Float))
 			c.Imag.Set(toflt(nr.Val()).U.(*ir.Float))
-			setconst(n, ir.Val{U: c})
+			return origConst(n, ir.Val{U: c})
 		}
 	}
+
+	return n
 }
 
 func match(x, y ir.Val) (ir.Val, ir.Val) {
@@ -811,28 +828,21 @@ func shiftOp(x ir.Val, op ir.Op, y ir.Val) ir.Val {
 	return ir.Val{U: u}
 }
 
-// setconst rewrites n as an OLITERAL with value v.
-func setconst(n ir.INode, v ir.Val) {
+// origConst return an OLITERAL with orig n and value v.
+func origConst(n ir.INode, v ir.Val) ir.INode {
 	// If constant folding failed, mark n as broken and give up.
 	if v.U == nil {
 		n.SetType(nil)
-		return
+		return n
 	}
 
 	// Ensure n.Orig still points to a semantically-equivalent
 	// expression after we rewrite n into a constant.
-	if n.Orig() == n {
-		n.SetOrig(n.SepCopy())
-	}
-
-	orig := n.Orig()
-	pos := n.Pos()
-	typ := n.Type()
-	n.Clear()
-	n.SetOp(ir.OLITERAL)
-	n.SetPos(pos)
-	n.SetType(typ)
+	orig := n
+	n = ir.Nod(ir.OLITERAL, nil, nil)
 	n.SetOrig(orig)
+	n.SetPos(orig.Pos())
+	n.SetType(orig.Type())
 	n.SetXoffset(types.BADWIDTH)
 	n.SetVal(v)
 	if vt := idealType(v.Ctype()); n.Type().IsUntyped() && n.Type() != vt {
@@ -854,16 +864,17 @@ func setconst(n ir.INode, v ir.Val) {
 			n.SetVal(ir.Val{U: trunccmplxlit(v.U.(*ir.Complex), n.Type())})
 		}
 	}
+	return n
 }
 
-func setboolconst(n ir.INode, v bool) {
-	setconst(n, ir.Val{U: v})
+func origBoolConst(n ir.INode, v bool) ir.INode {
+	return origConst(n, ir.Val{U: v})
 }
 
-func setintconst(n ir.INode, v int64) {
+func origIntConst(n ir.INode, v int64) ir.INode {
 	u := new(ir.Int)
 	u.SetInt64(v)
-	setconst(n, ir.Val{U: u})
+	return origConst(n, ir.Val{U: u})
 }
 
 // nodlit returns a new untyped constant with value v.
