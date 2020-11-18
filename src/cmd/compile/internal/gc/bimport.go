@@ -15,5 +15,5 @@ func npos(pos src.XPos, n ir.INode) ir.INode {
 }
 
 func builtinCall(op ir.Op) ir.INode {
-	return nod(ir.OCALL, mkname(ir.BuiltinPkg.Lookup(ir.OpNames[op])), nil)
+	return ir.Nod(ir.OCALL, mkname(ir.BuiltinPkg.Lookup(ir.OpNames[op])), nil)
 }

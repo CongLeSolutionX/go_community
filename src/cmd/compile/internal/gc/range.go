@@ -227,11 +227,11 @@ func walkrange(n ir.INode) ir.INode {
 		hv1 := temp(types.Types[types.TINT])
 		hn := temp(types.Types[types.TINT])
 
-		init = append(init, nod(ir.OAS, hv1, nil))
-		init = append(init, nod(ir.OAS, hn, nod(ir.OLEN, ha, nil)))
+		init = append(init, ir.Nod(ir.OAS, hv1, nil))
+		init = append(init, ir.Nod(ir.OAS, hn, ir.Nod(ir.OLEN, ha, nil)))
 
-		n.SetLeft(nod(ir.OLT, hv1, hn))
-		n.SetRight(nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1))))
+		n.SetLeft(ir.Nod(ir.OLT, hv1, hn))
+		n.SetRight(ir.Nod(ir.OAS, hv1, ir.Nod(ir.OADD, hv1, nodintconst(1))))
 
 		// for range ha { body }
 		if v1 == nil {
@@ -240,18 +240,18 @@ func walkrange(n ir.INode) ir.INode {
 
 		// for v1 := range ha { body }
 		if v2 == nil {
-			body = []ir.INode{nod(ir.OAS, v1, hv1)}
+			body = []ir.INode{ir.Nod(ir.OAS, v1, hv1)}
 			break
 		}
 
 		// for v1, v2 := range ha { body }
 		if cheapComputableIndex(n.Type().Elem().Width) {
 			// v1, v2 = hv1, ha[hv1]
-			tmp := nod(ir.OINDEX, ha, hv1)
+			tmp := ir.Nod(ir.OINDEX, ha, hv1)
 			tmp.SetBounded(true)
 			// Use OAS2 to correctly handle assignments
 			// of the form "v1, a[v1] := range".
-			a := nod(ir.OAS2, nil, nil)
+			a := ir.Nod(ir.OAS2, nil, nil)
 			a.PtrList().Set2(v1, v2)
 			a.PtrRlist().Set2(hv1, tmp)
 			body = []ir.INode{a}
@@ -270,20 +270,20 @@ func walkrange(n ir.INode) ir.INode {
 		// TODO(austin): OFORUNTIL inhibits bounds-check
 		// elimination on the index variable (see #20711).
 		// Enhance the prove pass to understand this.
-		ifGuard = nod(ir.OIF, nil, nil)
-		ifGuard.SetLeft(nod(ir.OLT, hv1, hn))
+		ifGuard = ir.Nod(ir.OIF, nil, nil)
+		ifGuard.SetLeft(ir.Nod(ir.OLT, hv1, hn))
 		translatedLoopOp = ir.OFORUNTIL
 
 		hp := temp(types.NewPtr(n.Type().Elem()))
-		tmp := nod(ir.OINDEX, ha, nodintconst(0))
+		tmp := ir.Nod(ir.OINDEX, ha, nodintconst(0))
 		tmp.SetBounded(true)
-		init = append(init, nod(ir.OAS, hp, nod(ir.OADDR, tmp, nil)))
+		init = append(init, ir.Nod(ir.OAS, hp, ir.Nod(ir.OADDR, tmp, nil)))
 
 		// Use OAS2 to correctly handle assignments
 		// of the form "v1, a[v1] := range".
-		a := nod(ir.OAS2, nil, nil)
+		a := ir.Nod(ir.OAS2, nil, nil)
 		a.PtrList().Set2(v1, v2)
-		a.PtrRlist().Set2(hv1, nod(ir.ODEREF, hp, nil))
+		a.PtrRlist().Set2(hv1, ir.Nod(ir.ODEREF, hp, nil))
 		body = append(body, a)
 
 		// Advance pointer as part of the late increment.
@@ -291,7 +291,7 @@ func walkrange(n ir.INode) ir.INode {
 		// This runs *after* the condition check, so we know
 		// advancing the pointer is safe and won't go past the
 		// end of the allocation.
-		a = nod(ir.OAS, hp, addptr(hp, t.Elem().Width))
+		a = ir.Nod(ir.OAS, hp, addptr(hp, t.Elem().Width))
 		a = typecheck(a, ctxStmt)
 		n.PtrList().Set1(a)
 
@@ -309,23 +309,23 @@ func walkrange(n ir.INode) ir.INode {
 		fn := syslook("mapiterinit")
 
 		fn = substArgTypes(fn, t.Key(), t.Elem(), th)
-		init = append(init, mkcall1(fn, nil, nil, typename(t), ha, nod(ir.OADDR, hit, nil)))
-		n.SetLeft(nod(ir.ONE, nodSym(ir.ODOT, hit, keysym), nodnil()))
+		init = append(init, mkcall1(fn, nil, nil, typename(t), ha, ir.Nod(ir.OADDR, hit, nil)))
+		n.SetLeft(ir.Nod(ir.ONE, nodSym(ir.ODOT, hit, keysym), nodnil()))
 
 		fn = syslook("mapiternext")
 		fn = substArgTypes(fn, th)
-		n.SetRight(mkcall1(fn, nil, nil, nod(ir.OADDR, hit, nil)))
+		n.SetRight(mkcall1(fn, nil, nil, ir.Nod(ir.OADDR, hit, nil)))
 
 		key := nodSym(ir.ODOT, hit, keysym)
-		key = nod(ir.ODEREF, key, nil)
+		key = ir.Nod(ir.ODEREF, key, nil)
 		if v1 == nil {
 			body = nil
 		} else if v2 == nil {
-			body = []ir.INode{nod(ir.OAS, v1, key)}
+			body = []ir.INode{ir.Nod(ir.OAS, v1, key)}
 		} else {
 			elem := nodSym(ir.ODOT, hit, elemsym)
-			elem = nod(ir.ODEREF, elem, nil)
-			a := nod(ir.OAS2, nil, nil)
+			elem = ir.Nod(ir.ODEREF, elem, nil)
+			a := ir.Nod(ir.OAS2, nil, nil)
 			a.PtrList().Set2(v1, v2)
 			a.PtrRlist().Set2(key, elem)
 			body = []ir.INode{a}
@@ -340,25 +340,25 @@ func walkrange(n ir.INode) ir.INode {
 		hv1 := temp(t.Elem())
 		hv1.SetTypecheck(1)
 		if t.Elem().HasPointers() {
-			init = append(init, nod(ir.OAS, hv1, nil))
+			init = append(init, ir.Nod(ir.OAS, hv1, nil))
 		}
 		hb := temp(types.Types[types.TBOOL])
 
-		n.SetLeft(nod(ir.ONE, hb, nodbool(false)))
-		a := nod(ir.OAS2RECV, nil, nil)
+		n.SetLeft(ir.Nod(ir.ONE, hb, nodbool(false)))
+		a := ir.Nod(ir.OAS2RECV, nil, nil)
 		a.SetTypecheck(1)
 		a.PtrList().Set2(hv1, hb)
-		a.SetRight(nod(ir.ORECV, ha, nil))
+		a.SetRight(ir.Nod(ir.ORECV, ha, nil))
 		n.Left().PtrNinit().Set1(a)
 		if v1 == nil {
 			body = nil
 		} else {
-			body = []ir.INode{nod(ir.OAS, v1, hv1)}
+			body = []ir.INode{ir.Nod(ir.OAS, v1, hv1)}
 		}
 		// Zero hv1. This prevents hv1 from being the sole, inaccessible
 		// reference to an otherwise GC-able value during the next channel receive.
 		// See issue 15281.
-		body = append(body, nod(ir.OAS, hv1, nil))
+		body = append(body, ir.Nod(ir.OAS, hv1, nil))
 
 	case types.TSTRING:
 		// Transform string range statements like "for v1, v2 = range a" into
@@ -384,30 +384,30 @@ func walkrange(n ir.INode) ir.INode {
 		hv2 := temp(types.Runetype)
 
 		// hv1 := 0
-		init = append(init, nod(ir.OAS, hv1, nil))
+		init = append(init, ir.Nod(ir.OAS, hv1, nil))
 
 		// hv1 < len(ha)
-		n.SetLeft(nod(ir.OLT, hv1, nod(ir.OLEN, ha, nil)))
+		n.SetLeft(ir.Nod(ir.OLT, hv1, ir.Nod(ir.OLEN, ha, nil)))
 
 		if v1 != nil {
 			// hv1t = hv1
-			body = append(body, nod(ir.OAS, hv1t, hv1))
+			body = append(body, ir.Nod(ir.OAS, hv1t, hv1))
 		}
 
 		// hv2 := rune(ha[hv1])
-		nind := nod(ir.OINDEX, ha, hv1)
+		nind := ir.Nod(ir.OINDEX, ha, hv1)
 		nind.SetBounded(true)
-		body = append(body, nod(ir.OAS, hv2, conv(nind, types.Runetype)))
+		body = append(body, ir.Nod(ir.OAS, hv2, conv(nind, types.Runetype)))
 
 		// if hv2 < utf8.RuneSelf
-		nif := nod(ir.OIF, nil, nil)
-		nif.SetLeft(nod(ir.OLT, hv2, nodintconst(utf8.RuneSelf)))
+		nif := ir.Nod(ir.OIF, nil, nil)
+		nif.SetLeft(ir.Nod(ir.OLT, hv2, nodintconst(utf8.RuneSelf)))
 
 		// hv1++
-		nif.PtrNbody().Set1(nod(ir.OAS, hv1, nod(ir.OADD, hv1, nodintconst(1))))
+		nif.PtrNbody().Set1(ir.Nod(ir.OAS, hv1, ir.Nod(ir.OADD, hv1, nodintconst(1))))
 
 		// } else {
-		eif := nod(ir.OAS2, nil, nil)
+		eif := ir.Nod(ir.OAS2, nil, nil)
 		nif.PtrRlist().Set1(eif)
 
 		// hv2, hv1 = decoderune(ha, hv1)
@@ -420,13 +420,13 @@ func walkrange(n ir.INode) ir.INode {
 		if v1 != nil {
 			if v2 != nil {
 				// v1, v2 = hv1t, hv2
-				a := nod(ir.OAS2, nil, nil)
+				a := ir.Nod(ir.OAS2, nil, nil)
 				a.PtrList().Set2(v1, v2)
 				a.PtrRlist().Set2(hv1t, hv2)
 				body = append(body, a)
 			} else {
 				// v1 = hv1t
-				body = append(body, nod(ir.OAS, v1, hv1t))
+				body = append(body, ir.Nod(ir.OAS, v1, hv1t))
 			}
 		}
 	}
@@ -571,24 +571,24 @@ func arrayClear(n, v1, v2, a ir.INode) bool {
 	n.SetOp(ir.OIF)
 
 	n.PtrNbody().Set(nil)
-	n.SetLeft(nod(ir.ONE, nod(ir.OLEN, a, nil), nodintconst(0)))
+	n.SetLeft(ir.Nod(ir.ONE, ir.Nod(ir.OLEN, a, nil), nodintconst(0)))
 
 	// hp = &a[0]
 	hp := temp(types.Types[types.TUNSAFEPTR])
 
-	tmp := nod(ir.OINDEX, a, nodintconst(0))
+	tmp := ir.Nod(ir.OINDEX, a, nodintconst(0))
 	tmp.SetBounded(true)
-	tmp = nod(ir.OADDR, tmp, nil)
+	tmp = ir.Nod(ir.OADDR, tmp, nil)
 	tmp = convnop(tmp, types.Types[types.TUNSAFEPTR])
-	n.PtrNbody().Append(nod(ir.OAS, hp, tmp))
+	n.PtrNbody().Append(ir.Nod(ir.OAS, hp, tmp))
 
 	// hn = len(a) * sizeof(elem(a))
 	hn := temp(types.Types[types.TUINTPTR])
 
-	tmp = nod(ir.OLEN, a, nil)
-	tmp = nod(ir.OMUL, tmp, nodintconst(elemsize))
+	tmp = ir.Nod(ir.OLEN, a, nil)
+	tmp = ir.Nod(ir.OMUL, tmp, nodintconst(elemsize))
 	tmp = conv(tmp, types.Types[types.TUINTPTR])
-	n.PtrNbody().Append(nod(ir.OAS, hn, tmp))
+	n.PtrNbody().Append(ir.Nod(ir.OAS, hn, tmp))
 
 	var fn ir.INode
 	if a.Type().Elem().HasPointers() {
@@ -603,7 +603,7 @@ func arrayClear(n, v1, v2, a ir.INode) bool {
 	n.PtrNbody().Append(fn)
 
 	// i = len(a) - 1
-	v1 = nod(ir.OAS, v1, nod(ir.OSUB, nod(ir.OLEN, a, nil), nodintconst(1)))
+	v1 = ir.Nod(ir.OAS, v1, ir.Nod(ir.OSUB, ir.Nod(ir.OLEN, a, nil), nodintconst(1)))
 
 	n.PtrNbody().Append(v1)
 
@@ -618,12 +618,12 @@ func arrayClear(n, v1, v2, a ir.INode) bool {
 func addptr(p ir.INode, n int64) ir.INode {
 	t := p.Type()
 
-	p = nod(ir.OCONVNOP, p, nil)
+	p = ir.Nod(ir.OCONVNOP, p, nil)
 	p.SetType(types.Types[types.TUINTPTR])
 
-	p = nod(ir.OADD, p, nodintconst(n))
+	p = ir.Nod(ir.OADD, p, nodintconst(n))
 
-	p = nod(ir.OCONVNOP, p, nil)
+	p = ir.Nod(ir.OCONVNOP, p, nil)
 	p.SetType(t)
 
 	return p

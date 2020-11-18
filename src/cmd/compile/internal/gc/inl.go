@@ -884,7 +884,7 @@ func inlParam(t *types.Field, as ir.INode, inlvars map[ir.INode]ir.INode) ir.INo
 	if inlvar == nil {
 		base.Fatal("missing inlvar for %v", n)
 	}
-	as.PtrNinit().Append(nod(ir.ODCL, inlvar, nil))
+	as.PtrNinit().Append(ir.Nod(ir.ODCL, inlvar, nil))
 	inlvar.Name().Defn = as
 	return inlvar
 }
@@ -989,20 +989,20 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 
 				if v.Name().Byval() {
 					iv := typecheck(inlvar(v), ctxExpr)
-					ninit.Append(nod(ir.ODCL, iv, nil))
-					ninit.Append(typecheck(nod(ir.OAS, iv, o), ctxStmt))
+					ninit.Append(ir.Nod(ir.ODCL, iv, nil))
+					ninit.Append(typecheck(ir.Nod(ir.OAS, iv, o), ctxStmt))
 					inlvars[v] = iv
 				} else {
 					addr := newname(lookup("&" + v.Sym().Name))
 					addr.SetType(types.NewPtr(v.Type()))
 					ia := typecheck(inlvar(addr), ctxExpr)
-					ninit.Append(nod(ir.ODCL, ia, nil))
-					ninit.Append(typecheck(nod(ir.OAS, ia, nod(ir.OADDR, o, nil)), ctxStmt))
+					ninit.Append(ir.Nod(ir.ODCL, ia, nil))
+					ninit.Append(typecheck(ir.Nod(ir.OAS, ia, ir.Nod(ir.OADDR, o, nil)), ctxStmt))
 					inlvars[addr] = ia
 
 					// When capturing by reference, all occurrence of the captured var
 					// must be substituted with dereference of the temporary address
-					inlvars[v] = typecheck(nod(ir.ODEREF, ia, nil), ctxExpr)
+					inlvars[v] = typecheck(ir.Nod(ir.ODEREF, ia, nil), ctxExpr)
 				}
 			}
 		}
@@ -1077,7 +1077,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 	}
 
 	// Assign arguments to the parameters' temp names.
-	as := nod(ir.OAS2, nil, nil)
+	as := ir.Nod(ir.OAS2, nil, nil)
 	as.SetColas(true)
 	if n.Op() == ir.OCALLMETH {
 		if n.Left().Left() == nil {
@@ -1112,13 +1112,13 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 		}
 		varargs := as.List().Slice()[x:]
 
-		vas = nod(ir.OAS, nil, nil)
+		vas = ir.Nod(ir.OAS, nil, nil)
 		vas.SetLeft(inlParam(param, vas, inlvars))
 		if len(varargs) == 0 {
 			vas.SetRight(nodnil())
 			vas.Right().SetType(param.Type)
 		} else {
-			vas.SetRight(nod(ir.OCOMPLIT, nil, typenod(param.Type)))
+			vas.SetRight(ir.Nod(ir.OCOMPLIT, nil, typenod(param.Type)))
 			vas.Right().PtrList().Set(varargs)
 		}
 	}
@@ -1136,8 +1136,8 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 	if !delayretvars {
 		// Zero the return parameters.
 		for _, n := range retvars {
-			ninit.Append(nod(ir.ODCL, n, nil))
-			ras := nod(ir.OAS, n, nil)
+			ninit.Append(ir.Nod(ir.ODCL, n, nil))
+			ras := ir.Nod(ir.OAS, n, nil)
 			ras = typecheck(ras, ctxStmt)
 			ninit.Append(ras)
 		}
@@ -1158,7 +1158,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 	// to put a breakpoint. Not sure if that's really necessary or not
 	// (in which case it could go at the end of the function instead).
 	// Note issue 28603.
-	inlMark := nod(ir.OINLMARK, nil, nil)
+	inlMark := ir.Nod(ir.OINLMARK, nil, nil)
 	inlMark.SetPos(n.Pos().WithIsStmt())
 	inlMark.SetXoffset(int64(newIndex))
 	ninit.Append(inlMark)
@@ -1194,7 +1194,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 
 	//dumplist("ninit post", ninit);
 
-	call := nod(ir.OINLCALL, nil, nil)
+	call := ir.Nod(ir.OINLCALL, nil, nil)
 	call.PtrNinit().Set(ninit.Slice())
 	call.PtrNbody().Set(body)
 	call.PtrRlist().Set(retvars)
@@ -1335,7 +1335,7 @@ func (subst *inlsubst) node(n ir.INode) ir.INode {
 		m.PtrNinit().Set(subst.list(n.Ninit()))
 
 		if len(subst.retvars) != 0 && n.List().Len() != 0 {
-			as := nod(ir.OAS2, nil, nil)
+			as := ir.Nod(ir.OAS2, nil, nil)
 
 			// Make a shallow copy of retvars.
 			// Otherwise OINLCALL.Rlist will be the same list,
@@ -1347,7 +1347,7 @@ func (subst *inlsubst) node(n ir.INode) ir.INode {
 
 			if subst.delayretvars {
 				for _, n := range as.List().Slice() {
-					as.PtrNinit().Append(nod(ir.ODCL, n, nil))
+					as.PtrNinit().Append(ir.Nod(ir.ODCL, n, nil))
 					n.Name().Defn = as
 				}
 			}
@@ -1438,7 +1438,7 @@ func devirtualizeCall(call ir.INode) {
 		return
 	}
 
-	x := nodl(call.Left().Pos(), ir.ODOTTYPE, call.Left().Left(), nil)
+	x := ir.NodAt(call.Left().Pos(), ir.ODOTTYPE, call.Left().Left(), nil)
 	x.SetType(typ)
 	x = nodlSym(call.Left().Pos(), ir.OXDOT, x, call.Left().Sym())
 	x = typecheck(x, ctxExpr|ctxCallee)

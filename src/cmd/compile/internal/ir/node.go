@@ -1497,3 +1497,39 @@ func (n *Node) StorageClass() ssa.StorageClass {
 		return 0
 	}
 }
+
+func Nod(op Op, nleft, nright INode) INode {
+	return NodAt(base.Pos, op, nleft, nright)
+}
+
+func NodAt(pos src.XPos, op Op, nleft, nright INode) INode {
+	var n INode
+	switch op {
+	case ODCLFUNC:
+		var x struct {
+			n Node
+			f Func
+		}
+		n = &x.n
+		n.SetFunc(&x.f)
+		n.Func().Decl = n
+	case ONAME:
+		base.Fatal("use newname instead")
+	case OLABEL, OPACK:
+		var x struct {
+			n Node
+			m Name
+		}
+		n = &x.n
+		n.SetName(&x.m)
+	default:
+		n = new(Node)
+	}
+	n.SetOp(op)
+	n.SetLeft(nleft)
+	n.SetRight(nright)
+	n.SetPos(pos)
+	n.SetXoffset(types.BADWIDTH)
+	n.SetOrig(n)
+	return n
+}

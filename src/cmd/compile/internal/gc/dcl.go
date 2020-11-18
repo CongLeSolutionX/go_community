@@ -145,7 +145,7 @@ func variter(vl []ir.INode, t ir.INode, el []ir.INode) []ir.INode {
 
 	if len(el) == 1 && len(vl) > 1 {
 		e := el[0]
-		as2 := nod(ir.OAS2, nil, nil)
+		as2 := ir.Nod(ir.OAS2, nil, nil)
 		as2.PtrList().Set(vl)
 		as2.PtrRlist().Set1(e)
 		for _, v := range vl {
@@ -154,7 +154,7 @@ func variter(vl []ir.INode, t ir.INode, el []ir.INode) []ir.INode {
 			v.Name().Param.Ntype = t
 			v.Name().Defn = as2
 			if Curfn != nil {
-				init = append(init, nod(ir.ODCL, v, nil))
+				init = append(init, ir.Nod(ir.ODCL, v, nil))
 			}
 		}
 
@@ -179,9 +179,9 @@ func variter(vl []ir.INode, t ir.INode, el []ir.INode) []ir.INode {
 
 		if e != nil || Curfn != nil || v.IsBlank() {
 			if Curfn != nil {
-				init = append(init, nod(ir.ODCL, v, nil))
+				init = append(init, ir.Nod(ir.ODCL, v, nil))
 			}
-			e = nod(ir.OAS, v, e)
+			e = ir.Nod(ir.OAS, v, e)
 			init = append(init, e)
 			if e.Right() != nil {
 				v.Name().Defn = e
@@ -200,7 +200,7 @@ func newnoname(s *types.Sym) ir.INode {
 	if s == nil {
 		base.Fatal("newnoname nil")
 	}
-	n := nod(ir.ONONAME, nil, nil)
+	n := ir.Nod(ir.ONONAME, nil, nil)
 	n.SetSym(s)
 	n.SetXoffset(0)
 	return n
@@ -236,7 +236,7 @@ func typenodl(pos src.XPos, t *types.Type) ir.INode {
 	// then t->nod might be out of date, so
 	// check t->nod->type too
 	if ir.AsNode(t.Nod) == nil || ir.AsNode(t.Nod).Type() != t {
-		t.Nod = ir.AsTypesNode(nodl(pos, ir.OTYPE, nil, nil))
+		t.Nod = ir.AsTypesNode(ir.NodAt(pos, ir.OTYPE, nil, nil))
 		ir.AsNode(t.Nod).SetType(t)
 		ir.AsNode(t.Nod).SetSym(t.Sym)
 	}
@@ -358,7 +358,7 @@ func colasdefn(left []ir.INode, defn ir.INode) {
 		n = newname(n.Sym())
 		declare(n, dclcontext)
 		n.Name().Defn = defn
-		defn.PtrNinit().Append(nod(ir.ODCL, n, nil))
+		defn.PtrNinit().Append(ir.Nod(ir.ODCL, n, nil))
 		left[i] = n
 	}
 
@@ -974,7 +974,7 @@ func dclfunc(sym *types.Sym, tfn ir.INode) ir.INode {
 		base.Fatal("expected OTFUNC node, got %v", tfn)
 	}
 
-	fn := nod(ir.ODCLFUNC, nil, nil)
+	fn := ir.Nod(ir.ODCLFUNC, nil, nil)
 	fn.Func().Nname = newfuncnamel(base.Pos, sym, fn.Func())
 	fn.Func().Nname.Name().Defn = fn
 	fn.Func().Nname.Name().Param.Ntype = tfn

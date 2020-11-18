@@ -295,7 +295,7 @@ func walkExprSwitch(sw ir.INode) {
 		body.Append(npos(ncase.Pos(), nodSym(ir.OLABEL, nil, label)))
 		body.Append(ncase.Nbody().Slice()...)
 		if fall, pos := hasFall(ncase.Nbody().Slice()); !fall {
-			br := nod(ir.OBREAK, nil, nil)
+			br := ir.Nod(ir.OBREAK, nil, nil)
 			br.SetPos(pos)
 			body.Append(br)
 		}
@@ -303,7 +303,7 @@ func walkExprSwitch(sw ir.INode) {
 	sw.PtrList().Set(nil)
 
 	if defaultGoto == nil {
-		br := nod(ir.OBREAK, nil, nil)
+		br := ir.Nod(ir.OBREAK, nil, nil)
 		br.SetPos(br.Pos().WithNotStmt())
 		defaultGoto = br
 	}
@@ -387,14 +387,14 @@ func (s *exprSwitch) flush() {
 		runs = append(runs, cc[start:])
 
 		// Perform two-level binary search.
-		nlen := nod(ir.OLEN, s.exprname, nil)
+		nlen := ir.Nod(ir.OLEN, s.exprname, nil)
 		binarySearch(len(runs), &s.done,
 			func(i int) ir.INode {
-				return nod(ir.OLE, nlen, nodintconst(runLen(runs[i-1])))
+				return ir.Nod(ir.OLE, nlen, nodintconst(runLen(runs[i-1])))
 			},
 			func(i int, nif ir.INode) {
 				run := runs[i]
-				nif.SetLeft(nod(ir.OEQ, nlen, nodintconst(runLen(run))))
+				nif.SetLeft(ir.Nod(ir.OEQ, nlen, nodintconst(runLen(run))))
 				s.search(run, nif.PtrNbody())
 			},
 		)
@@ -425,7 +425,7 @@ func (s *exprSwitch) flush() {
 func (s *exprSwitch) search(cc []exprClause, out *ir.Nodes) {
 	binarySearch(len(cc), out,
 		func(i int) ir.INode {
-			return nod(ir.OLE, s.exprname, cc[i-1].hi)
+			return ir.Nod(ir.OLE, s.exprname, cc[i-1].hi)
 		},
 		func(i int, nif ir.INode) {
 			c := &cc[i]
@@ -438,9 +438,9 @@ func (s *exprSwitch) search(cc []exprClause, out *ir.Nodes) {
 func (c *exprClause) test(exprname ir.INode) ir.INode {
 	// Integer range.
 	if c.hi != c.lo {
-		low := nodl(c.pos, ir.OGE, exprname, c.lo)
-		high := nodl(c.pos, ir.OLE, exprname, c.hi)
-		return nodl(c.pos, ir.OANDAND, low, high)
+		low := ir.NodAt(c.pos, ir.OGE, exprname, c.lo)
+		high := ir.NodAt(c.pos, ir.OLE, exprname, c.hi)
+		return ir.NodAt(c.pos, ir.OANDAND, low, high)
 	}
 
 	// Optimize "switch true { ...}" and "switch false { ... }".
@@ -448,11 +448,11 @@ func (c *exprClause) test(exprname ir.INode) ir.INode {
 		if exprname.BoolVal() {
 			return c.lo
 		} else {
-			return nodl(c.pos, ir.ONOT, c.lo, nil)
+			return ir.NodAt(c.pos, ir.ONOT, c.lo, nil)
 		}
 	}
 
-	return nodl(c.pos, ir.OEQ, exprname, c.lo)
+	return ir.NodAt(c.pos, ir.OEQ, exprname, c.lo)
 }
 
 func allCaseExprsAreSideEffectFree(sw ir.INode) bool {
@@ -508,7 +508,7 @@ func walkTypeSwitch(sw ir.INode) {
 	// Get interface descriptor word.
 	// For empty interfaces this will be the type.
 	// For non-empty interfaces this will be the itab.
-	itab := nod(ir.OITAB, s.facename, nil)
+	itab := ir.Nod(ir.OITAB, s.facename, nil)
 
 	// For empty interfaces, do:
 	//     if e._type == nil {
@@ -516,8 +516,8 @@ func walkTypeSwitch(sw ir.INode) {
 	//     }
 	//     h := e._type.hash
 	// Use a similar strategy for non-empty interfaces.
-	ifNil := nod(ir.OIF, nil, nil)
-	ifNil.SetLeft(nod(ir.OEQ, itab, nodnil()))
+	ifNil := ir.Nod(ir.OIF, nil, nil)
+	ifNil.SetLeft(ir.Nod(ir.OEQ, itab, nodnil()))
 	base.Pos = base.Pos.WithNotStmt() // disable statement marks after the first check.
 	ifNil.SetLeft(typecheck(ifNil.Left(), ctxExpr))
 	ifNil.SetLeft(defaultlit(ifNil.Left(), nil))
@@ -536,7 +536,7 @@ func walkTypeSwitch(sw ir.INode) {
 	dotHash.SetBounded(true) // guaranteed not to fault
 	s.hashname = copyexpr(dotHash, dotHash.Type(), sw.PtrNbody())
 
-	br := nod(ir.OBREAK, nil, nil)
+	br := ir.Nod(ir.OBREAK, nil, nil)
 	var defaultGoto, nilGoto ir.INode
 	var body ir.Nodes
 	for _, ncase := range sw.List().Slice() {
@@ -592,8 +592,8 @@ func walkTypeSwitch(sw ir.INode) {
 				val = ifaceData(ncase.Pos(), s.facename, singleType)
 			}
 			l := []ir.INode{
-				nodl(ncase.Pos(), ir.ODCL, caseVar, nil),
-				nodl(ncase.Pos(), ir.OAS, caseVar, val),
+				ir.NodAt(ncase.Pos(), ir.ODCL, caseVar, nil),
+				ir.NodAt(ncase.Pos(), ir.OAS, caseVar, val),
 			}
 			typecheckslice(l, ctxStmt)
 			body.Append(l...)
@@ -638,8 +638,8 @@ func (s *typeSwitch) Add(pos src.XPos, typ *types.Type, caseVar, jmp ir.INode) {
 	var body ir.Nodes
 	if caseVar != nil {
 		l := []ir.INode{
-			nodl(pos, ir.ODCL, caseVar, nil),
-			nodl(pos, ir.OAS, caseVar, nil),
+			ir.NodAt(pos, ir.ODCL, caseVar, nil),
+			ir.NodAt(pos, ir.OAS, caseVar, nil),
 		}
 		typecheckslice(l, ctxStmt)
 		body.Append(l...)
@@ -648,9 +648,9 @@ func (s *typeSwitch) Add(pos src.XPos, typ *types.Type, caseVar, jmp ir.INode) {
 	}
 
 	// cv, ok = iface.(type)
-	as := nodl(pos, ir.OAS2, nil, nil)
+	as := ir.NodAt(pos, ir.OAS2, nil, nil)
 	as.PtrList().Set2(caseVar, s.okname) // cv, ok =
-	dot := nodl(pos, ir.ODOTTYPE, s.facename, nil)
+	dot := ir.NodAt(pos, ir.ODOTTYPE, s.facename, nil)
 	dot.SetType(typ) // iface.(type)
 	as.PtrRlist().Set1(dot)
 	as = typecheck(as, ctxStmt)
@@ -658,7 +658,7 @@ func (s *typeSwitch) Add(pos src.XPos, typ *types.Type, caseVar, jmp ir.INode) {
 	body.Append(as)
 
 	// if ok { goto label }
-	nif := nodl(pos, ir.OIF, nil, nil)
+	nif := ir.NodAt(pos, ir.OIF, nil, nil)
 	nif.SetLeft(s.okname)
 	nif.PtrNbody().Set1(jmp)
 	body.Append(nif)
@@ -703,13 +703,13 @@ func (s *typeSwitch) flush() {
 
 	binarySearch(len(cc), &s.done,
 		func(i int) ir.INode {
-			return nod(ir.OLE, s.hashname, nodintconst(int64(cc[i-1].hash)))
+			return ir.Nod(ir.OLE, s.hashname, nodintconst(int64(cc[i-1].hash)))
 		},
 		func(i int, nif ir.INode) {
 			// TODO(mdempsky): Omit hash equality check if
 			// there's only one type.
 			c := cc[i]
-			nif.SetLeft(nod(ir.OEQ, s.hashname, nodintconst(int64(c.hash))))
+			nif.SetLeft(ir.Nod(ir.OEQ, s.hashname, nodintconst(int64(c.hash))))
 			nif.PtrNbody().AppendNodes(&c.body)
 		},
 	)
@@ -732,7 +732,7 @@ func binarySearch(n int, out *ir.Nodes, less func(i int) ir.INode, leaf func(i i
 		n := hi - lo
 		if n < binarySearchMin {
 			for i := lo; i < hi; i++ {
-				nif := nod(ir.OIF, nil, nil)
+				nif := ir.Nod(ir.OIF, nil, nil)
 				leaf(i, nif)
 				base.Pos = base.Pos.WithNotStmt()
 				nif.SetLeft(typecheck(nif.Left(), ctxExpr))
@@ -744,7 +744,7 @@ func binarySearch(n int, out *ir.Nodes, less func(i int) ir.INode, leaf func(i i
 		}
 
 		half := lo + n/2
-		nif := nod(ir.OIF, nil, nil)
+		nif := ir.Nod(ir.OIF, nil, nil)
 		nif.SetLeft(less(half))
 		base.Pos = base.Pos.WithNotStmt()
 		nif.SetLeft(typecheck(nif.Left(), ctxExpr))

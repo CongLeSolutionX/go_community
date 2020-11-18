@@ -868,7 +868,7 @@ func setintconst(n ir.INode, v int64) {
 
 // nodlit returns a new untyped constant with value v.
 func nodlit(v ir.Val) ir.INode {
-	n := nod(ir.OLITERAL, nil, nil)
+	n := ir.Nod(ir.OLITERAL, nil, nil)
 	n.SetVal(v)
 	n.SetType(idealType(v.Ctype()))
 	return n

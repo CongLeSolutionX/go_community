@@ -685,7 +685,7 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 
 					dowidth(l.Type())
 					if r.Type().IsInterface() == l.Type().IsInterface() || l.Type().Width >= 1<<16 {
-						l = nod(aop, l, nil)
+						l = ir.Nod(aop, l, nil)
 						l.SetType(r.Type())
 						l.SetTypecheck(1)
 						n.SetLeft(l)
@@ -707,7 +707,7 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 
 					dowidth(r.Type())
 					if r.Type().IsInterface() == l.Type().IsInterface() || r.Type().Width >= 1<<16 {
-						r = nod(aop, r, nil)
+						r = ir.Nod(aop, r, nil)
 						r.SetType(l.Type())
 						r.SetTypecheck(1)
 						n.SetRight(r)
@@ -1232,7 +1232,7 @@ func typecheck1(n ir.INode, top int) (res ir.INode) {
 				return n
 			}
 
-			n.SetLeft(nod(ir.OADDR, n.Left(), nil))
+			n.SetLeft(ir.Nod(ir.OADDR, n.Left(), nil))
 			n.Left().SetImplicit(true)
 			n.SetLeft(typecheck(n.Left(), ctxExpr))
 			l = n.Left()
@@ -2146,7 +2146,7 @@ func typecheckargs(n ir.INode) {
 		n.SetOrig(n.SepCopy())
 	}
 
-	as := nod(ir.OAS2, nil, nil)
+	as := ir.Nod(ir.OAS2, nil, nil)
 	as.PtrRlist().AppendNodes(n.PtrList())
 
 	// If we're outside of function context, then this call will
@@ -2160,7 +2160,7 @@ func typecheckargs(n ir.INode) {
 	}
 	for _, f := range t.FieldSlice() {
 		t := temp(f.Type)
-		as.PtrNinit().Append(nod(ir.ODCL, t, nil))
+		as.PtrNinit().Append(ir.Nod(ir.ODCL, t, nil))
 		as.PtrList().Append(t)
 		n.PtrList().Append(t)
 	}
@@ -2278,7 +2278,7 @@ func implicitstar(n ir.INode) ir.INode {
 	if !t.IsArray() {
 		return n
 	}
-	n = nod(ir.ODEREF, n, nil)
+	n = ir.Nod(ir.ODEREF, n, nil)
 	n.SetImplicit(true)
 	n = typecheck(n, ctxExpr)
 	return n
@@ -2487,7 +2487,7 @@ func lookdot(n ir.INode, t *types.Type, dostrcmp int) *types.Field {
 		}
 		if t.IsInterface() {
 			if n.Left().Type().IsPtr() {
-				n.SetLeft(nod(ir.ODEREF, n.Left(), nil)) // implicitstar
+				n.SetLeft(ir.Nod(ir.ODEREF, n.Left(), nil)) // implicitstar
 				n.Left().SetImplicit(true)
 				n.SetLeft(typecheck(n.Left(), ctxExpr))
 			}
@@ -2509,11 +2509,11 @@ func lookdot(n ir.INode, t *types.Type, dostrcmp int) *types.Field {
 		if !types.Identical(rcvr, tt) {
 			if rcvr.IsPtr() && types.Identical(rcvr.Elem(), tt) {
 				checklvalue(n.Left(), "call pointer method on")
-				n.SetLeft(nod(ir.OADDR, n.Left(), nil))
+				n.SetLeft(ir.Nod(ir.OADDR, n.Left(), nil))
 				n.Left().SetImplicit(true)
 				n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 			} else if tt.IsPtr() && (!rcvr.IsPtr() || rcvr.IsPtr() && rcvr.Elem().NotInHeap()) && types.Identical(tt.Elem(), rcvr) {
-				n.SetLeft(nod(ir.ODEREF, n.Left(), nil))
+				n.SetLeft(ir.Nod(ir.ODEREF, n.Left(), nil))
 				n.Left().SetImplicit(true)
 				n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 			} else if tt.IsPtr() && tt.Elem().IsPtr() && types.Identical(derefall(tt), derefall(rcvr)) {
@@ -2523,7 +2523,7 @@ func lookdot(n ir.INode, t *types.Type, dostrcmp int) *types.Field {
 					if rcvr.IsPtr() && !tt.Elem().IsPtr() {
 						break
 					}
-					n.SetLeft(nod(ir.ODEREF, n.Left(), nil))
+					n.SetLeft(ir.Nod(ir.ODEREF, n.Left(), nil))
 					n.Left().SetImplicit(true)
 					n.SetLeft(typecheck(n.Left(), ctxType|ctxExpr))
 					tt = tt.Elem()
@@ -2793,7 +2793,7 @@ func pushtype(n ir.INode, t *types.Type) ir.INode {
 		// For *T, return &T{...}.
 		n.SetRight(typenod(t.Elem()))
 
-		n = nodl(n.Pos(), ir.OADDR, n, nil)
+		n = ir.NodAt(n.Pos(), ir.OADDR, n, nil)
 		n.SetImplicit(true)
 	}
 
@@ -3447,11 +3447,11 @@ func stringtoruneslit(n ir.INode) ir.INode {
 	var l []ir.INode
 	i := 0
 	for _, r := range n.Left().StringVal() {
-		l = append(l, nod(ir.OKEY, nodintconst(int64(i)), nodintconst(int64(r))))
+		l = append(l, ir.Nod(ir.OKEY, nodintconst(int64(i)), nodintconst(int64(r))))
 		i++
 	}
 
-	nn := nod(ir.OCOMPLIT, nil, typenod(n.Type()))
+	nn := ir.Nod(ir.OCOMPLIT, nil, typenod(n.Type()))
 	nn.PtrList().Set(l)
 	nn = typecheck(nn, ctxExpr)
 	return nn
@@ -3906,7 +3906,7 @@ func deadcodefn(fn ir.INode) {
 		}
 	}
 
-	fn.PtrNbody().Set([]ir.INode{nod(ir.OEMPTY, nil, nil)})
+	fn.PtrNbody().Set([]ir.INode{ir.Nod(ir.OEMPTY, nil, nil)})
 }
 
 func deadcodeslice(nn ir.Nodes) {

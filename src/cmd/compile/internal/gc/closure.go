@@ -197,7 +197,7 @@ func capturevars(xfunc ir.INode) {
 			v.Name().SetByval(true)
 		} else {
 			outermost.Name().SetAddrtaken(true)
-			outer = nod(ir.OADDR, outer, nil)
+			outer = ir.Nod(ir.OADDR, outer, nil)
 		}
 
 		if base.Flag.LowerM > 1 {
@@ -285,7 +285,7 @@ func transformclosure(xfunc ir.INode) {
 		offset := int64(Widthptr)
 		for _, v := range xfunc.Func().Cvars.Slice() {
 			// cv refers to the field inside of closure OSTRUCTLIT.
-			cv := nod(ir.OCLOSUREVAR, nil, nil)
+			cv := ir.Nod(ir.OCLOSUREVAR, nil, nil)
 
 			cv.SetType(v.Type())
 			if !v.Name().Byval() {
@@ -299,7 +299,7 @@ func transformclosure(xfunc ir.INode) {
 				// If it is a small variable captured by value, downgrade it to PAUTO.
 				v.SetClass(ir.PAUTO)
 				xfunc.Func().Dcl = append(xfunc.Func().Dcl, v)
-				body = append(body, nod(ir.OAS, v, cv))
+				body = append(body, ir.Nod(ir.OAS, v, cv))
 			} else {
 				// Declare variable holding addresses taken from closure
 				// and initialize in entry prologue.
@@ -311,9 +311,9 @@ func transformclosure(xfunc ir.INode) {
 				xfunc.Func().Dcl = append(xfunc.Func().Dcl, addr)
 				v.Name().Param.Heapaddr = addr
 				if v.Name().Byval() {
-					cv = nod(ir.OADDR, cv, nil)
+					cv = ir.Nod(ir.OADDR, cv, nil)
 				}
-				body = append(body, nod(ir.OAS, addr, cv))
+				body = append(body, ir.Nod(ir.OAS, addr, cv))
 			}
 		}
 
@@ -396,11 +396,11 @@ func walkclosure(clo ir.INode, init *ir.Nodes) ir.INode {
 
 	typ := closureType(clo)
 
-	clos := nod(ir.OCOMPLIT, nil, typenod(typ))
+	clos := ir.Nod(ir.OCOMPLIT, nil, typenod(typ))
 	clos.SetEsc(clo.Esc())
-	clos.PtrList().Set(append([]ir.INode{nod(ir.OCFUNC, xfunc.Func().Nname, nil)}, clo.Func().ClosureEnter.Slice()...))
+	clos.PtrList().Set(append([]ir.INode{ir.Nod(ir.OCFUNC, xfunc.Func().Nname, nil)}, clo.Func().ClosureEnter.Slice()...))
 
-	clos = nod(ir.OADDR, clos, nil)
+	clos = ir.Nod(ir.OADDR, clos, nil)
 	clos.SetEsc(clo.Esc())
 
 	// Force type conversion from *struct to the func type.
@@ -462,7 +462,7 @@ func makepartialcall(fn ir.INode, t0 *types.Type, meth *types.Sym) ir.INode {
 	// number at the use of the method expression in this
 	// case. See issue 29389.
 
-	tfn := nod(ir.OTFUNC, nil, nil)
+	tfn := ir.Nod(ir.OTFUNC, nil, nil)
 	tfn.PtrList().Set(structargs(t0.Params(), true))
 	tfn.PtrRlist().Set(structargs(t0.Results(), false))
 
@@ -474,7 +474,7 @@ func makepartialcall(fn ir.INode, t0 *types.Type, meth *types.Sym) ir.INode {
 
 	// Declare and initialize variable holding receiver.
 
-	cv := nod(ir.OCLOSUREVAR, nil, nil)
+	cv := ir.Nod(ir.OCLOSUREVAR, nil, nil)
 	cv.SetType(rcvrtype)
 	cv.SetXoffset(Rnd(int64(Widthptr), int64(cv.Type().Align)))
 
@@ -484,17 +484,17 @@ func makepartialcall(fn ir.INode, t0 *types.Type, meth *types.Sym) ir.INode {
 	var body []ir.INode
 	if rcvrtype.IsPtr() || rcvrtype.IsInterface() {
 		ptr.SetType(rcvrtype)
-		body = append(body, nod(ir.OAS, ptr, cv))
+		body = append(body, ir.Nod(ir.OAS, ptr, cv))
 	} else {
 		ptr.SetType(types.NewPtr(rcvrtype))
-		body = append(body, nod(ir.OAS, ptr, nod(ir.OADDR, cv, nil)))
+		body = append(body, ir.Nod(ir.OAS, ptr, ir.Nod(ir.OADDR, cv, nil)))
 	}
 
-	call := nod(ir.OCALL, nodSym(ir.OXDOT, ptr, meth), nil)
+	call := ir.Nod(ir.OCALL, nodSym(ir.OXDOT, ptr, meth), nil)
 	call.PtrList().Set(paramNnames(tfn.Type()))
 	call.SetIsDDD(tfn.Type().IsVariadic())
 	if t0.NumResults() != 0 {
-		n := nod(ir.ORETURN, nil, nil)
+		n := ir.Nod(ir.ORETURN, nil, nil)
 		n.PtrList().Set1(call)
 		call = n
 	}
@@ -542,21 +542,21 @@ func walkpartialcall(n ir.INode, init *ir.Nodes) ir.INode {
 		n.SetLeft(cheapexpr(n.Left(), init))
 		n.SetLeft(walkexpr(n.Left(), nil))
 
-		tab := nod(ir.OITAB, n.Left(), nil)
+		tab := ir.Nod(ir.OITAB, n.Left(), nil)
 		tab = typecheck(tab, ctxExpr)
 
-		c := nod(ir.OCHECKNIL, tab, nil)
+		c := ir.Nod(ir.OCHECKNIL, tab, nil)
 		c.SetTypecheck(1)
 		init.Append(c)
 	}
 
 	typ := partialCallType(n)
 
-	clos := nod(ir.OCOMPLIT, nil, typenod(typ))
+	clos := ir.Nod(ir.OCOMPLIT, nil, typenod(typ))
 	clos.SetEsc(n.Esc())
-	clos.PtrList().Set2(nod(ir.OCFUNC, n.Func().Nname, nil), n.Left())
+	clos.PtrList().Set2(ir.Nod(ir.OCFUNC, n.Func().Nname, nil), n.Left())
 
-	clos = nod(ir.OADDR, clos, nil)
+	clos = ir.Nod(ir.OADDR, clos, nil)
 	clos.SetEsc(n.Esc())
 
 	// Force type conversion from *struct to the func type.

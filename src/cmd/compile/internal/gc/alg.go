@@ -292,7 +292,7 @@ func genhash(t *types.Type) *obj.LSym {
 	dclcontext = ir.PEXTERN
 
 	// func sym(p *T, h uintptr) uintptr
-	tfn := nod(ir.OTFUNC, nil, nil)
+	tfn := ir.Nod(ir.OTFUNC, nil, nil)
 	tfn.PtrList().Set2(
 		namedfield("p", types.NewPtr(t)),
 		namedfield("h", types.Types[types.TUINTPTR]),
@@ -310,7 +310,7 @@ func genhash(t *types.Type) *obj.LSym {
 		// pure memory.
 		hashel := hashfor(t.Elem())
 
-		n := nod(ir.ORANGE, nil, nod(ir.ODEREF, np, nil))
+		n := ir.Nod(ir.ORANGE, nil, ir.Nod(ir.ODEREF, np, nil))
 		ni := newname(lookup("i"))
 		ni.SetType(types.Types[types.TINT])
 		n.PtrList().Set1(ni)
@@ -319,14 +319,14 @@ func genhash(t *types.Type) *obj.LSym {
 		ni = n.List().First()
 
 		// h = hashel(&p[i], h)
-		call := nod(ir.OCALL, hashel, nil)
+		call := ir.Nod(ir.OCALL, hashel, nil)
 
-		nx := nod(ir.OINDEX, np, ni)
+		nx := ir.Nod(ir.OINDEX, np, ni)
 		nx.SetBounded(true)
-		na := nod(ir.OADDR, nx, nil)
+		na := ir.Nod(ir.OADDR, nx, nil)
 		call.PtrList().Append(na)
 		call.PtrList().Append(nh)
-		n.PtrNbody().Append(nod(ir.OAS, nh, call))
+		n.PtrNbody().Append(ir.Nod(ir.OAS, nh, call))
 
 		fn.PtrNbody().Append(n)
 
@@ -345,12 +345,12 @@ func genhash(t *types.Type) *obj.LSym {
 			// Hash non-memory fields with appropriate hash function.
 			if !IsRegularMemory(f.Type) {
 				hashel := hashfor(f.Type)
-				call := nod(ir.OCALL, hashel, nil)
+				call := ir.Nod(ir.OCALL, hashel, nil)
 				nx := nodSym(ir.OXDOT, np, f.Sym) // TODO: fields from other packages?
-				na := nod(ir.OADDR, nx, nil)
+				na := ir.Nod(ir.OADDR, nx, nil)
 				call.PtrList().Append(na)
 				call.PtrList().Append(nh)
-				fn.PtrNbody().Append(nod(ir.OAS, nh, call))
+				fn.PtrNbody().Append(ir.Nod(ir.OAS, nh, call))
 				i++
 				continue
 			}
@@ -360,19 +360,19 @@ func genhash(t *types.Type) *obj.LSym {
 
 			// h = hashel(&p.first, size, h)
 			hashel := hashmem(f.Type)
-			call := nod(ir.OCALL, hashel, nil)
+			call := ir.Nod(ir.OCALL, hashel, nil)
 			nx := nodSym(ir.OXDOT, np, f.Sym) // TODO: fields from other packages?
-			na := nod(ir.OADDR, nx, nil)
+			na := ir.Nod(ir.OADDR, nx, nil)
 			call.PtrList().Append(na)
 			call.PtrList().Append(nh)
 			call.PtrList().Append(nodintconst(size))
-			fn.PtrNbody().Append(nod(ir.OAS, nh, call))
+			fn.PtrNbody().Append(ir.Nod(ir.OAS, nh, call))
 
 			i = next
 		}
 	}
 
-	r := nod(ir.ORETURN, nil, nil)
+	r := ir.Nod(ir.ORETURN, nil, nil)
 	r.PtrList().Append(nh)
 	fn.PtrNbody().Append(r)
 
@@ -521,7 +521,7 @@ func geneq(t *types.Type) *obj.LSym {
 	dclcontext = ir.PEXTERN
 
 	// func sym(p, q *T) bool
-	tfn := nod(ir.OTFUNC, nil, nil)
+	tfn := ir.Nod(ir.OTFUNC, nil, nil)
 	tfn.PtrList().Set2(
 		namedfield("p", types.NewPtr(t)),
 		namedfield("q", types.NewPtr(t)),
@@ -571,11 +571,11 @@ func geneq(t *types.Type) *obj.LSym {
 			// checkIdx generates a node to check for equality at index i.
 			checkIdx := func(i ir.INode) ir.INode {
 				// pi := p[i]
-				pi := nod(ir.OINDEX, np, i)
+				pi := ir.Nod(ir.OINDEX, np, i)
 				pi.SetBounded(true)
 				pi.SetType(t.Elem())
 				// qi := q[i]
-				qi := nod(ir.OINDEX, nq, i)
+				qi := ir.Nod(ir.OINDEX, nq, i)
 				qi.SetBounded(true)
 				qi.SetType(t.Elem())
 				return eq(pi, qi)
@@ -589,29 +589,29 @@ func geneq(t *types.Type) *obj.LSym {
 				// Generate a series of checks.
 				for i := int64(0); i < nelem; i++ {
 					// if check {} else { goto neq }
-					nif := nod(ir.OIF, checkIdx(nodintconst(i)), nil)
+					nif := ir.Nod(ir.OIF, checkIdx(nodintconst(i)), nil)
 					nif.PtrRlist().Append(nodSym(ir.OGOTO, nil, neq))
 					fn.PtrNbody().Append(nif)
 				}
 				if last {
-					fn.PtrNbody().Append(nod(ir.OAS, nr, checkIdx(nodintconst(nelem))))
+					fn.PtrNbody().Append(ir.Nod(ir.OAS, nr, checkIdx(nodintconst(nelem))))
 				}
 			} else {
 				// Generate a for loop.
 				// for i := 0; i < nelem; i++
 				i := temp(types.Types[types.TINT])
-				init := nod(ir.OAS, i, nodintconst(0))
-				cond := nod(ir.OLT, i, nodintconst(nelem))
-				post := nod(ir.OAS, i, nod(ir.OADD, i, nodintconst(1)))
-				loop := nod(ir.OFOR, cond, post)
+				init := ir.Nod(ir.OAS, i, nodintconst(0))
+				cond := ir.Nod(ir.OLT, i, nodintconst(nelem))
+				post := ir.Nod(ir.OAS, i, ir.Nod(ir.OADD, i, nodintconst(1)))
+				loop := ir.Nod(ir.OFOR, cond, post)
 				loop.PtrNinit().Append(init)
 				// if eq(pi, qi) {} else { goto neq }
-				nif := nod(ir.OIF, checkIdx(i), nil)
+				nif := ir.Nod(ir.OIF, checkIdx(i), nil)
 				nif.PtrRlist().Append(nodSym(ir.OGOTO, nil, neq))
 				loop.PtrNbody().Append(nif)
 				fn.PtrNbody().Append(loop)
 				if last {
-					fn.PtrNbody().Append(nod(ir.OAS, nr, nodbool(true)))
+					fn.PtrNbody().Append(ir.Nod(ir.OAS, nr, nodbool(true)))
 				}
 			}
 		}
@@ -634,13 +634,13 @@ func geneq(t *types.Type) *obj.LSym {
 		case types.TFLOAT32, types.TFLOAT64:
 			checkAll(2, true, func(pi, qi ir.INode) ir.INode {
 				// p[i] == q[i]
-				return nod(ir.OEQ, pi, qi)
+				return ir.Nod(ir.OEQ, pi, qi)
 			})
 		// TODO: pick apart structs, do them piecemeal too
 		default:
 			checkAll(1, true, func(pi, qi ir.INode) ir.INode {
 				// p[i] == q[i]
-				return nod(ir.OEQ, pi, qi)
+				return ir.Nod(ir.OEQ, pi, qi)
 			})
 		}
 
@@ -680,7 +680,7 @@ func geneq(t *types.Type) *obj.LSym {
 					and(eqlen)
 					and(eqmem)
 				default:
-					and(nod(ir.OEQ, p, q))
+					and(ir.Nod(ir.OEQ, p, q))
 				}
 				if EqCanPanic(f.Type) {
 					// Also enforce ordering after something that can panic.
@@ -721,15 +721,15 @@ func geneq(t *types.Type) *obj.LSym {
 		}
 
 		if len(flatConds) == 0 {
-			fn.PtrNbody().Append(nod(ir.OAS, nr, nodbool(true)))
+			fn.PtrNbody().Append(ir.Nod(ir.OAS, nr, nodbool(true)))
 		} else {
 			for _, c := range flatConds[:len(flatConds)-1] {
 				// if cond {} else { goto neq }
-				n := nod(ir.OIF, c, nil)
+				n := ir.Nod(ir.OIF, c, nil)
 				n.PtrRlist().Append(nodSym(ir.OGOTO, nil, neq))
 				fn.PtrNbody().Append(n)
 			}
-			fn.PtrNbody().Append(nod(ir.OAS, nr, flatConds[len(flatConds)-1]))
+			fn.PtrNbody().Append(ir.Nod(ir.OAS, nr, flatConds[len(flatConds)-1]))
 		}
 	}
 
@@ -737,19 +737,19 @@ func geneq(t *types.Type) *obj.LSym {
 	//   return
 	ret := autolabel(".ret")
 	fn.PtrNbody().Append(nodSym(ir.OLABEL, nil, ret))
-	fn.PtrNbody().Append(nod(ir.ORETURN, nil, nil))
+	fn.PtrNbody().Append(ir.Nod(ir.ORETURN, nil, nil))
 
 	// neq:
 	//   r = false
 	//   return (or goto ret)
 	fn.PtrNbody().Append(nodSym(ir.OLABEL, nil, neq))
-	fn.PtrNbody().Append(nod(ir.OAS, nr, nodbool(false)))
+	fn.PtrNbody().Append(ir.Nod(ir.OAS, nr, nodbool(false)))
 	if EqCanPanic(t) || hasCall(fn) {
 		// Epilogue is large, so share it with the equal case.
 		fn.PtrNbody().Append(nodSym(ir.OGOTO, nil, ret))
 	} else {
 		// Epilogue is small, so don't bother sharing.
-		fn.PtrNbody().Append(nod(ir.ORETURN, nil, nil))
+		fn.PtrNbody().Append(ir.Nod(ir.ORETURN, nil, nil))
 	}
 	// TODO(khr): the epilogue size detection condition above isn't perfect.
 	// We should really do a generic CL that shares epilogues across
@@ -823,7 +823,7 @@ func hasCall(n ir.INode) bool {
 func eqfield(p ir.INode, q ir.INode, field *types.Sym) ir.INode {
 	nx := nodSym(ir.OXDOT, p, field)
 	ny := nodSym(ir.OXDOT, q, field)
-	ne := nod(ir.OEQ, nx, ny)
+	ne := ir.Nod(ir.OEQ, nx, ny)
 	return ne
 }
 
@@ -836,18 +836,18 @@ func eqfield(p ir.INode, q ir.INode, field *types.Sym) ir.INode {
 func eqstring(s, t ir.INode) (eqlen, eqmem ir.INode) {
 	s = conv(s, types.Types[types.TSTRING])
 	t = conv(t, types.Types[types.TSTRING])
-	sptr := nod(ir.OSPTR, s, nil)
-	tptr := nod(ir.OSPTR, t, nil)
-	slen := conv(nod(ir.OLEN, s, nil), types.Types[types.TUINTPTR])
-	tlen := conv(nod(ir.OLEN, t, nil), types.Types[types.TUINTPTR])
+	sptr := ir.Nod(ir.OSPTR, s, nil)
+	tptr := ir.Nod(ir.OSPTR, t, nil)
+	slen := conv(ir.Nod(ir.OLEN, s, nil), types.Types[types.TUINTPTR])
+	tlen := conv(ir.Nod(ir.OLEN, t, nil), types.Types[types.TUINTPTR])
 
 	fn := syslook("memequal")
 	fn = substArgTypes(fn, types.Types[types.TUINT8], types.Types[types.TUINT8])
-	call := nod(ir.OCALL, fn, nil)
+	call := ir.Nod(ir.OCALL, fn, nil)
 	call.PtrList().Append(sptr, tptr, slen.Copy())
 	call = typecheck(call, ctxExpr|ctxMultiOK)
 
-	cmp := nod(ir.OEQ, slen, tlen)
+	cmp := ir.Nod(ir.OEQ, slen, tlen)
 	cmp = typecheck(cmp, ctxExpr)
 	cmp.SetType(types.Types[types.TBOOL])
 	return cmp, call
@@ -872,20 +872,20 @@ func eqinterface(s, t ir.INode) (eqtab, eqdata ir.INode) {
 		fn = syslook("ifaceeq")
 	}
 
-	stab := nod(ir.OITAB, s, nil)
-	ttab := nod(ir.OITAB, t, nil)
-	sdata := nod(ir.OIDATA, s, nil)
-	tdata := nod(ir.OIDATA, t, nil)
+	stab := ir.Nod(ir.OITAB, s, nil)
+	ttab := ir.Nod(ir.OITAB, t, nil)
+	sdata := ir.Nod(ir.OIDATA, s, nil)
+	tdata := ir.Nod(ir.OIDATA, t, nil)
 	sdata.SetType(types.Types[types.TUNSAFEPTR])
 	tdata.SetType(types.Types[types.TUNSAFEPTR])
 	sdata.SetTypecheck(1)
 	tdata.SetTypecheck(1)
 
-	call := nod(ir.OCALL, fn, nil)
+	call := ir.Nod(ir.OCALL, fn, nil)
 	call.PtrList().Append(stab, sdata, tdata)
 	call = typecheck(call, ctxExpr|ctxMultiOK)
 
-	cmp := nod(ir.OEQ, stab, ttab)
+	cmp := ir.Nod(ir.OEQ, stab, ttab)
 	cmp = typecheck(cmp, ctxExpr)
 	cmp.SetType(types.Types[types.TBOOL])
 	return cmp, call
@@ -894,13 +894,13 @@ func eqinterface(s, t ir.INode) (eqtab, eqdata ir.INode) {
 // eqmem returns the node
 // 	memequal(&p.field, &q.field [, size])
 func eqmem(p ir.INode, q ir.INode, field *types.Sym, size int64) ir.INode {
-	nx := nod(ir.OADDR, nodSym(ir.OXDOT, p, field), nil)
-	ny := nod(ir.OADDR, nodSym(ir.OXDOT, q, field), nil)
+	nx := ir.Nod(ir.OADDR, nodSym(ir.OXDOT, p, field), nil)
+	ny := ir.Nod(ir.OADDR, nodSym(ir.OXDOT, q, field), nil)
 	nx = typecheck(nx, ctxExpr)
 	ny = typecheck(ny, ctxExpr)
 
 	fn, needsize := eqmemfunc(size, nx.Type().Elem())
-	call := nod(ir.OCALL, fn, nil)
+	call := ir.Nod(ir.OCALL, fn, nil)
 	call.PtrList().Append(nx)
 	call.PtrList().Append(ny)
 	if needsize {

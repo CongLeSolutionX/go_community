@@ -82,7 +82,7 @@ func (o *Order) newTemp(t *types.Type, clear bool) ir.INode {
 		v = temp(t)
 	}
 	if clear {
-		a := nod(ir.OAS, v, nil)
+		a := ir.Nod(ir.OAS, v, nil)
 		a = typecheck(a, ctxStmt)
 		o.out = append(o.out, a)
 	}
@@ -105,7 +105,7 @@ func (o *Order) newTemp(t *types.Type, clear bool) ir.INode {
 // to be filled in.)
 func (o *Order) copyExpr(n ir.INode, t *types.Type, clear bool) ir.INode {
 	v := o.newTemp(t, clear)
-	a := nod(ir.OAS, v, n)
+	a := ir.Nod(ir.OAS, v, n)
 	a = typecheck(a, ctxStmt)
 	o.out = append(o.out, a)
 	return v
@@ -297,7 +297,7 @@ func (o *Order) cleanTempNoPop(mark ordermarker) []ir.INode {
 	var out []ir.INode
 	for i := len(o.temp) - 1; i >= int(mark); i-- {
 		n := o.temp[i]
-		kill := nod(ir.OVARKILL, n, nil)
+		kill := ir.Nod(ir.OVARKILL, n, nil)
 		kill = typecheck(kill, ctxStmt)
 		out = append(out, kill)
 	}
@@ -396,7 +396,7 @@ func (o *Order) edge() {
 	counter.Name().SetLibfuzzerExtraCounter(true)
 
 	// counter += 1
-	incr := nod(ir.OASOP, counter, nodintconst(1))
+	incr := ir.Nod(ir.OASOP, counter, nodintconst(1))
 	incr.SetSubOp(ir.OADD)
 	incr = typecheck(incr, ctxStmt)
 
@@ -492,7 +492,7 @@ func (o *Order) call(n ir.INode) {
 			x := o.copyExpr(arg.Left(), arg.Left().Type(), false)
 			arg.SetLeft(x)
 			x.Name().SetAddrtaken(true) // ensure SSA keeps the x variable
-			n.PtrNbody().Append(typecheck(nod(ir.OVARLIVE, x, nil), ctxStmt))
+			n.PtrNbody().Append(typecheck(ir.Nod(ir.OVARLIVE, x, nil), ctxStmt))
 		}
 	}
 
@@ -560,7 +560,7 @@ func (o *Order) mapAssign(n ir.INode) {
 			case instrumenting && n.Op() == ir.OAS2FUNC && !m.IsBlank():
 				t := o.newTemp(m.Type(), false)
 				n.List().SetIndex(i, t)
-				a := nod(ir.OAS, m, t)
+				a := ir.Nod(ir.OAS, m, t)
 				a = typecheck(a, ctxStmt)
 				post = append(post, a)
 			}
@@ -614,7 +614,7 @@ func (o *Order) stmt(n ir.INode) {
 				l.SetIndexMapLValue(false)
 			}
 			l = o.copyExpr(l, n.Left().Type(), false)
-			n.SetRight(nod(n.SubOp(), l, n.Right()))
+			n.SetRight(ir.Nod(n.SubOp(), l, n.Right()))
 			n.SetRight(typecheck(n.Right(), ctxExpr))
 			n.SetRight(o.expr(n.Right(), nil))
 
@@ -794,7 +794,7 @@ func (o *Order) stmt(n ir.INode) {
 			r := n.Right()
 
 			if r.Type().IsString() && r.Type() != types.Types[types.TSTRING] {
-				r = nod(ir.OCONV, r, nil)
+				r = ir.Nod(ir.OCONV, r, nil)
 				r.SetType(types.Types[types.TSTRING])
 				r = typecheck(r, ctxExpr)
 			}
@@ -913,13 +913,13 @@ func (o *Order) stmt(n ir.INode) {
 					tmp1 := r.Left()
 
 					if r.Colas() {
-						tmp2 := nod(ir.ODCL, tmp1, nil)
+						tmp2 := ir.Nod(ir.ODCL, tmp1, nil)
 						tmp2 = typecheck(tmp2, ctxStmt)
 						n2.PtrNinit().Append(tmp2)
 					}
 
 					r.SetLeft(o.newTemp(r.Right().Left().Type().Elem(), r.Right().Left().Type().Elem().HasPointers()))
-					tmp2 := nod(ir.OAS, tmp1, r.Left())
+					tmp2 := ir.Nod(ir.OAS, tmp1, r.Left())
 					tmp2 = typecheck(tmp2, ctxStmt)
 					n2.PtrNinit().Append(tmp2)
 				}
@@ -930,7 +930,7 @@ func (o *Order) stmt(n ir.INode) {
 				if r.List().Len() != 0 {
 					tmp1 := r.List().First()
 					if r.Colas() {
-						tmp2 := nod(ir.ODCL, tmp1, nil)
+						tmp2 := ir.Nod(ir.ODCL, tmp1, nil)
 						tmp2 = typecheck(tmp2, ctxStmt)
 						n2.PtrNinit().Append(tmp2)
 					}
@@ -1002,7 +1002,7 @@ func (o *Order) stmt(n ir.INode) {
 	case ir.OSWITCH:
 		if base.Debug.Libfuzzer != 0 && !hasDefaultCase(n) {
 			// Add empty "default:" case for instrumentation.
-			n.PtrList().Append(nod(ir.OCASE, nil, nil))
+			n.PtrList().Append(ir.Nod(ir.OCASE, nil, nil))
 		}
 
 		t := o.markTemp()
@@ -1177,7 +1177,7 @@ func (o *Order) expr(n, lhs ir.INode) ir.INode {
 
 		// Evaluate left-hand side.
 		lhs := o.expr(n.Left(), nil)
-		o.out = append(o.out, typecheck(nod(ir.OAS, r, lhs), ctxStmt))
+		o.out = append(o.out, typecheck(ir.Nod(ir.OAS, r, lhs), ctxStmt))
 
 		// Evaluate right-hand side, save generated code.
 		saveout := o.out
@@ -1185,13 +1185,13 @@ func (o *Order) expr(n, lhs ir.INode) ir.INode {
 		t := o.markTemp()
 		o.edge()
 		rhs := o.expr(n.Right(), nil)
-		o.out = append(o.out, typecheck(nod(ir.OAS, r, rhs), ctxStmt))
+		o.out = append(o.out, typecheck(ir.Nod(ir.OAS, r, rhs), ctxStmt))
 		o.cleanTemp(t)
 		gen := o.out
 		o.out = saveout
 
 		// If left-hand side doesn't cause a short-circuit, issue right-hand side.
-		nif := nod(ir.OIF, r, nil)
+		nif := ir.Nod(ir.OIF, r, nil)
 		if n.Op() == ir.OANDAND {
 			nif.PtrNbody().Set(gen)
 		} else {
@@ -1358,14 +1358,14 @@ func (o *Order) expr(n, lhs ir.INode) ir.INode {
 
 		// Emit the creation of the map (with all its static entries).
 		m := o.newTemp(n.Type(), false)
-		as := nod(ir.OAS, m, n)
+		as := ir.Nod(ir.OAS, m, n)
 		typecheck(as, ctxStmt)
 		o.stmt(as)
 		n = m
 
 		// Emit eval+insert of dynamic entries, one at a time.
 		for _, r := range dynamics {
-			as := nod(ir.OAS, nod(ir.OINDEX, n, r.Left()), r.Right())
+			as := ir.Nod(ir.OAS, ir.Nod(ir.OINDEX, n, r.Left()), r.Right())
 			typecheck(as, ctxStmt) // Note: this converts the OINDEX to an OINDEXMAP
 			o.stmt(as)
 		}
@@ -1381,7 +1381,7 @@ func okas(ok, val ir.INode) ir.INode {
 	if !ok.IsBlank() {
 		val = conv(val, ok.Type())
 	}
-	return nod(ir.OAS, ok, val)
+	return ir.Nod(ir.OAS, ok, val)
 }
 
 // as2 orders OAS2XXXX nodes. It creates temporaries to ensure left-to-right assignment.
@@ -1406,7 +1406,7 @@ func (o *Order) as2(n ir.INode) {
 
 	o.out = append(o.out, n)
 
-	as := nod(ir.OAS2, nil, nil)
+	as := ir.Nod(ir.OAS2, nil, nil)
 	as.PtrList().Set(left)
 	as.PtrRlist().Set(tmplist)
 	as = typecheck(as, ctxStmt)
@@ -1429,7 +1429,7 @@ func (o *Order) okAs2(n ir.INode) {
 	o.out = append(o.out, n)
 
 	if tmp1 != nil {
-		r := nod(ir.OAS, n.List().First(), tmp1)
+		r := ir.Nod(ir.OAS, n.List().First(), tmp1)
 		r = typecheck(r, ctxStmt)
 		o.mapAssign(r)
 		n.List().SetFirst(tmp1)

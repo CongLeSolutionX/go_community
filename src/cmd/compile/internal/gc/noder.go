@@ -158,7 +158,7 @@ func (p *noder) funcBody(fn ir.INode, block *syntax.BlockStmt) {
 	if block != nil {
 		body := p.stmts(block.List)
 		if body == nil {
-			body = []ir.INode{nod(ir.OEMPTY, nil, nil)}
+			body = []ir.INode{ir.Nod(ir.OEMPTY, nil, nil)}
 		}
 		fn.PtrNbody().Set(body)
 
@@ -982,7 +982,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.INode {
 		l := p.blockStmt(stmt)
 		if len(l) == 0 {
 			// TODO(mdempsky): Line number?
-			return nod(ir.OEMPTY, nil, nil)
+			return ir.Nod(ir.OEMPTY, nil, nil)
 		}
 		return liststmt(l)
 	case *syntax.ExprStmt:
@@ -1131,7 +1131,7 @@ func (p *noder) assignList(expr syntax.Expr, defn ir.INode, colas bool) []ir.INo
 		n := newname(sym)
 		declare(n, dclcontext)
 		n.Name().Defn = defn
-		defn.PtrNinit().Append(nod(ir.ODCL, n, nil))
+		defn.PtrNinit().Append(ir.Nod(ir.ODCL, n, nil))
 		res[i] = n
 	}
 
@@ -1483,7 +1483,7 @@ func (p *noder) wrapname(n syntax.Node, x ir.INode) ir.INode {
 }
 
 func (p *noder) nod(orig syntax.Node, op ir.Op, left, right ir.INode) ir.INode {
-	return nodl(p.pos(orig), op, left, right)
+	return ir.NodAt(p.pos(orig), op, left, right)
 }
 
 func (p *noder) nodSym(orig syntax.Node, op ir.Op, left ir.INode, sym *types.Sym) ir.INode {

@@ -75,7 +75,7 @@ func typecheckselect(sel ir.INode) {
 
 				// convert <-c into OSELRECV(N, <-c)
 			case ir.ORECV:
-				n = nodl(n.Pos(), ir.OSELRECV, nil, n)
+				n = ir.NodAt(n.Pos(), ir.OSELRECV, nil, n)
 
 				n.SetTypecheck(1)
 				ncase.SetLeft(n)
@@ -162,7 +162,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 		}
 
 		l = append(l, cas.Nbody().Slice()...)
-		l = append(l, nod(ir.OBREAK, nil, nil))
+		l = append(l, ir.Nod(ir.OBREAK, nil, nil))
 		return l
 	}
 
@@ -178,7 +178,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 		}
 		switch n.Op() {
 		case ir.OSEND:
-			n.SetRight(nod(ir.OADDR, n.Right(), nil))
+			n.SetRight(ir.Nod(ir.OADDR, n.Right(), nil))
 			n.SetRight(typecheck(n.Right(), ctxExpr))
 
 		case ir.OSELRECV, ir.OSELRECV2:
@@ -187,7 +187,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 			}
 
 			if n.Left() != nil {
-				n.SetLeft(nod(ir.OADDR, n.Left(), nil))
+				n.SetLeft(ir.Nod(ir.OADDR, n.Left(), nil))
 				n.SetLeft(typecheck(n.Left(), ctxExpr))
 			}
 		}
@@ -202,7 +202,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 
 		n := cas.Left()
 		setlineno(n)
-		r := nod(ir.OIF, nil, nil)
+		r := ir.Nod(ir.OIF, nil, nil)
 		r.PtrNinit().Set(cas.Ninit().Slice())
 		switch n.Op() {
 		default:
@@ -229,7 +229,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 			if elem == nil {
 				elem = nodnil()
 			}
-			receivedp := nod(ir.OADDR, n.List().First(), nil)
+			receivedp := ir.Nod(ir.OADDR, n.List().First(), nil)
 			receivedp = typecheck(receivedp, ctxExpr)
 			r.SetLeft(mkcall1(chanfn("selectnbrecv2", 2, ch.Type()), types.Types[types.TBOOL], r.PtrNinit(), elem, receivedp, ch))
 		}
@@ -237,7 +237,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 		r.SetLeft(typecheck(r.Left(), ctxExpr))
 		r.PtrNbody().Set(cas.Nbody().Slice())
 		r.PtrRlist().Set(append(dflt.Ninit().Slice(), dflt.Nbody().Slice()...))
-		return []ir.INode{r, nod(ir.OBREAK, nil, nil)}
+		return []ir.INode{r, ir.Nod(ir.OBREAK, nil, nil)}
 	}
 
 	if dflt != nil {
@@ -251,7 +251,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 	// generate sel-struct
 	base.Pos = sellineno
 	selv := temp(types.NewArray(scasetype(), int64(ncas)))
-	r := nod(ir.OAS, selv, nil)
+	r := ir.Nod(ir.OAS, selv, nil)
 	r = typecheck(r, ctxStmt)
 	init = append(init, r)
 
@@ -261,7 +261,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 	var pc0, pcs ir.INode
 	if base.Flag.Race {
 		pcs = temp(types.NewArray(types.Types[types.TUINTPTR], int64(ncas)))
-		pc0 = typecheck(nod(ir.OADDR, nod(ir.OINDEX, pcs, nodintconst(0)), nil), ctxExpr)
+		pc0 = typecheck(ir.Nod(ir.OADDR, ir.Nod(ir.OINDEX, pcs, nodintconst(0)), nil), ctxExpr)
 	} else {
 		pc0 = nodnil()
 	}
@@ -298,7 +298,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 		casorder[i] = cas
 
 		setField := func(f string, val ir.INode) {
-			r := nod(ir.OAS, nodSym(ir.ODOT, nod(ir.OINDEX, selv, nodintconst(int64(i))), lookup(f)), val)
+			r := ir.Nod(ir.OAS, nodSym(ir.ODOT, ir.Nod(ir.OINDEX, selv, nodintconst(int64(i))), lookup(f)), val)
 			r = typecheck(r, ctxStmt)
 			init = append(init, r)
 		}
@@ -313,7 +313,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 		// TODO(mdempsky): There should be a cleaner way to
 		// handle this.
 		if base.Flag.Race {
-			r = mkcall("selectsetpc", nil, nil, nod(ir.OADDR, nod(ir.OINDEX, pcs, nodintconst(int64(i))), nil))
+			r = mkcall("selectsetpc", nil, nil, ir.Nod(ir.OADDR, ir.Nod(ir.OINDEX, pcs, nodintconst(int64(i))), nil))
 			init = append(init, r)
 		}
 	}
@@ -325,7 +325,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 	base.Pos = sellineno
 	chosen := temp(types.Types[types.TINT])
 	recvOK := temp(types.Types[types.TBOOL])
-	r = nod(ir.OAS2, nil, nil)
+	r = ir.Nod(ir.OAS2, nil, nil)
 	r.PtrList().Set2(chosen, recvOK)
 	fn := syslook("selectgo")
 	r.PtrRlist().Set1(mkcall1(fn, fn.Type().Results(), nil, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), pc0, nodintconst(int64(nsends)), nodintconst(int64(nrecvs)), nodbool(dflt == nil)))
@@ -333,10 +333,10 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 	init = append(init, r)
 
 	// selv and order are no longer alive after selectgo.
-	init = append(init, nod(ir.OVARKILL, selv, nil))
-	init = append(init, nod(ir.OVARKILL, order, nil))
+	init = append(init, ir.Nod(ir.OVARKILL, selv, nil))
+	init = append(init, ir.Nod(ir.OVARKILL, order, nil))
 	if base.Flag.Race {
-		init = append(init, nod(ir.OVARKILL, pcs, nil))
+		init = append(init, ir.Nod(ir.OVARKILL, pcs, nil))
 	}
 
 	// dispatch cases
@@ -344,26 +344,26 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 		cond = typecheck(cond, ctxExpr)
 		cond = defaultlit(cond, nil)
 
-		r := nod(ir.OIF, cond, nil)
+		r := ir.Nod(ir.OIF, cond, nil)
 
 		if n := cas.Left(); n != nil && n.Op() == ir.OSELRECV2 {
-			x := nod(ir.OAS, n.List().First(), recvOK)
+			x := ir.Nod(ir.OAS, n.List().First(), recvOK)
 			x = typecheck(x, ctxStmt)
 			r.PtrNbody().Append(x)
 		}
 
 		r.PtrNbody().AppendNodes(cas.PtrNbody())
-		r.PtrNbody().Append(nod(ir.OBREAK, nil, nil))
+		r.PtrNbody().Append(ir.Nod(ir.OBREAK, nil, nil))
 		init = append(init, r)
 	}
 
 	if dflt != nil {
 		setlineno(dflt)
-		dispatch(nod(ir.OLT, chosen, nodintconst(0)), dflt)
+		dispatch(ir.Nod(ir.OLT, chosen, nodintconst(0)), dflt)
 	}
 	for i, cas := range casorder {
 		setlineno(cas)
-		dispatch(nod(ir.OEQ, chosen, nodintconst(int64(i))), cas)
+		dispatch(ir.Nod(ir.OEQ, chosen, nodintconst(int64(i))), cas)
 	}
 
 	return init
@@ -371,7 +371,7 @@ func walkselectcases(cases *ir.Nodes) []ir.INode {
 
 // bytePtrToIndex returns a Node representing "(*byte)(&n[i])".
 func bytePtrToIndex(n ir.INode, i int64) ir.INode {
-	s := nod(ir.OADDR, nod(ir.OINDEX, n, nodintconst(i)), nil)
+	s := ir.Nod(ir.OADDR, ir.Nod(ir.OINDEX, n, nodintconst(i)), nil)
 	t := types.NewPtr(types.Types[types.TUINT8])
 	return convnop(s, t)
 }

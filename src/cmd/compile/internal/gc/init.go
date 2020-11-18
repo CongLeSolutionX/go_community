@@ -18,7 +18,7 @@ import (
 var renameinitgen int
 
 // Dummy function for autotmps generated during typechecking.
-var dummyInitFn = nod(ir.ODCLFUNC, nil, nil)
+var dummyInitFn = ir.Nod(ir.ODCLFUNC, nil, nil)
 
 func renameinit() *types.Sym {
 	s := lookupN("init.", renameinitgen)
@@ -47,7 +47,7 @@ func fninit(n []ir.INode) {
 	if len(nf) > 0 {
 		base.Pos = nf[0].Pos() // prolog/epilog gets line number of first init stmt
 		initializers := lookup("init")
-		fn := dclfunc(initializers, nod(ir.OTFUNC, nil, nil))
+		fn := dclfunc(initializers, ir.Nod(ir.OTFUNC, nil, nil))
 		for _, dcl := range dummyInitFn.Func().Dcl {
 			dcl.Name().Curfn = fn
 		}
