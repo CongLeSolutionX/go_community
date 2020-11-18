@@ -277,12 +277,11 @@ func (d *initDeps) inspectList(l ir.Nodes) { ir.InspectList(l, d.visit) }
 // referenced by n, if any.
 func (d *initDeps) visit(n ir.INode) bool {
 	switch n.Op() {
-	case ir.ONAME:
-		if n.IsMethodExpression() {
-			d.foundDep(ir.AsNode(n.Type().FuncType().Nname))
-			return false
-		}
+	case ir.OMETHEXPR:
+		d.foundDep(ir.AsNode(n.Type().FuncType().Nname))
+		return false
 
+	case ir.ONAME:
 		switch n.Class() {
 		case ir.PEXTERN, ir.PFUNC:
 			d.foundDep(n)
