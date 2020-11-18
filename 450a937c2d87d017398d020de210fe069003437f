@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "71af0541_86b4ae34",
+        "filename": "src/runtime/sys_linux_mips64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-11-18T02:30:12Z",
+      "side": 1,
+      "message": "Thanks.\nDone",
+      "parentUuid": "c8915e8d_1b2ce477",
+      "range": {
+        "startLine": 253,
+        "startChar": 13,
+        "endLine": 253,
+        "endChar": 17
+      },
+      "revId": "450a937c2d87d017398d020de210fe069003437f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3d55e00b_474048af",
         "filename": "src/runtime/sys_linux_mips64x.s",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-17T15:07:43Z",
       "side": 1,
       "message": "I assume not, but does this need any synchronization/atomics to ensure consistency across stores, since this store may be racing with other loads?",
+      "revId": "450a937c2d87d017398d020de210fe069003437f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce65c788_bad1fec1",
+        "filename": "src/runtime/sys_linux_mips64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-11-18T02:30:12Z",
+      "side": 1,
+      "message": "It\u0027s ok that other thread writes since all fallback pathes writes zero to it.\n@cherry are you ok with that?",
+      "parentUuid": "3d55e00b_474048af",
       "revId": "450a937c2d87d017398d020de210fe069003437f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
