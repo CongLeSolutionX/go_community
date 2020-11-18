@@ -101,7 +101,7 @@ func autolabel(prefix string) *types.Sym {
 
 // find all the exported symbols in package opkg
 // and make them available in the current package
-func importdot(opkg *types.Pkg, pack ir.INode) {
+func importdot(opkg *types.Pkg, pack *ir.PackNode) {
 	n := 0
 	for _, s := range opkg.Syms {
 		if s.Def == nil {
@@ -587,7 +587,7 @@ func labeledControl(n ir.INode) ir.INode {
 	if n.Op() != ir.OLABEL {
 		base.Fatal("labeledControl %v", n.Op())
 	}
-	ctl := n.Name().Defn
+	ctl := n.(*ir.LabelNode).Defn
 	if ctl == nil {
 		return nil
 	}

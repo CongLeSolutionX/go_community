@@ -736,13 +736,13 @@ func geneq(t *types.Type) *obj.LSym {
 	// ret:
 	//   return
 	ret := autolabel(".ret")
-	fn.PtrNbody().Append(nodSym(ir.OLABEL, nil, ret))
+	fn.PtrNbody().Append(ir.NewLabelNode(base.Pos, ret))
 	fn.PtrNbody().Append(ir.Nod(ir.ORETURN, nil, nil))
 
 	// neq:
 	//   r = false
 	//   return (or goto ret)
-	fn.PtrNbody().Append(nodSym(ir.OLABEL, nil, neq))
+	fn.PtrNbody().Append(ir.NewLabelNode(base.Pos, neq))
 	fn.PtrNbody().Append(ir.Nod(ir.OAS, nr, nodbool(false)))
 	if EqCanPanic(t) || hasCall(fn) {
 		// Epilogue is large, so share it with the equal case.

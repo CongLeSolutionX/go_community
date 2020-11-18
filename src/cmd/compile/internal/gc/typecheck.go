@@ -2408,9 +2408,6 @@ func typecheckMethodExpr(n ir.INode) (res ir.INode) {
 	}
 
 	n.SetOp(ir.OMETHEXPR)
-	if n.Name() == nil {
-		n.SetName(new(ir.Name))
-	}
 	n.SetRight(NewName(n.Sym()))
 	n.SetSym(methodSym(t, n.Sym()))
 	n.SetType(methodfunc(m.Type, n.Left().Type()))
@@ -3791,14 +3788,17 @@ func markbreaklist(l ir.Nodes, implicit ir.INode) {
 		if n == nil {
 			continue
 		}
-		if n.Op() == ir.OLABEL && i+1 < len(s) && n.Name().Defn == s[i+1] {
-			switch n.Name().Defn.Op() {
-			case ir.OFOR, ir.OFORUNTIL, ir.OSWITCH, ir.OTYPESW, ir.OSELECT, ir.ORANGE:
-				n.Sym().Label = ir.AsTypesNode(n.Name().Defn)
-				markbreak(n.Name().Defn, n.Name().Defn)
-				n.Sym().Label = nil
-				i++
-				continue
+		if lab, ok := n.(*ir.LabelNode); ok {
+			defn := lab.Defn
+			if i+1 < len(s) && s[i+1] == defn {
+				switch defn.Op() {
+				case ir.OFOR, ir.OFORUNTIL, ir.OSWITCH, ir.OTYPESW, ir.OSELECT, ir.ORANGE:
+					lab.Sym().Label = ir.AsTypesNode(defn)
+					markbreak(defn, defn)
+					lab.Sym().Label = nil
+					i++
+					continue
+				}
 			}
 		}
 

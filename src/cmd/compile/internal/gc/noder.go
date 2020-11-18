@@ -355,10 +355,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 		my = lookup(ipkg.Name)
 	}
 
-	pack := p.nod(imp, ir.OPACK, nil, nil)
-	pack.SetSym(my)
-	pack.Name().Pkg = ipkg
-
+	pack := ir.NewPackNode(p.pos(imp), my, ipkg)
 	switch my.Name {
 	case ".":
 		importdot(ipkg, pack)
@@ -681,8 +678,9 @@ func (p *noder) expr(expr syntax.Expr) ir.INode {
 		// parser.new_dotname
 		obj := p.expr(expr.X)
 		if obj.Op() == ir.OPACK {
-			obj.Name().SetUsed(true)
-			return importName(obj.Name().Pkg.Lookup(expr.Sel.Value))
+			pack := obj.(*ir.PackNode)
+			pack.Used = true
+			return importName(pack.Pkg.Lookup(expr.Sel.Value))
 		}
 		n := nodSym(ir.OXDOT, obj, p.name(expr.Sel))
 		n.SetPos(p.pos(expr)) // lineno may have been changed by p.expr(expr.X)
@@ -922,8 +920,9 @@ func (p *noder) packname(expr syntax.Expr) *types.Sym {
 			base.Error("%v is not a package", name)
 			pkg = ir.LocalPkg
 		} else {
-			def.Name().SetUsed(true)
-			pkg = def.Name().Pkg
+			pack := def.(*ir.PackNode)
+			pack.Used = true
+			pkg = pack.Pkg
 		}
 		return pkg.Lookup(expr.Sel.Value)
 	}
@@ -1298,14 +1297,14 @@ func (p *noder) commClauses(clauses []*syntax.CommClause, rbrace syntax.Pos) []i
 }
 
 func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) ir.INode {
-	lhs := p.nodSym(label, ir.OLABEL, nil, p.name(label.Label))
+	lhs := ir.NewLabelNode(base.Pos, p.name(label.Label))
 
 	var ls ir.INode
 	if label.Stmt != nil { // TODO(mdempsky): Should always be present.
 		ls = p.stmtFall(label.Stmt, fallOK)
 	}
 
-	lhs.Name().Defn = ls
+	lhs.Defn = ls
 	l := []ir.INode{lhs}
 	if ls != nil {
 		if ls.Op() == ir.OBLOCK && ls.Ninit().Len() == 0 {
@@ -1688,8 +1687,8 @@ func safeArg(name string) bool {
 
 func mkname(sym *types.Sym) ir.INode {
 	n := oldname(sym)
-	if n.Name() != nil && n.Name().Pack != nil {
-		n.Name().Pack.Name().SetUsed(true)
+	if name := n.Name(); name != nil && name.Pack != nil {
+		name.Pack.Used = true
 	}
 	return n
 }

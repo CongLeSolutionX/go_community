@@ -1176,7 +1176,7 @@ func mkinlcall(n, fn ir.INode, maxCost int32, inlMap map[ir.INode]bool) ir.INode
 
 	body := subst.list(ir.AsNodes(fn.Func().Inl.Body))
 
-	lab := nodSym(ir.OLABEL, nil, retlabel)
+	lab := ir.NewLabelNode(base.Pos, retlabel)
 	body = append(body, lab)
 
 	typecheckslice(body, ctxStmt)
