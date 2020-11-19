@@ -885,6 +885,13 @@ func (check *Checker) binary(x *operand, e *ast.BinaryExpr, lhs, rhs ast.Expr, o
 			op = token.QUO_ASSIGN
 		}
 		x.val = constant.BinaryOp(xval, op, yval)
+		// report error if valid operands lead to an invalid result
+		if xval.Kind() != constant.Unknown && yval.Kind() != constant.Unknown && x.val.Kind() == constant.Unknown {
+			// TODO(gri) We should report exactly what went wrong. At the
+			//           moment we don't have the (go/constant) API for that.
+			//           See also TODO in go/constant/value.go.
+			check.errorf(e, _InvalidConstVal, "invalid constant value")
+		}
 		// Typed constants must be representable in
 		// their type after each constant operation.
 		if isTyped(typ) {
