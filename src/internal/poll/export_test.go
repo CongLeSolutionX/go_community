@@ -8,7 +8,16 @@
 
 package poll
 
-var Consume = consume
+var (
+	Consume    = consume
+	GetPipe    = getPipe
+	PutPipe    = putPipe
+	GetPipeFds = func(p *SplicePipe) (int, int) {
+		return p.rfd, p.wfd
+	}
+)
+
+type SplicePipe = splicePipe
 
 type FDMutex struct {
 	fdMutex
