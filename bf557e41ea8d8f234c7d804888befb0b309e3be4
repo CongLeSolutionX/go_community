@@ -86,6 +86,24 @@
       "parentUuid": "6b8bc8ca_0627ab80",
       "revId": "bf557e41ea8d8f234c7d804888befb0b309e3be4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a655d7ec_dde91873",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-19T17:02:38Z",
+      "side": 1,
+      "message": "OK, so which do you think is the better idea, sync.Pool + Finalizer or pipe list with goroutine to clean up pipes like I said before.",
+      "parentUuid": "02abc139_f23d80d9",
+      "revId": "bf557e41ea8d8f234c7d804888befb0b309e3be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
