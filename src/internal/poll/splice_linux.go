@@ -6,6 +6,8 @@ package poll
 
 import (
 	"internal/syscall/unix"
+	"runtime"
+	"sync"
 	"sync/atomic"
 	"syscall"
 	"unsafe"
@@ -28,18 +30,18 @@ const (
 //
 // If err != nil, sc is the system call which caused the error.
 func Splice(dst, src *FD, remain int64) (written int64, handled bool, sc string, err error) {
-	prfd, pwfd, sc, err := newTempPipe()
+	p, sc, err := getPipe()
 	if err != nil {
 		return 0, false, sc, err
 	}
-	defer destroyTempPipe(prfd, pwfd)
+	defer putPipe(p)
 	var inPipe, n int
 	for err == nil && remain > 0 {
 		max := maxSpliceSize
 		if int64(max) > remain {
 			max = int(remain)
 		}
-		inPipe, err = spliceDrain(pwfd, src, max)
+		inPipe, err = spliceDrain(p.pwfd, src, max)
 		// The operation is considered handled if splice returns no
 		// error, or an error other than EINVAL. An EINVAL means the
 		// kernel does not support splice for the socket type of src.
@@ -55,10 +57,13 @@ func Splice(dst, src *FD, remain int64) (written int64, handled bool, sc string,
 		if err != nil || (inPipe == 0 && err == nil) {
 			break
 		}
-		n, err = splicePump(dst, prfd, inPipe)
+		p.data += inPipe
+
+		n, err = splicePump(dst, p.prfd, inPipe)
 		if n > 0 {
 			written += int64(n)
 			remain -= int64(n)
+			p.data -= n
 		}
 	}
 	if err != nil {
@@ -149,13 +154,42 @@ func splice(out int, in int, max int, flags int) (int, error) {
 	return int(n), err
 }
 
+type pipe struct {
+	prfd int
+	pwfd int
+	data int
+	next *pipe
+}
+
+var pipePool sync.Pool
+
+func getPipe() (p *pipe, sc string, err error) {
+	if v := pipePool.Get(); v != nil {
+		return v.(*pipe), "", nil
+	}
+	p, sc, err = newPipe()
+	runtime.SetFinalizer(p, func(p *pipe) {
+		_ = destroyPipe(p)
+	})
+	return
+}
+
+func putPipe(p *pipe) {
+	if p.data != 0 {
+		runtime.SetFinalizer(p, nil)
+		_ = destroyPipe(p)
+		return
+	}
+	pipePool.Put(p)
+}
+
 var disableSplice unsafe.Pointer
 
-// newTempPipe sets up a temporary pipe for a splice operation.
-func newTempPipe() (prfd, pwfd int, sc string, err error) {
+// newPipe sets up a temporary pipe for a splice operation.
+func newPipe() (pp *pipe, sc string, err error) {
 	p := (*bool)(atomic.LoadPointer(&disableSplice))
 	if p != nil && *p {
-		return -1, -1, "splice", syscall.EINVAL
+		return nil, "splice", syscall.EINVAL
 	}
 
 	var fds [2]int
@@ -165,8 +199,11 @@ func newTempPipe() (prfd, pwfd int, sc string, err error) {
 	// closed.
 	const flags = syscall.O_CLOEXEC | syscall.O_NONBLOCK
 	if err := syscall.Pipe2(fds[:], flags); err != nil {
-		return -1, -1, "pipe2", err
+		return nil, "pipe2", err
 	}
+
+	pp = new(pipe)
+	pp.prfd, pp.pwfd = fds[0], fds[1]
 
 	if p == nil {
 		p = new(bool)
@@ -175,18 +212,18 @@ func newTempPipe() (prfd, pwfd int, sc string, err error) {
 		// F_GETPIPE_SZ was added in 2.6.35, which does not have the -EAGAIN bug.
 		if _, _, errno := syscall.Syscall(unix.FcntlSyscall, uintptr(fds[0]), syscall.F_GETPIPE_SZ, 0); errno != 0 {
 			*p = true
-			destroyTempPipe(fds[0], fds[1])
-			return -1, -1, "fcntl", errno
+			_ = destroyPipe(pp)
+			return nil, "fcntl", errno
 		}
 	}
 
-	return fds[0], fds[1], "", nil
+	return
 }
 
-// destroyTempPipe destroys a temporary pipe.
-func destroyTempPipe(prfd, pwfd int) error {
-	err := CloseFunc(prfd)
-	err1 := CloseFunc(pwfd)
+// destroyPipe destroys a pipe.
+func destroyPipe(p *pipe) error {
+	err := CloseFunc(p.prfd)
+	err1 := CloseFunc(p.pwfd)
 	if err == nil {
 		return err1
 	}
