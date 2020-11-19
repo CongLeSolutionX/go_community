@@ -89,6 +89,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7170d066_ecbc119f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-11-19T15:38:53Z",
+      "side": 1,
+      "message": "We may want to consider switching to ctr in the future.  Are there any notable penalties for marking sequences as unsafe (i.e binary size, cost of checking, etc)? ctr is used infrequently today, so I think it\u0027s ok to leave as is for now.",
+      "parentUuid": "5a4d62f5_e971a255",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7551dba4_82904146",
