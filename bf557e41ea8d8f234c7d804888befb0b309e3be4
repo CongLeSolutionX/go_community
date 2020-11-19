@@ -51,6 +51,23 @@
       "parentUuid": "30e2f340_be24ea84",
       "revId": "bf557e41ea8d8f234c7d804888befb0b309e3be4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83cce521_293f19b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-19T16:13:32Z",
+      "side": 1,
+      "message": "Maybe set up an individual goroutine to scan the pipe pool and close all pipes periodically?",
+      "revId": "bf557e41ea8d8f234c7d804888befb0b309e3be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
