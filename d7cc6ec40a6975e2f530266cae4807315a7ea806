@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41dd7cea_9d8c37ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-11-19T18:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5f3eb9e_4ef752d8",
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "def843aa_d7ec61a5",
@@ -268,6 +286,30 @@
       "side": 1,
       "message": "Yeah, let\u0027s use GetFrom3. Thanks.",
       "parentUuid": "b52f0312_1736ca73",
+      "range": {
+        "startLine": 2871,
+        "startChar": 2,
+        "endLine": 2871,
+        "endChar": 22
+      },
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfb57ac9_4e732bfa",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2871,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2020-11-19T18:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fa9fd41_00044a1a",
       "range": {
         "startLine": 2871,
         "startChar": 2,
