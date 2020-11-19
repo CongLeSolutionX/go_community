@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07d9d36b_36c6a828",
+        "filename": "src/go/constant/value_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-19T22:04:40Z",
+      "side": 1,
+      "message": "Maybe also add a 6e5518446744-ish test case for good measure?",
+      "revId": "e52cb50553cd7870267514a99387f615fc175bff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdad4479_cec8a63c",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-19T22:04:40Z",
+      "side": 1,
+      "message": "I think \"invalid\" suggests the user did something wrong per se, when strictly speaking I think this is running into a (spec allowed) implementation restriction.\n\nMaybe something like \"unable to represent constant expression result\" would be clearer and more precise? I think this wording is consistent with the phrasing under \"Implementation restriction\" at https://golang.org/ref/spec#Constants.",
+      "range": {
+        "startLine": 892,
+        "startChar": 38,
+        "endLine": 892,
+        "endChar": 60
+      },
+      "revId": "e52cb50553cd7870267514a99387f615fc175bff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bb10f63_aa34db04",
+        "filename": "src/go/types/fixedbugs/issue20583.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-19T22:04:40Z",
+      "side": 1,
+      "message": "Should the error here be reported against the overflowing \"*\" BinaryExpr instead of the \"x\" Ident?",
+      "revId": "e52cb50553cd7870267514a99387f615fc175bff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

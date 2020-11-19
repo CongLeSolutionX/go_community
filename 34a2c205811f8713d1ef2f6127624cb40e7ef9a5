@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d2b2d8b_0be4abd5",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-19T22:04:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t mode be \"invalid\" for the unknown operands rather than \"constant_\"? If so, maybe a TODO would be good to clean this up once that\u0027s fixed.",
+      "revId": "34a2c205811f8713d1ef2f6127624cb40e7ef9a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
