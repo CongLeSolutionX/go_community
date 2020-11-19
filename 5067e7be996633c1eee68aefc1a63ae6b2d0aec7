@@ -39,6 +39,30 @@
       },
       "revId": "5067e7be996633c1eee68aefc1a63ae6b2d0aec7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c81eba_c6101e11",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1607,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-19T15:41:19Z",
+      "side": 1,
+      "message": "Done. I missed modload.ModFile(); that\u0027s what I want.",
+      "parentUuid": "e1ea78c4_71b19be2",
+      "range": {
+        "startLine": 1607,
+        "startChar": 22,
+        "endLine": 1607,
+        "endChar": 40
+      },
+      "revId": "5067e7be996633c1eee68aefc1a63ae6b2d0aec7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
