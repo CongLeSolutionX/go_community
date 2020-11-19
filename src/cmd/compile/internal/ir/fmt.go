@@ -242,10 +242,10 @@ func (o Op) oconv(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 type (
 	ToFmtMode int
 
-	fmtNodeErr        Node
-	fmtNodeDbg        Node
-	fmtNodeTypeId     Node
-	fmtNodeTypeIdName Node
+	fmtNode struct {
+		n    *Node
+		mode ToFmtMode
+	}
 
 	fmtOpErr        Op
 	fmtOpDbg        Op
@@ -268,11 +268,10 @@ type (
 	fmtNodesTypeIdName Nodes
 )
 
-func (n *fmtNodeErr) Format(s fmt.State, verb rune)        { (*Node)(n).format(s, verb, FErr) }
-func (n *fmtNodeDbg) Format(s fmt.State, verb rune)        { (*Node)(n).format(s, verb, FDbg) }
-func (n *fmtNodeTypeId) Format(s fmt.State, verb rune)     { (*Node)(n).format(s, verb, FTypeId) }
-func (n *fmtNodeTypeIdName) Format(s fmt.State, verb rune) { (*Node)(n).format(s, verb, FTypeIdName) }
-func (n *Node) Format(s fmt.State, verb rune)              { n.format(s, verb, FErr) }
+func (n *fmtNode) Format(s fmt.State, verb rune) { nodeFormat(n.n, s, verb, n.mode) }
+func FmtNode(n *Node, s fmt.State, verb rune)    { nodeFormat(n, s, verb, FErr) }
+
+func (n *Node) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 
 func (o fmtOpErr) Format(s fmt.State, verb rune)        { Op(o).format(s, verb, FErr) }
 func (o fmtOpDbg) Format(s fmt.State, verb rune)        { Op(o).format(s, verb, FDbg) }
@@ -329,7 +328,9 @@ func (m ToFmtMode) prepareArgs(args []interface{}) {
 			case Op:
 				args[i] = fmtOpErr(arg)
 			case *Node:
-				args[i] = (*fmtNodeErr)(arg)
+				args[i] = &fmtNode{arg, m}
+			case nil:
+				args[i] = &fmtNode{nil, m}
 			case *types.Type:
 				args[i] = (*fmtTypeErr)(arg)
 			case *types.Sym:
@@ -348,7 +349,9 @@ func (m ToFmtMode) prepareArgs(args []interface{}) {
 			case Op:
 				args[i] = fmtOpDbg(arg)
 			case *Node:
-				args[i] = (*fmtNodeDbg)(arg)
+				args[i] = &fmtNode{arg, m}
+			case nil:
+				args[i] = &fmtNode{nil, m}
 			case *types.Type:
 				args[i] = (*fmtTypeDbg)(arg)
 			case *types.Sym:
@@ -367,7 +370,9 @@ func (m ToFmtMode) prepareArgs(args []interface{}) {
 			case Op:
 				args[i] = fmtOpTypeId(arg)
 			case *Node:
-				args[i] = (*fmtNodeTypeId)(arg)
+				args[i] = &fmtNode{arg, m}
+			case nil:
+				args[i] = &fmtNode{nil, m}
 			case *types.Type:
 				args[i] = (*fmtTypeTypeId)(arg)
 			case *types.Sym:
@@ -386,7 +391,9 @@ func (m ToFmtMode) prepareArgs(args []interface{}) {
 			case Op:
 				args[i] = fmtOpTypeIdName(arg)
 			case *Node:
-				args[i] = (*fmtNodeTypeIdName)(arg)
+				args[i] = &fmtNode{arg, m}
+			case nil:
+				args[i] = &fmtNode{nil, m}
 			case *types.Type:
 				args[i] = (*fmtTypeTypeIdName)(arg)
 			case *types.Sym:
@@ -404,13 +411,13 @@ func (m ToFmtMode) prepareArgs(args []interface{}) {
 	}
 }
 
-func (n *Node) format(s fmt.State, verb rune, mode ToFmtMode) {
+func nodeFormat(n *Node, s fmt.State, verb rune, mode ToFmtMode) {
 	switch verb {
 	case 'v', 'S', 'L':
-		n.nconv(s, fmtFlag(s, verb), mode)
+		nconvNode(n, s, fmtFlag(s, verb), mode)
 
 	case 'j':
-		n.jconv(s, fmtFlag(s, verb))
+		jconvNode(n, s, fmtFlag(s, verb))
 
 	default:
 		fmt.Fprintf(s, "%%!%c(*Node=%p)", verb, n)
@@ -421,7 +428,7 @@ func (n *Node) format(s fmt.State, verb rune, mode ToFmtMode) {
 var EscFmt func(n *Node, short bool) string
 
 // *Node details
-func (n *Node) jconv(s fmt.State, flag FmtFlag) {
+func jconvNode(n *Node, s fmt.State, flag FmtFlag) {
 	short := flag&FmtShort != 0
 
 	// Useful to see which nodes in an AST printout are actually identical
@@ -1494,16 +1501,16 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode ToFmtMode) {
 		fmt.Fprint(s, "[")
 		low, high, max := n.SliceBounds()
 		if low != nil {
-			fmt.Fprint(s, low.modeString(mode))
+			fmt.Fprint(s, modeString(low, mode))
 		}
 		fmt.Fprint(s, ":")
 		if high != nil {
-			fmt.Fprint(s, high.modeString(mode))
+			fmt.Fprint(s, modeString(high, mode))
 		}
 		if n.Op().IsSlice3() {
 			fmt.Fprint(s, ":")
 			if max != nil {
-				fmt.Fprint(s, max.modeString(mode))
+				fmt.Fprint(s, modeString(max, mode))
 			}
 		}
 		fmt.Fprint(s, "]")
@@ -1669,7 +1676,7 @@ func (n *Node) nodefmt(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 	n.exprfmt(s, 0, mode)
 }
 
-func (n *Node) nodedump(s fmt.State, flag FmtFlag, mode ToFmtMode) {
+func nodeDump(n *Node, s fmt.State, flag FmtFlag, mode ToFmtMode) {
 	recur := flag&FmtShort == 0
 
 	if recur {
@@ -1832,7 +1839,7 @@ func fldconv(b *bytes.Buffer, f *types.Field, flag FmtFlag, mode ToFmtMode, visi
 
 		if s != nil && f.Embedded == 0 {
 			if funarg != types.FunargNone {
-				name = AsNode(f.Nname).modeString(mode)
+				name = modeString(AsNode(f.Nname), mode)
 			} else if flag&FmtLong != 0 {
 				name = mode.Sprintf("%0S", s)
 				if !types.IsExported(name) && flag&FmtUnsigned == 0 {
@@ -1877,12 +1884,12 @@ func typeFormat(t *types.Type, s fmt.State, verb rune, mode ToFmtMode) {
 	}
 }
 
-func (n *Node) String() string                   { return fmt.Sprint(n) }
-func (n *Node) modeString(mode ToFmtMode) string { return mode.Sprint(n) }
+func (n *Node) String() string                  { return fmt.Sprint(n) }
+func modeString(n *Node, mode ToFmtMode) string { return mode.Sprint(n) }
 
 // "%L"  suffix with "(type %T)" where possible
 // "%+S" in debug mode, don't recurse, no multiline output
-func (n *Node) nconv(s fmt.State, flag FmtFlag, mode ToFmtMode) {
+func nconvNode(n *Node, s fmt.State, flag FmtFlag, mode ToFmtMode) {
 	if n == nil {
 		fmt.Fprint(s, "<N>")
 		return
@@ -1896,7 +1903,7 @@ func (n *Node) nconv(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 
 	case FDbg:
 		dumpdepth++
-		n.nodedump(s, flag, mode)
+		nodeDump(n, s, flag, mode)
 		dumpdepth--
 
 	default:
@@ -1934,7 +1941,7 @@ func (l Nodes) hconv(s fmt.State, flag FmtFlag, mode ToFmtMode) {
 	}
 
 	for i, n := range l.Slice() {
-		fmt.Fprint(s, n.modeString(mode))
+		fmt.Fprint(s, modeString(n, mode))
 		if i+1 < l.Len() {
 			fmt.Fprint(s, sep)
 		}
