@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5f3eb9e_4ef752d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2020-11-19T14:42:04Z",
+      "side": 1,
+      "message": "I think you meant \u0027bclrl\u0027 here (conditional, not unconditional branch).",
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "def843aa_d7ec61a5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -85,6 +102,24 @@
       "writtenOn": "2020-11-18T23:11:07Z",
       "side": 1,
       "message": "Thanks for the CL. We\u0027re in the release freeze. This will wait for the next release.\n\nR\u003dgo1.17",
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ac79372_5f18c005",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2020-11-19T14:42:04Z",
+      "side": 1,
+      "message": "This is a bug fix. I think it\u0027s fine for this release (see Ian\u0027s comment in the issue).",
+      "parentUuid": "7551dba4_82904146",
       "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
