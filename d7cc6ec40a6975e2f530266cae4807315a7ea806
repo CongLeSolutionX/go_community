@@ -115,6 +115,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2ac9e54d_8e0ec9bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-19T15:56:10Z",
+      "side": 1,
+      "message": "Mostly no. It just makes the code not async-preemptible. Since this is a call, which will likely be able to preempt itself when necessary, I think that is fine.\n\nIf LR+hint works nicely, we don\u0027t have to change that.",
+      "parentUuid": "7170d066_ecbc119f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7551dba4_82904146",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
