@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "260fba0c_7877f535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-19T15:55:25Z",
+      "side": 1,
+      "message": "I\u0027m not yet seeing it.\n\n(*FD).Close calls fd.fdmu.increfAndClose.  Then it calls fd.pd.evict.  evict reads the runtimeCtx field.\n\nConcurrently, some other code calls (*FD).readUnlock, which calls fd.fdmu.rwunlock.  Only if rwunlock returns true does readUnlock go on to call destroy.  rwunlock only returns true if the locks mutexRefMask is zero.  But, critically, increfAndClose, called by Close, has added a ref.  So a concurrent call of Close and some other readUnlock can\u0027t cause a race here.\n\nClose doesn\u0027t release the ref until after the call to evict, when it calls fd.decref.  That call can itself call destroy, if there are no other refs.  But there will only be one point that sees the number of refs drop to zero, and therefore permit the call to destroy.\n\nThe code is assuming that atomic.CompareAndSwapUint64 is acting as a memory barrier.  I think that has to be true on all architectures.  And if it is true, I don\u0027t see how the race you are describing can occur.",
+      "revId": "c35f4d8bbf427dafc7d6506c872c087664a08b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
