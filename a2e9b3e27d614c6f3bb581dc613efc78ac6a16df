@@ -16,6 +16,24 @@
       "message": "Just noticed: should we also report removals of modules that were previously explicit requirements?\n\nI think we will currently miss at least some of those if they result indirectly from downgrades of other modules.",
       "revId": "a2e9b3e27d614c6f3bb581dc613efc78ac6a16df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d74efb4_5f311f91",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1609,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-19T18:21:03Z",
+      "side": 1,
+      "message": "Yes! I thought it was doing that already, but adding a case to the test proved me wrong. Fixed now.",
+      "parentUuid": "e4f98c13_e6b22b7a",
+      "revId": "a2e9b3e27d614c6f3bb581dc613efc78ac6a16df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
