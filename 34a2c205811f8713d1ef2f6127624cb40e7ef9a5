@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t mode be \"invalid\" for the unknown operands rather than \"constant_\"? If so, maybe a TODO would be good to clean this up once that\u0027s fixed.",
       "revId": "34a2c205811f8713d1ef2f6127624cb40e7ef9a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3a93197_40958dba",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-19T23:33:29Z",
+      "side": 1,
+      "message": "The original thinking behind the unknown value was that one could continue to do arithmetic with it without producing follow-on errors. It also allows the use of any type information available even if the constant value is not known. This allows the type-checker to do more checking in the presence of errors.\n\nIf we mark these operands as invalid, we lose any associated type information. E.g., for \n\nvar x \u003d c\n\nwhere c is such a constant, currently we can still give x a type. If we mark c as invalid, x\u0027s type will become invalid. But perhaps the consequences would be minor and it would simplify the code overall.\n\nAdded TODO.",
+      "parentUuid": "1d2b2d8b_0be4abd5",
+      "revId": "34a2c205811f8713d1ef2f6127624cb40e7ef9a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
