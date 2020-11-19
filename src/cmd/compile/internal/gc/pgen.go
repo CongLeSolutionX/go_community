@@ -29,7 +29,7 @@ var (
 )
 
 func emitptrargsmap(fn *ir.Node) {
-	if fn.FuncName() == "_" || fn.Func().Nname.Sym().Linkname != "" {
+	if ir.FuncName(fn) == "_" || fn.Func().Nname.Sym().Linkname != "" {
 		return
 	}
 	lsym := base.Ctxt.Lookup(fn.Func().LSym.Name + ".args_stackmap")
@@ -248,7 +248,7 @@ func compile(fn *ir.Node) {
 	// From this point, there should be no uses of Curfn. Enforce that.
 	Curfn = nil
 
-	if fn.FuncName() == "_" {
+	if ir.FuncName(fn) == "_" {
 		// We don't need to generate code for this function, just report errors in its body.
 		// At this point we've generated any errors needed.
 		// (Beyond here we generate only non-spec errors, like "stack frame too large".)

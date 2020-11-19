@@ -968,7 +968,7 @@ func (lv *Liveness) compact(b *ssa.Block) {
 }
 
 func (lv *Liveness) showlive(v *ssa.Value, live bvec) {
-	if base.Flag.Live == 0 || lv.fn.FuncName() == "init" || strings.HasPrefix(lv.fn.FuncName(), ".") {
+	if base.Flag.Live == 0 || ir.FuncName(lv.fn) == "init" || strings.HasPrefix(ir.FuncName(lv.fn), ".") {
 		return
 	}
 	if !(v == nil || v.Op.IsCall()) {
@@ -987,7 +987,7 @@ func (lv *Liveness) showlive(v *ssa.Value, live bvec) {
 
 	s := "live at "
 	if v == nil {
-		s += fmt.Sprintf("entry to %s:", lv.fn.FuncName())
+		s += fmt.Sprintf("entry to %s:", ir.FuncName(lv.fn))
 	} else if sym, ok := v.Aux.(*ssa.AuxCall); ok && sym.Fn != nil {
 		fn := sym.Fn.Name
 		if pos := strings.Index(fn, "."); pos >= 0 {
@@ -1052,7 +1052,7 @@ func (lv *Liveness) printeffect(printed bool, name string, pos int32, x bool) bo
 // This format synthesizes the information used during the multiple passes
 // into a single presentation.
 func (lv *Liveness) printDebug() {
-	fmt.Printf("liveness: %s\n", lv.fn.FuncName())
+	fmt.Printf("liveness: %s\n", ir.FuncName(lv.fn))
 
 	for i, b := range lv.f.Blocks {
 		if i > 0 {

@@ -125,7 +125,7 @@ func caninl(fn *ir.Node) {
 					fmt.Printf("%v: cannot inline %v: %s\n", fn.Line(), fn.Func().Nname, reason)
 				}
 				if logopt.Enabled() {
-					logopt.LogOpt(fn.Pos(), "cannotInlineFunction", "inline", fn.FuncName(), reason)
+					logopt.LogOpt(fn.Pos(), "cannotInlineFunction", "inline", ir.FuncName(fn), reason)
 				}
 			}
 		}()
@@ -232,7 +232,7 @@ func caninl(fn *ir.Node) {
 		fmt.Printf("%v: can inline %v\n", fn.Line(), n)
 	}
 	if logopt.Enabled() {
-		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", fn.FuncName(), fmt.Sprintf("cost: %d", inlineMaxBudget-visitor.budget))
+		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", ir.FuncName(fn), fmt.Sprintf("cost: %d", inlineMaxBudget-visitor.budget))
 	}
 }
 
@@ -901,7 +901,7 @@ var inlgen int
 func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node {
 	if fn.Func().Inl == nil {
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", Curfn.FuncName(),
+			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(Curfn),
 				fmt.Sprintf("%s cannot be inlined", fn.PkgFuncName()))
 		}
 		return n
@@ -910,7 +910,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		// The inlined function body is too big. Typically we use this check to restrict
 		// inlining into very big functions.  See issue 26546 and 17566.
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", Curfn.FuncName(),
+			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(Curfn),
 				fmt.Sprintf("cost %d of %s exceeds max large caller cost %d", fn.Func().Inl.Cost, fn.PkgFuncName(), maxCost))
 		}
 		return n
@@ -919,7 +919,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 	if fn == Curfn || fn.Name().Defn == Curfn {
 		// Can't recursively inline a function into itself.
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", fmt.Sprintf("recursive call to %s", Curfn.FuncName()))
+			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", fmt.Sprintf("recursive call to %s", ir.FuncName(Curfn)))
 		}
 		return n
 	}
@@ -936,7 +936,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 
 	if inlMap[fn] {
 		if base.Flag.LowerM > 1 {
-			fmt.Printf("%v: cannot inline %v into %v: repeated recursive cycle\n", n.Line(), fn, Curfn.FuncName())
+			fmt.Printf("%v: cannot inline %v into %v: repeated recursive cycle\n", n.Line(), fn, ir.FuncName(Curfn))
 		}
 		return n
 	}
@@ -958,7 +958,7 @@ func mkinlcall(n, fn *ir.Node, maxCost int32, inlMap map[*ir.Node]bool) *ir.Node
 		fmt.Printf("%v: Before inlining: %+v\n", n.Line(), n)
 	}
 
-	if ssaDump != "" && ssaDump == Curfn.FuncName() {
+	if ssaDump != "" && ssaDump == ir.FuncName(Curfn) {
 		ssaDumpInlined = append(ssaDumpInlined, fn)
 	}
 

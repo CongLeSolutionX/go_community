@@ -289,7 +289,7 @@ func (s *state) emitOpenDeferInfo() {
 // buildssa builds an SSA function for fn.
 // worker indicates which of the backend workers is doing the processing.
 func buildssa(fn *ir.Node, worker int) *ssa.Func {
-	name := fn.FuncName()
+	name := ir.FuncName(fn)
 	printssa := false
 	if ssaDump != "" { // match either a simple name e.g. "(*Reader).Reset", or a package.name e.g. "compress/gzip.(*Reader).Reset"
 		printssa = name == ssaDump || base.Ctxt.Pkgpath+"."+name == ssaDump
@@ -7109,7 +7109,7 @@ func (e *ssafn) Log() bool {
 // Fatal reports a compiler error and exits.
 func (e *ssafn) Fatalf(pos src.XPos, msg string, args ...interface{}) {
 	base.Pos = pos
-	nargs := append([]interface{}{e.curfn.FuncName()}, args...)
+	nargs := append([]interface{}{ir.FuncName(e.curfn)}, args...)
 	base.Fatal("'%s': "+msg, nargs...)
 }
 

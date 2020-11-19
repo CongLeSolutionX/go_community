@@ -144,7 +144,7 @@ func closurename(outerfunc *ir.Node) *types.Sym {
 			prefix = ""
 		}
 
-		outer = outerfunc.FuncName()
+		outer = ir.FuncName(outerfunc)
 
 		// There may be multiple functions named "_". In those
 		// cases, we can't use their individual Closgens as it

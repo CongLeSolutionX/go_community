@@ -1121,7 +1121,7 @@ func (e *Escape) flow(k EscHole, src *EscLocation) {
 			}
 			explanation := e.explainFlow(pos, dst, src, k.derefs, k.notes, []*logopt.LoggedOpt{})
 			if logopt.Enabled() {
-				logopt.LogOpt(src.n.Pos(), "escapes", "escape", e.curfn.FuncName(), fmt.Sprintf("%v escapes to heap", src.n), explanation)
+				logopt.LogOpt(src.n.Pos(), "escapes", "escape", ir.FuncName(e.curfn), fmt.Sprintf("%v escapes to heap", src.n), explanation)
 			}
 
 		}
@@ -1222,7 +1222,7 @@ func (e *Escape) walkOne(root *EscLocation, walkgen uint32, enqueue func(*EscLoc
 					}
 					explanation := e.explainPath(root, l)
 					if logopt.Enabled() {
-						logopt.LogOpt(l.n.Pos(), "leak", "escape", e.curfn.FuncName(),
+						logopt.LogOpt(l.n.Pos(), "leak", "escape", ir.FuncName(e.curfn),
 							fmt.Sprintf("parameter %v leaks to %s with derefs=%d", l.n, e.explainLoc(root), derefs), explanation)
 					}
 				}
@@ -1239,7 +1239,7 @@ func (e *Escape) walkOne(root *EscLocation, walkgen uint32, enqueue func(*EscLoc
 					}
 					explanation := e.explainPath(root, l)
 					if logopt.Enabled() {
-						logopt.LogOpt(l.n.Pos(), "escape", "escape", e.curfn.FuncName(), fmt.Sprintf("%v escapes to heap", l.n), explanation)
+						logopt.LogOpt(l.n.Pos(), "escape", "escape", ir.FuncName(e.curfn), fmt.Sprintf("%v escapes to heap", l.n), explanation)
 					}
 				}
 				l.escapes = true
@@ -1313,7 +1313,7 @@ func (e *Escape) explainFlow(pos string, dst, srcloc *EscLocation, derefs int, n
 		} else if srcloc != nil && srcloc.n != nil {
 			epos = srcloc.n.Pos()
 		}
-		explanation = append(explanation, logopt.NewLoggedOpt(epos, "escflow", "escape", e.curfn.FuncName(), flow))
+		explanation = append(explanation, logopt.NewLoggedOpt(epos, "escflow", "escape", ir.FuncName(e.curfn), flow))
 	}
 
 	for note := notes; note != nil; note = note.next {
@@ -1321,7 +1321,7 @@ func (e *Escape) explainFlow(pos string, dst, srcloc *EscLocation, derefs int, n
 			fmt.Printf("%s:     from %v (%v) at %s\n", pos, note.where, note.why, base.FmtPos(note.where.Pos()))
 		}
 		if logopt.Enabled() {
-			explanation = append(explanation, logopt.NewLoggedOpt(note.where.Pos(), "escflow", "escape", e.curfn.FuncName(),
+			explanation = append(explanation, logopt.NewLoggedOpt(note.where.Pos(), "escflow", "escape", ir.FuncName(e.curfn),
 				fmt.Sprintf("     from %v (%v)", note.where, note.why)))
 		}
 	}
@@ -1458,7 +1458,7 @@ func (e *Escape) finish(fns []*ir.Node) {
 					base.WarnAt(n.Pos(), "%S escapes to heap", n)
 				}
 				if logopt.Enabled() {
-					logopt.LogOpt(n.Pos(), "escape", "escape", e.curfn.FuncName())
+					logopt.LogOpt(n.Pos(), "escape", "escape", ir.FuncName(e.curfn))
 				}
 			}
 			n.SetEsc(EscHeap)

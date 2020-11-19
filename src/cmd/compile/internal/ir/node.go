@@ -342,7 +342,7 @@ func (n *Node) IsMethodExpression() bool {
 }
 
 // funcname returns the name (without the package) of the function n.
-func (n *Node) FuncName() string {
+func FuncName(n *Node) string {
 	if n == nil || n.Func() == nil || n.Func().Nname == nil {
 		return "<nil>"
 	}

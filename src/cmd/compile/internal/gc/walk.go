@@ -1736,7 +1736,7 @@ func ascompatee(op ir.Op, nl, nr []*ir.Node, init *ir.Nodes) []*ir.Node {
 		var nln, nrn ir.Nodes
 		nln.Set(nl)
 		nrn.Set(nr)
-		base.Fatal("error in shape across %+v %v %+v / %d %d [%s]", nln, op, nrn, len(nl), len(nr), Curfn.FuncName())
+		base.Fatal("error in shape across %+v %v %+v / %d %d [%s]", nln, op, nrn, len(nl), len(nr), ir.FuncName(Curfn))
 	}
 	return nn
 }

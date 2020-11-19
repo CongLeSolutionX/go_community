@@ -560,12 +560,12 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *ir.Node {
 			base.ErrorAt(f.Pos(), "can only use //go:noescape with external func implementations")
 		}
 	} else {
-		if base.Flag.Complete || strings.HasPrefix(f.FuncName(), "init.") {
+		if base.Flag.Complete || strings.HasPrefix(ir.FuncName(f), "init.") {
 			// Linknamed functions are allowed to have no body. Hopefully
 			// the linkname target has a body. See issue 23311.
 			isLinknamed := false
 			for _, n := range p.linknames {
-				if f.FuncName() == n.local {
+				if ir.FuncName(f) == n.local {
 					isLinknamed = true
 					break
 				}
