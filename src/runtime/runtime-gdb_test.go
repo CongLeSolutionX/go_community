@@ -150,10 +150,12 @@ func lastLine(src []byte) int {
 }
 
 func TestGdbPython(t *testing.T) {
+	t.Skip("RSC")
 	testGdbPython(t, false)
 }
 
 func TestGdbPythonCgo(t *testing.T) {
+	t.Skip("RSC")
 	if runtime.GOARCH == "mips" || runtime.GOARCH == "mipsle" || runtime.GOARCH == "mips64" {
 		testenv.SkipFlaky(t, 18784)
 	}
