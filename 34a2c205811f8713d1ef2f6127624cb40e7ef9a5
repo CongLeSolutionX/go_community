@@ -34,6 +34,24 @@
       "parentUuid": "1d2b2d8b_0be4abd5",
       "revId": "34a2c205811f8713d1ef2f6127624cb40e7ef9a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe6b8dec_0b074ba6",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-19T23:52:30Z",
+      "side": 1,
+      "message": "Ack. I\u0027ve wavered back and forth on similar questions in cmd/compile\u0027s type-checker.",
+      "parentUuid": "c3a93197_40958dba",
+      "revId": "34a2c205811f8713d1ef2f6127624cb40e7ef9a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
