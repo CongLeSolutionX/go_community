@@ -11,24 +11,28 @@ import (
 	subtleoverlap "crypto/internal/subtle"
 	"crypto/subtle"
 	"errors"
+	"internal/cpu"
 )
 
 // The following functions are defined in gcm_*.s.
 
 //go:noescape
-func gcmAesInit(productTable *[256]byte, ks []uint32)
+func gcmAesInit(productTable *[1024]byte, ks []uint32)
+func gcmAesInitv(productTable *[1024]byte, ks []uint32)
 
 //go:noescape
-func gcmAesData(productTable *[256]byte, data []byte, T *[16]byte)
+func gcmAesData(productTable *[1024]byte, data []byte, T *[16]byte)
 
 //go:noescape
-func gcmAesEnc(productTable *[256]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
+func gcmAesEnc(productTable *[1024]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
+func gcmAesEncv(productTable *[1024]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
 
 //go:noescape
-func gcmAesDec(productTable *[256]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
+func gcmAesDec(productTable *[1024]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
+func gcmAesDecv(productTable *[1024]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
 
 //go:noescape
-func gcmAesFinish(productTable *[256]byte, tagMask, T *[16]byte, pLen, dLen uint64)
+func gcmAesFinish(productTable *[1024]byte, tagMask, T *[16]byte, pLen, dLen uint64)
 
 const (
 	gcmBlockSize         = 16
@@ -36,6 +40,8 @@ const (
 	gcmMinimumTagSize    = 12 // NIST SP 800-38D recommends tags with 12 or more bytes.
 	gcmStandardNonceSize = 12
 )
+
+var supportsVAESandVPCLMULQDQ = cpu.X86.HasVAES && cpu.X86.HasVPCLMULQDQ
 
 var errOpen = errors.New("cipher: message authentication failed")
 
@@ -54,8 +60,20 @@ var _ gcmAble = (*aesCipherGCM)(nil)
 func (c *aesCipherGCM) NewGCM(nonceSize, tagSize int) (cipher.AEAD, error) {
 	g := &gcmAsm{ks: c.enc, nonceSize: nonceSize, tagSize: tagSize}
 	gcmAesInit(&g.productTable, g.ks)
+	if supportsVAESandVPCLMULQDQ {
+		gcmAesInitv(&g.productTablev, g.ks)
+		g.enc = gcmAesEncv
+		g.dec = gcmAesDecv
+		g.productTablePtr = &g.productTablev
+	} else {
+		g.enc = gcmAesEnc
+		g.dec = gcmAesDec
+		g.productTablePtr = &g.productTable
+	}
 	return g, nil
 }
+
+type gcmEncDecFn func(*[1024]byte, []byte, []byte, *[16]byte, *[16]byte, []uint32)
 
 type gcmAsm struct {
 	// ks is the key schedule, the length of which depends on the size of
@@ -63,11 +81,19 @@ type gcmAsm struct {
 	ks []uint32
 	// productTable contains pre-computed multiples of the binary-field
 	// element used in GHASH.
-	productTable [256]byte
+	productTable [1024]byte
+	// vector table for 4x16x8 non-interleaved entries
+	productTablev [1024]byte
 	// nonceSize contains the expected size of the nonce, in bytes.
 	nonceSize int
 	// tagSize contains the size of the tag, in bytes.
 	tagSize int
+	// encrypt function
+	enc gcmEncDecFn
+	// decrypt function
+	dec gcmEncDecFn
+	// product table
+	productTablePtr *[1024]byte
 }
 
 func (g *gcmAsm) NonceSize() int {
@@ -125,7 +151,7 @@ func (g *gcmAsm) Seal(dst, nonce, plaintext, data []byte) []byte {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
 	if len(plaintext) > 0 {
-		gcmAesEnc(&g.productTable, out, plaintext, &counter, &tagOut, g.ks)
+		g.enc(g.productTablePtr, out, plaintext, &counter, &tagOut, g.ks)
 	}
 	gcmAesFinish(&g.productTable, &tagMask, &tagOut, uint64(len(plaintext)), uint64(len(data)))
 	copy(out[len(plaintext):], tagOut[:])
@@ -178,7 +204,7 @@ func (g *gcmAsm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
 	if len(ciphertext) > 0 {
-		gcmAesDec(&g.productTable, out, ciphertext, &counter, &expectedTag, g.ks)
+		g.dec(g.productTablePtr, out, ciphertext, &counter, &expectedTag, g.ks)
 	}
 	gcmAesFinish(&g.productTable, &tagMask, &expectedTag, uint64(len(ciphertext)), uint64(len(data)))
 
