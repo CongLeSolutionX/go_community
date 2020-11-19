@@ -141,6 +141,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "790ef3f8_239a816d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-19T14:46:37Z",
+      "side": 1,
+      "message": "Yeah, as I understand it now, I think it\u0027s okay for Go 1.16. Thanks.",
+      "parentUuid": "0ac79372_5f18c005",
+      "revId": "d7cc6ec40a6975e2f530266cae4807315a7ea806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df3549f1_59fa4862",
