@@ -9,6 +9,7 @@ package poll
 import (
 	"errors"
 	"sync"
+	"sync/atomic"
 	"syscall"
 	"time"
 	_ "unsafe" // for go:linkname
@@ -49,23 +50,23 @@ func (pd *pollDesc) init(fd *FD) error {
 }
 
 func (pd *pollDesc) close() {
-	if pd.runtimeCtx == 0 {
+	if atomic.LoadUintptr(&pd.runtimeCtx) == 0 {
 		return
 	}
 	runtime_pollClose(pd.runtimeCtx)
-	pd.runtimeCtx = 0
+	atomic.StoreUintptr(&pd.runtimeCtx, 0)
 }
 
 // Evict evicts fd from the pending list, unblocking any I/O running on fd.
 func (pd *pollDesc) evict() {
-	if pd.runtimeCtx == 0 {
+	if atomic.LoadUintptr(&pd.runtimeCtx) == 0 {
 		return
 	}
 	runtime_pollUnblock(pd.runtimeCtx)
 }
 
 func (pd *pollDesc) prepare(mode int, isFile bool) error {
-	if pd.runtimeCtx == 0 {
+	if atomic.LoadUintptr(&pd.runtimeCtx) == 0 {
 		return nil
 	}
 	res := runtime_pollReset(pd.runtimeCtx, mode)
@@ -81,7 +82,7 @@ func (pd *pollDesc) prepareWrite(isFile bool) error {
 }
 
 func (pd *pollDesc) wait(mode int, isFile bool) error {
-	if pd.runtimeCtx == 0 {
+	if atomic.LoadUintptr(&pd.runtimeCtx) == 0 {
 		return errors.New("waiting for unsupported file type")
 	}
 	res := runtime_pollWait(pd.runtimeCtx, mode)
@@ -97,14 +98,14 @@ func (pd *pollDesc) waitWrite(isFile bool) error {
 }
 
 func (pd *pollDesc) waitCanceled(mode int) {
-	if pd.runtimeCtx == 0 {
+	if atomic.LoadUintptr(&pd.runtimeCtx) == 0 {
 		return
 	}
 	runtime_pollWaitCanceled(pd.runtimeCtx, mode)
 }
 
 func (pd *pollDesc) pollable() bool {
-	return pd.runtimeCtx != 0
+	return atomic.LoadUintptr(&pd.runtimeCtx) != 0
 }
 
 // Error values returned by runtime_pollReset and runtime_pollWait.
@@ -158,7 +159,7 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 		return err
 	}
 	defer fd.decref()
-	if fd.pd.runtimeCtx == 0 {
+	if atomic.LoadUintptr(&fd.pd.runtimeCtx) == 0 {
 		return ErrNoDeadline
 	}
 	runtime_pollSetDeadline(fd.pd.runtimeCtx, d, mode)
