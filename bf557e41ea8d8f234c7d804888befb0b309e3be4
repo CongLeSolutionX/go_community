@@ -104,6 +104,24 @@
       "parentUuid": "02abc139_f23d80d9",
       "revId": "bf557e41ea8d8f234c7d804888befb0b309e3be4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd700a3_3772fa00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-19T20:03:20Z",
+      "side": 1,
+      "message": "I agree that when splice is called, it is usually called many times. This is certainly true for the systems I am currently working on for my client.\n\nI think using sync.Pool would be great, because sync.Pool has many desirable properties, such as per-P locality, discarding elements over time, and smoothing out discard behavior using a multi layered victim cache. For a bespoke solution, these either cannot be implemented easily at all (the per-P element), or require substantial additional work (discarding over time, smoothing out discards).\n\nCeating a pipe can fail, and the New function used in the pool needs to be able to deal with this somehow. The New function cannot signal an error, so we need to make sure that we can deal with this case cleanly. In particular, we are interested in how to deal with EMFILE and ENFILE. From my reading of pipe2(2), these are the only errors we should be concerned with. Even if creating the pipe fails, we must be able to try the conventional read + write path as a fallback, because perhaps creating the pipe failed because we ran out of available file descriptors, but we can still work with the ones we currently have open. Maybe the New function can return nil to signal this special case. We swallow the error when we do that, but we currently swallow it in the net package anyway, so I think it\u0027s OK.\n\nAdditionally, special attention is needed in order to ensure that after a call to Splice, when a pipe is returned to the pool, it has no outstanding data that might corrupt future uses.",
+      "parentUuid": "a655d7ec_dde91873",
+      "revId": "bf557e41ea8d8f234c7d804888befb0b309e3be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
