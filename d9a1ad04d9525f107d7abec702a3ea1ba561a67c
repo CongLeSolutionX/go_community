@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a022c862_a2c56897",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-20T04:50:42Z",
+      "side": 1,
+      "message": "Since this will afaik be the first use of AVX512 in the std library. Do we have an understanding how much this can impact general program performance due to downclocking when using AVX512? I am concerned this might be a net loss in performance for some programs and it would be nice if users need to explicitly opt in. But it might be not an issue if the code doesnt use force any licences that need downclocking.\n\nPlease add benchmark statistics to show performance improvement (over at least 10 runs):\nhttps://godoc.org/golang.org/x/perf/cmd/benchstat",
+      "revId": "d9a1ad04d9525f107d7abec702a3ea1ba561a67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0cde566_8929df01",
+        "filename": "src/crypto/aes/aes_gcm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-20T04:50:42Z",
+      "side": 1,
+      "message": "would be nicer to use something along the lines of useAVX512GCM here. Similar naming exists in other parts of the std library.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "d9a1ad04d9525f107d7abec702a3ea1ba561a67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "293970d0_d4042c57",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-20T04:50:42Z",
+      "side": 1,
+      "message": "Please split the internal/cpu change into its own CL separate from the usage.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "d9a1ad04d9525f107d7abec702a3ea1ba561a67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eb5d323_8109104c",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-20T04:50:42Z",
+      "side": 1,
+      "message": "I think we need to check ZMM register support before allowing general use of AVX512, see similar support in x/sys/cpu:\nhttps://github.com/golang/sys/blob/f84b799fce68db3cb46a8f6f819c1e56377181df/cpu/cpu_x86.go#L90",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "d9a1ad04d9525f107d7abec702a3ea1ba561a67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
