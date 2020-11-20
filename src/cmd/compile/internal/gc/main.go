@@ -593,7 +593,7 @@ func Main(archInit func(*Arch)) {
 	//   to avoid cycles like #18640.
 	//   TODO(gri) Remove this again once we have a fix for #25838.
 
-	// Don't use range--typecheck can add closures to xtop.
+	// No functions are added to xtop during this loop
 	timings.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
@@ -605,26 +605,42 @@ func Main(archInit func(*Arch)) {
 	// Phase 2: Variable assignments.
 	//   To check interface assignments, depends on phase 1.
 
-	// Don't use range--typecheck can add closures to xtop.
+	// Don't use range--findClosures can add closure functions to xtop.
 	timings.Start("fe", "typecheck", "top2")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
 		if op := n.Op; op == ODCL || op == OAS || op == OAS2 || op == ODCLTYPE && n.Left.Name.Param.Alias() {
 			xtop[i] = typecheck(n, ctxStmt)
+			// Scan xtop[i] to add any top-level closure functions
+			// involved in global variable assignments
+			if op == OAS || op == OAS2 {
+				inspect(xtop[i], findClosures)
+			}
 		}
 	}
 
 	// Phase 3: Type check function bodies.
-	// Don't use range--typecheck can add closures to xtop.
+	// Don't use range--findClosures can add closure functions to xtop.
 	timings.Start("fe", "typecheck", "func")
 	var fcount int64
+	startlen := len(xtop)
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
 		if n.Op == ODCLFUNC {
 			Curfn = n
 			decldepth = 1
 			saveerrors()
-			typecheckslice(Curfn.Nbody.Slice(), ctxStmt)
+			if i < startlen {
+				// Fully typecheck all normal functions and
+				// top-level closure functions of global variable
+				// assignments. Then add any closure functions
+				// contained within these to xtop. We don't need
+				// to typecheck or rescan the new closure
+				// functions, since we already traversed through
+				// them completely in their original function.
+				typecheckslice(Curfn.Nbody.Slice(), ctxStmt)
+				inspect(n, findClosures)
+			}
 			checkreturn(Curfn)
 			if nerrors != 0 {
 				Curfn.Nbody.Set(nil) // type errors; do not compile
@@ -1605,4 +1621,25 @@ func parseLang(s string) (lang, error) {
 		return lang{}, err
 	}
 	return lang{major: major, minor: minor}, nil
+}
+
+// findClosures finds (as the helper for inspect) the closures starting at a top
+// node, and adds the associated ODCLFUNC node to xtop. If Curfn is not set, don't
+// descend into the top-level closure bodies.
+func findClosures(n *Node) bool {
+	if n.Op != OCLOSURE {
+		return true
+	}
+	// If we're inside a function, recursively scan the closure function body
+	// as well. If we're not inside a function, don't scan the closure body,
+	// since the closure body hasn't been typechecked yet (see
+	// typecheckclosure). The closure bodies will be scanned fully as part of
+	// the closure function added to xtop.
+	xfunc := n.Func.Closure
+	if Curfn != nil {
+		inspect(xfunc, findClosures)
+	}
+
+	xtop = append(xtop, xfunc)
+	return true
 }

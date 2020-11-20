@@ -71,10 +71,8 @@ func (p *noder) funcLit(expr *syntax.FuncLit) *Node {
 	return clo
 }
 
-// typecheckclosure typechecks an OCLOSURE node. It also creates the named
+// typecheckclosure typechecks an OCLOSURE node. It also creates the name for the
 // function associated with the closure.
-// TODO: This creation of the named function should probably really be done in a
-// separate pass from type-checking.
 func typecheckclosure(clo *Node, top int) {
 	xfunc := clo.Func.Closure
 	// Set current associated iota value, so iota can be used inside
@@ -86,13 +84,6 @@ func typecheckclosure(clo *Node, top int) {
 	clo.Func.Ntype = typecheck(clo.Func.Ntype, ctxType)
 	clo.Type = clo.Func.Ntype.Type
 	clo.Func.Top = top
-
-	// Do not typecheck xfunc twice, otherwise, we will end up pushing
-	// xfunc to xtop multiple times, causing initLSym called twice.
-	// See #30709
-	if xfunc.Typecheck() == 1 {
-		return
-	}
 
 	for _, ln := range xfunc.Func.Cvars.Slice() {
 		n := ln.Name.Defn
@@ -110,14 +101,18 @@ func typecheckclosure(clo *Node, top int) {
 		}
 	}
 
-	xfunc.Func.Nname.Sym = closurename(Curfn)
-	setNodeNameFunc(xfunc.Func.Nname)
+	if xfunc.Func.Nname.Sym.Name == "_" {
+		xfunc.Func.Nname.Sym = closurename(Curfn)
+		setNodeNameFunc(xfunc.Func.Nname)
+		//println("Gave new name", xfunc.funcname(), xfunc)
+	}
 	xfunc = typecheck(xfunc, ctxStmt)
 
-	// Type check the body now, but only if we're inside a function.
-	// At top level (in a variable initialization: curfn==nil) we're not
-	// ready to type check code yet; we'll check it later, because the
-	// underlying closure function we create is added to xtop.
+	// Type check the body now, but only if we're inside a function. At top
+	// level (in a variable initialization: Curfn==nil), we're not ready to
+	// type check code yet. If we typecheck it now, initialization loop
+	// checking won't work. We'll check it later, because the underlying
+	// closure function that we create will be added to xtop.
 	if Curfn != nil && clo.Type != nil {
 		oldfn := Curfn
 		Curfn = xfunc
@@ -127,8 +122,6 @@ func typecheckclosure(clo *Node, top int) {
 		decldepth = olddd
 		Curfn = oldfn
 	}
-
-	xtop = append(xtop, xfunc)
 }
 
 // globClosgen is like Func.Closgen, but for the global scope.
