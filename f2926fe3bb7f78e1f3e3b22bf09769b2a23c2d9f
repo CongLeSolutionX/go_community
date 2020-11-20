@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "995964b9_cccf5fda",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-20T06:15:25Z",
+      "side": 1,
+      "message": "Sorry, but I\u0027ve seen this error is being returned all the way back to the user, such as bufio.(*Reader).WriteTo(), instead of being discarded.",
+      "parentUuid": "ab2d0b32_e7b02ca0",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "841bd525_8faf928a",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 4
