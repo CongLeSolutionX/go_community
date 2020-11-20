@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3a8eeb5_26f0e51f",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:18:40Z",
+      "side": 1,
+      "message": "I usually have an empty line between this trace header and the rest of the code in all the other functions.",
+      "revId": "0531095f489815ffb1bb45f50c68578c783f405e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8b28f9_841ad2e1",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:18:40Z",
+      "side": 1,
+      "message": "what\u0027s the syntax error? I\u0027d just leave this comment away. The code is simple and very clear.",
+      "range": {
+        "startLine": 652,
+        "startChar": 41,
+        "endLine": 652,
+        "endChar": 47
+      },
+      "revId": "0531095f489815ffb1bb45f50c68578c783f405e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
