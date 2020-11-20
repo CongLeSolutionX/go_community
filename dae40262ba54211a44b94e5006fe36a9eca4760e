@@ -70,6 +70,24 @@
       "parentUuid": "98d40ec5_25722e4d",
       "revId": "dae40262ba54211a44b94e5006fe36a9eca4760e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b7101a_f3a0d6b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35059
+      },
+      "writtenOn": "2020-11-20T21:09:15Z",
+      "side": 1,
+      "message": "Thanks, the patch is rebased.\nWhat comes next? ;)",
+      "parentUuid": "98d40ec5_25722e4d",
+      "revId": "dae40262ba54211a44b94e5006fe36a9eca4760e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
