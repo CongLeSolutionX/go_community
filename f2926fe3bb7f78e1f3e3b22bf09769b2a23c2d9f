@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33cf495a_94e1f10a",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "Let\u0027s rename this to rfd, since it\u0027s clearly referring to a pipe in this context.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e17810d_687f440a",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "Likewise here, let\u0027s rename to wfd.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa7646a5_a0bd6b0c",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "Since we are using sync.Pool, and not a linked list of pipes, drop this field.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "132a1ad5_82d94af6",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like this is initialized anywhere. The New field of the pool must be initialized. Use newPipe in the New function.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "841bd525_8faf928a",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right. If fetching a pipe from the pool failed, it means we cannot create pipes, so I don\u0027t think we should try again. Return an error instead, and let the code return out of poll.Splice altogether. syscall.EINVAL is a good candidate, like the disableSplice code uses.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6fa09c3_27c7b539",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "I don\u0027t think doing this here is right, since newPipe can return an error. I think the finalizer should be set by newPipe itself, immediately before returning successfully.\n\nAlso, I think this call can be simplified into runtime.SetFinalizer(p, destroyPipe).",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e319287_c6c61cdf",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "Can we salvage the pipe somehow, even if it has outstanding data?\n\nIf p.data \u003d\u003d n, then a read of size n from the pipe should empty it, and make it re-usable. I wonder if it would be cheaper to allocate a buffer in order to read from the pipe and empty it, instead of discarding the pipe altogether.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e737c3_9ae5e05c",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "It seems like we never use the error returned by this function anywhere. Maybe we should drop it altogether.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75ec5893_87529588",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T04:27:10Z",
+      "side": 1,
+      "message": "Note that package testing imports package os, and package os imports package internal/poll, which means that the tests for the poll package must live outside of it. For tests that exercise the Splice code path, see splice_test.go in package net.",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
