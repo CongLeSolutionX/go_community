@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab2d0b32_e7b02ca0",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T05:53:07Z",
+      "side": 1,
+      "message": "But we swallow this error in the net package anyway, see net.(*TCPConn).readFrom in src/net/tcpsock_posix.go. I don\u0027t see what else we could possibly do with it.\n\nMore generally, it seems to me like we never return an error from pipe2 to any place that matters, because when we fail to create a pipe (for any reason at all), we have handled \u003d\u003d false, and the net package uses the genericReadFrom code path. Given that this is the case, I think we could do away with the sc return value from poll.Splice as well. I believe that for all code which cares about the error (namely when handled \u003d\u003d true), sc \u003d\u003d \"splice\" always holds.\n\nUnless I am missing something, I think using the New function and removing this additional error return path (along with the sc return value) significantly simplifies the code.",
+      "parentUuid": "f5ae9882_2b100d63",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "841bd525_8faf928a",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 4
