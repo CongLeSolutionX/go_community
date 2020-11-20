@@ -409,7 +409,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 					inlFunc.nameoff = inltree[ix].func_
 					inlFunc.funcID = inltree[ix].funcID
 
-					if (flags&_TraceRuntimeFrames) != 0 || showframe(inlFuncInfo, gp, nprint == 0, inlFuncInfo.funcID, lastFuncID) {
+					if (flags&_TraceRuntimeFrames) != 0 || showframe(inlFuncInfo, gp, nprint == 0, lastFuncID) {
 						name := funcname(inlFuncInfo)
 						file, line := funcline(f, tracepc)
 						print(name, "(...)\n")
@@ -421,7 +421,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 					tracepc = frame.fn.entry + uintptr(inltree[ix].parentPc)
 				}
 			}
-			if (flags&_TraceRuntimeFrames) != 0 || showframe(f, gp, nprint == 0, f.funcID, lastFuncID) {
+			if (flags&_TraceRuntimeFrames) != 0 || showframe(f, gp, nprint == 0, lastFuncID) {
 				// Print during crash.
 				//	main(0x1, 0x2, 0x3)
 				//		/home/rsc/go/src/runtime/x.go:23 +0xf
@@ -663,7 +663,7 @@ func printcreatedby(gp *g) {
 	// Show what created goroutine, except main goroutine (goid 1).
 	pc := gp.gopc
 	f := findfunc(pc)
-	if f.valid() && showframe(f, gp, false, funcID_normal, funcID_normal) && gp.goid != 1 {
+	if f.valid() && showframe(f, gp, false, funcID_normal) && gp.goid != 1 {
 		printcreatedby1(f, pc)
 	}
 }
@@ -752,7 +752,7 @@ func printAncestorTraceback(ancestor ancestorInfo) {
 	print("[originating from goroutine ", ancestor.goid, "]:\n")
 	for fidx, pc := range ancestor.pcs {
 		f := findfunc(pc) // f previously validated
-		if showfuncinfo(f, fidx == 0, funcID_normal, funcID_normal) {
+		if showfuncinfo(f, fidx == 0, funcID_normal) {
 			printAncestorTracebackFuncInfo(f, pc)
 		}
 	}
@@ -761,7 +761,7 @@ func printAncestorTraceback(ancestor ancestorInfo) {
 	}
 	// Show what created goroutine, except main goroutine (goid 1).
 	f := findfunc(ancestor.gopc)
-	if f.valid() && showfuncinfo(f, false, funcID_normal, funcID_normal) && ancestor.goid != 1 {
+	if f.valid() && showfuncinfo(f, false, funcID_normal) && ancestor.goid != 1 {
 		printcreatedby1(f, ancestor.gopc)
 	}
 }
@@ -808,17 +808,17 @@ func gcallers(gp *g, skip int, pcbuf []uintptr) int {
 
 // showframe reports whether the frame with the given characteristics should
 // be printed during a traceback.
-func showframe(f funcInfo, gp *g, firstFrame bool, funcID, childID funcID) bool {
+func showframe(f funcInfo, gp *g, firstFrame bool, childID funcID) bool {
 	g := getg()
 	if g.m.throwing > 0 && gp != nil && (gp == g.m.curg || gp == g.m.caughtsig.ptr()) {
 		return true
 	}
-	return showfuncinfo(f, firstFrame, funcID, childID)
+	return showfuncinfo(f, firstFrame, childID)
 }
 
 // showfuncinfo reports whether a function with the given characteristics should
 // be printed during a traceback.
-func showfuncinfo(f funcInfo, firstFrame bool, funcID, childID funcID) bool {
+func showfuncinfo(f funcInfo, firstFrame bool, childID funcID) bool {
 	level, _, _ := gotraceback()
 	if level > 1 {
 		// Show all frames.
@@ -829,7 +829,7 @@ func showfuncinfo(f funcInfo, firstFrame bool, funcID, childID funcID) bool {
 		return false
 	}
 
-	if funcID == funcID_wrapper && elideWrapperCalling(childID) {
+	if f.funcID == funcID_wrapper && elideWrapperCalling(childID) {
 		return false
 	}
 
