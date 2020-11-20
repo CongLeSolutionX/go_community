@@ -215,6 +215,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "845a9571_8bb24f7c",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T06:40:57Z",
+      "side": 1,
+      "message": "Because when we fail to create a pipe, we can still do a read + write based (rather than splice based) transfer of the data from src to dst, which is what the genericReadFrom function in the net package does.\n\nFor example, if the process has reached a file descriptor limit, we want to do the read + write pairs anyway, and not fail with a pipe error, because using splice is only an optimization.",
+      "parentUuid": "f896673a_4292ee44",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "841bd525_8faf928a",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 4
