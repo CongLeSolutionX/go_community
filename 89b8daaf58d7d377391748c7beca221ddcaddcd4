@@ -33,6 +33,24 @@
       "message": "Just checking: did you see Robert\u0027s nit at https://go-review.googlesource.com/c/go/+/271706/3/src/go/types/expr.go#893 ?\n\nNot sure if you want to address that first so you can merge just once.",
       "revId": "89b8daaf58d7d377391748c7beca221ddcaddcd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2502f694_ac772075",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T00:34:14Z",
+      "side": 1,
+      "message": "No, missed that; thanks. Sure, i\u0027ll fix that first.",
+      "parentUuid": "785bd581_a336f2d7",
+      "revId": "89b8daaf58d7d377391748c7beca221ddcaddcd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
