@@ -197,6 +197,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f896673a_4292ee44",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-20T06:37:38Z",
+      "side": 1,
+      "message": "Oh, now I get your point, it\u0027s all controlled by the `handled` variable.\n\nBut I\u0027m a little bit confused though, why would we set `handled` false to discard the pipe error? And why can\u0027t we just return this error to the users?",
+      "parentUuid": "69a86cba_c5ae50e5",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "841bd525_8faf928a",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 4
