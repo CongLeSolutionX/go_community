@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a2059b_8833e82f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T00:20:29Z",
+      "side": 1,
+      "message": "This is a clean merge. Done now so I can use the latest changes to go/constant in types2.",
+      "revId": "89b8daaf58d7d377391748c7beca221ddcaddcd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
