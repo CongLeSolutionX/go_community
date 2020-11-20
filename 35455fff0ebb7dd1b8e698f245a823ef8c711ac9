@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9bb8d5_468d9dbd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35059
+      },
+      "writtenOn": "2020-11-20T21:11:22Z",
+      "side": 1,
+      "message": "After a discussion, the issue reported in https://github.com/golang/go/issues/42598 is fixed here: \nhttps://go-review.googlesource.com/c/go/+/271987",
+      "revId": "35455fff0ebb7dd1b8e698f245a823ef8c711ac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
