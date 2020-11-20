@@ -16,6 +16,155 @@
       "message": "Hi Robert, we can continue to look at the diffbase of this CL, but I think this is also ready for an initial review.",
       "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdfeda7d_4c1570d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:57:49Z",
+      "side": 1,
+      "message": "I only looked at parser.go so far. LG with some comments. I will get back to this later today or tomorrow.",
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c88b9d7_94476393",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:57:49Z",
+      "side": 1,
+      "message": "s/on/at/ ?",
+      "range": {
+        "startLine": 495,
+        "startChar": 75,
+        "endLine": 495,
+        "endChar": 77
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e7e8125_080e3d65",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:57:49Z",
+      "side": 1,
+      "message": "s/position/production/",
+      "range": {
+        "startLine": 495,
+        "startChar": 11,
+        "endLine": 495,
+        "endChar": 19
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b0ae79_48d2432d",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:57:49Z",
+      "side": 1,
+      "message": "In the syntax parser, if ParseTypeParams is not set, the code simply falls through to the default case. Then you don\u0027t need this.",
+      "range": {
+        "startLine": 1153,
+        "startChar": 13,
+        "endLine": 1153,
+        "endChar": 28
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e567c64_26f027c3",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:57:49Z",
+      "side": 1,
+      "message": "for p.tok \u003d\u003d token.IDENT || p.mode\u0026ParseTypeParams \u003d\u003d 0 \u0026\u0026 p.tok \u003d\u003d token.TYPE {\n    if p.tok \u003d\u003d token.IDENT {\n        ...\n    } else {\n        ...\n    }\n}\n\nAnd you don\u0027t need a label, break, or switch.",
+      "range": {
+        "startLine": 1231,
+        "startChar": 4,
+        "endLine": 1231,
+        "endChar": 5
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d41f39_e04bba72",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:57:49Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.",
+      "range": {
+        "startLine": 1253,
+        "startChar": 19,
+        "endLine": 1253,
+        "endChar": 28
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbffad44_4b2d770a",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T22:57:49Z",
+      "side": 1,
+      "message": "You don\u0027t need this. When parseTypeInstance is called, we allow type parameters.",
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
