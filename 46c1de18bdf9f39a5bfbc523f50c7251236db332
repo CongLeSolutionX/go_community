@@ -16,6 +16,24 @@
       "message": "You might still want to declare the flag here if we don\u0027t call AddModCommonFlags above. I think that would only affect \u0027go get\u0027 in GOPATH mode, so maybe it\u0027s not essential. Up to you.",
       "revId": "46c1de18bdf9f39a5bfbc523f50c7251236db332",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83c1fd27_758caf9d",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-11-20T22:54:10Z",
+      "side": 1,
+      "message": "Adding the flag, though I don\u0027t know what (useful) effect the flag could have in GOPATH mode.\n\nIt\u0027s good for consistency though...",
+      "parentUuid": "83133ea8_0b0ca22a",
+      "revId": "46c1de18bdf9f39a5bfbc523f50c7251236db332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
