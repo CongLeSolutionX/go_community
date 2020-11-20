@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b577e5a_0c894619",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-20T12:31:51Z",
+      "side": 1,
+      "message": "For context of what I mean about negative side effects of using AVX512 on whole program performance: https://blog.cloudflare.com/on-the-dangers-of-intels-frequency-scaling/",
+      "parentUuid": "a022c862_a2c56897",
+      "revId": "d9a1ad04d9525f107d7abec702a3ea1ba561a67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0cde566_8929df01",
