@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a69325b1_496df9d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T02:29:12Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "66b0d459426a00f4458e260687deb47e2c3a9b50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d2df5a8_32d841bd",
@@ -14,6 +31,30 @@
       "writtenOn": "2020-11-20T02:08:38Z",
       "side": 1,
       "message": "Should be \u0027is not\u0027 here as well.",
+      "range": {
+        "startLine": 985,
+        "startChar": 39,
+        "endLine": 985,
+        "endChar": 44
+      },
+      "revId": "66b0d459426a00f4458e260687deb47e2c3a9b50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac98493e_7b3a382a",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-20T02:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d2df5a8_32d841bd",
       "range": {
         "startLine": 985,
         "startChar": 39,
