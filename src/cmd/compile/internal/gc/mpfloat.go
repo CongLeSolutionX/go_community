@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+
+	"cmd/compile/internal/base"
 )
 
 // implements float arithmetic
@@ -136,8 +138,8 @@ func (a *Mpflt) Float64() float64 {
 	x, _ := a.Val.Float64()
 
 	// check for overflow
-	if math.IsInf(x, 0) && Errors() == 0 {
-		Fatalf("ovf in Mpflt Float64")
+	if math.IsInf(x, 0) && base.Errors() == 0 {
+		base.Fatalf("ovf in Mpflt Float64")
 	}
 
 	return x + 0 // avoid -0 (should not be needed, but be conservative)
@@ -148,8 +150,8 @@ func (a *Mpflt) Float32() float64 {
 	x := float64(x32)
 
 	// check for overflow
-	if math.IsInf(x, 0) && Errors() == 0 {
-		Fatalf("ovf in Mpflt Float32")
+	if math.IsInf(x, 0) && base.Errors() == 0 {
+		base.Fatalf("ovf in Mpflt Float32")
 	}
 
 	return x + 0 // avoid -0 (should not be needed, but be conservative)
@@ -181,13 +183,13 @@ func (a *Mpflt) Neg() {
 func (a *Mpflt) SetString(as string) {
 	f, _, err := a.Val.Parse(as, 0)
 	if err != nil {
-		yyerror("malformed constant: %s (%v)", as, err)
+		base.Errorf("malformed constant: %s (%v)", as, err)
 		a.Val.SetFloat64(0)
 		return
 	}
 
 	if f.IsInf() {
-		yyerror("constant too large: %s", as)
+		base.Errorf("constant too large: %s", as)
 		a.Val.SetFloat64(0)
 		return
 	}

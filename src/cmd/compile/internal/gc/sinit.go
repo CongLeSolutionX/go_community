@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"fmt"
@@ -39,7 +40,7 @@ func (s *InitSchedule) append(n *Node) {
 // staticInit adds an initialization statement n to the schedule.
 func (s *InitSchedule) staticInit(n *Node) {
 	if !s.tryStaticInit(n) {
-		if Flag.Percent != 0 {
+		if base.Flag.Percent != 0 {
 			Dump("nonstatic", n)
 		}
 		s.append(n)
@@ -61,7 +62,7 @@ func (s *InitSchedule) tryStaticInit(n *Node) bool {
 		return true
 	}
 	lno := setlineno(n)
-	defer func() { lineno = lno }()
+	defer func() { base.Pos = lno }()
 	return s.staticassign(n.Left, n.Right)
 }
 
@@ -255,8 +256,8 @@ func (s *InitSchedule) staticassign(l *Node, r *Node) bool {
 
 	case OCLOSURE:
 		if hasemptycvars(r) {
-			if Debug.Closure > 0 {
-				Warnl(r.Pos, "closure converted to global")
+			if base.Debug.Closure > 0 {
+				base.WarnfAt(r.Pos, "closure converted to global")
 			}
 			// Closures with no captured variables are globals,
 			// so the assignment can be done at link time.
@@ -461,7 +462,7 @@ func isStaticCompositeLiteral(n *Node) bool {
 	case OSTRUCTLIT:
 		for _, r := range n.List.Slice() {
 			if r.Op != OSTRUCTKEY {
-				Fatalf("isStaticCompositeLiteral: rhs not OSTRUCTKEY: %v", r)
+				base.Fatalf("isStaticCompositeLiteral: rhs not OSTRUCTKEY: %v", r)
 			}
 			if !isStaticCompositeLiteral(r.Left) {
 				return false
@@ -516,7 +517,7 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 			if r.Op == OKEY {
 				k = indexconst(r.Left)
 				if k < 0 {
-					Fatalf("fixedlit: invalid index %v", r.Left)
+					base.Fatalf("fixedlit: invalid index %v", r.Left)
 				}
 				r = r.Right
 			}
@@ -530,7 +531,7 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 	case OSTRUCTLIT:
 		splitnode = func(r *Node) (*Node, *Node) {
 			if r.Op != OSTRUCTKEY {
-				Fatalf("fixedlit: rhs not OSTRUCTKEY: %v", r)
+				base.Fatalf("fixedlit: rhs not OSTRUCTKEY: %v", r)
 			}
 			if r.Sym.IsBlank() || isBlank {
 				return nblank, r.Left
@@ -539,7 +540,7 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 			return nodSym(ODOT, var_, r.Sym), r.Left
 		}
 	default:
-		Fatalf("fixedlit bad op: %v", n.Op)
+		base.Fatalf("fixedlit bad op: %v", n.Op)
 	}
 
 	for _, r := range n.List.Slice() {
@@ -577,7 +578,7 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 			a = walkstmt(a)
 			init.Append(a)
 		default:
-			Fatalf("fixedlit: bad kind %d", kind)
+			base.Fatalf("fixedlit: bad kind %d", kind)
 		}
 
 	}
@@ -609,7 +610,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 		var_ = typecheck(var_, ctxExpr|ctxAssign)
 		nam := stataddr(var_)
 		if nam == nil || nam.Class() != PEXTERN {
-			Fatalf("slicelit: %v", var_)
+			base.Fatalf("slicelit: %v", var_)
 		}
 		slicesym(nam, vstat, t.NumElem())
 		return
@@ -708,7 +709,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 		if value.Op == OKEY {
 			index = indexconst(value.Left)
 			if index < 0 {
-				Fatalf("slicelit: invalid index %v", value.Left)
+				base.Fatalf("slicelit: invalid index %v", value.Left)
 			}
 			value = value.Right
 		}
@@ -769,7 +770,7 @@ func maplit(n *Node, m *Node, init *Nodes) {
 	// All remaining entries are static. Double-check that.
 	for _, r := range entries {
 		if !isStaticCompositeLiteral(r.Left) || !isStaticCompositeLiteral(r.Right) {
-			Fatalf("maplit: entry is not a literal: %v", r)
+			base.Fatalf("maplit: entry is not a literal: %v", r)
 		}
 	}
 
@@ -867,7 +868,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 	t := n.Type
 	switch n.Op {
 	default:
-		Fatalf("anylit: not lit, op=%v node=%v", n.Op, n)
+		base.Fatalf("anylit: not lit, op=%v node=%v", n.Op, n)
 
 	case ONAME, OMETHEXPR:
 		a := nod(OAS, var_, n)
@@ -876,7 +877,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 
 	case OPTRLIT:
 		if !t.IsPtr() {
-			Fatalf("anylit: not ptr")
+			base.Fatalf("anylit: not ptr")
 		}
 
 		var r *Node
@@ -904,7 +905,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 
 	case OSTRUCTLIT, OARRAYLIT:
 		if !t.IsStruct() && !t.IsArray() {
-			Fatalf("anylit: not struct/array")
+			base.Fatalf("anylit: not struct/array")
 		}
 
 		if var_.isSimpleName() && n.List.Len() > 4 {
@@ -950,7 +951,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 
 	case OMAPLIT:
 		if !t.IsMap() {
-			Fatalf("anylit: not map")
+			base.Fatalf("anylit: not map")
 		}
 		maplit(n, var_, init)
 	}
@@ -1051,7 +1052,7 @@ func (s *InitSchedule) initplan(n *Node) {
 	s.initplans[n] = p
 	switch n.Op {
 	default:
-		Fatalf("initplan")
+		base.Fatalf("initplan")
 
 	case OARRAYLIT, OSLICELIT:
 		var k int64
@@ -1059,7 +1060,7 @@ func (s *InitSchedule) initplan(n *Node) {
 			if a.Op == OKEY {
 				k = indexconst(a.Left)
 				if k < 0 {
-					Fatalf("initplan arraylit: invalid index %v", a.Left)
+					base.Fatalf("initplan arraylit: invalid index %v", a.Left)
 				}
 				a = a.Right
 			}
@@ -1070,7 +1071,7 @@ func (s *InitSchedule) initplan(n *Node) {
 	case OSTRUCTLIT:
 		for _, a := range n.List.Slice() {
 			if a.Op != OSTRUCTKEY {
-				Fatalf("initplan structlit")
+				base.Fatalf("initplan structlit")
 			}
 			if a.Sym.IsBlank() {
 				continue
@@ -1081,7 +1082,7 @@ func (s *InitSchedule) initplan(n *Node) {
 	case OMAPLIT:
 		for _, a := range n.List.Slice() {
 			if a.Op != OKEY {
-				Fatalf("initplan maplit")
+				base.Fatalf("initplan maplit")
 			}
 			s.addvalue(p, -1, a.Right)
 		}
@@ -1119,7 +1120,7 @@ func isZero(n *Node) bool {
 		switch u := n.Val().U.(type) {
 		default:
 			Dump("unexpected literal", n)
-			Fatalf("isZero")
+			base.Fatalf("isZero")
 		case string:
 			return u == ""
 		case bool:
@@ -1161,12 +1162,12 @@ func isvaluelit(n *Node) bool {
 
 func genAsStatic(as *Node) {
 	if as.Left.Type == nil {
-		Fatalf("genAsStatic as.Left not typechecked")
+		base.Fatalf("genAsStatic as.Left not typechecked")
 	}
 
 	nam := stataddr(as.Left)
 	if nam == nil || (nam.Class() != PEXTERN && as.Left != nblank) {
-		Fatalf("genAsStatic: lhs %v", as.Left)
+		base.Fatalf("genAsStatic: lhs %v", as.Left)
 	}
 
 	switch {
@@ -1175,6 +1176,6 @@ func genAsStatic(as *Node) {
 	case (as.Right.Op == ONAME || as.Right.Op == OMETHEXPR) && as.Right.Class() == PFUNC:
 		pfuncsym(nam, as.Right)
 	default:
-		Fatalf("genAsStatic: rhs %v", as.Right)
+		base.Fatalf("genAsStatic: rhs %v", as.Right)
 	}
 }
