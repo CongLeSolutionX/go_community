@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
@@ -21,14 +22,14 @@ const zeroValSize = 1024 // must match value of runtime/map.go:maxZero
 
 func walk(fn *Node) {
 	Curfn = fn
-	errorsBefore := Errors()
+	errorsBefore := base.Errors()
 
-	if Flag.W != 0 {
+	if base.Flag.W != 0 {
 		s := fmt.Sprintf("\nbefore walk %v", Curfn.Func.Nname.Sym)
 		dumplist(s, Curfn.Nbody)
 	}
 
-	lno := lineno
+	lno := base.Pos
 
 	// Final typecheck for any unused variables.
 	for i, ln := range fn.Func.Dcl {
@@ -53,26 +54,26 @@ func walk(fn *Node) {
 			if defn.Left.Name.Used() {
 				continue
 			}
-			yyerrorl(defn.Left.Pos, "%v declared but not used", ln.Sym)
+			base.ErrorfAt(defn.Left.Pos, "%v declared but not used", ln.Sym)
 			defn.Left.Name.SetUsed(true) // suppress repeats
 		} else {
-			yyerrorl(ln.Pos, "%v declared but not used", ln.Sym)
+			base.ErrorfAt(ln.Pos, "%v declared but not used", ln.Sym)
 		}
 	}
 
-	lineno = lno
-	if Errors() > errorsBefore {
+	base.Pos = lno
+	if base.Errors() > errorsBefore {
 		return
 	}
 	walkstmtlist(Curfn.Nbody.Slice())
-	if Flag.W != 0 {
+	if base.Flag.W != 0 {
 		s := fmt.Sprintf("after walk %v", Curfn.Func.Nname.Sym)
 		dumplist(s, Curfn.Nbody)
 	}
 
 	zeroResults()
 	heapmoves()
-	if Flag.W != 0 && Curfn.Func.Enter.Len() > 0 {
+	if base.Flag.W != 0 && Curfn.Func.Enter.Len() > 0 {
 		s := fmt.Sprintf("enter %v", Curfn.Func.Nname.Sym)
 		dumplist(s, Curfn.Func.Enter)
 	}
@@ -115,9 +116,9 @@ func walkstmt(n *Node) *Node {
 	switch n.Op {
 	default:
 		if n.Op == ONAME {
-			yyerror("%v is not a top level statement", n.Sym)
+			base.Errorf("%v is not a top level statement", n.Sym)
 		} else {
-			yyerror("%v is not a top level statement", n.Op)
+			base.Errorf("%v is not a top level statement", n.Op)
 		}
 		Dump("nottop", n)
 
@@ -143,7 +144,7 @@ func walkstmt(n *Node) *Node {
 		ORECOVER,
 		OGETG:
 		if n.Typecheck() == 0 {
-			Fatalf("missing typecheck: %+v", n)
+			base.Fatalf("missing typecheck: %+v", n)
 		}
 		wascopy := n.Op == OCOPY
 		init := n.Ninit
@@ -158,7 +159,7 @@ func walkstmt(n *Node) *Node {
 	// the value received.
 	case ORECV:
 		if n.Typecheck() == 0 {
-			Fatalf("missing typecheck: %+v", n)
+			base.Fatalf("missing typecheck: %+v", n)
 		}
 		init := n.Ninit
 		n.Ninit.Set(nil)
@@ -185,8 +186,8 @@ func walkstmt(n *Node) *Node {
 	case ODCL:
 		v := n.Left
 		if v.Class() == PAUTOHEAP {
-			if Flag.CompilingRuntime {
-				yyerror("%v escapes to heap, not allowed in runtime", v)
+			if base.Flag.CompilingRuntime {
+				base.Errorf("%v escapes to heap, not allowed in runtime", v)
 			}
 			if prealloc[v] == nil {
 				prealloc[v] = callnew(v.Type)
@@ -201,7 +202,7 @@ func walkstmt(n *Node) *Node {
 		walkstmtlist(n.List.Slice())
 
 	case OCASE:
-		yyerror("case statement out of place")
+		base.Errorf("case statement out of place")
 
 	case ODEFER:
 		Curfn.Func.SetHasDefer(true)
@@ -290,7 +291,7 @@ func walkstmt(n *Node) *Node {
 			if got, want := n.List.Len(), len(rl); got != want {
 				// order should have rewritten multi-value function calls
 				// with explicit OAS2FUNC nodes.
-				Fatalf("expected %v return arguments, have %v", want, got)
+				base.Fatalf("expected %v return arguments, have %v", want, got)
 			}
 
 			// move function calls out, to make reorder3's job easier.
@@ -333,7 +334,7 @@ func walkstmt(n *Node) *Node {
 	}
 
 	if n.Op == ONAME {
-		Fatalf("walkstmt ended up with name: %+v", n)
+		base.Fatalf("walkstmt ended up with name: %+v", n)
 	}
 	return n
 }
@@ -404,7 +405,7 @@ func convFuncName(from, to *types.Type) (fnname string, needsaddr bool) {
 			return "convT2I", true
 		}
 	}
-	Fatalf("unknown conv func %c2%c", from.Tie(), to.Tie())
+	base.Fatalf("unknown conv func %c2%c", from.Tie(), to.Tie())
 	panic("unreachable")
 }
 
@@ -428,7 +429,7 @@ func walkexpr(n *Node, init *Nodes) *Node {
 		// not okay to use n->ninit when walking n,
 		// because we might replace n with some other node
 		// and would lose the init list.
-		Fatalf("walkexpr init == &n->ninit")
+		base.Fatalf("walkexpr init == &n->ninit")
 	}
 
 	if n.Ninit.Len() != 0 {
@@ -438,16 +439,16 @@ func walkexpr(n *Node, init *Nodes) *Node {
 
 	lno := setlineno(n)
 
-	if Flag.LowerW > 1 {
+	if base.Flag.LowerW > 1 {
 		Dump("before walk expr", n)
 	}
 
 	if n.Typecheck() != 1 {
-		Fatalf("missed typecheck: %+v", n)
+		base.Fatalf("missed typecheck: %+v", n)
 	}
 
 	if n.Type.IsUntyped() {
-		Fatalf("expression has untyped type: %+v", n)
+		base.Fatalf("expression has untyped type: %+v", n)
 	}
 
 	if n.Op == ONAME && n.Class() == PAUTOHEAP {
@@ -462,7 +463,7 @@ opswitch:
 	switch n.Op {
 	default:
 		Dump("walk", n)
-		Fatalf("walkexpr: switch 1 unknown op %+S", n)
+		base.Fatalf("walkexpr: switch 1 unknown op %+S", n)
 
 	case ONONAME, OEMPTY, OGETG, ONEWOBJ, OMETHEXPR:
 
@@ -586,7 +587,7 @@ opswitch:
 		// the mapassign call.
 		mapAppend := n.Left.Op == OINDEXMAP && n.Right.Op == OAPPEND
 		if mapAppend && !samesafeexpr(n.Left, n.Right.List.First()) {
-			Fatalf("not same expressions: %v != %v", n.Left, n.Right.List.First())
+			base.Fatalf("not same expressions: %v != %v", n.Left, n.Right.List.First())
 		}
 
 		n.Left = walkexpr(n.Left, init)
@@ -637,7 +638,7 @@ opswitch:
 			// x = append(...)
 			r := n.Right
 			if r.Type.Elem().NotInHeap() {
-				yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", r.Type.Elem())
+				base.Errorf("%v can't be allocated in Go; it is incomplete (or unallocatable)", r.Type.Elem())
 			}
 			switch {
 			case isAppendOfMake(r):
@@ -1045,25 +1046,25 @@ opswitch:
 		}
 		if t.IsArray() {
 			n.SetBounded(bounded(r, t.NumElem()))
-			if Flag.LowerM != 0 && n.Bounded() && !Isconst(n.Right, constant.Int) {
-				Warn("index bounds check elided")
+			if base.Flag.LowerM != 0 && n.Bounded() && !Isconst(n.Right, constant.Int) {
+				base.Warn("index bounds check elided")
 			}
 			if smallintconst(n.Right) && !n.Bounded() {
-				yyerror("index out of bounds")
+				base.Errorf("index out of bounds")
 			}
 		} else if Isconst(n.Left, constant.String) {
 			n.SetBounded(bounded(r, int64(len(n.Left.StringVal()))))
-			if Flag.LowerM != 0 && n.Bounded() && !Isconst(n.Right, constant.Int) {
-				Warn("index bounds check elided")
+			if base.Flag.LowerM != 0 && n.Bounded() && !Isconst(n.Right, constant.Int) {
+				base.Warn("index bounds check elided")
 			}
 			if smallintconst(n.Right) && !n.Bounded() {
-				yyerror("index out of bounds")
+				base.Errorf("index out of bounds")
 			}
 		}
 
 		if Isconst(n.Right, constant.Int) {
 			if n.Right.Val().U.(*Mpint).CmpInt64(0) < 0 || doesoverflow(n.Right.Val(), types.Types[TINT]) {
-				yyerror("index out of bounds")
+				base.Errorf("index out of bounds")
 			}
 		}
 
@@ -1106,7 +1107,7 @@ opswitch:
 		n.SetTypecheck(1)
 
 	case ORECV:
-		Fatalf("walkexpr ORECV") // should see inside OAS only
+		base.Fatalf("walkexpr ORECV") // should see inside OAS only
 
 	case OSLICEHEADER:
 		n.Left = walkexpr(n.Left, init)
@@ -1148,11 +1149,11 @@ opswitch:
 
 	case ONEW:
 		if n.Type.Elem().NotInHeap() {
-			yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", n.Type.Elem())
+			base.Errorf("%v can't be allocated in Go; it is incomplete (or unallocatable)", n.Type.Elem())
 		}
 		if n.Esc == EscNone {
 			if n.Type.Elem().Width >= maxImplicitStackVarSize {
-				Fatalf("large ONEW with EscNone: %v", n)
+				base.Fatalf("large ONEW with EscNone: %v", n)
 			}
 			r := temp(n.Type.Elem())
 			r = nod(OAS, r, nil) // zero temp
@@ -1170,10 +1171,10 @@ opswitch:
 
 	case OAPPEND:
 		// order should make sure we only see OAS(node, OAPPEND), which we handle above.
-		Fatalf("append outside assignment")
+		base.Fatalf("append outside assignment")
 
 	case OCOPY:
-		n = copyany(n, init, instrumenting && !Flag.CompilingRuntime)
+		n = copyany(n, init, instrumenting && !base.Flag.CompilingRuntime)
 
 		// cannot use chanfn - closechan takes any, not chan any
 	case OCLOSE:
@@ -1319,17 +1320,17 @@ opswitch:
 		}
 		t := n.Type
 		if t.Elem().NotInHeap() {
-			yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", t.Elem())
+			base.Errorf("%v can't be allocated in Go; it is incomplete (or unallocatable)", t.Elem())
 		}
 		if n.Esc == EscNone {
 			if why := heapAllocReason(n); why != "" {
-				Fatalf("%v has EscNone, but %v", n, why)
+				base.Fatalf("%v has EscNone, but %v", n, why)
 			}
 			// var arr [r]T
 			// n = arr[:l]
 			i := indexconst(r)
 			if i < 0 {
-				Fatalf("walkexpr: invalid index %v", r)
+				base.Fatalf("walkexpr: invalid index %v", r)
 			}
 
 			// cap is constrained to [0,2^31) or [0,2^63) depending on whether
@@ -1391,12 +1392,12 @@ opswitch:
 
 	case OMAKESLICECOPY:
 		if n.Esc == EscNone {
-			Fatalf("OMAKESLICECOPY with EscNone: %v", n)
+			base.Fatalf("OMAKESLICECOPY with EscNone: %v", n)
 		}
 
 		t := n.Type
 		if t.Elem().NotInHeap() {
-			yyerror("%v can't be allocated in Go; it is incomplete (or unallocatable)", t.Elem())
+			base.Errorf("%v can't be allocated in Go; it is incomplete (or unallocatable)", t.Elem())
 		}
 
 		length := conv(n.Left, types.Types[TINT])
@@ -1582,7 +1583,7 @@ opswitch:
 	t := n.Type
 	n = evalConst(n)
 	if n.Type != t {
-		Fatalf("evconst changed Type: %v had type %v, now %v", n, t, n.Type)
+		base.Fatalf("evconst changed Type: %v had type %v, now %v", n, t, n.Type)
 	}
 	if n.Op == OLITERAL {
 		n = typecheck(n, ctxExpr)
@@ -1595,11 +1596,11 @@ opswitch:
 
 	updateHasCall(n)
 
-	if Flag.LowerW != 0 && n != nil {
+	if base.Flag.LowerW != 0 && n != nil {
 		Dump("after walk expr", n)
 	}
 
-	lineno = lno
+	base.Pos = lno
 	return n
 }
 
@@ -1684,8 +1685,8 @@ func reduceSlice(n *Node) *Node {
 	n.SetSliceBounds(low, high, max)
 	if (n.Op == OSLICE || n.Op == OSLICESTR) && low == nil && high == nil {
 		// Reduce x[:] to x.
-		if Debug.Slice > 0 {
-			Warn("slice: omit slice operation")
+		if base.Debug.Slice > 0 {
+			base.Warn("slice: omit slice operation")
 		}
 		return n.Left
 	}
@@ -1735,7 +1736,7 @@ func ascompatee(op Op, nl, nr []*Node, init *Nodes) []*Node {
 		var nln, nrn Nodes
 		nln.Set(nl)
 		nrn.Set(nr)
-		Fatalf("error in shape across %+v %v %+v / %d %d [%s]", nln, op, nrn, len(nl), len(nr), Curfn.funcname())
+		base.Fatalf("error in shape across %+v %v %+v / %d %d [%s]", nln, op, nrn, len(nl), len(nr), Curfn.funcname())
 	}
 	return nn
 }
@@ -1757,7 +1758,7 @@ func fncall(l *Node, rt *types.Type) bool {
 //	expr-list = func()
 func ascompatet(nl Nodes, nr *types.Type) []*Node {
 	if nl.Len() != nr.NumFields() {
-		Fatalf("ascompatet: assignment count mismatch: %d = %d", nl.Len(), nr.NumFields())
+		base.Fatalf("ascompatet: assignment count mismatch: %d = %d", nl.Len(), nr.NumFields())
 	}
 
 	var nn, mm Nodes
@@ -1779,7 +1780,7 @@ func ascompatet(nl Nodes, nr *types.Type) []*Node {
 		}
 
 		res := nod(ORESULT, nil, nil)
-		res.Xoffset = Ctxt.FixedFrameSize() + r.Offset
+		res.Xoffset = base.Ctxt.FixedFrameSize() + r.Offset
 		res.Type = r.Type
 		res.SetTypecheck(1)
 
@@ -1788,7 +1789,7 @@ func ascompatet(nl Nodes, nr *types.Type) []*Node {
 		updateHasCall(a)
 		if a.HasCall() {
 			Dump("ascompatet ucount", a)
-			Fatalf("ascompatet: too many function calls evaluating parameters")
+			base.Fatalf("ascompatet: too many function calls evaluating parameters")
 		}
 
 		nn.Append(a)
@@ -1810,7 +1811,7 @@ func mkdotargslice(typ *types.Type, args []*Node) *Node {
 
 	n = typecheck(n, ctxExpr)
 	if n.Type == nil {
-		Fatalf("mkdotargslice: typecheck failed")
+		base.Fatalf("mkdotargslice: typecheck failed")
 	}
 	return n
 }
@@ -2068,7 +2069,7 @@ func isReflectHeaderDataField(l *Node) bool {
 
 func convas(n *Node, init *Nodes) *Node {
 	if n.Op != OAS {
-		Fatalf("convas: not OAS %v", n.Op)
+		base.Fatalf("convas: not OAS %v", n.Op)
 	}
 	defer updateHasCall(n)
 
@@ -2133,7 +2134,7 @@ func reorder3(all []*Node) []*Node {
 
 		switch l.Op {
 		default:
-			Fatalf("reorder3 unexpected lvalue %#v", l.Op)
+			base.Fatalf("reorder3 unexpected lvalue %#v", l.Op)
 
 		case ONAME:
 			break
@@ -2181,7 +2182,7 @@ func outervalue(n *Node) *Node {
 	for {
 		switch n.Op {
 		case OXDOT:
-			Fatalf("OXDOT in walk")
+			base.Fatalf("OXDOT in walk")
 		case ODOT, OPAREN, OCONVNOP:
 			n = n.Left
 			continue
@@ -2229,7 +2230,7 @@ func aliased(r *Node, all []*Node) bool {
 
 		switch l.Class() {
 		default:
-			Fatalf("unexpected class: %v, %v", l, l.Class())
+			base.Fatalf("unexpected class: %v, %v", l, l.Class())
 
 		case PAUTOHEAP, PEXTERN:
 			memwrite = true
@@ -2316,7 +2317,7 @@ func varexpr(n *Node) bool {
 
 	case ODOT: // but not ODOTPTR
 		// Should have been handled in aliased.
-		Fatalf("varexpr unexpected ODOT")
+		base.Fatalf("varexpr unexpected ODOT")
 	}
 
 	// Be conservative.
@@ -2467,25 +2468,25 @@ func returnsfromheap(params *types.Type) []*Node {
 // between the stack and the heap. The generated code is added to Curfn's
 // Enter and Exit lists.
 func heapmoves() {
-	lno := lineno
-	lineno = Curfn.Pos
+	lno := base.Pos
+	base.Pos = Curfn.Pos
 	nn := paramstoheap(Curfn.Type.Recvs())
 	nn = append(nn, paramstoheap(Curfn.Type.Params())...)
 	nn = append(nn, paramstoheap(Curfn.Type.Results())...)
 	Curfn.Func.Enter.Append(nn...)
-	lineno = Curfn.Func.Endlineno
+	base.Pos = Curfn.Func.Endlineno
 	Curfn.Func.Exit.Append(returnsfromheap(Curfn.Type.Results())...)
-	lineno = lno
+	base.Pos = lno
 }
 
 func vmkcall(fn *Node, t *types.Type, init *Nodes, va []*Node) *Node {
 	if fn.Type == nil || fn.Type.Etype != TFUNC {
-		Fatalf("mkcall %v %v", fn, fn.Type)
+		base.Fatalf("mkcall %v %v", fn, fn.Type)
 	}
 
 	n := fn.Type.NumParams()
 	if n != len(va) {
-		Fatalf("vmkcall %v needs %v args got %v", fn, n, len(va))
+		base.Fatalf("vmkcall %v needs %v args got %v", fn, n, len(va))
 	}
 
 	r := nod(OCALL, fn, nil)
@@ -2551,12 +2552,12 @@ func byteindex(n *Node) *Node {
 
 func chanfn(name string, n int, t *types.Type) *Node {
 	if !t.IsChan() {
-		Fatalf("chanfn %v", t)
+		base.Fatalf("chanfn %v", t)
 	}
 	fn := syslook(name)
 	switch n {
 	default:
-		Fatalf("chanfn %d", n)
+		base.Fatalf("chanfn %d", n)
 	case 1:
 		fn = substArgTypes(fn, t.Elem())
 	case 2:
@@ -2567,7 +2568,7 @@ func chanfn(name string, n int, t *types.Type) *Node {
 
 func mapfn(name string, t *types.Type) *Node {
 	if !t.IsMap() {
-		Fatalf("mapfn %v", t)
+		base.Fatalf("mapfn %v", t)
 	}
 	fn := syslook(name)
 	fn = substArgTypes(fn, t.Key(), t.Elem(), t.Key(), t.Elem())
@@ -2576,7 +2577,7 @@ func mapfn(name string, t *types.Type) *Node {
 
 func mapfndel(name string, t *types.Type) *Node {
 	if !t.IsMap() {
-		Fatalf("mapfn %v", t)
+		base.Fatalf("mapfn %v", t)
 	}
 	fn := syslook(name)
 	fn = substArgTypes(fn, t.Key(), t.Elem(), t.Key())
@@ -2617,7 +2618,7 @@ func mapfast(t *types.Type) int {
 		if Widthptr == 4 {
 			return mapfast32ptr
 		}
-		Fatalf("small pointer %v", t.Key())
+		base.Fatalf("small pointer %v", t.Key())
 	case AMEM64:
 		if !t.Key().HasPointers() {
 			return mapfast64
@@ -2644,7 +2645,7 @@ func addstr(n *Node, init *Nodes) *Node {
 	c := n.List.Len()
 
 	if c < 2 {
-		Fatalf("addstr count %d too small", c)
+		base.Fatalf("addstr count %d too small", c)
 	}
 
 	buf := nodnil()
@@ -2783,7 +2784,7 @@ func appendslice(n *Node, init *Nodes) *Node {
 		ptr1, len1 := nptr1.backingArrayPtrLen()
 		ptr2, len2 := nptr2.backingArrayPtrLen()
 		ncopy = mkcall1(fn, types.Types[TINT], &nodes, typename(elemtype), ptr1, len1, ptr2, len2)
-	} else if instrumenting && !Flag.CompilingRuntime {
+	} else if instrumenting && !base.Flag.CompilingRuntime {
 		// rely on runtime to instrument:
 		//  copy(s[len(l1):], l2)
 		// l2 can be a slice or string.
@@ -2826,12 +2827,12 @@ func appendslice(n *Node, init *Nodes) *Node {
 // isAppendOfMake reports whether n is of the form append(x , make([]T, y)...).
 // isAppendOfMake assumes n has already been typechecked.
 func isAppendOfMake(n *Node) bool {
-	if Flag.N != 0 || instrumenting {
+	if base.Flag.N != 0 || instrumenting {
 		return false
 	}
 
 	if n.Typecheck() == 0 {
-		Fatalf("missing typecheck: %+v", n)
+		base.Fatalf("missing typecheck: %+v", n)
 	}
 
 	if n.Op != OAPPEND || !n.IsDDD() || n.List.Len() != 2 {
@@ -3035,7 +3036,7 @@ func walkappend(n *Node, init *Nodes, dst *Node) *Node {
 
 	// General case, with no function calls left as arguments.
 	// Leave for gen, except that instrumentation requires old form.
-	if !instrumenting || Flag.CompilingRuntime {
+	if !instrumenting || base.Flag.CompilingRuntime {
 		return n
 	}
 
@@ -3184,7 +3185,7 @@ func eqfor(t *types.Type) (n *Node, needsize bool) {
 		})
 		return n, false
 	}
-	Fatalf("eqfor %v", t)
+	base.Fatalf("eqfor %v", t)
 	return nil, false
 }
 
@@ -3261,7 +3262,7 @@ func walkcompare(n *Node, init *Nodes) *Node {
 
 	switch t.Etype {
 	default:
-		if Debug.Libfuzzer != 0 && t.IsInteger() {
+		if base.Debug.Libfuzzer != 0 && t.IsInteger() {
 			n.Left = cheapexpr(n.Left, init)
 			n.Right = cheapexpr(n.Right, init)
 
@@ -3303,7 +3304,7 @@ func walkcompare(n *Node, init *Nodes) *Node {
 				}
 				paramType = types.Types[TUINT64]
 			default:
-				Fatalf("unexpected integer size %d for %v", t.Size(), t)
+				base.Fatalf("unexpected integer size %d for %v", t.Size(), t)
 			}
 			init.Append(mkcall(fn, nil, init, tracecmpArg(l, paramType, init), tracecmpArg(r, paramType, init)))
 		}
@@ -3328,7 +3329,7 @@ func walkcompare(n *Node, init *Nodes) *Node {
 	if !inline {
 		// eq algs take pointers; cmpl and cmpr must be addressable
 		if !islvalue(cmpl) || !islvalue(cmpr) {
-			Fatalf("arguments of comparison must be lvalues - %v %v", cmpl, cmpr)
+			base.Fatalf("arguments of comparison must be lvalues - %v %v", cmpl, cmpr)
 		}
 
 		fn, needsize := eqfor(t)
@@ -3721,7 +3722,7 @@ func usefield(n *Node) {
 
 	switch n.Op {
 	default:
-		Fatalf("usefield %v", n.Op)
+		base.Fatalf("usefield %v", n.Op)
 
 	case ODOT, ODOTPTR:
 		break
@@ -3738,10 +3739,10 @@ func usefield(n *Node) {
 	}
 	field := n.Opt().(*types.Field)
 	if field == nil {
-		Fatalf("usefield %v %v without paramfld", n.Left.Type, n.Sym)
+		base.Fatalf("usefield %v %v without paramfld", n.Left.Type, n.Sym)
 	}
 	if field.Sym != n.Sym || field.Offset != n.Xoffset {
-		Fatalf("field inconsistency: %v,%v != %v,%v", field.Sym, field.Offset, n.Sym, n.Xoffset)
+		base.Fatalf("field inconsistency: %v,%v != %v,%v", field.Sym, field.Offset, n.Sym, n.Xoffset)
 	}
 	if !strings.Contains(field.Note, "go:\"track\"") {
 		return
@@ -3752,10 +3753,10 @@ func usefield(n *Node) {
 		outer = outer.Elem()
 	}
 	if outer.Sym == nil {
-		yyerror("tracked field must be in named struct type")
+		base.Errorf("tracked field must be in named struct type")
 	}
 	if !types.IsExported(field.Sym.Name) {
-		yyerror("tracked field must be exported (upper case)")
+		base.Errorf("tracked field must be exported (upper case)")
 	}
 
 	sym := tracksym(outer, field)
@@ -3970,7 +3971,7 @@ func substArgTypes(old *Node, types_ ...*types.Type) *Node {
 	}
 	n.Type = types.SubstAny(n.Type, &types_)
 	if len(types_) > 0 {
-		Fatalf("substArgTypes: too many argument types")
+		base.Fatalf("substArgTypes: too many argument types")
 	}
 	return n
 }
@@ -3993,17 +3994,17 @@ func canMergeLoads() bool {
 // isRuneCount reports whether n is of the form len([]rune(string)).
 // These are optimized into a call to runtime.countrunes.
 func isRuneCount(n *Node) bool {
-	return Flag.N == 0 && !instrumenting && n.Op == OLEN && n.Left.Op == OSTR2RUNES
+	return base.Flag.N == 0 && !instrumenting && n.Op == OLEN && n.Left.Op == OSTR2RUNES
 }
 
 func walkCheckPtrAlignment(n *Node, init *Nodes, count *Node) *Node {
 	if !n.Type.IsPtr() {
-		Fatalf("expected pointer type: %v", n.Type)
+		base.Fatalf("expected pointer type: %v", n.Type)
 	}
 	elem := n.Type.Elem()
 	if count != nil {
 		if !elem.IsArray() {
-			Fatalf("expected array type: %v", elem)
+			base.Fatalf("expected array type: %v", elem)
 		}
 		elem = elem.Elem()
 	}
@@ -4033,7 +4034,7 @@ func walkCheckPtrArithmetic(n *Node, init *Nodes) *Node {
 	} else if opt != nil {
 		// We use n.Opt() here because today it's not used for OCONVNOP. If that changes,
 		// there's no guarantee that temporarily replacing it is safe, so just hard fail here.
-		Fatalf("unexpected Opt: %v", opt)
+		base.Fatalf("unexpected Opt: %v", opt)
 	}
 	n.SetOpt(&walkCheckPtrArithmeticMarker)
 	defer n.SetOpt(nil)
@@ -4089,5 +4090,5 @@ func walkCheckPtrArithmetic(n *Node, init *Nodes) *Node {
 // function fn at a given level. See debugHelpFooter for defined
 // levels.
 func checkPtr(fn *Node, level int) bool {
-	return Debug.Checkptr >= level && fn.Func.Pragma&NoCheckPtr == 0
+	return base.Debug.Checkptr >= level && fn.Func.Pragma&NoCheckPtr == 0
 }

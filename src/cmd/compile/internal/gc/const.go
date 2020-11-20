@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
@@ -26,7 +27,7 @@ type Val struct {
 func (v Val) Kind() constant.Kind {
 	switch v.U.(type) {
 	default:
-		Fatalf("unexpected Ctype for %T", v.U)
+		base.Fatalf("unexpected Ctype for %T", v.U)
 		panic("unreachable")
 	case nil:
 		return constant.Unknown
@@ -49,7 +50,7 @@ func eqval(a, b Val) bool {
 	}
 	switch x := a.U.(type) {
 	default:
-		Fatalf("unexpected Ctype for %T", a.U)
+		base.Fatalf("unexpected Ctype for %T", a.U)
 		panic("unreachable")
 	case bool:
 		y := b.U.(bool)
@@ -75,7 +76,7 @@ func eqval(a, b Val) bool {
 func (v Val) Interface() interface{} {
 	switch x := v.U.(type) {
 	default:
-		Fatalf("unexpected Interface for %T", v.U)
+		base.Fatalf("unexpected Interface for %T", v.U)
 		panic("unreachable")
 	case bool, string:
 		return x
@@ -92,7 +93,7 @@ func (v Val) Interface() interface{} {
 // n must be an integer or rune constant.
 func (n *Node) Int64Val() int64 {
 	if !Isconst(n, constant.Int) {
-		Fatalf("Int64Val(%v)", n)
+		base.Fatalf("Int64Val(%v)", n)
 	}
 	return n.Val().U.(*Mpint).Int64()
 }
@@ -112,7 +113,7 @@ func (n *Node) CanInt64() bool {
 // n must be a boolean constant.
 func (n *Node) BoolVal() bool {
 	if !Isconst(n, constant.Bool) {
-		Fatalf("BoolVal(%v)", n)
+		base.Fatalf("BoolVal(%v)", n)
 	}
 	return n.Val().U.(bool)
 }
@@ -121,7 +122,7 @@ func (n *Node) BoolVal() bool {
 // n must be a string constant.
 func (n *Node) StringVal() string {
 	if !Isconst(n, constant.String) {
-		Fatalf("StringVal(%v)", n)
+		base.Fatalf("StringVal(%v)", n)
 	}
 	return n.Val().U.(string)
 }
@@ -150,7 +151,7 @@ func truncfltlit(oldv *Mpflt, t *types.Type) *Mpflt {
 	case types.TFLOAT64:
 		fv.SetFloat64(oldv.Float64())
 	default:
-		Fatalf("truncfltlit: unexpected Etype %v", t.Etype)
+		base.Fatalf("truncfltlit: unexpected Etype %v", t.Etype)
 	}
 
 	return fv
@@ -158,7 +159,7 @@ func truncfltlit(oldv *Mpflt, t *types.Type) *Mpflt {
 
 // truncate Real and Imag parts of Mpcplx to 32-bit or 64-bit
 // precision, according to type; return truncated value. In case of
-// overflow, calls yyerror but does not truncate the input value.
+// overflow, calls Errorf but does not truncate the input value.
 func trunccmplxlit(oldv *Mpcplx, t *types.Type) *Mpcplx {
 	if t == nil {
 		return oldv
@@ -181,7 +182,7 @@ func trunccmplxlit(oldv *Mpcplx, t *types.Type) *Mpcplx {
 		cv.Real.SetFloat64(oldv.Real.Float64())
 		cv.Imag.SetFloat64(oldv.Imag.Float64())
 	default:
-		Fatalf("trunccplxlit: unexpected Etype %v", t.Etype)
+		base.Fatalf("trunccplxlit: unexpected Etype %v", t.Etype)
 	}
 
 	return cv
@@ -204,10 +205,10 @@ func defaultlit(n *Node, t *types.Type) *Node { return convlit1(n, t, false, nil
 // message.
 func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Node {
 	if explicit && t == nil {
-		Fatalf("explicit conversion missing type")
+		base.Fatalf("explicit conversion missing type")
 	}
 	if t != nil && t.IsUntyped() {
-		Fatalf("bad conversion to untyped: %v", t)
+		base.Fatalf("bad conversion to untyped: %v", t)
 	}
 
 	if n == nil || n.Type == nil {
@@ -228,10 +229,10 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 	// Nil is technically not a constant, so handle it specially.
 	if n.Type.Etype == TNIL {
 		if n.Op != ONIL {
-			Fatalf("unexpected op: %v (%v)", n, n.Op)
+			base.Fatalf("unexpected op: %v (%v)", n, n.Op)
 		}
 		if t == nil {
-			yyerror("use of untyped nil")
+			base.Errorf("use of untyped nil")
 			n.SetDiag(true)
 			n.Type = nil
 			return n
@@ -252,7 +253,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 
 	switch n.Op {
 	default:
-		Fatalf("unexpected untyped expression: %v", n)
+		base.Fatalf("unexpected untyped expression: %v", n)
 
 	case OLITERAL:
 		v := convertVal(n.Val(), t, explicit)
@@ -292,7 +293,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 			return n
 		}
 		if !types.Identical(n.Left.Type, n.Right.Type) {
-			yyerror("invalid operation: %v (mismatched types %v and %v)", n, n.Left.Type, n.Right.Type)
+			base.Errorf("invalid operation: %v (mismatched types %v and %v)", n, n.Left.Type, n.Right.Type)
 			n.Type = nil
 			return n
 		}
@@ -311,7 +312,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 		n.Left = convlit1(n.Left, t, explicit, nil)
 		n.Type = n.Left.Type
 		if n.Type != nil && !n.Type.IsInteger() {
-			yyerror("invalid operation: %v (shift of type %v)", n, n.Type)
+			base.Errorf("invalid operation: %v (shift of type %v)", n, n.Type)
 			n.Type = nil
 		}
 		return n
@@ -320,11 +321,11 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 	if !n.Diag() {
 		if !t.Broke() {
 			if explicit {
-				yyerror("cannot convert %L to type %v", n, t)
+				base.Errorf("cannot convert %L to type %v", n, t)
 			} else if context != nil {
-				yyerror("cannot use %L as type %v in %s", n, t, context())
+				base.Errorf("cannot use %L as type %v in %s", n, t, context())
 			} else {
-				yyerror("cannot use %L as type %v", n, t)
+				base.Errorf("cannot use %L as type %v", n, t)
 			}
 		}
 		n.SetDiag(true)
@@ -422,7 +423,7 @@ func toflt(v Val) Val {
 		f := newMpflt()
 		f.Set(&u.Real)
 		if u.Imag.CmpFloat64(0) != 0 {
-			yyerror("constant %v truncated to real", u.GoString())
+			base.Errorf("constant %v truncated to real", u.GoString())
 		}
 		v.U = f
 	}
@@ -438,7 +439,7 @@ func toint(v Val) Val {
 		i := new(Mpint)
 		if !i.SetFloat(u) {
 			if i.checkOverflow(0) {
-				yyerror("integer too large")
+				base.Errorf("integer too large")
 			} else {
 				// The value of u cannot be represented as an integer;
 				// so we need to print an error message.
@@ -452,9 +453,9 @@ func toint(v Val) Val {
 				var t big.Float
 				t.Parse(u.GoString(), 10)
 				if t.IsInt() {
-					yyerror("constant truncated to integer")
+					base.Errorf("constant truncated to integer")
 				} else {
-					yyerror("constant %v truncated to integer", u.GoString())
+					base.Errorf("constant %v truncated to integer", u.GoString())
 				}
 			}
 		}
@@ -463,7 +464,7 @@ func toint(v Val) Val {
 	case *Mpcplx:
 		i := new(Mpint)
 		if !i.SetFloat(&u.Real) || u.Imag.CmpFloat64(0) != 0 {
-			yyerror("constant %v truncated to integer", u.GoString())
+			base.Errorf("constant %v truncated to integer", u.GoString())
 		}
 
 		v.U = i
@@ -476,19 +477,19 @@ func doesoverflow(v Val, t *types.Type) bool {
 	switch u := v.U.(type) {
 	case *Mpint:
 		if !t.IsInteger() {
-			Fatalf("overflow: %v integer constant", t)
+			base.Fatalf("overflow: %v integer constant", t)
 		}
 		return u.Cmp(minintval[t.Etype]) < 0 || u.Cmp(maxintval[t.Etype]) > 0
 
 	case *Mpflt:
 		if !t.IsFloat() {
-			Fatalf("overflow: %v floating-point constant", t)
+			base.Fatalf("overflow: %v floating-point constant", t)
 		}
 		return u.Cmp(minfltval[t.Etype]) <= 0 || u.Cmp(maxfltval[t.Etype]) >= 0
 
 	case *Mpcplx:
 		if !t.IsComplex() {
-			Fatalf("overflow: %v complex constant", t)
+			base.Fatalf("overflow: %v complex constant", t)
 		}
 		return u.Real.Cmp(minfltval[t.Etype]) <= 0 || u.Real.Cmp(maxfltval[t.Etype]) >= 0 ||
 			u.Imag.Cmp(minfltval[t.Etype]) <= 0 || u.Imag.Cmp(maxfltval[t.Etype]) >= 0
@@ -510,7 +511,7 @@ func overflow(v Val, t *types.Type) bool {
 	}
 
 	if doesoverflow(v, t) {
-		yyerror("constant %v overflows %v", v, t)
+		base.Errorf("constant %v overflows %v", v, t)
 		return true
 	}
 
@@ -657,7 +658,7 @@ func evalConst(n *Node) *Node {
 				re = &u.Real
 				im = &u.Imag
 			default:
-				Fatalf("impossible")
+				base.Fatalf("impossible")
 			}
 			if n.Op == OIMAG {
 				if im == nil {
@@ -742,7 +743,7 @@ func compareOp(x Val, op Op, y Val) bool {
 		}
 	}
 
-	Fatalf("compareOp: bad comparison: %v %v %v", x, op, y)
+	base.Fatalf("compareOp: bad comparison: %v %v %v", x, op, y)
 	panic("unreachable")
 }
 
@@ -762,7 +763,7 @@ func cmpZero(x int, op Op) bool {
 		return x >= 0
 	}
 
-	Fatalf("cmpZero: want comparison operator, got %v", op)
+	base.Fatalf("cmpZero: want comparison operator, got %v", op)
 	panic("unreachable")
 }
 
@@ -794,13 +795,13 @@ Outer:
 			u.Mul(y)
 		case ODIV:
 			if y.CmpInt64(0) == 0 {
-				yyerror("division by zero")
+				base.Errorf("division by zero")
 				return Val{}
 			}
 			u.Quo(y)
 		case OMOD:
 			if y.CmpInt64(0) == 0 {
-				yyerror("division by zero")
+				base.Errorf("division by zero")
 				return Val{}
 			}
 			u.Rem(y)
@@ -831,7 +832,7 @@ Outer:
 			u.Mul(y)
 		case ODIV:
 			if y.CmpFloat64(0) == 0 {
-				yyerror("division by zero")
+				base.Errorf("division by zero")
 				return Val{}
 			}
 			u.Quo(y)
@@ -857,7 +858,7 @@ Outer:
 			u.Mul(y)
 		case ODIV:
 			if !u.Div(y) {
-				yyerror("complex division by zero")
+				base.Errorf("complex division by zero")
 				return Val{}
 			}
 		default:
@@ -866,7 +867,7 @@ Outer:
 		return Val{U: u}
 	}
 
-	Fatalf("binaryOp: bad operation: %v %v %v", x, op, y)
+	base.Fatalf("binaryOp: bad operation: %v %v %v", x, op, y)
 	panic("unreachable")
 }
 
@@ -925,7 +926,7 @@ func unaryOp(op Op, x Val, t *types.Type) Val {
 		return Val{U: !x.U.(bool)}
 	}
 
-	Fatalf("unaryOp: bad operation: %v %v", op, x)
+	base.Fatalf("unaryOp: bad operation: %v %v", op, x)
 	panic("unreachable")
 }
 
@@ -941,7 +942,7 @@ func shiftOp(x Val, op Op, y Val) Val {
 	case ORSH:
 		u.Rsh(y.U.(*Mpint))
 	default:
-		Fatalf("shiftOp: bad operator: %v", op)
+		base.Fatalf("shiftOp: bad operator: %v", op)
 		panic("unreachable")
 	}
 	return Val{U: u}
@@ -967,7 +968,7 @@ func origConst(n *Node, v Val) *Node {
 	// Check range.
 	lno := setlineno(n)
 	overflow(v, n.Type)
-	lineno = lno
+	base.Pos = lno
 
 	if !n.Type.IsUntyped() {
 		switch v.Kind() {
@@ -984,7 +985,7 @@ func origConst(n *Node, v Val) *Node {
 
 func assertRepresents(t *types.Type, v Val) {
 	if !represents(t, v) {
-		Fatalf("%v does not represent %v", t, v)
+		base.Fatalf("%v does not represent %v", t, v)
 	}
 }
 
@@ -1029,7 +1030,7 @@ func idealType(ct constant.Kind) *types.Type {
 	case constant.Complex:
 		return types.UntypedComplex
 	}
-	Fatalf("unexpected Ctype: %v", ct)
+	base.Fatalf("unexpected Ctype: %v", ct)
 	return nil
 }
 
@@ -1090,7 +1091,7 @@ func mixUntyped(t1, t2 *types.Type) *types.Type {
 		case types.UntypedComplex:
 			return 3
 		}
-		Fatalf("bad type %v", t)
+		base.Fatalf("bad type %v", t)
 		panic("unreachable")
 	}
 
@@ -1120,7 +1121,7 @@ func defaultType(t *types.Type) *types.Type {
 		return types.Types[TCOMPLEX128]
 	}
 
-	Fatalf("bad type %v", t)
+	base.Fatalf("bad type %v", t)
 	return nil
 }
 
@@ -1251,7 +1252,7 @@ func (s *constSet) add(pos src.XPos, n *Node, what, where string) {
 		return
 	}
 	if n.Type.IsUntyped() {
-		Fatalf("%v is untyped", n)
+		base.Fatalf("%v is untyped", n)
 	}
 
 	// Consts are only duplicates if they have the same value and
@@ -1287,9 +1288,9 @@ func (s *constSet) add(pos src.XPos, n *Node, what, where string) {
 	}
 
 	if prevPos, isDup := s.m[k]; isDup {
-		yyerrorl(pos, "duplicate %s %s in %s\n\tprevious %s at %v",
+		base.ErrorfAt(pos, "duplicate %s %s in %s\n\tprevious %s at %v",
 			what, nodeAndVal(n), where,
-			what, linestr(prevPos))
+			what, base.FmtPos(prevPos))
 	} else {
 		s.m[k] = pos
 	}
