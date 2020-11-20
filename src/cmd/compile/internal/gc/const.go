@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
@@ -14,37 +15,7 @@ import (
 	"strings"
 )
 
-type Val struct {
-	// U contains one of:
-	// bool     bool when Ctype() == CTBOOL
-	// *Mpint   int when Ctype() == CTINT
-	// *Mpflt   float when Ctype() == CTFLT
-	// *Mpcplx  pair of floats when Ctype() == CTCPLX
-	// string   string when Ctype() == CTSTR
-	U interface{}
-}
-
-func (v Val) Kind() constant.Kind {
-	switch v.U.(type) {
-	default:
-		base.Fatalf("unexpected Ctype for %T", v.U)
-		panic("unreachable")
-	case nil:
-		return constant.Unknown
-	case bool:
-		return constant.Bool
-	case *Mpint:
-		return constant.Int
-	case *Mpflt:
-		return constant.Float
-	case *Mpcplx:
-		return constant.Complex
-	case string:
-		return constant.String
-	}
-}
-
-func eqval(a, b Val) bool {
+func Eqval(a, b ir.Val) bool {
 	if a.Kind() != b.Kind() {
 		return false
 	}
@@ -55,14 +26,14 @@ func eqval(a, b Val) bool {
 	case bool:
 		y := b.U.(bool)
 		return x == y
-	case *Mpint:
-		y := b.U.(*Mpint)
+	case *ir.Int:
+		y := b.U.(*ir.Int)
 		return x.Cmp(y) == 0
-	case *Mpflt:
-		y := b.U.(*Mpflt)
+	case *ir.Float:
+		y := b.U.(*ir.Float)
 		return x.Cmp(y) == 0
-	case *Mpcplx:
-		y := b.U.(*Mpcplx)
+	case *ir.Complex:
+		y := b.U.(*ir.Complex)
 		return x.Real.Cmp(&y.Real) == 0 && x.Imag.Cmp(&y.Imag) == 0
 	case string:
 		y := b.U.(string)
@@ -70,78 +41,21 @@ func eqval(a, b Val) bool {
 	}
 }
 
-// Interface returns the constant value stored in v as an interface{}.
-// It returns int64s for ints and runes, float64s for floats,
-// complex128s for complex values, and nil for constant nils.
-func (v Val) Interface() interface{} {
-	switch x := v.U.(type) {
-	default:
-		base.Fatalf("unexpected Interface for %T", v.U)
-		panic("unreachable")
-	case bool, string:
-		return x
-	case *Mpint:
-		return x.Int64()
-	case *Mpflt:
-		return x.Float64()
-	case *Mpcplx:
-		return complex(x.Real.Float64(), x.Imag.Float64())
-	}
-}
-
-// Int64Val returns n as an int64.
-// n must be an integer or rune constant.
-func (n *Node) Int64Val() int64 {
-	if !Isconst(n, constant.Int) {
-		base.Fatalf("Int64Val(%v)", n)
-	}
-	return n.Val().U.(*Mpint).Int64()
-}
-
-// CanInt64 reports whether it is safe to call Int64Val() on n.
-func (n *Node) CanInt64() bool {
-	if !Isconst(n, constant.Int) {
-		return false
-	}
-
-	// if the value inside n cannot be represented as an int64, the
-	// return value of Int64 is undefined
-	return n.Val().U.(*Mpint).CmpInt64(n.Int64Val()) == 0
-}
-
-// BoolVal returns n as a bool.
-// n must be a boolean constant.
-func (n *Node) BoolVal() bool {
-	if !Isconst(n, constant.Bool) {
-		base.Fatalf("BoolVal(%v)", n)
-	}
-	return n.Val().U.(bool)
-}
-
-// StringVal returns the value of a literal string Node as a string.
-// n must be a string constant.
-func (n *Node) StringVal() string {
-	if !Isconst(n, constant.String) {
-		base.Fatalf("StringVal(%v)", n)
-	}
-	return n.Val().U.(string)
-}
-
 // truncate float literal fv to 32-bit or 64-bit precision
 // according to type; return truncated value.
-func truncfltlit(oldv *Mpflt, t *types.Type) *Mpflt {
+func truncfltlit(oldv *ir.Float, t *types.Type) *ir.Float {
 	if t == nil {
 		return oldv
 	}
 
-	if overflow(Val{oldv}, t) {
+	if overflow(ir.Val{U: oldv}, t) {
 		// If there was overflow, simply continuing would set the
 		// value to Inf which in turn would lead to spurious follow-on
 		// errors. Avoid this by returning the existing value.
 		return oldv
 	}
 
-	fv := newMpflt()
+	fv := ir.NewFloat()
 
 	// convert large precision literal floating
 	// into limited precision (float64 or float32)
@@ -160,19 +74,19 @@ func truncfltlit(oldv *Mpflt, t *types.Type) *Mpflt {
 // truncate Real and Imag parts of Mpcplx to 32-bit or 64-bit
 // precision, according to type; return truncated value. In case of
 // overflow, calls Errorf but does not truncate the input value.
-func trunccmplxlit(oldv *Mpcplx, t *types.Type) *Mpcplx {
+func trunccmplxlit(oldv *ir.Complex, t *types.Type) *ir.Complex {
 	if t == nil {
 		return oldv
 	}
 
-	if overflow(Val{oldv}, t) {
+	if overflow(ir.Val{U: oldv}, t) {
 		// If there was overflow, simply continuing would set the
 		// value to Inf which in turn would lead to spurious follow-on
 		// errors. Avoid this by returning the existing value.
 		return oldv
 	}
 
-	cv := newMpcmplx()
+	cv := ir.NewComplex()
 
 	switch t.Etype {
 	case types.TCOMPLEX64:
@@ -189,8 +103,8 @@ func trunccmplxlit(oldv *Mpcplx, t *types.Type) *Mpcplx {
 }
 
 // TODO(mdempsky): Replace these with better APIs.
-func convlit(n *Node, t *types.Type) *Node    { return convlit1(n, t, false, nil) }
-func defaultlit(n *Node, t *types.Type) *Node { return convlit1(n, t, false, nil) }
+func convlit(n *ir.Node, t *types.Type) *ir.Node    { return convlit1(n, t, false, nil) }
+func defaultlit(n *ir.Node, t *types.Type) *ir.Node { return convlit1(n, t, false, nil) }
 
 // convlit1 converts an untyped expression n to type t. If n already
 // has a type, convlit1 has no effect.
@@ -203,7 +117,7 @@ func defaultlit(n *Node, t *types.Type) *Node { return convlit1(n, t, false, nil
 //
 // If there's an error converting n to t, context is used in the error
 // message.
-func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Node {
+func convlit1(n *ir.Node, t *types.Type, explicit bool, context func() string) *ir.Node {
 	if explicit && t == nil {
 		base.Fatalf("explicit conversion missing type")
 	}
@@ -220,15 +134,15 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 		return n
 	}
 
-	if n.Op == OLITERAL || n.Op == ONIL {
+	if n.Op == ir.OLITERAL || n.Op == ir.ONIL {
 		// Can't always set n.Type directly on OLITERAL nodes.
 		// See discussion on CL 20813.
-		n = n.rawcopy()
+		n = n.RawCopy()
 	}
 
 	// Nil is technically not a constant, so handle it specially.
-	if n.Type.Etype == TNIL {
-		if n.Op != ONIL {
+	if n.Type.Etype == types.TNIL {
+		if n.Op != ir.ONIL {
 			base.Fatalf("unexpected op: %v (%v)", n, n.Op)
 		}
 		if t == nil {
@@ -255,7 +169,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 	default:
 		base.Fatalf("unexpected untyped expression: %v", n)
 
-	case OLITERAL:
+	case ir.OLITERAL:
 		v := convertVal(n.Val(), t, explicit)
 		if v.U == nil {
 			break
@@ -264,7 +178,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 		n.SetVal(v)
 		return n
 
-	case OPLUS, ONEG, OBITNOT, ONOT, OREAL, OIMAG:
+	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT, ir.OREAL, ir.OIMAG:
 		ot := operandType(n.Op, t)
 		if ot == nil {
 			n = defaultlit(n, nil)
@@ -279,7 +193,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 		n.Type = t
 		return n
 
-	case OADD, OSUB, OMUL, ODIV, OMOD, OOR, OXOR, OAND, OANDNOT, OOROR, OANDAND, OCOMPLEX:
+	case ir.OADD, ir.OSUB, ir.OMUL, ir.ODIV, ir.OMOD, ir.OOR, ir.OXOR, ir.OAND, ir.OANDNOT, ir.OOROR, ir.OANDAND, ir.OCOMPLEX:
 		ot := operandType(n.Op, t)
 		if ot == nil {
 			n = defaultlit(n, nil)
@@ -301,14 +215,14 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 		n.Type = t
 		return n
 
-	case OEQ, ONE, OLT, OLE, OGT, OGE:
+	case ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE:
 		if !t.IsBoolean() {
 			break
 		}
 		n.Type = t
 		return n
 
-	case OLSH, ORSH:
+	case ir.OLSH, ir.ORSH:
 		n.Left = convlit1(n.Left, t, explicit, nil)
 		n.Type = n.Left.Type
 		if n.Type != nil && !n.Type.IsInteger() {
@@ -334,13 +248,13 @@ func convlit1(n *Node, t *types.Type, explicit bool, context func() string) *Nod
 	return n
 }
 
-func operandType(op Op, t *types.Type) *types.Type {
+func operandType(op ir.Op, t *types.Type) *types.Type {
 	switch op {
-	case OCOMPLEX:
+	case ir.OCOMPLEX:
 		if t.IsComplex() {
 			return floatForComplex(t)
 		}
-	case OREAL, OIMAG:
+	case ir.OREAL, ir.OIMAG:
 		if t.IsFloat() {
 			return complexForFloat(t)
 		}
@@ -357,7 +271,7 @@ func operandType(op Op, t *types.Type) *types.Type {
 //
 // If explicit is true, then conversions from integer to string are
 // also allowed.
-func convertVal(v Val, t *types.Type, explicit bool) Val {
+func convertVal(v ir.Val, t *types.Type, explicit bool) ir.Val {
 	switch ct := v.Kind(); ct {
 	case constant.Bool:
 		if t.IsBoolean() {
@@ -382,28 +296,28 @@ func convertVal(v Val, t *types.Type, explicit bool) Val {
 			return v
 		case t.IsFloat():
 			v = toflt(v)
-			v = Val{truncfltlit(v.U.(*Mpflt), t)}
+			v = ir.Val{U: truncfltlit(v.U.(*ir.Float), t)}
 			return v
 		case t.IsComplex():
 			v = tocplx(v)
-			v = Val{trunccmplxlit(v.U.(*Mpcplx), t)}
+			v = ir.Val{U: trunccmplxlit(v.U.(*ir.Complex), t)}
 			return v
 		}
 	}
 
-	return Val{}
+	return ir.Val{}
 }
 
-func tocplx(v Val) Val {
+func tocplx(v ir.Val) ir.Val {
 	switch u := v.U.(type) {
-	case *Mpint:
-		c := newMpcmplx()
+	case *ir.Int:
+		c := ir.NewComplex()
 		c.Real.SetInt(u)
 		c.Imag.SetFloat64(0.0)
 		v.U = c
 
-	case *Mpflt:
-		c := newMpcmplx()
+	case *ir.Float:
+		c := ir.NewComplex()
 		c.Real.Set(u)
 		c.Imag.SetFloat64(0.0)
 		v.U = c
@@ -412,15 +326,15 @@ func tocplx(v Val) Val {
 	return v
 }
 
-func toflt(v Val) Val {
+func toflt(v ir.Val) ir.Val {
 	switch u := v.U.(type) {
-	case *Mpint:
-		f := newMpflt()
+	case *ir.Int:
+		f := ir.NewFloat()
 		f.SetInt(u)
 		v.U = f
 
-	case *Mpcplx:
-		f := newMpflt()
+	case *ir.Complex:
+		f := ir.NewFloat()
 		f.Set(&u.Real)
 		if u.Imag.CmpFloat64(0) != 0 {
 			base.Errorf("constant %v truncated to real", u.GoString())
@@ -431,14 +345,14 @@ func toflt(v Val) Val {
 	return v
 }
 
-func toint(v Val) Val {
+func toint(v ir.Val) ir.Val {
 	switch u := v.U.(type) {
-	case *Mpint:
+	case *ir.Int:
 
-	case *Mpflt:
-		i := new(Mpint)
+	case *ir.Float:
+		i := new(ir.Int)
 		if !i.SetFloat(u) {
-			if i.checkOverflow(0) {
+			if i.CheckOverflow(0) {
 				base.Errorf("integer too large")
 			} else {
 				// The value of u cannot be represented as an integer;
@@ -461,8 +375,8 @@ func toint(v Val) Val {
 		}
 		v.U = i
 
-	case *Mpcplx:
-		i := new(Mpint)
+	case *ir.Complex:
+		i := new(ir.Int)
 		if !i.SetFloat(&u.Real) || u.Imag.CmpFloat64(0) != 0 {
 			base.Errorf("constant %v truncated to integer", u.GoString())
 		}
@@ -473,21 +387,21 @@ func toint(v Val) Val {
 	return v
 }
 
-func doesoverflow(v Val, t *types.Type) bool {
+func doesoverflow(v ir.Val, t *types.Type) bool {
 	switch u := v.U.(type) {
-	case *Mpint:
+	case *ir.Int:
 		if !t.IsInteger() {
 			base.Fatalf("overflow: %v integer constant", t)
 		}
 		return u.Cmp(minintval[t.Etype]) < 0 || u.Cmp(maxintval[t.Etype]) > 0
 
-	case *Mpflt:
+	case *ir.Float:
 		if !t.IsFloat() {
 			base.Fatalf("overflow: %v floating-point constant", t)
 		}
 		return u.Cmp(minfltval[t.Etype]) <= 0 || u.Cmp(maxfltval[t.Etype]) >= 0
 
-	case *Mpcplx:
+	case *ir.Complex:
 		if !t.IsComplex() {
 			base.Fatalf("overflow: %v complex constant", t)
 		}
@@ -498,10 +412,10 @@ func doesoverflow(v Val, t *types.Type) bool {
 	return false
 }
 
-func overflow(v Val, t *types.Type) bool {
+func overflow(v ir.Val, t *types.Type) bool {
 	// v has already been converted
 	// to appropriate form for t.
-	if t == nil || t.Etype == TIDEAL {
+	if t == nil || t.Etype == types.TIDEAL {
 		return false
 	}
 
@@ -519,11 +433,11 @@ func overflow(v Val, t *types.Type) bool {
 
 }
 
-func tostr(v Val) Val {
+func tostr(v ir.Val) ir.Val {
 	switch u := v.U.(type) {
-	case *Mpint:
+	case *ir.Int:
 		var r rune = 0xFFFD
-		if u.Cmp(minintval[TINT32]) >= 0 && u.Cmp(maxintval[TINT32]) <= 0 {
+		if u.Cmp(minintval[types.TINT32]) >= 0 && u.Cmp(maxintval[types.TINT32]) <= 0 {
 			r = rune(u.Int64())
 		}
 		v.U = string(r)
@@ -532,64 +446,53 @@ func tostr(v Val) Val {
 	return v
 }
 
-func consttype(n *Node) constant.Kind {
-	if n == nil || n.Op != OLITERAL {
-		return constant.Unknown
-	}
-	return n.Val().Kind()
-}
-
-func Isconst(n *Node, ct constant.Kind) bool {
-	return consttype(n) == ct
-}
-
 // evalConst returns a constant-evaluated expression equivalent to n.
 // If n is not a constant, evalConst returns n.
 // Otherwise, evalConst returns a new OLITERAL with the same value as n,
 // and with .Orig pointing back to n.
-func evalConst(n *Node) *Node {
+func evalConst(n *ir.Node) *ir.Node {
 	nl, nr := n.Left, n.Right
 
 	// Pick off just the opcodes that can be constant evaluated.
 	switch op := n.Op; op {
-	case OPLUS, ONEG, OBITNOT, ONOT:
-		if nl.Op == OLITERAL {
+	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
+		if nl.Op == ir.OLITERAL {
 			return origConst(n, unaryOp(op, nl.Val(), n.Type))
 		}
 
-	case OADD, OSUB, OMUL, ODIV, OMOD, OOR, OXOR, OAND, OANDNOT, OOROR, OANDAND:
-		if nl.Op == OLITERAL && nr.Op == OLITERAL {
+	case ir.OADD, ir.OSUB, ir.OMUL, ir.ODIV, ir.OMOD, ir.OOR, ir.OXOR, ir.OAND, ir.OANDNOT, ir.OOROR, ir.OANDAND:
+		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
 			return origConst(n, binaryOp(nl.Val(), op, nr.Val()))
 		}
 
-	case OEQ, ONE, OLT, OLE, OGT, OGE:
-		if nl.Op == OLITERAL && nr.Op == OLITERAL {
+	case ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE:
+		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
 			return origBoolConst(n, compareOp(nl.Val(), op, nr.Val()))
 		}
 
-	case OLSH, ORSH:
-		if nl.Op == OLITERAL && nr.Op == OLITERAL {
+	case ir.OLSH, ir.ORSH:
+		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
 			return origConst(n, shiftOp(nl.Val(), op, nr.Val()))
 		}
 
-	case OCONV, ORUNESTR:
-		if okforconst[n.Type.Etype] && nl.Op == OLITERAL {
+	case ir.OCONV, ir.ORUNESTR:
+		if okforconst[n.Type.Etype] && nl.Op == ir.OLITERAL {
 			return origConst(n, convertVal(nl.Val(), n.Type, true))
 		}
 
-	case OCONVNOP:
-		if okforconst[n.Type.Etype] && nl.Op == OLITERAL {
+	case ir.OCONVNOP:
+		if okforconst[n.Type.Etype] && nl.Op == ir.OLITERAL {
 			// set so n.Orig gets OCONV instead of OCONVNOP
-			n.Op = OCONV
+			n.Op = ir.OCONV
 			return origConst(n, nl.Val())
 		}
 
-	case OADDSTR:
+	case ir.OADDSTR:
 		// Merge adjacent constants in the argument list.
 		s := n.List.Slice()
 		need := 0
 		for i := 0; i < len(s); i++ {
-			if i == 0 || !Isconst(s[i-1], constant.String) || !Isconst(s[i], constant.String) {
+			if i == 0 || !ir.IsConst(s[i-1], constant.String) || !ir.IsConst(s[i], constant.String) {
 				// Can't merge s[i] into s[i-1]; need a slot in the list.
 				need++
 			}
@@ -602,20 +505,20 @@ func evalConst(n *Node) *Node {
 			for _, c := range s {
 				strs = append(strs, c.StringVal())
 			}
-			return origConst(n, Val{U: strings.Join(strs, "")})
+			return origConst(n, ir.Val{U: strings.Join(strs, "")})
 		}
-		newList := make([]*Node, 0, need)
+		newList := make([]*ir.Node, 0, need)
 		for i := 0; i < len(s); i++ {
-			if Isconst(s[i], constant.String) && i+1 < len(s) && Isconst(s[i+1], constant.String) {
+			if ir.IsConst(s[i], constant.String) && i+1 < len(s) && ir.IsConst(s[i+1], constant.String) {
 				// merge from i up to but not including i2
 				var strs []string
 				i2 := i
-				for i2 < len(s) && Isconst(s[i2], constant.String) {
+				for i2 < len(s) && ir.IsConst(s[i2], constant.String) {
 					strs = append(strs, s[i2].StringVal())
 					i2++
 				}
 
-				nl := origConst(s[i], Val{U: strings.Join(strs, "")})
+				nl := origConst(s[i], ir.Val{U: strings.Join(strs, "")})
 				nl.Orig = nl // it's bigger than just s[i]
 				newList = append(newList, nl)
 				i = i2 - 1
@@ -624,65 +527,65 @@ func evalConst(n *Node) *Node {
 			}
 		}
 
-		n = n.copy()
+		n = ir.Copy(n)
 		n.List.Set(newList)
 		return n
 
-	case OCAP, OLEN:
+	case ir.OCAP, ir.OLEN:
 		switch nl.Type.Etype {
-		case TSTRING:
-			if Isconst(nl, constant.String) {
+		case types.TSTRING:
+			if ir.IsConst(nl, constant.String) {
 				return origIntConst(n, int64(len(nl.StringVal())))
 			}
-		case TARRAY:
+		case types.TARRAY:
 			if !hascallchan(nl) {
 				return origIntConst(n, nl.Type.NumElem())
 			}
 		}
 
-	case OALIGNOF, OOFFSETOF, OSIZEOF:
+	case ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
 		return origIntConst(n, evalunsafe(n))
 
-	case OREAL, OIMAG:
-		if nl.Op == OLITERAL {
-			var re, im *Mpflt
+	case ir.OREAL, ir.OIMAG:
+		if nl.Op == ir.OLITERAL {
+			var re, im *ir.Float
 			switch u := nl.Val().U.(type) {
-			case *Mpint:
-				re = newMpflt()
+			case *ir.Int:
+				re = ir.NewFloat()
 				re.SetInt(u)
 				// im = 0
-			case *Mpflt:
+			case *ir.Float:
 				re = u
 				// im = 0
-			case *Mpcplx:
+			case *ir.Complex:
 				re = &u.Real
 				im = &u.Imag
 			default:
 				base.Fatalf("impossible")
 			}
-			if n.Op == OIMAG {
+			if n.Op == ir.OIMAG {
 				if im == nil {
-					im = newMpflt()
+					im = ir.NewFloat()
 				}
 				re = im
 			}
-			return origConst(n, Val{re})
+			return origConst(n, ir.Val{U: re})
 		}
 
-	case OCOMPLEX:
-		if nl.Op == OLITERAL && nr.Op == OLITERAL {
+	case ir.OCOMPLEX:
+		if nl.Op == ir.OLITERAL && nr.Op == ir.OLITERAL {
 			// make it a complex literal
-			c := newMpcmplx()
-			c.Real.Set(toflt(nl.Val()).U.(*Mpflt))
-			c.Imag.Set(toflt(nr.Val()).U.(*Mpflt))
-			return origConst(n, Val{c})
+			c := ir.NewComplex()
+			c.Real.Set(toflt(nl.Val()).U.(*ir.Float))
+			c.Imag.Set(toflt(nr.Val()).U.(*ir.Float))
+			return origConst(n, ir.Val{U: c})
 		}
 	}
 
 	return n
 }
 
-func match(x, y Val) (Val, Val) {
+func match(x, y ir.Val) (ir.Val, ir.Val) {
 	switch {
 	case x.Kind() == constant.Complex || y.Kind() == constant.Complex:
 		return tocplx(x), tocplx(y)
@@ -694,51 +597,51 @@ func match(x, y Val) (Val, Val) {
 	return x, y
 }
 
-func compareOp(x Val, op Op, y Val) bool {
+func compareOp(x ir.Val, op ir.Op, y ir.Val) bool {
 	x, y = match(x, y)
 
 	switch x.Kind() {
 	case constant.Bool:
 		x, y := x.U.(bool), y.U.(bool)
 		switch op {
-		case OEQ:
+		case ir.OEQ:
 			return x == y
-		case ONE:
+		case ir.ONE:
 			return x != y
 		}
 
 	case constant.Int:
-		x, y := x.U.(*Mpint), y.U.(*Mpint)
+		x, y := x.U.(*ir.Int), y.U.(*ir.Int)
 		return cmpZero(x.Cmp(y), op)
 
 	case constant.Float:
-		x, y := x.U.(*Mpflt), y.U.(*Mpflt)
+		x, y := x.U.(*ir.Float), y.U.(*ir.Float)
 		return cmpZero(x.Cmp(y), op)
 
 	case constant.Complex:
-		x, y := x.U.(*Mpcplx), y.U.(*Mpcplx)
+		x, y := x.U.(*ir.Complex), y.U.(*ir.Complex)
 		eq := x.Real.Cmp(&y.Real) == 0 && x.Imag.Cmp(&y.Imag) == 0
 		switch op {
-		case OEQ:
+		case ir.OEQ:
 			return eq
-		case ONE:
+		case ir.ONE:
 			return !eq
 		}
 
 	case constant.String:
 		x, y := x.U.(string), y.U.(string)
 		switch op {
-		case OEQ:
+		case ir.OEQ:
 			return x == y
-		case ONE:
+		case ir.ONE:
 			return x != y
-		case OLT:
+		case ir.OLT:
 			return x < y
-		case OLE:
+		case ir.OLE:
 			return x <= y
-		case OGT:
+		case ir.OGT:
 			return x > y
-		case OGE:
+		case ir.OGE:
 			return x >= y
 		}
 	}
@@ -747,19 +650,19 @@ func compareOp(x Val, op Op, y Val) bool {
 	panic("unreachable")
 }
 
-func cmpZero(x int, op Op) bool {
+func cmpZero(x int, op ir.Op) bool {
 	switch op {
-	case OEQ:
+	case ir.OEQ:
 		return x == 0
-	case ONE:
+	case ir.ONE:
 		return x != 0
-	case OLT:
+	case ir.OLT:
 		return x < 0
-	case OLE:
+	case ir.OLE:
 		return x <= 0
-	case OGT:
+	case ir.OGT:
 		return x > 0
-	case OGE:
+	case ir.OGE:
 		return x >= 0
 	}
 
@@ -767,7 +670,7 @@ func cmpZero(x int, op Op) bool {
 	panic("unreachable")
 }
 
-func binaryOp(x Val, op Op, y Val) Val {
+func binaryOp(x ir.Val, op ir.Op, y ir.Val) ir.Val {
 	x, y = match(x, y)
 
 Outer:
@@ -775,142 +678,142 @@ Outer:
 	case constant.Bool:
 		x, y := x.U.(bool), y.U.(bool)
 		switch op {
-		case OANDAND:
-			return Val{U: x && y}
-		case OOROR:
-			return Val{U: x || y}
+		case ir.OANDAND:
+			return ir.Val{U: x && y}
+		case ir.OOROR:
+			return ir.Val{U: x || y}
 		}
 
 	case constant.Int:
-		x, y := x.U.(*Mpint), y.U.(*Mpint)
+		x, y := x.U.(*ir.Int), y.U.(*ir.Int)
 
-		u := new(Mpint)
+		u := new(ir.Int)
 		u.Set(x)
 		switch op {
-		case OADD:
+		case ir.OADD:
 			u.Add(y)
-		case OSUB:
+		case ir.OSUB:
 			u.Sub(y)
-		case OMUL:
+		case ir.OMUL:
 			u.Mul(y)
-		case ODIV:
+		case ir.ODIV:
 			if y.CmpInt64(0) == 0 {
 				base.Errorf("division by zero")
-				return Val{}
+				return ir.Val{}
 			}
 			u.Quo(y)
-		case OMOD:
+		case ir.OMOD:
 			if y.CmpInt64(0) == 0 {
 				base.Errorf("division by zero")
-				return Val{}
+				return ir.Val{}
 			}
 			u.Rem(y)
-		case OOR:
+		case ir.OOR:
 			u.Or(y)
-		case OAND:
+		case ir.OAND:
 			u.And(y)
-		case OANDNOT:
+		case ir.OANDNOT:
 			u.AndNot(y)
-		case OXOR:
+		case ir.OXOR:
 			u.Xor(y)
 		default:
 			break Outer
 		}
-		return Val{U: u}
+		return ir.Val{U: u}
 
 	case constant.Float:
-		x, y := x.U.(*Mpflt), y.U.(*Mpflt)
+		x, y := x.U.(*ir.Float), y.U.(*ir.Float)
 
-		u := newMpflt()
+		u := ir.NewFloat()
 		u.Set(x)
 		switch op {
-		case OADD:
+		case ir.OADD:
 			u.Add(y)
-		case OSUB:
+		case ir.OSUB:
 			u.Sub(y)
-		case OMUL:
+		case ir.OMUL:
 			u.Mul(y)
-		case ODIV:
+		case ir.ODIV:
 			if y.CmpFloat64(0) == 0 {
 				base.Errorf("division by zero")
-				return Val{}
+				return ir.Val{}
 			}
 			u.Quo(y)
 		default:
 			break Outer
 		}
-		return Val{U: u}
+		return ir.Val{U: u}
 
 	case constant.Complex:
-		x, y := x.U.(*Mpcplx), y.U.(*Mpcplx)
+		x, y := x.U.(*ir.Complex), y.U.(*ir.Complex)
 
-		u := newMpcmplx()
+		u := ir.NewComplex()
 		u.Real.Set(&x.Real)
 		u.Imag.Set(&x.Imag)
 		switch op {
-		case OADD:
+		case ir.OADD:
 			u.Real.Add(&y.Real)
 			u.Imag.Add(&y.Imag)
-		case OSUB:
+		case ir.OSUB:
 			u.Real.Sub(&y.Real)
 			u.Imag.Sub(&y.Imag)
-		case OMUL:
+		case ir.OMUL:
 			u.Mul(y)
-		case ODIV:
+		case ir.ODIV:
 			if !u.Div(y) {
 				base.Errorf("complex division by zero")
-				return Val{}
+				return ir.Val{}
 			}
 		default:
 			break Outer
 		}
-		return Val{U: u}
+		return ir.Val{U: u}
 	}
 
 	base.Fatalf("binaryOp: bad operation: %v %v %v", x, op, y)
 	panic("unreachable")
 }
 
-func unaryOp(op Op, x Val, t *types.Type) Val {
+func unaryOp(op ir.Op, x ir.Val, t *types.Type) ir.Val {
 	switch op {
-	case OPLUS:
+	case ir.OPLUS:
 		switch x.Kind() {
 		case constant.Int, constant.Float, constant.Complex:
 			return x
 		}
 
-	case ONEG:
+	case ir.ONEG:
 		switch x.Kind() {
 		case constant.Int:
-			x := x.U.(*Mpint)
-			u := new(Mpint)
+			x := x.U.(*ir.Int)
+			u := new(ir.Int)
 			u.Set(x)
 			u.Neg()
-			return Val{U: u}
+			return ir.Val{U: u}
 
 		case constant.Float:
-			x := x.U.(*Mpflt)
-			u := newMpflt()
+			x := x.U.(*ir.Float)
+			u := ir.NewFloat()
 			u.Set(x)
 			u.Neg()
-			return Val{U: u}
+			return ir.Val{U: u}
 
 		case constant.Complex:
-			x := x.U.(*Mpcplx)
-			u := newMpcmplx()
+			x := x.U.(*ir.Complex)
+			u := ir.NewComplex()
 			u.Real.Set(&x.Real)
 			u.Imag.Set(&x.Imag)
 			u.Real.Neg()
 			u.Imag.Neg()
-			return Val{U: u}
+			return ir.Val{U: u}
 		}
 
-	case OBITNOT:
+	case ir.OBITNOT:
 		switch x.Kind() {
 		case constant.Int:
-			x := x.U.(*Mpint)
+			x := x.U.(*ir.Int)
 
-			u := new(Mpint)
+			u := new(ir.Int)
 			if t.IsSigned() || t.IsUntyped() {
 				// Signed values change sign.
 				u.SetInt64(-1)
@@ -919,37 +822,37 @@ func unaryOp(op Op, x Val, t *types.Type) Val {
 				u.Set(maxintval[t.Etype])
 			}
 			u.Xor(x)
-			return Val{U: u}
+			return ir.Val{U: u}
 		}
 
-	case ONOT:
-		return Val{U: !x.U.(bool)}
+	case ir.ONOT:
+		return ir.Val{U: !x.U.(bool)}
 	}
 
 	base.Fatalf("unaryOp: bad operation: %v %v", op, x)
 	panic("unreachable")
 }
 
-func shiftOp(x Val, op Op, y Val) Val {
+func shiftOp(x ir.Val, op ir.Op, y ir.Val) ir.Val {
 	x = toint(x)
 	y = toint(y)
 
-	u := new(Mpint)
-	u.Set(x.U.(*Mpint))
+	u := new(ir.Int)
+	u.Set(x.U.(*ir.Int))
 	switch op {
-	case OLSH:
-		u.Lsh(y.U.(*Mpint))
-	case ORSH:
-		u.Rsh(y.U.(*Mpint))
+	case ir.OLSH:
+		u.Lsh(y.U.(*ir.Int))
+	case ir.ORSH:
+		u.Rsh(y.U.(*ir.Int))
 	default:
 		base.Fatalf("shiftOp: bad operator: %v", op)
 		panic("unreachable")
 	}
-	return Val{U: u}
+	return ir.Val{U: u}
 }
 
 // origConst returns an OLITERAL with orig n and value v.
-func origConst(n *Node, v Val) *Node {
+func origConst(n *ir.Node, v ir.Val) *ir.Node {
 	// If constant folding was attempted (we were called)
 	// but it produced an invalid constant value,
 	// mark n as broken and give up.
@@ -959,7 +862,7 @@ func origConst(n *Node, v Val) *Node {
 	}
 
 	orig := n
-	n = nod(OLITERAL, nil, nil)
+	n = ir.Nod(ir.OLITERAL, nil, nil)
 	n.Orig = orig
 	n.Pos = orig.Pos
 	n.Type = orig.Type
@@ -974,64 +877,23 @@ func origConst(n *Node, v Val) *Node {
 		switch v.Kind() {
 		// Truncate precision for non-ideal float.
 		case constant.Float:
-			n.SetVal(Val{truncfltlit(v.U.(*Mpflt), n.Type)})
+			n.SetVal(ir.Val{U: truncfltlit(v.U.(*ir.Float), n.Type)})
 		// Truncate precision for non-ideal complex.
 		case constant.Complex:
-			n.SetVal(Val{trunccmplxlit(v.U.(*Mpcplx), n.Type)})
+			n.SetVal(ir.Val{U: trunccmplxlit(v.U.(*ir.Complex), n.Type)})
 		}
 	}
 	return n
 }
 
-func assertRepresents(t *types.Type, v Val) {
-	if !represents(t, v) {
-		base.Fatalf("%v does not represent %v", t, v)
-	}
+func origBoolConst(n *ir.Node, v bool) *ir.Node {
+	return origConst(n, ir.Val{U: v})
 }
 
-func represents(t *types.Type, v Val) bool {
-	if !t.IsUntyped() {
-		// TODO(mdempsky): Stricter handling of typed types.
-		return true
-	}
-
-	vt := idealType(v.Kind())
-	return t == vt || (t == types.UntypedRune && vt == types.UntypedInt)
-}
-
-func origBoolConst(n *Node, v bool) *Node {
-	return origConst(n, Val{U: v})
-}
-
-func origIntConst(n *Node, v int64) *Node {
-	u := new(Mpint)
+func origIntConst(n *ir.Node, v int64) *ir.Node {
+	u := new(ir.Int)
 	u.SetInt64(v)
-	return origConst(n, Val{u})
-}
-
-// nodlit returns a new untyped constant with value v.
-func nodlit(v Val) *Node {
-	n := nod(OLITERAL, nil, nil)
-	n.Type = idealType(v.Kind())
-	n.SetVal(v)
-	return n
-}
-
-func idealType(ct constant.Kind) *types.Type {
-	switch ct {
-	case constant.String:
-		return types.UntypedString
-	case constant.Bool:
-		return types.UntypedBool
-	case constant.Int:
-		return types.UntypedInt
-	case constant.Float:
-		return types.UntypedFloat
-	case constant.Complex:
-		return types.UntypedComplex
-	}
-	base.Fatalf("unexpected Ctype: %v", ct)
-	return nil
+	return origConst(n, ir.Val{U: u})
 }
 
 // defaultlit on both nodes simultaneously;
@@ -1040,7 +902,7 @@ func idealType(ct constant.Kind) *types.Type {
 // force means must assign concrete (non-ideal) type.
 // The results of defaultlit2 MUST be assigned back to l and r, e.g.
 // 	n.Left, n.Right = defaultlit2(n.Left, n.Right, force)
-func defaultlit2(l *Node, r *Node, force bool) (*Node, *Node) {
+func defaultlit2(l *ir.Node, r *ir.Node, force bool) (*ir.Node, *ir.Node) {
 	if l.Type == nil || r.Type == nil {
 		return l, r
 	}
@@ -1065,7 +927,7 @@ func defaultlit2(l *Node, r *Node, force bool) (*Node, *Node) {
 	if l.Type.IsString() != r.Type.IsString() {
 		return l, r
 	}
-	if l.isNil() || r.isNil() {
+	if ir.IsNil(l) || ir.IsNil(r) {
 		return l, r
 	}
 
@@ -1102,44 +964,44 @@ func mixUntyped(t1, t2 *types.Type) *types.Type {
 }
 
 func defaultType(t *types.Type) *types.Type {
-	if !t.IsUntyped() || t.Etype == TNIL {
+	if !t.IsUntyped() || t.Etype == types.TNIL {
 		return t
 	}
 
 	switch t {
 	case types.UntypedBool:
-		return types.Types[TBOOL]
+		return types.Types[types.TBOOL]
 	case types.UntypedString:
-		return types.Types[TSTRING]
+		return types.Types[types.TSTRING]
 	case types.UntypedInt:
-		return types.Types[TINT]
+		return types.Types[types.TINT]
 	case types.UntypedRune:
 		return types.Runetype
 	case types.UntypedFloat:
-		return types.Types[TFLOAT64]
+		return types.Types[types.TFLOAT64]
 	case types.UntypedComplex:
-		return types.Types[TCOMPLEX128]
+		return types.Types[types.TCOMPLEX128]
 	}
 
 	base.Fatalf("bad type %v", t)
 	return nil
 }
 
-func smallintconst(n *Node) bool {
-	if n.Op == OLITERAL && Isconst(n, constant.Int) && n.Type != nil {
+func smallintconst(n *ir.Node) bool {
+	if n.Op == ir.OLITERAL && ir.IsConst(n, constant.Int) && n.Type != nil {
 		switch simtype[n.Type.Etype] {
-		case TINT8,
-			TUINT8,
-			TINT16,
-			TUINT16,
-			TINT32,
-			TUINT32,
-			TBOOL:
+		case types.TINT8,
+			types.TUINT8,
+			types.TINT16,
+			types.TUINT16,
+			types.TINT32,
+			types.TUINT32,
+			types.TBOOL:
 			return true
 
-		case TIDEAL, TINT64, TUINT64, TPTR:
-			v, ok := n.Val().U.(*Mpint)
-			if ok && v.Cmp(minintval[TINT32]) >= 0 && v.Cmp(maxintval[TINT32]) <= 0 {
+		case types.TIDEAL, types.TINT64, types.TUINT64, types.TPTR:
+			v, ok := n.Val().U.(*ir.Int)
+			if ok && v.Cmp(minintval[types.TINT32]) >= 0 && v.Cmp(maxintval[types.TINT32]) <= 0 {
 				return true
 			}
 		}
@@ -1153,17 +1015,17 @@ func smallintconst(n *Node) bool {
 // If n is not a constant expression, not representable as an
 // integer, or negative, it returns -1. If n is too large, it
 // returns -2.
-func indexconst(n *Node) int64 {
-	if n.Op != OLITERAL {
+func indexconst(n *ir.Node) int64 {
+	if n.Op != ir.OLITERAL {
 		return -1
 	}
 
 	v := toint(n.Val()) // toint returns argument unchanged if not representable as an *Mpint
-	vi, ok := v.U.(*Mpint)
+	vi, ok := v.U.(*ir.Int)
 	if !ok || vi.CmpInt64(0) < 0 {
 		return -1
 	}
-	if vi.Cmp(maxintval[TINT]) > 0 {
+	if vi.Cmp(maxintval[types.TINT]) > 0 {
 		return -2
 	}
 
@@ -1175,35 +1037,35 @@ func indexconst(n *Node) int64 {
 //
 // Expressions derived from nil, like string([]byte(nil)), while they
 // may be known at compile time, are not Go language constants.
-func (n *Node) isGoConst() bool {
-	return n.Op == OLITERAL
+func isGoConst(n *ir.Node) bool {
+	return n.Op == ir.OLITERAL
 }
 
-func hascallchan(n *Node) bool {
+func hascallchan(n *ir.Node) bool {
 	if n == nil {
 		return false
 	}
 	switch n.Op {
-	case OAPPEND,
-		OCALL,
-		OCALLFUNC,
-		OCALLINTER,
-		OCALLMETH,
-		OCAP,
-		OCLOSE,
-		OCOMPLEX,
-		OCOPY,
-		ODELETE,
-		OIMAG,
-		OLEN,
-		OMAKE,
-		ONEW,
-		OPANIC,
-		OPRINT,
-		OPRINTN,
-		OREAL,
-		ORECOVER,
-		ORECV:
+	case ir.OAPPEND,
+		ir.OCALL,
+		ir.OCALLFUNC,
+		ir.OCALLINTER,
+		ir.OCALLMETH,
+		ir.OCAP,
+		ir.OCLOSE,
+		ir.OCOMPLEX,
+		ir.OCOPY,
+		ir.ODELETE,
+		ir.OIMAG,
+		ir.OLEN,
+		ir.OMAKE,
+		ir.ONEW,
+		ir.OPANIC,
+		ir.OPRINT,
+		ir.OPRINTN,
+		ir.OREAL,
+		ir.ORECOVER,
+		ir.ORECV:
 		return true
 	}
 
@@ -1243,12 +1105,12 @@ type constSetKey struct {
 // where are used in the error message.
 //
 // n must not be an untyped constant.
-func (s *constSet) add(pos src.XPos, n *Node, what, where string) {
-	if n.Op == OCONVIFACE && n.Implicit() {
+func (s *constSet) add(pos src.XPos, n *ir.Node, what, where string) {
+	if n.Op == ir.OCONVIFACE && n.Implicit() {
 		n = n.Left
 	}
 
-	if !n.isGoConst() {
+	if !isGoConst(n) {
 		return
 	}
 	if n.Type.IsUntyped() {
@@ -1273,9 +1135,9 @@ func (s *constSet) add(pos src.XPos, n *Node, what, where string) {
 	typ := n.Type
 	switch typ {
 	case types.Bytetype:
-		typ = types.Types[TUINT8]
+		typ = types.Types[types.TUINT8]
 	case types.Runetype:
-		typ = types.Types[TINT32]
+		typ = types.Types[types.TINT32]
 	}
 	k := constSetKey{typ, n.Val().Interface()}
 
@@ -1300,7 +1162,7 @@ func (s *constSet) add(pos src.XPos, n *Node, what, where string) {
 // the latter is non-obvious.
 //
 // TODO(mdempsky): This could probably be a fmt.go flag.
-func nodeAndVal(n *Node) string {
+func nodeAndVal(n *ir.Node) string {
 	show := n.String()
 	val := n.Val().Interface()
 	if s := fmt.Sprintf("%#v", val); show != s {
