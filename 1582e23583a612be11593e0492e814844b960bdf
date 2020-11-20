@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a1d43d8_409b098b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-20T15:25:26Z",
+      "side": 1,
+      "message": "Thank you, very much.",
+      "revId": "1582e23583a612be11593e0492e814844b960bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7fe7911_e8c3b363",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-20T15:25:26Z",
+      "side": 1,
+      "message": "Perhaps add \n\n// empty interface for #42727\n\nso that it\u0027s easier to tie all this together in the future.",
+      "range": {
+        "startLine": 250,
+        "startChar": 69,
+        "endLine": 250,
+        "endChar": 70
+      },
+      "revId": "1582e23583a612be11593e0492e814844b960bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
