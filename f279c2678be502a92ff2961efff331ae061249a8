@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e5046f_aef20c08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-11-20T18:20:10Z",
+      "side": 1,
+      "message": "Hi Keith/Matthew:  what do you think about this change to make typecheckclosure() idempotent (not modify xtop).  I think this makes things clearer, will make my inline-functions-with-closures change less hacky, and should be better if we no longer do much typechecking in Noder.  I also tried to clarify current behavior with comment improvements.\n\nWe can also move the naming of the closure functions to findClosures() as well - that seems cleaner to me, but not sure if less desirable since it is moving closure functionality from closure.go to main.go\n",
+      "revId": "f279c2678be502a92ff2961efff331ae061249a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
