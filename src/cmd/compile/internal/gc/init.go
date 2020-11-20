@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 )
@@ -17,7 +18,7 @@ import (
 var renameinitgen int
 
 // Dummy function for autotmps generated during typechecking.
-var dummyInitFn = nod(ODCLFUNC, nil, nil)
+var dummyInitFn = ir.Nod(ir.ODCLFUNC, nil, nil)
 
 func renameinit() *types.Sym {
 	s := lookupN("init.", renameinitgen)
@@ -31,7 +32,7 @@ func renameinit() *types.Sym {
 //   1) Initialize all of the packages the current package depends on.
 //   2) Initialize all the variables that have initializers.
 //   3) Run any init functions.
-func fninit(n []*Node) {
+func fninit(n []*ir.Node) {
 	nf := initOrder(n)
 
 	var deps []*obj.LSym // initTask records for packages the current package depends on
@@ -46,7 +47,7 @@ func fninit(n []*Node) {
 	if len(nf) > 0 {
 		base.Pos = nf[0].Pos // prolog/epilog gets line number of first init stmt
 		initializers := lookup("init")
-		fn := dclfunc(initializers, nod(OTFUNC, nil, nil))
+		fn := dclfunc(initializers, ir.Nod(ir.OTFUNC, nil, nil))
 		for _, dcl := range dummyInitFn.Func.Dcl {
 			dcl.Name.Curfn = fn
 		}
@@ -74,24 +75,24 @@ func fninit(n []*Node) {
 	// Record user init functions.
 	for i := 0; i < renameinitgen; i++ {
 		s := lookupN("init.", i)
-		fn := asNode(s.Def).Name.Defn
+		fn := ir.AsNode(s.Def).Name.Defn
 		// Skip init functions with empty bodies.
-		if fn.Nbody.Len() == 1 && fn.Nbody.First().Op == OEMPTY {
+		if fn.Nbody.Len() == 1 && fn.Nbody.First().Op == ir.OEMPTY {
 			continue
 		}
 		fns = append(fns, s.Linksym())
 	}
 
-	if len(deps) == 0 && len(fns) == 0 && localpkg.Name != "main" && localpkg.Name != "runtime" {
+	if len(deps) == 0 && len(fns) == 0 && ir.LocalPkg.Name != "main" && ir.LocalPkg.Name != "runtime" {
 		return // nothing to initialize
 	}
 
 	// Make an .inittask structure.
 	sym := lookup(".inittask")
-	nn := newname(sym)
-	nn.Type = types.Types[TUINT8] // dummy type
-	nn.SetClass(PEXTERN)
-	sym.Def = asTypesNode(nn)
+	nn := NewName(sym)
+	nn.Type = types.Types[types.TUINT8] // dummy type
+	nn.SetClass(ir.PEXTERN)
+	sym.Def = ir.AsTypesNode(nn)
 	exportsym(nn)
 	lsym := sym.Linksym()
 	ot := 0
