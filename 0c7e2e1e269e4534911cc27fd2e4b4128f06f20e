@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6271b5e4_4c2786b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-20T16:08:43Z",
+      "side": 1,
+      "message": "Stolen from CL 271057.",
+      "revId": "0c7e2e1e269e4534911cc27fd2e4b4128f06f20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a63d228_b8590738",
+        "filename": "src/cmd/go/testdata/script/mod_retract_incompatible.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-20T16:08:43Z",
+      "side": 1,
+      "message": "This case is defensive: currently we check for retractions after setting the build list, so the case above is all that\u0027s needed to catch the bug.",
+      "revId": "0c7e2e1e269e4534911cc27fd2e4b4128f06f20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
