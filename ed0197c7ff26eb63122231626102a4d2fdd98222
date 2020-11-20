@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea45ea04_ade55f55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-20T22:59:24Z",
+      "side": 1,
+      "message": "This is just a clean-up, so it can wait for 1.17.",
+      "revId": "ed0197c7ff26eb63122231626102a4d2fdd98222",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
