@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69a86cba_c5ae50e5",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2020-11-20T06:27:21Z",
+      "side": 1,
+      "message": "On a pipe error of any kind, poll.Splice unconditionally returns handled \u003d\u003d false: https://github.com/golang/go/blob/66c02645062561ac29d00297e8d8c49698b2e4da/src/internal/poll/splice_linux.go#L33\n\nwhich net.splice also returns up the stack: https://github.com/golang/go/blob/66c02645062561ac29d00297e8d8c49698b2e4da/src/net/splice_linux.go#L43\n\nwhich finally reaches net.(*TCPConn).readFrom, here: https://github.com/golang/go/blob/66c02645062561ac29d00297e8d8c49698b2e4da/src/net/tcpsock_posix.go#L48\n\nWhen handled \u003d\u003d false, readFrom unconditionally discards err and returns genericReadFrom(c, r) instead.",
+      "parentUuid": "995964b9_cccf5fda",
+      "revId": "f2926fe3bb7f78e1f3e3b22bf09769b2a23c2d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "841bd525_8faf928a",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 4
