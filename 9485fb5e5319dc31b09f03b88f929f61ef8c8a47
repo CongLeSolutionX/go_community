@@ -16,6 +16,24 @@
       "message": "gisgood is the likely case, so the call into usleep2 should be moved to the bottom of the function to keep cpu pipelines full, and the jne changed to je.",
       "revId": "9485fb5e5319dc31b09f03b88f929f61ef8c8a47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01b3d142_a8b4caca",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-21T23:00:30Z",
+      "side": 1,
+      "message": "I copied this code from runtime.onosstack. Adjusted my code, as per your suggestion.",
+      "parentUuid": "1631dda8_703661e9",
+      "revId": "9485fb5e5319dc31b09f03b88f929f61ef8c8a47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
