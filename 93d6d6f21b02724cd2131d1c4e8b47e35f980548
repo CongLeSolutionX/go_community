@@ -16,6 +16,24 @@
       "message": "This is counting on the fact that there are the only two fields accessed by showframe or funcname.  I guess that\u0027s true now but it seems like a possible trip-up in the future.  How hard would it be to adjust showframe and funcname to just take nameoff and funcID?  Or something like that?",
       "revId": "93d6d6f21b02724cd2131d1c4e8b47e35f980548",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9dee561_f4c109ab",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-21T03:40:20Z",
+      "side": 1,
+      "message": "I tried doing that initially, but you still need to pass either a funcInfo or at least the *moduledata, so I wasn\u0027t very happy with the result.\n\nAnother option would be to pass the name string and funcID. The makes the calls a little more tedious, but would make it clear what information is being used.",
+      "parentUuid": "f7fb3bfc_0db3eca3",
+      "revId": "93d6d6f21b02724cd2131d1c4e8b47e35f980548",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
