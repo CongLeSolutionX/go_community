@@ -137,3 +137,21 @@ func TestFloatJSONEncoding(t *testing.T) {
 		}
 	}
 }
+
+var floatBytesVals = [][]byte{
+	[]byte("-2.71828"),
+	[]byte("-1234567890"),
+	[]byte("3.14e1234"),
+	[]byte("+3.14e-1234"),
+	[]byte("0.738957395793475734757349579759957975985497e100"),
+	[]byte("0.73895739579347546656564656573475734957975995797598589749859834759476745986795497e100"),
+}
+
+func BenchmarkFloat_UnmarshalText(b *testing.B) {
+	var f Float
+	for i := 0; i < b.N; i++ {
+		for _, test := range floatBytesVals {
+			_ = f.UnmarshalText(test)
+		}
+	}
+}
