@@ -30,6 +30,7 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
 	"cmd/go/internal/lockedfile"
+	"cmd/go/internal/search"
 	"cmd/go/internal/str"
 	"cmd/go/internal/trace"
 	"cmd/go/internal/work"
@@ -1497,7 +1498,7 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
 			}
-			if a.Package.Root == "" || !inDir(name, a.Package.Root) {
+			if a.Package.Root == "" || search.InDir(name, a.Package.Root) == "" {
 				// Do not recheck files outside the module, GOPATH, or GOROOT root.
 				break
 			}
@@ -1506,7 +1507,7 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
 			}
-			if a.Package.Root == "" || !inDir(name, a.Package.Root) {
+			if a.Package.Root == "" || search.InDir(name, a.Package.Root) == "" {
 				// Do not recheck files outside the module, GOPATH, or GOROOT root.
 				break
 			}
@@ -1522,18 +1523,6 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 	}
 	sum := h.Sum()
 	return sum, nil
-}
-
-func inDir(path, dir string) bool {
-	if str.HasFilePathPrefix(path, dir) {
-		return true
-	}
-	xpath, err1 := filepath.EvalSymlinks(path)
-	xdir, err2 := filepath.EvalSymlinks(dir)
-	if err1 == nil && err2 == nil && str.HasFilePathPrefix(xpath, xdir) {
-		return true
-	}
-	return false
 }
 
 func hashGetenv(name string) cache.ActionID {
