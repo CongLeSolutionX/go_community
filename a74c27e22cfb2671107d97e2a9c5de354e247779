@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0a8286b_ba9b2f38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-21T22:15:49Z",
+      "side": 1,
+      "message": "No.  This is new behavior for code that has already given us problems in recent releases (for unrelated reasons).  We aren\u0027t going to introduce any changes to this code after the release freeze (other than small bug fixes if required).",
+      "parentUuid": "604475c4_569eea39",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7da839b_da83602d",
@@ -277,6 +295,24 @@
       "side": 1,
       "message": "I refer to https://go.googlesource.com/go/+/refs/tags/go1.15.5/src/sync/pool_test.go#126",
       "parentUuid": "f64530e4_45e619ab",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6428cc_a39b9983",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-21T22:15:49Z",
+      "side": 1,
+      "message": "Yes, that test is also problematic.  And at least that test uses a loop with an exponential time decay to try to reduce flakiness.",
+      "parentUuid": "e1b7d056_f1c31160",
       "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
