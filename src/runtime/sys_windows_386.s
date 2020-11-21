@@ -415,12 +415,20 @@ TEXT runtime·usleep2(SB),NOSPLIT,$20
 
 // Runs on OS stack. duration (in 100ns units) is in BX.
 TEXT runtime·usleep2HighRes(SB),NOSPLIT,$36
+	get_tls(CX)
+	CMPL	CX, $0
+	JNE	gisgood
+	// TLS is not configured. Call usleep2 instead.
+	MOVL	$runtime·usleep2(SB), AX
+	CALL	AX
+	RET
+
+gisgood:
 	// Want negative 100ns units.
 	NEGL	BX
 	MOVL	$-1, hi-4(SP)
 	MOVL	BX, lo-8(SP)
 
-	get_tls(CX)
 	MOVL	g(CX), CX
 	MOVL	g_m(CX), CX
 	MOVL	(m_mOS+mOS_highResTimer)(CX), CX
