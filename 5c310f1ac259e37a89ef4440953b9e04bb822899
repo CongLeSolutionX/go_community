@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5756f85_4c8e401a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2020-11-21T13:49:29Z",
+      "side": 1,
+      "message": "The standard library avoids using unsafe to convert string to and from byte slice outside very low level packages. This can be seen by searching for uses of StringHeader in the codebase.\n\nSee https://go-review.googlesource.com/c/go/+/90397 for another previous example where unsafe was rejected for a performance improvement to avoid string conversions.\n\nGenerally unsafe is sparsely used outside low level packages such as runtime, syscall, ... and to link name packages.\n\nI dont think the comment in the source code was meant to mean to use unsafe as that would have been already possible with unsafe (I did not check if its safe here) at the time the code was written.\n\nThere are many places in standard library where a conversion could be replaced with unsafe to avoid an allocation. I do not think we want to start doing that everywhere or at least I do not know why the guidelines to not use unsafe would have changed and if so I they did I think it warrants a bigger discussion on the issue tracker before starting the rewrite.\n\nTo solve the general performance problem the compiler should be able to handle making the conversions not allocate where its safe:\n\nhttps://github.com/golang/go/issues/2205",
+      "revId": "5c310f1ac259e37a89ef4440953b9e04bb822899",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
