@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7a158b_b907256b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-21T00:04:28Z",
+      "side": 1,
+      "message": "LGTM, the fix is a little subtle w/o the commit message, but going forward it\u0027s all typed.",
+      "revId": "0f4c07f8cd59cf0aa81a9c96cb67afd6886c828e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
