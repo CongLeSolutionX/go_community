@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cabd21c3_3d7f4526",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-21T14:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7da839b_da83602d",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d56a9a0_cfd14bfb",
@@ -65,6 +83,24 @@
       "writtenOn": "2020-11-21T14:07:07Z",
       "side": 1,
       "message": "This comment seems to just restate how SetFinalizer works, which doesn\u0027t seem helpful.",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87aa5ba6_bb16e5fd",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-21T14:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d56a9a0_cfd14bfb",
       "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +122,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24c963f7_0707525b",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-21T14:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8211867_51a656d9",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "358af748_40c652f8",
@@ -99,6 +153,24 @@
       "writtenOn": "2020-11-21T14:07:07Z",
       "side": 1,
       "message": "Don\u0027t write \"_ \u003d \" to ignore an error.  Just write CloseFunc(p.rfd) without the \"_ \u003d\".",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e822cd_fcda4386",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-21T14:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "358af748_40c652f8",
       "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -133,6 +205,24 @@
       "writtenOn": "2020-11-21T14:07:07Z",
       "side": 1,
       "message": "Tests that sleep are inherently flaky.  They can misbehave on overloaded machines.  I\u0027m not sure this test is worth the flakiness.",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b7d056_f1c31160",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-21T14:55:58Z",
+      "side": 1,
+      "message": "I refer to https://go.googlesource.com/go/+/refs/tags/go1.15.5/src/sync/pool_test.go#126",
+      "parentUuid": "f64530e4_45e619ab",
       "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
