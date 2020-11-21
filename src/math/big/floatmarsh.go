@@ -9,6 +9,7 @@ package big
 import (
 	"encoding/binary"
 	"fmt"
+	"unsafe"
 )
 
 // Gob codec version. Permits backward-compatible changes to the encoding.
@@ -111,8 +112,8 @@ func (x *Float) MarshalText() (text []byte, err error) {
 // If z's precision is 0, it is changed to 64 before rounding takes
 // effect.
 func (z *Float) UnmarshalText(text []byte) error {
-	// TODO(gri): get rid of the []byte/string conversion
-	_, _, err := z.Parse(string(text), 0)
+	textStr := *(*string)(unsafe.Pointer(&text))
+	_, _, err := z.Parse(textStr, 0)
 	if err != nil {
 		err = fmt.Errorf("math/big: cannot unmarshal %q into a *big.Float (%v)", text, err)
 	}
