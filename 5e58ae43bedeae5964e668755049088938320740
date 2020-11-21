@@ -16,6 +16,24 @@
       "message": "Is dropping the #cgo CFLAGS here OK because there is one with -O0 in sigpanic.go?",
       "revId": "5e58ae43bedeae5964e668755049088938320740",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cc30e85_dc4f4b6b",
+        "filename": "src/runtime/testdata/testprogcgo/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-11-21T03:56:02Z",
+      "side": 0,
+      "message": "Ah, I thought these only applied to compiling this code block, but I guess they apply to all C code and files in this package, so I\u0027ll add them back here for clarity.",
+      "parentUuid": "3500ec8f_4f9fe179",
+      "revId": "5e58ae43bedeae5964e668755049088938320740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
