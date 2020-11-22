@@ -16,6 +16,24 @@
       "message": "LGTM. My only concern now is how we should resolve the conflict between this and my patch.",
       "revId": "d845354c9d6b81af35c78df2ccf223fb5073373f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98dce25b_fe3a3738",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-11-22T06:30:23Z",
+      "side": 1,
+      "message": "This should not directly conflict with your change (a minor resolution is required in the test table) - I\u0027d propose landing this first, then rebasing your change and fixing the reversed entries/removing the TODOs. Otherwise I\u0027m willing to rebase this on your change.",
+      "parentUuid": "b908082f_f5706691",
+      "revId": "d845354c9d6b81af35c78df2ccf223fb5073373f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
