@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5bd84ff_af4a5e8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-22T02:32:10Z",
+      "side": 1,
+      "message": "Understood.",
+      "parentUuid": "b0a8286b_ba9b2f38",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7da839b_da83602d",
@@ -313,6 +331,24 @@
       "side": 1,
       "message": "Yes, that test is also problematic.  And at least that test uses a loop with an exponential time decay to try to reduce flakiness.",
       "parentUuid": "e1b7d056_f1c31160",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c0c2946_bd961f06",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-22T02:32:10Z",
+      "side": 1,
+      "message": "But still, some spleeping have to do after the runtime.GC() to verify if some stuff take effect and I didn\u0027t find a pefect way to do that except for waiting GC, any advices?",
+      "parentUuid": "9a6428cc_a39b9983",
       "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
