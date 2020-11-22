@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b20a58c1_7f0366c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-22T02:06:15Z",
+      "side": 1,
+      "message": "I think it would be good to include an example of, say, BLT vs. BLE.\n\nThanks for checking. I see that the compiler doesn\u0027t generate those instructions either. Okay.",
+      "parentUuid": "1348fcf3_5e0dc99c",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a75cf6c3_f9c301b2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -167,6 +191,30 @@
       "side": 1,
       "message": "Here are pseudo branch instructions, but BLT or BGE are real. I believe moving this block next to control instructions would violate the author\u0027s intention.",
       "parentUuid": "08a1d497_14832ecd",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 0
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eb787d1_90642271",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-22T02:06:15Z",
+      "side": 1,
+      "message": "Most of the Go toolchain doesn\u0027t care about pseudo vs. real. I\u0027m not sure why we want to distinguish them.\n\nJoel, what do you think? Thanks.",
+      "parentUuid": "8114bb99_415adbbc",
       "range": {
         "startLine": 340,
         "startChar": 0,
