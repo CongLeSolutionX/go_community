@@ -52,6 +52,24 @@
       "parentUuid": "d9390608_55042cb2",
       "revId": "9bc6eeb2c15f89c6e1e813268720dfe43f6d1add",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b24e3933_2a977827",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2020-11-22T14:13:06Z",
+      "side": 1,
+      "message": "\u003e So embedding pipe into net.FD won\u0027t resolve the problem of making excessive system calls during the creation and destruction of TCP connections at high frequency.\n\nI meant the poll.FD struct used in the arguments to Splice.",
+      "parentUuid": "497e6c2b_1bdd1e98",
+      "revId": "9bc6eeb2c15f89c6e1e813268720dfe43f6d1add",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
