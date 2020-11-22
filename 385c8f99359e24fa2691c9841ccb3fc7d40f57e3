@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80199018_c070a886",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-11-22T02:15:02Z",
+      "side": 1,
+      "message": "OK. I also corrected BLT* -\u003e BLE*.\n```\nPseudo branch instructions BGT, BGTU, BLE, and BLEU implemented In CL 226397 were translated inconsistently compared to other ones due to the inversion of registers. For instance, while \"BLT a, b\" generates \"jump if a \u003c b\", \"BLE a, b\" generates \"jump if b \u003c\u003d a.\" \n\nThis CL fixes the translation in the assembler and the tests.\n```",
+      "parentUuid": "b20a58c1_7f0366c5",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a75cf6c3_f9c301b2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
