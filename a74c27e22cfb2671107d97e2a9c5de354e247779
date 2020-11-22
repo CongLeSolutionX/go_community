@@ -351,6 +351,24 @@
       "parentUuid": "9a6428cc_a39b9983",
       "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71dfc97e_18d65e74",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-22T03:26:23Z",
+      "side": 1,
+      "message": "At least do something like the pool_test.go code, with an exponential backoff that reaches large timeout values.",
+      "parentUuid": "4c0c2946_bd961f06",
+      "revId": "a74c27e22cfb2671107d97e2a9c5de354e247779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
