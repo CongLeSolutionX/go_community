@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ac56d28_882a61a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-11-22T02:56:32Z",
+      "side": 1,
+      "message": "As someone that is learning gerrit and the contribution flow, I am curious how things are done here, especially like your CL 271913. Won\u0027t you have to deal wt the conflict once I sent patchset 2, which correct test wanted values instead of data orders? Or vice versa?",
+      "parentUuid": "0ee65200_525f7ef3",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a75cf6c3_f9c301b2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
