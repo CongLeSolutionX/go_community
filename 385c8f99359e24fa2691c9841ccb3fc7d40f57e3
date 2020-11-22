@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52dfc6a6_2b49e0da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-22T02:20:32Z",
+      "side": 1,
+      "message": "This LGTM. Thanks",
+      "parentUuid": "80199018_c070a886",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a75cf6c3_f9c301b2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
