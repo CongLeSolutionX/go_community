@@ -348,6 +348,24 @@
       "parentUuid": "8befa54a_78c42c64",
       "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56939e26_c14fcd69",
+        "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-11-22T02:42:43Z",
+      "side": 1,
+      "message": "\u003e  true becomes false in this line\n\nI can do the fix.\n\n@Joel Do you have any comment on Cherry\u0027s request about adding BLT here?",
+      "parentUuid": "83d44e5c_bffee948",
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
