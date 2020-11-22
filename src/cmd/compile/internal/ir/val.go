@@ -61,7 +61,7 @@ func (v Val) Interface() interface{} {
 }
 
 func ConstType(n *Node) constant.Kind {
-	if n == nil || n.Op != OLITERAL {
+	if n == nil || n.Op() != OLITERAL {
 		return constant.Unknown
 	}
 	return n.Val().Kind()
@@ -86,7 +86,7 @@ func ValidTypeForConst(t *types.Type, v Val) bool {
 // nodlit returns a new untyped constant with value v.
 func NewLiteral(v Val) *Node {
 	n := Nod(OLITERAL, nil, nil)
-	n.Type = idealType(v.Kind())
+	n.SetType(idealType(v.Kind()))
 	n.SetVal(v)
 	return n
 }

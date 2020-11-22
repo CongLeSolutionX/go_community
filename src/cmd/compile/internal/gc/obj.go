@@ -142,7 +142,7 @@ func dumpdata() {
 	for {
 		for i := xtops; i < len(xtop); i++ {
 			n := xtop[i]
-			if n.Op == ir.ODCLFUNC {
+			if n.Op() == ir.ODCLFUNC {
 				funccompile(n)
 			}
 		}
@@ -204,12 +204,12 @@ func addptabs() {
 		return
 	}
 	for _, exportn := range exportlist {
-		s := exportn.Sym
+		s := exportn.Sym()
 		n := ir.AsNode(s.Def)
 		if n == nil {
 			continue
 		}
-		if n.Op != ir.ONAME {
+		if n.Op() != ir.ONAME {
 			continue
 		}
 		if !types.IsExported(s.Name) {
@@ -218,37 +218,37 @@ func addptabs() {
 		if s.Pkg.Name != "main" {
 			continue
 		}
-		if n.Type.Etype == types.TFUNC && n.Class() == ir.PFUNC {
+		if n.Type().Etype == types.TFUNC && n.Class() == ir.PFUNC {
 			// function
-			ptabs = append(ptabs, ptabEntry{s: s, t: ir.AsNode(s.Def).Type})
+			ptabs = append(ptabs, ptabEntry{s: s, t: ir.AsNode(s.Def).Type()})
 		} else {
 			// variable
-			ptabs = append(ptabs, ptabEntry{s: s, t: types.NewPtr(ir.AsNode(s.Def).Type)})
+			ptabs = append(ptabs, ptabEntry{s: s, t: types.NewPtr(ir.AsNode(s.Def).Type())})
 		}
 	}
 }
 
 func dumpGlobal(n *ir.Node) {
-	if n.Type == nil {
+	if n.Type() == nil {
 		base.Fatalf("external %v nil type\n", n)
 	}
 	if n.Class() == ir.PFUNC {
 		return
 	}
-	if n.Sym.Pkg != ir.LocalPkg {
+	if n.Sym().Pkg != ir.LocalPkg {
 		return
 	}
-	dowidth(n.Type)
+	dowidth(n.Type())
 	ggloblnod(n)
 }
 
 func dumpGlobalConst(n *ir.Node) {
 	// only export typed constants
-	t := n.Type
+	t := n.Type()
 	if t == nil {
 		return
 	}
-	if n.Sym.Pkg != ir.LocalPkg {
+	if n.Sym().Pkg != ir.LocalPkg {
 		return
 	}
 	// only export integer constants for now
@@ -278,13 +278,13 @@ func dumpGlobalConst(n *ir.Node) {
 	default:
 		return
 	}
-	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym.Name, typesymname(t), n.Int64Val())
+	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, typesymname(t), n.Int64Val())
 }
 
 func dumpglobls() {
 	// add globals
 	for _, n := range externdcl {
-		switch n.Op {
+		switch n.Op() {
 		case ir.ONAME:
 			dumpGlobal(n)
 		case ir.OLITERAL:
@@ -429,7 +429,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 		if readonly {
 			sym = stringsym(pos, string(data))
 		} else {
-			sym = slicedata(pos, string(data)).Sym.Linksym()
+			sym = slicedata(pos, string(data)).Sym().Linksym()
 		}
 		if len(hash) > 0 {
 			sum := sha256.Sum256(data)
@@ -477,7 +477,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 	} else {
 		// Emit a zero-length data symbol
 		// and then fix up length and content to use file.
-		symdata = slicedata(pos, "").Sym.Linksym()
+		symdata = slicedata(pos, "").Sym().Linksym()
 		symdata.Size = size
 		symdata.Type = objabi.SNOPTRDATA
 		info := symdata.NewFileInfo()
@@ -505,10 +505,10 @@ func slicedata(pos src.XPos, s string) *ir.Node {
 }
 
 func slicebytes(nam *ir.Node, s string) {
-	if nam.Op != ir.ONAME {
+	if nam.Op() != ir.ONAME {
 		base.Fatalf("slicebytes %v", nam)
 	}
-	slicesym(nam, slicedata(nam.Pos, s), int64(len(s)))
+	slicesym(nam, slicedata(nam.Pos(), s), int64(len(s)))
 }
 
 func dstringdata(s *obj.LSym, off int, t string, pos src.XPos, what string) int {
@@ -546,12 +546,12 @@ func dsymptrWeakOff(s *obj.LSym, off int, x *obj.LSym) int {
 // slicesym writes a static slice symbol {&arr, lencap, lencap} to n.
 // arr must be an ONAME. slicesym does not modify n.
 func slicesym(n, arr *ir.Node, lencap int64) {
-	s := n.Sym.Linksym()
-	off := n.Xoffset
-	if arr.Op != ir.ONAME {
+	s := n.Sym().Linksym()
+	off := n.Xoffset()
+	if arr.Op() != ir.ONAME {
 		base.Fatalf("slicesym non-name arr %v", arr)
 	}
-	s.WriteAddr(base.Ctxt, off, Widthptr, arr.Sym.Linksym(), arr.Xoffset)
+	s.WriteAddr(base.Ctxt, off, Widthptr, arr.Sym().Linksym(), arr.Xoffset())
 	s.WriteInt(base.Ctxt, off+sliceLenOffset, Widthptr, lencap)
 	s.WriteInt(base.Ctxt, off+sliceCapOffset, Widthptr, lencap)
 }
@@ -559,84 +559,84 @@ func slicesym(n, arr *ir.Node, lencap int64) {
 // addrsym writes the static address of a to n. a must be an ONAME.
 // Neither n nor a is modified.
 func addrsym(n, a *ir.Node) {
-	if n.Op != ir.ONAME {
-		base.Fatalf("addrsym n op %v", n.Op)
+	if n.Op() != ir.ONAME {
+		base.Fatalf("addrsym n op %v", n.Op())
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		base.Fatalf("addrsym nil n sym")
 	}
-	if a.Op != ir.ONAME {
-		base.Fatalf("addrsym a op %v", a.Op)
+	if a.Op() != ir.ONAME {
+		base.Fatalf("addrsym a op %v", a.Op())
 	}
-	s := n.Sym.Linksym()
-	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, a.Sym.Linksym(), a.Xoffset)
+	s := n.Sym().Linksym()
+	s.WriteAddr(base.Ctxt, n.Xoffset(), Widthptr, a.Sym().Linksym(), a.Xoffset())
 }
 
 // pfuncsym writes the static address of f to n. f must be a global function.
 // Neither n nor f is modified.
 func pfuncsym(n, f *ir.Node) {
-	if n.Op != ir.ONAME {
-		base.Fatalf("pfuncsym n op %v", n.Op)
+	if n.Op() != ir.ONAME {
+		base.Fatalf("pfuncsym n op %v", n.Op())
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		base.Fatalf("pfuncsym nil n sym")
 	}
 	if f.Class() != ir.PFUNC {
 		base.Fatalf("pfuncsym class not PFUNC %d", f.Class())
 	}
-	s := n.Sym.Linksym()
-	s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, funcsym(f.Sym).Linksym(), f.Xoffset)
+	s := n.Sym().Linksym()
+	s.WriteAddr(base.Ctxt, n.Xoffset(), Widthptr, funcsym(f.Sym()).Linksym(), f.Xoffset())
 }
 
 // litsym writes the static literal c to n.
 // Neither n nor c is modified.
 func litsym(n, c *ir.Node, wid int) {
-	if n.Op != ir.ONAME {
-		base.Fatalf("litsym n op %v", n.Op)
+	if n.Op() != ir.ONAME {
+		base.Fatalf("litsym n op %v", n.Op())
 	}
-	if n.Sym == nil {
+	if n.Sym() == nil {
 		base.Fatalf("litsym nil n sym")
 	}
-	if c.Op == ir.ONIL {
+	if c.Op() == ir.ONIL {
 		return
 	}
-	if c.Op != ir.OLITERAL {
-		base.Fatalf("litsym c op %v", c.Op)
+	if c.Op() != ir.OLITERAL {
+		base.Fatalf("litsym c op %v", c.Op())
 	}
-	s := n.Sym.Linksym()
+	s := n.Sym().Linksym()
 	switch u := c.Val().U.(type) {
 	case bool:
 		i := int64(obj.Bool2int(u))
-		s.WriteInt(base.Ctxt, n.Xoffset, wid, i)
+		s.WriteInt(base.Ctxt, n.Xoffset(), wid, i)
 
 	case *ir.Int:
-		s.WriteInt(base.Ctxt, n.Xoffset, wid, u.Int64())
+		s.WriteInt(base.Ctxt, n.Xoffset(), wid, u.Int64())
 
 	case *ir.Float:
 		f := u.Float64()
-		switch n.Type.Etype {
+		switch n.Type().Etype {
 		case types.TFLOAT32:
-			s.WriteFloat32(base.Ctxt, n.Xoffset, float32(f))
+			s.WriteFloat32(base.Ctxt, n.Xoffset(), float32(f))
 		case types.TFLOAT64:
-			s.WriteFloat64(base.Ctxt, n.Xoffset, f)
+			s.WriteFloat64(base.Ctxt, n.Xoffset(), f)
 		}
 
 	case *ir.Complex:
 		r := u.Real.Float64()
 		i := u.Imag.Float64()
-		switch n.Type.Etype {
+		switch n.Type().Etype {
 		case types.TCOMPLEX64:
-			s.WriteFloat32(base.Ctxt, n.Xoffset, float32(r))
-			s.WriteFloat32(base.Ctxt, n.Xoffset+4, float32(i))
+			s.WriteFloat32(base.Ctxt, n.Xoffset(), float32(r))
+			s.WriteFloat32(base.Ctxt, n.Xoffset()+4, float32(i))
 		case types.TCOMPLEX128:
-			s.WriteFloat64(base.Ctxt, n.Xoffset, r)
-			s.WriteFloat64(base.Ctxt, n.Xoffset+8, i)
+			s.WriteFloat64(base.Ctxt, n.Xoffset(), r)
+			s.WriteFloat64(base.Ctxt, n.Xoffset()+8, i)
 		}
 
 	case string:
-		symdata := stringsym(n.Pos, u)
-		s.WriteAddr(base.Ctxt, n.Xoffset, Widthptr, symdata, 0)
-		s.WriteInt(base.Ctxt, n.Xoffset+int64(Widthptr), Widthptr, int64(len(u)))
+		symdata := stringsym(n.Pos(), u)
+		s.WriteAddr(base.Ctxt, n.Xoffset(), Widthptr, symdata, 0)
+		s.WriteInt(base.Ctxt, n.Xoffset()+int64(Widthptr), Widthptr, int64(len(u)))
 
 	default:
 		base.Fatalf("litsym unhandled OLITERAL %v", c)
