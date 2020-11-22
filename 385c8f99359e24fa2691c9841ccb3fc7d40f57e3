@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ee65200_525f7ef3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-11-22T02:31:06Z",
+      "side": 1,
+      "message": "The pseudo instructions are supposed to be the same order (BGT X1, X2 -\u003e X1 \u003e X2) as the hardware instructions - somehow this got messed up (possibly due to too much rewriting and the need go reverse them).\n\nI\u0027ve just mailed a change that adds tests for the hardware instructions, which makes this more visible:\n\n  https://go-review.googlesource.com/c/go/+/271913\n\nI do not believe anything uses these currently.",
+      "parentUuid": "52dfc6a6_2b49e0da",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a75cf6c3_f9c301b2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -304,6 +328,24 @@
       "side": 1,
       "message": "Sorry, but I think semantically, you don\u0027t have to have anything to compare with to spot that that `{BLE, a, b, ...}` stands for `b is less or equal to a` is weird.  Actually it is how I find this problem at the first place.\n\nIf this block needs any improvement other than my patch, I would spot one minor inconsistency here: Why are there 5 cases for each of BGT/BLE/BLEU, but only 4 for BGTU?",
       "parentUuid": "0a3a112a_97f78283",
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83d44e5c_bffee948",
+        "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-11-22T02:31:06Z",
+      "side": 1,
+      "message": "I\u0027d prefer to keep the order of the test data and correct the want values here (i.e. true becomes false in this line).",
+      "parentUuid": "8befa54a_78c42c64",
       "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
