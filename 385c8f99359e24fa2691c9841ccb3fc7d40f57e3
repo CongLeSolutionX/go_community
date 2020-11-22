@@ -299,6 +299,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a16db7f2_60022189",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-11-22T02:45:59Z",
+      "side": 1,
+      "message": "The data in this file is currently grouped by RISC-V specification section and all pseudo instructions are separate from those, which I think is preferable. If we wanted to merge these we should do all of them (e.g. SEQZ/SNEZ and others below).",
+      "parentUuid": "5eb787d1_90642271",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 0
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a3a112a_97f78283",
         "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.go",
         "patchSetId": 1
