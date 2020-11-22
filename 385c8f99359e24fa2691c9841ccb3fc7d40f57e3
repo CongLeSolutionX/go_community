@@ -155,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8114bb99_415adbbc",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-11-22T01:58:46Z",
+      "side": 1,
+      "message": "Here are pseudo branch instructions, but BLT or BGE are real. I believe moving this block next to control instructions would violate the author\u0027s intention.",
+      "parentUuid": "08a1d497_14832ecd",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 0
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a3a112a_97f78283",
         "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.go",
         "patchSetId": 1
