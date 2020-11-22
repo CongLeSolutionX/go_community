@@ -240,6 +240,24 @@
       "message": "Could you add BLT, etc. to here as well? So it would be easier to compare and spot the inconsistency.",
       "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8befa54a_78c42c64",
+        "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-11-22T02:08:02Z",
+      "side": 1,
+      "message": "Sorry, but I think semantically, you don\u0027t have to have anything to compare with to spot that that `{BLE, a, b, ...}` stands for `b is less or equal to a` is weird.  Actually it is how I find this problem at the first place.\n\nIf this block needs any improvement other than my patch, I would spot one minor inconsistency here: Why are there 5 cases for each of BGT/BLE/BLEU, but only 4 for BGTU?",
+      "parentUuid": "0a3a112a_97f78283",
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
