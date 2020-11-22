@@ -13,7 +13,7 @@ import (
 )
 
 func ConstType(n *Node) constant.Kind {
-	if n == nil || n.Op != OLITERAL {
+	if n == nil || n.Op() != OLITERAL {
 		return constant.Unknown
 	}
 	return n.Val().Kind()
@@ -32,7 +32,7 @@ func ConstValue(n *Node) interface{} {
 	case constant.String:
 		return constant.StringVal(v)
 	case constant.Int:
-		return Int64Val(n.Type, v)
+		return Int64Val(n.Type(), v)
 	case constant.Float:
 		return Float64Val(v)
 	case constant.Complex:
@@ -93,7 +93,7 @@ func ValidTypeForConst(t *types.Type, v constant.Value) bool {
 // nodlit returns a new untyped constant with value v.
 func NewLiteral(v constant.Value) *Node {
 	n := Nod(OLITERAL, nil, nil)
-	n.Type = idealType(v.Kind())
+	n.SetType(idealType(v.Kind()))
 	n.SetVal(v)
 	return n
 }
