@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2941ada2_89f8c008",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-22T01:31:39Z",
+      "side": 1,
+      "message": "Thanks for the explanation. If it is not consistent, it is bad and I agree we should fix that. The CL description could be made clearer, pointing out the inconsistency.\n\nIs there anything that needs to be fixed in the assembly code and in the compiler?",
+      "parentUuid": "ee8f636e_930f3230",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a75cf6c3_f9c301b2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -61,6 +85,63 @@
       "writtenOn": "2020-11-22T01:13:31Z",
       "side": 1,
       "message": "Thanks for your review.  Maybe both directions are reasonable, but what about the consistency?\n\nJust for instance, using the current implementation of the mentioned 4 types of pseudo branches, BLE X5, X6 generates \"if X6 is less or equal to X5\" while BLT X5, X6 generates \"if X5 is less than X6.\"  It is obviously not consistent.  \n\nThe tests in  CL 226397 are like\n```\n{\"BLE\", 1, 0, testBLE, false},\n{\"BLE\", -1, 0, testBLE, true},\n```\nGiven the former operand being a and the later operand being b, these examines if b is less or equal to a. Isn\u0027t it counter-intuitive?  \n\nSo my patch revert the order of a and b in the obj tests, and p.Reg ad p.From.Reg in the assembler.",
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2392604f_46bffefd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-22T01:31:39Z",
+      "side": 1,
+      "message": "TRY\u003driscv64\n",
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a1d497_14832ecd",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscvenc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-22T01:31:39Z",
+      "side": 1,
+      "message": "Could we move this block next to BLT etc., so it is easier to compare them?",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 0
+      },
+      "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3a112a_97f78283",
+        "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-22T01:31:39Z",
+      "side": 1,
+      "message": "Could you add BLT, etc. to here as well? So it would be easier to compare and spot the inconsistency.",
       "revId": "385c8f99359e24fa2691c9841ccb3fc7d40f57e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
