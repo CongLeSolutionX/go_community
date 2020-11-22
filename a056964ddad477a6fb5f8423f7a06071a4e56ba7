@@ -16,6 +16,24 @@
       "message": "Hi guys, any comments on this CL, I\u0027ve seen this TODO comment from rsc that said this should be done in Go 1.12 and it\u0027s still unresolved. So I guess you were just too busy to resolve it?\n\nSo I took the liberty of doing this and please pardon me if I misunderstood the intention for retaining this TODO for some specified reasons.",
       "revId": "a056964ddad477a6fb5f8423f7a06071a4e56ba7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08b0bd1f_a2426090",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-22T02:43:55Z",
+      "side": 1,
+      "message": "Also, Sorry to bother you on the weekend. You can of course get back to me on Monday.\n\nHave a nice weekend!",
+      "parentUuid": "d8dfe23b_3615b87e",
+      "revId": "a056964ddad477a6fb5f8423f7a06071a4e56ba7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
