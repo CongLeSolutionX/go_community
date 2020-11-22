@@ -34,6 +34,24 @@
       "parentUuid": "b908082f_f5706691",
       "revId": "d845354c9d6b81af35c78df2ccf223fb5073373f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edf214b2_4e7dfb5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-11-22T09:28:24Z",
+      "side": 1,
+      "message": "Understood.  Both are fine to me.  Thank you.",
+      "parentUuid": "98dce25b_fe3a3738",
+      "revId": "d845354c9d6b81af35c78df2ccf223fb5073373f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
