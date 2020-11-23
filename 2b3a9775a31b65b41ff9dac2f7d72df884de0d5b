@@ -111,6 +111,24 @@
       "message": "Ping for merging this (unless there are extra rules for the release branch).",
       "revId": "2b3a9775a31b65b41ff9dac2f7d72df884de0d5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7a733c4_69adc652",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-11-23T19:40:31Z",
+      "side": 1,
+      "message": "There are extra rules for release branches, they are documented at https://golang.org/wiki/MinorReleases. A backport issue must first get to CherryPickApproved state before any CLs for it can be submitted, and only release managers have access to submit CLs to release branches.\n\nSince that has happened by now and this CL is ready, I\u0027ll submit it now.",
+      "parentUuid": "8087d0e8_920a6e58",
+      "revId": "2b3a9775a31b65b41ff9dac2f7d72df884de0d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
