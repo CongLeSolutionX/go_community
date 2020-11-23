@@ -303,6 +303,24 @@
       "parentUuid": "bbffad44_4b2d770a",
       "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec31672d_bf501c04",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-23T21:20:56Z",
+      "side": 1,
+      "message": "Ok, I removed and put the p.mode check at the callsites. This actually made advanceToClosingOrSemi unnecessary (for now).\n\nI think the resulting error messages are less clear in some cases, but that\u0027s something I can address in a later CL.",
+      "parentUuid": "36e65369_6f76530c",
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
