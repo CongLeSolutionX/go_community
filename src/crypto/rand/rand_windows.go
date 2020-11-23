@@ -12,7 +12,10 @@ import (
 	"syscall"
 )
 
-func init() { Reader = &rngReader{} }
+func init() {
+	internalReader = &rngReader{}
+	Reader = internalReader
+}
 
 type rngReader struct{}
 
