@@ -4077,18 +4077,26 @@ func gfput(_p_ *p, gp *g) {
 	_p_.gFree.push(gp)
 	_p_.gFree.n++
 	if _p_.gFree.n >= 64 {
-		lock(&sched.gFree.lock)
+		var (
+			inc      int32
+			stackQ   gQueue
+			noStackQ gQueue
+		)
 		for _p_.gFree.n >= 32 {
 			_p_.gFree.n--
 			gp = _p_.gFree.pop()
 			if gp.stack.lo == 0 {
-				sched.gFree.noStack.push(gp)
+				noStackQ.push(gp)
 			} else {
-				sched.gFree.stack.push(gp)
+				stackQ.push(gp)
 			}
-			sched.gFree.n++
+			inc++
 		}
+		lock(&sched.gFree.lock)
+		sched.gFree.noStack.pushAll(noStackQ)
+		sched.gFree.stack.pushAll(stackQ)
 		unlock(&sched.gFree.lock)
+		atomic.Xadd(&sched.gFree.n, inc)
 	}
 }
 
@@ -4097,6 +4105,7 @@ func gfput(_p_ *p, gp *g) {
 func gfget(_p_ *p) *g {
 retry:
 	if _p_.gFree.empty() && (!sched.gFree.stack.empty() || !sched.gFree.noStack.empty()) {
+		var dec int32
 		lock(&sched.gFree.lock)
 		// Move a batch of free Gs to the P.
 		for _p_.gFree.n < 32 {
@@ -4108,11 +4117,13 @@ retry:
 					break
 				}
 			}
-			sched.gFree.n--
+			dec--
 			_p_.gFree.push(gp)
 			_p_.gFree.n++
 		}
 		unlock(&sched.gFree.lock)
+		atomic.Xadd(&sched.gFree.n, dec)
+
 		goto retry
 	}
 	gp := _p_.gFree.pop()
@@ -4139,18 +4150,26 @@ retry:
 
 // Purge all cached G's from gfree list to the global list.
 func gfpurge(_p_ *p) {
-	lock(&sched.gFree.lock)
+	var (
+		inc      int32
+		stackQ   gQueue
+		noStackQ gQueue
+	)
 	for !_p_.gFree.empty() {
 		gp := _p_.gFree.pop()
 		_p_.gFree.n--
 		if gp.stack.lo == 0 {
-			sched.gFree.noStack.push(gp)
+			noStackQ.push(gp)
 		} else {
-			sched.gFree.stack.push(gp)
+			stackQ.push(gp)
 		}
-		sched.gFree.n++
+		inc++
 	}
+	lock(&sched.gFree.lock)
+	sched.gFree.noStack.pushAll(noStackQ)
+	sched.gFree.stack.pushAll(stackQ)
 	unlock(&sched.gFree.lock)
+	atomic.Xadd(&sched.gFree.n, inc)
 }
 
 // Breakpoint executes a breakpoint trap.
@@ -4263,7 +4282,7 @@ func badunlockosthread() {
 }
 
 func gcount() int32 {
-	n := int32(allglen) - sched.gFree.n - int32(atomic.Load(&sched.ngsys))
+	n := int32(allglen) - int32(sched.gFree.n) - int32(atomic.Load(&sched.ngsys))
 	for _, _p_ := range allp {
 		n -= _p_.gFree.n
 	}

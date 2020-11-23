@@ -762,7 +762,7 @@ type schedt struct {
 		lock    mutex
 		stack   gList // Gs with stacks
 		noStack gList // Gs without stacks
-		n       int32
+		n       uint32
 	}
 
 	// Central cache of sudog structs.
