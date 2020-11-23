@@ -18,8 +18,16 @@ import "io"
 // On Wasm, Reader uses the Web Crypto API.
 var Reader io.Reader
 
-// Read is a helper function that calls Reader.Read using io.ReadFull.
+// internalReader exists to prevent Reader from being mutated easily
+// by rogue dependencies. Please see https://golang.org/issue/42713.
+var internalReader io.Reader
+
+func init() {
+	Reader = internalReader
+}
+
+// Read is a helper function that calls the internal reaer's Read method using io.ReadFull.
 // On return, n == len(b) if and only if err == nil.
 func Read(b []byte) (n int, err error) {
-	return io.ReadFull(Reader, b)
+	return io.ReadFull(internalReader, b)
 }

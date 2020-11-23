@@ -29,9 +29,9 @@ const urandomDevice = "/dev/urandom"
 
 func init() {
 	if runtime.GOOS == "plan9" {
-		Reader = newReader(nil)
+		internalReader = newReader(nil)
 	} else {
-		Reader = &devReader{name: urandomDevice}
+		internalReader = &devReader{name: urandomDevice}
 	}
 }
 

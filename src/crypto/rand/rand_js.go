@@ -9,7 +9,7 @@ package rand
 import "syscall/js"
 
 func init() {
-	Reader = &reader{}
+	internalReader = &reader{}
 }
 
 var jsCrypto = js.Global().Get("crypto")
