@@ -81,6 +81,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe9ff4fe_17bd81bc",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-23T18:34:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e7e8125_080e3d65",
+      "range": {
+        "startLine": 495,
+        "startChar": 11,
+        "endLine": 495,
+        "endChar": 19
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e10b395_c49a9327",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-23T18:34:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c88b9d7_94476393",
+      "range": {
+        "startLine": 495,
+        "startChar": 75,
+        "endLine": 495,
+        "endChar": 77
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5b0ae79_48d2432d",
@@ -104,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b36634_4b5e5181",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-23T18:34:07Z",
+      "side": 1,
+      "message": "Done. I prefer the error message provided here (versus \"expected \u0027;\u0027, found \u0027[\u0027), but that\u0027s a separate issue.",
+      "parentUuid": "f5b0ae79_48d2432d",
+      "range": {
+        "startLine": 1153,
+        "startChar": 13,
+        "endLine": 1153,
+        "endChar": 28
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e567c64_26f027c3",
@@ -117,6 +189,30 @@
       "writtenOn": "2020-11-20T22:57:49Z",
       "side": 1,
       "message": "for p.tok \u003d\u003d token.IDENT || p.mode\u0026ParseTypeParams \u003d\u003d 0 \u0026\u0026 p.tok \u003d\u003d token.TYPE {\n    if p.tok \u003d\u003d token.IDENT {\n        ...\n    } else {\n        ...\n    }\n}\n\nAnd you don\u0027t need a label, break, or switch.",
+      "range": {
+        "startLine": 1231,
+        "startChar": 4,
+        "endLine": 1231,
+        "endChar": 5
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e937227_5c6c2a37",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-23T18:34:07Z",
+      "side": 1,
+      "message": "Thanks, nice simplification.",
+      "parentUuid": "2e567c64_26f027c3",
       "range": {
         "startLine": 1231,
         "startChar": 4,
@@ -152,6 +248,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d334b5c4_675e9466",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-23T18:34:07Z",
+      "side": 1,
+      "message": "Tried to clarify.\n\nThe compiler gives better errors in these types of situations, for example \"unexpected \u0027?\u0027, expecting method or interface name, or \u0027type\u0027\". This is more accurate, as \u0027}\u0027 is not the only acceptable token at this parser position.",
+      "parentUuid": "f5d41f39_e04bba72",
+      "range": {
+        "startLine": 1253,
+        "startChar": 19,
+        "endLine": 1253,
+        "endChar": 28
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bbffad44_4b2d770a",
         "filename": "src/go/parser/parser.go",
         "patchSetId": 8
@@ -163,6 +283,24 @@
       "writtenOn": "2020-11-20T22:57:49Z",
       "side": 1,
       "message": "You don\u0027t need this. When parseTypeInstance is called, we allow type parameters.",
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36e65369_6f76530c",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-23T18:34:07Z",
+      "side": 1,
+      "message": "As written, it *is* necessary, because the callers don\u0027t check p.mode. Your comment confirms my suspicion that this is code smell. However, I did it this way because the error here is better than the errors produced at the callsites.\n\nFor example, when parsing `func (_ R[T]) ...` the error is \"mixed named and unnamed parameters\", on the \u0027_\u0027. This is because the parameter list is interpreted as {name: \"_\", typ: R), {name:\"T\", typ: nil}, with a `missing \u0027,\u0027` error positioned on the \u0027[\u0027.\n\nLet me try to fix that, at which point I can eliminate the delegation here.",
+      "parentUuid": "bbffad44_4b2d770a",
       "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
