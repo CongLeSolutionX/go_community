@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d74b72c6_3a6e066e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-24T08:36:09Z",
+      "side": 1,
+      "message": "Note that this will need to wait until february at any rate when the tree opens for go1.17 again since go is in freeze for go1.16. Usually reviews are also slower as reviewers are busy with bug fixes for the release. To avoid rebasing and rereview it is better to send these CLs out for review when the go tree is open to performance and feature changes again.",
+      "revId": "649b2f72c52fe9c8a739a7a16b000957d5985d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f9daa7a_1e227179",
