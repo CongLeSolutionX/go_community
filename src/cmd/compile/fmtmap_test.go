@@ -79,6 +79,7 @@ var knownFormats = map[string]string{
 	"byte %q":                                         "",
 	"byte %v":                                         "",
 	"cmd/compile/internal/arm.shift %d":               "",
+	"cmd/compile/internal/gc.RegIndex %d":             "",
 	"cmd/compile/internal/gc.initKind %d":             "",
 	"cmd/compile/internal/gc.itag %v":                 "",
 	"cmd/compile/internal/ir.Class %d":                "",
