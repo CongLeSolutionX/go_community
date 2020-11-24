@@ -16,6 +16,23 @@
       "message": "Any comments?",
       "revId": "649b2f72c52fe9c8a739a7a16b000957d5985d57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b5b24e_73dfd1f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-24T08:28:50Z",
+      "side": 1,
+      "message": "Please add to the commit messages why this change is made. Is it because of performance? If so are there benchmarks micro or whole program that show its faster and by how much?\n\nIf its not for performance. Is it a cleanup to align with other code or is it a simplification?",
+      "revId": "649b2f72c52fe9c8a739a7a16b000957d5985d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
