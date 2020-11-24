@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "784301da_284379a3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-24T21:43:22Z",
+      "side": 1,
+      "message": "Google style guide recommends \"placeholder\" instead: https://developers.google.com/style/inclusive-documentation",
+      "revId": "2cd9dd6aa593a588ff2b9ab08b878af4b4af4af4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
