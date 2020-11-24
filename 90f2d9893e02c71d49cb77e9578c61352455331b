@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f20779b9_8301f3fa",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1270,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-24T05:33:34Z",
+      "side": 1,
+      "message": "I don\u0027t understand this change. The p.exprLev++ should be \"associated\" with the next block of code, to match the p.exprLev--. (Or else the p.exprLev should be associated with the closing, for symmetry.)",
+      "revId": "90f2d9893e02c71d49cb77e9578c61352455331b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b634bdc_55f81530",
+        "filename": "src/go/parser/short_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-24T05:33:34Z",
+      "side": 1,
+      "message": "these comments seem odd for these versions of the tests",
+      "revId": "90f2d9893e02c71d49cb77e9578c61352455331b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
