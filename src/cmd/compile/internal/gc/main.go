@@ -541,30 +541,7 @@ func Main(archInit func(*Arch)) {
 	// initialize types package
 	// (we need to do this to break dependencies that otherwise
 	// would lead to import cycles)
-	types.Widthptr = Widthptr
-	types.Dowidth = dowidth
-	types.Fatalf = Fatalf
-	types.Sconv = func(s *types.Sym, flag, mode int) string {
-		return sconv(s, FmtFlag(flag), fmtMode(mode))
-	}
-	types.Tconv = func(t *types.Type, flag, mode int) string {
-		return tconv(t, FmtFlag(flag), fmtMode(mode))
-	}
-	types.FormatSym = func(sym *types.Sym, s fmt.State, verb rune, mode int) {
-		symFormat(sym, s, verb, fmtMode(mode))
-	}
-	types.FormatType = func(t *types.Type, s fmt.State, verb rune, mode int) {
-		typeFormat(t, s, verb, fmtMode(mode))
-	}
-	types.TypeLinkSym = func(t *types.Type) *obj.LSym {
-		return typenamesym(t).Linksym()
-	}
-	types.FmtLeft = int(FmtLeft)
-	types.FmtUnsigned = int(FmtUnsigned)
-	types.FErr = int(FErr)
-	types.Ctxt = Ctxt
-
-	initUniverse()
+	initializeTypesPackage()
 
 	dclcontext = PEXTERN
 
@@ -1585,4 +1562,31 @@ func parseLang(s string) (lang, error) {
 		return lang{}, err
 	}
 	return lang{major: major, minor: minor}, nil
+}
+
+func initializeTypesPackage() {
+	types.Widthptr = Widthptr
+	types.Dowidth = dowidth
+	types.Fatalf = Fatalf
+	types.Sconv = func(s *types.Sym, flag, mode int) string {
+		return sconv(s, FmtFlag(flag), fmtMode(mode))
+	}
+	types.Tconv = func(t *types.Type, flag, mode int) string {
+		return tconv(t, FmtFlag(flag), fmtMode(mode))
+	}
+	types.FormatSym = func(sym *types.Sym, s fmt.State, verb rune, mode int) {
+		symFormat(sym, s, verb, fmtMode(mode))
+	}
+	types.FormatType = func(t *types.Type, s fmt.State, verb rune, mode int) {
+		typeFormat(t, s, verb, fmtMode(mode))
+	}
+	types.TypeLinkSym = func(t *types.Type) *obj.LSym {
+		return typenamesym(t).Linksym()
+	}
+	types.FmtLeft = int(FmtLeft)
+	types.FmtUnsigned = int(FmtUnsigned)
+	types.FErr = int(FErr)
+	types.Ctxt = Ctxt
+
+	initUniverse()
 }
