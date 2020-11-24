@@ -115,6 +115,30 @@
       },
       "revId": "649b2f72c52fe9c8a739a7a16b000957d5985d57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0535c52a_953c87c1",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2020-11-24T08:52:15Z",
+      "side": 1,
+      "message": "Other options are to add a specific runtime/internal/atomic function for int32 or convert it to uint32 during the call:\nhttps://github.com/golang/go/blob/6965b01ea248cabb70c3749fd218b36089a21efb/src/runtime/proc.go#L4831",
+      "parentUuid": "22e9880a_333baf70",
+      "range": {
+        "startLine": 765,
+        "startChar": 2,
+        "endLine": 765,
+        "endChar": 16
+      },
+      "revId": "649b2f72c52fe9c8a739a7a16b000957d5985d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
