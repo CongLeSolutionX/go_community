@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e981057a_56e112af",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1270,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-24T18:57:34Z",
+      "side": 1,
+      "message": "Indeed, this was accidental. Reverted.",
+      "parentUuid": "f20779b9_8301f3fa",
+      "revId": "90f2d9893e02c71d49cb77e9578c61352455331b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b634bdc_55f81530",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-11-24T05:33:34Z",
       "side": 1,
       "message": "these comments seem odd for these versions of the tests",
+      "revId": "90f2d9893e02c71d49cb77e9578c61352455331b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a366ed9c_70cf0209",
+        "filename": "src/go/parser/short_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-24T18:57:34Z",
+      "side": 1,
+      "message": "They do. Removed.",
+      "parentUuid": "4b634bdc_55f81530",
       "revId": "90f2d9893e02c71d49cb77e9578c61352455331b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

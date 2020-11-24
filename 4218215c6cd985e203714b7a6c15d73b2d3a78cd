@@ -270,6 +270,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf9c66b9_3c3e1d27",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-24T18:57:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d334b5c4_675e9466",
+      "range": {
+        "startLine": 1253,
+        "startChar": 19,
+        "endLine": 1253,
+        "endChar": 28
+      },
+      "revId": "4218215c6cd985e203714b7a6c15d73b2d3a78cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbffad44_4b2d770a",
