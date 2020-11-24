@@ -3005,3 +3005,35 @@ func TestCertificateRequestRoundtripFields(t *testing.T) {
 		t.Fatalf("Unexpected PolicyIdentifiers: got %v, want %v", out.PolicyIdentifiers, in.PolicyIdentifiers)
 	}
 }
+
+func BenchmarkAppendCertsFromPEM(b *testing.B) {
+	b.ReportAllocs()
+	k, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		b.Fatal(err)
+	}
+	pemBlob := bytes.NewBuffer(nil)
+	template := &Certificate{
+		IsCA:                  true,
+		BasicConstraintsValid: true,
+	}
+	for i := 0; i < 25; i++ {
+		template.SerialNumber = big.NewInt(int64(i))
+		template.Subject.CommonName = fmt.Sprintf("CA-%d", i)
+		cert, err := CreateCertificate(rand.Reader, template, template, k.Public(), k)
+		if err != nil {
+			b.Fatal(err)
+		}
+		if err = pem.Encode(pemBlob, &pem.Block{Type: "CERTIFICATE", Bytes: cert}); err != nil {
+			b.Fatal(err)
+		}
+	}
+	pemBytes := pemBlob.Bytes()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		pool := NewCertPool()
+		if !pool.AppendCertsFromPEM(pemBytes) {
+			b.Fatal("failed to append to pool")
+		}
+	}
+}

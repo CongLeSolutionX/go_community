@@ -605,6 +605,7 @@ func testVerify(t *testing.T, test verifyTest, useSystemRoots bool) {
 func TestGoVerify(t *testing.T) {
 	for _, test := range verifyTests {
 		t.Run(test.name, func(t *testing.T) {
+			fmt.Println(test.name)
 			testVerify(t, test, false)
 		})
 	}

@@ -11,6 +11,10 @@ import (
 	"errors"
 	"runtime"
 	"sync"
+
+	"golang.org/x/crypto/cryptobyte"
+	cbasn1 "golang.org/x/crypto/cryptobyte/asn1"
+	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
 
 type sum224 [sha256.Size224]byte
@@ -215,21 +219,24 @@ func (s *CertPool) AppendCertsFromPEM(pemCerts []byte) (ok bool) {
 		}
 
 		certBytes := block.Bytes
-		cert, err := ParseCertificate(certBytes)
+		subject, err := extractSubjectBytes(certBytes)
 		if err != nil {
-			continue
+			return false // ???
 		}
 		var lazyCert struct {
 			sync.Once
 			v *Certificate
 		}
-		s.addCertFunc(sha256.Sum224(cert.Raw), string(cert.RawSubject), func() (*Certificate, error) {
+		s.addCertFunc(sha256.Sum224(certBytes), string(subject), func() (*Certificate, error) {
+			var err error
 			lazyCert.Do(func() {
-				// This can't fail, as the same bytes already parsed above.
-				lazyCert.v, _ = ParseCertificate(certBytes)
+				lazyCert.v, err = ParseCertificate(certBytes)
+				if err != nil {
+					return
+				}
 				certBytes = nil
 			})
-			return lazyCert.v, nil
+			return lazyCert.v, err
 		})
 		ok = true
 	}
@@ -245,4 +252,28 @@ func (s *CertPool) Subjects() [][]byte {
 		res[i] = lc.rawSubject
 	}
 	return res
+}
+
+func extractSubjectBytes(der []byte) ([]byte, error) {
+	input := cryptobyte.String(der)
+	var inner cryptobyte.String
+	if !input.ReadASN1(&inner, cbasn1.SEQUENCE) {
+		return nil, errors.New("malformed certificate")
+	}
+	var tbs cryptobyte.String
+	if !inner.ReadASN1(&tbs, cbasn1.SEQUENCE) {
+		return nil, errors.New("malformed certificate")
+	}
+	if !tbs.SkipOptionalASN1(cryptobyte_asn1.Tag(0).Constructed().ContextSpecific()) || // version
+		!tbs.SkipASN1(cbasn1.INTEGER) || // serialNumber
+		!tbs.SkipASN1(cbasn1.SEQUENCE) || // signature
+		!tbs.SkipASN1(cbasn1.SEQUENCE) || // issuer
+		!tbs.SkipASN1(cbasn1.SEQUENCE) { // validity
+		return nil, errors.New("malformed certificate")
+	}
+	var subject cryptobyte.String
+	if !tbs.ReadASN1Element(&subject, cbasn1.SEQUENCE) {
+		return nil, errors.New("malformed certificate")
+	}
+	return subject, nil
 }
