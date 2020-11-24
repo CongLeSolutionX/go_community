@@ -14,7 +14,10 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
+	"os"
+	"runtime"
 	"strings"
+	"sync"
 	"testing"
 	"text/scanner"
 )
@@ -87,6 +90,22 @@ func verifyParamResultOffset(t *testing.T, f *types.Field, r abi.ABIParamAssignm
 }
 
 func makeExpectedDump(e string) expectedDump {
+	var pcs [24]uintptr
+	runtime.Callers(0, pcs[:])
+	frames := runtime.CallersFrames(pcs[:])
+	for {
+		frame, more := frames.Next()
+		if strings.Contains(frame.Function, "TestABIUtils") {
+			return expectedDump{
+				dump: e,
+				file: frame.File,
+				line: frame.Line,
+			}
+		}
+		if !more {
+			break
+		}
+	}
 	return expectedDump{dump: e}
 }
 
@@ -106,6 +125,58 @@ func difftokens(atoks []string, etoks []string) string {
 	return ""
 }
 
+var dumpFileCount int
+var remOnce sync.Once
+var remasterScriptFile *os.File
+
+func dumpFileName(tag string, count int) string {
+	return fmt.Sprintf("/tmp/%s.%d.txt", tag, count)
+}
+
+func emitStringToDumpFile(tag string, count int, dump string) {
+	fn := dumpFileName(tag, count)
+	fl := os.O_RDWR | os.O_CREATE | os.O_TRUNC
+	of, err := os.OpenFile(fn, fl, 0644)
+	if err != nil {
+		panic("unable to emit " + fn)
+	}
+	fmt.Fprintf(of, "%s\n", dump)
+	fmt.Fprintf(os.Stderr, "... emitted dump file %s\n", fn)
+	if cerr := of.Close(); cerr != nil {
+		panic("error closing dump file" + fn)
+	}
+}
+
+func onfailure(exp expectedDump, actual string) {
+	emitRemasterScript := os.Getenv("ABITEST_EMIT_REMASTER_SCRIPT") != ""
+	emitDumpFiles := emitRemasterScript || os.Getenv("ABITEST_EMIT_DUMP_FILES") != ""
+
+	if emitDumpFiles {
+		emitStringToDumpFile("expected", dumpFileCount, exp.dump)
+		emitStringToDumpFile("actual", dumpFileCount, actual)
+		if emitRemasterScript {
+			remOnce.Do(func() {
+				fn := "/tmp/remaster-inputs.txt"
+				fl := os.O_RDWR | os.O_CREATE | os.O_TRUNC
+				if f, err := os.OpenFile(fn, fl, 0644); err != nil {
+					panic("unable to open " + fn)
+				} else {
+					remasterScriptFile = f
+					fmt.Fprintf(os.Stderr, "emitting remaster script to file %q\n", fn)
+					fmt.Fprintf(f, "# emitted by tests in abiutils_test.go\n")
+					fmt.Fprintf(f, "# for use with remaster-tests.go\n")
+					remasterScriptFile.Sync()
+				}
+			})
+			fmt.Fprintf(remasterScriptFile, "%s %d %s %s\n", exp.file, exp.line,
+				dumpFileName("expected", dumpFileCount),
+				dumpFileName("actual", dumpFileCount))
+			remasterScriptFile.Sync()
+		}
+		dumpFileCount++
+	}
+}
+
 func abitest(t *testing.T, ft *types.Type, exp expectedDump) {
 
 	types.CalcSize(ft)
@@ -119,6 +190,7 @@ func abitest(t *testing.T, ft *types.Type, exp expectedDump) {
 	if reason != "" {
 		t.Errorf("\nexpected:\n%s\ngot:\n%s\nreason: %s",
 			strings.TrimSpace(exp.dump), regResString, reason)
+		onfailure(exp, regResString)
 	}
 
 	// Analyze again with empty register set.

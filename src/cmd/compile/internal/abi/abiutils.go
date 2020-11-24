@@ -163,7 +163,7 @@ func (ri *ABIParamAssignment) toString(config *ABIConfig) string {
 	for _, r := range ri.Registers {
 		regs += " " + config.regAmounts.regString(r)
 	}
-	return fmt.Sprintf("%s } offset: %d typ: %v", regs, ri.Offset, ri.Type)
+	return fmt.Sprintf("%s } xoffset: %d typ: %v", regs, ri.Offset, ri.Type)
 }
 
 // toString method renders an ABIParamResultInfo in human-readable
