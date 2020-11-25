@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c1dfa2_59d84647",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-25T02:15:36Z",
+      "side": 1,
+      "message": "Can you simply remove inlFunc now?",
+      "revId": "499cdde74b1df92ef7e4e6d3b5eede2f2fbddac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
