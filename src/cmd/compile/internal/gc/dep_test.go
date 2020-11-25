@@ -18,6 +18,7 @@ func TestDeps(t *testing.T) {
 	}
 	for _, dep := range strings.Fields(strings.Trim(string(out), "[]")) {
 		switch dep {
+<<<<<<< HEAD   (2c25cd [dev.typeparams] cmd/compile/internal/types2: a type paramet)
 		case "go/build", "go/token":
 			// cmd/compile/internal/importer introduces a dependency
 			// on go/build and go/token; cmd/compile/internal/ uses
@@ -25,6 +26,10 @@ func TestDeps(t *testing.T) {
 			// got rid of those dependencies, enable this check again.
 			// TODO(gri) fix this
 			// t.Errorf("undesired dependency on %q", dep)
+=======
+		case "go/build", "go/scanner":
+			t.Errorf("undesired dependency on %q", dep)
+>>>>>>> BRANCH (41f3af [dev.regabi] cmd/compile: replace *Node type with an interfa)
 		}
 	}
 }
