@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "887a53da_adfddc09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-25T15:47:29Z",
+      "side": 1,
+      "message": "This looks good to me. I\u0027m going to submit it so I can rebase on top of it.\n",
+      "revId": "78c0220cad4cb21c5d5d6744b3565dc852600c4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
