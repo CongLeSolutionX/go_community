@@ -34,6 +34,24 @@
       "parentUuid": "ae2a460c_46908bdc",
       "revId": "2e6e88218a9fa0596b857aa344442d9c9cb58e87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86cfb83e_1f62cb6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2020-11-25T16:27:45Z",
+      "side": 1,
+      "message": "I\u0027ve updated the comment and commit message (on GitHub).",
+      "parentUuid": "d159e4c6_5fad2373",
+      "revId": "2e6e88218a9fa0596b857aa344442d9c9cb58e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
