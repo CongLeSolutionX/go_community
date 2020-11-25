@@ -42,7 +42,7 @@ const (
 // if any.
 func format(src []byte, mode checkMode) ([]byte, error) {
 	// parse src
-	f, err := parser.ParseFile(fset, "", src, parser.ParseComments)
+	f, err := parser.ParseFile(fset, "", src, parser.ParseComments|parser.ParseTypeParams)
 	if err != nil {
 		return nil, fmt.Errorf("parse: %s\n%s", err, src)
 	}
@@ -206,6 +206,7 @@ var data = []entry{
 	{"complit.input", "complit.x", export},
 	{"go2numbers.input", "go2numbers.golden", idempotent},
 	{"go2numbers.input", "go2numbers.norm", normNumber | idempotent},
+	{"generics.input", "generics.golden", idempotent},
 }
 
 func TestFiles(t *testing.T) {
