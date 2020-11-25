@@ -22,6 +22,30 @@
       },
       "revId": "ed53db885d92df641954b401e235fa944be346bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2ef69df_5d44cf1d",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-11-25T19:04:36Z",
+      "side": 1,
+      "message": "No, we\u0027re not abandoning it.\n\nBut we have (per current draft design) abandoned a type switch expression x.(type) where x is of type parameter type (one first needs to convert to an interface).\n\nWe still permit type parameters as type cases, and there we are already strict because type parameter types are not interfaces. The following example shows this behavior:\n\npackage p\n\ntype I1 interface {\n\tm()\n}\n\ntype I2 interface {\n\tm() int\n}\n\nfunc _[T I1](x I2) {\n\tswitch x.(type) {\n\tcase T:  // ERROR: x (variable of type I2) cannot have dynamic type T\n\tcase I1: // no error\n\t}\n}\n\nI left the strict flag there because I intended to make the above example behave as it does, not realizing at that moment that it already works correctly (by virtue of type parameters not being interfaces).\n\nAnyway, we should leave this alone for now until we have moved from dev.go2go to dev.typeparams to avoid more differences. We can clean it up down the road.",
+      "parentUuid": "1b0494f8_7b76fd21",
+      "range": {
+        "startLine": 687,
+        "startChar": 44,
+        "endLine": 687,
+        "endChar": 51
+      },
+      "revId": "ed53db885d92df641954b401e235fa944be346bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
