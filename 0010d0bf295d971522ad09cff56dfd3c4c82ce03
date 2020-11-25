@@ -33,6 +33,24 @@
       "message": "Would you like me to hit Submit?",
       "revId": "0010d0bf295d971522ad09cff56dfd3c4c82ce03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e457188f_ea848767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2020-11-25T02:15:43Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s ok to submit the CL, because code freeze now.",
+      "parentUuid": "d5e4d3dc_46240592",
+      "revId": "0010d0bf295d971522ad09cff56dfd3c4c82ce03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
