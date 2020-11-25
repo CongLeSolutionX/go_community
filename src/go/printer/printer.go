@@ -1272,10 +1272,11 @@ func (p *trimmer) Write(data []byte) (n int, err error) {
 type Mode uint
 
 const (
-	RawFormat Mode = 1 << iota // do not use a tabwriter; if set, UseSpaces is ignored
-	TabIndent                  // use tabs for indentation independent of UseSpaces
-	UseSpaces                  // use spaces instead of tabs for alignment
-	SourcePos                  // emit //line directives to preserve original source positions
+	RawFormat   Mode = 1 << iota // do not use a tabwriter; if set, UseSpaces is ignored
+	TabIndent                    // use tabs for indentation independent of UseSpaces
+	UseSpaces                    // use spaces instead of tabs for alignment
+	SourcePos                    // emit //line directives to preserve original source positions
+	UseBrackets                  // use square brackets instead of parentheses for type parameters (implies unified parameter syntax)
 )
 
 // The mode below is not included in printer's public API because
@@ -1364,6 +1365,9 @@ type CommentedNode struct {
 // or assignment-compatible to ast.Expr, ast.Decl, ast.Spec, or ast.Stmt.
 //
 func (cfg *Config) Fprint(output io.Writer, fset *token.FileSet, node interface{}) error {
+	if file, _ := node.(*ast.File); file != nil && file.UseBrackets {
+		cfg.Mode |= UseBrackets
+	}
 	return cfg.fprint(output, fset, node, make(map[ast.Node]int))
 }
 
