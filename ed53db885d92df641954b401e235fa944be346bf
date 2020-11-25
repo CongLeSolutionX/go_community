@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b0494f8_7b76fd21",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-11-25T15:03:51Z",
+      "side": 1,
+      "message": "Are we giving up on supporting strict checks for interface bounds on type parameters? If so, consider removing the \u0027strict\u0027 parameter to caseTypes, assertableTo, etc. If not, perhaps leave a variation of the comment that was deleted above (\"Disabled for now...\")?",
+      "range": {
+        "startLine": 687,
+        "startChar": 44,
+        "endLine": 687,
+        "endChar": 51
+      },
+      "revId": "ed53db885d92df641954b401e235fa944be346bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
