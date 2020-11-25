@@ -38,10 +38,15 @@ var bootstrapDirs = []string{
 	"cmd/cgo",
 	"cmd/compile",
 	"cmd/compile/internal/amd64",
+	"cmd/compile/internal/base",
 	"cmd/compile/internal/arm",
 	"cmd/compile/internal/arm64",
 	"cmd/compile/internal/gc",
+<<<<<<< HEAD   (2c25cd [dev.typeparams] cmd/compile/internal/types2: a type paramet)
 	"cmd/compile/internal/importer",
+=======
+	"cmd/compile/internal/ir",
+>>>>>>> BRANCH (41f3af [dev.regabi] cmd/compile: replace *Node type with an interfa)
 	"cmd/compile/internal/logopt",
 	"cmd/compile/internal/mips",
 	"cmd/compile/internal/mips64",
@@ -74,6 +79,7 @@ var bootstrapDirs = []string{
 	"cmd/internal/sys",
 	"cmd/link",
 	"cmd/link/internal/amd64",
+	"cmd/compile/internal/base",
 	"cmd/link/internal/arm",
 	"cmd/link/internal/arm64",
 	"cmd/link/internal/benchmark",
@@ -106,6 +112,7 @@ var bootstrapDirs = []string{
 	"math/big",
 	"math/bits",
 	"sort",
+	"strconv",
 }
 
 // File prefixes that are ignored by go/build anyway, and cause
