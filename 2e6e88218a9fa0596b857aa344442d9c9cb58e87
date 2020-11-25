@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae2a460c_46908bdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-25T15:02:42Z",
+      "side": 1,
+      "message": "I\u0027m confused by the CL description and the comment in the code.\nIf random pages are being unmapped out from under us, lots more is going to break.\nIt must be that there are certain conditions under which unmapping happens\nand that they are limited to this one case. But then the comment and the\ncommit message should be more precise about the exact conditions under which\nunmapping happens. Can you make them more precise? The next reader will appreciate it.\n\nThanks.",
+      "revId": "2e6e88218a9fa0596b857aa344442d9c9cb58e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
