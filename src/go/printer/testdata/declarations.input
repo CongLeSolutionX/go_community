@@ -1005,6 +1005,10 @@ func _(struct {
 	y int
 }) // no extra comma between } and )
 
+// type parameters
+func _[A, B any](a A, b B) int {}
+func _[T any](x, y T) T
+
 // alias declarations
 
 type c0 struct{}
