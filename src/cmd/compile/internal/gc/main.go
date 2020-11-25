@@ -1255,7 +1255,7 @@ func importfile(f *Val) *types.Pkg {
 
 	// In the importfile, if we find:
 	// $$\n  (textual format): not supported anymore
-	// $$B\n (binary format) : import directly, then feed the lexer a dummy statement
+	// $$B\n (binary format) : import directly, then feed the lexer a synthesized statement
 
 	// look for $$
 	var c byte
