@@ -134,7 +134,7 @@ func addvar(n *ir.Name, t *types.Type, ctxt ir.Class) {
 
 // declare variables from grammar
 // new_name_list (type | [type] = expr_list)
-func variter(vl []ir.Node, t ir.Node, el []ir.Node) []ir.Node {
+func variter(vl []ir.Node, t ir.Ntype, el []ir.Node) []ir.Node {
 	var init []ir.Node
 	doexpr := len(el) > 0
 
@@ -222,18 +222,16 @@ func dclname(s *types.Sym) *ir.Name {
 	return n
 }
 
-func anonfield(typ *types.Type) ir.Node {
+func anonfield(typ *types.Type) *ir.Field {
 	return symfield(nil, typ)
 }
 
-func namedfield(s string, typ *types.Type) ir.Node {
+func namedfield(s string, typ *types.Type) *ir.Field {
 	return symfield(lookup(s), typ)
 }
 
-func symfield(s *types.Sym, typ *types.Type) ir.Node {
-	n := nodSym(ir.ODCLFIELD, nil, s)
-	n.SetType(typ)
-	return n
+func symfield(s *types.Sym, typ *types.Type) *ir.Field {
+	return ir.NewField(base.Pos, s, nil, typ)
 }
 
 // oldname returns the Node that declares symbol s in the current scope.
@@ -280,7 +278,8 @@ func oldname(s *types.Sym) ir.Node {
 	return n
 }
 
-// importName is like oldname, but it reports an error if sym is from another package and not exported.
+// importName is like oldname,
+// but it reports an error if sym is from another package and not exported.
 func importName(sym *types.Sym) ir.Node {
 	n := oldname(sym)
 	if !types.IsExported(sym.Name) && sym.Pkg != ir.LocalPkg {
@@ -349,12 +348,12 @@ func colasdefn(left []ir.Node, defn ir.Node) {
 
 // declare the arguments in an
 // interface field declaration.
-func ifacedcl(n ir.Node) {
-	if n.Op() != ir.ODCLFIELD || n.Left() == nil {
+func ifacedcl(n *ir.Field) {
+	if n.Sym == nil {
 		base.Fatalf("ifacedcl")
 	}
 
-	if n.Sym().IsBlank() {
+	if n.Sym.IsBlank() {
 		base.Errorf("methods must have a unique non-blank name")
 	}
 }
@@ -372,13 +371,13 @@ func funchdr(fn *ir.Func) {
 	types.Markdcl()
 
 	if fn.Nname != nil && fn.Nname.Ntype != nil {
-		funcargs(fn.Nname.Ntype)
+		funcargs(fn.Nname.Ntype.(*ir.FuncType))
 	} else {
 		funcargs2(fn.Type())
 	}
 }
 
-func funcargs(nt ir.Node) {
+func funcargs(nt *ir.FuncType) {
 	if nt.Op() != ir.OTFUNC {
 		base.Fatalf("funcargs %v", nt.Op())
 	}
@@ -390,13 +389,13 @@ func funcargs(nt ir.Node) {
 	// TODO(mdempsky): This is ugly, and only necessary because
 	// esc.go uses Vargen to figure out result parameters' index
 	// within the result tuple.
-	vargen = nt.Rlist().Len()
+	vargen = len(nt.Results)
 
 	// declare the receiver and in arguments.
-	if nt.Left() != nil {
-		funcarg(nt.Left(), ir.PPARAM)
+	if nt.Rcvr != nil {
+		funcarg(nt.Rcvr, ir.PPARAM)
 	}
-	for _, n := range nt.List().Slice() {
+	for _, n := range nt.Args {
 		funcarg(n, ir.PPARAM)
 	}
 
@@ -404,21 +403,21 @@ func funcargs(nt ir.Node) {
 	vargen = 0
 
 	// declare the out arguments.
-	gen := nt.List().Len()
-	for _, n := range nt.Rlist().Slice() {
-		if n.Sym() == nil {
+	gen := len(nt.Args)
+	for _, n := range nt.Results {
+		if n.Sym == nil {
 			// Name so that escape analysis can track it. ~r stands for 'result'.
-			n.SetSym(lookupN("~r", gen))
+			n.Sym = lookupN("~r", gen)
 			gen++
 		}
-		if n.Sym().IsBlank() {
+		if n.Sym.IsBlank() {
 			// Give it a name so we can assign to it during return. ~b stands for 'blank'.
 			// The name must be different from ~r above because if you have
 			//	func f() (_ int)
 			//	func g() int
 			// f is allowed to use a plain 'return' with no arguments, while g is not.
 			// So the two cases must be distinguished.
-			n.SetSym(lookupN("~b", gen))
+			n.Sym = lookupN("~b", gen)
 			gen++
 		}
 
@@ -428,22 +427,19 @@ func funcargs(nt ir.Node) {
 	vargen = oldvargen
 }
 
-func funcarg(n ir.Node, ctxt ir.Class) {
-	if n.Op() != ir.ODCLFIELD {
-		base.Fatalf("funcarg %v", n.Op())
-	}
-	if n.Sym() == nil {
+func funcarg(n *ir.Field, ctxt ir.Class) {
+	if n.Sym == nil {
 		return
 	}
 
-	name := ir.NewNameAt(n.Pos(), n.Sym())
-	n.SetRight(name)
-	name.Ntype = n.Left()
-	name.SetIsDDD(n.IsDDD())
+	name := ir.NewNameAt(n.Pos, n.Sym)
+	n.Decl = name
+	name.Ntype = n.Ntype
+	name.SetIsDDD(n.IsDDD)
 	declare(name, ctxt)
 
 	vargen++
-	n.Right().Name().Vargen = int32(vargen)
+	n.Decl.Name().Vargen = int32(vargen)
 }
 
 // Same as funcargs, except run over an already constructed TFUNC.
@@ -515,28 +511,22 @@ func checkembeddedtype(t *types.Type) {
 	}
 }
 
-func structfield(n ir.Node) *types.Field {
+func structfield(n *ir.Field) *types.Field {
 	lno := base.Pos
-	base.Pos = n.Pos()
+	base.Pos = n.Pos
 
-	if n.Op() != ir.ODCLFIELD {
-		base.Fatalf("structfield: oops %v\n", n)
+	if n.Ntype != nil {
+		n.Ntype = typecheckNtype(n.Ntype)
+		n.Type = n.Ntype.Type()
+		n.Ntype = nil
 	}
 
-	if n.Left() != nil {
-		n.SetLeft(typecheck(n.Left(), ctxType))
-		n.SetType(n.Left().Type())
-		n.SetLeft(nil)
-	}
-
-	f := types.NewField(n.Pos(), n.Sym(), n.Type())
-	if n.Embedded() {
-		checkembeddedtype(n.Type())
+	f := types.NewField(n.Pos, n.Sym, n.Type)
+	if n.Embedded {
+		checkembeddedtype(n.Type)
 		f.Embedded = 1
 	}
-	if n.Opt() != nil {
-		f.Note = n.Opt().(string)
-	}
+	f.Note = n.Note
 
 	base.Pos = lno
 	return f
@@ -562,7 +552,7 @@ func checkdupfields(what string, fss ...[]*types.Field) {
 
 // convert a parsed id/type list into
 // a type for struct/interface/arglist
-func tostruct(l []ir.Node) *types.Type {
+func tostruct(l []*ir.Field) *types.Type {
 	t := types.New(types.TSTRUCT)
 
 	fields := make([]*types.Field, len(l))
@@ -584,17 +574,17 @@ func tostruct(l []ir.Node) *types.Type {
 	return t
 }
 
-func tofunargs(l []ir.Node, funarg types.Funarg) *types.Type {
+func tofunargs(l []*ir.Field, funarg types.Funarg) *types.Type {
 	t := types.New(types.TSTRUCT)
 	t.StructType().Funarg = funarg
 
 	fields := make([]*types.Field, len(l))
 	for i, n := range l {
 		f := structfield(n)
-		f.SetIsDDD(n.IsDDD())
-		if n.Right() != nil {
-			n.Right().SetType(f.Type)
-			f.Nname = n.Right()
+		f.SetIsDDD(n.IsDDD)
+		if n.Decl != nil {
+			n.Decl.SetType(f.Type)
+			f.Nname = n.Decl
 		}
 		if f.Broke() {
 			t.SetBroke(true)
@@ -612,15 +602,11 @@ func tofunargsfield(fields []*types.Field, funarg types.Funarg) *types.Type {
 	return t
 }
 
-func interfacefield(n ir.Node) *types.Field {
+func interfacefield(n *ir.Field) *types.Field {
 	lno := base.Pos
-	base.Pos = n.Pos()
+	base.Pos = n.Pos
 
-	if n.Op() != ir.ODCLFIELD {
-		base.Fatalf("interfacefield: oops %v\n", n)
-	}
-
-	if n.Opt() != nil {
+	if n.Note != "" {
 		base.Errorf("interface method cannot have annotation")
 	}
 
@@ -629,19 +615,19 @@ func interfacefield(n ir.Node) *types.Field {
 	// If Sym != nil, then Sym is MethodName and Left is Signature.
 	// Otherwise, Left is InterfaceTypeName.
 
-	if n.Left() != nil {
-		n.SetLeft(typecheck(n.Left(), ctxType))
-		n.SetType(n.Left().Type())
-		n.SetLeft(nil)
+	if n.Ntype != nil {
+		n.Ntype = typecheckNtype(n.Ntype)
+		n.Type = n.Ntype.Type()
+		n.Ntype = nil
 	}
 
-	f := types.NewField(n.Pos(), n.Sym(), n.Type())
+	f := types.NewField(n.Pos, n.Sym, n.Type)
 
 	base.Pos = lno
 	return f
 }
 
-func tointerface(l []ir.Node) *types.Type {
+func tointerface(l []*ir.Field) *types.Type {
 	if len(l) == 0 {
 		return types.Types[types.TINTER]
 	}
@@ -658,7 +644,7 @@ func tointerface(l []ir.Node) *types.Type {
 	return t
 }
 
-func fakeRecv() ir.Node {
+func fakeRecv() *ir.Field {
 	return anonfield(types.FakeRecvType())
 }
 
@@ -674,12 +660,12 @@ func isifacemethod(f *types.Type) bool {
 }
 
 // turn a parsed function declaration into a type
-func functype(this ir.Node, in, out []ir.Node) *types.Type {
+func functype(this *ir.Field, in, out []*ir.Field) *types.Type {
 	t := types.New(types.TFUNC)
 
-	var rcvr []ir.Node
+	var rcvr []*ir.Field
 	if this != nil {
-		rcvr = []ir.Node{this}
+		rcvr = []*ir.Field{this}
 	}
 	t.FuncType().Receiver = tofunargs(rcvr, types.FunargRcvr)
 	t.FuncType().Params = tofunargs(in, types.FunargParams)
@@ -924,7 +910,7 @@ func setNodeNameFunc(n ir.Node) {
 	n.Sym().SetFunc(true)
 }
 
-func dclfunc(sym *types.Sym, tfn ir.Node) *ir.Func {
+func dclfunc(sym *types.Sym, tfn ir.Ntype) *ir.Func {
 	if tfn.Op() != ir.OTFUNC {
 		base.Fatalf("expected OTFUNC node, got %v", tfn)
 	}
@@ -935,7 +921,7 @@ func dclfunc(sym *types.Sym, tfn ir.Node) *ir.Func {
 	fn.Nname.Ntype = tfn
 	setNodeNameFunc(fn.Nname)
 	funchdr(fn)
-	fn.Nname.Ntype = typecheck(fn.Nname.Ntype, ctxType)
+	fn.Nname.Ntype = typecheckNtype(fn.Nname.Ntype)
 	return fn
 }
 
