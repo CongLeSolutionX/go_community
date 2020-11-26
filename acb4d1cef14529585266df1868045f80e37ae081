@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "738ec50f_229b4a05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37123
+      },
+      "writtenOn": "2020-11-26T09:28:10Z",
+      "side": 1,
+      "message": "Hi Russ!\n\nIn the CL, it appeared you were using a cli called `rf` to perform this change. I tried googline around (variations of \"rf refactor cli golang\") but couldn\u0027t find it... could you point me in the right direction, assuming I\u0027m right that its a CLI? ",
+      "revId": "acb4d1cef14529585266df1868045f80e37ae081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
