@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2fd1f94_fa89a679",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-26T20:35:37Z",
+      "side": 1,
+      "message": "Seems like a reasonable fix to me, but I\u0027ll leave it to David and Cherry to approve. I don\u0027t know SSA well enough.\n\nIs it reasonable to add a regress test for this?",
+      "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
