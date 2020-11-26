@@ -1580,7 +1580,7 @@ opswitch:
 		n = walkclosure(n, init)
 
 	case ir.OCALLPART:
-		n = walkpartialcall(n, init)
+		n = walkpartialcall(n.(*ir.CallPartExpr), init)
 	}
 
 	// Expressions that are constant at run time but not
