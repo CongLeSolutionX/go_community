@@ -50,6 +50,24 @@
       "message": "I\u0027d add \"in test\" to the git subject",
       "revId": "18744120b8d5ae25d4f6c9ed247d50e095fc48fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ab287c_11f280d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-27T20:31:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "7db39192_d1cd7ef1",
+      "revId": "18744120b8d5ae25d4f6c9ed247d50e095fc48fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
