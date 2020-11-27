@@ -56,6 +56,30 @@
       },
       "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6332eb2d_b3f86692",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-11-27T03:08:03Z",
+      "side": 1,
+      "message": "Ah right, \"initpos.WithNotStmt()\" seems better. Also, must we change the construct of \"cmd/compile/internal/gc/ssa.go:state.{sp,sb}\"? They are passed as NoXPos for now)",
+      "parentUuid": "860582fa_3fc7902f",
+      "range": {
+        "startLine": 792,
+        "startChar": 25,
+        "endLine": 792,
+        "endChar": 35
+      },
+      "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
