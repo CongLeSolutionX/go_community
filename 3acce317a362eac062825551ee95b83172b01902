@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb455d7_38ae6d1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-27T21:51:14Z",
+      "side": 1,
+      "message": "LGTM\n\nI am sure this used to work on windows/arm (on raspberry pi). But we can adjust this later, if needed.\n\nAlex",
+      "revId": "3acce317a362eac062825551ee95b83172b01902",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
