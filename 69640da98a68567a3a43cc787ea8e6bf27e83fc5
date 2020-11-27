@@ -16,6 +16,46 @@
       "message": "Seems like a reasonable fix to me, but I\u0027ll leave it to David and Cherry to approve. I don\u0027t know SSA well enough.\n\nIs it reasonable to add a regress test for this?",
       "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aee62225_e390586e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-27T02:48:47Z",
+      "side": 1,
+      "message": "Sorry I didn\u0027t get to this yet; I took Monday-Wednesday off, today is Thanksgiving, and I think tomorrow is a holiday also (and if it isn\u0027t I am taking it off).\n\nI am nonetheless thrilled that you jumped on this, if you want to play with my suggestions that is wonderful, if you would rather I do that work, that is also fine.  There\u0027s likely to be more work adjusting debugger information for the 1.17 release; changing to the register ABI is likely to mess things up somewhat.",
+      "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "860582fa_3fc7902f",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-27T02:48:47Z",
+      "side": 1,
+      "message": "A better choice for this is probably \"initpos.WithNotStmt()\".\nAs a general rule we like to leave line numbers on assembly language for profiling, and since there\u0027s a chance the line numbers for OpSP and OpSB might get copied elsewhere, a number but explicitly not a debugging statement should be better.  An alternative, and I think it\u0027s an oversight on my part to not have done it already, would be to add OpSP and OpSB to the list in isPoorStatementOp (ssa/numberlines.go) -- they should be there, and that would tend to make them last choice for a statement boundary.",
+      "range": {
+        "startLine": 792,
+        "startChar": 25,
+        "endLine": 792,
+        "endChar": 35
+      },
+      "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
