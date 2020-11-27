@@ -349,9 +349,12 @@ func genARM64() {
 	p("MOVD R29, -8(RSP)") // save frame pointer (only used on Linux)
 	p("SUB $8, RSP, R29")  // set up new frame pointer
 	p("#endif")
-	// On iOS, save the LR again after decrementing SP. We run the
-	// signal handler on the G stack (as it doesn't support sigaltstack),
+	// On darwin, save the LR again after decrementing SP. We run the
+	// signal handler on the G stack (as it doesn't support SA_ONSTACK),
 	// so any writes below SP may be clobbered.
+	p("#ifdef GOOS_darwin")
+	p("MOVD R30, (RSP)")
+	p("#endif")
 	p("#ifdef GOOS_ios")
 	p("MOVD R30, (RSP)")
 	p("#endif")

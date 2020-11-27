@@ -288,9 +288,9 @@ func mpreinit(mp *m) {
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, cannot allocate memory.
 func minit() {
-	// iOS does not support alternate signal stack.
+	// The alternate signal stack is buggy on arm64.
 	// The signal handler handles it directly.
-	if !(GOOS == "ios" && GOARCH == "arm64") {
+	if GOARCH != "arm64" {
 		minitSignalStack()
 	}
 	minitSignalMask()
@@ -300,9 +300,9 @@ func minit() {
 // Called from dropm to undo the effect of an minit.
 //go:nosplit
 func unminit() {
-	// iOS does not support alternate signal stack.
+	// The alternate signal stack is buggy on arm64.
 	// See minit.
-	if !(GOOS == "ios" && GOARCH == "arm64") {
+	if GOARCH != "arm64" {
 		unminitSignals()
 	}
 }
