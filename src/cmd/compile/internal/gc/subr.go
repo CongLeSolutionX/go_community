@@ -1196,6 +1196,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	if rcvr.IsPtr() && rcvr.Elem() == method.Type.Recv().Type && rcvr.Elem().Sym != nil {
 		inlcalls(fn)
 	}
+
 	escapeFuncs([]*ir.Func{fn}, false)
 
 	Curfn = nil
