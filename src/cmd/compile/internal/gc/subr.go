@@ -102,7 +102,7 @@ func autolabel(prefix string) *types.Sym {
 
 // find all the exported symbols in package opkg
 // and make them available in the current package
-func importdot(opkg *types.Pkg, pack ir.Node) {
+func importdot(opkg *types.Pkg, pack *ir.Pack) {
 	n := 0
 	for _, s := range opkg.Syms {
 		if s.Def == nil {
