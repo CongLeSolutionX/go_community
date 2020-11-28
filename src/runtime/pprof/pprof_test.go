@@ -286,6 +286,10 @@ func testCPUProfile(t *testing.T, matches matchFunc, need []string, avoid []stri
 		if runtime.GOARCH == "arm" || runtime.GOARCH == "arm64" {
 			broken = true
 		}
+	case "windows":
+		if runtime.GOARCH == "arm" {
+			broken = true
+		}
 	}
 
 	maxDuration := 5 * time.Second
