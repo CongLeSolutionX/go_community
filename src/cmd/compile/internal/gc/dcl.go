@@ -207,6 +207,7 @@ func newfuncnamel(pos src.XPos, s *types.Sym, fn *ir.Func) ir.Node {
 	}
 	n := ir.NewNameAt(pos, s)
 	n.SetFunc(fn)
+	n.SetPos(pos)
 	fn.Nname = n
 	return n
 }
