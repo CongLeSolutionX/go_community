@@ -16,6 +16,24 @@
       "message": "It is interesting that the gc compiler only emits the first error.",
       "revId": "34d11c7e48a9d8920021da4d7459dea9f8fa8c38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9352599a_fff2f5e6",
+        "filename": "test/fixedbugs/bug176.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-11-28T02:29:56Z",
+      "side": 1,
+      "message": "I *think* it\u0027s because the first line marks x as erroneous, and that inhibits the second error.",
+      "parentUuid": "358212db_c48c2b7d",
+      "revId": "34d11c7e48a9d8920021da4d7459dea9f8fa8c38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
