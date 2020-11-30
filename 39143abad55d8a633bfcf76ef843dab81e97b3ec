@@ -94,6 +94,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce21f34_c9623894",
+        "filename": "src/cmd/vendor/golang.org/x/sys/windows/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-11-30T15:55:51Z",
+      "side": 1,
+      "message": "Makes sense. I\u0027ll do that and send a new version.",
+      "parentUuid": "c57f9b5c_c313a805",
+      "revId": "39143abad55d8a633bfcf76ef843dab81e97b3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c861b36_ca29d7fb",
