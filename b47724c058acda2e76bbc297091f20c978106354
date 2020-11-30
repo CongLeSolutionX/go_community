@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dfa4c33_4711b93f",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:22:29Z",
+      "side": 1,
+      "message": "Yes. Computing lhs requires calling p.assignList, which must be passed n, so that it can record in each of the generated left-hand names l.Defn \u003d n. So we can\u0027t use lhs to make the decision about n.Op.",
+      "parentUuid": "41ae9ea2_d3a3dcc2",
+      "range": {
+        "startLine": 1005,
+        "startChar": 5,
+        "endLine": 1005,
+        "endChar": 75
+      },
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "418953ea_c971f7f0",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-30T18:46:08Z",
       "side": 1,
       "message": "Move this comment down next to \"if r.Colas()\"?",
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "482ead0c_f48da9fa",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "418953ea_c971f7f0",
       "revId": "b47724c058acda2e76bbc297091f20c978106354",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +100,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53bffbf5_89216d39",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:22:29Z",
+      "side": 1,
+      "message": "Indeed, sorry.",
+      "parentUuid": "12d2cfc1_7a6cb82f",
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58b55860_b5b12aee",
@@ -71,6 +131,30 @@
       "writtenOn": "2020-11-30T18:46:08Z",
       "side": 1,
       "message": "Is there a reason for using both old and n here? Seems like you can get rid of old. Or if you want to emphasize it for clarity, to also use it for these arguments.",
+      "range": {
+        "startLine": 611,
+        "startChar": 21,
+        "endLine": 611,
+        "endChar": 22
+      },
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80cf562e_1dd91f14",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:22:29Z",
+      "side": 1,
+      "message": "No, I think it just started out as multiple statements. Done.",
+      "parentUuid": "58b55860_b5b12aee",
       "range": {
         "startLine": 611,
         "startChar": 21,

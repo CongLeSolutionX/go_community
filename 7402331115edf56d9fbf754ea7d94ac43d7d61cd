@@ -22,6 +22,30 @@
       },
       "revId": "7402331115edf56d9fbf754ea7d94ac43d7d61cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "461bf9fa_37dbfc62",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:22:29Z",
+      "side": 0,
+      "message": "It just seemed pretty convoluted and was hard to maintain given the two now-more-different representations of OSELRECV and OSELRECV2. Seemed like a lot of code for a base.Fatalf that clearly isn\u0027t triggering. But I found a better way to write it. Restored.",
+      "parentUuid": "c96a8e96_20080a16",
+      "range": {
+        "startLine": 874,
+        "startChar": 4,
+        "endLine": 890,
+        "endChar": 5
+      },
+      "revId": "7402331115edf56d9fbf754ea7d94ac43d7d61cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
