@@ -59,6 +59,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a2b293_25d5efde",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:02:58Z",
+      "side": 1,
+      "message": "I didn\u0027t manage to make a test case but I handled the OTYPE case anyway in each DeepCopy method. (If the node has collapsed to OTYPE, there are no nodes left, so the \"copy\" need not be a copy at all. treecopy never copied OTYPE nodes before.)",
+      "parentUuid": "cb1f32fe_2e54afa9",
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fdd73be_eb4e80a0",
@@ -131,6 +149,24 @@
       "side": 1,
       "message": "SGTM. I\u0027ve been generally trying to slowly move the compiler towards the same names that go/types and go/ast used where appropriate. (Sometimes they\u0027re inconsistent though, and I tend to favor go/types; e.g., \"Elem\" over \"Elt\".)",
       "parentUuid": "a2cfe999_dd1ff52f",
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed756455_ee924304",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "677225bf_d29ad64c",
       "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
