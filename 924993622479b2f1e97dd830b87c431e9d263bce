@@ -16,6 +16,24 @@
       "message": "Looks fine. I\u0027d be surprised that OpSB/OpSP\u0027s Pos ever made into code generation.",
       "revId": "924993622479b2f1e97dd830b87c431e9d263bce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a65c064a_84e354b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-11-30T19:46:23Z",
+      "side": 1,
+      "message": "This is introduced in the expand_calls pass, as SP is used to compute store/load args.",
+      "parentUuid": "01666d46_4dc36f5c",
+      "revId": "924993622479b2f1e97dd830b87c431e9d263bce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
