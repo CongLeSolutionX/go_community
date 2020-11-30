@@ -51,6 +51,24 @@
       "message": "LGTM\nOpSP and OpSB Pos ought not end up in code generation, but they can be a source of line numbers for other code, sometimes.",
       "revId": "924993622479b2f1e97dd830b87c431e9d263bce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbe3bfa9_993494b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-30T21:01:22Z",
+      "side": 1,
+      "message": "In this case, I think the load/store should get the Pos of the call. (Anyway, this CL is fine.)",
+      "parentUuid": "a65c064a_84e354b4",
+      "revId": "924993622479b2f1e97dd830b87c431e9d263bce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
