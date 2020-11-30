@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67793729_dd646d10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T21:40:22Z",
+      "side": 1,
+      "message": "I looked through this. Happy to see us trimming nodes further. Some high-level thoughts:\n\n1. I\u0027d like us to move towards better separation between Stmts and Exprs, like in go/ast. But this CL introduces a few places where we wrap statements (e.g., OGOTO in inl.go, and ODEFER/OGO in walk.go) in OSTMTEXPR, which is not ideal. For now, I\u0027d lean towards keeping the init field on those statements, or add a separate function for wrapping statements in a block.\n\n2. There\u0027s some code that treats OSTMTEXPR as an lvalue (e.g., typecheck.go and escape.go), but it\u0027s not treated as one in ssa.go. I think it shouldn\u0027t need to be an lvalue? I\u0027d at least prefer it not be one.\n\n3. I\u0027ve always found \"addinit(n, init)\" confusing, because you want init to run before n.Init (and that\u0027s what addinit does), but the name sounds to me like it\u0027s going to append init to n.Init. What do you think about renaming it to \"PrependInit\" or \"WrapInit\", and/or swapping the argument order (to further hint that \"init\" is executed before n.Init)?",
+      "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
