@@ -34,6 +34,24 @@
       "parentUuid": "67793729_dd646d10",
       "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d6c2d3a_d72e0dab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T22:29:37Z",
+      "side": 1,
+      "message": "Oh, and I did start to add a separate GotoStmt so it could hold an init, which would be about half of the times AddInit adds a new wrapping (all for inlining). But the other half (still all for inlining) is inlconv2expr, which is wrapping an ONAME. So there\u0027s definitely going to be wrapping with OSTMTEXPR for the ONAMEs, and I stopped myself from special-casing OGOTO as premature optimization. But I don\u0027t have a feel for the exact implications and if you tell me that giving OGOTO its own init list is not premature, then I\u0027m happy to do it.",
+      "parentUuid": "3552ce05_9c333c34",
+      "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
