@@ -913,6 +913,9 @@ func stmtFmt(n Node, s fmt.State, mode FmtMode) {
 	case ODCL:
 		mode.Fprintf(s, "var %v %v", n.Left().Sym(), n.Left().Type())
 
+	case OSTMTEXPR:
+		mode.Fprintf(s, "%v", n.Left())
+
 	// Don't export "v = <N>" initializing statements, hope they're always
 	// preceded by the DCL which will be re-parsed and typechecked to reproduce
 	// the "v = <N>" again.
@@ -1456,6 +1459,11 @@ func exprFmt(n Node, s fmt.State, prec int, mode FmtMode) {
 		} else {
 			mode.Fprintf(s, "(%.v)", n.List())
 		}
+
+	case OSTMTEXPR:
+		// Ignore init, same as we always have.
+		// The init list is internally-generated stuff anyway.
+		mode.Fprintf(s, "%v", n.Left())
 
 	case OREAL,
 		OIMAG,
