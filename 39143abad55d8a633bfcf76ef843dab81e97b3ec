@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d39bf373_2115b091",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-30T07:41:01Z",
+      "side": 1,
+      "message": "Remove, if you leave vendored files out.",
+      "range": {
+        "startLine": 12,
+        "startChar": 36,
+        "endLine": 12,
+        "endChar": 67
+      },
+      "revId": "39143abad55d8a633bfcf76ef843dab81e97b3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b4d4835_70074dc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-30T07:41:01Z",
+      "side": 1,
+      "message": "Thank you for fixing this, Jason.\n\nLGTM, but I would give chance to someone from Go Team to comment before we submit.\n\nPlease, ping me in a couple of days, and I will upgrade my +1 to +2.\n\nThank you.\n\nAlex\n\n\n\u003e Patch Set 1:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on windows-386-2008:\n\u003e See https://storage.googleapis.com/go-build-log/39143aba/windows-386-2008_b3928782.log\n\u003e \n\u003e Other builds still in progress; subsequent failure notices suppressed until final report. Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\nProbably\n\nhttps://github.com/golang/go/issues/41450",
+      "revId": "39143abad55d8a633bfcf76ef843dab81e97b3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d564954d_50eaeea8",
+        "filename": "src/cmd/vendor/golang.org/x/sys/windows/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-30T07:41:01Z",
+      "side": 1,
+      "message": "I am not sure, if you should update vendored files. Perhaps they should be updated in a separate commit. Dmitri?",
+      "revId": "39143abad55d8a633bfcf76ef843dab81e97b3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c861b36_ca29d7fb",
+        "filename": "src/cmd/vendor/golang.org/x/sys/windows/zsyscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-11-30T07:41:01Z",
+      "side": 1,
+      "message": "Same as the other file in vendor.",
+      "revId": "39143abad55d8a633bfcf76ef843dab81e97b3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
