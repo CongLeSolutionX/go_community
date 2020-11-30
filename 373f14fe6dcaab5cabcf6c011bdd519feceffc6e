@@ -16,6 +16,24 @@
       "message": "I looked through this. Happy to see us trimming nodes further. Some high-level thoughts:\n\n1. I\u0027d like us to move towards better separation between Stmts and Exprs, like in go/ast. But this CL introduces a few places where we wrap statements (e.g., OGOTO in inl.go, and ODEFER/OGO in walk.go) in OSTMTEXPR, which is not ideal. For now, I\u0027d lean towards keeping the init field on those statements, or add a separate function for wrapping statements in a block.\n\n2. There\u0027s some code that treats OSTMTEXPR as an lvalue (e.g., typecheck.go and escape.go), but it\u0027s not treated as one in ssa.go. I think it shouldn\u0027t need to be an lvalue? I\u0027d at least prefer it not be one.\n\n3. I\u0027ve always found \"addinit(n, init)\" confusing, because you want init to run before n.Init (and that\u0027s what addinit does), but the name sounds to me like it\u0027s going to append init to n.Init. What do you think about renaming it to \"PrependInit\" or \"WrapInit\", and/or swapping the argument order (to further hint that \"init\" is executed before n.Init)?",
       "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3552ce05_9c333c34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T22:27:32Z",
+      "side": 1,
+      "message": "1. We should never wrap a statement in OSTMTEXPR.\nWe should wrap statements in OEMPTY.\nir.AddInit uses a type assertion to decide.\nSo for example the OGOTO in inl.go should be (and I believe is) getting wrapped in an OEMPTY, not an OSTMTEXPR.\n\nI tried using OBLOCK (the doc comment says it does, but needs updating) instead of OEMPTY, but it looks like OBLOCK is basically never used inside the compiler anymore and all the code was already expecting OEMPTY to be used for this purpose. I started adding case OBLOCK next to case OEMPTY in lots of places and then gave up and used OEMPTY directly. We could just delete OBLOCK and then mv OEMPTY OBLOCK.\n\n2. Like it or not (and I don\u0027t really like it), there\u0027s definitely code today that needs to put init code on an lvalue. The specific test that cares about this is test/closure2.go:\n\n\t{\n\t\tvar g func() int\n\t\tvar a [2]int\n\t\tq :\u003d 0\n\t\tfor a[func() int {\n\t\t\tq++\n\t\t\treturn 0\n\t\t}()] \u003d range [2]int{} {\n\t\t\tg \u003d func() int {\n\t\t\t\treturn q // test that we capture by ref here\n\t\t\t\t// q++ must on a different decldepth than q declaration\n\t\t\t}\n\t\t}\n\t\tif g() !\u003d 2 {\n\t\t\tpanic(\"g() !\u003d 2\")\n\t\t}\n\t}\n\nThe inlined closure call computing the index into the lvalue for the range loop is what needs wrapping. I tried to move the init off the lvalue into a higher-level place like the range\u0027s init, but I couldn\u0027t convince myself it was correct and when I tried it didn\u0027t work anyway. It\u0027s possible there\u0027s a correct way to do it, but I couldn\u0027t find it.\n\nToday the init code is on an OINDEX instead of inside an OSTMTEXPR, but I think it\u0027s arguably clearer to use the OSTMTEXPR than forget that an OINDEX can have initialization. I\u0027d be happy to see this cleaned up more. The cleanup would be in order.go.\n\n3. I agree about the order. Will think more about that.",
+      "parentUuid": "67793729_dd646d10",
+      "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
