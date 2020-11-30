@@ -1313,26 +1313,35 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 	out.Version = in.TBSCertificate.Version + 1
 	out.SerialNumber = in.TBSCertificate.SerialNumber
 
-	var issuer, subject pkix.RDNSequence
-	if rest, err := asn1.Unmarshal(in.TBSCertificate.Subject.FullBytes, &subject); err != nil {
+	subject, err := parseName(in.TBSCertificate.Subject.FullBytes)
+	if err != nil {
 		return nil, err
-	} else if len(rest) != 0 {
-		return nil, errors.New("x509: trailing data after X.509 subject")
 	}
-	if rest, err := asn1.Unmarshal(in.TBSCertificate.Issuer.FullBytes, &issuer); err != nil {
+	issuer, err := parseName(in.TBSCertificate.Issuer.FullBytes)
+	if err != nil {
 		return nil, err
-	} else if len(rest) != 0 {
-		return nil, errors.New("x509: trailing data after X.509 issuer")
 	}
 
-	out.Issuer.FillFromRDNSequence(&issuer)
-	out.Subject.FillFromRDNSequence(&subject)
+	out.Issuer.FillFromRDNSequence(issuer)
+	out.Subject.FillFromRDNSequence(subject)
 
 	out.NotBefore = in.TBSCertificate.Validity.NotBefore
 	out.NotAfter = in.TBSCertificate.Validity.NotAfter
 
-	for _, e := range in.TBSCertificate.Extensions {
-		out.Extensions = append(out.Extensions, e)
+	out.Extensions = make([]pkix.Extension, len(in.TBSCertificate.Extensions))
+	copy(out.Extensions, in.TBSCertificate.Extensions)
+
+	err = processExtensions(out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func processExtensions(out *Certificate) error {
+	var err error
+	for _, e := range out.Extensions {
 		unhandled := false
 
 		if len(e.Id) == 4 && e.Id[0] == 2 && e.Id[1] == 5 && e.Id[2] == 29 {
@@ -1340,19 +1349,19 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 			case 15:
 				out.KeyUsage, err = parseKeyUsageExtension(e.Value)
 				if err != nil {
-					return nil, err
+					return err
 				}
 			case 19:
 				out.IsCA, out.MaxPathLen, err = parseBasicConstraintsExtension(e.Value)
 				if err != nil {
-					return nil, err
+					return err
 				}
 				out.BasicConstraintsValid = true
 				out.MaxPathLenZero = out.MaxPathLen == 0
 			case 17:
 				out.DNSNames, out.EmailAddresses, out.IPAddresses, out.URIs, err = parseSANExtension(e.Value)
 				if err != nil {
-					return nil, err
+					return err
 				}
 
 				if len(out.DNSNames) == 0 && len(out.EmailAddresses) == 0 && len(out.IPAddresses) == 0 && len(out.URIs) == 0 {
@@ -1363,7 +1372,7 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 			case 30:
 				unhandled, err = parseNameConstraintsExtension(out, e)
 				if err != nil {
-					return nil, err
+					return err
 				}
 
 			case 31:
@@ -1382,9 +1391,9 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 
 				var cdp []distributionPoint
 				if rest, err := asn1.Unmarshal(e.Value, &cdp); err != nil {
-					return nil, err
+					return err
 				} else if len(rest) != 0 {
-					return nil, errors.New("x509: trailing data after X.509 CRL distribution point")
+					return errors.New("x509: trailing data after X.509 CRL distribution point")
 				}
 
 				for _, dp := range cdp {
@@ -1404,26 +1413,26 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 				// RFC 5280, 4.2.1.1
 				var a authKeyId
 				if rest, err := asn1.Unmarshal(e.Value, &a); err != nil {
-					return nil, err
+					return err
 				} else if len(rest) != 0 {
-					return nil, errors.New("x509: trailing data after X.509 authority key-id")
+					return errors.New("x509: trailing data after X.509 authority key-id")
 				}
 				out.AuthorityKeyId = a.Id
 
 			case 37:
 				out.ExtKeyUsage, out.UnknownExtKeyUsage, err = parseExtKeyUsageExtension(e.Value)
 				if err != nil {
-					return nil, err
+					return err
 				}
 			case 14:
 				out.SubjectKeyId, err = parseSubjectKeyIdExtension(e.Value)
 				if err != nil {
-					return nil, err
+					return err
 				}
 			case 32:
 				out.PolicyIdentifiers, err = parseCertificatePoliciesExtension(e.Value)
 				if err != nil {
-					return nil, err
+					return err
 				}
 			default:
 				// Unknown extensions are recorded if critical.
@@ -1433,9 +1442,9 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 			// RFC 5280 4.2.2.1: Authority Information Access
 			var aia []authorityInfoAccess
 			if rest, err := asn1.Unmarshal(e.Value, &aia); err != nil {
-				return nil, err
+				return err
 			} else if len(rest) != 0 {
-				return nil, errors.New("x509: trailing data after X.509 authority information")
+				return errors.New("x509: trailing data after X.509 authority information")
 			}
 
 			for _, v := range aia {
@@ -1459,7 +1468,7 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 		}
 	}
 
-	return out, nil
+	return nil
 }
 
 // parseKeyUsageExtension parses id-ce-keyUsage (2.5.29.15) from RFC 5280
