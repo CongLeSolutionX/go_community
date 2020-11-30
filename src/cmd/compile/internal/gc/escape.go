@@ -491,6 +491,9 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 		}
 		e.flow(k, e.oldLoc(n))
 
+	case ir.OSTMTEXPR:
+		e.expr(k, n.Left())
+
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
 		e.discard(n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE, ir.OANDAND, ir.OOROR:

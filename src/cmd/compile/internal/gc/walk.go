@@ -159,7 +159,7 @@ func walkstmt(n ir.Node) ir.Node {
 			e.SetInit(n.Init())
 			n = e
 		}
-		n = addinit(n, init.Slice())
+		n = ir.AddInit(n, init.Slice())
 
 	// special case for a receive where we throw away
 	// the value received.
@@ -173,8 +173,7 @@ func walkstmt(n ir.Node) ir.Node {
 		n.SetLeft(walkexpr(n.Left(), &init))
 		n = mkcall1(chanfn("chanrecv1", 2, n.Left().Type()), nil, &init, n.Left(), nodnil())
 		n = walkexpr(n, &init)
-
-		n = addinit(n, init.Slice())
+		n = ir.AddInit(n, init.Slice())
 
 	case ir.OBREAK,
 		ir.OCONTINUE,
@@ -226,30 +225,32 @@ func walkstmt(n ir.Node) ir.Node {
 		}
 		fallthrough
 	case ir.OGO:
+		var init ir.Nodes
 		switch n.Left().Op() {
 		case ir.OPRINT, ir.OPRINTN:
-			n.SetLeft(wrapCall(n.Left(), n.PtrInit()))
+			n.SetLeft(wrapCall(n.Left(), &init))
 
 		case ir.ODELETE:
 			if mapfast(n.Left().List().First().Type()) == mapslow {
-				n.SetLeft(wrapCall(n.Left(), n.PtrInit()))
+				n.SetLeft(wrapCall(n.Left(), &init))
 			} else {
-				n.SetLeft(walkexpr(n.Left(), n.PtrInit()))
+				n.SetLeft(walkexpr(n.Left(), &init))
 			}
 
 		case ir.OCOPY:
-			n.SetLeft(copyany(n.Left(), n.PtrInit(), true))
+			n.SetLeft(copyany(n.Left(), &init, true))
 
 		case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER:
 			if n.Left().Body().Len() > 0 {
-				n.SetLeft(wrapCall(n.Left(), n.PtrInit()))
+				n.SetLeft(wrapCall(n.Left(), &init))
 			} else {
-				n.SetLeft(walkexpr(n.Left(), n.PtrInit()))
+				n.SetLeft(walkexpr(n.Left(), &init))
 			}
 
 		default:
-			n.SetLeft(walkexpr(n.Left(), n.PtrInit()))
+			n.SetLeft(walkexpr(n.Left(), &init))
 		}
+		n = ir.AddInit(n, init.Slice())
 
 	case ir.OFOR, ir.OFORUNTIL:
 		if n.Left() != nil {
@@ -257,7 +258,7 @@ func walkstmt(n ir.Node) ir.Node {
 			init := n.Left().Init()
 			n.Left().PtrInit().Set(nil)
 			n.SetLeft(walkexpr(n.Left(), &init))
-			n.SetLeft(addinit(n.Left(), init.Slice()))
+			n.SetLeft(ir.AddInit(n.Left(), init.Slice()))
 		}
 
 		n.SetRight(walkstmt(n.Right()))
@@ -436,12 +437,22 @@ func walkexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		// not okay to use n->ninit when walking n,
 		// because we might replace n with some other node
 		// and would lose the init list.
+		// One thing this panic can mean is that, farther up the call stack,
+		// init was gotten from n.PtrInit() on a node that does't have an init
+		// list, so that node returned &ir.immutableEmptyNodes.
+		// And this node n *also* doesn't have one and returned the same.
+		// But the bug is farther up the call stack: whatever contributed
+		// n.PtrInit that doesn't actually have one.
 		base.Fatalf("walkexpr init == &n->ninit")
 	}
 
 	if n.Init().Len() != 0 {
 		walkstmtlist(n.Init().Slice())
 		init.AppendNodes(n.PtrInit())
+	}
+	if n.Op() == ir.OSTMTEXPR {
+		// Handled the init list; all that's left is the expression.
+		return walkexpr(n.Left(), init)
 	}
 
 	lno := setlineno(n)
@@ -546,7 +557,7 @@ opswitch:
 		var ll ir.Nodes
 
 		n.SetRight(walkexpr(n.Right(), &ll))
-		n.SetRight(addinit(n.Right(), ll.Slice()))
+		n.SetRight(ir.AddInit(n.Right(), ll.Slice()))
 
 	case ir.OPRINT, ir.OPRINTN:
 		n = walkprint(n, init)
