@@ -142,6 +142,45 @@ func MayBeShared(n Node) bool {
 	return false
 }
 
+// A Node may implement the AddInit method to provide access to its Init list,
+// so that AddInit can insert new initialization code to run before
+// the node directly, rather than wrapping in a BlockStmt or StmtExpr.
+type AddInitNode interface {
+	Node
+	AddInit(init []Node) Node
+}
+
+// AddInit either modifies or wraps n to add the list of init statements
+// to cause them to happen before n itself. It modifies n if n implements PtrInit.
+// Otherwise, if n is an expression, AddInit wraps n in a StmtExpr.
+// Othewrise, AddInit wraps n in a Block.
+//
+// The result of AddInit must be assigned back to where n came from, as in:
+//
+//	n.X = ir.AddInit(n.X, init)
+//
+func AddInit(n Node, init []Node) Node {
+	if len(init) == 0 {
+		return n
+	}
+	var ai AddInitNode
+	if nn, ok := n.(AddInitNode); ok {
+		ai = nn
+	} else if _, ok := n.(Expr); ok {
+		// Wrap in StmtExpr.
+		w := NewStmtExpr(n.Pos(), nil, n)
+		w.SetType(n.Type())
+		w.SetEsc(n.Esc())
+		w.SetTypecheck(n.Typecheck())
+		ai = w
+	} else {
+		e := NewEmptyStmt(n.Pos())
+		e.PtrInit().Set1(n)
+		ai = e
+	}
+	return ai.AddInit(init)
+}
+
 //go:generate stringer -type=Op -trimprefix=O
 
 type Op uint8

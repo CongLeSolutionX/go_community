@@ -522,8 +522,8 @@ func inlcalls(fn *ir.Func) {
 // Turn an OINLCALL into a statement.
 func inlconv2stmt(inlcall ir.Node) ir.Node {
 	n := ir.NodAt(inlcall.Pos(), ir.OBLOCK, nil, nil)
-	n.SetList(inlcall.Body())
-	n.SetInit(inlcall.Init())
+	n.SetList(inlcall.Init())
+	n.PtrList().AppendNodes(inlcall.PtrBody())
 	return n
 }
 
@@ -532,7 +532,7 @@ func inlconv2stmt(inlcall ir.Node) ir.Node {
 // 	n.Left = inlconv2expr(n.Left)
 func inlconv2expr(n ir.Node) ir.Node {
 	r := n.Rlist().First()
-	return addinit(r, append(n.Init().Slice(), n.Body().Slice()...))
+	return ir.AddInit(r, append(n.Init().Slice(), n.Body().Slice()...))
 }
 
 // Turn the rlist (with the return values) of the OINLCALL in
@@ -546,7 +546,7 @@ func inlconv2list(n ir.Node) []ir.Node {
 	}
 
 	s := n.Rlist().Slice()
-	s[0] = addinit(s[0], append(n.Init().Slice(), n.Body().Slice()...))
+	s[0] = ir.AddInit(s[0], append(n.Init().Slice(), n.Body().Slice()...))
 	return s
 }
 
@@ -723,7 +723,7 @@ func inlCallee(fn ir.Node) *ir.Func {
 
 func staticValue(n ir.Node) ir.Node {
 	for {
-		if n.Op() == ir.OCONVNOP {
+		if n.Op() == ir.OSTMTEXPR {
 			n = n.Left()
 			continue
 		}
@@ -943,7 +943,7 @@ func mkinlcall(n ir.Node, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]bool) 
 	// if necessary (#42703).
 	if n.Op() == ir.OCALLFUNC {
 		callee := n.Left()
-		for callee.Op() == ir.OCONVNOP {
+		for callee.Op() == ir.OSTMTEXPR {
 			ninit.AppendNodes(callee.PtrInit())
 			callee = callee.Left()
 		}
@@ -1326,7 +1326,7 @@ func (subst *inlsubst) node(n ir.Node) ir.Node {
 	//		dump("Return before substitution", n);
 	case ir.ORETURN:
 		m := nodSym(ir.OGOTO, nil, subst.retlabel)
-		m.PtrInit().Set(subst.list(n.Init()))
+		init := subst.list(n.Init())
 
 		if len(subst.retvars) != 0 && n.List().Len() != 0 {
 			as := ir.Nod(ir.OAS2, nil, nil)
@@ -1347,11 +1347,12 @@ func (subst *inlsubst) node(n ir.Node) ir.Node {
 			}
 
 			as = typecheck(as, ctxStmt)
-			m.PtrInit().Append(as)
+			init = append(init, as)
 		}
 
-		typecheckslice(m.Init().Slice(), ctxStmt)
 		m = typecheck(m, ctxStmt)
+		typecheckslice(init, ctxStmt)
+		m = ir.AddInit(m, init)
 
 		//		dump("Return after substitution", m);
 		return m

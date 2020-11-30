@@ -433,7 +433,7 @@ func (o *Order) exprInPlace(n ir.Node) ir.Node {
 	var order Order
 	order.free = o.free
 	n = order.expr(n, nil)
-	n = addinit(n, order.out)
+	n = ir.AddInit(n, order.out)
 
 	// insert new temporaries from order
 	// at head of outer list.
