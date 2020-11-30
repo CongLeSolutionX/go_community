@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c84ec974_8010cd8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T18:29:12Z",
+      "side": 1,
+      "message": "Applied these changes locally to better match go/ast, not mailed yet:\n\nrf \u0027\n\tmv AddStringExpr.Exprs AddStringExpr.list\n\tmv CompLitExpr.Vals CompLitExpr.list\n\tmv IndexExpr.Y IndexExpr.Index\n\tmv KeyExpr.X KeyExpr.Key\n\tmv KeyExpr.Y KeyExpr.Value\n\tmv SelectorExpr.sym SelectorExpr.Sel\n\tmv TypeAssertionExpr TypeAssertExpr\n\n\tmv NewAddStringExpr.exprs NewAddStringExpr.list\n\tmv NewCallExpr.x NewCallExpr.fun\n\tmv NewIndexExpr.y NewIndexExpr.index\n\tmv NewKeyExpr.x NewKeyExpr.key\n\tmv NewKeyExpr.y NewKeyExpr.value\n\tmv NewSelectorExpr.sym NewSelectorExpr.sel\n\tmv NewTypeAssertionExpr NewTypeAssertExpr\n\u0027\n",
+      "revId": "e3a01cf1a4ee127c88dd2a9dd69cabf2908dd781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
