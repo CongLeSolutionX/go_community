@@ -110,3 +110,12 @@ func TestIssue38068(t *testing.T) {
 		t.Fatalf("concurrent and serial builds produced different output")
 	}
 }
+
+func TestIssue42876(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	src := filepath.Join("testdata", "reproducible", "issue42876.go")
+	output, err := exec.Command(testenv.GoToolPath(t), "run", src).CombinedOutput()
+	if len(output) != 0 || err != nil {
+		t.Fatalf("%v: %v", err, output)
+	}
+}
