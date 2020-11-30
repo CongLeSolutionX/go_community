@@ -50,6 +50,23 @@
       "message": "Should we fix this issue?",
       "revId": "b03cce9bde3effa090f2967702fb05c20558c095",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48723ce4_525e76e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-11-30T05:15:15Z",
+      "side": 1,
+      "message": "Hi lan, should we submit this commit? Since it\u0027s fixing an issue with just the comment change.",
+      "revId": "b03cce9bde3effa090f2967702fb05c20558c095",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
