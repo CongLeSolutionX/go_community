@@ -68,6 +68,23 @@
       "message": "Any comments?",
       "revId": "a056964ddad477a6fb5f8423f7a06071a4e56ba7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fcb620f_fb8e6dbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-11-30T15:47:17Z",
+      "side": 1,
+      "message": "Looks good. This needs to wait until the tree opens for 1.17 development though (Feb 2021).",
+      "revId": "a056964ddad477a6fb5f8423f7a06071a4e56ba7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
