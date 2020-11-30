@@ -34,6 +34,23 @@
       "parentUuid": "01666d46_4dc36f5c",
       "revId": "924993622479b2f1e97dd830b87c431e9d263bce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28e766b2_946706cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-11-30T20:07:07Z",
+      "side": 1,
+      "message": "LGTM\nOpSP and OpSB Pos ought not end up in code generation, but they can be a source of line numbers for other code, sometimes.",
+      "revId": "924993622479b2f1e97dd830b87c431e9d263bce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
