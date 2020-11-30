@@ -1535,6 +1535,7 @@ func (s *state) stmt(n ir.Node) {
 		s.newValue1I(ssa.OpInlMark, types.TypeVoid, n.Offset(), s.mem())
 
 	default:
+		ir.Dump("unhandled", n)
 		s.Fatalf("unhandled stmt %v", n.Op())
 	}
 }
@@ -1998,6 +1999,9 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 
 	s.stmtList(n.Init())
 	switch n.Op() {
+	case ir.OSTMTEXPR:
+		// init handled above
+		return s.expr(n.Left())
 	case ir.OBYTES2STRTMP:
 		slice := s.expr(n.Left())
 		ptr := s.newValue1(ssa.OpSlicePtr, s.f.Config.Types.BytePtr, slice)
@@ -7099,7 +7103,10 @@ func (e *ssafn) Log() bool {
 func (e *ssafn) Fatalf(pos src.XPos, msg string, args ...interface{}) {
 	base.Pos = pos
 	nargs := append([]interface{}{ir.FuncName(e.curfn)}, args...)
-	base.Fatalf("'%s': "+msg, nargs...)
+	base.Errorf("'%s': "+msg, nargs...)
+	base.FlushErrors()
+	ir.Dump("curfn", e.curfn)
+	base.Errorf("'%s': "+msg, nargs...)
 }
 
 // Warnl reports a "warning", which is usually flag-triggered

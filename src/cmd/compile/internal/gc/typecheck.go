@@ -366,7 +366,6 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 	// until typecheck is complete, do nothing.
 	default:
 		ir.Dump("typecheck", n)
-
 		base.Fatalf("typecheck %v", n.Op())
 
 	// names
@@ -376,6 +375,12 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		if n.Type() == nil && n.Val().Kind() == constant.String {
 			base.Fatalf("string literal missing type")
 		}
+
+	case ir.OSTMTEXPR:
+		ok |= ctxExpr
+		typecheckslice(n.Init().Slice(), ctxStmt)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetType(n.Left().Type())
 
 	case ir.ONIL, ir.ONONAME:
 		ok |= ctxExpr
@@ -1314,7 +1319,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 				}
 				old := n
 				n = ir.NodAt(n.Pos(), l.SubOp(), arg, nil)
-				n = addinit(n, old.Init().Slice()) // typecheckargs can add to old.Init
+				n = ir.AddInit(n, old.Init().Slice()) // typecheckargs can add to old.Init
 
 			case ir.OCOMPLEX, ir.OCOPY:
 				typecheckargs(n)
@@ -1325,7 +1330,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 				}
 				old := n
 				n = ir.NodAt(n.Pos(), l.SubOp(), arg1, arg2)
-				n = addinit(n, old.Init().Slice()) // typecheckargs can add to old.Init
+				n = ir.AddInit(n, old.Init().Slice()) // typecheckargs can add to old.Init
 			}
 			n = typecheck1(n, top)
 			return n
@@ -3065,6 +3070,9 @@ func islvalue(n ir.Node) bool {
 			return false
 		}
 		return true
+
+	case ir.OSTMTEXPR:
+		return islvalue(n.Left())
 	}
 
 	return false

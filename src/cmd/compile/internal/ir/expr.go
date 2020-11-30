@@ -11,6 +11,11 @@ import (
 	"fmt"
 )
 
+type Expr interface {
+	Node
+	IsExpr()
+}
+
 // A miniStmt is a miniNode with extra fields common to expressions.
 // TODO(rsc): Once we are sure about the contents, compact the bools
 // into a bit field and leave extra bits available for implementations
@@ -18,7 +23,6 @@ import (
 type miniExpr struct {
 	miniNode
 	typ   *types.Type
-	init  Nodes       // TODO(rsc): Don't require every Node to have an init
 	opt   interface{} // TODO(rsc): Don't require every Node to have an opt?
 	flags bitset8
 }
@@ -45,9 +49,8 @@ func (n *miniExpr) Transient() bool       { return n.flags&miniExprTransient != 
 func (n *miniExpr) SetTransient(b bool)   { n.flags.set(miniExprTransient, b) }
 func (n *miniExpr) Bounded() bool         { return n.flags&miniExprBounded != 0 }
 func (n *miniExpr) SetBounded(b bool)     { n.flags.set(miniExprBounded, b) }
-func (n *miniExpr) Init() Nodes           { return n.init }
-func (n *miniExpr) PtrInit() *Nodes       { return &n.init }
-func (n *miniExpr) SetInit(x Nodes)       { n.init = x }
+
+func (*miniExpr) IsExpr() {}
 
 func toNtype(x Node) Ntype {
 	if x == nil {
@@ -151,6 +154,7 @@ func (n *BinaryExpr) SetOp(op Op) {
 type CallExpr struct {
 	miniExpr
 	orig     Node
+	init     Nodes
 	X        Node
 	Args     Nodes
 	Rargs    Nodes // TODO(rsc): Delete.
@@ -175,6 +179,10 @@ func (n *CallExpr) Orig() Node                    { return n.orig }
 func (n *CallExpr) SetOrig(x Node)                { n.orig = x }
 func (n *CallExpr) Left() Node                    { return n.X }
 func (n *CallExpr) SetLeft(x Node)                { n.X = x }
+func (n *CallExpr) Init() Nodes                   { return n.init }
+func (n *CallExpr) PtrInit() *Nodes               { return &n.init }
+func (n *CallExpr) SetInit(x Nodes)               { n.init = x }
+func (n *CallExpr) AddInit(init []Node) Node      { n.init.Prepend(init...); return n }
 func (n *CallExpr) List() Nodes                   { return n.Args }
 func (n *CallExpr) PtrList() *Nodes               { return &n.Args }
 func (n *CallExpr) SetList(x Nodes)               { n.Args = x }
@@ -188,6 +196,8 @@ func (n *CallExpr) SetNoInline(x bool)            { n.noInline = x }
 func (n *CallExpr) Body() Nodes                   { return n.body }
 func (n *CallExpr) PtrBody() *Nodes               { return &n.body }
 func (n *CallExpr) SetBody(x Nodes)               { n.body = x }
+
+var _ AddInitNode = (*CallExpr)(nil)
 
 func (n *CallExpr) SetOp(op Op) {
 	switch op {
@@ -410,6 +420,7 @@ func (n *KeyExpr) SetOp(op Op) {
 // An InlinedCallExpr is an inlined function call.
 type InlinedCallExpr struct {
 	miniExpr
+	init       Nodes
 	body       Nodes
 	ReturnVars Nodes
 }
@@ -426,6 +437,10 @@ func NewInlinedCallExpr(pos src.XPos, body, retvars []Node) *InlinedCallExpr {
 func (n *InlinedCallExpr) String() string                { return fmt.Sprint(n) }
 func (n *InlinedCallExpr) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *InlinedCallExpr) RawCopy() Node                 { c := *n; return &c }
+func (n *InlinedCallExpr) Init() Nodes                   { return n.init }
+func (n *InlinedCallExpr) PtrInit() *Nodes               { return &n.init }
+func (n *InlinedCallExpr) SetInit(x Nodes)               { n.init = x }
+func (n *InlinedCallExpr) AddInit(init []Node) Node      { n.init.Prepend(init...); return n }
 func (n *InlinedCallExpr) Body() Nodes                   { return n.body }
 func (n *InlinedCallExpr) PtrBody() *Nodes               { return &n.body }
 func (n *InlinedCallExpr) SetBody(x Nodes)               { n.body = x }
@@ -767,6 +782,33 @@ func (n *StarExpr) Left() Node                    { return n.X }
 func (n *StarExpr) SetLeft(x Node)                { n.X = x }
 
 func (*StarExpr) CanBeNtype() {}
+
+// A StmtExpr is an expression preceded by a list of executed statements.
+// It is generated internally by the compiler and has no equivalent in Go syntax.
+// It corresponds to the GNU C expression ({ Init; X }).
+type StmtExpr struct {
+	miniExpr
+	init Nodes
+	X    Node
+}
+
+func NewStmtExpr(pos src.XPos, init []Node, x Node) *StmtExpr {
+	n := &StmtExpr{X: x}
+	n.pos = pos
+	n.op = OSTMTEXPR
+	n.init.Set(init)
+	return n
+}
+
+func (n *StmtExpr) String() string                { return fmt.Sprint(n) }
+func (n *StmtExpr) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
+func (n *StmtExpr) RawCopy() Node                 { c := *n; return &c }
+func (n *StmtExpr) Left() Node                    { return n.X }
+func (n *StmtExpr) SetLeft(x Node)                { n.X = x }
+func (n *StmtExpr) Init() Nodes                   { return n.init }
+func (n *StmtExpr) PtrInit() *Nodes               { return &n.init }
+func (n *StmtExpr) SetInit(x Nodes)               { n.init = x }
+func (n *StmtExpr) AddInit(init []Node) Node      { n.init.Prepend(init...); return n }
 
 // SetOTYPE changes n to be an OTYPE node returning t,
 // like all the type nodes in type.go.
