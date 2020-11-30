@@ -119,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "677225bf_d29ad64c",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T18:18:43Z",
+      "side": 1,
+      "message": "SGTM. I\u0027ve been generally trying to slowly move the compiler towards the same names that go/types and go/ast used where appropriate. (Sometimes they\u0027re inconsistent though, and I tend to favor go/types; e.g., \"Elem\" over \"Elt\".)",
+      "parentUuid": "a2cfe999_dd1ff52f",
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b937b38_b44dcbf5",
         "filename": "src/cmd/compile/internal/ir/type.go",
         "patchSetId": 2
