@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a47d4d3e_9968e5b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T18:15:04Z",
+      "side": 1,
+      "message": "Applied these changes locally to better match go/ast, not mailed yet:\n\nrf \u0027\n\tmv CaseStmt.Exprs CaseStmt.list\n\tmv CaseStmt.Stmts CaseStmt.body\n\tmv IfStmt.Then IfStmt.body\n\tmv RangeStmt.Stmts RangeStmt.body\n\tmv ReturnStmt.Exprs ReturnStmt.Results\n\tmv SendStmt.X SendStmt.Chan\n\tmv SendStmt.Y SendStmt.Value\n\tmv SwitchStmt.Expr SwitchStmt.Tag\n\u0027\n",
+      "revId": "dcd7d1d0c96826b3dc9b3e095cb175fecbc048ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
