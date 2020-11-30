@@ -491,6 +491,9 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 		}
 		e.flow(k, e.oldLoc(n))
 
+	case ir.OSTMTEXPR:
+		e.expr(k, n.Left())
+
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
 		e.discard(n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.OEQ, ir.ONE, ir.OLT, ir.OLE, ir.OGT, ir.OGE, ir.OANDAND, ir.OOROR:
@@ -674,7 +677,7 @@ func (e *Escape) unsafeValue(k EscHole, n ir.Node) {
 		} else {
 			e.discard(n.Left())
 		}
-	case ir.OPLUS, ir.ONEG, ir.OBITNOT:
+	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.OSTMTEXPR:
 		e.unsafeValue(k, n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OAND, ir.OANDNOT:
 		e.unsafeValue(k, n.Left())
@@ -733,6 +736,8 @@ func (e *Escape) addr(n ir.Node) EscHole {
 	case ir.OINDEXMAP:
 		e.discard(n.Left())
 		e.assignHeap(n.Right(), "key of map put", n)
+	case ir.OSTMTEXPR:
+		k = e.addr(n.Left())
 	}
 
 	if !n.Type().HasPointers() {
@@ -1834,7 +1839,7 @@ func addrescapes(n ir.Node) {
 	// In &x[0], if x is a slice, then x does not
 	// escape--the pointer inside x does, but that
 	// is always a heap pointer anyway.
-	case ir.ODOT, ir.OINDEX, ir.OPAREN, ir.OCONVNOP:
+	case ir.ODOT, ir.OINDEX, ir.OPAREN, ir.OCONVNOP, ir.OSTMTEXPR:
 		if !n.Left().Type().IsSlice() {
 			addrescapes(n.Left())
 		}

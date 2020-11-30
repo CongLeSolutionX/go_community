@@ -738,6 +738,10 @@ func safeexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		if isStaticCompositeLiteral(n) {
 			return n
 		}
+
+	case ir.OSTMTEXPR:
+		init.AppendNodes(n.PtrInit())
+		return safeexpr(n.Left(), init)
 	}
 
 	// make a copy; must not be used as an lvalue
@@ -1354,24 +1358,6 @@ func ngotype(n ir.Node) *types.Sym {
 		return typenamesym(n.Type())
 	}
 	return nil
-}
-
-// The result of addinit MUST be assigned back to n, e.g.
-// 	n.Left = addinit(n.Left, init)
-func addinit(n ir.Node, init []ir.Node) ir.Node {
-	if len(init) == 0 {
-		return n
-	}
-	if ir.MayBeShared(n) {
-		// Introduce OCONVNOP to hold init list.
-		n = ir.Nod(ir.OCONVNOP, n, nil)
-		n.SetType(n.Left().Type())
-		n.SetTypecheck(1)
-	}
-
-	n.PtrInit().Prepend(init...)
-	n.SetHasCall(true)
-	return n
 }
 
 // The linker uses the magic symbol prefixes "go." and "type."
