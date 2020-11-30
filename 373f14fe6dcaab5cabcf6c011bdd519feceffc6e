@@ -52,6 +52,24 @@
       "parentUuid": "3552ce05_9c333c34",
       "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e91826a_1bfad112",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T22:42:44Z",
+      "side": 1,
+      "message": "1. Oops, sorry. I skimmed over AddInit too quickly. I knew addinit just wrapped in OCONVNOP, so I assumed AddInit did too. The current code does seem good.\n\n[re: OBLOCK vs OEMPTY] That makes sense. I think merging them would be fine.\n\n[re: GOTO] I thinking keeping Init on GOTO or any of the statements is fine. I think most of the frontend expects Init on statements. It\u0027s Inits on expressions that are rarer and regularly cause problems.\n\n2. Oof, thanks for the test case. It seems wrong that the Init is on the OINDEX, rather than on the index subexpression. I\u0027m worried that\u0027s already being miscompiled then. Let me take a look.",
+      "parentUuid": "3d6c2d3a_d72e0dab",
+      "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
