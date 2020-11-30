@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97eff6f3_b769616d",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1299,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:51:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aca65729_d0730db8",
+      "range": {
+        "startLine": 1299,
+        "startChar": 9,
+        "endLine": 1299,
+        "endChar": 15
+      },
+      "revId": "a20857b3620d94fa292534caa26412af425351c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e883b32_b9aee170",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-11-30T19:35:52Z",
       "side": 1,
       "message": "I think n.Right should always be nil here. It at least doesn\u0027t make sense to set n.Left for any of these ops.",
+      "revId": "a20857b3620d94fa292534caa26412af425351c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b94c429_b607e8a7",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T19:51:27Z",
+      "side": 1,
+      "message": "Indeed. That confused me when I first read it too. Deleted.",
+      "parentUuid": "1e883b32_b9aee170",
       "revId": "a20857b3620d94fa292534caa26412af425351c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
