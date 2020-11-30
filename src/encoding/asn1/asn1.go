@@ -400,9 +400,9 @@ func isNumeric(b byte) bool {
 
 // PrintableString
 
-// parsePrintableString parses an ASN.1 PrintableString from the given byte
+// ParsePrintableString parses an ASN.1 PrintableString from the given byte
 // array and returns it.
-func parsePrintableString(bytes []byte) (ret string, err error) {
+func ParsePrintableString(bytes []byte) (ret string, err error) {
 	for _, b := range bytes {
 		if !isPrintable(b, allowAsterisk, allowAmpersand) {
 			err = SyntaxError{"PrintableString contains invalid character"}
@@ -450,9 +450,9 @@ func isPrintable(b byte, asterisk asteriskFlag, ampersand ampersandFlag) bool {
 
 // IA5String
 
-// parseIA5String parses an ASN.1 IA5String (ASCII string) from the given
+// ParseIA5String parses an ASN.1 IA5String (ASCII string) from the given
 // byte slice and returns it.
-func parseIA5String(bytes []byte) (ret string, err error) {
+func ParseIA5String(bytes []byte) (ret string, err error) {
 	for _, b := range bytes {
 		if b >= utf8.RuneSelf {
 			err = SyntaxError{"IA5String contains invalid character"}
@@ -473,9 +473,9 @@ func parseT61String(bytes []byte) (ret string, err error) {
 
 // UTF8String
 
-// parseUTF8String parses an ASN.1 UTF8String (raw UTF-8) from the given byte
+// ParseUTF8String parses an ASN.1 UTF8String (raw UTF-8) from the given byte
 // array and returns it.
-func parseUTF8String(bytes []byte) (ret string, err error) {
+func ParseUTF8String(bytes []byte) (ret string, err error) {
 	if !utf8.Valid(bytes) {
 		return "", errors.New("asn1: invalid UTF-8 string")
 	}
@@ -484,9 +484,9 @@ func parseUTF8String(bytes []byte) (ret string, err error) {
 
 // BMPString
 
-// parseBMPString parses an ASN.1 BMPString (Basic Multilingual Plane of
+// ParseBMPString parses an ASN.1 BMPString (Basic Multilingual Plane of
 // ISO/IEC/ITU 10646-1) from the given byte slice and returns it.
-func parseBMPString(bmpString []byte) (string, error) {
+func ParseBMPString(bmpString []byte) (string, error) {
 	if len(bmpString)%2 != 0 {
 		return "", errors.New("pkcs12: odd-length BMP string")
 	}
@@ -700,15 +700,15 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 			innerBytes := bytes[offset : offset+t.length]
 			switch t.tag {
 			case TagPrintableString:
-				result, err = parsePrintableString(innerBytes)
+				result, err = ParsePrintableString(innerBytes)
 			case TagNumericString:
 				result, err = parseNumericString(innerBytes)
 			case TagIA5String:
-				result, err = parseIA5String(innerBytes)
+				result, err = ParseIA5String(innerBytes)
 			case TagT61String:
 				result, err = parseT61String(innerBytes)
 			case TagUTF8String:
-				result, err = parseUTF8String(innerBytes)
+				result, err = ParseUTF8String(innerBytes)
 			case TagInteger:
 				result, err = parseInt64(innerBytes)
 			case TagBitString:
@@ -722,7 +722,7 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 			case TagOctetString:
 				result = innerBytes
 			case TagBMPString:
-				result, err = parseBMPString(innerBytes)
+				result, err = ParseBMPString(innerBytes)
 			default:
 				// If we don't know how to handle the type, we just leave Value as nil.
 			}
@@ -958,15 +958,15 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 		var v string
 		switch universalTag {
 		case TagPrintableString:
-			v, err = parsePrintableString(innerBytes)
+			v, err = ParsePrintableString(innerBytes)
 		case TagNumericString:
 			v, err = parseNumericString(innerBytes)
 		case TagIA5String:
-			v, err = parseIA5String(innerBytes)
+			v, err = ParseIA5String(innerBytes)
 		case TagT61String:
 			v, err = parseT61String(innerBytes)
 		case TagUTF8String:
-			v, err = parseUTF8String(innerBytes)
+			v, err = ParseUTF8String(innerBytes)
 		case TagGeneralString:
 			// GeneralString is specified in ISO-2022/ECMA-35,
 			// A brief review suggests that it includes structures
@@ -974,7 +974,7 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 			// such. We give up and pass it as an 8-bit string.
 			v, err = parseT61String(innerBytes)
 		case TagBMPString:
-			v, err = parseBMPString(innerBytes)
+			v, err = ParseBMPString(innerBytes)
 
 		default:
 			err = SyntaxError{fmt.Sprintf("internal error: unknown string type %d", universalTag)}

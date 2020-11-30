@@ -3005,3 +3005,85 @@ func TestCertificateRequestRoundtripFields(t *testing.T) {
 		t.Fatalf("Unexpected PolicyIdentifiers: got %v, want %v", out.PolicyIdentifiers, in.PolicyIdentifiers)
 	}
 }
+
+func BenchmarkParseCertificate(b *testing.B) {
+	pemBlock, _ := pem.Decode([]byte(`-----BEGIN CERTIFICATE-----
+MIIEgzCCA2ugAwIBAgISBCwo5QZWc3xxcj1SNDmh1RZWMA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDExMTYxODM0NTFaFw0y
+MTAyMTQxODM0NTFaMBYxFDASBgNVBAMTC3JvbGFuZC56b25lMFkwEwYHKoZIzj0C
+AQYIKoZIzj0DAQcDQgAEuAu8nZxMxEb3mhjhk7ha+fBYshQYfvNB4r2YDLXWRIHQ
+ukPePNQUV2Hao+vT4a6z1lw7PQJnik84Fn+gMZe5rqOCAmAwggJcMA4GA1UdDwEB
+/wQEAwIHgDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/
+BAIwADAdBgNVHQ4EFgQUoo/atXWWVfqd05di325huTfDrhwwHwYDVR0jBBgwFoAU
+qEpqYwR93brm0Tm3pkVl7/Oo7KEwbwYIKwYBBQUHAQEEYzBhMC4GCCsGAQUFBzAB
+hiJodHRwOi8vb2NzcC5pbnQteDMubGV0c2VuY3J5cHQub3JnMC8GCCsGAQUFBzAC
+hiNodHRwOi8vY2VydC5pbnQteDMubGV0c2VuY3J5cHQub3JnLzAWBgNVHREEDzAN
+ggtyb2xhbmQuem9uZTBMBgNVHSAERTBDMAgGBmeBDAECATA3BgsrBgEEAYLfEwEB
+ATAoMCYGCCsGAQUFBwIBFhpodHRwOi8vY3BzLmxldHNlbmNyeXB0Lm9yZzCCAQQG
+CisGAQQB1nkCBAIEgfUEgfIA8AB2AFzcQ5L+5qtFRLFemtRW5hA3+9X6R9yhc5Sy
+Xub2xw7KAAABddKNhLMAAAQDAEcwRQIhAOnQ8cYIzCHSsNJvpyBEHH6I/SD4YUT9
+JSB+oflIxHUcAiAesNlDXhNtI2gPPu7La5V8yL90akltULx6r4TOHnr6AQB2APZc
+lC/RdzAiFFQYCDCUVo7jTRMZM7/fDC8gC8xO8WTjAAABddKNhJoAAAQDAEcwRQIh
+AJPPBP/JDarGpMnZpcEYHUgL6uXqHUpiNiX1BvOysmMKAiBg5qKkodsnSHTraL2t
+3wyWwOfSShmM4Iww4lnYU3j20jANBgkqhkiG9w0BAQsFAAOCAQEABDhbs98Sknuh
+7fI2DRxp9bP17m1SwM59g6ME+zUVAX/u4mUtqrriGXWW1JAdn+j0mUSoRNhW9knY
+ShBweAwlRqGdFDOCUKgjI3atyB7t5qGLu/RKFlEy6774cnIPHmae553zOaXgAzWM
+yvYhrLMXrB9vbtEKi7XGQbYpeZCBKLRthqOKGdT9fa5+iiIq52buKEjMuVmtnhFV
+aPbeCeT7acI277m39xGnuCEGY+LBD2VR6barpbv6kjsqJUHG4QpPqI2sOohuXQu5
+7ELSDu0vOKO0mA8BcMX0gUescJ1ZBakob1ilzoxCUbzQ6ww7aaH2EYAJyCNzKkPq
+lLsuRR5z/w==
+-----END CERTIFICATE-----`))
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := ParseCertificateFast(pemBlock.Bytes)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func TestFastParse(t *testing.T) {
+	pemBlock, _ := pem.Decode([]byte(`-----BEGIN CERTIFICATE-----
+MIIEgzCCA2ugAwIBAgISBCwo5QZWc3xxcj1SNDmh1RZWMA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDExMTYxODM0NTFaFw0y
+MTAyMTQxODM0NTFaMBYxFDASBgNVBAMTC3JvbGFuZC56b25lMFkwEwYHKoZIzj0C
+AQYIKoZIzj0DAQcDQgAEuAu8nZxMxEb3mhjhk7ha+fBYshQYfvNB4r2YDLXWRIHQ
+ukPePNQUV2Hao+vT4a6z1lw7PQJnik84Fn+gMZe5rqOCAmAwggJcMA4GA1UdDwEB
+/wQEAwIHgDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/
+BAIwADAdBgNVHQ4EFgQUoo/atXWWVfqd05di325huTfDrhwwHwYDVR0jBBgwFoAU
+qEpqYwR93brm0Tm3pkVl7/Oo7KEwbwYIKwYBBQUHAQEEYzBhMC4GCCsGAQUFBzAB
+hiJodHRwOi8vb2NzcC5pbnQteDMubGV0c2VuY3J5cHQub3JnMC8GCCsGAQUFBzAC
+hiNodHRwOi8vY2VydC5pbnQteDMubGV0c2VuY3J5cHQub3JnLzAWBgNVHREEDzAN
+ggtyb2xhbmQuem9uZTBMBgNVHSAERTBDMAgGBmeBDAECATA3BgsrBgEEAYLfEwEB
+ATAoMCYGCCsGAQUFBwIBFhpodHRwOi8vY3BzLmxldHNlbmNyeXB0Lm9yZzCCAQQG
+CisGAQQB1nkCBAIEgfUEgfIA8AB2AFzcQ5L+5qtFRLFemtRW5hA3+9X6R9yhc5Sy
+Xub2xw7KAAABddKNhLMAAAQDAEcwRQIhAOnQ8cYIzCHSsNJvpyBEHH6I/SD4YUT9
+JSB+oflIxHUcAiAesNlDXhNtI2gPPu7La5V8yL90akltULx6r4TOHnr6AQB2APZc
+lC/RdzAiFFQYCDCUVo7jTRMZM7/fDC8gC8xO8WTjAAABddKNhJoAAAQDAEcwRQIh
+AJPPBP/JDarGpMnZpcEYHUgL6uXqHUpiNiX1BvOysmMKAiBg5qKkodsnSHTraL2t
+3wyWwOfSShmM4Iww4lnYU3j20jANBgkqhkiG9w0BAQsFAAOCAQEABDhbs98Sknuh
+7fI2DRxp9bP17m1SwM59g6ME+zUVAX/u4mUtqrriGXWW1JAdn+j0mUSoRNhW9knY
+ShBweAwlRqGdFDOCUKgjI3atyB7t5qGLu/RKFlEy6774cnIPHmae553zOaXgAzWM
+yvYhrLMXrB9vbtEKi7XGQbYpeZCBKLRthqOKGdT9fa5+iiIq52buKEjMuVmtnhFV
+aPbeCeT7acI277m39xGnuCEGY+LBD2VR6barpbv6kjsqJUHG4QpPqI2sOohuXQu5
+7ELSDu0vOKO0mA8BcMX0gUescJ1ZBakob1ilzoxCUbzQ6ww7aaH2EYAJyCNzKkPq
+lLsuRR5z/w==
+-----END CERTIFICATE-----`))
+
+	fast, err := ParseCertificateFast(pemBlock.Bytes)
+	if err != nil {
+		t.Fatalf("fast failed: %s", err)
+	}
+	slow, err := ParseCertificate(pemBlock.Bytes)
+	if err != nil {
+		t.Fatalf("slow failed: %s", err)
+	}
+	if !reflect.DeepEqual(slow, fast) {
+		// fmt.Println(slow)
+		// fmt.Println(fast)
+		t.Fatal("don't match")
+	}
+}

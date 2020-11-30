@@ -1139,7 +1139,7 @@ func TestBMPString(t *testing.T) {
 			t.Fatalf("#%d: failed to decode from hex string", i)
 		}
 
-		decoded, err := parseBMPString(encoded)
+		decoded, err := ParseBMPString(encoded)
 
 		if err != nil {
 			t.Errorf("#%d: decoding output gave an error: %s", i, err)
