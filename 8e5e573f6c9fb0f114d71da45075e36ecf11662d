@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb1f32fe_2e54afa9",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T17:55:27Z",
+      "side": 1,
+      "message": "Nice catch, thanks.\n\nThe original use for DeepCopy was making copies of implicit const initializers, which wouldn\u0027t be affected here. But I think maybe I could make a test case that would trigger the difference in the other use of DeepCopy turning L op\u003d R into L \u003d L op R. Will dig into this.",
+      "parentUuid": "553d5f58_54df7dc6",
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fdd73be_eb4e80a0",
         "filename": "src/cmd/compile/internal/ir/type.go",
         "patchSetId": 2
@@ -77,6 +95,24 @@
       "writtenOn": "2020-11-30T17:49:44Z",
       "side": 1,
       "message": "Please name these \"Recv\" and \"Params\" like go/ast.",
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2cfe999_dd1ff52f",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-11-30T17:55:27Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. I\u0027ll do a pass through all the types in all the CLs comparing against go/ast and updating.",
+      "parentUuid": "c64ad23a_5c565b41",
       "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
