@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c96a8e96_20080a16",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T18:46:08Z",
+      "side": 0,
+      "message": "This code used to check that the only nodes in r.Init, if any, were the two ODCLs. Is there a reason we don\u0027t want/need that check anymore?",
+      "range": {
+        "startLine": 874,
+        "startChar": 4,
+        "endLine": 890,
+        "endChar": 5
+      },
+      "revId": "7402331115edf56d9fbf754ea7d94ac43d7d61cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

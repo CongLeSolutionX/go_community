@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41ae9ea2_d3a3dcc2",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T18:46:08Z",
+      "side": 1,
+      "message": "I think the previous way of computing lhs and then testing \"len(lhs)\" was clearer. Is there something subtle going on here for why it needs to change like this?\n\nCouldn\u0027t you just do:\n\n```\nif len(lhs) \u003d\u003d 1 \u0026\u0026 len(rhs) \u003d\u003d 1 {\n    // common case\n    return p.nod(stmt, ir.OAS, lhs[0], rhs[0])\n}\n\nn :\u003d p.nod(stmt, ir.OAS2, nil, nil)\nn.PtrList().Set(lhs)\nn.PtrRlist().Set(rhs)\nreturn n\n```",
+      "range": {
+        "startLine": 1005,
+        "startChar": 5,
+        "endLine": 1005,
+        "endChar": 75
+      },
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "418953ea_c971f7f0",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T18:46:08Z",
+      "side": 1,
+      "message": "Move this comment down next to \"if r.Colas()\"?",
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12d2cfc1_7a6cb82f",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T18:46:08Z",
+      "side": 1,
+      "message": "nit: unnecessary?",
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58b55860_b5b12aee",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-11-30T18:46:08Z",
+      "side": 1,
+      "message": "Is there a reason for using both old and n here? Seems like you can get rid of old. Or if you want to emphasize it for clarity, to also use it for these arguments.",
+      "range": {
+        "startLine": 611,
+        "startChar": 21,
+        "endLine": 611,
+        "endChar": 22
+      },
+      "revId": "b47724c058acda2e76bbc297091f20c978106354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
