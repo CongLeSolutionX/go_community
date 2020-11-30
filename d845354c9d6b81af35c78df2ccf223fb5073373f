@@ -69,6 +69,52 @@
       "message": "Cherry, are you okay with this landing ahead of the fix?",
       "revId": "d845354c9d6b81af35c78df2ccf223fb5073373f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de6c552_65abf64b",
+        "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-30T16:56:11Z",
+      "side": 1,
+      "message": "Maybe add the Go functions as another column in the table, instead of hard-coded by name here?",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 0
+      },
+      "revId": "d845354c9d6b81af35c78df2ccf223fb5073373f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04c3330b_a35e274d",
+        "filename": "src/cmd/internal/obj/riscv/testdata/testbranch/branch_test.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-11-30T16:56:11Z",
+      "side": 1,
+      "message": "(Not directly from this CL) The argument sizes are wrong for all functions here. It should be 17 (8+8+1) for most of them and 9 (8+1) for the compare-with-zero ones.",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "d845354c9d6b81af35c78df2ccf223fb5073373f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
