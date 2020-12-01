@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a29b077_316d74d9",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-01T01:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3b62856_b1b132be",
+      "range": {
+        "startLine": 56,
+        "startChar": 19,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "553d5f58_54df7dc6",
@@ -90,6 +114,30 @@
       "writtenOn": "2020-11-30T17:49:44Z",
       "side": 1,
       "message": "nit: typo",
+      "range": {
+        "startLine": 99,
+        "startChar": 52,
+        "endLine": 99,
+        "endChar": 53
+      },
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92e32b8c_0955dc02",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-01T01:46:01Z",
+      "side": 1,
+      "message": "Missed this, will slip into a future CL. Sorry.",
+      "parentUuid": "3fdd73be_eb4e80a0",
       "range": {
         "startLine": 99,
         "startChar": 52,
@@ -184,6 +232,30 @@
       "writtenOn": "2020-11-30T17:49:44Z",
       "side": 1,
       "message": "Please name this \"Len\" like go/ast. (\"Size\" suggests a byte count.)",
+      "range": {
+        "startLine": 299,
+        "startChar": 1,
+        "endLine": 299,
+        "endChar": 5
+      },
+      "revId": "8e5e573f6c9fb0f114d71da45075e36ecf11662d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "449bfaee_1e15ba4f",
+        "filename": "src/cmd/compile/internal/ir/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-01T01:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b937b38_b44dcbf5",
       "range": {
         "startLine": 299,
         "startChar": 1,
