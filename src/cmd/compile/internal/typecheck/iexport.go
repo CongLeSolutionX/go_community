@@ -425,7 +425,8 @@ type exportWriter struct {
 
 	// dclIndex maps function-scoped declarations to their index
 	// within their respective Func's Dcl list.
-	dclIndex map[*ir.Name]int
+	dclIndex    map[*ir.Name]int
+	maxDclIndex int
 }
 
 func (p *iexporter) doDecl(n *ir.Name) {
@@ -990,6 +991,7 @@ func (w *exportWriter) funcExt(n *ir.Name) {
 	if n.Func.Inl != nil {
 		w.uint64(1 + uint64(n.Func.Inl.Cost))
 		if n.Func.ExportInline() {
+			//println("Exporting", n.Sym.Name)
 			w.p.doInline(n)
 		}
 
@@ -1038,14 +1040,19 @@ func (w *exportWriter) typeExt(t *types.Type) {
 
 // Inline bodies.
 
-func (w *exportWriter) funcBody(fn *ir.Func) {
-	w.int64(int64(len(fn.Inl.Dcl)))
-	for i, n := range fn.Inl.Dcl {
+func (w *exportWriter) writeNames(dcl []*ir.Name) {
+	w.int64(int64(len(dcl)))
+	for i, n := range dcl {
 		w.pos(n.Pos())
 		w.localIdent(n.Sym())
 		w.typ(n.Type())
-		w.dclIndex[n] = i
+		w.dclIndex[n] = w.maxDclIndex + i
 	}
+	w.maxDclIndex += len(dcl)
+}
+
+func (w *exportWriter) funcBody(fn *ir.Func) {
+	w.writeNames(fn.Inl.Dcl)
 
 	w.stmtList(fn.Inl.Body)
 }
@@ -1315,8 +1322,21 @@ func (w *exportWriter) expr(n ir.Node) {
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	// 	should have been resolved by typechecking - handled by default case
 
-	// case OCLOSURE:
-	//	unimplemented - handled by default case
+	case ir.OCLOSURE:
+		n := n.(*ir.ClosureExpr)
+		//ir.Dump("Exporting closure", n)
+		w.op(ir.OCLOSURE)
+		w.pos(n.Pos())
+		w.expr(n.Func.Nname.Ntype)
+
+		w.writeNames(n.Func.Dcl)
+		w.writeNames(n.Func.ClosureVars)
+		for _, cv := range n.Func.ClosureVars {
+			w.localName(cv.Outer)
+			w.localName(cv.Defn.(*ir.Name))
+		}
+
+		w.stmtList(n.Func.Body)
 
 	// case OCOMPLIT:
 	// 	should have been resolved by typechecking - handled by default case
