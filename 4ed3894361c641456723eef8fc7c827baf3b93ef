@@ -16,6 +16,103 @@
       "message": "PTAL.\n\nThis is essentially a new CL, so I deleted your previous +2.\nBut now I can explain why the toolstash cmp failed (moved to\nearlier setup CLs) and have a better understanding of what\ndoes and does not need init.\n\nThe generalized AddInit is gone, and now *all* adding inits to\nexpressions is done with OSTMTEXPR. ",
       "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c974f96_8af30544",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T23:06:43Z",
+      "side": 1,
+      "message": "The init statements can affect memory too, right?\n\n(I don\u0027t remember exactly how this function gets used, so maybe that\u0027s fine in practice.)",
+      "range": {
+        "startLine": 1732,
+        "startChar": 84,
+        "endLine": 1732,
+        "endChar": 93
+      },
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbee8e62_5941f055",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T23:06:43Z",
+      "side": 1,
+      "message": "I think if staticValue handles both OCONVNOP and OSTMTEXPR, then we need to unwind the same here too.",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa8af395_7935e3d8",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T23:06:43Z",
+      "side": 1,
+      "message": "addinit already checks for len\u003d\u003d0, so I think this could be omitted.",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36fd0d46_599cf189",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4841,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T23:06:43Z",
+      "side": 1,
+      "message": "I think this needs `s.stmtList(n.Init())` too?",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d86f5b_f4054f99",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3166,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T23:06:43Z",
+      "side": 1,
+      "message": "Can this still happen, even after the checks for Init.Len\u003e0 above?",
+      "range": {
+        "startLine": 3166,
+        "startChar": 42,
+        "endLine": 3166,
+        "endChar": 54
+      },
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
