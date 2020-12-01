@@ -441,6 +441,43 @@ func (o *Order) exprInPlace(n ir.Node) ir.Node {
 	return n
 }
 
+// exprListInPlace orders the expression list l but saves
+// the side effects on the individual expression ninit lists.
+func (o *Order) exprListInPlace(l ir.Nodes) {
+	s := l.Slice()
+	for i := range s {
+		s[i] = o.exprInPlace(s[i])
+	}
+}
+
+// exprLvalueInPlace orders the side effects in *np and
+// leaves them as the init list of the final *np.
+func (o *Order) exprLvalueInPlace(n ir.Node) {
+	switch n.Op() {
+	default:
+		ir.Dump("unexpected lvalue", n)
+		base.Fatalf("unexpected lvalue")
+
+	case ir.ONAME:
+		// ok
+
+	case ir.ODEREF, ir.ODOT, ir.ODOTPTR, ir.OINDEX, ir.OINDEXMAP:
+		// Possible lvalue, so push the possible STMTEXPR down into the
+		// computation of the operands.
+		n.SetLeft(o.exprInPlace(n.Left()))
+		n.SetRight(o.exprInPlace(n.Right()))
+	}
+}
+
+// exprLvalueListInPlace orders the lvalue list l but saves
+// the side effects on the individual expression ninit lists.
+func (o *Order) exprLvalueListInPlace(l ir.Nodes) {
+	s := l.Slice()
+	for i := range s {
+		o.exprLvalueInPlace(s[i])
+	}
+}
+
 // orderStmtInPlace orders the side effects of the single statement *np
 // and replaces it with the resulting statement list.
 // The result of orderStmtInPlace MUST be assigned back to n, e.g.
@@ -828,7 +865,7 @@ func (o *Order) stmt(n ir.Node) {
 			// hiter contains pointers and needs to be zeroed.
 			prealloc[n] = o.newTemp(hiter(n.Type()), true)
 		}
-		o.exprListInPlace(n.List())
+		o.exprLvalueListInPlace(n.List())
 		if orderBody {
 			orderBlock(n.PtrBody(), o.free)
 		}
@@ -1047,15 +1084,6 @@ func (o *Order) exprList(l ir.Nodes) {
 	s := l.Slice()
 	for i := range s {
 		s[i] = o.expr(s[i], nil)
-	}
-}
-
-// exprListInPlace orders the expression list l but saves
-// the side effects on the individual expression ninit lists.
-func (o *Order) exprListInPlace(l ir.Nodes) {
-	s := l.Slice()
-	for i := range s {
-		s[i] = o.exprInPlace(s[i])
 	}
 }
 
