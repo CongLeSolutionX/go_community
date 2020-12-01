@@ -393,7 +393,11 @@ var depsRules = `
 	net !< CRYPTO-BORING;
 
 	# TLS, Prince of Dependencies.
+<<<<<<< HEAD   (906d6e [dev.boringcrypto] all: merge master into dev.boringcrypto)
 	CGO, CRYPTO-BORING, NET, container/list, encoding/hex, encoding/pem
+=======
+	CRYPTO-MATH, NET, container/list, encoding/hex, encoding/pem
+>>>>>>> BRANCH (5e1813 crypto/x509: drop the cgo implementation of root_darwin_amd6)
 	< golang.org/x/crypto/internal/subtle
 	< golang.org/x/crypto/chacha20
 	< golang.org/x/crypto/poly1305
