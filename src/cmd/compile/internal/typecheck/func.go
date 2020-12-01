@@ -14,6 +14,8 @@ import (
 	"go/token"
 )
 
+var inTypeCheckInl bool
+
 // package all the arguments that match a ... T parameter into a []T.
 func MakeDotArgs(typ *types.Type, args []ir.Node) ir.Node {
 	var n ir.Node
@@ -138,7 +140,9 @@ func ImportedBody(fn *ir.Func) {
 
 	savefn := ir.CurFunc
 	ir.CurFunc = fn
+	inTypeCheckInl = true
 	Stmts(fn.Inl.Body)
+	inTypeCheckInl = false
 	ir.CurFunc = savefn
 
 	// During expandInline (which imports fn.Func.Inl.Body),
@@ -281,6 +285,14 @@ func MethodValueWrapper(dot *ir.SelectorExpr) *ir.Func {
 	return fn
 }
 
+func TcClosure(clo *ir.ClosureExpr, closureCalled bool) {
+	top := int(0)
+	if closureCalled {
+		top = ctxCallee
+	}
+	tcClosure(clo, top)
+}
+
 // tcClosure typechecks an OCLOSURE node. It also creates the named
 // function associated with the closure.
 // TODO: This creation of the named function should probably really be done in a
@@ -303,8 +315,16 @@ func tcClosure(clo *ir.ClosureExpr, top int) {
 		return
 	}
 
-	fn.Nname.SetSym(closurename(ir.CurFunc))
-	ir.MarkFunc(fn.Nname)
+	// Don't give a name and add to xtop if function if called from
+	// typecheckinl(), since we only want to create the named xfunc when the
+	// closure is actually inlined (and then we will call typecheckclosure()
+	// explicitly in (*inlsubst).node(). TODO(danscales) - work out better
+	// solution than using inTypeCheckInl
+	giveName := !inTypeCheckInl
+	if giveName {
+		fn.Nname.SetSym(closurename(ir.CurFunc))
+		ir.MarkFunc(fn.Nname)
+	}
 	Func(fn)
 	clo.SetType(fn.Type())
 
@@ -338,7 +358,14 @@ func tcClosure(clo *ir.ClosureExpr, top int) {
 	}
 	fn.ClosureVars = fn.ClosureVars[:out]
 
-	Target.Decls = append(Target.Decls, fn)
+	if base.Flag.W > 1 {
+		s := fmt.Sprintf("New closure func: %s", ir.FuncName(fn))
+		ir.Dump(s, fn)
+	}
+	if giveName {
+		// Add function to xtop once only when we give it a name
+		Target.Decls = append(Target.Decls, fn)
+	}
 }
 
 // type check function definition
