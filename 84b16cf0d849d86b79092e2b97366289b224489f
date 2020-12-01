@@ -16,6 +16,23 @@
       "message": "\u003e See https://storage.googleapis.com/go-build-log/84b16cf0/linux-amd64_b301e7fc.log\n\nUrg, looks like the Width-\u003eSize rewrites still need some further cleanup. I\u0027ll split those out into a separate CL in the morning.",
       "revId": "84b16cf0d849d86b79092e2b97366289b224489f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94963acc_4926d231",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-01T14:58:14Z",
+      "side": 1,
+      "message": "Looks really nice. Will wait for the test fixes.\n",
+      "revId": "84b16cf0d849d86b79092e2b97366289b224489f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
