@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e56bee5_3f04168a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-01T22:02:04Z",
+      "side": 1,
+      "message": "PTAL.\n\nThis is essentially a new CL, so I deleted your previous +2.\nBut now I can explain why the toolstash cmp failed (moved to\nearlier setup CLs) and have a better understanding of what\ndoes and does not need init.\n\nThe generalized AddInit is gone, and now *all* adding inits to\nexpressions is done with OSTMTEXPR. ",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
