@@ -16,6 +16,23 @@
       "message": "Added a comment on #39177. I\u0027m not convinced it\u0027s worth changing the behavior for negative timeouts.",
       "revId": "020d03fc67a87b76ca9e2a558d0bfa184b98e7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7928917_e9adbf7d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2510,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-12-01T19:52:29Z",
+      "side": 1,
+      "message": "Try to use a full sentence. \"The value cannot..\" or \"It cannot be negative.\", perhaps. Or \"Zero or negative means there is no timeout.\"\n\n(we should document what zero means)",
+      "revId": "020d03fc67a87b76ca9e2a558d0bfa184b98e7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
