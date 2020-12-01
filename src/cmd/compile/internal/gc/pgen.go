@@ -93,8 +93,8 @@ func cmpstackvarlt(a, b *ir.Name) bool {
 		return ap
 	}
 
-	if a.Type().Width != b.Type().Width {
-		return a.Type().Width > b.Type().Width
+	if a.Type().Size() != b.Type().Size() {
+		return a.Type().Size() > b.Type().Size()
 	}
 
 	return a.Sym().Name < b.Sym().Name
@@ -163,8 +163,8 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 			break
 		}
 
-		dowidth(n.Type())
-		w := n.Type().Width
+		n.Type().Size()
+		w := n.Type().Size()
 		if w >= thearch.MAXWIDTH || w < 0 {
 			base.Fatalf("bad width")
 		}
@@ -176,7 +176,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 			w = 1
 		}
 		s.stksize += w
-		s.stksize = Rnd(s.stksize, int64(n.Type().Align))
+		s.stksize = Rnd(s.stksize, int64(uint8(n.Type().Alignment())))
 		if n.Type().HasPointers() {
 			s.stkptrsize = s.stksize
 			lastHasPtr = true
@@ -206,7 +206,7 @@ func funccompile(fn *ir.Func) {
 	}
 
 	// assign parameter offsets
-	dowidth(fn.Type())
+	fn.Type().Size()
 
 	if fn.Body().Len() == 0 {
 		// Initialize ABI wrappers if necessary.

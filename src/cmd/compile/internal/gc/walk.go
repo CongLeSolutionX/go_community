@@ -381,11 +381,11 @@ func convFuncName(from, to *types.Type) (fnname string, needsaddr bool) {
 		}
 	case 'T':
 		switch {
-		case from.Size() == 2 && from.Align == 2:
+		case from.Size() == 2 && uint8(from.Alignment()) == 2:
 			return "convT16", false
-		case from.Size() == 4 && from.Align == 4 && !from.HasPointers():
+		case from.Size() == 4 && uint8(from.Alignment()) == 4 && !from.HasPointers():
 			return "convT32", false
-		case from.Size() == 8 && from.Align == types.Types[types.TUINT64].Align && !from.HasPointers():
+		case from.Size() == 8 && uint8(from.Alignment()) == uint8(types.Types[types.TUINT64].Alignment()) && !from.HasPointers():
 			return "convT64", false
 		}
 		if sc := from.SoleComponent(); sc != nil {
@@ -423,7 +423,7 @@ func walkexpr(n ir.Node, init *ir.Nodes) ir.Node {
 
 	// Eagerly checkwidth all expressions for the back end.
 	if n.Type() != nil && !n.Type().WidthCalculated() {
-		switch n.Type().Etype {
+		switch n.Type().Kind() {
 		case types.TBLANK, types.TNIL, types.TIDEAL:
 		default:
 			checkwidth(n.Type())
@@ -741,7 +741,7 @@ opswitch:
 		//   a = *var
 		a := n.List().First()
 
-		if w := t.Elem().Width; w <= zeroValSize {
+		if w := t.Elem().Size(); w <= zeroValSize {
 			fn := mapfn(mapaccess2[fast], t)
 			r = mkcall1(fn, fn.Type().Results(), init, typename(t), r.Left(), key)
 		} else {
@@ -853,7 +853,7 @@ opswitch:
 		case n.Left().Name() != nil && n.Left().Class() == ir.PEXTERN && n.Left().Name().Readonly():
 			// n.Left is a readonly global; use it directly.
 			value = n.Left()
-		case !fromType.IsInterface() && n.Esc() == EscNone && fromType.Width <= 1024:
+		case !fromType.IsInterface() && n.Esc() == EscNone && fromType.Size() <= 1024:
 			// n.Left does not escape. Use a stack temporary initialized to n.Left.
 			value = temp(fromType)
 			init.Append(typecheck(ir.Nod(ir.OAS, value, n.Left()), ctxStmt))
@@ -904,9 +904,9 @@ opswitch:
 			// ptr = convT2X(val)
 			// e = iface{typ/tab, ptr}
 			fn := syslook(fnname)
-			dowidth(fromType)
+			fromType.Size()
 			fn = substArgTypes(fn, fromType)
-			dowidth(fn.Type())
+			fn.Type().Size()
 			call := ir.Nod(ir.OCALL, fn, nil)
 			call.PtrList().Set1(n.Left())
 			call = typecheck(call, ctxExpr)
@@ -942,10 +942,10 @@ opswitch:
 			v = ir.Nod(ir.OADDR, v, nil)
 		}
 
-		dowidth(fromType)
+		fromType.Size()
 		fn := syslook(fnname)
 		fn = substArgTypes(fn, fromType, toType)
-		dowidth(fn.Type())
+		fn.Type().Size()
 		n = ir.Nod(ir.OCALL, fn, nil)
 		n.PtrList().Set2(tab, v)
 		n = typecheck(n, ctxExpr)
@@ -975,7 +975,7 @@ opswitch:
 		n.SetRight(walkexpr(n.Right(), init))
 
 		// rewrite complex div into function call.
-		et := n.Left().Type().Etype
+		et := n.Left().Type().Kind()
 
 		if isComplex[et] && n.Op() == ir.ODIV {
 			t := n.Type()
@@ -1096,7 +1096,7 @@ opswitch:
 				key = ir.Nod(ir.OADDR, key, nil)
 			}
 
-			if w := t.Elem().Width; w <= zeroValSize {
+			if w := t.Elem().Size(); w <= zeroValSize {
 				n = mkcall1(mapfn(mapaccess1[fast], t), types.NewPtr(t.Elem()), init, typename(t), map_, key)
 			} else {
 				z := zeroaddr(w)
@@ -1155,7 +1155,7 @@ opswitch:
 			base.Errorf("%v can't be allocated in Go; it is incomplete (or unallocatable)", n.Type().Elem())
 		}
 		if n.Esc() == EscNone {
-			if n.Type().Elem().Width >= maxImplicitStackVarSize {
+			if n.Type().Elem().Size() >= maxImplicitStackVarSize {
 				base.Fatalf("large ONEW with EscNone: %v", n)
 			}
 			r := ir.Node(temp(n.Type().Elem()))
@@ -1414,7 +1414,7 @@ opswitch:
 			// We do not check for overflow of len(to)*elem.Width here
 			// since len(from) is an existing checked slice capacity
 			// with same elem.Width for the from slice.
-			size := ir.Nod(ir.OMUL, conv(length, types.Types[types.TUINTPTR]), conv(nodintconst(t.Elem().Width), types.Types[types.TUINTPTR]))
+			size := ir.Nod(ir.OMUL, conv(length, types.Types[types.TUINTPTR]), conv(nodintconst(t.Elem().Size()), types.Types[types.TUINTPTR]))
 
 			// instantiate mallocgc(size uintptr, typ *byte, needszero bool) unsafe.Pointer
 			fn := syslook("mallocgc")
@@ -1638,7 +1638,7 @@ func markUsedIfaceMethod(n ir.Node) {
 // name can be derived from the names of the returned types.
 //
 // If no such function is necessary, it returns (Txxx, Txxx).
-func rtconvfn(src, dst *types.Type) (param, result types.EType) {
+func rtconvfn(src, dst *types.Type) (param, result types.Kind) {
 	if thearch.SoftFloat {
 		return types.Txxx, types.Txxx
 	}
@@ -1646,31 +1646,31 @@ func rtconvfn(src, dst *types.Type) (param, result types.EType) {
 	switch thearch.LinkArch.Family {
 	case sys.ARM, sys.MIPS:
 		if src.IsFloat() {
-			switch dst.Etype {
+			switch dst.Kind() {
 			case types.TINT64, types.TUINT64:
-				return types.TFLOAT64, dst.Etype
+				return types.TFLOAT64, dst.Kind()
 			}
 		}
 		if dst.IsFloat() {
-			switch src.Etype {
+			switch src.Kind() {
 			case types.TINT64, types.TUINT64:
-				return src.Etype, types.TFLOAT64
+				return src.Kind(), types.TFLOAT64
 			}
 		}
 
 	case sys.I386:
 		if src.IsFloat() {
-			switch dst.Etype {
+			switch dst.Kind() {
 			case types.TINT64, types.TUINT64:
-				return types.TFLOAT64, dst.Etype
+				return types.TFLOAT64, dst.Kind()
 			case types.TUINT32, types.TUINT, types.TUINTPTR:
 				return types.TFLOAT64, types.TUINT32
 			}
 		}
 		if dst.IsFloat() {
-			switch src.Etype {
+			switch src.Kind() {
 			case types.TINT64, types.TUINT64:
-				return src.Etype, types.TFLOAT64
+				return src.Kind(), types.TFLOAT64
 			case types.TUINT32, types.TUINT, types.TUINTPTR:
 				return types.TUINT32, types.TFLOAT64
 			}
@@ -1937,7 +1937,7 @@ func walkprint(nn ir.Node, init *ir.Nodes) ir.Node {
 	for i, n := range nn.List().Slice() {
 		if n.Op() == ir.OLITERAL {
 			if n.Type() == types.UntypedRune {
-				n = defaultlit(n, types.Runetype)
+				n = defaultlit(n, types.RuneType)
 			}
 
 			switch n.Val().Kind() {
@@ -1949,17 +1949,17 @@ func walkprint(nn ir.Node, init *ir.Nodes) ir.Node {
 			}
 		}
 
-		if n.Op() != ir.OLITERAL && n.Type() != nil && n.Type().Etype == types.TIDEAL {
+		if n.Op() != ir.OLITERAL && n.Type() != nil && n.Type().Kind() == types.TIDEAL {
 			n = defaultlit(n, types.Types[types.TINT64])
 		}
 		n = defaultlit(n, nil)
 		nn.List().SetIndex(i, n)
-		if n.Type() == nil || n.Type().Etype == types.TFORW {
+		if n.Type() == nil || n.Type().Kind() == types.TFORW {
 			continue
 		}
 
 		var on ir.Node
-		switch n.Type().Etype {
+		switch n.Type().Kind() {
 		case types.TINTER:
 			if n.Type().IsEmptyInterface() {
 				on = syslook("printeface")
@@ -1984,7 +1984,7 @@ func walkprint(nn ir.Node, init *ir.Nodes) ir.Node {
 			on = syslook("printslice")
 			on = substArgTypes(on, n.Type()) // any-1
 		case types.TUINT, types.TUINT8, types.TUINT16, types.TUINT32, types.TUINT64, types.TUINTPTR:
-			if isRuntimePkg(n.Type().Sym.Pkg) && n.Type().Sym.Name == "hex" {
+			if isRuntimePkg(n.Type().Sym().Pkg) && n.Type().Sym().Name == "hex" {
 				on = syslook("printhex")
 			} else {
 				on = syslook("printuint")
@@ -2040,7 +2040,7 @@ func walkprint(nn ir.Node, init *ir.Nodes) ir.Node {
 }
 
 func callnew(t *types.Type) ir.Node {
-	dowidth(t)
+	t.Size()
 	n := ir.Nod(ir.ONEWOBJ, typename(t), nil)
 	n.SetType(types.NewPtr(t))
 	n.SetTypecheck(1)
@@ -2058,9 +2058,9 @@ func isReflectHeaderDataField(l ir.Node) bool {
 	var tsym *types.Sym
 	switch l.Op() {
 	case ir.ODOT:
-		tsym = l.Left().Type().Sym
+		tsym = l.Left().Type().Sym()
 	case ir.ODOTPTR:
-		tsym = l.Left().Type().Elem().Sym
+		tsym = l.Left().Type().Elem().Sym()
 	default:
 		return false
 	}
@@ -2098,7 +2098,7 @@ func convas(n ir.Node, init *ir.Nodes) ir.Node {
 		n.SetRight(assignconv(n.Right(), lt, "assignment"))
 		n.SetRight(walkexpr(n.Right(), init))
 	}
-	dowidth(n.Right().Type())
+	n.Right().Type().Size()
 
 	return n
 }
@@ -2484,7 +2484,7 @@ func heapmoves() {
 }
 
 func vmkcall(fn ir.Node, t *types.Type, init *ir.Nodes, va []ir.Node) ir.Node {
-	if fn.Type() == nil || fn.Type().Etype != types.TFUNC {
+	if fn.Type() == nil || fn.Type().Kind() != types.TFUNC {
 		base.Fatalf("mkcall %v %v", fn, fn.Type())
 	}
 
@@ -2611,7 +2611,7 @@ var mapdelete = mkmapnames("mapdelete", "")
 
 func mapfast(t *types.Type) int {
 	// Check runtime/map.go:maxElemSize before changing.
-	if t.Elem().Width > 128 {
+	if t.Elem().Size() > 128 {
 		return mapslow
 	}
 	switch algtype(t.Key()) {
@@ -2803,7 +2803,7 @@ func appendslice(n ir.Node, init *ir.Nodes) ir.Node {
 
 		fn := syslook("slicecopy")
 		fn = substArgTypes(fn, ptr1.Type().Elem(), ptr2.Type().Elem())
-		ncopy = mkcall1(fn, types.Types[types.TINT], &nodes, ptr1, len1, ptr2, len2, nodintconst(elemtype.Width))
+		ncopy = mkcall1(fn, types.Types[types.TINT], &nodes, ptr1, len1, ptr2, len2, nodintconst(elemtype.Size()))
 	} else {
 		// memmove(&s[len(l1)], &l2[0], len(l2)*sizeof(T))
 		nptr1 := ir.Nod(ir.OINDEX, s, ir.Nod(ir.OLEN, l1, nil))
@@ -2813,7 +2813,7 @@ func appendslice(n ir.Node, init *ir.Nodes) ir.Node {
 		nptr2 := ir.Nod(ir.OSPTR, l2, nil)
 
 		nwid := cheapexpr(conv(ir.Nod(ir.OLEN, l2, nil), types.Types[types.TUINTPTR]), &nodes)
-		nwid = ir.Nod(ir.OMUL, nwid, nodintconst(elemtype.Width))
+		nwid = ir.Nod(ir.OMUL, nwid, nodintconst(elemtype.Size()))
 
 		// instantiate func memmove(to *any, frm *any, length uintptr)
 		fn := syslook("memmove")
@@ -2958,7 +2958,7 @@ func extendslice(n ir.Node, init *ir.Nodes) ir.Node {
 	hp = convnop(hp, types.Types[types.TUNSAFEPTR])
 
 	// hn := l2 * sizeof(elem(s))
-	hn := ir.Nod(ir.OMUL, l2, nodintconst(elemtype.Width))
+	hn := ir.Nod(ir.OMUL, l2, nodintconst(elemtype.Size()))
 	hn = conv(hn, types.Types[types.TUINTPTR])
 
 	clrname := "memclrNoHeapPointers"
@@ -3121,7 +3121,7 @@ func copyany(n ir.Node, init *ir.Nodes, runtimecall bool) ir.Node {
 		fn := syslook("slicecopy")
 		fn = substArgTypes(fn, ptrL.Type().Elem(), ptrR.Type().Elem())
 
-		return mkcall1(fn, n.Type(), init, ptrL, lenL, ptrR, lenR, nodintconst(n.Left().Type().Elem().Width))
+		return mkcall1(fn, n.Type(), init, ptrL, lenL, ptrR, lenR, nodintconst(n.Left().Type().Elem().Size()))
 	}
 
 	n.SetLeft(walkexpr(n.Left(), init))
@@ -3157,7 +3157,7 @@ func copyany(n ir.Node, init *ir.Nodes, runtimecall bool) ir.Node {
 	nwid := ir.Node(temp(types.Types[types.TUINTPTR]))
 	setwid := ir.Nod(ir.OAS, nwid, conv(nlen, types.Types[types.TUINTPTR]))
 	ne.PtrBody().Append(setwid)
-	nwid = ir.Nod(ir.OMUL, nwid, nodintconst(nl.Type().Elem().Width))
+	nwid = ir.Nod(ir.OMUL, nwid, nodintconst(nl.Type().Elem().Size()))
 	call := mkcall1(fn, nil, init, nto, nfrm, nwid)
 	ne.PtrBody().Append(call)
 
@@ -3264,7 +3264,7 @@ func walkcompare(n ir.Node, init *ir.Nodes) ir.Node {
 		maxcmpsize = 2 * int64(thearch.LinkArch.RegSize)
 	}
 
-	switch t.Etype {
+	switch t.Kind() {
 	default:
 		if base.Debug.Libfuzzer != 0 && t.IsInteger() {
 			n.SetLeft(cheapexpr(n.Left(), init))
@@ -3315,7 +3315,7 @@ func walkcompare(n ir.Node, init *ir.Nodes) ir.Node {
 		return n
 	case types.TARRAY:
 		// We can compare several elements at once with 2/4/8 byte integer compares
-		inline = t.NumElem() <= 1 || (issimple[t.Elem().Etype] && (t.NumElem() <= 4 || t.Elem().Width*t.NumElem() <= maxcmpsize))
+		inline = t.NumElem() <= 1 || (issimple[t.Elem().Kind()] && (t.NumElem() <= 4 || t.Elem().Size()*t.NumElem() <= maxcmpsize))
 	case types.TSTRUCT:
 		inline = t.NumComponents(types.IgnoreBlankFields) <= 4
 	}
@@ -3341,7 +3341,7 @@ func walkcompare(n ir.Node, init *ir.Nodes) ir.Node {
 		call.PtrList().Append(ir.Nod(ir.OADDR, cmpl, nil))
 		call.PtrList().Append(ir.Nod(ir.OADDR, cmpr, nil))
 		if needsize {
-			call.PtrList().Append(nodintconst(t.Width))
+			call.PtrList().Append(nodintconst(t.Size()))
 		}
 		res := call
 		if n.Op() != ir.OEQ {
@@ -3380,22 +3380,22 @@ func walkcompare(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 	} else {
 		step := int64(1)
-		remains := t.NumElem() * t.Elem().Width
-		combine64bit := unalignedLoad && Widthreg == 8 && t.Elem().Width <= 4 && t.Elem().IsInteger()
-		combine32bit := unalignedLoad && t.Elem().Width <= 2 && t.Elem().IsInteger()
-		combine16bit := unalignedLoad && t.Elem().Width == 1 && t.Elem().IsInteger()
+		remains := t.NumElem() * t.Elem().Size()
+		combine64bit := unalignedLoad && Widthreg == 8 && t.Elem().Size() <= 4 && t.Elem().IsInteger()
+		combine32bit := unalignedLoad && t.Elem().Size() <= 2 && t.Elem().IsInteger()
+		combine16bit := unalignedLoad && t.Elem().Size() == 1 && t.Elem().IsInteger()
 		for i := int64(0); remains > 0; {
 			var convType *types.Type
 			switch {
 			case remains >= 8 && combine64bit:
 				convType = types.Types[types.TINT64]
-				step = 8 / t.Elem().Width
+				step = 8 / t.Elem().Size()
 			case remains >= 4 && combine32bit:
 				convType = types.Types[types.TUINT32]
-				step = 4 / t.Elem().Width
+				step = 4 / t.Elem().Size()
 			case remains >= 2 && combine16bit:
 				convType = types.Types[types.TUINT16]
-				step = 2 / t.Elem().Width
+				step = 2 / t.Elem().Size()
 			default:
 				step = 1
 			}
@@ -3405,7 +3405,7 @@ func walkcompare(n ir.Node, init *ir.Nodes) ir.Node {
 					ir.Nod(ir.OINDEX, cmpr, nodintconst(i)),
 				)
 				i++
-				remains -= t.Elem().Width
+				remains -= t.Elem().Size()
 			} else {
 				elemType := t.Elem().ToUnsigned()
 				cmplw := ir.Nod(ir.OINDEX, cmpl, nodintconst(i))
@@ -3420,17 +3420,17 @@ func walkcompare(n ir.Node, init *ir.Nodes) ir.Node {
 					lb := ir.Nod(ir.OINDEX, cmpl, nodintconst(i+offset))
 					lb = conv(lb, elemType)
 					lb = conv(lb, convType)
-					lb = ir.Nod(ir.OLSH, lb, nodintconst(8*t.Elem().Width*offset))
+					lb = ir.Nod(ir.OLSH, lb, nodintconst(8*t.Elem().Size()*offset))
 					cmplw = ir.Nod(ir.OOR, cmplw, lb)
 					rb := ir.Nod(ir.OINDEX, cmpr, nodintconst(i+offset))
 					rb = conv(rb, elemType)
 					rb = conv(rb, convType)
-					rb = ir.Nod(ir.OLSH, rb, nodintconst(8*t.Elem().Width*offset))
+					rb = ir.Nod(ir.OLSH, rb, nodintconst(8*t.Elem().Size()*offset))
 					cmprw = ir.Nod(ir.OOR, cmprw, rb)
 				}
 				compare(cmplw, cmprw)
 				i += step
-				remains -= step * t.Elem().Width
+				remains -= step * t.Elem().Size()
 			}
 		}
 	}
@@ -3613,7 +3613,7 @@ func bounded(n ir.Node, max int64) bool {
 	}
 
 	sign := n.Type().IsSigned()
-	bits := int32(8 * n.Type().Width)
+	bits := int32(8 * n.Type().Size())
 
 	if smallintconst(n) {
 		v := n.Int64Val()
@@ -3697,7 +3697,7 @@ func usemethod(n ir.Node) {
 	}
 
 	if res1 == nil {
-		if p0.Type.Etype != types.TINT {
+		if p0.Type.Kind() != types.TINT {
 			return
 		}
 	} else {
@@ -3712,7 +3712,7 @@ func usemethod(n ir.Node) {
 	// Note: Don't rely on res0.Type.String() since its formatting depends on multiple factors
 	//       (including global variables such as numImports - was issue #19028).
 	// Also need to check for reflect package itself (see Issue #38515).
-	if s := res0.Type.Sym; s != nil && s.Name == "Method" && isReflectPkg(s.Pkg) {
+	if s := res0.Type.Sym(); s != nil && s.Name == "Method" && isReflectPkg(s.Pkg) {
 		Curfn.SetReflectMethod(true)
 		// The LSym is initialized at this point. We need to set the attribute on the LSym.
 		Curfn.LSym.Set(obj.AttrReflectMethod, true)
@@ -3756,7 +3756,7 @@ func usefield(n ir.Node) {
 	if outer.IsPtr() {
 		outer = outer.Elem()
 	}
-	if outer.Sym == nil {
+	if outer.Sym() == nil {
 		base.Errorf("tracked field must be in named struct type")
 	}
 	if !types.IsExported(field.Sym.Name) {
@@ -3969,7 +3969,7 @@ func substArgTypes(old ir.Node, types_ ...*types.Type) ir.Node {
 	n := ir.Copy(old)
 
 	for _, t := range types_ {
-		dowidth(t)
+		t.Size()
 	}
 	n.SetType(types.SubstAny(n.Type(), &types_))
 	if len(types_) > 0 {
