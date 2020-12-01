@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6103b50e_daf2870b",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-01T23:25:31Z",
+      "side": 1,
+      "message": "Note that TLS, the Prince of Dependencies, still depends on cgo: it inherits it indirectly both via the CRYPTO-BORING and NET pseudo-names. I understand that\u0027s working as intended from past discussion with Filippo in CL 241442.",
+      "revId": "dea96ada1742b45e383dcbb0c2ab4cd0d3fc92a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
