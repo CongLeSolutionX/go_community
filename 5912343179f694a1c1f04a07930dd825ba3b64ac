@@ -51,6 +51,24 @@
       "parentUuid": "9182e93c_777da3d8",
       "revId": "5912343179f694a1c1f04a07930dd825ba3b64ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e5fccf7_a7a384f8",
+        "filename": "test/cannotassign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T17:48:05Z",
+      "side": 1,
+      "message": "I\u0027m not familiar with using `[...]` for optional error message text. How does that work? I thought this would be a normal regexp character class match.",
+      "parentUuid": "5ed4b217_6ee38179",
+      "revId": "5912343179f694a1c1f04a07930dd825ba3b64ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
