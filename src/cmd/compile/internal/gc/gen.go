@@ -78,7 +78,7 @@ func tempAt(pos src.XPos, curfn *ir.Func, t *types.Type) *ir.Name {
 	n.SetAutoTemp(true)
 	curfn.Dcl = append(curfn.Dcl, n)
 
-	dowidth(t)
+	t.Size()
 
 	return n
 }

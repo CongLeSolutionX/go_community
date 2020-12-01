@@ -110,12 +110,12 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 			continue
 		}
 
-		dowidth(f.Type)
-		if int32(f.Type.Align) > maxalign {
-			maxalign = int32(f.Type.Align)
+		f.Type.Size()
+		if int32(uint8(f.Type.Alignment())) > maxalign {
+			maxalign = int32(uint8(f.Type.Alignment()))
 		}
-		if f.Type.Align > 0 {
-			o = Rnd(o, int64(f.Type.Align))
+		if uint8(f.Type.Alignment()) > 0 {
+			o = Rnd(o, int64(uint8(f.Type.Alignment())))
 		}
 		f.Offset = o
 		if n := ir.AsNode(f.Nname); n != nil {
@@ -134,9 +134,9 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 			}
 		}
 
-		w := f.Type.Width
+		w := f.Type.Size()
 		if w < 0 {
-			base.Fatalf("invalid width %d", f.Type.Width)
+			base.Fatalf("invalid width %d", f.Type.Size())
 		}
 		if w == 0 {
 			lastzero = o
@@ -185,7 +185,7 @@ func findTypeLoop(t *types.Type, path *[]*types.Type) bool {
 	// We implement a simple DFS loop-finding algorithm. This
 	// could be faster, but type cycles are rare.
 
-	if t.Sym != nil {
+	if t.Sym() != nil {
 		// Declared type. Check for loops and otherwise
 		// recurse on the type expression used in the type
 		// declaration.
@@ -193,7 +193,7 @@ func findTypeLoop(t *types.Type, path *[]*types.Type) bool {
 		// Type imported from package, so it can't be part of
 		// a type loop (otherwise that package should have
 		// failed to compile).
-		if t.Sym.Pkg != ir.LocalPkg {
+		if t.Sym().Pkg != ir.LocalPkg {
 			return false
 		}
 
@@ -212,7 +212,7 @@ func findTypeLoop(t *types.Type, path *[]*types.Type) bool {
 	} else {
 		// Anonymous type. Recurse on contained types.
 
-		switch t.Etype {
+		switch t.Kind() {
 		case types.TARRAY:
 			if findTypeLoop(t.Elem(), path) {
 				return true
@@ -321,15 +321,15 @@ func dowidth(t *types.Type) {
 	t.Width = -2
 	t.Align = 0 // 0 means use t.Width, below
 
-	et := t.Etype
+	et := t.Kind()
 	switch et {
 	case types.TFUNC, types.TCHAN, types.TMAP, types.TSTRING:
 		break
 
 	// simtype == 0 during bootstrap
 	default:
-		if simtype[t.Etype] != 0 {
-			et = simtype[t.Etype]
+		if simtype[t.Kind()] != 0 {
+			et = simtype[t.Kind()]
 		}
 	}
 
@@ -385,7 +385,7 @@ func dowidth(t *types.Type) {
 
 	case types.TCHANARGS:
 		t1 := t.ChanArgs()
-		dowidth(t1) // just in case
+		t1.Size() // just in case
 		if t1.Elem().Width >= 1<<16 {
 			base.ErrorfAt(typePos(t1), "channel element type too large (>64kB)")
 		}
@@ -416,7 +416,7 @@ func dowidth(t *types.Type) {
 			break
 		}
 
-		dowidth(t.Elem())
+		t.Elem().Size()
 		if t.Elem().Width != 0 {
 			cap := (uint64(thearch.MAXWIDTH) - 1) / uint64(t.Elem().Width)
 			if uint64(t.NumElem()) > cap {
@@ -508,7 +508,7 @@ func checkwidth(t *types.Type) {
 	}
 
 	if defercalc == 0 {
-		dowidth(t)
+		t.Size()
 		return
 	}
 
@@ -529,7 +529,7 @@ func resumecheckwidth() {
 			t := deferredTypeStack[len(deferredTypeStack)-1]
 			deferredTypeStack = deferredTypeStack[:len(deferredTypeStack)-1]
 			t.SetDeferwidth(false)
-			dowidth(t)
+			t.Size()
 		}
 	}
 

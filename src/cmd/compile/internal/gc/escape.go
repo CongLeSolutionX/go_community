@@ -659,7 +659,7 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 // unsafeValue evaluates a uintptr-typed arithmetic expression looking
 // for conversions from an unsafe.Pointer.
 func (e *Escape) unsafeValue(k EscHole, n ir.Node) {
-	if n.Type().Etype != types.TUINTPTR {
+	if n.Type().Kind() != types.TUINTPTR {
 		base.Fatalf("unexpected type %v for %v", n.Type(), n)
 	}
 
@@ -1746,11 +1746,11 @@ func heapAllocReason(n ir.Node) string {
 		return ""
 	}
 
-	if n.Type().Width > maxStackVarSize {
+	if n.Type().Size() > maxStackVarSize {
 		return "too large for stack"
 	}
 
-	if (n.Op() == ir.ONEW || n.Op() == ir.OPTRLIT) && n.Type().Elem().Width >= maxImplicitStackVarSize {
+	if (n.Op() == ir.ONEW || n.Op() == ir.OPTRLIT) && n.Type().Elem().Size() >= maxImplicitStackVarSize {
 		return "too large for stack"
 	}
 
@@ -1769,7 +1769,7 @@ func heapAllocReason(n ir.Node) string {
 		if !smallintconst(r) {
 			return "non-constant size"
 		}
-		if t := n.Type(); t.Elem().Width != 0 && r.Int64Val() >= maxImplicitStackVarSize/t.Elem().Width {
+		if t := n.Type(); t.Elem().Size() != 0 && r.Int64Val() >= maxImplicitStackVarSize/t.Elem().Size() {
 			return "too large for stack"
 		}
 	}

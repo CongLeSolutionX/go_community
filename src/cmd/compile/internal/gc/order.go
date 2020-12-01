@@ -216,7 +216,7 @@ func (o *Order) addrTemp(n ir.Node) ir.Node {
 	if n.Op() == ir.OLITERAL || n.Op() == ir.ONIL {
 		// TODO: expand this to all static composite literal nodes?
 		n = defaultlit(n, nil)
-		dowidth(n.Type())
+		n.Type().Size()
 		vstat := readonlystaticname(n.Type())
 		var s InitSchedule
 		s.staticassign(vstat, n)
@@ -784,7 +784,7 @@ func (o *Order) stmt(n ir.Node) {
 		n.SetRight(o.expr(n.Right(), nil))
 
 		orderBody := true
-		switch n.Type().Etype {
+		switch n.Type().Kind() {
 		default:
 			base.Fatalf("order.stmt range %v", n.Type())
 

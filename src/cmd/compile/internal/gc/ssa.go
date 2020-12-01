@@ -54,13 +54,13 @@ func initssaconfig() {
 	_ = types.NewPtr(types.Types[types.TINTER])                             // *interface{}
 	_ = types.NewPtr(types.NewPtr(types.Types[types.TSTRING]))              // **string
 	_ = types.NewPtr(types.NewSlice(types.Types[types.TINTER]))             // *[]interface{}
-	_ = types.NewPtr(types.NewPtr(types.Bytetype))                          // **byte
-	_ = types.NewPtr(types.NewSlice(types.Bytetype))                        // *[]byte
+	_ = types.NewPtr(types.NewPtr(types.ByteType))                          // **byte
+	_ = types.NewPtr(types.NewSlice(types.ByteType))                        // *[]byte
 	_ = types.NewPtr(types.NewSlice(types.Types[types.TSTRING]))            // *[]string
 	_ = types.NewPtr(types.NewPtr(types.NewPtr(types.Types[types.TUINT8]))) // ***uint8
 	_ = types.NewPtr(types.Types[types.TINT16])                             // *int16
 	_ = types.NewPtr(types.Types[types.TINT64])                             // *int64
-	_ = types.NewPtr(types.Errortype)                                       // *error
+	_ = types.NewPtr(types.ErrorType)                                       // *error
 	types.NewPtrCacheEnabled = false
 	ssaConfig = ssa.NewConfig(thearch.LinkArch.Name, *types_, base.Ctxt, base.Flag.N == 0)
 	ssaConfig.SoftFloat = thearch.SoftFloat
@@ -1591,7 +1591,7 @@ func (s *state) exit() *ssa.Block {
 
 type opAndType struct {
 	op    ir.Op
-	etype types.EType
+	etype types.Kind
 }
 
 var opToSSA = map[opAndType]ssa.Op{
@@ -1766,8 +1766,8 @@ var opToSSA = map[opAndType]ssa.Op{
 	opAndType{ir.OLE, types.TFLOAT32}: ssa.OpLeq32F,
 }
 
-func (s *state) concreteEtype(t *types.Type) types.EType {
-	e := t.Etype
+func (s *state) concreteEtype(t *types.Type) types.Kind {
+	e := t.Kind()
 	switch e {
 	default:
 		return e
@@ -1799,7 +1799,7 @@ func (s *state) ssaOp(op ir.Op, t *types.Type) ssa.Op {
 }
 
 func floatForComplex(t *types.Type) *types.Type {
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TCOMPLEX64:
 		return types.Types[types.TFLOAT32]
 	case types.TCOMPLEX128:
@@ -1810,7 +1810,7 @@ func floatForComplex(t *types.Type) *types.Type {
 }
 
 func complexForFloat(t *types.Type) *types.Type {
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TFLOAT32:
 		return types.Types[types.TCOMPLEX64]
 	case types.TFLOAT64:
@@ -1822,19 +1822,19 @@ func complexForFloat(t *types.Type) *types.Type {
 
 type opAndTwoTypes struct {
 	op     ir.Op
-	etype1 types.EType
-	etype2 types.EType
+	etype1 types.Kind
+	etype2 types.Kind
 }
 
 type twoTypes struct {
-	etype1 types.EType
-	etype2 types.EType
+	etype1 types.Kind
+	etype2 types.Kind
 }
 
 type twoOpsAndType struct {
 	op1              ssa.Op
 	op2              ssa.Op
-	intermediateType types.EType
+	intermediateType types.Kind
 }
 
 var fpConvOpToSSA = map[twoTypes]twoOpsAndType{
@@ -2115,12 +2115,12 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 		v := s.newValue1(ssa.OpCopy, to, x) // ensure that v has the right type
 
 		// CONVNOP closure
-		if to.Etype == types.TFUNC && from.IsPtrShaped() {
+		if to.Kind() == types.TFUNC && from.IsPtrShaped() {
 			return v
 		}
 
 		// named <--> unnamed type or typed <--> untyped const
-		if from.Etype == to.Etype {
+		if from.Kind() == to.Kind() {
 			return v
 		}
 
@@ -2130,19 +2130,19 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 		}
 
 		// map <--> *hmap
-		if to.Etype == types.TMAP && from.IsPtr() &&
+		if to.Kind() == types.TMAP && from.IsPtr() &&
 			to.MapType().Hmap == from.Elem() {
 			return v
 		}
 
-		dowidth(from)
-		dowidth(to)
-		if from.Width != to.Width {
-			s.Fatalf("CONVNOP width mismatch %v (%d) -> %v (%d)\n", from, from.Width, to, to.Width)
+		from.Size()
+		to.Size()
+		if from.Size() != to.Size() {
+			s.Fatalf("CONVNOP width mismatch %v (%d) -> %v (%d)\n", from, from.Size(), to, to.Size())
 			return nil
 		}
-		if etypesign(from.Etype) != etypesign(to.Etype) {
-			s.Fatalf("CONVNOP sign mismatch %v (%s) -> %v (%s)\n", from, from.Etype, to, to.Etype)
+		if etypesign(from.Kind()) != etypesign(to.Kind()) {
+			s.Fatalf("CONVNOP sign mismatch %v (%s) -> %v (%s)\n", from, from.Kind(), to, to.Kind())
 			return nil
 		}
 
@@ -2153,7 +2153,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 			return v
 		}
 
-		if etypesign(from.Etype) == 0 {
+		if etypesign(from.Kind()) == 0 {
 			s.Fatalf("CONVNOP unrecognized non-integer %v -> %v\n", from, to)
 			return nil
 		}
@@ -2329,7 +2329,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 				s.newValueOrSfCall1(op, ttp, s.newValue1(ssa.OpComplexImag, ftp, x)))
 		}
 
-		s.Fatalf("unhandled OCONV %s -> %s", n.Left().Type().Etype, n.Type().Etype)
+		s.Fatalf("unhandled OCONV %s -> %s", n.Left().Type().Kind(), n.Type().Kind())
 		return nil
 
 	case ir.ODOTTYPE:
@@ -2994,7 +2994,7 @@ func (s *state) assign(left ir.Node, right *ssa.Value, deref bool, skip skipMask
 		return
 	}
 	t := left.Type()
-	dowidth(t)
+	t.Size()
 	if s.canSSA(left) {
 		if deref {
 			s.Fatalf("can SSA LHS %v but not RHS %s", left, right)
@@ -3172,7 +3172,7 @@ const (
 
 type sfRtCallDef struct {
 	rtfn  *obj.LSym
-	rtype types.EType
+	rtype types.Kind
 }
 
 var softFloatOps map[ssa.Op]sfRtCallDef
@@ -3467,9 +3467,9 @@ func init() {
 		},
 		sys.AMD64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
-	type atomicOpEmitter func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.EType)
+	type atomicOpEmitter func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.Kind)
 
-	makeAtomicGuardedIntrinsicARM64 := func(op0, op1 ssa.Op, typ, rtyp types.EType, emit atomicOpEmitter) intrinsicBuilder {
+	makeAtomicGuardedIntrinsicARM64 := func(op0, op1 ssa.Op, typ, rtyp types.Kind, emit atomicOpEmitter) intrinsicBuilder {
 
 		return func(s *state, n ir.Node, args []*ssa.Value) *ssa.Value {
 			// Target Atomic feature is identified by dynamic detection
@@ -3505,7 +3505,7 @@ func init() {
 		}
 	}
 
-	atomicXchgXaddEmitterARM64 := func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.EType) {
+	atomicXchgXaddEmitterARM64 := func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.Kind) {
 		v := s.newValue3(op, types.NewTuple(types.Types[typ], types.TypeMem), args[0], args[1], s.mem())
 		s.vars[memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
 		s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[typ], v)
@@ -3561,7 +3561,7 @@ func init() {
 		},
 		sys.PPC64)
 
-	atomicCasEmitterARM64 := func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.EType) {
+	atomicCasEmitterARM64 := func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.Kind) {
 		v := s.newValue4(op, types.NewTuple(types.Types[types.TBOOL], types.TypeMem), args[0], args[1], args[2], s.mem())
 		s.vars[memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
 		s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[typ], v)
@@ -3599,7 +3599,7 @@ func init() {
 		},
 		sys.AMD64, sys.MIPS, sys.PPC64, sys.S390X)
 
-	atomicAndOrEmitterARM64 := func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.EType) {
+	atomicAndOrEmitterARM64 := func(s *state, n ir.Node, args []*ssa.Value, op ssa.Op, typ types.Kind) {
 		s.vars[memVar] = s.newValue3(op, types.TypeMem, args[0], args[1], s.mem())
 	}
 
@@ -4538,7 +4538,7 @@ func (s *state) call(n ir.Node, k callKind, returnResultAddr bool) *ssa.Value {
 			closure = iclosure
 		}
 	}
-	dowidth(fn.Type())
+	fn.Type().Size()
 	stksize := fn.Type().ArgWidth() // includes receiver, args, and results
 
 	// Run all assignments of temps.
@@ -4810,7 +4810,7 @@ func (s *state) getClosureAndRcvr(fn ir.Node) (*ssa.Value, *ssa.Value) {
 
 // etypesign returns the signed-ness of e, for integer/pointer etypes.
 // -1 means signed, +1 means unsigned, 0 means non-integer/non-pointer.
-func etypesign(e types.EType) int8 {
+func etypesign(e types.Kind) int8 {
 	switch e {
 	case types.TINT8, types.TINT16, types.TINT32, types.TINT64, types.TINT:
 		return -1
@@ -4973,14 +4973,14 @@ func (s *state) canSSA(n ir.Node) bool {
 
 // canSSA reports whether variables of type t are SSA-able.
 func canSSAType(t *types.Type) bool {
-	dowidth(t)
-	if t.Width > int64(4*Widthptr) {
+	t.Size()
+	if t.Size() > int64(4*Widthptr) {
 		// 4*Widthptr is an arbitrary constant. We want it
 		// to be at least 3*Widthptr so slices can be registerized.
 		// Too big and we'll introduce too much register pressure.
 		return false
 	}
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TARRAY:
 		// We can't do larger arrays because dynamic indexing is
 		// not supported on SSA variables.
@@ -5497,7 +5497,7 @@ func (s *state) slice(v, i, j, k *ssa.Value, bounded bool) (p, l, c *ssa.Value) 
 	//
 	// Where mask(x) is 0 if x==0 and -1 if x>0 and stride is the width
 	// of the element type.
-	stride := s.constInt(types.Types[types.TINT], ptr.Type.Elem().Width)
+	stride := s.constInt(types.Types[types.TINT], ptr.Type.Elem().Size())
 
 	// The delta is the number of bytes to offset ptr by.
 	delta := s.newValue2(mulOp, types.Types[types.TINT], i, stride)
@@ -5705,7 +5705,7 @@ func (s *state) referenceTypeBuiltin(n ir.Node, x *ssa.Value) *ssa.Value {
 		s.vars[n] = s.load(lenType, x)
 	case ir.OCAP:
 		// capacity is stored in the second word for chan
-		sw := s.newValue1I(ssa.OpOffPtr, lenType.PtrTo(), lenType.Width, x)
+		sw := s.newValue1I(ssa.OpOffPtr, lenType.PtrTo(), lenType.Size(), x)
 		s.vars[n] = s.load(lenType, sw)
 	default:
 		s.Fatalf("op must be OLEN or OCAP")
@@ -7072,7 +7072,7 @@ func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t 
 	n.SetEsc(EscNever)
 	n.Curfn = e.curfn
 	e.curfn.Dcl = append(e.curfn.Dcl, n)
-	dowidth(t)
+	t.Size()
 	return ssa.LocalSlot{N: n, Type: t, Off: 0, SplitOf: parent, SplitOffset: offset}
 }
 

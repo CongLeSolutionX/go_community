@@ -114,12 +114,12 @@ func (a *AuxCall) TypeOfArg(which int64) *types.Type {
 
 // SizeOfResult returns the size of result which (indexed 0, 1, etc).
 func (a *AuxCall) SizeOfResult(which int64) int64 {
-	return a.TypeOfResult(which).Width
+	return a.TypeOfResult(which).Size()
 }
 
 // SizeOfArg returns the size of argument which (indexed 0, 1, etc).
 func (a *AuxCall) SizeOfArg(which int64) int64 {
-	return a.TypeOfArg(which).Width
+	return a.TypeOfArg(which).Size()
 }
 
 // NResults returns the number of results

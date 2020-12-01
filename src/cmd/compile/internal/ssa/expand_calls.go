@@ -69,7 +69,7 @@ func expandCalls(f *Func) {
 
 	// intPairTypes returns the pair of 32-bit int types needed to encode a 64-bit integer type on a target
 	// that has no 64-bit integer registers.
-	intPairTypes := func(et types.EType) (tHi, tLo *types.Type) {
+	intPairTypes := func(et types.Kind) (tHi, tLo *types.Type) {
 		tHi = typ.UInt32
 		if et == types.TINT64 {
 			tHi = typ.Int32
@@ -294,7 +294,7 @@ func expandCalls(f *Func) {
 		case OpStructSelect:
 			w := selector.Args[0]
 			var ls []LocalSlot
-			if w.Type.Etype != types.TSTRUCT { // IData artifact
+			if w.Type.Kind() != types.TSTRUCT { // IData artifact
 				ls = rewriteSelect(leaf, w, offset)
 			} else {
 				ls = rewriteSelect(leaf, w, offset+w.Type.FieldOff(int(selector.AuxInt)))
@@ -342,8 +342,8 @@ func expandCalls(f *Func) {
 			locs = splitSlots(ls, ".real", 0, leafType)
 
 		case OpComplexImag:
-			ls := rewriteSelect(leaf, selector.Args[0], offset+leafType.Width) // result is FloatNN, width of result is offset of imaginary part.
-			locs = splitSlots(ls, ".imag", leafType.Width, leafType)
+			ls := rewriteSelect(leaf, selector.Args[0], offset+leafType.Size()) // result is FloatNN, width of result is offset of imaginary part.
+			locs = splitSlots(ls, ".imag", leafType.Size(), leafType)
 
 		case OpStringLen, OpSliceLen:
 			ls := rewriteSelect(leaf, selector.Args[0], offset+ptrSize)
@@ -383,7 +383,7 @@ func expandCalls(f *Func) {
 		decomposeOne func(pos src.XPos, b *Block, base, source, mem *Value, t1 *types.Type, offArg, offStore int64) *Value,
 		decomposeTwo func(pos src.XPos, b *Block, base, source, mem *Value, t1, t2 *types.Type, offArg, offStore int64) *Value) *Value {
 		u := source.Type
-		switch u.Etype {
+		switch u.Kind() {
 		case types.TARRAY:
 			elem := u.Elem()
 			for i := int64(0); i < u.NumElem(); i++ {
@@ -400,10 +400,10 @@ func expandCalls(f *Func) {
 			}
 			return mem
 		case types.TINT64, types.TUINT64:
-			if t.Width == regSize {
+			if t.Size() == regSize {
 				break
 			}
-			tHi, tLo := intPairTypes(t.Etype)
+			tHi, tLo := intPairTypes(t.Kind())
 			mem = decomposeOne(pos, b, base, source, mem, tHi, source.AuxInt+hiOffset, offset+hiOffset)
 			pos = pos.WithNotStmt()
 			return decomposeOne(pos, b, base, source, mem, tLo, source.AuxInt+lowOffset, offset+lowOffset)
@@ -426,10 +426,10 @@ func expandCalls(f *Func) {
 	// pos and b locate the store instruction, base is the base of the store target, source is the "base" of the value input,
 	// mem is the input mem, t is the type in question, and offArg and offStore are the offsets from the respective bases.
 	storeOneArg := func(pos src.XPos, b *Block, base, source, mem *Value, t *types.Type, offArg, offStore int64) *Value {
-		w := common[selKey{source, offArg, t.Width, t}]
+		w := common[selKey{source, offArg, t.Size(), t}]
 		if w == nil {
 			w = source.Block.NewValue0IA(source.Pos, OpArg, t, offArg, source.Aux)
-			common[selKey{source, offArg, t.Width, t}] = w
+			common[selKey{source, offArg, t.Size(), t}] = w
 		}
 		return storeArgOrLoad(pos, b, base, w, mem, t, offStore)
 	}
@@ -491,14 +491,14 @@ func expandCalls(f *Func) {
 			return storeArgOrLoad(pos, b, base, source.Args[0], mem, t.Elem(), offset)
 
 		case OpInt64Make:
-			tHi, tLo := intPairTypes(t.Etype)
+			tHi, tLo := intPairTypes(t.Kind())
 			mem = storeArgOrLoad(pos, b, base, source.Args[0], mem, tHi, offset+hiOffset)
 			pos = pos.WithNotStmt()
 			return storeArgOrLoad(pos, b, base, source.Args[1], mem, tLo, offset+lowOffset)
 
 		case OpComplexMake:
 			tPart := typ.Float32
-			wPart := t.Width / 2
+			wPart := t.Size() / 2
 			if wPart == 8 {
 				tPart = typ.Float64
 			}
@@ -524,23 +524,23 @@ func expandCalls(f *Func) {
 		}
 
 		// For nodes that cannot be taken apart -- OpSelectN, other structure selectors.
-		switch t.Etype {
+		switch t.Kind() {
 		case types.TARRAY:
 			elt := t.Elem()
-			if source.Type != t && t.NumElem() == 1 && elt.Width == t.Width && t.Width == regSize {
+			if source.Type != t && t.NumElem() == 1 && elt.Size() == t.Size() && t.Size() == regSize {
 				t = removeTrivialWrapperTypes(t)
 				// it could be a leaf type, but the "leaf" could be complex64 (for example)
 				return storeArgOrLoad(pos, b, base, source, mem, t, offset)
 			}
 			for i := int64(0); i < t.NumElem(); i++ {
 				sel := source.Block.NewValue1I(pos, OpArraySelect, elt, i, source)
-				mem = storeArgOrLoad(pos, b, base, sel, mem, elt, offset+i*elt.Width)
+				mem = storeArgOrLoad(pos, b, base, sel, mem, elt, offset+i*elt.Size())
 				pos = pos.WithNotStmt()
 			}
 			return mem
 
 		case types.TSTRUCT:
-			if source.Type != t && t.NumFields() == 1 && t.Field(0).Type.Width == t.Width && t.Width == regSize {
+			if source.Type != t && t.NumFields() == 1 && t.Field(0).Type.Size() == t.Size() && t.Size() == regSize {
 				// This peculiar test deals with accesses to immediate interface data.
 				// It works okay because everything is the same size.
 				// Example code that triggers this can be found in go/constant/value.go, function ToComplex
@@ -573,10 +573,10 @@ func expandCalls(f *Func) {
 			return mem
 
 		case types.TINT64, types.TUINT64:
-			if t.Width == regSize {
+			if t.Size() == regSize {
 				break
 			}
-			tHi, tLo := intPairTypes(t.Etype)
+			tHi, tLo := intPairTypes(t.Kind())
 			sel := source.Block.NewValue1(pos, OpInt64Hi, tHi, source)
 			mem = storeArgOrLoad(pos, b, base, sel, mem, tHi, offset+hiOffset)
 			pos = pos.WithNotStmt()
@@ -869,11 +869,11 @@ func expandCalls(f *Func) {
 		if typ.IsMemory() {
 			continue // handled elsewhere, not an indexable result
 		}
-		size := typ.Width
+		size := typ.Size()
 		offset := int64(0)
 		switch v.Op {
 		case OpStructSelect:
-			if w.Type.Etype == types.TSTRUCT {
+			if w.Type.Kind() == types.TSTRUCT {
 				offset = w.Type.FieldOff(int(v.AuxInt))
 			} else { // Immediate interface data artifact, offset is zero.
 				f.Fatalf("Expand calls interface data problem, func %s, v=%s, w=%s\n", f.Name, v.LongString(), w.LongString())

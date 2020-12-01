@@ -68,7 +68,7 @@ func imethodSize() int     { return 4 + 4 }              // Sizeof(runtime.imeth
 func commonSize() int      { return 4*Widthptr + 8 + 8 } // Sizeof(runtime._type{})
 
 func uncommonSize(t *types.Type) int { // Sizeof(runtime.uncommontype{})
-	if t.Sym == nil && len(methods(t)) == 0 {
+	if t.Sym() == nil && len(methods(t)) == 0 {
 		return 0
 	}
 	return 4 + 2 + 2 + 4 + 4
@@ -88,12 +88,12 @@ func bmap(t *types.Type) *types.Type {
 	bucket := types.New(types.TSTRUCT)
 	keytype := t.Key()
 	elemtype := t.Elem()
-	dowidth(keytype)
-	dowidth(elemtype)
-	if keytype.Width > MAXKEYSIZE {
+	keytype.Size()
+	elemtype.Size()
+	if keytype.Size() > MAXKEYSIZE {
 		keytype = types.NewPtr(keytype)
 	}
-	if elemtype.Width > MAXELEMSIZE {
+	if elemtype.Size() > MAXELEMSIZE {
 		elemtype = types.NewPtr(elemtype)
 	}
 
@@ -129,7 +129,7 @@ func bmap(t *types.Type) *types.Type {
 	// link up fields
 	bucket.SetNoalg(true)
 	bucket.SetFields(field[:])
-	dowidth(bucket)
+	bucket.Size()
 
 	// Check invariants that map code depends on.
 	if !IsComparable(t.Key()) {
@@ -138,46 +138,46 @@ func bmap(t *types.Type) *types.Type {
 	if BUCKETSIZE < 8 {
 		base.Fatalf("bucket size too small for proper alignment")
 	}
-	if keytype.Align > BUCKETSIZE {
+	if uint8(keytype.Alignment()) > BUCKETSIZE {
 		base.Fatalf("key align too big for %v", t)
 	}
-	if elemtype.Align > BUCKETSIZE {
+	if uint8(elemtype.Alignment()) > BUCKETSIZE {
 		base.Fatalf("elem align too big for %v", t)
 	}
-	if keytype.Width > MAXKEYSIZE {
+	if keytype.Size() > MAXKEYSIZE {
 		base.Fatalf("key size to large for %v", t)
 	}
-	if elemtype.Width > MAXELEMSIZE {
+	if elemtype.Size() > MAXELEMSIZE {
 		base.Fatalf("elem size to large for %v", t)
 	}
-	if t.Key().Width > MAXKEYSIZE && !keytype.IsPtr() {
+	if t.Key().Size() > MAXKEYSIZE && !keytype.IsPtr() {
 		base.Fatalf("key indirect incorrect for %v", t)
 	}
-	if t.Elem().Width > MAXELEMSIZE && !elemtype.IsPtr() {
+	if t.Elem().Size() > MAXELEMSIZE && !elemtype.IsPtr() {
 		base.Fatalf("elem indirect incorrect for %v", t)
 	}
-	if keytype.Width%int64(keytype.Align) != 0 {
+	if keytype.Size()%int64(uint8(keytype.Alignment())) != 0 {
 		base.Fatalf("key size not a multiple of key align for %v", t)
 	}
-	if elemtype.Width%int64(elemtype.Align) != 0 {
+	if elemtype.Size()%int64(uint8(elemtype.Alignment())) != 0 {
 		base.Fatalf("elem size not a multiple of elem align for %v", t)
 	}
-	if bucket.Align%keytype.Align != 0 {
+	if uint8(bucket.Alignment())%uint8(keytype.Alignment()) != 0 {
 		base.Fatalf("bucket align not multiple of key align %v", t)
 	}
-	if bucket.Align%elemtype.Align != 0 {
+	if uint8(bucket.Alignment())%uint8(elemtype.Alignment()) != 0 {
 		base.Fatalf("bucket align not multiple of elem align %v", t)
 	}
-	if keys.Offset%int64(keytype.Align) != 0 {
+	if keys.Offset%int64(uint8(keytype.Alignment())) != 0 {
 		base.Fatalf("bad alignment of keys in bmap for %v", t)
 	}
-	if elems.Offset%int64(elemtype.Align) != 0 {
+	if elems.Offset%int64(uint8(elemtype.Alignment())) != 0 {
 		base.Fatalf("bad alignment of elems in bmap for %v", t)
 	}
 
 	// Double-check that overflow field is final memory in struct,
 	// with no padding at end.
-	if overflow.Offset != bucket.Width-int64(Widthptr) {
+	if overflow.Offset != bucket.Size()-int64(Widthptr) {
 		base.Fatalf("bad offset of overflow in bmap for %v", t)
 	}
 
@@ -224,12 +224,12 @@ func hmap(t *types.Type) *types.Type {
 	hmap := types.New(types.TSTRUCT)
 	hmap.SetNoalg(true)
 	hmap.SetFields(fields)
-	dowidth(hmap)
+	hmap.Size()
 
 	// The size of hmap should be 48 bytes on 64 bit
 	// and 28 bytes on 32 bit platforms.
-	if size := int64(8 + 5*Widthptr); hmap.Width != size {
-		base.Fatalf("hmap size not correct: got %d, want %d", hmap.Width, size)
+	if size := int64(8 + 5*Widthptr); hmap.Size() != size {
+		base.Fatalf("hmap size not correct: got %d, want %d", hmap.Size(), size)
 	}
 
 	t.MapType().Hmap = hmap
@@ -288,9 +288,9 @@ func hiter(t *types.Type) *types.Type {
 	hiter := types.New(types.TSTRUCT)
 	hiter.SetNoalg(true)
 	hiter.SetFields(fields)
-	dowidth(hiter)
-	if hiter.Width != int64(12*Widthptr) {
-		base.Fatalf("hash_iter size not correct %d %d", hiter.Width, 12*Widthptr)
+	hiter.Size()
+	if hiter.Size() != int64(12*Widthptr) {
+		base.Fatalf("hash_iter size not correct %d %d", hiter.Size(), 12*Widthptr)
 	}
 	t.MapType().Hiter = hiter
 	hiter.StructType().Map = t
@@ -448,7 +448,7 @@ func methods(t *types.Type) []*Sig {
 func imethods(t *types.Type) []*Sig {
 	var methods []*Sig
 	for _, f := range t.Fields().Slice() {
-		if f.Type.Etype != types.TFUNC || f.Sym == nil {
+		if f.Type.Kind() != types.TFUNC || f.Sym == nil {
 			continue
 		}
 		if f.Sym.IsBlank() {
@@ -640,7 +640,7 @@ func dname(name, tag string, pkg *types.Pkg, exported bool) *obj.LSym {
 // backing array of the []method field is written (by dextratypeData).
 func dextratype(lsym *obj.LSym, ot int, t *types.Type, dataAdd int) int {
 	m := methods(t)
-	if t.Sym == nil && len(m) == 0 {
+	if t.Sym() == nil && len(m) == 0 {
 		return ot
 	}
 	noff := int(Rnd(int64(ot), int64(Widthptr)))
@@ -672,16 +672,16 @@ func dextratype(lsym *obj.LSym, ot int, t *types.Type, dataAdd int) int {
 }
 
 func typePkg(t *types.Type) *types.Pkg {
-	tsym := t.Sym
+	tsym := t.Sym()
 	if tsym == nil {
-		switch t.Etype {
+		switch t.Kind() {
 		case types.TARRAY, types.TSLICE, types.TPTR, types.TCHAN:
 			if t.Elem() != nil {
-				tsym = t.Elem().Sym
+				tsym = t.Elem().Sym()
 			}
 		}
 	}
-	if tsym != nil && t != types.Types[t.Etype] && t != types.Errortype {
+	if tsym != nil && t != types.Types[t.Kind()] && t != types.ErrorType {
 		return tsym.Pkg
 	}
 	return nil
@@ -753,7 +753,7 @@ func typeptrdata(t *types.Type) int64 {
 		return 0
 	}
 
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TPTR,
 		types.TUNSAFEPTR,
 		types.TFUNC,
@@ -777,7 +777,7 @@ func typeptrdata(t *types.Type) int64 {
 
 	case types.TARRAY:
 		// haspointers already eliminated t.NumElem() == 0.
-		return (t.NumElem()-1)*t.Elem().Width + typeptrdata(t.Elem())
+		return (t.NumElem()-1)*t.Elem().Size() + typeptrdata(t.Elem())
 
 	case types.TSTRUCT:
 		// Find the last field that has pointers.
@@ -816,14 +816,14 @@ var (
 
 // dcommontype dumps the contents of a reflect.rtype (runtime._type).
 func dcommontype(lsym *obj.LSym, t *types.Type) int {
-	dowidth(t)
+	t.Size()
 	eqfunc := geneq(t)
 
 	sptrWeak := true
 	var sptr *obj.LSym
 	if !t.IsPtr() || t.IsPtrElem() {
 		tptr := types.NewPtr(t)
-		if t.Sym != nil || methods(tptr) != nil {
+		if t.Sym() != nil || methods(tptr) != nil {
 			sptrWeak = false
 		}
 		sptr = dtypesym(tptr)
@@ -847,7 +847,7 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 	//		ptrToThis     typeOff
 	//	}
 	ot := 0
-	ot = duintptr(lsym, ot, uint64(t.Width))
+	ot = duintptr(lsym, ot, uint64(t.Size()))
 	ot = duintptr(lsym, ot, uint64(ptrdata))
 	ot = duint32(lsym, ot, typehash(t))
 
@@ -855,7 +855,7 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 	if uncommonSize(t) != 0 {
 		tflag |= tflagUncommon
 	}
-	if t.Sym != nil && t.Sym.Name != "" {
+	if t.Sym() != nil && t.Sym().Name != "" {
 		tflag |= tflagNamed
 	}
 	if IsRegularMemory(t) {
@@ -872,30 +872,30 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 	if !strings.HasPrefix(p, "*") {
 		p = "*" + p
 		tflag |= tflagExtraStar
-		if t.Sym != nil {
-			exported = types.IsExported(t.Sym.Name)
+		if t.Sym() != nil {
+			exported = types.IsExported(t.Sym().Name)
 		}
 	} else {
-		if t.Elem() != nil && t.Elem().Sym != nil {
-			exported = types.IsExported(t.Elem().Sym.Name)
+		if t.Elem() != nil && t.Elem().Sym() != nil {
+			exported = types.IsExported(t.Elem().Sym().Name)
 		}
 	}
 
 	ot = duint8(lsym, ot, tflag)
 
 	// runtime (and common sense) expects alignment to be a power of two.
-	i := int(t.Align)
+	i := int(uint8(t.Alignment()))
 
 	if i == 0 {
 		i = 1
 	}
 	if i&(i-1) != 0 {
-		base.Fatalf("invalid alignment %d for %v", t.Align, t)
+		base.Fatalf("invalid alignment %d for %v", uint8(t.Alignment()), t)
 	}
-	ot = duint8(lsym, ot, t.Align) // align
-	ot = duint8(lsym, ot, t.Align) // fieldAlign
+	ot = duint8(lsym, ot, uint8(t.Alignment())) // align
+	ot = duint8(lsym, ot, uint8(t.Alignment())) // fieldAlign
 
-	i = kinds[t.Etype]
+	i = kinds[t.Kind()]
 	if isdirectiface(t) {
 		i |= objabi.KindDirectIface
 	}
@@ -1029,7 +1029,7 @@ func itabname(t, itype *types.Type) ir.Node {
 // isreflexive reports whether t has a reflexive equality operator.
 // That is, if x==x for all x of type t.
 func isreflexive(t *types.Type) bool {
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TBOOL,
 		types.TINT,
 		types.TUINT,
@@ -1075,7 +1075,7 @@ func isreflexive(t *types.Type) bool {
 // needkeyupdate reports whether map updates with t as a key
 // need the key to be updated.
 func needkeyupdate(t *types.Type) bool {
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TBOOL, types.TINT, types.TUINT, types.TINT8, types.TUINT8, types.TINT16, types.TUINT16, types.TINT32, types.TUINT32,
 		types.TINT64, types.TUINT64, types.TUINTPTR, types.TPTR, types.TUNSAFEPTR, types.TCHAN:
 		return false
@@ -1104,7 +1104,7 @@ func needkeyupdate(t *types.Type) bool {
 
 // hashMightPanic reports whether the hash of a map key of type t might panic.
 func hashMightPanic(t *types.Type) bool {
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TINTER:
 		return true
 
@@ -1128,8 +1128,8 @@ func hashMightPanic(t *types.Type) bool {
 // They've been separate internally to make error messages
 // better, but we have to merge them in the reflect tables.
 func formalType(t *types.Type) *types.Type {
-	if t == types.Bytetype || t == types.Runetype {
-		return types.Types[t.Etype]
+	if t == types.ByteType || t == types.RuneType {
+		return types.Types[t.Kind()]
 	}
 	return t
 }
@@ -1152,19 +1152,19 @@ func dtypesym(t *types.Type) *obj.LSym {
 	// emit the type structures for int, float, etc.
 	tbase := t
 
-	if t.IsPtr() && t.Sym == nil && t.Elem().Sym != nil {
+	if t.IsPtr() && t.Sym() == nil && t.Elem().Sym() != nil {
 		tbase = t.Elem()
 	}
 	dupok := 0
-	if tbase.Sym == nil {
+	if tbase.Sym() == nil {
 		dupok = obj.DUPOK
 	}
 
-	if base.Ctxt.Pkgpath != "runtime" || (tbase != types.Types[tbase.Etype] && tbase != types.Bytetype && tbase != types.Runetype && tbase != types.Errortype) { // int, float, etc
+	if base.Ctxt.Pkgpath != "runtime" || (tbase != types.Types[tbase.Kind()] && tbase != types.ByteType && tbase != types.RuneType && tbase != types.ErrorType) { // int, float, etc
 		// named types from other files are defined only by those files
-		if tbase.Sym != nil && tbase.Sym.Pkg != ir.LocalPkg {
+		if tbase.Sym() != nil && tbase.Sym().Pkg != ir.LocalPkg {
 			if i, ok := typeSymIdx[tbase]; ok {
-				lsym.Pkg = tbase.Sym.Pkg.Prefix
+				lsym.Pkg = tbase.Sym().Pkg.Prefix
 				if t != tbase {
 					lsym.SymIdx = int32(i[1])
 				} else {
@@ -1175,13 +1175,13 @@ func dtypesym(t *types.Type) *obj.LSym {
 			return lsym
 		}
 		// TODO(mdempsky): Investigate whether this can happen.
-		if tbase.Etype == types.TFORW {
+		if tbase.Kind() == types.TFORW {
 			return lsym
 		}
 	}
 
 	ot := 0
-	switch t.Etype {
+	switch t.Kind() {
 	default:
 		ot = dcommontype(lsym, t)
 		ot = dextratype(lsym, ot, t, 0)
@@ -1262,8 +1262,8 @@ func dtypesym(t *types.Type) *obj.LSym {
 		ot = dcommontype(lsym, t)
 
 		var tpkg *types.Pkg
-		if t.Sym != nil && t != types.Types[t.Etype] && t != types.Errortype {
-			tpkg = t.Sym.Pkg
+		if t.Sym() != nil && t != types.Types[t.Kind()] && t != types.ErrorType {
+			tpkg = t.Sym().Pkg
 		}
 		ot = dgopkgpath(lsym, ot, tpkg)
 
@@ -1301,20 +1301,20 @@ func dtypesym(t *types.Type) *obj.LSym {
 		var flags uint32
 		// Note: flags must match maptype accessors in ../../../../runtime/type.go
 		// and maptype builder in ../../../../reflect/type.go:MapOf.
-		if t.Key().Width > MAXKEYSIZE {
+		if t.Key().Size() > MAXKEYSIZE {
 			ot = duint8(lsym, ot, uint8(Widthptr))
 			flags |= 1 // indirect key
 		} else {
-			ot = duint8(lsym, ot, uint8(t.Key().Width))
+			ot = duint8(lsym, ot, uint8(t.Key().Size()))
 		}
 
-		if t.Elem().Width > MAXELEMSIZE {
+		if t.Elem().Size() > MAXELEMSIZE {
 			ot = duint8(lsym, ot, uint8(Widthptr))
 			flags |= 2 // indirect value
 		} else {
-			ot = duint8(lsym, ot, uint8(t.Elem().Width))
+			ot = duint8(lsym, ot, uint8(t.Elem().Size()))
 		}
-		ot = duint16(lsym, ot, uint16(bmap(t).Width))
+		ot = duint16(lsym, ot, uint16(bmap(t).Size()))
 		if isreflexive(t.Key()) {
 			flags |= 4 // reflexive key
 		}
@@ -1328,7 +1328,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 		ot = dextratype(lsym, ot, t, 0)
 
 	case types.TPTR:
-		if t.Elem().Etype == types.TANY {
+		if t.Elem().Kind() == types.TANY {
 			// ../../../../runtime/type.go:/UnsafePointerType
 			ot = dcommontype(lsym, t)
 			ot = dextratype(lsym, ot, t, 0)
@@ -1397,13 +1397,13 @@ func dtypesym(t *types.Type) *obj.LSym {
 	// When buildmode=shared, all types are in typelinks so the
 	// runtime can deduplicate type pointers.
 	keep := base.Ctxt.Flag_dynlink
-	if !keep && t.Sym == nil {
+	if !keep && t.Sym() == nil {
 		// For an unnamed type, we only need the link if the type can
 		// be created at run time by reflect.PtrTo and similar
 		// functions. If the type exists in the program, those
 		// functions must return the existing type structure rather
 		// than creating a new one.
-		switch t.Etype {
+		switch t.Kind() {
 		case types.TPTR, types.TARRAY, types.TCHAN, types.TFUNC, types.TMAP, types.TSLICE, types.TSTRUCT:
 			keep = true
 		}
@@ -1541,7 +1541,7 @@ func dumpsignats() {
 		for _, ts := range signats {
 			t := ts.t
 			dtypesym(t)
-			if t.Sym != nil {
+			if t.Sym() != nil {
 				dtypesym(types.NewPtr(t))
 			}
 		}
@@ -1616,7 +1616,7 @@ func dumpbasictypes() {
 	// another possible choice would be package main,
 	// but using runtime means fewer copies in object files.
 	if base.Ctxt.Pkgpath == "runtime" {
-		for i := types.EType(1); i <= types.TBOOL; i++ {
+		for i := types.Kind(1); i <= types.TBOOL; i++ {
 			dtypesym(types.NewPtr(types.Types[i]))
 		}
 		dtypesym(types.NewPtr(types.Types[types.TSTRING]))
@@ -1624,9 +1624,9 @@ func dumpbasictypes() {
 
 		// emit type structs for error and func(error) string.
 		// The latter is the type of an auto-generated wrapper.
-		dtypesym(types.NewPtr(types.Errortype))
+		dtypesym(types.NewPtr(types.ErrorType))
 
-		dtypesym(functype(nil, []*ir.Field{anonfield(types.Errortype)}, []*ir.Field{anonfield(types.Types[types.TSTRING])}))
+		dtypesym(functype(nil, []*ir.Field{anonfield(types.ErrorType)}, []*ir.Field{anonfield(types.Types[types.TSTRING])}))
 
 		// add paths for runtime and main, which 6l imports implicitly.
 		dimportpath(Runtimepkg)
@@ -1665,7 +1665,7 @@ func (a typesByString) Less(i, j int) bool {
 	// will be equal for the above checks, but different in DWARF output.
 	// Sort by source position to ensure deterministic order.
 	// See issues 27013 and 30202.
-	if a[i].t.Etype == types.TINTER && a[i].t.Methods().Len() > 0 {
+	if a[i].t.Kind() == types.TINTER && a[i].t.Methods().Len() > 0 {
 		return a[i].t.Methods().Index(0).Pos.Before(a[j].t.Methods().Index(0).Pos)
 	}
 	return false
@@ -1767,8 +1767,8 @@ func fillptrmask(t *types.Type, ptrmask []byte) {
 // In practice, the size is typeptrdata(t) except for non-trivial arrays.
 // For non-trivial arrays, the program describes the full t.Width size.
 func dgcprog(t *types.Type) (*obj.LSym, int64) {
-	dowidth(t)
-	if t.Width == types.BADWIDTH {
+	t.Size()
+	if t.Size() == types.BADWIDTH {
 		base.Fatalf("dgcprog: %v badwidth", t)
 	}
 	lsym := typesymprefix(".gcprog", t).Linksym()
@@ -1777,8 +1777,8 @@ func dgcprog(t *types.Type) (*obj.LSym, int64) {
 	p.emit(t, 0)
 	offset := p.w.BitIndex() * int64(Widthptr)
 	p.end()
-	if ptrdata := typeptrdata(t); offset < ptrdata || offset > t.Width {
-		base.Fatalf("dgcprog: %v: offset=%d but ptrdata=%d size=%d", t, offset, ptrdata, t.Width)
+	if ptrdata := typeptrdata(t); offset < ptrdata || offset > t.Size() {
+		base.Fatalf("dgcprog: %v: offset=%d but ptrdata=%d size=%d", t, offset, ptrdata, t.Size())
 	}
 	return lsym, offset
 }
@@ -1813,15 +1813,15 @@ func (p *GCProg) end() {
 }
 
 func (p *GCProg) emit(t *types.Type, offset int64) {
-	dowidth(t)
+	t.Size()
 	if !t.HasPointers() {
 		return
 	}
-	if t.Width == int64(Widthptr) {
+	if t.Size() == int64(Widthptr) {
 		p.w.Ptr(offset / int64(Widthptr))
 		return
 	}
-	switch t.Etype {
+	switch t.Kind() {
 	default:
 		base.Fatalf("GCProg.emit: unexpected type %v", t)
 
@@ -1849,16 +1849,16 @@ func (p *GCProg) emit(t *types.Type, offset int64) {
 			elem = elem.Elem()
 		}
 
-		if !p.w.ShouldRepeat(elem.Width/int64(Widthptr), count) {
+		if !p.w.ShouldRepeat(elem.Size()/int64(Widthptr), count) {
 			// Cheaper to just emit the bits.
 			for i := int64(0); i < count; i++ {
-				p.emit(elem, offset+i*elem.Width)
+				p.emit(elem, offset+i*elem.Size())
 			}
 			return
 		}
 		p.emit(elem, offset)
-		p.w.ZeroUntil((offset + elem.Width) / int64(Widthptr))
-		p.w.Repeat(elem.Width/int64(Widthptr), count-1)
+		p.w.ZeroUntil((offset + elem.Size()) / int64(Widthptr))
+		p.w.Repeat(elem.Size()/int64(Widthptr), count-1)
 
 	case types.TSTRUCT:
 		for _, t1 := range t.Fields().Slice() {
