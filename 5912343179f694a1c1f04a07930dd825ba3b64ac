@@ -87,6 +87,24 @@
       "parentUuid": "8e5fccf7_a7a384f8",
       "revId": "5912343179f694a1c1f04a07930dd825ba3b64ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bc1390b_3fe762ec",
+        "filename": "test/cannotassign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T18:08:03Z",
+      "side": 1,
+      "message": ":-)",
+      "parentUuid": "0c302ffa_6b9b7e88",
+      "revId": "5912343179f694a1c1f04a07930dd825ba3b64ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
