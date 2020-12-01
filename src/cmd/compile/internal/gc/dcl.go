@@ -333,7 +333,7 @@ func funchdr(fn *ir.Func) {
 
 	types.Markdcl()
 
-	if fn.Nname.Ntype != nil {
+	if fn.Nname != nil && fn.Nname.Ntype != nil {
 		funcargs(fn.Nname.Ntype.(*ir.FuncType))
 	} else {
 		funcargs2(fn.Type())
@@ -419,7 +419,14 @@ func funcargs2(t *types.Type) {
 	for _, f := range t.Params().Fields().Slice() {
 		funcarg2(f, ir.PPARAM)
 	}
+	gen := t.Params().Fields().Len()
 	for _, f := range t.Results().Fields().Slice() {
+		if f.Sym == nil {
+			// Need named return values for imported, then inlined closures.
+			// Same as what we do in funcargs().
+			f.Sym = lookupN("~r", gen)
+			gen++
+		}
 		funcarg2(f, ir.PPARAMOUT)
 	}
 }

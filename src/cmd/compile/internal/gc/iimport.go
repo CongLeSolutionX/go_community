@@ -690,6 +690,9 @@ func (r *importReader) doInline(fn *ir.Func) {
 		base.Fatalf("%v already has inline body", fn)
 	}
 
+	//fmt.Printf("Importing %v\n", n)
+	// Will create and declare the receiver/param/result nodes
+
 	funchdr(fn)
 	body := r.stmtList()
 	funcbody()
@@ -703,6 +706,17 @@ func (r *importReader) doInline(fn *ir.Func) {
 		body = []ir.Node{}
 	}
 	fn.Inl.Body = body
+
+	// Make sure decldepth is correct for any closure vars.
+	// Same as code at beginning of typecheckfunc()
+	for _, ln := range fn.Dcl {
+		if ln.Op() == ir.ONAME && (ln.Class() == ir.PPARAM || ln.Class() == ir.PPARAMOUT) {
+			ln.Name().Decldepth = 1
+		}
+	}
+
+	//dumplist(fmt.Sprintf("dcl of %v", n), asNodes(fn.Dcl))
+	//dumplist(fmt.Sprintf("boyd of %v", n), asNodes(fn.Inl.Body))
 
 	importlist = append(importlist, fn)
 
@@ -819,7 +833,42 @@ func (r *importReader) node() ir.Node {
 		return r.qualifiedIdent()
 
 	case ir.ONAME:
-		return r.ident().Def.(*ir.Name)
+		if true {
+			s := r.ident()
+			n := ir.AsNode(s.Def)
+
+			if Curfn != nil && n.Op() == ir.ONAME && n.Name().Curfn != nil && n.Name().Curfn != Curfn {
+				// Inner func is referring to var in outer func.
+				//
+				// TODO(rsc): If there is an outer variable x and we
+				// are parsing x := 5 inside the closure, until we get to
+				// the := it looks like a reference to the outer x so we'll
+				// make x a closure variable unnecessarily.
+				c := n.Name().Innermost
+				if c == nil || c.Curfn != Curfn {
+					// Do not have a closure var for the active closure yet; make one.
+					c = NewName(s)
+					c.SetClass(ir.PAUTOHEAP)
+					c.SetIsClosureVar(true)
+					c.SetIsDDD(n.IsDDD())
+					c.Defn = n
+
+					// Link into list of active closure variables.
+					// Popped from list in func funcLit.
+					c.Outer = n.Name().Innermost
+					n.Name().Innermost = c
+
+					Curfn.ClosureVars = append(Curfn.ClosureVars, c)
+				}
+
+				// return ref to closure var, not original
+				return c
+			}
+
+			return n
+		} else {
+			return r.ident().Def.(*ir.Name)
+		}
 
 	// case OPACK, ONONAME:
 	// 	unreachable - should have been resolved by typechecking
@@ -839,8 +888,61 @@ func (r *importReader) node() ir.Node {
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	//      unreachable - should have been resolved by typechecking
 
-	// case OCLOSURE:
-	//	unimplemented
+	case ir.OCLOSURE:
+		//println("Importing CLOSURE")
+		pos := r.pos()
+		xtype := r.expr().(ir.Ntype)
+
+		// All the remaining code below is equivalent to (*noder).funcLit()
+		fn := ir.NewFunc(pos)
+		fn.SetIsHiddenClosure(true)
+		fn.SetType(xtype.Type())
+		// Fills in fn.Func.Dcl with the parameters. Call before
+		// setting fn.Nname.Ntype, so fn.Type() will be used rather than
+		// fn.Nname.Ntype (which is a compressed OTYPE, not an OTFUNC)
+		funchdr(fn)
+		// Fills in xfunc.Func.Cvars via oldname()
+		body := r.stmtList()
+		funcbody()
+
+		fn.Nname = newFuncNameAt(pos, ir.BlankNode.Sym(), fn)
+		//xfunc.Func.Nname.Name.Param.Ntype = xtype
+		fn.Nname.Ntype = xtype
+		fn.Nname.Defn = fn
+
+		// fn.Nname.Ntype and fn.ClosureType must be different types, so
+		// clone xtype. (They need to be different, at least, because
+		// fn.ClosureType may have its typewidth set during typechecking,
+		// if is being called directly, whereas fn.Nname.Ntype must not
+		// have its typewidth set until after transformclosure().
+		clotype := &types.Type{}
+		*clotype = *xtype.Type()
+		newtfunc := &types.Func{}
+		clotype.Extra = newtfunc
+		*newtfunc = *(xtype.Type().FuncType())
+		newtfunc.Results = &types.Type{}
+		*newtfunc.Results = *xtype.Type().Results()
+		newtfunc.Receiver = &types.Type{}
+		*newtfunc.Receiver = *xtype.Type().Recvs()
+		newtfunc.Params = &types.Type{}
+		*newtfunc.Params = *xtype.Type().Recvs()
+
+		clo := ir.NewClosureExpr(pos, fn)
+		fn.ClosureType = ir.TypeNode(clotype) // XXX would like to set pos
+		fn.OClosure = clo
+
+		fn.PtrBody().Set(body)
+
+		for _, v := range fn.ClosureVars {
+			// Unlink from v1; see comment in syntax.go type Param for these fields.
+			v1 := v.Defn
+			v1.Name().Innermost = v.Outer
+			//v.Outer = oldname(v.Sym()).(*ir.Name)
+			v.Outer = v.Sym().Def.(*ir.Name)
+		}
+
+		//println("Importing CLOSURE done")
+		return clo
 
 	// case OPTRLIT:
 	//	unreachable - mapped to case OADDR below by exporter

@@ -275,6 +275,10 @@ func Main(archInit func(*Arch)) {
 		if n.Op() == ir.ODCLFUNC {
 			Curfn = n.(*ir.Func)
 			decldepth = 1
+			if base.Flag.W > 1 {
+				s := fmt.Sprintf("\nbefore typecheck %v", n.Func().Nname.Sym())
+				ir.Dump(s, n)
+			}
 			errorsBefore := base.Errors()
 			typecheckslice(Curfn.Body().Slice(), ctxStmt)
 			checkreturn(Curfn)
@@ -352,7 +356,15 @@ func Main(archInit func(*Arch)) {
 						fmt.Printf("%v: cannot inline %v: recursive\n", ir.Line(n), n.Nname)
 					}
 				}
+				if base.Flag.W > 1 {
+					s := fmt.Sprintf("\nbefore inline %v", n.Func().Nname.Sym())
+					ir.Dump(s, n)
+				}
 				inlcalls(n)
+				if base.Flag.W > 1 {
+					s := fmt.Sprintf("\nafter inline %v", n.Func().Nname.Sym())
+					ir.Dump(s, n)
+				}
 			}
 		})
 	}

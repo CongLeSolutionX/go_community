@@ -287,7 +287,8 @@ func NewClosureExpr(pos src.XPos, fn *Func) *ClosureExpr {
 	return n
 }
 
-func (n *ClosureExpr) Func() *Func { return n.Func_ }
+func (n *ClosureExpr) Func() *Func     { return n.Func_ }
+func (n *ClosureExpr) SetFunc(f *Func) { n.Func_ = f }
 
 // A ClosureRead denotes reading a variable stored within a closure struct.
 type ClosureReadExpr struct {

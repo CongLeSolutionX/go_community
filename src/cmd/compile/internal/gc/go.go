@@ -139,6 +139,7 @@ var (
 var dclcontext ir.Class // PEXTERN/PAUTO
 
 var Curfn *ir.Func
+var InTypeCheckInl bool
 
 var Widthptr int
 

@@ -111,8 +111,16 @@ func typecheckclosure(clo ir.Node, top int) {
 		}
 	}
 
-	fn.Nname.SetSym(closurename(Curfn))
-	setNodeNameFunc(fn.Nname)
+	// Don't give a name and add to xtop if function if called from
+	// typecheckinl(), since we only want to create the named xfunc when the
+	// closure is actually inlined (and then we will call typecheckclosure()
+	// explicitly in (*inlsubst).node(). Also, only give it a name and add to
+	// xtop exactly once, even if we typecheck multiple times.
+	giveName := !InTypeCheckInl && fn.Nname.Sym().Name == "_"
+	if giveName {
+		fn.Nname.SetSym(closurename(Curfn))
+		setNodeNameFunc(fn.Nname)
+	}
 	typecheckFunc(fn)
 
 	// Type check the body now, but only if we're inside a function.
@@ -129,7 +137,14 @@ func typecheckclosure(clo ir.Node, top int) {
 		Curfn = oldfn
 	}
 
-	Target.Decls = append(Target.Decls, fn)
+	if base.Flag.W > 1 {
+		s := fmt.Sprintf("New closure func: %s", ir.FuncName(fn))
+		ir.Dump(s, fn)
+	}
+	if giveName {
+		// Add function to Target.Decls once only when we give it a name
+		Target.Decls = append(Target.Decls, fn)
+	}
 }
 
 // globClosgen is like Func.Closgen, but for the global scope.

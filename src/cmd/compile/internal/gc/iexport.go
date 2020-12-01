@@ -986,6 +986,7 @@ func (w *exportWriter) funcExt(n *ir.Name) {
 	if n.Func().Inl != nil {
 		w.uint64(1 + uint64(n.Func().Inl.Cost))
 		if n.Func().ExportInline() {
+			//println("Exporting", n.Sym.Name)
 			w.p.doInline(n)
 		}
 
@@ -1299,8 +1300,12 @@ func (w *exportWriter) expr(n ir.Node) {
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	// 	should have been resolved by typechecking - handled by default case
 
-	// case OCLOSURE:
-	//	unimplemented - handled by default case
+	case ir.OCLOSURE:
+		//Dump("Exporting closure", n.Func.Closure)
+		w.op(ir.OCLOSURE)
+		w.pos(n.Pos())
+		w.expr(n.Func().Nname.Ntype)
+		w.stmtList(n.Func().Body())
 
 	// case OCOMPLIT:
 	// 	should have been resolved by typechecking - handled by default case
@@ -1518,6 +1523,24 @@ func (w *exportWriter) localName(n *ir.Name) {
 	var v int32
 	if n.Class() == ir.PAUTO || (n.Class() == ir.PAUTOHEAP && n.Name().Stackcopy == nil) {
 		v = n.Name().Vargen
+		// We need to use the Vargen of the captured variable, so that on
+		// import, we use the same symbol for the closure variable, and
+		// so will be able to find the associated captured variable.
+		if n.Name().IsClosureVar() {
+			cl := n.Name().Defn.Class()
+			if cl == ir.PAUTO || cl == ir.PAUTOHEAP {
+				v = n.Name().Defn.Name().Vargen
+			}
+		}
+	}
+	// XXX Hack. A closure variable's class will change to PPARAM during
+	// transformclosure(), which will then be seen when we export an inlinable
+	// body.
+	if n.Class() == ir.PPARAM && n.Name().IsClosureVar() && n.Name().Defn.Name().Vargen > 0 {
+		cl := n.Name().Defn.Class()
+		if cl == ir.PAUTO || cl == ir.PAUTOHEAP {
+			v = n.Name().Defn.Name().Vargen
+		}
 	}
 
 	w.localIdent(n.Sym(), v)
