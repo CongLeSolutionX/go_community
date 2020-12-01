@@ -16,6 +16,23 @@
       "message": "TRY\u003driscv64\n",
       "revId": "5c248e5c0c8166eed49720602e1d65d5e84dfe40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "255ba52b_2baed297",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35100
+      },
+      "writtenOn": "2020-12-01T22:34:21Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3:\n\u003e \n\u003e SlowBots beginning. Status page: https://farmer.golang.org/try?commit\u003d5c248e5c\n\nIt\u0027s weird that the build on linux-riscv64-jsing takes so much time without reaching an end.  I did my own test on Fedora 2020-Feb build using Qemu 5.1.0 release.",
+      "revId": "5c248e5c0c8166eed49720602e1d65d5e84dfe40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
