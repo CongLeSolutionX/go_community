@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d87ddbf_27165ce3",
+        "filename": "src/net/http/httptest/httptest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2020-12-01T19:37:28Z",
+      "side": 1,
+      "message": "This is a pretty expensive check to do on each NewRequest call. Also, I don\u0027t think this fixes the bug. This RemoteAddr string isn\u0027t really used for anything interesting. It\u0027s just a dummy value. The error in the bug was about something else.",
+      "revId": "8e1fa91c1e8d8a8233e29e801fdb19e09497999a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a482679_219e0657",
         "filename": "src/net/http/httptest/httptest.go",
         "patchSetId": 2
