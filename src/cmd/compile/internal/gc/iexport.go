@@ -1050,6 +1050,14 @@ func (w *exportWriter) stmt(n ir.Node) {
 	}
 
 	switch op := n.Op(); op {
+	case ir.OBLOCK:
+		// No OBLOCK in export data.
+		// Inline content into this statement list,
+		// like the init list above.
+		for _, n := range n.Init().Slice() {
+			w.stmt(n)
+		}
+
 	case ir.ODCL:
 		w.op(ir.ODCL)
 		w.pos(n.Left().Pos())
@@ -1130,9 +1138,6 @@ func (w *exportWriter) stmt(n ir.Node) {
 	case ir.OFALL:
 		w.op(ir.OFALL)
 		w.pos(n.Pos())
-
-	case ir.OEMPTY:
-		// nothing to emit
 
 	case ir.OBREAK, ir.OCONTINUE, ir.OGOTO, ir.OLABEL:
 		w.op(op)
