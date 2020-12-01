@@ -68,6 +68,24 @@
       "parentUuid": "2594a21d_ac10bc25",
       "revId": "b1acd80f002cac514571ad96ab72b107edaffe31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e3f81f_982ae4e1",
+        "filename": "src/cmd/go/internal/base/signal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-01T15:28:34Z",
+      "side": 1,
+      "message": "Hmm, that\u0027s a good point. I was thinking the conditions in which we lose the signal would be the same as the conditions in which the call to signal.Notify hasn\u0027t even executed yet, but the behavior is different if any of the signals have default behavior other than “ignore”, and SIGQUIT definitely does.",
+      "parentUuid": "c39594d6_6c8b3798",
+      "revId": "b1acd80f002cac514571ad96ab72b107edaffe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
