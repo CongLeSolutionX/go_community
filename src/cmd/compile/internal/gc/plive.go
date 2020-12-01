@@ -407,8 +407,8 @@ func (lv *Liveness) blockEffects(b *ssa.Block) *BlockEffects {
 // the first run and then simply copied into bv at the correct offset
 // on future calls with the same type t.
 func onebitwalktype1(t *types.Type, off int64, bv bvec) {
-	if t.Align > 0 && off&int64(t.Align-1) != 0 {
-		base.Fatalf("onebitwalktype1: invalid initial alignment: type %v has alignment %d, but offset is %v", t, t.Align, off)
+	if uint8(t.Alignment()) > 0 && off&int64(uint8(t.Alignment())-1) != 0 {
+		base.Fatalf("onebitwalktype1: invalid initial alignment: type %v has alignment %d, but offset is %v", t, uint8(t.Alignment()), off)
 	}
 	if !t.HasPointers() {
 		// Note: this case ensures that pointers to go:notinheap types
@@ -416,7 +416,7 @@ func onebitwalktype1(t *types.Type, off int64, bv bvec) {
 		return
 	}
 
-	switch t.Etype {
+	switch t.Kind() {
 	case types.TPTR, types.TUNSAFEPTR, types.TFUNC, types.TCHAN, types.TMAP:
 		if off&int64(Widthptr-1) != 0 {
 			base.Fatalf("onebitwalktype1: invalid alignment, %v", t)
@@ -460,13 +460,13 @@ func onebitwalktype1(t *types.Type, off int64, bv bvec) {
 
 	case types.TARRAY:
 		elt := t.Elem()
-		if elt.Width == 0 {
+		if elt.Size() == 0 {
 			// Short-circuit for #20739.
 			break
 		}
 		for i := int64(0); i < t.NumElem(); i++ {
 			onebitwalktype1(elt, off, bv)
-			off += elt.Width
+			off += elt.Size()
 		}
 
 	case types.TSTRUCT:
@@ -1300,7 +1300,7 @@ func liveness(e *ssafn, f *ssa.Func, pp *Progs) LivenessMap {
 // to fully initialize t.
 func isfat(t *types.Type) bool {
 	if t != nil {
-		switch t.Etype {
+		switch t.Kind() {
 		case types.TSLICE, types.TSTRING,
 			types.TINTER: // maybe remove later
 			return true

@@ -114,7 +114,7 @@ func (s *InitSchedule) staticcopy(l ir.Node, r ir.Node) bool {
 		if isZero(r) {
 			return true
 		}
-		litsym(l, r, int(l.Type().Width))
+		litsym(l, r, int(l.Type().Size()))
 		return true
 
 	case ir.OADDR:
@@ -146,7 +146,7 @@ func (s *InitSchedule) staticcopy(l ir.Node, r ir.Node) bool {
 			n.SetOffset(l.Offset() + e.Xoffset)
 			n.SetType(e.Expr.Type())
 			if e.Expr.Op() == ir.OLITERAL || e.Expr.Op() == ir.ONIL {
-				litsym(n, e.Expr, int(n.Type().Width))
+				litsym(n, e.Expr, int(n.Type().Size()))
 				continue
 			}
 			ll := ir.SepCopy(n)
@@ -184,7 +184,7 @@ func (s *InitSchedule) staticassign(l ir.Node, r ir.Node) bool {
 		if isZero(r) {
 			return true
 		}
-		litsym(l, r, int(l.Type().Width))
+		litsym(l, r, int(l.Type().Size()))
 		return true
 
 	case ir.OADDR:
@@ -241,7 +241,7 @@ func (s *InitSchedule) staticassign(l ir.Node, r ir.Node) bool {
 			n.SetOffset(l.Offset() + e.Xoffset)
 			n.SetType(e.Expr.Type())
 			if e.Expr.Op() == ir.OLITERAL || e.Expr.Op() == ir.ONIL {
-				litsym(n, e.Expr, int(n.Type().Width))
+				litsym(n, e.Expr, int(n.Type().Size()))
 				continue
 			}
 			setlineno(e.Expr)
@@ -593,13 +593,13 @@ func isSmallSliceLit(n ir.Node) bool {
 
 	r := n.Right()
 
-	return smallintconst(r) && (n.Type().Elem().Width == 0 || r.Int64Val() <= smallArrayBytes/n.Type().Elem().Width)
+	return smallintconst(r) && (n.Type().Elem().Size() == 0 || r.Int64Val() <= smallArrayBytes/n.Type().Elem().Size())
 }
 
 func slicelit(ctxt initContext, n ir.Node, var_ ir.Node, init *ir.Nodes) {
 	// make an array type corresponding the number of elements we have
 	t := types.NewArray(n.Type().Elem(), n.Right().Int64Val())
-	dowidth(t)
+	t.Size()
 
 	if ctxt == inNonInitFunction {
 		// put everything into static array
@@ -785,8 +785,8 @@ func maplit(n ir.Node, m ir.Node, init *ir.Nodes) {
 		tk.SetNoalg(true)
 		te.SetNoalg(true)
 
-		dowidth(tk)
-		dowidth(te)
+		tk.Size()
+		te.Size()
 
 		// make and initialize static arrays
 		vstatk := readonlystaticname(tk)
@@ -1034,10 +1034,10 @@ func stataddr(n ir.Node) ir.Node {
 		}
 
 		// Check for overflow.
-		if n.Type().Width != 0 && thearch.MAXWIDTH/n.Type().Width <= int64(l) {
+		if n.Type().Size() != 0 && thearch.MAXWIDTH/n.Type().Size() <= int64(l) {
 			break
 		}
-		nam.SetOffset(nam.Offset() + int64(l)*n.Type().Width)
+		nam.SetOffset(nam.Offset() + int64(l)*n.Type().Size())
 		nam.SetType(n.Type())
 		return nam
 	}
@@ -1065,7 +1065,7 @@ func (s *InitSchedule) initplan(n ir.Node) {
 				}
 				a = a.Right()
 			}
-			s.addvalue(p, k*n.Type().Elem().Width, a)
+			s.addvalue(p, k*n.Type().Elem().Size(), a)
 			k++
 		}
 
@@ -1166,7 +1166,7 @@ func genAsStatic(as ir.Node) {
 
 	switch {
 	case as.Right().Op() == ir.OLITERAL:
-		litsym(nam, as.Right(), int(as.Right().Type().Width))
+		litsym(nam, as.Right(), int(as.Right().Type().Size()))
 	case (as.Right().Op() == ir.ONAME || as.Right().Op() == ir.OMETHEXPR) && as.Right().Class() == ir.PFUNC:
 		pfuncsym(nam, as.Right())
 	default:

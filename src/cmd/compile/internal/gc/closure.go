@@ -188,14 +188,14 @@ func capturevars(fn *ir.Func) {
 
 		// type check the & of closed variables outside the closure,
 		// so that the outer frame also grabs them and knows they escape.
-		dowidth(v.Type())
+		v.Type().Size()
 
 		var outer ir.Node
 		outer = v.Outer
 		outermost := v.Defn
 
 		// out parameters will be assigned to implicitly upon return.
-		if outermost.Class() != ir.PPARAMOUT && !outermost.Name().Addrtaken() && !outermost.Name().Assigned() && v.Type().Width <= 128 {
+		if outermost.Class() != ir.PPARAMOUT && !outermost.Name().Addrtaken() && !outermost.Name().Assigned() && v.Type().Size() <= 128 {
 			v.SetByval(true)
 		} else {
 			outermost.Name().SetAddrtaken(true)
@@ -211,7 +211,7 @@ func capturevars(fn *ir.Func) {
 			if v.Byval() {
 				how = "value"
 			}
-			base.WarnfAt(v.Pos(), "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym(), outermost.Name().Addrtaken(), outermost.Name().Assigned(), int32(v.Type().Width))
+			base.WarnfAt(v.Pos(), "%v capturing by %s: %v (addr=%v assign=%v width=%d)", name, how, v.Sym(), outermost.Name().Addrtaken(), outermost.Name().Assigned(), int32(v.Type().Size()))
 		}
 
 		outer = typecheck(outer, ctxExpr)
@@ -276,7 +276,7 @@ func transformclosure(fn *ir.Func) {
 			fn.Dcl = append(decls, fn.Dcl...)
 		}
 
-		dowidth(f.Type())
+		f.Type().Size()
 		fn.SetType(f.Type()) // update type of ODCLFUNC
 	} else {
 		// The closure is not called, so it is going to stay as closure.
@@ -288,11 +288,11 @@ func transformclosure(fn *ir.Func) {
 			if !v.Byval() {
 				typ = types.NewPtr(typ)
 			}
-			offset = Rnd(offset, int64(typ.Align))
+			offset = Rnd(offset, int64(uint8(typ.Alignment())))
 			cr := ir.NewClosureRead(typ, offset)
-			offset += typ.Width
+			offset += typ.Size()
 
-			if v.Byval() && v.Type().Width <= int64(2*Widthptr) {
+			if v.Byval() && v.Type().Size() <= int64(2*Widthptr) {
 				// If it is a small variable captured by value, downgrade it to PAUTO.
 				v.SetClass(ir.PAUTO)
 				fn.Dcl = append(fn.Dcl, v)
@@ -467,7 +467,7 @@ func makepartialcall(dot ir.Node, t0 *types.Type, meth *types.Sym) *ir.Func {
 	tfn.Type().SetPkg(t0.Pkg())
 
 	// Declare and initialize variable holding receiver.
-	cr := ir.NewClosureRead(rcvrtype, Rnd(int64(Widthptr), int64(rcvrtype.Align)))
+	cr := ir.NewClosureRead(rcvrtype, Rnd(int64(Widthptr), int64(uint8(rcvrtype.Alignment()))))
 	ptr := NewName(lookup(".this"))
 	declare(ptr, ir.PAUTO)
 	ptr.SetUsed(true)

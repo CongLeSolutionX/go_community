@@ -19,11 +19,11 @@ func evalunsafe(n ir.Node) int64 {
 		if tr == nil {
 			return 0
 		}
-		dowidth(tr)
+		tr.Size()
 		if n.Op() == ir.OALIGNOF {
-			return int64(tr.Align)
+			return int64(uint8(tr.Alignment()))
 		}
-		return tr.Width
+		return tr.Size()
 
 	case ir.OOFFSETOF:
 		// must be a selector.
