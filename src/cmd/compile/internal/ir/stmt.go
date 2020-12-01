@@ -38,12 +38,8 @@ func (n *Decl) SetLeft(x Node)                { n.X = x }
 // A miniStmt is a miniNode with extra fields common to statements.
 type miniStmt struct {
 	miniNode
-	init Nodes
 }
 
-func (n *miniStmt) Init() Nodes       { return n.init }
-func (n *miniStmt) SetInit(x Nodes)   { n.init = x }
-func (n *miniStmt) PtrInit() *Nodes   { return &n.init }
 func (n *miniStmt) HasCall() bool     { return n.bits&miniHasCall != 0 }
 func (n *miniStmt) SetHasCall(b bool) { n.bits.set(miniHasCall, b) }
 
@@ -52,6 +48,7 @@ func (n *miniStmt) SetHasCall(b bool) { n.bits.set(miniHasCall, b) }
 // If Def is true, the assignment is a :=.
 type AssignListStmt struct {
 	miniStmt
+	init   Nodes // declarations
 	Lhs    Nodes
 	Def    bool
 	Rhs    Nodes
@@ -72,6 +69,9 @@ func (n *AssignListStmt) String() string                { return fmt.Sprint(n) }
 func (n *AssignListStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *AssignListStmt) rawCopy() Node                 { c := *n; return &c }
 
+func (n *AssignListStmt) Init() Nodes       { return n.init }
+func (n *AssignListStmt) SetInit(x Nodes)   { n.init = x }
+func (n *AssignListStmt) PtrInit() *Nodes   { return &n.init }
 func (n *AssignListStmt) List() Nodes       { return n.Lhs }
 func (n *AssignListStmt) PtrList() *Nodes   { return &n.Lhs }
 func (n *AssignListStmt) SetList(x Nodes)   { n.Lhs = x }
@@ -96,6 +96,7 @@ func (n *AssignListStmt) SetOp(op Op) {
 // If Def is true, the assignment is a :=.
 type AssignStmt struct {
 	miniStmt
+	init   Nodes // declarations
 	X      Node
 	Def    bool
 	Y      Node
@@ -114,6 +115,9 @@ func (n *AssignStmt) String() string                { return fmt.Sprint(n) }
 func (n *AssignStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *AssignStmt) rawCopy() Node                 { c := *n; return &c }
 
+func (n *AssignStmt) Init() Nodes       { return n.init }
+func (n *AssignStmt) SetInit(x Nodes)   { n.init = x }
+func (n *AssignStmt) PtrInit() *Nodes   { return &n.init }
 func (n *AssignStmt) Left() Node        { return n.X }
 func (n *AssignStmt) SetLeft(x Node)    { n.X = x }
 func (n *AssignStmt) Right() Node       { return n.Y }
@@ -216,6 +220,7 @@ func (n *BranchStmt) SetSym(sym *types.Sym)         { n.Label = sym }
 // A CaseStmt is a case statement in a switch or select: case List: Body.
 type CaseStmt struct {
 	miniStmt
+	init Nodes // declarations for type switch
 	Vars Nodes // declared variable for this case in type switch
 	list Nodes // list of expressions for switch, early select
 	Comm Node  // communication case (Exprs[0]) after select is type-checked
@@ -234,6 +239,9 @@ func NewCaseStmt(pos src.XPos, list, body []Node) *CaseStmt {
 func (n *CaseStmt) String() string                { return fmt.Sprint(n) }
 func (n *CaseStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *CaseStmt) rawCopy() Node                 { c := *n; return &c }
+func (n *CaseStmt) Init() Nodes                   { return n.init }
+func (n *CaseStmt) PtrInit() *Nodes               { return &n.init }
+func (n *CaseStmt) SetInit(x Nodes)               { n.init = x }
 func (n *CaseStmt) List() Nodes                   { return n.list }
 func (n *CaseStmt) PtrList() *Nodes               { return &n.list }
 func (n *CaseStmt) SetList(x Nodes)               { n.list = x }
@@ -271,6 +279,7 @@ func (n *DeferStmt) SetLeft(x Node) { n.Call = x }
 type ForStmt struct {
 	miniStmt
 	Label    *types.Sym
+	init     Nodes
 	Cond     Node
 	Post     Node
 	Late     Nodes
@@ -292,6 +301,9 @@ func (n *ForStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *ForStmt) rawCopy() Node                 { c := *n; return &c }
 func (n *ForStmt) Sym() *types.Sym               { return n.Label }
 func (n *ForStmt) SetSym(x *types.Sym)           { n.Label = x }
+func (n *ForStmt) Init() Nodes                   { return n.init }
+func (n *ForStmt) PtrInit() *Nodes               { return &n.init }
+func (n *ForStmt) SetInit(x Nodes)               { n.init = x }
 func (n *ForStmt) Left() Node                    { return n.Cond }
 func (n *ForStmt) SetLeft(x Node)                { n.Cond = x }
 func (n *ForStmt) Right() Node                   { return n.Post }
@@ -335,6 +347,7 @@ func (n *GoStmt) SetLeft(x Node) { n.Call = x }
 // A IfStmt is a return statement: if Init; Cond { Then } else { Else }.
 type IfStmt struct {
 	miniStmt
+	init   Nodes
 	Cond   Node
 	body   Nodes
 	Else   Nodes
@@ -353,6 +366,9 @@ func NewIfStmt(pos src.XPos, cond Node, body, els []Node) *IfStmt {
 func (n *IfStmt) String() string                { return fmt.Sprint(n) }
 func (n *IfStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *IfStmt) rawCopy() Node                 { c := *n; return &c }
+func (n *IfStmt) Init() Nodes                   { return n.init }
+func (n *IfStmt) PtrInit() *Nodes               { return &n.init }
+func (n *IfStmt) SetInit(x Nodes)               { n.init = x }
 func (n *IfStmt) Left() Node                    { return n.Cond }
 func (n *IfStmt) SetLeft(x Node)                { n.Cond = x }
 func (n *IfStmt) Body() Nodes                   { return n.body }
@@ -407,6 +423,7 @@ func (n *LabelStmt) SetSym(x *types.Sym)           { n.Label = x }
 type RangeStmt struct {
 	miniStmt
 	Label    *types.Sym
+	init     Nodes // declarations
 	Vars     Nodes // TODO(rsc): Replace with Key, Value Node
 	Def      bool
 	X        Node
@@ -427,6 +444,9 @@ func NewRangeStmt(pos src.XPos, vars []Node, x Node, body []Node) *RangeStmt {
 func (n *RangeStmt) String() string                { return fmt.Sprint(n) }
 func (n *RangeStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *RangeStmt) rawCopy() Node                 { c := *n; return &c }
+func (n *RangeStmt) Init() Nodes                   { return n.init }
+func (n *RangeStmt) PtrInit() *Nodes               { return &n.init }
+func (n *RangeStmt) SetInit(x Nodes)               { n.init = x }
 func (n *RangeStmt) Sym() *types.Sym               { return n.Label }
 func (n *RangeStmt) SetSym(x *types.Sym)           { n.Label = x }
 func (n *RangeStmt) Right() Node                   { return n.X }
@@ -447,6 +467,7 @@ func (n *RangeStmt) SetType(x *types.Type)         { n.typ = x }
 // A ReturnStmt is a return statement.
 type ReturnStmt struct {
 	miniStmt
+	init    Nodes // assignments for multi-value return f()
 	orig    Node  // for typecheckargs rewrite
 	Results Nodes // return list
 }
@@ -463,6 +484,9 @@ func NewReturnStmt(pos src.XPos, results []Node) *ReturnStmt {
 func (n *ReturnStmt) String() string                { return fmt.Sprint(n) }
 func (n *ReturnStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *ReturnStmt) rawCopy() Node                 { c := *n; return &c }
+func (n *ReturnStmt) Init() Nodes                   { return n.init }
+func (n *ReturnStmt) SetInit(x Nodes)               { n.init = x }
+func (n *ReturnStmt) PtrInit() *Nodes               { return &n.init }
 func (n *ReturnStmt) Orig() Node                    { return n.orig }
 func (n *ReturnStmt) SetOrig(x Node)                { n.orig = x }
 func (n *ReturnStmt) List() Nodes                   { return n.Results }
@@ -529,6 +553,7 @@ func (n *SendStmt) SetRight(y Node) { n.Value = y }
 // A SwitchStmt is a switch statement: switch Init; Expr { Cases }.
 type SwitchStmt struct {
 	miniStmt
+	init     Nodes
 	Tag      Node
 	Cases    Nodes // list of *CaseStmt
 	Label    *types.Sym
@@ -549,6 +574,9 @@ func NewSwitchStmt(pos src.XPos, tag Node, cases []Node) *SwitchStmt {
 func (n *SwitchStmt) String() string                { return fmt.Sprint(n) }
 func (n *SwitchStmt) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *SwitchStmt) rawCopy() Node                 { c := *n; return &c }
+func (n *SwitchStmt) Init() Nodes                   { return n.init }
+func (n *SwitchStmt) PtrInit() *Nodes               { return &n.init }
+func (n *SwitchStmt) SetInit(x Nodes)               { n.init = x }
 func (n *SwitchStmt) Left() Node                    { return n.Tag }
 func (n *SwitchStmt) SetLeft(x Node)                { n.Tag = x }
 func (n *SwitchStmt) List() Nodes                   { return n.Cases }

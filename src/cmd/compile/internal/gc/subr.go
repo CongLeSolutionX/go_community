@@ -1355,22 +1355,37 @@ func ngotype(n ir.Node) *types.Sym {
 	return nil
 }
 
-// The result of addinit MUST be assigned back to n, e.g.
-// 	n.Left = addinit(n.Left, init)
-func addinit(n ir.Node, init []ir.Node) ir.Node {
+// initExpr returns an expression that runs init and then evaluates n.
+// n itself must be an expression already type-checked.
+// The result of initExpr MUST be assigned back to n, e.g.
+// 	n.Left = initExpr(n.Left, init)
+func initExpr(init []ir.Node, n ir.Node) ir.Node {
+	_ = n.(ir.Expr) // n must be expression or caller is wrong
 	if len(init) == 0 {
 		return n
 	}
-	if ir.MayBeShared(n) {
-		// Introduce OCONVNOP to hold init list.
-		n = ir.Nod(ir.OCONVNOP, n, nil)
-		n.SetType(n.Left().Type())
-		n.SetTypecheck(1)
+	if n.Typecheck() != 1 {
+		ir.Dump("missing typecheck", n)
+		base.Fatalf("initAnd: missing typecheck")
 	}
+	se, ok := n.(*ir.StmtExpr)
+	if !ok {
+		// Introduce StmtExpr to hold init list.
+		se = ir.NewStmtExpr(base.Pos, nil, n)
+		se.SetType(n.Type())
+		se.SetTypecheck(1)
+		se.SetHasCall(true)
+	}
+	se.PtrInit().Prepend(init...)
+	return se
+}
 
-	n.PtrInit().Prepend(init...)
-	n.SetHasCall(true)
-	return n
+// Addinit returns an expression that runs init and then evalutes to n.
+// n itself must be an expression.
+// The result of addinit MUST be assigned back to n, e.g.
+// 	n.Left = addinit(n.Left, init)
+func addinit(n ir.Node, init []ir.Node) ir.Node {
+	return initExpr(init, n)
 }
 
 // The linker uses the magic symbol prefixes "go." and "type."

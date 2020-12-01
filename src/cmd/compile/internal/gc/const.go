@@ -208,6 +208,11 @@ func convlit1(n ir.Node, t *types.Type, explicit bool, context func() string) ir
 		n.SetType(t)
 		return n
 
+	case ir.OSTMTEXPR:
+		n.SetLeft(convlit1(n.Left(), t, explicit, context))
+		n.SetType(n.Left().Type())
+		return n
+
 	case ir.OLSH, ir.ORSH:
 		n.SetLeft(convlit1(n.Left(), t, explicit, nil))
 		n.SetType(n.Left().Type())

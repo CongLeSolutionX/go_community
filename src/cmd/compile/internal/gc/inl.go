@@ -728,7 +728,7 @@ func inlCallee(fn ir.Node) *ir.Func {
 
 func staticValue(n ir.Node) ir.Node {
 	for {
-		if n.Op() == ir.OCONVNOP {
+		if n.Op() == ir.OCONVNOP || n.Op() == ir.OSTMTEXPR {
 			n = n.Left()
 			continue
 		}
@@ -948,7 +948,7 @@ func mkinlcall(n ir.Node, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]bool) 
 	// if necessary (#42703).
 	if n.Op() == ir.OCALLFUNC {
 		callee := n.Left()
-		for callee.Op() == ir.OCONVNOP {
+		for callee.Op() == ir.OSTMTEXPR {
 			ninit.AppendNodes(callee.PtrInit())
 			callee = callee.Left()
 		}

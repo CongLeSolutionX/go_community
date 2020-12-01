@@ -1205,6 +1205,10 @@ func exprFmt(n Node, s fmt.State, prec int, mode FmtMode) {
 	case ONIL:
 		fmt.Fprint(s, "nil")
 
+	case OSTMTEXPR:
+		// hide the statements, which are internally generated
+		mode.Fprintf(s, "%v", n.Left())
+
 	case OLITERAL: // this is a bit of a mess
 		if mode == FErr {
 			if orig := Orig(n); orig != nil && orig != n {

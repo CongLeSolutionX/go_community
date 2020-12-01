@@ -158,8 +158,11 @@ func walkstmt(n ir.Node) ir.Node {
 		}
 		if init.Len() > 0 {
 			switch n.Op() {
-			case ir.OAS, ir.OAS2, ir.OBLOCK:
+			case ir.OAS, ir.OAS2:
 				n.PtrInit().Prepend(init.Slice()...)
+
+			case ir.OBLOCK:
+				n.PtrList().Prepend(init.Slice()...)
 
 			default:
 				init.Append(n)
@@ -447,6 +450,12 @@ func walkexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		// not okay to use n->ninit when walking n,
 		// because we might replace n with some other node
 		// and would lose the init list.
+		// One thing this panic can mean is that, farther up the call stack,
+		// init was gotten from n.PtrInit() on a node that does't have an init
+		// list, so that node returned &ir.immutableEmptyNodes.
+		// And this node n *also* doesn't have one and returned the same.
+		// But the bug is farther up the call stack: whatever contributed
+		// n.PtrInit that doesn't actually have one.
 		base.Fatalf("walkexpr init == &n->ninit")
 	}
 
@@ -484,6 +493,9 @@ opswitch:
 		base.Fatalf("walkexpr: switch 1 unknown op %+S", n)
 
 	case ir.ONONAME, ir.OGETG, ir.ONEWOBJ, ir.OMETHEXPR:
+
+	case ir.OSTMTEXPR:
+		return walkexpr(n.Left(), init)
 
 	case ir.OTYPE, ir.ONAME, ir.OLITERAL, ir.ONIL:
 		// TODO(mdempsky): Just return n; see discussion on CL 38655.
@@ -966,9 +978,6 @@ opswitch:
 
 	case ir.OCONV, ir.OCONVNOP:
 		n.SetLeft(walkexpr(n.Left(), init))
-		if n.Op() == ir.OCONVNOP && n.Type() == n.Left().Type() {
-			return n.Left()
-		}
 		if n.Op() == ir.OCONVNOP && checkPtr(Curfn, 1) {
 			if n.Type().IsPtr() && n.Left().Type().IsUnsafePtr() { // unsafe.Pointer to *T
 				n = walkCheckPtrAlignment(n, init, nil)
@@ -2200,10 +2209,14 @@ func reorder3save(n ir.Node, all []ir.Node, i int, early *[]ir.Node) ir.Node {
 // outer value means containing struct or array.
 func outervalue(n ir.Node) ir.Node {
 	for {
+		if n.Init().Len() > 0 {
+			ir.Dump("n", n)
+			base.Fatalf("outervalue")
+		}
 		switch n.Op() {
 		case ir.OXDOT:
 			base.Fatalf("OXDOT in walk")
-		case ir.ODOT, ir.OPAREN, ir.OCONVNOP:
+		case ir.ODOT, ir.OPAREN, ir.OCONVNOP, ir.OSTMTEXPR:
 			n = n.Left()
 			continue
 		case ir.OINDEX:
@@ -2332,7 +2345,8 @@ func varexpr(n ir.Node) bool {
 		ir.OCONV,
 		ir.OCONVNOP,
 		ir.OCONVIFACE,
-		ir.ODOTTYPE:
+		ir.ODOTTYPE,
+		ir.OSTMTEXPR:
 		return varexpr(n.Left()) && varexpr(n.Right())
 
 	case ir.ODOT: // but not ODOTPTR
@@ -3857,7 +3871,8 @@ func candiscard(n ir.Node) bool {
 		ir.ORUNESTR,
 		ir.OREAL,
 		ir.OIMAG,
-		ir.OCOMPLEX:
+		ir.OCOMPLEX,
+		ir.OSTMTEXPR:
 		break
 
 		// Discardable as long as we know it's not division by zero.

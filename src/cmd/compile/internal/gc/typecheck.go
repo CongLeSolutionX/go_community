@@ -1932,6 +1932,12 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		ok |= ctxExpr
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 
+	case ir.OSTMTEXPR:
+		ok |= ctxExpr
+		typecheckslice(n.Init().Slice(), ctxStmt)
+		n.SetLeft(typecheck(n.Left(), ctxExpr))
+		n.SetType(n.Left().Type())
+
 	// statements
 	case ir.OAS:
 		ok |= ctxStmt
@@ -3143,6 +3149,12 @@ func samesafeexpr(l ir.Node, r ir.Node) bool {
 		return false
 	}
 
+	if l.Init().Len() > 0 || r.Init().Len() > 0 {
+		ir.Dump("l", l)
+		ir.Dump("r", l)
+		base.Fatalf("samesafeexpr")
+	}
+
 	switch l.Op() {
 	case ir.ONAME, ir.OCLOSUREREAD:
 		return l == r
@@ -3151,7 +3163,7 @@ func samesafeexpr(l ir.Node, r ir.Node) bool {
 		return l.Sym() != nil && r.Sym() != nil && l.Sym() == r.Sym() && samesafeexpr(l.Left(), r.Left())
 
 	case ir.ODEREF, ir.OCONVNOP,
-		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG:
+		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG, ir.OSTMTEXPR:
 		return samesafeexpr(l.Left(), r.Left())
 
 	case ir.OCONV:

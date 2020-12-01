@@ -2096,7 +2096,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 			s.Fatalf("unhandled OLITERAL %v", u.Kind())
 			return nil
 		}
-	case ir.OCONVNOP:
+	case ir.OCONVNOP, ir.OSTMTEXPR:
 		to := n.Type()
 		from := n.Left().Type()
 
@@ -2969,7 +2969,7 @@ func (s *state) condBranch(cond ir.Node, yes, no *ssa.Block, likely int8) {
 		s.stmtList(cond.Init())
 		s.condBranch(cond.Left(), no, yes, -likely)
 		return
-	case ir.OCONVNOP:
+	case ir.OCONVNOP, ir.OSTMTEXPR:
 		s.stmtList(cond.Init())
 		s.condBranch(cond.Left(), yes, no, likely)
 		return
@@ -4837,6 +4837,8 @@ func (s *state) addr(n ir.Node) *ssa.Value {
 
 	t := types.NewPtr(n.Type())
 	switch n.Op() {
+	case ir.OSTMTEXPR:
+		return s.addr(n.Left())
 	case ir.ONAME:
 		switch n.Class() {
 		case ir.PEXTERN:

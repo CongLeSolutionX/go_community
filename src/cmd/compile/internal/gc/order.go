@@ -430,10 +430,15 @@ func orderBlock(n *ir.Nodes, free map[string][]ir.Node) {
 // The result of exprInPlace MUST be assigned back to n, e.g.
 // 	n.Left = o.exprInPlace(n.Left)
 func (o *Order) exprInPlace(n ir.Node) ir.Node {
+	if n == nil {
+		return nil
+	}
 	var order Order
 	order.free = o.free
 	n = order.expr(n, nil)
-	n = addinit(n, order.out)
+	if len(order.out) > 0 {
+		n = addinit(n, order.out)
+	}
 
 	// insert new temporaries from order
 	// at head of outer list.

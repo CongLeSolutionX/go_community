@@ -338,12 +338,12 @@ func walkrange(nrange ir.Node) ir.Node {
 		}
 		hb := temp(types.Types[types.TBOOL])
 
-		nfor.SetLeft(ir.Nod(ir.ONE, hb, nodbool(false)))
+		cond := ir.Nod(ir.ONE, hb, nodbool(false))
 		a := ir.Nod(ir.OAS2RECV, nil, nil)
 		a.SetTypecheck(1)
 		a.PtrList().Set2(hv1, hb)
 		a.PtrRlist().Set1(ir.Nod(ir.ORECV, ha, nil))
-		nfor.Left().PtrInit().Set1(a)
+		nfor.SetLeft(addinit(typecheck(cond, ctxExpr), []ir.Node{typecheck(a, ctxStmt)}))
 		if v1 == nil {
 			body = nil
 		} else {

@@ -489,6 +489,9 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 	case ir.OLITERAL, ir.ONIL, ir.OGETG, ir.OCLOSUREREAD, ir.OTYPE, ir.OMETHEXPR:
 		// nop
 
+	case ir.OSTMTEXPR:
+		e.expr(k, n.Left())
+
 	case ir.ONAME:
 		if n.Class() == ir.PFUNC || n.Class() == ir.PEXTERN {
 			return
@@ -678,7 +681,7 @@ func (e *Escape) unsafeValue(k EscHole, n ir.Node) {
 		} else {
 			e.discard(n.Left())
 		}
-	case ir.OPLUS, ir.ONEG, ir.OBITNOT:
+	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.OSTMTEXPR:
 		e.unsafeValue(k, n.Left())
 	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.ODIV, ir.OMOD, ir.OAND, ir.OANDNOT:
 		e.unsafeValue(k, n.Left())
@@ -1709,7 +1712,7 @@ func isSelfAssign(dst, src ir.Node) bool {
 // mayAffectMemory reports whether evaluation of n may affect the program's
 // memory state. If the expression can't affect memory state, then it can be
 // safely ignored by the escape analysis.
-func mayAffectMemory(n ir.Node) bool {
+func mayAffectMemory(n ir.Node) (b bool) {
 	// We may want to use a list of "memory safe" ops instead of generally
 	// "side-effect free", which would include all calls and other ops that can
 	// allocate or change global state. For now, it's safer to start with the latter.
@@ -1726,7 +1729,7 @@ func mayAffectMemory(n ir.Node) bool {
 
 	// Left group.
 	case ir.ODOT, ir.ODOTPTR, ir.ODEREF, ir.OCONVNOP, ir.OCONV, ir.OLEN, ir.OCAP,
-		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG, ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
+		ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG, ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF, ir.OSTMTEXPR:
 		return mayAffectMemory(n.Left())
 
 	default:
@@ -1836,7 +1839,7 @@ func addrescapes(n ir.Node) {
 	// In &x[0], if x is a slice, then x does not
 	// escape--the pointer inside x does, but that
 	// is always a heap pointer anyway.
-	case ir.ODOT, ir.OINDEX, ir.OPAREN, ir.OCONVNOP:
+	case ir.ODOT, ir.OINDEX, ir.OPAREN, ir.OCONVNOP, ir.OSTMTEXPR:
 		if !n.Left().Type().IsSlice() {
 			addrescapes(n.Left())
 		}
