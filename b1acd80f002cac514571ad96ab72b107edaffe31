@@ -16,6 +16,40 @@
       "message": "Kindly cc-ing Rebecca and Ian, for later on when we include the pass.",
       "revId": "b1acd80f002cac514571ad96ab72b107edaffe31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3776d95_b35df3f2",
+        "filename": "doc/go1.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-01T14:46:08Z",
+      "side": 1,
+      "message": "Please send the doc change as a separate CL. (It\u0027s not tightly coupled to the cmd/go change.)",
+      "revId": "b1acd80f002cac514571ad96ab72b107edaffe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2594a21d_ac10bc25",
+        "filename": "src/cmd/go/internal/base/signal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-01T14:46:08Z",
+      "side": 1,
+      "message": "I wonder if this change is really necessary: the doc for signal.Notify says “the caller must ensure that c has sufficient buffer space to keep up with the expected signal rate”, but here the expected signal rate is “only once” and a goroutine is blocked on the receive immediately — an unbuffered channel really does seem sufficient to keep up with the expected signal rate.",
+      "revId": "b1acd80f002cac514571ad96ab72b107edaffe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
