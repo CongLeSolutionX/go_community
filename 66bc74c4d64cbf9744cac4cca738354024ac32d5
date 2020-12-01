@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4955e7b_24e7b6ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-01T17:38:25Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "66bc74c4d64cbf9744cac4cca738354024ac32d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "638a28e3_928d787a",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-01T17:38:25Z",
+      "side": 1,
+      "message": "let\u0027s move this boolean to the end of the parameter list\n\n(I know the original code had it first, but having it at the end is more in sync with what we usually do)",
+      "range": {
+        "startLine": 322,
+        "startChar": 29,
+        "endLine": 322,
+        "endChar": 40
+      },
+      "revId": "66bc74c4d64cbf9744cac4cca738354024ac32d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
