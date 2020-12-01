@@ -16,6 +16,24 @@
       "message": "FWIW I don\u0027t see the go test -u in the git generate script.",
       "revId": "a996c37e7f2ce17b11bcd99a1e1e11a062fdcf8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "561b2103_fe0930a9",
+        "filename": "src/cmd/compile/fmtmap_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-01T18:25:01Z",
+      "side": 0,
+      "message": "I was having trouble getting \"go test -u\" to actually work during git-generate, so I resorted to sed:\n\n```\nsed -i \u0027s/types.EType/types.Kind/; s/types.IRNode/types.Object/\u0027 ../../fmtmap_test.go\n```\n\nI figured out the issue though, so now it\u0027s working.",
+      "parentUuid": "02d3dc27_df4d8153",
+      "revId": "a996c37e7f2ce17b11bcd99a1e1e11a062fdcf8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
