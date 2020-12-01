@@ -50,6 +50,24 @@
       "message": "I wonder if this change is really necessary: the doc for signal.Notify says “the caller must ensure that c has sufficient buffer space to keep up with the expected signal rate”, but here the expected signal rate is “only once” and a goroutine is blocked on the receive immediately — an unbuffered channel really does seem sufficient to keep up with the expected signal rate.",
       "revId": "b1acd80f002cac514571ad96ab72b107edaffe31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c39594d6_6c8b3798",
+        "filename": "src/cmd/go/internal/base/signal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-01T15:22:15Z",
+      "side": 1,
+      "message": "I think the only concern is that we can be at risk of missing the signal, if the channel is not ready to receive when the signal is delivered. The inner code that send signal:\n\n```\n// send but do not block for it\nselect {\n\tcase c \u003c- sig:\n\tdefault:\n}\n```\n\nSo if c is not a buffered channel, the signal can be lost.\n\nTechnically, I don\u0027t think we have much trouble, but better to stick with the safe (and right) code instead.",
+      "parentUuid": "2594a21d_ac10bc25",
+      "revId": "b1acd80f002cac514571ad96ab72b107edaffe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
