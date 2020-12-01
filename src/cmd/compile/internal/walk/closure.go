@@ -20,6 +20,22 @@ func Closure(fn *ir.Func) {
 	}
 
 	if !fn.ClosureCalled() {
+		if false {
+			for _, v := range fn.ClosureVars {
+				if v.Byval() {
+					v.Class = ir.PAUTO
+				} else {
+					// If v of type T is captured by reference,
+					// we introduce function param &v *T
+					// and v remains PAUTOHEAP with &v heapaddr
+					// (accesses will implicitly deref &v).
+					addr := typecheck.NewName(typecheck.Lookup("&" + v.Sym().Name))
+					addr.SetType(types.NewPtr(v.Type()))
+					v.Heapaddr = addr
+					v = addr
+				}
+			}
+		}
 		// The closure is not directly called, so it is going to stay as closure.
 		fn.SetNeedctxt(true)
 		return

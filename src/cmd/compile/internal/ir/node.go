@@ -294,6 +294,10 @@ const (
 	OTSLICE // []int
 
 	// misc
+	// intermediary representation of an inlined call.  Uses Ninit (assignments
+	// for the captured variables, parameters, retvars, & INLMARK op), List
+	// (parameters), Nbody (body of the inlined function), and Rlist (list of
+	// return values)
 	OINLCALL    // intermediary representation of an inlined call.
 	OEFACE      // itable and data words of an empty-interface value.
 	OITAB       // itable word of an interface value.
