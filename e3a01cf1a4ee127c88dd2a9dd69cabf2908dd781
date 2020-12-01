@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acfe5db0_57442cd3",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-01T00:53:10Z",
+      "side": 1,
+      "message": "Indeed. :-)",
+      "parentUuid": "ff7da1ae_a249e891",
+      "revId": "e3a01cf1a4ee127c88dd2a9dd69cabf2908dd781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24e5bbb4_0a3add0a",
@@ -66,6 +84,24 @@
       "writtenOn": "2020-11-30T20:01:37Z",
       "side": 1,
       "message": "Should OPAREN and OPTRLIT be here? They\u0027ve got ParenExpr and AddrExpr.",
+      "revId": "e3a01cf1a4ee127c88dd2a9dd69cabf2908dd781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "154825bd_59343f06",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-01T00:53:10Z",
+      "side": 1,
+      "message": "No, you\u0027re right. They were unary ops until I realized they couldn\u0027t be.",
+      "parentUuid": "24e5bbb4_0a3add0a",
       "revId": "e3a01cf1a4ee127c88dd2a9dd69cabf2908dd781",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
