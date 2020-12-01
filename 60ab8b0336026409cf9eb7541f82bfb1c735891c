@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d480c9e_96270bd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-01T17:54:12Z",
+      "side": 1,
+      "message": "Provided TryBot is happy, PTAL.",
+      "revId": "60ab8b0336026409cf9eb7541f82bfb1c735891c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
