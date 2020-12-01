@@ -22,6 +22,30 @@
       },
       "revId": "e5da18df52e3f81534d7cdb6920cf993b5f079d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "077e418b_56e449ae",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-01T17:38:25Z",
+      "side": 0,
+      "message": "That\u0027s a good idea. I\u0027ll give it a shot.",
+      "parentUuid": "8f13524e_ab2984e2",
+      "range": {
+        "startLine": 1372,
+        "startChar": 56,
+        "endLine": 1372,
+        "endChar": 58
+      },
+      "revId": "e5da18df52e3f81534d7cdb6920cf993b5f079d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
