@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66fc6f47_acc19be2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-12-01T06:02:23Z",
+      "side": 1,
+      "message": "Perhaps let\u0027s add some context to the commit message:\n\nUnbuffered channels passed into signal.Notify can be lost\nas the docs for signal.Notify caution with:\n\n    Package signal will not block sending to c: the caller must ensure\n    that c has sufficient buffer space to keep up with the expected signal\n    rate. For a channel used for notification of just one signal value,\n    a buffer of size 1 is sufficient.\n\nFound by a static analyzer from Orijtech, Inc. called \"sigchanyzer\", but it\u0027ll be donated to the Go project soon.\n\nUpdates #9399.",
+      "revId": "ff5c8d979c581f0bed839a7076c4bde2ff1bec8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad658012_7d1c0747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2020-12-01T06:02:23Z",
+      "side": 1,
+      "message": "LGTM, thank you Cuong, just some suggestions for the commit message.",
+      "revId": "ff5c8d979c581f0bed839a7076c4bde2ff1bec8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
