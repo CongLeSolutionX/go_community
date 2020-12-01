@@ -265,6 +265,8 @@ type importReader struct {
 
 	// curfn is the current function we're importing into.
 	curfn *ir.Func
+	// Slice of all dcls for function, including any interior closures
+	allDcls []*ir.Name
 }
 
 func (p *iimporter) newReader(off uint64, pkg *types.Pkg) *importReader {
@@ -721,6 +723,7 @@ func (r *importReader) doInline(fn *ir.Func) {
 		base.Fatalf("%v already has inline body", fn)
 	}
 
+	//fmt.Printf("Importing %v\n", n)
 	r.funcBody(fn)
 
 	importlist = append(importlist, fn)
@@ -734,26 +737,7 @@ func (r *importReader) doInline(fn *ir.Func) {
 	}
 }
 
-// ----------------------------------------------------------------------------
-// Inlined function bodies
-
-// Approach: Read nodes and use them to create/declare the same data structures
-// as done originally by the (hidden) parser by closely following the parser's
-// original code. In other words, "parsing" the import data (which happens to
-// be encoded in binary rather textual form) is the best way at the moment to
-// re-establish the syntax tree's invariants. At some future point we might be
-// able to avoid this round-about way and create the rewritten nodes directly,
-// possibly avoiding a lot of duplicate work (name resolution, type checking).
-//
-// Refined nodes (e.g., ODOTPTR as a refinement of OXDOT) are exported as their
-// unrefined nodes (since this is what the importer uses). The respective case
-// entries are unreachable in the importer.
-
-func (r *importReader) funcBody(fn *ir.Func) {
-	outerfn := r.curfn
-	r.curfn = fn
-
-	// Import local declarations.
+func (r *importReader) readNams(fn *ir.Func) []*ir.Name {
 	dcls := make([]*ir.Name, r.int64())
 	for i := range dcls {
 		n := ir.NewDeclNameAt(r.pos(), ir.ONAME, r.localIdent())
@@ -762,7 +746,12 @@ func (r *importReader) funcBody(fn *ir.Func) {
 		n.SetType(r.typ())
 		dcls[i] = n
 	}
-	fn.Inl.Dcl = dcls
+	r.allDcls = append(r.allDcls, dcls...)
+	return dcls
+}
+
+func (r *importReader) readFuncDcls(fn *ir.Func) []*ir.Name {
+	dcls := r.readNams(fn)
 
 	// Fixup parameter classes and associate with their
 	// signature's type fields.
@@ -787,6 +776,30 @@ func (r *importReader) funcBody(fn *ir.Func) {
 	for _, f := range typ.Results().FieldSlice() {
 		fix(f, ir.PPARAMOUT)
 	}
+	return dcls
+}
+
+// ----------------------------------------------------------------------------
+// Inlined function bodies
+
+// Approach: Read nodes and use them to create/declare the same data structures
+// as done originally by the (hidden) parser by closely following the parser's
+// original code. In other words, "parsing" the import data (which happens to
+// be encoded in binary rather textual form) is the best way at the moment to
+// re-establish the syntax tree's invariants. At some future point we might be
+// able to avoid this round-about way and create the rewritten nodes directly,
+// possibly avoiding a lot of duplicate work (name resolution, type checking).
+//
+// Refined nodes (e.g., ODOTPTR as a refinement of OXDOT) are exported as their
+// unrefined nodes (since this is what the importer uses). The respective case
+// entries are unreachable in the importer.
+
+func (r *importReader) funcBody(fn *ir.Func) {
+	outerfn := r.curfn
+	r.curfn = fn
+
+	// Import local declarations.
+	fn.Inl.Dcl = r.readFuncDcls(fn)
 
 	// Import function body.
 	body := r.stmtList()
@@ -808,7 +821,7 @@ func (r *importReader) localName() *ir.Name {
 	if i < 0 {
 		return ir.BlankNode.(*ir.Name)
 	}
-	return r.curfn.Inl.Dcl[i]
+	return r.allDcls[i]
 }
 
 func (r *importReader) stmtList() []ir.Node {
@@ -924,8 +937,37 @@ func (r *importReader) node() ir.Node {
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	//      unreachable - should have been resolved by typechecking
 
-	// case OCLOSURE:
-	//	unimplemented
+	case ir.OCLOSURE:
+		//println("Importing CLOSURE")
+		pos := r.pos()
+		xtype := r.expr().(ir.Ntype)
+
+		// All the remaining code below is similar to (*noder).funcLit(), but
+		// with Dcls and ClosureVars lists already set up
+		fn := ir.NewFunc(pos)
+		fn.SetIsHiddenClosure(true)
+		fn.Nname = ir.NewNameAt(pos, ir.BlankNode.Sym())
+		fn.Nname.Func = fn
+		fn.Nname.Ntype = xtype
+		fn.Nname.Defn = fn
+		fn.Nname.SetType(xtype.Type())
+
+		fn.Dcl = r.readFuncDcls(fn)
+		fn.ClosureVars = r.readNams(fn)
+		for _, cv := range fn.ClosureVars {
+			cv.Outer = r.localName()
+			cv.Defn = r.localName()
+			cv.SetIsClosureVar(true)
+		}
+
+		body := r.stmtList()
+
+		clo := ir.NewClosureExpr(pos, fn)
+		fn.OClosure = clo
+
+		fn.Body = body
+
+		return clo
 
 	// case OPTRLIT:
 	//	unreachable - mapped to case OADDR below by exporter
