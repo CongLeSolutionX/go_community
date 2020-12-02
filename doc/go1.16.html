@@ -239,6 +239,16 @@ Do not send CLs removing the interior tags from such phrases.
   but without the extra step.
 </p>
 
+<h4 id="overlay-flag">The <code>overlay</code> flag</h4>
+
+<p><!-- golang.org/issue/39958 -->
+  The <code>-i</code> flag is used to specify an overlay config file to builds
+  and the <code>go</code> <code>mod</code> command. The config file, in JSON
+  format maps disk file paths to backing file paths, and the go command and its
+  builds will run as if the disk file paths exist with the contents given by the
+  backing file paths, or don't exist if the backing file paths are empty.
+</p>
+
 <h3 id="cgo">Cgo</h3>
 
 <p><!-- CL 252378 -->
