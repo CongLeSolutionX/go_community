@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59f8b89d_a9d6ada7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-02T16:23:20Z",
+      "side": 1,
+      "message": "How did you detect this problem?\n\n(Was it caught by a non-short test? If not, what test could we add that would detect it?)",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "2e6f50020cacd68f24e413d24d4c3e92e0c9e69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
