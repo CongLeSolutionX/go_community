@@ -423,4 +423,7 @@ TEXT errors(SB),$0
 	MOVD.W  x-8(SP), R1                                      // ERROR "illegal combination"
 	LDP.P   x+8(FP), (R0, R1)                                // ERROR "illegal combination"
 	LDP.W   x+8(SP), (R0, R1)                                // ERROR "illegal combination"
+	MOVK	$0X12, $64, R23                                 // ERROR "shift amount out of range 0 to 63"
+	MOVK	$0xffff1, $32, R23                              // ERROR "immediate out of range [0, 65535]"
+	MOVKW	$0X12, $48, R23                                 // ERROR "shift amount out of range 0 to 16"
 	RET
