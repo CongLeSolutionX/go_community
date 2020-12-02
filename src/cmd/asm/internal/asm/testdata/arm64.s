@@ -351,7 +351,33 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	MOVW	$1, R1
 	MOVD	$1, ZR
 	MOVD	$1, R1
-	MOVK	$1, R1
+
+//MOVK/MOVN/MOVZ
+	MOVK	$1, R1                        // 210080f2
+	MOVK	$0, R23                       // 170080f2
+	MOVK	$(0<<16), R23                 // MOVK	$0, R23                    // 1700a0f2
+	MOVK	$(0<<32), R23                 // MOVK	$0, R23                    // 1700c0f2
+	MOVK	$(0<<48), R23                 // MOVK	$0, R23                    // 1700e0f2
+	MOVN	$0, R23                       // 17008092
+	MOVN	$(0<<16), R23                 // MOVN	$0, R23                    // 1700a092
+	MOVN	$(0<<32), R23                 // MOVN	$0, R23                    // 1700c092
+	MOVN	$(0<<48), R23                 // MOVN	$0, R23                    // 1700e092
+	MOVZ	$0, R23                       // 170080d2
+	MOVZ	$(0<<16), R23                 // MOVZ	$0, R23                    // 1700a0d2
+	MOVZ	$(0<<32), R23                 // MOVZ	$0, R23                    // 1700c0d2
+	MOVZ	$(0<<48), R23                 // MOVZ	$0, R23                    // 1700e0d2
+	MOVK	$0x10, R23                    // MOVK	$16, R23                   // 170280f2
+	MOVK	$(0x10<<16), R23              // MOVK	$1048576, R23              // 1702a0f2
+	MOVK	$(0x10<<32), R23              // MOVK	$68719476736, R23          // 1702c0f2
+	MOVK	$(0x10<<48), R23              // MOVK	$4503599627370496, R23     // 1702e0f2
+	MOVN	$0x10, R23                    // MOVN	$16, R23                   // 17028092
+	MOVN	$(0x10<<16), R23              // MOVN	$1048576, R23              // 1702a092
+	MOVN	$(0x10<<32), R23              // MOVN	$68719476736, R23          // 1702c092
+	MOVN	$(0x10<<48), R23              // MOVN	$4503599627370496, R23     // 1702e092
+	MOVZ	$0x10, R23                    // MOVZ	$16, R23                   // 170280d2
+	MOVZ	$(0x10<<16), R23              // MOVZ	$1048576, R23              // 1702a0d2
+	MOVZ	$(0x10<<32), R23              // MOVZ	$68719476736, R23          // 1702c0d2
+	MOVZ	$(0x10<<48), R23              // MOVZ	$4503599627370496, R23     // 1702e0d2
 
 // move a large constant to a Vd.
 	VMOVS	$0x80402010, V11                                      // VMOVS	$2151686160, V11

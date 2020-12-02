@@ -104,6 +104,15 @@ func IsARM64CASP(op obj.As) bool {
 	return false
 }
 
+// IsARM64MovConst reports whether the instruction is a move constant instruction.
+func IsARM64MovConst(word string) bool {
+	switch word {
+	case "MOVKW", "MOVK", "MOVNW", "MOVN", "MOVZW", "MOVZ":
+		return true
+	}
+	return false
+}
+
 // ARM64Suffix handles the special suffix for the ARM64.
 // It returns a boolean to indicate success; failure means
 // cond was unrecognized.
