@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e462132e_b0a0530d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:05:52Z",
+      "side": 1,
+      "message": "We generally put these on separate lines. Sorry, I know the issue was a bit misleading. It doesn\u0027t matter much either way.",
+      "revId": "a771165ba9e7db1db0fba7926b6943a7919e987f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c307f2_e5f4dbaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:05:52Z",
+      "side": 1,
+      "message": "Thank you.",
+      "revId": "a771165ba9e7db1db0fba7926b6943a7919e987f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ddee7c_8e59df8f",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:05:52Z",
+      "side": 1,
+      "message": "s/tags/struct tags/ or s/tags/struct field tags/ to make it easier to understand what this refers to.",
+      "range": {
+        "startLine": 458,
+        "startChar": 28,
+        "endLine": 458,
+        "endChar": 32
+      },
+      "revId": "a771165ba9e7db1db0fba7926b6943a7919e987f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "468f98cf_93ebefb0",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:05:52Z",
+      "side": 1,
+      "message": "I was going to suggest s/name/key/, but after looking at https://www.json.org/ and https://en.wikipedia.org/wiki/JSON, I learned JSON objects are indeed a set of \"name-value\" pairs and not \"key-value\" pairs like I thought.",
+      "range": {
+        "startLine": 460,
+        "startChar": 47,
+        "endLine": 460,
+        "endChar": 63
+      },
+      "revId": "a771165ba9e7db1db0fba7926b6943a7919e987f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
