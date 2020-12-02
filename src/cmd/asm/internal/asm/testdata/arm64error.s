@@ -371,4 +371,7 @@ TEXT errors(SB),$0
 	ADD	R1>>2, RSP, R3                                   // ERROR "illegal combination"
 	ADDS	R2<<3, R3, RSP                                   // ERROR "unexpected SP reference"
 	CMP	R1<<5, RSP                                       // ERROR "the left shift amount out of range 0 to 4"
+	MOVK	$(0X12<<64), R23                                 // ERROR "shift amount must be a multiple of 16 and in the range [0, 63]"
+	MOVK	$(0xffff1<<32), R23                              // ERROR "requires uimm16"
+	MOVKW	$(0X12<<48), R23                                 // ERROR "illegal bit position"
 	RET

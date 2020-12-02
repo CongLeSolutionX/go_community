@@ -43,6 +43,7 @@ type Parser struct {
 	lastProg         *obj.Prog
 	dataAddr         map[string]int64 // Most recent address for DATA for this symbol.
 	isJump           bool             // Instruction being assembled is a jump.
+	isMovConst       bool             // Instruction being assembled is an arm64 move constant op.
 	compilingRuntime bool
 	errorWriter      io.Writer
 }
@@ -267,6 +268,9 @@ next:
 func (p *Parser) instruction(op obj.As, word, cond string, operands [][]lex.Token) {
 	p.addr = p.addr[0:0]
 	p.isJump = p.arch.IsJump(word)
+	if p.arch.Family == sys.ARM64 {
+		p.isMovConst = arch.IsARM64MovConst(word)
+	}
 	for _, op := range operands {
 		addr := p.address(op)
 		if !p.isJump && addr.Reg < 0 { // Jumps refer to PC, a pseudo.
@@ -492,7 +496,15 @@ func (p *Parser) operand(a *obj.Addr) {
 			p.expectOperandEnd()
 			return
 		}
-		a.Offset = int64(p.expr())
+		// For arm64 move constant instructions MOVK, MOVN and MOVZ,
+		// because the instructions "MOVx $0, Rd" and "MOVx $(0<<16), Rd"
+		// have different semantics, we need to pass the left shift amount
+		// instead of just passing the final result to the assembly process.
+		if p.isMovConst {
+			p.getMovConst(a)
+		} else {
+			a.Offset = int64(p.expr())
+		}
 		if p.peek() != '(' {
 			switch prefix {
 			case '$':
@@ -1429,4 +1441,33 @@ func (p *Parser) at(next ...lex.ScanToken) bool {
 		}
 	}
 	return true
+}
+
+// getMovConst gets the left shift amount and the final result.
+// MOVx $imm | $(imm) | $(imm<<shift), Rd
+func (p *Parser) getMovConst(a *obj.Addr) {
+	tok := p.next()
+	switch tok.ScanToken {
+	// $imm
+	case scanner.Int:
+		a.Offset = int64(p.atoi(tok.String()))
+	case '(':
+		//$(imm) or $(imm << shift)
+		tok := p.next()
+		imm := p.atoi(tok.String())
+		shift := uint64(0)
+		if p.peek() == lex.LSH {
+			p.inputPos++
+			tok := p.next()
+			shift = p.atoi(tok.String())
+			if int64(shift) < 0 {
+				p.errorf("negative left shift count")
+			}
+			a.Index = int16(shift)
+		}
+		if p.next().ScanToken != ')' {
+			p.errorf("missing closing paren")
+		}
+		a.Offset = int64(imm << shift)
+	}
 }
