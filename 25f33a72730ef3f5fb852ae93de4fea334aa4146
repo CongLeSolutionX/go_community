@@ -46,6 +46,30 @@
       },
       "revId": "25f33a72730ef3f5fb852ae93de4fea334aa4146",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "551b28f8_c8816036",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-12-02T22:48:38Z",
+      "side": 1,
+      "message": "Oops, looks like I forgot to publish this comment before sending the follow-up CL. For historical context:\n\n----\n\nThis opens an interesting can of worms.\n\nI\u0027d want to put a throw in addtimer and modtimer if when \u003d\u003d 0. On the other hand, addtimer and modtimer already check for negative when and change it to maxWhen. As far as I can tell, it is not possible for negative when to ever be passed, so it\u0027s not clear why these aren\u0027t throws instead (all.bash passes with throws there). I think we\u0027d want to be consistent here (either force when \u003d\u003d 0 to maxWhen, or throw for negative when).\n\nOn the other side of things, runOneTimer can make t.when negative with a sufficiently large period after at least one expiration (https://cs.opensource.google/go/go/+/master:src/runtime/time.go;l\u003d848;drc\u003de5da18df52e3f81534d7cdb6920cf993b5f079d2;bpv\u003d0;bpt\u003d1). It would take at least two expirations to make it zero, but I think the first overflowing expiration would break the timer anyways. That said, this is very difficult to hit because you always need to wait for the (very very long) first period to expire before overflowing.\n\nw.r.t. time.when, it (basically) can\u0027t return 0 despite looking like it can. We know d is positive, and if we assume runtimeNano() must return positive [1], then MaxInt64 + MaxInt64 \u003d -2. i.e., we can\u0027t quite overflow all the way to zero.\n\n[1] If it returns negative, I\u0027m thinking a lot of the runtime will break.\n\n----\n\ntl;dr, I\u0027m thinking I should:\n\n1. throw in addtimer and modtimer if when \u003c\u003d 0\n2. handle overflow in runOneTimer\n\nHowever, I\u0027ll do them in a child CL, as they seem more risky than this change alone.",
+      "parentUuid": "3d48c695_22c9c683",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 42
+      },
+      "revId": "25f33a72730ef3f5fb852ae93de4fea334aa4146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
