@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cc4a620_443d91c3",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-02T16:48:30Z",
+      "side": 1,
+      "message": "s/overlay/-overlay/",
+      "range": {
+        "startLine": 242,
+        "startChar": 32,
+        "endLine": 242,
+        "endChar": 39
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fccffe7_6e91f72c",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-02T16:48:30Z",
+      "side": 1,
+      "message": "Maybe split this sentence and expand the abbreviation?\n\nThe \u003ccode\u003e-overlay\u003c/code\u003e flag specifies a JSON configuration file containing a set of file path repalcements. The \u003ccode\u003e-overlay\u003c/code\u003e flag may be used with all build commands and \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003emod\u003c/code\u003e subcommands.",
+      "range": {
+        "startLine": 245,
+        "startChar": 49,
+        "endLine": 245,
+        "endChar": 71
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d373c36_8b881598",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-02T16:48:30Z",
+      "side": 1,
+      "message": "s/-i/-overlay/",
+      "range": {
+        "startLine": 245,
+        "startChar": 12,
+        "endLine": 245,
+        "endChar": 14
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b75e3394_fd05171c",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-02T16:48:30Z",
+      "side": 1,
+      "message": "\u003ccode\u003ego\u003c/code\u003e command",
+      "range": {
+        "startLine": 247,
+        "startChar": 61,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6e4875_690f5ed2",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-02T16:48:30Z",
+      "side": 1,
+      "message": "maps actual file paths to replacement file paths.",
+      "range": {
+        "startLine": 247,
+        "startChar": 9,
+        "endLine": 247,
+        "endChar": 51
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69c4277d_4fa3dcab",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-02T16:48:30Z",
+      "side": 1,
+      "message": "In the first sentence or two, we should briefly explain the purpose of the flag: it helps editors and tools like gopls understand the effects of unsaved changes to source files.\n\nWe may also want to point out limitations (cgo includes).",
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ea1cfa6_12f422d4",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-02T16:48:30Z",
+      "side": 1,
+      "message": "Make sure to run `./mkalldocs.sh` to update the godoc comments.",
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
