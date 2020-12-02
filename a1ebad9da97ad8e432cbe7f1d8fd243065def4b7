@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f94a1d84_0f0a3e7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-12-02T05:26:03Z",
+      "side": 1,
+      "message": "I noticed that there was an extra typ field in Name that could cause confusion.  Also, the comments for Func can be updated now that Func is a full DCLFUNC node.  Does this make sense to check in?",
+      "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
