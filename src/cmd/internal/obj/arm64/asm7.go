@@ -413,7 +413,7 @@ var optab = []Optab{
 	{AMOVD, C_MOVCON3, C_NONE, C_NONE, C_REG, 12, 12, 0, NOTUSETMP, 0},
 	{AMOVD, C_VCON, C_NONE, C_NONE, C_REG, 12, 16, 0, NOTUSETMP, 0},
 
-	{AMOVK, C_VCON, C_NONE, C_NONE, C_REG, 33, 4, 0, 0, 0},
+	{AMOVK, C_VCON, C_NONE, C_VCON, C_REG, 33, 4, 0, 0, 0},
 	{AMOVD, C_AACON, C_NONE, C_NONE, C_RSP, 4, 4, REGFROM, 0, 0},
 	{AMOVD, C_AACON2, C_NONE, C_NONE, C_RSP, 4, 8, REGFROM, 0, 0},
 
@@ -3879,23 +3879,21 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 32: /* mov $con, R -> movz/movn */
 		o1 = c.omovconst(p.As, p, &p.From, int(p.To.Reg))
 
-	case 33: /* movk $uimm16 << pos */
+	case 33: /* movk $uimm16, $shift, Rd -> movk $(uimm16<<16), Rd*/
 		o1 = c.opirr(p, p.As)
-
 		d := p.From.Offset
-		s := movcon(d)
-		if s < 0 || s >= 4 {
-			c.ctxt.Diag("bad constant for MOVK: %#x\n%v", uint64(d), p)
+		shift := p.GetFrom3().Offset
+		if !(shift%16 == 0 && shift < 64) {
+			c.ctxt.Diag("shift amount out of range 0 to 63: %v\n", p)
 		}
-		if (o1&S64) == 0 && s >= 2 {
-			c.ctxt.Diag("illegal bit position\n%v", p)
+		if (o1&S64) == 0 && shift/16 >= 2 {
+			c.ctxt.Diag("shift amount out of range 0 to 16: %v\n", p)
 		}
-		if ((d >> uint(s*16)) >> 16) != 0 {
-			c.ctxt.Diag("requires uimm16\n%v", p)
+		if (d >> 16) != 0 {
+			c.ctxt.Diag("immediate out of range [0, 65535]: %v\n", p)
 		}
 		rt := int(p.To.Reg)
-
-		o1 |= uint32((((d >> uint(s*16)) & 0xFFFF) << 5) | int64((uint32(s)&3)<<21) | int64(rt&31))
+		o1 |= uint32(d<<5) | (uint32(shift/16)&3)<<21 | uint32(rt&31)
 
 	case 34: /* mov $lacon,R */
 		o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
@@ -7116,7 +7114,6 @@ func (c *ctxt7) omovlconst(as obj.As, p *obj.Prog, a *obj.Addr, rt int, os []uin
 				negCount++
 			}
 		}
-
 		if zeroCount == 4 || negCount == 4 {
 			c.ctxt.Diag("the immediate should be MOVCON: %v", p)
 		}

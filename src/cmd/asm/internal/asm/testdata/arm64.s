@@ -32,6 +32,7 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	ADD	$0xaaa000, R2                   // ADD $11182080, R2                      // 42a86a91
 	ADD	$0xaaaaaa, R2, R3               // ADD $11184810, R2, R3                  // 43a82a9163a86a91
 	ADD	$0xaaaaaa, R2                   // ADD $11184810, R2                      // 42a82a9142a86a91
+	ADDW	$0x10001000, R1                 // ADDW	$268439552, R1                    // fb83043221001b0b
 	SUB	$0x000aaa, R2, R3               // SUB $2730, R2, R3                      // 43a82ad1
 	SUB	$0x000aaa, R2                   // SUB $2730, R2                          // 42a82ad1
 	SUB	$0xaaa000, R2, R3               // SUB $11182080, R2, R3                  // 43a86ad1
@@ -40,6 +41,7 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	SUB	$0xaaaaaa, R2                   // SUB $11184810, R2                      // 42a82ad142a86ad1
 	ADDW	$0x60060, R2                    // ADDW	$393312, R2                       // 4280011142804111
 	ADD	$0x186a0, R2, R5                // ADD	$100000, R2, R5                   // 45801a91a5604091
+	ADDW	$0x22220000, RSP, R3            // ADDW	$572653568, RSP, R3               // 5b44a452e3433b0b
 	SUB	$0xe7791f700, R3, R1            // SUB	$62135596800, R3, R1              // 1be09ed23bf2aef2db01c0f261001bcb
 	ADD	$0x3fffffffc000, R5             // ADD	$70368744161280, R5               // fb7f72b2a5001b8b
 	ADD	R1>>11, R2, R3
@@ -373,11 +375,35 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	MOVW	$1, R1
 	MOVD	$1, ZR
 	MOVD	$1, R1
-	MOVK	$1, R1
 	MOVD	$0x1000100010001000, RSP      // MOVD	$1152939097061330944, RSP   // ff8304b2
 	MOVW	$0x10001000, RSP              // MOVW	$268439552, RSP             // ff830432
-	ADDW	$0x10001000, R1               // ADDW	$268439552, R1              // fb83043221001b0b
-	ADDW	$0x22220000, RSP, R3          // ADDW	$572653568, RSP, R3         // 5b44a452e3433b0b
+
+//MOVK/MOVN/MOVZ
+	MOVK	$1, $0, R1                   // 210080f2
+	MOVK	$0, $0, R23                  // 170080f2
+	MOVK	$0, $16, R23                 // 1700a0f2
+	MOVK	$0, $32, R23                 // 1700c0f2
+	MOVK	$0, $48, R23                 // 1700e0f2
+	MOVN	$0, $0, R23                  // 17008092
+	MOVN	$0, $16, R23                 // 1700a092
+	MOVN	$0, $32, R23                 // 1700c092
+	MOVN	$0, $48, R23                 // 1700e092
+	MOVZ	$0, $0, R23                  // 170080d2
+	MOVZ	$0, $16, R23                 // 1700a0d2
+	MOVZ	$0, $32, R23                 // 1700c0d2
+	MOVZ	$0, $48, R23                 // 1700e0d2
+	MOVK	$16, $0, R23                 // 170280f2
+	MOVK	$16, $16, R23                // 1702a0f2
+	MOVK	$16, $32, R23                // 1702c0f2
+	MOVK	$16, $48, R23                // 1702e0f2
+	MOVN	$16, $0, R23                 // 17028092
+	MOVN	$16, $16, R23                // 1702a092
+	MOVN	$16, $32, R23                // 1702c092
+	MOVN	$16, $48, R23                // 1702e092
+	MOVZ	$16, $0, R23                 // 170280d2
+	MOVZ	$16, $16, R23                // 1702a0d2
+	MOVZ	$16, $32, R23                // 1702c0d2
+	MOVZ	$16, $48, R23                // 1702e0d2
 
 // move a large constant to a Vd.
 	VMOVS	$0x80402010, V11                                      // VMOVS	$2151686160, V11
