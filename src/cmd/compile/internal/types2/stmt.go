@@ -63,7 +63,8 @@ func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body
 func (check *Checker) usage(scope *Scope) {
 	var unused []*Var
 	for _, elem := range scope.elems {
-		if v, _ := elem.(*Var); v != nil && !v.used {
+		// Avoid follow-on errors and ignore variable with invalid type.
+		if v, _ := elem.(*Var); v != nil && !v.used && v.typ != Typ[Invalid] {
 			unused = append(unused, v)
 		}
 	}

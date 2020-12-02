@@ -155,7 +155,12 @@ func _() {
 	}
 }
 
-// Invalid (unused) expressions must not lead to spurious "declared but not used errors"
+// Invalid variable declarations must not lead to "declared but not used errors".
+func _() {
+	var x invalidtype // ERROR undeclared name: invalidtype
+}
+
+// Invalid (unused) expressions must not lead to spurious "declared but not used errors".
 func _() {
 	var a, b, c int
 	var x, y int
