@@ -164,6 +164,14 @@
 // 		directory, but it is not accessed. When -modfile is specified, an
 // 		alternate go.sum file is also used: its path is derived from the
 // 		-modfile flag by trimming the ".mod" extension and appending ".sum".
+// 	-overlay file
+// 		read a JSON config file that provides an overlay for build operations.
+// 		The file is a JSON struct with a single 'Replace' field containing
+// 		a JSON string to string map. The map specifies a mapping from disk
+// 		file paths to backing file paths, so that a build will run as if
+// 		the disk file path exists with the contents given by the backing
+// 		file paths, or as if the disk file path does not exist if its backing
+// 		file path is empty.
 // 	-pkgdir dir
 // 		install and load all packages from dir instead of the usual locations.
 // 		For example, when building with a non-standard configuration,
