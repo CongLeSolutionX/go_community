@@ -3810,23 +3810,22 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 32: /* mov $con, R -> movz/movn */
 		o1 = c.omovconst(p.As, p, &p.From, int(p.To.Reg))
 
-	case 33: /* movk $uimm16 << pos */
+	case 33: /* movk $(uimm16 << shift) */
 		o1 = c.opirr(p, p.As)
-
 		d := p.From.Offset
-		s := movcon(d)
-		if s < 0 || s >= 4 {
-			c.ctxt.Diag("bad constant for MOVK: %#x\n%v", uint64(d), p)
+		shift := p.From.Index
+		if !(shift%16 == 0 && shift < 64) {
+			c.ctxt.Diag("shift amount must be a multiple of 16 and in the range [0, 63] %v\n", p)
 		}
-		if (o1&S64) == 0 && s >= 2 {
-			c.ctxt.Diag("illegal bit position\n%v", p)
+		if (o1&S64) == 0 && shift/16 >= 2 {
+			c.ctxt.Diag("illegal bit position %v\n", p)
 		}
-		if ((d >> uint(s*16)) >> 16) != 0 {
-			c.ctxt.Diag("requires uimm16\n%v", p)
+		uimm16 := uint64(d) >> uint(shift)
+		if (uimm16 >> 16) != 0 {
+			c.ctxt.Diag("requires uimm16 %v\n", p)
 		}
 		rt := int(p.To.Reg)
-
-		o1 |= uint32((((d >> uint(s*16)) & 0xFFFF) << 5) | int64((uint32(s)&3)<<21) | int64(rt&31))
+		o1 |= uint32(uimm16<<5) | (uint32(shift/16)&3)<<21 | uint32(rt&31)
 
 	case 34: /* mov $lacon,R */
 		o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
@@ -7043,7 +7042,6 @@ func (c *ctxt7) omovlconst(as obj.As, p *obj.Prog, a *obj.Addr, rt int, os []uin
 				negCount++
 			}
 		}
-
 		if zeroCount == 4 || negCount == 4 {
 			c.ctxt.Diag("the immediate should be MOVCON: %v", p)
 		}

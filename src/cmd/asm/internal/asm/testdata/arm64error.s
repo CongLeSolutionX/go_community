@@ -368,4 +368,7 @@ TEXT errors(SB),$0
 	CASPD	(R2, R3), (R2), (R9, R10)                        // ERROR "destination register pair must start from even register"
 	CASPD	(R2, R4), (R2), (R8, R9)                         // ERROR "source register pair must be contiguous"
 	CASPD	(R2, R3), (R2), (R8, R10)                        // ERROR "destination register pair must be contiguous"
+	MOVK	$(0X12<<64), R23                                 // ERROR "shift amount must be a multiple of 16 and in the range [0, 63]"
+	MOVK	$(0xffff1<<32), R23                              // ERROR "requires uimm16"
+	MOVKW	$(0X12<<48), R23                                 // ERROR "illegal bit position"
 	RET
