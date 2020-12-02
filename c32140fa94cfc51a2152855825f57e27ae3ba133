@@ -33,6 +33,23 @@
       "message": "OK, will fix. Please don\u0027t roll this back.\n",
       "revId": "c32140fa94cfc51a2152855825f57e27ae3ba133",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51337cd9_c074c240",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-02T17:57:09Z",
+      "side": 1,
+      "message": "Fixed in https://go-review.googlesource.com/c/go/+/274854.\n",
+      "revId": "c32140fa94cfc51a2152855825f57e27ae3ba133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
