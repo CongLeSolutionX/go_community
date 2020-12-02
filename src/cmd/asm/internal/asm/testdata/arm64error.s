@@ -430,4 +430,11 @@ TEXT errors(SB),$0
 	STP	(R3, R4), 0x1234567(R27)                         // ERROR "REGTMP used in large offset store"
 	LDP	0x1234567(R27), (R3, R4)                         // ERROR "REGTMP used in large offset load"
 	STP	(R26, R27), 700(R2)                              // ERROR "cannot use REGTMP as source"
+	MOVD.P  y+8(FP), R1                                      // ERROR "illegal combination"
+	MOVD.W  x-8(SP), R1                                      // ERROR "illegal combination"
+	LDP.P   x+8(FP), (R0, R1)                                // ERROR "illegal combination"
+	LDP.W   x+8(SP), (R0, R1)                                // ERROR "illegal combination"
+	MOVK	$0X12, $64, R23                                 // ERROR "shift amount out of range 0 to 63"
+	MOVK	$0xffff1, $32, R23                              // ERROR "immediate out of range [0, 65535]"
+	MOVKW	$0X12, $48, R23                                 // ERROR "shift amount out of range 0 to 16"
 	RET
