@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1620445_83631d58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:52:01Z",
+      "side": 1,
+      "message": "Thanks for this detailed description, it makes it easy to understand what problem the new vet check is detecting.",
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c775e1_c1c88134",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:52:01Z",
+      "side": 1,
+      "message": "Maybe add a paragraph separator here. The rest of the text begins to describe the problem, and it\u0027s harder to see since it\u0027s in the middle of a large paragraph.",
+      "range": {
+        "startLine": 262,
+        "startChar": 36,
+        "endLine": 262,
+        "endChar": 37
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6e6e2a3_01d8504f",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:52:01Z",
+      "side": 1,
+      "message": "This sentence largely repeats what was said two sentences ago, so maybe leave it out.",
+      "range": {
+        "startLine": 265,
+        "startChar": 42,
+        "endLine": 266,
+        "endChar": 48
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c04b6be8_08dd45e4",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-02T23:52:01Z",
+      "side": 1,
+      "message": "We may want to think more about whether it\u0027s worth it to include last part that offers a solution. A possible concern is that if there are multiple ways to fix this problem, it\u0027s better to avoid making this seem like the only/best way. If this is a valid concern, then only describing the problem this vet check is catching would be a good a fix.\n\nI think it\u0027s okay to keep and revisit in future edit passes as part of work on #40700. Maybe other people will have thoughts on this.",
+      "range": {
+        "startLine": 282,
+        "startChar": 12,
+        "endLine": 282,
+        "endChar": 31
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
