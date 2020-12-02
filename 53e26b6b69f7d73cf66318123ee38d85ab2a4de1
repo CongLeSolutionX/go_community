@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "078e2131_79cb2916",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-02T20:33:58Z",
+      "side": 1,
+      "message": "I\u0027m surprised `[2]T` is never register allocated while `struct { a, b T }` can be. Is that intentional?\n\n(There\u0027s a lot of code throughout the compiler that does this sort of recursive walking of structs/arrays, and I keep meaning to find a common abstraction that they can all use.)",
+      "revId": "53e26b6b69f7d73cf66318123ee38d85ab2a4de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edda88a4_1401ba90",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-02T20:33:58Z",
+      "side": 1,
+      "message": "We should probably just do this during initUniverse, so you don\u0027t need the sync.Once.\n\nI\u0027d also recommend giving the fields names and using unsafe.Pointer instead of *uintptr. E.g.,\n\n```\nsynthSlice \u003d types.NewStruct(types.NoPkg, []*types.Field{\n    types.NewField(src.NoXPos, ir.BuiltinPkg.Lookup(\"ptr\"), types.Types[types.TUNSAFEPTR]),\n    types.NewField(src.NoXPos, ir.BuiltinPkg.Lookup(\"len\"), types.Types[types.TUINTPTR]),\n    types.NewField(src.NoXPos, ir.BuiltinPkg.Lookup(\"cap\"), types.Types[types.TUINTPTR]),\n})\n```",
+      "revId": "53e26b6b69f7d73cf66318123ee38d85ab2a4de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13884481_2dd9d5f9",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-02T20:33:58Z",
+      "side": 1,
+      "message": "I wouldn\u0027t recommend relying on the order of kinds. I was planning on reorganizing them.\n\nI\u0027d suggest adding this as a (*Type).IsScalar that reports whether the type is a boolean or numeric type.",
+      "range": {
+        "startLine": 360,
+        "startChar": 4,
+        "endLine": 360,
+        "endChar": 22
+      },
+      "revId": "53e26b6b69f7d73cf66318123ee38d85ab2a4de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
