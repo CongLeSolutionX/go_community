@@ -123,6 +123,24 @@
       "message": "We need e.stmts(n.Init()) here.",
       "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ad3c58_b7a329bc",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T19:40:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ba00019_528b231d",
+      "revId": "373f14fe6dcaab5cabcf6c011bdd519feceffc6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1427f096_b98ecfb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T19:40:12Z",
+      "side": 1,
+      "message": "Gerrit wants me to resolve these comments even though the CL is abandoned.\n",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c974f96_8af30544",
@@ -31,6 +48,30 @@
       "writtenOn": "2020-12-01T23:06:43Z",
       "side": 1,
       "message": "The init statements can affect memory too, right?\n\n(I don\u0027t remember exactly how this function gets used, so maybe that\u0027s fine in practice.)",
+      "range": {
+        "startLine": 1732,
+        "startChar": 84,
+        "endLine": 1732,
+        "endChar": 93
+      },
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0959c5cc_f84bf835",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T19:40:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7c974f96_8af30544",
       "range": {
         "startLine": 1732,
         "startChar": 84,
@@ -58,6 +99,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ae650df_7f10378e",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T19:40:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dbee8e62_5941f055",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa8af395_7935e3d8",
@@ -71,6 +130,24 @@
       "writtenOn": "2020-12-01T23:06:43Z",
       "side": 1,
       "message": "addinit already checks for len\u003d\u003d0, so I think this could be omitted.",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "252ee9ee_7721a8c4",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T19:40:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aa8af395_7935e3d8",
       "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -92,6 +169,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecca24c8_09acdfa6",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4841,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T19:40:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "36fd0d46_599cf189",
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14d86f5b_f4054f99",
@@ -105,6 +200,30 @@
       "writtenOn": "2020-12-01T23:06:43Z",
       "side": 1,
       "message": "Can this still happen, even after the checks for Init.Len\u003e0 above?",
+      "range": {
+        "startLine": 3166,
+        "startChar": 42,
+        "endLine": 3166,
+        "endChar": 54
+      },
+      "revId": "4ed3894361c641456723eef8fc7c827baf3b93ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d37e387_8326fa20",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3166,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T19:40:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "14d86f5b_f4054f99",
       "range": {
         "startLine": 3166,
         "startChar": 42,
