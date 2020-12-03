@@ -33,6 +33,57 @@
       "message": "Removing the duplicate typ field makes sense to me.\n\nNo objections to updating the docs, but I think Russ plans on still reworking things further. So it might make sense to wait for things to stabilize.\n\nFinally, I think it would be worthwhile for the docs to emphasize the types before the Ops (e.g., favor CallPartExpr over OCALLPART).",
       "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12e45269_6618be13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T03:41:05Z",
+      "side": 1,
+      "message": "LGTM, thanks.\n\nLet\u0027s not use the type names yet. There may still be more churn.\nAlso the op codes are more specific than the type names in many cases,\nso it may make sense to continue to refer to nodes by Op instead of \nunderlying type name even when we\u0027re all done.\n",
+      "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "252af88d_a4b8c59e",
+        "filename": "src/cmd/compile/internal/ir/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T03:41:05Z",
+      "side": 1,
+      "message": "Nname not NName.",
+      "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6e2387b_6c927422",
+        "filename": "src/cmd/compile/internal/ir/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T03:41:05Z",
+      "side": 1,
+      "message": "Please use n.Func here.\nThe goal is to eventually have direct field accesses,\nwith the fields named after the current getters,\nand the getter right now is n.Func.",
+      "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
