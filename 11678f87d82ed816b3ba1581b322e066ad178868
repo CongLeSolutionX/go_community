@@ -76,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7e8710e_6fd845ed",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T16:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e90c181d_cade5fe5",
+      "range": {
+        "startLine": 566,
+        "startChar": 22,
+        "endLine": 566,
+        "endChar": 23
+      },
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "602931ae_11fc7dfb",
@@ -99,6 +123,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "878d617d_0c7a28cf",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T16:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "602931ae_11fc7dfb",
+      "range": {
+        "startLine": 656,
+        "startChar": 49,
+        "endLine": 656,
+        "endChar": 58
+      },
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f36bc1d_d50b0bd2",
@@ -112,6 +160,24 @@
       "writtenOn": "2020-12-03T15:58:22Z",
       "side": 1,
       "message": "Previously they didn\u0027t work at all, they just always returned EOPNOTSUP.  So\n\nOn Linux, Setuid, Setgid, and related calls now work as expected, rather than always returning an error.",
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5892d63d_fd9deb80",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T16:03:19Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7f36bc1d_d50b0bd2",
       "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
